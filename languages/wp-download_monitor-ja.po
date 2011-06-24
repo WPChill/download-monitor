@@ -1,0 +1,1670 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 3.3.5\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
+"POT-Creation-Date: 2010-05-15 08:50+0000\n"
+"PO-Revision-Date: 2010-11-07 15:55+0900\n"
+"Last-Translator: BNG NET <webmaster@bng.net>\n"
+"Language-Team: BNG NET <webmaster@bng.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Bookmarks: -1,73,-1,-1,-1,-1,-1,-1,-1,-1\n"
+
+#: Added on 2010/11/07
+msgid "List IP addresses here that you wish to exclude from the logs/counts - 1 per line."
+msgstr "ログ／カウントから除外したいIPアドレスのリスト - 複数指定は１行にひとつずつ"
+
+#: Added on 2010/11/07
+msgid "Log/Count Blacklist"
+msgstr "ログ／カウントのブラックリスト"
+
+#: Added on 2010/11/07
+msgid "0 means all downloads are logged. Increase to set the timeout in minutes so that downloads by the same person are not logged multiple times."
+msgstr "0 に指定すると全てのダウンロードを記録します。数値を上げて数分間に指定すると、同一人物によるダウンロードを複数回記録することがなくなります。"
+
+#: Added on 2010/11/07
+msgid "Log Timeout"
+msgstr "ログのタイムアウト"
+
+#: Added on 2010/10/22
+msgid "Click to toggle"
+msgstr "クリックで開閉"
+
+#: Added on 2010/10/22
+msgid "Delete this post"
+msgstr "このダウンロードを削除"
+
+#: Added on 2010/10/22
+msgid "Edit this Download"
+msgstr "このダウンロードを編集"
+
+#: admin/add_directory.php:43
+msgid "Add From Directory"
+msgstr "ディレクトリ追加"
+
+#: admin/add_directory.php:45
+msgid "This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards."
+msgstr "この機能は、<strong>サーバ上</strong>のディレクトリからダウンロードを一括追加するものです。サブディレクトリの読み込みも試みます。各ダウンロードについて、ふさわしいタイトルを全力で探します。タイトルを変更したい場合や情報を追加したい場合は、後でダウンロードを編集します。"
+
+#: admin/add_directory.php:59
+msgid "<div class=\"error\">No folder selected</div>"
+msgstr "<div class=\"error\">フォルダが選択されていません</div>"
+
+#: admin/add_directory.php:215
+msgid "Downloads added Successfully"
+msgstr "ダウンロードを追加しました"
+
+#: admin/add_directory.php:217
+msgid "No files found"
+msgstr "ファイルが見当たりません"
+
+#: admin/add_directory.php:226
+msgid "Directory (relative paths only)"
+msgstr "ディレクトリ (相対パスのみ) "
+
+#: admin/add_directory.php:230
+msgid "Toggle Folder Browser"
+msgstr "クリックでフォルダ閲覧"
+
+#: admin/add_directory.php:236
+msgid "Extensions"
+msgstr "拡張子"
+
+#: admin/add_directory.php:238
+msgid "List extensions to look for separated by commas, or leave blank to import all. Example: zip,gif,jpg"
+msgstr "抽出する拡張子をコンマ区切りでリストしてください。ブランクにすると全てを抽出します。例： zip,gif,jpg"
+
+#: admin/add_directory.php:242
+#: admin/add_new.php:312
+#: admin/admin.php:646
+#: admin/admin.php:1118
+#: admin/admin.php:1356
+#: legacy_shortcodes.php:264
+#: page-addon/download-monitor-page-addon.php:64
+#: uploader.php:559
+#: uploader.php:817
+#: wp-download_monitor.php:136
+msgid "Categories"
+msgstr "カテゴリ"
+
+#: admin/add_directory.php:282
+#: admin/add_new.php:352
+#: admin/admin.php:686
+#: admin/admin.php:1165
+#: uploader.php:600
+msgid "+ Add New Category"
+msgstr "+ カテゴリ追加"
+
+#: admin/add_directory.php:285
+#: admin/add_directory.php:338
+#: admin/add_new.php:355
+#: admin/add_new.php:432
+#: admin/admin.php:689
+#: admin/admin.php:775
+#: admin/admin.php:1168
+#: admin/admin.php:1249
+#: admin/categories.php:106
+#: admin/categories.php:152
+#: admin/categories.php:205
+#: admin/config.php:177
+#: admin/config.php:206
+#: uploader.php:603
+#: uploader.php:682
+msgid "Name"
+msgstr "名前"
+
+#: admin/add_directory.php:289
+#: admin/add_new.php:359
+#: admin/admin.php:693
+#: admin/admin.php:1172
+#: admin/categories.php:156
+#: admin/categories.php:190
+#: uploader.php:607
+msgid "Parent"
+msgstr "親"
+
+#: admin/add_directory.php:291
+#: admin/add_new.php:361
+#: admin/admin.php:695
+#: admin/admin.php:1174
+#: admin/categories.php:158
+#: admin/categories.php:193
+#: admin/config.php:354
+#: uploader.php:609
+msgid "None"
+msgstr "なし"
+
+#: admin/add_directory.php:303
+#: admin/add_new.php:373
+#: admin/admin.php:707
+#: admin/admin.php:1186
+#: admin/categories.php:170
+#: admin/config.php:214
+#: uploader.php:621
+msgid "Add"
+msgstr "追加"
+
+#: admin/add_directory.php:307
+#: admin/add_new.php:377
+#: admin/admin.php:711
+#: admin/admin.php:1190
+#: admin/admin.php:1357
+#: page-addon/download-monitor-page-addon.php:54
+#: page-addon/download-monitor-page-addon.php:65
+#: uploader.php:626
+#: uploader.php:818
+msgid "Tags"
+msgstr "タグ"
+
+#: admin/add_directory.php:309
+#: admin/add_new.php:379
+#: admin/admin.php:713
+#: admin/admin.php:1195
+#: uploader.php:632
+msgid "Separate tags with commas."
+msgstr "タグの区切りはコンマで"
+
+#: admin/add_directory.php:318
+#: admin/add_new.php:388
+#: admin/admin.php:722
+#: admin/admin.php:1204
+#: uploader.php:640
+msgid "No Tags Found"
+msgstr "タグが見当たりません"
+
+#: admin/add_directory.php:325
+#: admin/add_new.php:418
+#: admin/admin.php:752
+#: admin/admin.php:1224
+#: uploader.php:662
+msgid "Member only file?"
+msgstr "メンバー専用？"
+
+#: admin/add_directory.php:326
+#: admin/add_new.php:419
+#: admin/admin.php:753
+#: admin/admin.php:1228
+#: uploader.php:666
+msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
+msgstr "ここを選択すると、ログインしているユーザだけがダウンロードリンクからファイルにアクセスできるようになります。「min-level」や「reg-role」というカスタムフィールドを使えば、ファイルのダウンロードに必要な最低ユーザレベルも追加できます。"
+
+#: admin/add_directory.php:329
+#: admin/add_new.php:422
+#: admin/admin.php:756
+#: admin/admin.php:1231
+#: uploader.php:669
+msgid "Force Download?"
+msgstr "強制ダウンロード？"
+
+#: admin/add_directory.php:330
+#: admin/add_new.php:423
+#: admin/admin.php:757
+#: admin/admin.php:1235
+#: uploader.php:673
+msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
+msgstr "ここを選択すると、リダイレクトせずに強制的にダウンロードの実行を試みます。この設定は全てのサーバと互換性があるわけではありません (運用前に必ずテストしてください)。多くの場合、ローカルサーバ上のファイルにのみ有効なようです。"
+
+#: admin/add_directory.php:333
+#: admin/add_new.php:427
+#: admin/admin.php:770
+#: admin/admin.php:1239
+#: admin/admin.php:1360
+#: uploader.php:678
+msgid "Custom fields"
+msgstr "カスタムフィールド"
+
+#: admin/add_directory.php:334
+#: admin/add_new.php:428
+#: admin/admin.php:771
+#: admin/admin.php:1240
+msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
+msgstr "カスタムフィールドを使えば、ダウンロードにメタデータが追加できます。ブランクのままでは何も起こりません。名称は必ず小文字で指定し、スペースを含めてはいけません (大文字やスペースを含めた名称は自動的に変更されます。例： <code>Some Name</code>は<code>some-name</code>になります)。"
+
+#: admin/add_directory.php:339
+#: admin/add_new.php:433
+#: admin/admin.php:776
+#: admin/admin.php:1250
+#: uploader.php:683
+msgid "Value"
+msgstr "値"
+
+#: admin/add_directory.php:353
+#: admin/add_directory.php:364
+#: admin/add_new.php:447
+#: admin/add_new.php:458
+#: admin/admin.php:260
+#: admin/admin.php:789
+#: admin/admin.php:801
+#: admin/admin.php:1263
+#: admin/admin.php:1275
+#: uploader.php:246
+#: uploader.php:697
+#: uploader.php:709
+msgid "remove"
+msgstr "削除"
+
+#: admin/add_directory.php:372
+#: admin/add_new.php:466
+#: admin/admin.php:808
+#: admin/admin.php:1282
+#: uploader.php:717
+msgid "Add Custom Field"
+msgstr "カスタムフィールド追加"
+
+#: admin/add_directory.php:372
+#: admin/add_new.php:466
+#: admin/admin.php:808
+#: admin/admin.php:1282
+#: uploader.php:717
+msgid "Toggle Existing Custom Fields"
+msgstr "クリックで既存カスタムフィールド表示"
+
+#: admin/add_directory.php:383
+#: admin/add_new.php:477
+#: admin/admin.php:819
+#: admin/admin.php:1293
+#: uploader.php:728
+msgid "None found."
+msgstr "何も見当たりません。"
+
+#: admin/add_directory.php:392
+msgid "Scan &amp; Add"
+msgstr "スキャン &amp; 追加"
+
+#: admin/add_directory.php:393
+#: admin/add_new.php:487
+#: uploader.php:542
+msgid "Y-m-d H:i:s"
+msgstr "Y-m-d H:i:s"
+
+#: admin/add_new.php:66
+#: uploader.php:267
+msgid "Add New Download"
+msgstr "ダウンロード追加"
+
+#: admin/add_new.php:88
+msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div class=\"error\">必須フィールド: <strong>タイトル</strong>が省略されています</div>"
+
+#: admin/add_new.php:90
+msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div class=\"error\">無効な<strong>ヒット数</strong>が入力されました</div>"
+
+#: admin/add_new.php:135
+#: uploader.php:353
+msgid "No file selected"
+msgstr "ファイルが選択されていません"
+
+#: admin/add_new.php:232
+#: admin/add_new.php:233
+msgid "Download added Successfully"
+msgstr "ダウンロードを追加しました"
+
+#: admin/add_new.php:240
+msgid "<div class=\"error\">Error saving to database</div>"
+msgstr "<div class=\"error\">データベースへの保存中にエラーが発生しました</div>"
+
+#: admin/add_new.php:249
+#: admin/admin.php:570
+#: uploader.php:523
+msgid " (defined in php.ini)"
+msgstr " (php.iniで指定)"
+
+#: admin/add_new.php:262
+#: admin/config.php:284
+#: admin/logs.php:52
+#: page-addon/download-monitor-page-addon.php:231
+#: page-addon/download-monitor-page-addon.php:353
+#: page-addon/download-monitor-page-addon.php:438
+#: page-addon/download-monitor-page-addon.php:519
+#: uploader.php:469
+#: uploader.php:815
+msgid "Title"
+msgstr "タイトル"
+
+#: admin/add_new.php:262
+#: admin/add_new.php:284
+#: admin/admin.php:617
+msgid "(required)"
+msgstr "(必須)"
+
+#: admin/add_new.php:268
+#: admin/admin.php:594
+#: admin/admin.php:1445
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:63
+#: page-addon/download-monitor-page-addon.php:149
+#: page-addon/download-monitor-page-addon.php:585
+#: page-addon/download-monitor-page-addon.php:710
+#: shortcodes.php:62
+#: shortcodes.php:191
+#: uploader.php:480
+msgid "Version"
+msgstr "バージョン"
+
+#: admin/add_new.php:274
+#: admin/admin.php:600
+#: page-addon/download-monitor-page-addon.php:62
+#: uploader.php:475
+msgid "Description"
+msgstr "説明"
+
+#: admin/add_new.php:278
+#: uploader.php:486
+msgid "Starting hits"
+msgstr "最初のヒット数"
+
+#: admin/add_new.php:284
+#: uploader.php:492
+msgid "Select a file..."
+msgstr "ファイルの選択..."
+
+#: admin/add_new.php:288
+#: uploader.php:534
+msgid "Upload File"
+msgstr "ファイルのアップロード"
+
+#: admin/add_new.php:289
+#: admin/admin.php:624
+#: uploader.php:536
+msgid "Max. filesize"
+msgstr "最大ファイルサイズ"
+
+#: admin/add_new.php:289
+#: admin/admin.php:624
+#: uploader.php:536
+msgid "bytes"
+msgstr "バイト"
+
+#: admin/add_new.php:289
+#: admin/admin.php:624
+#: uploader.php:536
+msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
+msgstr "アップロードディレクトリに同名ファイルが既に存在しているときは、このファイル名を変更します。"
+
+#: admin/add_new.php:292
+#: admin/add_new.php:403
+#: admin/admin.php:627
+#: admin/admin.php:737
+#: uploader.php:538
+#: uploader.php:654
+msgid "OR"
+msgstr "あるいは"
+
+#: admin/add_new.php:295
+#: uploader.php:539
+msgid "Enter file URL"
+msgstr "ファイルのURLを入力してください"
+
+#: admin/add_new.php:299
+#: admin/add_new.php:409
+#: admin/admin.php:633
+#: admin/admin.php:743
+#: admin/admin.php:1218
+#: uploader.php:540
+#: uploader.php:656
+msgid "Toggle File Browser"
+msgstr "クリックでファイル閲覧"
+
+#: admin/add_new.php:308
+#: admin/admin.php:642
+msgid "Download Mirrors"
+msgstr "ダウンロードミラー"
+
+#: admin/add_new.php:309
+#: admin/admin.php:643
+#: uploader.php:556
+msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
+msgstr "ミラーがある時は、そのURLをここにリストします （1行1ミラー)。ダウンロード実行時、リストされたミラーからひとつがランダムにピックアップされます。"
+
+#: admin/add_new.php:395
+#: admin/admin.php:729
+#: admin/admin.php:1211
+#: uploader.php:646
+msgid "Thumbnail"
+msgstr "サムネール"
+
+#: admin/add_new.php:399
+#: uploader.php:649
+msgid "Upload thumbnail"
+msgstr "サムネールのアップロード"
+
+#: admin/add_new.php:400
+#: admin/admin.php:734
+#: uploader.php:652
+msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
+msgstr "ダウンロードのページまたは、カスタムフォーマットでは {thumbnail} の箇所に表示されます (設定されていない場合はプレースホルダーが表示されます)。"
+
+#: admin/add_new.php:406
+#: uploader.php:655
+msgid "Enter thumbnail URL"
+msgstr "サムネールのURLを入力してください"
+
+#: admin/add_new.php:486
+msgid "Upload &amp; save"
+msgstr "アップロード &amp; 保存"
+
+#: admin/admin.php:102
+#: admin/admin.php:320
+msgid "Are you sure you want to delete"
+msgstr "本当に削除しますか？"
+
+#: admin/admin.php:319
+msgid "Sure?"
+msgstr "よろしいですか？"
+
+#: admin/admin.php:320
+msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
+msgstr "？ (プラグイン経由でアップロードしたものは、サーバ上からも削除されます)"
+
+#: admin/admin.php:320
+msgid "[yes]"
+msgstr "[はい]"
+
+#: admin/admin.php:320
+msgid "[no]"
+msgstr "[いいえ]"
+
+#: admin/admin.php:365
+msgid "Required field: <strong>Title</strong> omitted"
+msgstr "必須フィールド: <strong>タイトル</strong>が省略されています"
+
+#: admin/admin.php:366
+msgid "Required field: <strong>THE FILE</strong> omitted"
+msgstr "必須フィールド: <strong>ファイル</strong>が省略されています"
+
+#: admin/admin.php:368
+msgid "Invalid <strong>hits</strong> entered"
+msgstr "無効な<strong>ヒット数</strong>が入力されました"
+
+#: admin/admin.php:450
+msgid "<div class=\"error\">No file selected</div>"
+msgstr "<div class=\"error\">ファイルが選択されていません</div>"
+
+#: admin/admin.php:508
+msgid "Download edited Successfully"
+msgstr "ダウンロードを編集しました"
+
+#: admin/admin.php:581
+msgid "Edit Download Information"
+msgstr "ダウンロード情報の編集"
+
+#: admin/admin.php:588
+msgid "Title (required)"
+msgstr "タイトル (必須)"
+
+#: admin/admin.php:604
+msgid "Change hit count"
+msgstr "ヒット数の変更"
+
+#: admin/admin.php:610
+msgid "Change post date"
+msgstr "登録日の変更"
+
+#: admin/admin.php:613
+msgid "Change the post date of the download. Was set to:"
+msgstr "登録日を変更します。現在の設定は: "
+
+#: admin/admin.php:613
+msgid "M jS Y @ H:i"
+msgstr "Y年n月j日 @ H:i"
+
+#: admin/admin.php:617
+msgid "The File"
+msgstr "ファイル"
+
+#: admin/admin.php:621
+msgid "Upload New File"
+msgstr "ファイルのアップロード"
+
+#: admin/admin.php:623
+msgid "Remove old file?"
+msgstr "既存ファイルを削除しますか？"
+
+#: admin/admin.php:630
+msgid "Edit File URL"
+msgstr "ファイルのURLの編集"
+
+#: admin/admin.php:733
+msgid "Upload new thumbnail"
+msgstr "サムネールのアップロード"
+
+#: admin/admin.php:740
+msgid "Edit thumbnail URL"
+msgstr "サムネールのURLの編集"
+
+#: admin/admin.php:827
+#: admin/admin.php:1301
+#: admin/config.php:200
+#: admin/config.php:289
+#: admin/config.php:429
+msgid "Save Changes"
+msgstr "変更内容保存"
+
+#: admin/admin.php:865
+msgid "Download deleted Successfully"
+msgstr "ダウンロードを削除しました"
+
+#: admin/admin.php:903
+msgid "Stats successfully reset for selected downloads"
+msgstr "選択したダウンロードの統計をリセットしました"
+
+#: admin/admin.php:945
+msgid "Selected Downloads deleted Successfully"
+msgstr "選択したダウンロードを削除しました"
+
+#: admin/admin.php:1100
+msgid "Downloads edited successfully"
+msgstr "ダウンロードを編集しました"
+
+#: admin/admin.php:1110
+msgid "Bulk Edit Downloads"
+msgstr "ダウンロードの一括編集"
+
+#: admin/admin.php:1111
+msgid "Editing downloads with id's:"
+msgstr "ダウンロードをIDで編集"
+
+#: admin/admin.php:1111
+msgid "Adding options here will overwrite the options in ALL of the selected downloads."
+msgstr "ここでオプションを追加すると、選択した全てのダウンロードのオプションが上書きされます。"
+
+#: admin/admin.php:1121
+#: admin/admin.php:1193
+#: admin/admin.php:1214
+#: admin/admin.php:1226
+#: admin/admin.php:1233
+#: admin/admin.php:1242
+#: admin/categories.php:192
+msgid "No Change"
+msgstr "変更なし"
+
+#: admin/admin.php:1122
+msgid "Change to &darr;"
+msgstr "変更 &darr;"
+
+#: admin/admin.php:1194
+#: admin/admin.php:1215
+#: admin/admin.php:1227
+#: admin/admin.php:1234
+msgid "Change to &rarr;"
+msgstr "変更 &rarr;"
+
+#: admin/admin.php:1243
+msgid "Replace with:"
+msgstr "置換:"
+
+#: admin/admin.php:1244
+msgid "Add/Update only (keep existing fields):"
+msgstr "追加/更新のみ (既存フィールドは保持):"
+
+#: admin/admin.php:1324
+msgid "Edit Downloads"
+msgstr "ダウンロードの編集"
+
+#: admin/admin.php:1332
+#: admin/admin.php:1491
+msgid "Actions:"
+msgstr "操作:"
+
+#: admin/admin.php:1334
+#: admin/admin.php:1493
+msgid "Bulk Actions"
+msgstr "一括操作"
+
+#: admin/admin.php:1335
+#: admin/admin.php:1494
+#: admin/categories.php:209
+#: wp-download_monitor.php:132
+msgid "Edit"
+msgstr "編集"
+
+#: admin/admin.php:1336
+#: admin/admin.php:1495
+msgid "Delete"
+msgstr "削除"
+
+#: admin/admin.php:1337
+#: admin/admin.php:1496
+msgid "Reset Stats"
+msgstr "統計のリセット"
+
+#: admin/admin.php:1339
+#: admin/admin.php:1498
+msgid "Apply"
+msgstr "適用"
+
+#: admin/admin.php:1342
+#: page-addon/download-monitor-page-addon.php:56
+#: uploader.php:781
+msgid "Search Downloads:"
+msgstr "ダウンロードの検索:"
+
+#: admin/admin.php:1344
+#: uploader.php:783
+msgid "Search Downloads"
+msgstr "ダウンロードの検索:"
+
+#: admin/admin.php:1353
+#: admin/categories.php:105
+#: admin/config.php:176
+#: admin/config.php:283
+#: admin/logs.php:51
+#: uploader.php:814
+msgid "ID"
+msgstr "ID"
+
+#: admin/admin.php:1354
+#: legacy_shortcodes.php:77
+#: page-addon/download-monitor-page-addon.php:71
+msgid "Download"
+msgstr "ダウンロード"
+
+#: admin/admin.php:1355
+#: admin/logs.php:53
+#: classes/downloadable_file.class.php:345
+#: uploader.php:816
+msgid "File"
+msgstr "ファイル"
+
+#: admin/admin.php:1358
+#: uploader.php:819
+msgid "Member only"
+msgstr "メンバー専用"
+
+#: admin/admin.php:1359
+#: uploader.php:820
+msgid "Force Download"
+msgstr "強制ダウンロード"
+
+#: admin/admin.php:1361
+#: page-addon/download-monitor-page-addon.php:231
+#: page-addon/download-monitor-page-addon.php:353
+#: page-addon/download-monitor-page-addon.php:438
+#: page-addon/download-monitor-page-addon.php:519
+msgid "Hits"
+msgstr "ヒット数"
+
+#: admin/admin.php:1362
+msgid "Posted"
+msgstr "登録"
+
+#: admin/admin.php:1425
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: admin/admin.php:1456
+#: admin/admin.php:1467
+#: classes/downloadable_file.class.php:344
+#: uploader.php:889
+#: uploader.php:900
+msgid "N/A"
+msgstr "N/A"
+
+#: admin/admin.php:1474
+#: admin/admin.php:1477
+#: admin/config.php:305
+#: admin/config.php:319
+#: admin/config.php:343
+#: admin/config.php:376
+#: admin/config.php:389
+#: admin/config.php:402
+#: uploader.php:908
+#: uploader.php:911
+msgid "Yes"
+msgstr "はい"
+
+#: admin/admin.php:1474
+#: admin/admin.php:1477
+#: admin/config.php:308
+#: admin/config.php:322
+#: admin/config.php:340
+#: admin/config.php:379
+#: admin/config.php:392
+#: admin/config.php:405
+#: uploader.php:908
+#: uploader.php:911
+msgid "No"
+msgstr "いいえ"
+
+#: admin/admin.php:1482
+msgid "by"
+msgstr "by"
+
+#: admin/admin.php:1486
+msgid "No downloads found."
+msgstr "ダウンロードが見当たりません"
+
+#: admin/admin.php:1521
+#: uploader.php:937
+msgid "&laquo; Previous"
+msgstr "&laquo; 前"
+
+#: admin/admin.php:1522
+#: uploader.php:938
+msgid "Next &raquo;"
+msgstr "次 &raquo;"
+
+#: admin/admin.php:1545
+msgid ""
+"You are about to delete the selected items.\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr ""
+"選択したアイテムを削除しようとしています。\n"
+"  'キャンセル' で取り止め、'OK'で削除。"
+
+#: admin/admin.php:1560
+msgid "Download Monitor News"
+msgstr "プラグインニュース"
+
+#: admin/admin.php:1584
+#, php-format
+msgid "%s ago"
+msgstr "%s 前"
+
+#: admin/admin.php:1586
+msgid "F jS Y"
+msgstr "Y年m月d日"
+
+#: admin/admin.php:1595
+msgid "No items found."
+msgstr "アイテムが見つかりません"
+
+#: admin/admin.php:1603
+msgid "Links, Help &amp; Support"
+msgstr "リンク、ヘルプ &amp; サポート"
+
+#: admin/admin.php:1605
+msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
+msgstr "<p>ヘルプが必要ですか？ FAQ、使い方などは、the WordPress.orgのプラグインページ (<a href=\"http://wordpress.org/extend/plugins/download-monitor/\">ここ</a>) にあります。</p>"
+
+#: admin/admin.php:1606
+msgid "<p>You can also find documentation and support at the following locations:</p>"
+msgstr "<p>次の場所には、ドキュメントやサポートがあります:</p>"
+
+#: admin/admin.php:1608
+msgid "Download Monitor on Blue-Anvil"
+msgstr "Blue-Anvilサイトで「ダウンロードモニター」を見る"
+
+#: admin/admin.php:1609
+msgid "Download Monitor Documentation"
+msgstr "「ダウンロードモニター」ドキュメント"
+
+#: admin/admin.php:1610
+msgid "Support Forum"
+msgstr "サポートフォーラム"
+
+#: admin/admin.php:1615
+msgid "Support Download Monitor"
+msgstr "「ダウンロードモニター」の支援"
+
+#: admin/admin.php:1617
+msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
+msgstr "「ダウンロードモニター」プラグインは<a href=\"http://blue-anvil.com/\">Mike Jolley</a>が作成しました。プラグインの開発には多大な時間と労力がかかっていますので、有益だと思えたら寄付を忘れずに。"
+
+#: admin/admin.php:1619
+msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
+msgstr "寄付以外にも、将来にわたってプラグインの存続に貢献できる方法はあります。スポンサーからのメッセージを有効にしたり、wordpress.orgでプラグインの評価を行ったり、プラグインへのリンクや評判を広めたり、コードの提出による貢献を行ったり。これら全てが助かります。"
+
+#: admin/categories.php:38
+msgid "Download Categories"
+msgstr "ダウンロードカテゴリ"
+
+#: admin/categories.php:40
+msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
+msgstr "<p>これらのカテゴリを使ってダウンロードのカテゴリ化ができます。カテゴリタグや別途設定したダウンロードページで、ダウンロードのグループを表示できます (詳細はドキュメント参照).。親カテゴリを削除すると子カテゴリも削除されます。</p>"
+
+#: admin/categories.php:62
+msgid "Category updated"
+msgstr "カテゴリを更新しました"
+
+#: admin/categories.php:75
+msgid "Category added"
+msgstr "カテゴリを追加しました"
+
+#: admin/categories.php:76
+msgid "Category was not added. Try Recreating the download database from the configuration page."
+msgstr "カテゴリは追加されていません。設定のページからダウンロードのデータベースを再作成してください。"
+
+#: admin/categories.php:97
+msgid "Category deleted Successfully"
+msgstr "カテゴリを削除しました"
+
+#: admin/categories.php:107
+#: admin/config.php:179
+#: uploader.php:821
+msgid "Action"
+msgstr "操作"
+
+#: admin/categories.php:143
+msgid "No categories exist"
+msgstr "カテゴリがありません"
+
+#: admin/categories.php:149
+msgid "Add category"
+msgstr "カテゴリの追加"
+
+#: admin/categories.php:173
+msgid "Edit category"
+msgstr "カテゴリの編集"
+
+#: admin/categories.php:176
+msgid "Category"
+msgstr "カテゴリ"
+
+#: admin/categories.php:178
+#: admin/dashboard.php:205
+msgid "Select a category"
+msgstr "カテゴリの選択"
+
+#: admin/config.php:41
+msgid "Download Monitor Configuration"
+msgstr "「ダウンロードモニター」の設定"
+
+#: admin/config.php:54
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, add the following to your \n"
+"\t\t\t\t\t.htaccess file above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>ダウンロードのURLを更新しました - <strong>パーマリンクの設定を再保存</strong> (オプション/設定 -> パーマリンク) し、\n"
+"\t\t\t\t\t\tブログに変更を反映してください。</p>\n"
+"\t\t\t\t\t\t<p>.htaccessファイルへの自動書き込みができない設定にしている場合は、.htaccessファイルに次の内容を \n"
+"\t\t\t\t\t\"# BEGIN WordPress\" の行より前に追加してください:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>\"download/\"の部分を自分が指定したURLに、\"*your wp-content dir*\"の部分をwp-contentディレクトリの位置に書きなおしてください。</p>"
+
+#: admin/config.php:65
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, remove the following from your \n"
+"\t\t\t\t\t.htaccess file if it exists above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>ダウンロードのURLを更新しました - <strong>パーマリンクの設定を再保存</strong> (オプション/設定 -> パーマリンク) し、\n"
+"\t\t\t\t\t\tブログに変更を反映してください。</p>\n"
+"\t\t\t\t\t\t<p>.htaccessファイルへの自動書き込みができない設定にしている場合は、.htaccessファイルから次の内容を \n"
+"\t\t\t\t\t\"# BEGIN WordPress\" の行より前にあったら削除してください:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>\"download/\"の部分を自分が指定した既存のURLに、\"*your wp-content dir*\"の部分をwp-contentディレクトリの位置に書きなおしてください。</p>"
+
+#: admin/config.php:100
+msgid "<p>Options updated</p>"
+msgstr "<p>オプションを更新しました</p>"
+
+#: admin/config.php:110
+msgid "Database Cleaned"
+msgstr "データベースを一掃しました"
+
+#: admin/config.php:129
+msgid "Formats updated"
+msgstr "フォーマットを更新しました"
+
+#: admin/config.php:140
+msgid "Format added"
+msgstr "フォーマットを追加しました"
+
+#: admin/config.php:154
+msgid "Format deleted Successfully"
+msgstr "フォーマットを削除しました"
+
+#: admin/config.php:169
+msgid "Custom Output Formats"
+msgstr "カスタム出力フォーマット"
+
+#: admin/config.php:171
+msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
+msgstr "<p>ダウンロードを出力するフォーマットを好きな形に定義できます</p>"
+
+#: admin/config.php:178
+#: admin/config.php:210
+msgid "Format"
+msgstr "フォーマット"
+
+#: admin/config.php:195
+msgid "No formats exist"
+msgstr "フォーマットがありません"
+
+#: admin/config.php:202
+msgid "Add format"
+msgstr "フォーマットの追加"
+
+#: admin/config.php:216
+msgid "Available Tags"
+msgstr "利用可能なタグ"
+
+#: admin/config.php:218
+msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
+msgstr "カスタムフォーマットには次のタグを使います: <em>注意</em> <code>\"</code> (ダブルクォート) を<code>\"before\"</code>のような特殊な属性の中で使うときは、必ずエスケープするかHTMLエンティティを使ってください。"
+
+#: admin/config.php:220
+msgid "Url of download (does not include hyperlink)"
+msgstr "ダウンロードのURL (ハイパーリンクは含めない)"
+
+#: admin/config.php:221
+msgid "ID of download"
+msgstr "ダウンロードのID"
+
+#: admin/config.php:222
+msgid "Username of whoever posted download"
+msgstr "ダウンロードを登録したユーザ名"
+
+#: admin/config.php:223
+msgid "Version of download"
+msgstr "ダウンロードのバージョン"
+
+#: admin/config.php:224
+msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "ダウンロードのバージョン。設定しなければ出力しません。\"before\"は最初のtext/htmlに、\"after\"は次のtext/htmlに置き換わります。"
+
+#: admin/config.php:225
+msgid "Title of download"
+msgstr "ダウンロードのタイトル"
+
+#: admin/config.php:226
+msgid "Filesize of download"
+msgstr "ダウンロードのファイルサイズ"
+
+#: admin/config.php:227
+msgid "Outputs comma separated list of categories."
+msgstr "カテゴリをコンマ区切りのリストで出力する"
+
+#: admin/config.php:228
+msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
+msgstr "hrefを使ったリンクに含まれているカテゴリをコンマ区切りのリストで出力する。<code>%</code>はカテゴリIDに置き換わります。<code>%2</code>はカテゴリ名に置き換わります。<code>[download_page]</code>と一緒に使うことができます。"
+
+#: admin/config.php:229
+#: admin/config.php:230
+#: admin/config.php:235
+#: admin/config.php:236
+msgid "or"
+msgstr "あるいは"
+
+#: admin/config.php:229
+msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "(トップレベル/最初の)ダウンロードカテゴリ。\"before\"は最初のtext/htmlに置換され、\"after\"は次のtext/htmlに置換されます。"
+
+#: admin/config.php:230
+msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "(トップレベル/最初の)ダウンロードカテゴリ (ただし、カテゴリが設定されていなければ、\"その他\"を返します。\"before\"は最初のtext/htmlに、\"after\"は次のtext/htmlに、それぞれ置換されます。"
+
+#: admin/config.php:231
+msgid "(Top Level/First) Download Category ID."
+msgstr "(トップレベル/最初の)ダウンロードカテゴリID。"
+
+#: admin/config.php:232
+msgid "Current hit count"
+msgstr "現在のヒット数"
+
+#: admin/config.php:233
+msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
+msgstr "ヒット数に応じてフォーマットしたヒット数。<code>%</code>はヒット数に置き換わります。"
+
+#: admin/config.php:234
+msgid "URL of the download image"
+msgstr "ダウンロード画像のURL"
+
+#: admin/config.php:235
+msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "ダウンロードの説明。設定されていなければ出力されません。\"before\"は最初のtext/htmlに、\"after\"は次のtext/htmlに置き換わります。"
+
+#: admin/config.php:236
+msgid "Description formatted with autop (converts double line breaks to paragraphs)"
+msgstr "自動改行 (2行) でフォーマットされた説明"
+
+#: admin/config.php:237
+msgid "Date posted. Second argument is for date format."
+msgstr "登録日。ふたつめの引数は日付のフォーマット"
+
+#: admin/config.php:238
+msgid "Outputs comma separated list of tags."
+msgstr "タグをコンマ区切りのリストで出力する。"
+
+#: admin/config.php:239
+msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
+msgstr "hrefで定義したリンクに含まれているタグをコンマ区切りのリストで出力する。<code>%</code>はタグIDに置き換わります。<code>%2</code>はタグ名に置き換わります。"
+
+#: admin/config.php:240
+msgid "Output thumbnail URL (or placeholder)"
+msgstr "サムネールのURL (またはプレースホルダー) を出力する"
+
+#: admin/config.php:241
+msgid "Custom field value"
+msgstr "カスタムフィールドの値"
+
+#: admin/config.php:242
+msgid "Custom field value formatted with autop"
+msgstr "自動改行でフォーマットされたカスタムフィールドの値"
+
+#: admin/config.php:243
+msgid "File extension (e.g. \"zip\")"
+msgstr "ファイル拡張子 (例: \"zip\")"
+
+#: admin/config.php:244
+msgid "File extension icon (16x16)"
+msgstr "ファイル拡張子のアイコン (16x16)"
+
+#: admin/config.php:245
+msgid "Output a Mirror's url"
+msgstr "ミラーのURLを出力する"
+
+#: admin/config.php:248
+msgid "Example Formats"
+msgstr "フォーマットの例"
+
+#: admin/config.php:250
+msgid "Here are some example custom formats you can use or modify."
+msgstr "利用または修正できるカスタムフォーマットの例です。"
+
+#: admin/config.php:252
+msgid "Link and description of download with hits in title:"
+msgstr "説明とタイトルにヒット数を付けたダウンロードのリンク:"
+
+#: admin/config.php:253
+msgid "Standard link with no hits:"
+msgstr "ヒット数を表示しない標準的なダウンロードのリンク"
+
+#: admin/config.php:254
+msgid "Image link:"
+msgstr "画像リンク:"
+
+#: admin/config.php:261
+msgid "Custom Download URL"
+msgstr "カスタムダウンロードURL"
+
+#: admin/config.php:263
+msgid ""
+"<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
+"            \t\n"
+"                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
+msgstr ""
+"<p>ダウンロード用に<code>download/</code>のようなカスタムURLを設定します。そのURLでどのようなリンク方法にするかも選択できます。たとえば、\"ファイル名\"を選択すると、<code>http://yoursite.com/download/filename.zip</code>のようなリンクになります。このオプションは、wordpressのパーマリンク (デフォルト以外) を使っている場合のみ有効です。</p>\n"
+"            \t\n"
+"                        <p>このオプションを指定しなければ、デフォルトのダウンロードパスになります (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>このオプションを使うときは、サーバにカスタムディレクトリが実在しないか、ページや投稿のURLと合致しないかを確認してください。存在する場合は、download.phpへのリダイレクトに問題が生じることがあります。</p>"
+
+#: admin/config.php:269
+msgid "Without Custom URL:"
+msgstr "カスタムURLなし:"
+
+#: admin/config.php:274
+msgid "With Custom URL (downloads/ID):"
+msgstr "カスタムURL (downloads/ID) あり:"
+
+#: admin/config.php:280
+msgid "Custom URL"
+msgstr "カスタムURL"
+
+#: admin/config.php:285
+msgid "Filename"
+msgstr "ファイル名"
+
+#: admin/config.php:294
+msgid "General Options"
+msgstr "一般設定"
+
+#: admin/config.php:300
+msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
+msgstr "このプラグインを高く評価し、その労力に対して貢献しました！"
+
+#: admin/config.php:310
+msgid "If you would like to say thanks for Download Monitor there are many ways to do so, for example: spreading the word or making a donation. If you have already done so you can indicate that here (thanks by the way). For direct contributors, sponsorship messages will be disabled. (Please see the readme file for full details about sponsorship messages and how your privacy is protected)."
+msgstr "「ダウンロードモニター」に対する感謝の意の表し方は評判を広めたり寄付をするなど何通りもあります。既にそうしたことを行われていたら、ここで「はい」を選択することができます。貢献者に対しては、スポンサーからのメッセージを無効にします。(readmeファイルにスポンサーからのメッセージとあなたのプライバシーがどのような守られているかについての詳細があります)。"
+
+#: admin/config.php:314
+msgid "Disable the news/links/donate box on the Edit Download Page?"
+msgstr "ダウンロードの編集ページでニュース/リンク/寄付ボックスを無効にしますか？"
+
+#: admin/config.php:327
+msgid "\"Download not found\" redirect URL"
+msgstr "ダウンロードが見つからないときのリダイレクトURL"
+
+#: admin/config.php:328
+#: admin/config.php:332
+msgid "Leave blank for no redirect."
+msgstr "設定しなければリダイレクトしません。"
+
+#: admin/config.php:331
+msgid "Member-only files non-member redirect"
+msgstr "メンバー専用ファイルにメンバーでないアクセスがあったときのリダイレクトURL:"
+
+#: admin/config.php:332
+msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
+msgstr "注意: <code>{referrer}</code>は現在のURLに置き換わります。一度ログインページに飛ばしてから再度戻ってダウンロードできるようにする時に便利です。例: <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>"
+
+#: admin/config.php:335
+msgid "Global member only files"
+msgstr "メンバー専用のグローバル化"
+
+#: admin/config.php:344
+msgid "Makes all downloads member only, ignoring the individual download member only setting."
+msgstr "全てのダウンロードをメンバー専用にし、個別に設定したメンバー専用設定は無視します。"
+
+#: admin/config.php:348
+msgid "Download image path"
+msgstr "ダウンロード画像のパス"
+
+#: admin/config.php:349
+msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
+msgstr "この画像は、<code>#image</code>ダウンロードタグと <code>{image_url}</code>タグの使用時に使われます。絶対URL (例: <code>http://yoursite.com/image.gif</code>) を使ってください。"
+
+#: admin/config.php:352
+msgid "Default output format"
+msgstr "デフォルトの出力フォーマット"
+
+#: admin/config.php:371
+msgid "Auto-select mirror"
+msgstr "ミラーの自動選択"
+
+#: admin/config.php:380
+msgid "If a download has \"mirrors\" set should download.php automatically pick one?"
+msgstr "ダウンロードに \"ミラー\"があれば、download.phpが自動で選択するようにしますか？"
+
+#: admin/config.php:384
+msgid "Log Downloads"
+msgstr "ダウンロードを記録する"
+
+#: admin/config.php:397
+msgid "Enable File Browser"
+msgstr "ファイルブラウザを有効にする"
+
+#: admin/config.php:410
+msgid "File Browser Root"
+msgstr "ファイルブラウザのルート"
+
+#: admin/config.php:411
+msgid "The root directory the file browser can display."
+msgstr "ファイルブラウザが表示できるルートとなるディレクトリ"
+
+#: admin/config.php:434
+msgid "Advanced Stuff"
+msgstr "上級設定"
+
+#: admin/config.php:436
+msgid "Upgrade from 3.2.3"
+msgstr "3.2.3からのアップグレード"
+
+#: admin/config.php:437
+msgid "<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>"
+msgstr "<p>バージョン3.3から新しいテーブルを使います。クリーンアップしてマルチカテゴリサポートを追加するための変更です。</p>"
+
+#: admin/config.php:438
+msgid "<p>This update should have been done when you activated the plugin, but if it didn't, use this function to create the new tables and import from the old ones.</p>"
+msgstr "<p>プラグインを有効にすると、このアップデートは実施されるはずですが、万一実施されなかったときは、この機能を使って新しいテーブルを作成し、古いテーブルからデータをインポートします。"
+
+#: admin/config.php:440
+msgid "Upgrade Database"
+msgstr "データベースのアップグレード"
+
+#: admin/config.php:443
+msgid "Upgraded Successfully? Cleanup!"
+msgstr "アップグレードはうまくいきましたか？　クリーンアップしましょう！"
+
+#: admin/config.php:444
+msgid "<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>"
+msgstr "<p>前述のとおり、3.3からテーブルはリネームされました - アップグレードがうまくいったら、この機能を使って古いテーブルを削除することができます (わたしはバックアップとして残しています)。</p>"
+
+#: admin/config.php:445
+msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
+msgstr "<p>警告: データベースのダウンロードデータを削除する恐れがあります。最初にデータベースをバックアップしてください！</p>"
+
+#: admin/config.php:447
+msgid "Clean me up Scotty"
+msgstr "クリーンアップ実行"
+
+#: admin/dashboard.php:72
+msgid "D j M"
+msgstr "M j D"
+
+#: admin/dashboard.php:74
+msgid "Previous Week"
+msgstr "先週"
+
+#: admin/dashboard.php:75
+msgid "This Week"
+msgstr "今週"
+
+#: admin/dashboard.php:76
+msgid "Next Week"
+msgstr "来週"
+
+#: admin/dashboard.php:97
+msgid "F Y"
+msgstr "Y年F"
+
+#: admin/dashboard.php:99
+msgid "Previous 6 months"
+msgstr "過去6ヶ月"
+
+#: admin/dashboard.php:100
+msgid "Last 6 months"
+msgstr "直近6ヶ月"
+
+#: admin/dashboard.php:101
+msgid "Next 6 months"
+msgstr "次の6ヶ月"
+
+#: admin/dashboard.php:111
+msgid "Weekly"
+msgstr "週"
+
+#: admin/dashboard.php:114
+msgid "Monthly"
+msgstr "月"
+
+#: admin/dashboard.php:115
+msgid "Select a download"
+msgstr "ダウンロードを選択してください"
+
+#: admin/dashboard.php:123
+#: admin/dashboard.php:215
+msgid "Show"
+msgstr "表示"
+
+#: admin/dashboard.php:143
+msgid "Downloads per day for"
+msgstr "1日あたりダウンロード"
+
+#: admin/dashboard.php:146
+#: admin/dashboard.php:221
+msgid "Day"
+msgstr "日"
+
+#: admin/dashboard.php:147
+#: admin/dashboard.php:222
+msgid "Number of downloads"
+msgstr "ダウンロード数"
+
+#: admin/dashboard.php:182
+msgid "None Found"
+msgstr "なにもありません"
+
+#: admin/dashboard.php:218
+msgid "Most Downloaded"
+msgstr "最も人気の高いダウンロード"
+
+#: admin/dashboard.php:249
+msgid "No stats yet"
+msgstr "統計はありません"
+
+#: admin/dashboard.php:261
+#: admin/dashboard.php:282
+msgid "Download Stats"
+msgstr "ダウンロードの統計"
+
+#: admin/dashboard.php:262
+#: admin/dashboard.php:316
+msgid "Top 5 Downloads"
+msgstr "ダウンロード数別トップ5"
+
+#: admin/log_to_csv.php:41
+#: admin/logs.php:85
+msgid "jS M Y H:i:s"
+msgstr "Y年Mj日 H:i:s"
+
+#: admin/logs.php:45
+msgid "Download Logs"
+msgstr "ダウンロードのログ"
+
+#: admin/logs.php:47
+msgid "Download CSV"
+msgstr "ダウンロードCSV"
+
+#: admin/logs.php:47
+msgid "Clear Log"
+msgstr "ログのリセット"
+
+#: admin/logs.php:54
+msgid "User"
+msgstr "ユーザ"
+
+#: admin/logs.php:55
+msgid "IP Address"
+msgstr "IPアドレス"
+
+#: admin/logs.php:56
+#: page-addon/download-monitor-page-addon.php:231
+#: page-addon/download-monitor-page-addon.php:353
+#: page-addon/download-monitor-page-addon.php:438
+#: page-addon/download-monitor-page-addon.php:519
+msgid "Date"
+msgstr "日付"
+
+#: admin/logs.php:107
+msgid "No downloads logged."
+msgstr "ダウンロードの記録はありません"
+
+#: admin/logs.php:119
+#: admin/logs.php:120
+#: page-addon/download-monitor-page-addon.php:284
+#: page-addon/download-monitor-page-addon.php:285
+#: page-addon/download-monitor-page-addon.php:460
+#: page-addon/download-monitor-page-addon.php:461
+#: page-addon/download-monitor-page-addon.php:548
+#: page-addon/download-monitor-page-addon.php:549
+msgid "Previous"
+msgstr "前"
+
+#: admin/logs.php:133
+#: admin/logs.php:134
+#: page-addon/download-monitor-page-addon.php:297
+#: page-addon/download-monitor-page-addon.php:298
+#: page-addon/download-monitor-page-addon.php:473
+#: page-addon/download-monitor-page-addon.php:474
+#: page-addon/download-monitor-page-addon.php:561
+#: page-addon/download-monitor-page-addon.php:562
+msgid "Next"
+msgstr "次"
+
+#: classes/downloadable_file.class.php:272
+#: classes/downloadable_file.class.php:286
+#: classes/downloadable_file.class.php:308
+#: page-addon/download-monitor-page-addon.php:55
+msgid "Other"
+msgstr "その他"
+
+#: classes/downloadable_file.class.php:294
+msgid "Uncategorized"
+msgstr "未分類"
+
+#: classes/downloadable_file.class.php:329
+#: classes/downloadable_file.class.php:332
+msgid "#Mirror-not-found"
+msgstr "#ミラーはありません"
+
+#: download.php:170
+msgid "You must be logged in to download this file."
+msgstr "このファイルをダウンロードするには、最初にログインしてください。"
+
+#: download.php:181
+#: download.php:191
+msgid "You do not have permission to download this file."
+msgstr "このファイルをダウンロードする権限がありません。"
+
+#: download.php:529
+msgid "Cannot open remote file "
+msgstr "リモートファイルは開けません"
+
+#: download.php:577
+msgid "Forcing the download of externally hosted files is not supported by this server."
+msgstr "このサーバでは、外部のファイルの強制ダウンロードはサポートされていません。"
+
+#: download.php:584
+msgid "Download path is invalid!"
+msgstr "ダウンロードパスが無効です！"
+
+#: download.php:616
+msgid "Download does not exist!"
+msgstr "ダウンロードが存在しません！"
+
+#: functions.inc.php:109
+#, php-format
+msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
+msgstr "%3$s年%1$s%2$s日 @ %4$s : %5$s"
+
+#: functions.inc.php:179
+msgid "Add Download"
+msgstr "ダウンロード追加"
+
+#: init.php:29
+#: init.php:31
+msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
+msgstr "バージョンが3.3 (以上) の「ダウンロードモニター」は、それよりも前のバージョンとは異なる構造になっています - マルチカテゴリのサポート実現のため。このバージョンを動かすには、データベースのアップデートが必要です - <strong>最初にデータベースをバックアップ</strong>してから"
+
+#: init.php:29
+#: init.php:31
+msgid "click here"
+msgstr "ここをクリックして"
+
+#: init.php:29
+#: init.php:31
+msgid "to run the update script"
+msgstr "アップデートスクリプトを実行してください"
+
+#: init.php:235
+msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql user has ALTER, DROP, CREATE and INSERT privileges."
+msgstr "データベースはアップグレードされませんでした - リネーム処理失敗。mysqlユーザにALTER、DROP、CREATE、INSERTの権限があるかどうか確認してください。"
+
+#: init.php:333
+msgid "Database Upgraded"
+msgstr "データベースをアップグレードしました"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:149
+#: shortcodes.php:62
+#: shortcodes.php:191
+msgid "downloaded"
+msgstr "ダウンロード"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:180
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:149
+#: page-addon/download-monitor-page-addon.php:715
+#: shortcodes.php:62
+#: shortcodes.php:191
+msgid "times"
+msgstr "回"
+
+#: legacy_shortcodes.php:180
+#: page-addon/download-monitor-page-addon.php:66
+#: page-addon/download-monitor-page-addon.php:715
+msgid "Downloaded"
+msgstr "ダウンロード"
+
+#: legacy_shortcodes.php:219
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+msgid "jS M Y"
+msgstr "Y年Mj日"
+
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+msgid "Added"
+msgstr "追加"
+
+#: legacy_shortcodes.php:263
+msgid "Most Popular Downloads"
+msgstr "最も人気の高いダウンロード"
+
+#: legacy_shortcodes.php:283
+msgid "No Downloads Found"
+msgstr "ダウンロードが見当たりません"
+
+#: page-addon/download-monitor-page-addon.php:53
+msgid "Popular Downloads"
+msgstr "人気のダウンロード"
+
+#: page-addon/download-monitor-page-addon.php:57
+msgid "Go"
+msgstr "実行"
+
+#: page-addon/download-monitor-page-addon.php:58
+msgid "Results found for "
+msgstr "次に対する結果:"
+
+#: page-addon/download-monitor-page-addon.php:59
+msgid "No downloads were found."
+msgstr "ダウンロードは見当たりませんでした。"
+
+#: page-addon/download-monitor-page-addon.php:60
+msgid "No download found matching given ID."
+msgstr "そのIDにマッチするダウンロードは見当たりません"
+
+#: page-addon/download-monitor-page-addon.php:61
+#: uploader.php:809
+#: wp-download_monitor.php:131
+msgid "Downloads"
+msgstr "ダウンロード"
+
+#: page-addon/download-monitor-page-addon.php:67
+msgid " time"
+msgstr "回"
+
+#: page-addon/download-monitor-page-addon.php:68
+msgid " times"
+msgstr "回"
+
+#: page-addon/download-monitor-page-addon.php:69
+msgid "Date posted"
+msgstr "登録日"
+
+#: page-addon/download-monitor-page-addon.php:70
+msgid "F j, Y"
+msgstr "Y年m月d日"
+
+#: page-addon/download-monitor-page-addon.php:72
+msgid "Read More"
+msgstr "続きを読む"
+
+#: page-addon/download-monitor-page-addon.php:73
+msgid "Sub-Categories:"
+msgstr "サブカテゴリ:"
+
+#: page-addon/download-monitor-page-addon.php:74
+msgid "Sort by:"
+msgstr "ソート方法:"
+
+#: page-addon/download-monitor-page-addon.php:75
+msgid "Downloads tagged:"
+msgstr "ダウンロードのタグ"
+
+#: shortcodes.php:209
+msgid "No Downloads found"
+msgstr "ダウンロードは見当たりません"
+
+#: uploader.php:80
+#: uploader.php:83
+msgid "Blue"
+msgstr "ブルー"
+
+#: uploader.php:81
+#: uploader.php:84
+msgid "Gray"
+msgstr "グレイ"
+
+#: uploader.php:93
+msgid "You do not have permission to upload files/downloads."
+msgstr "ファイル/ダウンロードをアップロードする権限がありません。"
+
+#: uploader.php:101
+msgid "Uploads"
+msgstr "アップロード"
+
+#: uploader.php:101
+msgid "WordPress"
+msgstr "WordPress"
+
+#: uploader.php:268
+msgid "View Downloads"
+msgstr "ダウンロードの閲覧"
+
+#: uploader.php:309
+msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div id=\"media-upload-error\">必須フィールド: <strong>タイトル</strong>が省略されています</div>"
+
+#: uploader.php:311
+msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div id=\"media-upload-error\">無効の<strong>ヒット数</strong>が入力されました</div>"
+
+#: uploader.php:453
+msgid "<div id=\"media-upload-error\">Error saving to database</div>"
+msgstr "<div id=\"media-upload-error\">データベースへの保存時にエラーが発生しました</div>"
+
+#: uploader.php:463
+msgid "Download Information"
+msgstr "ダウンロードの情報"
+
+#: uploader.php:552
+msgid "Mirrors"
+msgstr "ミラー"
+
+#: uploader.php:735
+msgid "Save new download"
+msgstr "新しいダウンロードの保存"
+
+#: uploader.php:743
+msgid "Insert new download into post"
+msgstr "新しいダウンロードを記事に挿入"
+
+#: uploader.php:745
+#: uploader.php:791
+msgid "Insert into post using format:"
+msgstr "次のフォーマットで記事に挿入:"
+
+#: uploader.php:746
+#: uploader.php:794
+msgid "Default"
+msgstr "デフォルト"
+
+#: uploader.php:759
+msgid "Insert into post"
+msgstr "記事に挿入"
+
+#: uploader.php:913
+msgid "Insert"
+msgstr "挿入"
+
+#: wp-download_monitor.php:133
+msgid "Add New"
+msgstr "新規追加"
+
+#: wp-download_monitor.php:134
+msgid "Add Directory"
+msgstr "ディレクトリの追加"
+
+#: wp-download_monitor.php:138
+msgid "Configuration"
+msgstr "設定"
+
+#: wp-download_monitor.php:139
+msgid "Log"
+msgstr "ログ"
+

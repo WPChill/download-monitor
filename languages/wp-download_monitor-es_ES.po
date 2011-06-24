@@ -1,0 +1,2135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: download-monitor\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-08 12:08+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development\n"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/download.php:162
+msgid "You must be logged in to download this file."
+msgstr "Debes estar contectado para descargar este archivo."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/download.php:173
+#: Monitor/Development/download.php:183
+msgid "You do not have permission to download this file."
+msgstr "No tienes permiso para descargar este archivo."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/download.php:554
+msgid "Forcing the download of externally hosted files is not supported by this server."
+msgstr "Este servidor no soporta la descarga forzada de archivos alojados externamente."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/download.php:560
+msgid "Download path is invalid!"
+msgstr "¡La ruta de descarga no es válida!"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/download.php:592
+msgid "Download does not exist!"
+msgstr "¡La descarga no existe!"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/functions.inc.php:115
+#, php-format
+msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
+msgstr "%1$s%2$s, %3$s @ %4$s : %5$s"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/functions.inc.php:185
+msgid "Add Download"
+msgstr "Añadir Descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/functions.inc.php:209
+#: Monitor/Development/admin/dashboard.php:123
+#: Monitor/Development/admin/dashboard.php:215
+msgid "Show"
+msgstr "Mostrar"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/functions.inc.php:210
+msgid "All Downloads"
+msgstr "Todas las Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/functions.inc.php:211
+msgid "Downloads and categories"
+msgstr "Descargas y Categorías"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/functions.inc.php:216
+#: Monitor/Development/functions.inc.php:241
+#: Monitor/Development/uploader.php:807
+#: Monitor/Development/wp-download_monitor.php:126
+msgid "Downloads"
+msgstr "Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/functions.inc.php:229
+#: Monitor/Development/legacy_shortcodes.php:264
+#: Monitor/Development/uploader.php:557
+#: Monitor/Development/uploader.php:815
+#: Monitor/Development/wp-download_monitor.php:131
+#: Monitor/Development/admin/add_directory.php:242
+#: Monitor/Development/admin/add_new.php:310
+#: Monitor/Development/admin/admin.php:645
+#: Monitor/Development/admin/admin.php:1117
+#: Monitor/Development/admin/admin.php:1355
+msgid "Categories"
+msgstr "Categorías"
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:29
+#: Monitor/Development/init.php:31
+msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:29
+#: Monitor/Development/init.php:31
+msgid "click here"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:29
+#: Monitor/Development/init.php:31
+msgid "to run the update script"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:233
+msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql user has ALTER, DROP, CREATE and INSERT privileges."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:331
+#, fuzzy
+msgid "Database Upgraded"
+msgstr "Base de datos restaurada"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:51
+#: Monitor/Development/legacy_shortcodes.php:77
+#: Monitor/Development/legacy_shortcodes.php:82
+#: Monitor/Development/legacy_shortcodes.php:87
+#: Monitor/Development/legacy_shortcodes.php:179
+#: Monitor/Development/legacy_shortcodes.php:223
+#: Monitor/Development/legacy_shortcodes.php:226
+#: Monitor/Development/legacy_shortcodes.php:243
+#: Monitor/Development/legacy_shortcodes.php:280
+#: Monitor/Development/shortcodes.php:62
+#: Monitor/Development/shortcodes.php:191
+#: Monitor/Development/uploader.php:478
+#: Monitor/Development/admin/add_new.php:266
+#: Monitor/Development/admin/admin.php:593
+#: Monitor/Development/admin/admin.php:1444
+msgid "Version"
+msgstr "Versión"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:51
+#: Monitor/Development/legacy_shortcodes.php:77
+#: Monitor/Development/legacy_shortcodes.php:82
+#: Monitor/Development/legacy_shortcodes.php:87
+#: Monitor/Development/legacy_shortcodes.php:179
+#: Monitor/Development/legacy_shortcodes.php:223
+#: Monitor/Development/legacy_shortcodes.php:226
+#: Monitor/Development/legacy_shortcodes.php:243
+#: Monitor/Development/legacy_shortcodes.php:280
+#: Monitor/Development/shortcodes.php:62
+#: Monitor/Development/shortcodes.php:191
+msgid "downloaded"
+msgstr "descargado"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:51
+#: Monitor/Development/legacy_shortcodes.php:77
+#: Monitor/Development/legacy_shortcodes.php:82
+#: Monitor/Development/legacy_shortcodes.php:87
+#: Monitor/Development/legacy_shortcodes.php:179
+#: Monitor/Development/legacy_shortcodes.php:180
+#: Monitor/Development/legacy_shortcodes.php:223
+#: Monitor/Development/legacy_shortcodes.php:226
+#: Monitor/Development/legacy_shortcodes.php:243
+#: Monitor/Development/legacy_shortcodes.php:280
+#: Monitor/Development/shortcodes.php:62
+#: Monitor/Development/shortcodes.php:191
+msgid "times"
+msgstr "veces"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:77
+#: Monitor/Development/admin/admin.php:1353
+msgid "Download"
+msgstr "Descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:180
+msgid "Downloaded"
+msgstr "Descargado"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:219
+#: Monitor/Development/legacy_shortcodes.php:226
+#: Monitor/Development/legacy_shortcodes.php:243
+#: Monitor/Development/legacy_shortcodes.php:280
+msgid "jS M Y"
+msgstr "jS M Y"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:243
+#: Monitor/Development/legacy_shortcodes.php:280
+msgid "Added"
+msgstr "Añadido"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:263
+msgid "Most Popular Downloads"
+msgstr "Descargas más populares"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/legacy_shortcodes.php:283
+msgid "No Downloads Found"
+msgstr "No se han encontrado Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/shortcodes.php:209
+msgid "No Downloads found"
+msgstr "No se han encontrado Descargas."
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:80
+#: Monitor/Development/uploader.php:83
+msgid "Blue"
+msgstr "Azul"
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:81
+#: Monitor/Development/uploader.php:84
+msgid "Gray"
+msgstr "Gris"
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:93
+msgid "You do not have permission to upload files/downloads."
+msgstr "No tienes permiso para subir archivos/descargas."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:101
+msgid "Uploads"
+msgstr "Subidas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:101
+msgid "WordPress"
+msgstr "WordPress"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:246
+#: Monitor/Development/uploader.php:695
+#: Monitor/Development/uploader.php:707
+#: Monitor/Development/admin/add_directory.php:353
+#: Monitor/Development/admin/add_directory.php:364
+#: Monitor/Development/admin/add_new.php:445
+#: Monitor/Development/admin/add_new.php:456
+#: Monitor/Development/admin/admin.php:261
+#: Monitor/Development/admin/admin.php:788
+#: Monitor/Development/admin/admin.php:800
+#: Monitor/Development/admin/admin.php:1262
+#: Monitor/Development/admin/admin.php:1274
+msgid "remove"
+msgstr "eliminar"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:267
+#: Monitor/Development/admin/add_new.php:66
+msgid "Add New Download"
+msgstr "Añadir Nueva Descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:268
+msgid "View Downloads"
+msgstr "Ver Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:309
+msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div id=\"media-upload-error\">Campo obligatorio: <strong>Título</strong> omitido</div>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:311
+msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div id=\"media-upload-error\">Número de <strong>descargas</strong> erróneo</div>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:353
+#: Monitor/Development/admin/add_new.php:135
+msgid "No file selected"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:451
+#, fuzzy
+msgid "<div id=\"media-upload-error\">Error saving to database</div>"
+msgstr "<div class=\"error\">Error al guardar en la base de datos</div>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:461
+msgid "Download Information"
+msgstr "Información de Descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:467
+#: Monitor/Development/uploader.php:813
+#: Monitor/Development/admin/add_new.php:260
+#: Monitor/Development/admin/config.php:280
+#: Monitor/Development/admin/logs.php:52
+msgid "Title"
+msgstr "Título"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:473
+#: Monitor/Development/admin/add_new.php:272
+#: Monitor/Development/admin/admin.php:599
+msgid "Description"
+msgstr "Descripción"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:484
+#: Monitor/Development/admin/add_new.php:276
+msgid "Starting hits"
+msgstr "Descargas iniciales"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:490
+#: Monitor/Development/admin/add_new.php:282
+msgid "Select a file..."
+msgstr "Seleccionar un archivo..."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:521
+#: Monitor/Development/admin/add_new.php:247
+#: Monitor/Development/admin/admin.php:569
+msgid " (defined in php.ini)"
+msgstr "(definido en php.ini)"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:532
+#: Monitor/Development/admin/add_new.php:286
+msgid "Upload File"
+msgstr "Archivo Subido"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:534
+#: Monitor/Development/admin/add_new.php:287
+#: Monitor/Development/admin/admin.php:623
+msgid "Max. filesize"
+msgstr "Tamaño máximo"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:534
+#: Monitor/Development/admin/add_new.php:287
+#: Monitor/Development/admin/admin.php:623
+msgid "bytes"
+msgstr "bytes"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:534
+#: Monitor/Development/admin/add_new.php:287
+#: Monitor/Development/admin/admin.php:623
+#, fuzzy
+msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
+msgstr "Si existe un archivo con el mismo nombre en la carpeta de subidas, este fichero será renombrado automáticamente."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:536
+#: Monitor/Development/uploader.php:652
+#: Monitor/Development/admin/add_new.php:290
+#: Monitor/Development/admin/add_new.php:401
+#: Monitor/Development/admin/admin.php:626
+#: Monitor/Development/admin/admin.php:736
+msgid "OR"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:537
+#: Monitor/Development/admin/add_new.php:293
+#, fuzzy
+msgid "Enter file URL"
+msgstr "URL Archivo"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:538
+#: Monitor/Development/uploader.php:654
+#: Monitor/Development/admin/add_new.php:297
+#: Monitor/Development/admin/add_new.php:407
+#: Monitor/Development/admin/admin.php:632
+#: Monitor/Development/admin/admin.php:742
+#: Monitor/Development/admin/admin.php:1217
+msgid "Toggle File Browser"
+msgstr "Conmutar Navegador Archivos"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:540
+#: Monitor/Development/admin/add_directory.php:393
+#: Monitor/Development/admin/add_new.php:485
+msgid "Y-m-d H:i:s"
+msgstr "Y-m-d H:i:s"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:550
+#, fuzzy
+msgid "Mirrors"
+msgstr "Mirrors de Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:554
+#: Monitor/Development/admin/add_new.php:307
+#: Monitor/Development/admin/admin.php:642
+msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
+msgstr "Opcionalmente mostrar lista de urls de mirrors aquí (1 por línea). Download monitor aleatoriamente escogerá uno de estos servidores cuando active la descarga."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:598
+#: Monitor/Development/admin/add_directory.php:282
+#: Monitor/Development/admin/add_new.php:350
+#: Monitor/Development/admin/admin.php:685
+#: Monitor/Development/admin/admin.php:1164
+#, fuzzy
+msgid "+ Add New Category"
+msgstr "Añadir categoría"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:601
+#: Monitor/Development/uploader.php:680
+#: Monitor/Development/admin/add_directory.php:285
+#: Monitor/Development/admin/add_directory.php:338
+#: Monitor/Development/admin/add_new.php:353
+#: Monitor/Development/admin/add_new.php:430
+#: Monitor/Development/admin/admin.php:688
+#: Monitor/Development/admin/admin.php:774
+#: Monitor/Development/admin/admin.php:1167
+#: Monitor/Development/admin/admin.php:1248
+#: Monitor/Development/admin/categories.php:106
+#: Monitor/Development/admin/categories.php:152
+#: Monitor/Development/admin/categories.php:205
+#: Monitor/Development/admin/config.php:173
+#: Monitor/Development/admin/config.php:202
+msgid "Name"
+msgstr "Nombre"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:605
+#: Monitor/Development/admin/add_directory.php:289
+#: Monitor/Development/admin/add_new.php:357
+#: Monitor/Development/admin/admin.php:692
+#: Monitor/Development/admin/admin.php:1171
+#: Monitor/Development/admin/categories.php:156
+#: Monitor/Development/admin/categories.php:190
+msgid "Parent"
+msgstr "Superior"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:607
+#: Monitor/Development/admin/add_directory.php:291
+#: Monitor/Development/admin/add_new.php:359
+#: Monitor/Development/admin/admin.php:694
+#: Monitor/Development/admin/admin.php:1173
+#: Monitor/Development/admin/categories.php:158
+#: Monitor/Development/admin/categories.php:193
+#: Monitor/Development/admin/config.php:337
+msgid "None"
+msgstr "Ninguna"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:619
+#: Monitor/Development/admin/add_directory.php:303
+#: Monitor/Development/admin/add_new.php:371
+#: Monitor/Development/admin/admin.php:706
+#: Monitor/Development/admin/admin.php:1185
+#: Monitor/Development/admin/categories.php:170
+#: Monitor/Development/admin/config.php:210
+msgid "Add"
+msgstr "Añadir"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:624
+#: Monitor/Development/uploader.php:816
+#: Monitor/Development/admin/add_directory.php:307
+#: Monitor/Development/admin/add_new.php:375
+#: Monitor/Development/admin/admin.php:710
+#: Monitor/Development/admin/admin.php:1189
+#: Monitor/Development/admin/admin.php:1356
+msgid "Tags"
+msgstr "Etiquetas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:630
+#: Monitor/Development/admin/add_directory.php:309
+#: Monitor/Development/admin/add_new.php:377
+#: Monitor/Development/admin/admin.php:712
+#: Monitor/Development/admin/admin.php:1194
+msgid "Separate tags with commas."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:638
+#: Monitor/Development/admin/add_directory.php:318
+#: Monitor/Development/admin/add_new.php:386
+#: Monitor/Development/admin/admin.php:721
+#: Monitor/Development/admin/admin.php:1203
+#, fuzzy
+msgid "No Tags Found"
+msgstr "No se han encontrado Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:644
+#: Monitor/Development/admin/add_new.php:393
+#: Monitor/Development/admin/admin.php:728
+#: Monitor/Development/admin/admin.php:1210
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:647
+#: Monitor/Development/admin/add_new.php:397
+#, fuzzy
+msgid "Upload thumbnail"
+msgstr "Archivo Subido"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:650
+#: Monitor/Development/admin/add_new.php:398
+#: Monitor/Development/admin/admin.php:733
+#, fuzzy
+msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
+msgstr "Inserta URL de la imagen en miniatura. Ésta se mostrará en la página de descargas o con {thumbnail} en formato personalizado (se mostrará un contenedor si no se establece)."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:653
+#: Monitor/Development/admin/add_new.php:404
+msgid "Enter thumbnail URL"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:660
+#: Monitor/Development/admin/add_directory.php:325
+#: Monitor/Development/admin/add_new.php:416
+#: Monitor/Development/admin/admin.php:751
+#: Monitor/Development/admin/admin.php:1223
+msgid "Member only file?"
+msgstr "¿Fichero sólo para miembros?"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:664
+#: Monitor/Development/admin/add_directory.php:326
+#: Monitor/Development/admin/add_new.php:417
+#: Monitor/Development/admin/admin.php:752
+#: Monitor/Development/admin/admin.php:1227
+#, fuzzy
+msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
+msgstr "Si se selecciona, sólo los usuarios conectados podrán acceder a este fichero con un enlace de descarga. Es buena idea dar al fichero un nombre que no sea fácilmente adivinado y que pueda ser accedido directamente. EXTRA: añade un campo personalizado llamado \"min-level\" para establecer el nivel mínimo de usuario necesario para descargar el archivo."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:667
+#: Monitor/Development/admin/add_directory.php:329
+#: Monitor/Development/admin/add_new.php:420
+#: Monitor/Development/admin/admin.php:755
+#: Monitor/Development/admin/admin.php:1230
+#, fuzzy
+msgid "Force Download?"
+msgstr "Registro Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:671
+#: Monitor/Development/admin/add_directory.php:330
+#: Monitor/Development/admin/add_new.php:421
+#: Monitor/Development/admin/admin.php:756
+#: Monitor/Development/admin/admin.php:1234
+msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:676
+#: Monitor/Development/admin/add_directory.php:333
+#: Monitor/Development/admin/add_new.php:425
+#: Monitor/Development/admin/admin.php:769
+#: Monitor/Development/admin/admin.php:1238
+#: Monitor/Development/admin/admin.php:1359
+msgid "Custom fields"
+msgstr "Campos personalizados"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:681
+#: Monitor/Development/admin/add_directory.php:339
+#: Monitor/Development/admin/add_new.php:431
+#: Monitor/Development/admin/admin.php:775
+#: Monitor/Development/admin/admin.php:1249
+msgid "Value"
+msgstr "Valor"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:715
+#: Monitor/Development/admin/add_directory.php:372
+#: Monitor/Development/admin/add_new.php:464
+#: Monitor/Development/admin/admin.php:807
+#: Monitor/Development/admin/admin.php:1281
+msgid "Add Custom Field"
+msgstr "Añadir Campo Personalizado"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:715
+#: Monitor/Development/admin/add_directory.php:372
+#: Monitor/Development/admin/add_new.php:464
+#: Monitor/Development/admin/admin.php:807
+#: Monitor/Development/admin/admin.php:1281
+msgid "Toggle Existing Custom Fields"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:726
+#: Monitor/Development/admin/add_directory.php:383
+#: Monitor/Development/admin/add_new.php:475
+#: Monitor/Development/admin/admin.php:818
+#: Monitor/Development/admin/admin.php:1292
+#, fuzzy
+msgid "None found."
+msgstr "No se han encontrado"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:733
+msgid "Save new download"
+msgstr "Guardar nueva descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:741
+msgid "Insert new download into post"
+msgstr "Insertar nueva descarga en la entrada"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:743
+#: Monitor/Development/uploader.php:789
+msgid "Insert into post using format:"
+msgstr "Insertar en la entrada usando el formato:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:744
+#: Monitor/Development/uploader.php:792
+msgid "Default"
+msgstr "Por defecto"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:757
+msgid "Insert into post"
+msgstr "Insertar en la entrada"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:779
+#: Monitor/Development/admin/admin.php:1341
+msgid "Search Downloads:"
+msgstr "Buscar Descargas:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:781
+#: Monitor/Development/admin/admin.php:1343
+msgid "Search Downloads"
+msgstr "Buscar descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:812
+#: Monitor/Development/admin/admin.php:1352
+#: Monitor/Development/admin/categories.php:105
+#: Monitor/Development/admin/config.php:172
+#: Monitor/Development/admin/config.php:279
+#: Monitor/Development/admin/logs.php:51
+msgid "ID"
+msgstr "ID"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:814
+#: Monitor/Development/admin/admin.php:1354
+#: Monitor/Development/admin/logs.php:53
+msgid "File"
+msgstr "Archivo"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:817
+#: Monitor/Development/admin/admin.php:1357
+msgid "Member only"
+msgstr "Sólo miembros"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:818
+#: Monitor/Development/admin/admin.php:1358
+#, fuzzy
+msgid "Force Download"
+msgstr "Registro Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:819
+#: Monitor/Development/admin/categories.php:107
+#: Monitor/Development/admin/config.php:175
+msgid "Action"
+msgstr "Acción"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:887
+#: Monitor/Development/uploader.php:898
+#: Monitor/Development/admin/admin.php:1455
+#: Monitor/Development/admin/admin.php:1466
+msgid "N/A"
+msgstr "N/A"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:906
+#: Monitor/Development/uploader.php:909
+#: Monitor/Development/admin/admin.php:1473
+#: Monitor/Development/admin/admin.php:1476
+#: Monitor/Development/admin/config.php:301
+#: Monitor/Development/admin/config.php:315
+#: Monitor/Development/admin/config.php:359
+#: Monitor/Development/admin/config.php:372
+msgid "Yes"
+msgstr "Sí"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:906
+#: Monitor/Development/uploader.php:909
+#: Monitor/Development/admin/admin.php:1473
+#: Monitor/Development/admin/admin.php:1476
+#: Monitor/Development/admin/config.php:304
+#: Monitor/Development/admin/config.php:318
+#: Monitor/Development/admin/config.php:362
+#: Monitor/Development/admin/config.php:375
+msgid "No"
+msgstr "No"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:911
+msgid "Insert"
+msgstr "Insertar"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:935
+#: Monitor/Development/admin/admin.php:1520
+msgid "&laquo; Previous"
+msgstr "&laquo; Anterior"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/uploader.php:936
+#: Monitor/Development/admin/admin.php:1521
+msgid "Next &raquo;"
+msgstr "Siguiente &raquo;"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/wp-download_monitor.php:127
+#: Monitor/Development/admin/admin.php:1334
+#: Monitor/Development/admin/admin.php:1493
+#: Monitor/Development/admin/categories.php:209
+msgid "Edit"
+msgstr "Editar"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/wp-download_monitor.php:128
+msgid "Add New"
+msgstr "Añadir Nuevo"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/wp-download_monitor.php:129
+#, fuzzy
+msgid "Add Directory"
+msgstr "Añadir categoría"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/wp-download_monitor.php:133
+msgid "Configuration"
+msgstr "Configuración"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/wp-download_monitor.php:134
+msgid "Log"
+msgstr "Registro"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:43
+#, fuzzy
+msgid "Add From Directory"
+msgstr "Añadir categoría"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:45
+msgid "This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:59
+#, fuzzy
+msgid "<div class=\"error\">No folder selected</div>"
+msgstr "<div class=\"error\">No se ha seleccionado archivo</div>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:215
+#, fuzzy
+msgid "Downloads added Successfully"
+msgstr "Descarga añadida satisfactoriamente"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:217
+#, fuzzy
+msgid "No files found"
+msgstr "No se han encontrado Descargas."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:226
+msgid "Directory (relative paths only)"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:230
+#, fuzzy
+msgid "Toggle Folder Browser"
+msgstr "Conmutar Navegador Archivos"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:236
+msgid "Extensions"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:238
+msgid "List extensions to look for separated by commas, or leave blank to import all. Example: zip,gif,jpg"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:334
+#: Monitor/Development/admin/add_new.php:426
+#: Monitor/Development/admin/admin.php:770
+#: Monitor/Development/admin/admin.php:1239
+msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
+msgstr "Los campos personalizados pueden ser utilizados para añadir metadatos extra a una descarga. Déjalo en blanco para no añadir ninguno. El nombre debe estar en minúscula sin espacios (se cambiaría automáticamente, p.e. <code>Un Nombre</code> se convertirá en <code>un-nombre</code>."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_directory.php:392
+msgid "Scan &amp; Add"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_new.php:88
+msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div class=\"error\">Campo requerido: <strong>Título</strong> omitido</div>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_new.php:90
+msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div class=\"error\">Número de <strong>descargas</strong> erróneo</div>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_new.php:232
+#: Monitor/Development/admin/add_new.php:233
+msgid "Download added Successfully"
+msgstr "Descarga añadida satisfactoriamente"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_new.php:238
+msgid "<div class=\"error\">Error saving to database</div>"
+msgstr "<div class=\"error\">Error al guardar en la base de datos</div>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_new.php:260
+#: Monitor/Development/admin/add_new.php:282
+#: Monitor/Development/admin/admin.php:616
+#, fuzzy
+msgid "(required)"
+msgstr "Título (requerido)"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_new.php:306
+#: Monitor/Development/admin/admin.php:641
+msgid "Download Mirrors"
+msgstr "Mirrors de Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/add_new.php:484
+msgid "Upload &amp; save"
+msgstr "Subir y guardar"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:102
+#: Monitor/Development/admin/admin.php:321
+msgid "Are you sure you want to delete"
+msgstr "¿Estás seguro de querer borrar?"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:320
+msgid "Sure?"
+msgstr "¿Seguro?"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:321
+msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
+msgstr "?(Si fue subido originalmente por este plugin, esto también eliminará el archivo del servidor)"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:321
+msgid "[yes]"
+msgstr "[sí]"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:321
+msgid "[no]"
+msgstr "[no]"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:366
+msgid "Required field: <strong>Title</strong> omitted"
+msgstr "Campo Obligatorio: <strong>Título</strong> omitido"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:367
+#, fuzzy
+msgid "Required field: <strong>THE FILE</strong> omitted"
+msgstr "Campo Obligatorio: <strong>Título</strong> omitido"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:369
+msgid "Invalid <strong>hits</strong> entered"
+msgstr "Insertado <strong>descargas</strong> erróneo"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:451
+msgid "<div class=\"error\">No file selected</div>"
+msgstr "<div class=\"error\">No se ha seleccionado archivo</div>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:509
+msgid "Download edited Successfully"
+msgstr "Descarga editada Satisfactoriamente"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:580
+msgid "Edit Download Information"
+msgstr "Editar información de Descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:587
+msgid "Title (required)"
+msgstr "Título (requerido)"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:603
+msgid "Change hit count"
+msgstr "Cambiar contador de descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:609
+msgid "Change post date"
+msgstr "Cambiar fecha inserción"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:612
+msgid "Change the post date of the download. Was set to:"
+msgstr "Cambiar la fecha de la publicación de la descarga. Antes era:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:612
+msgid "M jS Y @ H:i"
+msgstr "M jS Y @ H:i"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:616
+#, fuzzy
+msgid "The File"
+msgstr "Archivo"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:620
+#, fuzzy
+msgid "Upload New File"
+msgstr "Archivo Subido"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:622
+msgid "Remove old file?"
+msgstr "¿Eliminar archivo antiguo?"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:629
+#, fuzzy
+msgid "Edit File URL"
+msgstr "URL Archivo"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:732
+#, fuzzy
+msgid "Upload new thumbnail"
+msgstr "Subir un nuevo archivo."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:739
+msgid "Edit thumbnail URL"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:826
+#: Monitor/Development/admin/admin.php:1300
+#: Monitor/Development/admin/config.php:196
+#: Monitor/Development/admin/config.php:285
+#: Monitor/Development/admin/config.php:399
+msgid "Save Changes"
+msgstr "Guardar Cambios"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:864
+msgid "Download deleted Successfully"
+msgstr "Descarga borrada con éxito"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:902
+msgid "Stats successfully reset for selected downloads"
+msgstr "Estadísticas reiniciadas con éxito para las descargas seleccionadas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:944
+msgid "Selected Downloads deleted Successfully"
+msgstr "Descargas seleccionadas borradas con éxito"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1099
+msgid "Downloads edited successfully"
+msgstr "Descargas editadas con éxito"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1109
+msgid "Bulk Edit Downloads"
+msgstr "Editar descargas en bloque"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1110
+msgid "Editing downloads with id's:"
+msgstr "Editar descargas con ids:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1110
+msgid "Adding options here will overwrite the options in ALL of the selected downloads."
+msgstr "Añadir opciones aquí sobreescribirá las opciones en TODAS las descargas seleccionadas."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1120
+#: Monitor/Development/admin/admin.php:1192
+#: Monitor/Development/admin/admin.php:1213
+#: Monitor/Development/admin/admin.php:1225
+#: Monitor/Development/admin/admin.php:1232
+#: Monitor/Development/admin/admin.php:1241
+#: Monitor/Development/admin/categories.php:192
+msgid "No Change"
+msgstr "No cambiar"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1121
+#, fuzzy
+msgid "Change to &darr;"
+msgstr "Cambiar a -->"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1193
+#: Monitor/Development/admin/admin.php:1214
+#: Monitor/Development/admin/admin.php:1226
+#: Monitor/Development/admin/admin.php:1233
+#, fuzzy
+msgid "Change to &rarr;"
+msgstr "Cambiar a -->"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1242
+msgid "Replace with:"
+msgstr "Reemplazar por:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1243
+msgid "Add/Update only (keep existing fields):"
+msgstr "Añadir/Actualizar sólo (matener campos existentes):"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1323
+msgid "Edit Downloads"
+msgstr "Editar Descargas:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1331
+#: Monitor/Development/admin/admin.php:1490
+msgid "Actions:"
+msgstr "Acciones:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1333
+#: Monitor/Development/admin/admin.php:1492
+#, fuzzy
+msgid "Bulk Actions"
+msgstr "Acciones:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1335
+#: Monitor/Development/admin/admin.php:1494
+#, fuzzy
+msgid "Delete"
+msgstr "Por defecto"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1336
+#: Monitor/Development/admin/admin.php:1495
+msgid "Reset Stats"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1338
+#: Monitor/Development/admin/admin.php:1497
+msgid "Apply"
+msgstr "Aplicar"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1360
+msgid "Hits"
+msgstr "Veces descargado"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1361
+msgid "Posted"
+msgstr "Publicado"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1424
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1481
+msgid "by"
+msgstr "por"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1485
+msgid "No downloads found."
+msgstr "No se han encontrado descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1544
+msgid ""
+"You are about to delete the selected items.\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr ""
+"Vas a borrar los elementos seleccionados.\n"
+"'Cancel' para parar, 'OK' para borrar."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1559
+#, fuzzy
+msgid "Download Monitor News"
+msgstr "Mirrors de Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1583
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1585
+#, fuzzy
+msgid "F jS Y"
+msgstr "F j, Y"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1594
+#, fuzzy
+msgid "No items found."
+msgstr "No se han encontrado descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1602
+msgid "Links, Help &amp; Support"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1604
+#, fuzzy
+msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
+msgstr "<p>¿Necesitas ayuda? Puedes encontrar las FAQ, instrucciones de uso y otras indicaciones en la página del plugin <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">aquí</a>.</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1605
+msgid "<p>You can also find documentation and support at the following locations:</p>"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1607
+#, fuzzy
+msgid "Download Monitor on Blue-Anvil"
+msgstr "Configuración de Download Monitor"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1608
+#, fuzzy
+msgid "Download Monitor Documentation"
+msgstr "Configuración de Download Monitor"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1609
+msgid "Support Forum"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1614
+#, fuzzy
+msgid "Support Download Monitor"
+msgstr "Mirrors de Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1616
+#, fuzzy
+msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
+msgstr ""
+"<p>El plugin de Wordpress Download monitor fue creado por <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. El desarrollo\n"
+"\t    de este plugin ha llevado un gran tiempo y esfuerzo, por lo que no olvides donar si lo encuentras útil para asegurar la continuación en su desarrollo.</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1618
+msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:38
+msgid "Download Categories"
+msgstr "Categorías de Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:40
+msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
+msgstr "<p>Puedes categorizar las descargas usando estas categorías. Después puedes mostrar grupos de descargas usando las etiquetas de categoría o una página de descargas dedicada (ver documentación). Ten en cuenta, que al borrar una categoría también se eliminarán sus subcategorías.</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:62
+msgid "Category updated"
+msgstr "Categoría actualizada"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:75
+msgid "Category added"
+msgstr "Categoría añadida"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:76
+msgid "Category was not added. Try Recreating the download database from the configuration page."
+msgstr "La categoría no se ha añadido. Intenta restaurar la base de datos de descargas desde la página de configuración."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:97
+msgid "Category deleted Successfully"
+msgstr "Categoría borrada con éxito"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:143
+msgid "No categories exist"
+msgstr "No existen categorías"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:149
+msgid "Add category"
+msgstr "Añadir categoría"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:173
+msgid "Edit category"
+msgstr "Editar categoría"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:176
+msgid "Category"
+msgstr "Categoría"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/categories.php:178
+#: Monitor/Development/admin/dashboard.php:205
+msgid "Select a category"
+msgstr "Selecionar una categoría"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:41
+msgid "Download Monitor Configuration"
+msgstr "Configuración de Download Monitor"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:54
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, add the following to your \n"
+"\t\t\t\t\t.htaccess file above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>URL de Descarga actualizada - Tienes que <strong>re-guardar tus parámetros de Enlaces Permanentes</strong> (Opciones/configuración -> Enlaces Permanentes) para \n"
+"\t\t\t\t\t\tque los cambios se reflejen en tu blog.</p>\n"
+"\t\t\t\t\t\t<p>Si tu archivo .htaccess no puede ser escrito por WordPress, añade lo siguiente a tu \n"
+"\t\t\t\t\tarchivo .htaccess antes de la línea \"# BEGIN WordPress\":</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *tu carpeta wp-content */plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>reemplazando \"download/\" con tu url personalizada y \"*your wp-content dir*\" con tu directorio wp-content.</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:65
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, remove the following from your \n"
+"\t\t\t\t\t.htaccess file if it exists above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>URL de Descarga acualizada - Tienes que <strong>volver a guardar la configuración de enlaces permanentes</strong> (Opciones/configuración -> Enlaces Permanentes) para \n"
+"\t\t\t\t\t\tmostrar los cambios en tu blog.</p>\n"
+"\t\t\t\t\t\t<p>Si tu archivo .htaccess no puede ser escrito por WordPress, añade lo siguiente a tu \n"
+"\t\t\t\t\tarchivo .htaccess antes de la línea \"# BEGIN WordPress\":</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *tu carpeta wp-content */plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>reemplazando \"download/\" con tu url personalizada y \"*your wp-content dir*\" con tu directorio wp-content.</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:96
+msgid "<p>Options updated</p>"
+msgstr "<p>Opciones actualizadas</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:106
+#, fuzzy
+msgid "Database Cleaned"
+msgstr "Base de datos restaurada"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:125
+msgid "Formats updated"
+msgstr "Formatos actualizados"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:136
+msgid "Format added"
+msgstr "Formato añadido"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:150
+msgid "Format deleted Successfully"
+msgstr "Formato borrado con éxito"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:165
+msgid "Custom Output Formats"
+msgstr "Formatos de salida personalizados"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:167
+msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
+msgstr "<p>Esto te permite definir formatos del tipo que desees para mostrar tus descargas.</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:174
+#: Monitor/Development/admin/config.php:206
+msgid "Format"
+msgstr "Formato"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:191
+msgid "No formats exist"
+msgstr "No existen formatos"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:198
+msgid "Add format"
+msgstr "Añadir formato"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:212
+msgid "Available Tags"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:214
+msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:216
+msgid "Url of download (does not include hyperlink)"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:217
+#, fuzzy
+msgid "ID of download"
+msgstr "Descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:218
+msgid "Username of whoever posted download"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:219
+#, fuzzy
+msgid "Version of download"
+msgstr "Número de descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:220
+msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:221
+#, fuzzy
+msgid "Title of download"
+msgstr "Número de descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:222
+#, fuzzy
+msgid "Filesize of download"
+msgstr "Número de descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:223
+msgid "Outputs comma separated list of categories."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:224
+msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:225
+#: Monitor/Development/admin/config.php:226
+#: Monitor/Development/admin/config.php:231
+#: Monitor/Development/admin/config.php:232
+msgid "or"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:225
+msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:226
+msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:227
+msgid "(Top Level/First) Download Category ID."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:228
+#, fuzzy
+msgid "Current hit count"
+msgstr "Cambiar contador de descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:229
+msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:230
+msgid "URL of the download image"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:231
+msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:232
+msgid "Description formatted with autop (converts double line breaks to paragraphs)"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:233
+msgid "Date posted. Second argument is for date format."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:234
+msgid "Outputs comma separated list of tags."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:235
+msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:236
+msgid "Output thumbnail URL (or placeholder)"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:237
+#, fuzzy
+msgid "Custom field value"
+msgstr "Campos personalizados"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:238
+msgid "Custom field value formatted with autop"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:239
+msgid "File extension (e.g. \"zip\")"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:240
+msgid "File extension icon (16x16)"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:241
+msgid "Output a Mirror's url"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:244
+#, fuzzy
+msgid "Example Formats"
+msgstr "Formato"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:246
+msgid "Here are some example custom formats you can use or modify."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:248
+msgid "Link and description of download with hits in title:"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:249
+msgid "Standard link with no hits:"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:250
+msgid "Image link:"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:257
+msgid "Custom Download URL"
+msgstr "URL de Descarga Personalizada"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:259
+msgid ""
+"<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
+"            \t\n"
+"                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
+msgstr ""
+"<p>Establecer una url personalizada para tus descargass, p.e. <code>descargas/</code>. Puedes elegir cómo enlazar a la descarga en su url, p.e. seleccionando \"nombrearchivo\" haría aparecer el enlace como <code>http://tu-sitio.com/descargas/nombrearchivo.zip</code>. Esta opción sólo funcionará si estás usando los enlaces permanentes de wordpress (que no sean los iniciales).</p>\n"
+"            \t\n"
+"                        <p>Deja esta opción en blanco para utilizar la ruta de descarga por defecto (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>Si rellenas esta opción asegúrate de que el directorio personalizado no existe en el servidor ni coincide con la url de una página o post, ya que esto podría causar problemas redirigiendo a download.php.</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:265
+msgid "Without Custom URL:"
+msgstr "Sin URL personalizada:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:270
+msgid "With Custom URL (downloads/ID):"
+msgstr "Con URL personalizada (descargas/ID):"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:276
+msgid "Custom URL"
+msgstr "URL Personalizada"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:281
+msgid "Filename"
+msgstr "Nombre archivo"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:290
+msgid "General Options"
+msgstr "Opciones Generales"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:296
+msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:306
+msgid "If you would like to say thanks for Download Monitor there are many ways to do so, for example: spreading the word or making a donation. If you have already done so you can indicate that here (thanks by the way). For direct contributors, sponsorship messages will be disabled. (Please see the readme file for full details about sponsorship messages and how your privacy is protected)."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:310
+msgid "Disable the news/links/donate box on the Edit Download Page?"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:323
+msgid "\"Download not found\" redirect URL"
+msgstr "URL de redirección \"Descarga no encontrada\""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:324
+#: Monitor/Development/admin/config.php:328
+msgid "Leave blank for no redirect."
+msgstr "Dejar en blanco para no redirigir."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:327
+msgid "Member-only files non-member redirect"
+msgstr "Redirección de \"no miembros\" para archivos de \"sólo miembros\""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:328
+msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
+msgstr "Nota: <code>{referrer}</code> será reemplazado con la url actual. Útil si se envía al usuario a la página de ingreso y después de vuelta a descargas :) p.e. <code>http://tu-dominio.com/wp-login.php?redirect_to={referrer}</code>."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:331
+msgid "Download image path"
+msgstr "Ruta de imagen de descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:332
+msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
+msgstr "Esta imagen se usa cuando utilices la etiqueta de descarga <code>#image</code> y la etiqueta <code>{image_url}</code> en esta página. Por favor, usa una url absoluta (p.e. <code>http://tu-sitio.com/imagen.gif</code>)."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:335
+msgid "Default output format"
+msgstr "Formato de salida por defecto"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:354
+msgid "Log Downloads"
+msgstr "Registro Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:367
+#, fuzzy
+msgid "Enable File Browser"
+msgstr "Conmutar Navegador Archivos"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:380
+msgid "File Browser Root"
+msgstr "Raiz del Explorador de Archivos"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:381
+msgid "The root directory the file browser can display."
+msgstr "El directorio raiz que puede mostrar el explorador de archivos."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:404
+msgid "Advanced Stuff"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:406
+msgid "Upgrade from 3.2.3"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:407
+msgid "<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:408
+msgid "<p>This update should have been done when you activated the plugin, but if it didn't, use this function to create the new tables and import from the old ones.</p>"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:410
+msgid "Upgrade Database"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:413
+#, fuzzy
+msgid "Upgraded Successfully? Cleanup!"
+msgstr "Formato borrado con éxito"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:414
+msgid "<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:415
+msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
+msgstr "<p>ATENCIÓN: ESTO PUEDE BORRAR LOS DATOS DE DESCARGAS DE LA BASE DE DATOS; ¡HAGA UNA COPIA DE SEGURIDAD DE LA BASE DE DATOS ANTES!</p>"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:417
+msgid "Clean me up Scotty"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:72
+msgid "D j M"
+msgstr "D j M"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:74
+msgid "Previous Week"
+msgstr "Semana anterior"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:75
+msgid "This Week"
+msgstr "Esta semana"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:76
+msgid "Next Week"
+msgstr "Siguiente Semana"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:97
+msgid "F Y"
+msgstr "F Y"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:99
+msgid "Previous 6 months"
+msgstr "6 meses anteriores"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:100
+msgid "Last 6 months"
+msgstr "Últimos 6 meses"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:101
+msgid "Next 6 months"
+msgstr "Siguientes 6 meses"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:111
+msgid "Weekly"
+msgstr "Semanalmente"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:114
+msgid "Monthly"
+msgstr "Mensualmente"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:115
+msgid "Select a download"
+msgstr "Seleccionar una descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:143
+msgid "Downloads per day for"
+msgstr "Descargas por día para"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:146
+#: Monitor/Development/admin/dashboard.php:221
+msgid "Day"
+msgstr "Día"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:147
+#: Monitor/Development/admin/dashboard.php:222
+msgid "Number of downloads"
+msgstr "Número de descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:182
+msgid "None Found"
+msgstr "No se han encontrado"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:218
+msgid "Most Downloaded"
+msgstr "Más Descargados"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:249
+msgid "No stats yet"
+msgstr "No hay estadísticas aún"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:261
+#: Monitor/Development/admin/dashboard.php:282
+msgid "Download Stats"
+msgstr "Estadísticas de Descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/dashboard.php:262
+#: Monitor/Development/admin/dashboard.php:316
+msgid "Top 5 Downloads"
+msgstr "5 Más Descargadas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/log_to_csv.php:41
+#: Monitor/Development/admin/logs.php:85
+msgid "jS M Y H:i:s"
+msgstr "jS M Y H:i:s"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:45
+msgid "Download Logs"
+msgstr "Registros de Descargas"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:47
+#, fuzzy
+msgid "Download CSV"
+msgstr "Descarga"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:47
+msgid "Clear Log"
+msgstr "Limpiar Registro"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:54
+msgid "User"
+msgstr "Usuario"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:55
+msgid "IP Address"
+msgstr "Dirección IP"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:56
+msgid "Date"
+msgstr "Fecha"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:107
+msgid "No downloads logged."
+msgstr "No hay descargas registradas."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:119
+#: Monitor/Development/admin/logs.php:120
+msgid "Previous"
+msgstr "Anterior"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/logs.php:133
+#: Monitor/Development/admin/logs.php:134
+msgid "Next"
+msgstr "Siguiente"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/classes/downloadable_file.class.php:285
+#: Monitor/Development/classes/downloadable_file.class.php:294
+#: Monitor/Development/classes/downloadable_file.class.php:316
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:55
+msgid "Other"
+msgstr "Otro"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/classes/downloadable_file.class.php:303
+#, fuzzy
+msgid "Uncategorized"
+msgstr "Categorías"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/classes/downloadable_file.class.php:335
+msgid "#Mirror-not-found"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:53
+msgid "Popular Downloads"
+msgstr "Descargas populares"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:57
+msgid "Go"
+msgstr "Adelante"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:58
+msgid "Results found for "
+msgstr "Resultados encontrados para"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:59
+msgid "No downloads were found."
+msgstr "No se han encontrado descargas."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:60
+msgid "No download found matching given ID."
+msgstr "No se ha encontrado descarga que coincida con la ID proporcionada."
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:67
+msgid " time"
+msgstr " vez"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:68
+msgid " times"
+msgstr " veces"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:69
+msgid "Date posted"
+msgstr "Fecha publicación"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:70
+msgid "F j, Y"
+msgstr "F j, Y"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:72
+msgid "Read More"
+msgstr "Leer más"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:73
+msgid "Sub-Categories:"
+msgstr "Subcategorías"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:74
+msgid "Sort by:"
+msgstr "Ordenar por:"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:75
+msgid "Downloads tagged:"
+msgstr "Descargas etiquetadas:"
+
+#~ msgid "<div id=\"media-upload-error\">No file selected</div>"
+#~ msgstr "<div id=\"media-upload-error\">No se ha seleccionado fichero</div>"
+
+#~ msgid ""
+#~ "<div id=\"media-upload-error\">Error saving to database - check downloads "
+#~ "table exists.</div>"
+#~ msgstr ""
+#~ "<div id=\"media-upload-error\">Error al guardar a la base de datos - "
+#~ "Comprueba que existe la tabla downloads.</div>"
+
+#~ msgid ""
+#~ "Categories are optional and allow you to group and organise simular "
+#~ "downloads."
+#~ msgstr ""
+#~ "Las categorías son opcionales y te permiten agrupar y organizar descargas "
+#~ "similares."
+
+#~ msgid ""
+#~ "Separate tags with commas. Tags can be displayed on the download page or "
+#~ "with {tags} in a custom format."
+#~ msgstr ""
+#~ "Separa etiquetas con comas. Las etiquetas pueden ser mostradas en la "
+#~ "página de descarga o con {tags} en formato personalizado."
+
+#~ msgid "Upload/link to existing file"
+#~ msgstr "Subida/enlace a fichero existente"
+
+#~ msgid "&mdash; OR &mdash;"
+#~ msgstr "&mdash; O &mdash;"
+
+#~ msgid "Add Existing"
+#~ msgstr "Añadir Existente"
+
+#~ msgid "Required field: <strong>File URL</strong> omitted"
+#~ msgstr "Campo Obligatorio: <strong>URL archivo</strong> omitido"
+
+#~ msgid ""
+#~ "Categories are optional and allow you to group and organise similar "
+#~ "downloads."
+#~ msgstr ""
+#~ "Las categorías son opcionales y te permiten agrupar y organizar descargas "
+#~ "similares."
+
+#~ msgid "File URL (required)"
+#~ msgstr "URL archivo (requerido)"
+
+#~ msgid ""
+#~ "Note: changes to the file url will only work if not uploading a new file "
+#~ "below."
+#~ msgstr ""
+#~ "Nota: cambios de la url del archivo sólo funcionarán si no subes un nuevo "
+#~ "fichero abajo."
+
+#~ msgid "Here you can upload/re-upload the file from your computer."
+#~ msgstr "Aquí puedes subir/re-subir el archivo desde tu ordenador."
+
+#~ msgid ""
+#~ "If chosen, the old file will be deleted from the server (if it exists) "
+#~ "before uploading the new file."
+#~ msgstr ""
+#~ "Si se elige, el antiguo archivo será borrado del servidor (si existe) "
+#~ "antes de subir el nuevo archivo."
+
+#~ msgid ""
+#~ "<p>Use the following tags in your custom formats: <em>note</em> if you "
+#~ "use <code>\"</code> (quote) characters within the special attributes e.g. "
+#~ "<code>\"before\"</code> you should either escape them or use html "
+#~ "entities.</p><ul style=\"margin-left:16px;margin-bottom:12px;\">\n"
+#~ "\t                \t<li><code>{url}</code> - Url of download (does not "
+#~ "include hyperlink)</li>\n"
+#~ "\t                \t<li><code>{id}</code> - ID of download</li>\n"
+#~ "\t                \t<li><code>{user}</code> - Username of whoever posted "
+#~ "download</li>\n"
+#~ "\t                \t<li><code>{version}</code> - Version of download</"
+#~ "li>\n"
+#~ "\t                \t<li><code>{version,\"before\",\"after\"}</code> - "
+#~ "Version of download. Not outputted if none set. Replace \"before\" with "
+#~ "preceding text/html and \"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{title}</code> - Title of download</li>\n"
+#~ "\t                \t<li><code>{size}</code> - Filesize of download</li>\n"
+#~ "\t                \t<li><code>{category,\"before\",\"after\"}</code> or "
+#~ "<code>{category}</code> - Download Category. Replace \"before\" with "
+#~ "preceding text/html and \"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{category_other,\"before\",\"after\"}</"
+#~ "code> or <code>{category_other}</code> - Download Category (but if no "
+#~ "category is set \"other\" is returned. Replace \"before\" with preceding "
+#~ "text/html and \"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{category_ID}</code> - Download Category ID."
+#~ "</li>\n"
+#~ "\t                \t<li><code>{hits}</code> - Current hit count</li>\n"
+#~ "\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</"
+#~ "code> - Formatted hit count depending on hits. <code>%</code> replaced "
+#~ "with hit count.</li>\n"
+#~ "\t                \t<li><code>{image_url}</code> - URL of the download "
+#~ "image</li>\n"
+#~ "\t                \t<li><code>{description,\"before\",\"after\"}</code> "
+#~ "or <code>{description}</code> - Description you gave download. Not "
+#~ "outputted if none set. Replace \"before\" with preceding text/html and "
+#~ "\"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{description-autop,\"before\",\"after\"}</"
+#~ "code> or <code>{description-autop}</code> - Description formatted with "
+#~ "autop (converts double line breaks to paragraphs)</li>\n"
+#~ "\t                \t<li><code>{date,\"Y-m-d\"}</code> - Date posted. "
+#~ "Second argument is for date format.</li>\n"
+#~ "\t                \t<li><code>{tags}</code> - Output tags</li>\n"
+#~ "\t                \t<li><code>{thumbnail}</code> - Output thumbnail URL "
+#~ "(or placeholder)</li>\n"
+#~ "\t                \t<li><code>{meta-<em>key</em>}</code> - Custom field "
+#~ "value</li>\n"
+#~ "\t                \t<li><code>{meta-autop-<em>key</em>}</code> - Custom "
+#~ "field value formatted with autop</li>\n"
+#~ "\t                </ul>\n"
+#~ "\t                \t<p><strong>Example Format -</strong> Link and "
+#~ "description of download with hits in title:</p>\n"
+#~ "\t                \t<p><code>&lt;a href=\"{url}\" title=\"Downloaded "
+#~ "{hits} times\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
+#~ "\t                "
+#~ msgstr ""
+#~ "<p>Utiliza las siguientes etiquetas en tus formatos personalizados: "
+#~ "<em>nota</em> Si usas caracteres<code>\"</code> (comillas) dentro de los "
+#~ "atributos especiales p.e. . <code>\"antes\"</code> deberías escaparlos o "
+#~ "usar entidades html.</p><ul style=\"margin-left:16px;margin-bottom:12px;"
+#~ "\">\n"
+#~ "\t                \t<li><code>{url}</code> - Url o descarga (no incluye "
+#~ "hipervínculo)</li>\n"
+#~ "\t                \t<li><code>{id}</code> - ID de descarga</li>\n"
+#~ "\t                \t<li><code>{user}</code> - Nombre de usuario de quien "
+#~ "publicara la descarga</li>\n"
+#~ "\t                \t<li><code>{version}</code> - Versión de descarga</"
+#~ "li>\n"
+#~ "\t                \t<li><code>{version,\"before\",\"after\"}</code> - "
+#~ "Versión de descarga. No se muestra si no se establece. Sustituye \"before"
+#~ "\" con texto/html de apertura y \"after\" con texto/html de cierre.</li>\n"
+#~ "\t                \t<li><code>{title}</code> - Título de la descarga</"
+#~ "li>\n"
+#~ "\t                \t<li><code>{size}</code> - Tamaño de la descarga</li>\n"
+#~ "\t                \t<li><code>{category,\"before\",\"after\"}</code> o "
+#~ "<code>{category}</code> - Categoría de Descarga. Reemplaza \"before\" con "
+#~ "texto/html de apertura y  \"after\" con texto/html de cierre.</li>\n"
+#~ "\t                \t<li><code>{category_other,\"before\",\"after\"}</"
+#~ "code> o <code>{category_other}</code> - Categoría de Descarga (pero si no "
+#~ "se establece categoría se establece \"otra\". Reemplaza \"before\" con "
+#~ "texto/html de apertura y  \"after\" con texto/html de cierre.</li>\n"
+#~ "\t                \t<li><code>{category_ID}</code> - ID de categoría de "
+#~ "Descarga.</li>\n"
+#~ "\t                \t<li><code>{hits}</code> - Contador de descargas "
+#~ "actual</li>\n"
+#~ "\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</"
+#~ "code> - Contador de descargas formateado dependiendo de los accesos. "
+#~ "<code>%</code> se reemplaza con número de accesos.</li>\n"
+#~ "\t                \t<li><code>{image_url}</code> - URL de la imagen de "
+#~ "descarga</li>\n"
+#~ "\t                \t<li><code>{description,\"before\",\"after\"}</code> o "
+#~ "<code>{description}</code> - Descripción que le diste a la descarga. No "
+#~ "aparece si no ha sido establecidaReemplaza \"before\" con texto/html de "
+#~ "apertura y  \"after\" con texto/html de cierre.</li>\n"
+#~ "\t                \t<li><code>{description-autop,\"before\",\"after\"}</"
+#~ "code> o <code>{description-autop}</code> - Descripción formateada con "
+#~ "autop (convierte los dobles saltos de línea en párrafos)</li>\n"
+#~ "\t                \t<li><code>{date,\"Y-m-d\"}</code> - Fecha "
+#~ "publicación. El segundo argumento es para el formato de fecha.</li>\n"
+#~ "\t                \t<li><code>{tags}</code> - Etiquetas de salida</li>\n"
+#~ "\t                \t<li><code>{thumbnail}</code> - URL de miniatura de "
+#~ "salida (o contenedor)</li>\n"
+#~ "\t                \t<li><code>{meta-<em>key</em>}</code> - Valor de campo "
+#~ "personalizado</li>\n"
+#~ "\t                \t<li><code>{meta-autop-<em>key</em>}</code> - Valor de "
+#~ "campo personalizado formateado con autop</li>\n"
+#~ "\t                </ul>\n"
+#~ "\t                \t<p><strong>Formato Ejemplo -</strong> Enlace con "
+#~ "descripción de descarga con sus accesos en título:</p>\n"
+#~ "\t                \t<p><code>&lt;a href=\"{url}\" title=\"Descargado "
+#~ "{hits} veces\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
+#~ "\t                "
+
+#~ msgid "Recreate Download Database"
+#~ msgstr "Restaurar Base de Datos de Descargas"
+
+#~ msgid ""
+#~ "<p>This will delete the old download monitor tables and recreate them. "
+#~ "You should only do this as a last resort if experiencing database errors "
+#~ "after updating the plugin. Download monitor will attempt to re-add any "
+#~ "downloads currently in the database.</p>"
+#~ msgstr ""
+#~ "<p>Esto borrará las nuevas tablas de download monitor y las volverá a "
+#~ "crear. Sólo debes usar esto como último recurso si experimentas errores "
+#~ "de base de datos después de actualizar el plugin. Download monitor "
+#~ "intentará reinsertar cualquier descarga que exista actualmente en la base "
+#~ "de datos.</p>"
+
+#~ msgid "Add Existing Download"
+#~ msgstr "Añadir Descarga Existente"
+
+#~ msgid "Url"
+#~ msgstr "Url"
+
+#~ msgid "Save"
+#~ msgstr "Guardar"
+
+#~ msgid "Search Downloads: "
+#~ msgstr "Buscar Descargas:"

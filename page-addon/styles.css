@@ -1,0 +1,218 @@
+.download-info .download-button,
+.download-info .more-button {
+	width: 120px;
+	height: 0;
+	padding-top: 36px;
+	overflow: hidden;
+	display: block;
+}
+
+.download-info .download-button {
+	background: url(downloadbutton.gif) no-repeat top left;
+}
+
+.download-info .more-button {
+	background: url(morebutton.gif) no-repeat top left;
+}
+
+form#download-page-search {
+	border:1px solid #ddd;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	margin: 8px 0 16px !important;
+	padding: 12px !important;
+}
+form#download-page-search p, form#download-page-search input, form#download-page-search label {
+	margin: 0 !important;
+	padding: 0 !important;
+	line-height: 1 !important;
+	vertical-align: middle !important;
+}
+form#download-page-search input {
+	margin-left: 8px !important;
+}
+form#download-page-search br {
+	display: none;
+}
+div.download-info.single {
+	overflow:hidden;
+	padding-left: 140px;
+}
+.download-info-heading {
+	margin: 8px 0 12px !important;
+}
+.download-desc-heading {
+	margin: 8px 0 12px !important;
+	color: #999;
+	font-weight: bold;
+	padding: 4px 0;
+	border-bottom: 1px solid #ddd;
+}
+#download-page small {
+	margin-left: 4px;
+	font-size: 11px;
+	letter-spacing: -0.1px
+}
+#download-page small small {
+	margin-left: 0
+}
+#download-page small a {
+	color: #999
+}
+div.side-section {
+	float:left;
+	width:120px;
+	text-align: center;
+	margin-left: -140px;
+	position: relative;
+}
+div.main-section {
+	float: right;
+	position: relative;
+	width:100%;
+}
+div.download-info p {
+	margin: 8px 0 12px !important;
+	padding: 0 !important;
+}
+img.download-image {
+	padding: 3px;
+	background:#fff;
+	border:1px solid #ddd;
+	margin-bottom: 0 !important;
+}
+table.download-meta {
+	margin: 0 0 12px !important;
+	padding: 0 !important;
+}
+table.download-meta td, table.download-meta th {
+	padding: 4px 0;
+	border-bottom: 1px solid #ddd;
+}
+table.download-meta thead {
+	display: none;
+}
+table.download-meta tbody th {
+	color: #999;
+	font-weight: bold;
+}
+
+#download-page-featured, #download-page-tags {
+	border:1px solid #ddd;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	padding: 12px;
+	margin: 8px 0 16px !important;	
+}
+div#download-page-featured ul, div#download-page-tags ul {
+	overflow: hidden;
+	margin:0;
+	padding: 0;
+	text-indent: 0;
+}
+div#download-page-featured li:before, div#download-page-tags li:before {
+	content: "";
+}
+div#download-page-featured li {
+	clear: left;
+	float: left;
+	list-style: none;
+	width: 47%;
+	padding-right: 3% !important;
+	margin:0 0 4px !important;
+	border-right:1px dotted #ddd;
+}
+div#download-page-featured li.alternate {
+	clear: none;
+	float: right;
+	border: 0;
+	padding: 0 !important;
+	width: 47%;
+}
+div#download-page-featured a {
+	display: table-row;
+}
+div#download-page-featured img {
+	width: 42px;
+	height: 42px;
+	padding: 3px;
+	background:#fff;
+	border:1px solid #ddd;
+	vertical-align: middle;
+	margin: 0 8px 0 0;
+}
+div#download-page-featured span {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+div#download-page-featured a:hover, #download-page-categories a:hover {
+	text-decoration: none;
+}
+div#download-page-featured h3, #download-page-categories h3, div#download-page-tags h3 {
+	margin: 0 0 12px !important;
+	padding:  0 0 8px 0;
+	border-bottom:1px solid #ddd;
+}
+#download-page-categories {
+	overflow: hidden;
+}
+#download-page-categories .category {
+	float: left;
+	width: 48%;
+	clear: both;
+	border:1px solid #ddd;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	margin: 8px 3% 8px 0 !important;
+}
+#download-page-categories .category.alternate {
+	margin: 8px 0 8px 0 !important;
+	clear: none;
+}
+#download-page-categories .category .inner {
+	padding: 12px;
+}
+#download-page-categories .category ol {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	text-indent: 0;
+}
+#download-page-categories .category li {
+	margin:0;
+	padding: 2px 0;
+	list-style-position: inside;
+	border: 0;
+}
+
+div#download-page-tags ul {
+	text-align: center;
+}
+div#download-page-tags li {
+	display: inline;
+	margin: 0;
+	padding: 0 6px;
+}
+div#download-page-tags li a {
+	line-height: 1.5em;
+}
+
+p.sorting a.active {
+	background: #999;
+	color: #fff;
+	padding: 2px;
+}
+#download-page .pagination {
+	margin: 0;
+	padding: 0;
+	text-indent: 0;
+}
+#download-page .pagination li:before {
+	content: "";
+}
+#download-page .pagination li {
+	display: inline;
+	margin: 0 4px 0 0;
+	padding: 0;
+}
