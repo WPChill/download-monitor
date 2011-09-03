@@ -246,7 +246,7 @@ function dlm_addnew() {
 	$max_upload_size_text = '';
 	
 	if (function_exists('ini_get')) {
-		$max_upload_size = min(let_to_num(ini_get('post_max_size')), let_to_num(ini_get('upload_max_filesize')));
+		$max_upload_size = min(dlm_let_to_num(ini_get('post_max_size')), dlm_let_to_num(ini_get('upload_max_filesize')));
 		$max_upload_size_text = __(' (defined in php.ini)',"wp-download_monitor");
 	}
 	

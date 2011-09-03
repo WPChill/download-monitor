@@ -192,10 +192,10 @@ if (function_exists('get_downloads')) {
 	if (isset($_GET['lang'])) $fields .= '<input type="hidden" name="lang" value="'.$_GET['lang'].'" />';
 	
 	$dlsearch = '';
-	if (isset($_GET['dlsearch'])) $dlsearch = $_GET['dlsearch'];
+	if (isset($_REQUEST['dlsearch'])) $dlsearch = $_REQUEST['dlsearch'];
 	
 	$page .= '<div id="download-page">
-		<form id="download-page-search" action="" method="get">
+		<form id="download-page-search" action="" method="post">
 			<p><label for="dlsearch">'.$search_text.'</label> <input type="text" name="dlsearch" id="dlsearch" value="'.$dlsearch.'" /><input class="search_submit" type="submit" value="'.$search_submit_text.'" />'.$fields.'</p></form>';
 		
 	if (isset($dlsearch) && !empty($dlsearch)) {
@@ -204,7 +204,7 @@ if (function_exists('get_downloads')) {
 		## Search View
 		##########################################################################################################################################################################################
 		
-		$page .= '<h'.$base_heading_level.'>'.$search_results_text.'<em>"'.$_GET['dlsearch'].'"</em> <small><a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
+		$page .= '<h'.$base_heading_level.'>'.$search_results_text.'<em>"'.$dlsearch.'"</em> <small><a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 
 		$orderby = '';
 		if (!isset($_GET['sortby'])) $_GET['sortby'] = $default_order;
@@ -229,7 +229,7 @@ if (function_exists('get_downloads')) {
 					$orderby = 'ORDER BY '.$wp_dlm_db.'.title ASC';
 				break;
 			}					
-			$sort_options = array('<a href="'.wp_dlmp_append_url('dlsearch='.urlencode($_GET['dlsearch']).'&sortby=title').'" '.$sort_title.'>'.__('Title','wp-download_monitor').'</a>', '<a href="'.wp_dlmp_append_url('dlsearch='.urlencode($_GET['dlsearch']).'&sortby=hits').'" '.$sort_hits.'>'.__('Hits','wp-download_monitor').'</a>', '<a href="'.wp_dlmp_append_url('dlsearch='.urlencode($_GET['dlsearch']).'&sortby=date').'" '.$sort_date.'>'.__('Date','wp-download_monitor').'</a>');
+			$sort_options = array('<a href="'.wp_dlmp_append_url('dlsearch='.urlencode($dlsearch).'&sortby=title').'" '.$sort_title.'>'.__('Title','wp-download_monitor').'</a>', '<a href="'.wp_dlmp_append_url('dlsearch='.urlencode($dlsearch).'&sortby=hits').'" '.$sort_hits.'>'.__('Hits','wp-download_monitor').'</a>', '<a href="'.wp_dlmp_append_url('dlsearch='.urlencode($dlsearch).'&sortby=date').'" '.$sort_date.'>'.__('Date','wp-download_monitor').'</a>');
 			$page .= '<p class="sorting"><strong>'.$sort_text.'</strong> ';
 			$page .= implode(' | ', $sort_options).'</p>';
 		// End Sorting Options
@@ -282,20 +282,20 @@ if (function_exists('get_downloads')) {
 				
 					if($dlpage > 1){ 
 						$prev = ($dlpage - 1); 
-						$page .= "<li><a href=\"".wp_dlmp_append_url('dlsearch='.urlencode($_GET['dlsearch']).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$prev.'')."\">&laquo; ".__('Previous',"wp-download_monitor")."</a></li>"; 
+						$page .= "<li><a href=\"".wp_dlmp_append_url('dlsearch='.urlencode($dlsearch).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$prev.'')."\">&laquo; ".__('Previous',"wp-download_monitor")."</a></li>"; 
 					} else $page .= "<li><span class='current page-numbers'>&laquo; ".__('Previous',"wp-download_monitor")."</span></li>";
 	
 					for($i = 1; $i <= $total_pages; $i++){ 
 						if(($dlpage) == $i){ 
 							$page .= "<li><span class='page-numbers current'>$i</span></li>"; 
 						} else { 
-							$page .= "<li><a href=\"".wp_dlmp_append_url('dlsearch='.urlencode($_GET['dlsearch']).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$i.'')."\">$i</a></li>"; 
+							$page .= "<li><a href=\"".wp_dlmp_append_url('dlsearch='.urlencode($dlsearch).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$i.'')."\">$i</a></li>"; 
 						} 
 					} 
 	
 					if($dlpage < $total_pages){ 
 						$next = ($dlpage + 1); 
-						$page .= "<li><a href=\"".wp_dlmp_append_url('dlsearch='.urlencode($_GET['dlsearch']).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$next.'')."\">".__('Next',"wp-download_monitor")." &raquo;</a></li>"; 
+						$page .= "<li><a href=\"".wp_dlmp_append_url('dlsearch='.urlencode($dlsearch).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$next.'')."\">".__('Next',"wp-download_monitor")." &raquo;</a></li>"; 
 					} else $page .= "<li><span class='current page-numbers'>".__('Next',"wp-download_monitor")." &raquo;</span></li>";
 					
 					$page .= '</ul>';
@@ -836,7 +836,7 @@ if (function_exists('get_downloads')) {
 	
 	$page .= '</div>';
 	
-	$page .= "\n<!-- Download Page powered by WordPress Download Monitor (http://blue-anvil.com). Fugue icons by Yusuke Kamiyamane (http://pinvoke.com). -->";
+	$page .= "\n<!-- Download Page powered by WordPress Download Monitor (http://mikejolley.com). Fugue icons by Yusuke Kamiyamane (http://pinvoke.com). -->";
 	
 	return $page;
 }

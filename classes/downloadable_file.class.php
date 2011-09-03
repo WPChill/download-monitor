@@ -48,6 +48,7 @@ class downloadable_file {
 					$downloadlink = $d->filename;
 					$link = explode("/",$downloadlink);
 					$downloadlink = urlencode(end($link));
+					$downloadlink = str_replace('%26', '%2526', $downloadlink);
 				break;
 				default :
 					$downloadlink = $d->id;
@@ -189,8 +190,9 @@ class downloadable_file {
 				 
 					return isset($matches[1]) ? $matches[1] : "";
 				}
-			}			
-			if (function_exists('get_headers')) {
+			}
+			$isHTTP = (bool) ($urlparsed['scheme'] == 'http' || $urlparsed['scheme'] == 'https');
+			if (function_exists('get_headers') && $isHTTP) {
 				$ary_header = @get_headers($thefile, 1);   
 				if (is_array($ary_header) && (array_key_exists("Content-Length", $ary_header))) {
 					$filesize = $ary_header["Content-Length"];

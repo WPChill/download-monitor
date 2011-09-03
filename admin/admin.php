@@ -567,7 +567,7 @@ function wp_dlm_admin()
 						$max_upload_size_text = '';
 						
 						if (function_exists('ini_get')) {
-							$max_upload_size = min(let_to_num(ini_get('post_max_size')), let_to_num(ini_get('upload_max_filesize')));
+							$max_upload_size = min(dlm_let_to_num(ini_get('post_max_size')), dlm_let_to_num(ini_get('upload_max_filesize')));
 							$max_upload_size_text = __(' (defined in php.ini)',"wp-download_monitor");
 						}
 						
@@ -1420,6 +1420,7 @@ function wp_dlm_admin()
 									$downloadlink = $d->filename;
 									$links = explode("/",$downloadlink);
 									$downloadlink = urlencode(end($links));
+									$downloadlink = str_replace('%26', '%2526', $downloadlink);
 							break;
 							default :
 									$downloadlink = $d->id;
@@ -1570,7 +1571,7 @@ function wp_dlm_admin()
 	    			
 	    			include_once(ABSPATH.WPINC.'/class-simplepie.php');
 	    			
-					$rss = fetch_feed('http://blue-anvil.com/tag/download-monitor/feed/');
+					$rss = fetch_feed('http://mikejolley.com/tag/download-monitor/feed');
 					
 					if (!is_wp_error( $rss ) ) :
 					
@@ -1614,20 +1615,20 @@ function wp_dlm_admin()
     		</div>
     	</div>
     	<div class="about-widget" style="margin-right:0;">
-    		<h3><?php _e('Links, Help &amp; Support',"wp-download_monitor"); ?></h3>
+    		<h3><?php _e('Links &amp; Documentation',"wp-download_monitor"); ?></h3>
     		<div class="inside">
-    			<?php _e('<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href="http://wordpress.org/extend/plugins/download-monitor/">here</a>.</p>',"wp-download_monitor"); ?>
-    			<?php _e('<p>You can also find documentation and support at the following locations:</p>',"wp-download_monitor"); ?>
+    			<?php _e('<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page.</p>',"wp-download_monitor"); ?>
     			<ul>
-    				<li><a href="http://blue-anvil.com/archives/wordpress-download-monitor-3/"><?php _e('Download Monitor on Blue-Anvil',"wp-download_monitor"); ?></a></li>
-    				<li><a href="http://blue-anvil.com/archives/wordpress-download-monitor-3-documentation/"><?php _e('Download Monitor Documentation',"wp-download_monitor"); ?></a></li>
+    				<li><a href="http://wordpress.org/extend/plugins/download-monitor/"><?php _e('Download Monitor on WordPress.org',"wp-download_monitor"); ?></a></li>
+    				<li><a href="http://mikejolley.com/projects/download-monitor/"><?php _e('Download Monitor documentation + FAQ',"wp-download_monitor"); ?></a></li>
+    				<li><a href="https://github.com/mikejolley/download-monitor"><?php _e('Download Monitor on GitHub',"wp-download_monitor"); ?></a></li>
     			</ul>
     		</div>
     	</div> 
     	<div class="about-widget" style="margin-right:0; float:right;">
     		<h3><?php _e('Support Download Monitor',"wp-download_monitor"); ?></h3>
     		<div class="inside">
-    			<p><?php _e('The Wordpress Download monitor plugin was created by <a href="http://blue-anvil.com/">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don\'t forget to donate if you found this plugin useful.',"wp-download_monitor"); ?></p>
+    			<p><?php _e('The Wordpress Download monitor plugin was created by <a href="http://mikejolley.com/">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don\'t forget to donate if you found this plugin useful.',"wp-download_monitor"); ?></p>
 	    
 	    		<p><?php _e('There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help.',"wp-download_monitor"); ?></p>
 	    		

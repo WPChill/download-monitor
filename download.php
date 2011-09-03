@@ -88,29 +88,16 @@ if (!function_exists('remote_filesize')) {
 	}
 }
 
-global $wp_db_version;
-if ($wp_db_version < 8201) {
-	// Pre 2.6 compatibility (BY Stephen Rider)
-	if ( ! defined( 'WP_CONTENT_URL' ) ) {
-		if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
-		else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
-	}
-	if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-	if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-	if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
-}
-
 load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
 		
-	global $table_prefix,$wpdb,$user_ID;	
+	global $wpdb,$user_ID;	
 	
 	// set table name	
-	$wp_dlm_db = $table_prefix."download_monitor_files";
-	$wp_dlm_db_stats = $table_prefix."download_monitor_stats";
-	$wp_dlm_db_log = $table_prefix."download_monitor_log";
+	$wp_dlm_db = $wpdb->prefix."download_monitor_files";
+	$wp_dlm_db_stats = $wpdb->prefix."download_monitor_stats";
+	$wp_dlm_db_log = $wpdb->prefix."download_monitor_log";
 	
 	$id = stripslashes($_GET['id']);
-	
 	if ($id) {
 		//type of link
 		$downloadtype = get_option('wp_dlm_type');	
@@ -338,7 +325,6 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					// Extended list provided by Jim Isaacs (jidd.jimisaacs.com)
 					switch( $file_extension ) {
 						case "m4r": 	$ctype="audio/Ringtone"; 				break;
-						case "zip": 	$ctype="application/zip"; 				break;
 						case "gz": 		$ctype="application/x-gzip"; 			break;
 						case "rar": 	$ctype="application/zip"; 				break;	
 						case "xls": 	$ctype="application/vnd.ms-excel";		break;
@@ -551,9 +537,10 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							@ob_end_clean();
 							@session_write_close();
 											
-							header("Pragma: no-cache");
+							header("Pragma: public");
 							header("Expires: 0");
 							header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+							header("Cache-Control: public");
 							header("Robots: none");
 							header("Content-Type: ".$ctype."");
 							header("Content-Description: File Transfer");						
@@ -613,9 +600,10 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							header("Content-Length: ".$filesize);
 						}
 						
-						header("Pragma: no-cache");
+						header("Pragma: public");
 						header("Expires: 0");
 						header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+						header("Cache-Control: public");
 						header("Robots: none");
 						header("Content-Type: ".$ctype."");
 						header("Content-Description: File Transfer");						

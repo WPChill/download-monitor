@@ -3,12 +3,12 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.5.2
+Version: 3.3.5.3
 Author: Mike Jolley
-Author URI: http://blue-anvil.com
+Author URI: http://mikejolley.com
 */
 
-/*  Copyright 2010	Michael Jolley  (email : jolley.small.at.googlemail.com)
+/*  Copyright 2011	Michael Jolley  (email : jolley.small.at.googlemail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,38 +29,19 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank;
+	global $wp_db_version, $wpdb, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank;
 	
-	if ($wp_db_version < 8201) {
-		// Pre 2.6 compatibility (BY Stephen Rider)
-		if ( ! defined( 'WP_CONTENT_URL' ) ) {
-			if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
-			else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
-		}
-		if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-		if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-		if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
-		
-		if (!function_exists('admin_url')) {
-			function admin_url($path='') {
-				$site = get_bloginfo('wpurl').'/wp-admin/';
-				if ($path) $site = $site.$path;	
-				return str_replace('//','/',$site);	
-			}
-		}
-	}
-	
-	$dlm_build="20100618";
+	$dlm_build="20110903";
 	$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 	
-	$wp_dlm_db = $table_prefix."download_monitor_files";
-	$wp_dlm_db_taxonomies = $table_prefix."download_monitor_taxonomies";
-	$wp_dlm_db_relationships = $table_prefix."download_monitor_relationships";
-	$wp_dlm_db_formats = $table_prefix."download_monitor_formats";
-	$wp_dlm_db_stats = $table_prefix."download_monitor_stats";
-	$wp_dlm_db_log = $table_prefix."download_monitor_log";
-	$wp_dlm_db_meta = $table_prefix."download_monitor_file_meta";
+	$wp_dlm_db = $wpdb->prefix."download_monitor_files";
+	$wp_dlm_db_taxonomies = $wpdb->prefix."download_monitor_taxonomies";
+	$wp_dlm_db_relationships = $wpdb->prefix."download_monitor_relationships";
+	$wp_dlm_db_formats = $wpdb->prefix."download_monitor_formats";
+	$wp_dlm_db_stats = $wpdb->prefix."download_monitor_stats";
+	$wp_dlm_db_log = $wpdb->prefix."download_monitor_log";
+	$wp_dlm_db_meta = $wpdb->prefix."download_monitor_file_meta";
 	
 	$def_format = get_option('wp_dlm_default_format');
 	$dlm_url = get_option('wp_dlm_url');
@@ -198,7 +179,7 @@ if (!empty($dlm_url)) add_filter('mod_rewrite_rules', 'wp_dlm_rewrite');
 	
 function wp_dlm_init_hooks() {
 
-	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank, $download2taxonomy_array, $download_meta_data_array;
+	global $wp_db_version, $wpdb, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank, $download2taxonomy_array, $download_meta_data_array;
 	
 	$wp_dlm_build = get_option('wp_dlm_build');
 	

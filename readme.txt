@@ -3,8 +3,8 @@ Contributors: jolley_small
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10691945
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.8
-Tested up to: 3.0
-Stable tag: 3.3.5.2
+Tested up to: 3.1
+Stable tag: 3.3.5.3
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -50,7 +50,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Danish translation - http://wordpress.blogos.dk/2009/03/18/download-monitor-v3/ (version 3) | http://wordpress.blogos.dk/2008/03/14/wpdm-2-0-1-dansk/ (version 2)
 *	Japanese translation - http://rp.exadge.com/2008/03/15/wp-download_monitor_v203_ja/
 *	Italian translation by Gianni Diurno - http://gidibao.net/index.php/2008/03/18/download-monitor-plugin-in-italiano/
-*	Portuguese translation by Angelica Costa - http://portaldohost.com.br/downloads?did=9
+*	Portuguese translation by Angelica Costa - http://webangel.com.br/downloads/?category=6
 *	Hebrew translation - http://www.cynican.com/plugins-i-translated/wordpress-download-monitor/
 *	French translation - http://themes-du.net/download-monitor-pour-compter-les-telechargements-sur-wordpress/
 *	Turkish translation - http://ramerta.com/
@@ -78,6 +78,9 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Polish (alt) translation (included) by Krzysztof Machocki aka Halibutt - http://halibutt.pl/en/2010/04/16/download-monitor-polish-localisation/
 *	Chinese Translation by 19ct - http://19ct.com/archives/29
 *	Japanese Translation (included) by Chestnut (http://staff.blog.bng.net/)
+*	Indonesian Translation (included) by Hendry Lee (http://kelayang.com)
+*	Brazilian translation (included) by Rodrigo Coimbra
+*	Lithuanian translation (included) by Nata (http://www.webhostinghub.com/)
 
 == Installation ==
 
@@ -97,7 +100,7 @@ Note: If you encounter any problems when downloading files it is likely to be a 
 
 == Frequently Asked Questions ==
 
-You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wordpress-download-monitor-3-documentation.
+You can now view the FAQ in the documentation: http://mikejolley.com/projects/download-monitor/
 
 
 == Screenshots ==
@@ -109,6 +112,14 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.5.3 = 
+*	Updated links + other info
+*	table prefix fix
+*	renamed dlm_let_to_num function to prevent conflicts
+*	Fixed download page search in wp 3.1
+*	Ampersand filename fix
+*	Small change to download.php mimes
 
 = 3.3.5.2 = 
 *	Corrected taxonomy hierarchy bug
@@ -323,4 +334,4 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 == Usage ==
 
-Full Usage instructions and documentation can be found here: http://blue-anvil.com/archives/wordpress-download-monitor-3-documentation
+Full Usage instructions and documentation can be found here: http://mikejolley.com/projects/download-monitor/

@@ -1,0 +1,1674 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
+"POT-Creation-Date: 2010-11-06 16:34+0000\n"
+"PO-Revision-Date: 2011-01-21 01:41+0700\n"
+"Last-Translator: Hendry Lee <hendry.lee@gmail.com>\n"
+"Language-Team: Hendry Lee <hendry.lee@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin/add_directory.php:43
+msgid "Add From Directory"
+msgstr "Tambah dari Direktori"
+
+#: admin/add_directory.php:45
+msgid "This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards."
+msgstr "Fitur ini mengizinkan Anda menambah unduhan secara masal dari sebuah direktori <strong>pada server</strong>. Ia akan mencoba membaca subdirektori juga. Ia akan mencoba yang terbaik untuk memilih judul yang relevan untuk setiap unduhan - jika Anda perlu mengubah judul atau menambah informasi ekstra Anda perlu menyunting unduhan-unduhannya stelah ini."
+
+#: admin/add_directory.php:60
+msgid "<div class=\"error\">No folder selected</div>"
+msgstr "<div class=\"error\">Tidak ada folder yang terpilih</div>"
+
+#: admin/add_directory.php:216
+msgid "Downloads added Successfully"
+msgstr "Unduhan telah sukses ditambahkan"
+
+#: admin/add_directory.php:218
+msgid "No files found"
+msgstr "Tidak ditemukan berkas-berkas"
+
+#: admin/add_directory.php:227
+msgid "Directory (relative paths only)"
+msgstr "Direktori (path relatif saja)"
+
+#: admin/add_directory.php:231
+msgid "Toggle Folder Browser"
+msgstr "Tukar Balik Peramban Folder"
+
+#: admin/add_directory.php:237
+msgid "Extensions"
+msgstr "Ekstensi"
+
+#: admin/add_directory.php:239
+msgid "List extensions to look for separated by commas, or leave blank to import all. Example: zip,gif,jpg"
+msgstr "Daftar ektensi yang dicari dipisahkan dengan koma, atau biarkan kosong untuk mengimpor semua. Contoh: zip,gif,jpg"
+
+#: admin/add_directory.php:243
+#: admin/add_new.php:313
+#: admin/admin.php:647
+#: admin/admin.php:1120
+#: admin/admin.php:1368
+#: legacy_shortcodes.php:264
+#: page-addon/download-monitor-page-addon.php:64
+#: uploader.php:560
+#: uploader.php:818
+#: wp-download_monitor.php:159
+msgid "Categories"
+msgstr "Kategori"
+
+#: admin/add_directory.php:283
+#: admin/add_new.php:353
+#: admin/admin.php:687
+#: admin/admin.php:1167
+#: uploader.php:601
+msgid "+ Add New Category"
+msgstr "+ Tambah Kategori Baru"
+
+#: admin/add_directory.php:286
+#: admin/add_directory.php:339
+#: admin/add_new.php:356
+#: admin/add_new.php:433
+#: admin/admin.php:690
+#: admin/admin.php:776
+#: admin/admin.php:1170
+#: admin/admin.php:1251
+#: admin/categories.php:106
+#: admin/categories.php:152
+#: admin/categories.php:205
+#: admin/config.php:181
+#: admin/config.php:210
+#: uploader.php:604
+#: uploader.php:683
+msgid "Name"
+msgstr "Nama"
+
+#: admin/add_directory.php:290
+#: admin/add_new.php:360
+#: admin/admin.php:694
+#: admin/admin.php:1174
+#: admin/categories.php:156
+#: admin/categories.php:190
+#: uploader.php:608
+msgid "Parent"
+msgstr "Induk"
+
+#: admin/add_directory.php:292
+#: admin/add_new.php:362
+#: admin/admin.php:696
+#: admin/admin.php:1176
+#: admin/categories.php:158
+#: admin/categories.php:193
+#: admin/config.php:358
+#: uploader.php:610
+msgid "None"
+msgstr "Tidak Ada"
+
+#: admin/add_directory.php:304
+#: admin/add_new.php:374
+#: admin/admin.php:708
+#: admin/admin.php:1188
+#: admin/categories.php:170
+#: admin/config.php:218
+#: uploader.php:622
+msgid "Add"
+msgstr "Tambah"
+
+#: admin/add_directory.php:308
+#: admin/add_new.php:378
+#: admin/admin.php:712
+#: admin/admin.php:1192
+#: admin/admin.php:1369
+#: page-addon/download-monitor-page-addon.php:54
+#: page-addon/download-monitor-page-addon.php:65
+#: uploader.php:627
+#: uploader.php:819
+msgid "Tags"
+msgstr "Tag-Tag"
+
+#: admin/add_directory.php:310
+#: admin/add_new.php:380
+#: admin/admin.php:714
+#: admin/admin.php:1197
+#: uploader.php:633
+msgid "Separate tags with commas."
+msgstr "Pisahkan tag-tag dengan koma"
+
+#: admin/add_directory.php:319
+#: admin/add_new.php:389
+#: admin/admin.php:723
+#: admin/admin.php:1206
+#: uploader.php:641
+msgid "No Tags Found"
+msgstr "Tidak Ditemukan Tag"
+
+#: admin/add_directory.php:326
+#: admin/add_new.php:419
+#: admin/admin.php:753
+#: admin/admin.php:1226
+#: uploader.php:663
+msgid "Member only file?"
+msgstr "Hanya berkas anggota?"
+
+#: admin/add_directory.php:327
+#: admin/add_new.php:420
+#: admin/admin.php:754
+#: admin/admin.php:1230
+#: uploader.php:667
+msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
+msgstr "Jika terpilih, hanya pemakai yang masuk log yang dapat mengakses berkas melalui sebuah taut unduhan. Anda dapat juga menambah menambah ruas tersuai yang bernama min-level atau req-role untuk mengeset level pemakai minimum yang diperlukan untuk mengunduh berkas."
+
+#: admin/add_directory.php:330
+#: admin/add_new.php:423
+#: admin/admin.php:757
+#: admin/admin.php:1233
+#: uploader.php:670
+msgid "Force Download?"
+msgstr "Paksa Unduh?"
+
+#: admin/add_directory.php:331
+#: admin/add_new.php:424
+#: admin/admin.php:758
+#: admin/admin.php:1237
+#: uploader.php:674
+msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
+msgstr "Jika terpilih, Download Monitor akan mencoba memaksa unduhan daripada mengalihkan. Pengaturan ini tidak kompatibel dengan semua server (jadi test dulu), dan dalam kebanyakan kasus akan bekerja untuk berkas yang terdapat pada server lokal."
+
+#: admin/add_directory.php:334
+#: admin/add_new.php:428
+#: admin/admin.php:771
+#: admin/admin.php:1241
+#: admin/admin.php:1372
+#: uploader.php:679
+msgid "Custom fields"
+msgstr "Ruas-ruas tersuai"
+
+#: admin/add_directory.php:335
+#: admin/add_new.php:429
+#: admin/admin.php:772
+#: admin/admin.php:1242
+msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
+msgstr "Ruas-ruas tersuai dapat dipergunakan untuk menambah metadata ekstra pada sebuah unduhan. Biarkan kosong untuk tidak menambahkan apa-apa. Nama harus dalam huruf kecil tanpa spasi (diubah secara otomatis, cth: <code>Some Name</code> akan menjadi <code>some-name</code>."
+
+#: admin/add_directory.php:340
+#: admin/add_new.php:434
+#: admin/admin.php:777
+#: admin/admin.php:1252
+#: uploader.php:684
+msgid "Value"
+msgstr "Nilai"
+
+#: admin/add_directory.php:354
+#: admin/add_directory.php:365
+#: admin/add_new.php:448
+#: admin/add_new.php:459
+#: admin/admin.php:260
+#: admin/admin.php:790
+#: admin/admin.php:802
+#: admin/admin.php:1265
+#: admin/admin.php:1277
+#: uploader.php:246
+#: uploader.php:698
+#: uploader.php:710
+msgid "remove"
+msgstr "singkirkan"
+
+#: admin/add_directory.php:373
+#: admin/add_new.php:467
+#: admin/admin.php:809
+#: admin/admin.php:1284
+#: uploader.php:718
+msgid "Add Custom Field"
+msgstr "Tambah Ruas Tersuai"
+
+#: admin/add_directory.php:373
+#: admin/add_new.php:467
+#: admin/admin.php:809
+#: admin/admin.php:1284
+#: uploader.php:718
+msgid "Toggle Existing Custom Fields"
+msgstr "Tukar Balik Ruas Tersuai yang Ada"
+
+#: admin/add_directory.php:384
+#: admin/add_new.php:478
+#: admin/admin.php:820
+#: admin/admin.php:1295
+#: uploader.php:729
+msgid "None found."
+msgstr "Tidak ditemukan."
+
+#: admin/add_directory.php:393
+msgid "Scan &amp; Add"
+msgstr "Pindai &amp; Tambah"
+
+#: admin/add_directory.php:394
+#: admin/add_new.php:488
+#: uploader.php:543
+msgid "Y-m-d H:i:s"
+msgstr "Y-m-d H:i:s"
+
+#: admin/add_new.php:66
+#: uploader.php:267
+msgid "Add New Download"
+msgstr "Tambah Unduhan Baru"
+
+#: admin/add_new.php:88
+msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div class=\"error\">Ruas yang diperlukan: <strong>Judul</strong> dihilangkan</div>"
+
+#: admin/add_new.php:90
+msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div class=\"error\"><strong>Pukulan</strong> yang tidak sah dimasukkan</div>"
+
+#: admin/add_new.php:135
+#: uploader.php:353
+msgid "No file selected"
+msgstr "Berkas tidak terpilih"
+
+#: admin/add_new.php:233
+#: admin/add_new.php:234
+msgid "Download added Successfully"
+msgstr "Unduhan ditambahkan dengan Sukses"
+
+#: admin/add_new.php:241
+msgid "<div class=\"error\">Error saving to database</div>"
+msgstr "<div class=\"error\">Galat ketika menyimpan ke basis data</div>"
+
+#: admin/add_new.php:250
+#: admin/admin.php:571
+#: uploader.php:524
+msgid " (defined in php.ini)"
+msgstr "(terdefinisikan di php.ini)"
+
+#: admin/add_new.php:263
+#: admin/config.php:288
+#: admin/logs.php:52
+#: page-addon/download-monitor-page-addon.php:232
+#: page-addon/download-monitor-page-addon.php:354
+#: page-addon/download-monitor-page-addon.php:439
+#: page-addon/download-monitor-page-addon.php:520
+#: uploader.php:470
+#: uploader.php:816
+msgid "Title"
+msgstr "Judul"
+
+#: admin/add_new.php:263
+#: admin/add_new.php:285
+#: admin/admin.php:618
+msgid "(required)"
+msgstr "(diperlukan)"
+
+#: admin/add_new.php:269
+#: admin/admin.php:595
+#: admin/admin.php:1450
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:63
+#: page-addon/download-monitor-page-addon.php:149
+#: page-addon/download-monitor-page-addon.php:586
+#: page-addon/download-monitor-page-addon.php:711
+#: shortcodes.php:79
+#: shortcodes.php:208
+#: uploader.php:481
+msgid "Version"
+msgstr "Versi"
+
+#: admin/add_new.php:275
+#: admin/admin.php:601
+#: page-addon/download-monitor-page-addon.php:62
+#: uploader.php:476
+msgid "Description"
+msgstr "Deskripsi"
+
+#: admin/add_new.php:279
+#: uploader.php:487
+msgid "Starting hits"
+msgstr "Pukulan permulaan"
+
+#: admin/add_new.php:285
+#: uploader.php:493
+msgid "Select a file..."
+msgstr "Pilih sebuah berkas..."
+
+#: admin/add_new.php:289
+#: uploader.php:535
+msgid "Upload File"
+msgstr "Unggah Berkas"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:537
+msgid "Max. filesize"
+msgstr "Maksimum ukuran berkas"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:537
+msgid "bytes"
+msgstr "bytes"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:537
+msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
+msgstr "Jika sebuah berkas dengan nama yang sama ada pada direktori unggah, berkas ini akan diganti nama."
+
+#: admin/add_new.php:293
+#: admin/add_new.php:404
+#: admin/admin.php:628
+#: admin/admin.php:738
+#: uploader.php:539
+#: uploader.php:655
+msgid "OR"
+msgstr "ATAU"
+
+#: admin/add_new.php:296
+#: uploader.php:540
+msgid "Enter file URL"
+msgstr "Masukkan URL berkas"
+
+#: admin/add_new.php:300
+#: admin/add_new.php:410
+#: admin/admin.php:634
+#: admin/admin.php:744
+#: admin/admin.php:1220
+#: uploader.php:541
+#: uploader.php:657
+msgid "Toggle File Browser"
+msgstr "Tukar Balik Peramban Berkas"
+
+#: admin/add_new.php:309
+#: admin/admin.php:643
+msgid "Download Mirrors"
+msgstr "Cermin Unduhan"
+
+#: admin/add_new.php:310
+#: admin/admin.php:644
+#: uploader.php:557
+msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
+msgstr "Secara optional daftar url dari cermin-cermin yang ada di sini (1 per baris). Download monitor akan secara acak memilih satu dari cermin ini ketika melayani unduhan."
+
+#: admin/add_new.php:396
+#: admin/admin.php:730
+#: admin/admin.php:1213
+#: uploader.php:647
+msgid "Thumbnail"
+msgstr "Miniatur"
+
+#: admin/add_new.php:400
+#: uploader.php:650
+msgid "Upload thumbnail"
+msgstr "Unggah miniatur"
+
+#: admin/add_new.php:401
+#: admin/admin.php:735
+#: uploader.php:653
+msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
+msgstr "Ini akan ditampilkan pada halaman unduhan atau dengan {thumbnail} dengan format tersuai (sebuah kerangka akan ditampilkan jika tidak diset)"
+
+#: admin/add_new.php:407
+#: uploader.php:656
+msgid "Enter thumbnail URL"
+msgstr "Tambahkan URL miniatur"
+
+#: admin/add_new.php:487
+msgid "Upload &amp; save"
+msgstr "Unggah &amp; simpan"
+
+#: admin/admin.php:102
+#: admin/admin.php:320
+msgid "Are you sure you want to delete"
+msgstr "Apakah Anda yakin mau menghapus"
+
+#: admin/admin.php:319
+msgid "Sure?"
+msgstr "Yakin?"
+
+#: admin/admin.php:320
+msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
+msgstr "? (Jika awalnya diunggah oleh plugin ini, ia juga akan menyingkirkan berkas dari server)"
+
+#: admin/admin.php:320
+msgid "[yes]"
+msgstr "[ya]"
+
+#: admin/admin.php:320
+msgid "[no]"
+msgstr "[tidak]"
+
+#: admin/admin.php:365
+msgid "Required field: <strong>Title</strong> omitted"
+msgstr "Berkas yang dibutuhkan: <strong>Judul</strong> dihilangkan"
+
+#: admin/admin.php:366
+msgid "Required field: <strong>THE FILE</strong> omitted"
+msgstr "Berkas yang dibutuhkan: <strong>BERKAS</strong> dihilangkan"
+
+#: admin/admin.php:368
+msgid "Invalid <strong>hits</strong> entered"
+msgstr "<strong>Pukulan</strong> yang tidak sah dimasukkan"
+
+#: admin/admin.php:451
+msgid "<div class=\"error\">No file selected</div>"
+msgstr "<div class=\"error\">Berkas tidak terpilih</div>"
+
+#: admin/admin.php:509
+msgid "Download edited Successfully"
+msgstr "Unduhan Sukses tersunting"
+
+#: admin/admin.php:582
+msgid "Edit Download Information"
+msgstr "Sunting Informasi Unduhan"
+
+#: admin/admin.php:589
+msgid "Title (required)"
+msgstr "Judul (diperlukan)"
+
+#: admin/admin.php:605
+msgid "Change hit count"
+msgstr "Ubah jumlah pukulan"
+
+#: admin/admin.php:611
+msgid "Change post date"
+msgstr "Ubah tanggal tulisan"
+
+#: admin/admin.php:614
+msgid "Change the post date of the download. Was set to:"
+msgstr "Ubah tanggal tulisan dari unduhan. Asalnya diset ke:"
+
+#: admin/admin.php:614
+msgid "M jS Y @ H:i"
+msgstr "M jS Y @ H:i"
+
+#: admin/admin.php:618
+msgid "The File"
+msgstr "Berkas"
+
+#: admin/admin.php:622
+msgid "Upload New File"
+msgstr "Unggah Berkas Baru"
+
+#: admin/admin.php:624
+msgid "Remove old file?"
+msgstr "Singkirkan berkas lama?"
+
+#: admin/admin.php:631
+msgid "Edit File URL"
+msgstr "Sunting URL Berkas"
+
+#: admin/admin.php:734
+msgid "Upload new thumbnail"
+msgstr "Unggah miniatur baru"
+
+#: admin/admin.php:741
+msgid "Edit thumbnail URL"
+msgstr "Sunting URL miniatur"
+
+#: admin/admin.php:828
+#: admin/admin.php:1303
+#: admin/config.php:204
+#: admin/config.php:293
+#: admin/config.php:445
+msgid "Save Changes"
+msgstr "Simpan Perubahan"
+
+#: admin/admin.php:866
+msgid "Download deleted Successfully"
+msgstr "Unduhan Sukses terhapus"
+
+#: admin/admin.php:904
+msgid "Stats successfully reset for selected downloads"
+msgstr "Statistik telah sukses diset ulang untuk unduhan terpilih"
+
+#: admin/admin.php:946
+msgid "Selected Downloads deleted Successfully"
+msgstr "Unduhan Terpilih Sukses terhapus"
+
+#: admin/admin.php:1102
+msgid "Downloads edited successfully"
+msgstr "Unduhan Sukses tersunting"
+
+#: admin/admin.php:1112
+msgid "Bulk Edit Downloads"
+msgstr "Sunting Unduhan secara Masal"
+
+#: admin/admin.php:1113
+msgid "Editing downloads with id's:"
+msgstr "Sunting unduhan dengan id:"
+
+#: admin/admin.php:1113
+msgid "Adding options here will overwrite the options in ALL of the selected downloads."
+msgstr "Penambahan opsi di sini akan menimpa opsi pada SEMUA unduhan terpilih."
+
+#: admin/admin.php:1123
+#: admin/admin.php:1195
+#: admin/admin.php:1216
+#: admin/admin.php:1228
+#: admin/admin.php:1235
+#: admin/admin.php:1244
+#: admin/categories.php:192
+msgid "No Change"
+msgstr "Tidak Berubah"
+
+#: admin/admin.php:1124
+msgid "Change to &darr;"
+msgstr "Ubah ke &darr;"
+
+#: admin/admin.php:1196
+#: admin/admin.php:1217
+#: admin/admin.php:1229
+#: admin/admin.php:1236
+msgid "Change to &rarr;"
+msgstr "Ubah ke &rarr;"
+
+#: admin/admin.php:1245
+msgid "Replace with:"
+msgstr "Ganti dengan:"
+
+#: admin/admin.php:1246
+msgid "Add/Update only (keep existing fields):"
+msgstr "Tambah/Perbarui saja (simpan ruas yang ada):"
+
+#: admin/admin.php:1326
+msgid "Edit Downloads"
+msgstr "Sunting Unduhan"
+
+#: admin/admin.php:1334
+#: admin/admin.php:1496
+msgid "Actions:"
+msgstr "Tindakan:"
+
+#: admin/admin.php:1336
+#: admin/admin.php:1498
+msgid "Bulk Actions"
+msgstr "Tindakan Masal"
+
+#: admin/admin.php:1337
+#: admin/admin.php:1453
+#: admin/admin.php:1499
+#: admin/categories.php:209
+#: wp-download_monitor.php:154
+msgid "Edit"
+msgstr "Sunting"
+
+#: admin/admin.php:1338
+#: admin/admin.php:1453
+#: admin/admin.php:1500
+#: admin/config.php:196
+msgid "Delete"
+msgstr "Hapus"
+
+#: admin/admin.php:1339
+#: admin/admin.php:1501
+msgid "Reset Stats"
+msgstr "Set Ulang Statistik"
+
+#: admin/admin.php:1341
+#: admin/admin.php:1503
+msgid "Apply"
+msgstr "Aplikasikan"
+
+#: admin/admin.php:1344
+#: page-addon/download-monitor-page-addon.php:56
+#: uploader.php:782
+msgid "Search Downloads:"
+msgstr "Cari Unduhan:"
+
+#: admin/admin.php:1346
+#: uploader.php:784
+msgid "Search Downloads"
+msgstr "Cari Unduhan"
+
+#: admin/admin.php:1365
+#: admin/categories.php:105
+#: admin/config.php:180
+#: admin/config.php:287
+#: admin/logs.php:51
+#: uploader.php:815
+msgid "ID"
+msgstr "ID"
+
+#: admin/admin.php:1366
+#: legacy_shortcodes.php:77
+#: page-addon/download-monitor-page-addon.php:71
+msgid "Download"
+msgstr "Unduh"
+
+#: admin/admin.php:1367
+#: admin/logs.php:53
+#: classes/downloadable_file.class.php:353
+#: uploader.php:817
+msgid "File"
+msgstr "Berkas"
+
+#: admin/admin.php:1370
+#: uploader.php:820
+msgid "Member only"
+msgstr "Anggota saja"
+
+#: admin/admin.php:1371
+#: uploader.php:821
+msgid "Force Download"
+msgstr "Paksa Unduh"
+
+#: admin/admin.php:1373
+#: page-addon/download-monitor-page-addon.php:232
+#: page-addon/download-monitor-page-addon.php:354
+#: page-addon/download-monitor-page-addon.php:439
+#: page-addon/download-monitor-page-addon.php:520
+msgid "Hits"
+msgstr "Pukulan"
+
+#: admin/admin.php:1374
+msgid "Posted"
+msgstr "Terkirim"
+
+#: admin/admin.php:1430
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: admin/admin.php:1453
+msgid "Edit this Download"
+msgstr "Sunting Unduhan ini"
+
+#: admin/admin.php:1453
+msgid "Delete this download"
+msgstr "Hapus unduhan ini"
+
+#: admin/admin.php:1461
+#: admin/admin.php:1472
+#: classes/downloadable_file.class.php:352
+#: uploader.php:890
+#: uploader.php:901
+msgid "N/A"
+msgstr "Tidak Tersedia"
+
+#: admin/admin.php:1479
+#: admin/admin.php:1482
+#: admin/config.php:309
+#: admin/config.php:323
+#: admin/config.php:347
+#: admin/config.php:380
+#: admin/config.php:393
+#: admin/config.php:418
+#: uploader.php:909
+#: uploader.php:912
+msgid "Yes"
+msgstr "Ya"
+
+#: admin/admin.php:1479
+#: admin/admin.php:1482
+#: admin/config.php:312
+#: admin/config.php:326
+#: admin/config.php:344
+#: admin/config.php:383
+#: admin/config.php:396
+#: admin/config.php:421
+#: uploader.php:909
+#: uploader.php:912
+msgid "No"
+msgstr "Tidak"
+
+#: admin/admin.php:1487
+msgid "by"
+msgstr "oleh"
+
+#: admin/admin.php:1491
+msgid "No downloads found."
+msgstr "Tidak ditemukan unduhan."
+
+#: admin/admin.php:1526
+#: uploader.php:938
+msgid "&laquo; Previous"
+msgstr "&laquo; Sebelum"
+
+#: admin/admin.php:1527
+#: uploader.php:939
+msgid "Next &raquo;"
+msgstr "Lanjut &raquo;"
+
+#: admin/admin.php:1551
+msgid ""
+"You are about to delete the selected items.\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr ""
+"Anda akan menghapus item terpilih.\n"
+"  'Batal' untuk menghentikan, 'OK' untuk menghapus."
+
+#: admin/admin.php:1566
+msgid "Download Monitor News"
+msgstr "Berita Download Monitor"
+
+#: admin/admin.php:1593
+#, php-format
+msgid "%s ago"
+msgstr "%s yang lalu"
+
+#: admin/admin.php:1595
+msgid "F jS Y"
+msgstr "F jS Y"
+
+#: admin/admin.php:1605
+#: admin/admin.php:1609
+msgid "No items found."
+msgstr "Tidak ditemukan item."
+
+#: admin/admin.php:1617
+msgid "Links, Help &amp; Support"
+msgstr "Taut, Bantuan &amp; Dukungan"
+
+#: admin/admin.php:1619
+msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
+msgstr "<p>Perlu bantuan? Tanya Jawab, Instruksi Pemakaian dan catatan lain dapat ditemukan pada halaman plugin WordPress.org  <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">di sini</a>.</p>"
+
+#: admin/admin.php:1620
+msgid "<p>You can also find documentation and support at the following locations:</p>"
+msgstr "<p>Anda dapat juga menemukan dokumentasi dan dukungan pada lokasi di bawah ini:</p>"
+
+#: admin/admin.php:1622
+msgid "Download Monitor on Blue-Anvil"
+msgstr "Download Monitor pada Blue-Anvil"
+
+#: admin/admin.php:1623
+msgid "Download Monitor Documentation"
+msgstr "Dokumentasi Download Monitor"
+
+#: admin/admin.php:1628
+msgid "Support Download Monitor"
+msgstr "Dukung Download Monitor"
+
+#: admin/admin.php:1630
+msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
+msgstr "Plugin Download Monitor WordPress ditulis oleh <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. Pengembangan plugin ini memerlukan waktu dan usaha yang banyak, jadi jangan lupa mendonasi jika Anda merasa plugin ini bermanfaat."
+
+#: admin/admin.php:1632
+msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
+msgstr "Ada juga cara lain mendukung download monitor untuk memastikan ianya dipelihara dan didukung dengan baik di masa yang akan datang! Biarkan pesan sponsor aktif, nilai plugin ini pada wordpress.org (jika Anda suka), memberikan taut/menyebarkan, dan mengirimkan kontribusi kode semuanya akan membantu."
+
+#: admin/categories.php:38
+msgid "Download Categories"
+msgstr "Kategori Unduhan"
+
+#: admin/categories.php:40
+msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
+msgstr "<p>Anda dapat mengkategorikan unduhan menggunakan kategori ini. Anda kemudian dapat menampilkan grup unduhan menggunakan tag kategori atau mendedikasikan halaman unduhan (lihat dokumentasi). Mohon dicatat, menghapus sebuah kategori juga akan menghapus kategori anaknya.</p>"
+
+#: admin/categories.php:62
+msgid "Category updated"
+msgstr "Kategori terbarui"
+
+#: admin/categories.php:75
+msgid "Category added"
+msgstr "Kategori ditambahkan"
+
+#: admin/categories.php:76
+msgid "Category was not added. Try Recreating the download database from the configuration page."
+msgstr "Kategori tidak ditambahkan. Coba Ciptakan Ulang basis data unduhan dari halaman konfigurasi."
+
+#: admin/categories.php:97
+msgid "Category deleted Successfully"
+msgstr "Kategori Sukses terhapus"
+
+#: admin/categories.php:107
+#: admin/config.php:183
+#: uploader.php:822
+msgid "Action"
+msgstr "Tindakan"
+
+#: admin/categories.php:143
+msgid "No categories exist"
+msgstr "Tidak ada kategori"
+
+#: admin/categories.php:149
+msgid "Add category"
+msgstr "Tambah kategori"
+
+#: admin/categories.php:173
+msgid "Edit category"
+msgstr "Sunting kategori"
+
+#: admin/categories.php:176
+msgid "Category"
+msgstr "Kategori"
+
+#: admin/categories.php:178
+#: admin/dashboard.php:205
+msgid "Select a category"
+msgstr "Pilih kategori"
+
+#: admin/config.php:41
+msgid "Download Monitor Configuration"
+msgstr "Konfigurasi Download Monitor"
+
+#: admin/config.php:54
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, add the following to your \n"
+"\t\t\t\t\t.htaccess file above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>URL Unduhan terbarui - Anda perlu <strong>menyimpan ulang pengaturan permalink</strong> (Pengaturan -> Permalink) agar\n"
+"\t\t\t\t\t\tperubahannya terjadi pada blog Anda</p>\n"
+"\t\t\t\t\t\t<p>Jika berkas .htaccess Anda tidak dapat ditulis oleh WordPress, tambah yang di bawah ini ke\n"
+"\t\t\t\t\tberkas .htaccess Anda di atas baris \"# BEGIN WordPress\":</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *direktori wp-content Anda*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>gantikan \"download/\" dengan url tersuai Anda dan \"*direktori wp-content Anda*\" dengan direktori wp-content Anda.</p>"
+
+#: admin/config.php:65
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, remove the following from your \n"
+"\t\t\t\t\t.htaccess file if it exists above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>URL Unduhan terbarui - Anda perlu <strong>menyimpan ulang pengaturan permalink</strong> (Pengaturan -> Permalink) agar\n"
+"\t\t\t\t\t\tperubahannya terjadi pada blog Anda</p>\n"
+"\t\t\t\t\t\t<p>Jika berkas .htaccess Anda tidak dapat ditulis oleh WordPress, singkirkan yang di bawah ini dari \n"
+"\t\t\t\t\tberkas .htaccess Anda jika ada di atas baris \"# BEGIN WordPress\":</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *direktori wp-content Anda*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>ganti \"download/\" dengan url tersuai sebelumnya dan \"*direktori wp-content Anda*\" dengan direktori wp-content Anda.</p>"
+
+#: admin/config.php:104
+msgid "<p>Options updated</p>"
+msgstr "<p>Opsi terbarui</p>"
+
+#: admin/config.php:114
+msgid "Database Cleaned"
+msgstr "Basis Data Dibersihkan"
+
+#: admin/config.php:133
+msgid "Formats updated"
+msgstr "Format diperbarui"
+
+#: admin/config.php:144
+msgid "Format added"
+msgstr "Format ditambahkan"
+
+#: admin/config.php:158
+msgid "Format deleted Successfully"
+msgstr "Format Sukses terhapus"
+
+#: admin/config.php:173
+msgid "Custom Output Formats"
+msgstr "Format Keluaran Tersuai"
+
+#: admin/config.php:175
+msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
+msgstr "<p>Ini mengizinkan Anda mendefinisikan format yang mengeluarkan unduhan Anda sebagaimana Anda inginkan.</p>"
+
+#: admin/config.php:182
+#: admin/config.php:214
+msgid "Format"
+msgstr "Format"
+
+#: admin/config.php:199
+msgid "No formats exist"
+msgstr "Tidak ditemukan format"
+
+#: admin/config.php:206
+msgid "Add format"
+msgstr "Tambah format"
+
+#: admin/config.php:220
+msgid "Available Tags"
+msgstr "Tag yang Tersedia"
+
+#: admin/config.php:222
+msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
+msgstr "Pakai tag di bawah ini untuk format tersuai: <em>catatan</em> jika Anda menggunakan karakter <code>\"</code> (tanda kutip) dengan atribut khusus cth: <code>\"sebelum\"<code> Anda sebaiknya menandainya atau menggunakan entitas html."
+
+#: admin/config.php:224
+msgid "Url of download (does not include hyperlink)"
+msgstr "Url dari unduhan (tidak termasuk hyperlink)"
+
+#: admin/config.php:225
+msgid "ID of download"
+msgstr "ID dari unduhan"
+
+#: admin/config.php:226
+msgid "Username of whoever posted download"
+msgstr "Nama pemakai atau siapapun yang mengirimkan unduhan"
+
+#: admin/config.php:227
+msgid "Version of download"
+msgstr "Versi unduhan"
+
+#: admin/config.php:228
+msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "Versi unduhan. Tidak dikeluarkan jika tidak diset. Gantikan \"sebelum\" dengan text/html sebelumnya dan \"sesudah\" dengan text/html sesudahnya."
+
+#: admin/config.php:229
+msgid "Title of download"
+msgstr "Judul unduhan"
+
+#: admin/config.php:230
+msgid "Filesize of download"
+msgstr "Ukuran berkas dari unduhan"
+
+#: admin/config.php:231
+msgid "Outputs comma separated list of categories."
+msgstr "Mengeluarkan daftar kategori yang dipisahkan dengan koma."
+
+#: admin/config.php:232
+msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
+msgstr "Mengeluarkan daftar kategori yang dipisahkan dengan koma dalam sebuah taut dengan href yang Anda definisikan. <code>%</code> diganti dengan id kategori. <code>%2</code> diganti dengan nama kategori. Ini dapat dipakai dengan <code>[download_page]</code>"
+
+#: admin/config.php:233
+#: admin/config.php:234
+#: admin/config.php:239
+#: admin/config.php:240
+msgid "or"
+msgstr "atau"
+
+#: admin/config.php:233
+msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "(Level Tertinggi/Pertama) Kategori Unduhan. Ganti \"sebelum\" dengan text/html sebelumnya dan \"sesudah\" dengan text/html sesudahnya."
+
+#: admin/config.php:234
+msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "(Level Tertinggi/Pertama) Kategori Unduhan (jika tidak ada kategori yang diset \"lainnya\" akan dikembalikan. Ganti \"sebelum\" dengan text/html sebelumnya dan \"sesudah\" dengan text/html sesudahnya."
+
+#: admin/config.php:235
+msgid "(Top Level/First) Download Category ID."
+msgstr "(Level Tertinggi/Pertama) ID Kategori Unduhan."
+
+#: admin/config.php:236
+msgid "Current hit count"
+msgstr "Jumlah pukulan terkini"
+
+#: admin/config.php:237
+msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
+msgstr "Jumlah pukulan terformat tergantung pada pukulan. <code>%</code> digantikan dengan jumlah pukulan."
+
+#: admin/config.php:238
+msgid "URL of the download image"
+msgstr "URL dari gambar unduhan"
+
+#: admin/config.php:239
+msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "Deskripsi yang Anda berikan pada unduhan. Tidak akan dikeluarkan jika tidak diset. Ganti \"sebelum\" dengan text/html sebelumnya dan \"sesudah\" dengan text/html sesudahnya."
+
+#: admin/config.php:240
+msgid "Description formatted with autop (converts double line breaks to paragraphs)"
+msgstr "Deskripsi terformat dengan autop (konversi baris baru ganda ke paragraf)"
+
+#: admin/config.php:241
+msgid "Date posted. Second argument is for date format."
+msgstr "Tanggal terkirim. Argumen kedua untuk format tanggal."
+
+#: admin/config.php:242
+msgid "Outputs comma separated list of tags."
+msgstr "Keluarkan daftar tag yang dipisahkan koma."
+
+#: admin/config.php:243
+msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
+msgstr "Keluarkan daftar tag yang dipisahkan koma dalam taut dengan href yang Anda definisikan. <code>%</code> digantikan dengan id tag. <code>%2</code> digantikan dengan nama tag."
+
+#: admin/config.php:244
+msgid "Output thumbnail URL (or placeholder)"
+msgstr "Keluarkan URL miniatur (atau kerangka)"
+
+#: admin/config.php:245
+msgid "Custom field value"
+msgstr "Nilai ruas tersuai"
+
+#: admin/config.php:246
+msgid "Custom field value formatted with autop"
+msgstr "Nilai ruas tersuai diformat dengan autop"
+
+#: admin/config.php:247
+msgid "File extension (e.g. \"zip\")"
+msgstr "Ekstensi berkas (cth. \"zip\")"
+
+#: admin/config.php:248
+msgid "File extension icon (16x16)"
+msgstr "Ikon ekstensi berkas (16x16)"
+
+#: admin/config.php:249
+msgid "Output a Mirror's url"
+msgstr "Keluarkan url sebuah Cermin"
+
+#: admin/config.php:252
+msgid "Example Formats"
+msgstr "Format Contoh"
+
+#: admin/config.php:254
+msgid "Here are some example custom formats you can use or modify."
+msgstr "Berikut beberapa contoh format tersuai yang dapat Anda pakai atau ubah."
+
+#: admin/config.php:256
+msgid "Link and description of download with hits in title:"
+msgstr "Taut dan deskripsi dari unduhan dengan pukulan di judul:"
+
+#: admin/config.php:257
+msgid "Standard link with no hits:"
+msgstr "Taut standar tanpa pukulan:"
+
+#: admin/config.php:258
+msgid "Image link:"
+msgstr "Taut gambar:"
+
+#: admin/config.php:265
+msgid "Custom Download URL"
+msgstr "URL Unduhan Tersuai"
+
+#: admin/config.php:267
+msgid ""
+"<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
+"            \t\n"
+"                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
+msgstr ""
+"<p>Set url tersuai untuk unduhan Anda, cth. <code>download/</code>. Anda dapat juga memilih bagaimana mengaitkan ke unduhan dalam url-nya, cth. memilih \"namaberkas\" akan membuat taut tampil sebagai <code>http://yoursite.com/download/namaberkas.zip</code>. Opsi ini hanya akan bekerja jika menggunakan permalink wordpress (selain bawaan).</p>\n"
+"            \t\n"
+"                        <p>Biarkan opsi ini kosong untuk menggunakan path unduh bawaan (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>Jika Anda mengisi opsi ini pastikan direktori tersuai tidak ada pada server ataupun tidak cocok dengan url sebuah halaman atau tulisan karena akan menyebabkan pengalihan ke download.php</p>"
+
+#: admin/config.php:273
+msgid "Without Custom URL:"
+msgstr "Tanpa URL Tersuai:"
+
+#: admin/config.php:278
+msgid "With Custom URL (downloads/ID):"
+msgstr "Dengan URL Tersuai (downloads/ID):"
+
+#: admin/config.php:284
+msgid "Custom URL"
+msgstr "URL Tersuai"
+
+#: admin/config.php:289
+msgid "Filename"
+msgstr "Nama berkas"
+
+#: admin/config.php:298
+msgid "General Options"
+msgstr "Opsi Umum"
+
+#: admin/config.php:304
+msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
+msgstr "Saya Hargai Plugin Ini, Dan Saya Telah Turut Berkontribusi!"
+
+#: admin/config.php:314
+msgid "If you would like to say thanks for Download Monitor there are many ways to do so, for example: spreading the word or making a donation. If you have already done so you can indicate that here (thanks by the way). For direct contributors, sponsorship messages will be disabled. (Please see the readme file for full details about sponsorship messages and how your privacy is protected)."
+msgstr "Jika Anda ingin berterimakasih untuk Download Monitor ada beberapa cara melakukannya, sebagai contoh: memberitahu yang lain atau memberikan donasi. Jika Anda telah melakukannya Anda dapat mengindikasikannya di sini (ngomong-ngomong terima kasih). Untuk kontributor langsung, pesan sponsor akan ditiadakan. (Mohon lihat berkas readme untuk detil tentang pesan sponsor dan bagaimana rahasia pribadi Anda terproteksi)."
+
+#: admin/config.php:318
+msgid "Disable the news/links/donate box on the Edit Download Page?"
+msgstr "Matikan kotak berita/tautan/donasi pada Halaman Sunting Unduhan"
+
+#: admin/config.php:331
+msgid "\"Download not found\" redirect URL"
+msgstr "URL pengalihan \"Unduhan tidak ditemukan\""
+
+#: admin/config.php:332
+#: admin/config.php:336
+msgid "Leave blank for no redirect."
+msgstr "Kosongkan untuk tidak mengalihkan."
+
+#: admin/config.php:335
+msgid "Member-only files non-member redirect"
+msgstr "Berkas khusus anggota pengalihan bukan anggota"
+
+#: admin/config.php:336
+msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
+msgstr "Catatan: <code>{referrer}</code> akan digantikan dengan url terkini. Berguna jika mengirimkan pemakai ke halaman login dan kembali ke unduhan :) cth. <code>http://yourdomain.com/wp-login.php?redirect_to={referer}</code>"
+
+#: admin/config.php:339
+msgid "Global member only files"
+msgstr "Berkas khusus anggota global"
+
+#: admin/config.php:348
+msgid "Makes all downloads member only, ignoring the individual download member only setting."
+msgstr "Buat semua unduhan khusus anggota, abaikan pengaturan unduhan individu khusus anggota."
+
+#: admin/config.php:352
+msgid "Download image path"
+msgstr "Path gambar unduhan"
+
+#: admin/config.php:353
+msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
+msgstr "Gambar ini dipergunakan ketika menggunakan tag unduh <code>#image</code> dan tag <code>{image_url}</code> pada halaman ini. Mohon pergunakan url absolut (cth. <code>http://yoursite.com/image.gif</code>)"
+
+#: admin/config.php:356
+msgid "Default output format"
+msgstr "Format keluaran bawaan"
+
+#: admin/config.php:375
+msgid "Auto-select mirror"
+msgstr "Pilih cermin secara otomatis"
+
+#: admin/config.php:384
+msgid "If a download has \"mirrors\" set should download.php automatically pick one?"
+msgstr "Jika sebuah unduhan mempunyai \"cermin\" haruskah download.php memilih satu secara otomatis?"
+
+#: admin/config.php:388
+msgid "Log Downloads"
+msgstr "Catat Unduhan"
+
+#: admin/config.php:401
+msgid "Log Timeout"
+msgstr "Catat Pemutusan"
+
+#: admin/config.php:403
+msgid "0 means all downloads are logged. Increase to set the timeout in minutes so that downloads by the same person are not logged multiple times."
+msgstr "0 berarti semua unduhan tercatat. Naikkan untuk mengeset pemutusan dalam menit sehingga unduhan dari orang yang sama tidak tercatat beberapa kali."
+
+#: admin/config.php:407
+msgid "Log/Count Blacklist"
+msgstr "Catat/Hitung Daftar hitam"
+
+#: admin/config.php:409
+msgid "List IP addresses here that you wish to exclude from the logs/counts - 1 per line."
+msgstr "Daftar alamat IP di sini yang Anda ingin abaikan dari catatan/hitungan - 1 per baris."
+
+#: admin/config.php:413
+msgid "Enable File Browser"
+msgstr "Aktifkan Peramban Berkas"
+
+#: admin/config.php:426
+msgid "File Browser Root"
+msgstr "Akar Peramban Berkas"
+
+#: admin/config.php:427
+msgid "The root directory the file browser can display."
+msgstr "Direktori akar yang dapat ditampilkan peramban berkas."
+
+#: admin/config.php:450
+msgid "Advanced Stuff"
+msgstr "Hal-Hal Lanjutan"
+
+#: admin/config.php:452
+msgid "Upgrade from 3.2.3"
+msgstr "Pemuktahiran dari 3.2.3"
+
+#: admin/config.php:453
+msgid "<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>"
+msgstr "<p>Download monitor menggunakan tabel baru dari versi 3.3 dan seterusnya; ini berarti pembersihan dan penambahan dukungan multi kategori.</p>"
+
+#: admin/config.php:454
+msgid "<p>This update should have been done when you activated the plugin, but if it didn't, use this function to create the new tables and import from the old ones.</p>"
+msgstr "<p>Pembaruan ini akan dilakukan ketika Anda mengaktifasi plugin, jika tidak, pergunakan fungsi ini untuk membuat tabel baru dan mengimpor yang lama.</p>"
+
+#: admin/config.php:456
+msgid "Upgrade Database"
+msgstr "Mutakhirkan Basis Data"
+
+#: admin/config.php:459
+msgid "Upgraded Successfully? Cleanup!"
+msgstr "Termutakhirkan dengan Sukses? Bersihkan!"
+
+#: admin/config.php:460
+msgid "<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>"
+msgstr "<p>Seperti tercantum di atas, tabel diganti nama dari versi 3.3. dan selanjutnya - jika pemuktakhiran telah sukses (hore) Anda boleh menggunakan fungsi ini untuk menghapus tabel lama (Saya meninggalkannya sebagai cadangan).</p>"
+
+#: admin/config.php:461
+msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
+msgstr "<p>PERINGATAN: INI MUNGKIN MENGHAPUS DATA UNDUHAN PADA BASIS DATA; CADANGKAN BASIS DATA ANDA TERLEBIH DAHULU!</p>"
+
+#: admin/config.php:463
+msgid "Clean me up Scotty"
+msgstr "Bersihkan saya Teman"
+
+#: admin/config.php:473
+msgid "Click to toggle"
+msgstr "Klik untuk menukarbalik"
+
+#: admin/dashboard.php:72
+msgid "D j M"
+msgstr "D j M"
+
+#: admin/dashboard.php:74
+msgid "Previous Week"
+msgstr "Minggu Lalu"
+
+#: admin/dashboard.php:75
+msgid "This Week"
+msgstr "Minggu Ini"
+
+#: admin/dashboard.php:76
+msgid "Next Week"
+msgstr "Minggu Depan"
+
+#: admin/dashboard.php:97
+msgid "F Y"
+msgstr "F Y"
+
+#: admin/dashboard.php:99
+msgid "Previous 6 months"
+msgstr "6 bulan Sebelumnya"
+
+#: admin/dashboard.php:100
+msgid "Last 6 months"
+msgstr "6 bulan Terakhir"
+
+#: admin/dashboard.php:101
+msgid "Next 6 months"
+msgstr "6 bulan Selanjutnya"
+
+#: admin/dashboard.php:111
+msgid "Weekly"
+msgstr "Mingguan"
+
+#: admin/dashboard.php:114
+msgid "Monthly"
+msgstr "Bulanan"
+
+#: admin/dashboard.php:115
+msgid "Select a download"
+msgstr "Pilih sebuah Unduhan"
+
+#: admin/dashboard.php:123
+#: admin/dashboard.php:215
+msgid "Show"
+msgstr "Tampil"
+
+#: admin/dashboard.php:143
+msgid "Downloads per day for"
+msgstr "Unduh per hari untuk"
+
+#: admin/dashboard.php:146
+#: admin/dashboard.php:221
+msgid "Day"
+msgstr "Hari"
+
+#: admin/dashboard.php:147
+#: admin/dashboard.php:222
+msgid "Number of downloads"
+msgstr "Jumlah unduhan"
+
+#: admin/dashboard.php:182
+msgid "None Found"
+msgstr "Tidak ditemukan"
+
+#: admin/dashboard.php:218
+msgid "Most Downloaded"
+msgstr "Terbanyak Diunduh"
+
+#: admin/dashboard.php:249
+msgid "No stats yet"
+msgstr "Belum ada statistik"
+
+#: admin/dashboard.php:262
+#: admin/dashboard.php:284
+msgid "Download Stats"
+msgstr "Statistik Unduhan"
+
+#: admin/dashboard.php:263
+#: admin/dashboard.php:318
+msgid "Top 5 Downloads"
+msgstr "Top 5 Unduhan"
+
+#: admin/log_to_csv.php:41
+#: admin/logs.php:85
+msgid "jS M Y H:i:s"
+msgstr "jS M Y H:i:s"
+
+#: admin/logs.php:45
+msgid "Download Logs"
+msgstr "Catatan Unduhan"
+
+#: admin/logs.php:47
+msgid "Download CSV"
+msgstr "Unduh CSV"
+
+#: admin/logs.php:47
+msgid "Clear Log"
+msgstr "Bersihkan Catatan"
+
+#: admin/logs.php:54
+msgid "User"
+msgstr "Pengguna"
+
+#: admin/logs.php:55
+msgid "IP Address"
+msgstr "Alamat IP"
+
+#: admin/logs.php:56
+#: page-addon/download-monitor-page-addon.php:232
+#: page-addon/download-monitor-page-addon.php:354
+#: page-addon/download-monitor-page-addon.php:439
+#: page-addon/download-monitor-page-addon.php:520
+msgid "Date"
+msgstr "Tanggal"
+
+#: admin/logs.php:107
+msgid "No downloads logged."
+msgstr "Tidak tercatat unduhan."
+
+#: admin/logs.php:119
+#: admin/logs.php:120
+#: page-addon/download-monitor-page-addon.php:285
+#: page-addon/download-monitor-page-addon.php:286
+#: page-addon/download-monitor-page-addon.php:461
+#: page-addon/download-monitor-page-addon.php:462
+#: page-addon/download-monitor-page-addon.php:549
+#: page-addon/download-monitor-page-addon.php:550
+msgid "Previous"
+msgstr "Sebelum"
+
+#: admin/logs.php:133
+#: admin/logs.php:134
+#: page-addon/download-monitor-page-addon.php:298
+#: page-addon/download-monitor-page-addon.php:299
+#: page-addon/download-monitor-page-addon.php:474
+#: page-addon/download-monitor-page-addon.php:475
+#: page-addon/download-monitor-page-addon.php:562
+#: page-addon/download-monitor-page-addon.php:563
+msgid "Next"
+msgstr "Lanjut"
+
+#: classes/downloadable_file.class.php:280
+#: classes/downloadable_file.class.php:294
+#: classes/downloadable_file.class.php:316
+#: page-addon/download-monitor-page-addon.php:55
+msgid "Other"
+msgstr "Lainnya"
+
+#: classes/downloadable_file.class.php:302
+msgid "Uncategorized"
+msgstr "Tidak Berkategori"
+
+#: classes/downloadable_file.class.php:337
+#: classes/downloadable_file.class.php:340
+msgid "#Mirror-not-found"
+msgstr "#Mirror-not-found"
+
+#: download.php:14
+msgid "Headers Sent"
+msgstr "Kepala Halaman Terkirim"
+
+#: download.php:14
+msgid "The headers have been sent by another plugin - there may be a plugin conflict."
+msgstr "Kepala halaman telah terkirim oleh plugin lain - mungkin ada konflik plugin."
+
+#: download.php:174
+#, php-format
+msgid "You must be logged in to download this file. <br/><br/><a href=\"%1$s\"><strong>← Back to %2$s</strong></a>"
+msgstr "Anda harus masuk log untuk mengunduh berkas ini. <br/><br/><a herf=\"\%1$s\"><strong>← Kembali ke %2$s</strong></a>"
+
+#: download.php:174
+msgid "You must be logged in to download this file."
+msgstr "Anda harus masuk log untuk mengunduh berkas ini."
+
+#: download.php:185
+#: download.php:195
+msgid "You do not have permission to download this file."
+msgstr "Anda tidak punya permisi untuk mengunduh berkas ini."
+
+#: download.php:585
+msgid "Cannot open remote file "
+msgstr "Tidak dapat membuka berkas jarak jauh"
+
+#: download.php:633
+msgid "Forcing the download of externally hosted files is not supported by this server."
+msgstr "Memaksa unduhan berkas yang di-host secara eksternal tidak didukung oleh server ini."
+
+#: download.php:640
+msgid "Download path is invalid!"
+msgstr "Path unduhan tidak sah!"
+
+#: download.php:671
+msgid "Download does not exist!"
+msgstr "Unduhan tidak ada!"
+
+#: functions.inc.php:109
+#, php-format
+msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
+msgstr "%1$s%2$s, %3$s @ %4$s : %5$s"
+
+#: functions.inc.php:179
+msgid "Add Download"
+msgstr "Tambah Unduhan"
+
+#: init.php:29
+#: init.php:31
+msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
+msgstr "Download Monitor 3.3 (dan sesudahnya) menggunakan struktur basis data yang lain dari versi sebelumnya - ini untuk mendukung multi kategori. Anda harus memperbarui basis data agar versi ini dapat berfungsi - <strong>cadangkan basis data terlebih dahulu</strong> lalu"
+
+#: init.php:29
+#: init.php:31
+msgid "click here"
+msgstr "click di sini"
+
+#: init.php:29
+#: init.php:31
+msgid "to run the update script"
+msgstr "untuk menjalankan skrip pembaruan"
+
+#: init.php:235
+msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql user has ALTER, DROP, CREATE and INSERT privileges."
+msgstr "Basis data TIDAK termutakhirkan - proses penggantian nama tidak berhasil. Pastikan pengguna mysql Anda mempunyai hak ALTER, DROP, CREATE dan INSERT."
+
+#: init.php:333
+msgid "Database Upgraded"
+msgstr "Basis Data Termutakhirkan"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:149
+#: shortcodes.php:79
+#: shortcodes.php:208
+msgid "downloaded"
+msgstr "terunduh"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:180
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:149
+#: page-addon/download-monitor-page-addon.php:716
+#: shortcodes.php:79
+#: shortcodes.php:208
+msgid "times"
+msgstr "kali"
+
+#: legacy_shortcodes.php:180
+#: page-addon/download-monitor-page-addon.php:66
+#: page-addon/download-monitor-page-addon.php:716
+msgid "Downloaded"
+msgstr "Terunduh"
+
+#: legacy_shortcodes.php:219
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+msgid "jS M Y"
+msgstr "jS M Y"
+
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+msgid "Added"
+msgstr "Ditambahkan"
+
+#: legacy_shortcodes.php:263
+msgid "Most Popular Downloads"
+msgstr "Unduhan Terpopuler"
+
+#: legacy_shortcodes.php:283
+msgid "No Downloads Found"
+msgstr "Tidak Ditemukan Unduhan"
+
+#: page-addon/download-monitor-page-addon.php:53
+msgid "Popular Downloads"
+msgstr "Unduhan Populer"
+
+#: page-addon/download-monitor-page-addon.php:57
+msgid "Go"
+msgstr "Ayo"
+
+#: page-addon/download-monitor-page-addon.php:58
+msgid "Results found for "
+msgstr "Hasil ditemukan untuk"
+
+#: page-addon/download-monitor-page-addon.php:59
+msgid "No downloads were found."
+msgstr "Tidak ditemukan unduhan."
+
+#: page-addon/download-monitor-page-addon.php:60
+msgid "No download found matching given ID."
+msgstr "Tidak ditemukan unduhan yang cocok dengan ID yang diberikan."
+
+#: page-addon/download-monitor-page-addon.php:61
+#: uploader.php:810
+#: wp-download_monitor.php:153
+msgid "Downloads"
+msgstr "Unduhan"
+
+#: page-addon/download-monitor-page-addon.php:67
+msgid " time"
+msgstr "kali"
+
+#: page-addon/download-monitor-page-addon.php:68
+msgid " times"
+msgstr "kali"
+
+#: page-addon/download-monitor-page-addon.php:69
+msgid "Date posted"
+msgstr "Tanggal terkirim"
+
+#: page-addon/download-monitor-page-addon.php:70
+msgid "F j, Y"
+msgstr "F j, Y"
+
+#: page-addon/download-monitor-page-addon.php:72
+msgid "Read More"
+msgstr "Baca Lanjutannya"
+
+#: page-addon/download-monitor-page-addon.php:73
+msgid "Sub-Categories:"
+msgstr "Sub-Kategori:"
+
+#: page-addon/download-monitor-page-addon.php:74
+msgid "Sort by:"
+msgstr "Urutkan berdasarkan:"
+
+#: page-addon/download-monitor-page-addon.php:75
+msgid "Downloads tagged:"
+msgstr "Unduhan di-tag:"
+
+#: shortcodes.php:226
+msgid "No Downloads found"
+msgstr "Tidak ditemukan Unduhan"
+
+#: uploader.php:80
+#: uploader.php:83
+msgid "Blue"
+msgstr "Biru"
+
+#: uploader.php:81
+#: uploader.php:84
+msgid "Gray"
+msgstr "Kelabu"
+
+#: uploader.php:93
+msgid "You do not have permission to upload files/downloads."
+msgstr "Anda tidak punya permisi untuk mengunggah berkas/mengunduh."
+
+#: uploader.php:101
+msgid "Uploads"
+msgstr "Unggahan"
+
+#: uploader.php:101
+msgid "WordPress"
+msgstr "WordPress"
+
+#: uploader.php:268
+msgid "View Downloads"
+msgstr "Lihat Unduhan"
+
+#: uploader.php:309
+msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div id=\"media-upload-error\">Berkas yang diperlukan: <strong>Judul</strong> dihilangkan</div>"
+
+#: uploader.php:311
+msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div id=\"media-upload-error\"><strong>Pukulan</strong> yang tidak sah dimasukkan</div>"
+
+#: uploader.php:454
+msgid "<div id=\"media-upload-error\">Error saving to database</div>"
+msgstr "<div id=\"media-upload-error\">Galat ketika menyimpan ke basis data</div>"
+
+#: uploader.php:464
+msgid "Download Information"
+msgstr "Informasi Unduhan"
+
+#: uploader.php:553
+msgid "Mirrors"
+msgstr "Cermin"
+
+#: uploader.php:736
+msgid "Save new download"
+msgstr "Simpan unduhan baru"
+
+#: uploader.php:744
+msgid "Insert new download into post"
+msgstr "Masukkan unduhan baru ke tulisan"
+
+#: uploader.php:746
+#: uploader.php:792
+msgid "Insert into post using format:"
+msgstr "Masukkan ke tulisan dengan format:"
+
+#: uploader.php:747
+#: uploader.php:795
+msgid "Default"
+msgstr "Bawaan"
+
+#: uploader.php:760
+msgid "Insert into post"
+msgstr "Masukkan ke dalam tulisan"
+
+#: uploader.php:914
+msgid "Insert"
+msgstr "Masukkan"
+
+#: wp-download_monitor.php:155
+msgid "Add New"
+msgstr "Tambah Baru"
+
+#: wp-download_monitor.php:156
+msgid "Add Directory"
+msgstr "Tambah Direktori"
+
+#: wp-download_monitor.php:158
+msgid "Configuration"
+msgstr "Konfigurasi"
+
+#: wp-download_monitor.php:162
+msgid "Log"
+msgstr "Catatan"
+

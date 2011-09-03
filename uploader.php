@@ -278,14 +278,14 @@ load_plugin_textdomain('wp-download_monitor', '/');
 			if ($_POST) {
 						
 				// Form processing
-				global $table_prefix,$wpdb;
-				$wp_dlm_db = $table_prefix."download_monitor_files";
-				$wp_dlm_db_taxonomies = $table_prefix."download_monitor_taxonomies";
-				$wp_dlm_db_relationships = $table_prefix."download_monitor_relationships";
-				$wp_dlm_db_formats = $table_prefix."download_monitor_formats";
-				$wp_dlm_db_stats = $table_prefix."download_monitor_stats";
-				$wp_dlm_db_log = $table_prefix."download_monitor_log";
-				$wp_dlm_db_meta = $table_prefix."download_monitor_file_meta";
+				global $wpdb;
+				$wp_dlm_db = $wpdb->prefix."download_monitor_files";
+				$wp_dlm_db_taxonomies = $wpdb->prefix."download_monitor_taxonomies";
+				$wp_dlm_db_relationships = $wpdb->prefix."download_monitor_relationships";
+				$wp_dlm_db_formats = $wpdb->prefix."download_monitor_formats";
+				$wp_dlm_db_stats = $wpdb->prefix."download_monitor_stats";
+				$wp_dlm_db_log = $wpdb->prefix."download_monitor_log";
+				$wp_dlm_db_meta = $wpdb->prefix."download_monitor_file_meta";
 											
 				//get postdata
 				$title = htmlspecialchars(trim($_POST['title']));
@@ -497,30 +497,9 @@ load_plugin_textdomain('wp-download_monitor', '/');
 								<input type="hidden" name="MAX_FILE_SIZE" value="<?php 
 													
 									$max_upload_size = "";
-									
-									if (!function_exists('let_to_num')) {
-										function let_to_num($v){ 
-											$l = substr($v, -1);
-										    $ret = substr($v, 0, -1);
-										    switch(strtoupper($l)){
-										    case 'P':
-										        $ret *= 1024;
-										    case 'T':
-										        $ret *= 1024;
-										    case 'G':
-										        $ret *= 1024;
-										    case 'M':
-										        $ret *= 1024;
-										    case 'K':
-										        $ret *= 1024;
-										        break;
-										    }
-										    return $ret;
-										}
-									}
 				
 									if (function_exists('ini_get')) {
-										$max_upload_size = min(let_to_num(ini_get('post_max_size')), let_to_num(ini_get('upload_max_filesize')));
+										$max_upload_size = min(dlm_let_to_num(ini_get('post_max_size')), dlm_let_to_num(ini_get('upload_max_filesize')));
 										$max_upload_size_text = __(' (defined in php.ini)',"wp-download_monitor");
 									}
 									

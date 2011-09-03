@@ -104,7 +104,7 @@ function wp_dlm_update() {
 ################################################################################
 function wp_dlm_init() {
 	
- 	global $table_prefix,$wp_dlm_db,$wp_dlm_db_taxonomies,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta,$wp_dlm_db_relationships;
+ 	global $wp_dlm_db,$wp_dlm_db_taxonomies,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta,$wp_dlm_db_relationships;
  	
  	// Get Collation
 	$collate = "";
@@ -190,7 +190,7 @@ function wp_dlm_init() {
 
 function wp_dlm_upgrade() {
 
-	global $wpdb, $table_prefix,$wp_dlm_db,$wp_dlm_db_taxonomies,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta,$wp_dlm_db_relationships;
+	global $wpdb,$wp_dlm_db,$wp_dlm_db_taxonomies,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta,$wp_dlm_db_relationships;
  	
  	$wpdb->hide_errors();
 
@@ -202,12 +202,12 @@ function wp_dlm_upgrade() {
 	} 	
 	
 	// old tables 
-	$wp_dlm_db_old = $table_prefix."DLM_DOWNLOADS";
-	$wp_dlm_db_taxonomies_old = $table_prefix."DLM_CATS";
-	$wp_dlm_db_formats_old = $table_prefix."DLM_FORMATS";
-	$wp_dlm_db_stats_old = $table_prefix."DLM_STATS";
-	$wp_dlm_db_log_old = $table_prefix."DLM_LOG";
-	$wp_dlm_db_meta_old = $table_prefix."DLM_META";
+	$wp_dlm_db_old = $wpdb->prefix."DLM_DOWNLOADS";
+	$wp_dlm_db_taxonomies_old = $wpdb->prefix."DLM_CATS";
+	$wp_dlm_db_formats_old = $wpdb->prefix."DLM_FORMATS";
+	$wp_dlm_db_stats_old = $wpdb->prefix."DLM_STATS";
+	$wp_dlm_db_log_old = $wpdb->prefix."DLM_LOG";
+	$wp_dlm_db_meta_old = $wpdb->prefix."DLM_META";
 	
 	// Rename old tables
 	$wpdb->query( "RENAME TABLE $wp_dlm_db_old TO $wp_dlm_db;" );
@@ -335,15 +335,15 @@ function wp_dlm_upgrade() {
 }
 
 function wp_dlm_cleanup() {
-	global $wpdb, $table_prefix;
+	global $wpdb;
 	
 	// old tables 
-	$wp_dlm_db_old = $table_prefix."DLM_DOWNLOADS";
-	$wp_dlm_db_taxonomies_old = $table_prefix."DLM_CATS";
-	$wp_dlm_db_formats_old = $table_prefix."DLM_FORMATS";
-	$wp_dlm_db_stats_old = $table_prefix."DLM_STATS";
-	$wp_dlm_db_log_old = $table_prefix."DLM_LOG";
-	$wp_dlm_db_meta_old = $table_prefix."DLM_META";
+	$wp_dlm_db_old = $wpdb->prefix."DLM_DOWNLOADS";
+	$wp_dlm_db_taxonomies_old = $wpdb->prefix."DLM_CATS";
+	$wp_dlm_db_formats_old = $wpdb->prefix."DLM_FORMATS";
+	$wp_dlm_db_stats_old = $wpdb->prefix."DLM_STATS";
+	$wp_dlm_db_log_old = $wpdb->prefix."DLM_LOG";
+	$wp_dlm_db_meta_old = $wpdb->prefix."DLM_META";
 	
 	// Drop
 	$wpdb->query("DROP TABLE IF EXISTS $wp_dlm_db_old;");

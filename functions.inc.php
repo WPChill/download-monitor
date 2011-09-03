@@ -34,6 +34,7 @@ add_action('download_added', 'wp_dlm_clear_cached_stuff');
 
 if (!function_exists('wp_dlm_magic')) {
 function wp_dlm_magic() { 
+
 	//if (get_magic_quotes_gpc() || get_magic_quotes_runtime() ){ 
 		$_GET = array_map('stripslashes_deep', $_GET); 
 		$_POST = array_map('stripslashes_deep', $_POST);
@@ -81,7 +82,7 @@ function dlm_sponsors() {
 		<script type="text/javascript">
 		/* <![CDATA[ */
 			var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-			document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=wp_dlm&spot=' type='text/javascript'%3E%3C/script%3E"));
+			document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=download-monitor&spot=' type='text/javascript'%3E%3C/script%3E"));
 		/* ]]> */
 		</script>	
 		<?php
@@ -122,7 +123,7 @@ function dlm_touch_time($timestamp) {
 // let_to_num used for file sizes
 ################################################################################
 
-function let_to_num($v){ //This function transforms the php.ini notation for numbers (like '2M') to an integer (2*1024*1024 in this case)
+function dlm_let_to_num($v){ //This function transforms the php.ini notation for numbers (like '2M') to an integer (2*1024*1024 in this case)
     $l = substr($v, -1);
     $ret = substr($v, 0, -1);
     switch(strtoupper($l)){
