@@ -12,9 +12,7 @@ Plugin with interface for uploading and managing download files, inserting downl
 
 Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links.
 
-Download Monitor requires Wordpress version 2.5 or above. Version 3.0 is a major update and many of the template and post tags have been changed and improved. See the usage page for full details before upgrading.
-
-From version 3.3 a new database structure is being used so ensure you backup your database before upgrading (this was changed to enable multiple category support).
+Development for this plugin can now be found on GitHub: https://github.com/mikejolley/download-monitor
 
 For older versions of wordpress use the older Download Monitor version 2.2.3 which is available from http://wordpress.org/extend/plugins/download-monitor/download/ (tested and working in Wordpress 2.0 and 2.3).
 
