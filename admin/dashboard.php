@@ -33,18 +33,18 @@ if ($wp_db_version > 6124) {
 			$downloads = $wpdb->get_results("SELECT * FROM $wp_dlm_db ORDER BY title;");
 		
 		// Get stats for download
-		if ($_REQUEST['download_stats_id']>0) 
+		if (isset($_REQUEST['download_stats_id']) && $_REQUEST['download_stats_id']>0) 
 			$d = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wp_dlm_db WHERE id = %s LIMIT 1;", $_REQUEST['download_stats_id'] ));
 		else 
-			$d = 0;	
+			$d = (object) array('id' => 0);	
 			
-		if ($_REQUEST['show_download_stats']=='monthly')
+		if (isset($_REQUEST['show_download_stats']) && $_REQUEST['show_download_stats']=='monthly')
 			$stattype = 'monthly';
 		else
 			$stattype = 'weekly';
 			
 		// Get post/get data
-		$period = $_GET['download_stats_period'];
+		$period = isset($_GET['download_stats_period']) ? $_GET['download_stats_period'] : false;
 		if (!$period || !is_numeric($period)) 
 			$period = '-1';
 		else 
@@ -107,17 +107,28 @@ if ($wp_db_version > 6124) {
 			// Output download select form
 			echo '<form action="" method="post" style="margin-bottom:8px"><select name="show_download_stats">';
 				echo '<option ';
-				if ($_REQUEST['show_download_stats']=='weekly') echo 'selected="selected" '; 
+			
+				if (isset($_REQUEST['show_download_stats']) && $_REQUEST['show_download_stats']=='weekly') 
+				  echo 'selected="selected" '; 
+				
 				echo 'value="weekly">'.__('Weekly',"wp-download_monitor").'</option>';
 				echo '<option ';
-				if ($_REQUEST['show_download_stats']=='monthly') echo 'selected="selected" '; 
+				
+				if (isset($_REQUEST['show_download_stats']) && $_REQUEST['show_download_stats']=='monthly') 
+				  echo 'selected="selected" '; 
+				
 				echo 'value="monthly">'.__('Monthly',"wp-download_monitor").'</option>';
 			echo '</select><select name="download_stats_id" style="width:50%;"><option value="">'.__('Select a download',"wp-download_monitor").'</option>';
+				
 				foreach( $downloads as $download )
 				{
-					if ($download->dlversion) $version = 'v'.$download->dlversion;
+				  $version = $download->dlversion ? 'v' . $download->dlversion : '';
+					
 					echo '<option ';
-					if ($_REQUEST['download_stats_id']==$download->id) echo 'selected="selected" '; 
+					
+					if (isset($_REQUEST['download_stats_id']) && $_REQUEST['download_stats_id']==$download->id) 
+					  echo 'selected="selected" '; 
+	
 					echo 'value="'.$download->id.'">'.$download->id.' - '.$download->title.' '.$version.'</option>';
 				}
 			echo '</select><input type="submit" value="'.__('Show',"wp-download_monitor").'" class="button" /></form>';
@@ -136,8 +147,6 @@ if ($wp_db_version > 6124) {
 			
 			echo '</div>';				
 			echo '<div style="clear:both;margin-bottom:8px"></div>';
-			
-			
 					
 		?>
 		<table class="download_chart" summary="<?php _e('Downloads per day for',"wp-download_monitor"); ?> <?php echo $d->title ?>" cellpadding="0" cellspacing="0">
@@ -207,7 +216,7 @@ if ($wp_db_version > 6124) {
 			if (!empty($cats)) {
 				foreach ( $cats as $c ) {
 					echo '<option ';
-					if ($showing==$c->id) echo 'selected="selected"';
+					if (isset($showing)  && $showing==$c->id) echo 'selected="selected"';
 					echo 'value="'.$c->id.'">'.$c->name.'</option>';
 					echo get_option_children_cats($c->id, "$c->name &mdash; ", $showing, 0);
 				}
@@ -231,7 +240,7 @@ if ($wp_db_version > 6124) {
 					if ($downloads && $max>0) {
 						foreach ($downloads as $d) {
 							$hits = $d->hits;
-							$date = $d->date;
+							$date = $d->postDate;
 							$width = ($hits / $max * 90); // Thanks lggemini
 							if ($loop==$size) $last = 'last';
 							$version = '';
