@@ -609,7 +609,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 	                        <input type="text" class="cleardefault" value="<?php if (isset($tags)) echo $tags; ?>" name="tags" id="dltags" />
 	                    </td> 
 	                </tr>
-					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#">Toggle Tags</a><div id="tag-list" style="display:none; width:456px;">
+					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#"><?php _e('Toggle Tags',"wp-download_monitor"); ?></a><div id="tag-list" style="display:none; width:456px;">
                 		<?php
                 			$tags = $download_taxonomies->tags;
 							echo '<ul>';

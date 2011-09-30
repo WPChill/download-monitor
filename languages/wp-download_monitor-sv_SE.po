@@ -1,0 +1,2029 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
+"POT-Creation-Date: 2010-11-06 16:34+0000\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: admin/add_directory.php:43
+#@ wp-download_monitor
+msgid "Add From Directory"
+msgstr "Lägg till från katalog"
+
+#: admin/add_directory.php:45
+#@ wp-download_monitor
+msgid "This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards."
+msgstr "Denna funktion låter dig lägga till filer i bulk från en katalog <strong>på din server</strong>. Den kommer även försöka läsa underkataloger. Den gör sitt bästa i att välja relevanta titlar för varje fil. Om du behöver ändra titlar eller lägga till extra information så får du uppdatera filerna i efterhand."
+
+#: admin/add_directory.php:60
+#@ wp-download_monitor
+msgid "<div class=\"error\">No folder selected</div>"
+msgstr "<div class=\"error\">Ingen katalog vald</div>"
+
+#: admin/add_directory.php:218
+#@ wp-download_monitor
+msgid "Downloads added Successfully"
+msgstr "Filerna lades till utan fel"
+
+#: admin/add_directory.php:220
+#@ wp-download_monitor
+msgid "No files found"
+msgstr "Hittade inga filer"
+
+#: admin/add_directory.php:229
+#@ wp-download_monitor
+msgid "Directory (relative paths only)"
+msgstr "Katalog (endast relativa sökvägar)"
+
+#: admin/add_directory.php:233
+#@ wp-download_monitor
+msgid "Toggle Folder Browser"
+msgstr "Växla katalogträd"
+
+#: admin/add_directory.php:239
+#@ wp-download_monitor
+msgid "Extensions"
+msgstr "Filändelser"
+
+#: admin/add_directory.php:241
+#@ wp-download_monitor
+msgid "List extensions to look for separated by commas, or leave blank to import all. Example: zip,gif,jpg"
+msgstr "Lista filändelser att leta efter eller lämna tomt för att matcha alla filer. Exempel: zip,gif,jpg"
+
+#: admin/add_directory.php:245
+#: admin/add_new.php:313
+#: admin/admin.php:647
+#: admin/admin.php:1120
+#: admin/admin.php:1368
+#: legacy_shortcodes.php:264
+#: page-addon/download-monitor-page-addon.php:81
+#: uploader.php:539
+#: uploader.php:797
+#: wp-download_monitor.php:140
+#@ wp-download_monitor
+msgid "Categories"
+msgstr "Kategorier"
+
+#: admin/add_directory.php:285
+#: admin/add_new.php:353
+#: admin/admin.php:687
+#: admin/admin.php:1167
+#: uploader.php:580
+#@ wp-download_monitor
+msgid "+ Add New Category"
+msgstr "+ Lägg till ny kategori"
+
+#: admin/add_directory.php:288
+#: admin/add_directory.php:341
+#: admin/add_new.php:356
+#: admin/add_new.php:433
+#: admin/admin.php:690
+#: admin/admin.php:776
+#: admin/admin.php:1170
+#: admin/admin.php:1251
+#: admin/categories.php:110
+#: admin/categories.php:156
+#: admin/categories.php:209
+#: admin/config.php:181
+#: admin/config.php:210
+#: uploader.php:583
+#: uploader.php:662
+#@ wp-download_monitor
+msgid "Name"
+msgstr "Namn"
+
+#: admin/add_directory.php:292
+#: admin/add_new.php:360
+#: admin/admin.php:694
+#: admin/admin.php:1174
+#: admin/categories.php:160
+#: admin/categories.php:194
+#: uploader.php:587
+#@ wp-download_monitor
+msgid "Parent"
+msgstr "Förälder"
+
+#: admin/add_directory.php:294
+#: admin/add_new.php:362
+#: admin/admin.php:696
+#: admin/admin.php:1176
+#: admin/categories.php:162
+#: admin/categories.php:197
+#: admin/config.php:358
+#: uploader.php:589
+#@ wp-download_monitor
+msgid "None"
+msgstr "Ingen"
+
+#: admin/add_directory.php:306
+#: admin/add_directory.php:382
+#: admin/add_new.php:374
+#: admin/admin.php:708
+#: admin/admin.php:1188
+#: admin/categories.php:174
+#: admin/config.php:218
+#: uploader.php:601
+#@ wp-download_monitor
+msgid "Add"
+msgstr "Lägg till"
+
+#: admin/add_directory.php:310
+#: admin/add_new.php:378
+#: admin/admin.php:712
+#: admin/admin.php:1192
+#: admin/admin.php:1369
+#: page-addon/download-monitor-page-addon.php:71
+#: page-addon/download-monitor-page-addon.php:82
+#: uploader.php:606
+#: uploader.php:798
+#@ wp-download_monitor
+msgid "Tags"
+msgstr "Taggar"
+
+#: admin/add_directory.php:312
+#: admin/add_new.php:380
+#: admin/admin.php:714
+#: admin/admin.php:1197
+#: uploader.php:612
+#@ wp-download_monitor
+msgid "Separate tags with commas."
+msgstr "Separera taggar med kommatecken."
+
+#: admin/add_directory.php:321
+#: admin/add_new.php:389
+#: admin/admin.php:723
+#: admin/admin.php:1206
+#: uploader.php:620
+#@ wp-download_monitor
+msgid "No Tags Found"
+msgstr "Hittade inga taggar"
+
+#: admin/add_directory.php:328
+#: admin/add_new.php:419
+#: admin/admin.php:753
+#: admin/admin.php:1226
+#: uploader.php:642
+#@ wp-download_monitor
+msgid "Member only file?"
+msgstr "Filen endast synlig för medlemmar?"
+
+#: admin/add_directory.php:329
+#: admin/add_new.php:420
+#: admin/admin.php:754
+#: admin/admin.php:1230
+#: uploader.php:646
+#@ wp-download_monitor
+msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
+msgstr "Om denna är vald kan endast inloggade medlemmar komma åt filen via nedladdningslänken. Du kan även lägga till ett extrafält kallat min-level eller req-role för att sätta en begränsning på minsta acceptabla användarnivå som krävs för att ladda ned filen."
+
+#: admin/add_directory.php:332
+#: admin/add_new.php:423
+#: admin/admin.php:757
+#: admin/admin.php:1233
+#: uploader.php:649
+#@ wp-download_monitor
+msgid "Force Download?"
+msgstr "Tvinga nedladdning?"
+
+#: admin/add_directory.php:333
+#: admin/add_new.php:424
+#: admin/admin.php:758
+#: admin/admin.php:1237
+#: uploader.php:653
+#@ wp-download_monitor
+msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
+msgstr "Om denna är vald så kommer Download Monitor försöka tvinga nedladdning istället för att endast skicka vidare till filen. Denna inställning fungerar inte för alla servrar (så prova först) och fungerar normalt bara på lokalt sparade filer."
+
+#: admin/add_directory.php:336
+#: admin/add_new.php:428
+#: admin/admin.php:771
+#: admin/admin.php:1241
+#: admin/admin.php:1372
+#: uploader.php:658
+#@ wp-download_monitor
+msgid "Custom fields"
+msgstr "Specialfält"
+
+#: admin/add_directory.php:337
+#: admin/add_new.php:429
+#: admin/admin.php:772
+#: admin/admin.php:1242
+#@ wp-download_monitor
+msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
+msgstr "Specialfält kan användas för att lägga till extra metadata till en fil. Lämna blankt för att inte använda. Namn skall skrivas med små bokstäver utan mellanslag (ändras även automatiskt så att <code>Ett Namn</code> blir <code>ett-namn</code>)."
+
+#: admin/add_directory.php:342
+#: admin/add_new.php:434
+#: admin/admin.php:777
+#: admin/admin.php:1252
+#: uploader.php:663
+#@ wp-download_monitor
+msgid "Value"
+msgstr "Värde"
+
+#: admin/add_directory.php:356
+#: admin/add_directory.php:367
+#: admin/add_new.php:448
+#: admin/add_new.php:459
+#: admin/admin.php:260
+#: admin/admin.php:790
+#: admin/admin.php:802
+#: admin/admin.php:1265
+#: admin/admin.php:1277
+#: uploader.php:246
+#: uploader.php:677
+#: uploader.php:689
+#@ wp-download_monitor
+msgid "remove"
+msgstr "ta bort"
+
+#: admin/add_directory.php:375
+#: admin/add_new.php:467
+#: admin/admin.php:809
+#: admin/admin.php:1284
+#: uploader.php:697
+#@ wp-download_monitor
+msgid "Add Custom Field"
+msgstr "Lägg till specialfält"
+
+#: admin/add_directory.php:375
+#: admin/add_new.php:467
+#: admin/admin.php:809
+#: admin/admin.php:1284
+#: uploader.php:697
+#@ wp-download_monitor
+msgid "Toggle Existing Custom Fields"
+msgstr "Växla befintliga specialfält"
+
+#: admin/add_directory.php:386
+#: admin/add_new.php:478
+#: admin/admin.php:820
+#: admin/admin.php:1295
+#: uploader.php:708
+#@ wp-download_monitor
+msgid "None found."
+msgstr "Hittade ingen."
+
+#: admin/add_directory.php:395
+#@ wp-download_monitor
+msgid "Scan &amp; Add"
+msgstr "Skanna &amp; lägg till"
+
+#: admin/add_directory.php:396
+#: admin/add_new.php:488
+#: uploader.php:522
+#@ wp-download_monitor
+msgid "Y-m-d H:i:s"
+msgstr "Y-m-d H:i:s"
+
+#: admin/add_new.php:66
+#: uploader.php:267
+#@ wp-download_monitor
+msgid "Add New Download"
+msgstr "Lägg till ny fil"
+
+#: admin/add_new.php:88
+#@ wp-download_monitor
+msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div class=\"error\">Obligatoriskt fält: <strong>Titel</strong> utlämnat</div>"
+
+#: admin/add_new.php:90
+#@ wp-download_monitor
+msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div class=\"error\">Ogiltigt antal <strong>träffar</strong> inmatat</div>"
+
+#: admin/add_new.php:135
+#: uploader.php:353
+#@ wp-download_monitor
+msgid "No file selected"
+msgstr "Ingen fil vald"
+
+#: admin/add_new.php:233
+#: admin/add_new.php:234
+#@ wp-download_monitor
+msgid "Download added Successfully"
+msgstr "Filen lades till korrekt"
+
+#: admin/add_new.php:241
+#@ wp-download_monitor
+msgid "<div class=\"error\">Error saving to database</div>"
+msgstr "<div class=\"error\">Fel när vi skulle spara i databasen</div>"
+
+#: admin/add_new.php:250
+#: admin/admin.php:571
+#: uploader.php:503
+#@ wp-download_monitor
+msgid " (defined in php.ini)"
+msgstr " (definierad i php.ini)"
+
+#: admin/add_new.php:263
+#: admin/config.php:288
+#: admin/logs.php:52
+#: page-addon/download-monitor-page-addon.php:249
+#: page-addon/download-monitor-page-addon.php:371
+#: page-addon/download-monitor-page-addon.php:456
+#: page-addon/download-monitor-page-addon.php:537
+#: uploader.php:470
+#: uploader.php:795
+#@ wp-download_monitor
+msgid "Title"
+msgstr "Titel"
+
+#: admin/add_new.php:263
+#: admin/add_new.php:285
+#: admin/admin.php:618
+#@ wp-download_monitor
+msgid "(required)"
+msgstr "(obligatorisk)"
+
+#: admin/add_new.php:269
+#: admin/admin.php:595
+#: admin/admin.php:1451
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:80
+#: page-addon/download-monitor-page-addon.php:166
+#: page-addon/download-monitor-page-addon.php:603
+#: page-addon/download-monitor-page-addon.php:728
+#: shortcodes.php:79
+#: shortcodes.php:208
+#: uploader.php:481
+#@ wp-download_monitor
+msgid "Version"
+msgstr "Version"
+
+#: admin/add_new.php:275
+#: admin/admin.php:601
+#: page-addon/download-monitor-page-addon.php:79
+#: uploader.php:476
+#@ wp-download_monitor
+msgid "Description"
+msgstr "Beskrivning"
+
+#: admin/add_new.php:279
+#: uploader.php:487
+#@ wp-download_monitor
+msgid "Starting hits"
+msgstr "Ursprungliga nedladdningar"
+
+#: admin/add_new.php:285
+#: uploader.php:493
+#@ wp-download_monitor
+msgid "Select a file..."
+msgstr "Välj en fil..."
+
+#: admin/add_new.php:289
+#: uploader.php:514
+#@ wp-download_monitor
+msgid "Upload File"
+msgstr "Ladda upp fil"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:516
+#@ wp-download_monitor
+msgid "Max. filesize"
+msgstr "Maximal filstorlek"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:516
+#@ wp-download_monitor
+msgid "bytes"
+msgstr "bytes"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:516
+#@ wp-download_monitor
+msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
+msgstr "Om det redan finns en uppladdad fil med samma namn så kommer denna fil döpas om."
+
+#: admin/add_new.php:293
+#: admin/add_new.php:404
+#: admin/admin.php:628
+#: admin/admin.php:738
+#: uploader.php:518
+#: uploader.php:634
+#@ wp-download_monitor
+msgid "OR"
+msgstr "ELLER"
+
+#: admin/add_new.php:296
+#: uploader.php:519
+#@ wp-download_monitor
+msgid "Enter file URL"
+msgstr "Ange filens URL"
+
+#: admin/add_new.php:300
+#: admin/add_new.php:410
+#: admin/admin.php:634
+#: admin/admin.php:744
+#: admin/admin.php:1220
+#: uploader.php:520
+#: uploader.php:636
+#@ wp-download_monitor
+msgid "Toggle File Browser"
+msgstr "Växla filväljare"
+
+#: admin/add_new.php:309
+#: admin/admin.php:643
+#@ wp-download_monitor
+msgid "Download Mirrors"
+msgstr "Alternativa nedladdningsplatser"
+
+#: admin/add_new.php:310
+#: admin/admin.php:644
+#: uploader.php:536
+#@ wp-download_monitor
+msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
+msgstr "Om det finns speglingar (alternativa nedladdningsplatser) kan du lista deras URL:ar här (1 per rad). Download Monitor väljer slumpvis en av dessa speglingar för nedladdningar."
+
+#: admin/add_new.php:396
+#: admin/admin.php:730
+#: admin/admin.php:1213
+#: uploader.php:626
+#@ wp-download_monitor
+msgid "Thumbnail"
+msgstr "Tumnagel"
+
+#: admin/add_new.php:400
+#: uploader.php:629
+#@ wp-download_monitor
+msgid "Upload thumbnail"
+msgstr "Ladda upp tumnagel"
+
+#: admin/add_new.php:401
+#: admin/admin.php:735
+#: uploader.php:632
+#@ wp-download_monitor
+msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
+msgstr "Detta visas på nedladdningssidan eller med {thumbnail} i ett anpassat format (om denna ej anges används standardvärdet)."
+
+#: admin/add_new.php:407
+#: uploader.php:635
+#@ wp-download_monitor
+msgid "Enter thumbnail URL"
+msgstr "Ange URL för tumnagel"
+
+#: admin/add_new.php:487
+#@ wp-download_monitor
+msgid "Upload &amp; save"
+msgstr "Ladda upp &amp; spara"
+
+#: admin/admin.php:102
+#: admin/admin.php:320
+#@ wp-download_monitor
+msgid "Are you sure you want to delete"
+msgstr "Vill du verkligen radera?"
+
+#: admin/admin.php:319
+#@ wp-download_monitor
+msgid "Sure?"
+msgstr "Säker?"
+
+#: admin/admin.php:320
+#@ wp-download_monitor
+msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
+msgstr "? (tar även bort filen om den ursprungligen laddades upp med denna plugin)"
+
+#: admin/admin.php:320
+#@ wp-download_monitor
+msgid "[yes]"
+msgstr "[ja]"
+
+#: admin/admin.php:320
+#@ wp-download_monitor
+msgid "[no]"
+msgstr "[nej]"
+
+#: admin/admin.php:365
+#@ wp-download_monitor
+msgid "Required field: <strong>Title</strong> omitted"
+msgstr "Obligatoriskt fält: <strong>Titel</strong> saknas"
+
+#: admin/admin.php:366
+#@ wp-download_monitor
+msgid "Required field: <strong>THE FILE</strong> omitted"
+msgstr "Obligatoriskt fält: <strong>FILEN</strong> saknas"
+
+#: admin/admin.php:368
+#@ wp-download_monitor
+msgid "Invalid <strong>hits</strong> entered"
+msgstr "Ogiltigt antal <strong>nedladdningar</strong> inmatade"
+
+#: admin/admin.php:451
+#@ wp-download_monitor
+msgid "<div class=\"error\">No file selected</div>"
+msgstr "<div class=\"error\">Ingen fil vald</div>"
+
+#: admin/admin.php:509
+#@ wp-download_monitor
+msgid "Download edited Successfully"
+msgstr "Filens ändringar sparade"
+
+#: admin/admin.php:582
+#@ wp-download_monitor
+msgid "Edit Download Information"
+msgstr "Ändra filen information"
+
+#: admin/admin.php:589
+#@ wp-download_monitor
+msgid "Title (required)"
+msgstr "Titel (obligatoriskt)"
+
+#: admin/admin.php:605
+#@ wp-download_monitor
+msgid "Change hit count"
+msgstr "Ändra nedladdningsantal"
+
+#: admin/admin.php:611
+#@ wp-download_monitor
+msgid "Change post date"
+msgstr "Ändra datum för uppladdning"
+
+#: admin/admin.php:614
+#@ wp-download_monitor
+msgid "Change the post date of the download. Was set to:"
+msgstr "Ändra datum för uppladdning, var tidigare:"
+
+#: admin/admin.php:614
+#@ wp-download_monitor
+msgid "M jS Y @ H:i"
+msgstr "M jS Y @ H:i"
+
+#: admin/admin.php:618
+#@ wp-download_monitor
+msgid "The File"
+msgstr "Filen"
+
+#: admin/admin.php:622
+#@ wp-download_monitor
+msgid "Upload New File"
+msgstr "Ladda upp ny fil"
+
+#: admin/admin.php:624
+#@ wp-download_monitor
+msgid "Remove old file?"
+msgstr "Ta bort den gamla filen?"
+
+#: admin/admin.php:631
+#@ wp-download_monitor
+msgid "Edit File URL"
+msgstr "Ändra filens URL"
+
+#: admin/admin.php:734
+#@ wp-download_monitor
+msgid "Upload new thumbnail"
+msgstr "Ladda upp ny tumnagel"
+
+#: admin/admin.php:741
+#@ wp-download_monitor
+msgid "Edit thumbnail URL"
+msgstr "Ändra URL för tumnagel"
+
+#: admin/admin.php:828
+#: admin/admin.php:1303
+#: admin/config.php:204
+#: admin/config.php:293
+#: admin/config.php:445
+#@ wp-download_monitor
+msgid "Save Changes"
+msgstr "Spara ändringar"
+
+#: admin/admin.php:866
+#@ wp-download_monitor
+msgid "Download deleted Successfully"
+msgstr "Filen togs bort"
+
+#: admin/admin.php:904
+#@ wp-download_monitor
+msgid "Stats successfully reset for selected downloads"
+msgstr "Nollställde statistik för valda filer"
+
+#: admin/admin.php:946
+#@ wp-download_monitor
+msgid "Selected Downloads deleted Successfully"
+msgstr "Tog bort valda filer"
+
+#: admin/admin.php:1102
+#@ wp-download_monitor
+msgid "Downloads edited successfully"
+msgstr "Filer ändrade"
+
+#: admin/admin.php:1112
+#@ wp-download_monitor
+msgid "Bulk Edit Downloads"
+msgstr "Bulkändring av filer"
+
+#: admin/admin.php:1113
+#@ wp-download_monitor
+msgid "Editing downloads with id's:"
+msgstr "Uppdatera filer med ID:n:"
+
+#: admin/admin.php:1113
+#@ wp-download_monitor
+msgid "Adding options here will overwrite the options in ALL of the selected downloads."
+msgstr "Tillägg av inställningar här skriver över befintliga inställningar i ALLA valda filer."
+
+#: admin/admin.php:1123
+#: admin/admin.php:1195
+#: admin/admin.php:1216
+#: admin/admin.php:1228
+#: admin/admin.php:1235
+#: admin/admin.php:1244
+#: admin/categories.php:196
+#@ wp-download_monitor
+msgid "No Change"
+msgstr "Ingen ändring"
+
+#: admin/admin.php:1124
+#@ wp-download_monitor
+msgid "Change to &darr;"
+msgstr "Ändra till &darr;"
+
+#: admin/admin.php:1196
+#: admin/admin.php:1217
+#: admin/admin.php:1229
+#: admin/admin.php:1236
+#@ wp-download_monitor
+msgid "Change to &rarr;"
+msgstr "Ändra till &rarr;"
+
+#: admin/admin.php:1245
+#@ wp-download_monitor
+msgid "Replace with:"
+msgstr "Ersätt med"
+
+#: admin/admin.php:1246
+#@ wp-download_monitor
+msgid "Add/Update only (keep existing fields):"
+msgstr "Lägg till/ändra endast (behåll befintliga fält):"
+
+#: admin/admin.php:1326
+#@ wp-download_monitor
+msgid "Edit Downloads"
+msgstr "Ändra filer"
+
+#: admin/admin.php:1334
+#: admin/admin.php:1497
+#@ wp-download_monitor
+msgid "Actions:"
+msgstr "Åtgärder:"
+
+#: admin/admin.php:1336
+#: admin/admin.php:1499
+#@ wp-download_monitor
+msgid "Bulk Actions"
+msgstr "Bulkåtgärder"
+
+#: admin/admin.php:1337
+#: admin/admin.php:1454
+#: admin/admin.php:1500
+#: admin/categories.php:213
+#: wp-download_monitor.php:135
+#@ wp-download_monitor
+msgid "Edit"
+msgstr "Ändra"
+
+#: admin/admin.php:1338
+#: admin/admin.php:1454
+#: admin/admin.php:1501
+#: admin/config.php:196
+#@ wp-download_monitor
+msgid "Delete"
+msgstr "Ta bort"
+
+#: admin/admin.php:1339
+#: admin/admin.php:1502
+#@ wp-download_monitor
+msgid "Reset Stats"
+msgstr "Nollställ statistik"
+
+#: admin/admin.php:1341
+#: admin/admin.php:1504
+#@ wp-download_monitor
+msgid "Apply"
+msgstr "Använd"
+
+#: admin/admin.php:1344
+#: page-addon/download-monitor-page-addon.php:73
+#: uploader.php:761
+#@ wp-download_monitor
+msgid "Search Downloads:"
+msgstr "Sök filer:"
+
+#: admin/admin.php:1346
+#: uploader.php:763
+#@ wp-download_monitor
+msgid "Search Downloads"
+msgstr "Sök filer"
+
+#: admin/admin.php:1365
+#: admin/categories.php:109
+#: admin/config.php:180
+#: admin/config.php:287
+#: admin/logs.php:51
+#: uploader.php:794
+#@ wp-download_monitor
+msgid "ID"
+msgstr "ID"
+
+#: admin/admin.php:1366
+#: legacy_shortcodes.php:77
+#: page-addon/download-monitor-page-addon.php:88
+#@ wp-download_monitor
+msgid "Download"
+msgstr "Fil"
+
+#: admin/admin.php:1367
+#: admin/logs.php:53
+#: classes/downloadable_file.class.php:355
+#: uploader.php:796
+#@ wp-download_monitor
+msgid "File"
+msgstr "Direktlänk"
+
+#: admin/admin.php:1370
+#: uploader.php:799
+#@ wp-download_monitor
+msgid "Member only"
+msgstr "Endast medlem"
+
+#: admin/admin.php:1371
+#: uploader.php:800
+#@ wp-download_monitor
+msgid "Force Download"
+msgstr "Tvinga nedladdning"
+
+#: admin/admin.php:1373
+#: page-addon/download-monitor-page-addon.php:249
+#: page-addon/download-monitor-page-addon.php:371
+#: page-addon/download-monitor-page-addon.php:456
+#: page-addon/download-monitor-page-addon.php:537
+#@ wp-download_monitor
+msgid "Hits"
+msgstr "Träffar"
+
+#: admin/admin.php:1374
+#@ wp-download_monitor
+msgid "Posted"
+msgstr "Uppladdad"
+
+#: admin/admin.php:1431
+#@ wp-download_monitor
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: admin/admin.php:1454
+#@ wp-download_monitor
+msgid "Edit this Download"
+msgstr "Ändra denna fil"
+
+#: admin/admin.php:1454
+#@ wp-download_monitor
+msgid "Delete this download"
+msgstr "Ta bort denna fil"
+
+#: admin/admin.php:1462
+#: admin/admin.php:1473
+#: classes/downloadable_file.class.php:354
+#: uploader.php:869
+#: uploader.php:880
+#@ wp-download_monitor
+msgid "N/A"
+msgstr "Ej giltigt"
+
+#: admin/admin.php:1480
+#: admin/admin.php:1483
+#: admin/config.php:309
+#: admin/config.php:323
+#: admin/config.php:347
+#: admin/config.php:380
+#: admin/config.php:393
+#: admin/config.php:418
+#: uploader.php:888
+#: uploader.php:891
+#@ wp-download_monitor
+msgid "Yes"
+msgstr "Ja"
+
+#: admin/admin.php:1480
+#: admin/admin.php:1483
+#: admin/config.php:312
+#: admin/config.php:326
+#: admin/config.php:344
+#: admin/config.php:383
+#: admin/config.php:396
+#: admin/config.php:421
+#: uploader.php:888
+#: uploader.php:891
+#@ wp-download_monitor
+msgid "No"
+msgstr "Nej"
+
+#: admin/admin.php:1488
+#@ wp-download_monitor
+msgid "by"
+msgstr "av"
+
+#: admin/admin.php:1492
+#@ wp-download_monitor
+msgid "No downloads found."
+msgstr "Inga nedladdningar hittades."
+
+#: admin/admin.php:1527
+#: uploader.php:917
+#@ default
+msgid "&laquo; Previous"
+msgstr "&laquo; Föregående"
+
+#: admin/admin.php:1528
+#: uploader.php:918
+#@ default
+msgid "Next &raquo;"
+msgstr "Nästa &raquo;"
+
+#: admin/admin.php:1552
+#@ default
+msgid ""
+"You are about to delete the selected items.\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr ""
+"Du kommer radera valda filer.\n"
+" 'Avbryt' för stoppa, 'OK' för att radera."
+
+#: admin/admin.php:1567
+#@ wp-download_monitor
+msgid "Download Monitor News"
+msgstr "Nyheter från Download Monitor"
+
+#: admin/admin.php:1594
+#, php-format
+#@ wp-download_monitor
+msgid "%s ago"
+msgstr "%s sedan"
+
+#: admin/admin.php:1596
+#@ wp-download_monitor
+msgid "F jS Y"
+msgstr "F jS Y"
+
+#: admin/admin.php:1606
+#: admin/admin.php:1610
+#@ wp-download_monitor
+msgid "No items found."
+msgstr "Inga träffar."
+
+#: admin/admin.php:1629
+#@ wp-download_monitor
+msgid "Support Download Monitor"
+msgstr "Stöd Download Monitor"
+
+#: admin/admin.php:1633
+#@ wp-download_monitor
+msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
+msgstr "Det finns även andra sätt att stödja Download Monitor för att se till att den underhålls och stöds i framtiden! Lämna gärna sponsormeddelandena påslagna, betygsätt pluginen på wordpress.org (om du gillar den), berätta om den för andra eller stöd utvecklaren genom kodförbättringar."
+
+#: admin/categories.php:38
+#@ wp-download_monitor
+msgid "Download Categories"
+msgstr "Filkategorier"
+
+#: admin/categories.php:40
+#@ wp-download_monitor
+msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
+msgstr "<p>Du kan kategorisera filer med dessa kategorier. Du kan sedan visa grupper av filer med kategoritaggar eller en dedikerad nedladdningssida (se dokumentationen). Tänk på att om du tar bort en kategori så tar du även bort alla dess underkategorier.</p>"
+
+#: admin/categories.php:62
+#@ wp-download_monitor
+msgid "Category updated"
+msgstr "Kategori uppdaterad"
+
+#: admin/categories.php:76
+#@ wp-download_monitor
+msgid "Category added"
+msgstr "Kategori tillagd"
+
+#: admin/categories.php:77
+#@ wp-download_monitor
+msgid "Category was not added. Try Recreating the download database from the configuration page."
+msgstr "Kategorin kunde inte läggas till. Återskapa fildatabasen från konfigurationssidan."
+
+#: admin/categories.php:101
+#@ wp-download_monitor
+msgid "Category deleted Successfully"
+msgstr "Tog bort kategorin"
+
+#: admin/categories.php:111
+#: admin/config.php:183
+#: uploader.php:801
+#@ wp-download_monitor
+msgid "Action"
+msgstr "Åtgärd"
+
+#: admin/categories.php:147
+#@ wp-download_monitor
+msgid "No categories exist"
+msgstr "Inga kategorier finns"
+
+#: admin/categories.php:153
+#@ wp-download_monitor
+msgid "Add category"
+msgstr "Lägg till kategori"
+
+#: admin/categories.php:177
+#@ wp-download_monitor
+msgid "Edit category"
+msgstr "Ändra kategori"
+
+#: admin/categories.php:180
+#@ wp-download_monitor
+msgid "Category"
+msgstr "Kategori"
+
+#: admin/categories.php:182
+#: admin/dashboard.php:214
+#@ wp-download_monitor
+msgid "Select a category"
+msgstr "Välj en kategori"
+
+#: admin/config.php:41
+#@ wp-download_monitor
+msgid "Download Monitor Configuration"
+msgstr "Konfiguration för Download Monitor"
+
+#: admin/config.php:54
+#@ wp-download_monitor
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, add the following to your \n"
+"\t\t\t\t\t.htaccess file above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>URL för nedladdning ändrad - Du måste <strong>spara om dina permalänk-inställningar</strong> (Inställningar -> Permalänkar) för \n"
+"\\\t\\\t\\\t\\\t\\\t\\\tatt ändringar skall slå igenom på din blogg.</p>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\t<p>Om din .htaccess-fil inte är skrivbar för WordPress måste du själv lägga till följande i din \n"
+"\\\t\\\t\\\t\\\t\\\t.htaccess-fil, på raden över \"# BEGIN WordPress\":</p>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\t<p>Options +FollowSymLinks<br/>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\tRewriteEngine on<br/>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\tRewriteRule ^download/([^/]+)$ *din wp-content-katalog*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\t<p>ersätt \"download/\" med din anpassade URL, och \"*din wp-content-katalog*\" med din wp-content-katalog.</p>"
+
+#: admin/config.php:65
+#@ wp-download_monitor
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, remove the following from your \n"
+"\t\t\t\t\t.htaccess file if it exists above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>URL för nedladdning ändrad - Du måste <strong>spara om dina permalänk-inställningar</strong> (Inställningar -> Permalänkar) för \n"
+"\\\t\\\t\\\t\\\t\\\t\\\tatt ändringar skall slå igenom på din blogg.</p>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\t<p>Om din .htaccess-fil inte är skrivbar för WordPress måste du själv ta bort följande i din \n"
+"\\\t\\\t\\\t\\\t\\\t.htaccess-fil, om det finns på raderna över \"# BEGIN WordPress\":</p>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\t<p>Options +FollowSymLinks<br/>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\tRewriteEngine on<br/>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\tRewriteRule ^download/([^/]+)$ *din wp-content-katalog*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\\\t\\\t\\\t\\\t\\\t\\\t<p>ersätt \"download/\" med din anpassade URL, och \"*din wp-content-katalog*\" med din wp-content-katalog.</p>"
+
+#: admin/config.php:104
+#@ wp-download_monitor
+msgid "<p>Options updated</p>"
+msgstr "<p>Inställningar sparade</p>"
+
+#: admin/config.php:114
+#@ wp-download_monitor
+msgid "Database Cleaned"
+msgstr "Databas rensad"
+
+#: admin/config.php:133
+#@ wp-download_monitor
+msgid "Formats updated"
+msgstr "Format uppdaterade"
+
+#: admin/config.php:144
+#@ wp-download_monitor
+msgid "Format added"
+msgstr "Format tillagt"
+
+#: admin/config.php:158
+#@ wp-download_monitor
+msgid "Format deleted Successfully"
+msgstr "Format borttaget"
+
+#: admin/config.php:173
+#@ wp-download_monitor
+msgid "Custom Output Formats"
+msgstr "Alternativa format"
+
+#: admin/config.php:175
+#@ wp-download_monitor
+msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
+msgstr "<p>Denna låter dig definiera format för att visa dina nedladdningar som du vill.</p>"
+
+#: admin/config.php:182
+#: admin/config.php:214
+#@ wp-download_monitor
+msgid "Format"
+msgstr "Format"
+
+#: admin/config.php:199
+#@ wp-download_monitor
+msgid "No formats exist"
+msgstr "Inga format finns"
+
+#: admin/config.php:206
+#@ wp-download_monitor
+msgid "Add format"
+msgstr "Lägg till format"
+
+#: admin/config.php:220
+#@ wp-download_monitor
+msgid "Available Tags"
+msgstr "Tillgängliga taggar"
+
+#: admin/config.php:222
+#@ wp-download_monitor
+msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
+msgstr "Du kan använda följande taggar i dina egna format: <em>notera</em> om du använder <code>\"</code> (citationstecken) inom attributen, exempelvis <code>\"before\"</code>, så måste du antingen skydda dem genom \"backslash\" <code>\\\\</code> eller använda HTML-entiteter."
+
+#: admin/config.php:224
+#@ wp-download_monitor
+msgid "Url of download (does not include hyperlink)"
+msgstr "URL för fil (inkluderar inte hyperlänk)"
+
+#: admin/config.php:225
+#@ wp-download_monitor
+msgid "ID of download"
+msgstr "ID för fil"
+
+#: admin/config.php:226
+#@ wp-download_monitor
+msgid "Username of whoever posted download"
+msgstr "Användarnamn för den som laddade upp filen"
+
+#: admin/config.php:227
+#@ wp-download_monitor
+msgid "Version of download"
+msgstr "Version av filen"
+
+#: admin/config.php:228
+#@ wp-download_monitor
+msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "Version av fil. Används inte om den inte är angiven. Ersätt \"före\" med den text eller HTML som skall ligga innan och \"efter\" med den text eller HTML som skall ligga efter."
+
+#: admin/config.php:229
+#@ wp-download_monitor
+msgid "Title of download"
+msgstr "Titel för fil"
+
+#: admin/config.php:230
+#@ wp-download_monitor
+msgid "Filesize of download"
+msgstr "Filstorlek"
+
+#: admin/config.php:231
+#@ wp-download_monitor
+msgid "Outputs comma separated list of categories."
+msgstr "Visa kommaseparerad lista med kategorier."
+
+#: admin/config.php:232
+#, php-format
+#@ wp-download_monitor
+msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
+msgstr "Visar kommaseparerad lista av kategorier i en länk med den href du definierat. <code>%</code> ersätts med kategori-ID. <code>%2</code> ersätts av kategorins namn. Detta kan användas med <code>[download_page]</code>."
+
+#: admin/config.php:233
+#: admin/config.php:234
+#: admin/config.php:239
+#: admin/config.php:240
+#@ wp-download_monitor
+msgid "or"
+msgstr "eller"
+
+#: admin/config.php:233
+#@ wp-download_monitor
+msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "(Översta/första) filkategori. Ersätt \"före\" med den text eller HTML som skall ligga innan och \"efter\" med den text eller HTML som skall ligga efter."
+
+#: admin/config.php:234
+#@ wp-download_monitor
+msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "(Översta/första) filkategori (om ingen kategori är vald, returneras \"annan\"). Ersätt \"före\" med den text eller HTML som skall ligga innan och \"efter\" med den text eller HTML som skall ligga efter."
+
+#: admin/config.php:235
+#@ wp-download_monitor
+msgid "(Top Level/First) Download Category ID."
+msgstr "(Översta/första) filkategori-ID."
+
+#: admin/config.php:236
+#@ wp-download_monitor
+msgid "Current hit count"
+msgstr "Nuvarande antal nedladdningar"
+
+#: admin/config.php:237
+#@ wp-download_monitor
+msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
+msgstr "Formattera visning av antal nedladdningar beroende på värde. <code>%</code> ersätts av antal nedladdningar."
+
+#: admin/config.php:238
+#@ wp-download_monitor
+msgid "URL of the download image"
+msgstr "URL till nedladdningsbild"
+
+#: admin/config.php:239
+#@ wp-download_monitor
+msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "Beskrivning för fil. Visa ej om tom. Ersätt \"före\" med den text eller HTML som skall ligga innan och \"efter\" med den text eller HTML som skall ligga efter."
+
+#: admin/config.php:240
+#@ wp-download_monitor
+msgid "Description formatted with autop (converts double line breaks to paragraphs)"
+msgstr "Beskrivning formatterad med autop (byter dubbla radbryt till paragrafer)"
+
+#: admin/config.php:241
+#@ wp-download_monitor
+msgid "Date posted. Second argument is for date format."
+msgstr "Datum för uppladdning. Andra argumentet är datumformatet."
+
+#: admin/config.php:242
+#@ wp-download_monitor
+msgid "Outputs comma separated list of tags."
+msgstr "Visar kommaseparerad lista med taggar."
+
+#: admin/config.php:243
+#, php-format
+#@ wp-download_monitor
+msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
+msgstr "Visa kommaseparerad list med taggar i en länk med den href du anger. <code>%</code> ersätts med taggens ID. <code>%2</code> ersätts med taggens namn."
+
+#: admin/config.php:244
+#@ wp-download_monitor
+msgid "Output thumbnail URL (or placeholder)"
+msgstr "URL för tumnagel (eller platshållare)"
+
+#: admin/config.php:245
+#@ wp-download_monitor
+msgid "Custom field value"
+msgstr "Anpassat fältvärde"
+
+#: admin/config.php:246
+#@ wp-download_monitor
+msgid "Custom field value formatted with autop"
+msgstr "Anpassat fältvärde formatterar med autop"
+
+#: admin/config.php:247
+#@ wp-download_monitor
+msgid "File extension (e.g. \"zip\")"
+msgstr "Filändelse (t ex \"zip\")"
+
+#: admin/config.php:248
+#@ wp-download_monitor
+msgid "File extension icon (16x16)"
+msgstr "Filändelseikon (16x16)"
+
+#: admin/config.php:249
+#@ wp-download_monitor
+msgid "Output a Mirror's url"
+msgstr "Visar URL:en för en spegling"
+
+#: admin/config.php:252
+#@ wp-download_monitor
+msgid "Example Formats"
+msgstr "Exempelformat"
+
+#: admin/config.php:254
+#@ wp-download_monitor
+msgid "Here are some example custom formats you can use or modify."
+msgstr "Här är några exempelformat att använda eller ändra."
+
+#: admin/config.php:256
+#@ wp-download_monitor
+msgid "Link and description of download with hits in title:"
+msgstr "Länk och beskrivning av fil med antal nedladdningar i titeln:"
+
+#: admin/config.php:257
+#@ wp-download_monitor
+msgid "Standard link with no hits:"
+msgstr "Standardlink utan antal nedladdningar:"
+
+#: admin/config.php:258
+#@ wp-download_monitor
+msgid "Image link:"
+msgstr "Bildlänk:"
+
+#: admin/config.php:265
+#@ wp-download_monitor
+msgid "Custom Download URL"
+msgstr "Anpassad fil-URL"
+
+#: admin/config.php:267
+#@ wp-download_monitor
+msgid ""
+"<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
+"            \t\n"
+"                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
+msgstr ""
+"<p>Ange en anpassad URL för nedladdning, t ex <code>download/</code>. Du kan också ange hur URL:en till filen skall se ut. Om du t ex väljer  \"filename\" ser länken ut som <code>http://minblogg.se/download/filenamn.zip</code>. Detta alternativ fungerar endast om du använder WordPress permalänkar (vilket inte är standard).</p><p>Lämna detta alternativ tomt för att använda standardvärdet (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"<p>Om du anger ett värde här måste du se till att katalogen inte redan finns på server och att sökvägen inte matchar någon sida eller inlägg då det kan ställa till problem med att hänvisa användaren till download.php.</p>"
+
+#: admin/config.php:273
+#@ wp-download_monitor
+msgid "Without Custom URL:"
+msgstr "Utan anpassad URL:"
+
+#: admin/config.php:278
+#@ wp-download_monitor
+msgid "With Custom URL (downloads/ID):"
+msgstr "Med anpassad URL (filer/ID):"
+
+#: admin/config.php:284
+#@ wp-download_monitor
+msgid "Custom URL"
+msgstr "Anpassad URL"
+
+#: admin/config.php:289
+#@ wp-download_monitor
+msgid "Filename"
+msgstr "Filnamn"
+
+#: admin/config.php:298
+#@ wp-download_monitor
+msgid "General Options"
+msgstr "Allmänna inställningar"
+
+#: admin/config.php:304
+#@ wp-download_monitor
+msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
+msgstr "Jag uppskattar denna plugin och jag har bidragit till utvecklingen!"
+
+#: admin/config.php:314
+#@ wp-download_monitor
+msgid "If you would like to say thanks for Download Monitor there are many ways to do so, for example: spreading the word or making a donation. If you have already done so you can indicate that here (thanks by the way). For direct contributors, sponsorship messages will be disabled. (Please see the readme file for full details about sponsorship messages and how your privacy is protected)."
+msgstr "Om du vill tacka för Download Monitor så finns det många sätt du kan göra det på, exempelvis låta andra få veta att den finns och att den är bra eller skicka en donation. Om du redan har gjort detta så kan du ange det här (tack!). De som redan bidragit till Download Monitor behöver inte längre se sponsormeddelanden (för mer information om sponsormeddelande och hur vi skyddar dina uppgifter, se filen README)."
+
+#: admin/config.php:318
+#@ wp-download_monitor
+msgid "Disable the news/links/donate box on the Edit Download Page?"
+msgstr "Stäng ned boxen för nyheter/länkar/donation på Ändra fil-sidan?"
+
+#: admin/config.php:331
+#@ wp-download_monitor
+msgid "\"Download not found\" redirect URL"
+msgstr "Omdirigerings-URL för \"Filen hittades inte\""
+
+#: admin/config.php:332
+#: admin/config.php:336
+#@ wp-download_monitor
+msgid "Leave blank for no redirect."
+msgstr "Lämna tom för att inte använda omdirigering"
+
+#: admin/config.php:335
+#@ wp-download_monitor
+msgid "Member-only files non-member redirect"
+msgstr "Omdirigering då icke-medlemmar listar filer för medlemmar."
+
+#: admin/config.php:336
+#@ wp-download_monitor
+msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
+msgstr "Notera: <code>{referrer}</code> kommer ersättas med nuvarande URL. Detta är användbart om användaren sänds till inloggningssidan och sedan tillbaka till filen. Exempelvis <code>http://minblogg.se/wp-login.php?redirect_to={referrer}</code>."
+
+#: admin/config.php:339
+#@ wp-download_monitor
+msgid "Global member only files"
+msgstr "Global flagga för \"medlemmar endast\""
+
+#: admin/config.php:348
+#@ wp-download_monitor
+msgid "Makes all downloads member only, ignoring the individual download member only setting."
+msgstr "Gör att alla filer endast är synliga för inloggade medlemmar utan att ta ställning till individuella inställningar."
+
+#: admin/config.php:352
+#@ wp-download_monitor
+msgid "Download image path"
+msgstr "Sökväg till bild för fil"
+
+#: admin/config.php:353
+#@ wp-download_monitor
+msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
+msgstr "Denna bild används vid <code>#image</code> fil-taggen och <code>{image_url}</code> taggen på denna sida. Se till att ange en absolut URL (e ex <code>http://minblogg.se/bild.gif</code>)."
+
+#: admin/config.php:356
+#@ wp-download_monitor
+msgid "Default output format"
+msgstr "Standardformat"
+
+#: admin/config.php:375
+#@ wp-download_monitor
+msgid "Auto-select mirror"
+msgstr "Autovälj en alternativ spegling"
+
+#: admin/config.php:384
+#@ wp-download_monitor
+msgid "If a download has \"mirrors\" set should download.php automatically pick one?"
+msgstr "Om en fil har \"speglingar\", skall download.php automatiskt välja en av dessa?"
+
+#: admin/config.php:388
+#@ wp-download_monitor
+msgid "Log Downloads"
+msgstr "Logga nedladdningar"
+
+#: admin/config.php:401
+#@ wp-download_monitor
+msgid "Log Timeout"
+msgstr "Loggens timeout"
+
+#: admin/config.php:403
+#@ wp-download_monitor
+msgid "0 means all downloads are logged. Increase to set the timeout in minutes so that downloads by the same person are not logged multiple times."
+msgstr "0 betyder att alla nedladdningar loggas. Öka denna för att ställa in ett tidsfönster i minuter där nedladdningar av samma person inte räknas flera gånger."
+
+#: admin/config.php:407
+#@ wp-download_monitor
+msgid "Log/Count Blacklist"
+msgstr "Svartlistning för logg/statistik"
+
+#: admin/config.php:409
+#@ wp-download_monitor
+msgid "List IP addresses here that you wish to exclude from the logs/counts - 1 per line."
+msgstr "Lista alla IP-adresser som du vill exkludera från loggning och statistikräkning. Ett IP per rad."
+
+#: admin/config.php:413
+#@ wp-download_monitor
+msgid "Enable File Browser"
+msgstr "Använd filbläddrare"
+
+#: admin/config.php:426
+#@ wp-download_monitor
+msgid "File Browser Root"
+msgstr "Rotkatalog för filbläddrare"
+
+#: admin/config.php:427
+#@ wp-download_monitor
+msgid "The root directory the file browser can display."
+msgstr "Startkatalog för filbläddraren."
+
+#: admin/config.php:450
+#@ wp-download_monitor
+msgid "Advanced Stuff"
+msgstr "Avancerade inställningar"
+
+#: admin/config.php:452
+#@ wp-download_monitor
+msgid "Upgrade from 3.2.3"
+msgstr "Uppgradera från 3.2.3"
+
+#: admin/config.php:453
+#@ wp-download_monitor
+msgid "<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>"
+msgstr "<p>Download Monitor använder nya tabeller från version 3.3. Detta gjorde för att städa upp och lägga till stöd för flera kategorier.</p>"
+
+#: admin/config.php:454
+#@ wp-download_monitor
+msgid "<p>This update should have been done when you activated the plugin, but if it didn't, use this function to create the new tables and import from the old ones.</p>"
+msgstr "<p>Denna uppdatering borde gjorts i samband med att du aktiverade denna plugin, men om det inte skedde kan du använde denna funktion för att skapa de nya tabellerna och importera data från de gamla tabellerna.</p>"
+
+#: admin/config.php:456
+#@ wp-download_monitor
+msgid "Upgrade Database"
+msgstr "Uppgradera databas"
+
+#: admin/config.php:459
+#@ wp-download_monitor
+msgid "Upgraded Successfully? Cleanup!"
+msgstr "Uppgraderat OK? Städa upp!"
+
+#: admin/config.php:460
+#@ wp-download_monitor
+msgid "<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>"
+msgstr "<p>Tabeller bytte namn från version 3.3 (enligt ovan) - om uppgraderingen lyckades (yay!) så kan du använda denna funktion för att ta bort de gamla tabellerna (jag lät de ligga kvar som en backup).</p>"
+
+#: admin/config.php:461
+#@ wp-download_monitor
+msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
+msgstr "<p>VARNING: DETTA KAN TA BORT INFORMATION OM DINA FILER I DATABASEN! TA BACKUP PÅ DIN DATABAS FÖRST!</p>"
+
+#: admin/config.php:463
+#@ wp-download_monitor
+msgid "Clean me up Scotty"
+msgstr "Rensa upp!"
+
+#: admin/config.php:473
+#@ wp-download_monitor
+msgid "Click to toggle"
+msgstr "Klicka för att växla"
+
+#: admin/dashboard.php:72
+#@ wp-download_monitor
+msgid "D j M"
+msgstr "D j M"
+
+#: admin/dashboard.php:74
+#@ wp-download_monitor
+msgid "Previous Week"
+msgstr "Föregående veckan"
+
+#: admin/dashboard.php:75
+#@ wp-download_monitor
+msgid "This Week"
+msgstr "Denna vecka"
+
+#: admin/dashboard.php:76
+#@ wp-download_monitor
+msgid "Next Week"
+msgstr "Nästa vecka"
+
+#: admin/dashboard.php:97
+#@ wp-download_monitor
+msgid "F Y"
+msgstr "F Y"
+
+#: admin/dashboard.php:99
+#@ wp-download_monitor
+msgid "Previous 6 months"
+msgstr "Föregående 6 månader"
+
+#: admin/dashboard.php:100
+#@ wp-download_monitor
+msgid "Last 6 months"
+msgstr "Sista 6 månaderna"
+
+#: admin/dashboard.php:101
+#@ wp-download_monitor
+msgid "Next 6 months"
+msgstr "Nästa 6 månader"
+
+#: admin/dashboard.php:114
+#@ wp-download_monitor
+msgid "Weekly"
+msgstr "Veckovis"
+
+#: admin/dashboard.php:120
+#@ wp-download_monitor
+msgid "Monthly"
+msgstr "Månadsvis"
+
+#: admin/dashboard.php:121
+#@ wp-download_monitor
+msgid "Select a download"
+msgstr "Välj en fil"
+
+#: admin/dashboard.php:134
+#: admin/dashboard.php:224
+#@ wp-download_monitor
+msgid "Show"
+msgstr "Visa"
+
+#: admin/dashboard.php:152
+#@ wp-download_monitor
+msgid "Downloads per day for"
+msgstr "Nedladdningar per dag för"
+
+#: admin/dashboard.php:155
+#: admin/dashboard.php:230
+#@ wp-download_monitor
+msgid "Day"
+msgstr "Dag"
+
+#: admin/dashboard.php:156
+#: admin/dashboard.php:231
+#@ wp-download_monitor
+msgid "Number of downloads"
+msgstr "Antal nedladdningar"
+
+#: admin/dashboard.php:191
+#@ wp-download_monitor
+msgid "None Found"
+msgstr "Inga hittade"
+
+#: admin/dashboard.php:227
+#@ wp-download_monitor
+msgid "Most Downloaded"
+msgstr "Mest nedladdade"
+
+#: admin/dashboard.php:258
+#@ wp-download_monitor
+msgid "No stats yet"
+msgstr "Ingen statistik ännu"
+
+#: admin/dashboard.php:271
+#: admin/dashboard.php:293
+#@ default
+#@ wp-download_monitor
+msgid "Download Stats"
+msgstr "Filstatistik"
+
+#: admin/dashboard.php:272
+#: admin/dashboard.php:327
+#@ default
+#@ wp-download_monitor
+msgid "Top 5 Downloads"
+msgstr "Topp 5"
+
+#: admin/log_to_csv.php:41
+#: admin/logs.php:85
+#@ wp-download_monitor
+msgid "jS M Y H:i:s"
+msgstr "jS M Y H:i:s"
+
+#: admin/logs.php:45
+#@ wp-download_monitor
+msgid "Download Logs"
+msgstr "Ladda ned loggar"
+
+#: admin/logs.php:47
+#@ wp-download_monitor
+msgid "Download CSV"
+msgstr "Ladda ned CSV"
+
+#: admin/logs.php:47
+#@ wp-download_monitor
+msgid "Clear Log"
+msgstr "Rensa logg"
+
+#: admin/logs.php:54
+#@ wp-download_monitor
+msgid "User"
+msgstr "Användare"
+
+#: admin/logs.php:55
+#@ wp-download_monitor
+msgid "IP Address"
+msgstr "IP-adress"
+
+#: admin/logs.php:56
+#: page-addon/download-monitor-page-addon.php:249
+#: page-addon/download-monitor-page-addon.php:371
+#: page-addon/download-monitor-page-addon.php:456
+#: page-addon/download-monitor-page-addon.php:537
+#@ wp-download_monitor
+msgid "Date"
+msgstr "Datum"
+
+#: admin/logs.php:107
+#@ wp-download_monitor
+msgid "No downloads logged."
+msgstr "Inga nedladdningar loggade"
+
+#: admin/logs.php:119
+#: admin/logs.php:120
+#: page-addon/download-monitor-page-addon.php:302
+#: page-addon/download-monitor-page-addon.php:303
+#: page-addon/download-monitor-page-addon.php:478
+#: page-addon/download-monitor-page-addon.php:479
+#: page-addon/download-monitor-page-addon.php:566
+#: page-addon/download-monitor-page-addon.php:567
+#@ wp-download_monitor
+msgid "Previous"
+msgstr "Föregående"
+
+#: admin/logs.php:133
+#: admin/logs.php:134
+#: page-addon/download-monitor-page-addon.php:315
+#: page-addon/download-monitor-page-addon.php:316
+#: page-addon/download-monitor-page-addon.php:491
+#: page-addon/download-monitor-page-addon.php:492
+#: page-addon/download-monitor-page-addon.php:579
+#: page-addon/download-monitor-page-addon.php:580
+#@ wp-download_monitor
+msgid "Next"
+msgstr "Nästa"
+
+#: classes/downloadable_file.class.php:282
+#: classes/downloadable_file.class.php:296
+#: classes/downloadable_file.class.php:318
+#: page-addon/download-monitor-page-addon.php:72
+#@ wp-download_monitor
+msgid "Other"
+msgstr "Annan"
+
+#: classes/downloadable_file.class.php:304
+#@ wp-download_monitor
+msgid "Uncategorized"
+msgstr "Okategoriserat"
+
+#: classes/downloadable_file.class.php:339
+#: classes/downloadable_file.class.php:342
+#@ wp-download_monitor
+msgid "#Mirror-not-found"
+msgstr "#Spegling-hittas-ej"
+
+#: download.php:15
+#@ wp-download_monitor
+msgid "Headers Sent"
+msgstr "Headers skickade"
+
+#: download.php:15
+#@ wp-download_monitor
+msgid "The headers have been sent by another plugin - there may be a plugin conflict."
+msgstr "Headers har redan skickats av en annan plugin, det kan finnas en konflikt mellan denna och en annan plugin."
+
+#: download.php:162
+#, php-format
+#@ wp-download_monitor
+msgid "You must be logged in to download this file. <br/><br/><a href=\"%1$s\"><strong>← Back to %2$s</strong></a>"
+msgstr "Du måste vara inloggad för att ladda ned denna fil. <br/><br/><a href=\"%1$s\"><strong>← Tillbaka till %2$s</strong></a>"
+
+#: download.php:162
+#@ wp-download_monitor
+msgid "You must be logged in to download this file."
+msgstr "Du måste logga in för att ladda ner denna fil."
+
+#: download.php:173
+#: download.php:183
+#@ wp-download_monitor
+msgid "You do not have permission to download this file."
+msgstr "Du har inte behörighet att ladda ned denna fil."
+
+#: download.php:579
+#@ wp-download_monitor
+msgid "Cannot open remote file "
+msgstr "Kan inte öppna fil "
+
+#: download.php:632
+#@ wp-download_monitor
+msgid "Forcing the download of externally hosted files is not supported by this server."
+msgstr "Tvingad nedladdning av externt lagrade filer stöds inte av denna server."
+
+#: download.php:639
+#@ wp-download_monitor
+msgid "Download path is invalid!"
+msgstr "Filens sökväg är ogiltig!"
+
+#: download.php:670
+#@ wp-download_monitor
+msgid "Download does not exist!"
+msgstr "Filen existerar inte!"
+
+#: functions.inc.php:119
+#, php-format
+#@ default
+msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
+msgstr "%1$s%2$s, %3$s @ %4$s : %5$s"
+
+#: functions.inc.php:189
+#@ wp-download_monitor
+msgid "Add Download"
+msgstr "Lägg till fil"
+
+#: init.php:29
+#: init.php:31
+#@ wp-download_monitor
+msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
+msgstr "Download Monitor 3.3 (och senare) använder en annorlunda databasstruktur än tidigare versioner, detta gjordes för att stödja multipla kategorier. Du måste uppdatera din databas för att denna version skall fungera.  <strong>Ta backup av din databas först</strong> sen"
+
+#: init.php:29
+#: init.php:31
+#@ wp-download_monitor
+msgid "click here"
+msgstr "klcika här"
+
+#: init.php:29
+#: init.php:31
+#@ wp-download_monitor
+msgid "to run the update script"
+msgstr "för att köra uppdateringsskriptet"
+
+#: init.php:235
+#@ wp-download_monitor
+msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql user has ALTER, DROP, CREATE and INSERT privileges."
+msgstr "Databasem blev INTE uppgraderad - kunde inte döpa om. Se till att din MySQL-användare har rätt att köra ALTER, DROP, CREATE och INSERT kommandon."
+
+#: init.php:333
+#@ wp-download_monitor
+msgid "Database Upgraded"
+msgstr "Databasen uppgraderad"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:166
+#: shortcodes.php:79
+#: shortcodes.php:208
+#@ wp-download_monitor
+msgid "downloaded"
+msgstr "nedladdad"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:180
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:166
+#: page-addon/download-monitor-page-addon.php:733
+#: shortcodes.php:79
+#: shortcodes.php:208
+#@ wp-download_monitor
+msgid "times"
+msgstr "gånger"
+
+#: legacy_shortcodes.php:180
+#: page-addon/download-monitor-page-addon.php:83
+#: page-addon/download-monitor-page-addon.php:733
+#@ wp-download_monitor
+msgid "Downloaded"
+msgstr "Nedladdad"
+
+#: legacy_shortcodes.php:219
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#@ wp-download_monitor
+msgid "jS M Y"
+msgstr "jS M Y"
+
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#@ wp-download_monitor
+msgid "Added"
+msgstr "Tillagd"
+
+#: legacy_shortcodes.php:263
+#@ wp-download_monitor
+msgid "Most Popular Downloads"
+msgstr "Mest populära filer"
+
+#: legacy_shortcodes.php:283
+#@ wp-download_monitor
+msgid "No Downloads Found"
+msgstr "Inga filer hittades"
+
+#: page-addon/download-monitor-page-addon.php:70
+#@ wp-download_monitor
+msgid "Popular Downloads"
+msgstr "Populära filer"
+
+#: page-addon/download-monitor-page-addon.php:74
+#@ wp-download_monitor
+msgid "Go"
+msgstr "Sök"
+
+#: page-addon/download-monitor-page-addon.php:75
+#@ wp-download_monitor
+msgid "Results found for "
+msgstr "Träffar för "
+
+#: page-addon/download-monitor-page-addon.php:76
+#@ wp-download_monitor
+msgid "No downloads were found."
+msgstr "Inga filer hittades."
+
+#: page-addon/download-monitor-page-addon.php:77
+#@ wp-download_monitor
+msgid "No download found matching given ID."
+msgstr "Hittade ingen fil som matchar givet ID."
+
+#: page-addon/download-monitor-page-addon.php:78
+#: uploader.php:789
+#: wp-download_monitor.php:134
+#@ wp-download_monitor
+#@ default
+msgid "Downloads"
+msgstr "Nedladdningar"
+
+#: page-addon/download-monitor-page-addon.php:84
+#@ wp-download_monitor
+msgid " time"
+msgstr "gång"
+
+#: page-addon/download-monitor-page-addon.php:85
+#@ wp-download_monitor
+msgid " times"
+msgstr " gånger"
+
+#: page-addon/download-monitor-page-addon.php:86
+#@ wp-download_monitor
+msgid "Date posted"
+msgstr "Datum uppladdad"
+
+#: page-addon/download-monitor-page-addon.php:87
+#@ wp-download_monitor
+msgid "F j, Y"
+msgstr "F j, Y"
+
+#: page-addon/download-monitor-page-addon.php:89
+#@ wp-download_monitor
+msgid "Read More"
+msgstr "Läs mer"
+
+#: page-addon/download-monitor-page-addon.php:90
+#@ wp-download_monitor
+msgid "Sub-Categories:"
+msgstr "Underkategorier:"
+
+#: page-addon/download-monitor-page-addon.php:91
+#@ wp-download_monitor
+msgid "Sort by:"
+msgstr "Sortera via:"
+
+#: page-addon/download-monitor-page-addon.php:92
+#@ wp-download_monitor
+msgid "Downloads tagged:"
+msgstr "Filer taggade:"
+
+#: shortcodes.php:226
+#@ wp-download_monitor
+msgid "No Downloads found"
+msgstr "Inga filer hittades"
+
+#: uploader.php:80
+#: uploader.php:83
+#@ default
+msgid "Blue"
+msgstr "Blå"
+
+#: uploader.php:81
+#: uploader.php:84
+#@ default
+msgid "Gray"
+msgstr "Grå"
+
+#: uploader.php:93
+#@ default
+msgid "You do not have permission to upload files/downloads."
+msgstr "Du har inte behörighet att ladda upp filer."
+
+#: uploader.php:101
+#@ default
+msgid "Uploads"
+msgstr "Uppladdningar"
+
+#: uploader.php:101
+#@ default
+msgid "WordPress"
+msgstr "WordPress"
+
+#: uploader.php:268
+#@ wp-download_monitor
+msgid "View Downloads"
+msgstr "Visa filer"
+
+#: uploader.php:309
+#@ wp-download_monitor
+msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div id=\"media-upload-error\">Obligatoriskt fält: <strong>Titel</strong> saknas</div>"
+
+#: uploader.php:311
+#@ wp-download_monitor
+msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div id=\"media-upload-error\">Ogiltigt <strong>antal nedladdningar</strong> angett</div>"
+
+#: uploader.php:454
+#@ wp-download_monitor
+msgid "<div id=\"media-upload-error\">Error saving to database</div>"
+msgstr "<div id=\"media-upload-error\">Fel vid sparande till databas</div>"
+
+#: uploader.php:464
+#@ wp-download_monitor
+msgid "Download Information"
+msgstr "Filinformation"
+
+#: uploader.php:532
+#@ wp-download_monitor
+msgid "Mirrors"
+msgstr "Alternativa nedladdningsplatser"
+
+#: uploader.php:715
+#@ wp-download_monitor
+msgid "Save new download"
+msgstr "Spara ny fil"
+
+#: uploader.php:723
+#@ wp-download_monitor
+msgid "Insert new download into post"
+msgstr "Lägg in ny fil i inlägg"
+
+#: uploader.php:725
+#: uploader.php:771
+#@ wp-download_monitor
+msgid "Insert into post using format:"
+msgstr "Lägg till i inlägg med följande format:"
+
+#: uploader.php:726
+#: uploader.php:774
+#@ wp-download_monitor
+msgid "Default"
+msgstr "Standard"
+
+#: uploader.php:739
+#@ wp-download_monitor
+msgid "Insert into post"
+msgstr "Lägg till i inlägg"
+
+#: uploader.php:893
+#@ wp-download_monitor
+msgid "Insert"
+msgstr "Lägg in"
+
+#: wp-download_monitor.php:136
+#@ wp-download_monitor
+msgid "Add New"
+msgstr "Lägg till ny"
+
+#: wp-download_monitor.php:137
+#@ wp-download_monitor
+msgid "Add Directory"
+msgstr "Lägg till katalog"
+
+#: wp-download_monitor.php:139
+#@ wp-download_monitor
+msgid "Configuration"
+msgstr "Konfiguration"
+
+#: wp-download_monitor.php:143
+#@ wp-download_monitor
+msgid "Log"
+msgstr "Logg"
+
+#: admin/add_directory.php:312
+#: admin/admin.php:714
+#: admin/admin.php:1197
+#: uploader.php:612
+#@ wp-download_monitor
+msgid "Toggle Tags"
+msgstr "Växla taggar"
+
+#: admin/admin.php:1618
+#@ wp-download_monitor
+msgid "Links &amp; Documentation"
+msgstr "Länkar &amp; dokumentation"
+
+#: admin/admin.php:1620
+#@ wp-download_monitor
+msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page.</p>"
+msgstr "<p>Behöver du hjälp? FAQ, användarmanual med mera finns på pluginsidan på WordPress.org.</p>"
+
+#: admin/admin.php:1622
+#@ wp-download_monitor
+msgid "Download Monitor on WordPress.org"
+msgstr "Download Monitor på WordPress.org"
+
+#: admin/admin.php:1623
+#@ wp-download_monitor
+msgid "Download Monitor documentation + FAQ"
+msgstr "Download Monitor dokumentation + FAQ"
+
+#: admin/admin.php:1624
+#@ wp-download_monitor
+msgid "Download Monitor on GitHub"
+msgstr "Download Monitor på GitHub"
+
+#: admin/admin.php:1631
+#@ wp-download_monitor
+msgid "The Wordpress Download monitor plugin was created by <a href=\"http://mikejolley.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
+msgstr "Wordpress Download Monitor skapades av <a href=\"http://mikejolley.com/\">Mike Jolley</a>. Utveckling av denna plugin tog mycket tid och kraft, så om du tycker pluginen är hjälpsam, donera gärna en slant."
+
+#. TRANSLATORS: The value for Swedish is languages/img/downloadbutton-sv_SE.gif
+#: page-addon/download-monitor-page-addon.php:32
+#@ wp-download_monitor
+msgid "page-addon/downloadbutton.gif"
+msgstr "languages/img/downloadbutton-sv_SE.gif"
+
+#. TRANSLATORS: The value for Swedish is languages/img/morebutton-sv_SE.gif
+#: page-addon/download-monitor-page-addon.php:34
+#@ wp-download_monitor
+msgid "page-addon/morebutton.gif"
+msgstr "languages/img/morebutton-sv_SE.gif"
+

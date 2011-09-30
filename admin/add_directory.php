@@ -309,7 +309,7 @@ function dlm_adddir() {
                 <tr valign="middle">
                     <th scope="row"><strong><?php _e('Tags',"wp-download_monitor"); ?>: </strong></th> 
                     <td>
-                        <input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($tags)) echo $tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#">Toggle Tags</a></span>
+                        <input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($tags)) echo $tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#"><?php _e('Toggle Tags',"wp-download_monitor"); ?></a></span>
                     	<div id="tag-list" style="display:none;">
                     		<?php
                     			$tags = $download_taxonomies->tags;
@@ -379,7 +379,7 @@ function dlm_adddir() {
 							if ($fields) {
 								echo '<ul>';
 								foreach ($fields as $field) {
-									echo '<li><strong>'.$field->meta_name.'</strong> <button type="button" class="addmeta_rel" rel="'.$field->meta_name.'">Add</button></li>';
+									echo '<li><strong>'.$field->meta_name.'</strong> <button type="button" class="addmeta_rel" rel="'.$field->meta_name.'">'._e('Add',"wp-download_monitor").'</button></li>';
 								}
 								echo '</ul>';
 							} else {

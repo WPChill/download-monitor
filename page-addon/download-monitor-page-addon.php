@@ -27,6 +27,24 @@ $wp_dlmp_root = $wp_dlm_root.'page-addon/';
 // Styles and Javascript
 ################################################################################
 
+function wp_dlmp_l10n_style() {	
+	/* TRANSLATORS: The value for Swedish is languages/img/downloadbutton-sv_SE.gif */
+	$dl_image_url = plugins_url(__('page-addon/downloadbutton.gif','wp-download_monitor'), dirname(__FILE__));
+	/* TRANSLATORS: The value for Swedish is languages/img/morebutton-sv_SE.gif */
+	$more_image_url = plugins_url(__('page-addon/morebutton.gif','wp-download_monitor'), dirname(__FILE__));
+?>
+	<style type='text/css'>
+	.download-info .download-button {
+		background-image: url(<?php echo $dl_image_url ?>);
+	}
+	.download-info .more-button {
+		background-image: url(<?php echo $more_image_url ?>);
+	}
+	</style>
+<?php
+}
+add_action('wp_head', 'wp_dlmp_l10n_style' );
+
 function wp_dlmp_styles() {
 	if (function_exists('wp_register_style') && function_exists('wp_enqueue_style') ) {
 		global $wp_dlmp_root;
@@ -39,7 +57,6 @@ function wp_dlmp_styles() {
     }
 }
 add_action('wp_print_styles', 'wp_dlmp_styles');
-
    																					
 ################################################################################
 // DOWNLOAD PAGE OUTPUT FUNCTION
