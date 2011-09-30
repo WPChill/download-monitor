@@ -711,7 +711,7 @@ function wp_dlm_admin()
 						                <tr valign="middle">
 						                    <th scope="row"><strong><?php _e('Tags',"wp-download_monitor"); ?>: </strong></th> 
 						                    <td>
-						                        <input type="text" style="width:360px;" class="cleardefault" value="<?php echo $download_tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#">Toggle Tags</a></span>
+						                        <input type="text" style="width:360px;" class="cleardefault" value="<?php echo $download_tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#"><?php _e('Toggle Tags',"wp-download_monitor"); ?></a></span>
 						                    	<div id="tag-list" style="display:none;">
 						                    		<?php
 						                    			$tags = $download_taxonomies->tags;
@@ -1194,7 +1194,7 @@ function wp_dlm_admin()
 		                        <select name="change_tags" style="vertical-align:middle">
                             		<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
                             		<option value="1"><?php _e('Change to &rarr;',"wp-download_monitor"); ?></option>
-                            	</select><input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($download_tags)) echo $download_tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#">Toggle Tags</a></span>
+                            	</select><input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($download_tags)) echo $download_tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#"><?php _e('Toggle Tags',"wp-download_monitor"); ?></a></span>
 		                    	<div id="tag-list" style="display:none;">
 		                    		<?php
 		                    			$tags = $download_taxonomies->tags;
