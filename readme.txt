@@ -44,41 +44,49 @@ IMPORTANT PRIVACY INFORMATION: NO INDIVIDUALLY IDENTIFIABLE DETAILS OF ANY KIND,
 
 Need it in a different language? Some users have been kind enough to provide some translation files. Note, I am not responsible for any of these.
 
-*	Chinese translation - http://hpyer.cn/wordpress-plugin-download-monitor.html
-*	Danish translation - http://wordpress.blogos.dk/2009/03/18/download-monitor-v3/ (version 3) | http://wordpress.blogos.dk/2008/03/14/wpdm-2-0-1-dansk/ (version 2)
-*	Japanese translation - http://rp.exadge.com/2008/03/15/wp-download_monitor_v203_ja/
-*	Italian translation by Gianni Diurno - http://gidibao.net/index.php/2008/03/18/download-monitor-plugin-in-italiano/
-*	Portuguese translation by Angelica Costa - http://webangel.com.br/downloads/?category=6
-*	Hebrew translation - http://www.cynican.com/plugins-i-translated/wordpress-download-monitor/
-*	French translation - http://themes-du.net/download-monitor-pour-compter-les-telechargements-sur-wordpress/
-*	Turkish translation - http://ramerta.com/
-*	Ukrainian translation - http://kosivart.if.ua/2009/01/09/889/
-*	Spanish (Guatemala) Translation - http://download.es-xchange.com/wp/download-monitor-es_ES.zip
-*	Russian Translation - http://blog.liri-site.ru/portfolio/wordpress-download-monitor
-*	Korean Translation - http://incommunity.codex.kr/wordpress/?p=7 - Jong-In Kim
-*	Lithuanian Translation - http://wordpresstvs.lt/wordpress-download-monitor-2/
-*	German Translation - http://www.outsourcetoasia.de/download-monitor-3
-*	Dutch Translation - http://www.nostromo.nl/nederlandse-vertaling-wordpress-download-monitor
-*	Croatian Translation - http://www.eugen-bozic.net/download-monitor-plugin-prijevod/
-*	Norwegian Translation - http://www.aanvik.net/2009/01/wordpress-download-monitor-pa-norsk/
-*	Russian Translation - http://www.wpbloging.com/plugins/russkij-download-monitor-i-ego-opisanie.html
-*	Czech Translation - http://wordpress.mantlik.cz/plugins/download-monitor/
-*	Polish Translation (included) by Maciej Baur - http://www.baur.com.pl/?p=155
-*	Spanish (spain) translation by FraguelsRock - http://www.gremlins.es/download/16/
-*	Spanish translation by David Bravo - Dimensi—n Multimedia (included)
-*	Albanian translation by Romeo - http://www.romeolab.com/download-monitor-plugin-shqip
-*	Hebrew translation by David Tayar - http://davidt.net/
-*	German translation by Frank Weichbrodt - http://wir-machen-keine-fehler.de/wordpress-sprachdateien/
-*	German translation (included) by Michael Fitzen - http://www.be-infected.de/
-*	French translation by Li-An - http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/
-*	French translation by The Alien - http://ramenetascience.com/wordpress/traduction-wordpress-download-monitor/
-*	Finish translation (included) by Ari Kontiainen
-*	Polish (alt) translation (included) by Krzysztof Machocki aka Halibutt - http://halibutt.pl/en/2010/04/16/download-monitor-polish-localisation/
-*	Chinese Translation by 19ct - http://19ct.com/archives/29
-*	Japanese Translation (included) by Chestnut (http://staff.blog.bng.net/)
-*	Indonesian Translation (included) by Hendry Lee (http://kelayang.com)
-*	Brazilian translation (included) by Rodrigo Coimbra
-*	Lithuanian translation (included) by Nata (http://www.webhostinghub.com/)
+__Translations included:__
+
+*	Brazilian by Rodrigo Coimbra
+*	Finnish by Ari Kontiainen
+*	German by [Michael Fitzen](http://www.be-infected.de/)
+*	Indonesian by [Hendry Lee](http://kelayang.com)
+*	Japanese by [Chestnut](http://staff.blog.bng.net/)
+*	Lithuanian by [Nata](http://www.webhostinghub.com/)
+*	Polish by [Krzysztof Machocki aka Halibutt](http://halibutt.pl/en/2010/04/16/download-monitor-polish-localisation/)
+*	Polish by [Maciej Baur](http://www.baur.com.pl/?p=155)
+*	Spanish by David Bravo - Dimensi—n Multimedia
+* Swedish by P&aring;l Brattberg - Acando
+
+
+__Translations available online:__
+
+*	[Albanian by Romeo](http://www.romeolab.com/download-monitor-plugin-shqip)
+*	[Chinese by 19ct](http://19ct.com/archives/29)
+*	[Chinese](http://hpyer.cn/wordpress-plugin-download-monitor.html)
+*	[Croatian](http://www.eugen-bozic.net/download-monitor-plugin-prijevod/)
+*	[Czech](http://wordpress.mantlik.cz/plugins/download-monitor/)
+*	Danish [Version 3](http://wordpress.blogos.dk/2009/03/18/download-monitor-v3/) | [Version 2](http://wordpress.blogos.dk/2008/03/14/wpdm-2-0-1-dansk/)
+*	[Dutch](http://www.nostromo.nl/nederlandse-vertaling-wordpress-download-monitor)
+*	[French](http://themes-du.net/download-monitor-pour-compter-les-telechargements-sur-wordpress/)
+*	[French by Li-An](http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/)
+*	[French by The Alien](http://ramenetascience.com/wordpress/traduction-wordpress-download-monitor/)
+*	[German](http://www.outsourcetoasia.de/download-monitor-3)
+*	[German by Frank Weichbrodt](http://wir-machen-keine-fehler.de/wordpress-sprachdateien/)
+*	[Hebrew](http://www.cynican.com/plugins-i-translated/wordpress-download-monitor/)
+*	[Hebrew by David Tayar](http://davidt.net/)
+*	[Italian by Gianni Diurno](http://gidibao.net/index.php/2008/03/18/download-monitor-plugin-in-italiano/)
+*	[Japanese](http://rp.exadge.com/2008/03/15/wp-download_monitor_v203_ja/)
+*	[Korean by Jong-In Kim](http://incommunity.codex.kr/wordpress/?p=7)
+*	[Lithuanian](http://wordpresstvs.lt/wordpress-download-monitor-2/)
+*	[Norwegian](http://www.aanvik.net/2009/01/wordpress-download-monitor-pa-norsk/)
+*	[Portuguese by Angelica Costa](http://webangel.com.br/downloads/?category=6)
+*	[Russian](http://blog.liri-site.ru/portfolio/wordpress-download-monitor)
+*	[Russian](http://www.wpbloging.com/plugins/russkij-download-monitor-i-ego-opisanie.html)
+*	[Spanish (Guatemala)](http://download.es-xchange.com/wp/download-monitor-es_ES.zip)
+*	[Spanish (Spain) by FraguelsRock](http://www.gremlins.es/download/16/)
+*	[Turkish](http://ramerta.com/)
+*	[Ukrainian](http://kosivart.if.ua/2009/01/09/889/)
+
 
 == Installation ==
 
