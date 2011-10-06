@@ -22,23 +22,31 @@
 ################################################################################
 // Global counts
 ################################################################################
+// Special hack by Pierre Bendayan to see if the function already exists
+if(!function_exists('wp_dlm_get_total_downloads'))
+{
+	function wp_dlm_get_total_downloads() {
+		global $wpdb, $wp_dlm_db;
+		return $wpdb->get_var('SELECT SUM(hits) FROM '.$wp_dlm_db.';');
+	}
 
-function wp_dlm_get_total_downloads() {
-	global $wpdb, $wp_dlm_db;
-	return $wpdb->get_var('SELECT SUM(hits) FROM '.$wp_dlm_db.';');
+	add_shortcode('total_downloads', 'wp_dlm_get_total_downloads');
 }
-add_shortcode('total_downloads', 'wp_dlm_get_total_downloads');
-
-function wp_dlm_get_total_files() {
-	global $wpdb, $wp_dlm_db;
-	return $wpdb->get_var('SELECT COUNT(*) FROM '.$wp_dlm_db.';');
+if(!function_exists('wp_dlm_get_total_files'))
+{
+	function wp_dlm_get_total_files() {
+		global $wpdb, $wp_dlm_db;
+		return $wpdb->get_var('SELECT COUNT(*) FROM '.$wp_dlm_db.';');
+	}
+	add_shortcode('total_files', 'wp_dlm_get_total_files');
 }
-add_shortcode('total_files', 'wp_dlm_get_total_files');
 
 ################################################################################
 // MAIN SINGLE SHORTCODE
 ################################################################################
-
+// Special hack by Pierre Bendayan to see if the function already exists
+if(!function_exists('wp_dlm_shortcode_download'))
+{
 function wp_dlm_shortcode_download( $atts ) {
 
 	extract(shortcode_atts(array(
@@ -111,12 +119,15 @@ function wp_dlm_shortcode_download( $atts ) {
 	return do_shortcode($output);
 
 }
-add_shortcode('download', 'wp_dlm_shortcode_download');
 
+	add_shortcode('download', 'wp_dlm_shortcode_download');
+}
 ################################################################################
 // SINGLE SHORTCODE that takes a format inside
 ################################################################################
-
+// Special hack by Pierre Bendayan to see if the function already exists
+if(!function_exists('wp_dlm_shortcode_download_data'))
+{
 function wp_dlm_shortcode_download_data( $atts, $content ) {
 
 	extract(shortcode_atts(array(
@@ -165,11 +176,13 @@ function wp_dlm_shortcode_download_data( $atts, $content ) {
 
 }
 add_shortcode('download_data', 'wp_dlm_shortcode_download_data');
-
+}
 ################################################################################
 // SHORTCODE FOR MULTIPLE DOWNLOADS
 ################################################################################		
-		
+// Special hack by Pierre Bendayan to see if the function already exists
+if(!function_exists('wp_dlm_shortcode_downloads'))
+{		
 function wp_dlm_shortcode_downloads( $atts ) {
 	
 	extract(shortcode_atts(array(
@@ -234,11 +247,13 @@ function wp_dlm_shortcode_downloads( $atts ) {
 
 }
 add_shortcode('downloads', 'wp_dlm_shortcode_downloads');
-
+}
 ################################################################################
 // Main template tag to get multiple downloads
 ################################################################################
-
+// Special hack by Pierre Bendayan to see if the function already exists
+if(!function_exists('get_downloads'))
+{	
 function get_downloads($args = null) {
 
 	$defaults = array(
@@ -484,5 +499,5 @@ function get_downloads($args = null) {
 	return $return_downloads;
 		
 }
-
+}
 ?>
