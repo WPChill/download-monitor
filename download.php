@@ -309,7 +309,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				if ($force==0) {
 					$urlparsed = parse_url($thefile);
 					$isURI = array_key_exists('scheme', $urlparsed);
-					$localToWordPress = (bool) strstr($thefile, ABSPATH);
+					$localToWordPress = (bool) strstr($thefile, ABSPATH) || substr($thefile, 0, 1)=='/';
 					if (!$isURI && !$localToWordPress) {
 						// This download is outside of wordpress and is not a URL, it’s a file path => force it
 						$force = 1;
