@@ -167,8 +167,21 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				// Min-level/req-role addon
 				if ($d->members && isset($user_ID) && $user_ID > 0) {
 					$minLevel = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='min-level' LIMIT 1" , $d->id ) );
-					if ($minLevel) {
-						if ($level < $minLevel) {
+					// get list of allowed users to download
+					$allowedUsers = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='allowed_users'" , $d->id ) );
+					// check if it's only one user
+					if(strpos($allowedUsers,",")=== FALSE){
+						$allowedUserList=$allowedUsers;
+						$userAllowed=($allowedUsers==$user_ID);
+					}
+					// otherwise split it to an array and check if the current user is in the list
+					else{					
+						$allowedUserList = explode(",",$allowedUsers);
+						$userAllowed=!(array_search($user_ID,$allowedUserList)===FALSE);
+					}
+					if ($minLevel || strlen($allowedUsers)>0) {		
+			
+						if ($level < $minLevel || empty($userAllowed)) {
 							@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 		   					wp_die(__('You do not have permission to download this file.',"wp-download_monitor"),__('You do not have permission to download this file.',"wp-download_monitor"));
 							exit();

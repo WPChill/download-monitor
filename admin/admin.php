@@ -372,6 +372,15 @@ function wp_dlm_admin()
 							$removefile = (isset($_POST['removefile'])) ? 1 : 0;
 							
 							$forcedownload = (isset($_POST['forcedownload'])) ? 1 : 0;
+							$allowedUsers = '';
+							foreach($_POST as $key => $value){
+								if(!(strstr($key,'allowedUser_'	) === FALSE)){
+									if($value="on"){
+										$allowedUsers=$allowedUsers.substr($key,stripos($key,'_')+1).",";
+									$members=1;
+									}
+								}	
+							}
 								
 							if (empty($errors)) {
 
@@ -493,7 +502,8 @@ function wp_dlm_admin()
 									
 									// Force Download
 									$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('force', '".$wpdb->escape( $forcedownload )."', '".$wpdb->escape($_GET['id'])."')");										
-									
+									// save user restriction
+									$wpdb->query("UPDATE $wp_dlm_db_meta SET meta_value='".$wpdb->escape( $allowedUsers )."' WHERE meta_name='allowed_users' AND download_id='".$wpdb->escape($_GET['id'])."')");
 									// Custom Fields								
 									$index = 1;
 									$values = array();
@@ -711,7 +721,7 @@ function wp_dlm_admin()
 						                <tr valign="middle">
 						                    <th scope="row"><strong><?php _e('Tags',"wp-download_monitor"); ?>: </strong></th> 
 						                    <td>
-						                        <input type="text" style="width:360px;" class="cleardefault" value="<?php echo $download_tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#"><?php _e('Toggle Tags',"wp-download_monitor"); ?></a></span>
+						                        <input type="text" style="width:360px;" class="cleardefault" value="<?php echo $download_tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#">Toggle Tags</a></span>
 						                    	<div id="tag-list" style="display:none;">
 						                    		<?php
 						                    			$tags = $download_taxonomies->tags;
@@ -755,7 +765,28 @@ function wp_dlm_admin()
 						                </tr>
 						                <tr valign="top">												
 						                    <th scope="row"><strong><?php _e('Force Download?',"wp-download_monitor"); ?></strong></th> 
-						                    <td><input type="checkbox" name="forcedownload" style="vertical-align:top" <?php if ($forcedownload==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server.',"wp-download_monitor"); ?></span></td>
+						                    <td><input type="checkbox" name="forcedownload" style="vertical-align:top" <?php if ($forcedownload==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server.',"wp-download_monitor"); ?>		
+			<br/>
+			<?php $wp_user_search = $wpdb->get_results("SELECT ID, display_name FROM $wpdb->users ORDER BY ID");
+					foreach ( $wp_user_search as $userid ) {
+						$user_id       = (int) $userid->ID;
+						$user_login    = stripslashes($userid->user_login);
+						$display_name  = $userid->display_name;
+						$return  = '';
+						$return .= "\t".'<input type="checkbox" class="element by" name="allowedUser_'.$user_id.'"';
+						if ($custom_fields) foreach ($custom_fields as $meta){
+							if (!$meta['remove']) {
+								if (trim($meta['key'] && $meta['key']=='allowed_users')) {
+									if(!(strstr($meta['value'],"$user_id")===FALSE)){
+										$return .= ' checked="checked"';
+									}
+								}
+							}		
+						}
+						$return .= '/> '.$display_name .'<br/>';
+						print($return);
+					} ?> 
+			</span></td>
 						                </tr>
 									</table>
 									<input type="hidden" name="sort" value="<?php echo $_REQUEST['sort']; ?>" />
@@ -782,8 +813,8 @@ function wp_dlm_admin()
 											$index = 1;
 											if ($custom_fields) foreach ($custom_fields as $meta) 
 											{
-												if (!$meta['remove']) {
-													if (trim($meta['key'])) {
+												if (!$meta['remove'] && !$meta['allowed_users']) {
+													if (trim($meta['key'] && $meta['key']!='allowed_users')) {
 														echo '<tr class="alternate">
 															<td class="left" style="vertical-align:top;">
 																<label class="hidden" for="meta['.$index.'][key]">Key</label><input name="meta['.$index.'][key]" id="meta['.$index.'][key]" tabindex="6" size="20" value="'.strtolower((str_replace(' ','-',trim($meta['key'])))).'" type="text" style="width:95%">
@@ -1194,7 +1225,7 @@ function wp_dlm_admin()
 		                        <select name="change_tags" style="vertical-align:middle">
                             		<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
                             		<option value="1"><?php _e('Change to &rarr;',"wp-download_monitor"); ?></option>
-                            	</select><input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($download_tags)) echo $download_tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#"><?php _e('Toggle Tags',"wp-download_monitor"); ?></a></span>
+                            	</select><input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($download_tags)) echo $download_tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas.',"wp-download_monitor"); ?> <a class="browsetags" style="display:none" href="#">Toggle Tags</a></span>
 		                    	<div id="tag-list" style="display:none;">
 		                    		<?php
 		                    			$tags = $download_taxonomies->tags;
@@ -1651,3 +1682,4 @@ function wp_dlm_admin()
 }
 
 ?>
+
