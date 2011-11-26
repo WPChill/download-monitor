@@ -268,7 +268,6 @@ load_plugin_textdomain('wp-download_monitor', '/');
 			<li id='tab-downloads'><a href='uploader.php?tab=downloads' <?php if ($_GET['tab']=='downloads') echo "class='current'"; ?>><?php _e('View Downloads',"wp-download_monitor"); ?></a></li>
 		</ul>
 	</div>
-	<?php dlm_sponsors(); ?>
 	<?php
 	// Get the Tab
 	$tab = $_GET['tab'];

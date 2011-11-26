@@ -36,7 +36,6 @@ function wp_dlm_categories() {
     
     <div id="downloadadminicon" class="icon32"><br/></div>
     <h2><?php _e('Download Categories',"wp-download_monitor"); ?></h2>
-    <?php dlm_sponsors(); ?>
     <?php _e('<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it\'s child categories.</p>',"wp-download_monitor"); ?>
     <?php
 	if (isset($_POST['rename_cat'])) {						

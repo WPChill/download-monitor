@@ -1,28 +1,3 @@
-.download_monitor .spsn-container {
-	background: #ECECEC !important;
-	border: 1px solid #DFDFDF !important;
-	text-shadow: rgba(255, 255, 255, 0.796875) 0px 1px 0px;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	position: relative;
-	padding:.5em !important;
-	margin: 0.4em 0 0.5em 0 !important;
-	font-size: 0.95em;
-}
-
-.download_monitor .spsn-sponsor-heading {/* paragraph carrying a heading for the sponsorship message */}
-
-.download_monitor .spsn-sponsor-text {/* paragraph containing the sponsorship message */}
-
-.download_monitor .spsn-credit {
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding:.8em !important;
-	color: #999;
-}
-
 #sort_dlm_cats tbody td {
 	background: #fff;
 }

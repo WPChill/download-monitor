@@ -3,8 +3,8 @@ Contributors: jolley_small
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10691945
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.8
-Tested up to: 3.1
-Stable tag: 3.3.5.3
+Tested up to: 3.2
+Stable tag: 3.3.5.4
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -16,7 +16,7 @@ Development for this plugin can now be found on GitHub: https://github.com/mikej
 
 For older versions of wordpress use the older Download Monitor version 2.2.3 which is available from http://wordpress.org/extend/plugins/download-monitor/download/ (tested and working in Wordpress 2.0 and 2.3).
 
-Plugin contains filetype icons from the Fugue Icon Pack by Yusuke Kamiyamane (http://pinvoke.com).
+Plugin contains filetype icons from the Fugue Icon Pack by Yusuke Kamiyamane.
 
 = Features =
 
@@ -34,51 +34,23 @@ Plugin contains filetype icons from the Fugue Icon Pack by Yusuke Kamiyamane (ht
 *	Admin for managing downloads and also changing hit counts - just in case you change servers or import old downloads that already have stats.
 *	Custom URL's/URL hider using mod_rewrite.
 
-= Sustainable Plugin Development - and Your Privacy =
-
-Download Monitor is a participant in the Sustainable Plugins Sponsorship Network (SPSN) - http://pluginsponsors.com/. The SPSN model offers modest sponsorships to plugin authors in return for a small amount of screen real estate on plugin options pages. The SPSN sponsor messages can be switched altogether: just visit the Config page.
-
-IMPORTANT PRIVACY INFORMATION: NO INDIVIDUALLY IDENTIFIABLE DETAILS OF ANY KIND, REGARDING EITHER YOU OR YOUR SITE, will be collected or shared as a result of displaying Sustainable Plugins Sponsorship Network (SPSN) sponsor messages. Sponsors receive only aggregate reports of impressions on a worldwide per-plugin basis, NOT on impressions or on any other activity at any individual site which happens to be using a plugin.
-
 = Localization =
 
 Need it in a different language? Some users have been kind enough to provide some translation files. Note, I am not responsible for any of these.
 
-*	Chinese translation - http://hpyer.cn/wordpress-plugin-download-monitor.html
-*	Danish translation - http://wordpress.blogos.dk/2009/03/18/download-monitor-v3/ (version 3) | http://wordpress.blogos.dk/2008/03/14/wpdm-2-0-1-dansk/ (version 2)
-*	Japanese translation - http://rp.exadge.com/2008/03/15/wp-download_monitor_v203_ja/
-*	Italian translation by Gianni Diurno - http://gidibao.net/index.php/2008/03/18/download-monitor-plugin-in-italiano/
-*	Portuguese translation by Angelica Costa - http://webangel.com.br/downloads/?category=6
-*	Hebrew translation - http://www.cynican.com/plugins-i-translated/wordpress-download-monitor/
-*	French translation - http://themes-du.net/download-monitor-pour-compter-les-telechargements-sur-wordpress/
-*	Turkish translation - http://ramerta.com/
-*	Ukrainian translation - http://kosivart.if.ua/2009/01/09/889/
-*	Spanish (Guatemala) Translation - http://download.es-xchange.com/wp/download-monitor-es_ES.zip
-*	Russian Translation - http://blog.liri-site.ru/portfolio/wordpress-download-monitor
-*	Korean Translation - http://incommunity.codex.kr/wordpress/?p=7 - Jong-In Kim
-*	Lithuanian Translation - http://wordpresstvs.lt/wordpress-download-monitor-2/
-*	German Translation - http://www.outsourcetoasia.de/download-monitor-3
-*	Dutch Translation - http://www.nostromo.nl/nederlandse-vertaling-wordpress-download-monitor
-*	Croatian Translation - http://www.eugen-bozic.net/download-monitor-plugin-prijevod/
-*	Norwegian Translation - http://www.aanvik.net/2009/01/wordpress-download-monitor-pa-norsk/
-*	Russian Translation - http://www.wpbloging.com/plugins/russkij-download-monitor-i-ego-opisanie.html
-*	Czech Translation - http://wordpress.mantlik.cz/plugins/download-monitor/
-*	Polish Translation (included) by Maciej Baur - http://www.baur.com.pl/?p=155
-*	Spanish (spain) translation by FraguelsRock - http://www.gremlins.es/download/16/
-*	Spanish translation by David Bravo - Dimensi—n Multimedia (included)
-*	Albanian translation by Romeo - http://www.romeolab.com/download-monitor-plugin-shqip
-*	Hebrew translation by David Tayar - http://davidt.net/
-*	German translation by Frank Weichbrodt - http://wir-machen-keine-fehler.de/wordpress-sprachdateien/
-*	German translation (included) by Michael Fitzen - http://www.be-infected.de/
-*	French translation by Li-An - http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/
-*	French translation by The Alien - http://ramenetascience.com/wordpress/traduction-wordpress-download-monitor/
-*	Finish translation (included) by Ari Kontiainen
-*	Polish (alt) translation (included) by Krzysztof Machocki aka Halibutt - http://halibutt.pl/en/2010/04/16/download-monitor-polish-localisation/
-*	Chinese Translation by 19ct - http://19ct.com/archives/29
-*	Japanese Translation (included) by Chestnut (http://staff.blog.bng.net/)
-*	Indonesian Translation (included) by Hendry Lee (http://kelayang.com)
-*	Brazilian translation (included) by Rodrigo Coimbra
-*	Lithuanian translation (included) by Nata (http://www.webhostinghub.com/)
+*	Polish Translation by Maciej Baur
+*	Spanish translation by David Bravo
+*	Albanian translation by romeolab
+*	Hebrew translation by David Tayar
+*	German translation by Frank Weichbrodt
+*	German translation by Michael Fitzen
+*	French translation by Li-An
+*	Finish translation by Ari Kontiainen
+*	Polish (alt) translation by Krzysztof Machocki aka Halibutt
+*	Japanese Translation by Chestnut
+*	Indonesian Translation by Hendry Lee
+*	Brazilian translation by Rodrigo Coimbra
+*	Lithuanian translation by Nata
 
 == Installation ==
 
@@ -110,6 +82,10 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 
 
 == Changelog ==
+
+= 3.3.5.4 = 
+*	Removed the sponsorship messages and links to translators sites due to Automattic's request
+*	Added SSL url support (thanks cliffpaulick)
 
 = 3.3.5.3 = 
 *	Updated links + other info

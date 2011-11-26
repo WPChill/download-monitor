@@ -17,8 +17,6 @@ class download_taxonomies {
 		$this->tags = array();
 		$this->used_tags = array();
 		
-		wp_dlm_clear_cached_stuff();
-		
 		$categories = get_transient( 'dlm_categories' );
 		$tags = get_transient( 'dlm_tags' );
 		$used_tags = get_transient( 'dlm_used_tags' );

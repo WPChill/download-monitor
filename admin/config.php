@@ -39,7 +39,6 @@ function wp_dlm_config() {
     
     <div id="downloadadminicon" class="icon32"><br/></div>
     <h2><?php _e('Download Monitor Configuration',"wp-download_monitor"); ?></h2>
-    <?php dlm_sponsors(); ?>
     <?php
 	if (isset($_GET['action'])) $action = $_GET['action']; else $action = '';
 	if (!empty($action)) {
@@ -76,7 +75,6 @@ function wp_dlm_config() {
 					$show=true;
 				break;
 				case "saveoptions" :
-					update_option('wp_dlm_disable_sponsors', $_POST['wp_dlm_disable_sponsors']);
 					update_option('wp_dlm_disable_news', $_POST['wp_dlm_disable_news']);
 					
 					update_option('wp_dlm_image_url', $_POST['wp_dlm_image_url']);
@@ -300,20 +298,6 @@ function wp_dlm_config() {
                 <form action="<?php echo admin_url('admin.php?page=dlm_config&amp;action=saveoptions'); ?>" method="post">
                     <table class="niceblue form-table">
                        
-                         <tr>
-                            <th scope="col"><?php _e('I Appreciate This Plugin, And I\'ve Contributed to the Effort!',"wp-download_monitor"); ?>:</th>
-                            <td>
-	                            <select name="wp_dlm_disable_sponsors" id="wp_dlm_disable_sponsors">
-	                            	<option value="yes" <?php
-	                            		if (get_option('wp_dlm_disable_sponsors')=='yes') echo 'selected="selected" ';
-	                            	?>><?php _e('Yes',"wp-download_monitor"); ?></option>
-	                        		<option value="no" <?php
-	                            		if (!get_option('wp_dlm_disable_sponsors') || get_option('wp_dlm_disable_sponsors')=='no') echo 'selected="selected" ';
-	                            	?>><?php _e('No',"wp-download_monitor"); ?></option>                           	
-	                            </select> 
-	                            <p><?php _e('If you would like to say thanks for Download Monitor there are many ways to do so, for example: spreading the word or making a donation. If you have already done so you can indicate that here (thanks by the way). For direct contributors, sponsorship messages will be disabled. (Please see the readme file for full details about sponsorship messages and how your privacy is protected).',"wp-download_monitor"); ?></p>                          
-                            </td>
-                        </tr>
                         <tr>
                             <th scope="col"><?php _e('Disable the news/links/donate box on the Edit Download Page?',"wp-download_monitor"); ?>:</th>
                             <td>

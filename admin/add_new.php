@@ -64,7 +64,6 @@ function dlm_addnew() {
 
     <div id="downloadadminicon" class="icon32"><br/></div>
     <h2><?php _e('Add New Download',"wp-download_monitor"); ?></h2>
-    <?php dlm_sponsors(); ?>
     <?php
     $errors = '';
     

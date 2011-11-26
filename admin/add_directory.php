@@ -41,7 +41,6 @@ function dlm_adddir() {
 
     <div id="downloadadminicon" class="icon32"><br/></div>
     <h2><?php _e('Add From Directory',"wp-download_monitor"); ?></h2>
-    <?php dlm_sponsors(); ?>
     <p><?php _e('This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards.',"wp-download_monitor"); ?></p>
     <?php
     if ($_POST) {

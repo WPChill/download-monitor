@@ -580,7 +580,6 @@ function wp_dlm_admin()
 								<div class="wrap">
 								<div id="downloadadminicon" class="icon32"><br/></div>
 								<h2><?php _e('Edit Download Information',"wp-download_monitor"); ?></h2>
-								<?php dlm_sponsors(); ?>
 								<form enctype="multipart/form-data" action="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id=<?php echo $_GET['id']; ?>" method="post" id="wp_dlm_add" name="edit_download" class="form-table" cellpadding="0" cellspacing="0"> 
 									<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $max_upload_size; ?>" />
 
@@ -1324,9 +1323,6 @@ function wp_dlm_admin()
 	<div class="wrap alternate">    
     	<div id="downloadadminicon" class="icon32"><br/></div>
         <h2><?php _e('Edit Downloads',"wp-download_monitor"); ?></h2>
-        
-       	<?php dlm_sponsors(); ?>
-        
 		<form id="downloads-form" action="admin.php?page=download-monitor/wp-download_monitor.php" method="POST">
 
 		<div class="tablenav">
@@ -1443,7 +1439,7 @@ function wp_dlm_admin()
 						<td class="column-title">';
 						
 						$thumb = $wpdb->get_var('SELECT meta_value FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.' AND meta_name = "thumbnail" LIMIT 1');
-						if (!$thumb) $thumb = $wp_dlm_root.'/page-addon/thumbnail.gif';
+						if (!$thumb) $thumb = $wp_dlm_root.'page-addon/thumbnail.gif';
 						
 						echo '<img src="'.$thumb.'" alt="Thumbnail" style="float: left; margin: 0 8px 0 0; padding: 3px; background: #fff; border: 1px solid #E0E0E0" width="32" height="32" />';
 						
@@ -1630,7 +1626,7 @@ function wp_dlm_admin()
     		<div class="inside">
     			<p><?php _e('The Wordpress Download monitor plugin was created by <a href="http://mikejolley.com/">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don\'t forget to donate if you found this plugin useful.',"wp-download_monitor"); ?></p>
 	    
-	    		<p><?php _e('There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help.',"wp-download_monitor"); ?></p>
+	    		<p><?php _e('There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help.',"wp-download_monitor"); ?></p>
 	    		
 	    		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:right">
 					<input type="hidden" name="cmd" value="_s-xclick" />

@@ -73,23 +73,6 @@ function wp_dlm_get_custom_format_by_name($name) {
 }
 
 ################################################################################
-// Sponsors
-################################################################################
-function dlm_sponsors() {
-	if (get_option('wp_dlm_disable_sponsors')=='yes') :
-	else :
-		?>
-		<script type="text/javascript">
-		/* <![CDATA[ */
-			var psHost = (("https:" == document.location.protocol) ? "https://" : "http://");
-			document.write(unescape("%3Cscript src='" + psHost + "pluginsponsors.com/direct/spsn/display.php?client=download-monitor&spot=' type='text/javascript'%3E%3C/script%3E"));
-		/* ]]> */
-		</script>	
-		<?php
-	endif;
-}
-
-################################################################################
 // For Changing dates. Modified from touch_time() function
 ################################################################################
 

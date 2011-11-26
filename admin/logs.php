@@ -43,7 +43,6 @@ function wp_dlm_log()
     <div class="wrap alternate">
     	<div id="downloadadminicon" class="icon32"><br/></div>
         <h2><?php _e('Download Logs',"wp-download_monitor"); ?></h2>
-        <?php dlm_sponsors(); ?>
         <p><a href="<?php echo $wp_dlm_root; ?>/admin/log_to_csv.php" class="button-primary"><?php _e('Download CSV',"wp-download_monitor"); ?></a> <a href="?page=dlm_log&action=clear_logs" class="button" id="dlm_clearlog"><?php _e('Clear Log',"wp-download_monitor"); ?></a></p>
         <table class="widefat"> 
 			<thead>
