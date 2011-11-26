@@ -89,7 +89,9 @@ if (!function_exists('remote_filesize')) {
 }
 
 load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
-		
+
+do_action('wp_dlm_download');
+
 	global $wpdb,$user_ID;	
 	
 	// set table name	

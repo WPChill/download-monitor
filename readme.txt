@@ -86,6 +86,7 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 = 3.3.5.4 = 
 *	Removed the sponsorship messages and links to translators sites due to Automattic's request
 *	Added SSL url support (thanks cliffpaulick)
+*	wp_dlm_download hook in download.php before download starts
 
 = 3.3.5.3 = 
 *	Updated links + other info
