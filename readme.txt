@@ -51,6 +51,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Indonesian Translation by Hendry Lee
 *	Brazilian translation by Rodrigo Coimbra
 *	Lithuanian translation by Nata
+*	Italian translation by Gianni Diurno
 
 == Installation ==
 
