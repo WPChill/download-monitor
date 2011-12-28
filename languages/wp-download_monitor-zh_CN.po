@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wp-download_monitor\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-29 21:12+0800\n"
-"PO-Revision-Date: 2011-12-28 23:39+0800\n"
+"PO-Revision-Date: 2011-12-28 23:49+0800\n"
 "Last-Translator: Hpyer <coolhpy@163.com>\n"
 "Language-Team:  <hpyer@yahoo.cn>\n"
 "MIME-Version: 1.0\n"
@@ -27,16 +27,16 @@ msgstr "其他插件已经发送了一些报头信息，可能是插件有冲突
 #: download.php:164
 #, php-format
 msgid "You must be logged in to download this file. <br/><br/><a href=\"%1$s\"><strong>← Back to %2$s</strong></a>"
-msgstr "您必须登录系统才能下载该文件。<br/><br/><a href=\"%1$s\"><strong>← 返回到 %2$s</strong></a>"
+msgstr "您必须登录后才能下载该文件。<br/><br/><a href=\"%1$s\"><strong>← 返回到 %2$s</strong></a>"
 
 #: download.php:164
 msgid "You must be logged in to download this file."
-msgstr "您必须登录系统才能下载该文件。"
+msgstr "您必须登录后才能下载该文件。"
 
 #: download.php:175
 #: download.php:185
 msgid "You do not have permission to download this file."
-msgstr "你无权下载该文件。"
+msgstr "你无权下载该文件。 "
 
 #: download.php:581
 msgid "Cannot open remote file "
