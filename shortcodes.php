@@ -51,6 +51,7 @@ function wp_dlm_shortcode_download( $atts ) {
 
 	extract(shortcode_atts(array(
 		'id' => '0',
+		'title' => null,
 		'format' => '0',
 		'autop' => false
 	), $atts));
@@ -103,6 +104,12 @@ function wp_dlm_shortcode_download( $atts ) {
 			} 
 			
 			if ($fpatts && $fsubs) {
+				if ( $title ) {
+					$title_fpatt = array_search( '{title}', $fpatts );
+					if ( false !== $title_fpatt ) {
+						$fsubs[$title_fpatt] = $title;
+					}
+				}
 				$output = str_replace( $fpatts , $fsubs , $format );
 			} else $output = '[Download not found]';
 
