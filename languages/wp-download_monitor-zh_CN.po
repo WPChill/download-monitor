@@ -1,0 +1,1758 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-download_monitor\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-29 21:12+0800\n"
+"PO-Revision-Date: 2011-12-28 23:49+0800\n"
+"Last-Translator: Hpyer <coolhpy@163.com>\n"
+"Language-Team:  <hpyer@yahoo.cn>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: download.php:15
+msgid "Headers Sent"
+msgstr "报头已发送"
+
+#: download.php:15
+msgid "The headers have been sent by another plugin - there may be a plugin conflict."
+msgstr "其他插件已经发送了一些报头信息，可能是插件有冲突。"
+
+#: download.php:164
+#, php-format
+msgid "You must be logged in to download this file. <br/><br/><a href=\"%1$s\"><strong>← Back to %2$s</strong></a>"
+msgstr "您必须登录后才能下载该文件。<br/><br/><a href=\"%1$s\"><strong>← 返回到 %2$s</strong></a>"
+
+#: download.php:164
+msgid "You must be logged in to download this file."
+msgstr "您必须登录后才能下载该文件。"
+
+#: download.php:175
+#: download.php:185
+msgid "You do not have permission to download this file."
+msgstr "你无权下载该文件。 "
+
+#: download.php:581
+msgid "Cannot open remote file "
+msgstr "无法打开远程文件"
+
+#: download.php:634
+msgid "Forcing the download of externally hosted files is not supported by this server."
+msgstr "服务器不支持强制下载外部主机的文件。"
+
+#: download.php:641
+msgid "Download path is invalid!"
+msgstr "下载路径不正确！"
+
+#: download.php:672
+msgid "Download does not exist!"
+msgstr "文件不存在！"
+
+#: functions.inc.php:102
+#, php-format
+msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
+msgstr "%3$s-%1$s-%2$s %4$s:%5$s"
+
+#: functions.inc.php:172
+msgid "Add Download"
+msgstr "添加下载"
+
+#: init.php:29
+#: init.php:31
+msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
+msgstr "Download Monitor 3.3 版（及以上）使用与之前版本不同的数据库结构（新的结构支持多级分类）。您必须升级您的数据库以更好的使用此版本前 - <strong>请先备份您的数据库</strong>，然后"
+
+#: init.php:29
+#: init.php:31
+msgid "click here"
+msgstr "点击这里"
+
+#: init.php:29
+#: init.php:31
+msgid "to run the update script"
+msgstr "以运行升级脚本"
+
+#: init.php:235
+msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql user has ALTER, DROP, CREATE and INSERT privileges."
+msgstr "数据库未能升级成功，重命名表时出错了。请确保您拥有对数据库进行 ALTER、DROP、CREATE、INSERT 的操作权限。"
+
+#: init.php:333
+msgid "Database Upgraded"
+msgstr "数据库已升级"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: shortcodes.php:87
+#: shortcodes.php:221
+#: uploader.php:480
+#: admin/add_new.php:268
+#: admin/admin.php:594
+#: admin/admin.php:1447
+msgid "Version"
+msgstr "版本"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: shortcodes.php:87
+#: shortcodes.php:221
+msgid "downloaded"
+msgstr "已下载"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:180
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: shortcodes.php:87
+#: shortcodes.php:221
+msgid "times"
+msgstr "次"
+
+#: legacy_shortcodes.php:77
+#: admin/admin.php:1362
+msgid "Download"
+msgstr "下载"
+
+#: legacy_shortcodes.php:180
+msgid "Downloaded"
+msgstr "已下载"
+
+#: legacy_shortcodes.php:219
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+msgid "jS M Y"
+msgstr "Y-m-d"
+
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+msgid "Added"
+msgstr "已添加"
+
+#: legacy_shortcodes.php:263
+msgid "Most Popular Downloads"
+msgstr "最受欢迎的下载"
+
+#: legacy_shortcodes.php:264
+#: uploader.php:538
+#: uploader.php:796
+#: wp-download_monitor.php:140
+#: admin/add_directory.php:244
+#: admin/add_new.php:312
+#: admin/admin.php:646
+#: admin/admin.php:1119
+#: admin/admin.php:1364
+msgid "Categories"
+msgstr "分类"
+
+#: legacy_shortcodes.php:283
+msgid "No Downloads Found"
+msgstr "尚未添加任何下载"
+
+#: shortcodes.php:239
+msgid "No Downloads found"
+msgstr "未找到任何文件"
+
+#: uploader.php:80
+#: uploader.php:83
+msgid "Blue"
+msgstr "蓝色"
+
+#: uploader.php:81
+#: uploader.php:84
+msgid "Gray"
+msgstr "灰色"
+
+#: uploader.php:93
+msgid "You do not have permission to upload files/downloads."
+msgstr "你无权上传文件。"
+
+#: uploader.php:101
+msgid "Uploads"
+msgstr "上传"
+
+#: uploader.php:101
+msgid "WordPress"
+msgstr "WordPress"
+
+#: uploader.php:246
+#: uploader.php:676
+#: uploader.php:688
+#: admin/add_directory.php:355
+#: admin/add_directory.php:366
+#: admin/add_new.php:447
+#: admin/add_new.php:458
+#: admin/admin.php:260
+#: admin/admin.php:789
+#: admin/admin.php:801
+#: admin/admin.php:1264
+#: admin/admin.php:1276
+msgid "remove"
+msgstr "删除"
+
+#: uploader.php:267
+#: admin/add_new.php:66
+msgid "Add New Download"
+msgstr "添加本地下载"
+
+#: uploader.php:268
+msgid "View Downloads"
+msgstr "查看所有文件"
+
+#: uploader.php:308
+msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div class=\"media-upload-error\">必填字段：<strong>标题</strong> 被忽略</div>"
+
+#: uploader.php:310
+msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div class=\"media-upload-error\">错误的 <strong>点击</strong> 次数</div>"
+
+#: uploader.php:352
+#: admin/add_new.php:134
+msgid "No file selected"
+msgstr "没有选择文件"
+
+#: uploader.php:453
+msgid "<div id=\"media-upload-error\">Error saving to database</div>"
+msgstr "<div id=\"media-upload-error\">保存到数据库时出错</div>"
+
+#: uploader.php:463
+msgid "Download Information"
+msgstr "下载信息"
+
+#: uploader.php:469
+#: uploader.php:794
+#: admin/add_new.php:262
+#: admin/config.php:286
+#: admin/logs.php:51
+msgid "Title"
+msgstr "标题"
+
+#: uploader.php:475
+#: admin/add_new.php:274
+#: admin/admin.php:600
+msgid "Description"
+msgstr "描述"
+
+#: uploader.php:486
+#: admin/add_new.php:278
+msgid "Starting hits"
+msgstr "起始点击数"
+
+#: uploader.php:492
+#: admin/add_new.php:284
+msgid "Select a file..."
+msgstr "选择文件..."
+
+#: uploader.php:502
+#: admin/add_new.php:249
+#: admin/admin.php:571
+msgid " (defined in php.ini)"
+msgstr "（已在 php.ini 中定义）"
+
+#: uploader.php:513
+#: admin/add_new.php:288
+msgid "Upload File"
+msgstr "上传文件"
+
+#: uploader.php:515
+#: admin/add_new.php:289
+#: admin/admin.php:624
+msgid "Max. filesize"
+msgstr "最大文件大小"
+
+#: uploader.php:515
+#: admin/add_new.php:289
+#: admin/admin.php:624
+msgid "bytes"
+msgstr "字节"
+
+#: uploader.php:515
+#: admin/add_new.php:289
+#: admin/admin.php:624
+msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
+msgstr "如果在上传目录中已经存在同名的文件，则本文件会被重命名。"
+
+#: uploader.php:517
+#: uploader.php:633
+#: admin/add_new.php:292
+#: admin/add_new.php:403
+#: admin/admin.php:627
+#: admin/admin.php:737
+msgid "OR"
+msgstr "或"
+
+#: uploader.php:518
+#: admin/add_new.php:295
+msgid "Enter file URL"
+msgstr "输入文件地址"
+
+#: uploader.php:519
+#: uploader.php:635
+#: admin/add_new.php:299
+#: admin/add_new.php:409
+#: admin/admin.php:633
+#: admin/admin.php:743
+#: admin/admin.php:1219
+msgid "Toggle File Browser"
+msgstr "切换文件浏览器"
+
+#: uploader.php:521
+#: admin/add_directory.php:395
+#: admin/add_new.php:487
+msgid "Y-m-d H:i:s"
+msgstr "Y-m-d H:i:s"
+
+#: uploader.php:531
+msgid "Mirrors"
+msgstr "镜像"
+
+#: uploader.php:535
+#: admin/add_new.php:309
+#: admin/admin.php:643
+msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
+msgstr "可选的镜像地址列表（每行一个地址）。当有下载请求时会随机抽取其中的一个镜像进行下载。"
+
+#: uploader.php:579
+#: admin/add_directory.php:284
+#: admin/add_new.php:352
+#: admin/admin.php:686
+#: admin/admin.php:1166
+msgid "+ Add New Category"
+msgstr "+ 添加分类"
+
+#: uploader.php:582
+#: uploader.php:661
+#: admin/add_directory.php:287
+#: admin/add_directory.php:340
+#: admin/add_new.php:355
+#: admin/add_new.php:432
+#: admin/admin.php:689
+#: admin/admin.php:775
+#: admin/admin.php:1169
+#: admin/admin.php:1250
+#: admin/categories.php:109
+#: admin/categories.php:155
+#: admin/categories.php:208
+#: admin/config.php:179
+#: admin/config.php:208
+msgid "Name"
+msgstr "名称"
+
+#: uploader.php:586
+#: admin/add_directory.php:291
+#: admin/add_new.php:359
+#: admin/admin.php:693
+#: admin/admin.php:1173
+#: admin/categories.php:159
+#: admin/categories.php:193
+msgid "Parent"
+msgstr "上级分类"
+
+#: uploader.php:588
+#: admin/add_directory.php:293
+#: admin/add_new.php:361
+#: admin/admin.php:695
+#: admin/admin.php:1175
+#: admin/categories.php:161
+#: admin/categories.php:196
+#: admin/config.php:342
+msgid "None"
+msgstr "无"
+
+#: uploader.php:600
+#: admin/add_directory.php:305
+#: admin/add_directory.php:381
+#: admin/add_new.php:373
+#: admin/admin.php:707
+#: admin/admin.php:1187
+#: admin/categories.php:173
+#: admin/config.php:216
+msgid "Add"
+msgstr "添加"
+
+#: uploader.php:605
+#: uploader.php:797
+#: admin/add_directory.php:309
+#: admin/add_new.php:377
+#: admin/admin.php:711
+#: admin/admin.php:1191
+#: admin/admin.php:1365
+msgid "Tags"
+msgstr "标签"
+
+#: uploader.php:611
+#: admin/add_directory.php:311
+#: admin/add_new.php:379
+#: admin/admin.php:713
+#: admin/admin.php:1196
+msgid "Separate tags with commas."
+msgstr "请用英文逗号分隔标签"
+
+#: uploader.php:611
+#: admin/add_directory.php:311
+#: admin/admin.php:713
+#: admin/admin.php:1196
+msgid "Toggle Tags"
+msgstr "切换标签"
+
+#: uploader.php:619
+#: admin/add_directory.php:320
+#: admin/add_new.php:388
+#: admin/admin.php:722
+#: admin/admin.php:1205
+msgid "No Tags Found"
+msgstr "暂无标签"
+
+#: uploader.php:625
+#: admin/add_new.php:395
+#: admin/admin.php:729
+#: admin/admin.php:1212
+msgid "Thumbnail"
+msgstr "缩略图"
+
+#: uploader.php:628
+#: admin/add_new.php:399
+msgid "Upload thumbnail"
+msgstr "上传缩略图"
+
+#: uploader.php:631
+#: admin/add_new.php:400
+#: admin/admin.php:734
+msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
+msgstr "该图会在下载页中显示，或者包含 {thumbnail} 的自定义样式（如果未设置则会显示一个占位符）。"
+
+#: uploader.php:634
+#: admin/add_new.php:406
+msgid "Enter thumbnail URL"
+msgstr "输入缩略图的 URL 地址"
+
+#: uploader.php:641
+#: admin/add_directory.php:327
+#: admin/add_new.php:418
+#: admin/admin.php:752
+#: admin/admin.php:1225
+msgid "Member only file?"
+msgstr "登录后才能下载？"
+
+#: uploader.php:645
+#: admin/add_directory.php:328
+#: admin/add_new.php:419
+#: admin/admin.php:753
+#: admin/admin.php:1229
+msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
+msgstr "如果打勾，则只有当用户登录后才能通过下载链接访问文件。您可以添加一个名为 min-level 或 req-role 的自定义字段来设置允许下载文件的最低用户级别。"
+
+#: uploader.php:648
+#: admin/add_directory.php:331
+#: admin/add_new.php:422
+#: admin/admin.php:756
+#: admin/admin.php:1232
+msgid "Force Download?"
+msgstr "强制下载？"
+
+#: uploader.php:652
+#: admin/add_directory.php:332
+#: admin/add_new.php:423
+#: admin/admin.php:757
+#: admin/admin.php:1236
+msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
+msgstr "如果勾选，Download Monitor 会尝试强制下载而不是进行转向。该选项可能无法兼容所以服务器（最好现行测试），并且大多数情况下可能只会对位于本地服务器上文件有效。"
+
+#: uploader.php:657
+#: admin/add_directory.php:335
+#: admin/add_new.php:427
+#: admin/admin.php:770
+#: admin/admin.php:1240
+#: admin/admin.php:1368
+msgid "Custom fields"
+msgstr "自定义字段"
+
+#: uploader.php:662
+#: admin/add_directory.php:341
+#: admin/add_new.php:433
+#: admin/admin.php:776
+#: admin/admin.php:1251
+msgid "Value"
+msgstr "值"
+
+#: uploader.php:696
+#: admin/add_directory.php:374
+#: admin/add_new.php:466
+#: admin/admin.php:808
+#: admin/admin.php:1283
+msgid "Add Custom Field"
+msgstr "添加自定义字段"
+
+#: uploader.php:696
+#: admin/add_directory.php:374
+#: admin/add_new.php:466
+#: admin/admin.php:808
+#: admin/admin.php:1283
+msgid "Toggle Existing Custom Fields"
+msgstr "切换以存在的自定义字段"
+
+#: uploader.php:707
+#: admin/add_directory.php:385
+#: admin/add_new.php:477
+#: admin/admin.php:819
+#: admin/admin.php:1294
+msgid "None found."
+msgstr "暂无"
+
+#: uploader.php:714
+msgid "Save new download"
+msgstr "上传并保存"
+
+#: uploader.php:722
+msgid "Insert new download into post"
+msgstr "插入最新下载到日志中。"
+
+#: uploader.php:724
+#: uploader.php:770
+msgid "Insert into post using format:"
+msgstr "插入到日志时的格式："
+
+#: uploader.php:725
+#: uploader.php:773
+msgid "Default"
+msgstr "默认"
+
+#: uploader.php:738
+msgid "Insert into post"
+msgstr "插入到日志"
+
+#: uploader.php:760
+#: admin/admin.php:1340
+msgid "Search Downloads:"
+msgstr "搜索文件："
+
+#: uploader.php:762
+#: admin/admin.php:1342
+msgid "Search Downloads"
+msgstr "搜索文件"
+
+#: uploader.php:788
+#: wp-download_monitor.php:134
+msgid "Downloads"
+msgstr "下载管理"
+
+#: uploader.php:793
+#: admin/admin.php:1361
+#: admin/categories.php:108
+#: admin/config.php:178
+#: admin/config.php:285
+#: admin/logs.php:50
+msgid "ID"
+msgstr "ID"
+
+#: uploader.php:795
+#: admin/admin.php:1363
+#: admin/logs.php:52
+msgid "File"
+msgstr "文件名"
+
+#: uploader.php:798
+#: admin/admin.php:1366
+msgid "Member only"
+msgstr "登录后下载"
+
+#: uploader.php:799
+#: admin/admin.php:1367
+msgid "Force Download"
+msgstr "强制下载"
+
+#: uploader.php:800
+#: admin/categories.php:110
+#: admin/config.php:181
+msgid "Action"
+msgstr "操作"
+
+#: uploader.php:868
+#: uploader.php:879
+#: admin/admin.php:1458
+#: admin/admin.php:1469
+msgid "N/A"
+msgstr "无"
+
+#: uploader.php:887
+#: uploader.php:890
+#: admin/admin.php:1476
+#: admin/admin.php:1479
+#: admin/config.php:307
+#: admin/config.php:331
+#: admin/config.php:364
+#: admin/config.php:377
+#: admin/config.php:402
+msgid "Yes"
+msgstr "是"
+
+#: uploader.php:887
+#: uploader.php:890
+#: admin/admin.php:1476
+#: admin/admin.php:1479
+#: admin/config.php:310
+#: admin/config.php:328
+#: admin/config.php:367
+#: admin/config.php:380
+#: admin/config.php:405
+msgid "No"
+msgstr "否"
+
+#: uploader.php:892
+msgid "Insert"
+msgstr "插入"
+
+#: uploader.php:916
+#: admin/admin.php:1523
+msgid "&laquo; Previous"
+msgstr "&laquo; 上一页"
+
+#: uploader.php:917
+#: admin/admin.php:1524
+msgid "Next &raquo;"
+msgstr "下一页 &raquo;"
+
+#: wp-download_monitor.php:135
+#: admin/admin.php:1333
+#: admin/admin.php:1450
+#: admin/admin.php:1496
+#: admin/categories.php:212
+msgid "Edit"
+msgstr "编辑"
+
+#: wp-download_monitor.php:136
+msgid "Add New"
+msgstr "添加文件"
+
+#: wp-download_monitor.php:137
+msgid "Add Directory"
+msgstr "添加目录"
+
+#: wp-download_monitor.php:139
+msgid "Configuration"
+msgstr "配置"
+
+#: wp-download_monitor.php:143
+msgid "Log"
+msgstr "日志"
+
+#: admin/add_directory.php:43
+msgid "Add From Directory"
+msgstr "从目录添加"
+
+#: admin/add_directory.php:44
+msgid "This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards."
+msgstr "本功能允许您从服务器上批量添加文件，同时它也会尝试读取子目录。程序会尽量为每个文件选择贴切的标题 - 如果您需要修改标题或者添加其他信息，您可以在稍后进行修改。"
+
+#: admin/add_directory.php:59
+msgid "<div class=\"error\">No folder selected</div>"
+msgstr "<div class=\"error\">未选择目录</div>"
+
+#: admin/add_directory.php:217
+msgid "Downloads added Successfully"
+msgstr "添加成功"
+
+#: admin/add_directory.php:219
+msgid "No files found"
+msgstr "未找到任何文件"
+
+#: admin/add_directory.php:228
+msgid "Directory (relative paths only)"
+msgstr "目录（只能用相对路径）"
+
+#: admin/add_directory.php:232
+msgid "Toggle Folder Browser"
+msgstr "切换目录浏览器"
+
+#: admin/add_directory.php:238
+msgid "Extensions"
+msgstr "允许的文件类型"
+
+#: admin/add_directory.php:240
+msgid "List extensions to look for separated by commas, or leave blank to import all. Example: zip,gif,jpg"
+msgstr "填写需要添加的文件的扩展名，用英文逗号分隔（如：zip,gif,jpg）。留空表示添加所以文件。"
+
+#: admin/add_directory.php:336
+#: admin/add_new.php:428
+#: admin/admin.php:771
+#: admin/admin.php:1241
+msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
+msgstr "自定义字段可以用于为每个文件添加额外的元数据（metadata）。留空表示不添加。名称应该为不包含空格的小写英文字母（程序会自动进行转换，如：<code>Some Name</code> 将会转换为 <code>some-name</code>）。"
+
+#: admin/add_directory.php:394
+msgid "Scan &amp; Add"
+msgstr "扫描并添加"
+
+#: admin/add_new.php:87
+msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div class=\"error\">必填字段: <strong>标题</strong> 已忽略</div>"
+
+#: admin/add_new.php:89
+msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div class=\"error\">错误 <strong>点击</strong> 次数</div>"
+
+#: admin/add_new.php:232
+#: admin/add_new.php:233
+msgid "Download added Successfully"
+msgstr "添加成功"
+
+#: admin/add_new.php:240
+msgid "<div class=\"error\">Error saving to database</div>"
+msgstr "<div class=\"error\">无法保存到数据库</div>"
+
+#: admin/add_new.php:262
+#: admin/add_new.php:284
+#: admin/admin.php:617
+msgid "(required)"
+msgstr "（必须）"
+
+#: admin/add_new.php:308
+#: admin/admin.php:642
+msgid "Download Mirrors"
+msgstr "下载镜像"
+
+#: admin/add_new.php:486
+msgid "Upload &amp; save"
+msgstr "上传并保存"
+
+#: admin/admin.php:102
+#: admin/admin.php:320
+msgid "Are you sure you want to delete"
+msgstr "确定要删除"
+
+#: admin/admin.php:319
+msgid "Sure?"
+msgstr "确定吗？"
+
+#: admin/admin.php:320
+msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
+msgstr "？（如果文件是通过本插件上传的，那么此操作将同时删除服务器上的文件）"
+
+#: admin/admin.php:320
+msgid "[yes]"
+msgstr "[确定]"
+
+#: admin/admin.php:320
+msgid "[no]"
+msgstr "[取消]"
+
+#: admin/admin.php:365
+msgid "Required field: <strong>Title</strong> omitted"
+msgstr "必填字段：<strong>标题</strong> 被忽略"
+
+#: admin/admin.php:366
+msgid "Required field: <strong>THE FILE</strong> omitted"
+msgstr "必填字段：未添加要上传<strong>文件</strong>"
+
+#: admin/admin.php:368
+msgid "Invalid <strong>hits</strong> entered"
+msgstr "错误的 <strong>点击</strong> 次数"
+
+#: admin/admin.php:451
+msgid "<div class=\"error\">No file selected</div>"
+msgstr "<div class=\"error\">未选择文件</div>"
+
+#: admin/admin.php:509
+msgid "Download edited Successfully"
+msgstr "修改成功"
+
+#: admin/admin.php:582
+msgid "Edit Download Information"
+msgstr "修改下载信息"
+
+#: admin/admin.php:588
+msgid "Title (required)"
+msgstr "标题 (必须)"
+
+#: admin/admin.php:604
+msgid "Change hit count"
+msgstr "更改点击数"
+
+#: admin/admin.php:610
+msgid "Change post date"
+msgstr "更改发布日期"
+
+#: admin/admin.php:613
+msgid "Change the post date of the download. Was set to:"
+msgstr "改变文件的发布日期。设定为："
+
+#: admin/admin.php:613
+msgid "M jS Y @ H:i"
+msgstr "Y-m-d, H:i"
+
+#: admin/admin.php:617
+msgid "The File"
+msgstr "文件"
+
+#: admin/admin.php:621
+msgid "Upload New File"
+msgstr "上传文件"
+
+#: admin/admin.php:623
+msgid "Remove old file?"
+msgstr "删除原文件？"
+
+#: admin/admin.php:630
+msgid "Edit File URL"
+msgstr "编辑文件地址"
+
+#: admin/admin.php:733
+msgid "Upload new thumbnail"
+msgstr "上传新缩略图"
+
+#: admin/admin.php:740
+msgid "Edit thumbnail URL"
+msgstr "编辑缩略图的 URL 地址"
+
+#: admin/admin.php:827
+#: admin/admin.php:1302
+#: admin/config.php:202
+#: admin/config.php:291
+#: admin/config.php:429
+msgid "Save Changes"
+msgstr "保存更改"
+
+#: admin/admin.php:865
+msgid "Download deleted Successfully"
+msgstr "删除成功"
+
+#: admin/admin.php:903
+msgid "Stats successfully reset for selected downloads"
+msgstr "选中文件的状态重置成功"
+
+#: admin/admin.php:945
+msgid "Selected Downloads deleted Successfully"
+msgstr "选择文件删除成功"
+
+#: admin/admin.php:1101
+msgid "Downloads edited successfully"
+msgstr "修改成功"
+
+#: admin/admin.php:1111
+msgid "Bulk Edit Downloads"
+msgstr "批量修改文件"
+
+#: admin/admin.php:1112
+msgid "Editing downloads with id's:"
+msgstr "正在编辑下列ID的文件："
+
+#: admin/admin.php:1112
+msgid "Adding options here will overwrite the options in ALL of the selected downloads."
+msgstr "这里添加的选项将会覆盖所有选中的文件的对应选项。"
+
+#: admin/admin.php:1122
+#: admin/admin.php:1194
+#: admin/admin.php:1215
+#: admin/admin.php:1227
+#: admin/admin.php:1234
+#: admin/admin.php:1243
+#: admin/categories.php:195
+msgid "No Change"
+msgstr "无更改"
+
+#: admin/admin.php:1123
+msgid "Change to &darr;"
+msgstr "更改为 &darr;"
+
+#: admin/admin.php:1195
+#: admin/admin.php:1216
+#: admin/admin.php:1228
+#: admin/admin.php:1235
+msgid "Change to &rarr;"
+msgstr "更改为 &rarr;"
+
+#: admin/admin.php:1244
+msgid "Replace with:"
+msgstr "替换："
+
+#: admin/admin.php:1245
+msgid "Add/Update only (keep existing fields):"
+msgstr "仅添加/更新（保留现有字段）："
+
+#: admin/admin.php:1325
+msgid "Edit Downloads"
+msgstr "编辑文件"
+
+#: admin/admin.php:1330
+#: admin/admin.php:1493
+msgid "Actions:"
+msgstr "操作："
+
+#: admin/admin.php:1332
+#: admin/admin.php:1495
+msgid "Bulk Actions"
+msgstr "批量操作"
+
+#: admin/admin.php:1334
+#: admin/admin.php:1450
+#: admin/admin.php:1497
+#: admin/config.php:194
+msgid "Delete"
+msgstr "删除"
+
+#: admin/admin.php:1335
+#: admin/admin.php:1498
+msgid "Reset Stats"
+msgstr "重置点击数"
+
+#: admin/admin.php:1337
+#: admin/admin.php:1500
+msgid "Apply"
+msgstr "应用"
+
+#: admin/admin.php:1369
+msgid "Hits"
+msgstr "点击数"
+
+#: admin/admin.php:1370
+msgid "Posted"
+msgstr "发布日期"
+
+#: admin/admin.php:1427
+msgid "Y/m/d"
+msgstr "Y-m-d"
+
+#: admin/admin.php:1450
+msgid "Edit this Download"
+msgstr "编辑此文件"
+
+#: admin/admin.php:1450
+msgid "Delete this download"
+msgstr "删除该文件"
+
+#: admin/admin.php:1484
+msgid "by"
+msgstr "by"
+
+#: admin/admin.php:1488
+msgid "No downloads found."
+msgstr "未找到任何文件。"
+
+#: admin/admin.php:1548
+msgid ""
+"You are about to delete the selected items.\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr ""
+"您正在删除选中的文件。\n"
+"  '取消' 以终止操作，'确定' 以删除。"
+
+#: admin/admin.php:1563
+msgid "Download Monitor News"
+msgstr "Download Monitor 新闻"
+
+#: admin/admin.php:1590
+#, php-format
+msgid "%s ago"
+msgstr "%s 以前"
+
+#: admin/admin.php:1592
+msgid "F jS Y"
+msgstr "Y-m-d"
+
+#: admin/admin.php:1602
+#: admin/admin.php:1606
+msgid "No items found."
+msgstr "未找到任何条目。"
+
+#: admin/admin.php:1614
+msgid "Links &amp; Documentation"
+msgstr "链接 &amp; 文档"
+
+#: admin/admin.php:1616
+msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page.</p>"
+msgstr "<p>需要帮助？请查阅 FAQ、使用指南或者其他在<a href=\"http://wordpress.org/extend/plugins/download-monitor/\">这里</a>可以找到的文档资料。</p>"
+
+#: admin/admin.php:1618
+msgid "Download Monitor on WordPress.org"
+msgstr "从 WordPress.org 访问 Download Monitor"
+
+#: admin/admin.php:1619
+msgid "Download Monitor documentation + FAQ"
+msgstr "Download Monitor 文档 + FAQ"
+
+#: admin/admin.php:1620
+msgid "Download Monitor on GitHub"
+msgstr "从 GitHub 访问 Download Monitor"
+
+#: admin/admin.php:1625
+msgid "Support Download Monitor"
+msgstr "支持 Download Monitor"
+
+#: admin/admin.php:1627
+msgid "The Wordpress Download monitor plugin was created by <a href=\"http://mikejolley.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
+msgstr ""
+"<p>Download monitor 插件是由 <a href=\"http://mikejolley.com/\" target=\"_blank\">Mike Jolley</a> 制作， &nbsp; <a href=\"http://hpyer.cn/wordpress-plugin-download-monitor.html\" target=\"_blank\">Hpyer</a> 汉化的。</p>\n"
+"<p>开发者花了大量的时间和精力在这个插件上，如果您觉得它不错，请不要忘记给他一些赞助。The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful.</p>"
+
+#: admin/admin.php:1629
+msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
+msgstr "当然，还有其他方式支持 Download Monitor 以确保其在未来可以得到更为有效的支持与维护！例如：保留 Sponsor 广告，在 wordpress.org 上为本插件投票，超链接、推广本插件等等。"
+
+#: admin/categories.php:38
+msgid "Download Categories"
+msgstr "分类管理"
+
+#: admin/categories.php:39
+msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
+msgstr "<p>您可以使用该属性对分类进行管理。您可以使用分类标签或着一个专门的下载页来显示各个分类下的下载（详见帮助文档）。请注意，删除任何一个分类，同时也将删除该分类的子分类。</p>"
+
+#: admin/categories.php:61
+msgid "Category updated"
+msgstr "分类已修改"
+
+#: admin/categories.php:75
+msgid "Category added"
+msgstr "分类已添加"
+
+#: admin/categories.php:76
+msgid "Category was not added. Try Recreating the download database from the configuration page."
+msgstr "分类未添加。请带配置页面尝试重建数据库。"
+
+#: admin/categories.php:100
+msgid "Category deleted Successfully"
+msgstr "分类删除成功"
+
+#: admin/categories.php:146
+msgid "No categories exist"
+msgstr "暂时没有分类"
+
+#: admin/categories.php:152
+msgid "Add category"
+msgstr "添加分类"
+
+#: admin/categories.php:176
+msgid "Edit category"
+msgstr "编辑分类"
+
+#: admin/categories.php:179
+msgid "Category"
+msgstr "分类"
+
+#: admin/categories.php:181
+#: admin/dashboard.php:214
+msgid "Select a category"
+msgstr "选择一个分类"
+
+#: admin/config.php:41
+msgid "Download Monitor Configuration"
+msgstr "Download Monitor 配置"
+
+#: admin/config.php:53
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, add the following to your \n"
+"\t\t\t\t\t.htaccess file above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>下载地址已更改 - 您需要 <strong>重新保存永久链接的设置</strong>（选项/设置 -> 永久链接）以使设置生效。</p>\n"
+"<p>如果您的 .htaccess 文件无法被 WordPress 修改，请手动将下面的语句添加到您的 .htaccess 文件中的 \"# BEGIN WordPress\" 这行下面：</p>\n"
+"<p>Options +FollowSymLinks<br/>\n"
+"RewriteEngine On<br/>\n"
+"RewriteRule ^download/([^/]+)$ *YOUR wp-content DIR*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"<p>请将 \"download/\" 替换为您之前设置的自定义下载地址，将 *YOUR wp-content DIR* 替换为您的 wp-content 目录。</p> "
+
+#: admin/config.php:64
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, remove the following from your \n"
+"\t\t\t\t\t.htaccess file if it exists above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+"<p>下载地址更改 - 您需要 <strong>重新保存永久链接的设置</strong>（选项/设置 -> 永久链接）以使设置生效。</p>\n"
+"<p>如果您的 .htaccess 文件无法被 WordPress 修改，请手动将下面的语句从您的 .htaccess 文件中删除（如果它们在 \"# BEGIN WordPress\" 这行下面的话）。</p>\n"
+"<p>Options +FollowSymLinks<br/>\n"
+"RewriteEngine On<br/>\n"
+"RewriteRule ^download/([^/]+)$ *YOUR wp-content DIR*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"<p>请将 \"download/\" 替换为您之前设置的自定义下载地址，将 *YOUR wp-content DIR* 替换为您的 wp-content 目录。</p> "
+
+#: admin/config.php:102
+msgid "<p>Options updated</p>"
+msgstr "<p>选项已保存</p>"
+
+#: admin/config.php:112
+msgid "Database Cleaned"
+msgstr "数据库已清理"
+
+#: admin/config.php:131
+msgid "Formats updated"
+msgstr "样式已更新"
+
+#: admin/config.php:142
+msgid "Format added"
+msgstr "样式已添加"
+
+#: admin/config.php:156
+msgid "Format deleted Successfully"
+msgstr "样式删除成功"
+
+#: admin/config.php:171
+msgid "Custom Output Formats"
+msgstr "自定义输出样式"
+
+#: admin/config.php:173
+msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
+msgstr "<p>此操作允许你定义一个你喜欢的下载样式。</p>"
+
+#: admin/config.php:180
+#: admin/config.php:212
+msgid "Format"
+msgstr "样式"
+
+#: admin/config.php:197
+msgid "No formats exist"
+msgstr "暂时没有样式"
+
+#: admin/config.php:204
+msgid "Add format"
+msgstr "添加样式"
+
+#: admin/config.php:218
+msgid "Available Tags"
+msgstr "可用标签"
+
+#: admin/config.php:220
+msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
+msgstr "可以在自定义样式中使用下列标签：<em>注</em> 如果您需要使用 <code>\"</code> （引号）来定义特殊属性（如 <code>\"before\"</code>），可以将其进行转译或使用 HTML 字符。"
+
+#: admin/config.php:222
+msgid "Url of download (does not include hyperlink)"
+msgstr "文件地址（不包括超链接）"
+
+#: admin/config.php:223
+msgid "ID of download"
+msgstr "文件 ID"
+
+#: admin/config.php:224
+msgid "Username of whoever posted download"
+msgstr "该文件发布者的用户名"
+
+#: admin/config.php:225
+msgid "Version of download"
+msgstr "文件版本"
+
+#: admin/config.php:226
+msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "文件的版本。如果为填写则不输出。\"before\" 和 \"after\" 表示封装前后的文本或 HTML 代码。"
+
+#: admin/config.php:227
+msgid "Title of download"
+msgstr "文件标题"
+
+#: admin/config.php:228
+msgid "Filesize of download"
+msgstr "文件大小"
+
+#: admin/config.php:229
+msgid "Outputs comma separated list of categories."
+msgstr "输出以逗号分隔的分类列表。"
+
+#: admin/config.php:230
+msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
+msgstr "输出以逗号分隔的并包含由您定义了链接地址的超链接的分类列表。<code>%</code> 将替换为分类的ID，<code>%2</code> 将替换为分类名称。这个标签也可以和 <code>[download_page]</code> 一同使用。"
+
+#: admin/config.php:231
+#: admin/config.php:232
+#: admin/config.php:237
+#: admin/config.php:238
+msgid "or"
+msgstr "或"
+
+#: admin/config.php:231
+msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "第一级分类。\"before\" 和 \"after\" 表示封装前后的文本或 HTML 代码。"
+
+#: admin/config.php:232
+msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "第一级分类。如果为设置分类，将返回 \"other\"。\"before\" 和 \"after\" 表示封装前后的文本或 HTML 代码。"
+
+#: admin/config.php:233
+msgid "(Top Level/First) Download Category ID."
+msgstr "第一级分类的ID"
+
+#: admin/config.php:234
+msgid "Current hit count"
+msgstr "当前点击数"
+
+#: admin/config.php:235
+msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
+msgstr "格式化的点击数。<code>%</code> 将替换为点击数。"
+
+#: admin/config.php:236
+msgid "URL of the download image"
+msgstr "文件图片的地址"
+
+#: admin/config.php:237
+msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "文件描述。如果未填写则不输出。\"before\" 和 \"after\" 表示封装前后的文本或 HTML 代码。"
+
+#: admin/config.php:238
+msgid "Description formatted with autop (converts double line breaks to paragraphs)"
+msgstr "用 &lt;p&gt; 和 &lt;/p&gt; 封装的文件描述。"
+
+#: admin/config.php:239
+msgid "Date posted. Second argument is for date format."
+msgstr "发布日期。第二个参数为日期格式。"
+
+#: admin/config.php:240
+msgid "Outputs comma separated list of tags."
+msgstr "输出用逗号分隔的标签列表。"
+
+#: admin/config.php:241
+msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
+msgstr "输出用逗号分隔的包含由您定义了链接地址的超链接的标签列表。<code>%</code> 将替换为标签ID，<code>%2</code> 将替换为标签名称。"
+
+#: admin/config.php:242
+msgid "Output thumbnail URL (or placeholder)"
+msgstr "输出缩略图地址（或占位符）"
+
+#: admin/config.php:243
+msgid "Custom field value"
+msgstr "自定义字段的值"
+
+#: admin/config.php:244
+msgid "Custom field value formatted with autop"
+msgstr "用 &lt;p&gt; 和 &lt;p&gt; 封装的自定义字段的值"
+
+#: admin/config.php:245
+msgid "File extension (e.g. \"zip\")"
+msgstr "文件扩展名（如：\"zip\"）"
+
+#: admin/config.php:246
+msgid "File extension icon (16x16)"
+msgstr "文件扩展名的图标（16x16）"
+
+#: admin/config.php:247
+msgid "Output a Mirror's url"
+msgstr "输出一个镜像地址"
+
+#: admin/config.php:250
+msgid "Example Formats"
+msgstr "示例样式"
+
+#: admin/config.php:252
+msgid "Here are some example custom formats you can use or modify."
+msgstr "这里是一些您可以使用或修改的自定义样式的例子。"
+
+#: admin/config.php:254
+msgid "Link and description of download with hits in title:"
+msgstr "链接及描述，链接的标题包含点击数："
+
+#: admin/config.php:255
+msgid "Standard link with no hits:"
+msgstr "标准链接，不包含点击数："
+
+#: admin/config.php:256
+msgid "Image link:"
+msgstr "图片链接："
+
+#: admin/config.php:263
+msgid "Custom Download URL"
+msgstr "自定义下在地址"
+
+#: admin/config.php:265
+msgid ""
+"<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
+"            \t\n"
+"                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
+msgstr ""
+"<p>自定义下载文件的起始位置，如：<code>download/</code>。您也可以选择下在链接的形式，如：选择 “文件名” 将使链接形如 <code>http://yoursite/download/filename.zip</code>。</p>\n"
+"<p>不填写该选项，将使用默认的下载路径（<code>wp-content/plugins/wp-download_monitor/download.php?id=</code>）</p>\n"
+"<p>如果您要填写该选项，请确保在服务器上没有对应的目录，否则系统无法将URL重定向到 download.php 文件。</p>"
+
+#: admin/config.php:271
+msgid "Without Custom URL:"
+msgstr "不试用自定义地址："
+
+#: admin/config.php:276
+msgid "With Custom URL (downloads/ID):"
+msgstr "使用自定义地址（downloads/ID）："
+
+#: admin/config.php:282
+msgid "Custom URL"
+msgstr "自定义地址"
+
+#: admin/config.php:287
+msgid "Filename"
+msgstr "文件名"
+
+#: admin/config.php:296
+msgid "General Options"
+msgstr "常规选项"
+
+#: admin/config.php:302
+msgid "Disable the news/links/donate box on the Edit Download Page?"
+msgstr "在文件列表页禁用“新闻/链接/赞助”模块？"
+
+#: admin/config.php:315
+msgid "\"Download not found\" redirect URL"
+msgstr "\"未找到下载链接\" 跳转到 URL"
+
+#: admin/config.php:316
+#: admin/config.php:320
+msgid "Leave blank for no redirect."
+msgstr "留空表示不转向。"
+
+#: admin/config.php:319
+msgid "Member-only files non-member redirect"
+msgstr "当有访客点击了需要登录后才能下载的文件时，所跳转的页面"
+
+#: admin/config.php:320
+msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
+msgstr "注意：<code>{referrer}</code> 会被替换为当前的URL地址。例如将用户转向到登录页，在登录后自动转回该下载。<code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>"
+
+#: admin/config.php:323
+msgid "Global member only files"
+msgstr "仅会员下载的文件（全局）"
+
+#: admin/config.php:332
+msgid "Makes all downloads member only, ignoring the individual download member only setting."
+msgstr "将所有文件设置为仅会员下载，忽略单个文件的设置。"
+
+#: admin/config.php:336
+msgid "Download image path"
+msgstr "下载图片的路径"
+
+#: admin/config.php:337
+msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
+msgstr "当您需要使用 <code>#image</code> 标签或者样式中定义了 <code>{image_url}</code> 标签时，则需要设置该图片地址。请使用绝对路径（如：<code>http://yoursite.com/image.gif</code>）"
+
+#: admin/config.php:340
+msgid "Default output format"
+msgstr "默认输出样式"
+
+#: admin/config.php:359
+msgid "Auto-select mirror"
+msgstr "自动选择镜像"
+
+#: admin/config.php:368
+msgid "If a download has \"mirrors\" set should download.php automatically pick one?"
+msgstr "如果设置了“镜像”，是否允许 download.php 自动选择其中的一个？"
+
+#: admin/config.php:372
+msgid "Log Downloads"
+msgstr "记录下载信息"
+
+#: admin/config.php:385
+msgid "Log Timeout"
+msgstr "记录超时"
+
+#: admin/config.php:387
+msgid "0 means all downloads are logged. Increase to set the timeout in minutes so that downloads by the same person are not logged multiple times."
+msgstr "设置多少分钟内同一用户的相同下载不再重复记录。0 表示所有下载都将被记录。"
+
+#: admin/config.php:391
+msgid "Log/Count Blacklist"
+msgstr "记录（统计）黑名单"
+
+#: admin/config.php:393
+msgid "List IP addresses here that you wish to exclude from the logs/counts - 1 per line."
+msgstr "在此输入你不希望记录（统计）其下载信息的IP地址，每行一个。"
+
+#: admin/config.php:397
+msgid "Enable File Browser"
+msgstr "启用文件浏览器"
+
+#: admin/config.php:410
+msgid "File Browser Root"
+msgstr "文件浏览器根目录"
+
+#: admin/config.php:411
+msgid "The root directory the file browser can display."
+msgstr "文件浏览器所显示的根目录"
+
+#: admin/config.php:434
+msgid "Advanced Stuff"
+msgstr "高级设置"
+
+#: admin/config.php:436
+msgid "Upgrade from 3.2.3"
+msgstr "从 3.2.3 升级"
+
+#: admin/config.php:437
+msgid "<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>"
+msgstr "<p>Download monitor 从 3.3 版本起，使用新的表结构；此操作将会进行一些优化并添加多级分类支持。</p>"
+
+#: admin/config.php:438
+msgid "<p>This update should have been done when you activated the plugin, but if it didn't, use this function to create the new tables and import from the old ones.</p>"
+msgstr "<p>此次升级操作应该在您激活插件的时候完成了，但是如果没有，请使用此功能创建新的表并导入原始数据。</p>"
+
+#: admin/config.php:440
+msgid "Upgrade Database"
+msgstr "升级数据库"
+
+#: admin/config.php:443
+msgid "Upgraded Successfully? Cleanup!"
+msgstr "升级成功了？马上来清理吧！"
+
+#: admin/config.php:444
+msgid "<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>"
+msgstr "<p>如上所述，从3.3版起所有表将被重命名 - 如果升级已经成功（恭喜！）您可以使用此功能删除以前的表（之前 Download Monitor 只是将他们留作备份）。</p>"
+
+#: admin/config.php:445
+msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
+msgstr "<p><strong>警告：本操作有可能删除数据库中所有的下载统计信息，请事先备份数据库！</strong></p>"
+
+#: admin/config.php:447
+msgid "Clean me up Scotty"
+msgstr "马上开始清理吧"
+
+#: admin/config.php:457
+msgid "Click to toggle"
+msgstr "点击切换"
+
+#: admin/dashboard.php:72
+msgid "D j M"
+msgstr "D, m-d"
+
+#: admin/dashboard.php:74
+msgid "Previous Week"
+msgstr "上一周"
+
+#: admin/dashboard.php:75
+msgid "This Week"
+msgstr "本周"
+
+#: admin/dashboard.php:76
+msgid "Next Week"
+msgstr "下一周"
+
+#: admin/dashboard.php:97
+msgid "F Y"
+msgstr "Y-m"
+
+#: admin/dashboard.php:99
+msgid "Previous 6 months"
+msgstr "前六月"
+
+#: admin/dashboard.php:100
+msgid "Last 6 months"
+msgstr "最近 6 个月"
+
+#: admin/dashboard.php:101
+msgid "Next 6 months"
+msgstr "往后 6 个月"
+
+#: admin/dashboard.php:114
+msgid "Weekly"
+msgstr "周报"
+
+#: admin/dashboard.php:120
+msgid "Monthly"
+msgstr "月报"
+
+#: admin/dashboard.php:121
+msgid "Select a download"
+msgstr "选择一个文件"
+
+#: admin/dashboard.php:134
+#: admin/dashboard.php:224
+msgid "Show"
+msgstr "显示"
+
+#: admin/dashboard.php:152
+msgid "Downloads per day for"
+msgstr "每天下载数"
+
+#: admin/dashboard.php:155
+#: admin/dashboard.php:230
+msgid "Day"
+msgstr "天"
+
+#: admin/dashboard.php:156
+#: admin/dashboard.php:231
+msgid "Number of downloads"
+msgstr "文件数"
+
+#: admin/dashboard.php:191
+msgid "None Found"
+msgstr "未找到"
+
+#: admin/dashboard.php:227
+msgid "Most Downloaded"
+msgstr "最多下载"
+
+#: admin/dashboard.php:258
+msgid "No stats yet"
+msgstr "暂无统计数据"
+
+#: admin/dashboard.php:271
+#: admin/dashboard.php:293
+msgid "Download Stats"
+msgstr "下载统计"
+
+#: admin/dashboard.php:272
+#: admin/dashboard.php:327
+msgid "Top 5 Downloads"
+msgstr "下载最多的5个文件"
+
+#: admin/logs.php:45
+msgid "Download Logs"
+msgstr "下载日志"
+
+#: admin/logs.php:46
+msgid "Download CSV"
+msgstr "下载为 CSV"
+
+#: admin/logs.php:46
+msgid "Clear Log"
+msgstr "清空日志"
+
+#: admin/logs.php:53
+msgid "User"
+msgstr "用户"
+
+#: admin/logs.php:54
+msgid "IP Address"
+msgstr "IP 地址"
+
+#: admin/logs.php:55
+msgid "Date"
+msgstr "日期"
+
+#: admin/logs.php:84
+#: admin/log_to_csv.php:41
+msgid "jS M Y H:i:s"
+msgstr "Y-m-d H:i:s"
+
+#: admin/logs.php:106
+msgid "No downloads logged."
+msgstr "未记录任何文件。"
+
+#: admin/logs.php:118
+#: admin/logs.php:119
+msgid "Previous"
+msgstr "上一页"
+
+#: admin/logs.php:132
+#: admin/logs.php:133
+msgid "Next"
+msgstr "下一页"
+
+#: classes/downloadable_file.class.php:282
+#: classes/downloadable_file.class.php:296
+#: classes/downloadable_file.class.php:318
+#: page-addon/download-monitor-page-addon.php:72
+msgid "Other"
+msgstr "其他"
+
+#: classes/downloadable_file.class.php:304
+msgid "Uncategorized"
+msgstr "未分类"
+
+#: classes/downloadable_file.class.php:339
+#: classes/downloadable_file.class.php:342
+msgid "#Mirror-not-found"
+msgstr "#Mirror-not-found"
+
+#: page-addon/download-monitor-page-addon.php:32
+msgid "page-addon/downloadbutton.gif"
+msgstr "page-addon/downloadbutton.gif"
+
+#: page-addon/download-monitor-page-addon.php:34
+msgid "page-addon/morebutton.gif"
+msgstr "page-addon/morebutton.gif"
+
+#: page-addon/download-monitor-page-addon.php:70
+msgid "Popular Downloads"
+msgstr "最受欢迎的文件"
+
+#: page-addon/download-monitor-page-addon.php:74
+msgid "Go"
+msgstr "搜索"
+
+#: page-addon/download-monitor-page-addon.php:75
+msgid "Results found for "
+msgstr "搜索结果"
+
+#: page-addon/download-monitor-page-addon.php:76
+msgid "No downloads were found."
+msgstr "未找到任何文件。"
+
+#: page-addon/download-monitor-page-addon.php:77
+msgid "No download found matching given ID."
+msgstr "未找到匹配指定ID的文件。"
+
+#: page-addon/download-monitor-page-addon.php:84
+msgid " time"
+msgstr "次"
+
+#: page-addon/download-monitor-page-addon.php:85
+msgid " times"
+msgstr "次"
+
+#: page-addon/download-monitor-page-addon.php:86
+msgid "Date posted"
+msgstr "发布日期"
+
+#: page-addon/download-monitor-page-addon.php:87
+msgid "F j, Y"
+msgstr "Y-m-d"
+
+#: page-addon/download-monitor-page-addon.php:89
+msgid "Read More"
+msgstr "查看更多"
+
+#: page-addon/download-monitor-page-addon.php:90
+msgid "Sub-Categories:"
+msgstr "子分类："
+
+#: page-addon/download-monitor-page-addon.php:91
+msgid "Sort by:"
+msgstr "排序："
+
+#: page-addon/download-monitor-page-addon.php:92
+msgid "Downloads tagged:"
+msgstr "文件标签："
+
+#~ msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
+#~ msgstr "我非常欣赏这个插件，并且已经对作者的努力进行了赞助！"
+
+#~ msgid ""
+#~ "If you would like to say thanks for Download Monitor there are many ways "
+#~ "to do so, for example: spreading the word or making a donation. If you "
+#~ "have already done so you can indicate that here (thanks by the way). For "
+#~ "direct contributors, sponsorship messages will be disabled. (Please see "
+#~ "the readme file for full details about sponsorship messages and how your "
+#~ "privacy is protected)."
+#~ msgstr ""
+#~ "如果您想对 Download Monitor 表达感谢之意，其实有很多方法。例如：推广这个插"
+#~ "件，赞助作者。如果您已经做了上述方法可以在这里说明（再次感谢）。对于直接的"
+#~ "贡献者，Sponsor 广告会被禁止。（请查看 readme 文件以了解关于 Sponsor 广告"
+#~ "的详细介绍及隐私保护条例）。"
+
+#~ msgid "Links, Help &amp; Support"
+#~ msgstr "链接、帮助 &amp; 支持"
+
+#~ msgid ""
+#~ "<p>You can also find documentation and support at the following locations:"
+#~ "</p>"
+#~ msgstr "<p>您可以从以下地方获取文档和支持：</p>"
+
+#~ msgid "<div id=\"media-upload-error\">No file selected</div>"
+#~ msgstr "<div class=\"media-upload-error\">未选择文件</div>"
+
+#~ msgid ""
+#~ "<div id=\"media-upload-error\">Error saving to database - check downloads "
+#~ "table exists.</div>"
+#~ msgstr ""
+#~ "<div class=\"media-upload-error\">无法保存到数据库 - 请检查数据表是否存在"
+#~ "</div>"
+
+#~ msgid ""
+#~ "Categories are optional and allow you to group and organise simular "
+#~ "downloads."
+#~ msgstr "分类是一个可选项，它可以让您方便的分组管理相似的下载。"
+
+#~ msgid "Upload/link to existing file"
+#~ msgstr "上传或链接到已有文件"
+
+#~ msgid ""
+#~ "Replacing the file will <strong>delete all current stats</strong> \n"
+#~ "\t\t\t\t\t\tfor the currently uploaded file. If you wish to keep existing "
+#~ "stats, go to the\n"
+#~ "\t\t\t\t\t\tfiles Edit page instead and re-upload there."
+#~ msgstr ""
+#~ "<p>替换已有文件将会 <strong>删除该文件的所有统计信息</strong>。如果您想保"
+#~ "留统计的信息，请转到编辑页面并重新上传。</p>"
+
+#~ msgid "&mdash; OR &mdash;"
+#~ msgstr "&mdash; 或者 &mdash;"
+
+#~ msgid ""
+#~ "<p>The plugin has recently been updated - You may need to <strong>re-save "
+#~ "your permalinks settings</strong> (Options/settings -> Permalinks) for "
+#~ "the changes to occur in your blog.</p><p>If you encounter any errors, "
+#~ "such as not being able to save a file to the database, try using the "
+#~ "Recreate Download Database option.</p></div>"
+#~ msgstr ""
+#~ "<p>本插件刚刚更新 - 您可能需要为 blog 所作的更改<strong>重新保存永久链接的"
+#~ "设置</strong> (选项/设置 -> 永久链接)。</p><p>如果您遇到任何错误（例如：无"
+#~ "法保存文件到数据库中），请尝试“修复数据库”选项。</p></div>"
+
+#~ msgid "Downloads and categories"
+#~ msgstr "下载和分类"
+
+#~ msgid "Downloaded a total of"
+#~ msgstr "已下载"
+
+#~ msgid "<div class=\"error\">Error</div>"
+#~ msgstr "<div class=\"error\">错误</div>"
+
+#~ msgid ""
+#~ "Replacing the file will <strong>delete all current stats</strong> \n"
+#~ "                                            for the currently uploaded "
+#~ "file. If you wish to keep existing stats, go to the\n"
+#~ "                                            files Edit page instead and "
+#~ "re-upload there."
+#~ msgstr ""
+#~ "<p>替换已有文件将会 <strong>删除该文件的所有统计信息</strong>。如果您想保"
+#~ "留统计的信息，请转到编辑页面并重新上传。</p>"
+
+#~ msgid "Url"
+#~ msgstr "地址"
+
+#~ msgid "Save"
+#~ msgstr "保存"
+
+#~ msgid "<p>Invalid Add method, <a href=\"?page=Downloads\">go back</a>.</p>"
+#~ msgstr "<p>错误的添加方法，<a href=\"?page=Downloads\">返回</a>。</p>"
+
+#~ msgid "Required field: <strong>File URL</strong> omitted"
+#~ msgstr "必填字段：<strong>文件地址</strong> 被忽略"
+
+#~ msgid "File URL (required)"
+#~ msgstr "文件地址（必须）"
+
+#~ msgid ""
+#~ "Note: changes to the file url will only work if not uploading a new file "
+#~ "below."
+#~ msgstr "注意：如果您要重新上传文件，则不会更改文件地址。"
+
+#~ msgid ""
+#~ "<p>Here you can upload/re-upload the file from your computer. This will "
+#~ "Overwrite any existing files \n"
+#~ "\t\t\t\t\t\t\t\t\t\twith the same name, but will keep stats in-tact.</p>"
+#~ msgstr ""
+#~ "<p>您可以重新上传文件。这将替换同名的已有文件，但是会保留已统计的信息。</"
+#~ "p>"
+
+#~ msgid "Add Existing Download"
+#~ msgstr "添加已有下载"
+
+#~ msgid "No downloads added yet."
+#~ msgstr "尚未添加任何下载。"
