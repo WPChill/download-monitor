@@ -110,7 +110,7 @@ function dlm_addnew() {
 				$thumbnail = str_replace( $dir_path, $pageURL, $thumbnail );
 			}
 		}
-				echo $_POST['upload'];			
+		
 		//attempt to upload file
 		if ( empty($errors ) ) {										
 			$time = current_time('mysql');
