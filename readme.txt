@@ -84,6 +84,9 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 
 == Changelog ==
 
+= 3.3.5.5 =
+* Added parameter "front_order" to download_page shortcode.
+
 = 3.3.5.4 = 
 *	Removed the sponsorship messages and links to translators sites due to Automattic's request
 *	Added SSL url support (thanks cliffpaulick)
