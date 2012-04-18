@@ -1,10 +1,10 @@
 === Plugin Name ===
-Contributors: jolley_small
+Contributors: mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10691945
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.8
-Tested up to: 3.2
-Stable tag: 3.3.5.4
+Tested up to: 3.3.1
+Stable tag: 3.3.5.5
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -12,7 +12,9 @@ Plugin with interface for uploading and managing download files, inserting downl
 
 Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links.
 
-Development for this plugin can now be found on GitHub: https://github.com/mikejolley/download-monitor
+You can contribute code to this plugin via GitHub: https://github.com/mikejolley/download-monitor
+
+Note, my work on this plugin is on hold due to other projects.
 
 For older versions of wordpress use the older Download Monitor version 2.2.3 which is available from http://wordpress.org/extend/plugins/download-monitor/download/ (tested and working in Wordpress 2.0 and 2.3).
 
@@ -53,6 +55,8 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Lithuanian translation by Nata
 *	Italian translation by Gianni Diurno
 
+Plugin contains filetype icons from the Fugue Icon Pack by Yusuke Kamiyamane.
+
 == Installation ==
 
 = First time installation instructions =
@@ -68,11 +72,9 @@ Installation is fast and easy. The following steps will guide get you started:
    
 Note: If you encounter any problems when downloading files it is likely to be a file permissions issue. Change the file permissions of the download-monitor folder and contents to 755 (check with your host if your not sure how).
 
-
 == Frequently Asked Questions ==
 
 You can now view the FAQ in the documentation: http://mikejolley.com/projects/download-monitor/
-
 
 == Screenshots ==
 
@@ -81,11 +83,13 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 3. Download page listings
 4. More download page listings
 
-
 == Changelog ==
 
 = 3.3.5.5 =
-* Added parameter "front_order" to download_page shortcode.
+*	Fixed XSS issue in uploader.php
+* 	Added parameter "front_order" to download_page shortcode (by holtgrewe)
+*	Alphabetized subcategories prior to display. Non-elegant approach required changing the link to only the count
+*	Changed handling of post_id field. Formerly, only one ID was allowed. Now multiple IDs can all be linked (comma separated). (by bkloef)
 
 = 3.3.5.4 = 
 *	Removed the sponsorship messages and links to translators sites due to Automattic's request

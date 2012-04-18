@@ -1,37 +1,14 @@
 <?php
-	/** Load WordPress Administration Bootstrap */
-	if(file_exists('../../../wp-load.php')) {
-		require_once("../../../wp-load.php");
-	} else if(file_exists('../../wp-load.php')) {
-		require_once("../../wp-load.php");
-	} else if(file_exists('../wp-load.php')) {
-		require_once("../wp-load.php");
-	} else if(file_exists('wp-load.php')) {
-		require_once("wp-load.php");
-	} else if(file_exists('../../../../wp-load.php')) {
-		require_once("../../../../wp-load.php");
-	} else if(file_exists('../../../../wp-load.php')) {
-		require_once("../../../../wp-load.php");
-	} else {
-	
-		if(file_exists('../../../wp-config.php')) {
-			require_once("../../../wp-config.php");
-		} else if(file_exists('../../wp-config.php')) {
-			require_once("../../wp-config.php");
-		} else if(file_exists('../wp-config.php')) {
-			require_once("../wp-config.php");
-		} else if(file_exists('wp-config.php')) {
-			require_once("wp-config.php");
-		} else if(file_exists('../../../../wp-config.php')) {
-			require_once("../../../../wp-config.php");
-		} else if(file_exists('../../../../wp-config.php')) {
-			require_once("../../../../wp-config.php");
-		} else {
-			echo '<p>Failed to load bootstrap.</p>';
-			exit;
-		}
-	
-	}
+/** Load WordPress Administration Bootstrap */
+$wp_root = dirname(__FILE__) .'/../../../../';
+if(file_exists($wp_root . 'wp-load.php')) {
+	require_once($wp_root . "wp-load.php");
+} else if(file_exists($wp_root . 'wp-config.php')) {
+	require_once($wp_root . "wp-config.php");
+} else {
+	echo '<p>Failed to load bootstrap.</p>';
+	exit;
+}
 	
 	require_once(ABSPATH.'wp-admin/admin.php');
 

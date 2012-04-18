@@ -624,28 +624,24 @@ if (function_exists('get_downloads')) {
 		    if (!isset($download->meta['hide_download_button'])) $page .= '<p><a href="'.do_shortcode('[download id="'.$download->id.'" format="{url}"]').'" class="download-button">'.$dbutton_text.'</a></p>';
 		       
 			// Handle post_id field
-        		$page .= '<div class="related-projects">'."\n";
-        		if (isset($download->meta['post_id'])) {
-          		  $page .= '<hr />'."\n";
-          		  if (is_numeric($download->meta['post_id'])) { // single id
-            		    $page .= '<h3>Related:</h3>'."\n";
-            		    $page .= '<p><a href="'.get_permalink($download->meta['post_id']).'">'.get_the_title($download->meta['post_id']).'</a></p>';
-          		  } else { // multiple ids
-            		    $page .= '<h3>Related:</h3>'."\n";
-            		    $id_list = str_replace("\n", ',', trim($download->meta['post_id'])); // format to comma-separated string
-            		    $post_ids = explode(',', $id_list); // split into array
-            		    foreach($post_ids as $dl) { // print link for each array entry
-              		      $page .= '<p><a href="'.get_permalink(trim($dl)).'">'.get_the_title(trim($dl)).'</a></p>';
-            		    }
-          		  }
-        		}
-        		$page .= '</div> <!-- /.related-projects -->'."\n";
+			if (isset($download->meta['post_id']) && is_numeric($download->meta['post_id'])) {            
+				$page .= '<p><a href="'.get_permalink($download->meta['post_id']).'" class="more-button">'.$readmore_text.'</a></p>';
+			} else {
+				$page .= '<div class="related-projects">'."\n";
+				// multiple ids
+    		    $page .= '<h3>'.__('Related', 'wp-download_monitor').':</h3><ul>';
+    		    $post_ids = explode(',', $download->meta['post_id']); // split into array
+    		    foreach($post_ids as $dl) { // print link for each array entry
+					$page .= '<li><a href="'.get_permalink(trim($dl)).'">'.get_the_title(trim($dl)).'</a></li>';
+    		    }
+    		    $page .= '</ul></div> <!-- /.related-projects -->'."\n";
+			}
 
-		        		// Special additional content meta field
-		        		if (isset($download->meta['side_content'])) {
-		        			$extra = $download->meta['side_content'];
-		        			if ($extra) $page .= '<div class="extra">'.$extra.'</div>';
-		        		}
+    		// Special additional content meta field
+    		if (isset($download->meta['side_content'])) {
+    			$extra = $download->meta['side_content'];
+    			if ($extra) $page .= '<div class="extra">'.$extra.'</div>';
+    		}
 		  
 		    $page .= '
 		        	</div>

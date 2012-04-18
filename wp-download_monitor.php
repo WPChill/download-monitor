@@ -51,7 +51,7 @@ Author URI: http://mikejolley.com
 	else
 		$downloadurl = get_bloginfo('url').'/'.$dlm_url;
 		
-	load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
+	load_plugin_textdomain('wp-download_monitor', false, 'download-monitor/languages/');
 	
 	$wp_dlm_db_exists = false;
 	
@@ -254,4 +254,3 @@ function wp_dlm_activate() {
 	wp_dlm_init_or_upgrade();		
 }
 register_activation_hook( __FILE__, 'wp_dlm_activate' );
-?>

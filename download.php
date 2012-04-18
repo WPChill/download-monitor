@@ -88,7 +88,7 @@ if (!function_exists('remote_filesize')) {
 	}
 }
 
-load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
+load_plugin_textdomain('wp-download_monitor', false, 'download-monitor/languages/');
 
 do_action('wp_dlm_download');
 
@@ -670,5 +670,7 @@ do_action('wp_dlm_download');
    } else {
    	@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
    	wp_die(__('Download does not exist!',"wp-download_monitor"), __('Download does not exist!',"wp-download_monitor"));
+   }
+   exit();wp-download_monitor"));
    }
    exit();
