@@ -1,12 +1,10 @@
 <?php
-/** Load WordPress Administration Bootstrap */
-$wp_root = dirname(__FILE__) .'/../../../';
-if(file_exists($wp_root . 'wp-load.php')) {
-	require_once($wp_root . "wp-load.php");
-} else if(file_exists($wp_root . 'wp-config.php')) {
-	require_once($wp_root . "wp-config.php");
+$wp_root = dirname(dirname(dirname(dirname(__FILE__))));
+if(file_exists($wp_root . '/wp-load.php')) {
+	require_once($wp_root . "/wp-load.php");
+} else if(file_exists($wp_root . '/wp-config.php')) {
+	require_once($wp_root . "/wp-config.php");
 } else {
-	echo '<p>Failed to load bootstrap.</p>';
 	exit;
 }
 
@@ -69,7 +67,6 @@ wp_enqueue_script( 'jquery-color' );
 if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_download'))
 	wp_die(__('You do not have permission to upload files/downloads.'));
 	
-load_plugin_textdomain('wp-download_monitor', '/');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php do_action('admin_xml_ns'); ?> <?php language_attributes(); ?>>
@@ -893,36 +890,6 @@ load_plugin_textdomain('wp-download_monitor', '/');
 								'prev_text' => __('&laquo; Previous'),
 								'next_text' => __('Next &raquo;'),
 								'total' => $total_pages,
-								'current' => $_REQUEST['p'],
-								'end_size' => 25,
-								'mid_size' => 5,
-							));
-						}
-					?>	
-	            </div> 
-	        </div>
-	        <br style="clear: both; margin-bottom:1px; height:2px; line-height:2px;" />
-	    </div>
-		<script type="text/javascript">
-			/* <![CDATA[ */
-			jQuery('.insertdownload').click(function(){
-				var win = window.dialogArguments || opener || parent || top;
-				var did = jQuery(this).attr('id');
-				did=did.replace('download-', '');
-				if (jQuery('#format').val()>0) win.send_to_editor('[download id="' + did + '" format="' + jQuery('#format').val() + '"]');
-				else win.send_to_editor('[download id="' + did + '"]');
-			});
-			/* ]]> */
-		</script>
-
-		<?php
-			
-		break;
-	}
-	?>
-</body>
-</html>
-al' => $total_pages,
 								'current' => $_REQUEST['p'],
 								'end_size' => 25,
 								'mid_size' => 5,

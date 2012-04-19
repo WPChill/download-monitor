@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.8
 Tested up to: 3.3.1
-Stable tag: 3.3.5.5
+Stable tag: 3.3.5.6
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -84,6 +84,9 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 4. More download page listings
 
 == Changelog ==
+
+= 3.3.5.6 =
+*	GitHub screwed my merge
 
 = 3.3.5.5 =
 *	Fixed XSS issue in uploader.php
