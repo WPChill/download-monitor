@@ -3,7 +3,8 @@
 // jQuery File Tree PHP Connector - modified for php4/wordpress compatibility
 //
 
-if( basename(__FILE__) == 'jqueryFileTree.php' ) die();
+// Ajax only
+if ( basename(__FILE__) == 'jqueryFileTree.php' && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest' ) die();
 
 if(file_exists('../../../../../../wp-load.php')) {
 	require_once("../../../../../../wp-load.php");

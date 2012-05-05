@@ -85,6 +85,10 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 
 == Changelog ==
 
+= 3.3.5.7 =
+*	File browser path fix
+* 	When using 'wrap' with shortcodes, output the wrap even if its not ul
+ 
 = 3.3.5.6 =
 *	GitHub screwed my merge
 

@@ -245,8 +245,10 @@ function wp_dlm_shortcode_downloads( $atts ) {
 	
 	} else $output = html_entity_decode($before).'['.__("No Downloads found","wp-download_monitor").']'.html_entity_decode($after);	
 	
-	if ($wrap=='ul') {
-		$output = '<ul class="dlm_download_list">'.$output.'</ul>';
+	if ( $wrap == 'ul' ) {
+		$output = '<ul class="dlm_download_list">' . $output . '</ul>';
+	} elseif ( ! empty( $wrap ) ) {
+		$output = '<' . $wrap . '>' . $output . '</' . $wrap . '>';
 	}
 	
 	if ($autop) return wpautop(do_shortcode($output));
