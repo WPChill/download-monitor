@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-download_monitor\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-29 21:12+0800\n"
-"PO-Revision-Date: 2011-12-28 23:49+0800\n"
+"POT-Creation-Date: 2012-04-26 11:05+0800\n"
+"PO-Revision-Date: 2012-04-26 11:07+0800\n"
 "Last-Translator: Hpyer <coolhpy@163.com>\n"
 "Language-Team:  <hpyer@yahoo.cn>\n"
 "MIME-Version: 1.0\n"
@@ -24,33 +24,33 @@ msgstr "报头已发送"
 msgid "The headers have been sent by another plugin - there may be a plugin conflict."
 msgstr "其他插件已经发送了一些报头信息，可能是插件有冲突。"
 
-#: download.php:164
+#: download.php:165
 #, php-format
 msgid "You must be logged in to download this file. <br/><br/><a href=\"%1$s\"><strong>← Back to %2$s</strong></a>"
 msgstr "您必须登录后才能下载该文件。<br/><br/><a href=\"%1$s\"><strong>← 返回到 %2$s</strong></a>"
 
-#: download.php:164
+#: download.php:165
 msgid "You must be logged in to download this file."
 msgstr "您必须登录后才能下载该文件。"
 
-#: download.php:175
-#: download.php:185
+#: download.php:176
+#: download.php:186
 msgid "You do not have permission to download this file."
 msgstr "你无权下载该文件。 "
 
-#: download.php:581
+#: download.php:582
 msgid "Cannot open remote file "
 msgstr "无法打开远程文件"
 
-#: download.php:634
+#: download.php:635
 msgid "Forcing the download of externally hosted files is not supported by this server."
 msgstr "服务器不支持强制下载外部主机的文件。"
 
-#: download.php:641
+#: download.php:642
 msgid "Download path is invalid!"
 msgstr "下载路径不正确！"
 
-#: download.php:672
+#: download.php:673
 msgid "Download does not exist!"
 msgstr "文件不存在！"
 
@@ -95,9 +95,9 @@ msgstr "数据库已升级"
 #: legacy_shortcodes.php:226
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
-#: shortcodes.php:87
-#: shortcodes.php:221
-#: uploader.php:480
+#: shortcodes.php:88
+#: shortcodes.php:228
+#: uploader.php:454
 #: admin/add_new.php:268
 #: admin/admin.php:594
 #: admin/admin.php:1447
@@ -113,8 +113,8 @@ msgstr "版本"
 #: legacy_shortcodes.php:226
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
-#: shortcodes.php:87
-#: shortcodes.php:221
+#: shortcodes.php:88
+#: shortcodes.php:228
 msgid "downloaded"
 msgstr "已下载"
 
@@ -128,8 +128,8 @@ msgstr "已下载"
 #: legacy_shortcodes.php:226
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
-#: shortcodes.php:87
-#: shortcodes.php:221
+#: shortcodes.php:88
+#: shortcodes.php:228
 msgid "times"
 msgstr "次"
 
@@ -159,8 +159,8 @@ msgid "Most Popular Downloads"
 msgstr "最受欢迎的下载"
 
 #: legacy_shortcodes.php:264
-#: uploader.php:538
-#: uploader.php:796
+#: uploader.php:512
+#: uploader.php:770
 #: wp-download_monitor.php:140
 #: admin/add_directory.php:244
 #: admin/add_new.php:312
@@ -174,35 +174,35 @@ msgstr "分类"
 msgid "No Downloads Found"
 msgstr "尚未添加任何下载"
 
-#: shortcodes.php:239
+#: shortcodes.php:246
 msgid "No Downloads found"
 msgstr "未找到任何文件"
 
-#: uploader.php:80
-#: uploader.php:83
+#: uploader.php:55
+#: uploader.php:58
 msgid "Blue"
 msgstr "蓝色"
 
-#: uploader.php:81
-#: uploader.php:84
+#: uploader.php:56
+#: uploader.php:59
 msgid "Gray"
 msgstr "灰色"
 
-#: uploader.php:93
+#: uploader.php:68
 msgid "You do not have permission to upload files/downloads."
 msgstr "你无权上传文件。"
 
-#: uploader.php:101
+#: uploader.php:75
 msgid "Uploads"
 msgstr "上传"
 
-#: uploader.php:101
+#: uploader.php:75
 msgid "WordPress"
 msgstr "WordPress"
 
-#: uploader.php:246
-#: uploader.php:676
-#: uploader.php:688
+#: uploader.php:220
+#: uploader.php:650
+#: uploader.php:662
 #: admin/add_directory.php:355
 #: admin/add_directory.php:366
 #: admin/add_new.php:447
@@ -215,91 +215,91 @@ msgstr "WordPress"
 msgid "remove"
 msgstr "删除"
 
-#: uploader.php:267
+#: uploader.php:241
 #: admin/add_new.php:66
 msgid "Add New Download"
 msgstr "添加本地下载"
 
-#: uploader.php:268
+#: uploader.php:242
 msgid "View Downloads"
 msgstr "查看所有文件"
 
-#: uploader.php:308
+#: uploader.php:282
 msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
 msgstr "<div class=\"media-upload-error\">必填字段：<strong>标题</strong> 被忽略</div>"
 
-#: uploader.php:310
+#: uploader.php:284
 msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
 msgstr "<div class=\"media-upload-error\">错误的 <strong>点击</strong> 次数</div>"
 
-#: uploader.php:352
+#: uploader.php:326
 #: admin/add_new.php:134
 msgid "No file selected"
 msgstr "没有选择文件"
 
-#: uploader.php:453
+#: uploader.php:427
 msgid "<div id=\"media-upload-error\">Error saving to database</div>"
 msgstr "<div id=\"media-upload-error\">保存到数据库时出错</div>"
 
-#: uploader.php:463
+#: uploader.php:437
 msgid "Download Information"
 msgstr "下载信息"
 
-#: uploader.php:469
-#: uploader.php:794
+#: uploader.php:443
+#: uploader.php:768
 #: admin/add_new.php:262
 #: admin/config.php:286
 #: admin/logs.php:51
 msgid "Title"
 msgstr "标题"
 
-#: uploader.php:475
+#: uploader.php:449
 #: admin/add_new.php:274
 #: admin/admin.php:600
 msgid "Description"
 msgstr "描述"
 
-#: uploader.php:486
+#: uploader.php:460
 #: admin/add_new.php:278
 msgid "Starting hits"
 msgstr "起始点击数"
 
-#: uploader.php:492
+#: uploader.php:466
 #: admin/add_new.php:284
 msgid "Select a file..."
 msgstr "选择文件..."
 
-#: uploader.php:502
+#: uploader.php:476
 #: admin/add_new.php:249
 #: admin/admin.php:571
 msgid " (defined in php.ini)"
 msgstr "（已在 php.ini 中定义）"
 
-#: uploader.php:513
+#: uploader.php:487
 #: admin/add_new.php:288
 msgid "Upload File"
 msgstr "上传文件"
 
-#: uploader.php:515
+#: uploader.php:489
 #: admin/add_new.php:289
 #: admin/admin.php:624
 msgid "Max. filesize"
 msgstr "最大文件大小"
 
-#: uploader.php:515
+#: uploader.php:489
 #: admin/add_new.php:289
 #: admin/admin.php:624
 msgid "bytes"
 msgstr "字节"
 
-#: uploader.php:515
+#: uploader.php:489
 #: admin/add_new.php:289
 #: admin/admin.php:624
 msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
 msgstr "如果在上传目录中已经存在同名的文件，则本文件会被重命名。"
 
-#: uploader.php:517
-#: uploader.php:633
+#: uploader.php:491
+#: uploader.php:607
 #: admin/add_new.php:292
 #: admin/add_new.php:403
 #: admin/admin.php:627
@@ -307,13 +307,13 @@ msgstr "如果在上传目录中已经存在同名的文件，则本文件会被
 msgid "OR"
 msgstr "或"
 
-#: uploader.php:518
+#: uploader.php:492
 #: admin/add_new.php:295
 msgid "Enter file URL"
 msgstr "输入文件地址"
 
-#: uploader.php:519
-#: uploader.php:635
+#: uploader.php:493
+#: uploader.php:609
 #: admin/add_new.php:299
 #: admin/add_new.php:409
 #: admin/admin.php:633
@@ -322,23 +322,23 @@ msgstr "输入文件地址"
 msgid "Toggle File Browser"
 msgstr "切换文件浏览器"
 
-#: uploader.php:521
+#: uploader.php:495
 #: admin/add_directory.php:395
 #: admin/add_new.php:487
 msgid "Y-m-d H:i:s"
 msgstr "Y-m-d H:i:s"
 
-#: uploader.php:531
+#: uploader.php:505
 msgid "Mirrors"
 msgstr "镜像"
 
-#: uploader.php:535
+#: uploader.php:509
 #: admin/add_new.php:309
 #: admin/admin.php:643
 msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
 msgstr "可选的镜像地址列表（每行一个地址）。当有下载请求时会随机抽取其中的一个镜像进行下载。"
 
-#: uploader.php:579
+#: uploader.php:553
 #: admin/add_directory.php:284
 #: admin/add_new.php:352
 #: admin/admin.php:686
@@ -346,8 +346,8 @@ msgstr "可选的镜像地址列表（每行一个地址）。当有下载请求
 msgid "+ Add New Category"
 msgstr "+ 添加分类"
 
-#: uploader.php:582
-#: uploader.php:661
+#: uploader.php:556
+#: uploader.php:635
 #: admin/add_directory.php:287
 #: admin/add_directory.php:340
 #: admin/add_new.php:355
@@ -364,7 +364,7 @@ msgstr "+ 添加分类"
 msgid "Name"
 msgstr "名称"
 
-#: uploader.php:586
+#: uploader.php:560
 #: admin/add_directory.php:291
 #: admin/add_new.php:359
 #: admin/admin.php:693
@@ -374,7 +374,7 @@ msgstr "名称"
 msgid "Parent"
 msgstr "上级分类"
 
-#: uploader.php:588
+#: uploader.php:562
 #: admin/add_directory.php:293
 #: admin/add_new.php:361
 #: admin/admin.php:695
@@ -385,7 +385,7 @@ msgstr "上级分类"
 msgid "None"
 msgstr "无"
 
-#: uploader.php:600
+#: uploader.php:574
 #: admin/add_directory.php:305
 #: admin/add_directory.php:381
 #: admin/add_new.php:373
@@ -396,8 +396,8 @@ msgstr "无"
 msgid "Add"
 msgstr "添加"
 
-#: uploader.php:605
-#: uploader.php:797
+#: uploader.php:579
+#: uploader.php:771
 #: admin/add_directory.php:309
 #: admin/add_new.php:377
 #: admin/admin.php:711
@@ -406,7 +406,7 @@ msgstr "添加"
 msgid "Tags"
 msgstr "标签"
 
-#: uploader.php:611
+#: uploader.php:585
 #: admin/add_directory.php:311
 #: admin/add_new.php:379
 #: admin/admin.php:713
@@ -414,14 +414,14 @@ msgstr "标签"
 msgid "Separate tags with commas."
 msgstr "请用英文逗号分隔标签"
 
-#: uploader.php:611
+#: uploader.php:585
 #: admin/add_directory.php:311
 #: admin/admin.php:713
 #: admin/admin.php:1196
 msgid "Toggle Tags"
 msgstr "切换标签"
 
-#: uploader.php:619
+#: uploader.php:593
 #: admin/add_directory.php:320
 #: admin/add_new.php:388
 #: admin/admin.php:722
@@ -429,30 +429,30 @@ msgstr "切换标签"
 msgid "No Tags Found"
 msgstr "暂无标签"
 
-#: uploader.php:625
+#: uploader.php:599
 #: admin/add_new.php:395
 #: admin/admin.php:729
 #: admin/admin.php:1212
 msgid "Thumbnail"
 msgstr "缩略图"
 
-#: uploader.php:628
+#: uploader.php:602
 #: admin/add_new.php:399
 msgid "Upload thumbnail"
 msgstr "上传缩略图"
 
-#: uploader.php:631
+#: uploader.php:605
 #: admin/add_new.php:400
 #: admin/admin.php:734
 msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
 msgstr "该图会在下载页中显示，或者包含 {thumbnail} 的自定义样式（如果未设置则会显示一个占位符）。"
 
-#: uploader.php:634
+#: uploader.php:608
 #: admin/add_new.php:406
 msgid "Enter thumbnail URL"
 msgstr "输入缩略图的 URL 地址"
 
-#: uploader.php:641
+#: uploader.php:615
 #: admin/add_directory.php:327
 #: admin/add_new.php:418
 #: admin/admin.php:752
@@ -460,7 +460,7 @@ msgstr "输入缩略图的 URL 地址"
 msgid "Member only file?"
 msgstr "登录后才能下载？"
 
-#: uploader.php:645
+#: uploader.php:619
 #: admin/add_directory.php:328
 #: admin/add_new.php:419
 #: admin/admin.php:753
@@ -468,7 +468,7 @@ msgstr "登录后才能下载？"
 msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
 msgstr "如果打勾，则只有当用户登录后才能通过下载链接访问文件。您可以添加一个名为 min-level 或 req-role 的自定义字段来设置允许下载文件的最低用户级别。"
 
-#: uploader.php:648
+#: uploader.php:622
 #: admin/add_directory.php:331
 #: admin/add_new.php:422
 #: admin/admin.php:756
@@ -476,7 +476,7 @@ msgstr "如果打勾，则只有当用户登录后才能通过下载链接访问
 msgid "Force Download?"
 msgstr "强制下载？"
 
-#: uploader.php:652
+#: uploader.php:626
 #: admin/add_directory.php:332
 #: admin/add_new.php:423
 #: admin/admin.php:757
@@ -484,7 +484,7 @@ msgstr "强制下载？"
 msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
 msgstr "如果勾选，Download Monitor 会尝试强制下载而不是进行转向。该选项可能无法兼容所以服务器（最好现行测试），并且大多数情况下可能只会对位于本地服务器上文件有效。"
 
-#: uploader.php:657
+#: uploader.php:631
 #: admin/add_directory.php:335
 #: admin/add_new.php:427
 #: admin/admin.php:770
@@ -493,7 +493,7 @@ msgstr "如果勾选，Download Monitor 会尝试强制下载而不是进行转�
 msgid "Custom fields"
 msgstr "自定义字段"
 
-#: uploader.php:662
+#: uploader.php:636
 #: admin/add_directory.php:341
 #: admin/add_new.php:433
 #: admin/admin.php:776
@@ -501,7 +501,7 @@ msgstr "自定义字段"
 msgid "Value"
 msgstr "值"
 
-#: uploader.php:696
+#: uploader.php:670
 #: admin/add_directory.php:374
 #: admin/add_new.php:466
 #: admin/admin.php:808
@@ -509,7 +509,7 @@ msgstr "值"
 msgid "Add Custom Field"
 msgstr "添加自定义字段"
 
-#: uploader.php:696
+#: uploader.php:670
 #: admin/add_directory.php:374
 #: admin/add_new.php:466
 #: admin/admin.php:808
@@ -517,7 +517,7 @@ msgstr "添加自定义字段"
 msgid "Toggle Existing Custom Fields"
 msgstr "切换以存在的自定义字段"
 
-#: uploader.php:707
+#: uploader.php:681
 #: admin/add_directory.php:385
 #: admin/add_new.php:477
 #: admin/admin.php:819
@@ -525,44 +525,44 @@ msgstr "切换以存在的自定义字段"
 msgid "None found."
 msgstr "暂无"
 
-#: uploader.php:714
+#: uploader.php:688
 msgid "Save new download"
 msgstr "上传并保存"
 
-#: uploader.php:722
+#: uploader.php:696
 msgid "Insert new download into post"
 msgstr "插入最新下载到日志中。"
 
-#: uploader.php:724
-#: uploader.php:770
+#: uploader.php:698
+#: uploader.php:744
 msgid "Insert into post using format:"
 msgstr "插入到日志时的格式："
 
-#: uploader.php:725
-#: uploader.php:773
+#: uploader.php:699
+#: uploader.php:747
 msgid "Default"
 msgstr "默认"
 
-#: uploader.php:738
+#: uploader.php:712
 msgid "Insert into post"
 msgstr "插入到日志"
 
-#: uploader.php:760
+#: uploader.php:734
 #: admin/admin.php:1340
 msgid "Search Downloads:"
 msgstr "搜索文件："
 
-#: uploader.php:762
+#: uploader.php:736
 #: admin/admin.php:1342
 msgid "Search Downloads"
 msgstr "搜索文件"
 
-#: uploader.php:788
+#: uploader.php:762
 #: wp-download_monitor.php:134
 msgid "Downloads"
 msgstr "下载管理"
 
-#: uploader.php:793
+#: uploader.php:767
 #: admin/admin.php:1361
 #: admin/categories.php:108
 #: admin/config.php:178
@@ -571,37 +571,37 @@ msgstr "下载管理"
 msgid "ID"
 msgstr "ID"
 
-#: uploader.php:795
+#: uploader.php:769
 #: admin/admin.php:1363
 #: admin/logs.php:52
 msgid "File"
 msgstr "文件名"
 
-#: uploader.php:798
+#: uploader.php:772
 #: admin/admin.php:1366
 msgid "Member only"
 msgstr "登录后下载"
 
-#: uploader.php:799
+#: uploader.php:773
 #: admin/admin.php:1367
 msgid "Force Download"
 msgstr "强制下载"
 
-#: uploader.php:800
+#: uploader.php:774
 #: admin/categories.php:110
 #: admin/config.php:181
 msgid "Action"
 msgstr "操作"
 
-#: uploader.php:868
-#: uploader.php:879
+#: uploader.php:842
+#: uploader.php:853
 #: admin/admin.php:1458
 #: admin/admin.php:1469
 msgid "N/A"
 msgstr "无"
 
-#: uploader.php:887
-#: uploader.php:890
+#: uploader.php:861
+#: uploader.php:864
 #: admin/admin.php:1476
 #: admin/admin.php:1479
 #: admin/config.php:307
@@ -612,8 +612,8 @@ msgstr "无"
 msgid "Yes"
 msgstr "是"
 
-#: uploader.php:887
-#: uploader.php:890
+#: uploader.php:861
+#: uploader.php:864
 #: admin/admin.php:1476
 #: admin/admin.php:1479
 #: admin/config.php:310
@@ -624,16 +624,16 @@ msgstr "是"
 msgid "No"
 msgstr "否"
 
-#: uploader.php:892
+#: uploader.php:866
 msgid "Insert"
 msgstr "插入"
 
-#: uploader.php:916
+#: uploader.php:890
 #: admin/admin.php:1523
 msgid "&laquo; Previous"
 msgstr "&laquo; 上一页"
 
-#: uploader.php:917
+#: uploader.php:891
 #: admin/admin.php:1524
 msgid "Next &raquo;"
 msgstr "下一页 &raquo;"
@@ -1638,6 +1638,10 @@ msgstr "排序："
 #: page-addon/download-monitor-page-addon.php:92
 msgid "Downloads tagged:"
 msgstr "文件标签："
+
+#: page-addon/download-monitor-page-addon.php:632
+msgid "Related"
+msgstr "相关下载"
 
 #~ msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
 #~ msgstr "我非常欣赏这个插件，并且已经对作者的努力进行了赞助！"
