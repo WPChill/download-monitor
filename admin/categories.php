@@ -53,10 +53,10 @@ function wp_dlm_categories() {
 			if (($parent=='0' || $parent>0) AND $parent!==$category AND !in_array($parent, $children)) $parent_q = ", parent='$parent'";
 			if ($category && is_numeric($category) && $category>0) {
 				$query = sprintf("UPDATE $wp_dlm_db_taxonomies SET name='%s' $parent_q WHERE id='%s' AND taxonomy = 'category';",
-					$wpdb->escape( $name ),
-					$wpdb->escape( $category ),
-					$wpdb->escape( $category ));
+                    $wpdb->escape( $name ),
+                    $wpdb->escape( $category ));
 				$wpdb->query($query);
+				wp_dlm_clear_cached_stuff();
 				//echo $query;
 				echo '<div id="message" class="updated fade"><p><strong>'.__('Category updated',"wp-download_monitor").'</strong></p></div>';
 			}						

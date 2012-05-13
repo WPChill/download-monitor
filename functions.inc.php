@@ -169,7 +169,7 @@ function wp_dlm_add_media_button() {
 	global $wp_dlm_root;
 	$url = WP_PLUGIN_URL.'/download-monitor/uploader.php?tab=add&TB_iframe=true&amp;height=500&amp;width=640';
 	if (is_ssl()) $url = str_replace( 'http://', 'https://',  $url );
-	echo '<a href="'.$url.'" class="thickbox" title="'.__('Add Download','wp-download_monitor').'"><img src="'.$wp_dlm_root.'/img/media-button-download.gif" alt="'.__('Add Download','wp-download_monitor').'"></a>';
+	echo '<a href="'.$url.'" class="thickbox" title="'.__('Add Download','wp-download_monitor').'"><img src="'.$wp_dlm_root.'img/media-button-download.gif" alt="'.__('Add Download','wp-download_monitor').'"></a>';
 }
 
 ################################################################################
