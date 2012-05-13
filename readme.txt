@@ -88,6 +88,7 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 = 3.3.5.8 =
 *	Clear cache after updating category
 * 	Fix image path
+* 	coolhpy updated the chinese lang
 
 = 3.3.5.7 =
 *	File browser path fix
