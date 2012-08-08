@@ -92,7 +92,7 @@ load_plugin_textdomain('wp-download_monitor', false, 'download-monitor/languages
 
 do_action('wp_dlm_download');
 
-	global $wpdb,$user_ID;	
+	global $wpdb,$user_ID,$blog_id;
 	
 	// set table name	
 	$wp_dlm_db = $wpdb->prefix."download_monitor_files";
@@ -506,6 +506,9 @@ do_action('wp_dlm_download');
 							//$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|', '|^'. get_bloginfo('url') . '/' . '|');
 							$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|');
 							$path = preg_replace( $patterns, '', $thefile );
+							// account for multisite/network installations since they each have their own upload directory
+							if(is_multisite() && $blog_id != 1) // Main site uses the "standard" upload directory so leave that as-is
+								$path = '/wp-content/blogs.dir/' . $blog_id . '/' . $path;
 							
 							// this is joining the ABSPATH constant, changing any slashes to local filesystem slashes, and then finally getting the real path.
 							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );
