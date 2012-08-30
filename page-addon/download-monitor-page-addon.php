@@ -209,7 +209,8 @@ if (function_exists('get_downloads')) {
 	if (isset($_GET['lang'])) $fields .= '<input type="hidden" name="lang" value="'.$_GET['lang'].'" />';
 	
 	$dlsearch = '';
-	if (isset($_REQUEST['dlsearch'])) $dlsearch = $_REQUEST['dlsearch'];
+	if (isset($_REQUEST['dlsearch'])) 
+		$dlsearch = esc_attr( $_REQUEST['dlsearch'] );
 	
 	$page .= '<div id="download-page">
 		<form id="download-page-search" action="" method="post">
@@ -262,10 +263,10 @@ if (function_exists('get_downloads')) {
 				LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
 				WHERE 
 					(
-					title LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%' 
-					OR filename LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
-					OR $wp_dlm_db_taxonomies.name LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
-					OR file_description LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
+					title LIKE '%".$wpdb->escape($dlsearch)."%' 
+					OR filename LIKE '%".$wpdb->escape($dlsearch)."%'
+					OR $wp_dlm_db_taxonomies.name LIKE '%".$wpdb->escape($dlsearch)."%'
+					OR file_description LIKE '%".$wpdb->escape($dlsearch)."%'
 					)
 				AND $wp_dlm_db.id NOT IN (".implode(',',$exclude_array).")
 			;");
@@ -278,10 +279,10 @@ if (function_exists('get_downloads')) {
 				LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
 				WHERE 
 					(
-					title LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%' 
-					OR filename LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
-					OR $wp_dlm_db_taxonomies.name LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
-					OR file_description LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
+					title LIKE '%".$wpdb->escape($dlsearch)."%' 
+					OR filename LIKE '%".$wpdb->escape($dlsearch)."%'
+					OR $wp_dlm_db_taxonomies.name LIKE '%".$wpdb->escape($dlsearch)."%'
+					OR file_description LIKE '%".$wpdb->escape($dlsearch)."%'
 					)
 				AND $wp_dlm_db.id NOT IN (".implode(',',$exclude_array).")
 				$orderby $paged_query;" );			
@@ -503,7 +504,7 @@ if (function_exists('get_downloads')) {
 		## Tag View
 		##########################################################################################################################################################################################
 		
-		$tag = urldecode(strtolower(trim($_GET['dltag'])));
+		$tag = esc_attr( strtolower( trim( urldecode( $_GET['dltag'] ) ) ) );
 			
 		if ($tag) {
 				
