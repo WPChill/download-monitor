@@ -36,7 +36,7 @@ if ($wp_db_version > 6124) {
 		if (isset($_REQUEST['download_stats_id']) && $_REQUEST['download_stats_id']>0)
 			$d = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wp_dlm_db WHERE id = %s LIMIT 1;", $_REQUEST['download_stats_id'] ));
 		else
-			$d = (object) array('id' => 0);
+			$d = (object) array('id' => 0, 'title' => '');
 
 		if (isset($_REQUEST['show_download_stats']) && $_REQUEST['show_download_stats']=='monthly')
 			$stattype = 'monthly';
