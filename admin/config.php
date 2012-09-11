@@ -31,6 +31,10 @@ function wp_dlm_config() {
 	// turn off magic quotes
 	wp_dlm_magic();
 
+	$ins_format = false;
+	$save_url = false;
+	$save_opt = false;
+
 	?>
 
 	<div class="download_monitor">
