@@ -269,7 +269,7 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 				$user = esc_attr( $_POST['user'] );
 				$members = (isset($_POST['memberonly'])) ? 1 : 0;
 				$forcedownload = (isset($_POST['forcedownload'])) ? 1 : 0;
-				$download_cat = esc_attr( $_POST['download_cat'] );
+				$download_cat = isset( $_POST['download_cat'] ) ? esc_attr( $_POST['download_cat'] ) : '';
 				$mirrors = htmlspecialchars(trim($_POST['mirrors']));
 				$file_description = trim($_POST['file_description']);
 
@@ -412,13 +412,13 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 							// Process and save meta/custom fields
 							$index = 1;
 							$values = array();
-							if ($_POST['meta']) foreach ($_POST['meta'] as $meta)
-							{
-								if (trim($meta['key'])) {
-									$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim(stripslashes($meta['key'])))))).'", "'.$wpdb->escape($meta['value']).'", '.$download_insert_id.')';
-									$index ++;
+							if ( isset( $_POST['meta'] ) )
+								foreach ($_POST['meta'] as $meta) {
+									if (trim($meta['key'])) {
+										$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim(stripslashes($meta['key'])))))).'", "'.$wpdb->escape($meta['value']).'", '.$download_insert_id.')';
+										$index ++;
+									}
 								}
-							}
 							if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
 
 							do_action('download_added', $download_insert_id);
