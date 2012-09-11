@@ -701,8 +701,16 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 				<div style="margin:1em;">
 				<h3><?php _e('Insert new download into post',"wp-download_monitor"); ?></h3>
 
+				<?php
+					$query_select_formats = sprintf("SELECT format FROM %s WHERE id=%d ORDER BY id LIMIT 0, 1;",
+						$wpdb->escape( $wp_dlm_db_formats ), get_option( 'wp_dlm_default_format' ));
+					$default_format = $wpdb->get_var($query_select_formats);
+					$closed = '0';
+					if ( strpos( $default_format, '{content}' ) !== false )
+						$closed = '1';
+				?>
 				<p class="submit"><label for="format"><?php _e('Insert into post using format:',"wp-download_monitor"); ?></label> <select style="vertical-align:middle;" name="format" id="format">
-							<option value="0"><?php _e('Default',"wp-download_monitor"); ?></option>
+							<option value="0" data-closed="<?php echo $closed ?>"><?php _e('Default',"wp-download_monitor"); ?></option>
 							<?php
 								$query_select_formats = sprintf("SELECT * FROM %s ORDER BY id;",
 									$wpdb->escape( $wp_dlm_db_formats ));
@@ -710,19 +718,34 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 
 								if (!empty($formats)) {
 									foreach ( $formats as $f ) {
-										echo '<option value="'.$f->id.'">'.$f->name.'</option>';
+										$closed = '0';
+										if ( strpos( $f->format, '{content}' ) !== false )
+											$closed = '1';
+										echo '<option value="'.$f->id.'" data-closed="' . $closed . '">'.$f->name.'</option>';
 									}
 								}
 							?>
 						</select>
-				<?php echo '<input type="submit" id="insertdownload" class="button button-primary" name="insertintopost" value="'.__('Insert into post',"wp-download_monitor").'" />'; ?></p>
+				<?php echo '<input type="submit" id="insertdownload" class="button button-primary" name="insertintopost" value="'.__('Insert into post',"wp-download_monitor").'" data-title="' . esc_attr( $title ) . '" />'; ?></p>
 
 				<script type="text/javascript">
 					/* <![CDATA[ */
 					jQuery('#insertdownload').click(function(){
 					var win = window.dialogArguments || opener || parent || top;
-					if (jQuery('#format').val()>0) win.send_to_editor('<?php echo $html; ?> format="' + jQuery('#format').val() + '"]');
-					else win.send_to_editor('<?php echo $html; ?>]');
+					var closed = jQuery('#format option:selected').data('closed');
+					var content = '';
+					if (closed) {
+						var title = jQuery(this).data('title');
+						content = title == '' ? "<?php _e( 'Replace me with your own content', 'wp-download_monitor' ) ?>" : title;
+					}
+					closed = closed ? '<span id="caret_pos_holder">' + content + '</span>[/download]' : '';
+					if (jQuery('#format').val()>0) win.send_to_editor('<?php echo $html; ?> format="' + jQuery('#format').val() + '"]' + closed);
+					else win.send_to_editor('<?php echo $html; ?>]' + closed);
+					var ed = win.tinyMCE.activeEditor;
+					var caret = ed.dom.select('span#caret_pos_holder')[0];
+					ed.dom.setAttrib(caret, 'id', '')
+					ed.selection.select(caret);
+					// ed.dom.remove(caret);
 					});
 					/* ]]> */
 				</script>
@@ -749,8 +772,16 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 					<th scope="row" style="vertical-align:middle;">
 						<label for="format" style="font-size:12px;text-align:right;margin-right:8px;margin-top:4px;"><?php _e('Insert into post using format:',"wp-download_monitor"); ?></label>
 					</th>
+						<?php
+							$query_select_formats = sprintf("SELECT format FROM %s WHERE id=%d ORDER BY id LIMIT 0, 1;",
+								$wpdb->escape( $wp_dlm_db_formats ), get_option( 'wp_dlm_default_format' ));
+							$default_format = $wpdb->get_var($query_select_formats);
+							$closed = '0';
+							if ( strpos( $default_format, '{content}' ) !== false )
+								$closed = '1';
+						?>
 					<td style="vertical-align:middle;text-align:right;"><select name="format" id="format">
-						<option value="0"><?php _e('Default',"wp-download_monitor"); ?></option>
+						<option value="0" data-closed="<?php echo $closed ?>"><?php _e('Default',"wp-download_monitor"); ?></option>
 						<?php
 							$query_select_formats = sprintf("SELECT * FROM %s ORDER BY id;",
 								$wpdb->escape( $wp_dlm_db_formats ));
@@ -758,7 +789,10 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 
 							if (!empty($formats)) {
 								foreach ( $formats as $f ) {
-									echo '<option value="'.$f->id.'">'.$f->name.'</option>';
+									$closed = '0';
+									if ( strpos( $f->format, '{content}' ) !== false )
+										$closed = '1';
+									echo '<option value="'.$f->id.'" data-closed="' . $closed . '">'.$f->name.'</option>';
 								}
 							}
 						?>
@@ -869,7 +903,7 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 							echo '<td style="text-align:center;vertical-align:middle">';
 							if ( $wpdb->get_var('SELECT meta_value FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.' AND meta_name = "force" LIMIT 1') ) echo __('Yes',"wp-download_monitor"); else echo __('No',"wp-download_monitor");
 							echo '</td>';
-							echo '<td style="text-align:center;vertical-align:middle"><a href="#" style="display:block" class="button insertdownload" id="download-'.$d->id.'">'.__('Insert',"wp-download_monitor").'</a></td>';
+							echo '<td style="text-align:center;vertical-align:middle"><a href="#" style="display:block" class="button insertdownload" id="download-'.$d->id.'" data-title="' . esc_attr( $d->title ) . '">'.__('Insert',"wp-download_monitor").'</a></td>';
 
 						}
 						echo '</tbody>';
@@ -911,9 +945,21 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 			jQuery('.insertdownload').click(function(){
 				var win = window.dialogArguments || opener || parent || top;
 				var did = jQuery(this).attr('id');
+				var closed = jQuery('#format option:selected').data('closed');
+				var content = '';
+				if (closed) {
+					var title = jQuery(this).data('title');
+					content = title == '' ? "<?php _e( 'Replace me with your own content', 'wp-download_monitor' ) ?>" : title;
+				}
+				closed = closed ? '<span id="caret_pos_holder">' + content + '</span>[/download]' : '';
 				did=did.replace('download-', '');
-				if (jQuery('#format').val()>0) win.send_to_editor('[download id="' + did + '" format="' + jQuery('#format').val() + '"]');
-				else win.send_to_editor('[download id="' + did + '"]');
+				if (jQuery('#format').val()>0) win.send_to_editor('[download id="' + did + '" format="' + jQuery('#format').val() + '"]' + closed);
+				else win.send_to_editor('[download id="' + did + '"]' + closed);
+				var ed = win.tinyMCE.activeEditor;
+				var caret = ed.dom.select('span#caret_pos_holder')[0];
+				ed.dom.setAttrib(caret, 'id', '')
+				ed.selection.select(caret);
+				// ed.dom.remove(caret);
 			});
 			/* ]]> */
 		</script>
