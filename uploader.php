@@ -738,7 +738,7 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 			<form id="downloads-filter" action="uploader.php?tab=downloads" method="post">
 				<p class="search-box">
 					<label class="hidden" for="post-search-input"><?php _e('Search Downloads:',"wp-download_monitor"); ?></label>
-					<input class="search-input" id="post-search-input" name="s" value="<?php echo esc_attr( $_REQUEST['s'] ); ?>" type="text" />
+					<input class="search-input" id="post-search-input" name="s" value="<?php if ( isset( $_REQUEST['s'] ) ) echo esc_attr( $_REQUEST['s'] ) ?>" type="text" />
 					<input value="<?php _e('Search Downloads',"wp-download_monitor"); ?>" class="button" type="submit" />
 				</p>
 			</form>
