@@ -249,6 +249,7 @@ function wp_dlm_config() {
 		                	<li><code>{filetype}</code> - <?php _e('File extension (e.g. "zip")',"wp-download_monitor"); ?></li>
 		                	<li><code>{filetype_icon}</code> - <?php _e('File extension icon (16x16)',"wp-download_monitor"); ?></li>
 		                	<li><code>{mirror-1-url}</code> - <?php _e('Output a Mirror\'s url',"wp-download_monitor"); ?></li>
+		                	<li><code>{content}</code> - <?php _e('Include the styled content that [download]content[/download] wraps',"wp-download_monitor"); ?></li>
 		                </ul>
 	                </div>
 	                <h5 style="float:left; color: #fff; background: #8A8A8A; padding: 8px; margin: 0;"><?php _e('Example Formats',"wp-download_monitor"); ?></h5>

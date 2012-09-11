@@ -47,7 +47,7 @@ if(!function_exists('wp_dlm_get_total_files'))
 // Special hack by Pierre Bendayan to see if the function already exists
 if(!function_exists('wp_dlm_shortcode_download'))
 {
-function wp_dlm_shortcode_download( $atts ) {
+function wp_dlm_shortcode_download( $atts, $content = '' ) {
 
 	extract(shortcode_atts(array(
 		'id' => '0',
@@ -91,6 +91,9 @@ function wp_dlm_shortcode_download( $atts ) {
 
 			$format = str_replace('\\"',"'",$format);
 
+      $fpatts = array();
+      $fsubs = array();
+
 			// Get download info
 			$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id = ".$wpdb->escape($id).";" );
 			if (isset($d) && !empty($d)) {
@@ -102,6 +105,9 @@ function wp_dlm_shortcode_download( $atts ) {
 				$fsubs	= $this_download->subs;
 
 			}
+
+      $fpatts[] = '{content}';
+      $fsubs[] = apply_filter( 'dlm_shortcode_content', $content );
 
 			if ($fpatts && $fsubs) {
 				if ( $title ) {
