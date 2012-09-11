@@ -239,7 +239,13 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 	<div id="media-upload-header">
 		<ul id='sidemenu'>
 			<li id='tab-add'><a href='uploader.php?tab=add' <?php if ($_GET['tab']=='add') echo "class='current'"; ?>><?php _e('Add New Download',"wp-download_monitor"); ?></a></li>
+			<?php
+				$total_results = $wpdb->prepare( "SELECT COUNT(id) FROM $wp_dlm_db;" );
+				$total = $wpdb->get_var($total_results);
+				if ( $total > 0 ) {
+			?>
 			<li id='tab-downloads'><a href='uploader.php?tab=downloads' <?php if ($_GET['tab']=='downloads') echo "class='current'"; ?>><?php _e('View Downloads',"wp-download_monitor"); ?></a></li>
+			<?php } ?>
 		</ul>
 	</div>
 	<?php
