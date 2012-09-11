@@ -1545,7 +1545,7 @@ function wp_dlm_admin()
 			jQuery('.dobulkaction').click(function(){
 
 				if ( jQuery('select[name=bulkactions], select[name=bulkactions2]', jQuery(this).parent() ).val() == 'delete' ) {
-					if ( confirm('<?php echo js_escape(__("You are about to delete the selected items.\n  'Cancel' to stop, 'OK' to delete.")); ?>') )
+					if ( confirm('<?php echo esc_js(__("You are about to delete the selected items.\n  'Cancel' to stop, 'OK' to delete.")); ?>') )
 					{
 						return true;
 					}
