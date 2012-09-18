@@ -107,7 +107,7 @@ function wp_dlm_shortcode_download( $atts, $content = '' ) {
 			}
 
       $fpatts[] = '{content}';
-      $fsubs[] = apply_filter( 'dlm_shortcode_content', $content );
+      $fsubs[] = apply_filters( 'dlm_shortcode_content', $content );
 
 			if ($fpatts && $fsubs) {
 				if ( $title ) {
