@@ -410,6 +410,9 @@ class downloadable_file {
 			case "doc":
 				$icon .= 'document-word-text';
 			break;
+			case "docx":
+				$icon .= 'document-word-text';
+			break;
 			case "ai":
 				$icon .= 'document-illustrator';
 			break;
@@ -446,6 +449,9 @@ class downloadable_file {
 			case "ppt" :
 				$icon .= 'document-powerpoint';
 			break;
+			case "pptx" :
+				$icon .= 'document-powerpoint';
+			break;
 			case "js":
 			case "css":
 			case "as":
@@ -456,6 +462,9 @@ class downloadable_file {
 			case "php":
 			case "xml":
 			case "xsl":
+				$icon .= 'document-code';
+			break;
+			case "xslx":
 				$icon .= 'document-code';
 			break;
 			case "rtx": 
