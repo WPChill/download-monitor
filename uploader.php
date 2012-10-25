@@ -1,4 +1,5 @@
 <?php
+/* vim: set ts=2 sw=2 tw=200 noet:*/
 $wp_root = dirname(dirname(dirname(dirname(__FILE__))));
 if(file_exists($wp_root . '/wp-load.php')) {
 	require_once($wp_root . "/wp-load.php");
@@ -741,14 +742,14 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 					closed = closed ? '<span id="caret_pos_holder">' + content + '</span>[/download]' : '';
 					if (jQuery('#format').val()>0) win.send_to_editor('<?php echo $html; ?> format="' + jQuery('#format').val() + '"]' + closed);
 					else win.send_to_editor('<?php echo $html; ?>]' + closed);
-          if (closed != '') {
-            var ed = win.tinyMCE.activeEditor;
-            var caret = ed.dom.select('span#caret_pos_holder')[0];
-            ed.dom.setAttrib(caret, 'id', '')
-            ed.selection.select(caret);
-            // ed.dom.remove(caret);
-            });
-          }
+					if (closed != '') {
+						var ed = win.tinyMCE.activeEditor;
+						var caret = ed.dom.select('span#caret_pos_holder')[0];
+						ed.dom.setAttrib(caret, 'id', '')
+							ed.selection.select(caret);
+						// ed.dom.remove(caret);
+					});
+					}
 					/* ]]> */
 				</script>
 				</div>
@@ -957,13 +958,13 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 				did=did.replace('download-', '');
 				if (jQuery('#format').val()>0) win.send_to_editor('[download id="' + did + '" format="' + jQuery('#format').val() + '"]' + closed);
 				else win.send_to_editor('[download id="' + did + '"]' + closed);
-        if (closed != '') {
-          var ed = win.tinyMCE.activeEditor;
-          var caret = ed.dom.select('span#caret_pos_holder')[0];
-          ed.dom.setAttrib(caret, 'id', '')
-          ed.selection.select(caret);
-          // ed.dom.remove(caret);
-        }
+				if (closed != '') {
+					var ed = win.tinyMCE.activeEditor;
+					var caret = ed.dom.select('span#caret_pos_holder')[0];
+					ed.dom.setAttrib(caret, 'id', '');
+					ed.selection.select(caret);
+					// ed.dom.remove(caret);
+				}
 			});
 			/* ]]> */
 		</script>

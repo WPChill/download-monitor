@@ -1,4 +1,5 @@
 <?php
+/* vim: set ts=2 sw=2 tw=200 noet:*/
 /*
 	WORDPRESS DOWNLOAD MONITOR - ADMIN (DASHBOARD)
 
@@ -218,8 +219,8 @@ if ($wp_db_version > 6124) {
 					echo '<option ';
 					if (isset($showing)  && $showing==$c->id) echo 'selected="selected"';
 					echo 'value="'.$c->id.'">'.$c->name.'</option>';
-          if ( isset( $showing ) )
-            echo get_option_children_cats($c->id, "$c->name &mdash; ", $showing, 0);
+					if ( isset( $showing ) )
+						echo get_option_children_cats($c->id, "$c->name &mdash; ", $showing, 0);
 				}
 			}
 		echo '</select><input type="submit" value="'.__('Show',"wp-download_monitor").'" class="button" /></form>';

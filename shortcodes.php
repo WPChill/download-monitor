@@ -1,4 +1,5 @@
 <?php
+/* vim: set ts=2 sw=2 tw=200 noet:*/
 /*
 	WORDPRESS DOWNLOAD MONITOR - SHORTCODES
 
@@ -91,8 +92,8 @@ function wp_dlm_shortcode_download( $atts, $content = '' ) {
 
 			$format = str_replace('\\"',"'",$format);
 
-      $fpatts = array();
-      $fsubs = array();
+			$fpatts = array();
+			$fsubs = array();
 
 			// Get download info
 			$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id = ".$wpdb->escape($id).";" );
@@ -106,8 +107,8 @@ function wp_dlm_shortcode_download( $atts, $content = '' ) {
 
 			}
 
-      $fpatts[] = '{content}';
-      $fsubs[] = apply_filters( 'dlm_shortcode_content', $content );
+			$fpatts[] = '{content}';
+			$fsubs[] = apply_filters( 'dlm_shortcode_content', $content );
 
 			if ($fpatts && $fsubs) {
 				if ( $title ) {
