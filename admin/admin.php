@@ -276,6 +276,27 @@ function wp_dlm_head() {
 	</script>
 	<?php
 	}
+	if ( isset($_REQUEST['page']) && $_REQUEST['page']=='dlm_log' ) {
+	?>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery.noConflict();
+		(function($) {
+		
+			$(function() {
+		
+				
+				$('#dlm_clearlog').click(function(){
+					return confirm('This will clear out the complete log.\n\nAre you sure?');
+				});
+				
+			});
+		
+		})(jQuery);
+		/* ]]> */
+	</script>
+	<?php
+	}
 }
 add_action('admin_head', 'wp_dlm_head');
 
