@@ -10,6 +10,8 @@ Plugin with interface for uploading and managing download files, inserting downl
 
 == Description ==
 
+__This plugin is no longer actively developed nor maintained!__
+
 Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links.
 
 You can contribute code to this plugin via GitHub: https://github.com/mikejolley/download-monitor
@@ -69,7 +71,7 @@ Installation is fast and easy. The following steps will guide get you started:
    4. Open your WordPress Admin panel and go to the Plugins page. Locate the "Wordpress Download Monitor" plugin and
       click on the "Activate" link.
    5. Once activated, go to the Downloads admin section.
-   
+
 Note: If you encounter any problems when downloading files it is likely to be a file permissions issue. Change the file permissions of the download-monitor folder and contents to 755 (check with your host if your not sure how).
 
 == Frequently Asked Questions ==
@@ -85,6 +87,10 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 
 == Changelog ==
 
+= 3.3.5.10 =
+* 	Different upload directories for multisites by KZeni
+* 	Fix notices
+
 = 3.3.5.9 =
 * 	XSS Fixes
 
@@ -96,7 +102,7 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 = 3.3.5.7 =
 *	File browser path fix
 * 	When using 'wrap' with shortcodes, output the wrap even if its not ul
- 
+
 = 3.3.5.6 =
 *	GitHub screwed my merge
 
@@ -106,12 +112,12 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 *	Alphabetized subcategories prior to display. Non-elegant approach required changing the link to only the count
 *	Changed handling of post_id field. Formerly, only one ID was allowed. Now multiple IDs can all be linked (comma separated). (by bkloef)
 
-= 3.3.5.4 = 
+= 3.3.5.4 =
 *	Removed the sponsorship messages and links to translators sites due to Automattic's request
 *	Added SSL url support (thanks cliffpaulick)
 *	wp_dlm_download hook in download.php before download starts
 
-= 3.3.5.3 = 
+= 3.3.5.3 =
 *	Updated links + other info
 *	table prefix fix
 *	renamed dlm_let_to_num function to prevent conflicts
@@ -119,7 +125,7 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 *	Ampersand filename fix
 *	Small change to download.php mimes
 
-= 3.3.5.2 = 
+= 3.3.5.2 =
 *	Corrected taxonomy hierarchy bug
 
 = 3.3.5.1 =
@@ -178,7 +184,7 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 = 3.3.3.11 =
 *	Fixed tags issue in downloadable_file.class.php
 
-= 3.3.3.10 = 
+= 3.3.3.10 =
 *	Added new translations
 *	Global member only option in configuration
 *	Should work with ftp:// downloads
@@ -190,7 +196,7 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 * 	Shortcode handling patch by chilano
 *	Forced all tags lowercase since the download page could not handle a mixture
 
-= 3.3.3.9 = 
+= 3.3.3.9 =
 *	Pre-loading meta and relationships again - less queries, better performance
 *	Improved download page loading time
 *	Using built in stripslashes_deep to fix magic_quotes stuff
@@ -200,11 +206,11 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 *	wp_dlm_ins_button dropdown on post screen is history - use the media button instead. Dropdown was slow and not very usable (when you had shed loads of downloads).
 *	htmlspecialchars_decode in download.php for people with dodgy file names
 
-= 3.3.3.8 = 
+= 3.3.3.8 =
 *	Updated German translation
 *	Fatal error: Unsupported operand types in /var/www/wp-content/plugins/download-monitor/classes/downloadable_file.class.php on line 226 glitch should be fixed
 
-= 3.3.3.7 = 
+= 3.3.3.7 =
 *	Added {mirror_1_url} {mirror_2_url} etc for custom formats.
 *	Removed cache for download info as it cannot support using different formats in succession
 *	New download_data shortcode lets you add the format inline example: [download_data id="1"]<a href="{url}">{title}</a>[/download_data]
@@ -223,7 +229,7 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 *	Added new download page option - default_order which can be 'title', 'hits' or 'date'.
 *	Added 'author' option to get_downloads - use user name e.g. [downloads query="author=admin"]
 
-= 3.3.3.5 = 
+= 3.3.3.5 =
 *	Added an extra add_cap block for when it does not init correctly.
 *	Fixed a missing image in admin
 *	Added 'lang' to dl page search in case it exists in url.
@@ -231,7 +237,7 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 *	Had to remove some of the DB prefetching, e.g. downloads+$meta_data since they were taking up wayyy to much memory. DB call less expensive in this case I believe!
 *	^ But don't despair, I added some caching via wp_cache_add
 
-= 3.3.3.5 = 
+= 3.3.3.5 =
 *	Forced init script to only run when in admin
 *	Wrapped 'add_cap' functions in a check to prevent errors on activation when wp_roles is not available.
 *	Updated download.php with better handling of relative>absolute urls
