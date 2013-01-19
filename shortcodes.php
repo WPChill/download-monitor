@@ -1,7 +1,8 @@
 <?php
-/*  
+/* vim: set ts=2 sw=2 tw=200 noet:*/
+/*
 	WORDPRESS DOWNLOAD MONITOR - SHORTCODES
-	
+
 	Copyright 2010  Michael Jolley  (email : jolley.small.at.googlemail.com)
 
     This program is free software; you can redistribute it and/or modify
@@ -47,7 +48,7 @@ if(!function_exists('wp_dlm_get_total_files'))
 // Special hack by Pierre Bendayan to see if the function already exists
 if(!function_exists('wp_dlm_shortcode_download'))
 {
-function wp_dlm_shortcode_download( $atts ) {
+function wp_dlm_shortcode_download( $atts, $content = '' ) {
 
 	extract(shortcode_atts(array(
 		'id' => '0',
@@ -55,18 +56,18 @@ function wp_dlm_shortcode_download( $atts ) {
 		'format' => '0',
 		'autop' => false
 	), $atts));
-	
+
 	$output = '';
-	
+
 	$id = trim(htmlspecialchars_decode($id), "\x22");
 	$format = trim(htmlspecialchars_decode($format), "\x22");
-	
+
 	if ($id>0 && is_numeric($id)) {
-	
+
 		$cached_code = wp_cache_get('download_'.$id.'_'.$format);
 
 		if($cached_code == false) {
-		
+
 			global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_taxonomies, $def_format, $dlm_url, $downloadurl, $downloadtype, $wp_dlm_db_meta;
 
 			// Handle Formats
@@ -82,27 +83,33 @@ function wp_dlm_shortcode_download( $atts ) {
 				} else {
 					$format = html_entity_decode($format);
 				}
-			}				
-			
-			if (empty($format) || $format=='0') {
-				$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").'", ""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';	
-				
 			}
-			
+
+			if (empty($format) || $format=='0') {
+				$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").'", ""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';
+
+			}
+
 			$format = str_replace('\\"',"'",$format);
-			
-			// Get download info			
+
+			$fpatts = array();
+			$fsubs = array();
+
+			// Get download info
 			$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id = ".$wpdb->escape($id).";" );
 			if (isset($d) && !empty($d)) {
-				
+
 				$this_download = new downloadable_file($d, $format);
-				
+
 				$fpatts = $this_download->patts;
-			
+
 				$fsubs	= $this_download->subs;
-		
-			} 
-			
+
+			}
+
+			$fpatts[] = '{content}';
+			$fsubs[] = apply_filters( 'dlm_shortcode_content', $content );
+
 			if ($fpatts && $fsubs) {
 				if ( $title ) {
 					$title_fpatt = array_search( '{title}', $fpatts );
@@ -114,15 +121,15 @@ function wp_dlm_shortcode_download( $atts ) {
 			} else $output = '[Download not found]';
 
 			wp_cache_set('download_'.$id.'_'.$format, $output);
-		
+
 		} else {
 			$output = $cached_code;
 		}
-		
+
 		if ($autop && $autop !== "false") return wpautop(do_shortcode($output));
-	
+
 	} else $output = '[Download id not defined]';
-	
+
 	return do_shortcode($output);
 
 }
@@ -141,44 +148,44 @@ function wp_dlm_shortcode_download_data( $atts, $content ) {
 		'id' => '0',
 		'autop' => false
 	), $atts));
-	
+
 	$output = '';
-	
+
 	$id = trim(htmlspecialchars_decode($id), "\x22");
-	
+
 	if ($id>0 && is_numeric($id)) {
-		
+
 		global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_taxonomies, $def_format, $dlm_url, $downloadurl, $downloadtype, $wp_dlm_db_meta;
 
 		// Handle Format
 		$format = html_entity_decode($content);
-		
+
 		// Untexturize content - adapted from wpuntexturize by Scott Reilly
 		$codes = array('&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8242;', '&#8243;');
 		$replacements = array("'", "'", '"', '"', "'", '"');
-		
-		$format = str_replace($codes, $replacements, $format);	
-		
-		// Get download info			
+
+		$format = str_replace($codes, $replacements, $format);
+
+		// Get download info
 		$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id = ".$wpdb->escape($id).";" );
 		if (isset($d) && !empty($d)) {
-			
+
 			$this_download = new downloadable_file($d, $format);
-			
+
 			$fpatts = $this_download->patts;
-		
+
 			$fsubs	= $this_download->subs;
-	
-		} 
-		
+
+		}
+
 		if ($fpatts && $fsubs) {
 			$output = str_replace( $fpatts , $fsubs , $format );
 		} else $output = '[Download not found]';
-		
+
 		if ($autop && $autop !== "false") return wpautop(do_shortcode($output));
-	
+
 	} else $output = '[Download id not defined]';
-	
+
 	return do_shortcode(wptexturize($output));
 
 }
@@ -186,12 +193,12 @@ add_shortcode('download_data', 'wp_dlm_shortcode_download_data');
 }
 ################################################################################
 // SHORTCODE FOR MULTIPLE DOWNLOADS
-################################################################################		
+################################################################################
 // Special hack by Pierre Bendayan to see if the function already exists
 if(!function_exists('wp_dlm_shortcode_downloads'))
-{		
+{
 function wp_dlm_shortcode_downloads( $atts ) {
-	
+
 	extract(shortcode_atts(array(
 		'query' => 'limit=5&orderby=rand',
 		'format' => '0',
@@ -200,16 +207,16 @@ function wp_dlm_shortcode_downloads( $atts ) {
 		'before' => '<li>',
 		'after' => '</li>'
 	), $atts));
-	
+
 	$query = str_replace('&#038;','&', $query);
-	
+
 	global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_taxonomies, $def_format, $wp_dlm_db_meta;
 
 	$dl = get_downloads($query);
-	
+
 	$output = '';
 
-	if (!empty($dl)) {		
+	if (!empty($dl)) {
 		// Handle Formats
 		global $download_formats_names_array;
 		$format = trim($format);
@@ -223,34 +230,34 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			} else {
 				$format = html_entity_decode($format);
 			}
-		}	
-		if (empty($format) || $format=='0') {
-			$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").'", ""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';		
-			
 		}
-		
+		if (empty($format) || $format=='0') {
+			$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").'", ""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';
+
+		}
+
 		$format = str_replace('\\"',"'",$format);
 
 		foreach ($dl as $d) {
-			
+
 			$d->prep_download_data($format);
-			
+
 			$fpatts = $d->patts;
-				
+
 			$fsubs	= $d->subs;
-	
+
 			$output .= html_entity_decode($before).str_replace( $fpatts , $fsubs , $format ).html_entity_decode($after);
-			
-   		} 
-	
-	} else $output = html_entity_decode($before).'['.__("No Downloads found","wp-download_monitor").']'.html_entity_decode($after);	
-	
+
+   		}
+
+	} else $output = html_entity_decode($before).'['.__("No Downloads found","wp-download_monitor").']'.html_entity_decode($after);
+
 	if ( $wrap == 'ul' ) {
 		$output = '<ul class="dlm_download_list">' . $output . '</ul>';
 	} elseif ( ! empty( $wrap ) ) {
 		$output = '<' . $wrap . '>' . $output . '</' . $wrap . '>';
 	}
-	
+
 	if ($autop) return wpautop(do_shortcode($output));
 	return do_shortcode($output);
 
@@ -262,30 +269,30 @@ add_shortcode('downloads', 'wp_dlm_shortcode_downloads');
 ################################################################################
 // Special hack by Pierre Bendayan to see if the function already exists
 if(!function_exists('get_downloads'))
-{	
+{
 function get_downloads($args = null) {
 
 	$defaults = array(
-		'limit' => '', 
+		'limit' => '',
 		'offset' => '0',
 		'orderby' => 'id',
 		'meta_name' => '',
 		'vip' => '0',
 		'category' => '',
-		'tags' => '',	
+		'tags' => '',
 		'order' => 'asc',
 		'digforcats' => 'true',
 		'exclude' => '',
 		'include' => '',
 		'author' => ''
 	);
-	
+
 	$args = str_replace('&amp;','&',$args);
 
 	$r = wp_parse_args( $args, $defaults );
-	
+
 	global $wpdb, $wp_dlm_root, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_meta, $dlm_url, $downloadurl, $downloadtype, $download_taxonomies, $download2taxonomy_array;
-	
+
 	// New Query etc
 	$where = array();
 	$in_ids = array();
@@ -294,9 +301,9 @@ function get_downloads($args = null) {
 	$not_in_ids = array();
 	$join = '';
 	$limitandoffset = '';
-	
-	while (true) :	
-			
+
+	while (true) :
+
 		// Handle $include (top priority)
 		$include_array = array();
 		if ( $r['include'] ) {
@@ -304,7 +311,7 @@ function get_downloads($args = null) {
 			$in_ids = array_merge($in_ids, $include_unclean);
 			break;
 		}
-				
+
 		// Cats and tags
 		if ( ! empty($r['category']) && $r['category']!=='none' ) {
 			$categories = explode(',',$r['category']);
@@ -315,12 +322,12 @@ function get_downloads($args = null) {
 				if ($cat<0) {
 					// Support for -cat
 					$scat = $cat*-1;
-					if (isset($download_taxonomies->categories[$scat])) {	
+					if (isset($download_taxonomies->categories[$scat])) {
 						if ($r['digforcats']) $the_excluded_cats = array_merge($the_excluded_cats, $download_taxonomies->categories[$scat]->get_decendents());
 						$the_excluded_cats[] = $scat;
 					}
 				} else {
-					if (isset($download_taxonomies->categories[$cat])) {	
+					if (isset($download_taxonomies->categories[$cat])) {
 						if ($r['digforcats']) $the_cats = array_merge($the_cats, $download_taxonomies->categories[$cat]->get_decendents());
 						$the_cats[] = $cat;
 					}
@@ -339,14 +346,14 @@ function get_downloads($args = null) {
 					// No results found, show no results
 					return false;
 				endif;
-			} 
+			}
 			if (sizeof($the_cats)==0 && sizeof($the_excluded_cats)==0) {
 				// Category argument was set, but the cat probably does not exist; we should still respect it and show no results
 				return false;
-			}			
-		} elseif ($r['category']=='none') {		
+			}
+		} elseif ($r['category']=='none') {
 			$the_cats = array_keys($download_taxonomies->categories);
-			
+
 			foreach ($download2taxonomy_array as $tid=>$tax_array) {
 				if (sizeof(array_intersect($tax_array, $the_cats))==0) $cat_in_ids[] = $tid;
 			}
@@ -354,21 +361,21 @@ function get_downloads($args = null) {
 				// No results found, show no results
 				return false;
 			endif;
-		} 
-		
+		}
+
 		if ( ! empty($r['tags']) ) {
-			
+
 			$tags = explode(',', $r['tags']);
-			
+
 			$tag_ids = array();
-			
+
 			if ($download_taxonomies->tags && sizeof($download_taxonomies->tags) >0) foreach ($download_taxonomies->tags as $tag) {
 				$tag->name;
 				if (in_array($tag->name, $tags)) {
 					// Include
 					$tag_ids[] = $tag->id;
 				}
-			} 		
+			}
 			if (sizeof($tag_ids)>0) {
 				foreach ($download2taxonomy_array as $tid=>$tax_array) {
 					if (sizeof(array_intersect($tax_array, $tag_ids))>0) $tag_in_ids[] = $tid;
@@ -380,9 +387,9 @@ function get_downloads($args = null) {
 			} else {
 				// Tag argument was set, but the tag probably does not exist; we should still respect it and show no results
 				return false;
-			}	
-		} 
-		
+			}
+		}
+
 		// Tags and cats in_ids must work in harmony - if both are defined then we must only return downloads from both
 		if (sizeof($tag_in_ids)>0 && sizeof($cat_in_ids)>0) :
 			$tags_and_cats_ids = array_intersect($tag_in_ids, $cat_in_ids);
@@ -404,67 +411,67 @@ function get_downloads($args = null) {
 		// Handle $exclude
 		$exclude_array = array();
 		if ( $r['exclude'] ) {
-			$exclude_unclean = array_map('intval', explode(',',$r['exclude']));		
+			$exclude_unclean = array_map('intval', explode(',',$r['exclude']));
 			$not_in_ids = array_merge($not_in_ids, $exclude_unclean);
-		}	
-		
+		}
+
 		break;
 	endwhile;
 
 	// VIP Mode
-	if ( isset($r['vip']) && $r['vip']==1 ) {	
-		global $user_ID;	
+	if ( isset($r['vip']) && $r['vip']==1 ) {
+		global $user_ID;
 		if (!isset($user_ID) || $user_ID==0) {
 			$where[] = ' members=0 ';
-		}	
+		}
 	}
-	
+
 	// Handle Author
 	if ( ! empty($r['author']) ) $where[] = ' user = "'.$wpdb->escape($r['author']).'" ';
-	
+
 	// Limit
-	if ( empty( $r['limit'] ) || !is_numeric($r['limit']) ) $r['limit'] = '';		
-	if ( !empty( $r['limit'] ) && (empty($r['offset']) || !is_numeric($r['offset'])) ) $r['offset'] = 0; elseif ( empty( $r['limit'] )) $r['offset'] = '';	
+	if ( empty( $r['limit'] ) || !is_numeric($r['limit']) ) $r['limit'] = '';
+	if ( !empty( $r['limit'] ) && (empty($r['offset']) || !is_numeric($r['offset'])) ) $r['offset'] = 0; elseif ( empty( $r['limit'] )) $r['offset'] = '';
 	if ( !empty( $r['limit'] ) ) $limitandoffset = ' LIMIT '.$r['offset'].', '.$r['limit'].' ';
-	
+
 	if ( ! empty($r['orderby']) ) {
 		// Can order by date/postDate, filename, title, id, hits, random
 		$r['orderby'] = strtolower($r['orderby']);
 		switch ($r['orderby']) {
-			case 'postdate' : 
-			case 'date' : 
+			case 'postdate' :
+			case 'date' :
 				$orderby = 'postDate';
 			break;
-			case 'filename' : 
+			case 'filename' :
 				$orderby = 'filename';
 			break;
-			case 'title' : 
+			case 'title' :
 				$orderby = 'title';
 			break;
-			case 'hits' : 
+			case 'hits' :
 				$orderby = 'hits';
 			break;
-			case 'meta' : 
+			case 'meta' :
 				$orderby = "$wp_dlm_db_meta.meta_value";
 				$join = " LEFT JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id ";
 				$where[] = ' meta_name = "'.$r['meta_name'].'"';
 			break;
-			case 'version' : 
+			case 'version' :
 			   $orderby = 'dlversion';
 			break;
 			case 'rand' :
 			case 'random' :
 				$orderby = 'RAND()';
 			break;
-			case 'id' : 
+			case 'id' :
 			default :
 				$orderby = $wp_dlm_db.'.id';
 			break;
 		}
 	}
-	
+
 	if (strtolower($r['order'])!=='desc' && strtolower($r['order'])!=='asc') $r['order']='desc';
-	
+
 	// Process 'in ids' and excluded ids
 	if (sizeof($in_ids) > 0) {
 		$in_ids = array_unique($in_ids);
@@ -479,34 +486,34 @@ function get_downloads($args = null) {
 		$not_in_ids = array_unique($not_in_ids);
 		$where[] = ' '.$wp_dlm_db.'.id NOT IN ('.implode(',',$not_in_ids).') ';
 	}
-	
+
 	// Process where clause
 	if (sizeof($where)>0) $where = ' WHERE '.implode(' AND ', $where); else $where = '';
-	
+
 	$downloads = $wpdb->get_results("
-	
+
 		SELECT DISTINCT $wp_dlm_db.id, $wp_dlm_db.title, $wp_dlm_db.filename, $wp_dlm_db.file_description, $wp_dlm_db.dlversion, $wp_dlm_db.postDate, $wp_dlm_db.hits, $wp_dlm_db.user, $wp_dlm_db.members, $wp_dlm_db.mirrors
 		FROM $wp_dlm_db
 		".$join."
-		".$where."		
-		ORDER BY $orderby ".$r['order']."	
+		".$where."
+		ORDER BY $orderby ".$r['order']."
 		".$limitandoffset.";
-	
-	");		
+
+	");
 	// End new query style
-		
+
 	$return_downloads = array();
 
 	// Process download variables
 	foreach ($downloads as $dl) {
-		
+
 		$d = new downloadable_file($dl);
-		
+
 		$return_downloads[] = $d;
 	}
-	
+
 	return $return_downloads;
-		
+
 }
 }
 ?>
