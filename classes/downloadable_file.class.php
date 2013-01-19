@@ -407,6 +407,7 @@ class downloadable_file {
 			case "csv":	
 				$icon .= 'document-excel';
 			break;
+			case "docx":
 			case "doc":
 				$icon .= 'document-word-text';
 			break;
@@ -443,6 +444,7 @@ class downloadable_file {
 			case "psd" :
 				$icon .= 'document-photoshop';
 			break;
+			case "pptx" :
 			case "ppt" :
 				$icon .= 'document-powerpoint';
 			break;
@@ -455,6 +457,7 @@ class downloadable_file {
 			case "html":			
 			case "php":
 			case "xml":
+			case "xslx":
 			case "xsl":
 				$icon .= 'document-code';
 			break;
