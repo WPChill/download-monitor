@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: <strong style="color:red">Note: This plugin is no longer actively developed nor maintained!</strong> Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.5.10
+Version: 3.3.6
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 */
@@ -31,7 +31,7 @@ Author URI: http://mikejolley.com
 
 	global $wp_db_version, $wpdb, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank;
 
-	$dlm_build="20120513";
+	$dlm_build="20130119";
 	$wp_dlm_root = plugins_url('/download-monitor/');
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 
