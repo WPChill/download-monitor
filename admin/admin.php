@@ -282,16 +282,16 @@ function wp_dlm_head() {
 	/* <![CDATA[ */
 		jQuery.noConflict();
 		(function($) {
-		
+
 			$(function() {
-		
-				
+
+
 				$('#dlm_clearlog').click(function(){
 					return confirm('This will clear out the complete log.\n\nAre you sure?');
 				});
-				
+
 			});
-		
+
 		})(jQuery);
 		/* ]]> */
 	</script>
@@ -328,17 +328,22 @@ function wp_dlm_admin()
 
 	if (isset($_GET['action'])) $action = $_GET['action']; else $action = '';
 	if (!empty($action)) {
+
 		switch ($action) {
 				case "delete" :
+
+					$nonce = $_REQUEST['_wpnonce'];
+					if ( ! wp_verify_nonce( $nonce ) )
+						die( 'Security check' );
+
 					wp_dlm_clear_cached_stuff();
 					$d = $wpdb->get_row($query_select_1);
 					global $wp_db_version;
-					$adminpage = 'admin.php';
 					?>
 						<div class="wrap">
 							<div id="downloadadminicon" class="icon32"><br/></div>
 							<h2><?php _e('Sure?',"wp-download_monitor"); ?></h2>
-							<p><?php _e('Are you sure you want to delete',"wp-download_monitor"); ?> "<?php echo $d->title; ?>"<?php _e('? (If originally uploaded by this plugin, this will also remove the file from the server)',"wp-download_monitor"); ?> <a href="<?php echo get_bloginfo('wpurl'); ?>/wp-admin/<?php echo $adminpage; ?>?page=download-monitor/wp-download_monitor.php&amp;action=confirmed&amp;id=<?php echo $_GET['id']; ?>&amp;sort=<?php echo $_GET['sort']; ?>&amp;p=<?php echo $_GET['p']; ?>"><?php _e('[yes]',"wp-download_monitor"); ?></a> <a href="<?php echo get_bloginfo('wpurl'); ?>/wp-admin/<?php echo $adminpage; ?>?page=download-monitor/wp-download_monitor.php&amp;action=cancelled&amp;sort=<?php echo $_GET['sort']; ?>&amp;p=<?php echo $_GET['p']; ?>"><?php _e('[no]',"wp-download_monitor"); ?></a>
+							<p><?php _e('Are you sure you want to delete',"wp-download_monitor"); ?> "<?php echo $d->title; ?>"<?php _e('? (If originally uploaded by this plugin, this will also remove the file from the server)',"wp-download_monitor"); ?> <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=confirmed&amp;id=' . $_GET['id'] . '&amp;sort=' . $_GET['sort'] . '&amp;p=' . $_GET['p'] )); ?>"><?php _e('[yes]',"wp-download_monitor"); ?></a> <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=cancelled&amp;sort=' . $_GET['sort'] . '&amp;p=' . $_GET['p'] )); ?>"><?php _e('[no]',"wp-download_monitor"); ?></a>
 						</div>
 					<?php
 				break;
@@ -601,7 +606,7 @@ function wp_dlm_admin()
 								<div class="wrap">
 								<div id="downloadadminicon" class="icon32"><br/></div>
 								<h2><?php _e('Edit Download Information',"wp-download_monitor"); ?></h2>
-								<form enctype="multipart/form-data" action="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id=<?php echo $_GET['id']; ?>" method="post" id="wp_dlm_add" name="edit_download" class="form-table" cellpadding="0" cellspacing="0">
+								<form enctype="multipart/form-data" action="<?php admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id=' . $_GET['id'] ); ?>" method="post" id="wp_dlm_add" name="edit_download" class="form-table" cellpadding="0" cellspacing="0">
 									<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $max_upload_size; ?>" />
 
 									<table class="optiontable niceblue">
@@ -853,6 +858,11 @@ function wp_dlm_admin()
 
 				break;
 				case "confirmed" :
+
+					$nonce = $_REQUEST['_wpnonce'];
+					if ( ! wp_verify_nonce( $nonce ) )
+						die( 'Security check' );
+
 					wp_dlm_clear_cached_stuff();
 					//load values
 					$d = $wpdb->get_row($query_select_1);
@@ -1468,7 +1478,7 @@ function wp_dlm_admin()
 						if ($d->dlversion) echo ' ('.__('Version',"wp-download_monitor").' '.$d->dlversion.')';
 						echo '</strong>
 						<div class="row-actions">
-							<span class="edit"><a title="'.__('Edit this Download', 'wp-download_monitor').'" href="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'">'.__('Edit',"wp-download_monitor").'</a> | </span><span class="delete"><a class="submitdelete" href="?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'" title="'.__('Delete this download',"wp-download_monitor").'">'.__('Delete',"wp-download_monitor").'</a></span>
+							<span class="edit"><a title="'.__('Edit this Download', 'wp-download_monitor').'" href="' . admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id ) .'&amp;sort='.$sort.'&amp;p='.$page.'">'.__('Edit',"wp-download_monitor").'</a> | </span><span class="delete"><a class="submitdelete" href="' . wp_nonce_url(admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id )) .'&amp;sort='.$sort.'&amp;p='.$page.'" title="'.__('Delete this download',"wp-download_monitor").'">'.__('Delete',"wp-download_monitor").'</a></span>
 						</div>
 						</td>
 						<td><a href="'.$downloadurl.$downloadlink.'">'.$file.'</a></td>
