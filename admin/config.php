@@ -46,14 +46,13 @@ function wp_dlm_config() {
     <?php
 	if (isset($_GET['action'])) $action = $_GET['action']; else $action = '';
 	if (!empty($action)) {
-
-		$nonce = $_REQUEST['_wpnonce'];
-		if ( ! wp_verify_nonce( $nonce ) )
-			die( 'Security check' );
-
-		switch ($action) {
+		switch ( $action ) {
 				case "saveurl" :
-				  $dlm_url = $_POST['url'];
+
+					if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $action ) )
+						die( 'Security check' );
+
+					$dlm_url = $_POST['url'];
 					update_option('wp_dlm_url', trim($dlm_url));
 					update_option('wp_dlm_type', $_POST['type']);
 					$downloadtype = get_option('wp_dlm_type');
@@ -69,7 +68,7 @@ function wp_dlm_config() {
 						<p>replacing "download/" with your custom url and "*your wp-content dir*" with your wp-content directory.</p>',"wp-download_monitor");
 						echo '</div>';
 					} else {
-					echo '<div id="message"class="updated fade">';
+						echo '<div id="message"class="updated fade">';
 						_e('<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for
 						the changes to occur in your blog.</p>
 						<p>If your .htaccess file cannot be written to by WordPress, remove the following from your
@@ -78,12 +77,16 @@ function wp_dlm_config() {
 						RewriteEngine on<br/>
 						RewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>
 						<p>replacing "download/" with your previous custom url and "*your wp-content dir*" with your wp-content directory.</p>',"wp-download_monitor");
-					echo '</div>';
+						echo '</div>';
 					}
 					$save_url = true;
 					$show=true;
 				break;
 				case "saveoptions" :
+
+					if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $action ) )
+						die( 'Security check' );
+
 					update_option('wp_dlm_disable_news', $_POST['wp_dlm_disable_news']);
 
 					update_option('wp_dlm_image_url', $_POST['wp_dlm_image_url']);
@@ -113,15 +116,27 @@ function wp_dlm_config() {
 					$show=true;
 				break;
 				case "upgrade" :
+
+					if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $action ) )
+						die( 'Security check' );
+
 					wp_dlm_upgrade();
 					$show=true;
 				break;
 				case "cleanup" :
+
+					if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $action ) )
+						die( 'Security check' );
+
 					wp_dlm_cleanup();
 					echo '<div id="message" class="updated fade"><p><strong>'.__('Database Cleaned',"wp-download_monitor").'</strong></p></div>';
 					$show=true;
 				break;
 				case "formats" :
+
+					if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $action ) )
+						die( 'Security check' );
+
 					wp_cache_flush();
 					if (isset($_POST['savef'])) {
 						$loop = 0;
@@ -154,7 +169,11 @@ function wp_dlm_config() {
 					}
 					$show=true;
 				break;
-				case "deleteformat" :
+				case "delete_format" :
+
+					if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], $action ) )
+						die( 'Security check' );
+
 					wp_cache_flush();
 					$id = $_GET['id'];
 					// Delete
@@ -180,7 +199,7 @@ function wp_dlm_config() {
             <h3><?php _e('Custom Output Formats',"wp-download_monitor"); ?></h3>
             <div class="inside" style="padding:8px 16px 16px">
             	<?php _e('<p>This allows you to define formats in which to output your downloads however you want.</p>',"wp-download_monitor"); ?>
-                <form action="<?php echo wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=formats')); ?>" method="post">
+                <form action="<?php echo admin_url('admin.php?page=dlm_config&amp;action=formats'); ?>" method="post">
                     <table class="widefat">
                         <thead>
                             <tr>
@@ -200,7 +219,7 @@ function wp_dlm_config() {
 									foreach ( $formats as $f ) {
 										echo '<tr><td style="vertical-align:middle;">'.$f->id.'</td><td style="vertical-align:middle;">'.$f->name.'</td>
 										<td style="vertical-align:middle;"><input type="hidden" value="'.$f->id.'" name="formatfieldid[]" /><textarea name="formatfield[]" style="width:100%;" rows="2">'.htmlspecialchars($f->format).'</textarea></td>
-										<td style="text-align:center;vertical-align:middle;"><a href="'.wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=deleteformat&amp;id='.$f->id)).'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="'.__('Delete',"wp-download_monitor").'" title="'.__('Delete',"wp-download_monitor").'" /></a></td></tr>';
+										<td style="text-align:center;vertical-align:middle;"><a href="'.wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=delete_format&amp;id='.$f->id), 'delete_format').'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="'.__('Delete',"wp-download_monitor").'" title="'.__('Delete',"wp-download_monitor").'" /></a></td></tr>';
 									}
 								} else {
 									echo '<tr><td colspan="3">'.__('No formats exist',"wp-download_monitor").'</td></tr>';
@@ -265,6 +284,8 @@ function wp_dlm_config() {
 	                    	<li><?php _e('Standard link with no hits:',"wp-download_monitor"); ?> &ndash; <code>&lt;a href="{url}"&gt;{title}&lt;/a&gt;</code></li>
 	                    	<li><?php _e('Image link:',"wp-download_monitor"); ?> &ndash; <code>&lt;a href="{url}"&gt;&lt;img src="{image_url}" alt="{title}" /&gt;&lt;/a&gt;</code></li>
 	                    </ul>
+
+	                    <?php wp_nonce_field( 'formats' ); ?>
 	                </div>
                 </form>
             </div>
@@ -286,7 +307,7 @@ function wp_dlm_config() {
                  <p style="background:#eee;padding:4px; margin:0;"><strong><?php _e('With Custom URL (downloads/ID):',"wp-download_monitor"); ?></strong></p>
                  <img style="padding:8px" src="<?php echo $wp_dlm_root; ?>img/explain2.gif" alt="Explanation" /></div>
 
-                <form action="<?php echo wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=saveurl')); ?>" method="post">
+                <form action="<?php echo admin_url('admin.php?page=dlm_config&amp;action=saveurl'); ?>" method="post">
                     <table class="niceblue form-table">
                         <tr>
                             <th scope="col"><strong><?php _e('Custom URL',"wp-download_monitor"); ?>:</strong></th>
@@ -298,14 +319,17 @@ function wp_dlm_config() {
                             </select></td>
                         </tr>
                     </table>
-                    <p class="submit"><input type="submit" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" /></p>
+                    <p class="submit">
+                    	<input type="submit" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" />
+                    	<?php wp_nonce_field( 'saveurl' ); ?>
+                    </p>
                 </form>
             </div>
         </div>
         <div class="postbox <?php if (!$save_opt) echo 'close-me';?> dlmbox">
             <h3><?php _e('General Options',"wp-download_monitor"); ?></h3>
             <div class="inside">
-                <form action="<?php echo wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=saveoptions')); ?>" method="post">
+                <form action="<?php echo admin_url('admin.php?page=dlm_config&amp;action=saveoptions'); ?>" method="post">
                     <table class="niceblue form-table">
 
                         <tr>
@@ -436,7 +460,10 @@ function wp_dlm_config() {
                         </tr> */ ?>
 
                     </table>
-                    <p class="submit"><input type="submit" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" /></p>
+                    <p class="submit">
+                    	<input type="submit" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" />
+                    	<?php wp_nonce_field( 'saveoptions' ); ?>
+                    </p>
                 </form>
             </div>
         </div>
@@ -446,14 +473,14 @@ function wp_dlm_config() {
             	<h4><?php _e('Upgrade from 3.2.3',"wp-download_monitor"); ?></h4>
             	<?php _e('<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>',"wp-download_monitor"); ?>
                 <?php _e('<p>This update should have been done when you activated the plugin, but if it didn\'t, use this function to create the new tables and import from the old ones.</p>',"wp-download_monitor"); ?>
-                <form action="<?php echo wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=upgrade')); ?>" method="post">
+                <form action="<?php echo wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=upgrade'), 'upgrade'); ?>" method="post">
                     <p class="submit"><input type="submit" value="<?php _e('Upgrade Database',"wp-download_monitor"); ?>" /></p>
                 </form>
                 <hr/>
                 <h4><?php _e('Upgraded Successfully? Cleanup!',"wp-download_monitor"); ?></h4>
             	<?php _e('<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>',"wp-download_monitor"); ?>
                 <?php _e('<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>',"wp-download_monitor"); ?>
-                <form action="<?php echo wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=cleanup')); ?>" method="post">
+                <form action="<?php echo wp_nonce_url(admin_url('admin.php?page=dlm_config&amp;action=cleanup'), 'cleanup'); ?>" method="post">
                     <p class="submit"><input type="submit" value="<?php _e('Clean me up Scotty',"wp-download_monitor"); ?>" /></p>
                 </form>
             </div>

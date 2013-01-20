@@ -4,13 +4,13 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.8
 Tested up to: 3.5
-Stable tag: 3.3.6
+Stable tag: 3.3.6.1
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
 == Description ==
 
-__This plugin is no longer actively developed nor maintained!__
+__Note: This plugin is no longer actively developed nor maintained!__
 
 Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links.
 
@@ -87,12 +87,15 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 
 == Changelog ==
 
+= 3.3.6.1 =
+*	Improve nonce security checks
+
 = 3.3.6 =
 * 	Different upload directories for multisites by KZeni
 * 	Fix notices
 * 	Confirmation dialog before clearing log by Yan Sarazin
 *	Various fixes by avioli and added {content} support (wrap content in download shortcodes)
-*	This should be assumed to be the final release as the plugin is no longer developed
+*	This should be assumed to be the final main release as the plugin is no longer developed. I will push out security fixes if needed.
 
 = 3.3.5.9 =
 * 	XSS Fixes

@@ -55,6 +55,9 @@ function dlm_adddir() {
     }
 	if ( isset($_POST['save']) ) {
 
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'add_directory' ) )
+			die('Security check');
+
 		//validate fields
 		if ( empty( $_POST['filename']) ) $errors.=__('<div class="error">No folder selected</div>',"wp-download_monitor");
 
@@ -222,7 +225,7 @@ function dlm_adddir() {
 	}
 
 	?>
-		<form action="<?php wp_nonce_url(admin_url('admin.php?page=dlm_adddir&amp;action=add&amp;method=upload')) ?>" method="post" id="wp_dlm_add" name="add_download" class="form-table">
+		<form action="<?php admin_url('admin.php?page=dlm_adddir&amp;action=add&amp;method=upload') ?>" method="post" id="wp_dlm_add" name="add_download" class="form-table">
             <table class="optiontable niceblue" cellpadding="0" cellspacing="0">
                 <tr valign="top">
                     <th scope="row"><strong><?php _e('Directory (relative paths only)',"wp-download_monitor"); ?>:</strong></th>
@@ -398,6 +401,8 @@ function dlm_adddir() {
 				global $userdata;
 				get_currentuserinfo();
 				echo '<input type="hidden" name="user" value="'.$userdata->user_login.'" />';
+
+				wp_nonce_field( 'add_directory' );
 			?>
 		</form>
 	</div>

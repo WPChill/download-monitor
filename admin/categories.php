@@ -39,6 +39,10 @@ function wp_dlm_categories() {
     <?php _e('<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it\'s child categories.</p>',"wp-download_monitor"); ?>
     <?php
 	if (isset($_POST['rename_cat'])) {
+
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'edit_cat' ) )
+			die( 'Security check' );
+
 		$name = $_POST['cat_rename'];
 		if (!empty($name)) {
 			$category = $_POST['cat_to_rename'];
@@ -62,6 +66,10 @@ function wp_dlm_categories() {
 			}
 		}
 	} elseif (isset($_POST['add_cat'])) {
+
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'edit_cat' ) )
+			die( 'Security check' );
+
 		$name = $_POST['cat_name'];
 		if (!empty($name)) {
 			$parent = $_POST['cat_parent'];
@@ -75,10 +83,9 @@ function wp_dlm_categories() {
 			if ($wpdb->insert_id>0)	echo '<div id="message" class="updated fade"><p><strong>'.__('Category added',"wp-download_monitor").'</strong></p></div>';
 			else echo '<div id="message" class="updated fade"><p><strong>'.__('Category was not added. Try Recreating the download database from the configuration page.',"wp-download_monitor").'</strong></p></div>';
 		}
-	} elseif (isset($_GET['action']) && $_GET['action']=='deletecat') {
+	} elseif ( isset( $_GET['action'] ) && $_GET['action'] == 'delete_cat') {
 
-		$nonce = $_REQUEST['_wpnonce'];
-		if ( ! wp_verify_nonce( $nonce ) )
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'delete_cat' ) )
 			die( 'Security check' );
 
 		$id = $_GET['id'];
@@ -125,7 +132,7 @@ function wp_dlm_categories() {
 
             			if ($c) {
 
-							echo '<li id="category_'.$c->id.'"><span class="handle">('.$c->id.') '.$chain.''.$c->name.'</span> <a href="' . wp_nonce_url(admin_url('admin.php?page=dlm_categories&amp;action=deletecat&amp;id='.$c->id)) . '" class="delete_cat" rel="'.$c->name.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a>';
+							echo '<li id="category_'.$c->id.'"><span class="handle">('.$c->id.') '.$chain.''.$c->name.'</span> <a href="' . wp_nonce_url( admin_url( 'admin.php?page=dlm_categories&amp;action=delete_cat&amp;id=' . $c->id ), 'delete_cat' ) . '" class="delete_cat" rel="'.$c->name.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a>';
 							echo '<ul class="children">';
 								$download_taxonomies->do_something_to_cat_children($child->id, 'output_category_option', 'output_empty_category_option', "&mdash; ");
 							echo '</ul>';
@@ -144,7 +151,7 @@ function wp_dlm_categories() {
 								echo '<ul class="children">';
 									$download_taxonomies->do_something_to_cat_children($c->id, 'output_category_option', '', "&mdash; ");
 								echo '</ul>';
-							echo '</td><td style="text-align:center; width:5em;"><a href="' . wp_nonce_url(admin_url('admin.php?page=dlm_categories&amp;action=deletecat&amp;id='.$c->id)) . '" class="delete_cat" rel="'.$c->name.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';
+							echo '</td><td style="text-align:center; width:5em;"><a href="' . wp_nonce_url(admin_url('admin.php?page=dlm_categories&amp;action=delete_cat&amp;id=' . $c->id ), 'delete_cat' ) . '" class="delete_cat" rel="'.$c->name.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';
 							echo '</tr>';
 						}
             		} else {
@@ -214,7 +221,10 @@ function wp_dlm_categories() {
                     <td><input type="text" name="cat_rename" /></td>
                 </tr>
             </table>
-            <p class="submit"><input type="submit" value="<?php _e('Edit',"wp-download_monitor"); ?>" name="rename_cat" /></p>
+            <p class="submit">
+            	<input type="submit" value="<?php _e('Edit',"wp-download_monitor"); ?>" name="rename_cat" />
+            	<?php wp_nonce_field( 'edit_cat' ); ?>
+            </p>
         </div>
         <div class="clear"></div>
     </form>

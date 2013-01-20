@@ -83,6 +83,9 @@ function dlm_addnew() {
     }
 	if ( isset($_POST['save']) ) {
 
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'add_file' ) )
+			die('Security check');
+
 		//validate fields
 		if (empty( $_POST['title'] )) $errors.=__('<div class="error">Required field: <strong>Title</strong> omitted</div>',"wp-download_monitor");
 		if (empty( $_POST['dlhits'] )) $_POST['dlhits'] = 0;
@@ -255,7 +258,8 @@ function dlm_addnew() {
 	}
 
 	?>
-		<form enctype="multipart/form-data" action="<?php wp_nonce_url(admin_url('admin.php?page=dlm_addnew&amp;action=add&amp;method=upload')); ?>" method="post" id="wp_dlm_add" name="add_download" class="form-table">
+		<form enctype="multipart/form-data" action="<?php admin_url('admin.php?page=dlm_addnew&amp;action=add&amp;method=upload'); ?>" method="post" id="wp_dlm_add" name="add_download" class="form-table">
+			<?php wp_nonce_field( 'add_file' ); ?>
             <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $max_upload_size; ?>" />
             <table class="optiontable niceblue" cellpadding="0" cellspacing="0">
                 <tr valign="middle">

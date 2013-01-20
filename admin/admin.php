@@ -331,11 +331,6 @@ function wp_dlm_admin()
 
 		switch ($action) {
 				case "delete" :
-
-					$nonce = $_REQUEST['_wpnonce'];
-					if ( ! wp_verify_nonce( $nonce ) )
-						die( 'Security check' );
-
 					wp_dlm_clear_cached_stuff();
 					$d = $wpdb->get_row($query_select_1);
 					global $wp_db_version;
@@ -343,13 +338,17 @@ function wp_dlm_admin()
 						<div class="wrap">
 							<div id="downloadadminicon" class="icon32"><br/></div>
 							<h2><?php _e('Sure?',"wp-download_monitor"); ?></h2>
-							<p><?php _e('Are you sure you want to delete',"wp-download_monitor"); ?> "<?php echo $d->title; ?>"<?php _e('? (If originally uploaded by this plugin, this will also remove the file from the server)',"wp-download_monitor"); ?> <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=confirmed&amp;id=' . $_GET['id'] . '&amp;sort=' . $_GET['sort'] . '&amp;p=' . $_GET['p'] )); ?>"><?php _e('[yes]',"wp-download_monitor"); ?></a> <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=cancelled&amp;sort=' . $_GET['sort'] . '&amp;p=' . $_GET['p'] )); ?>"><?php _e('[no]',"wp-download_monitor"); ?></a>
+							<p><?php _e('Are you sure you want to delete',"wp-download_monitor"); ?> "<?php echo $d->title; ?>"<?php _e('? (If originally uploaded by this plugin, this will also remove the file from the server)',"wp-download_monitor"); ?> <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=confirmed&amp;id=' . $_GET['id'] . '&amp;sort=' . $_GET['sort'] . '&amp;p=' . $_GET['p'] ), 'delete_file'); ?>"><?php _e('[yes]',"wp-download_monitor"); ?></a> <a href="<?php echo admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=cancelled&amp;sort=' . $_GET['sort'] . '&amp;p=' . $_GET['p'] ); ?>"><?php _e('[no]',"wp-download_monitor"); ?></a>
 						</div>
 					<?php
 				break;
 				case "edit" :
 					wp_dlm_clear_cached_stuff();
 					if ( isset($_POST['sub']) ) {
+
+						if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'edit_file' ) )
+							die( 'Security check' );
+
 						$title = $_POST['title'];
 						$dlversion = $_POST['dlversion'];
 						$dlhits = $_POST['dlhits'];
@@ -850,7 +849,10 @@ function wp_dlm_admin()
 										</tbody>
 									</table>
 									<hr />
-									<p class="submit"><input type="submit" class="btn button-primary" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" /></p>
+									<p class="submit">
+										<input type="submit" class="btn button-primary" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" />
+										<?php wp_nonce_field( 'edit_file' ); ?>
+									</p>
 								</form>
 								</div>
 							<?php
@@ -859,8 +861,7 @@ function wp_dlm_admin()
 				break;
 				case "confirmed" :
 
-					$nonce = $_REQUEST['_wpnonce'];
-					if ( ! wp_verify_nonce( $nonce ) )
+					if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'delete_file' ) )
 						die( 'Security check' );
 
 					wp_dlm_clear_cached_stuff();
@@ -912,6 +913,10 @@ function wp_dlm_admin()
 	if (isset($_POST['dobulkaction']) || isset($_POST['dobulkaction2'])) {
 		if (isset($_POST['dobulkaction'])) $action = $_POST['bulkactions'];
 		elseif (isset($_POST['dobulkaction2'])) $action = $_POST['bulkactions2'];
+
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'bulk_action' ) )
+			die('Security check');
+
 		if (isset($_POST['check'])) $checked = $_POST['check']; else $checked = '';
 		$bulk_ids = array();
 		if ($checked && is_array($checked)) foreach ($checked as $key=>$value){
@@ -1335,6 +1340,7 @@ function wp_dlm_admin()
 					<input type="hidden" name="dobulkaction" value="1" />
 					<input type="hidden" name="bulkactions" value="edit" />
 					<input type="hidden" name="check" value="<?php echo implode(',',$bulk_ids);  ?>" />
+					<?php wp_nonce_field( 'bulk_action' ); ?>
 					</p>
 				</form>
 			</div>
@@ -1366,6 +1372,7 @@ function wp_dlm_admin()
 					<option value="reset"><?php _e('Reset Stats',"wp-download_monitor"); ?></option>
 				</select>
 				<input value="<?php _e('Apply',"wp-download_monitor"); ?>" class="button dobulkaction" name="dobulkaction" type="submit" />
+				<?php wp_nonce_field( 'bulk_action' ); ?>
 			</div>
 			<div class="alignright">
 				<label class="hidden" for="post-search-input"><?php _e('Search Downloads:',"wp-download_monitor"); ?></label>
@@ -1478,7 +1485,7 @@ function wp_dlm_admin()
 						if ($d->dlversion) echo ' ('.__('Version',"wp-download_monitor").' '.$d->dlversion.')';
 						echo '</strong>
 						<div class="row-actions">
-							<span class="edit"><a title="'.__('Edit this Download', 'wp-download_monitor').'" href="' . admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id ) .'&amp;sort='.$sort.'&amp;p='.$page.'">'.__('Edit',"wp-download_monitor").'</a> | </span><span class="delete"><a class="submitdelete" href="' . wp_nonce_url(admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id )) .'&amp;sort='.$sort.'&amp;p='.$page.'" title="'.__('Delete this download',"wp-download_monitor").'">'.__('Delete',"wp-download_monitor").'</a></span>
+							<span class="edit"><a title="'.__('Edit this Download', 'wp-download_monitor').'" href="' . admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id ) .'&amp;sort='.$sort.'&amp;p='.$page.'">'.__('Edit',"wp-download_monitor").'</a> | </span><span class="delete"><a class="submitdelete" href="' . admin_url('admin.php?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id ) .'&amp;sort='.$sort.'&amp;p='.$page.'" title="'.__('Delete this download',"wp-download_monitor").'">'.__('Delete',"wp-download_monitor").'</a></span>
 						</div>
 						</td>
 						<td><a href="'.$downloadurl.$downloadlink.'">'.$file.'</a></td>

@@ -32,13 +32,11 @@ function wp_dlm_log()
 
 	if (isset($_GET['action'])) $action = $_GET['action']; else $action = '';
 	if (!empty($action)) {
-
-		$nonce = $_REQUEST['_wpnonce'];
-		if ( ! wp_verify_nonce( $nonce ) )
-			die( 'Security check' );
-
 		switch ($action) {
 				case "clear_logs" :
+					if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'clear_logs' ) )
+						die( 'Security check' );
+
 					$wpdb->query("DELETE FROM $wp_dlm_db_log;");
 				break;
 		}
@@ -48,7 +46,7 @@ function wp_dlm_log()
     <div class="wrap alternate">
     	<div id="downloadadminicon" class="icon32"><br/></div>
         <h2><?php _e('Download Logs',"wp-download_monitor"); ?></h2>
-        <p><a href="<?php echo $wp_dlm_root; ?>/admin/log_to_csv.php" class="button-primary"><?php _e('Download CSV',"wp-download_monitor"); ?></a> <a href="?page=dlm_log&action=clear_logs" class="button" id="dlm_clearlog"><?php _e('Clear Log',"wp-download_monitor"); ?></a></p>
+        <p><a href="<?php echo $wp_dlm_root; ?>/admin/log_to_csv.php" class="button-primary"><?php _e('Download CSV',"wp-download_monitor"); ?></a> <a href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=dlm_log&action=clear_logs' ), 'clear_logs' ); ?>" class="button" id="dlm_clearlog"><?php _e('Clear Log',"wp-download_monitor"); ?></a></p>
         <table class="widefat">
 			<thead>
 				<tr>
