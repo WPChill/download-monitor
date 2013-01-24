@@ -291,6 +291,9 @@ function get_downloads($args = null) {
 
 	$r = wp_parse_args( $args, $defaults );
 
+	// handle boolean value 'digforcats'
+	$r['digforcats'] = strtolower($r['digforcats']) == "false" ? false : true;
+
 	global $wpdb, $wp_dlm_root, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_meta, $dlm_url, $downloadurl, $downloadtype, $download_taxonomies, $download2taxonomy_array;
 
 	// New Query etc
