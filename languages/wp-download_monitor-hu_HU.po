@@ -1,0 +1,1671 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Download Monitor 3.3.5 HU\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
+"POT-Creation-Date: 2010-11-06 16:34+0000\n"
+"PO-Revision-Date: 2013-02-01 17:22+0100\n"
+"Last-Translator: János Csárdi-Braunstein <janos@csardi.eu>\n"
+"Language-Team: Kis Zsolt <info@novamaxx.hu>\n"
+"Language: hu_HU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: admin/add_directory.php:43
+msgid "Add From Directory"
+msgstr "Hozzáadás könyvtárból"
+
+#: admin/add_directory.php:45
+msgid "This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards."
+msgstr "Ezzel a lehetőséggel csoportosan adhatsz hozzá állományokat a <strong>szervered</strong> egyik könyvtárából - akár alkönyvtárakat is. A bővítmény általában megfelelő elnevezést ad a leendő letöltésnek, de szükség esetén később módosíthatod a címeket és az extra információkat."
+
+#: admin/add_directory.php:60
+msgid "<div class=\"error\">No folder selected</div>"
+msgstr "<div class=\"error\">Nincs kiválasztott mappa</div>"
+
+#: admin/add_directory.php:216
+msgid "Downloads added Successfully"
+msgstr "Állomány hozzáadva!"
+
+#: admin/add_directory.php:218
+msgid "No files found"
+msgstr "Az állomány nem található"
+
+#: admin/add_directory.php:227
+msgid "Directory (relative paths only)"
+msgstr "Könyvtár (csak relatív elérési út)"
+
+#: admin/add_directory.php:231
+msgid "Toggle Folder Browser"
+msgstr "Váltás mappa listára"
+
+#: admin/add_directory.php:237
+msgid "Extensions"
+msgstr "Kiterjesztések"
+
+#: admin/add_directory.php:239
+msgid "List extensions to look for separated by commas, or leave blank to import all. Example: zip,gif,jpg"
+msgstr "Írd be a kiterjesztéseket vesszővel elválasztva, vagy hagyd üresen, hogy mindet használja. Pl.: zip,gif,jpg"
+
+#: admin/add_directory.php:243
+#: admin/add_new.php:313
+#: admin/admin.php:647
+#: admin/admin.php:1120
+#: admin/admin.php:1368
+#: legacy_shortcodes.php:264
+#: page-addon/download-monitor-page-addon.php:64
+#: uploader.php:560
+#: uploader.php:818
+#: wp-download_monitor.php:159
+msgid "Categories"
+msgstr "Kategóriák"
+
+#: admin/add_directory.php:283
+#: admin/add_new.php:353
+#: admin/admin.php:687
+#: admin/admin.php:1167
+#: uploader.php:601
+msgid "+ Add New Category"
+msgstr "+ Kategória hozzáadása"
+
+#: admin/add_directory.php:286
+#: admin/add_directory.php:339
+#: admin/add_new.php:356
+#: admin/add_new.php:433
+#: admin/admin.php:690
+#: admin/admin.php:776
+#: admin/admin.php:1170
+#: admin/admin.php:1251
+#: admin/categories.php:106
+#: admin/categories.php:152
+#: admin/categories.php:205
+#: admin/config.php:181
+#: admin/config.php:210
+#: uploader.php:604
+#: uploader.php:683
+msgid "Name"
+msgstr "Név"
+
+#: admin/add_directory.php:290
+#: admin/add_new.php:360
+#: admin/admin.php:694
+#: admin/admin.php:1174
+#: admin/categories.php:156
+#: admin/categories.php:190
+#: uploader.php:608
+msgid "Parent"
+msgstr "Szülő"
+
+#: admin/add_directory.php:292
+#: admin/add_new.php:362
+#: admin/admin.php:696
+#: admin/admin.php:1176
+#: admin/categories.php:158
+#: admin/categories.php:193
+#: admin/config.php:358
+#: uploader.php:610
+msgid "None"
+msgstr "Nincs"
+
+#: admin/add_directory.php:304
+#: admin/add_new.php:374
+#: admin/admin.php:708
+#: admin/admin.php:1188
+#: admin/categories.php:170
+#: admin/config.php:218
+#: uploader.php:622
+msgid "Add"
+msgstr "Hozzáad"
+
+#: admin/add_directory.php:308
+#: admin/add_new.php:378
+#: admin/admin.php:712
+#: admin/admin.php:1192
+#: admin/admin.php:1369
+#: page-addon/download-monitor-page-addon.php:54
+#: page-addon/download-monitor-page-addon.php:65
+#: uploader.php:627
+#: uploader.php:819
+msgid "Tags"
+msgstr "Címkék"
+
+#: admin/add_directory.php:310
+#: admin/add_new.php:380
+#: admin/admin.php:714
+#: admin/admin.php:1197
+#: uploader.php:633
+msgid "Separate tags with commas."
+msgstr "A címkéket vesszővel válaszd el."
+
+#: admin/add_directory.php:319
+#: admin/add_new.php:389
+#: admin/admin.php:723
+#: admin/admin.php:1206
+#: uploader.php:641
+msgid "No Tags Found"
+msgstr "Címke nem található"
+
+#: admin/add_directory.php:326
+#: admin/add_new.php:419
+#: admin/admin.php:753
+#: admin/admin.php:1226
+#: uploader.php:663
+msgid "Member only file?"
+msgstr "Csak regisztráltaknak szánt fájl?"
+
+#: admin/add_directory.php:327
+#: admin/add_new.php:420
+#: admin/admin.php:754
+#: admin/admin.php:1230
+#: uploader.php:667
+msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
+msgstr "Ha ezt választod, csak bejelentkezett felhasználók tudnak hozzáférni a letöltéshez. Ha az egyedi mezőknél létrehozol ezeken a neveken mezőket: \"min-level\" vagy \"req-role\", beállíthatod a minimálisan szükséges felhasználói szintet az állomány eléréséhez."
+
+#: admin/add_directory.php:330
+#: admin/add_new.php:423
+#: admin/admin.php:757
+#: admin/admin.php:1233
+#: uploader.php:670
+msgid "Force Download?"
+msgstr "Kényszerített letöltés?"
+
+#: admin/add_directory.php:331
+#: admin/add_new.php:424
+#: admin/admin.php:758
+#: admin/admin.php:1237
+#: uploader.php:674
+msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
+msgstr "Ha ezt választod, a Download Monitor a kényszerített letöltést használja. Ez a beállítás nem kompatibilis minden szerverrel (teszteld le előbb), és többnyire csak a saját szervereden tárolt állományokkal működik!"
+
+#: admin/add_directory.php:334
+#: admin/add_new.php:428
+#: admin/admin.php:771
+#: admin/admin.php:1241
+#: admin/admin.php:1372
+#: uploader.php:679
+msgid "Custom fields"
+msgstr "Egyedi mezők"
+
+#: admin/add_directory.php:335
+#: admin/add_new.php:429
+#: admin/admin.php:772
+#: admin/admin.php:1242
+msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
+msgstr "Egyedi mezőkkel adhatsz extra meta-adatokat a letöltéseidhez. Ha üresen hagyod nem történik semmi. A névnek kisbetűsnek kell lennie és egybe kell írni (automatikusan javításra kerül, pl.: <code>Valamilyen Név</code> helyett <code>valamilyen-nev</code>)"
+
+#: admin/add_directory.php:340
+#: admin/add_new.php:434
+#: admin/admin.php:777
+#: admin/admin.php:1252
+#: uploader.php:684
+msgid "Value"
+msgstr "Érték"
+
+#: admin/add_directory.php:354
+#: admin/add_directory.php:365
+#: admin/add_new.php:448
+#: admin/add_new.php:459
+#: admin/admin.php:260
+#: admin/admin.php:790
+#: admin/admin.php:802
+#: admin/admin.php:1265
+#: admin/admin.php:1277
+#: uploader.php:246
+#: uploader.php:698
+#: uploader.php:710
+msgid "remove"
+msgstr "eltávolítás"
+
+#: admin/add_directory.php:373
+#: admin/add_new.php:467
+#: admin/admin.php:809
+#: admin/admin.php:1284
+#: uploader.php:718
+msgid "Add Custom Field"
+msgstr "Egyedi mező hozzáadása"
+
+#: admin/add_directory.php:373
+#: admin/add_new.php:467
+#: admin/admin.php:809
+#: admin/admin.php:1284
+#: uploader.php:718
+msgid "Toggle Existing Custom Fields"
+msgstr "Egyedi mező kiválasztása"
+
+#: admin/add_directory.php:384
+#: admin/add_new.php:478
+#: admin/admin.php:820
+#: admin/admin.php:1295
+#: uploader.php:729
+msgid "None found."
+msgstr "Nem található."
+
+#: admin/add_directory.php:393
+msgid "Scan &amp; Add"
+msgstr "Keres &amp; Hozzáad"
+
+#: admin/add_directory.php:394
+#: admin/add_new.php:488
+#: uploader.php:543
+msgid "Y-m-d H:i:s"
+msgstr "É-h-n Ó:p:mp"
+
+#: admin/add_new.php:66
+#: uploader.php:267
+msgid "Add New Download"
+msgstr "Letöltés hozzáadása"
+
+#: admin/add_new.php:88
+msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div class=\"error\">Hiányos kitöltés: <strong>Cím</strong> nincs beírva</div>"
+
+#: admin/add_new.php:90
+msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div class=\"error\">Helytelen <strong>számlálóállás</strong> van beírva</div>"
+
+#: admin/add_new.php:135
+#: uploader.php:353
+msgid "No file selected"
+msgstr "Nincs kiválasztott állomány"
+
+#: admin/add_new.php:233
+#: admin/add_new.php:234
+msgid "Download added Successfully"
+msgstr "A letöltést hozzáadtuk"
+
+#: admin/add_new.php:241
+msgid "<div class=\"error\">Error saving to database</div>"
+msgstr "<div class=\"error\">Hiba történt az adatbázis mentésekor</div>"
+
+#: admin/add_new.php:250
+#: admin/admin.php:571
+#: uploader.php:524
+msgid " (defined in php.ini)"
+msgstr " (a php.ini-ben meghatározva)"
+
+#: admin/add_new.php:263
+#: admin/config.php:288
+#: admin/logs.php:52
+#: page-addon/download-monitor-page-addon.php:232
+#: page-addon/download-monitor-page-addon.php:354
+#: page-addon/download-monitor-page-addon.php:439
+#: page-addon/download-monitor-page-addon.php:520
+#: uploader.php:470
+#: uploader.php:816
+msgid "Title"
+msgstr "Cím"
+
+#: admin/add_new.php:263
+#: admin/add_new.php:285
+#: admin/admin.php:618
+msgid "(required)"
+msgstr "(kötelező)"
+
+#: admin/add_new.php:269
+#: admin/admin.php:595
+#: admin/admin.php:1450
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:63
+#: page-addon/download-monitor-page-addon.php:149
+#: page-addon/download-monitor-page-addon.php:586
+#: page-addon/download-monitor-page-addon.php:711
+#: shortcodes.php:79
+#: shortcodes.php:208
+#: uploader.php:481
+msgid "Version"
+msgstr "Verzió"
+
+#: admin/add_new.php:275
+#: admin/admin.php:601
+#: page-addon/download-monitor-page-addon.php:62
+#: uploader.php:476
+msgid "Description"
+msgstr "Leírás"
+
+#: admin/add_new.php:279
+#: uploader.php:487
+msgid "Starting hits"
+msgstr "Számláló kezdő érték"
+
+#: admin/add_new.php:285
+#: uploader.php:493
+msgid "Select a file..."
+msgstr "Állomány kiválasztása"
+
+#: admin/add_new.php:289
+#: uploader.php:535
+msgid "Upload File"
+msgstr "Fájl feltöltése"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:537
+msgid "Max. filesize"
+msgstr "A legnagyobb fájlméret"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:537
+msgid "bytes"
+msgstr "bájt"
+
+#: admin/add_new.php:290
+#: admin/admin.php:625
+#: uploader.php:537
+msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
+msgstr "Már létező állomány esetén a feltöltött fájl átnevezésre kerül."
+
+#: admin/add_new.php:293
+#: admin/add_new.php:404
+#: admin/admin.php:628
+#: admin/admin.php:738
+#: uploader.php:539
+#: uploader.php:655
+msgid "OR"
+msgstr "VAGY"
+
+#: admin/add_new.php:296
+#: uploader.php:540
+msgid "Enter file URL"
+msgstr "Állomány URL"
+
+#: admin/add_new.php:300
+#: admin/add_new.php:410
+#: admin/admin.php:634
+#: admin/admin.php:744
+#: admin/admin.php:1220
+#: uploader.php:541
+#: uploader.php:657
+msgid "Toggle File Browser"
+msgstr "Tallózás a szerveren"
+
+#: admin/add_new.php:309
+#: admin/admin.php:643
+msgid "Download Mirrors"
+msgstr "Tükör szerverek"
+
+#: admin/add_new.php:310
+#: admin/admin.php:644
+#: uploader.php:557
+msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
+msgstr "A letöltésedhez itt állithatsz be tükörszervereket (mirror). Soronként egyet írj! A bővítmény véletlenszerűen választ egyet, mikor valaki le akarja tölteni az állományt."
+
+#: admin/add_new.php:396
+#: admin/admin.php:730
+#: admin/admin.php:1213
+#: uploader.php:647
+msgid "Thumbnail"
+msgstr "Bélyegkép"
+
+#: admin/add_new.php:400
+#: uploader.php:650
+msgid "Upload thumbnail"
+msgstr "Bélyegkép feltöltése"
+
+#: admin/add_new.php:401
+#: admin/admin.php:735
+#: uploader.php:653
+msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
+msgstr "Ez a kép jelenik meg a letöltések oldalon, vagy a {thumbnail} helyén saját letöltési formátumot megadva. Ha nincs bélyegkép megadva, akkor egy általános kép jelenik meg."
+
+#: admin/add_new.php:407
+#: uploader.php:656
+msgid "Enter thumbnail URL"
+msgstr "Bélyegkép URL-je"
+
+#: admin/add_new.php:487
+msgid "Upload &amp; save"
+msgstr "Feltölt &amp; ment"
+
+#: admin/admin.php:102
+#: admin/admin.php:320
+msgid "Are you sure you want to delete"
+msgstr "Biztosan törölni szeretnéd?"
+
+#: admin/admin.php:319
+msgid "Sure?"
+msgstr "Biztos vagy benne?"
+
+#: admin/admin.php:320
+msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
+msgstr "? (Ha az eredetit feltöltötte a bővítmény, a régebbit letörli a szerverről)"
+
+#: admin/admin.php:320
+msgid "[yes]"
+msgstr "[igen]"
+
+#: admin/admin.php:320
+msgid "[no]"
+msgstr "[nem]"
+
+#: admin/admin.php:365
+msgid "Required field: <strong>Title</strong> omitted"
+msgstr "Hiányzó mező: A <strong>cím</strong> nincs kitöltve"
+
+#: admin/admin.php:366
+msgid "Required field: <strong>THE FILE</strong> omitted"
+msgstr "Hiányzó mező: <strong>ÁLLOMÁNY</strong> nincs kitöltve"
+
+#: admin/admin.php:368
+msgid "Invalid <strong>hits</strong> entered"
+msgstr "Helytelen <strong>számlálóállás</strong> lett megadva!"
+
+#: admin/admin.php:451
+msgid "<div class=\"error\">No file selected</div>"
+msgstr "<div class=\"error\">Nincs file kiválasztva</div>"
+
+#: admin/admin.php:509
+msgid "Download edited Successfully"
+msgstr "A módosítás sikerült"
+
+#: admin/admin.php:582
+msgid "Edit Download Information"
+msgstr "Letöltési információ szerkesztése"
+
+#: admin/admin.php:589
+msgid "Title (required)"
+msgstr "Cím (kötelező)"
+
+#: admin/admin.php:605
+msgid "Change hit count"
+msgstr "Számláló állása"
+
+#: admin/admin.php:611
+msgid "Change post date"
+msgstr "Bejegyzés dátumának szerkesztése"
+
+#: admin/admin.php:614
+msgid "Change the post date of the download. Was set to:"
+msgstr "Letöltés közzétételi dátumának cseréje erre:"
+
+#: admin/admin.php:614
+msgid "M jS Y @ H:i"
+msgstr "Y. F. j. @ H:i"
+
+#: admin/admin.php:618
+msgid "The File"
+msgstr "Állomány"
+
+#: admin/admin.php:622
+msgid "Upload New File"
+msgstr "Új álomány feltöltése"
+
+#: admin/admin.php:624
+msgid "Remove old file?"
+msgstr "Régi állományt eltávolítsuk?"
+
+#: admin/admin.php:631
+msgid "Edit File URL"
+msgstr "URL szerkesztése"
+
+#: admin/admin.php:734
+msgid "Upload new thumbnail"
+msgstr "Új bélyegkép feltöltése"
+
+#: admin/admin.php:741
+msgid "Edit thumbnail URL"
+msgstr "Bélyegkép URL szerkesztése"
+
+#: admin/admin.php:828
+#: admin/admin.php:1303
+#: admin/config.php:204
+#: admin/config.php:293
+#: admin/config.php:445
+msgid "Save Changes"
+msgstr "Változások mentése"
+
+#: admin/admin.php:866
+msgid "Download deleted Successfully"
+msgstr "A törlés sikerült"
+
+#: admin/admin.php:904
+msgid "Stats successfully reset for selected downloads"
+msgstr "Letöltési statisztikát töröltük"
+
+#: admin/admin.php:946
+msgid "Selected Downloads deleted Successfully"
+msgstr "A kijelölt állományokat sikeresen töröltük"
+
+#: admin/admin.php:1102
+msgid "Downloads edited successfully"
+msgstr "Az állományok szerkesztése sikerült"
+
+#: admin/admin.php:1112
+msgid "Bulk Edit Downloads"
+msgstr "Csoportos szerkesztés"
+
+#: admin/admin.php:1113
+msgid "Editing downloads with id's:"
+msgstr "Letöltések szerkesztése azonosítók alapján:"
+
+#: admin/admin.php:1113
+msgid "Adding options here will overwrite the options in ALL of the selected downloads."
+msgstr "Az itt módosított beállítások felülírják MINDEN kiválasztott letöltés beállítását."
+
+#: admin/admin.php:1123
+#: admin/admin.php:1195
+#: admin/admin.php:1216
+#: admin/admin.php:1228
+#: admin/admin.php:1235
+#: admin/admin.php:1244
+#: admin/categories.php:192
+msgid "No Change"
+msgstr "Nincs változás"
+
+#: admin/admin.php:1124
+msgid "Change to &darr;"
+msgstr "Változtatás erre &darr;"
+
+#: admin/admin.php:1196
+#: admin/admin.php:1217
+#: admin/admin.php:1229
+#: admin/admin.php:1236
+msgid "Change to &rarr;"
+msgstr "Változtatás erre &rarr;"
+
+#: admin/admin.php:1245
+msgid "Replace with:"
+msgstr "Felülír erre:"
+
+#: admin/admin.php:1246
+msgid "Add/Update only (keep existing fields):"
+msgstr "Hozzáad/Frissít (a meglévő mezőket megőrzi)"
+
+#: admin/admin.php:1326
+msgid "Edit Downloads"
+msgstr "Letöltések szerkesztése"
+
+#: admin/admin.php:1334
+#: admin/admin.php:1496
+msgid "Actions:"
+msgstr "Művelet:"
+
+#: admin/admin.php:1336
+#: admin/admin.php:1498
+msgid "Bulk Actions"
+msgstr "Csoportos művelet"
+
+#: admin/admin.php:1337
+#: admin/admin.php:1453
+#: admin/admin.php:1499
+#: admin/categories.php:209
+#: wp-download_monitor.php:154
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: admin/admin.php:1338
+#: admin/admin.php:1453
+#: admin/admin.php:1500
+#: admin/config.php:196
+msgid "Delete"
+msgstr "Törlés"
+
+#: admin/admin.php:1339
+#: admin/admin.php:1501
+msgid "Reset Stats"
+msgstr "Statisztika alaphelyzet"
+
+#: admin/admin.php:1341
+#: admin/admin.php:1503
+msgid "Apply"
+msgstr "Alkalmaz"
+
+#: admin/admin.php:1344
+#: page-addon/download-monitor-page-addon.php:56
+#: uploader.php:782
+msgid "Search Downloads:"
+msgstr "Állományok keresése:"
+
+#: admin/admin.php:1346
+#: uploader.php:784
+msgid "Search Downloads"
+msgstr "Állományok keresése:"
+
+#: admin/admin.php:1365
+#: admin/categories.php:105
+#: admin/config.php:180
+#: admin/config.php:287
+#: admin/logs.php:51
+#: uploader.php:815
+msgid "ID"
+msgstr "ID"
+
+#: admin/admin.php:1366
+#: legacy_shortcodes.php:77
+#: page-addon/download-monitor-page-addon.php:71
+msgid "Download"
+msgstr "Megnevezés"
+
+#: admin/admin.php:1367
+#: admin/logs.php:53
+#: classes/downloadable_file.class.php:353
+#: uploader.php:817
+msgid "File"
+msgstr "Állomány"
+
+#: admin/admin.php:1370
+#: uploader.php:820
+msgid "Member only"
+msgstr "Regisztrált felhasználóknak"
+
+#: admin/admin.php:1371
+#: uploader.php:821
+msgid "Force Download"
+msgstr "Kényszerített letöltés"
+
+#: admin/admin.php:1373
+#: page-addon/download-monitor-page-addon.php:232
+#: page-addon/download-monitor-page-addon.php:354
+#: page-addon/download-monitor-page-addon.php:439
+#: page-addon/download-monitor-page-addon.php:520
+msgid "Hits"
+msgstr "Letöltve"
+
+#: admin/admin.php:1374
+msgid "Posted"
+msgstr "Létrehozva"
+
+#: admin/admin.php:1430
+msgid "Y/m/d"
+msgstr "Y/h/n"
+
+#: admin/admin.php:1453
+msgid "Edit this Download"
+msgstr "Módosítás"
+
+#: admin/admin.php:1453
+msgid "Delete this download"
+msgstr "Törlés"
+
+#: admin/admin.php:1461
+#: admin/admin.php:1472
+#: classes/downloadable_file.class.php:352
+#: uploader.php:890
+#: uploader.php:901
+msgid "N/A"
+msgstr "Nincs adat"
+
+#: admin/admin.php:1479
+#: admin/admin.php:1482
+#: admin/config.php:309
+#: admin/config.php:323
+#: admin/config.php:347
+#: admin/config.php:380
+#: admin/config.php:393
+#: admin/config.php:418
+#: uploader.php:909
+#: uploader.php:912
+msgid "Yes"
+msgstr "igen"
+
+#: admin/admin.php:1479
+#: admin/admin.php:1482
+#: admin/config.php:312
+#: admin/config.php:326
+#: admin/config.php:344
+#: admin/config.php:383
+#: admin/config.php:396
+#: admin/config.php:421
+#: uploader.php:909
+#: uploader.php:912
+msgid "No"
+msgstr "nem"
+
+#: admin/admin.php:1487
+msgid "by"
+msgstr "Feltöltő"
+
+#: admin/admin.php:1491
+msgid "No downloads found."
+msgstr "Az állomány nem található!"
+
+#: admin/admin.php:1526
+#: uploader.php:938
+msgid "&laquo; Previous"
+msgstr "&laquo; Előző"
+
+#: admin/admin.php:1527
+#: uploader.php:939
+msgid "Next &raquo;"
+msgstr "Következő &raquo;"
+
+#: admin/admin.php:1551
+msgid ""
+"You are about to delete the selected items.\n"
+"  'Cancel' to stop, 'OK' to delete."
+msgstr ""
+"Valóban törölni szeretnéd a kiválasztott elemeket?.\n"
+"  'Mégse' ha nem, 'OK' ha törölsz."
+
+#: admin/admin.php:1566
+msgid "Download Monitor News"
+msgstr "Download Monitor Hírei"
+
+#: admin/admin.php:1593
+#, php-format
+msgid "%s ago"
+msgstr "%s óta"
+
+#: admin/admin.php:1595
+msgid "F jS Y"
+msgstr "Y. F. j."
+
+#: admin/admin.php:1605
+#: admin/admin.php:1609
+msgid "No items found."
+msgstr "Nincsenek elemek."
+
+#: admin/admin.php:1617
+msgid "Links, Help &amp; Support"
+msgstr "Linkek, Súgó &amp; Támogatás"
+
+#: admin/admin.php:1619
+msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
+msgstr "<p>Elakadtál? Súgót, használati utasítást, és további leírásokat találsz a WordPress.org <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">bővítmények oldalán</a>.</p>"
+
+#: admin/admin.php:1620
+msgid "<p>You can also find documentation and support at the following locations:</p>"
+msgstr "<p>További dokumentációt és segítséget találhatsz itt:</p>"
+
+#: admin/admin.php:1622
+msgid "Download Monitor on Blue-Anvil"
+msgstr "Download Monitor a Blue-Anvil-en"
+
+#: admin/admin.php:1623
+msgid "Download Monitor Documentation"
+msgstr "Download Monitor Dokumentáció"
+
+#: admin/admin.php:1628
+msgid "Support Download Monitor"
+msgstr "Támogasd a Download Monitor-t"
+
+#: admin/admin.php:1630
+msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
+msgstr "A Wordpress Download monitor bővítményt <a href=\"http://blue-anvil.com/\">Mike Jolley</a> készítette. A bővítmény elkészítése sok időt és energiát igényelt, ezért ha hasznosnak találod kérlek ne felejtsd el támogatni őt!"
+
+#: admin/admin.php:1632
+msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
+msgstr ""
+
+#: admin/categories.php:38
+msgid "Download Categories"
+msgstr "Letöltési kategóriák"
+
+#: admin/categories.php:40
+msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
+msgstr "<p>Ezekkel a kategóriákkal csoportosíthatod a letöltéseidet. Ha törölsz egy szülő kategóriát akkor valamennyi alkategóriája is törlődik!</p>"
+
+#: admin/categories.php:62
+msgid "Category updated"
+msgstr "Kategória frissítve"
+
+#: admin/categories.php:75
+msgid "Category added"
+msgstr "Kategória hozzáadva"
+
+#: admin/categories.php:76
+msgid "Category was not added. Try Recreating the download database from the configuration page."
+msgstr "A kategória hozzáadása sikertelen. Próbáld meg az adatbázist újraépíteni a konfigurációs oldalon."
+
+#: admin/categories.php:97
+msgid "Category deleted Successfully"
+msgstr "Kategória törölve"
+
+#: admin/categories.php:107
+#: admin/config.php:183
+#: uploader.php:822
+msgid "Action"
+msgstr "Művelet"
+
+#: admin/categories.php:143
+msgid "No categories exist"
+msgstr "Nincs ilyen kategória"
+
+#: admin/categories.php:149
+msgid "Add category"
+msgstr "Kategória hozzáadása"
+
+#: admin/categories.php:173
+msgid "Edit category"
+msgstr "Kategória szerkesztése"
+
+#: admin/categories.php:176
+msgid "Category"
+msgstr "Kategória"
+
+#: admin/categories.php:178
+#: admin/dashboard.php:205
+msgid "Select a category"
+msgstr "Kategória kiválasztása"
+
+#: admin/config.php:41
+msgid "Download Monitor Configuration"
+msgstr "Download Monitor beállítások"
+
+#: admin/config.php:54
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, add the following to your \n"
+"\t\t\t\t\t.htaccess file above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+
+#: admin/config.php:65
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, remove the following from your \n"
+"\t\t\t\t\t.htaccess file if it exists above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
+msgstr ""
+
+#: admin/config.php:104
+msgid "<p>Options updated</p>"
+msgstr "<p>Beállítások frissítve</p>"
+
+#: admin/config.php:114
+msgid "Database Cleaned"
+msgstr "Adatbázis tisztítva"
+
+#: admin/config.php:133
+msgid "Formats updated"
+msgstr "Formátumok frissítve"
+
+#: admin/config.php:144
+msgid "Format added"
+msgstr "Formátum hozzáadva"
+
+#: admin/config.php:158
+msgid "Format deleted Successfully"
+msgstr "Formátum törölve"
+
+#: admin/config.php:173
+msgid "Custom Output Formats"
+msgstr "Egyedi kimeneti formátumok"
+
+#: admin/config.php:175
+msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
+msgstr "<p>Itt tetszőleges formátumot állíthatsz be a letöltéseknek</p>"
+
+#: admin/config.php:182
+#: admin/config.php:214
+msgid "Format"
+msgstr "Formátum"
+
+#: admin/config.php:199
+msgid "No formats exist"
+msgstr "Nincs ilyen formátum"
+
+#: admin/config.php:206
+msgid "Add format"
+msgstr "Formátum hozzáadása"
+
+#: admin/config.php:220
+msgid "Available Tags"
+msgstr "Rendelkezésre álló címkék"
+
+#: admin/config.php:222
+msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
+msgstr ""
+
+#: admin/config.php:224
+msgid "Url of download (does not include hyperlink)"
+msgstr "A letöltés URL-je (nem tartalmaz hiperhivatkozást)"
+
+#: admin/config.php:225
+msgid "ID of download"
+msgstr "Letöltés azonosítója"
+
+#: admin/config.php:226
+msgid "Username of whoever posted download"
+msgstr "Az állomány feltöltőjének felhasználóneve"
+
+#: admin/config.php:227
+msgid "Version of download"
+msgstr "Letöltés verziója"
+
+#: admin/config.php:228
+msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr "Letöltés verziója. Ha nincs beállítva nem kerül megjelenítésre. Cseréld \"before\" az előző vagy \"after\" a következő megjelenítéséhez."
+
+#: admin/config.php:229
+msgid "Title of download"
+msgstr "Az állomány neve"
+
+#: admin/config.php:230
+msgid "Filesize of download"
+msgstr "Az állomány mérete"
+
+#: admin/config.php:231
+msgid "Outputs comma separated list of categories."
+msgstr "Vesszővel elválasztva mutatja a kategóriákat"
+
+#: admin/config.php:232
+msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
+msgstr ""
+
+#: admin/config.php:233
+#: admin/config.php:234
+#: admin/config.php:239
+#: admin/config.php:240
+msgid "or"
+msgstr "vagy"
+
+#: admin/config.php:233
+msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr ""
+
+#: admin/config.php:234
+msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr ""
+
+#: admin/config.php:235
+msgid "(Top Level/First) Download Category ID."
+msgstr "(Legfelső szint/Első) Kategória azonosító."
+
+#: admin/config.php:236
+msgid "Current hit count"
+msgstr "Jelenlegi letöltésszám"
+
+#: admin/config.php:237
+msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
+msgstr ""
+
+#: admin/config.php:238
+msgid "URL of the download image"
+msgstr "Kép URL-je"
+
+#: admin/config.php:239
+msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
+msgstr ""
+
+#: admin/config.php:240
+msgid "Description formatted with autop (converts double line breaks to paragraphs)"
+msgstr "A megnevezés automatikusan formázva (a dupla sortörés bekezdéssé alakítva)"
+
+#: admin/config.php:241
+msgid "Date posted. Second argument is for date format."
+msgstr ""
+
+#: admin/config.php:242
+msgid "Outputs comma separated list of tags."
+msgstr "Vesszővel elválasztva mutatja a címkéket"
+
+#: admin/config.php:243
+msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
+msgstr ""
+
+#: admin/config.php:244
+msgid "Output thumbnail URL (or placeholder)"
+msgstr "Bélyegkép URL (vagy helykitöltő)"
+
+#: admin/config.php:245
+msgid "Custom field value"
+msgstr "Egyedi mező érték"
+
+#: admin/config.php:246
+msgid "Custom field value formatted with autop"
+msgstr "Egyedi mező értéke automatikusan formázva"
+
+#: admin/config.php:247
+msgid "File extension (e.g. \"zip\")"
+msgstr "Kiterjeztés (pl.: \"zip\")"
+
+#: admin/config.php:248
+msgid "File extension icon (16x16)"
+msgstr "Kiterjesztés ikon (16x16)"
+
+#: admin/config.php:249
+msgid "Output a Mirror's url"
+msgstr "Tükör szerverek URL-je"
+
+#: admin/config.php:252
+msgid "Example Formats"
+msgstr "Példa formátumok"
+
+#: admin/config.php:254
+msgid "Here are some example custom formats you can use or modify."
+msgstr "Néhány példa az egyedi formátumokra, melyeket használhatsz, vagy módosíthatsz."
+
+#: admin/config.php:256
+msgid "Link and description of download with hits in title:"
+msgstr "A letöltés hivatkozása és leírása, találatokkal és címmel:"
+
+#: admin/config.php:257
+msgid "Standard link with no hits:"
+msgstr "Alap link találat nélkül:"
+
+#: admin/config.php:258
+msgid "Image link:"
+msgstr "Kép link:"
+
+#: admin/config.php:265
+msgid "Custom Download URL"
+msgstr "Egyedi letöltési URL"
+
+#: admin/config.php:267
+msgid ""
+"<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
+"            \t\n"
+"                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
+msgstr ""
+
+#: admin/config.php:273
+msgid "Without Custom URL:"
+msgstr "Egyedi URL nélkül"
+
+#: admin/config.php:278
+msgid "With Custom URL (downloads/ID):"
+msgstr "Egyedi URL-el (letöltés/azonosító)"
+
+#: admin/config.php:284
+msgid "Custom URL"
+msgstr "Egyedi URL"
+
+#: admin/config.php:289
+msgid "Filename"
+msgstr "Filenév"
+
+#: admin/config.php:298
+msgid "General Options"
+msgstr "Általános beállítások"
+
+#: admin/config.php:304
+msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
+msgstr "Értékelem ezt a bővítményt, ezért segítek a terjesztésében!"
+
+#: admin/config.php:314
+msgid "If you would like to say thanks for Download Monitor there are many ways to do so, for example: spreading the word or making a donation. If you have already done so you can indicate that here (thanks by the way). For direct contributors, sponsorship messages will be disabled. (Please see the readme file for full details about sponsorship messages and how your privacy is protected)."
+msgstr "Ha köszönetet szeretnél mondanii a Download Monitor bővítményért, azt sokféle képpen megteheted! Besélj róla, vagy adakozz. Ha már megtetted, akkor jelezd (köszönöm). Az adakozóknál a támogatási üzenetekj kikapcsolódnak. (Kérlek olvasd el a dokumentációt a szponzorizációról és hogy milyen módon tudod védeni a magán adataidat.)"
+
+#: admin/config.php:318
+msgid "Disable the news/links/donate box on the Edit Download Page?"
+msgstr "Kikapcsolod a hírek/hivatkozások/adomány dobozt a Letöltések szerkesztése oldalon?"
+
+#: admin/config.php:331
+msgid "\"Download not found\" redirect URL"
+msgstr "\"Letöltés nem található\" átirányítás URL"
+
+#: admin/config.php:332
+#: admin/config.php:336
+msgid "Leave blank for no redirect."
+msgstr "Hagyd üresen ha nincs szükséged átirányításra"
+
+#: admin/config.php:335
+msgid "Member-only files non-member redirect"
+msgstr "Regisztrált felhasználóknak, regisztráció nélkül átirányít"
+
+#: admin/config.php:336
+msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
+msgstr ""
+
+#: admin/config.php:339
+msgid "Global member only files"
+msgstr "Kizárólag globális regisztrált felhasználóknak:"
+
+#: admin/config.php:348
+msgid "Makes all downloads member only, ignoring the individual download member only setting."
+msgstr "Az összes letöltést regisztrációhoz köti, figyelmen kívül hagyja  az egyedileg beállított értékeket."
+
+#: admin/config.php:352
+msgid "Download image path"
+msgstr "Letöltési kép elérési út"
+
+#: admin/config.php:353
+msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
+msgstr ""
+
+#: admin/config.php:356
+msgid "Default output format"
+msgstr "Alapértelmezett kimeneti formátum"
+
+#: admin/config.php:375
+msgid "Auto-select mirror"
+msgstr "Tükör-szerver automatikus kiválasztása"
+
+#: admin/config.php:384
+msgid "If a download has \"mirrors\" set should download.php automatically pick one?"
+msgstr "Ha a letöltésnek van \"tükörszerver\" beállítva, a download.php automatikusan válasszon egyet közülük?"
+
+#: admin/config.php:388
+msgid "Log Downloads"
+msgstr "Letöltések naplózása"
+
+#: admin/config.php:401
+msgid "Log Timeout"
+msgstr "Napló időtúllépés"
+
+#: admin/config.php:403
+msgid "0 means all downloads are logged. Increase to set the timeout in minutes so that downloads by the same person are not logged multiple times."
+msgstr "Nulla esetén minden letöltést naplózunk. Az időtúllépést növelve az ismételt letöltések nem kerülnek többször a naplóba."
+
+#: admin/config.php:407
+msgid "Log/Count Blacklist"
+msgstr "Napló/Számláló feketelista"
+
+#: admin/config.php:409
+msgid "List IP addresses here that you wish to exclude from the logs/counts - 1 per line."
+msgstr "Azon IP-címek gyüjteménye, melyeket a napló/számláló figyelmen kívül kell hagyjon - soronként egy cím"
+
+#: admin/config.php:413
+msgid "Enable File Browser"
+msgstr "File-böngésző engedélyezése"
+
+#: admin/config.php:426
+msgid "File Browser Root"
+msgstr "File böngésző gyökér könyvtár"
+
+#: admin/config.php:427
+msgid "The root directory the file browser can display."
+msgstr "A file-böngésző gyökér könyvtára megjeleníthető"
+
+#: admin/config.php:450
+msgid "Advanced Stuff"
+msgstr "Haladó cuccok"
+
+#: admin/config.php:452
+msgid "Upgrade from 3.2.3"
+msgstr "Frissítés 3.2.3 verzióról"
+
+#: admin/config.php:453
+msgid "<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>"
+msgstr "<p>Download monitor új típusú adatbázis táblákat használ a 3.3 verzió óta; ez egyszerűsíti a dolgokat és már képes többszörös kategóriák kezelésére.</p>"
+
+#: admin/config.php:454
+msgid "<p>This update should have been done when you activated the plugin, but if it didn't, use this function to create the new tables and import from the old ones.</p>"
+msgstr "<p>A frissítés akkor lép életbe amikor aktiválod a bővítményt, ha nem teszed, használd ezt a funkciót hogy új táblákat hozz létre és importáld a régieket</p>"
+
+#: admin/config.php:456
+msgid "Upgrade Database"
+msgstr "Adatbázis frissítése"
+
+#: admin/config.php:459
+msgid "Upgraded Successfully? Cleanup!"
+msgstr "Sikeres volt a frissítés? Tisztítsd az adatbázist!"
+
+#: admin/config.php:460
+msgid "<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>"
+msgstr "<p>Ahogy említettük, a táblák átnevezésre kerültek a 3.3 verziónak megfelelően - ha a frissítés sikeres volt (hurrá) használd ezt a funkciót, hogy a régi táblák törlődjenek (a törölt táblákról biztonsági mentés készül).</p>"
+
+#: admin/config.php:461
+msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
+msgstr "<p>VIGYÁZAT: EZZEL TÖRLÖD AZ ADATBÁZIS EGY RÉSZÉT; KÉSZÍTS ELŐBB BIZTONSÁGI MENTÉST!</p>"
+
+#: admin/config.php:463
+msgid "Clean me up Scotty"
+msgstr "OK! Majd lesz valami!"
+
+#: admin/config.php:473
+msgid "Click to toggle"
+msgstr "Klikk a váltáshoz"
+
+#: admin/dashboard.php:72
+msgid "D j M"
+msgstr ""
+
+#: admin/dashboard.php:74
+msgid "Previous Week"
+msgstr "Előző hét"
+
+#: admin/dashboard.php:75
+msgid "This Week"
+msgstr "Aktuális hét"
+
+#: admin/dashboard.php:76
+msgid "Next Week"
+msgstr "Következő hét"
+
+#: admin/dashboard.php:97
+msgid "F Y"
+msgstr "Y. F"
+
+#: admin/dashboard.php:99
+msgid "Previous 6 months"
+msgstr "Előző 6 hónap"
+
+#: admin/dashboard.php:100
+msgid "Last 6 months"
+msgstr "Elmúlt 6 hónap"
+
+#: admin/dashboard.php:101
+msgid "Next 6 months"
+msgstr "Következő 6 hónap"
+
+#: admin/dashboard.php:111
+msgid "Weekly"
+msgstr "Heti"
+
+#: admin/dashboard.php:114
+msgid "Monthly"
+msgstr "Havi"
+
+#: admin/dashboard.php:115
+msgid "Select a download"
+msgstr "Válassz egy letöltést"
+
+#: admin/dashboard.php:123
+#: admin/dashboard.php:215
+msgid "Show"
+msgstr "Mutasd"
+
+#: admin/dashboard.php:143
+msgid "Downloads per day for"
+msgstr "Napi letöltések"
+
+#: admin/dashboard.php:146
+#: admin/dashboard.php:221
+msgid "Day"
+msgstr "Nap"
+
+#: admin/dashboard.php:147
+#: admin/dashboard.php:222
+msgid "Number of downloads"
+msgstr "Letöltések száma"
+
+#: admin/dashboard.php:182
+msgid "None Found"
+msgstr "Nem található"
+
+#: admin/dashboard.php:218
+msgid "Most Downloaded"
+msgstr "Legtöbbször letöltött"
+
+#: admin/dashboard.php:249
+msgid "No stats yet"
+msgstr "Még nem található statisztika"
+
+#: admin/dashboard.php:262
+#: admin/dashboard.php:284
+msgid "Download Stats"
+msgstr "Letöltések statisztika"
+
+#: admin/dashboard.php:263
+#: admin/dashboard.php:318
+msgid "Top 5 Downloads"
+msgstr "5 legnépszerűbb letöltés"
+
+#: admin/log_to_csv.php:41
+#: admin/logs.php:85
+msgid "jS M Y H:i:s"
+msgstr "Y. F. j. H:i:s"
+
+#: admin/logs.php:45
+msgid "Download Logs"
+msgstr "Letöltések naplói"
+
+#: admin/logs.php:47
+msgid "Download CSV"
+msgstr "Letöltés CSV formátumban"
+
+#: admin/logs.php:47
+msgid "Clear Log"
+msgstr "Napló törlése"
+
+#: admin/logs.php:54
+msgid "User"
+msgstr "Felhasználó"
+
+#: admin/logs.php:55
+msgid "IP Address"
+msgstr "IP Cím"
+
+#: admin/logs.php:56
+#: page-addon/download-monitor-page-addon.php:232
+#: page-addon/download-monitor-page-addon.php:354
+#: page-addon/download-monitor-page-addon.php:439
+#: page-addon/download-monitor-page-addon.php:520
+msgid "Date"
+msgstr "Dátum"
+
+#: admin/logs.php:107
+msgid "No downloads logged."
+msgstr "Nincs letöltés naplózva"
+
+#: admin/logs.php:119
+#: admin/logs.php:120
+#: page-addon/download-monitor-page-addon.php:285
+#: page-addon/download-monitor-page-addon.php:286
+#: page-addon/download-monitor-page-addon.php:461
+#: page-addon/download-monitor-page-addon.php:462
+#: page-addon/download-monitor-page-addon.php:549
+#: page-addon/download-monitor-page-addon.php:550
+msgid "Previous"
+msgstr "Előző"
+
+#: admin/logs.php:133
+#: admin/logs.php:134
+#: page-addon/download-monitor-page-addon.php:298
+#: page-addon/download-monitor-page-addon.php:299
+#: page-addon/download-monitor-page-addon.php:474
+#: page-addon/download-monitor-page-addon.php:475
+#: page-addon/download-monitor-page-addon.php:562
+#: page-addon/download-monitor-page-addon.php:563
+msgid "Next"
+msgstr "Következő"
+
+#: classes/downloadable_file.class.php:280
+#: classes/downloadable_file.class.php:294
+#: classes/downloadable_file.class.php:316
+#: page-addon/download-monitor-page-addon.php:55
+msgid "Other"
+msgstr "Egyéb"
+
+#: classes/downloadable_file.class.php:302
+msgid "Uncategorized"
+msgstr "Kategória nélkül"
+
+#: classes/downloadable_file.class.php:337
+#: classes/downloadable_file.class.php:340
+msgid "#Mirror-not-found"
+msgstr "#Tükörszerver-nem-található"
+
+#: download.php:14
+msgid "Headers Sent"
+msgstr "Fejléc adatok elküldve"
+
+#: download.php:14
+msgid "The headers have been sent by another plugin - there may be a plugin conflict."
+msgstr "A fejlécet egy másik bővítmény már elküldte - talán ütközhet más bővítménnyel."
+
+#: download.php:174
+#, php-format
+msgid "You must be logged in to download this file. <br/><br/><a href=\"%1$s\"><strong>← Back to %2$s</strong></a>"
+msgstr "A fájl letöltéséhez be kell jelentkezned. <br/><br/><a href=\"%1$s\"><strong>← Vissza %2$s</strong></a>"
+
+#: download.php:174
+msgid "You must be logged in to download this file."
+msgstr "Az állomány letöltéséhez be kell jelentkezned."
+
+#: download.php:185
+#: download.php:195
+msgid "You do not have permission to download this file."
+msgstr "Nincs jogosultságod az állomán letöltéséhez!"
+
+#: download.php:585
+msgid "Cannot open remote file "
+msgstr "Távoli állomány nem elérhető"
+
+#: download.php:633
+msgid "Forcing the download of externally hosted files is not supported by this server."
+msgstr "Ez a szerver nem támogatja a kényszerített letöltést a külső kiszolgálón tárolt állományok esetében."
+
+#: download.php:640
+msgid "Download path is invalid!"
+msgstr "A letöltés elérési útja érvénytelen!"
+
+#: download.php:671
+msgid "Download does not exist!"
+msgstr "Nincs ilyen letöltés!"
+
+#: functions.inc.php:109
+#, php-format
+msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
+msgstr "%1$s%2$s, %3$s - %4$s : %5$s"
+
+#: functions.inc.php:179
+msgid "Add Download"
+msgstr "Letöltés hozzáadása"
+
+#: init.php:29
+#: init.php:31
+msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
+msgstr "A Download Monitor 3.3 (illetve az újabb verziók) eltérő adatbázis struktúrát használnak az előzőektől, azért hogy kezelhetők legyenek az összetett kategóriák. A működéshez  frissítened kell az adatbázist - <strong>készíts biztonsági mentést az adatbázisról</strong> a művelet előtt!"
+
+#: init.php:29
+#: init.php:31
+msgid "click here"
+msgstr "kattints ide"
+
+#: init.php:29
+#: init.php:31
+msgid "to run the update script"
+msgstr "a frissítés folytatásához"
+
+#: init.php:235
+msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql user has ALTER, DROP, CREATE and INSERT privileges."
+msgstr "Az adatbázis frissítése sikertelen volt - az átnevezés nem sikerült. Biztosíts megfelelő jogosultságot a mysql felhasználónak (ALTER, DROP, CREATE és INSERT)!"
+
+#: init.php:333
+msgid "Database Upgraded"
+msgstr "Adatbázis frissítve"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:149
+#: shortcodes.php:79
+#: shortcodes.php:208
+msgid "downloaded"
+msgstr "letöltve"
+
+#: legacy_shortcodes.php:51
+#: legacy_shortcodes.php:77
+#: legacy_shortcodes.php:82
+#: legacy_shortcodes.php:87
+#: legacy_shortcodes.php:179
+#: legacy_shortcodes.php:180
+#: legacy_shortcodes.php:223
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:149
+#: page-addon/download-monitor-page-addon.php:716
+#: shortcodes.php:79
+#: shortcodes.php:208
+msgid "times"
+msgstr " alkalommal"
+
+#: legacy_shortcodes.php:180
+#: page-addon/download-monitor-page-addon.php:66
+#: page-addon/download-monitor-page-addon.php:716
+msgid "Downloaded"
+msgstr "Letöltve"
+
+#: legacy_shortcodes.php:219
+#: legacy_shortcodes.php:226
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+msgid "jS M Y"
+msgstr "Y. F. j."
+
+#: legacy_shortcodes.php:243
+#: legacy_shortcodes.php:280
+msgid "Added"
+msgstr "Hozzáadva"
+
+#: legacy_shortcodes.php:263
+msgid "Most Popular Downloads"
+msgstr "Népszerű letöltések"
+
+#: legacy_shortcodes.php:283
+msgid "No Downloads Found"
+msgstr "Letöltés nem található"
+
+#: page-addon/download-monitor-page-addon.php:53
+msgid "Popular Downloads"
+msgstr "Kedvenc letöltések"
+
+#: page-addon/download-monitor-page-addon.php:57
+msgid "Go"
+msgstr "Mehet"
+
+#: page-addon/download-monitor-page-addon.php:58
+msgid "Results found for "
+msgstr "Keresés eredménye"
+
+#: page-addon/download-monitor-page-addon.php:59
+msgid "No downloads were found."
+msgstr "Az állomány nem található."
+
+#: page-addon/download-monitor-page-addon.php:60
+msgid "No download found matching given ID."
+msgstr "A megadott azonosítóhoz nem tartozik állomány."
+
+#: page-addon/download-monitor-page-addon.php:61
+#: uploader.php:810
+#: wp-download_monitor.php:153
+msgid "Downloads"
+msgstr "Letöltések"
+
+#: page-addon/download-monitor-page-addon.php:67
+msgid " time"
+msgstr " alkalommal"
+
+#: page-addon/download-monitor-page-addon.php:68
+msgid " times"
+msgstr " alkalommal"
+
+#: page-addon/download-monitor-page-addon.php:69
+msgid "Date posted"
+msgstr "Létrehozás dátuma"
+
+#: page-addon/download-monitor-page-addon.php:70
+msgid "F j, Y"
+msgstr "Y. F j."
+
+#: page-addon/download-monitor-page-addon.php:72
+msgid "Read More"
+msgstr "Bővebben"
+
+#: page-addon/download-monitor-page-addon.php:73
+msgid "Sub-Categories:"
+msgstr "Alkategória:"
+
+#: page-addon/download-monitor-page-addon.php:74
+msgid "Sort by:"
+msgstr "Rendezés:"
+
+#: page-addon/download-monitor-page-addon.php:75
+msgid "Downloads tagged:"
+msgstr "Letöltés címkézve:"
+
+#: shortcodes.php:226
+msgid "No Downloads found"
+msgstr "Letöltés nem található"
+
+#: uploader.php:80
+#: uploader.php:83
+msgid "Blue"
+msgstr "Kék"
+
+#: uploader.php:81
+#: uploader.php:84
+msgid "Gray"
+msgstr "Szürke"
+
+#: uploader.php:93
+msgid "You do not have permission to upload files/downloads."
+msgstr "Nincs jogosultságod feltölteni/letölteni."
+
+#: uploader.php:101
+msgid "Uploads"
+msgstr "Feltöltések"
+
+#: uploader.php:101
+msgid "WordPress"
+msgstr "WordPress"
+
+#: uploader.php:268
+msgid "View Downloads"
+msgstr "Letöltések megtekintése"
+
+#: uploader.php:309
+msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr "<div id=\"media-upload-error\">Hiba történt az adatbázis mentésekor</div>"
+
+#: uploader.php:311
+msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
+msgstr "<div id=\"media-upload-error\">Rossz <strong>érték</strong> van beírva</div>"
+
+#: uploader.php:454
+msgid "<div id=\"media-upload-error\">Error saving to database</div>"
+msgstr "<div id=\"media-upload-error\">Hiba az adatbázisba mentéskor</div>"
+
+#: uploader.php:464
+msgid "Download Information"
+msgstr "Letöltési információ"
+
+#: uploader.php:553
+msgid "Mirrors"
+msgstr "Tükör szerverek"
+
+#: uploader.php:736
+msgid "Save new download"
+msgstr "Új letöltés mentése"
+
+#: uploader.php:744
+msgid "Insert new download into post"
+msgstr "Az új letöltés bejegyzésbe illesztése"
+
+#: uploader.php:746
+#: uploader.php:792
+msgid "Insert into post using format:"
+msgstr "Bejegyzésbe illeszt egy formátum használatával:"
+
+#: uploader.php:747
+#: uploader.php:795
+msgid "Default"
+msgstr "Alapérték"
+
+#: uploader.php:760
+msgid "Insert into post"
+msgstr "Bejegyzésbe illeszt"
+
+#: uploader.php:914
+msgid "Insert"
+msgstr "Beilleszt"
+
+#: wp-download_monitor.php:155
+msgid "Add New"
+msgstr "Hozzáad"
+
+#: wp-download_monitor.php:156
+msgid "Add Directory"
+msgstr "Mappa hozzáadása"
+
+#: wp-download_monitor.php:158
+msgid "Configuration"
+msgstr "Beállítások"
+
+#: wp-download_monitor.php:162
+msgid "Log"
+msgstr "Napló"
+
+#~ msgid "Toggle Tags"
+#~ msgstr "Címkék kiválasztása"
+
+#, fuzzy
+#~ msgid "Links &amp; Documentation"
+#~ msgstr "barátok &amp; linkek"
+
+#, fuzzy
+#~ msgid "Download Monitor on WordPress.org"
+#~ msgstr "Download Monitor Hírei"
