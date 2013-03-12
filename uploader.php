@@ -745,11 +745,11 @@ if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_dow
 					if (closed != '') {
 						var ed = win.tinyMCE.activeEditor;
 						var caret = ed.dom.select('span#caret_pos_holder')[0];
-						ed.dom.setAttrib(caret, 'id', '')
+						ed.dom.setAttrib(caret, 'id', '');
 							ed.selection.select(caret);
 						// ed.dom.remove(caret);
-					});
 					}
+					});
 					/* ]]> */
 				</script>
 				</div>
