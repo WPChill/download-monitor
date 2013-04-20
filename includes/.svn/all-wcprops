@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/!svn/ver/287083/download-monitor/trunk/classes
+END
+downloadable_file.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/!svn/ver/308497/download-monitor/trunk/classes/downloadable_file.class.php
+END
+download_taxonomies.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/314614/download-monitor/trunk/classes/download_taxonomies.class.php
+END
+linkValidator.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/!svn/ver/264176/download-monitor/trunk/classes/linkValidator.class.php
+END
