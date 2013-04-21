@@ -27,7 +27,9 @@ class DLM_Download_Handler {
 	}
 
 	/**
-	 * check_access function.
+	 * Check access (hooked into dlm_can_download) checks if the download is members only and enfoces log in.
+	 *
+	 * Other plugins can use the 'dlm_can_download' filter directly to change access rights.
 	 *
 	 * @access public
 	 * @param mixed $download
@@ -35,7 +37,7 @@ class DLM_Download_Handler {
 	 */
 	public function check_access( $can_download, $download ) {
 		if ( $download->is_members_only() && ! is_user_logged_in() )
-			return false;
+			$can_download = false;
 
 		return $can_download;
 	}
