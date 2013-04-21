@@ -2,6 +2,9 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+/**
+ * DLM_Admin_CPT class.
+ */
 class DLM_Admin_CPT {
 
 	/**

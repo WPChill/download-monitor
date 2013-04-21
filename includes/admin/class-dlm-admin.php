@@ -29,6 +29,7 @@ class DLM_Admin {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 12 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_init', array( $this, 'export_logs' ) );
+		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
 	}
 
 	/**
@@ -396,6 +397,16 @@ class DLM_Admin {
 		header( "Content-Length: " . strlen( $log ) );
 		echo $log;
 		exit;
+	}
+
+	/**
+	 * admin_dashboard function.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function admin_dashboard() {
+		include_once( 'class-dlm-admin-dashboard.php' );
 	}
 }
 
