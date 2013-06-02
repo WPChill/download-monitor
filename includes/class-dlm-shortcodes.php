@@ -62,27 +62,27 @@ class DLM_Shortcodes {
 		global $download_monitor, $dlm_download;
 
 		extract( shortcode_atts( array(
-			'id'     => '',
-			'autop'  => false,
-		  	'template' => get_option( 'dlm_default_template' ),
-		  	'version_id' => '',
+			'id'         => '',
+			'autop'      => false,
+			'template'   => get_option( 'dlm_default_template' ),
+			'version_id' => '',
 			'version'    => ''
 		), $atts ) );
+
+		$id = apply_filters( 'dlm_shortcode_download_id', $id );
 
 		if ( empty( $id ) )
 			return;
 
-	  	$args = array(
+	  	ob_start();
+
+		$downloads = new WP_Query( array(
 	    	'post_type'      => 'dlm_download',
 	    	'posts_per_page' => 1,
 	    	'no_found_rows'  => 1,
 	    	'post_status'    => 'publish',
 	    	'p'              => $id
-	  	);
-
-	  	ob_start();
-
-		$downloads = new WP_Query( $args );
+	  	) );
 
 		if ( $downloads->have_posts() ) {
 
@@ -127,6 +127,8 @@ class DLM_Shortcodes {
 			'version_id' => '',
 			'version'    => ''
 		), $atts ) );
+
+		$id = apply_filters( 'dlm_shortcode_download_id', $id );
 
 		if ( empty( $id ) || empty( $data ) )
 			return;
