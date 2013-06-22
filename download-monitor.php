@@ -358,7 +358,7 @@ class WP_DLM {
 	 * @param string $name (default: '')
 	 * @return void
 	 */
-	public function get_template_part( $slug, $name = '' ) {
+	public function get_template_part( $slug, $name = '', $custom_dir = '' ) {
 		$template = '';
 
 		// Look in yourtheme/slug-name.php and yourtheme/download-monitor/slug-name.php
@@ -369,9 +369,17 @@ class WP_DLM {
 		if ( ! $template && $name && file_exists( $this->plugin_path() . "/templates/{$slug}-{$name}.php" ) )
 			$template = $this->plugin_path() . "/templates/{$slug}-{$name}.php";
 
+		// If a custom path was defined, check that next
+		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) )
+			$template = trailingslashit( $custom_dir ) . "{$slug}-{$name}.php";
+
 		// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/download-monitor/slug.php
 		if ( ! $template )
 			$template = locate_template( array( "{$slug}.php", "download-monitor/{$slug}.php" ) );
+
+		// If a custom path was defined, check that next
+		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) )
+			$template = trailingslashit( $custom_dir ) . "{$slug}.php";
 
 		// Get default slug-name.php
 		if ( ! $template && file_exists( $this->plugin_path() . "/templates/{$slug}.php" ) )
