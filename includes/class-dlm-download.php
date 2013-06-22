@@ -17,7 +17,7 @@ class DLM_Download {
 	public function __construct( $id ) {
 		$this->id              = absint( $id );
 		$this->post            = get_post( $this->id );
-		$this->current_version = ''; // Use latest current version
+		$this->version_id      = ''; // Use latest current version
 	}
 
 	/**
@@ -81,9 +81,11 @@ class DLM_Download {
 	 * @param mixed $version_id
 	 * @return void
 	 */
-	public function set_version( $version_id ) {
+	public function set_version( $version_id = '' ) {
 		if ( $this->version_exists( $version_id ) )
 			$this->version_id = $version_id;
+		else
+			$this->version_id = '';
 	}
 
 	/**
@@ -307,7 +309,7 @@ class DLM_Download {
 		$filesize   = $this->get_file_version()->filesize;
 
 		if ( $filesize )
-			return $this->human_filesize( $filesize );
+			return size_format( $filesize );
 	}
 
 	/**
@@ -453,20 +455,4 @@ class DLM_Download {
 
 	    return $this->files;
     }
-
-	/**
-	 * human_filesize function.
-	 *
-	 * http://jeffreysambells.com/2012/10/25/human-readable-filesize-php
-	 *
-	 * @access public
-	 * @param mixed $bytes
-	 * @param int $decimals (default: 2)
-	 * @return void
-	 */
-	public function human_filesize( $bytes, $decimals = 2 ) {
-	    $size = array( 'B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );
-	    $factor = floor( (strlen( $bytes ) - 1 ) / 3 );
-	    return sprintf( "%.{$decimals}f", $bytes / pow( 1024, $factor ) ) . @$size[ $factor ];
-	}
 }
