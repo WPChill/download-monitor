@@ -137,17 +137,17 @@ class DLM_Admin_CPT {
 
 		$messages['dlm_download'] = array(
 			0 => '', // Unused. Messages start at index 1.
-			1 => sprintf( __('Download updated. <a href="%s">View Download</a>', 'download_monitor'), esc_url( get_permalink($post_ID) ) ),
+			1 => __('Download updated.', 'download_monitor'),
 			2 => __('Custom field updated.', 'download_monitor'),
 			3 => __('Custom field deleted.', 'download_monitor'),
 			4 => __('Download updated.', 'download_monitor'),
 			5 => isset($_GET['revision']) ? sprintf( __('Download restored to revision from %s', 'download_monitor'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-			6 => sprintf( __('Download published. <a href="%s">View Download</a>', 'download_monitor'), esc_url( get_permalink($post_ID) ) ),
+			6 => __('Download published.', 'download_monitor'),
 			7 => __('Download saved.', 'download_monitor'),
-			8 => sprintf( __('Download submitted. <a target="_blank" href="%s">Preview Download</a>', 'download_monitor'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
-			9 => sprintf( __('Download scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview Download</a>', 'download_monitor'),
-			  date_i18n( __( 'M j, Y @ G:i', 'download_monitor' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
-			10 => sprintf( __('Download draft updated. <a target="_blank" href="%s">Preview Download</a>', 'download_monitor'), esc_url( add_query_arg( 'preview', 'true', get_permalink($post_ID) ) ) ),
+			8 => __('Download submitted.', 'download_monitor'),
+			9 => sprintf( __('Download scheduled for: <strong>%1$s</strong>.', 'download_monitor'),
+			  date_i18n( __( 'M j, Y @ G:i', 'download_monitor' ), strtotime( $post->post_date ) ) ),
+			10 => __('Download draft updated.', 'download_monitor'),
 		);
 
 		return $messages;
