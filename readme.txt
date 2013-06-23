@@ -1,18 +1,17 @@
 === Download Monitor ===
 Contributors: mikejolley
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10691945
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jolley@me.com&item_name=Donation+for+Download+Monitor
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.5
 Tested up to: 3.5
-Stable tag: 4.0
-
-Provides an interface for uploading and managing downloadable files (including support for multiple versions), inserting download links into posts, and tracking/logging downloads.
-
-== Description ==
+Stable tag: 1.0.0
+License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
 
-You can contribute code to this plugin via GitHub: https://github.com/mikejolley/download-monitor
+== Description ==
+
+Download Monitor provides an interface for uploading and managing downloadable files (including support for multiple versions), inserting download links into posts, and logging downloads.
 
 = Features =
 
@@ -22,9 +21,30 @@ You can contribute code to this plugin via GitHub: https://github.com/mikejolley
 * Define alternative links (mirrors) per version.
 * Categorise, tag, or add other meta to your downloads.
 * Display download links on the frontend using shortcodes.
+* Change the way download links get displayed via template files.
 * Track downloads counts and log user download attempts.
 * Member only downloads.
 * Customisable endpoints for showing pretty download links.
+
+[Read more about Download Monitor](http://mikejolley.com/projects/download-monitor/).
+
+= Documentation =
+
+Documentation will be maintained on the [GitHub Wiki here](https://github.com/mikejolley/download-monitor/wiki).
+
+= Add-ons =
+
+Add-ons, such as the __legacy importer__ and __page addon__ are listed [found here](http://mikejolley.com/projects/download-monitor/add-ons/). Take a look!
+
+= Contributing and reporting bugs =
+
+You can contribute code and localizations to this plugin via GitHub: [https://github.com/mikejolley/download-monitor](https://github.com/mikejolley/download-monitor)
+
+= Support =
+
+Use the WordPress.org forums for community support - I cannot offer support directly for free. If you spot a bug, you can of course log it on [Github](https://github.com/mikejolley/download-monitor) instead where I can act upon it more efficiently.
+
+If you want help with a customisation, hire a developer!
 
 == Installation ==
 
@@ -32,22 +52,66 @@ You can contribute code to this plugin via GitHub: https://github.com/mikejolley
 
 Automatic installation is the easiest option as WordPress handles the file transfers itself and you don't even need to leave your web browser. To do an automatic install, log in to your WordPress admin panel, navigate to the Plugins menu and click Add New.
 
-In the search field type "Download Monitor" and click Search Plugins. Once you've found the plugin you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by simply clicking Install Now. After clicking that link you will be asked if you're sure you want to install the plugin. Click yes and WordPress will automatically complete the installation.
+In the search field type "Download Monitor" and click Search Plugins. Once you've found the plugin you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by clicking _Install Now_.
 
 = Manual installation =
 
 The manual installation method involves downloading the plugin and uploading it to your webserver via your favourite FTP application.
 
 * Download the plugin file to your computer and unzip it
-* Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation?s wp-content/plugins/ directory.
+* Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation's `wp-content/plugins/` directory.
 * Activate the plugin from the Plugins menu within the WordPress admin.
+
+== Frequently Asked Questions ==
+
+= I used this before, so why is this version 1? =
+
+Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](http://mikejolley.com/projects/download-monitor/add-ons/legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
+
+Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
+
+= X feature/shortcode is missing from the legacy version; why? =
+
+The rewrite has trimmed the fat and only kept the best, most useful features. If something is missing, you can always code it yourself - the new system is very flexible and its easy to query files using [get_posts](http://codex.wordpress.org/Template_Tags/get_posts).
+
+If you are missing the "Page Addon", this is now a separate plugin found here: [Download Monitor Page Addon](http://mikejolley.com/projects/download-monitor/add-ons/page-addon/).
+
+= Can I upload .xxx filetype using the uploader? =
+
+Download Monitor uses the WordPress uploader for uploading files. By default these formats are supported:
+
+* Images - .jpg, .jpeg, .png, .gif
+* Documents - .pdf, .doc, .docx, .ppt, .pptx, .pps, .ppsx, .odt, .xls, .xlsx
+* Music - .mp3, .m4a, .ogg, .wav
+* Video - .mp4, .m4v, .mov, .wmv, .avi, .mpg, .ogv, .3gp, .3g2
+
+To add more you can use a plugin, or filters. This post is a good resource for doing it with filters: [Change WordPress Upload Mime Types](http://www.paulund.co.uk/change-wordpress-upload-mime-types).
+
+= Can I link to external downloads? =
+
+Yes, you can use both local paths and external URLs.
+
+= My Download links 404 =
+
+Download links are powered by endpoints. If you find them 404'ing, go to Settings > Permalinks and save. This will flush the permalinks and allow our endpoints to be added.
+
+= Download counts are not increasing when I download something =
+
+Admin hits are not counted, log out and try!
 
 == Screenshots ==
 
-[todo]
+1. The main admin screen lists your downloads using familiar WordPress UI.
+2. Easily add file information and multiple versions.
+3. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
+4. Display regular download links or fancy ones all using shortcodes and templates.
 
 == Changelog ==
 
-= 4.0 =
+= 1.0.0 =
+* Complete rewrite of the plugin making use of custom post types and other best practices. Fresh start version '1' to prevent auto-updates (legacy importer needs to be used to migrate from old versions).
 
-* Complete rewrite making use of custom post types and other best practices.
+== Upgrade Notice ==
+
+= 1.0.0 =
+To update from legacy versions use the legacy importer](http://mikejolley.com/projects/download-monitor/add-ons/legacy-importer/).
