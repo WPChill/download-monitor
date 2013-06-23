@@ -68,6 +68,7 @@ class WP_DLM {
 		register_activation_hook( __FILE__, 'flush_rewrite_rules', 11 );
 
 		// Actions
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
 		add_action( 'init', array( $this, 'init_taxonomy' ) );
@@ -77,6 +78,20 @@ class WP_DLM {
 		add_action( 'wp_footer', array( $this, 'output_inline_js' ), 25 );
 		add_action( 'admin_footer', array( $this, 'output_inline_js' ), 25 );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+	}
+
+	/**
+	 * Add links to admin plugins page.
+	 * @param  array $links
+	 * @return array
+	 */
+	public function plugin_links( $links ) {
+		$plugin_links = array(
+			'<a href="' . admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '">' . __( 'Settings', 'download_monitor' ) . '</a>',
+			'<a href="http://mikejolley.com/projects/download-monitor/add-ons/">' . __( 'Add-ons', 'download_monitor' ) . '</a>',
+			'<a href="https://github.com/mikejolley/download-monitor/wiki">' . __( 'Docs', 'download_monitor' ) . '</a>',
+		);
+		return array_merge( $plugin_links, $links );
 	}
 
 	/**
