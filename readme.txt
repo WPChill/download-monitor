@@ -108,6 +108,9 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.0.1 =
+* Update blockui
+
 = 1.0.0 =
 * Complete rewrite of the plugin making use of custom post types and other best practices. Fresh start version '1' to prevent auto-updates (legacy importer needs to be used to migrate from old versions).
 

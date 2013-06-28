@@ -3,7 +3,7 @@
 Plugin Name: Download Monitor
 Plugin URI: http://mikejolley.com/projects/download-monitor/
 Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-Version: 1.0.0
+Version: 1.0.1
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 Requires at least: 3.5
