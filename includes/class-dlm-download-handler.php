@@ -192,8 +192,15 @@ class DLM_Download_Handler {
 		if ( strstr( $file_path, 'http:' ) || strstr( $file_path, 'https:' ) || strstr( $file_path, 'ftp:' ) ) {
 			$remote_file = true;
 		} else {
-			$remote_file = false;
-			$file_path   = realpath( current( explode( '?', $file_path ) ) );
+			$remote_file    = false;
+			$real_file_path = realpath( current( explode( '?', $file_path ) ) );
+
+			if ( ! empty( $real_file_path ) )
+				$file_path = $real_file_path;
+
+			// See if we need to add abspath if this is a relative URL
+			if ( ! file_exists( $file_path ) && file_exists( ABSPATH . $file_path ) )
+				$file_path = ABSPATH . $file_path;
 		}
 
 		// Get Mime Type
