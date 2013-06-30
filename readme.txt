@@ -108,7 +108,7 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
-= 1.0.2
+= 1.0.2 =
 * Only use wp_remote_head to get fielsize on remote files. Prevents timeouts when a file doesn't exist.
 * If a filesize cannot be found, set to -1 to prevent re-tries.
 * Insert button added to all CPT except downloads.
