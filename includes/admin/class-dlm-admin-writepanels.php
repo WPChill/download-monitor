@@ -412,14 +412,14 @@ class DLM_Admin_Writepanels {
 				if ( ! isset( $downloadable_file_id[ $i ] ) )
 					continue;
 
-				$file_id 			= absint( $downloadable_file_id[ $i ] );
-				$file_menu_order 	= absint( $downloadable_file_menu_order[ $i ] );
-				$file_version 		= sanitize_text_field( $downloadable_file_version[ $i ] );
-				$file_date_hour 	= absint( $downloadable_file_date_hour[ $i ] );
-				$file_date_minute 	= absint( $downloadable_file_date_minute[ $i ] );
-				$file_date 			= sanitize_text_field( $downloadable_file_date[ $i ] );
-				$file_download_count			= sanitize_text_field( $downloadable_file_download_count[ $i ] );
-				$files 				= array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
+				$file_id             = absint( $downloadable_file_id[ $i ] );
+				$file_menu_order     = absint( $downloadable_file_menu_order[ $i ] );
+				$file_version        = sanitize_text_field( $downloadable_file_version[ $i ] );
+				$file_date_hour      = absint( $downloadable_file_date_hour[ $i ] );
+				$file_date_minute    = absint( $downloadable_file_date_minute[ $i ] );
+				$file_date           = sanitize_text_field( $downloadable_file_date[ $i ] );
+				$file_download_count = sanitize_text_field( $downloadable_file_download_count[ $i ] );
+				$files               = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
 
 				if ( ! $file_id )
 					continue;
@@ -446,17 +446,11 @@ class DLM_Admin_Writepanels {
 				update_post_meta( $file_id, '_version', $file_version );
 				update_post_meta( $file_id, '_files', $files );
 
-				$filesize = null;
-				$url      = current( $files );
+				$filesize       = -1;
+				$main_file_path = current( $files );
 
-				if ( file_exists( $url ) && ( $filesize = filesize( $url ) ) )
-					$filesize = $filesize;
-				else {
-					$file = wp_remote_head( $url );
-
-					if ( ! is_wp_error( $file ) && ! empty( $file['headers']['content-length'] ) )
-						$filesize = $file['headers']['content-length'];
-				}
+				if ( $main_file_path )
+					$filesize = $download_monitor->get_filesize( $main_file_path );
 
 				update_post_meta( $file_id, '_filesize', $filesize );
 

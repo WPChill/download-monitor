@@ -3,7 +3,7 @@
 Plugin Name: Download Monitor
 Plugin URI: http://mikejolley.com/projects/download-monitor/
 Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-Version: 1.0.1
+Version: 1.0.2
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 Requires at least: 3.5
@@ -526,6 +526,60 @@ class WP_DLM {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Gets the filesize of a path or URL.
+	 *
+	 * @access public
+	 * @return string size on success, -1 on failure
+	 */
+	public function get_filesize( $file_path ) {
+		if ( $file_path ) {
+			if ( ! is_multisite() ) {
+
+				$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
+				$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
+
+			} else {
+
+				// Try to replace network url
+				$file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
+				$file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
+
+				// Try to replace upload URL
+				$upload_dir  = wp_upload_dir();
+				$file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
+			}
+
+			// See if its local or remote
+			if ( strstr( $file_path, 'http:' ) || strstr( $file_path, 'https:' ) || strstr( $file_path, 'ftp:' ) ) {
+				$remote_file = true;
+			} else {
+				$remote_file    = false;
+				$real_file_path = realpath( current( explode( '?', $file_path ) ) );
+
+				if ( ! empty( $real_file_path ) )
+					$file_path = $real_file_path;
+
+				// See if we need to add abspath if this is a relative URL
+				if ( ! file_exists( $file_path ) && file_exists( ABSPATH . $file_path ) )
+					$file_path = ABSPATH . $file_path;
+			}
+
+			if ( $remote_file ) {
+				$file = wp_remote_head( $file_path );
+
+				if ( ! is_wp_error( $file ) && ! empty( $file['headers']['content-length'] ) )
+					return $file['headers']['content-length'];
+			} else {
+				if ( file_exists( $file_path ) && ( $filesize = filesize( $file_path ) ) ) {
+					return $filesize;
+				}
+			}
+		}
+
+		return -1;
 	}
 }
 

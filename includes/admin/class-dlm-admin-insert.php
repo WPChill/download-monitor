@@ -26,7 +26,7 @@ class DLM_Admin_Insert {
 	public function media_buttons( $editor_id = 'content' ) {
 		global $download_monitor, $post;
 
-		if ( ! isset( $post->post_type ) || ! in_array( $post->post_type, array( 'post', 'page' ) ) )
+		if ( ! isset( $post->post_type ) || in_array( $post->post_type, array( 'dlm_download' ) ) )
 			return;
 
 		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download_monitor' ) . '">' . __( 'Insert Download', 'download_monitor' ) . '</a>';
@@ -126,19 +126,7 @@ class DLM_Admin_Insert {
 					// Meta
 					update_post_meta( $file_id, '_version', $version );
 					update_post_meta( $file_id, '_files', array( $url ) );
-
-					$filesize = null;
-
-					if ( file_exists( $url ) && ( $filesize = filesize( $url ) ) )
-						$filesize = $filesize;
-					else {
-						$file = wp_remote_head( $url );
-
-						if ( ! is_wp_error( $file ) && ! empty( $file['headers']['content-length'] ) )
-							$filesize = $file['headers']['content-length'];
-					}
-
-					update_post_meta( $file_id, '_filesize', $filesize );
+					update_post_meta( $file_id, '_filesize', $download_monitor->get_filesize( $url ) );
 
 					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download_monitor' ) . '</p></div>';
 

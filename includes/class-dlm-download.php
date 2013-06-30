@@ -308,7 +308,7 @@ class DLM_Download {
 	public function get_the_filesize() {
 		$filesize   = $this->get_file_version()->filesize;
 
-		if ( $filesize )
+		if ( $filesize > 0 )
 			return size_format( $filesize );
 	}
 

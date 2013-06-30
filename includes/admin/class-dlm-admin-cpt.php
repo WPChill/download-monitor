@@ -226,9 +226,12 @@ class DLM_Admin_CPT {
 
 			break;
 			case "file" :
-				if ( $file )
-					echo '<code>' . $file->filename . '</code>';
-				else
+				if ( $file ) {
+					echo '<code>' . $file->filename;
+					if ( $size = $download->get_the_filesize() )
+						echo ' &ndash; ' . $size;
+					echo '</code>';
+				} else
 					echo '<span class="na">&ndash;</span>';
 			break;
 			case "version" :
