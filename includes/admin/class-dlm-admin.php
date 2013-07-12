@@ -225,8 +225,8 @@ class DLM_Admin {
 
 			    <h2 class="nav-tab-wrapper">
 			    	<?php
-			    		foreach ( $this->settings as $section ) {
-			    			echo '<a href="#settings-' . sanitize_title( $section[0] ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
+			    		foreach ( $this->settings as $key => $section ) {
+			    			echo '<a href="#settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
 			    		}
 			    	?>
 			    </h2><br/>
@@ -237,9 +237,9 @@ class DLM_Admin {
 						echo '<div class="updated fade"><p>' . __( 'Settings successfully saved', 'download_monitor' ) . '</p></div>';
 					}
 
-					foreach ( $this->settings as $section ) {
+					foreach ( $this->settings as $key => $section ) {
 
-						echo '<div id="settings-' . sanitize_title( $section[0] ) . '" class="settings_panel">';
+						echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
 
 						echo '<table class="form-table">';
 
