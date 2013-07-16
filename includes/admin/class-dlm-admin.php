@@ -186,6 +186,11 @@ class DLM_Admin {
 	public function admin_enqueue_scripts( $hook ) {
 		global $download_monitor, $post;
 
+		wp_enqueue_style( 'download_monitor_menu_css', $download_monitor->plugin_url() . '/assets/css/menu.css' );
+
+		if ( $hook == 'index.php' )
+			wp_enqueue_style( 'download_monitor_dashboard_css', $download_monitor->plugin_url() . '/assets/css/dashboard.css' );
+
 		$enqueue = false;
 
 		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' )

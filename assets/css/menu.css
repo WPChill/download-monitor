@@ -1,0 +1,12 @@
+/* Menu */
+#adminmenu #menu-posts-dlm_download div.wp-menu-image {
+  background: transparent url(../images/menu_icon.png) no-repeat 1px -28px;
+  height: 23px;
+}
+#adminmenu #menu-posts-dlm_download.wp-menu-open div.wp-menu-image,
+#adminmenu #menu-posts-dlm_download:hover div.wp-menu-image {
+  background-position: 1px 0;
+}
+#adminmenu #menu-posts-dlm_download img {
+  display: none;
+}
