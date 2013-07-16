@@ -20,7 +20,7 @@ class DLM_Download_Version {
 		$this->url      = current( $this->mirrors );
 		$this->filename = current( explode( '?', basename( $this->url ) ) );
 		$this->filetype = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
-		$this->version  = get_post_meta( $this->id, '_version', true );
+		$this->version  = strtolower( get_post_meta( $this->id, '_version', true ) );
 		$this->download_count     = get_post_meta( $this->id, '_download_count', true );
 		$this->filesize = get_post_meta( $this->id, '_filesize', true );
 

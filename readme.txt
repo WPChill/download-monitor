@@ -112,6 +112,7 @@ Admin hits are not counted, log out and try!
 * Fix config page to work with multibyte tab names.
 * Japanese locale by hide92795
 * Admin CSS/script conditonally loaded
+* Versions are now strtolower to be compatible with version_compare and to standardise numbers.
 
 = 1.0.2 =
 * Only use wp_remote_head to get fielsize on remote files. Prevents timeouts when a file doesn't exist.

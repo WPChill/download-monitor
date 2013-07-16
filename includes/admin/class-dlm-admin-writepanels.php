@@ -414,7 +414,7 @@ class DLM_Admin_Writepanels {
 
 				$file_id             = absint( $downloadable_file_id[ $i ] );
 				$file_menu_order     = absint( $downloadable_file_menu_order[ $i ] );
-				$file_version        = sanitize_text_field( $downloadable_file_version[ $i ] );
+				$file_version        = strtolower( sanitize_text_field( $downloadable_file_version[ $i ] ) );
 				$file_date_hour      = absint( $downloadable_file_date_hour[ $i ] );
 				$file_date_minute    = absint( $downloadable_file_date_minute[ $i ] );
 				$file_date           = sanitize_text_field( $downloadable_file_date[ $i ] );
