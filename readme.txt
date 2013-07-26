@@ -108,6 +108,10 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.0.4 =
+* Tweak admin page detection to work when no downloads exist.
+* Fix dashboard widget warning
+
 = 1.0.3 =
 * Fix config page to work with multibyte tab names.
 * Japanese locale by hide92795

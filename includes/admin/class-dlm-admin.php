@@ -194,7 +194,7 @@ class DLM_Admin {
 		$enqueue = false;
 
 		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' )
-			if ( 'dlm_download' === $post->post_type )
+			if ( ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == 'dlm_download' ) || ( ! empty( $post->post_type ) && 'dlm_download' === $post->post_type ) )
 				$enqueue = true;
 
 		if ( strstr( $hook, 'dlm_download_page' ) )

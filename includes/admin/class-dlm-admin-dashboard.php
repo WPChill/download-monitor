@@ -49,8 +49,10 @@ class DLM_Admin_Dashboard {
 
     	$download_ids = get_posts( $args );
 
-    	if ( empty( $download_ids ) )
+    	if ( empty( $download_ids ) ) {
     		echo '<p>' . __( 'There are no stats available yet!', 'download_monitor' ) . '</p>';
+    		return;
+    	}
 
     	$downloads    = array();
 
@@ -58,8 +60,8 @@ class DLM_Admin_Dashboard {
     		$downloads[ $download_id ] = get_post_meta( $download_id, '_download_count', true );
     	}
 
-    	$max_count = max( $downloads );
-
+    	if ( $downloads )
+    		$max_count = max( $downloads );
     	?>
     	<table class="download_chart" cellpadding="0" cellspacing="0">
     		<thead>
@@ -70,7 +72,7 @@ class DLM_Admin_Dashboard {
     		</thead>
 			<tbody>
 				<?php
-			    	foreach ( $downloads as $download_id => $count ) {
+			    	if ( $downloads ) foreach ( $downloads as $download_id => $count ) {
 				    	$download = new DLM_Download( $download_id );
 
 				    	$width = $count / ( $max_count ? $max_count : 1 ) * 67;
