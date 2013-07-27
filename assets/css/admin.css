@@ -1,7 +1,4 @@
 /* Logs */
-#dlm_logs .tablenav.top {
-  display: none;
-}
 #dlm_logs td {
   padding: 7px 7px;
   vertical-align: middle;

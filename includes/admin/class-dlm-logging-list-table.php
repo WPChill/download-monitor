@@ -12,13 +12,20 @@ class DLM_Logging_List_Table extends WP_List_Table {
      * @access public
      */
     function __construct(){
-        global $status, $page;
+        global $status, $page, $wpdb;
 
         parent::__construct( array(
             'singular'  => 'log',
             'plural'    => 'logs',
             'ajax'      => false
         ) );
+
+        $this->filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
+        $this->logs_per_page = ! empty( $_REQUEST['logs_per_page'] ) ? intval( $_REQUEST['logs_per_page'] ) : 25;
+        $this->filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
+
+        if ( $this->logs_per_page < 1 )
+            $this->logs_per_page = 9999999999999;
     }
 
     /**
@@ -124,6 +131,64 @@ class DLM_Logging_List_Table extends WP_List_Table {
     }
 
     /**
+     * Generate the table navigation above or below the table
+     */
+    public function display_tablenav( $which ) {
+        ?>
+        <div class="tablenav <?php echo esc_attr( $which ); ?>">
+            <?php if ( 'top' == $which ) : ?>
+                <div class="alignleft actions">
+                    <select name="filter_status">
+                        <option value=""><?php _e( 'Any status', 'download_monitor' ); ?></option>
+                        <option value="failed" <?php selected( $this->filter_status, 'failed' ); ?>><?php _e( 'Failed', 'download_monitor' ); ?></option>
+                        <option value="redirected" <?php selected( $this->filter_status, 'redirected' ); ?>><?php _e( 'Redirected', 'download_monitor' ); ?></option>
+                        <option value="completed" <?php selected( $this->filter_status, 'completed' ); ?>><?php _e( 'Completed', 'download_monitor' ); ?></option>
+                    </select>
+                    <select name="filter_month">
+                        <option value=""><?php _e( 'Any month', 'download_monitor' ); ?></option>
+                        <?php
+                            global $wpdb;
+
+                            $oldest = $wpdb->get_var(
+                                "SELECT download_date FROM {$wpdb->download_log}
+                                WHERE type = 'download'
+                                ORDER BY download_date ASC
+                                LIMIT 1"
+                            );
+                            $month = current_time( 'timestamp' );
+
+                            if ( $oldest )
+                                $oldest_month = strtotime( $oldest );
+                            else
+                                $oldest_month = $month;
+
+                            do {
+                                echo '<option value="' . date( 'Y-m', $month ) . '" ' . selected( date( 'Y-m', $month ), $this->filter_month, false ). '>' . date_i18n( 'F Y', $month ) . '</option>';
+                                $month = strtotime( '-1 Month', $month );
+                            } while ( $month >= $oldest_month );
+                        ?>
+                    </select>
+                    <select name="logs_per_page">
+                        <option value="25"><?php _e( '25 per page', 'download_monitor' ); ?></option>
+                        <option value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php _e( '50 per page', 'download_monitor' ); ?></option>
+                        <option value="100" <?php selected( $this->logs_per_page, 100 ) ?>><?php _e( '100 per page', 'download_monitor' ); ?></option>
+                        <option value="200" <?php selected( $this->logs_per_page, 200 ) ?>><?php _e( '200 per page', 'download_monitor' ); ?></option>
+                        <option value="-1" <?php selected( $this->logs_per_page, -1 ) ?>><?php _e( 'Show All', 'download_monitor' ); ?></option>
+                    </select>
+                    <input type="hidden" name="post_type" value="dlm_download" />
+                    <input type="hidden" name="page" value="download-monitor-logs" />
+                    <input type="submit" value="<?php _e( 'Filter', 'download_monitor' ); ?>" class="button" />
+                </div>
+            <?php endif; ?>
+            <?php
+                    $this->extra_tablenav( $which );
+                    $this->pagination( $which );
+            ?>
+            <br class="clear" />
+        </div><?php
+    }
+
+    /**
      * prepare_items function.
      *
      * @access public
@@ -132,7 +197,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
     function prepare_items() {
         global $wpdb;
 
-        $per_page     = 40;
+        $per_page     = $this->logs_per_page;
         $current_page = $this->get_pagenum();
 
         // Init headers
@@ -148,8 +213,14 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	        $wpdb->prepare(
 	        	"SELECT * FROM {$wpdb->download_log}
 	        	WHERE type = 'download'
+                " . ( $this->filter_status ? "AND download_status = '%s'" : "%s" ) . "
+                " . ( $this->filter_month ? "AND download_date >= '%s'" : "%s" ) . "
+                " . ( $this->filter_month ? "AND download_date <= '%s'" : "%s" ) . "
 	        	ORDER BY download_date DESC
 	        	LIMIT %d, %d",
+                ( $this->filter_status ? $this->filter_status : "" ),
+                ( $this->filter_month ? date( 'Y-m-01', strtotime( $this->filter_month ) ) : "" ),
+                ( $this->filter_month ? date( 'Y-m-t', strtotime( $this->filter_month ) ) : "" ),
 	        	( $current_page - 1 ) * $per_page,
 	        	$per_page
 	        )

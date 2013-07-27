@@ -358,7 +358,7 @@ class DLM_Admin {
 	    <div class="wrap">
 	        <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
-	        <h2><?php _e( 'Download Logs', 'download_monitor' ); ?> <a href="<?php echo admin_url( '?dlm_download_logs=true' ); ?>" class="add-new-h2"><?php _e( 'Export CSV', 'download_monitor' ); ?></a></h2><br/>
+	        <h2><?php _e( 'Download Logs', 'download_monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm_download_logs', 'true' ); ?>" class="add-new-h2"><?php _e( 'Export CSV', 'download_monitor' ); ?></a></h2><br/>
 	        <form id="dlm_logs">
 	        	<?php $DLM_Logging_List_Table->display() ?>
 	        </form>
@@ -378,17 +378,31 @@ class DLM_Admin {
 		if ( empty( $_GET['dlm_download_logs'] ) )
 			return;
 
+		$filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
+        $filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
+
 		$items = $wpdb->get_results(
-	    	"SELECT * FROM {$wpdb->download_log}
-	    	WHERE type = 'download'
-	    	ORDER BY download_date DESC"
+			$wpdb->prepare(
+		    	"SELECT * FROM {$wpdb->download_log}
+		    	WHERE type = 'download'
+		    	" . ( $filter_status ? "AND download_status = '%s'" : "%s" ) . "
+	            " . ( $filter_month ? "AND download_date >= '%s'" : "%s" ) . "
+	            " . ( $filter_month ? "AND download_date <= '%s'" : "%s" ) . "
+		    	ORDER BY download_date DESC",
+	    		( $filter_status ? $filter_status : "" ),
+                ( $filter_month ? date( 'Y-m-01', strtotime( $filter_month ) ) : "" ),
+                ( $filter_month ? date( 'Y-m-t', strtotime( $filter_month ) ) : "" )
+            )
         );
 
         $rows   = array();
         $row    = array();
         $row[]  = __( 'Download ID', 'download_monitor' );
         $row[]  = __( 'Version ID', 'download_monitor' );
+        $row[]  = __( 'Filename', 'download_monitor' );
         $row[]  = __( 'User ID', 'download_monitor' );
+        $row[]  = __( 'User Login', 'download_monitor' );
+        $row[]  = __( 'User Email', 'download_monitor' );
         $row[]  = __( 'User IP', 'download_monitor' );
         $row[]  = __( 'User Agent', 'download_monitor' );
         $row[]  = __( 'Date', 'download_monitor' );
@@ -400,7 +414,28 @@ class DLM_Admin {
 				$row    = array();
 				$row[]  = $item->download_id;
 				$row[]  = $item->version_id;
+
+				$download = new DLM_Download( $item->download_id );
+        		$download->set_version( $item->version_id );
+
+        		if ( $download->exists() && $download->get_the_filename() )
+        			$row[]  = $download->get_the_filename();
+        		else
+        			$row[]  = '-';
+
 				$row[]  = $item->user_id;
+
+				if ( $item->user_id )
+        			$user = get_user_by( 'id', $item->user_id );
+
+        		if ( ! isset( $user ) || ! $user ) {
+	        		$row[]  = '-';
+	        		$row[]  = '-';
+        		} else {
+        			$row[]  = $user->user_login;
+	        		$row[]  = $user->user_email;
+        		}
+
 				$row[]  = $item->user_ip;
 				$row[]  = $item->user_agent;
 				$row[]  = $item->download_date;

@@ -110,7 +110,9 @@ Admin hits are not counted, log out and try!
 
 = 1.0.4 =
 * Tweak admin page detection to work when no downloads exist.
-* Fix dashboard widget warning
+* Fix dashboard widget warning.
+* Add filters to logs and export csv function.
+* Added extra columns to CSV.
 
 = 1.0.3 =
 * Fix config page to work with multibyte tab names.
