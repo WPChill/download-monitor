@@ -144,30 +144,44 @@ class DLM_Logging_List_Table extends WP_List_Table {
                         <option value="redirected" <?php selected( $this->filter_status, 'redirected' ); ?>><?php _e( 'Redirected', 'download_monitor' ); ?></option>
                         <option value="completed" <?php selected( $this->filter_status, 'completed' ); ?>><?php _e( 'Completed', 'download_monitor' ); ?></option>
                     </select>
-                    <select name="filter_month">
-                        <option value=""><?php _e( 'Any month', 'download_monitor' ); ?></option>
-                        <?php
-                            global $wpdb;
 
-                            $oldest = $wpdb->get_var(
-                                "SELECT download_date FROM {$wpdb->download_log}
-                                WHERE type = 'download'
-                                ORDER BY download_date ASC
-                                LIMIT 1"
-                            );
-                            $month = current_time( 'timestamp' );
+<?php                  
+		global $wpdb, $wp_locale;
 
-                            if ( $oldest )
-                                $oldest_month = strtotime( $oldest );
-                            else
-                                $oldest_month = $month;
+		$months = $wpdb->get_results( "
+			SELECT DISTINCT YEAR( download_date ) AS year, MONTH( download_date ) AS month
+			FROM {$wpdb->download_log}
+			WHERE type = 'download'
+			ORDER BY download_date DESC
+		"
+		);
 
-                            do {
-                                echo '<option value="' . date( 'Y-m', $month ) . '" ' . selected( date( 'Y-m', $month ), $this->filter_month, false ). '>' . date_i18n( 'F Y', $month ) . '</option>';
-                                $month = strtotime( '-1 Month', $month );
-                            } while ( $month >= $oldest_month );
-                        ?>
-                    </select>
+		$month_count = count( $months );
+
+		if ( !$month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
+			return;
+
+		$m = isset( $_GET['filter_month'] ) ? $_GET['filter_month'] : 0;
+?>
+		<select name="filter_month">
+			<option<?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
+<?php
+		foreach ( $months as $arc_row ) {
+			if ( 0 == $arc_row->year )
+				continue;
+
+			$month = zeroise( $arc_row->month, 2 );
+			$year = $arc_row->year;
+
+			printf( "<option %s value='%s'>%s</option>\n",
+				selected( $m, $year . '-' . $month, false ),
+				esc_attr( $year . '-' . $month ),
+				
+				sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+			);
+		}     
+ ?>           
+ 	</select>
                     <select name="logs_per_page">
                         <option value="25"><?php _e( '25 per page', 'download_monitor' ); ?></option>
                         <option value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php _e( '50 per page', 'download_monitor' ); ?></option>
@@ -199,14 +213,23 @@ class DLM_Logging_List_Table extends WP_List_Table {
 
         $per_page     = $this->logs_per_page;
         $current_page = $this->get_pagenum();
+        $filter_status = $this->filter_status;
+        $filter_month = date("m", strtotime( $this->filter_month ) );
+        $filter_year = date("Y", strtotime( $this->filter_month ) );
 
         // Init headers
         $this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
 
         // Total Count of Logs
-        $total_items = $wpdb->get_var(
-	        "SELECT COUNT( ID ) FROM {$wpdb->download_log} WHERE type = 'download'"
+        $total_items = $wpdb->get_results(
+	        "SELECT * FROM {$wpdb->download_log}
+	        WHERE type = 'download'
+                " . ( $this->filter_status ? "AND download_status = '{$filter_status}'" : "" ) . "
+                " . ( $this->filter_month ? "AND  MONTH(download_date) = {$filter_month}" : "" ) . "
+                " . ( $this->filter_month ? "AND  YEAR(download_date) = {$filter_year}" : "" ) . "
+		"
         );
+        $total_items = count( $total_items );
 
         // Get Logs
         $this->items = $wpdb->get_results(
@@ -227,7 +250,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
         );
 
         // Pagination
-		$this->set_pagination_args( array(
+	$this->set_pagination_args( array(
             'total_items' => $total_items,
             'per_page'    => $per_page,
             'total_pages' => ceil( $total_items / $per_page )
