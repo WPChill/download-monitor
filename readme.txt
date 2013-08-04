@@ -110,6 +110,7 @@ Admin hits are not counted, log out and try!
 
 = 1.0.5 =
 * When do_not_force is enabled, still replace abspath with home_url
+* Exclude dlm_download from search and disable query var
 
 = 1.0.4 =
 * Tweak admin page detection to work when no downloads exist.

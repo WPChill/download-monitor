@@ -327,10 +327,10 @@ class WP_DLM {
 					'read_post' 			=> 'manage_downloads'
 				),
 				'publicly_queryable' 	=> false,
-				'exclude_from_search' 	=> false,
+				'exclude_from_search' 	=> true,
 				'hierarchical' 			=> false,
 				'rewrite' 				=> false,
-				'query_var' 			=> true,
+				'query_var' 			=> false,
 				'supports' 				=> apply_filters( 'dlm_cpt_dlm_download_supports', array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields' ) ),
 				'has_archive' 			=> false,
 				'show_in_nav_menus' 	=> false
