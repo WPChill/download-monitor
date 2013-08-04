@@ -108,6 +108,9 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.0.5 =
+* When do_not_force is enabled, still replace abspath with home_url
+
 = 1.0.4 =
 * Tweak admin page detection to work when no downloads exist.
 * Fix dashboard widget warning.

@@ -167,6 +167,8 @@ class DLM_Download_Handler {
 			if ( function_exists( 'dlm_create_log' ) )
 				dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
+			$file_path = str_replace( ABSPATH, site_url( '/', 'http' ), $file_path );
+
 			header( 'Location: ' . $file_path );
 			exit;
 		}
