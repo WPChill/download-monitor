@@ -168,7 +168,7 @@ class DLM_Admin_CPT {
 		$columns["cb"] 				= "<input type=\"checkbox\" />";
 		$columns["thumb"] 			= __("Image", 'download_monitor');
 		$columns["title"] 			= __("Title", 'download_monitor');
-		$columns["id"] 				= __("ID", 'download_monitor');
+		$columns["download_id"] 	= __("ID", 'download_monitor');
 		$columns["file"] 			= __("File", 'download_monitor');
 		$columns["version"] 		= __("Version", 'download_monitor');
 		$columns["download_cat"] 	= __("Categories", 'download_monitor');
@@ -200,7 +200,7 @@ class DLM_Admin_CPT {
 			case "thumb" :
 				echo $download->get_the_image();
 			break;
-			case "id" :
+			case "download_id" :
 				echo $post->ID;
 			break;
 			case "download_cat" :
@@ -263,7 +263,7 @@ class DLM_Admin_CPT {
 	 */
 	public function sortable_columns( $columns ) {
 		$custom = array(
-			'id'             => 'id',
+			'download_id'    => 'download_id',
 			'download_count' => 'download_count',
 			'featured'       => 'featured',
 			'members_only'   => 'members_only',
@@ -280,7 +280,7 @@ class DLM_Admin_CPT {
 	 */
 	public function sort_columns( $vars ) {
 		if ( isset( $vars['orderby'] ) ) {
-			if ( 'id' == $vars['orderby'] )
+			if ( 'download_id' == $vars['orderby'] )
 				$vars['orderby'] = 'ID';
 
 			elseif ( 'download_count' == $vars['orderby'] )

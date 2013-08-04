@@ -221,7 +221,7 @@ table.wp-list-table .column-dlm_download_tag,
 table.wp-list-table .column-file {
   width: 11% !important;
 }
-table.wp-list-table .column-id,
+table.wp-list-table .column-download_id,
 table.wp-list-table .column-version {
   width: 6%;
 }
