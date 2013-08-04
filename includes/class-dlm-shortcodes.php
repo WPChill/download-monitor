@@ -195,23 +195,24 @@ class DLM_Shortcodes {
 
 		extract( shortcode_atts( array(
 			// Query args
-			'per_page' 		=> '-1', // -1 = no limit
-		  	'orderby'   	=> 'title', // title, rand, ID, none, date, modifed, post__in, download_count
-		  	'order'     	=> 'desc', // ASC or DESC
-		  	'include'       => '', // Comma separate IDS
-		  	'exclude'       => '', // Comma separate IDS
-		  	'offset'        => '',
-		  	'category'      => '', // Comma separate slugs
-		  	'tag'           => '', // Comma separate slugs
-		  	'featured'      => false, // Set to true to only pull featured downloads
-		  	'members_only'  => false, // Set to true to only pull member downloads
+			'per_page'                  => '-1', // -1 = no limit
+			'orderby'                   => 'title', // title, rand, ID, none, date, modifed, post__in, download_count
+			'order'                     => 'desc', // ASC or DESC
+			'include'                   => '', // Comma separate IDS
+			'exclude'                   => '', // Comma separate IDS
+			'offset'                    => '',
+			'category'                  => '', // Comma separate slugs
+			'category_include_children' => true, // Set to false to not include child categories
+			'tag'                       => '', // Comma separate slugs
+			'featured'                  => false, // Set to true to only pull featured downloads
+			'members_only'              => false, // Set to true to only pull member downloads
 
-		  	// Output args
-		  	'template'        => get_option( 'dlm_default_template' ),
-		  	'loop_start'    => '<ul class="dlm-downloads">',
-		  	'loop_end'      => '</ul>',
-		  	'before'        => '<li>',
-		  	'after'         => '</li>'
+			// Output args
+			'template'                  => get_option( 'dlm_default_template' ),
+			'loop_start'                => '<ul class="dlm-downloads">',
+			'loop_end'                  => '</ul>',
+			'before'                    => '<li>',
+			'after'                     => '</li>'
 		), $atts ) );
 
 		$post__in     = ! empty( $include ) ? explode( ',', $include ) : '';
@@ -264,9 +265,10 @@ class DLM_Shortcodes {
 
 		  	if ( ! empty( $categories ) ) {
 			  	$args['tax_query'][] = array(
-			  		'taxonomy' => 'dlm_download_category',
-					'field'    => 'slug',
-					'terms'    => $categories
+					'taxonomy'         => 'dlm_download_category',
+					'field'            => 'slug',
+					'terms'            => $categories,
+					'include_children' => $category_include_children
 			  	);
 		  	}
 
