@@ -179,7 +179,7 @@ class DLM_Shortcodes {
 			case 'tags' :
 				return get_the_term_list( $id, 'dlm_download_tags', '', ', ', '' );
 			case 'categories' :
-				return get_the_term_list( $id, 'dlm_download_categories', '', ', ', '' );
+				return get_the_term_list( $id, 'dlm_download_category', '', ', ', '' );
 		}
 	}
 
