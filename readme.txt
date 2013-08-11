@@ -108,6 +108,8 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.0.6 =
+* Hide taxonomies from nav menus
 * Fix categories in download_data method.
 
 = 1.0.5 =
