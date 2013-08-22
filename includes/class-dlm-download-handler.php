@@ -72,6 +72,9 @@ class DLM_Download_Handler {
 	public function handler() {
 		global $wp, $wpdb;
 
+		// Prevent conflict with WP Super Cache
+		define( 'DONOTCACHEPAGE', true );
+
 		if ( ! empty( $_GET[ $this->endpoint ] ) )
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
 
