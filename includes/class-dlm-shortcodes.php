@@ -58,7 +58,7 @@ class DLM_Shortcodes {
 	 * @param mixed $atts
 	 * @return void
 	 */
-	public function download( $atts ) {
+	public function download( $atts, $content = '' ) {
 		global $download_monitor, $dlm_download;
 
 		extract( shortcode_atts( array(
@@ -74,40 +74,64 @@ class DLM_Shortcodes {
 		if ( empty( $id ) )
 			return;
 
-	  	ob_start();
+	  	// If we have content, wrap in a link only
+	  	if ( $content ) {
 
-		$downloads = new WP_Query( array(
-	    	'post_type'      => 'dlm_download',
-	    	'posts_per_page' => 1,
-	    	'no_found_rows'  => 1,
-	    	'post_status'    => 'publish',
-	    	'p'              => $id
-	  	) );
+	  		$download = new DLM_Download( $id );
 
-		if ( $downloads->have_posts() ) {
+	  		if ( $download->exists() ) {
 
-			while ( $downloads->have_posts() ) {
-				$downloads->the_post();
-
-				if ( $version )
+		  		if ( $version )
 					$version_id = $dlm_download->get_version_id( $version );
 
 				if ( $version_id )
 					$dlm_download->set_version( $version_id );
 
-				$download_monitor->get_template_part( 'content-download', $template );
+				return '<a href="' . $download->get_the_download_link() . '">' . $content . '</a>';
+
+			} else {
+				return '[' . __( 'Download not found', 'download_monitor' ) . ']';
+			}
+	  	}
+
+	  	// If there is no content, get the template part
+	  	else {
+
+	  		ob_start();
+
+			$downloads = new WP_Query( array(
+		    	'post_type'      => 'dlm_download',
+		    	'posts_per_page' => 1,
+		    	'no_found_rows'  => 1,
+		    	'post_status'    => 'publish',
+		    	'p'              => $id
+		  	) );
+
+			if ( $downloads->have_posts() ) {
+
+				while ( $downloads->have_posts() ) {
+					$downloads->the_post();
+
+					if ( $version )
+						$version_id = $dlm_download->get_version_id( $version );
+
+					if ( $version_id )
+						$dlm_download->set_version( $version_id );
+
+					$download_monitor->get_template_part( 'content-download', $template );
+				}
+
+			} else {
+				echo '[' . __( 'Download not found', 'download_monitor' ) . ']';
 			}
 
-		} else {
-			echo '[' . __( 'Download not found', 'download_monitor' ) . ']';
-		}
+			wp_reset_postdata();
 
-		wp_reset_postdata();
-
-		if ( $autop === 'true' || $autop === true )
-			return wpautop( ob_get_clean() );
-		else
-			return ob_get_clean();
+			if ( $autop === 'true' || $autop === true )
+				return wpautop( ob_get_clean() );
+			else
+				return ob_get_clean();
+	  	}
 	}
 
 	/**
