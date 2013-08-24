@@ -20,16 +20,16 @@ class DLM_Category_Walker extends Walker {
 	 * @param int $depth Depth of category in reference to parents.
 	 * @param array $args
 	 */
-	function start_el( $output, $cat, $depth, $args ) {
+	function start_el( &$output, $object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 
 		if ( ! empty( $args['hierarchical'] ) )
 			$pad = str_repeat('&nbsp;', $depth * 3);
 		else
 			$pad = '';
 
-		$cat_name = apply_filters( 'list_product_cats', $cat->name, $cat );
+		$cat_name = apply_filters( 'list_product_cats', $object->name, $object );
 
-		$value = isset( $args['value'] ) && $args['value'] == 'id' ? $cat->term_id : $cat->slug;
+		$value = isset( $args['value'] ) && $args['value'] == 'id' ? $object->term_id : $object->slug;
 
 		$output .= "\t<option class=\"level-$depth\" value=\"" . $value . "\"";
 
@@ -41,7 +41,7 @@ class DLM_Category_Walker extends Walker {
 		$output .= $pad . __( $cat_name, 'download_monitor' );
 
 		if ( ! empty( $args['show_count'] ) )
-			$output .= '&nbsp;(' . $cat->count . ')';
+			$output .= '&nbsp;(' . $object->count . ')';
 
 		$output .= "</option>\n";
 	}
