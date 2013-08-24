@@ -227,10 +227,10 @@ class DLM_Admin_CPT {
 			break;
 			case "file" :
 				if ( $file ) {
-					echo '<code>' . $file->filename;
+					echo '<a href="' . $download->get_the_download_link() . '"><code>' . $file->filename;
 					if ( $size = $download->get_the_filesize() )
 						echo ' &ndash; ' . $size;
-					echo '</code>';
+					echo '</code></a>';
 				} else
 					echo '<span class="na">&ndash;</span>';
 			break;
