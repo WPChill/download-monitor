@@ -121,7 +121,7 @@ class DLM_Download_Handler {
 				wp_redirect( $redirect );
 
 			else
-				wp_die( __( 'Download does not exist.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ) );
+				wp_die( __( 'Download does not exist.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
 
 			die('1');
 		}
@@ -154,7 +154,7 @@ class DLM_Download_Handler {
 				wp_redirect( $redirect );
 
 			else
-				wp_die( __( 'You do not have permission to access this download.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ) );
+				wp_die( __( 'You do not have permission to access this download.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 200 ) );
 
 			exit;
 		}
@@ -295,7 +295,7 @@ class DLM_Download_Handler {
         	if ( function_exists( 'dlm_create_log' ) )
         		dlm_create_log( 'download', 'failed', __( 'File not found', 'download_monitor' ), $download, $version );
 
-	        wp_die( __( 'File not found.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ) );
+	        wp_die( __( 'File not found.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
         }
 
         exit;
