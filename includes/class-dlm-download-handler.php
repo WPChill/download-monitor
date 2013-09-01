@@ -72,13 +72,13 @@ class DLM_Download_Handler {
 	public function handler() {
 		global $wp, $wpdb;
 
-		// Prevent conflict with WP Super Cache
-		define( 'DONOTCACHEPAGE', true );
-
 		if ( ! empty( $_GET[ $this->endpoint ] ) )
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
 
 		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) ) {
+
+			// Prevent caching when endpoint is set
+			define( 'DONOTCACHEPAGE', true );
 
 			// Get ID of download
 			$raw_id = sanitize_title( stripslashes( $wp->query_vars[ $this->endpoint ] ) );
