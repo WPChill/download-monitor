@@ -110,7 +110,7 @@ Admin hits are not counted, log out and try!
 
 = 1.1.2 =
 * HTTPS headers for IE fix
-* Swedish and Italian locales
+* Italian locale
 
 = 1.1.1 =
 * Specify error statuses on wp_die messages e.g. 404 for missing files.
