@@ -135,6 +135,7 @@ class DLM_Download_Handler {
 	 * @return void
 	 */
 	private function trigger( $download ) {
+		global $is_IE;
 
 		$version    = $download->get_file_version();
 		$file_paths = $version->mirrors;
@@ -233,10 +234,13 @@ class DLM_Download_Handler {
 		@ini_set( 'zlib.output_compression', 'Off' );
 		@ob_end_clean();
 
-		if ( ob_get_level() )
-			@ob_end_clean(); // Zip corruption fix
-
-		nocache_headers();
+		if ( $is_IE && is_ssl() ) {
+			// IE bug prevents download via SSL when Cache Control and Pragma no-cache headers set.
+			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
+			header( 'Cache-Control: private' );
+		} else {
+			nocache_headers();
+		}
 
 		$file_name = basename( $file_path );
 
