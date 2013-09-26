@@ -64,6 +64,12 @@ class DLM_Admin_Writepanels {
 			<span class="description">' . __( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download_monitor' ) . '</span>
 		</p>';
 
+		echo '<p class="form-field form-field-checkbox">
+			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( get_post_meta( $thepostid, '_redirect_only', true ), 'yes', false ) . ' />
+			<label for="_redirect_only">' . __( 'Redirect to file', 'download_monitor' ) . '</label>
+			<span class="description">' . __( 'Don\'t force download. If the <code>dlm_upload</code> folder is protected you may need to move your file.', 'download_monitor' ) . '</span>
+		</p>';
+
 		do_action( 'dlm_options_end', $thepostid );
 
 		echo '</div>';
@@ -389,9 +395,11 @@ class DLM_Admin_Writepanels {
 		// Update options
 		$_featured = ( isset( $_POST['_featured'] ) ) ? 'yes' : 'no';
 		$_members_only = ( isset( $_POST['_members_only'] ) ) ? 'yes' : 'no';
+		$_redirect_only = ( isset( $_POST['_redirect_only'] ) ) ? 'yes' : 'no';
 
 		update_post_meta( $post_id, '_featured', $_featured );
 		update_post_meta( $post_id, '_members_only', $_members_only );
+		update_post_meta( $post_id, '_redirect_only', $_redirect_only );
 
 		$total_download_count = 0;
 

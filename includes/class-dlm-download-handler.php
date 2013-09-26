@@ -167,7 +167,7 @@ class DLM_Download_Handler {
 		do_action( 'dlm_downloading', $download, $version );
 
 		// Redirect to the file...
-		if ( apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
+		if ( $download->redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 			if ( function_exists( 'dlm_create_log' ) )
 				dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 

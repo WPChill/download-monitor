@@ -109,6 +109,7 @@ Admin hits are not counted, log out and try!
 == Changelog ==
 
 = 1.2.0 =
+* Option to redirect to files only (do not force)
 * Fixed textdomains
 * HU translation by Győző Farkas
 * Fix dlm_upload folder when not using month/day upload folders.

@@ -47,6 +47,9 @@ class DLM_Download {
 		elseif ( 'featured' == $key )
 			$value = ( $value = get_post_meta( $this->id, '_featured', true ) ) ? $value : 'no';
 
+		elseif ( 'redirect_only' == $key )
+			$value = ( $value = get_post_meta( $this->id, '_redirect_only', true ) ) ? $value : 'no';
+
 		else
 			$value = get_post_meta( $this->id, '_' . $key, true );
 
@@ -411,6 +414,16 @@ class DLM_Download {
 	 */
 	function is_members_only() {
 		return ( $this->members_only == 'yes' ) ? true : false;
+	}
+
+	/**
+	 * redirect_only function.
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	function redirect_only() {
+		return ( $this->redirect_only == 'yes' ) ? true : false;
 	}
 
 	/**

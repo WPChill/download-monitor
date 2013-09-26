@@ -103,6 +103,7 @@ class DLM_Admin_Insert {
 					// Meta
 					update_post_meta( $download_id, '_featured', 'no' );
 					update_post_meta( $download_id, '_members_only', 'no' );
+					update_post_meta( $download_id, '_redirect_only', 'no' );
 					update_post_meta( $download_id, '_download_count', 0 );
 
 					// File
