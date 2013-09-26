@@ -181,7 +181,6 @@ class WP_DLM {
 
 	    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	    // WooCommerce Tables
 	    $dlm_tables = "
 	CREATE TABLE {$wpdb->download_log} (
 	  ID bigint(20) NOT NULL auto_increment,

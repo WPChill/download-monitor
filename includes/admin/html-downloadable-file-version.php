@@ -18,7 +18,7 @@
 					<label><?php _e( 'File URL(s)', 'download_monitor' ); ?>:</label>
 					<textarea name="downloadable_file_urls[<?php echo $i; ?>]" wrap="off" class="downloadable_file_urls" cols="5" rows="5" placeholder="<?php _e( 'Enter one file path/URL per line - multiple files will be used as mirrors (chosen at random).', 'download_monitor' ); ?>"><?php echo esc_textarea( implode( "\n", $file_urls ) ); ?></textarea>
 					<p>
-						<a href="#" class="button dlm_upload_file" data-choose="<?php _e( 'Choose a file', 'woocommerce' ); ?>" data-update="<?php _e( 'Insert file URL', 'woocommerce' ); ?>"><?php _e( 'Upload file', 'download_monitor' ); ?></a>
+						<a href="#" class="button dlm_upload_file" data-choose="<?php _e( 'Choose a file', 'download_monitor' ); ?>" data-update="<?php _e( 'Insert file URL', 'download_monitor' ); ?>"><?php _e( 'Upload file', 'download_monitor' ); ?></a>
 						<a href="#" class="button browse_for_file"><?php _e( 'Browse for file', 'download_monitor' ); ?></a>
 					</p>
 
