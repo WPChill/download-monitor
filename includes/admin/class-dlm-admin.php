@@ -65,10 +65,17 @@ class DLM_Admin {
 	public function upload_dir( $pathdata ) {
 
 		if ( isset( $_POST['type'] ) && $_POST['type'] == 'dlm_download' ) {
-			$subdir             = '/dlm_uploads' . $pathdata['subdir'];
-		 	$pathdata['path']   = str_replace( $pathdata['subdir'], $subdir, $pathdata['path'] );
-		 	$pathdata['url']    = str_replace( $pathdata['subdir'], $subdir, $pathdata['url'] );
-			$pathdata['subdir'] = str_replace( $pathdata['subdir'], $subdir, $pathdata['subdir'] );
+			if ( empty( $pathdata['subdir'] ) ) {
+				$pathdata['path']   = $pathdata['path'] . '/dlm_uploads';
+				$pathdata['url']    = $pathdata['url']. '/dlm_uploads';
+				$pathdata['subdir'] = '/dlm_uploads';
+			} else {
+				$new_subdir = '/dlm_uploads' . $pathdata['subdir'];
+
+				$pathdata['path']   = str_replace( $pathdata['subdir'], $new_subdir, $pathdata['path'] );
+				$pathdata['url']    = str_replace( $pathdata['subdir'], $new_subdir, $pathdata['url'] );
+				$pathdata['subdir'] = str_replace( $pathdata['subdir'], $new_subdir, $pathdata['subdir'] );
+			}
 		}
 
 		return $pathdata;
