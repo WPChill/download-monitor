@@ -101,7 +101,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				return $user_string;
 			break;
 			case 'user_ip' :
-				return '<a href="http://whois.arin.net/rest/net/NET-' . $log->user_ip . '" target="_blank">' . $log->user_ip . '</a>';
+				return '<a href="http://whois.arin.net/rest/ip/' . $log->user_ip . '" target="_blank">' . $log->user_ip . '</a>';
 			break;
 			case 'user_ua' :
 				$ua = $this->uaparser->parse( $log->user_agent );
