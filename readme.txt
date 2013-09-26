@@ -114,6 +114,8 @@ Admin hits are not counted, log out and try!
 * HU translation by Győző Farkas
 * Fix dlm_upload folder when not using month/day upload folders.
 * Fix IP lookup
+* Resumable download support
+* Tweaked download handler
 
 = 1.1.2 =
 * HTTPS headers for IE fix

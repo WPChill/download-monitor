@@ -210,7 +210,7 @@ class DLM_Download_Handler {
 		}
 
 		// Get Mime Type
-		$mime_type       = "application/force-download";
+		$mime_type = "application/octet-stream";
 
 		foreach ( get_allowed_mime_types() as $mime => $type ) {
 			$mimes = explode( '|', $mime );
@@ -220,7 +220,13 @@ class DLM_Download_Handler {
 			}
 		}
 
-		// HEADERS
+		// Get file name
+		$file_name = basename( $file_path );
+
+		if ( strstr( $file_name, '?' ) )
+			$file_name = current( explode( '?', $file_name ) );
+
+		// Environment
 		if ( ! ini_get('safe_mode') )
 			@set_time_limit(0);
 
@@ -232,8 +238,10 @@ class DLM_Download_Handler {
 
 		@session_write_close();
 		@ini_set( 'zlib.output_compression', 'Off' );
+		@error_reporting(0);
 		@ob_end_clean();
 
+		// Headers
 		if ( $is_IE && is_ssl() ) {
 			// IE bug prevents download via SSL when Cache Control and Pragma no-cache headers set.
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
@@ -242,40 +250,38 @@ class DLM_Download_Handler {
 			nocache_headers();
 		}
 
-		$file_name = basename( $file_path );
-
-		if ( strstr( $file_name, '?' ) )
-			$file_name = current( explode( '?', $file_name ) );
-
 		header( "Robots: none" );
 		header( "Content-Type: " . $mime_type );
-		header( "Content-Description: File Transfer" );
 		header( "Content-Disposition: attachment; filename=\"" . $file_name . "\";" );
 		header( "Content-Transfer-Encoding: binary" );
 
-        if ( $version->filesize )
+        if ( $version->filesize ) {
         	header( "Content-Length: " . $version->filesize );
+			header( "Accept-Ranges: bytes" );
+        }
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
-
          	if ( getcwd() )
          		$file_path = trim( preg_replace( '`^' . getcwd() . '`' , '', $file_path ), '/' );
 
-            header( "Content-Disposition: attachment; filename=\"" . $file_name . "\";" );
-
             if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
+
             	if ( function_exists( 'dlm_create_log' ) )
             		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
             	header("X-Sendfile: $file_path");
             	exit;
+
             } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
+
             	if ( function_exists( 'dlm_create_log' ) )
             		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
-            	header( "X-Lighttpd-Sendfile: $file_path" );
+            	header( "X-LIGHTTPD-send-file: $file_path" );
             	exit;
+
             } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
+
             	if ( function_exists( 'dlm_create_log' ) )
             		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
@@ -284,24 +290,48 @@ class DLM_Download_Handler {
             }
         }
 
-        if ( $this->readfile_chunked( $file_path ) ) {
+        // multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
+		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->filesize ) {
+			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'],2 );
+			list( $range ) = explode( ",",$range, 2 );
+			list( $range, $range_end ) = explode( "-", $range );
+			$range = intval( $range );
+
+			if ( ! $range_end ) {
+				$range_end = $version->filesize - 1;
+			} else {
+				$range_end = intval( $range_end );
+			}
+
+			$new_length = $range_end - $range + 1;
+
+			header( "HTTP/1.1 206 Partial Content" );
+			header( "Content-Length: $new_length" );
+			header( "Content-Range: bytes {$range}-{$range_end}/{$version->filesize}" );
+		} else {
+			$range = false;
+		}
+
+        if ( $this->readfile_chunked( $file_path, $range ) ) {
+
 	        // Complete!
 	        if ( function_exists( 'dlm_create_log' ) )
 	        	dlm_create_log( 'download', 'completed', '', $download, $version );
 
         } elseif ( $remote_file ) {
+
 	        // Redirect - we can't track if this completes or not
-	       if ( function_exists( 'dlm_create_log' ) )
+	    	if ( function_exists( 'dlm_create_log' ) )
 	        	dlm_create_log( 'download', 'redirected', __( 'Redirected to remote file.', 'download_monitor' ), $download, $version );
 
 	        header( 'Location: ' . $file_path );
+
         } else {
         	if ( function_exists( 'dlm_create_log' ) )
         		dlm_create_log( 'download', 'failed', __( 'File not found', 'download_monitor' ), $download, $version );
 
 	        wp_die( __( 'File not found.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
         }
-
         exit;
 	}
 
@@ -312,24 +342,25 @@ class DLM_Download_Handler {
 	 *
 	 * @access   public
 	 * @param    string    file
-	 * @param    boolean    return bytes of file
+	 * @param    boolean   return bytes of file
+	 * @param    range if  HTTP RANGE to seek
 	 * @return   void
 	 */
-	public function readfile_chunked( $file, $retbytes = true ) {
-
+	public function readfile_chunked( $file, $retbytes = true, $range = false ) {
 		$chunksize = 1 * ( 1024 * 1024 );
-		$buffer = '';
-		$cnt = 0;
+		$buffer    = '';
+		$cnt       = 0;
+		$handle    = fopen( $file, 'r' );
 
-		$handle = @fopen( $file, 'r' );
 		if ( $handle === false )
 			return false;
+
+		if ( $range )
+			fseek( $handle, $range );
 
 		while ( ! feof( $handle ) ) {
 			$buffer = fread( $handle, $chunksize );
 			echo $buffer;
-			ob_flush();
-			flush();
 
 			if ( $retbytes )
 				$cnt += strlen( $buffer );
