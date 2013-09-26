@@ -421,17 +421,7 @@ class DLM_Download {
 	 */
 	function get_file_version_ids() {
 		if ( ! is_array( $this->file_version_ids ) ) {
-
-			$this->file_version_ids = array();
-
-			$transient_name = 'dlm_children_ids_' . $this->id;
-
-        	if ( false === ( $this->file_version_ids = get_transient( $transient_name ) ) ) {
-
-		        $this->file_version_ids = get_posts( 'post_parent=' . $this->id . '&post_type=dlm_download_version&orderby=menu_order&order=ASC&fields=ids&post_status=publish&numberposts=-1' );
-
-				set_transient( $transient_name, $this->file_version_ids );
-			}
+			$this->file_version_ids = get_posts( 'post_parent=' . $this->id . '&post_type=dlm_download_version&orderby=menu_order&order=ASC&fields=ids&post_status=publish&numberposts=-1' );
 		}
 
 		return $this->file_version_ids;

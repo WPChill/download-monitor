@@ -465,9 +465,6 @@ class DLM_Admin_Writepanels {
 
 		// Sync download_count
 		update_post_meta( $post_id, '_download_count', $total_download_count );
-
-		// Clear transients
-		delete_transient( 'dlm_children_ids_' . $post_id );
 	}
 }
 
