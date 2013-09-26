@@ -108,6 +108,10 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+* Fixed textdomains
+* HU translation by Győző Farkas
+* Fix dlm_upload folder when not using month/day upload folders.
+
 = 1.1.2 =
 * HTTPS headers for IE fix
 * Italian locale
