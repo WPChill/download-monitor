@@ -239,7 +239,7 @@ class DLM_Download_Handler {
 		@session_write_close();
 		@ini_set( 'zlib.output_compression', 'Off' );
 		@error_reporting(0);
-		@ob_end_clean();
+		while ( ob_get_level() > 0 ) @ob_end_clean(); // http://stackoverflow.com/questions/5441784/why-does-ob-startob-gzhandler-break-this-website
 
 		// Headers
 		if ( $is_IE && is_ssl() ) {
