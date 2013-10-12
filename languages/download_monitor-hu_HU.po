@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Download Monitor v1.1.1 HU\n"
+"Project-Id-Version: Download Monitor v1.2.0 HU\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-09-23 16:32+0100\n"
+"PO-Revision-Date: 2013-10-06 19:34+0100\n"
 "Last-Translator: FYGureout <webmester@konyvelozona.hu>\n"
 "Language-Team: FYGureout <wpfordito@wpforditas.farkasonline.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 # @ download_monitor
-#: download-monitor.php:90 includes/admin/class-dlm-admin.php:206
+#: download-monitor.php:90 includes/admin/class-dlm-admin.php:226
 msgid "Settings"
 msgstr "Beállítások"
 
@@ -86,119 +86,119 @@ msgid "New Download Category Name"
 msgstr "Új letöltési kategória neve"
 
 # @ download_monitor
-#: download-monitor.php:269 download-monitor.php:271
+#: download-monitor.php:270 download-monitor.php:272
 #: includes/admin/class-dlm-admin-cpt.php:175
 msgid "Tags"
 msgstr "Letöltés címke"
 
 # @ download_monitor
-#: download-monitor.php:272
+#: download-monitor.php:273
 msgid "Download Tag"
 msgstr "Letöltés címke"
 
 # @ download_monitor
-#: download-monitor.php:273
+#: download-monitor.php:274
 msgid "Search Download Tags"
 msgstr "Keresés a letöltési címkék között"
 
 # @ download_monitor
-#: download-monitor.php:274
+#: download-monitor.php:275
 msgid "All Download Tags"
 msgstr "Összes letöltés-címke"
 
 # @ download_monitor
-#: download-monitor.php:275
+#: download-monitor.php:276
 msgid "Parent Download Tag"
 msgstr "Szülő letöltési címke"
 
 # @ download_monitor
-#: download-monitor.php:276
+#: download-monitor.php:277
 msgid "Parent Download Tag:"
 msgstr "Szülő letöltési címke:"
 
 # @ download_monitor
-#: download-monitor.php:277
+#: download-monitor.php:278
 msgid "Edit Download Tag"
 msgstr "Letöltési címke szerkesztése"
 
 # @ download_monitor
-#: download-monitor.php:278
+#: download-monitor.php:279
 msgid "Update Download Tag"
 msgstr "Letöltési címke frissítése"
 
 # @ download_monitor
-#: download-monitor.php:279
+#: download-monitor.php:280
 msgid "Add New Download Tag"
 msgstr "Új letöltési címke"
 
 # @ download_monitor
-#: download-monitor.php:280
+#: download-monitor.php:281
 msgid "New Download Tag Name"
 msgstr "Új letöltési címke neve:"
 
 # @ download_monitor
-#: download-monitor.php:300
+#: download-monitor.php:302
 msgid "Downloads"
 msgstr "Letöltés"
 
 # @ download_monitor
-#: download-monitor.php:301 includes/admin/class-dlm-admin-dashboard.php:67
-#: includes/admin/class-dlm-logging-list-table.php:116
+#: download-monitor.php:303 includes/admin/class-dlm-admin-dashboard.php:69
+#: includes/admin/class-dlm-logging-list-table.php:123
 msgid "Download"
 msgstr "Letöltés"
 
 # @ download_monitor
-#: download-monitor.php:302
+#: download-monitor.php:304
 msgid "Add New"
 msgstr "Új létrehozása"
 
 # @ download_monitor
-#: download-monitor.php:303
+#: download-monitor.php:305
 msgid "Add Download"
 msgstr "Letöltés hozzáadása"
 
 # @ download_monitor
-#: download-monitor.php:304
+#: download-monitor.php:306
 msgid "Edit"
 msgstr "Szerkesztés"
 
 # @ download_monitor
-#: download-monitor.php:305
+#: download-monitor.php:307
 msgid "Edit Download"
 msgstr "Letöltés szerkesztése"
 
 # @ download_monitor
-#: download-monitor.php:306
+#: download-monitor.php:308
 msgid "New Download"
 msgstr "Új letöltés"
 
 # @ download_monitor
-#: download-monitor.php:307 download-monitor.php:308
+#: download-monitor.php:309 download-monitor.php:310
 msgid "View Download"
 msgstr "Letöltés megtekintése"
 
 # @ download_monitor
-#: download-monitor.php:309
+#: download-monitor.php:311
 msgid "Search Downloads"
 msgstr "Letöltés keresése"
 
 # @ download_monitor
-#: download-monitor.php:310
+#: download-monitor.php:312
 msgid "No Downloads found"
-msgstr "NEM TALÁLHATÓ LETÖLTÉS"
+msgstr "Nem található letöltés"
 
 # @ download_monitor
-#: download-monitor.php:311
+#: download-monitor.php:313
 msgid "No Downloads found in trash"
 msgstr "Nem található letöltés a lomtárban"
 
 # @ download_monitor
-#: download-monitor.php:312
+#: download-monitor.php:314
 msgid "Parent Download"
 msgstr "Letöltés szülő"
 
 # @ download_monitor
-#: download-monitor.php:314
+#: download-monitor.php:316
 msgid "This is where you can create and manage downloads for your site."
 msgstr ""
 "Ez az a rész, ahol a honlapunkhoz létrehozhatunk és kezelhetünk letöltéseket."
@@ -254,7 +254,7 @@ msgstr "Letöltés elküldve"
 #: includes/admin/class-dlm-admin-cpt.php:148
 #, php-format
 msgid "Download scheduled for: <strong>%1$s</strong>."
-msgstr "Download geplant für: <strong>%1$s</strong>."
+msgstr "<strong>%1$s</strong> letöltés ütemezve."
 
 # @ download_monitor
 #: includes/admin/class-dlm-admin-cpt.php:149
@@ -264,7 +264,7 @@ msgstr "Y-m-d  H:i"
 # @ download_monitor
 #: includes/admin/class-dlm-admin-cpt.php:150
 msgid "Download draft updated."
-msgstr "Download Entwurf aktualisiert."
+msgstr "Letöltés vázlat frissítve."
 
 # @ download_monitor
 #: includes/admin/class-dlm-admin-cpt.php:169
@@ -285,13 +285,13 @@ msgstr "ID"
 
 # @ download_monitor
 #: includes/admin/class-dlm-admin-cpt.php:172
-#: includes/admin/class-dlm-logging-list-table.php:117
+#: includes/admin/class-dlm-logging-list-table.php:124
 msgid "File"
 msgstr "Fájl"
 
 # @ download_monitor
 #: includes/admin/class-dlm-admin-cpt.php:173
-#: includes/admin/class-dlm-admin-insert.php:211
+#: includes/admin/class-dlm-admin-insert.php:196
 #: includes/admin/html-downloadable-file-version.php:13
 msgid "Version"
 msgstr "verzió"
@@ -328,62 +328,62 @@ msgid "There are no stats available yet!"
 msgstr "Még nem érhető el statisztikai adat."
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-dashboard.php:68
+#: includes/admin/class-dlm-admin-dashboard.php:70
 #: includes/admin/html-downloadable-file-version.php:29
 #: includes/widgets/class-dlm-widget-downloads.php:176
 msgid "Download count"
-msgstr "letöltés számlálás"
+msgstr "Letöltés számlálás"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:32
-#: includes/admin/class-dlm-admin-insert.php:40
-#: includes/admin/class-dlm-admin-insert.php:71
+#: includes/admin/class-dlm-admin-insert.php:29
+#: includes/admin/class-dlm-admin-insert.php:37
+#: includes/admin/class-dlm-admin-insert.php:68
 msgid "Insert Download"
 msgstr "Letöltés beillesztése"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:81
-#: includes/admin/class-dlm-admin-insert.php:182
+#: includes/admin/class-dlm-admin-insert.php:78
+#: includes/admin/class-dlm-admin-insert.php:167
 msgid "Insert Shortcode"
 msgstr "Rövidkód beillesztése"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:81
+#: includes/admin/class-dlm-admin-insert.php:78
 msgid "Quick-add download"
 msgstr "Gyors letöltés hozzáadás"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:124
+#: includes/admin/class-dlm-admin-insert.php:121
 msgid "Error: File was not created."
 msgstr "Hiba: Nem hozható létre a fájl."
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:143
+#: includes/admin/class-dlm-admin-insert.php:128
 msgid "Download successfully created."
 msgstr "A letöltés sikeresen létrehozva."
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:145
+#: includes/admin/class-dlm-admin-insert.php:130
 msgid "Error: Download was not created."
 msgstr "Hiba: A letöltés nem hozható létre."
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:163
+#: includes/admin/class-dlm-admin-insert.php:148
 msgid "Choose a download"
 msgstr "Válasszunk ki egy letöltést"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:175
+#: includes/admin/class-dlm-admin-insert.php:160
 msgid "Template"
 msgstr "Sablonminta"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:176
+#: includes/admin/class-dlm-admin-insert.php:161
 msgid "Template Name"
 msgstr "Sablonminta neve"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:178
+#: includes/admin/class-dlm-admin-insert.php:163
 #: includes/admin/class-dlm-admin.php:94
 msgid ""
 "Leaving this blank will use the default <code>content-download.php</code> "
@@ -396,63 +396,63 @@ msgstr ""
 "helyette használatba kerülni."
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:193
+#: includes/admin/class-dlm-admin-insert.php:178
 msgid "Drop file here"
-msgstr "Húzzuk ide a fájltDatei hier ablegen"
+msgstr "Húzzuk ide a fájlt"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:194
-#: includes/admin/class-dlm-admin-insert.php:196
+#: includes/admin/class-dlm-admin-insert.php:179
+#: includes/admin/class-dlm-admin-insert.php:181
 msgid "or"
-msgstr "vagyoder"
+msgstr "vagy"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:195
+#: includes/admin/class-dlm-admin-insert.php:180
 msgid "Select File"
-msgstr "Válasszunk egy fájltDatei auswählen"
+msgstr "Válasszunk egy fájlt"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:197
+#: includes/admin/class-dlm-admin-insert.php:182
 msgid "Enter URL manually"
 msgstr "URL megadása kézzel"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:203
+#: includes/admin/class-dlm-admin-insert.php:188
 msgid "Download URL"
 msgstr "Letöltési URL"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:204
+#: includes/admin/class-dlm-admin-insert.php:189
 msgid "Required URL"
 msgstr "Kötelező URL"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:207
+#: includes/admin/class-dlm-admin-insert.php:192
 msgid "Download Title"
 msgstr "Letöltés neve"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:208
+#: includes/admin/class-dlm-admin-insert.php:193
 msgid "Required title"
 msgstr "Kötelező cím"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:212
+#: includes/admin/class-dlm-admin-insert.php:197
 msgid "Optional version number"
 msgstr "Verziószám (opcionális)"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:215
+#: includes/admin/class-dlm-admin-insert.php:200
 msgid "Save Download"
 msgstr "Letöltés mentése"
 
 # @ default
-#: includes/admin/class-dlm-admin-insert.php:273
+#: includes/admin/class-dlm-admin-insert.php:258
 msgid "Allowed Files"
 msgstr "Engedélyezett fájlok"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin-insert.php:323
+#: includes/admin/class-dlm-admin-insert.php:308
 msgid "Please wait..."
 msgstr "Kis türelmet kérünk..."
 
@@ -586,7 +586,7 @@ msgstr ""
 
 # @ download_monitor
 #: includes/admin/class-dlm-admin.php:115
-#: includes/admin/class-dlm-admin.php:369
+#: includes/admin/class-dlm-admin.php:400
 msgid "Download ID"
 msgstr "Letöltés ID"
 
@@ -657,97 +657,97 @@ msgid "List browser user agents to blacklist, 1 per line."
 msgstr "Lista a felhasználói ügynök feketelistához, soronként egy cím."
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:204
+#: includes/admin/class-dlm-admin.php:224
 msgid "Logs"
 msgstr "Napló"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:237
+#: includes/admin/class-dlm-admin.php:257
 msgid "Settings successfully saved"
 msgstr "A beállítások sikeresen mentésre kerültek."
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:304
+#: includes/admin/class-dlm-admin.php:324
 msgid "Save Changes"
 msgstr "Módosítások mentlése"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:341
+#: includes/admin/class-dlm-admin.php:361
 msgid "Download Logs"
 msgstr "Letöltési napló"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:341
+#: includes/admin/class-dlm-admin.php:361
 msgid "Export CSV"
 msgstr "Exprt CSV formában"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:370
+#: includes/admin/class-dlm-admin.php:401
 msgid "Version ID"
 msgstr "Verzió-ID"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:371
+#: includes/admin/class-dlm-admin.php:403
 msgid "User ID"
 msgstr "Felhasználó ID"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:372
+#: includes/admin/class-dlm-admin.php:406
 msgid "User IP"
 msgstr "Felhasználó IP"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:373
-#: includes/admin/class-dlm-logging-list-table.php:120
+#: includes/admin/class-dlm-admin.php:407
+#: includes/admin/class-dlm-logging-list-table.php:127
 msgid "User Agent"
 msgstr "Felhasználói azonosító ügynök"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:374
-#: includes/admin/class-dlm-logging-list-table.php:121
+#: includes/admin/class-dlm-admin.php:408
+#: includes/admin/class-dlm-logging-list-table.php:128
 msgid "Date"
 msgstr "Dátum"
 
 # @ download_monitor
-#: includes/admin/class-dlm-admin.php:375
+#: includes/admin/class-dlm-admin.php:409
 msgid "Status"
 msgstr "Állapot"
 
 # @ download_monitor
-#: includes/admin/class-dlm-logging-list-table.php:43
+#: includes/admin/class-dlm-logging-list-table.php:50
 msgid "Download Complete"
 msgstr "A letöltés befejeződött"
 
 # @ download_monitor
-#: includes/admin/class-dlm-logging-list-table.php:50
+#: includes/admin/class-dlm-logging-list-table.php:57
 #, php-format
 msgid "%s ago"
-msgstr "%s idővel ezelőtt"
+msgstr "%s telt el a letöltés óta"
 
 # @ download_monitor
-#: includes/admin/class-dlm-logging-list-table.php:57
+#: includes/admin/class-dlm-logging-list-table.php:64
 #, php-format
 msgid "Download #%d (no longer exists)"
 msgstr "Letöltés #%d (már nem létezik)"
 
 # @ download_monitor
-#: includes/admin/class-dlm-logging-list-table.php:65
+#: includes/admin/class-dlm-logging-list-table.php:72
 #, php-format
 msgid "v%s"
 msgstr "v%s"
 
 # @ download_monitor
-#: includes/admin/class-dlm-logging-list-table.php:85
+#: includes/admin/class-dlm-logging-list-table.php:92
 msgid "Non-member"
 msgstr "Nem regisztrált"
 
 # @ download_monitor
-#: includes/admin/class-dlm-logging-list-table.php:118
+#: includes/admin/class-dlm-logging-list-table.php:125
 msgid "User"
 msgstr "Felhasználó"
 
 # @ download_monitor
-#: includes/admin/class-dlm-logging-list-table.php:119
+#: includes/admin/class-dlm-logging-list-table.php:126
 msgid "IP Address"
 msgstr "IP cím"
 
@@ -823,72 +823,72 @@ msgstr "Fájl dátuma"
 # @ download_monitor
 #: includes/admin/html-downloadable-file-version.php:36
 msgid "h"
-msgstr "h"
+msgstr "ó"
 
 # @ download_monitor
 #: includes/admin/html-downloadable-file-version.php:36
 msgid "m"
-msgstr "m"
+msgstr "p"
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:121
+#: includes/class-dlm-download-handler.php:124
 msgid "Download does not exist."
 msgstr "Nem létező letöltés."
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:121
-#: includes/class-dlm-download-handler.php:140
-#: includes/class-dlm-download-handler.php:145
-#: includes/class-dlm-download-handler.php:154
-#: includes/class-dlm-download-handler.php:286
+#: includes/class-dlm-download-handler.php:124
+#: includes/class-dlm-download-handler.php:143
+#: includes/class-dlm-download-handler.php:148
+#: includes/class-dlm-download-handler.php:157
+#: includes/class-dlm-download-handler.php:298
 msgid "Go to homepage &rarr;"
 msgstr "Kezdőlap &rarr;"
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:121
-#: includes/class-dlm-download-handler.php:140
-#: includes/class-dlm-download-handler.php:145
-#: includes/class-dlm-download-handler.php:154
-#: includes/class-dlm-download-handler.php:286
+#: includes/class-dlm-download-handler.php:124
+#: includes/class-dlm-download-handler.php:143
+#: includes/class-dlm-download-handler.php:148
+#: includes/class-dlm-download-handler.php:157
+#: includes/class-dlm-download-handler.php:298
 msgid "Download Error"
 msgstr "Letöltési hiba"
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:140
-#: includes/class-dlm-download-handler.php:145
+#: includes/class-dlm-download-handler.php:143
+#: includes/class-dlm-download-handler.php:148
 msgid "No file paths defined."
 msgstr "Nincs megadva a fájl elérési útvonala"
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:154
+#: includes/class-dlm-download-handler.php:157
 msgid "You do not have permission to access this download."
 msgstr "Nincs megfelelő jogosultság ehhez a letöltéshez kapcsolódni."
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:168
-#: includes/class-dlm-download-handler.php:252
-#: includes/class-dlm-download-handler.php:258
+#: includes/class-dlm-download-handler.php:171
 #: includes/class-dlm-download-handler.php:264
+#: includes/class-dlm-download-handler.php:270
+#: includes/class-dlm-download-handler.php:276
 msgid "Redirected to file"
 msgstr "Átirányítás a fájlhoz"
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:279
+#: includes/class-dlm-download-handler.php:291
 msgid "Redirected to remote file."
 msgstr "Átirányítás a távoli fájlhoz"
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:284
+#: includes/class-dlm-download-handler.php:296
 msgid "File not found"
 msgstr "Nem található a fájl"
 
 # @ download_monitor
-#: includes/class-dlm-download-handler.php:286
+#: includes/class-dlm-download-handler.php:298
 msgid "File not found."
 msgstr "Nem található a fájl"
 
 # @ download_monitor
-#: includes/class-dlm-shortcodes.php:102
+#: includes/class-dlm-shortcodes.php:93 includes/class-dlm-shortcodes.php:125
 msgid "Download not found"
 msgstr "Nem található a letöltés"
 
@@ -900,7 +900,7 @@ msgstr "Jelenítsük meg a letöltéseink listáját."
 # @ download_monitor
 #: includes/widgets/class-dlm-widget-downloads.php:29
 msgid "Downloads List"
-msgstr "letöltési lista"
+msgstr "Letöltési lista"
 
 # @ download_monitor
 #: includes/widgets/class-dlm-widget-downloads.php:52
@@ -1007,3 +1007,79 @@ msgid "Downloaded 1 time"
 msgid_plural "Downloaded %d times"
 msgstr[0] "Letöltve 1 alkalommal"
 msgstr[1] "Letöltve %d alkalommal"
+
+# @ download_monitor
+#: includes/admin/class-dlm-admin.php:402
+msgid "Filename"
+msgstr "Fájlnév"
+
+# @ download_monitor
+#: includes/admin/class-dlm-admin.php:404
+msgid "User Login"
+msgstr "Bejelentkezés"
+
+# @ download_monitor
+#: includes/admin/class-dlm-admin.php:405
+msgid "User Email"
+msgstr "Email"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:142
+msgid "Any status"
+msgstr "Minden állapot"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:143
+msgid "Failed"
+msgstr "Hibás"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:144
+msgid "Redirected"
+msgstr "Átirányított"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:145
+msgid "Completed"
+msgstr "Komplett"
+
+# @ default
+#: includes/admin/class-dlm-logging-list-table.php:166
+msgid "Show all dates"
+msgstr "Összes dátum mutatása"
+
+# @ default
+#: includes/admin/class-dlm-logging-list-table.php:179
+#, php-format
+msgid "%1$s %2$d"
+msgstr "%1$s %2$d"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:185
+msgid "25 per page"
+msgstr "25/oldal"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:186
+msgid "50 per page"
+msgstr "50/oldal"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:187
+msgid "100 per page"
+msgstr "100/oldal"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:188
+msgid "200 per page"
+msgstr "200/oldal"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:189
+msgid "Show All"
+msgstr "Összes mutatása"
+
+# @ download_monitor
+#: includes/admin/class-dlm-logging-list-table.php:193
+msgid "Filter"
+msgstr "Szűrés"
