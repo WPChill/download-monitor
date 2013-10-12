@@ -29,6 +29,7 @@ class DLM_Admin {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 12 );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_init', array( $this, 'export_logs' ) );
+		add_action( 'admin_init', array( $this, 'delete_logs' ) );
 		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
 	}
 
@@ -96,9 +97,24 @@ class DLM_Admin {
 						array(
 							'name' 		=> 'dlm_default_template',
 							'std' 		=> '',
-							'placeholder'	=> __( '', 'download_monitor' ),
 							'label' 	=> __( 'Default Template', 'download_monitor' ),
-							'desc'		=> __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download_monitor' ) . ' ' . __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download_monitor' )
+							'desc'		=> __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download_monitor' ),
+							'type'      => 'select',
+							'options'   => array(
+								''             => __( 'Default - Title and count', 'download_monitor' ),
+								'button'       => __( 'Button - CSS styled button showing title and count', 'download_monitor' ),
+								'box'          => __( 'Box - Box showing thumbnail, title, count, filename and filesize.', 'download_monitor' ),
+								'filename'     => __( 'Filename - Filename and download count', 'download_monitor' ),
+								'title'        => __( 'Title - Shows download title only', 'download_monitor' ),
+								'version-list' => __( 'Version list - Lists all download versions in an unordered list', 'download_monitor' ),
+								'custom'       => __( 'Custom template', 'download_monitor' )
+							)
+						),
+						array(
+							'name' 		=> 'dlm_custom_template',
+							'std' 		=> '',
+							'label' 	=> __( 'Custom Template', 'download_monitor' ),
+							'desc'		=> __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download_monitor' )
 						),
 					),
 				),
@@ -342,6 +358,13 @@ class DLM_Admin {
 				jQuery(this).addClass('nav-tab-active');
 				return false;
 			});
+			jQuery('#setting-dlm_default_template').change(function(){
+				if ( jQuery(this).val() == 'custom' ) {
+					jQuery('#setting-dlm_custom_template').closest('tr').show();
+				} else {
+					jQuery('#setting-dlm_custom_template').closest('tr').hide();
+				}
+			}).change();
 
 			jQuery('.nav-tab-wrapper a:first').click();
 		");
@@ -365,7 +388,7 @@ class DLM_Admin {
 	    <div class="wrap">
 	        <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
-	        <h2><?php _e( 'Download Logs', 'download_monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm_download_logs', 'true' ); ?>" class="add-new-h2"><?php _e( 'Export CSV', 'download_monitor' ); ?></a></h2><br/>
+	        <h2><?php _e( 'Download Logs', 'download_monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm_download_logs', 'true' ); ?>" class="add-new-h2"><?php _e( 'Export CSV', 'download_monitor' ); ?></a> <a href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true' ), 'delete_logs' ); ?>" class="add-new-h2"><?php _e( 'Delete Logs', 'download_monitor' ); ?></a></h2><br/>
 	        <form id="dlm_logs">
 	        	<?php $DLM_Logging_List_Table->display() ?>
 	        </form>
@@ -374,10 +397,21 @@ class DLM_Admin {
 	}
 
 	/**
-	 * export_logs function.
-	 *
-	 * @access public
-	 * @return void
+	 * Delete logs
+	 */
+	public function delete_logs() {
+		global $wpdb;
+
+		if ( empty( $_GET['dlm_delete_logs'] ) )
+			return;
+
+		check_admin_referer( 'delete_logs' );
+
+		$wpdb->query( "DELETE FROM {$wpdb->download_log};" );
+	}
+
+	/**
+	 * export_logs function
 	 */
 	public function export_logs() {
 		global $wpdb;

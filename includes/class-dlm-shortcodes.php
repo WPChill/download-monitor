@@ -64,7 +64,7 @@ class DLM_Shortcodes {
 		extract( shortcode_atts( array(
 			'id'         => '',
 			'autop'      => false,
-			'template'   => get_option( 'dlm_default_template' ),
+			'template'   => dlm_get_default_download_template(),
 			'version_id' => '',
 			'version'    => ''
 		), $atts ) );
@@ -232,7 +232,7 @@ class DLM_Shortcodes {
 			'members_only'              => false, // Set to true to only pull member downloads
 
 			// Output args
-			'template'                  => get_option( 'dlm_default_template' ),
+			'template'                  => dlm_get_default_download_template(),
 			'loop_start'                => '<ul class="dlm-downloads">',
 			'loop_end'                  => '</ul>',
 			'before'                    => '<li>',

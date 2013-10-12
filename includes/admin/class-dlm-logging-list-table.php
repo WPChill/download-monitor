@@ -157,30 +157,30 @@ class DLM_Logging_List_Table extends WP_List_Table {
 
 						$month_count = count( $months );
 
-						if ( !$month_count || ( 1 == $month_count && 0 == $months[0]->month ) )
-							return;
+						if ( $month_count && ! ( 1 == $month_count && 0 == $months[0]->month ) ) :
+							$m = isset( $_GET['filter_month'] ) ? $_GET['filter_month'] : 0;
+							?>
+							<select name="filter_month">
+								<option <?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
+								<?php
+										foreach ( $months as $arc_row ) {
+											if ( 0 == $arc_row->year )
+												continue;
 
-						$m = isset( $_GET['filter_month'] ) ? $_GET['filter_month'] : 0;
+											$month = zeroise( $arc_row->month, 2 );
+											$year = $arc_row->year;
+
+											printf( "<option %s value='%s'>%s</option>\n",
+												selected( $m, $year . '-' . $month, false ),
+												esc_attr( $year . '-' . $month ),
+
+												sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+											);
+										}
+								 ?>
+							</select>
+						<?php endif;
 					?>
-					<select name="filter_month">
-						<option<?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
-						<?php
-								foreach ( $months as $arc_row ) {
-									if ( 0 == $arc_row->year )
-										continue;
-
-									$month = zeroise( $arc_row->month, 2 );
-									$year = $arc_row->year;
-
-									printf( "<option %s value='%s'>%s</option>\n",
-										selected( $m, $year . '-' . $month, false ),
-										esc_attr( $year . '-' . $month ),
-
-										sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
-									);
-								}
-						 ?>
-					</select>
 					<select name="logs_per_page">
 						<option value="25"><?php _e( '25 per page', 'download_monitor' ); ?></option>
 						<option value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php _e( '50 per page', 'download_monitor' ); ?></option>
