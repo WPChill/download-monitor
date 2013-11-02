@@ -88,6 +88,8 @@ class DLM_Admin_Writepanels {
 		?>
 		<div class="download_monitor_files dlm-metaboxes-wrapper">
 
+			<?php do_action( 'dlm_download_monitor_files_writepanel_start' ); ?>
+
 			<p class="toolbar">
 				<a href="#" class="button plus add_file"><?php _e('Add version', 'download_monitor'); ?></a>
 				<a href="#" class="close_all"><?php _e('Close all', 'download_monitor'); ?></a><a href="#" class="expand_all"><?php _e('Expand all', 'download_monitor'); ?></a>
@@ -111,6 +113,8 @@ class DLM_Admin_Writepanels {
 					}
 				?>
 			</div>
+
+			<?php do_action( 'dlm_download_monitor_files_writepanel_end' ); ?>
 
 		</div>
 		<?php
@@ -242,7 +246,7 @@ class DLM_Admin_Writepanels {
 			});
 
 			// Browse for file
-			jQuery('.download_monitor_files').on('click', 'a.browse_for_file', function(e){
+			jQuery('.download_monitor_files').on('click', 'a.dlm_browse_for_file', function(e){
 
 				downloadable_files_field = jQuery(this).closest('.downloadable_file').find('textarea[name^="downloadable_file_urls"]');
 

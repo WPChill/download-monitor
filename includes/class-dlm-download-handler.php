@@ -164,7 +164,7 @@ class DLM_Download_Handler {
 		$version->increase_download_count();
 
 		// Trigger Download Action
-		do_action( 'dlm_downloading', $download, $version );
+		do_action( 'dlm_downloading', $download, $version, $file_path );
 
 		// Redirect to the file...
 		if ( $download->redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {

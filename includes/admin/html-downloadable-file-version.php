@@ -18,8 +18,28 @@
 					<label><?php _e( 'File URL(s)', 'download_monitor' ); ?>:</label>
 					<textarea name="downloadable_file_urls[<?php echo $i; ?>]" wrap="off" class="downloadable_file_urls" cols="5" rows="5" placeholder="<?php _e( 'Enter one file path/URL per line - multiple files will be used as mirrors (chosen at random).', 'download_monitor' ); ?>"><?php echo esc_textarea( implode( "\n", $file_urls ) ); ?></textarea>
 					<p>
-						<a href="#" class="button dlm_upload_file" data-choose="<?php _e( 'Choose a file', 'download_monitor' ); ?>" data-update="<?php _e( 'Insert file URL', 'download_monitor' ); ?>"><?php _e( 'Upload file', 'download_monitor' ); ?></a>
-						<a href="#" class="button browse_for_file"><?php _e( 'Browse for file', 'download_monitor' ); ?></a>
+						<?php
+							$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', array(
+								'upload_file' => array(
+									'text' => __( 'Upload file', 'download_monitor' ),
+									'data' => array(
+										'choose' => __( 'Choose a file', 'download_monitor' ),
+										'update' => __( 'Insert file URL', 'download_monitor' ),
+									)
+								),
+								'browse_for_file' => array(
+									'text' => __( 'Browse for file', 'download_monitor' )
+								)
+							) );
+
+							foreach ( $buttons as $key => $button ) {
+								echo '<a href="#" class="button dlm_' . esc_attr( $key ) . '" ';
+								if ( ! empty( $button['data'] ) )
+									foreach ( $button['data'] as $data_key => $data_value )
+										echo 'data-' . esc_attr( $data_key ) . '="' . esc_attr( $data_value ) . '" ';
+								echo '>' . esc_html( $button['text'] ) . '</a> ';
+							}
+						?>
 					</p>
 
 				</td>
