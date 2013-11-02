@@ -110,12 +110,13 @@ Admin hits are not counted, log out and try!
 
 = 1.3.1 =
 * Added some new hooks
+* FR and SR_RS updates
 
 = 1.3.0 =
 * Fix 0kb downloads in some hosting enviroments
 * Added button to delete logs
 * Fixed log page when no logs are present
-* FR and HU upates
+* FR and HU updates
 * Added dropdown for the default template option to make available templates more obvious
 * Added version-list and title templates
 
