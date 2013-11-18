@@ -210,39 +210,33 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	function prepare_items() {
 		global $wpdb;
 
-		$per_page     = $this->logs_per_page;
-		$current_page = $this->get_pagenum();
+		$per_page      = $this->logs_per_page;
+		$current_page  = $this->get_pagenum();
 		$filter_status = $this->filter_status;
-		$filter_month = date("m", strtotime( $this->filter_month ) );
-		$filter_year = date("Y", strtotime( $this->filter_month ) );
+		$filter_month  = date( "m", strtotime( $this->filter_month ) );
+		$filter_year   = date( "Y", strtotime( $this->filter_month ) );
 
 		// Init headers
 		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
 
+		$query_where = " type = 'download' ";
+
+		if ( $this->filter_status )
+			$query_where .= " AND download_status = '{$filter_status}' ";
+
+		if ( $this->filter_month )
+			$query_where .= " AND download_date >= '" . date( 'Y-m-01', strtotime( $this->filter_month ) ) . "' ";
+
+		if ( $this->filter_month )
+			$query_where .= " AND download_date <= '" . date( 'Y-m-t', strtotime( $this->filter_month ) ) . "' ";
+
 		// Total Count of Logs
-		$total_items = $wpdb->get_results(
-			"SELECT * FROM {$wpdb->download_log}
-			WHERE type = 'download'
-				" . ( $this->filter_status ? "AND download_status = '{$filter_status}'" : "" ) . "
-				" . ( $this->filter_month ? "AND  MONTH(download_date) = {$filter_month}" : "" ) . "
-				" . ( $this->filter_month ? "AND  YEAR(download_date) = {$filter_year}" : "" ) . "
-		"
-		);
-		$total_items = count( $total_items );
+		$total_items = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE {$query_where};" );
 
 		// Get Logs
 		$this->items = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$wpdb->download_log}
-				WHERE type = 'download'
-				" . ( $this->filter_status ? "AND download_status = '%s'" : "%s" ) . "
-				" . ( $this->filter_month ? "AND download_date >= '%s'" : "%s" ) . "
-				" . ( $this->filter_month ? "AND download_date <= '%s'" : "%s" ) . "
-				ORDER BY download_date DESC
-				LIMIT %d, %d",
-				( $this->filter_status ? $this->filter_status : "" ),
-				( $this->filter_month ? date( 'Y-m-01', strtotime( $this->filter_month ) ) : "" ),
-				( $this->filter_month ? date( 'Y-m-t', strtotime( $this->filter_month ) ) : "" ),
+				"SELECT * FROM {$wpdb->download_log} WHERE {$query_where} ORDER BY download_date DESC LIMIT %d, %d;",
 				( $current_page - 1 ) * $per_page,
 				$per_page
 			)
