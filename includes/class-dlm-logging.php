@@ -16,6 +16,8 @@ class DLM_Logging {
 	public function create_log( $type, $status, $message, $download, $version ) {
 	  	global $wpdb;
 
+	  	$wpdb->hide_errors();
+
 		$wpdb->insert(
 			$wpdb->download_log,
 			array(
@@ -36,7 +38,7 @@ class DLM_Logging {
 				'%s',
 				'%s',
 				'%d',
-				'%s',
+				'%d',
 				'%s',
 				'%s',
 				'%s'
@@ -63,7 +65,12 @@ class DLM_Logging {
 	 * @return void
 	 */
 	private function get_user_ua() {
-		return sanitize_text_field( isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '' );
+		$ua = sanitize_text_field( isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '' );
+
+		if ( strlen( $ua ) > 200 )  
+			$ua = substr( $ua, 0, 199 );
+
+		return $ua;
 	}
 }
 
