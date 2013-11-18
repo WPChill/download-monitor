@@ -111,6 +111,9 @@ Admin hits are not counted, log out and try!
 = 1.3.2 =
 * Cleaned up log table queries
 * Tweaked download handler headers
+* Tweaked logging
+* Limit UA to 200
+* Setcookie to prevent double logging
 * Addons page (disable using add_filter( 'dlm_show_addons_page', '__return_false' ); )
 
 = 1.3.1 =
