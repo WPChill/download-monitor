@@ -160,15 +160,25 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		// Log Hit
-		$version->increase_download_count();
+		if ( empty( $_COOKIE['wp_dlm_downloading'] ) || $download->id != $_COOKIE['wp_dlm_downloading'] ) {
+			// Increase download count
+			$version->increase_download_count();
 
-		// Trigger Download Action
-		do_action( 'dlm_downloading', $download, $version, $file_path );
+			// Trigger Download Action
+			do_action( 'dlm_downloading', $download, $version, $file_path );
+
+			// Set cookie to prevent double logging
+			setcookie( 'wp_dlm_downloading', $download->id, time()+60, COOKIEPATH, COOKIE_DOMAIN, false );
+
+			// Logging
+			$this->log = function_exists( 'dlm_create_log' );
+		} else {
+			$this->log = false;
+		}
 
 		// Redirect to the file...
 		if ( $download->redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
-			if ( function_exists( 'dlm_create_log' ) )
+			if ( $this->log ) 
 				dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
 			$file_path = str_replace( ABSPATH, site_url( '/', 'http' ), $file_path );
@@ -266,7 +276,7 @@ class DLM_Download_Handler {
 
             if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
-            	if ( function_exists( 'dlm_create_log' ) )
+            	if ( $this->log ) 
             		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
             	header("X-Sendfile: $file_path");
@@ -274,7 +284,7 @@ class DLM_Download_Handler {
 
             } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-            	if ( function_exists( 'dlm_create_log' ) )
+            	if ( $this->log ) 
             		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
             	header( "X-LIGHTTPD-send-file: $file_path" );
@@ -282,7 +292,7 @@ class DLM_Download_Handler {
 
             } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-            	if ( function_exists( 'dlm_create_log' ) )
+            	if ( $this->log ) 
             		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
             	header( "X-Accel-Redirect: /$file_path" );
@@ -315,19 +325,19 @@ class DLM_Download_Handler {
         if ( $this->readfile_chunked( $file_path, $range ) ) {
 
 	        // Complete!
-	        if ( function_exists( 'dlm_create_log' ) )
+	        if ( $this->log ) 
 	        	dlm_create_log( 'download', 'completed', '', $download, $version );
 
         } elseif ( $remote_file ) {
 
 	        // Redirect - we can't track if this completes or not
-	    	if ( function_exists( 'dlm_create_log' ) )
+	    	if ( $this->log ) 
 	        	dlm_create_log( 'download', 'redirected', __( 'Redirected to remote file.', 'download_monitor' ), $download, $version );
 
 	        header( 'Location: ' . $file_path );
 
         } else {
-        	if ( function_exists( 'dlm_create_log' ) )
+        	if ( $this->log ) 
         		dlm_create_log( 'download', 'failed', __( 'File not found', 'download_monitor' ), $download, $version );
 
 	        wp_die( __( 'File not found.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
