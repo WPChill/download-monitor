@@ -247,6 +247,17 @@ class DLM_Admin {
 			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download_monitor' ), __( 'Logs', 'download_monitor' ), 'manage_options', 'download-monitor-logs', array( $this, 'log_viewer' ) );
 
 		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download_monitor' ), __( 'Settings', 'download_monitor' ), 'manage_options', 'download-monitor-settings', array( $this, 'settings_page' ) );
+
+		if ( apply_filters( 'dlm_show_addons_page', true ) )
+			add_submenu_page(  'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download_monitor' ),  __( 'Add-ons', 'download_monitor' ) , 'manage_options', 'dlm-addons', array( $this, 'addons_page' ) );
+	}
+
+	/**
+	 * Output addons page
+	 */
+	public function addons_page() {
+		$addons = include( 'class-dlm-addons.php' );
+		$addons->output();
 	}
 
 	/**
