@@ -226,7 +226,7 @@ class DLM_Download_Handler {
 		if ( strstr( $file_name, '?' ) )
 			$file_name = current( explode( '?', $file_name ) );
 
-		// Environment
+		// Environment + headers
 		if ( ! ini_get('safe_mode') )
 			@set_time_limit(0);
 
@@ -239,9 +239,8 @@ class DLM_Download_Handler {
 		@session_write_close();
 		@ini_set( 'zlib.output_compression', 'Off' );
 		@error_reporting(0);
-		while ( ob_get_level() > 0 ) @ob_end_clean(); // http://stackoverflow.com/questions/5441784/why-does-ob-startob-gzhandler-break-this-website
+		@ob_clean(); // Clear the output buffer
 
-		// Headers
 		if ( $is_IE && is_ssl() ) {
 			// IE bug prevents download via SSL when Cache Control and Pragma no-cache headers set.
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
@@ -250,8 +249,9 @@ class DLM_Download_Handler {
 			nocache_headers();
 		}
 
-		header( "Robots: none" );
+		header( "X-Robots-Tag: noindex, nofollow", true );
 		header( "Content-Type: " . $mime_type );
+		header( "Content-Description: File Transfer" );
 		header( "Content-Disposition: attachment; filename=\"" . $file_name . "\";" );
 		header( "Content-Transfer-Encoding: binary" );
 
@@ -262,7 +262,7 @@ class DLM_Download_Handler {
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
          	if ( getcwd() )
-         		$file_path = trim( preg_replace( '`^' . getcwd() . '`' , '', $file_path ), '/' );
+         		$file_path = trim( preg_replace( '`^' . str_replace( '\\', '/', getcwd() ) . '`' , '', $file_path ), '/' );
 
             if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
