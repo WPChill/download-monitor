@@ -15,7 +15,7 @@ class DLM_Admin_Dashboard {
 	 */
 	public function __construct() {
 
-		if ( ! current_user_can( 'manage_options' ) )
+		if ( ! current_user_can( 'manage_downloads' ) )
 			return;
 
 		wp_add_dashboard_widget( 'dlm_popular_downloads', __( 'Popular Downloads', 'download_monitor' ), array( $this, 'popular_downloads' ) );
