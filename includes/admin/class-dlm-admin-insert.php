@@ -60,13 +60,12 @@ class DLM_Admin_Insert {
 		// Enqueue scripts and styles for panel
 		wp_enqueue_script( 'chosen', $download_monitor->plugin_url() . '/assets/js/chosen/chosen.jquery.min.js' );
 		wp_enqueue_style( 'chosen', $download_monitor->plugin_url() . '/assets/js/chosen/chosen.css' );
-		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css' );
-
+		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		wp_enqueue_script( 'common' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
 		wp_enqueue_style( 'colors' );
-		wp_enqueue_script('plupload-all');
+		wp_enqueue_script( 'plupload-all' );
 
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Insert Download', 'download_monitor' ) . '</title><meta charset="utf-8" />';
 

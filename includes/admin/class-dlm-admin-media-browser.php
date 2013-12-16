@@ -30,11 +30,12 @@ class DLM_Admin_Media_Browser {
 
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Browse for a file', 'download_monitor' ) . '</title>';
 
+		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		do_action( 'admin_print_styles' );
 		do_action( 'admin_print_scripts' );
 		do_action( 'admin_head' );
 
-		echo '<meta charset="utf-8" /><link rel="stylesheet" type="text/css" href="' . $download_monitor->plugin_url() . '/assets/css/admin.css" /></head><body>';
+		echo '<meta charset="utf-8" /></head><body>';
 
 		echo '<ul class="download_monitor_file_browser">';
 

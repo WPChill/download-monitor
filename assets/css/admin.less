@@ -1,20 +1,19 @@
-.dash-icon {
-  font-family: "dashicons" !important;
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
- 
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  text-align: center;
- 
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
-     
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
+.iconbefore( @glyph: "\f333" ) {
+	font-family: dashicons !important;
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin: 0 4px 0 0;
+	content: @glyph;
+	top: 1px;
+	left: -1px;
+	font-size: 1em;
+	line-height: inherit;
+	position: relative;
+	vertical-align: top;
 }
 
 /* Logs */
@@ -66,11 +65,6 @@
 	}
 }
 
-/* Admin icon */
-.icon32-posts-dlm_download {
-	background: url(../images/downloads-icon.gif) no-repeat scroll -7px -5px !important;
-}
-
 /* File lists */
 ul.download_monitor_file_browser {
 	list-style: none outside;
@@ -91,45 +85,39 @@ ul.download_monitor_file_browser {
 		a {
 			color: #21759B;
 			display: block;
-			padding: 4px 0 4px 28px;
-			background: #fff url(../images/filetype_icons/document.png) no-repeat 4px center;
+			padding: 4px 0 4px 4px;
 			text-decoration: none;
 
 			&:hover {
 				background-color: #eaf2fa;
 			}
+			&:before {
+				.iconbefore( "\f123" );
+			}
+			&.folder:before { 
+				.iconbefore( "\f318" );
+			}
 
-			&.folder { background-image: url(../images/folder-horizontal.png); }
+			// Videos
+			&.filetype-mov, &.filetype-avi, &.filetype-3g2, &.filetype-3gp, &.filetype-asf, &.filetype-asx, &.filetype-mp4, &.filetype-mpg, &.filetype-rm, &.filetype-srt, &.filetype-vob, &.filetype-wmv {
+				&:before { 
+					.iconbefore( "\f126" );
+				}
+			}
 
-			&.folder_open { background-image: url(../images/folder-horizontal-open.png); }
+			// Audio
+			&.filetype-mp3, &.filetype-aif, &.filetype-iff, &.filetype-m3u, &.filetype-m4a, &.filetype-mid, &.filetype-midi, &.filetype-mpa, &.filetype-ra, &.filetype-wav, &.filetype-wma {
+				&:before { 
+					.iconbefore( "\f127" );
+				}
+			}
 
-			&.filetype-html, &.filetype-js, &.filetype-htm, &.filetype-php, &.filetype-asp, &.filetype-css { background-image: url(../images/filetype_icons/document-code.png); }
-
-			&.filetype-xlsx, &.filetype-xlsm, &.filetype-xlsb, &.filetype-xltx, &.filetype-xltm, &.filetype-xls, &.filetype-xlt { background-image: url(../images/filetype_icons/document-excel.png); }
-
-			&.filetype-mov, &.filetype-avi, &.filetype-3g2, &.filetype-3gp, &.filetype-asf, &.filetype-asx, &.filetype-mp4, &.filetype-mpg, &.filetype-rm, &.filetype-srt, &.filetype-vob, &.filetype-wmv { background-image: url(../images/filetype_icons/document-film.png); }
-
-			&.filetype-flv, &.filetype-swf { background-image: url(../images/filetype_icons/document-flash-movie.png); }
-
-			&.filetype-ai, &.filetype-eps, &.filetype-ps, &.filetype-svg { background-image: url(../images/filetype_icons/document-illustrator.png); }
-
-			&.filetype-bmp, &.filetype-dds, &.filetype-gif, &.filetype-jpg, &.filetype-jpeg, &.filetype-png, &.filetype-pspimage, &.filetype-tga, &.filetype-thm, &.filetype-tif, &.filetype-yuv, &.filetype-ico { background-image: url(../images/filetype_icons/document-image.png); }
-
-			&.filetype-mp3, &.filetype-aif, &.filetype-iff, &.filetype-m3u, &.filetype-m4a, &.filetype-mid, &.filetype-midi, &.filetype-mpa, &.filetype-ra, &.filetype-wav, &.filetype-wma { background-image: url(../images/filetype_icons/document-music.png); }
-
-			&.filetype-pdf { background-image: url(../images/filetype_icons/document-pdf.png); }
-
-			&.filetype-psd { background-image: url(../images/filetype_icons/document-photoshop.png); }
-
-			&.filetype-pps, &.filetype-ppt, &.filetype-pptx { background-image: url(../images/filetype_icons/document-powerpoint.png); }
-
-			&.filetype-rtf, &.filetype-wpd, &.filetype-wps, &.filetype-odt, &.filetype-pages { background-image: url(../images/filetype_icons/document-text-image.png); }
-
-			&.filetype-txt, &.filetype-tex, &.filetype-wps, &.filetype-odt, &.filetype-log, &.filetype-csv, &.filetype-xml { background-image: url(../images/filetype_icons/document-text.png); }
-
-			&.filetype-doc, &.filetype-docx { background-image: url(../images/filetype_icons/document-word-text.png); }
-
-			&.filetype-7z, &.filetype-zip, &.filetype-rar, &.filetype-zipx, &.filetype-sit, &.filetype-sitx, &.filetype-gz, &.filetype-tax-gz { background-image: url(../images/filetype_icons/document-zipper.png); }
+			// Images
+			&.filetype-psd, &.filetype-ai, &.filetype-eps, &.filetype-ps, &.filetype-svg, &.filetype-bmp, &.filetype-dds, &.filetype-gif, &.filetype-jpg, &.filetype-jpeg, &.filetype-png, &.filetype-pspimage, &.filetype-tga, &.filetype-thm, &.filetype-tif, &.filetype-yuv, &.filetype-ico {
+				&:before { 
+					.iconbefore( "\f128" );
+				}
+			}
 		}
 
 		&.nofiles {
@@ -167,7 +155,6 @@ table.wp-list-table {
 	.column-download_id, .column-version {
 		width: 5em;
 	}
-
 	th.column-thumb, th.column-download_count, th.column-members_only, th.column-redirect_only, th.column-featured {
 		span:first-child {
 			float: none;
@@ -177,9 +164,6 @@ table.wp-list-table {
 			line-height: 1em;
 			padding: 2px 0 0 0;
 			overflow: hidden;
-			&:before {
-				.dash-icon;
-			}
 		}
 		.sorting-indicator {
 			float: right;
@@ -190,7 +174,7 @@ table.wp-list-table {
 		text-align: center;
 		span:first-child {
 			&:before {
-				content: "\f128";
+				.iconbefore( "\f128" );
 			}
 		}
 	}	
@@ -198,7 +182,7 @@ table.wp-list-table {
 		width: 5em;
 		span:first-child {
 			&:before {
-				content: "\f346";
+				.iconbefore( "\f346" );
 			}
 		}
 	}
@@ -206,7 +190,7 @@ table.wp-list-table {
 		width: 3.5em;
 		span:first-child {
 			&:before {
-				content: "\f338";
+				.iconbefore( "\f338" );
 			}
 		}
 	}
@@ -214,7 +198,7 @@ table.wp-list-table {
 		width: 3.5em;
 		span:first-child {
 			&:before {
-				content: "\f103";
+				.iconbefore( "\f103" );
 			}
 		}
 	}
@@ -222,7 +206,7 @@ table.wp-list-table {
 		width: 3.5em;
 		span:first-child {
 			&:before {
-				content: "\f155";
+				.iconbefore( "\f155" );
 			}
 		}
 	}
@@ -230,6 +214,7 @@ table.wp-list-table {
 		text-align: left;
 		padding-left: 11px;
 		span.na {
+			color: #999;
 			width: 1em;
 			height: 1em;
 			line-height: 1em;
@@ -237,8 +222,7 @@ table.wp-list-table {
 			overflow: hidden;
 			vertical-align: middle;
 			&:before {
-				content: "\f460";
-				.dash-icon;
+				.iconbefore( "\f460" );
 			}
 		}
 		span.yes {
@@ -249,8 +233,7 @@ table.wp-list-table {
 			overflow: hidden;
 			vertical-align: middle;
 			&:before {
-				content: "\f147";
-				.dash-icon;
+				.iconbefore( "\f147" );
 			}
 		}
 	}
@@ -261,9 +244,6 @@ table.wp-list-table {
 		vertical-align: middle;
 		width: 32px;
 		height: 32px;
-	}
-	span.na {
-		color: #999;
 	}
 }
 
@@ -282,20 +262,12 @@ table.wp-list-table {
 		}
 		.expand_all {
 			&:before {
-				.dash-icon;
-				margin-right: 4px;
-				padding-top: 4px;
-				float: left;
-				content: "\f168";
+				.iconbefore( "\f168" );
 			}
 		}
 		.close_all {
 			&:before {
-				.dash-icon;
-				margin-right: 4px;
-				padding-top: 4px;
-				float: left;
-				content: "\f460";
+				.iconbefore( "\f460" );
 			}
 		}
 		p.toolbar {
@@ -447,21 +419,17 @@ table.wp-list-table {
 				}
 			}
 		}
-		.plus {
-			padding-left: 20px;
-			background: #fefefe url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAARklEQVQYGWP8//8/AzGACV3Rnj17/oMwujiGQnQFMD7RChlBbsRmFcwkEO3i4sJImonIumGmg0xBFifaRKIVgj2DbAUuNgCfThpracSKqwAAAABJRU5ErkJggg==) no-repeat 7px 5px;
+		.plus:before {
+			.iconbefore( "\f132" );
 		}
-		.minus {
-			padding-left: 20px;
-			background: #fefefe url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAKUlEQVQYlWP8//8/Az7AhFeWGAUsDAwMDHv27MFqj4uLCyNBExhp70gAohwKC5KJ+HQAAAAASUVORK5CYII=) no-repeat 7px 6px;
+		.minus:before {
+			.iconbefore( "\f460" );
 		}
-		.dlm_upload_file {
-			padding-left: 20px;
-			background: #fefefe url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAMklEQVQYV2NkQAK7d+/+D+K6uroywoThDJgkTAKmCKwAXRJZESMuSQwrkE3C6gbaKQAAYS4fOXZlROQAAAAASUVORK5CYII=) no-repeat 7px 5px;
+		.dlm_upload_file:before {
+			.iconbefore( "\f317" );
 		}
-		.dlm_browse_for_file {
-			padding-left: 20px;
-			background: #fefefe url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAK0lEQVQYV2NkIAAYd+/e/R+mxtXVlRFdPYoCbIaBFWDTCVIMkqOXAnw+BQCbpycpLX4gIQAAAABJRU5ErkJggg==) no-repeat 7px 5px;
+		.dlm_browse_for_file:before {
+			.iconbefore( "\f322" );
 		}
 	}
 }
