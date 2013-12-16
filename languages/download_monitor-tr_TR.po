@@ -1,0 +1,350 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Download Monitor\n"
+"POT-Creation-Date: 2013-11-26 10:32+0200\n"
+"PO-Revision-Date: 2013-11-26 10:41+0200\n"
+"Last-Translator: Serkan Algur <info@wpadami.com>\n"
+"Language-Team: Serkan Algur <info@wpadami.com>\n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Ferhan Arman\\Desktop\\download-monitor\n"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-addons.php:50
+msgid "Download Monitor Add-ons"
+msgstr "Download Monitör Eklentileri"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-dashboard.php:69
+msgid "Download"
+msgstr "İndir"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-dashboard.php:70
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:49
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:176
+msgid "Download count"
+msgstr "İndirme Sayısı"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:78
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:168
+msgid "Insert Shortcode"
+msgstr "KısaKod Ekle"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:78
+msgid "Quick-add download"
+msgstr "Hızlı Dosya Ekleme"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:149
+msgid "Choose a download"
+msgstr "Dosya seç"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:161
+msgid "Template"
+msgstr "şablon"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:162
+msgid "Template Name"
+msgstr "Şablon Adı"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:164
+msgid ""
+"Leaving this blank will use the default <code>content-download.php</code> "
+"template file. If you enter, for example, <code>image</code>, the "
+"<code>content-download-image.php</code> template will be used instead."
+msgstr ""
+"Bu alanı boş bırakmak varsayılan şablonun kullanılmasına <code>content-"
+"download.php</code> neden olacaktır. Mesela <code>image</code> eklerseniz, "
+"<code>content-download-image.php</code> şablon dosyası kullanılacaktir. "
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:179
+msgid "Drop file here"
+msgstr "Dosyayı buraya sürükleyin"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:180
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:182
+msgid "or"
+msgstr "ya da"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:183
+msgid "Enter URL manually"
+msgstr "URL elle girin"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:189
+msgid "Download URL"
+msgstr "İndirme URL"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:190
+msgid "Required URL"
+msgstr "Gerekli URL"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:193
+msgid "Download Title"
+msgstr "Dosya Başlığı"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:194
+msgid "Required title"
+msgstr "Gerekli Başlık"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:197
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:13
+msgid "Version"
+msgstr "Versiyon"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:198
+msgid "Optional version number"
+msgstr "Opsiyonel versiyon numarası"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:201
+msgid "Save Download"
+msgstr "Dosyayı Kaydet"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-insert.php:309
+msgid "Please wait..."
+msgstr "Lütfen bekleyin..."
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-media-browser.php:100
+msgid "No files found"
+msgstr "Dosya bulunamadı"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-writepanels.php:94
+msgid "Add version"
+msgstr "Versiyon Ekle"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-writepanels.php:95
+msgid "Close all"
+msgstr "Hepsini Kapat"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-writepanels.php:95
+msgid "Expand all"
+msgstr "Hepsini Aç"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin-writepanels.php:220
+msgid "Are you sure you want to delete this file?"
+msgstr "Dosyayı silmek istediğinizden emin misiniz?"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin.php:358
+msgid "Save Changes"
+msgstr "Değişiklikleri Kaydet"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin.php:402
+msgid "Download Logs"
+msgstr "İndirme Kayıtları"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin.php:402
+msgid "Export CSV"
+msgstr "CSV olarak dışa aktar"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-admin.php:402
+msgid "Delete Logs"
+msgstr "Kayıtları Sil"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:142
+msgid "Any status"
+msgstr "Durum"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:143
+msgid "Failed"
+msgstr "Başarısız"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:144
+msgid "Redirected"
+msgstr "Yönlendirildi"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:145
+msgid "Completed"
+msgstr "Tamamlandı"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:164
+msgid "Show all dates"
+msgstr "Tüm tarihleri göster"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:185
+msgid "25 per page"
+msgstr "Sayfa başına 25"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:186
+msgid "50 per page"
+msgstr "Sayfa başına 50"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:187
+msgid "100 per page"
+msgstr "Sayfa başına 100"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:188
+msgid "200 per page"
+msgstr "Sayfa başına 200"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:189
+msgid "Show All"
+msgstr "Tümünü Göster"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/class-dlm-logging-list-table.php:193
+msgid "Filter"
+msgstr "Filtrele"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:3
+msgid "Remove"
+msgstr "Kaldır"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:4
+msgid "Click to toggle"
+msgstr "Açmak için tıklayın"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:14
+msgid "n/a"
+msgstr "n/a"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:18
+msgid "File URL(s)"
+msgstr "Dosya Link(ler)i"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:19
+msgid ""
+"Enter one file path/URL per line - multiple files will be used as mirrors "
+"(chosen at random)."
+msgstr ""
+"Lütfen her satıra bir link/dosya yolu ekleyiniz. Çoklu dosyalar ayna "
+"bağlantı olarak kullanılacak (rastgele olarak)"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:55
+msgid "File Date"
+msgstr "Dosya Tarihi"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:56
+msgid "h"
+msgstr ""
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/admin/html-downloadable-file-version.php:56
+msgid "m"
+msgstr ""
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:157
+msgid "Title:"
+msgstr "Başlık"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:161
+msgid "Limit:"
+msgstr "Limit:"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:165
+msgid "Output template:"
+msgstr "Gösterim Şablonu:"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:166
+msgid "Default template"
+msgstr "Varsayılan Şablon"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:169
+msgid "Order by:"
+msgstr "Sırala: "
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:171
+msgid "Title"
+msgstr "Başlık"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:172
+msgid "Random"
+msgstr "Rastgele"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:173
+msgid "ID"
+msgstr "ID"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:174
+msgid "Date added"
+msgstr "Eklenme tarihi"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:175
+msgid "Date modified"
+msgstr "Düzenlenme tarihi"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:180
+msgid "Order:"
+msgstr "Sorala: "
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:182
+msgid "ASC"
+msgstr "ASC"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:183
+msgid "DESC"
+msgstr "DESC"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:188
+msgid "Show only featured downloads"
+msgstr "Sadece öne çıkan dosyaları göster"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/includes/widgets/class-dlm-widget-downloads.php:192
+msgid "Show only members only downloads"
+msgstr "Sadece üyeler için olan dosyaları göster"
+
+#: C:\Users\Ferhan
+#: Arman\Desktop\download-monitor/templates/content-download-box.php:21
+msgid "Download File"
+msgstr "Dosyayı İndir"
