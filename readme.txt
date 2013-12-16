@@ -113,6 +113,7 @@ Admin hits are not counted, log out and try!
 * Polish translation.
 * Turkish translation.
 * Change capability required to view dashboard widget.
+* Don't show "insert download" when editing a download.
 
 = 1.3.2 =
 * Cleaned up log table queries
