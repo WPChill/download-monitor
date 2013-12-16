@@ -110,6 +110,9 @@ Admin hits are not counted, log out and try!
 
 = 1.4.0 =
 * MP6/3.8 admin styling. Requires 3.8.
+* Polish translation.
+* Turkish translation.
+* Change capability required to view dashboard widget.
 
 = 1.3.2 =
 * Cleaned up log table queries
