@@ -3,11 +3,11 @@
 Plugin Name: Download Monitor
 Plugin URI: http://mikejolley.com/projects/download-monitor/
 Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-Version: 1.3.2
+Version: 1.4.0
 Author: Mike Jolley
 Author URI: http://mikejolley.com
-Requires at least: 3.5
-Tested up to: 3.6
+Requires at least: 3.8
+Tested up to: 3.8
 
 	Copyright: © 2013 Mike Jolley.
 	License: GNU General Public License v3.0
@@ -19,7 +19,7 @@ Tested up to: 3.6
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
- * WP_Download_Monitor class.
+ * WP_DLM class.
  *
  * Main Class which inits the CPT and plugin
  */
@@ -39,7 +39,7 @@ class WP_DLM {
 		global $wpdb;
 
 		// Define constants
-		define( 'DLM_VERSION', '1.3.2' );
+		define( 'DLM_VERSION', '1.4.0' );
 
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
@@ -61,12 +61,12 @@ class WP_DLM {
 		include_once( 'includes/class-dlm-shortcodes.php' );
 
 		// Activation
-		register_activation_hook( __FILE__, array( $this, 'init_user_roles' ), 10 );
-		register_activation_hook( __FILE__, array( $this, 'init_taxonomy' ), 10 );
-		register_activation_hook( __FILE__, array( $this, 'install_tables' ), 10 );
-		register_activation_hook( __FILE__, array( $this, 'directory_protection' ), 10 );
-		register_activation_hook( __FILE__, array( $GLOBALS['DLM_Download_Handler'], 'add_endpoint' ), 10 );
-		register_activation_hook( __FILE__, 'flush_rewrite_rules', 11 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'init_user_roles' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'init_taxonomy' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'install_tables' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'directory_protection' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $GLOBALS['DLM_Download_Handler'], 'add_endpoint' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), 'flush_rewrite_rules', 11 );
 
 		// Actions
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );

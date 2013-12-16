@@ -161,25 +161,21 @@ class DLM_Admin_CPT {
 	 * @return void
 	 */
 	public function columns( $columns ) {
-		global $download_monitor;
-
 		$columns = array();
 
-		$columns["cb"] 				= "<input type=\"checkbox\" />";
-		$columns["thumb"] 			= __("Image", 'download_monitor');
-		$columns["title"] 			= __("Title", 'download_monitor');
-		$columns["download_id"] 	= __("ID", 'download_monitor');
-		$columns["file"] 			= __("File", 'download_monitor');
-		$columns["version"] 		= __("Version", 'download_monitor');
-		$columns["download_cat"] 	= __("Categories", 'download_monitor');
-		$columns["download_tag"] 	= __("Tags", 'download_monitor');
-
-		$columns["download_count"] = '<img src="' . $download_monitor->plugin_url() . '/assets/images/download_count_head.png" alt="' . __("download_count", 'download_monitor') . '" />';
-		$columns["featured"] = '<img src="' . $download_monitor->plugin_url() . '/assets/images/featured_head.png" alt="' . __("Featured", 'download_monitor') . '" />';
-		$columns["members_only"] = '<img src="' . $download_monitor->plugin_url() . '/assets/images/member_head.png" alt="' . __("Members only", 'download_monitor') . '" />';
-		$columns["redirect_only"] = '<img src="' . $download_monitor->plugin_url() . '/assets/images/redirect_head.png" alt="' . __("Redirect only", 'download_monitor') . '" />';
-
-		$columns["date"] 			= __("Date posted", 'download_monitor');
+		$columns["cb"]             = "<input type=\"checkbox\" />";
+		$columns["thumb"]          = '<span>' . __("Image", 'download_monitor') . '</span>';
+		$columns["title"]          = __("Title", 'download_monitor');
+		$columns["download_id"]    = __("ID", 'download_monitor');
+		$columns["file"]           = __("File", 'download_monitor');
+		$columns["version"]        = __("Version", 'download_monitor');
+		$columns["download_cat"]   = __("Categories", 'download_monitor');
+		$columns["download_tag"]   = __("Tags", 'download_monitor');
+		$columns["download_count"] = __( "Download count", 'download_monitor' );
+		$columns["featured"]       = __( "Featured", 'download_monitor' );
+		$columns["members_only"]   = __( "Members only", 'download_monitor' );
+		$columns["redirect_only"]  = __( "Redirect only", 'download_monitor' );
+		$columns["date"]           = __("Date posted", 'download_monitor');
 
 		return $columns;
 	}
@@ -213,7 +209,7 @@ class DLM_Admin_CPT {
 			case "featured" :
 
 				if ( $download->is_featured() )
-					echo '<img src="' . $download_monitor->plugin_url() . '/assets/images/on.png" alt="yes" />';
+					echo '<span class="yes">' . __( 'Yes', 'download_monitor' ) . '</span>';
 				else
 					echo '<span class="na">&ndash;</span>';
 
@@ -221,7 +217,7 @@ class DLM_Admin_CPT {
 			case "members_only" :
 
 				if ( $download->is_members_only() )
-					echo '<img src="' . $download_monitor->plugin_url() . '/assets/images/on.png" alt="yes" />';
+					echo '<span class="yes">' . __( 'Yes', 'download_monitor' ) . '</span>';
 				else
 					echo '<span class="na">&ndash;</span>';
 
@@ -229,7 +225,7 @@ class DLM_Admin_CPT {
 			case "redirect_only" :
 
 				if ( $download->redirect_only() )
-					echo '<img src="' . $download_monitor->plugin_url() . '/assets/images/on.png" alt="yes" />';
+					echo '<span class="yes">' . __( 'Yes', 'download_monitor' ) . '</span>';
 				else
 					echo '<span class="na">&ndash;</span>';
 
@@ -244,7 +240,7 @@ class DLM_Admin_CPT {
 					echo '<span class="na">&ndash;</span>';
 			break;
 			case "version" :
-				if ( $file )
+				if ( $file && $file->version )
 					echo $file->version;
 				else
 					echo '<span class="na">&ndash;</span>';
