@@ -9,7 +9,7 @@ Author URI: http://mikejolley.com
 Requires at least: 3.8
 Tested up to: 3.8
 
-	Copyright: © 2013 Mike Jolley.
+	Copyright: Â© 2013 Mike Jolley.
 	License: GNU General Public License v3.0
 	License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */

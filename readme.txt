@@ -114,6 +114,7 @@ Admin hits are not counted, log out and try!
 * Turkish translation.
 * Change capability required to view dashboard widget.
 * Don't show "insert download" when editing a download.
+* Allow pagination for the [downloads] shortcode. Simply add paginate=true to the shortcode.
 
 = 1.3.2 =
 * Cleaned up log table queries

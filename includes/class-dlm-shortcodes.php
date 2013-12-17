@@ -215,7 +215,7 @@ class DLM_Shortcodes {
 	 * @return void
 	 */
 	public function downloads( $atts ) {
-		global $download_monitor;
+		global $download_monitor, $dlm_max_num_pages;
 
 		extract( shortcode_atts( array(
 			// Query args
@@ -236,7 +236,8 @@ class DLM_Shortcodes {
 			'loop_start'                => '<ul class="dlm-downloads">',
 			'loop_end'                  => '</ul>',
 			'before'                    => '<li>',
-			'after'                     => '</li>'
+			'after'                     => '</li>',
+			'paginate'                  => false
 		), $atts ) );
 
 		$post__in     = ! empty( $include ) ? explode( ',', $include ) : '';
@@ -270,8 +271,7 @@ class DLM_Shortcodes {
 	  	$args = array(
 	    	'post_type'      => 'dlm_download',
 	    	'posts_per_page' => $per_page,
-	    	'offset'         => $offset,
-	    	'no_found_rows'  => 1,
+	    	'offset'         => $paginate ? ( max( 1, get_query_var( 'paged' ) ) - 1 ) * $per_page : $offset,
 	    	'post_status'    => 'publish',
 	    	'orderby'        => $orderby,
 	    	'order'          => $order,
@@ -321,7 +321,8 @@ class DLM_Shortcodes {
 
 	  	ob_start();
 
-		$downloads = new WP_Query( $args );
+		$downloads         = new WP_Query( $args );
+		$dlm_max_num_pages = $downloads->max_num_pages;
 
 		if ( $downloads->have_posts() ) : ?>
 
@@ -338,6 +339,8 @@ class DLM_Shortcodes {
 			<?php endwhile; // end of the loop. ?>
 
 			<?php echo html_entity_decode( $loop_end ); ?>
+
+			<?php if ( $paginate ) $download_monitor->get_template_part( 'pagination', '' ); ?>
 
 		<?php endif;
 
