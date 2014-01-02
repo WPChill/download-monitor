@@ -231,7 +231,7 @@ class DLM_Download_Handler {
 		}
 
 		// Get file name
-		$file_name = basename( $file_path );
+		$file_name = urldecode( basename( $file_path ) );
 
 		if ( strstr( $file_name, '?' ) )
 			$file_name = current( explode( '?', $file_name ) );
@@ -249,7 +249,15 @@ class DLM_Download_Handler {
 		@session_write_close();
 		@ini_set( 'zlib.output_compression', 'Off' );
 		@error_reporting(0);
-		@ob_clean(); // Clear the output buffer
+		
+		/**
+		 * Prevents errors, for example: transfer closed with 3 bytes remaining to read
+		 */
+		@ob_end_clean(); // Clear the output buffer
+		
+		if ( ob_get_level() ) {
+			@ob_end_clean(); // Zip corruption fix
+		}
 
 		if ( $is_IE && is_ssl() ) {
 			// IE bug prevents download via SSL when Cache Control and Pragma no-cache headers set.
