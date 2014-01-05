@@ -128,6 +128,15 @@ class DLM_Download_Handler {
 	}
 
 	/**
+	 * Create a log if logging is enabled
+	 */
+	private function log( $type = '', $status = '', $message = '', $download, $version ) {
+		if ( function_exists( 'dlm_create_log' ) ) {
+			dlm_create_log( $type, $status, $message, $download, $version );
+		}
+	}
+
+	/**
 	 * trigger function.
 	 *
 	 * @access private
@@ -135,7 +144,6 @@ class DLM_Download_Handler {
 	 * @return void
 	 */
 	private function trigger( $download ) {
-		global $is_IE;
 
 		$version    = $download->get_file_version();
 		$file_paths = $version->mirrors;
@@ -169,55 +177,136 @@ class DLM_Download_Handler {
 
 			// Set cookie to prevent double logging
 			setcookie( 'wp_dlm_downloading', $download->id, time()+60, COOKIEPATH, COOKIE_DOMAIN, false );
-
-			// Logging
-			$this->log = function_exists( 'dlm_create_log' );
-		} else {
-			$this->log = false;
 		}
 
 		// Redirect to the file...
 		if ( $download->redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
-			if ( $this->log ) 
-				dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
 
+			// Ensure we have a valid URL, not a file path
 			$file_path = str_replace( ABSPATH, site_url( '/', 'http' ), $file_path );
 
 			header( 'Location: ' . $file_path );
 			exit;
 		}
 
-		// ...or serve it
-		if ( ! is_multisite() ) {
+		$remote_file      = true;
+		$parsed_file_path = parse_url( $file_path );
+		
+		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp' ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path ) ) {
 
-			$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
-			$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
+			/** This is an absolute path */
+			$remote_file  = false;
 
-		} else {
+		} elseif( strpos( $file_path, WP_CONTENT_URL ) !== false ) {
 
-			// Try to replace network url
-			$file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
-			$file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
+			/** This is a local file given by URL so we need to figure out the path */
+			$remote_file  = false;
+			$file_path    = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $file_path );
+			$file_path    = realpath( $file_path );
 
-			// Try to replace upload URL
-			$upload_dir  = wp_upload_dir();
-			$file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
+		} elseif( strpos( $file_path, ABSPATH ) !== false ) {
+
+			/** This is a local file outside of wp-content so figure out the path */
+			$remote_file = false;
+
+			if ( ! is_multisite() ) {
+				$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
+				$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
+            } else {
+                // Try to replace network url
+                $file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
+                $file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
+                // Try to replace upload URL
+                $upload_dir  = wp_upload_dir();
+                $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
+            }
+
+           $file_path   = realpath( $file_path );
+		
+		} elseif ( file_exists( ABSPATH . $file_path ) ) {
+			
+			/** Path needs an abspath to work */
+			$remote_file = false;
+			$file_path   = ABSPATH . $file_path;
+			$file_path   = realpath( $file_path );
 		}
 
-		// See if its local or remote
-		if ( strstr( $file_path, 'http:' ) || strstr( $file_path, 'https:' ) || strstr( $file_path, 'ftp:' ) ) {
-			$remote_file = true;
+		$this->download_headers( $file_path, $download, $version );
+
+		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
+            if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
+
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+
+            	header( "X-Sendfile: $file_path" );
+            	exit;
+
+            } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
+
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+
+            	header( "X-LIGHTTPD-send-file: $file_path" );
+            	exit;
+
+            } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
+
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+
+            	$file_path = str_ireplace( $_SERVER[ 'DOCUMENT_ROOT' ], '', $file_path );
+				header( "X-Accel-Redirect: /$file_path" );
+            	exit;
+            }
+        }
+
+        // multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
+		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->filesize ) {
+			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'],2 );
+			list( $range ) = explode( ",",$range, 2 );
+			list( $range, $range_end ) = explode( "-", $range );
+			$range = intval( $range );
+
+			if ( ! $range_end ) {
+				$range_end = $version->filesize - 1;
+			} else {
+				$range_end = intval( $range_end );
+			}
+
+			$new_length = $range_end - $range + 1;
+
+			header( "HTTP/1.1 206 Partial Content" );
+			header( "Content-Length: $new_length" );
+			header( "Content-Range: bytes {$range}-{$range_end}/{$version->filesize}" );
 		} else {
-			$remote_file    = false;
-			$real_file_path = realpath( current( explode( '?', $file_path ) ) );
-
-			if ( ! empty( $real_file_path ) )
-				$file_path = $real_file_path;
-
-			// See if we need to add abspath if this is a relative URL
-			if ( ! file_exists( $file_path ) && file_exists( ABSPATH . $file_path ) )
-				$file_path = ABSPATH . $file_path;
+			$range = false;
 		}
+
+        if ( $this->readfile_chunked( $file_path, $range ) ) {
+
+	        // Complete!
+	        $this->log( 'download', 'completed', '', $download, $version );
+
+        } elseif ( $remote_file ) {
+
+	        // Redirect - we can't track if this completes or not
+	    	$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download_monitor' ), $download, $version );
+
+	        header( 'Location: ' . $file_path );
+
+        } else {
+        	$this->log( 'download', 'failed', __( 'File not found', 'download_monitor' ), $download, $version );
+
+	        wp_die( __( 'File not found.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
+        }
+
+        exit;
+	}
+
+	/**
+	 * Output download headers
+	 */
+	private function download_headers( $file_path, $download, $version ) {
+		global $is_IE;
 
 		// Get Mime Type
 		$mime_type = "application/octet-stream";
@@ -277,80 +366,6 @@ class DLM_Download_Handler {
         	header( "Content-Length: " . $version->filesize );
 			header( "Accept-Ranges: bytes" );
         }
-
-		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
-         	if ( getcwd() )
-         		$file_path = trim( preg_replace( '`^' . str_replace( '\\', '/', getcwd() ) . '`' , '', $file_path ), '/' );
-
-            if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
-
-            	if ( $this->log ) 
-            		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
-
-            	header("X-Sendfile: $file_path");
-            	exit;
-
-            } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
-
-            	if ( $this->log ) 
-            		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
-
-            	header( "X-LIGHTTPD-send-file: $file_path" );
-            	exit;
-
-            } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
-
-            	if ( $this->log ) 
-            		dlm_create_log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
-
-            	header( "X-Accel-Redirect: /$file_path" );
-            	exit;
-            }
-        }
-
-        // multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
-		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->filesize ) {
-			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'],2 );
-			list( $range ) = explode( ",",$range, 2 );
-			list( $range, $range_end ) = explode( "-", $range );
-			$range = intval( $range );
-
-			if ( ! $range_end ) {
-				$range_end = $version->filesize - 1;
-			} else {
-				$range_end = intval( $range_end );
-			}
-
-			$new_length = $range_end - $range + 1;
-
-			header( "HTTP/1.1 206 Partial Content" );
-			header( "Content-Length: $new_length" );
-			header( "Content-Range: bytes {$range}-{$range_end}/{$version->filesize}" );
-		} else {
-			$range = false;
-		}
-
-        if ( $this->readfile_chunked( $file_path, $range ) ) {
-
-	        // Complete!
-	        if ( $this->log ) 
-	        	dlm_create_log( 'download', 'completed', '', $download, $version );
-
-        } elseif ( $remote_file ) {
-
-	        // Redirect - we can't track if this completes or not
-	    	if ( $this->log ) 
-	        	dlm_create_log( 'download', 'redirected', __( 'Redirected to remote file.', 'download_monitor' ), $download, $version );
-
-	        header( 'Location: ' . $file_path );
-
-        } else {
-        	if ( $this->log ) 
-        		dlm_create_log( 'download', 'failed', __( 'File not found', 'download_monitor' ), $download, $version );
-
-	        wp_die( __( 'File not found.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
-        }
-        exit;
 	}
 
 	/**
