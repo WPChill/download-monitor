@@ -266,7 +266,7 @@ class DLM_Shortcodes {
 			case 'hits' :
 			case 'count' :
 			case 'download_count' :
-				$orderby  = 'meta_value';
+				$orderby  = 'meta_value_num';
 				$meta_key = '_download_count';
 				break;
 			default :
