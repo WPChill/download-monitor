@@ -27,7 +27,7 @@ class DLM_Admin_Writepanels {
 	 */
 	public function add_meta_boxes() {
 		add_meta_box( 'download-monitor-options', __( 'Download Options', 'download_monitor' ), array( $this, 'download_options' ), 'dlm_download', 'side', 'high' );
-		add_meta_box( 'download-monitor-file', __( 'Downloadable File Versions', 'download_monitor' ), array( $this, 'download_files' ), 'dlm_download', 'normal', 'high' );
+		add_meta_box( 'download-monitor-file', __( 'Downloadable Files/Versions', 'download_monitor' ), array( $this, 'download_files' ), 'dlm_download', 'normal', 'high' );
 
 		// Excerpt
 		if ( function_exists('wp_editor') ) {
@@ -91,7 +91,7 @@ class DLM_Admin_Writepanels {
 			<?php do_action( 'dlm_download_monitor_files_writepanel_start' ); ?>
 
 			<p class="toolbar">
-				<a href="#" class="button plus add_file"><?php _e('Add version', 'download_monitor'); ?></a>
+				<a href="#" class="button plus add_file"><?php _e('Add file', 'download_monitor'); ?></a>
 				<a href="#" class="close_all"><?php _e('Close all', 'download_monitor'); ?></a><a href="#" class="expand_all"><?php _e('Expand all', 'download_monitor'); ?></a>
 			</p>
 

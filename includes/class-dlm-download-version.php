@@ -12,19 +12,19 @@ class DLM_Download_Version {
 	 * @return void
 	 */
 	public function __construct( $version_id, $download_id ) {
-		$this->id          = absint( $version_id );
-		$this->download_id = absint( $download_id );
-
+		$this->id             = absint( $version_id );
+		$this->download_id    = absint( $download_id );
+		
 		// Get Version Data
-		$this->mirrors  = array_filter( (array) get_post_meta( $this->id, '_files', true ) );
-		$this->url      = current( $this->mirrors );
-		$this->filename = current( explode( '?', basename( $this->url ) ) );
-		$this->filetype = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
-		$this->version  = strtolower( get_post_meta( $this->id, '_version', true ) );
-		$this->download_count     = get_post_meta( $this->id, '_download_count', true );
-		$this->filesize = get_post_meta( $this->id, '_filesize', true );
+		$this->mirrors        = array_filter( (array) get_post_meta( $this->id, '_files', true ) );
+		$this->url            = current( $this->mirrors );
+		$this->filename       = current( explode( '?', basename( $this->url ) ) );
+		$this->filetype       = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
+		$this->version        = strtolower( get_post_meta( $this->id, '_version', true ) );
+		$this->download_count = get_post_meta( $this->id, '_download_count', true );
+		$this->filesize       = get_post_meta( $this->id, '_filesize', true );
 
-		// If data is not set, load it
+		// If any data is not set, set it
 		if ( $this->filesize == "" )
 			$this->filesize = $this->get_filesize( $this->url );
 	}
