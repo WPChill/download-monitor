@@ -117,6 +117,7 @@ Admin hits are not counted, log out and try!
 * Allow pagination for the [downloads] shortcode. Simply add paginate=true to the shortcode.
 * Reverted flush change in download handler to reduce memory usage on some hosting envrionments
 * changed download handlers and fixed corruption when resuming files
+* Calculate md5/sha1/crc32 hashes for files. Obtainable via methods or download_data, e.g. [download_data id="86" data="md5"]
 
 = 1.3.2 =
 * Cleaned up log table queries

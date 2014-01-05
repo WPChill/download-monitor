@@ -144,7 +144,8 @@ class DLM_Download_Handler {
 	 * @return void
 	 */
 	private function trigger( $download ) {
-
+		global $download_monitor;
+		
 		$version    = $download->get_file_version();
 		$file_paths = $version->mirrors;
 
@@ -190,47 +191,7 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		$remote_file      = true;
-		$parsed_file_path = parse_url( $file_path );
-		
-		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp' ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path ) ) {
-
-			/** This is an absolute path */
-			$remote_file  = false;
-
-		} elseif( strpos( $file_path, WP_CONTENT_URL ) !== false ) {
-
-			/** This is a local file given by URL so we need to figure out the path */
-			$remote_file  = false;
-			$file_path    = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $file_path );
-			$file_path    = realpath( $file_path );
-
-		} elseif( strpos( $file_path, ABSPATH ) !== false ) {
-
-			/** This is a local file outside of wp-content so figure out the path */
-			$remote_file = false;
-
-			if ( ! is_multisite() ) {
-				$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
-				$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
-            } else {
-                // Try to replace network url
-                $file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
-                $file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
-                // Try to replace upload URL
-                $upload_dir  = wp_upload_dir();
-                $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
-            }
-
-           $file_path   = realpath( $file_path );
-		
-		} elseif ( file_exists( ABSPATH . $file_path ) ) {
-			
-			/** Path needs an abspath to work */
-			$remote_file = false;
-			$file_path   = ABSPATH . $file_path;
-			$file_path   = realpath( $file_path );
-		}
+		list( $file_path, $remote_file ) = $download_monitor->parse_file_path( $file_path );
 
 		$this->download_headers( $file_path, $download, $version );
 

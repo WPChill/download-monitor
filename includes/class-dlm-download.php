@@ -306,7 +306,7 @@ class DLM_Download {
 	 * get_the_filesize function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return string
 	 */
 	public function get_the_filesize() {
 		$filesize   = $this->get_file_version()->filesize;
@@ -323,6 +323,25 @@ class DLM_Download {
 	 */
 	public function the_filesize() {
 		echo $this->get_the_filesize();
+	}
+
+	/**
+	 * Get the hash
+	 * @param  string $type md5, sha1 or crc32
+	 * @return string
+	 */
+	public function get_the_hash( $type = 'md5' ) {
+		$hash   = $this->get_file_version()->$type;
+		return $hash;
+	}
+
+	/**
+	 * Get the hash
+	 * @param  string $type md5, sha1 or crc32
+	 * @return string
+	 */
+	public function the_hash( $type = 'md5' ) {
+		echo $this->get_the_hash( $type );
 	}
 
 	/**

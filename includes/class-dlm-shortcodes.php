@@ -174,6 +174,12 @@ class DLM_Shortcodes {
 				return $download->get_the_filetype();
 			case 'filesize' :
 				return $download->get_the_filesize();
+			case 'md5' :
+				return $download->get_the_hash( 'md5' );
+			case 'sha1' :
+				return $download->get_the_hash( 'sha1' );
+			case 'crc32' :
+				return $download->get_the_hash( 'crc32' );
 			case 'version' :
 				return $download->get_the_version_number();
 

@@ -530,6 +530,57 @@ class WP_DLM {
 	}
 
 	/**
+	 * Parse a file path and return the new path and whether or not it's remote
+	 * @param  string $file_path
+	 * @return array
+	 */
+	public function parse_file_path( $file_path ) {
+		$remote_file      = true;
+		$parsed_file_path = parse_url( $file_path );
+		
+		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp' ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path ) ) {
+
+			/** This is an absolute path */
+			$remote_file  = false;
+
+		} elseif( strpos( $file_path, WP_CONTENT_URL ) !== false ) {
+
+			/** This is a local file given by URL so we need to figure out the path */
+			$remote_file  = false;
+			$file_path    = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $file_path );
+			$file_path    = realpath( $file_path );
+
+		} elseif( strpos( $file_path, ABSPATH ) !== false ) {
+
+			/** This is a local file outside of wp-content so figure out the path */
+			$remote_file = false;
+
+			if ( ! is_multisite() ) {
+				$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
+				$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
+            } else {
+                // Try to replace network url
+                $file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
+                $file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
+                // Try to replace upload URL
+                $upload_dir  = wp_upload_dir();
+                $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
+            }
+
+           $file_path   = realpath( $file_path );
+		
+		} elseif ( file_exists( ABSPATH . $file_path ) ) {
+			
+			/** Path needs an abspath to work */
+			$remote_file = false;
+			$file_path   = ABSPATH . $file_path;
+			$file_path   = realpath( $file_path );
+		}
+
+		return array( $file_path, $remote_file );
+	}
+
+	/**
 	 * Gets the filesize of a path or URL.
 	 *
 	 * @access public
@@ -537,47 +588,7 @@ class WP_DLM {
 	 */
 	public function get_filesize( $file_path ) {
 		if ( $file_path ) {
-			$remote_file      = true;
-			$parsed_file_path = parse_url( $file_path );
-			
-			if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp' ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path ) ) {
-
-				/** This is an absolute path */
-				$remote_file  = false;
-
-			} elseif( strpos( $file_path, WP_CONTENT_URL ) !== false ) {
-
-				/** This is a local file given by URL so we need to figure out the path */
-				$remote_file  = false;
-				$file_path    = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $file_path );
-				$file_path    = realpath( $file_path );
-
-			} elseif( strpos( $file_path, ABSPATH ) !== false ) {
-
-				/** This is a local file outside of wp-content so figure out the path */
-				$remote_file = false;
-
-				if ( ! is_multisite() ) {
-					$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
-					$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
-	            } else {
-	                // Try to replace network url
-	                $file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
-	                $file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
-	                // Try to replace upload URL
-	                $upload_dir  = wp_upload_dir();
-	                $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
-	            }
-
-	           $file_path   = realpath( $file_path );
-			
-			} elseif ( file_exists( ABSPATH . $file_path ) ) {
-				
-				/** Path needs an abspath to work */
-				$remote_file = false;
-				$file_path   = ABSPATH . $file_path;
-				$file_path   = realpath( $file_path );
-			}
+			list( $file_path, $remote_file ) = $this->parse_file_path( $file_path );
 
 			if ( $remote_file ) {
 				$file = wp_remote_head( $file_path );
@@ -593,6 +604,28 @@ class WP_DLM {
 
 		return -1;
 	}
+
+	/**
+	 * Gets md5, sha1 and crc32 hashes for a file
+	 *
+	 * @access public
+	 * @return array of sizes
+	 */
+	public function get_file_hashes( $file_path ) {
+		$md5   = '';
+		$sha1  = '';
+		$crc32 = '';
+
+		if ( $file_path ) {
+			list( $file_path, $remote_file ) = $this->parse_file_path( $file_path );
+
+			$md5   = hash_file( 'md5', $file_path );
+			$sha1  = hash_file( 'sha1', $file_path );
+			$crc32 = hash_file( 'crc32b', $file_path );
+		}
+
+		return array( 'md5' => $md5, 'sha1' => $sha1, 'crc32' => $crc32 );
+	}	
 }
 
 /**

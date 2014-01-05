@@ -128,6 +128,12 @@ class DLM_Admin_Insert {
 					update_post_meta( $file_id, '_files', array( $url ) );
 					update_post_meta( $file_id, '_filesize', $download_monitor->get_filesize( $url ) );
 
+					$hashes = $download_monitor->get_file_hashes( $url );
+
+					update_post_meta( $file_id, '_md5', $hashes['md5'] );
+					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
+					update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
+
 					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download_monitor' ) . '</p></div>';
 
 				} else throw new Exception( __( 'Error: Download was not created.', 'download_monitor' ) );

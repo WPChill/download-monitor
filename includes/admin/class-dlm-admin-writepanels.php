@@ -461,10 +461,19 @@ class DLM_Admin_Writepanels {
 				$filesize       = -1;
 				$main_file_path = current( $files );
 
-				if ( $main_file_path )
+				if ( $main_file_path ) {
 					$filesize = $download_monitor->get_filesize( $main_file_path );
-
-				update_post_meta( $file_id, '_filesize', $filesize );
+					$hashes   = $download_monitor->get_file_hashes( $main_file_path );
+					update_post_meta( $file_id, '_filesize', $filesize );
+					update_post_meta( $file_id, '_md5', $hashes['md5'] );
+					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
+					update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
+				} else {
+					update_post_meta( $file_id, '_filesize', $filesize );
+					update_post_meta( $file_id, '_md5', '' );
+					update_post_meta( $file_id, '_sha1', '' );
+					update_post_meta( $file_id, '_crc32', '' );
+				}
 
 				if ( $file_download_count !== '' ) {
 					update_post_meta( $file_id, '_download_count', absint( $file_download_count ) );
