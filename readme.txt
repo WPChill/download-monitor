@@ -116,6 +116,7 @@ Admin hits are not counted, log out and try!
 * Don't show "insert download" when editing a download.
 * Allow pagination for the [downloads] shortcode. Simply add paginate=true to the shortcode.
 * Reverted flush change in download handler to reduce memory usage on some hosting envrionments
+* changed download handlers and fixed corruption when resuming files
 
 = 1.3.2 =
 * Cleaned up log table queries
