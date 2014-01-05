@@ -303,6 +303,18 @@ class DLM_Download {
 	}
 
 	/**
+	 * get_the_file_date function.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_the_file_date() {
+		$post = get_post( $this->get_file_version()->id );
+
+		return $post->post_date;
+	}
+
+	/**
 	 * get_the_filesize function.
 	 *
 	 * @access public

@@ -118,6 +118,7 @@ Admin hits are not counted, log out and try!
 * Reverted flush change in download handler to reduce memory usage on some hosting envrionments
 * changed download handlers and fixed corruption when resuming files
 * Calculate md5/sha1/crc32 hashes for files. Obtainable via methods or download_data, e.g. [download_data id="86" data="md5"]
+* Added file_date data
 
 = 1.3.2 =
 * Cleaned up log table queries

@@ -195,7 +195,9 @@ class DLM_Shortcodes {
 			case 'post_content' :
 				return wpautop( wptexturize( do_shortcode( $download->post->post_content ) ) );
 			case 'post_date' :
-				return date_i18n( get_option( 'date_format', $download->post->post_date ) );
+				return date_i18n( get_option( 'date_format' ), strtotime( $download->post->post_date ) );
+			case 'file_date' :
+				return date_i18n( get_option( 'date_format' ), strtotime( $download->get_the_file_date() ) );
 			case 'author' :
 				return $download->get_the_author();
 
