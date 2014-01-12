@@ -3,7 +3,7 @@
 Plugin Name: Download Monitor
 Plugin URI: http://mikejolley.com/projects/download-monitor/
 Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-Version: 1.4.1
+Version: 1.4.2
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 Requires at least: 3.8
@@ -37,7 +37,7 @@ class WP_DLM {
 		global $wpdb;
 
 		// Define constants
-		define( 'DLM_VERSION', '1.4.1' );
+		define( 'DLM_VERSION', '1.4.2' );
 
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
@@ -550,25 +550,26 @@ class WP_DLM {
 			$file_path    = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $file_path );
 			$file_path    = realpath( $file_path );
 
-		} elseif( strpos( $file_path, ABSPATH ) !== false ) {
+		} elseif( is_multisite() && ( strpos( $file_path, network_admin_url( '/', 'http' ) ) !== false || strpos( $file_path, network_admin_url( '/', 'https' ) ) !== false ) ) {
 
 			/** This is a local file outside of wp-content so figure out the path */
 			$remote_file = false;
+			// Try to replace network url
+            $file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
+            $file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
+            // Try to replace upload URL
+            $upload_dir  = wp_upload_dir();
+            $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
+            $file_path   = realpath( $file_path );
 
-			if ( ! is_multisite() ) {
-				$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
-				$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
-            } else {
-                // Try to replace network url
-                $file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
-                $file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
-                // Try to replace upload URL
-                $upload_dir  = wp_upload_dir();
-                $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
-            }
+		} elseif( strpos( $file_path, site_url( '/', 'http' ) ) !== false || strpos( $file_path, site_url( '/', 'https' ) ) !== false ) {
 
-           $file_path   = realpath( $file_path );
-		
+			/** This is a local file outside of wp-content so figure out the path */
+			$remote_file = false;
+			$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
+			$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
+			$file_path   = realpath( $file_path );
+
 		} elseif ( file_exists( ABSPATH . $file_path ) ) {
 			
 			/** Path needs an abspath to work */
@@ -619,9 +620,16 @@ class WP_DLM {
 		if ( $file_path ) {
 			list( $file_path, $remote_file ) = $this->parse_file_path( $file_path );
 
-			$md5   = hash_file( 'md5', $file_path );
-			$sha1  = hash_file( 'sha1', $file_path );
-			$crc32 = hash_file( 'crc32b', $file_path );
+			if ( $remote_file && ! ini_get( 'allow_url_fopen' ) ) {
+				// We cannot look up a hash
+				$md5   = false;
+				$sha1  = false;
+				$crc32 = false;
+			} else {
+				$md5   = hash_file( 'md5', $file_path );
+				$sha1  = hash_file( 'sha1', $file_path );
+				$crc32 = hash_file( 'crc32b', $file_path );
+			}
 		}
 
 		return array( 'md5' => $md5, 'sha1' => $sha1, 'crc32' => $crc32 );
