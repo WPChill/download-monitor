@@ -114,8 +114,12 @@ class DLM_Download_Handler {
 			}
 
 			// Action on found download
-			if ( ! is_null( $download ) && $download->exists() )
+			if ( ! is_null( $download ) && $download->exists() ) {
+				if ( post_password_required( $download_id ) ) {
+					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download_monitor' ));
+				}
 				$this->trigger( $download, $version_id );
+			}
 
 			elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) )
 				wp_redirect( $redirect );
