@@ -1,0 +1,1106 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Download Monitor v1.4.2\n"
+"POT-Creation-Date: 2014-03-25 12:26+0800\n"
+"PO-Revision-Date: 2014-03-25 15:01+0800\n"
+"Last-Translator: Andy Zou <andy.xy.zou@gmail.com>\n"
+"Language-Team: Andy Zou <andy.xy.zou@gmail.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: templates\n"
+"X-Poedit-SearchPath-1: .\n"
+"X-Poedit-SearchPath-2: includes\n"
+"X-Poedit-SearchPath-3: includes\\admin\n"
+"X-Poedit-SearchPath-4: includes\\widgets\n"
+
+#: download-monitor.php:89 includes/admin/class-dlm-admin.php:249
+#: includes\admin/class-dlm-admin.php:249
+msgid "Settings"
+msgstr "设置"
+
+#: download-monitor.php:90 includes/admin/class-dlm-admin.php:252
+#: includes\admin/class-dlm-admin.php:252
+msgid "Add-ons"
+msgstr "附加组件"
+
+#: download-monitor.php:91
+msgid "Docs"
+msgstr "文档"
+
+#: download-monitor.php:238 download-monitor.php:240
+#: includes/admin/class-dlm-admin-cpt.php:172
+#: includes\admin/class-dlm-admin-cpt.php:172
+msgid "Categories"
+msgstr "分类"
+
+#: download-monitor.php:241
+msgid "Download Category"
+msgstr "下载分类"
+
+#: download-monitor.php:242
+msgid "Search Download Categories"
+msgstr "查找下载分类"
+
+#: download-monitor.php:243
+msgid "All Download Categories"
+msgstr "所有下载分类"
+
+#: download-monitor.php:244
+msgid "Parent Download Category"
+msgstr "父下载分类"
+
+#: download-monitor.php:245
+msgid "Parent Download Category:"
+msgstr "父下载分类："
+
+#: download-monitor.php:246
+msgid "Edit Download Category"
+msgstr "编辑下载分类"
+
+#: download-monitor.php:247
+msgid "Update Download Category"
+msgstr "更新下载分类"
+
+#: download-monitor.php:248
+msgid "Add New Download Category"
+msgstr "添加新下载分类"
+
+#: download-monitor.php:249
+msgid "New Download Category Name"
+msgstr "新下载分类名称"
+
+#: download-monitor.php:268 download-monitor.php:270
+#: includes/admin/class-dlm-admin-cpt.php:173
+#: includes\admin/class-dlm-admin-cpt.php:173
+msgid "Tags"
+msgstr "标签"
+
+#: download-monitor.php:271
+msgid "Download Tag"
+msgstr "下载标签"
+
+#: download-monitor.php:272
+msgid "Search Download Tags"
+msgstr "查找下载标签"
+
+#: download-monitor.php:273
+msgid "All Download Tags"
+msgstr "所有下载标签"
+
+#: download-monitor.php:274
+msgid "Parent Download Tag"
+msgstr "父下载标签"
+
+#: download-monitor.php:275
+msgid "Parent Download Tag:"
+msgstr "父下载标签："
+
+#: download-monitor.php:276
+msgid "Edit Download Tag"
+msgstr "编辑下载标签"
+
+#: download-monitor.php:277
+msgid "Update Download Tag"
+msgstr "更新下载标签"
+
+#: download-monitor.php:278
+msgid "Add New Download Tag"
+msgstr "添加新下载标签"
+
+#: download-monitor.php:279
+msgid "New Download Tag Name"
+msgstr "新下载标签名称"
+
+#: download-monitor.php:300
+msgid "All Downloads"
+msgstr "所有下载"
+
+#: download-monitor.php:301
+msgid "Downloads"
+msgstr "下载"
+
+#: download-monitor.php:302 includes/admin/class-dlm-admin-dashboard.php:69
+#: includes/admin/class-dlm-logging-list-table.php:123
+#: includes\admin/class-dlm-admin-dashboard.php:69
+#: includes\admin/class-dlm-logging-list-table.php:123
+msgid "Download"
+msgstr "下载"
+
+#: download-monitor.php:303
+msgid "Add New"
+msgstr "新添加"
+
+#: download-monitor.php:304
+msgid "Add Download"
+msgstr "添加下载"
+
+#: download-monitor.php:305
+msgid "Edit"
+msgstr "编辑"
+
+#: download-monitor.php:306
+msgid "Edit Download"
+msgstr "编辑下载"
+
+#: download-monitor.php:307
+msgid "New Download"
+msgstr "新建下载"
+
+#: download-monitor.php:308 download-monitor.php:309
+msgid "View Download"
+msgstr "浏览下载"
+
+#: download-monitor.php:310
+msgid "Search Downloads"
+msgstr "查找下载"
+
+#: download-monitor.php:311
+msgid "No Downloads found"
+msgstr "没有找到下载"
+
+#: download-monitor.php:312
+msgid "No Downloads found in trash"
+msgstr "在垃圾篓没有找到下载"
+
+#: download-monitor.php:313
+msgid "Parent Download"
+msgstr "父下载"
+
+#: download-monitor.php:315
+msgid "This is where you can create and manage downloads for your site."
+msgstr "在这儿您可以为您的站点创建和管理下载"
+
+#: includes/admin/class-dlm-addons.php:50
+#: includes/admin/class-dlm-admin.php:252
+#: includes\admin/class-dlm-addons.php:50
+#: includes\admin/class-dlm-admin.php:252
+msgid "Download Monitor Add-ons"
+msgstr "Download Monitor 附加组件"
+
+#: includes/admin/class-dlm-admin-cpt.php:64
+#: includes\admin/class-dlm-admin-cpt.php:64
+msgid "Select a category"
+msgstr "选择一个分类"
+
+#: includes/admin/class-dlm-admin-cpt.php:124
+#: includes\admin/class-dlm-admin-cpt.php:124
+msgid "Download title"
+msgstr "下载标题"
+
+#: includes/admin/class-dlm-admin-cpt.php:140
+#: includes/admin/class-dlm-admin-cpt.php:143
+#: includes\admin/class-dlm-admin-cpt.php:140
+#: includes\admin/class-dlm-admin-cpt.php:143
+msgid "Download updated."
+msgstr "下载已经更新"
+
+#: includes/admin/class-dlm-admin-cpt.php:141
+#: includes\admin/class-dlm-admin-cpt.php:141
+msgid "Custom field updated."
+msgstr "自定义字段已更新"
+
+#: includes/admin/class-dlm-admin-cpt.php:142
+#: includes\admin/class-dlm-admin-cpt.php:142
+msgid "Custom field deleted."
+msgstr "自定义字段已删除"
+
+#: includes/admin/class-dlm-admin-cpt.php:144
+#: includes\admin/class-dlm-admin-cpt.php:144
+#, php-format
+msgid "Download restored to revision from %s"
+msgstr " 从%s下载恢复修正"
+
+#: includes/admin/class-dlm-admin-cpt.php:145
+#: includes\admin/class-dlm-admin-cpt.php:145
+msgid "Download published."
+msgstr "下载已发布"
+
+#: includes/admin/class-dlm-admin-cpt.php:146
+#: includes\admin/class-dlm-admin-cpt.php:146
+msgid "Download saved."
+msgstr "下载已保存"
+
+#: includes/admin/class-dlm-admin-cpt.php:147
+#: includes\admin/class-dlm-admin-cpt.php:147
+msgid "Download submitted."
+msgstr "下载已提交"
+
+#: includes/admin/class-dlm-admin-cpt.php:148
+#: includes\admin/class-dlm-admin-cpt.php:148
+#, php-format
+msgid "Download scheduled for: <strong>%1$s</strong>."
+msgstr "已经为<strong>%1$s</strong>安排下载。"
+
+#: includes/admin/class-dlm-admin-cpt.php:149
+#: includes\admin/class-dlm-admin-cpt.php:149
+msgid "M j, Y @ G:i"
+msgstr "M j, Y @ G:i"
+
+#: includes/admin/class-dlm-admin-cpt.php:150
+#: includes\admin/class-dlm-admin-cpt.php:150
+msgid "Download draft updated."
+msgstr "下载草稿已更新"
+
+#: includes/admin/class-dlm-admin-cpt.php:167
+#: includes\admin/class-dlm-admin-cpt.php:167
+msgid "Image"
+msgstr "图像"
+
+#: includes/admin/class-dlm-admin-cpt.php:168
+#: includes/widgets/class-dlm-widget-downloads.php:171
+#: includes\admin/class-dlm-admin-cpt.php:168
+#: includes\widgets/class-dlm-widget-downloads.php:171
+msgid "Title"
+msgstr "标题"
+
+#: includes/admin/class-dlm-admin-cpt.php:169
+#: includes/widgets/class-dlm-widget-downloads.php:173
+#: includes\admin/class-dlm-admin-cpt.php:169
+#: includes\widgets/class-dlm-widget-downloads.php:173
+msgid "ID"
+msgstr "ID"
+
+#: includes/admin/class-dlm-admin-cpt.php:170
+#: includes/admin/class-dlm-logging-list-table.php:124
+#: includes\admin/class-dlm-admin-cpt.php:170
+#: includes\admin/class-dlm-logging-list-table.php:124
+msgid "File"
+msgstr "文件"
+
+#: includes/admin/class-dlm-admin-cpt.php:171
+#: includes/admin/class-dlm-admin-insert.php:205
+#: includes/admin/html-downloadable-file-version.php:13
+#: includes\admin/class-dlm-admin-cpt.php:171
+#: includes\admin/class-dlm-admin-insert.php:205
+#: includes\admin/html-downloadable-file-version.php:13
+msgid "Version"
+msgstr "版本"
+
+#: includes/admin/class-dlm-admin-cpt.php:174
+#: includes/admin/class-dlm-admin-dashboard.php:70
+#: includes/admin/html-downloadable-file-version.php:49
+#: includes/widgets/class-dlm-widget-downloads.php:176
+#: includes\admin/class-dlm-admin-cpt.php:174
+#: includes\admin/class-dlm-admin-dashboard.php:70
+#: includes\admin/html-downloadable-file-version.php:49
+#: includes\widgets/class-dlm-widget-downloads.php:176
+msgid "Download count"
+msgstr "下载次数"
+
+#: includes/admin/class-dlm-admin-cpt.php:175
+#: includes\admin/class-dlm-admin-cpt.php:175
+msgid "Featured"
+msgstr "特色"
+
+#: includes/admin/class-dlm-admin-cpt.php:176
+#: includes/admin/class-dlm-admin-writepanels.php:63
+#: includes\admin/class-dlm-admin-cpt.php:176
+#: includes\admin/class-dlm-admin-writepanels.php:63
+msgid "Members only"
+msgstr "仅会员"
+
+#: includes/admin/class-dlm-admin-cpt.php:177
+#: includes\admin/class-dlm-admin-cpt.php:177
+msgid "Redirect only"
+msgstr "仅重定向"
+
+#: includes/admin/class-dlm-admin-cpt.php:178
+#: includes\admin/class-dlm-admin-cpt.php:178
+msgid "Date posted"
+msgstr "发布日期"
+
+#: includes/admin/class-dlm-admin-cpt.php:212
+#: includes/admin/class-dlm-admin-cpt.php:220
+#: includes/admin/class-dlm-admin-cpt.php:228
+#: includes\admin/class-dlm-admin-cpt.php:212
+#: includes\admin/class-dlm-admin-cpt.php:220
+#: includes\admin/class-dlm-admin-cpt.php:228
+msgid "Yes"
+msgstr "是"
+
+#: includes/admin/class-dlm-admin-dashboard.php:21
+#: includes\admin/class-dlm-admin-dashboard.php:21
+msgid "Popular Downloads"
+msgstr "热门下载"
+
+#: includes/admin/class-dlm-admin-dashboard.php:53
+#: includes\admin/class-dlm-admin-dashboard.php:53
+msgid "There are no stats available yet!"
+msgstr "目前未统计"
+
+#: includes/admin/class-dlm-admin-insert.php:32
+#: includes/admin/class-dlm-admin-insert.php:70
+#: includes\admin/class-dlm-admin-insert.php:32
+#: includes\admin/class-dlm-admin-insert.php:70
+msgid "Insert Download"
+msgstr "插入下载"
+
+#: includes/admin/class-dlm-admin-insert.php:80
+#: includes/admin/class-dlm-admin-insert.php:176
+#: includes\admin/class-dlm-admin-insert.php:80
+#: includes\admin/class-dlm-admin-insert.php:176
+msgid "Insert Shortcode"
+msgstr "插入快捷码"
+
+#: includes/admin/class-dlm-admin-insert.php:80
+#: includes\admin/class-dlm-admin-insert.php:80
+msgid "Quick-add download"
+msgstr "快速添加下载"
+
+#: includes/admin/class-dlm-admin-insert.php:124
+#: includes\admin/class-dlm-admin-insert.php:124
+msgid "Error: File was not created."
+msgstr "错误：未能创建文件。"
+
+#: includes/admin/class-dlm-admin-insert.php:137
+#: includes\admin/class-dlm-admin-insert.php:137
+msgid "Download successfully created."
+msgstr "已成功创建下载。"
+
+#: includes/admin/class-dlm-admin-insert.php:139
+#: includes\admin/class-dlm-admin-insert.php:139
+msgid "Error: Download was not created."
+msgstr "错误： 未能创建下载。"
+
+#: includes/admin/class-dlm-admin-insert.php:157
+#: includes\admin/class-dlm-admin-insert.php:157
+msgid "Choose a download"
+msgstr "选择下载"
+
+#: includes/admin/class-dlm-admin-insert.php:169
+#: includes\admin/class-dlm-admin-insert.php:169
+msgid "Template"
+msgstr "模板"
+
+#: includes/admin/class-dlm-admin-insert.php:170
+#: includes\admin/class-dlm-admin-insert.php:170
+msgid "Template Name"
+msgstr "模板名称"
+
+#: includes/admin/class-dlm-admin-insert.php:172
+#: includes\admin/class-dlm-admin-insert.php:172
+msgid ""
+"Leaving this blank will use the default <code>content-download.php</code> "
+"template file. If you enter, for example, <code>image</code>, the "
+"<code>content-download-image.php</code> template will be used instead."
+msgstr ""
+"留空将使用 <code>content-download.php</code>模板文件。如果输入了，例如 "
+"<code>image</code>，那么将使用 <code>content-download-image.php</code>模板文"
+"件。"
+
+#: includes/admin/class-dlm-admin-insert.php:187
+#: includes\admin/class-dlm-admin-insert.php:187
+msgid "Drop file here"
+msgstr "把文件拖至这里"
+
+#: includes/admin/class-dlm-admin-insert.php:188
+#: includes/admin/class-dlm-admin-insert.php:190
+#: includes\admin/class-dlm-admin-insert.php:188
+#: includes\admin/class-dlm-admin-insert.php:190
+msgid "or"
+msgstr "或"
+
+#: includes/admin/class-dlm-admin-insert.php:191
+#: includes\admin/class-dlm-admin-insert.php:191
+msgid "Enter URL manually"
+msgstr "手工输入URL"
+
+#: includes/admin/class-dlm-admin-insert.php:197
+#: includes\admin/class-dlm-admin-insert.php:197
+msgid "Download URL"
+msgstr "下载URL"
+
+#: includes/admin/class-dlm-admin-insert.php:198
+#: includes\admin/class-dlm-admin-insert.php:198
+msgid "Required URL"
+msgstr "必选URL"
+
+#: includes/admin/class-dlm-admin-insert.php:201
+#: includes\admin/class-dlm-admin-insert.php:201
+msgid "Download Title"
+msgstr "下载标题"
+
+#: includes/admin/class-dlm-admin-insert.php:202
+#: includes\admin/class-dlm-admin-insert.php:202
+msgid "Required title"
+msgstr "标题必选"
+
+#: includes/admin/class-dlm-admin-insert.php:206
+#: includes\admin/class-dlm-admin-insert.php:206
+msgid "Optional version number"
+msgstr "可选版本号"
+
+#: includes/admin/class-dlm-admin-insert.php:209
+#: includes\admin/class-dlm-admin-insert.php:209
+msgid "Save Download"
+msgstr "保存下载"
+
+#: includes/admin/class-dlm-admin-insert.php:267
+#: includes\admin/class-dlm-admin-insert.php:267
+msgid "Allowed Files"
+msgstr "允许的文件"
+
+#: includes/admin/class-dlm-admin-insert.php:317
+#: includes\admin/class-dlm-admin-insert.php:317
+msgid "Please wait..."
+msgstr "请稍等 ..."
+
+#: includes/admin/class-dlm-admin-media-browser.php:31
+#: includes\admin/class-dlm-admin-media-browser.php:31
+msgid "Browse for a file"
+msgstr "浏览文件"
+
+#: includes/admin/class-dlm-admin-media-browser.php:101
+#: includes\admin/class-dlm-admin-media-browser.php:101
+msgid "No files found"
+msgstr "未找到文件"
+
+#: includes/admin/class-dlm-admin-writepanels.php:29
+#: includes\admin/class-dlm-admin-writepanels.php:29
+msgid "Download Options"
+msgstr "下载选项"
+
+#: includes/admin/class-dlm-admin-writepanels.php:30
+#: includes\admin/class-dlm-admin-writepanels.php:30
+msgid "Downloadable Files/Versions"
+msgstr "可供下载的 文件/版本"
+
+#: includes/admin/class-dlm-admin-writepanels.php:35
+#: includes\admin/class-dlm-admin-writepanels.php:35
+msgid "Short Description"
+msgstr "简洁描述"
+
+#: includes/admin/class-dlm-admin-writepanels.php:57
+#: includes\admin/class-dlm-admin-writepanels.php:57
+msgid "Featured download"
+msgstr "特色下载"
+
+#: includes/admin/class-dlm-admin-writepanels.php:58
+#: includes\admin/class-dlm-admin-writepanels.php:58
+msgid "Mark this download as featured. Used by shortcodes and widgets."
+msgstr "标记为特色下载。快捷码和小工具可以使用。"
+
+#: includes/admin/class-dlm-admin-writepanels.php:64
+#: includes\admin/class-dlm-admin-writepanels.php:64
+msgid ""
+"Only logged in users will be able to access the file via a download link if "
+"this is enabled."
+msgstr "如果启用此选项，仅登录用户可以通过下载链接访问文件。"
+
+#: includes/admin/class-dlm-admin-writepanels.php:69
+#: includes\admin/class-dlm-admin-writepanels.php:69
+msgid "Redirect to file"
+msgstr "重定向至文件"
+
+#: includes/admin/class-dlm-admin-writepanels.php:70
+#: includes\admin/class-dlm-admin-writepanels.php:70
+msgid ""
+"Don't force download. If the <code>dlm_upload</code> folder is protected you "
+"may need to move your file."
+msgstr ""
+"不强行下载。如何文件夹<code>dlm_upload</code>被保护，您也许需要移动你的文件。"
+
+#: includes/admin/class-dlm-admin-writepanels.php:94
+#: includes\admin/class-dlm-admin-writepanels.php:94
+msgid "Add file"
+msgstr "添加文件"
+
+#: includes/admin/class-dlm-admin-writepanels.php:95
+#: includes\admin/class-dlm-admin-writepanels.php:95
+msgid "Close all"
+msgstr "关闭所有 "
+
+#: includes/admin/class-dlm-admin-writepanels.php:95
+#: includes\admin/class-dlm-admin-writepanels.php:95
+msgid "Expand all"
+msgstr "展开所有"
+
+#: includes/admin/class-dlm-admin-writepanels.php:220
+#: includes\admin/class-dlm-admin-writepanels.php:220
+msgid "Are you sure you want to delete this file?"
+msgstr "确定删除此文件？"
+
+#: includes/admin/class-dlm-admin.php:95 includes\admin/class-dlm-admin.php:95
+msgid "General"
+msgstr "通用"
+
+#: includes/admin/class-dlm-admin.php:100
+#: includes\admin/class-dlm-admin.php:100
+msgid "Default Template"
+msgstr "默认模板"
+
+#: includes/admin/class-dlm-admin.php:101
+#: includes\admin/class-dlm-admin.php:101
+msgid ""
+"Choose which template is used for <code>[download]</code> shortcodes by "
+"default (this can be overridden by the <code>format</code> argument)."
+msgstr ""
+"为快捷码 <code>[download]</code> 选择默认模板（<code>format</code>参数覆盖可"
+"以此项）。"
+
+#: includes/admin/class-dlm-admin.php:104
+#: includes\admin/class-dlm-admin.php:104
+msgid "Default - Title and count"
+msgstr "默认 - 标题和数目"
+
+#: includes/admin/class-dlm-admin.php:105
+#: includes\admin/class-dlm-admin.php:105
+msgid "Button - CSS styled button showing title and count"
+msgstr "按钮 - 显示标题和数目的CSS形式按钮"
+
+#: includes/admin/class-dlm-admin.php:106
+#: includes\admin/class-dlm-admin.php:106
+msgid "Box - Box showing thumbnail, title, count, filename and filesize."
+msgstr "方框 - 显示缩略图，标题，数目，文件名和文件大小的方框"
+
+#: includes/admin/class-dlm-admin.php:107
+#: includes\admin/class-dlm-admin.php:107
+msgid "Filename - Filename and download count"
+msgstr "文件名 - 文件名和下载次数"
+
+#: includes/admin/class-dlm-admin.php:108
+#: includes\admin/class-dlm-admin.php:108
+msgid "Title - Shows download title only"
+msgstr "标题 - 仅显示下载标题"
+
+#: includes/admin/class-dlm-admin.php:109
+#: includes\admin/class-dlm-admin.php:109
+msgid "Version list - Lists all download versions in an unordered list"
+msgstr "版本列表 - 列出所有下载版本的无序列表"
+
+#: includes/admin/class-dlm-admin.php:110
+#: includes\admin/class-dlm-admin.php:110
+msgid "Custom template"
+msgstr "自定义模板"
+
+#: includes/admin/class-dlm-admin.php:116
+#: includes\admin/class-dlm-admin.php:116
+msgid "Custom Template"
+msgstr "自定义模板"
+
+#: includes/admin/class-dlm-admin.php:117
+#: includes\admin/class-dlm-admin.php:117
+msgid ""
+"Leaving this blank will use the default <code>content-download.php</code> "
+"template file. If you enter, for example, <code>image</code>, the "
+"<code>content-download-image.php</code> template will be used instead. You "
+"can add custom templates inside your theme folder."
+msgstr ""
+"留空将使用 <code>content-download.php</code>模板文件。如果输入了，例如 "
+"<code>image</code>，那么将使用 <code>content-download-image.php</code>模板文"
+"件。您可以在您的主题文件夹添加自己定义模板。"
+
+#: includes/admin/class-dlm-admin.php:122
+#: includes\admin/class-dlm-admin.php:122
+msgid "Endpoint"
+msgstr "Endpoint"
+
+#: includes/admin/class-dlm-admin.php:127
+#: includes\admin/class-dlm-admin.php:127
+msgid "download"
+msgstr "下载"
+
+#: includes/admin/class-dlm-admin.php:128
+#: includes\admin/class-dlm-admin.php:128
+msgid "Download Endpoint"
+msgstr "下载的Endpoint"
+
+#: includes/admin/class-dlm-admin.php:129
+#: includes\admin/class-dlm-admin.php:129
+#, php-format
+msgid ""
+"Define what endpoint should be used for download links. By default this will "
+"be <code>%s</code>."
+msgstr "定义用于下载链接的endpoint。默认为 <code>%s</code>。"
+
+#: includes/admin/class-dlm-admin.php:134
+#: includes\admin/class-dlm-admin.php:134
+msgid "Endpoint Value"
+msgstr "Endpoint值"
+
+#: includes/admin/class-dlm-admin.php:135
+#: includes\admin/class-dlm-admin.php:135
+#, php-format
+msgid ""
+"Define what unique value should be used on the end of your endpoint to "
+"identify the downloadable file. e.g. ID would give a link like <code>%s</"
+"code>"
+msgstr ""
+"定义独一无二值放在endpoint之后用来标识下载文件。例如使用 ID 将给出像<code>"
+"%s</code>的链接。"
+
+#: includes/admin/class-dlm-admin.php:138
+#: includes/admin/class-dlm-admin.php:452
+#: includes\admin/class-dlm-admin.php:138
+#: includes\admin/class-dlm-admin.php:452
+msgid "Download ID"
+msgstr "下载ID"
+
+#: includes/admin/class-dlm-admin.php:139
+#: includes\admin/class-dlm-admin.php:139
+msgid "Download slug"
+msgstr "下载别名"
+
+#: includes/admin/class-dlm-admin.php:145
+#: includes\admin/class-dlm-admin.php:145
+msgid "X-Accel-Redirect / X-Sendfile"
+msgstr "X-Accel-Redirect / X-Sendfile"
+
+#: includes/admin/class-dlm-admin.php:146
+#: includes/admin/class-dlm-admin.php:157
+#: includes\admin/class-dlm-admin.php:146
+#: includes\admin/class-dlm-admin.php:157
+msgid "Enable"
+msgstr "启用"
+
+#: includes/admin/class-dlm-admin.php:147
+#: includes\admin/class-dlm-admin.php:147
+msgid ""
+"If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be "
+"used to serve downloads instead of PHP (server requires <code>mod_xsendfile</"
+"code>)."
+msgstr ""
+"如果支持， 可以使用<code>X-Accel-Redirect</code> / <code>X-Sendfile</code>供"
+"下载， 而不是使用PHP (服务器需要启用<code>mod_xsendfile</code>模块)。"
+
+#: includes/admin/class-dlm-admin.php:153
+#: includes\admin/class-dlm-admin.php:153
+msgid "Logging"
+msgstr "记录日志"
+
+#: includes/admin/class-dlm-admin.php:159
+#: includes\admin/class-dlm-admin.php:159
+msgid "Download Log"
+msgstr "下载日志"
+
+#: includes/admin/class-dlm-admin.php:160
+#: includes\admin/class-dlm-admin.php:160
+msgid "Log download attempts, IP addresses and more."
+msgstr "记录下载尝试，IP地址等。"
+
+#: includes/admin/class-dlm-admin.php:166
+#: includes\admin/class-dlm-admin.php:166
+msgid "Blacklist IPs"
+msgstr "IP黑名单"
+
+#: includes/admin/class-dlm-admin.php:167
+#: includes\admin/class-dlm-admin.php:167
+msgid ""
+"List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a "
+"wildcard."
+msgstr "IP黑名单列表，每行1个。 使用 <code>*</code>作为通配符。"
+
+#: includes/admin/class-dlm-admin.php:174
+#: includes\admin/class-dlm-admin.php:174
+msgid "Blacklist user agents"
+msgstr "浏览器User-Agent黑名单"
+
+#: includes/admin/class-dlm-admin.php:175
+#: includes\admin/class-dlm-admin.php:175
+msgid "List browser user agents to blacklist, 1 per line."
+msgstr "浏览User-Agent黑名单列表，每行1个。"
+
+#: includes/admin/class-dlm-admin.php:247
+#: includes\admin/class-dlm-admin.php:247
+msgid "Logs"
+msgstr "日志"
+
+#: includes/admin/class-dlm-admin.php:291
+#: includes\admin/class-dlm-admin.php:291
+msgid "Settings successfully saved"
+msgstr "已经成功保存设置"
+
+#: includes/admin/class-dlm-admin.php:358
+#: includes\admin/class-dlm-admin.php:358
+msgid "Save Changes"
+msgstr "保存更改"
+
+#: includes/admin/class-dlm-admin.php:402
+#: includes\admin/class-dlm-admin.php:402
+msgid "Download Logs"
+msgstr "下载日志"
+
+#: includes/admin/class-dlm-admin.php:402
+#: includes\admin/class-dlm-admin.php:402
+msgid "Export CSV"
+msgstr "导出为CSV"
+
+#: includes/admin/class-dlm-admin.php:402
+#: includes\admin/class-dlm-admin.php:402
+msgid "Delete Logs"
+msgstr "删除日志"
+
+#: includes/admin/class-dlm-admin.php:453
+#: includes\admin/class-dlm-admin.php:453
+msgid "Version ID"
+msgstr "版本ID"
+
+#: includes/admin/class-dlm-admin.php:454
+#: includes\admin/class-dlm-admin.php:454
+msgid "Filename"
+msgstr "文件名"
+
+#: includes/admin/class-dlm-admin.php:455
+#: includes\admin/class-dlm-admin.php:455
+msgid "User ID"
+msgstr "用户ID"
+
+#: includes/admin/class-dlm-admin.php:456
+#: includes\admin/class-dlm-admin.php:456
+msgid "User Login"
+msgstr "用户登录名"
+
+#: includes/admin/class-dlm-admin.php:457
+#: includes\admin/class-dlm-admin.php:457
+msgid "User Email"
+msgstr "用户Email"
+
+#: includes/admin/class-dlm-admin.php:458
+#: includes\admin/class-dlm-admin.php:458
+msgid "User IP"
+msgstr "用户IP"
+
+#: includes/admin/class-dlm-admin.php:459
+#: includes/admin/class-dlm-logging-list-table.php:127
+#: includes\admin/class-dlm-admin.php:459
+#: includes\admin/class-dlm-logging-list-table.php:127
+msgid "User Agent"
+msgstr "浏览器User-Agent"
+
+#: includes/admin/class-dlm-admin.php:460
+#: includes/admin/class-dlm-logging-list-table.php:128
+#: includes\admin/class-dlm-admin.php:460
+#: includes\admin/class-dlm-logging-list-table.php:128
+msgid "Date"
+msgstr "日期"
+
+#: includes/admin/class-dlm-admin.php:461
+#: includes\admin/class-dlm-admin.php:461
+msgid "Status"
+msgstr "状态"
+
+#: includes/admin/class-dlm-logging-list-table.php:50
+#: includes\admin/class-dlm-logging-list-table.php:50
+msgid "Download Complete"
+msgstr "下载完成"
+
+#: includes/admin/class-dlm-logging-list-table.php:57
+#: includes\admin/class-dlm-logging-list-table.php:57
+#, php-format
+msgid "%s ago"
+msgstr "%s 前"
+
+#: includes/admin/class-dlm-logging-list-table.php:64
+#: includes\admin/class-dlm-logging-list-table.php:64
+#, php-format
+msgid "Download #%d (no longer exists)"
+msgstr "下载 #%d (已经不存在)"
+
+#: includes/admin/class-dlm-logging-list-table.php:72
+#: includes\admin/class-dlm-logging-list-table.php:72
+#, php-format
+msgid "v%s"
+msgstr "v%s"
+
+#: includes/admin/class-dlm-logging-list-table.php:92
+#: includes\admin/class-dlm-logging-list-table.php:92
+msgid "Non-member"
+msgstr "非会员"
+
+#: includes/admin/class-dlm-logging-list-table.php:125
+#: includes\admin/class-dlm-logging-list-table.php:125
+msgid "User"
+msgstr "用户"
+
+#: includes/admin/class-dlm-logging-list-table.php:126
+#: includes\admin/class-dlm-logging-list-table.php:126
+msgid "IP Address"
+msgstr "IP地址"
+
+#: includes/admin/class-dlm-logging-list-table.php:142
+#: includes\admin/class-dlm-logging-list-table.php:142
+msgid "Any status"
+msgstr "任何状态"
+
+#: includes/admin/class-dlm-logging-list-table.php:143
+#: includes\admin/class-dlm-logging-list-table.php:143
+msgid "Failed"
+msgstr "失败"
+
+#: includes/admin/class-dlm-logging-list-table.php:144
+#: includes\admin/class-dlm-logging-list-table.php:144
+msgid "Redirected"
+msgstr "已重定向"
+
+#: includes/admin/class-dlm-logging-list-table.php:145
+#: includes\admin/class-dlm-logging-list-table.php:145
+msgid "Completed"
+msgstr "已经完成"
+
+#: includes/admin/class-dlm-logging-list-table.php:164
+#: includes\admin/class-dlm-logging-list-table.php:164
+msgid "Show all dates"
+msgstr "显示所有日期"
+
+#: includes/admin/class-dlm-logging-list-table.php:177
+#: includes\admin/class-dlm-logging-list-table.php:177
+#, php-format
+msgid "%1$s %2$d"
+msgstr "%1$s %2$d"
+
+#: includes/admin/class-dlm-logging-list-table.php:185
+#: includes\admin/class-dlm-logging-list-table.php:185
+msgid "25 per page"
+msgstr "每页25条"
+
+#: includes/admin/class-dlm-logging-list-table.php:186
+#: includes\admin/class-dlm-logging-list-table.php:186
+msgid "50 per page"
+msgstr "每页50条"
+
+#: includes/admin/class-dlm-logging-list-table.php:187
+#: includes\admin/class-dlm-logging-list-table.php:187
+msgid "100 per page"
+msgstr "每页100条"
+
+#: includes/admin/class-dlm-logging-list-table.php:188
+#: includes\admin/class-dlm-logging-list-table.php:188
+msgid "200 per page"
+msgstr "每页200条"
+
+#: includes/admin/class-dlm-logging-list-table.php:189
+#: includes\admin/class-dlm-logging-list-table.php:189
+msgid "Show All"
+msgstr "显示所有"
+
+#: includes/admin/class-dlm-logging-list-table.php:193
+#: includes\admin/class-dlm-logging-list-table.php:193
+msgid "Filter"
+msgstr "过滤"
+
+#: includes/admin/html-downloadable-file-version.php:3
+#: includes\admin/html-downloadable-file-version.php:3
+msgid "Remove"
+msgstr "移除"
+
+#: includes/admin/html-downloadable-file-version.php:4
+#: includes\admin/html-downloadable-file-version.php:4
+msgid "Click to toggle"
+msgstr "单击切换"
+
+#: includes/admin/html-downloadable-file-version.php:5
+#: includes\admin/html-downloadable-file-version.php:5
+#, php-format
+msgid "Version <span class=\"version\">%s</span> (%s)"
+msgstr "版本 <span class=\"version\">%s</span> (%s)"
+
+#: includes/admin/html-downloadable-file-version.php:5
+#: includes/admin/html-downloadable-file-version.php:14
+#: includes\admin/html-downloadable-file-version.php:5
+#: includes\admin/html-downloadable-file-version.php:14
+msgid "n/a"
+msgstr "未知"
+
+#: includes/admin/html-downloadable-file-version.php:18
+#: includes\admin/html-downloadable-file-version.php:18
+msgid "File URL(s)"
+msgstr "文件URL"
+
+#: includes/admin/html-downloadable-file-version.php:19
+#: includes\admin/html-downloadable-file-version.php:19
+msgid ""
+"Enter one file path/URL per line - multiple files will be used as mirrors "
+"(chosen at random)."
+msgstr "每行输入一个文件路径/URL - 多个文件将被作为镜像(随机选择)"
+
+#: includes/admin/html-downloadable-file-version.php:24
+#: includes\admin/html-downloadable-file-version.php:24
+msgid "Upload file"
+msgstr "上传文件"
+
+#: includes/admin/html-downloadable-file-version.php:26
+#: includes\admin/html-downloadable-file-version.php:26
+msgid "Choose a file"
+msgstr "选择文件"
+
+#: includes/admin/html-downloadable-file-version.php:27
+#: includes\admin/html-downloadable-file-version.php:27
+msgid "Insert file URL"
+msgstr "插入文件URL"
+
+#: includes/admin/html-downloadable-file-version.php:31
+#: includes\admin/html-downloadable-file-version.php:31
+msgid "Browse for file"
+msgstr "浏览文件"
+
+#: includes/admin/html-downloadable-file-version.php:55
+#: includes\admin/html-downloadable-file-version.php:55
+msgid "File Date"
+msgstr "文件日期"
+
+#: includes/admin/html-downloadable-file-version.php:56
+#: includes\admin/html-downloadable-file-version.php:56
+msgid "h"
+msgstr "h"
+
+#: includes/admin/html-downloadable-file-version.php:56
+#: includes\admin/html-downloadable-file-version.php:56
+msgid "m"
+msgstr "m"
+
+#: includes/class-dlm-download-handler.php:124
+msgid "Download does not exist."
+msgstr "下载不存在"
+
+#: includes/class-dlm-download-handler.php:124
+#: includes/class-dlm-download-handler.php:153
+#: includes/class-dlm-download-handler.php:158
+#: includes/class-dlm-download-handler.php:167
+#: includes/class-dlm-download-handler.php:261
+msgid "Go to homepage &rarr;"
+msgstr "转向主页 &rarr;"
+
+#: includes/class-dlm-download-handler.php:124
+#: includes/class-dlm-download-handler.php:153
+#: includes/class-dlm-download-handler.php:158
+#: includes/class-dlm-download-handler.php:167
+#: includes/class-dlm-download-handler.php:261
+msgid "Download Error"
+msgstr "下载错误"
+
+#: includes/class-dlm-download-handler.php:153
+#: includes/class-dlm-download-handler.php:158
+msgid "No file paths defined."
+msgstr "没有定义文件路径"
+
+#: includes/class-dlm-download-handler.php:167
+msgid "You do not have permission to access this download."
+msgstr "您无权访问此下载"
+
+#: includes/class-dlm-download-handler.php:185
+#: includes/class-dlm-download-handler.php:201
+#: includes/class-dlm-download-handler.php:208
+#: includes/class-dlm-download-handler.php:215
+msgid "Redirected to file"
+msgstr "重定向到文件"
+
+#: includes/class-dlm-download-handler.php:254
+msgid "Redirected to remote file."
+msgstr "重定向到远程文件"
+
+#: includes/class-dlm-download-handler.php:259
+msgid "File not found"
+msgstr "文件没有找到"
+
+#: includes/class-dlm-download-handler.php:261
+msgid "File not found."
+msgstr "文件没有找到"
+
+#: includes/class-dlm-shortcodes.php:93 includes/class-dlm-shortcodes.php:125
+msgid "Download not found"
+msgstr "下载没有找到"
+
+#: includes/widgets/class-dlm-widget-downloads.php:27
+#: includes\widgets/class-dlm-widget-downloads.php:27
+msgid "Display a list of your downloads."
+msgstr "显示您的下载列表"
+
+#: includes/widgets/class-dlm-widget-downloads.php:29
+#: includes\widgets/class-dlm-widget-downloads.php:29
+msgid "Downloads List"
+msgstr "下载列表"
+
+#: includes/widgets/class-dlm-widget-downloads.php:52
+#: includes/widgets/class-dlm-widget-downloads.php:148
+#: includes\widgets/class-dlm-widget-downloads.php:52
+#: includes\widgets/class-dlm-widget-downloads.php:148
+msgid "Featured Downloads"
+msgstr "特色下载"
+
+#: includes/widgets/class-dlm-widget-downloads.php:157
+#: includes\widgets/class-dlm-widget-downloads.php:157
+msgid "Title:"
+msgstr "标题："
+
+#: includes/widgets/class-dlm-widget-downloads.php:161
+#: includes\widgets/class-dlm-widget-downloads.php:161
+msgid "Limit:"
+msgstr "限制："
+
+#: includes/widgets/class-dlm-widget-downloads.php:165
+#: includes\widgets/class-dlm-widget-downloads.php:165
+msgid "Output template:"
+msgstr "输出模板："
+
+#: includes/widgets/class-dlm-widget-downloads.php:166
+#: includes\widgets/class-dlm-widget-downloads.php:166
+msgid "Default template"
+msgstr "默认模板"
+
+#: includes/widgets/class-dlm-widget-downloads.php:169
+#: includes\widgets/class-dlm-widget-downloads.php:169
+msgid "Order by:"
+msgstr "排序："
+
+#: includes/widgets/class-dlm-widget-downloads.php:172
+#: includes\widgets/class-dlm-widget-downloads.php:172
+msgid "Random"
+msgstr "随机"
+
+#: includes/widgets/class-dlm-widget-downloads.php:174
+#: includes\widgets/class-dlm-widget-downloads.php:174
+msgid "Date added"
+msgstr "添加日期"
+
+#: includes/widgets/class-dlm-widget-downloads.php:175
+#: includes\widgets/class-dlm-widget-downloads.php:175
+msgid "Date modified"
+msgstr "修改日期"
+
+#: includes/widgets/class-dlm-widget-downloads.php:180
+#: includes\widgets/class-dlm-widget-downloads.php:180
+msgid "Order:"
+msgstr "排序："
+
+#: includes/widgets/class-dlm-widget-downloads.php:182
+#: includes\widgets/class-dlm-widget-downloads.php:182
+msgid "ASC"
+msgstr "升序"
+
+#: includes/widgets/class-dlm-widget-downloads.php:183
+#: includes\widgets/class-dlm-widget-downloads.php:183
+msgid "DESC"
+msgstr "降序"
+
+#: includes/widgets/class-dlm-widget-downloads.php:188
+#: includes\widgets/class-dlm-widget-downloads.php:188
+msgid "Show only featured downloads"
+msgstr "仅显示特色下载"
+
+#: includes/widgets/class-dlm-widget-downloads.php:192
+#: includes\widgets/class-dlm-widget-downloads.php:192
+msgid "Show only members only downloads"
+msgstr "仅显示会员下载"
+
+#: templates/content-download-box.php:20
+#: templates/content-download-filename.php:8
+#: templates/content-download-title.php:8 templates/content-download.php:8
+#, php-format
+msgid "Version %s"
+msgstr "版本 %s"
+
+#: templates/content-download-box.php:21
+msgid "Download File"
+msgstr "下载文件"
+
+#: templates/content-download-button.php:9
+#, php-format
+msgid "Download &ldquo;%s&rdquo;"
+msgstr "下载 &ldquo;%s&rdquo;"
