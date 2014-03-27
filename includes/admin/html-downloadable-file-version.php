@@ -8,7 +8,10 @@
 	</h3>
 	<table cellpadding="0" cellspacing="0" class="dlm-metabox-content">
 		<tbody>
-			<tr>
+
+		<?php do_action( 'dlm_downloadable_file_version_table_start' ); ?>
+
+		<tr>
 				<td width="1%">
 					<label><?php _e( 'Version', 'download_monitor' ); ?>:</label>
 					<input type="text" class="short" name="downloadable_file_version[<?php echo $i; ?>]" placeholder="<?php _e( 'n/a', 'download_monitor' ); ?>" value="<?php echo $file_version; ?>" />
@@ -56,6 +59,9 @@
 					<input type="text" class="date-picker-field" name="downloadable_file_date[<?php echo $i; ?>]" maxlength="10" value="<?php echo date('Y-m-d', strtotime( $file_post_date ) ); ?>" /> @ <input type="text" class="hour" placeholder="<?php _e('h', 'download_monitor') ?>" name="downloadable_file_date_hour[<?php echo $i; ?>]" maxlength="2" size="2" value="<?php echo date('H', strtotime( $file_post_date ) ); ?>" />:<input type="text" class="minute" placeholder="<?php _e('m', 'download_monitor') ?>" name="downloadable_file_date_minute[<?php echo $i; ?>]" maxlength="2" size="2" value="<?php echo date('i', strtotime( $file_post_date ) ); ?>" />
 				</td>
 			</tr>
+
+			<?php do_action( 'dlm_downloadable_file_version_table_end' ); ?>
+
 		</tbody>
 	</table>
 </div>
