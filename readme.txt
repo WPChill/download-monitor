@@ -115,6 +115,7 @@ Admin hits are not counted, log out and try!
 * pr_br and zh_cn translation
 * Sort download count by meta_value_num
 * Store URLs in JSON format to allow easier search/replace
+* Fix dashboard sorting
 
 = 1.4.2 = 
 * Fix for site_url -> abspath

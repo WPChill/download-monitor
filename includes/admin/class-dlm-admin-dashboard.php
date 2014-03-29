@@ -34,7 +34,7 @@ class DLM_Admin_Dashboard {
     		'post_type'      => 'dlm_download',
     		'no_found_rows'  => 1,
     		'posts_per_page' => 10,
-    		'orderby' 		 => 'meta_value',
+    		'orderby' 		 => 'meta_value_num',
     		'order'          => 'desc',
     		'meta_query'     => array(
     			array(
