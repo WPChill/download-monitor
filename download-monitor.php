@@ -232,7 +232,7 @@ class WP_DLM {
 		 */
 		register_taxonomy( 'dlm_download_category',
 	        array( 'dlm_download' ),
-	        array(
+	        apply_filters( 'dlm_download_category_args', array(
 	            'hierarchical' 			=> true,
 	            'update_count_callback' => '_update_post_term_count',
 	            'label' 				=> __( 'Categories', 'download_monitor'),
@@ -258,12 +258,12 @@ class WP_DLM {
 	            ),
 	            'rewrite' 				=> false,
 	            'show_in_nav_menus'     => false
-	        )
+	        ) )
 	    );
 
 		register_taxonomy( 'dlm_download_tag',
 	        array( 'dlm_download' ),
-	        array(
+	        apply_filters( 'dlm_download_tag_args', array(
 	            'hierarchical' 			=> false,
 	            'label' 				=> __( 'Tags', 'download_monitor'),
 	            'labels' => array(
@@ -288,7 +288,7 @@ class WP_DLM {
 	            ),
 	            'rewrite' 				=> false,
 	            'show_in_nav_menus'     => false
-	        )
+	        ) )
 	    );
 
 	    /**
