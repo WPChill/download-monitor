@@ -118,7 +118,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function get_the_short_description() {
-		return wpautop( $this->post->post_excerpt );
+		return wpautop( do_shortcode( $this->post->post_excerpt ) );
 	}
 
 	/**
