@@ -103,11 +103,17 @@ class DLM_Admin_Writepanels {
 					if ( $files ) foreach ( $files as $file ) {
 
 						$i++;
-						$file_id    = $file->ID;
-						$file_version 	= ( $file_version = get_post_meta( $file->ID, '_version', true ) ) ? $file_version : '';
-						$file_post_date = $file->post_date;
-						$file_download_count 		= absint( get_post_meta( $file->ID, '_download_count', true ) );
-						$file_urls      = array_filter( (array) get_post_meta( $file->ID, '_files', true ) );
+						$file_id             = $file->ID;
+						$file_version        = ( $file_version = get_post_meta( $file->ID, '_version', true ) ) ? $file_version : '';
+						$file_post_date      = $file->post_date;
+						$file_download_count = absint( get_post_meta( $file->ID, '_download_count', true ) );
+						$file_urls           = get_post_meta( $file->ID, '_files', true );
+
+						if ( is_string( $file_urls ) ) {
+							$file_urls = array_filter( (array) json_decode( $file_urls ) );
+						} else {
+							$file_urls = array_filter( $file_urls );
+						}
 
 						include( 'html-downloadable-file-version.php' );
 					}
@@ -456,7 +462,7 @@ class DLM_Admin_Writepanels {
 
 				// Update post meta
 				update_post_meta( $file_id, '_version', $file_version );
-				update_post_meta( $file_id, '_files', $files );
+				update_post_meta( $file_id, '_files', json_encode( $files ) );
 
 				$filesize       = -1;
 				$main_file_path = current( $files );

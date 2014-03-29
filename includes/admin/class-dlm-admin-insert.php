@@ -125,7 +125,7 @@ class DLM_Admin_Insert {
 
 					// Meta
 					update_post_meta( $file_id, '_version', $version );
-					update_post_meta( $file_id, '_files', array( $url ) );
+					update_post_meta( $file_id, '_files', json_encode( array( $url ) ) );
 					update_post_meta( $file_id, '_filesize', $download_monitor->get_filesize( $url ) );
 
 					$hashes = $download_monitor->get_file_hashes( $url );
