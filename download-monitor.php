@@ -550,13 +550,13 @@ class WP_DLM {
 			$file_path    = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $file_path );
 			$file_path    = realpath( $file_path );
 
-		} elseif( is_multisite() && ( strpos( $file_path, network_admin_url( '/', 'http' ) ) !== false || strpos( $file_path, network_admin_url( '/', 'https' ) ) !== false ) ) {
+		} elseif( is_multisite() && ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false || strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) {
 
 			/** This is a local file outside of wp-content so figure out the path */
 			$remote_file = false;
 			// Try to replace network url
-            $file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
-            $file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
+            $file_path   = str_replace( network_site_url( '/', 'https' ), ABSPATH, $file_path );
+            $file_path   = str_replace( network_site_url( '/', 'http' ), ABSPATH, $file_path );
             // Try to replace upload URL
             $upload_dir  = wp_upload_dir();
             $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
