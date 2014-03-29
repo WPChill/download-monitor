@@ -504,7 +504,7 @@ table.wp-list-table {
 	span.description {
 		display: block;
 	}
-	select.input, input.input {
+	input.input {
 		margin: 0 0 .25em 0;
 		display: block;
 		width: 100%;
@@ -512,6 +512,41 @@ table.wp-list-table {
 	}
 	.add_link {
 		float: right;
+	}
+	ul.page-numbers {
+		overflow: hidden;
+		zoom: 1;
+		margin: 0 auto;
+		padding: 0;
+		text-align: center;
+		li {
+			display: inline-block;
+			margin: 0;
+			list-style: none outside;
+			line-height: 1em;
+			a, span {
+				text-decoration: none;
+				border: 1px solid #ddd;
+				-webkit-border-radius: 4px;
+				border-radius: 4px;
+				padding: 8px;
+				display: block;
+			}
+			span {
+				border-color: #eee;
+			}
+		}
+	}	
+	legend {
+		font-weight: bold;
+		display: block;
+		margin: 0 0 1em;
+	}
+	fieldset {
+		label {
+			display: block;
+			margin: 0 0 .5em;
+		}
 	}
 }
 

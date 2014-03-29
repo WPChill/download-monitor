@@ -119,6 +119,7 @@ Admin hits are not counted, log out and try!
 * Option for basic referer checking to prevent hotlinking.
 * Only get file hashes on save as they are resource heavy.
 * Disable remote file hash generation, but can be enabled with filter dlm_allow_remote_hash_file
+* Radio buttons instead of select (with pagination) in popup to improve performance.
 
 = 1.4.2 = 
 * Fix for site_url -> abspath

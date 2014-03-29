@@ -58,8 +58,6 @@ class DLM_Admin_Insert {
 		global $download_monitor;
 
 		// Enqueue scripts and styles for panel
-		wp_enqueue_script( 'chosen', $download_monitor->plugin_url() . '/assets/js/chosen/chosen.jquery.min.js' );
-		wp_enqueue_style( 'chosen', $download_monitor->plugin_url() . '/assets/js/chosen/chosen.css' );
 		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		wp_enqueue_script( 'common' );
 		wp_enqueue_style( 'global' );
@@ -148,23 +146,47 @@ class DLM_Admin_Insert {
 		$downloads = get_posts( array(
 			'post_status'    => 'publish',
 			'post_type'      => 'dlm_download',
+			'orderby'        => 'ID',
 			'posts_per_page' => -1
 		) );
 		?>
 		<form id="insert-shortcode">
 
-			<p>
-				<label for="download_id"><?php _e( 'Choose a download', 'download_monitor' ); ?>:</label>
-				<select id="download_id" class="input">
-					<?php
-					foreach ( $downloads as $download ) {
-						$download = new DLM_Download( $download->ID );
+			<fieldset>
+				<legend><?php _e( 'Choose a download', 'download_monitor' ); ?>:</legend>
+				<?php
+					$limit = 10;
+					$page  = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
 
-						echo '<option value="' . $download->id . '">#' . $download->id . ' &ndash; ' . $download->get_the_title() . ' &ndash; ' . $download->get_the_filename() .'</option>';
-					}
-					?>
-				</select>
-			</p>
+					$dlm_query = new WP_Query( array(  
+					    'post_status'    => 'publish',
+						'post_type'      => 'dlm_download',
+					    'posts_per_page' => $limit,
+					    'offset'         => ( $page - 1 ) * $limit
+					) );  
+					  
+					while ( $dlm_query->have_posts() ) {  
+						$dlm_query->the_post();
+					    $download = new DLM_Download( $dlm_query->post->ID );
+					    echo '<label><input name="download_id" class="radio" type="radio" value="' . absint( $download->id ) . '" /> #' . $download->id . ' &ndash; ' . $download->get_the_title() . ' &ndash; ' . $download->get_the_filename() .'</label>';
+					}  
+					  
+					if ( $dlm_query->max_num_pages > 1 ) {  
+					    echo paginate_links( apply_filters( 'download_monitor_pagination_args', array(
+							'base' 			=> str_replace( 999999999, '%#%', get_pagenum_link( 999999999 ) ),
+							'format' 		=> '',
+							'current' 		=> $page,
+							'total' 		=> $dlm_query->max_num_pages,
+							'prev_text' 	=> '&larr;',
+							'next_text' 	=> '&rarr;',
+							'type'			=> 'list',
+							'end_size'		=> 3,
+							'mid_size'		=> 3
+						) ) );
+					}  
+				?>
+			</fieldset>
+			
 			<p>
 				<label for="template_name"><?php _e( 'Template', 'download_monitor' ); ?>:</label>
 				<input type="text" id="template_name" value="" class="input" placeholder="<?php _e( 'Template Name', 'download_monitor' ); ?>" />
@@ -226,15 +248,13 @@ class DLM_Admin_Insert {
 
 				jQuery('#quick-add').hide();
 
-				jQuery('#download_id').chosen();
-
 				jQuery('body').on('click', '.insert_download', function(){
 
 					var win = window.dialogArguments || opener || parent || top;
 
-					var download_id = jQuery('#download_id').val();
+					var download_id = jQuery('input[name="download_id"]:checked').val();
 					var template    = jQuery('#template_name').val();
-					var shortcode   = '[download id="' + jQuery('#download_id').val() + '"';
+					var shortcode   = '[download id="' + download_id + '"';
 
 					if ( template )
 						shortcode = shortcode + ' template="' + template + '"';
