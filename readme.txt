@@ -108,6 +108,13 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+==
+* Add password form to download page when required
+* Run shortcodes in excerpt/short desc
+* Various hook additions
+* pr_br and zh_cn translation
+* Sort download count by meta_value_num
+
 = 1.4.2 = 
 * Fix for site_url -> abspath
 * Check if hash functions are supported before use.
