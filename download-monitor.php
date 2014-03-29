@@ -591,14 +591,17 @@ class WP_DLM {
 		if ( $file_path ) {
 			list( $file_path, $remote_file ) = $this->parse_file_path( $file_path );
 
-			if ( $remote_file ) {
-				$file = wp_remote_head( $file_path );
+			if ( ! empty( $file_path ) ) {
+				if ( $remote_file ) {
+					$file = wp_remote_head( $file_path );
 
-				if ( ! is_wp_error( $file ) && ! empty( $file['headers']['content-length'] ) )
-					return $file['headers']['content-length'];
-			} else {
-				if ( file_exists( $file_path ) && ( $filesize = filesize( $file_path ) ) ) {
-					return $filesize;
+					if ( ! is_wp_error( $file ) && ! empty( $file['headers']['content-length'] ) ) {
+						return $file['headers']['content-length'];
+					}
+				} else {
+					if ( file_exists( $file_path ) && ( $filesize = filesize( $file_path ) ) ) {
+						return $filesize;
+					}
 				}
 			}
 		}
@@ -607,28 +610,28 @@ class WP_DLM {
 	}
 
 	/**
-	 * Gets md5, sha1 and crc32 hashes for a file
+	 * Gets md5, sha1 and crc32 hashes for a file and store it.
 	 *
 	 * @access public
 	 * @return array of sizes
 	 */
 	public function get_file_hashes( $file_path ) {
-		$md5   = '';
-		$sha1  = '';
-		$crc32 = '';
+		$md5 = $sha1 = $crc32 = '';
 
 		if ( $file_path ) {
 			list( $file_path, $remote_file ) = $this->parse_file_path( $file_path );
 
-			if ( $remote_file && ! ini_get( 'allow_url_fopen' ) ) {
-				// We cannot look up a hash
-				$md5   = false;
-				$sha1  = false;
-				$crc32 = false;
-			} else {
-				$md5   = hash_file( 'md5', $file_path );
-				$sha1  = hash_file( 'sha1', $file_path );
-				$crc32 = hash_file( 'crc32b', $file_path );
+			if ( ! empty( $file_path ) ) {
+				if ( $remote_file && ! apply_filters( 'dlm_allow_remote_hash_file', false ) ) {
+					// We cannot look up a hash
+					$md5   = false;
+					$sha1  = false;
+					$crc32 = false;
+				} else {
+					$md5   = hash_file( 'md5', $file_path );
+					$sha1  = hash_file( 'sha1', $file_path );
+					$crc32 = hash_file( 'crc32b', $file_path );
+				}
 			}
 		}
 

@@ -117,6 +117,8 @@ Admin hits are not counted, log out and try!
 * Store URLs in JSON format to allow easier search/replace
 * Fix dashboard sorting
 * Option for basic referer checking to prevent hotlinking.
+* Only get file hashes on save as they are resource heavy.
+* Disable remote file hash generation, but can be enabled with filter dlm_allow_remote_hash_file
 
 = 1.4.2 = 
 * Fix for site_url -> abspath
