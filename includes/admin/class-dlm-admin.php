@@ -146,6 +146,14 @@ class DLM_Admin {
 							'cb_label'  => __( 'Enable', 'download_monitor' ),
 							'desc'		=> __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download_monitor' ),
 							'type'      => 'checkbox'
+						),
+						array(
+							'name' 		=> 'dlm_hotlink_protection_enabled',
+							'std' 		=> '',
+							'label' 	=> __( 'Prevent hotlinking', 'download_monitor' ),
+							'cb_label'  => __( 'Enable', 'download_monitor' ),
+							'desc'		=> __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download_monitor' ),
+							'type'      => 'checkbox'
 						)
 					)
 				),

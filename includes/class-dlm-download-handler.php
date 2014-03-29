@@ -72,13 +72,22 @@ class DLM_Download_Handler {
 	public function handler() {
 		global $wp, $wpdb;
 
-		if ( ! empty( $_GET[ $this->endpoint ] ) )
+		if ( ! empty( $_GET[ $this->endpoint ] ) ) {
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
+		}
 
 		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) ) {
 
 			// Prevent caching when endpoint is set
 			define( 'DONOTCACHEPAGE', true );
+
+			// Prevent hotlinking
+			if ( get_option( 'dlm_hotlink_protection_enabled' ) && ! empty( $_SERVER['HTTP_REFERER'] ) ) {
+				if ( ! strstr( $_SERVER['HTTP_REFERER'], site_url() ) ) {
+					wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url() ) );
+					exit;
+				}
+			}
 
 			// Get ID of download
 			$raw_id = sanitize_title( stripslashes( $wp->query_vars[ $this->endpoint ] ) );
@@ -116,7 +125,7 @@ class DLM_Download_Handler {
 			// Action on found download
 			if ( ! is_null( $download ) && $download->exists() ) {
 				if ( post_password_required( $download_id ) ) {
-					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download_monitor' ));
+					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download_monitor' ) );
 				}
 				$this->trigger( $download, $version_id );
 			}
@@ -149,7 +158,7 @@ class DLM_Download_Handler {
 	 */
 	private function trigger( $download ) {
 		global $download_monitor;
-		
+
 		$version    = $download->get_file_version();
 		$file_paths = $version->mirrors;
 

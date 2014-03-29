@@ -116,6 +116,7 @@ Admin hits are not counted, log out and try!
 * Sort download count by meta_value_num
 * Store URLs in JSON format to allow easier search/replace
 * Fix dashboard sorting
+* Option for basic referer checking to prevent hotlinking.
 
 = 1.4.2 = 
 * Fix for site_url -> abspath
