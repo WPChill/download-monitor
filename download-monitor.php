@@ -538,16 +538,20 @@ class WP_DLM {
 		$remote_file      = true;
 		$parsed_file_path = parse_url( $file_path );
 		
+		$wp_uploads = wp_upload_dir();
+		$wp_uploads_dir = $wp_uploads['basedir'];
+		$wp_uploads_url = $wp_uploads['baseurl'];
+
 		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp' ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path['path'] ) ) {
 
 			/** This is an absolute path */
 			$remote_file  = false;
 
-		} elseif( strpos( $file_path, WP_CONTENT_URL ) !== false ) {
+		} elseif( strpos( $file_path, $wp_uploads_url ) !== false ) {
 
 			/** This is a local file given by URL so we need to figure out the path */
 			$remote_file  = false;
-			$file_path    = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $file_path );
+			$file_path    = str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path );
 			$file_path    = realpath( $file_path );
 
 		} elseif( is_multisite() && ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false || strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) {
