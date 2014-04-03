@@ -83,7 +83,7 @@ class DLM_Download_Handler {
 
 			// Prevent hotlinking
 			if ( get_option( 'dlm_hotlink_protection_enabled' ) && ! empty( $_SERVER['HTTP_REFERER'] ) ) {
-				if ( ! strstr( $_SERVER['HTTP_REFERER'], site_url() ) ) {
+				if ( ! strstr( $_SERVER['HTTP_REFERER'], home_url() ) ) {
 					wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url() ) );
 					exit;
 				}
