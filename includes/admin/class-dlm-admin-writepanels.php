@@ -111,8 +111,10 @@ class DLM_Admin_Writepanels {
 
 						if ( is_string( $file_urls ) ) {
 							$file_urls = array_filter( (array) json_decode( $file_urls ) );
-						} else {
+						} elseif ( is_array( $file_urls ) ) {
 							$file_urls = array_filter( $file_urls );
+						} else {
+							$file_urls = array();
 						}
 
 						include( 'html-downloadable-file-version.php' );

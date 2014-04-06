@@ -27,8 +27,10 @@ class DLM_Download_Version {
 		// Get URLS
 		if ( is_string( $this->mirrors ) ) {
 			$this->mirrors = array_filter( (array) json_decode( $this->mirrors ) );
-		} else {
+		} elseif ( is_array( $this->mirrors ) ) {
 			$this->mirrors = array_filter( $this->mirrors );
+		} else {
+			$this->mirrors = array();
 		}
 
 		$this->url            = current( $this->mirrors );
