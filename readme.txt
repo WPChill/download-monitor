@@ -108,6 +108,10 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.4.4 = 
+* Use home_dir instead of site_dir - fixes hot-linking protections against own site (when not in root dir)
+* Replace hardcoded WP_CONTENT_DIR and WP_CONTENT_URL with wp_upload_dir to work when UPLOADS and UPLOADS_URL constants are set.
+
 = 1.4.3 =
 * Add password form to download page when required
 * Run shortcodes in excerpt/short desc
