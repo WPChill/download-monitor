@@ -82,10 +82,21 @@ class DLM_Download_Handler {
 			define( 'DONOTCACHEPAGE', true );
 
 			// Prevent hotlinking
-			if ( get_option( 'dlm_hotlink_protection_enabled' ) && ! empty( $_SERVER['HTTP_REFERER'] ) ) {
-				if ( ! strstr( $_SERVER['HTTP_REFERER'], home_url() ) ) {
-					wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url() ) );
-					exit;
+			if ( get_option( 'dlm_hotlink_protection_enabled' ) ) {
+				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
+				if ( $referer || apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) {
+					$allowed_referers = apply_filters( 'dlm_hotlink_allowed_referers', array( home_url() ) );
+					$allowed          = false;
+					foreach ( $allowed_referers as $allowed_referer ) {
+						if ( strstr( $referer, $allowed_referer ) ) {
+							$allowed = true;
+							break;
+						}
+					}
+					if ( ! $allowed ) {
+						wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url() ) );
+						exit;
+					}
 				}
 			}
 
