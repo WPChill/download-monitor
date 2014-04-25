@@ -26,7 +26,15 @@ class DLM_Download_Version {
 
 		// Get URLS
 		if ( is_string( $this->mirrors ) ) {
-			$this->mirrors = array_filter( (array) json_decode( $this->mirrors ) );
+			// Legacy support
+			$this->mirrors = json_decode( $this->mirrors );
+
+			// JSON cannot be parsed, new format maybe
+			if ($this->mirrors===null) {
+				$this->mirrors = array_filter( (array) maybe_unserialize( $this->mirrors ) );
+			} else {
+				$this->mirrors = array_filter( (array) $this->mirrors );
+			}
 		} elseif ( is_array( $this->mirrors ) ) {
 			$this->mirrors = array_filter( $this->mirrors );
 		} else {
