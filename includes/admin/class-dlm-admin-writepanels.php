@@ -110,7 +110,15 @@ class DLM_Admin_Writepanels {
 						$file_urls           = get_post_meta( $file->ID, '_files', true );
 
 						if ( is_string( $file_urls ) ) {
-							$file_urls = array_filter( (array) json_decode( $file_urls ) );
+							// Legacy support
+							$file_urls = json_decode( $file_urls );
+
+							// JSON cannot be parsed, new format maybe
+							if ($file_urls===null) {
+								$file_urls = array_filter( (array) maybe_unserialize($file_urls) );
+							} else {
+								$file_urls = array_filter( (array) $file_urls );
+							}
 						} elseif ( is_array( $file_urls ) ) {
 							$file_urls = array_filter( $file_urls );
 						} else {
@@ -464,7 +472,7 @@ class DLM_Admin_Writepanels {
 
 				// Update post meta
 				update_post_meta( $file_id, '_version', $file_version );
-				update_post_meta( $file_id, '_files', json_encode( $files ) );
+				update_post_meta( $file_id, '_files', $files );
 
 				$filesize       = -1;
 				$main_file_path = current( $files );
