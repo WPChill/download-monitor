@@ -300,7 +300,7 @@ class DLM_Shortcodes {
 					'taxonomy'         => 'dlm_download_category',
 					'field'            => 'slug',
 					'terms'            => $categories,
-					'include_children' => $category_include_children
+					'include_children' => ( $category_include_children === 'true' || $category_include_children === true )
 			  	);
 		  	}
 
