@@ -562,8 +562,7 @@ class WP_DLM {
             $file_path   = str_replace( network_site_url( '/', 'https' ), ABSPATH, $file_path );
             $file_path   = str_replace( network_site_url( '/', 'http' ), ABSPATH, $file_path );
             // Try to replace upload URL
-            $upload_dir  = wp_upload_dir();
-            $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
+            $file_path   = str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path );
             $file_path   = realpath( $file_path );
 
 		} elseif( strpos( $file_path, site_url( '/', 'http' ) ) !== false || strpos( $file_path, site_url( '/', 'https' ) ) !== false ) {
