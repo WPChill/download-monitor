@@ -112,6 +112,7 @@ Admin hits are not counted, log out and try!
 * Style filetype-docx
 * Update get_version_id to work with non-numeric versions.
 * Fix shortcode arg booleans.
+* Add transient cache for get_file_version_ids.
 
 = 1.4.4 = 
 * Use home_dir instead of site_dir - fixes hot-linking protections against own site (when not in root dir)

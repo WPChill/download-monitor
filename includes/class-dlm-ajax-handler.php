@@ -49,8 +49,10 @@ class WP_DLM_Ajax_Handler {
 
 		$file = get_post( intval( $_POST['file_id'] ) );
 
-		if ( $file && $file->post_type == "dlm_download_version" )
+		if ( $file && $file->post_type == "dlm_download_version" ) {
+			delete_transient( 'dlm_file_version_ids_' . $file->post_parent );
 			wp_delete_post( $file->ID );
+		}
 
 		die();
 	}
@@ -77,12 +79,14 @@ class WP_DLM_Ajax_Handler {
 			'post_type'    => 'dlm_download_version'
 		);
 
-		$file_id        = wp_insert_post( $file );
-		$i              = $size;
-		$file_version 	= '';
-		$file_post_date = current_time( 'mysql' );
-		$file_download_count 		= 0;
-		$file_urls      = array();
+		$file_id             = wp_insert_post( $file );
+		$i                   = $size;
+		$file_version        = '';
+		$file_post_date      = current_time( 'mysql' );
+		$file_download_count = 0;
+		$file_urls           = array();
+
+		delete_transient( 'dlm_file_version_ids_' . $post_id );
 
 		include( 'admin/html-downloadable-file-version.php' );
 
