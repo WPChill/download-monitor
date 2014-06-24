@@ -110,6 +110,7 @@ Admin hits are not counted, log out and try!
 
 * JSON_UNESCAPED_UNICODE for files to fix unicode chars. Requires PHP 5.4+
 * Style filetype-docx
+* Update get_version_id to work with non-numeric versions.
 
 = 1.4.4 = 
 * Use home_dir instead of site_dir - fixes hot-linking protections against own site (when not in root dir)

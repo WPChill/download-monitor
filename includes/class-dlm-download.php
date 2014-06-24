@@ -422,9 +422,11 @@ class DLM_Download {
     public function get_version_id( $version_string = '' ) {
 	    $versions = $this->get_file_versions();
 
-	    foreach ( $versions as $version_id => $version )
-	    	if ( version_compare( $version->version, strtolower( $version_string ), '=' ) )
+	    foreach ( $versions as $version_id => $version ) {
+	    	if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || strtolower( $version->version ) === strtolower( $version_string ) ) {
 	    		return $version_id;
+	    	}
+	    }
     }
 
 	/**

@@ -113,10 +113,11 @@ class DLM_Download_Handler {
 				break;
 			}
 
-			if ( $download_id > 0 )
+			if ( $download_id > 0 ) {
 				$download = new DLM_Download( $download_id );
-			else
+			} else {
 				$download = null;
+			}
 
 			// Handle version (if set)
 			$version_id = '';
@@ -141,11 +142,13 @@ class DLM_Download_Handler {
 				$this->trigger( $download, $version_id );
 			}
 
-			elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) )
+			elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
 				wp_redirect( $redirect );
+			}
 
-			else
+			else {
 				wp_die( __( 'Download does not exist.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
+			}
 
 			die('1');
 		}
