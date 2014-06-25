@@ -76,7 +76,7 @@ class DLM_Download_Handler {
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
 		}
 
-		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) ) {
+		if ( $wp->query_vars['post_type'] === 'dlm_download' && ! empty( $wp->query_vars[ $this->endpoint ] ) ) {
 
 			// Prevent caching when endpoint is set
 			define( 'DONOTCACHEPAGE', true );
@@ -327,12 +327,12 @@ class DLM_Download_Handler {
 		@session_write_close();
 		@ini_set( 'zlib.output_compression', 'Off' );
 		@error_reporting(0);
-		
+
 		/**
 		 * Prevents errors, for example: transfer closed with 3 bytes remaining to read
 		 */
 		@ob_end_clean(); // Clear the output buffer
-		
+
 		if ( ob_get_level() ) {
 			@ob_end_clean(); // Zip corruption fix
 		}
