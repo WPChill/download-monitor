@@ -116,6 +116,30 @@ class DLM_Admin {
 							'label' 	=> __( 'Custom Template', 'download-monitor' ),
 							'desc'		=> __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
 						),
+						array(
+							'name' 		=> 'dlm_generate_hash_md5',
+							'std' 		=> '0',
+							'label' 	=> __( 'MD5 hashes', 'download-monitor' ),
+							'cb_label'  => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
+							'desc'		=> '',
+							'type'      => 'checkbox'
+						),
+						array(
+							'name' 		=> 'dlm_generate_hash_sha1',
+							'std' 		=> '0',
+							'label' 	=> __( 'SHA1 hashes', 'download-monitor' ),
+							'cb_label'  => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
+							'desc'		=> '',
+							'type'      => 'checkbox'
+						),
+						array(
+							'name' 		=> 'dlm_generate_hash_crc32b',
+							'std' 		=> '0',
+							'label' 	=> __( 'CRC32B hashes', 'download-monitor' ),
+							'cb_label'  => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
+							'desc'		=> __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
+							'type'      => 'checkbox'
+						),
 					),
 				),
 				'endpoints' => array(

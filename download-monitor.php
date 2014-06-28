@@ -622,21 +622,24 @@ class WP_DLM {
 	 * @return array of sizes
 	 */
 	public function get_file_hashes( $file_path ) {
-		$md5 = $sha1 = $crc32 = '';
+		$md5   = false;
+		$sha1  = false;
+		$crc32 = false;
 
 		if ( $file_path ) {
 			list( $file_path, $remote_file ) = $this->parse_file_path( $file_path );
 
 			if ( ! empty( $file_path ) ) {
-				if ( $remote_file && ! apply_filters( 'dlm_allow_remote_hash_file', false ) ) {
-					// We cannot look up a hash
-					$md5   = false;
-					$sha1  = false;
-					$crc32 = false;
-				} else {
-					$md5   = hash_file( 'md5', $file_path );
-					$sha1  = hash_file( 'sha1', $file_path );
-					$crc32 = hash_file( 'crc32b', $file_path );
+				if ( ! $remote_file || apply_filters( 'dlm_allow_remote_hash_file', false ) ) {
+					if ( get_option( 'dlm_generate_hash_md5' ) ) {
+						$md5   = hash_file( 'md5', $file_path );
+					}
+					if ( get_option( 'dlm_generate_hash_sha1' ) ) {
+						$sha1  = hash_file( 'sha1', $file_path );
+					}
+					if ( get_option( 'dlm_generate_hash_crc32b' ) ) {
+						$crc32 = hash_file( 'crc32b', $file_path );
+					}
 				}
 			}
 		}

@@ -119,6 +119,7 @@ Admin hits are not counted, log out and try!
 * Moved all translations to Transifex - https://www.transifex.com/projects/p/download-monitor/
 * Changed text domain from download_monitor to download-monitor.
 * Added Grunt.
+* Added options to generate file hashes DISABLED BY DEFAULT as they can cause performance issues with large files.
 
 = 1.4.4 = 
 * Use home_dir instead of site_dir - fixes hot-linking protections against own site (when not in root dir)
