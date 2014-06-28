@@ -90,7 +90,7 @@ class DLM_Shortcodes {
 				return '<a href="' . $download->get_the_download_link() . '">' . $content . '</a>';
 
 			} else {
-				return '[' . __( 'Download not found', 'download_monitor' ) . ']';
+				return '[' . __( 'Download not found', 'download-monitor' ) . ']';
 			}
 	  	}
 
@@ -122,7 +122,7 @@ class DLM_Shortcodes {
 				}
 
 			} else {
-				echo '[' . __( 'Download not found', 'download_monitor' ) . ']';
+				echo '[' . __( 'Download not found', 'download-monitor' ) . ']';
 			}
 
 			wp_reset_postdata();

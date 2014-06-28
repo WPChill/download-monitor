@@ -24,9 +24,9 @@ class DLM_Widget_Downloads extends WP_Widget {
 
 		/* Widget variable settings. */
 		$this->widget_cssclass    = 'dlm_widget_downloads';
-		$this->widget_description = __( 'Display a list of your downloads.', 'download_monitor' );
+		$this->widget_description = __( 'Display a list of your downloads.', 'download-monitor' );
 		$this->widget_idbase      = 'dlm_widget_downloads';
-		$this->widget_name        = __( 'Downloads List', 'download_monitor' );
+		$this->widget_name        = __( 'Downloads List', 'download-monitor' );
 
 		/* Widget settings. */
 		$widget_ops = array( 'classname' => $this->widget_cssclass, 'description' => $this->widget_description );
@@ -49,7 +49,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 
 		extract( $args );
 
-		$title          = isset( $instance['title'] ) ? apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) : __( 'Featured Downloads', 'download_monitor' );
+		$title          = isset( $instance['title'] ) ? apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) : __( 'Featured Downloads', 'download-monitor' );
 		$posts_per_page = isset( $instance['posts_per_page'] ) ? absint( $instance['posts_per_page'] ) : 10;
 		$format         = isset( $instance['format'] ) ? sanitize_title( $instance['format'] ) : '';
 		$orderby        = isset( $instance['orderby'] ) ? $instance['orderby'] : 'title';
@@ -145,7 +145,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 	 * @return void
 	 */
 	function form( $instance ) {
-		$title          = isset( $instance['title'] ) ? $instance['title'] : __( 'Featured Downloads', 'download_monitor' );
+		$title          = isset( $instance['title'] ) ? $instance['title'] : __( 'Featured Downloads', 'download-monitor' );
 		$posts_per_page = isset( $instance['posts_per_page'] ) ? absint( $instance['posts_per_page']  ) : 10;
 		$format         = isset( $instance['format'] ) ? sanitize_title( $instance['format'] ) : '';
 		$orderby        = isset( $instance['orderby'] ) ? $instance['orderby'] : 'title';
@@ -154,42 +154,42 @@ class DLM_Widget_Downloads extends WP_Widget {
 		$members_only   = isset( $instance['members_only'] ) ? $instance['members_only'] : 'no';
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'download_monitor' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'download-monitor' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Limit:', 'download_monitor' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Limit:', 'download-monitor' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'posts_per_page' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'posts_per_page' ) ); ?>" type="text" value="<?php echo esc_attr( $posts_per_page ); ?>" size="3" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'format' ); ?>"><?php _e( 'Output template:', 'download_monitor' ); ?></label>
-			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'format' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'format' ) ); ?>" type="text" value="<?php echo esc_attr( $format ); ?>" placeholder="<?php _e( 'Default template', 'download_monitor' ); ?>" />
+			<label for="<?php echo $this->get_field_id( 'format' ); ?>"><?php _e( 'Output template:', 'download-monitor' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'format' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'format' ) ); ?>" type="text" value="<?php echo esc_attr( $format ); ?>" placeholder="<?php _e( 'Default template', 'download-monitor' ); ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Order by:', 'download_monitor' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Order by:', 'download-monitor' ); ?></label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'orderby' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'orderby' ) ); ?>" type="text">
-				<option value="title" <?php selected( $orderby, 'title' ); ?>><?php _e( 'Title', 'download_monitor' ); ?></option>
-				<option value="rand" <?php selected( $orderby, 'rand' ); ?>><?php _e( 'Random', 'download_monitor' ); ?></option>
-				<option value="ID" <?php selected( $orderby, 'ID' ); ?>><?php _e( 'ID', 'download_monitor' ); ?></option>
-				<option value="date" <?php selected( $orderby, 'date' ); ?>><?php _e( 'Date added', 'download_monitor' ); ?></option>
-				<option value="modified" <?php selected( $orderby, 'modified' ); ?>><?php _e( 'Date modified', 'download_monitor' ); ?></option>
-				<option value="download_count" <?php selected( $orderby, 'download_count' ); ?>><?php _e( 'Download count', 'download_monitor' ); ?></option>
+				<option value="title" <?php selected( $orderby, 'title' ); ?>><?php _e( 'Title', 'download-monitor' ); ?></option>
+				<option value="rand" <?php selected( $orderby, 'rand' ); ?>><?php _e( 'Random', 'download-monitor' ); ?></option>
+				<option value="ID" <?php selected( $orderby, 'ID' ); ?>><?php _e( 'ID', 'download-monitor' ); ?></option>
+				<option value="date" <?php selected( $orderby, 'date' ); ?>><?php _e( 'Date added', 'download-monitor' ); ?></option>
+				<option value="modified" <?php selected( $orderby, 'modified' ); ?>><?php _e( 'Date modified', 'download-monitor' ); ?></option>
+				<option value="download_count" <?php selected( $orderby, 'download_count' ); ?>><?php _e( 'Download count', 'download-monitor' ); ?></option>
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Order:', 'download_monitor' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Order:', 'download-monitor' ); ?></label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'order' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'order' ) ); ?>" type="text">
-				<option value="ASC" <?php selected( $order, 'ASC' ); ?>><?php _e( 'ASC', 'download_monitor' ); ?></option>
-				<option value="DESC" <?php selected( $order, 'DESC' ); ?>><?php _e( 'DESC', 'download_monitor' ); ?></option>
+				<option value="ASC" <?php selected( $order, 'ASC' ); ?>><?php _e( 'ASC', 'download-monitor' ); ?></option>
+				<option value="DESC" <?php selected( $order, 'DESC' ); ?>><?php _e( 'DESC', 'download-monitor' ); ?></option>
 			</select>
 		</p>
 		<p>
 			<input id="<?php echo esc_attr( $this->get_field_id( 'featured' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'featured' ) ); ?>" type="checkbox" <?php checked( $featured, 'yes' ); ?> />
-			<label for="<?php echo $this->get_field_id( 'featured' ); ?>"><?php _e( 'Show only featured downloads', 'download_monitor' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'featured' ); ?>"><?php _e( 'Show only featured downloads', 'download-monitor' ); ?></label>
 		</p>
 		<p>
 			<input id="<?php echo esc_attr( $this->get_field_id( 'members_only' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'members_only' ) ); ?>" type="checkbox" <?php checked( $members_only, 'yes' ); ?> />
-			<label for="<?php echo $this->get_field_id( 'members_only' ); ?>"><?php _e( 'Show only members only downloads', 'download_monitor' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'members_only' ); ?>"><?php _e( 'Show only members only downloads', 'download-monitor' ); ?></label>
 		</p>
 		<?php
 	}

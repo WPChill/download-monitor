@@ -3,13 +3,13 @@
 Plugin Name: Download Monitor
 Plugin URI: http://mikejolley.com/projects/download-monitor/
 Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-Version: 1.4.3
+Version: 1.5.0
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 Requires at least: 3.8
-Tested up to: 3.8
+Tested up to: 3.9
 
-	Copyright: © 2013 Mike Jolley.
+	Copyright: © 2014 Mike Jolley.
 	License: GNU General Public License v3.0
 	License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -37,20 +37,23 @@ class WP_DLM {
 		global $wpdb;
 
 		// Define constants
-		define( 'DLM_VERSION', '1.4.3' );
+		define( 'DLM_VERSION', '1.5.0' );
 
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
 
 		// Include required files
-		if ( is_admin() )
+		if ( is_admin() ) {
 			include_once( 'includes/admin/class-dlm-admin.php' );
+		}
 
-		if ( defined('DOING_AJAX') )
+		if ( defined('DOING_AJAX') ) {
 			include_once( 'includes/class-dlm-ajax-handler.php' );
+		}
 
-		if ( get_option( 'dlm_enable_logging' ) == 1 )
+		if ( get_option( 'dlm_enable_logging' ) == 1 ) {
 			include_once( 'includes/class-dlm-logging.php' );
+		}
 
 		include_once( 'includes/download-functions.php' );
 		include_once( 'includes/class-dlm-download.php' );
@@ -86,9 +89,9 @@ class WP_DLM {
 	 */
 	public function plugin_links( $links ) {
 		$plugin_links = array(
-			'<a href="' . admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '">' . __( 'Settings', 'download_monitor' ) . '</a>',
-			'<a href="http://mikejolley.com/projects/download-monitor/add-ons/">' . __( 'Add-ons', 'download_monitor' ) . '</a>',
-			'<a href="https://github.com/mikejolley/download-monitor/wiki">' . __( 'Docs', 'download_monitor' ) . '</a>',
+			'<a href="' . admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '">' . __( 'Settings', 'download-monitor' ) . '</a>',
+			'<a href="http://mikejolley.com/projects/download-monitor/add-ons/">' . __( 'Add-ons', 'download-monitor' ) . '</a>',
+			'<a href="https://github.com/mikejolley/download-monitor/wiki">' . __( 'Docs', 'download-monitor' ) . '</a>',
 		);
 		return array_merge( $plugin_links, $links );
 	}
@@ -110,8 +113,8 @@ class WP_DLM {
 	 * @return void
 	 */
 	public function load_plugin_textdomain() {
-		load_textdomain( 'download_monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
-		load_plugin_textdomain( 'download_monitor', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
+		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	/**
@@ -235,18 +238,18 @@ class WP_DLM {
 	        apply_filters( 'dlm_download_category_args', array(
 	            'hierarchical' 			=> true,
 	            'update_count_callback' => '_update_post_term_count',
-	            'label' 				=> __( 'Categories', 'download_monitor'),
+	            'label' 				=> __( 'Categories', 'download-monitor'),
 	            'labels' => array(
-	                    'name' 				=> __( 'Categories', 'download_monitor'),
-	                    'singular_name' 	=> __( 'Download Category', 'download_monitor'),
-	                    'search_items' 		=> __( 'Search Download Categories', 'download_monitor'),
-	                    'all_items' 		=> __( 'All Download Categories', 'download_monitor'),
-	                    'parent_item' 		=> __( 'Parent Download Category', 'download_monitor'),
-	                    'parent_item_colon' => __( 'Parent Download Category:', 'download_monitor'),
-	                    'edit_item' 		=> __( 'Edit Download Category', 'download_monitor'),
-	                    'update_item' 		=> __( 'Update Download Category', 'download_monitor'),
-	                    'add_new_item' 		=> __( 'Add New Download Category', 'download_monitor'),
-	                    'new_item_name' 	=> __( 'New Download Category Name', 'download_monitor')
+	                    'name' 				=> __( 'Categories', 'download-monitor'),
+	                    'singular_name' 	=> __( 'Download Category', 'download-monitor'),
+	                    'search_items' 		=> __( 'Search Download Categories', 'download-monitor'),
+	                    'all_items' 		=> __( 'All Download Categories', 'download-monitor'),
+	                    'parent_item' 		=> __( 'Parent Download Category', 'download-monitor'),
+	                    'parent_item_colon' => __( 'Parent Download Category:', 'download-monitor'),
+	                    'edit_item' 		=> __( 'Edit Download Category', 'download-monitor'),
+	                    'update_item' 		=> __( 'Update Download Category', 'download-monitor'),
+	                    'add_new_item' 		=> __( 'Add New Download Category', 'download-monitor'),
+	                    'new_item_name' 	=> __( 'New Download Category Name', 'download-monitor')
 	            	),
 	            'show_ui' 				=> true,
 	            'query_var' 			=> true,
@@ -265,18 +268,18 @@ class WP_DLM {
 	        array( 'dlm_download' ),
 	        apply_filters( 'dlm_download_tag_args', array(
 	            'hierarchical' 			=> false,
-	            'label' 				=> __( 'Tags', 'download_monitor'),
+	            'label' 				=> __( 'Tags', 'download-monitor'),
 	            'labels' => array(
-	                    'name' 				=> __( 'Tags', 'download_monitor'),
-	                    'singular_name' 	=> __( 'Download Tag', 'download_monitor'),
-	                    'search_items' 		=> __( 'Search Download Tags', 'download_monitor'),
-	                    'all_items' 		=> __( 'All Download Tags', 'download_monitor'),
-	                    'parent_item' 		=> __( 'Parent Download Tag', 'download_monitor'),
-	                    'parent_item_colon' => __( 'Parent Download Tag:', 'download_monitor'),
-	                    'edit_item' 		=> __( 'Edit Download Tag', 'download_monitor'),
-	                    'update_item' 		=> __( 'Update Download Tag', 'download_monitor'),
-	                    'add_new_item' 		=> __( 'Add New Download Tag', 'download_monitor'),
-	                    'new_item_name' 	=> __( 'New Download Tag Name', 'download_monitor')
+	                    'name' 				=> __( 'Tags', 'download-monitor'),
+	                    'singular_name' 	=> __( 'Download Tag', 'download-monitor'),
+	                    'search_items' 		=> __( 'Search Download Tags', 'download-monitor'),
+	                    'all_items' 		=> __( 'All Download Tags', 'download-monitor'),
+	                    'parent_item' 		=> __( 'Parent Download Tag', 'download-monitor'),
+	                    'parent_item_colon' => __( 'Parent Download Tag:', 'download-monitor'),
+	                    'edit_item' 		=> __( 'Edit Download Tag', 'download-monitor'),
+	                    'update_item' 		=> __( 'Update Download Tag', 'download-monitor'),
+	                    'add_new_item' 		=> __( 'Add New Download Tag', 'download-monitor'),
+	                    'new_item_name' 	=> __( 'New Download Tag Name', 'download-monitor')
 	            	),
 	            'show_ui' 				=> true,
 	            'query_var' 			=> true,
@@ -297,22 +300,22 @@ class WP_DLM {
 		register_post_type( "dlm_download",
 			apply_filters( 'dlm_cpt_dlm_download_args', array(
 				'labels' => array(
-						'all_items'          => __( 'All Downloads', 'download_monitor' ),
-						'name'               => __( 'Downloads', 'download_monitor' ),
-						'singular_name'      => __( 'Download', 'download_monitor' ),
-						'add_new'            => __( 'Add New', 'download_monitor' ),
-						'add_new_item'       => __( 'Add Download', 'download_monitor' ),
-						'edit'               => __( 'Edit', 'download_monitor' ),
-						'edit_item'          => __( 'Edit Download', 'download_monitor' ),
-						'new_item'           => __( 'New Download', 'download_monitor' ),
-						'view'               => __( 'View Download', 'download_monitor' ),
-						'view_item'          => __( 'View Download', 'download_monitor' ),
-						'search_items'       => __( 'Search Downloads', 'download_monitor' ),
-						'not_found'          => __( 'No Downloads found', 'download_monitor' ),
-						'not_found_in_trash' => __( 'No Downloads found in trash', 'download_monitor' ),
-						'parent'             => __( 'Parent Download', 'download_monitor' )
+						'all_items'          => __( 'All Downloads', 'download-monitor' ),
+						'name'               => __( 'Downloads', 'download-monitor' ),
+						'singular_name'      => __( 'Download', 'download-monitor' ),
+						'add_new'            => __( 'Add New', 'download-monitor' ),
+						'add_new_item'       => __( 'Add Download', 'download-monitor' ),
+						'edit'               => __( 'Edit', 'download-monitor' ),
+						'edit_item'          => __( 'Edit Download', 'download-monitor' ),
+						'new_item'           => __( 'New Download', 'download-monitor' ),
+						'view'               => __( 'View Download', 'download-monitor' ),
+						'view_item'          => __( 'View Download', 'download-monitor' ),
+						'search_items'       => __( 'Search Downloads', 'download-monitor' ),
+						'not_found'          => __( 'No Downloads found', 'download-monitor' ),
+						'not_found_in_trash' => __( 'No Downloads found in trash', 'download-monitor' ),
+						'parent'             => __( 'Parent Download', 'download-monitor' )
 					),
-				'description' => __( 'This is where you can create and manage downloads for your site.', 'download_monitor' ),
+				'description' => __( 'This is where you can create and manage downloads for your site.', 'download-monitor' ),
 				'public' 				=> false,
 				'show_ui' 				=> true,
 				'capability_type' 		=> 'post',

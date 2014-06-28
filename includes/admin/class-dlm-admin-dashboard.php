@@ -18,7 +18,7 @@ class DLM_Admin_Dashboard {
 		if ( ! current_user_can( 'manage_downloads' ) )
 			return;
 
-		wp_add_dashboard_widget( 'dlm_popular_downloads', __( 'Popular Downloads', 'download_monitor' ), array( $this, 'popular_downloads' ) );
+		wp_add_dashboard_widget( 'dlm_popular_downloads', __( 'Popular Downloads', 'download-monitor' ), array( $this, 'popular_downloads' ) );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class DLM_Admin_Dashboard {
     	$download_ids = get_posts( $args );
 
     	if ( empty( $download_ids ) ) {
-    		echo '<p>' . __( 'There are no stats available yet!', 'download_monitor' ) . '</p>';
+    		echo '<p>' . __( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
     		return;
     	}
 

@@ -38,7 +38,7 @@ class DLM_Category_Walker extends Walker {
 
 		$output .= '>';
 
-		$output .= $pad . __( $cat_name, 'download_monitor' );
+		$output .= $pad . __( $cat_name, 'download-monitor' );
 
 		if ( ! empty( $args['show_count'] ) )
 			$output .= '&nbsp;(' . $object->count . ')';

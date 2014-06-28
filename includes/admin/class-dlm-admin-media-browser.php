@@ -28,7 +28,7 @@ class DLM_Admin_Media_Browser {
 
 		$files = $download_monitor->list_files( ABSPATH, 1 );
 
-		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Browse for a file', 'download_monitor' ) . '</title>';
+		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Browse for a file', 'download-monitor' ) . '</title>';
 
 		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		do_action( 'admin_print_styles' );
@@ -98,7 +98,7 @@ class DLM_Admin_Media_Browser {
 							if ( response ) {
 								$parent.find('.load_tree').html( response );
 							} else {
-								$parent.find('.load_tree').html( '<li class="nofiles"><?php _e('No files found', 'download_monitor'); ?></li>' );
+								$parent.find('.load_tree').html( '<li class="nofiles"><?php _e('No files found', 'download-monitor'); ?></li>' );
 							}
 							$parent.find('.load_tree').removeClass('load_tree loading');
 

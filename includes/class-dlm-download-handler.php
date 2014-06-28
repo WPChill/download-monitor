@@ -137,7 +137,7 @@ class DLM_Download_Handler {
 			// Action on found download
 			if ( ! is_null( $download ) && $download->exists() ) {
 				if ( post_password_required( $download_id ) ) {
-					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download_monitor' ) );
+					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download-monitor' ) );
 				}
 				$this->trigger( $download, $version_id );
 			}
@@ -147,7 +147,7 @@ class DLM_Download_Handler {
 			}
 
 			else {
-				wp_die( __( 'Download does not exist.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
+				wp_die( __( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 			}
 
 			die('1');
@@ -177,12 +177,12 @@ class DLM_Download_Handler {
 		$file_paths = $version->mirrors;
 
 		if ( empty( $file_paths ) )
-			wp_die( __( 'No file paths defined.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ) );
+			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
 
 		$file_path  = $file_paths[ array_rand( $file_paths ) ];
 
 		if ( ! $file_path )
-			wp_die( __( 'No file paths defined.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ) );
+			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
 
 		// Check Access
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version ) ) {
@@ -191,7 +191,7 @@ class DLM_Download_Handler {
 				wp_redirect( $redirect );
 
 			else
-				wp_die( __( 'You do not have permission to access this download.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 200 ) );
+				wp_die( __( 'You do not have permission to access this download.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 
 			exit;
 		}
@@ -209,7 +209,7 @@ class DLM_Download_Handler {
 
 		// Redirect to the file...
 		if ( $download->redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
-			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 			// Ensure we have a valid URL, not a file path
 			$file_path = str_replace( ABSPATH, site_url( '/', 'http' ), $file_path );
@@ -225,21 +225,21 @@ class DLM_Download_Handler {
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
             if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
             	header( "X-Sendfile: $file_path" );
             	exit;
 
             } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
             	header( "X-LIGHTTPD-send-file: $file_path" );
             	exit;
 
             } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
             	$file_path = str_ireplace( $_SERVER[ 'DOCUMENT_ROOT' ], '', $file_path );
 				header( "X-Accel-Redirect: /$file_path" );
@@ -278,14 +278,14 @@ class DLM_Download_Handler {
         } elseif ( $remote_file ) {
 
 	        // Redirect - we can't track if this completes or not
-	    	$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download_monitor' ), $download, $version );
+	    	$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download-monitor' ), $download, $version );
 
 	        header( 'Location: ' . $file_path );
 
         } else {
-        	$this->log( 'download', 'failed', __( 'File not found', 'download_monitor' ), $download, $version );
+        	$this->log( 'download', 'failed', __( 'File not found', 'download-monitor' ), $download, $version );
 
-	        wp_die( __( 'File not found.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
+	        wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
         }
 
         exit;

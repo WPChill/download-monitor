@@ -3,8 +3,8 @@ Contributors: mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jolley@me.com&item_name=Donation+for+Download+Monitor
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
-Tested up to: 3.8
-Stable tag: 1.4.3
+Tested up to: 3.9
+Stable tag: 1.5.0
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -108,11 +108,15 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.5.0 =
 * JSON_UNESCAPED_UNICODE for files to fix unicode chars. Requires PHP 5.4+
 * Style filetype-docx
 * Update get_version_id to work with non-numeric versions.
 * Fix shortcode arg booleans.
 * Add transient cache for get_file_version_ids.
+* Moved all translations to Transifex.
+* Changed text domain from download_monitor to download-monitor.
+* Added Grunt.
 
 = 1.4.4 = 
 * Use home_dir instead of site_dir - fixes hot-linking protections against own site (when not in root dir)

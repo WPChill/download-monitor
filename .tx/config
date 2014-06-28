@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[download-monitor.download-monitorpot]
+file_filter = languages/download-monitor-<lang>.po
+source_file = languages/download-monitor.pot
+source_lang = en_US
+type = PO

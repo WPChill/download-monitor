@@ -92,95 +92,95 @@ class DLM_Admin {
 		$this->settings = apply_filters( 'download_monitor_settings',
 			array(
 				'general' => array(
-					__( 'General', 'download_monitor' ),
+					__( 'General', 'download-monitor' ),
 					array(
 						array(
 							'name' 		=> 'dlm_default_template',
 							'std' 		=> '',
-							'label' 	=> __( 'Default Template', 'download_monitor' ),
-							'desc'		=> __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download_monitor' ),
+							'label' 	=> __( 'Default Template', 'download-monitor' ),
+							'desc'		=> __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download-monitor' ),
 							'type'      => 'select',
 							'options'   => array(
-								''             => __( 'Default - Title and count', 'download_monitor' ),
-								'button'       => __( 'Button - CSS styled button showing title and count', 'download_monitor' ),
-								'box'          => __( 'Box - Box showing thumbnail, title, count, filename and filesize.', 'download_monitor' ),
-								'filename'     => __( 'Filename - Filename and download count', 'download_monitor' ),
-								'title'        => __( 'Title - Shows download title only', 'download_monitor' ),
-								'version-list' => __( 'Version list - Lists all download versions in an unordered list', 'download_monitor' ),
-								'custom'       => __( 'Custom template', 'download_monitor' )
+								''             => __( 'Default - Title and count', 'download-monitor' ),
+								'button'       => __( 'Button - CSS styled button showing title and count', 'download-monitor' ),
+								'box'          => __( 'Box - Box showing thumbnail, title, count, filename and filesize.', 'download-monitor' ),
+								'filename'     => __( 'Filename - Filename and download count', 'download-monitor' ),
+								'title'        => __( 'Title - Shows download title only', 'download-monitor' ),
+								'version-list' => __( 'Version list - Lists all download versions in an unordered list', 'download-monitor' ),
+								'custom'       => __( 'Custom template', 'download-monitor' )
 							)
 						),
 						array(
 							'name' 		=> 'dlm_custom_template',
 							'std' 		=> '',
-							'label' 	=> __( 'Custom Template', 'download_monitor' ),
-							'desc'		=> __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download_monitor' )
+							'label' 	=> __( 'Custom Template', 'download-monitor' ),
+							'desc'		=> __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
 						),
 					),
 				),
 				'endpoints' => array(
-					__( 'Endpoint', 'download_monitor' ),
+					__( 'Endpoint', 'download-monitor' ),
 					array(
 						array(
 							'name' 		=> 'dlm_download_endpoint',
 							'std' 		=> 'download',
-							'placeholder'	=> __( 'download', 'download_monitor' ),
-							'label' 	=> __( 'Download Endpoint', 'download_monitor' ),
-							'desc'		=> sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code>.', 'download_monitor' ), home_url( '/download/' ) )
+							'placeholder'	=> __( 'download', 'download-monitor' ),
+							'label' 	=> __( 'Download Endpoint', 'download-monitor' ),
+							'desc'		=> sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code>.', 'download-monitor' ), home_url( '/download/' ) )
 						),
 						array(
 							'name' 		=> 'dlm_download_endpoint_value',
 							'std' 		=> 'ID',
-							'label' 	=> __( 'Endpoint Value', 'download_monitor' ),
-							'desc'		=> sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>', 'download_monitor' ), home_url( '/download/10/' ) ),
+							'label' 	=> __( 'Endpoint Value', 'download-monitor' ),
+							'desc'		=> sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>', 'download-monitor' ), home_url( '/download/10/' ) ),
 							'type'      => 'select',
 							'options'   => array(
-								'ID'   => __( 'Download ID', 'download_monitor' ),
-								'slug' => __( 'Download slug', 'download_monitor' )
+								'ID'   => __( 'Download ID', 'download-monitor' ),
+								'slug' => __( 'Download slug', 'download-monitor' )
 							)
 						),
 						array(
 							'name' 		=> 'dlm_xsendfile_enabled',
 							'std' 		=> '',
-							'label' 	=> __( 'X-Accel-Redirect / X-Sendfile', 'download_monitor' ),
-							'cb_label'  => __( 'Enable', 'download_monitor' ),
-							'desc'		=> __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download_monitor' ),
+							'label' 	=> __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
+							'cb_label'  => __( 'Enable', 'download-monitor' ),
+							'desc'		=> __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
 							'type'      => 'checkbox'
 						),
 						array(
 							'name' 		=> 'dlm_hotlink_protection_enabled',
 							'std' 		=> '',
-							'label' 	=> __( 'Prevent hotlinking', 'download_monitor' ),
-							'cb_label'  => __( 'Enable', 'download_monitor' ),
-							'desc'		=> __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download_monitor' ),
+							'label' 	=> __( 'Prevent hotlinking', 'download-monitor' ),
+							'cb_label'  => __( 'Enable', 'download-monitor' ),
+							'desc'		=> __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 							'type'      => 'checkbox'
 						)
 					)
 				),
 				'logging' => array(
-					__( 'Logging', 'download_monitor' ),
+					__( 'Logging', 'download-monitor' ),
 					array(
 						array(
 							'name' 		=> 'dlm_enable_logging',
-							'cb_label'  => __( 'Enable', 'download_monitor' ),
+							'cb_label'  => __( 'Enable', 'download-monitor' ),
 							'std' 		=> '1',
-							'label' 	=> __( 'Download Log', 'download_monitor' ),
-							'desc'		=> __( 'Log download attempts, IP addresses and more.', 'download_monitor' ),
+							'label' 	=> __( 'Download Log', 'download-monitor' ),
+							'desc'		=> __( 'Log download attempts, IP addresses and more.', 'download-monitor' ),
 							'type' 		=> 'checkbox'
 						),
 						array(
 							'name' 			=> 'dlm_ip_blacklist',
 							'std' 			=> '192.168.0.*',
-							'label' 		=> __( 'Blacklist IPs', 'download_monitor' ),
-							'desc'			=> __( 'List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a wildcard.', 'download_monitor' ),
+							'label' 		=> __( 'Blacklist IPs', 'download-monitor' ),
+							'desc'			=> __( 'List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a wildcard.', 'download-monitor' ),
 							'placeholder' 	=> '',
 							'type' 			=> 'textarea'
 						),
 						array(
 							'name' 		=> 'dlm_user_agent_blacklist',
 							'std' 		=> 'Googlebot',
-							'label' 	=> __( 'Blacklist user agents', 'download_monitor' ),
-							'desc'		=> __( 'List browser user agents to blacklist, 1 per line.', 'download_monitor' ),
+							'label' 	=> __( 'Blacklist user agents', 'download-monitor' ),
+							'desc'		=> __( 'List browser user agents to blacklist, 1 per line.', 'download-monitor' ),
 							'placeholder' => '',
 							'type' 			=> 'textarea'
 						),
@@ -203,7 +203,7 @@ class DLM_Admin {
 			foreach ( $section[1] as $option ) {
 				if ( isset( $option['std'] ) )
 					add_option( $option['name'], $option['std'] );
-				register_setting( 'download_monitor', $option['name'] );
+				register_setting( 'download-monitor', $option['name'] );
 			}
 		}
 	}
@@ -252,12 +252,12 @@ class DLM_Admin {
 	 */
 	public function admin_menu() {
 		if ( get_option( 'dlm_enable_logging' ) == 1 )
-			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download_monitor' ), __( 'Logs', 'download_monitor' ), 'manage_options', 'download-monitor-logs', array( $this, 'log_viewer' ) );
+			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'manage_options', 'download-monitor-logs', array( $this, 'log_viewer' ) );
 
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download_monitor' ), __( 'Settings', 'download_monitor' ), 'manage_options', 'download-monitor-settings', array( $this, 'settings_page' ) );
+		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download-monitor' ), __( 'Settings', 'download-monitor' ), 'manage_options', 'download-monitor-settings', array( $this, 'settings_page' ) );
 
 		if ( apply_filters( 'dlm_show_addons_page', true ) )
-			add_submenu_page(  'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download_monitor' ),  __( 'Add-ons', 'download_monitor' ) , 'manage_options', 'dlm-addons', array( $this, 'addons_page' ) );
+			add_submenu_page(  'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download-monitor' ),  __( 'Add-ons', 'download-monitor' ) , 'manage_options', 'dlm-addons', array( $this, 'addons_page' ) );
 	}
 
 	/**
@@ -282,7 +282,7 @@ class DLM_Admin {
 		<div class="wrap">
 			<form method="post" action="options.php">
 
-				<?php settings_fields( 'download_monitor' ); ?>
+				<?php settings_fields( 'download-monitor' ); ?>
 				<?php screen_icon(); ?>
 
 			    <h2 class="nav-tab-wrapper">
@@ -296,7 +296,7 @@ class DLM_Admin {
 				<?php
 					if ( ! empty( $_GET['settings-updated'] ) ) {
 						flush_rewrite_rules();
-						echo '<div class="updated fade"><p>' . __( 'Settings successfully saved', 'download_monitor' ) . '</p></div>';
+						echo '<div class="updated fade"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
 					}
 
 					foreach ( $this->settings as $key => $section ) {
@@ -363,7 +363,7 @@ class DLM_Admin {
 					}
 				?>
 				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'download_monitor' ); ?>" />
+					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'download-monitor' ); ?>" />
 				</p>
 		    </form>
 		</div>
@@ -407,7 +407,7 @@ class DLM_Admin {
 	    <div class="wrap">
 	        <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
-	        <h2><?php _e( 'Download Logs', 'download_monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm_download_logs', 'true' ); ?>" class="add-new-h2"><?php _e( 'Export CSV', 'download_monitor' ); ?></a> <a href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true' ), 'delete_logs' ); ?>" class="add-new-h2"><?php _e( 'Delete Logs', 'download_monitor' ); ?></a></h2><br/>
+	        <h2><?php _e( 'Download Logs', 'download-monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm_download_logs', 'true' ); ?>" class="add-new-h2"><?php _e( 'Export CSV', 'download-monitor' ); ?></a> <a href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true' ), 'delete_logs' ); ?>" class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h2><br/>
 	        <form id="dlm_logs">
 	        	<?php $DLM_Logging_List_Table->display() ?>
 	        </form>
@@ -457,16 +457,16 @@ class DLM_Admin {
 
         $rows   = array();
         $row    = array();
-        $row[]  = __( 'Download ID', 'download_monitor' );
-        $row[]  = __( 'Version ID', 'download_monitor' );
-        $row[]  = __( 'Filename', 'download_monitor' );
-        $row[]  = __( 'User ID', 'download_monitor' );
-        $row[]  = __( 'User Login', 'download_monitor' );
-        $row[]  = __( 'User Email', 'download_monitor' );
-        $row[]  = __( 'User IP', 'download_monitor' );
-        $row[]  = __( 'User Agent', 'download_monitor' );
-        $row[]  = __( 'Date', 'download_monitor' );
-        $row[]  = __( 'Status', 'download_monitor' );
+        $row[]  = __( 'Download ID', 'download-monitor' );
+        $row[]  = __( 'Version ID', 'download-monitor' );
+        $row[]  = __( 'Filename', 'download-monitor' );
+        $row[]  = __( 'User ID', 'download-monitor' );
+        $row[]  = __( 'User Login', 'download-monitor' );
+        $row[]  = __( 'User Email', 'download-monitor' );
+        $row[]  = __( 'User IP', 'download-monitor' );
+        $row[]  = __( 'User Agent', 'download-monitor' );
+        $row[]  = __( 'Date', 'download-monitor' );
+        $row[]  = __( 'Status', 'download-monitor' );
         $rows[] = '"' . implode( '","', $row ) . '"';
 
 		if ( ! empty( $items ) ) {

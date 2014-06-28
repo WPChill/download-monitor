@@ -29,7 +29,7 @@ class DLM_Admin_Insert {
 		if ( $post->post_type == 'dlm_download' )
 			return;
 
-		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download_monitor' ) . '">' . __( 'Insert Download', 'download_monitor' ) . '</a>';
+		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '">' . __( 'Insert Download', 'download-monitor' ) . '</a>';
 
 		ob_start();
 		?>
@@ -37,7 +37,7 @@ class DLM_Admin_Insert {
 			// Browse for file
 			jQuery('body').on('click', 'a.add_download', function(e){
 
-				tb_show('<?php esc_attr_e( 'Insert Download', 'download_monitor' ); ?>', 'media-upload.php?post_id=<?php echo $post->ID; ?>&amp;type=add_download&amp;from=wpdlm01&amp;TB_iframe=true&amp;height=200');
+				tb_show('<?php esc_attr_e( 'Insert Download', 'download-monitor' ); ?>', 'media-upload.php?post_id=<?php echo $post->ID; ?>&amp;type=add_download&amp;from=wpdlm01&amp;TB_iframe=true&amp;height=200');
 
 				return false;
 			});
@@ -65,7 +65,7 @@ class DLM_Admin_Insert {
 		wp_enqueue_style( 'colors' );
 		wp_enqueue_script( 'plupload-all' );
 
-		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Insert Download', 'download_monitor' ) . '</title><meta charset="utf-8" />';
+		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Insert Download', 'download-monitor' ) . '</title><meta charset="utf-8" />';
 
 		do_action( 'admin_print_styles' );
 		do_action( 'admin_print_scripts' );
@@ -75,7 +75,7 @@ class DLM_Admin_Insert {
 
 		?>
 		<h2 class="nav-tab-wrapper">
-			<a href="#insert-shortcode" class="nav-tab nav-tab-active"><?php _e( 'Insert Shortcode', 'download_monitor' ); ?></a><a href="#quick-add" class="nav-tab"><?php _e( 'Quick-add download', 'download_monitor' ); ?></a>
+			<a href="#insert-shortcode" class="nav-tab nav-tab-active"><?php _e( 'Insert Shortcode', 'download-monitor' ); ?></a><a href="#quick-add" class="nav-tab"><?php _e( 'Quick-add download', 'download-monitor' ); ?></a>
 		</h2>
 		<?php
 
@@ -119,7 +119,7 @@ class DLM_Admin_Insert {
 					$file_id = wp_insert_post( $file );
 
 					if ( ! $file_id )
-						throw new Exception( __( 'Error: File was not created.', 'download_monitor' ) );
+						throw new Exception( __( 'Error: File was not created.', 'download-monitor' ) );
 
 					// Meta
 					update_post_meta( $file_id, '_version', $version );
@@ -137,9 +137,9 @@ class DLM_Admin_Insert {
 					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
 					update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
 
-					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download_monitor' ) . '</p></div>';
+					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download-monitor' ) . '</p></div>';
 
-				} else throw new Exception( __( 'Error: Download was not created.', 'download_monitor' ) );
+				} else throw new Exception( __( 'Error: Download was not created.', 'download-monitor' ) );
 
 			} catch ( Exception $e ) {
 				echo '<div class="error"><p>' .  $e->getMessage() . "</p></div>";
@@ -158,7 +158,7 @@ class DLM_Admin_Insert {
 		<form id="insert-shortcode">
 
 			<fieldset>
-				<legend><?php _e( 'Choose a download', 'download_monitor' ); ?>:</legend>
+				<legend><?php _e( 'Choose a download', 'download-monitor' ); ?>:</legend>
 				<?php
 					$limit = 10;
 					$page  = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
@@ -193,14 +193,14 @@ class DLM_Admin_Insert {
 			</fieldset>
 			
 			<p>
-				<label for="template_name"><?php _e( 'Template', 'download_monitor' ); ?>:</label>
-				<input type="text" id="template_name" value="" class="input" placeholder="<?php _e( 'Template Name', 'download_monitor' ); ?>" />
+				<label for="template_name"><?php _e( 'Template', 'download-monitor' ); ?>:</label>
+				<input type="text" id="template_name" value="" class="input" placeholder="<?php _e( 'Template Name', 'download-monitor' ); ?>" />
 				<span class="description">
-					<?php _e( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download_monitor' ); ?>
+					<?php _e( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ); ?>
 				</span>
 			</p>
 			<p>
-				<input type="button" class="button insert_download button-primary button-large" value="<?php _e( 'Insert Shortcode', 'download_monitor' ); ?>" />
+				<input type="button" class="button insert_download button-primary button-large" value="<?php _e( 'Insert Shortcode', 'download-monitor' ); ?>" />
 			</p>
 
 		</form>
@@ -211,29 +211,29 @@ class DLM_Admin_Insert {
 			<div id="plupload-upload-ui" class="hide-if-no-js">
 				<div id="drag-drop-area" style="height:240px">
 					<div class="drag-drop-inside">
-						<p class="drag-drop-info"><?php _e( 'Drop file here', 'download_monitor' ); ?></p>
-						<p><?php _e( 'or', 'download_monitor' ); ?></p>
-						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download_monitor' ); ?>" class="button" /></p>
-						<p><?php _e( 'or', 'download_monitor' ); ?></p>
-						<p><a href="#" class="add_manually"><?php _e( 'Enter URL manually', 'download_monitor' ); ?></a></p>
+						<p class="drag-drop-info"><?php _e( 'Drop file here', 'download-monitor' ); ?></p>
+						<p><?php _e( 'or', 'download-monitor' ); ?></p>
+						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button" /></p>
+						<p><?php _e( 'or', 'download-monitor' ); ?></p>
+						<p><a href="#" class="add_manually"><?php _e( 'Enter URL manually', 'download-monitor' ); ?></a></p>
 					</div>
 				</div>
 			</div>
 			<div id="quick-add-details" style="display:none">
 				<p>
-					<label for="download_url"><?php _e( 'Download URL', 'download_monitor' ); ?>:</label>
-					<input type="text" name="download_url" id="download_url" value="" class="download_url input" placeholder="<?php _e( 'Required URL', 'download_monitor' ); ?>" />
+					<label for="download_url"><?php _e( 'Download URL', 'download-monitor' ); ?>:</label>
+					<input type="text" name="download_url" id="download_url" value="" class="download_url input" placeholder="<?php _e( 'Required URL', 'download-monitor' ); ?>" />
 				</p>
 				<p>
-					<label for="download_title"><?php _e( 'Download Title', 'download_monitor' ); ?>:</label>
-					<input type="text" name="download_title" id="download_title" value="" class="download_title input" placeholder="<?php _e( 'Required title', 'download_monitor' ); ?>" />
+					<label for="download_title"><?php _e( 'Download Title', 'download-monitor' ); ?>:</label>
+					<input type="text" name="download_title" id="download_title" value="" class="download_title input" placeholder="<?php _e( 'Required title', 'download-monitor' ); ?>" />
 				</p>
 				<p>
-					<label for="download_version"><?php _e( 'Version', 'download_monitor' ); ?>:</label>
-					<input type="text" name="download_version" id="download_version" value="" class="input" placeholder="<?php _e( 'Optional version number', 'download_monitor' ); ?>" />
+					<label for="download_version"><?php _e( 'Version', 'download-monitor' ); ?>:</label>
+					<input type="text" name="download_version" id="download_version" value="" class="input" placeholder="<?php _e( 'Optional version number', 'download-monitor' ); ?>" />
 				</p>
 				<p>
-					<input type="submit" class="button button-primary button-large" value="<?php _e( 'Save Download', 'download_monitor' ); ?>" />
+					<input type="submit" class="button button-primary button-large" value="<?php _e( 'Save Download', 'download-monitor' ); ?>" />
 					<?php wp_nonce_field( 'quick-add', 'quick-add-nonce' ) ?>
 				</p>
 			</div>
@@ -339,7 +339,7 @@ class DLM_Admin_Insert {
 						if ( max > hundredmb && file.size > hundredmb && up.runtime != 'html5' ) {
 							// file size error?
 						} else {
-							jQuery('.drag-drop-inside').html('<p><?php _e( 'Please wait...', 'download_monitor' ); ?></p>');
+							jQuery('.drag-drop-inside').html('<p><?php _e( 'Please wait...', 'download-monitor' ); ?></p>');
 						}
 					});
 

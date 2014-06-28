@@ -26,13 +26,13 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function add_meta_boxes() {
-		add_meta_box( 'download-monitor-options', __( 'Download Options', 'download_monitor' ), array( $this, 'download_options' ), 'dlm_download', 'side', 'high' );
-		add_meta_box( 'download-monitor-file', __( 'Downloadable Files/Versions', 'download_monitor' ), array( $this, 'download_files' ), 'dlm_download', 'normal', 'high' );
+		add_meta_box( 'download-monitor-options', __( 'Download Options', 'download-monitor' ), array( $this, 'download_options' ), 'dlm_download', 'side', 'high' );
+		add_meta_box( 'download-monitor-file', __( 'Downloadable Files/Versions', 'download-monitor' ), array( $this, 'download_files' ), 'dlm_download', 'normal', 'high' );
 
 		// Excerpt
 		if ( function_exists('wp_editor') ) {
 			remove_meta_box( 'postexcerpt', 'dlm_download', 'normal' );
-			add_meta_box( 'postexcerpt', __('Short Description', 'download_monitor'), array( $this, 'short_description' ), 'dlm_download', 'normal', 'high' );
+			add_meta_box( 'postexcerpt', __('Short Description', 'download-monitor'), array( $this, 'short_description' ), 'dlm_download', 'normal', 'high' );
 		}
 	}
 
@@ -54,20 +54,20 @@ class DLM_Admin_Writepanels {
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_featured" id="_featured" ' . checked( get_post_meta( $thepostid, '_featured', true ), 'yes', false ) . ' />
-			<label for="_featured">' . __( 'Featured download', 'download_monitor' ) . '</label>
-			<span class="description">' . __( 'Mark this download as featured. Used by shortcodes and widgets.', 'download_monitor' ) . '</span>
+			<label for="_featured">' . __( 'Featured download', 'download-monitor' ) . '</label>
+			<span class="description">' . __( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_members_only" id="_members_only" ' . checked( get_post_meta( $thepostid, '_members_only', true ), 'yes', false ) . ' />
-			<label for="_members_only">' . __( 'Members only', 'download_monitor' ) . '</label>
-			<span class="description">' . __( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download_monitor' ) . '</span>
+			<label for="_members_only">' . __( 'Members only', 'download-monitor' ) . '</label>
+			<span class="description">' . __( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( get_post_meta( $thepostid, '_redirect_only', true ), 'yes', false ) . ' />
-			<label for="_redirect_only">' . __( 'Redirect to file', 'download_monitor' ) . '</label>
-			<span class="description">' . __( 'Don\'t force download. If the <code>dlm_upload</code> folder is protected you may need to move your file.', 'download_monitor' ) . '</span>
+			<label for="_redirect_only">' . __( 'Redirect to file', 'download-monitor' ) . '</label>
+			<span class="description">' . __( 'Don\'t force download. If the <code>dlm_upload</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
 		</p>';
 
 		do_action( 'dlm_options_end', $thepostid );
@@ -91,8 +91,8 @@ class DLM_Admin_Writepanels {
 			<?php do_action( 'dlm_download_monitor_files_writepanel_start' ); ?>
 
 			<p class="toolbar">
-				<a href="#" class="button plus add_file"><?php _e('Add file', 'download_monitor'); ?></a>
-				<a href="#" class="close_all"><?php _e('Close all', 'download_monitor'); ?></a><a href="#" class="expand_all"><?php _e('Expand all', 'download_monitor'); ?></a>
+				<a href="#" class="button plus add_file"><?php _e('Add file', 'download-monitor'); ?></a>
+				<a href="#" class="close_all"><?php _e('Close all', 'download-monitor'); ?></a><a href="#" class="expand_all"><?php _e('Expand all', 'download-monitor'); ?></a>
 			</p>
 
 			<div class="dlm-metaboxes downloadable_files">
@@ -225,7 +225,7 @@ class DLM_Admin_Writepanels {
 			// Remove a file
 			jQuery('.download_monitor_files').on('click', 'button.remove_file', function(e){
 				e.preventDefault();
-				var answer = confirm('<?php _e( 'Are you sure you want to delete this file?', 'download_monitor' ); ?>');
+				var answer = confirm('<?php _e( 'Are you sure you want to delete this file?', 'download-monitor' ); ?>');
 				if ( answer ) {
 
 					var el = jQuery(this).closest('.downloadable_file');
@@ -260,7 +260,7 @@ class DLM_Admin_Writepanels {
 
 				window.send_to_editor = window.send_to_browse_file_url;
 
-				tb_show('<?php esc_attr_e( 'Browse for a file', 'download_monitor' ); ?>', 'media-upload.php?post_id=<?php echo $post->ID; ?>&amp;type=downloadable_file_browser&amp;from=wpdlm01&amp;TB_iframe=true');
+				tb_show('<?php esc_attr_e( 'Browse for a file', 'download-monitor' ); ?>', 'media-upload.php?post_id=<?php echo $post->ID; ?>&amp;type=downloadable_file_browser&amp;from=wpdlm01&amp;TB_iframe=true');
 
 				return false;
 			});

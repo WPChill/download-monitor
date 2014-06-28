@@ -61,7 +61,7 @@ class DLM_Admin_CPT {
 		if (!$terms) return;
 
 		$output  = "<select name='dlm_download_category' id='dropdown_dlm_download_category'>";
-		$output .= '<option value="" ' .  selected( isset( $_GET['dlm_download_category'] ) ? $_GET['dlm_download_category'] : '', '', false ) . '>'.__( 'Select a category', 'download_monitor' ).'</option>';
+		$output .= '<option value="" ' .  selected( isset( $_GET['dlm_download_category'] ) ? $_GET['dlm_download_category'] : '', '', false ) . '>'.__( 'Select a category', 'download-monitor' ).'</option>';
 		$output .= $this->walk_category_dropdown_tree( $terms, 0, $r );
 		$output .="</select>";
 
@@ -121,7 +121,7 @@ class DLM_Admin_CPT {
 	 */
 	public function enter_title_here( $text, $post ) {
 		if ( $post->post_type == 'dlm_download' )
-			return __( 'Download title', 'download_monitor' );
+			return __( 'Download title', 'download-monitor' );
 		return $text;
 	}
 
@@ -137,17 +137,17 @@ class DLM_Admin_CPT {
 
 		$messages['dlm_download'] = array(
 			0 => '', // Unused. Messages start at index 1.
-			1 => __('Download updated.', 'download_monitor'),
-			2 => __('Custom field updated.', 'download_monitor'),
-			3 => __('Custom field deleted.', 'download_monitor'),
-			4 => __('Download updated.', 'download_monitor'),
-			5 => isset($_GET['revision']) ? sprintf( __('Download restored to revision from %s', 'download_monitor'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-			6 => __('Download published.', 'download_monitor'),
-			7 => __('Download saved.', 'download_monitor'),
-			8 => __('Download submitted.', 'download_monitor'),
-			9 => sprintf( __('Download scheduled for: <strong>%1$s</strong>.', 'download_monitor'),
-			  date_i18n( __( 'M j, Y @ G:i', 'download_monitor' ), strtotime( $post->post_date ) ) ),
-			10 => __('Download draft updated.', 'download_monitor'),
+			1 => __('Download updated.', 'download-monitor'),
+			2 => __('Custom field updated.', 'download-monitor'),
+			3 => __('Custom field deleted.', 'download-monitor'),
+			4 => __('Download updated.', 'download-monitor'),
+			5 => isset($_GET['revision']) ? sprintf( __('Download restored to revision from %s', 'download-monitor'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			6 => __('Download published.', 'download-monitor'),
+			7 => __('Download saved.', 'download-monitor'),
+			8 => __('Download submitted.', 'download-monitor'),
+			9 => sprintf( __('Download scheduled for: <strong>%1$s</strong>.', 'download-monitor'),
+			  date_i18n( __( 'M j, Y @ G:i', 'download-monitor' ), strtotime( $post->post_date ) ) ),
+			10 => __('Download draft updated.', 'download-monitor'),
 		);
 
 		return $messages;
@@ -164,18 +164,18 @@ class DLM_Admin_CPT {
 		$columns = array();
 
 		$columns["cb"]             = "<input type=\"checkbox\" />";
-		$columns["thumb"]          = '<span>' . __("Image", 'download_monitor') . '</span>';
-		$columns["title"]          = __("Title", 'download_monitor');
-		$columns["download_id"]    = __("ID", 'download_monitor');
-		$columns["file"]           = __("File", 'download_monitor');
-		$columns["version"]        = __("Version", 'download_monitor');
-		$columns["download_cat"]   = __("Categories", 'download_monitor');
-		$columns["download_tag"]   = __("Tags", 'download_monitor');
-		$columns["download_count"] = __( "Download count", 'download_monitor' );
-		$columns["featured"]       = __( "Featured", 'download_monitor' );
-		$columns["members_only"]   = __( "Members only", 'download_monitor' );
-		$columns["redirect_only"]  = __( "Redirect only", 'download_monitor' );
-		$columns["date"]           = __("Date posted", 'download_monitor');
+		$columns["thumb"]          = '<span>' . __("Image", 'download-monitor') . '</span>';
+		$columns["title"]          = __("Title", 'download-monitor');
+		$columns["download_id"]    = __("ID", 'download-monitor');
+		$columns["file"]           = __("File", 'download-monitor');
+		$columns["version"]        = __("Version", 'download-monitor');
+		$columns["download_cat"]   = __("Categories", 'download-monitor');
+		$columns["download_tag"]   = __("Tags", 'download-monitor');
+		$columns["download_count"] = __( "Download count", 'download-monitor' );
+		$columns["featured"]       = __( "Featured", 'download-monitor' );
+		$columns["members_only"]   = __( "Members only", 'download-monitor' );
+		$columns["redirect_only"]  = __( "Redirect only", 'download-monitor' );
+		$columns["date"]           = __("Date posted", 'download-monitor');
 
 		return $columns;
 	}
@@ -209,7 +209,7 @@ class DLM_Admin_CPT {
 			case "featured" :
 
 				if ( $download->is_featured() )
-					echo '<span class="yes">' . __( 'Yes', 'download_monitor' ) . '</span>';
+					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				else
 					echo '<span class="na">&ndash;</span>';
 
@@ -217,7 +217,7 @@ class DLM_Admin_CPT {
 			case "members_only" :
 
 				if ( $download->is_members_only() )
-					echo '<span class="yes">' . __( 'Yes', 'download_monitor' ) . '</span>';
+					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				else
 					echo '<span class="na">&ndash;</span>';
 
@@ -225,7 +225,7 @@ class DLM_Admin_CPT {
 			case "redirect_only" :
 
 				if ( $download->redirect_only() )
-					echo '<span class="yes">' . __( 'Yes', 'download_monitor' ) . '</span>';
+					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				else
 					echo '<span class="na">&ndash;</span>';
 

@@ -47,21 +47,21 @@ class DLM_Logging_List_Table extends WP_List_Table {
 						$download_status = '<span class="redirected" title="' . esc_attr( $log->download_status_message ) . '">&#10140;</span>';
 					break;
 					default :
-						$download_status = '<span class="completed" title="' . __( 'Download Complete', 'download_monitor' ) . '">&#10004;</span>';
+						$download_status = '<span class="completed" title="' . __( 'Download Complete', 'download-monitor' ) . '">&#10004;</span>';
 					break;
 				}
 
 				return $download_status;
 			break;
 			case 'date' :
-				return '<time title="' . date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $log->download_date ) ) . '"">' . sprintf( __( '%s ago', 'download_monitor' ), human_time_diff( strtotime( $log->download_date ), current_time( 'timestamp' ) ) ) . '</time>';
+				return '<time title="' . date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $log->download_date ) ) . '"">' . sprintf( __( '%s ago', 'download-monitor' ), human_time_diff( strtotime( $log->download_date ), current_time( 'timestamp' ) ) ) . '</time>';
 			break;
 			case 'download' :
 				$download = new DLM_Download( $log->download_id );
 				$download->set_version( $log->version_id );
 
 				if ( ! $download->exists() ) {
-					$download_string  = sprintf( __( 'Download #%d (no longer exists)', 'download_monitor' ), $log->download_id );
+					$download_string  = sprintf( __( 'Download #%d (no longer exists)', 'download-monitor' ), $log->download_id );
 				} else {
 					$download_string = '<a href="' . admin_url( 'post.php?post=' . $download->id . '&action=edit' ) . '">';
 					$download_string .= '#' . $download->id . ' &ndash; ' . $download->get_the_title();
@@ -69,7 +69,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				}
 
 				if ( $log->version )
-					$download_string .= ' (' . sprintf( __( 'v%s', 'download_monitor' ), $log->version ) . ')';
+					$download_string .= ' (' . sprintf( __( 'v%s', 'download-monitor' ), $log->version ) . ')';
 
 				return $download_string;
 			break;
@@ -89,7 +89,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 					$user = get_user_by( 'id', $log->user_id );
 
 				if ( ! isset( $user ) || ! $user ) {
-					$user_string  = __( 'Non-member', 'download_monitor' );
+					$user_string  = __( 'Non-member', 'download-monitor' );
 				} else {
 					$user_string  = '<a href="' . admin_url( 'user-edit.php?user_id=' . $user->ID ) . '">';
 					$user_string .= $user->user_login . ' &ndash; ';
@@ -120,12 +120,12 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	public function get_columns(){
 		$columns = array(
 			'status'     => '',
-			'download'   => __( 'Download', 'download_monitor' ),
-			'file'   => __( 'File', 'download_monitor' ),
-			'user'       => __( 'User', 'download_monitor' ),
-			'user_ip'    => __( 'IP Address', 'download_monitor' ),
-			'user_ua'    => __( 'User Agent', 'download_monitor' ),
-			'date'       => __( 'Date', 'download_monitor' ),
+			'download'   => __( 'Download', 'download-monitor' ),
+			'file'   => __( 'File', 'download-monitor' ),
+			'user'       => __( 'User', 'download-monitor' ),
+			'user_ip'    => __( 'IP Address', 'download-monitor' ),
+			'user_ua'    => __( 'User Agent', 'download-monitor' ),
+			'date'       => __( 'Date', 'download-monitor' ),
 		);
 		return $columns;
 	}
@@ -139,10 +139,10 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			<?php if ( 'top' == $which ) : ?>
 				<div class="alignleft actions">
 					<select name="filter_status">
-						<option value=""><?php _e( 'Any status', 'download_monitor' ); ?></option>
-						<option value="failed" <?php selected( $this->filter_status, 'failed' ); ?>><?php _e( 'Failed', 'download_monitor' ); ?></option>
-						<option value="redirected" <?php selected( $this->filter_status, 'redirected' ); ?>><?php _e( 'Redirected', 'download_monitor' ); ?></option>
-						<option value="completed" <?php selected( $this->filter_status, 'completed' ); ?>><?php _e( 'Completed', 'download_monitor' ); ?></option>
+						<option value=""><?php _e( 'Any status', 'download-monitor' ); ?></option>
+						<option value="failed" <?php selected( $this->filter_status, 'failed' ); ?>><?php _e( 'Failed', 'download-monitor' ); ?></option>
+						<option value="redirected" <?php selected( $this->filter_status, 'redirected' ); ?>><?php _e( 'Redirected', 'download-monitor' ); ?></option>
+						<option value="completed" <?php selected( $this->filter_status, 'completed' ); ?>><?php _e( 'Completed', 'download-monitor' ); ?></option>
 					</select>
 					<?php
 						global $wpdb, $wp_locale;
@@ -182,15 +182,15 @@ class DLM_Logging_List_Table extends WP_List_Table {
 						<?php endif;
 					?>
 					<select name="logs_per_page">
-						<option value="25"><?php _e( '25 per page', 'download_monitor' ); ?></option>
-						<option value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php _e( '50 per page', 'download_monitor' ); ?></option>
-						<option value="100" <?php selected( $this->logs_per_page, 100 ) ?>><?php _e( '100 per page', 'download_monitor' ); ?></option>
-						<option value="200" <?php selected( $this->logs_per_page, 200 ) ?>><?php _e( '200 per page', 'download_monitor' ); ?></option>
-						<option value="-1" <?php selected( $this->logs_per_page, -1 ) ?>><?php _e( 'Show All', 'download_monitor' ); ?></option>
+						<option value="25"><?php _e( '25 per page', 'download-monitor' ); ?></option>
+						<option value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php _e( '50 per page', 'download-monitor' ); ?></option>
+						<option value="100" <?php selected( $this->logs_per_page, 100 ) ?>><?php _e( '100 per page', 'download-monitor' ); ?></option>
+						<option value="200" <?php selected( $this->logs_per_page, 200 ) ?>><?php _e( '200 per page', 'download-monitor' ); ?></option>
+						<option value="-1" <?php selected( $this->logs_per_page, -1 ) ?>><?php _e( 'Show All', 'download-monitor' ); ?></option>
 					</select>
 					<input type="hidden" name="post_type" value="dlm_download" />
 					<input type="hidden" name="page" value="download-monitor-logs" />
-					<input type="submit" value="<?php _e( 'Filter', 'download_monitor' ); ?>" class="button" />
+					<input type="submit" value="<?php _e( 'Filter', 'download-monitor' ); ?>" class="button" />
 				</div>
 			<?php endif; ?>
 			<?php

@@ -47,7 +47,7 @@ class DLM_Addons {
 		?>
 		<div class="wrap dlm_addons_wrap">
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br /></div>
-			<h2><?php _e( 'Download Monitor Add-ons', 'download_monitor' ); ?></h2>
+			<h2><?php _e( 'Download Monitor Add-ons', 'download-monitor' ); ?></h2>
 			<?php echo $addons; ?>
 		</div>
 		<?php
