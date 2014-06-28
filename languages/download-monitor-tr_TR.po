@@ -1,13 +1,14 @@
 # Copyright (C) 2014 Download Monitor
 # This file is distributed under the same license as the Download Monitor package.
 # Translators:
+# burakulker <burakulker@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
 "POT-Creation-Date: 2014-06-28 12:04:37+00:00\n"
-"PO-Revision-Date: 2014-06-28 12:22+0000\n"
-"Last-Translator: Mike Jolley <mike.jolley@me.com>\n"
+"PO-Revision-Date: 2014-06-28 16:21+0000\n"
+"Last-Translator: burakulker <burakulker@gmail.com>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/download-monitor/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,7 +18,7 @@ msgstr ""
 
 #: download-monitor.php:92 includes/admin/class-dlm-admin.php:257
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
 #: download-monitor.php:93 includes/admin/class-dlm-admin.php:260
 msgid "Add-ons"
@@ -25,24 +26,24 @@ msgstr ""
 
 #: download-monitor.php:94
 msgid "Docs"
-msgstr ""
+msgstr "Dökümanlar"
 
 #: download-monitor.php:241 download-monitor.php:243
 #: includes/admin/class-dlm-admin-cpt.php:172
 msgid "Categories"
-msgstr ""
+msgstr "Kategoriler"
 
 #: download-monitor.php:244
 msgid "Download Category"
-msgstr ""
+msgstr "Kategori İndir"
 
 #: download-monitor.php:245
 msgid "Search Download Categories"
-msgstr ""
+msgstr "İndirilen kategorileri ara"
 
 #: download-monitor.php:246
 msgid "All Download Categories"
-msgstr ""
+msgstr "Bütüm kategorileri indir"
 
 #: download-monitor.php:247
 msgid "Parent Download Category"
@@ -54,7 +55,7 @@ msgstr ""
 
 #: download-monitor.php:249
 msgid "Edit Download Category"
-msgstr ""
+msgstr "İndirilen kategori düzenle"
 
 #: download-monitor.php:250
 msgid "Update Download Category"

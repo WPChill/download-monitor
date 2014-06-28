@@ -1,13 +1,14 @@
 # Copyright (C) 2014 Download Monitor
 # This file is distributed under the same license as the Download Monitor package.
 # Translators:
+# IlDucci <victor.gonfraile@hotmail.es>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
 "POT-Creation-Date: 2014-06-28 12:04:37+00:00\n"
-"PO-Revision-Date: 2014-06-28 12:23+0000\n"
-"Last-Translator: Mike Jolley <mike.jolley@me.com>\n"
+"PO-Revision-Date: 2014-06-28 16:14+0000\n"
+"Last-Translator: IlDucci <victor.gonfraile@hotmail.es>\n"
 "Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/download-monitor/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -273,7 +274,7 @@ msgstr "Publicación"
 #: includes/admin/class-dlm-admin-cpt.php:220
 #: includes/admin/class-dlm-admin-cpt.php:228
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: includes/admin/class-dlm-admin-dashboard.php:21
 msgid "Popular Downloads"
@@ -340,7 +341,7 @@ msgstr "o"
 
 #: includes/admin/class-dlm-admin-insert.php:216
 msgid "Select File"
-msgstr ""
+msgstr "Seleccionar archivo"
 
 #: includes/admin/class-dlm-admin-insert.php:218
 msgid "Enter URL manually"
@@ -393,7 +394,7 @@ msgstr "Opciones de descarga"
 
 #: includes/admin/class-dlm-admin-writepanels.php:30
 msgid "Downloadable Files/Versions"
-msgstr ""
+msgstr "Archivos descargables/Versiones"
 
 #: includes/admin/class-dlm-admin-writepanels.php:35
 msgid "Short Description"
@@ -405,13 +406,13 @@ msgstr "Descarga destacada"
 
 #: includes/admin/class-dlm-admin-writepanels.php:58
 msgid "Mark this download as featured. Used by shortcodes and widgets."
-msgstr "Marcar esta descarga como destacada. La utilizan los códigos rápidos y los widgets."
+msgstr "Marcar esta descarga como destacada. Utilizado por los códigos rápidos y los widgets."
 
 #: includes/admin/class-dlm-admin-writepanels.php:64
 msgid ""
 "Only logged in users will be able to access the file via a download link if "
 "this is enabled."
-msgstr "Al activar esta opción solo podrán acceder al archivo, a través de un enlace de descarga, los usuarios conectados."
+msgstr "Al activar esta opción solo podrán acceder al archivo los usuarios que hayan iniciado sesión y tengan acceso al enlace de descarga."
 
 #: includes/admin/class-dlm-admin-writepanels.php:69
 msgid "Redirect to file"
@@ -425,7 +426,7 @@ msgstr "No forzar la descarga. Si la carpeta <code>dlm_upload</code> está prote
 
 #: includes/admin/class-dlm-admin-writepanels.php:94
 msgid "Add file"
-msgstr ""
+msgstr "Añadir archivo"
 
 #: includes/admin/class-dlm-admin-writepanels.php:95
 msgid "Close all"
@@ -433,7 +434,7 @@ msgstr "Cerrar todo"
 
 #: includes/admin/class-dlm-admin-writepanels.php:95
 msgid "Expand all"
-msgstr "Expandir todo"
+msgstr "Abrir todo"
 
 #: includes/admin/class-dlm-admin-writepanels.php:228
 msgid "Are you sure you want to delete this file?"
@@ -491,7 +492,7 @@ msgid ""
 "template file. If you enter, for example, <code>image</code>, the <code"
 ">content-download-image.php</code> template will be used instead. You can "
 "add custom templates inside your theme folder."
-msgstr "Si dejas este cuadro en blanco, se utilizará el archivo de plantilla predeterminado <code>content-download.php</code>. Si, por ejemplo, escribes <code>image</code>, se utilizará en su lugar la plantilla <code>content-download-image.php</code>. Puedes añadir plantillas personalizadas dentro de la carpeta de tu aspecto."
+msgstr "Si dejas este cuadro en blanco, se utilizará el archivo de plantilla predeterminado <code>content-download.php</code>. Si, por ejemplo, escribes <code>image</code>, se utilizará en su lugar la plantilla <code>content-download-image.php</code>. Puedes añadir plantillas personalizadas dentro de la carpeta de tu apariencia."
 
 #: includes/admin/class-dlm-admin.php:122
 msgid "Endpoint"
@@ -546,17 +547,17 @@ msgid ""
 "If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be"
 " used to serve downloads instead of PHP (server requires "
 "<code>mod_xsendfile</code>)."
-msgstr "Si está admitido, se pueden utlizar <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> para servir las descargas en vez de PHP (el servidor necesita <code>mod_xsendfile</code>)."
+msgstr "Si el servidor lo permite, se pueden distribuir las descargas a través de <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> en vez de usar PHP (el servidor necesita <code>mod_xsendfile</code>)."
 
 #: includes/admin/class-dlm-admin.php:153
 msgid "Prevent hotlinking"
-msgstr ""
+msgstr "Evitar hotlinking"
 
 #: includes/admin/class-dlm-admin.php:155
 msgid ""
 "If enabled, the download handler will check the PHP referer to see if it "
 "originated from your site and if not, redirect them to the homepage."
-msgstr ""
+msgstr "Si activas esta opción, el gestor de descargas comprobará si la referencia PHP se ha originado desde tu página web, y en caso contrario la redirigirá a la misma."
 
 #: includes/admin/class-dlm-admin.php:161
 msgid "Logging"
@@ -578,7 +579,7 @@ msgstr "IPs en lista negra"
 msgid ""
 "List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a "
 "wildcard."
-msgstr "Indica las direcciones IP que están en la lista negra, a 1 IP por línea. Se puede utilizar el comodín <code>*</code>."
+msgstr "Indica las direcciones IP que están en la lista negra, una IP por línea. Se puede utilizar el comodín <code>*</code>."
 
 #: includes/admin/class-dlm-admin.php:182
 msgid "Blacklist user agents"
@@ -586,7 +587,7 @@ msgstr "Agentes de usuario en lista negra"
 
 #: includes/admin/class-dlm-admin.php:183
 msgid "List browser user agents to blacklist, 1 per line."
-msgstr "Indica los agentes de usuario de navegadores que están en la lista negra, a 1 por línea."
+msgstr "Indica los agentes de usuario de navegadores que están en la lista negra. Un agente por línea."
 
 #: includes/admin/class-dlm-admin.php:255
 msgid "Logs"
@@ -789,7 +790,7 @@ msgstr "m"
 
 #: includes/class-dlm-download-handler.php:140
 msgid "Password Required"
-msgstr ""
+msgstr "Necesaria contraseña"
 
 #: includes/class-dlm-download-handler.php:150
 msgid "Download does not exist."
@@ -814,7 +815,7 @@ msgstr "Error en la descarga"
 #: includes/class-dlm-download-handler.php:180
 #: includes/class-dlm-download-handler.php:185
 msgid "No file paths defined."
-msgstr "No hay una dirección de archivo definida."
+msgstr "No se ha definido una dirección de archivo."
 
 #: includes/class-dlm-download-handler.php:194
 msgid "You do not have permission to access this download."
@@ -938,23 +939,23 @@ msgstr[1] "Descargado %d veces"
 
 #. Plugin Name of the plugin/theme
 msgid "Download Monitor"
-msgstr ""
+msgstr "Download Monitor"
 
 #. Plugin URI of the plugin/theme
 msgid "http://mikejolley.com/projects/download-monitor/"
-msgstr ""
+msgstr "http://mikejolley.com/projects/download-monitor/"
 
 #. Description of the plugin/theme
 msgid ""
 "A full solution for managing downloadable files, monitoring downloads and "
 "outputting download links and file information on your WordPress powered "
 "site."
-msgstr ""
+msgstr "Una solución completa para gestionar archivos descargables, monitorizar descargas y exportar enlaces de descarga e información de archivos en tu web WordPress."
 
 #. Author of the plugin/theme
 msgid "Mike Jolley"
-msgstr ""
+msgstr "Mike Jolley"
 
 #. Author URI of the plugin/theme
 msgid "http://mikejolley.com"
-msgstr ""
+msgstr "http://mikejolley.com"
