@@ -38,7 +38,9 @@ Add-ons, such as the __legacy importer__ and __page addon__ can be [found here](
 
 = Contributing and reporting bugs =
 
-You can contribute code and localizations to this plugin via GitHub: [https://github.com/mikejolley/download-monitor](https://github.com/mikejolley/download-monitor)
+You can contribute code to this plugin via GitHub: [https://github.com/mikejolley/download-monitor](https://github.com/mikejolley/download-monitor)
+
+You can contribute localizations via Transifex [https://www.transifex.com/projects/p/download-monitor/](https://www.transifex.com/projects/p/download-monitor/)
 
 = Support =
 
@@ -109,12 +111,12 @@ Admin hits are not counted, log out and try!
 == Changelog ==
 
 = 1.5.0 =
-* JSON_UNESCAPED_UNICODE for files to fix unicode chars. Requires PHP 5.4+
+* JSON_UNESCAPED_UNICODE for files to fix unicode chars when json encoded. Fix needs PHP 5.4+ to work, but won't break lower versions.
 * Style filetype-docx
 * Update get_version_id to work with non-numeric versions.
 * Fix shortcode arg booleans.
 * Add transient cache for get_file_version_ids.
-* Moved all translations to Transifex.
+* Moved all translations to Transifex - https://www.transifex.com/projects/p/download-monitor/
 * Changed text domain from download_monitor to download-monitor.
 * Added Grunt.
 
