@@ -212,9 +212,9 @@ class DLM_Admin_Insert {
 				<div id="drag-drop-area" style="height:240px">
 					<div class="drag-drop-inside">
 						<p class="drag-drop-info"><?php _e( 'Drop file here', 'download-monitor' ); ?></p>
-						<p><?php _e( 'or', 'download-monitor' ); ?></p>
+						<p><?php _x( 'or', 'Drop file here *or* select file or enter URL manually', 'download-monitor' ); ?></p>
 						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button" /></p>
-						<p><?php _e( 'or', 'download-monitor' ); ?></p>
+						<p><?php _x( 'or', 'Drop file here or select file *or* enter URL manually', 'download-monitor' ); ?></p>
 						<p><a href="#" class="add_manually"><?php _e( 'Enter URL manually', 'download-monitor' ); ?></a></p>
 					</div>
 				</div>
