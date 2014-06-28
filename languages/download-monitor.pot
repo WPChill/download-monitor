@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor 1.5.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
-"POT-Creation-Date: 2014-06-28 19:25:59+00:00\n"
+"POT-Creation-Date: 2014-06-28 19:28:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -237,7 +237,7 @@ msgid "File"
 msgstr ""
 
 #: includes/admin/class-dlm-admin-cpt.php:171
-#: includes/admin/class-dlm-admin-insert.php:232
+#: includes/admin/class-dlm-admin-insert.php:231
 #: includes/admin/html-downloadable-file-version.php:16
 msgid "Version"
 msgstr ""
@@ -331,7 +331,7 @@ msgid "Drop file here"
 msgstr ""
 
 #: includes/admin/class-dlm-admin-insert.php:215
-msgctxt "Drop file here *or* select file or enter URL manually"
+msgctxt "Drop file here *or* select file"
 msgid "or"
 msgstr ""
 
@@ -339,44 +339,39 @@ msgstr ""
 msgid "Select File"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:217
-msgctxt "Drop file here or select file *or* enter URL manually"
-msgid "or"
-msgstr ""
-
-#: includes/admin/class-dlm-admin-insert.php:218
+#: includes/admin/class-dlm-admin-insert.php:219
 msgid "Enter URL manually"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:224
+#: includes/admin/class-dlm-admin-insert.php:223
 msgid "Download URL"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:225
+#: includes/admin/class-dlm-admin-insert.php:224
 msgid "Required URL"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:228
+#: includes/admin/class-dlm-admin-insert.php:227
 msgid "Download Title"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:229
+#: includes/admin/class-dlm-admin-insert.php:228
 msgid "Required title"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:233
+#: includes/admin/class-dlm-admin-insert.php:232
 msgid "Optional version number"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:236
+#: includes/admin/class-dlm-admin-insert.php:235
 msgid "Save Download"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:292
+#: includes/admin/class-dlm-admin-insert.php:291
 msgid "Allowed Files"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-insert.php:342
+#: includes/admin/class-dlm-admin-insert.php:341
 msgid "Please wait..."
 msgstr ""
 
