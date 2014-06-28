@@ -76,7 +76,7 @@ class DLM_Download_Handler {
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
 		}
 
-		if ( $wp->query_vars['post_type'] === 'dlm_download' && ! empty( $wp->query_vars[ $this->endpoint ] ) ) {
+		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && strstr( $wp->request, $this->endpoint . '/' ) ) {
 
 			// Prevent caching when endpoint is set
 			define( 'DONOTCACHEPAGE', true );
