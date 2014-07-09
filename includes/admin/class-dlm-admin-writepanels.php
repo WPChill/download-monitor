@@ -464,12 +464,7 @@ class DLM_Admin_Writepanels {
 
 				// Update post meta
 				update_post_meta( $file_id, '_version', $file_version );
-
-				if ( version_compare( phpversion(), "5.4.0", ">=" ) ) {
-					update_post_meta( $file_id, '_files', json_encode( $files, JSON_UNESCAPED_UNICODE ) );
-				} else {
-					update_post_meta( $file_id, '_files', json_encode( $files ) );
-				}
+				update_post_meta( $file_id, '_files', $download_monitor->json_encode_files( $files ) );
 
 				$filesize       = -1;
 				$main_file_path = current( $files );

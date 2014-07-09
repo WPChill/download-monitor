@@ -124,12 +124,7 @@ class DLM_Admin_Insert {
 					// Meta
 					update_post_meta( $file_id, '_version', $version );
 					update_post_meta( $file_id, '_filesize', $download_monitor->get_filesize( $url ) );
-
-					if ( version_compare( phpversion(), "5.4.0", ">=" ) ) {
-						update_post_meta( $file_id, '_files', json_encode( array( $url ), JSON_UNESCAPED_UNICODE ) );
-					} else {
-						update_post_meta( $file_id, '_files', json_encode( array( $url ) ) );
-					}
+					update_post_meta( $file_id, '_files', $download_monitor->json_encode_files( array( $url ) ) );
 
 					$hashes = $download_monitor->get_file_hashes( $url );
 

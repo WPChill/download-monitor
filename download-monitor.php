@@ -3,7 +3,7 @@
 Plugin Name: Download Monitor
 Plugin URI: http://mikejolley.com/projects/download-monitor/
 Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-Version: 1.5.0
+Version: 1.5.1
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 Requires at least: 3.8
@@ -645,7 +645,38 @@ class WP_DLM {
 		}
 
 		return array( 'md5' => $md5, 'sha1' => $sha1, 'crc32' => $crc32 );
-	}	
+	}
+
+	/**
+	 * Encode files for storage
+	 * @param  array $files
+	 * @return string
+	 */
+	public function json_encode_files( $files ) {
+		if ( version_compare( phpversion(), "5.4.0", ">=" ) ) {
+			$files = json_encode( $files, JSON_UNESCAPED_UNICODE );
+		} else {
+			$files = json_encode( $files );
+			if ( function_exists( 'mb_convert_encoding' ) ) {
+				$files = preg_replace_callback( '/\\\\u([0-9a-f]{4})/i', array( $this, 'json_unscaped_unicode_fallback' ), $files );
+			}
+		}
+		return $files;
+	}
+
+	/**
+	 * Fallback for PHP < 5.4 where JSON_UNESCAPED_UNICODE does not exist.
+	 * @param  array $matches
+	 * @return string
+	 */
+	public function json_unscaped_unicode_fallback( $matches ) {
+		$sym = mb_convert_encoding(
+			pack( 'H*', $matches[1] ),
+			'UTF-8',
+			'UTF-16'
+		);
+		return $sym;
+	}
 }
 
 /**
