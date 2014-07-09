@@ -112,6 +112,7 @@ Admin hits are not counted, log out and try!
 
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.
+* Changed default orderby for downloads shortcode to date, desc.
 
 = 1.5.0 =
 * JSON_UNESCAPED_UNICODE for files to fix unicode chars when json encoded. Fix needs PHP 5.4+ to work, but won't break lower versions.

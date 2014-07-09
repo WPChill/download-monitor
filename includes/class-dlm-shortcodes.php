@@ -228,7 +228,7 @@ class DLM_Shortcodes {
 		extract( shortcode_atts( array(
 			// Query args
 			'per_page'                  => '-1', // -1 = no limit
-			'orderby'                   => 'title', // title, rand, ID, none, date, modifed, post__in, download_count
+			'orderby'                   => 'date', // title, rand, ID, none, date, modifed, post__in, download_count
 			'order'                     => 'desc', // ASC or DESC
 			'include'                   => '', // Comma separate IDS
 			'exclude'                   => '', // Comma separate IDS
