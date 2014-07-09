@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
-"POT-Creation-Date: 2014-06-28 12:04:37+00:00\n"
-"PO-Revision-Date: 2014-06-28 12:23+0000\n"
+"POT-Creation-Date: 2014-06-28 19:28:54+00:00\n"
+"PO-Revision-Date: 2014-06-29 09:07+0000\n"
 "Last-Translator: Mike Jolley <mike.jolley@me.com>\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/download-monitor/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Language: sv_SE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: download-monitor.php:92 includes/admin/class-dlm-admin.php:257
+#: download-monitor.php:92 includes/admin/class-dlm-admin.php:281
 msgid "Settings"
 msgstr "Inställningar"
 
-#: download-monitor.php:93 includes/admin/class-dlm-admin.php:260
+#: download-monitor.php:93 includes/admin/class-dlm-admin.php:284
 msgid "Add-ons"
 msgstr "Tillägg"
 
@@ -167,7 +167,7 @@ msgid "This is where you can create and manage downloads for your site."
 msgstr "Här kan du skapa och hantera dina nedladdningar för din webbplats."
 
 #: includes/admin/class-dlm-addons.php:50
-#: includes/admin/class-dlm-admin.php:260
+#: includes/admin/class-dlm-admin.php:284
 msgid "Download Monitor Add-ons"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgid "File"
 msgstr "Fil"
 
 #: includes/admin/class-dlm-admin-cpt.php:171
-#: includes/admin/class-dlm-admin-insert.php:232
+#: includes/admin/class-dlm-admin-insert.php:231
 #: includes/admin/html-downloadable-file-version.php:16
 msgid "Version"
 msgstr "Version"
@@ -334,47 +334,47 @@ msgid "Drop file here"
 msgstr "Släpp filen här"
 
 #: includes/admin/class-dlm-admin-insert.php:215
-#: includes/admin/class-dlm-admin-insert.php:217
+msgctxt "Drop file here *or* select file"
 msgid "or"
-msgstr "eller"
+msgstr ""
 
 #: includes/admin/class-dlm-admin-insert.php:216
 msgid "Select File"
 msgstr "Välj fil"
 
-#: includes/admin/class-dlm-admin-insert.php:218
+#: includes/admin/class-dlm-admin-insert.php:219
 msgid "Enter URL manually"
 msgstr "Skriv in URL manuellt"
 
-#: includes/admin/class-dlm-admin-insert.php:224
+#: includes/admin/class-dlm-admin-insert.php:223
 msgid "Download URL"
 msgstr "Nedladdnings-URL"
 
-#: includes/admin/class-dlm-admin-insert.php:225
+#: includes/admin/class-dlm-admin-insert.php:224
 msgid "Required URL"
 msgstr "Nödvändig URL"
 
-#: includes/admin/class-dlm-admin-insert.php:228
+#: includes/admin/class-dlm-admin-insert.php:227
 msgid "Download Title"
 msgstr "Nedladdningstitel"
 
-#: includes/admin/class-dlm-admin-insert.php:229
+#: includes/admin/class-dlm-admin-insert.php:228
 msgid "Required title"
 msgstr "Nödvändig titel"
 
-#: includes/admin/class-dlm-admin-insert.php:233
+#: includes/admin/class-dlm-admin-insert.php:232
 msgid "Optional version number"
 msgstr "Alternativt versionsnummer"
 
-#: includes/admin/class-dlm-admin-insert.php:236
+#: includes/admin/class-dlm-admin-insert.php:235
 msgid "Save Download"
 msgstr "Spara"
 
-#: includes/admin/class-dlm-admin-insert.php:292
+#: includes/admin/class-dlm-admin-insert.php:291
 msgid "Allowed Files"
 msgstr "Tillåtna filer"
 
-#: includes/admin/class-dlm-admin-insert.php:342
+#: includes/admin/class-dlm-admin-insert.php:341
 msgid "Please wait..."
 msgstr "Ett ögonblick..."
 
@@ -494,159 +494,189 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class-dlm-admin.php:122
+msgid "MD5 hashes"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:123
+msgid "Generate MD5 hash for uploaded files"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:130
+msgid "SHA1 hashes"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:131
+msgid "Generate SHA1 hash for uploaded files"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:138
+msgid "CRC32B hashes"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:139
+msgid "Generate CRC32B hash for uploaded files"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:140
+msgid ""
+"Hashes can optionally be output via shortcodes, but may cause performance "
+"issues with large files."
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:146
 msgid "Endpoint"
 msgstr "Slutpunkt"
 
-#: includes/admin/class-dlm-admin.php:127
+#: includes/admin/class-dlm-admin.php:151
 msgid "download"
 msgstr "ladda-ner"
 
-#: includes/admin/class-dlm-admin.php:128
+#: includes/admin/class-dlm-admin.php:152
 msgid "Download Endpoint"
 msgstr "Nedladdningsslutpunkt"
 
-#: includes/admin/class-dlm-admin.php:129
+#: includes/admin/class-dlm-admin.php:153
 msgid ""
 "Define what endpoint should be used for download links. By default this will"
 " be <code>%s</code>."
 msgstr "Definiera vilken slutpunkt nedladdningar ska ha. Som standard kommer detta vara <code>%s</code>."
 
-#: includes/admin/class-dlm-admin.php:134
+#: includes/admin/class-dlm-admin.php:158
 msgid "Endpoint Value"
 msgstr "Slutpunktsvärde"
 
-#: includes/admin/class-dlm-admin.php:135
+#: includes/admin/class-dlm-admin.php:159
 msgid ""
 "Define what unique value should be used on the end of your endpoint to "
 "identify the downloadable file. e.g. ID would give a link like "
 "<code>%s</code>"
 msgstr "Definiera vilket unikt värde i slutet på din slutpunkt för att identifiera den nedladdningsbara filen. Exempelvis, ID skulle ge dig en länk som<code>%s</code>"
 
-#: includes/admin/class-dlm-admin.php:138
-#: includes/admin/class-dlm-admin.php:460
+#: includes/admin/class-dlm-admin.php:162
+#: includes/admin/class-dlm-admin.php:484
 msgid "Download ID"
 msgstr "Nedladdnings-ID"
 
-#: includes/admin/class-dlm-admin.php:139
+#: includes/admin/class-dlm-admin.php:163
 msgid "Download slug"
 msgstr "Nedladdningsslug"
 
-#: includes/admin/class-dlm-admin.php:145
+#: includes/admin/class-dlm-admin.php:169
 msgid "X-Accel-Redirect / X-Sendfile"
 msgstr "X-Accel-Redirect / X-Sendfile"
 
-#: includes/admin/class-dlm-admin.php:146
-#: includes/admin/class-dlm-admin.php:154
-#: includes/admin/class-dlm-admin.php:165
+#: includes/admin/class-dlm-admin.php:170
+#: includes/admin/class-dlm-admin.php:178
+#: includes/admin/class-dlm-admin.php:189
 msgid "Enable"
 msgstr "Aktivera"
 
-#: includes/admin/class-dlm-admin.php:147
+#: includes/admin/class-dlm-admin.php:171
 msgid ""
 "If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be"
 " used to serve downloads instead of PHP (server requires "
 "<code>mod_xsendfile</code>)."
 msgstr "Om det stödjs, kan <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> användas för att hantera nedladdningar istället för PHP (servern behöver då <code>mod_xsendfile</code>)."
 
-#: includes/admin/class-dlm-admin.php:153
+#: includes/admin/class-dlm-admin.php:177
 msgid "Prevent hotlinking"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:155
+#: includes/admin/class-dlm-admin.php:179
 msgid ""
 "If enabled, the download handler will check the PHP referer to see if it "
 "originated from your site and if not, redirect them to the homepage."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:161
+#: includes/admin/class-dlm-admin.php:185
 msgid "Logging"
 msgstr "Loggar"
 
-#: includes/admin/class-dlm-admin.php:167
+#: includes/admin/class-dlm-admin.php:191
 msgid "Download Log"
 msgstr "Nedladdningslogg"
 
-#: includes/admin/class-dlm-admin.php:168
+#: includes/admin/class-dlm-admin.php:192
 msgid "Log download attempts, IP addresses and more."
 msgstr "Loggar nedladdningsförsök, IP-adresser med mera."
 
-#: includes/admin/class-dlm-admin.php:174
+#: includes/admin/class-dlm-admin.php:198
 msgid "Blacklist IPs"
 msgstr "Svartlista IP"
 
-#: includes/admin/class-dlm-admin.php:175
+#: includes/admin/class-dlm-admin.php:199
 msgid ""
 "List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a "
 "wildcard."
 msgstr "Lista IP-adresser att svartlista, 1 per rad. Använd <code>*</code> för wildcard."
 
-#: includes/admin/class-dlm-admin.php:182
+#: includes/admin/class-dlm-admin.php:206
 msgid "Blacklist user agents"
 msgstr "Svartlista användarprogram"
 
-#: includes/admin/class-dlm-admin.php:183
+#: includes/admin/class-dlm-admin.php:207
 msgid "List browser user agents to blacklist, 1 per line."
 msgstr "Lista webbläsarprogram att svartlista, 1 per rad."
 
-#: includes/admin/class-dlm-admin.php:255
+#: includes/admin/class-dlm-admin.php:279
 msgid "Logs"
 msgstr "Loggar"
 
-#: includes/admin/class-dlm-admin.php:299
+#: includes/admin/class-dlm-admin.php:323
 msgid "Settings successfully saved"
 msgstr "Inställningar sparade"
 
-#: includes/admin/class-dlm-admin.php:366
+#: includes/admin/class-dlm-admin.php:390
 msgid "Save Changes"
 msgstr "Spara ändringar"
 
-#: includes/admin/class-dlm-admin.php:410
+#: includes/admin/class-dlm-admin.php:434
 msgid "Download Logs"
 msgstr "Ladda ner loggar"
 
-#: includes/admin/class-dlm-admin.php:410
+#: includes/admin/class-dlm-admin.php:434
 msgid "Export CSV"
 msgstr "Exportera CSV"
 
-#: includes/admin/class-dlm-admin.php:410
+#: includes/admin/class-dlm-admin.php:434
 msgid "Delete Logs"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:461
+#: includes/admin/class-dlm-admin.php:485
 msgid "Version ID"
 msgstr "ID-version"
 
-#: includes/admin/class-dlm-admin.php:462
+#: includes/admin/class-dlm-admin.php:486
 msgid "Filename"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:463
+#: includes/admin/class-dlm-admin.php:487
 msgid "User ID"
 msgstr "Användar-ID"
 
-#: includes/admin/class-dlm-admin.php:464
+#: includes/admin/class-dlm-admin.php:488
 msgid "User Login"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:465
+#: includes/admin/class-dlm-admin.php:489
 msgid "User Email"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:466
+#: includes/admin/class-dlm-admin.php:490
 msgid "User IP"
 msgstr "Användar-IP"
 
-#: includes/admin/class-dlm-admin.php:467
+#: includes/admin/class-dlm-admin.php:491
 #: includes/admin/class-dlm-logging-list-table.php:127
 msgid "User Agent"
 msgstr "Användarprogram"
 
-#: includes/admin/class-dlm-admin.php:468
+#: includes/admin/class-dlm-admin.php:492
 #: includes/admin/class-dlm-logging-list-table.php:128
 msgid "Date"
 msgstr "Datum"
 
-#: includes/admin/class-dlm-admin.php:469
+#: includes/admin/class-dlm-admin.php:493
 msgid "Status"
 msgstr "Status"
 

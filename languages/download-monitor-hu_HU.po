@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
-"POT-Creation-Date: 2014-06-28 12:04:37+00:00\n"
-"PO-Revision-Date: 2014-06-28 12:21+0000\n"
+"POT-Creation-Date: 2014-06-28 19:28:54+00:00\n"
+"PO-Revision-Date: 2014-06-30 15:09+0000\n"
 "Last-Translator: Mike Jolley <mike.jolley@me.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/download-monitor/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: download-monitor.php:92 includes/admin/class-dlm-admin.php:257
+#: download-monitor.php:92 includes/admin/class-dlm-admin.php:281
 msgid "Settings"
 msgstr "Beállítások"
 
-#: download-monitor.php:93 includes/admin/class-dlm-admin.php:260
+#: download-monitor.php:93 includes/admin/class-dlm-admin.php:284
 msgid "Add-ons"
 msgstr "Kiegészítők"
 
@@ -111,7 +111,7 @@ msgstr "Új letöltési címke neve:"
 
 #: download-monitor.php:303
 msgid "All Downloads"
-msgstr ""
+msgstr "Összes letöltés"
 
 #: download-monitor.php:304
 msgid "Downloads"
@@ -167,9 +167,9 @@ msgid "This is where you can create and manage downloads for your site."
 msgstr "Ez az a rész, ahol a honlapunkhoz létrehozhatunk és kezelhetünk letöltéseket."
 
 #: includes/admin/class-dlm-addons.php:50
-#: includes/admin/class-dlm-admin.php:260
+#: includes/admin/class-dlm-admin.php:284
 msgid "Download Monitor Add-ons"
-msgstr ""
+msgstr "Download Monitor kiegészítők"
 
 #: includes/admin/class-dlm-admin-cpt.php:64
 msgid "Select a category"
@@ -240,7 +240,7 @@ msgid "File"
 msgstr "Fájl"
 
 #: includes/admin/class-dlm-admin-cpt.php:171
-#: includes/admin/class-dlm-admin-insert.php:232
+#: includes/admin/class-dlm-admin-insert.php:231
 #: includes/admin/html-downloadable-file-version.php:16
 msgid "Version"
 msgstr "verzió"
@@ -263,7 +263,7 @@ msgstr "Csak regisztrált felhasználóknak"
 
 #: includes/admin/class-dlm-admin-cpt.php:177
 msgid "Redirect only"
-msgstr ""
+msgstr "Csak átirányítás"
 
 #: includes/admin/class-dlm-admin-cpt.php:178
 msgid "Date posted"
@@ -273,7 +273,7 @@ msgstr "Dátum elküldve"
 #: includes/admin/class-dlm-admin-cpt.php:220
 #: includes/admin/class-dlm-admin-cpt.php:228
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 #: includes/admin/class-dlm-admin-dashboard.php:21
 msgid "Popular Downloads"
@@ -334,7 +334,7 @@ msgid "Drop file here"
 msgstr "Húzzuk ide a fájlt"
 
 #: includes/admin/class-dlm-admin-insert.php:215
-#: includes/admin/class-dlm-admin-insert.php:217
+msgctxt "Drop file here *or* select file"
 msgid "or"
 msgstr "vagy"
 
@@ -342,46 +342,46 @@ msgstr "vagy"
 msgid "Select File"
 msgstr "Válasszunk egy fájlt"
 
-#: includes/admin/class-dlm-admin-insert.php:218
+#: includes/admin/class-dlm-admin-insert.php:219
 msgid "Enter URL manually"
 msgstr "URL megadása kézzel"
 
-#: includes/admin/class-dlm-admin-insert.php:224
+#: includes/admin/class-dlm-admin-insert.php:223
 msgid "Download URL"
 msgstr "Letöltési URL"
 
-#: includes/admin/class-dlm-admin-insert.php:225
+#: includes/admin/class-dlm-admin-insert.php:224
 msgid "Required URL"
 msgstr "Kötelező URL"
 
-#: includes/admin/class-dlm-admin-insert.php:228
+#: includes/admin/class-dlm-admin-insert.php:227
 msgid "Download Title"
 msgstr "Letöltés neve"
 
-#: includes/admin/class-dlm-admin-insert.php:229
+#: includes/admin/class-dlm-admin-insert.php:228
 msgid "Required title"
 msgstr "Kötelező cím"
 
-#: includes/admin/class-dlm-admin-insert.php:233
+#: includes/admin/class-dlm-admin-insert.php:232
 msgid "Optional version number"
 msgstr "Verziószám (opcionális)"
 
-#: includes/admin/class-dlm-admin-insert.php:236
+#: includes/admin/class-dlm-admin-insert.php:235
 msgid "Save Download"
 msgstr "Letöltés mentése"
 
-#: includes/admin/class-dlm-admin-insert.php:292
+#: includes/admin/class-dlm-admin-insert.php:291
 msgid "Allowed Files"
 msgstr "Engedélyezett fájlok"
 
-#: includes/admin/class-dlm-admin-insert.php:342
+#: includes/admin/class-dlm-admin-insert.php:341
 msgid "Please wait..."
 msgstr "Kis türelmet kérünk..."
 
 #: includes/admin/class-dlm-admin-media-browser.php:31
 #: includes/admin/class-dlm-admin-writepanels.php:263
 msgid "Browse for a file"
-msgstr "Tallózás...Nach Datei suchen"
+msgstr "Tallózás.."
 
 #: includes/admin/class-dlm-admin-media-browser.php:101
 msgid "No files found"
@@ -393,7 +393,7 @@ msgstr "Letöltési lehetőségek"
 
 #: includes/admin/class-dlm-admin-writepanels.php:30
 msgid "Downloadable Files/Versions"
-msgstr ""
+msgstr "Letölthető fájlok/Verziók"
 
 #: includes/admin/class-dlm-admin-writepanels.php:35
 msgid "Short Description"
@@ -415,17 +415,17 @@ msgstr "Csak bejelentkezett felhasználók kapcsolódhatnak a letöltési fájlo
 
 #: includes/admin/class-dlm-admin-writepanels.php:69
 msgid "Redirect to file"
-msgstr ""
+msgstr "Átirányítás fájlba"
 
 #: includes/admin/class-dlm-admin-writepanels.php:70
 msgid ""
 "Don't force download. If the <code>dlm_upload</code> folder is protected you"
 " may need to move your file."
-msgstr ""
+msgstr "Ne kényszerítsük a letöltést. Amennyiben a <code>dlm_upload</code> könyvtár védett, szükség lesz a fájlunk áthelyezésére."
 
 #: includes/admin/class-dlm-admin-writepanels.php:94
 msgid "Add file"
-msgstr ""
+msgstr "Fájl hozzáadása"
 
 #: includes/admin/class-dlm-admin-writepanels.php:95
 msgid "Close all"
@@ -455,35 +455,35 @@ msgstr "Válasszuk ki, hogy az alapértelmezett <code>[download]</code> rövidk�
 
 #: includes/admin/class-dlm-admin.php:104
 msgid "Default - Title and count"
-msgstr ""
+msgstr "Alapértelmezett - Cím és számláló"
 
 #: includes/admin/class-dlm-admin.php:105
 msgid "Button - CSS styled button showing title and count"
-msgstr ""
+msgstr "Gomb - CSS-sel formázott gomb, amely mutatja a címet és a számlálót"
 
 #: includes/admin/class-dlm-admin.php:106
 msgid "Box - Box showing thumbnail, title, count, filename and filesize."
-msgstr ""
+msgstr "Doboz - A bélyegkép, cím, letöltés-szám, fájlnév és fájlméret doboz bemutatása"
 
 #: includes/admin/class-dlm-admin.php:107
 msgid "Filename - Filename and download count"
-msgstr ""
+msgstr "Fájlnév - Fájlnév és letöltés-szám"
 
 #: includes/admin/class-dlm-admin.php:108
 msgid "Title - Shows download title only"
-msgstr ""
+msgstr "Cím - Csak a letöltés címét mutassa"
 
 #: includes/admin/class-dlm-admin.php:109
 msgid "Version list - Lists all download versions in an unordered list"
-msgstr ""
+msgstr "Változások listája - Valamennyi letöltési verzió mutatása egy rendezetlen listában"
 
 #: includes/admin/class-dlm-admin.php:110
 msgid "Custom template"
-msgstr ""
+msgstr "Egyedi sablonminta"
 
 #: includes/admin/class-dlm-admin.php:116
 msgid "Custom Template"
-msgstr ""
+msgstr "Egyedi sablonminta"
 
 #: includes/admin/class-dlm-admin.php:117
 msgid ""
@@ -491,162 +491,192 @@ msgid ""
 "template file. If you enter, for example, <code>image</code>, the <code"
 ">content-download-image.php</code> template will be used instead. You can "
 "add custom templates inside your theme folder."
-msgstr ""
+msgstr "Alapértelmezetként hagyjuk üresen a <code>content-download.php</code> mintasablon fájl használatához. Amennyiben pl. az <code>image</code> kerül megadásra, akkor a <code>content-download-image.php</code> mintasablon fog helyette használatba kerülni. Egyedi mintasablon a használt sablonon belül adható hozzá."
 
 #: includes/admin/class-dlm-admin.php:122
+msgid "MD5 hashes"
+msgstr "MD5 ellenőrzőszám"
+
+#: includes/admin/class-dlm-admin.php:123
+msgid "Generate MD5 hash for uploaded files"
+msgstr "MD5 ellenőrzőszám létrehozása a feltöltött fájlok számára"
+
+#: includes/admin/class-dlm-admin.php:130
+msgid "SHA1 hashes"
+msgstr "SHA1 ellenőrzőszám"
+
+#: includes/admin/class-dlm-admin.php:131
+msgid "Generate SHA1 hash for uploaded files"
+msgstr "SHA1 ellenőrzőszám létrehozása a feltöltött fájlok számára"
+
+#: includes/admin/class-dlm-admin.php:138
+msgid "CRC32B hashes"
+msgstr "CRC32B ellenőrzőszám"
+
+#: includes/admin/class-dlm-admin.php:139
+msgid "Generate CRC32B hash for uploaded files"
+msgstr "CRC32B ellenőrzőszám létrehozása a feltöltött fájlok számára"
+
+#: includes/admin/class-dlm-admin.php:140
+msgid ""
+"Hashes can optionally be output via shortcodes, but may cause performance "
+"issues with large files."
+msgstr "Az ellenőrzőszámot opcionálisan a rövidkódokon keresztül is elő lehet állítani, de a hosszú fájlok teljesítményproblémákat is okozhatnak."
+
+#: includes/admin/class-dlm-admin.php:146
 msgid "Endpoint"
 msgstr "Kimenet"
 
-#: includes/admin/class-dlm-admin.php:127
+#: includes/admin/class-dlm-admin.php:151
 msgid "download"
 msgstr "letöltés"
 
-#: includes/admin/class-dlm-admin.php:128
+#: includes/admin/class-dlm-admin.php:152
 msgid "Download Endpoint"
 msgstr "Letöltés kimeneti formátum"
 
-#: includes/admin/class-dlm-admin.php:129
+#: includes/admin/class-dlm-admin.php:153
 msgid ""
 "Define what endpoint should be used for download links. By default this will"
 " be <code>%s</code>."
 msgstr "Határozzuk meg, hogy milyen kimeneti formát szeretnénk használni a letöltési hivatkozáshoz. Alapértelmezettkén ez használjuk: <code>%s</code>."
 
-#: includes/admin/class-dlm-admin.php:134
+#: includes/admin/class-dlm-admin.php:158
 msgid "Endpoint Value"
 msgstr "Végső kimenet értéke"
 
-#: includes/admin/class-dlm-admin.php:135
+#: includes/admin/class-dlm-admin.php:159
 msgid ""
 "Define what unique value should be used on the end of your endpoint to "
 "identify the downloadable file. e.g. ID would give a link like "
 "<code>%s</code>"
 msgstr "Határozzuk meg, hogy milyen egyedi értéket szeretnénk használni a letöltési hivatkozáshoz. Alapértelmezettkén ez használjuk: <code>%s</code>."
 
-#: includes/admin/class-dlm-admin.php:138
-#: includes/admin/class-dlm-admin.php:460
+#: includes/admin/class-dlm-admin.php:162
+#: includes/admin/class-dlm-admin.php:484
 msgid "Download ID"
 msgstr "Letöltés ID"
 
-#: includes/admin/class-dlm-admin.php:139
+#: includes/admin/class-dlm-admin.php:163
 msgid "Download slug"
 msgstr "Letöltés slug"
 
-#: includes/admin/class-dlm-admin.php:145
+#: includes/admin/class-dlm-admin.php:169
 msgid "X-Accel-Redirect / X-Sendfile"
 msgstr "X-Accel-Redirect / X-Sendfile"
 
-#: includes/admin/class-dlm-admin.php:146
-#: includes/admin/class-dlm-admin.php:154
-#: includes/admin/class-dlm-admin.php:165
+#: includes/admin/class-dlm-admin.php:170
+#: includes/admin/class-dlm-admin.php:178
+#: includes/admin/class-dlm-admin.php:189
 msgid "Enable"
 msgstr "Bekapcsol"
 
-#: includes/admin/class-dlm-admin.php:147
+#: includes/admin/class-dlm-admin.php:171
 msgid ""
 "If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be"
 " used to serve downloads instead of PHP (server requires "
 "<code>mod_xsendfile</code>)."
 msgstr "Amennyiben az <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> támogatott, a PHP letöltés helyett használhatjuk (szerverkövetelmény: <code>mod_xsendfile</code>)."
 
-#: includes/admin/class-dlm-admin.php:153
+#: includes/admin/class-dlm-admin.php:177
 msgid "Prevent hotlinking"
-msgstr ""
+msgstr "Közvetlen elérés megakadályozása"
 
-#: includes/admin/class-dlm-admin.php:155
+#: includes/admin/class-dlm-admin.php:179
 msgid ""
 "If enabled, the download handler will check the PHP referer to see if it "
 "originated from your site and if not, redirect them to the homepage."
-msgstr ""
+msgstr "Amennyiben be van kapcsolva, a letöltés kiszolgálója ellenőrzi a PHP hivatkozást. Ha az nem az eredeti helyről származik, akkor a kezdőlapra lesz átirányítva."
 
-#: includes/admin/class-dlm-admin.php:161
+#: includes/admin/class-dlm-admin.php:185
 msgid "Logging"
 msgstr "Naplózás"
 
-#: includes/admin/class-dlm-admin.php:167
+#: includes/admin/class-dlm-admin.php:191
 msgid "Download Log"
 msgstr "Letöltési napló"
 
-#: includes/admin/class-dlm-admin.php:168
+#: includes/admin/class-dlm-admin.php:192
 msgid "Log download attempts, IP addresses and more."
 msgstr "Naplózzuk a letöltési próbálkozásokat, IP címeket és egyéb dolgokat."
 
-#: includes/admin/class-dlm-admin.php:174
+#: includes/admin/class-dlm-admin.php:198
 msgid "Blacklist IPs"
 msgstr "Feketelistás IP címek"
 
-#: includes/admin/class-dlm-admin.php:175
+#: includes/admin/class-dlm-admin.php:199
 msgid ""
 "List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a "
 "wildcard."
 msgstr "IP címek listája a feketelistához, soronként egy IP cím. Használjuk a <code>*</code> karaktert helyettesítő(joly)ként"
 
-#: includes/admin/class-dlm-admin.php:182
+#: includes/admin/class-dlm-admin.php:206
 msgid "Blacklist user agents"
 msgstr "Feketelistás felhasználói ügynökök"
 
-#: includes/admin/class-dlm-admin.php:183
+#: includes/admin/class-dlm-admin.php:207
 msgid "List browser user agents to blacklist, 1 per line."
 msgstr "Lista a felhasználói ügynök feketelistához, soronként egy cím."
 
-#: includes/admin/class-dlm-admin.php:255
+#: includes/admin/class-dlm-admin.php:279
 msgid "Logs"
 msgstr "Napló"
 
-#: includes/admin/class-dlm-admin.php:299
+#: includes/admin/class-dlm-admin.php:323
 msgid "Settings successfully saved"
 msgstr "A beállítások sikeresen mentésre kerültek."
 
-#: includes/admin/class-dlm-admin.php:366
+#: includes/admin/class-dlm-admin.php:390
 msgid "Save Changes"
 msgstr "Módosítások mentlése"
 
-#: includes/admin/class-dlm-admin.php:410
+#: includes/admin/class-dlm-admin.php:434
 msgid "Download Logs"
 msgstr "Letöltési napló"
 
-#: includes/admin/class-dlm-admin.php:410
+#: includes/admin/class-dlm-admin.php:434
 msgid "Export CSV"
 msgstr "Exprt CSV formában"
 
-#: includes/admin/class-dlm-admin.php:410
+#: includes/admin/class-dlm-admin.php:434
 msgid "Delete Logs"
-msgstr ""
+msgstr "Naplófájl törlése"
 
-#: includes/admin/class-dlm-admin.php:461
+#: includes/admin/class-dlm-admin.php:485
 msgid "Version ID"
 msgstr "Verzió-ID"
 
-#: includes/admin/class-dlm-admin.php:462
+#: includes/admin/class-dlm-admin.php:486
 msgid "Filename"
 msgstr "Fájlnév"
 
-#: includes/admin/class-dlm-admin.php:463
+#: includes/admin/class-dlm-admin.php:487
 msgid "User ID"
 msgstr "Felhasználó ID"
 
-#: includes/admin/class-dlm-admin.php:464
+#: includes/admin/class-dlm-admin.php:488
 msgid "User Login"
 msgstr "Bejelentkezés"
 
-#: includes/admin/class-dlm-admin.php:465
+#: includes/admin/class-dlm-admin.php:489
 msgid "User Email"
 msgstr "Email"
 
-#: includes/admin/class-dlm-admin.php:466
+#: includes/admin/class-dlm-admin.php:490
 msgid "User IP"
 msgstr "Felhasználó IP"
 
-#: includes/admin/class-dlm-admin.php:467
+#: includes/admin/class-dlm-admin.php:491
 #: includes/admin/class-dlm-logging-list-table.php:127
 msgid "User Agent"
 msgstr "Felhasználói azonosító ügynök"
 
-#: includes/admin/class-dlm-admin.php:468
+#: includes/admin/class-dlm-admin.php:492
 #: includes/admin/class-dlm-logging-list-table.php:128
 msgid "Date"
 msgstr "Dátum"
 
-#: includes/admin/class-dlm-admin.php:469
+#: includes/admin/class-dlm-admin.php:493
 msgid "Status"
 msgstr "Állapot"
 
@@ -789,7 +819,7 @@ msgstr "p"
 
 #: includes/class-dlm-download-handler.php:140
 msgid "Password Required"
-msgstr ""
+msgstr "Jelszó kötelező"
 
 #: includes/class-dlm-download-handler.php:150
 msgid "Download does not exist."
@@ -938,23 +968,23 @@ msgstr[1] "Letöltve %d alkalommal"
 
 #. Plugin Name of the plugin/theme
 msgid "Download Monitor"
-msgstr ""
+msgstr "Download Monitor"
 
 #. Plugin URI of the plugin/theme
 msgid "http://mikejolley.com/projects/download-monitor/"
-msgstr ""
+msgstr "http://mikejolley.com/projects/download-monitor/"
 
 #. Description of the plugin/theme
 msgid ""
 "A full solution for managing downloadable files, monitoring downloads and "
 "outputting download links and file information on your WordPress powered "
 "site."
-msgstr ""
+msgstr "Teljes megoldás a letölthető fájlok kezeléséhez, a letöltések folyamatos ellenőrzése, letöltési hivatkozások és ~ fájlinformációk a WordPress alapú honlapokhoz."
 
 #. Author of the plugin/theme
 msgid "Mike Jolley"
-msgstr ""
+msgstr "Mike Jolley"
 
 #. Author URI of the plugin/theme
 msgid "http://mikejolley.com"
-msgstr ""
+msgstr "http://mikejolley.com"
