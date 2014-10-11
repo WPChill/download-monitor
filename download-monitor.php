@@ -404,8 +404,12 @@ class WP_DLM {
 		if ( ! $template && file_exists( $this->plugin_path() . "/templates/{$slug}.php" ) )
 			$template = $this->plugin_path() . "/templates/{$slug}.php";
 
-		if ( $template )
+		// Allow 3rd party plugin filter template file from their plugin
+		$template = apply_filters( 'dlm_get_template_part', $template, $slug, $name );
+
+		if ( $template ) {
 			load_template( $template, false );
+		}
 	}
 
 	/**
@@ -540,7 +544,7 @@ class WP_DLM {
 	public function parse_file_path( $file_path ) {
 		$remote_file      = true;
 		$parsed_file_path = parse_url( $file_path );
-		
+
 		$wp_uploads = wp_upload_dir();
 		$wp_uploads_dir = $wp_uploads['basedir'];
 		$wp_uploads_url = $wp_uploads['baseurl'];
@@ -577,7 +581,7 @@ class WP_DLM {
 			$file_path   = realpath( $file_path );
 
 		} elseif ( file_exists( ABSPATH . $file_path ) ) {
-			
+
 			/** Path needs an abspath to work */
 			$remote_file = false;
 			$file_path   = ABSPATH . $file_path;

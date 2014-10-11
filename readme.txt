@@ -110,6 +110,8 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+* dlm_get_template_part filter.
+
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.
 * Changed default orderby for downloads shortcode to date, desc.
@@ -125,7 +127,7 @@ Admin hits are not counted, log out and try!
 * Added Grunt.
 * Added options to generate file hashes DISABLED BY DEFAULT as they can cause performance issues with large files.
 
-= 1.4.4 = 
+= 1.4.4 =
 * Use home_dir instead of site_dir - fixes hot-linking protections against own site (when not in root dir)
 * Replace hardcoded WP_CONTENT_DIR and WP_CONTENT_URL with wp_upload_dir to work when UPLOADS and UPLOADS_URL constants are set.
 * Added some filters for hotlink protection customisation.
@@ -143,7 +145,7 @@ Admin hits are not counted, log out and try!
 * Disable remote file hash generation, but can be enabled with filter dlm_allow_remote_hash_file
 * Radio buttons instead of select (with pagination) in popup to improve performance.
 
-= 1.4.2 = 
+= 1.4.2 =
 * Fix for site_url -> abspath
 * Check if hash functions are supported before use.
 
