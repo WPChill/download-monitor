@@ -157,6 +157,7 @@ class WP_DLM {
 			remove_post_type_support( 'post', 'thumbnail' );
 			remove_post_type_support( 'page', 'thumbnail' );
 		} else {
+			add_theme_support( 'post-thumbnails', array('dlm_download') );
 			add_post_type_support( 'download', 'thumbnail' );
 		}
 	}
