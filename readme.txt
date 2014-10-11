@@ -112,6 +112,7 @@ Admin hits are not counted, log out and try!
 
 * dlm_download_headers filter.
 * dlm_get_template_part filter.
+* Delete dlm_file_version_ids_ transient on save.
 
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.
