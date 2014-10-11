@@ -26,8 +26,9 @@ class DLM_Admin_Insert {
 	public function media_buttons( $editor_id = 'content' ) {
 		global $download_monitor, $post;
 
-		if ( $post->post_type == 'dlm_download' )
+		if ( empty( $post ) || $post->post_type == 'dlm_download' ) {
 			return;
+		}
 
 		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '">' . __( 'Insert Download', 'download-monitor' ) . '</a>';
 
@@ -158,20 +159,20 @@ class DLM_Admin_Insert {
 					$limit = 10;
 					$page  = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
 
-					$dlm_query = new WP_Query( array(  
+					$dlm_query = new WP_Query( array(
 					    'post_status'    => 'publish',
 						'post_type'      => 'dlm_download',
 					    'posts_per_page' => $limit,
 					    'offset'         => ( $page - 1 ) * $limit
-					) );  
-					  
-					while ( $dlm_query->have_posts() ) {  
+					) );
+
+					while ( $dlm_query->have_posts() ) {
 						$dlm_query->the_post();
 					    $download = new DLM_Download( $dlm_query->post->ID );
 					    echo '<label><input name="download_id" class="radio" type="radio" value="' . absint( $download->id ) . '" /> #' . $download->id . ' &ndash; ' . $download->get_the_title() . ' &ndash; ' . $download->get_the_filename() .'</label>';
-					}  
-					  
-					if ( $dlm_query->max_num_pages > 1 ) {  
+					}
+
+					if ( $dlm_query->max_num_pages > 1 ) {
 					    echo paginate_links( apply_filters( 'download_monitor_pagination_args', array(
 							'base' 			=> str_replace( 999999999, '%#%', get_pagenum_link( 999999999 ) ),
 							'format' 		=> '',
@@ -183,10 +184,10 @@ class DLM_Admin_Insert {
 							'end_size'		=> 3,
 							'mid_size'		=> 3
 						) ) );
-					}  
+					}
 				?>
 			</fieldset>
-			
+
 			<p>
 				<label for="template_name"><?php _e( 'Template', 'download-monitor' ); ?>:</label>
 				<input type="text" id="template_name" value="" class="input" placeholder="<?php _e( 'Template Name', 'download-monitor' ); ?>" />
@@ -208,7 +209,7 @@ class DLM_Admin_Insert {
 					<div class="drag-drop-inside">
 						<p class="drag-drop-info"><?php _e( 'Drop file here', 'download-monitor' ); ?></p>
 						<p><?php echo _x( 'or', 'Drop file here *or* select file', 'download-monitor' ); ?></p>
-						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button" /></p>						
+						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button" /></p>
 					</div>
 				</div>
 				<p><a href="#" class="add_manually"><?php _e( 'Enter URL manually', 'download-monitor' ); ?> &rarr;</a></p>
