@@ -110,6 +110,7 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+* dlm_download_headers filter.
 * dlm_get_template_part filter.
 
 = 1.5.1 =

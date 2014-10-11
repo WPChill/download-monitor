@@ -337,23 +337,31 @@ class DLM_Download_Handler {
 			@ob_end_clean(); // Zip corruption fix
 		}
 
+		$headers = array();
+
 		if ( $is_IE && is_ssl() ) {
 			// IE bug prevents download via SSL when Cache Control and Pragma no-cache headers set.
-			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
-			header( 'Cache-Control: private' );
+			$headers[ 'Expires' ]       = 'Wed, 11 Jan 1984 05:00:00 GMT';
+			$headers[ 'Cache-Control' ] = 'private';
 		} else {
 			nocache_headers();
 		}
 
-		header( "X-Robots-Tag: noindex, nofollow", true );
-		header( "Content-Type: " . $mime_type );
-		header( "Content-Description: File Transfer" );
-		header( "Content-Disposition: attachment; filename=\"" . $file_name . "\";" );
-		header( "Content-Transfer-Encoding: binary" );
+		$headers[ 'X-Robots-Tag' ]              = 'noindex, nofollow';
+		$headers[ 'Content-Type' ]              = $mime_type;
+		$headers[ 'Content-Description' ]       = 'File Transfer';
+		$headers[ 'Content-Disposition' ]       = "attachment; filename=\"{$file_name}\";";
+		$headers[ 'Content-Transfer-Encoding' ] = 'binary';
 
         if ( $version->filesize ) {
-        	header( "Content-Length: " . $version->filesize );
-			header( "Accept-Ranges: bytes" );
+			$headers[ 'Content-Length' ] = $version->filesize;
+			$headers[ 'Accept-Ranges' ]  = 'bytes';
+        }
+
+        $headers = apply_filters( 'dlm_download_headers', $headers, $file_path, $download, $version );
+
+        foreach ( $headers as $key => $value ) {
+        	header( $key . ': ' . $value );
         }
 	}
 
