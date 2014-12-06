@@ -211,60 +211,67 @@ class DLM_Admin_CPT {
 				echo $post->ID;
 			break;
 			case "download_cat" :
-				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_category', '', ', ', '' ) ) echo '<span class="na">&ndash;</span>'; else echo $terms;
+				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_category', '', ', ', '' ) ) {
+					echo '<span class="na">&ndash;</span>';
+				} else {
+					echo $terms;
+				}
 			break;
 			case "download_tag" :
-				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_tag', '', ', ', '' ) ) echo '<span class="na">&ndash;</span>'; else echo $terms;
+				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_tag', '', ', ', '' ) ) {
+					echo '<span class="na">&ndash;</span>';
+				} else {
+					echo $terms;
+				}
 			break;
 			case "featured" :
-
-				if ( $download->is_featured() )
+				if ( $download->is_featured() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
-				else
+				} else {
 					echo '<span class="na">&ndash;</span>';
-
+				}
 			break;
 			case "members_only" :
-
-				if ( $download->is_members_only() )
+				if ( $download->is_members_only() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
-				else
+				} else {
 					echo '<span class="na">&ndash;</span>';
-
+				}
 			break;
 			case "redirect_only" :
-
-				if ( $download->redirect_only() )
+				if ( $download->redirect_only() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
-				else
+				} else {
 					echo '<span class="na">&ndash;</span>';
-
+				}
 			break;
 			case "file" :
 				if ( $file ) {
 					echo '<a href="' . $download->get_the_download_link() . '"><code>' . $file->filename;
-					if ( $size = $download->get_the_filesize() )
+					if ( $size = $download->get_the_filesize() ) {
 						echo ' &ndash; ' . $size;
+					}
 					echo '</code></a>';
-				} else
+				} else {
 					echo '<span class="na">&ndash;</span>';
+				}
 			break;
 			case "version" :
-				if ( $file && $file->version )
+				if ( $file && $file->version ) {
 					echo $file->version;
-				else
+				} else {
 					echo '<span class="na">&ndash;</span>';
+				}
 			break;
 			case "download_count" :
 				echo number_format( $download->get_the_download_count(), 0, '.', ',' );
 			break;
 			case "featured" :
-
-				if ( $download->is_featured() )
+				if ( $download->is_featured() ) {
 					echo '<img src="' . $download_monitor->plugin_url() . '/assets/images/on.png" alt="yes" />';
-				else
+				} else {
 					echo '<span class="na">&ndash;</span>';
-
+				}
 			break;
 		}
 	}
@@ -296,35 +303,37 @@ class DLM_Admin_CPT {
 	 */
 	public function sort_columns( $vars ) {
 		if ( isset( $vars['orderby'] ) ) {
-			if ( 'download_id' == $vars['orderby'] )
+			if ( 'download_id' == $vars['orderby'] ) {
 				$vars['orderby'] = 'ID';
-
-			elseif ( 'download_count' == $vars['orderby'] )
+			} elseif ( 'download_count' == $vars['orderby'] ) {
 				$vars = array_merge( $vars, array(
-					'meta_key' 	=> '_download_count',
-					'orderby' 	=> 'meta_value_num'
+					'meta_key' => '_download_count',
+					'orderby'  => 'meta_value_num'
 				) );
 
-			elseif ( 'featured' == $vars['orderby'] )
+			} elseif ( 'featured' == $vars['orderby'] ) {
 				$vars = array_merge( $vars, array(
-					'meta_key' 	=> '_featured',
-					'orderby' 	=> 'meta_value'
+					'meta_key' => '_featured',
+					'orderby'  => 'meta_value'
 				) );
 
-			elseif ( 'members_only' == $vars['orderby'] )
+			} elseif ( 'members_only' == $vars['orderby'] ) {
 				$vars = array_merge( $vars, array(
-					'meta_key' 	=> '_members_only',
-					'orderby' 	=> 'meta_value'
+					'meta_key' => '_members_only',
+					'orderby'  => 'meta_value'
 				) );
 
-			elseif ( 'redirect_only' == $vars['orderby'] )
+			} elseif ( 'redirect_only' == $vars['orderby'] ) {
 				$vars = array_merge( $vars, array(
-					'meta_key' 	=> '_redirect_only',
-					'orderby' 	=> 'meta_value'
+					'meta_key' => '_redirect_only',
+					'orderby'  => 'meta_value'
 				) );
+			}
 		}
+
 		return $vars;
 	}
+	
 }
 
 new DLM_Admin_CPT();

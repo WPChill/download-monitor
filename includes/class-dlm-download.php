@@ -242,7 +242,7 @@ class DLM_Download {
 	 * get_the_download_count function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return int
 	 */
 	public function get_the_download_count() {
     	if ( $this->version_id ) {
