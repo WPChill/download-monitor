@@ -11,7 +11,6 @@ class DLM_Admin_CPT {
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct() {
 		add_action( "restrict_manage_posts", array( $this, "downloads_by_category" ) );
@@ -37,33 +36,37 @@ class DLM_Admin_CPT {
 	public function downloads_by_category( $show_counts = 1, $hierarchical = 1, $show_uncategorized = 1, $orderby = '' ) {
 		global $typenow, $wp_query;
 
-	    if ( $typenow != 'dlm_download' )
-	    	return;
+		if ( $typenow != 'dlm_download' ) {
+			return;
+		}
 
 		include_once( 'class-dlm-category-walker.php' );
 
-		$r = array();
-		$r['pad_counts'] 	= 1;
-		$r['hierarchical'] 	= $hierarchical;
-		$r['hide_empty'] 	= 1;
-		$r['show_count'] 	= $show_counts;
-		$r['selected'] 		= ( isset( $wp_query->query['dlm_download_category'] ) ) ? $wp_query->query['dlm_download_category'] : '';
+		$r                 = array();
+		$r['pad_counts']   = 1;
+		$r['hierarchical'] = $hierarchical;
+		$r['hide_empty']   = 1;
+		$r['show_count']   = $show_counts;
+		$r['selected']     = ( isset( $wp_query->query['dlm_download_category'] ) ) ? $wp_query->query['dlm_download_category'] : '';
 
 		$r['menu_order'] = false;
 
-		if ( $orderby == 'order' )
+		if ( $orderby == 'order' ) {
 			$r['menu_order'] = 'asc';
-		elseif ( $orderby )
+		} elseif ( $orderby ) {
 			$r['orderby'] = $orderby;
+		}
 
 		$terms = get_terms( 'dlm_download_category', $r );
 
-		if (!$terms) return;
+		if ( ! $terms ) {
+			return;
+		}
 
-		$output  = "<select name='dlm_download_category' id='dropdown_dlm_download_category'>";
-		$output .= '<option value="" ' .  selected( isset( $_GET['dlm_download_category'] ) ? $_GET['dlm_download_category'] : '', '', false ) . '>'.__( 'Select a category', 'download-monitor' ).'</option>';
+		$output = "<select name='dlm_download_category' id='dropdown_dlm_download_category'>";
+		$output .= '<option value="" ' . selected( isset( $_GET['dlm_download_category'] ) ? $_GET['dlm_download_category'] : '', '', false ) . '>' . __( 'Select a category', 'download-monitor' ) . '</option>';
 		$output .= $this->walk_category_dropdown_tree( $terms, 0, $r );
-		$output .="</select>";
+		$output .= "</select>";
 
 		echo $output;
 	}
@@ -78,10 +81,11 @@ class DLM_Admin_CPT {
 		$args = func_get_args();
 
 		// the user's options are the third parameter
-		if ( empty($args[2]['walker']) || !is_a($args[2]['walker'], 'Walker') )
-			$walker = new DLM_Category_Walker;
-		else
+		if ( empty( $args[2]['walker'] ) || ! is_a( $args[2]['walker'], 'Walker' ) ) {
+			$walker = new DLM_Category_Walker();
+		} else {
 			$walker = $args[2]['walker'];
+		}
 
 		return call_user_func_array( array( $walker, 'walk' ), $args );
 	}
@@ -95,20 +99,24 @@ class DLM_Admin_CPT {
 	public function delete_post( $id ) {
 		global $wpdb;
 
-		if ( ! current_user_can( 'delete_posts' ) )
+		if ( ! current_user_can( 'delete_posts' ) ) {
 			return;
+		}
 
 		if ( $id > 0 ) {
 
 			$post_type = get_post_type( $id );
 
-			switch( $post_type ) {
+			switch ( $post_type ) {
 				case 'dlm_download' :
-					if ( $versions =& get_children( 'post_parent=' . $id . '&post_type=dlm_download_version' ) )
-						if ( $versions )
-							foreach ( $versions as $child )
+					if ( $versions =& get_children( 'post_parent=' . $id . '&post_type=dlm_download_version' ) ) {
+						if ( $versions ) {
+							foreach ( $versions as $child ) {
 								wp_delete_post( $child->ID, true );
-				break;
+							}
+						}
+					}
+					break;
 			}
 		}
 	}
@@ -120,8 +128,10 @@ class DLM_Admin_CPT {
 	 * @return void
 	 */
 	public function enter_title_here( $text, $post ) {
-		if ( $post->post_type == 'dlm_download' )
+		if ( 'dlm_download' == $post->post_type ) {
 			return __( 'Download title', 'download-monitor' );
+		}
+
 		return $text;
 	}
 
@@ -133,21 +143,21 @@ class DLM_Admin_CPT {
 	 * @return void
 	 */
 	public function post_updated_messages( $messages ) {
-		global $post, $post_ID;
+		global $post;
 
 		$messages['dlm_download'] = array(
-			0 => '', // Unused. Messages start at index 1.
-			1 => __('Download updated.', 'download-monitor'),
-			2 => __('Custom field updated.', 'download-monitor'),
-			3 => __('Custom field deleted.', 'download-monitor'),
-			4 => __('Download updated.', 'download-monitor'),
-			5 => isset($_GET['revision']) ? sprintf( __('Download restored to revision from %s', 'download-monitor'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-			6 => __('Download published.', 'download-monitor'),
-			7 => __('Download saved.', 'download-monitor'),
-			8 => __('Download submitted.', 'download-monitor'),
-			9 => sprintf( __('Download scheduled for: <strong>%1$s</strong>.', 'download-monitor'),
-			  date_i18n( __( 'M j, Y @ G:i', 'download-monitor' ), strtotime( $post->post_date ) ) ),
-			10 => __('Download draft updated.', 'download-monitor'),
+			0  => '', // Unused. Messages start at index 1.
+			1  => __( 'Download updated.', 'download-monitor' ),
+			2  => __( 'Custom field updated.', 'download-monitor' ),
+			3  => __( 'Custom field deleted.', 'download-monitor' ),
+			4  => __( 'Download updated.', 'download-monitor' ),
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Download restored to revision from %s', 'download-monitor' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			6  => __( 'Download published.', 'download-monitor' ),
+			7  => __( 'Download saved.', 'download-monitor' ),
+			8  => __( 'Download submitted.', 'download-monitor' ),
+			9  => sprintf( __( 'Download scheduled for: <strong>%1$s</strong>.', 'download-monitor' ),
+				date_i18n( __( 'M j, Y @ G:i', 'download-monitor' ), strtotime( $post->post_date ) ) ),
+			10 => __( 'Download draft updated.', 'download-monitor' ),
 		);
 
 		return $messages;
@@ -158,24 +168,24 @@ class DLM_Admin_CPT {
 	 *
 	 * @access public
 	 * @param mixed $columns
-	 * @return void
+	 * @return array
 	 */
 	public function columns( $columns ) {
 		$columns = array();
 
 		$columns["cb"]             = "<input type=\"checkbox\" />";
-		$columns["thumb"]          = '<span>' . __("Image", 'download-monitor') . '</span>';
-		$columns["title"]          = __("Title", 'download-monitor');
-		$columns["download_id"]    = __("ID", 'download-monitor');
-		$columns["file"]           = __("File", 'download-monitor');
-		$columns["version"]        = __("Version", 'download-monitor');
-		$columns["download_cat"]   = __("Categories", 'download-monitor');
-		$columns["download_tag"]   = __("Tags", 'download-monitor');
+		$columns["thumb"]          = '<span>' . __( "Image", 'download-monitor' ) . '</span>';
+		$columns["title"]          = __( "Title", 'download-monitor' );
+		$columns["download_id"]    = __( "ID", 'download-monitor' );
+		$columns["file"]           = __( "File", 'download-monitor' );
+		$columns["version"]        = __( "Version", 'download-monitor' );
+		$columns["download_cat"]   = __( "Categories", 'download-monitor' );
+		$columns["download_tag"]   = __( "Tags", 'download-monitor' );
 		$columns["download_count"] = __( "Download count", 'download-monitor' );
 		$columns["featured"]       = __( "Featured", 'download-monitor' );
 		$columns["members_only"]   = __( "Members only", 'download-monitor' );
 		$columns["redirect_only"]  = __( "Redirect only", 'download-monitor' );
-		$columns["date"]           = __("Date posted", 'download-monitor');
+		$columns["date"]           = __( "Date posted", 'download-monitor' );
 
 		return $columns;
 	}
