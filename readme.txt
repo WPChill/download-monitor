@@ -1,6 +1,6 @@
 === Download Monitor ===
-Contributors: mikejolley
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jolley@me.com&item_name=Donation+for+Download+Monitor
+Contributors: barrykooij, mikejolley
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@cageworks.nl&item_name=Donation+for+Download+Monitor
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
 Tested up to: 3.9
@@ -26,25 +26,25 @@ Download Monitor provides an interface for uploading and managing downloadable f
 * Member only downloads.
 * Customisable endpoints for showing pretty download links.
 
-[Read more about Download Monitor](http://mikejolley.com/projects/download-monitor/).
+[Read more about Download Monitor](https://www.download-monitor.com).
 
 = Documentation =
 
-Documentation will be maintained on the [GitHub Wiki here](https://github.com/mikejolley/download-monitor/wiki).
+Documentation will be maintained on the [GitHub Wiki here](https://github.com/download-monitor/download-monitor/wiki).
 
-= Add-ons =
+= Extensions =
 
-Add-ons, such as the __legacy importer__ and __page addon__ can be [found here](http://mikejolley.com/projects/download-monitor/add-ons/). Take a look!
+Extensions, such as the __legacy importer__ and __page addon__ can be [found here](https://www.download-monitor.com/extensions/). Take a look!
 
 = Contributing and reporting bugs =
 
-You can contribute code to this plugin via GitHub: [https://github.com/mikejolley/download-monitor](https://github.com/mikejolley/download-monitor)
+You can contribute code to this plugin via GitHub: [https://github.com/download-monitor/download-monitor](https://github.com/download-monitor/download-monitor)
 
 You can contribute localizations via Transifex [https://www.transifex.com/projects/p/download-monitor/](https://www.transifex.com/projects/p/download-monitor/)
 
 = Support =
 
-Use the WordPress.org forums for community support - I cannot offer support directly for free. If you spot a bug, you can of course log it on [Github](https://github.com/mikejolley/download-monitor) instead where I can act upon it more efficiently.
+Use the WordPress.org forums for community support. If you spot a bug, you can of course log it on [Github](https://github.com/download-monitor/download-monitor) instead where we can act upon it more efficiently.
 
 If you want help with a customisation, hire a developer!
 
@@ -76,7 +76,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 The rewrite has trimmed the fat and only kept the best, most useful features. If something is missing, you can always code it yourself - the new system is very flexible and its easy to query files using [get_posts](http://codex.wordpress.org/Template_Tags/get_posts).
 
-If you are missing the "Page Addon", this is now a separate plugin found here: [Download Monitor Page Addon](http://mikejolley.com/projects/download-monitor/add-ons/page-addon/).
+If you are missing the "Page Addon", this is now a separate plugin found here: [Download Monitor Page Addon](https://www.download-monitor.com/extensions/page-addon/).
 
 = Can I upload .xxx filetype using the uploader? =
 
@@ -113,6 +113,9 @@ Admin hits are not counted, log out and try!
 * dlm_download_headers filter.
 * dlm_get_template_part filter.
 * Delete dlm_file_version_ids_ transient on save.
+
+= TRUNK =
+* 
 
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.
