@@ -695,7 +695,12 @@ class WP_DLM {
 	}
 }
 
-/**
- * Init download_monitor class
- */
-$GLOBALS['download_monitor'] = new WP_DLM();
+function __download_monitor_main() {
+	$dlm = new WP_DLM();
+
+	// Backwards compatibility
+	$GLOBALS['download_monitor'] = $dlm;
+}
+
+
+add_action( 'plugins_loaded', '__download_monitor_main', 10 );

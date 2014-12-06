@@ -115,7 +115,7 @@ Admin hits are not counted, log out and try!
 * Delete dlm_file_version_ids_ transient on save.
 
 = TRUNK =
-* 
+*
 
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.
