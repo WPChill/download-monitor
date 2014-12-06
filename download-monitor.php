@@ -223,8 +223,9 @@ class WP_DLM {
 	public function init_user_roles() {
 		global $wp_roles;
 
-		if ( class_exists('WP_Roles') && ! isset( $wp_roles ) )
+		if ( class_exists('WP_Roles') && ! isset( $wp_roles ) ) {
 			$wp_roles = new WP_Roles();
+		}
 
 		if ( is_object( $wp_roles ) ) {
 			$wp_roles->add_cap( 'administrator', 'manage_downloads' );
@@ -392,28 +393,34 @@ class WP_DLM {
 		$template = '';
 
 		// Look in yourtheme/slug-name.php and yourtheme/download-monitor/slug-name.php
-		if ( $name )
-			$template = locate_template( array ( "{$slug}-{$name}.php", "download-monitor/{$slug}-{$name}.php" ) );
+		if ( $name ) {
+			$template = locate_template( array( "{$slug}-{$name}.php", "download-monitor/{$slug}-{$name}.php" ) );
+		}
 
 		// Get default slug-name.php
-		if ( ! $template && $name && file_exists( $this->plugin_path() . "/templates/{$slug}-{$name}.php" ) )
+		if ( ! $template && $name && file_exists( $this->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
 			$template = $this->plugin_path() . "/templates/{$slug}-{$name}.php";
+		}
 
 		// If a custom path was defined, check that next
-		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) )
+		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
 			$template = trailingslashit( $custom_dir ) . "{$slug}-{$name}.php";
+		}
 
 		// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/download-monitor/slug.php
-		if ( ! $template )
+		if ( ! $template ) {
 			$template = locate_template( array( "{$slug}.php", "download-monitor/{$slug}.php" ) );
+		}
 
 		// If a custom path was defined, check that next
-		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) )
+		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
 			$template = trailingslashit( $custom_dir ) . "{$slug}.php";
+		}
 
 		// Get default slug-name.php
-		if ( ! $template && file_exists( $this->plugin_path() . "/templates/{$slug}.php" ) )
+		if ( ! $template && file_exists( $this->plugin_path() . "/templates/{$slug}.php" ) ) {
 			$template = $this->plugin_path() . "/templates/{$slug}.php";
+		}
 
 		// Allow 3rd party plugin filter template file from their plugin
 		$template = apply_filters( 'dlm_get_template_part', $template, $slug, $name );
@@ -430,10 +437,11 @@ class WP_DLM {
 	 * @return string
 	 */
 	public function plugin_url() {
-		if ( $this->plugin_url )
+		if ( $this->plugin_url ) {
 			return $this->plugin_url;
+		}
 
-		return $this->plugin_url = plugins_url( basename( plugin_dir_path(__FILE__) ), basename( __FILE__ ) );
+		return $this->plugin_url = plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) );
 	}
 
 	/**
@@ -443,8 +451,9 @@ class WP_DLM {
 	 * @return string
 	 */
 	public function plugin_path() {
-		if ( $this->plugin_path )
+		if ( $this->plugin_path ) {
 			return $this->plugin_path;
+		}
 
 		return $this->plugin_path = plugin_dir_path( __FILE__ );
 	}
@@ -483,33 +492,37 @@ class WP_DLM {
 	 * @param string $folder (default: '')
 	 * @return void
 	 */
-	function list_files( $folder = '' ) {
-		if ( empty($folder) )
+	public function list_files( $folder = '' ) {
+		if ( empty( $folder ) ) {
 			return false;
+		}
 
 		$files = array();
 		if ( $dir = @opendir( $folder ) ) {
-			while (($file = readdir( $dir ) ) !== false ) {
-				if ( in_array($file, array('.', '..') ) )
+			while ( ( $file = readdir( $dir ) ) !== false ) {
+				if ( in_array( $file, array( '.', '..' ) ) ) {
 					continue;
+				}
+
 				if ( is_dir( $folder . '/' . $file ) ) {
 
 					$files[] = array(
-						'type' 	=> 'folder',
-						'path'	=> $folder . '/' . $file
+						'type' => 'folder',
+						'path' => $folder . '/' . $file
 					);
 
 				} else {
 
 					$files[] = array(
-						'type' 	=> 'file',
-						'path'	=> $folder . '/' . $file
+						'type' => 'file',
+						'path' => $folder . '/' . $file
 					);
 
 				}
 			}
 		}
 		@closedir( $dir );
+
 		return $files;
 	}
 
@@ -556,34 +569,39 @@ class WP_DLM {
 		$remote_file      = true;
 		$parsed_file_path = parse_url( $file_path );
 
-		$wp_uploads = wp_upload_dir();
+		$wp_uploads     = wp_upload_dir();
 		$wp_uploads_dir = $wp_uploads['basedir'];
 		$wp_uploads_url = $wp_uploads['baseurl'];
 
-		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp' ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path['path'] ) ) {
+		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array(
+						'http',
+						'https',
+						'ftp'
+					) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path['path'] )
+		) {
 
 			/** This is an absolute path */
-			$remote_file  = false;
+			$remote_file = false;
 
-		} elseif( strpos( $file_path, $wp_uploads_url ) !== false ) {
+		} elseif ( strpos( $file_path, $wp_uploads_url ) !== false ) {
 
 			/** This is a local file given by URL so we need to figure out the path */
-			$remote_file  = false;
-			$file_path    = str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path );
-			$file_path    = realpath( $file_path );
+			$remote_file = false;
+			$file_path   = str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path );
+			$file_path   = realpath( $file_path );
 
-		} elseif( is_multisite() && ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false || strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) {
+		} elseif ( is_multisite() && ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false || strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) {
 
 			/** This is a local file outside of wp-content so figure out the path */
 			$remote_file = false;
 			// Try to replace network url
-            $file_path   = str_replace( network_site_url( '/', 'https' ), ABSPATH, $file_path );
-            $file_path   = str_replace( network_site_url( '/', 'http' ), ABSPATH, $file_path );
-            // Try to replace upload URL
-            $file_path   = str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path );
-            $file_path   = realpath( $file_path );
+			$file_path = str_replace( network_site_url( '/', 'https' ), ABSPATH, $file_path );
+			$file_path = str_replace( network_site_url( '/', 'http' ), ABSPATH, $file_path );
+			// Try to replace upload URL
+			$file_path = str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path );
+			$file_path = realpath( $file_path );
 
-		} elseif( strpos( $file_path, site_url( '/', 'http' ) ) !== false || strpos( $file_path, site_url( '/', 'https' ) ) !== false ) {
+		} elseif ( strpos( $file_path, site_url( '/', 'http' ) ) !== false || strpos( $file_path, site_url( '/', 'https' ) ) !== false ) {
 
 			/** This is a local file outside of wp-content so figure out the path */
 			$remote_file = false;
@@ -647,10 +665,10 @@ class WP_DLM {
 			if ( ! empty( $file_path ) ) {
 				if ( ! $remote_file || apply_filters( 'dlm_allow_remote_hash_file', false ) ) {
 					if ( get_option( 'dlm_generate_hash_md5' ) ) {
-						$md5   = hash_file( 'md5', $file_path );
+						$md5 = hash_file( 'md5', $file_path );
 					}
 					if ( get_option( 'dlm_generate_hash_sha1' ) ) {
-						$sha1  = hash_file( 'sha1', $file_path );
+						$sha1 = hash_file( 'sha1', $file_path );
 					}
 					if ( get_option( 'dlm_generate_hash_crc32b' ) ) {
 						$crc32 = hash_file( 'crc32b', $file_path );
@@ -673,9 +691,13 @@ class WP_DLM {
 		} else {
 			$files = json_encode( $files );
 			if ( function_exists( 'mb_convert_encoding' ) ) {
-				$files = preg_replace_callback( '/\\\\u([0-9a-f]{4})/i', array( $this, 'json_unscaped_unicode_fallback' ), $files );
+				$files = preg_replace_callback( '/\\\\u([0-9a-f]{4})/i', array(
+						$this,
+						'json_unscaped_unicode_fallback'
+					), $files );
 			}
 		}
+
 		return $files;
 	}
 
@@ -690,6 +712,7 @@ class WP_DLM {
 			'UTF-8',
 			'UTF-16'
 		);
+
 		return $sym;
 	}
 }
