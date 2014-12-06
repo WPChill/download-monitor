@@ -25,7 +25,9 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
  * WP_DLM class.
@@ -57,7 +59,7 @@ class WP_DLM {
 			include_once( 'includes/admin/class-dlm-admin.php' );
 		}
 
-		if ( defined('DOING_AJAX') ) {
+		if ( defined( 'DOING_AJAX' ) ) {
 			include_once( 'includes/class-dlm-ajax-handler.php' );
 		}
 
@@ -72,11 +74,26 @@ class WP_DLM {
 		include_once( 'includes/class-dlm-shortcodes.php' );
 
 		// Activation
-		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'init_user_roles' ), 10 );
-		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'init_taxonomy' ), 10 );
-		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'install_tables' ), 10 );
-		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'directory_protection' ), 10 );
-		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $GLOBALS['DLM_Download_Handler'], 'add_endpoint' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
+				$this,
+				'init_user_roles'
+			), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
+				$this,
+				'init_taxonomy'
+			), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
+				$this,
+				'install_tables'
+			), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
+				$this,
+				'directory_protection'
+			), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
+				$GLOBALS['DLM_Download_Handler'],
+				'add_endpoint'
+			), 10 );
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), 'flush_rewrite_rules', 11 );
 
 		// Actions
@@ -94,7 +111,9 @@ class WP_DLM {
 
 	/**
 	 * Add links to admin plugins page.
+	 *
 	 * @param  array $links
+	 *
 	 * @return array
 	 */
 	public function plugin_links( $links ) {
@@ -103,6 +122,7 @@ class WP_DLM {
 			'<a href="https://www.download-monitor.com/extensions/">' . __( 'Extensions', 'download-monitor' ) . '</a>',
 			'<a href="https://github.com/download-monitor/download-monitor/wiki">' . __( 'Docs', 'download-monitor' ) . '</a>',
 		);
+
 		return array_merge( $plugin_links, $links );
 	}
 
@@ -141,15 +161,19 @@ class WP_DLM {
 	 * When the_post is called, get product data too
 	 *
 	 * @access public
+	 *
 	 * @param mixed $post
+	 *
 	 * @return void
 	 */
 	public function setup_download_data( $post ) {
-		if ( is_int( $post ) )
+		if ( is_int( $post ) ) {
 			$post = get_post( $post );
+		}
 
-		if ( $post->post_type !== 'dlm_download' )
+		if ( $post->post_type !== 'dlm_download' ) {
 			return;
+		}
 
 		$GLOBALS['dlm_download'] = new DLM_Download( $post->ID );
 	}
@@ -185,16 +209,18 @@ class WP_DLM {
 
 		$collate = '';
 
-	    if ( $wpdb->has_cap( 'collation' ) ) {
-			if( ! empty( $wpdb->charset ) )
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			if ( ! empty( $wpdb->charset ) ) {
 				$collate .= "DEFAULT CHARACTER SET $wpdb->charset";
-			if( ! empty( $wpdb->collate ) )
+			}
+			if ( ! empty( $wpdb->collate ) ) {
 				$collate .= " COLLATE $wpdb->collate";
-	    }
+			}
+		}
 
-	    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	    $dlm_tables = "
+		$dlm_tables = "
 	CREATE TABLE {$wpdb->download_log} (
 	  ID bigint(20) NOT NULL auto_increment,
 	  type varchar(200) NOT NULL default 'download',
@@ -211,7 +237,7 @@ class WP_DLM {
 	  KEY attribute_name (download_id)
 	) $collate;
 	";
-	    dbDelta( $dlm_tables );
+		dbDelta( $dlm_tables );
 	}
 
 	/**
@@ -223,7 +249,7 @@ class WP_DLM {
 	public function init_user_roles() {
 		global $wp_roles;
 
-		if ( class_exists('WP_Roles') && ! isset( $wp_roles ) ) {
+		if ( class_exists( 'WP_Roles' ) && ! isset( $wp_roles ) ) {
 			$wp_roles = new WP_Roles();
 		}
 
@@ -240,129 +266,136 @@ class WP_DLM {
 	 */
 	public function init_taxonomy() {
 
-		if ( post_type_exists( "dlm_download" ) )
+		if ( post_type_exists( "dlm_download" ) ) {
 			return;
+		}
 		/**
 		 * Taxonomies
 		 */
 		register_taxonomy( 'dlm_download_category',
-	        array( 'dlm_download' ),
-	        apply_filters( 'dlm_download_category_args', array(
-	            'hierarchical' 			=> true,
-	            'update_count_callback' => '_update_post_term_count',
-	            'label' 				=> __( 'Categories', 'download-monitor'),
-	            'labels' => array(
-	                    'name' 				=> __( 'Categories', 'download-monitor'),
-	                    'singular_name' 	=> __( 'Download Category', 'download-monitor'),
-	                    'search_items' 		=> __( 'Search Download Categories', 'download-monitor'),
-	                    'all_items' 		=> __( 'All Download Categories', 'download-monitor'),
-	                    'parent_item' 		=> __( 'Parent Download Category', 'download-monitor'),
-	                    'parent_item_colon' => __( 'Parent Download Category:', 'download-monitor'),
-	                    'edit_item' 		=> __( 'Edit Download Category', 'download-monitor'),
-	                    'update_item' 		=> __( 'Update Download Category', 'download-monitor'),
-	                    'add_new_item' 		=> __( 'Add New Download Category', 'download-monitor'),
-	                    'new_item_name' 	=> __( 'New Download Category Name', 'download-monitor')
-	            	),
-	            'show_ui' 				=> true,
-	            'query_var' 			=> true,
-	            'capabilities'			=> array(
-	            	'manage_terms' 		=> 'manage_downloads',
-	            	'edit_terms' 		=> 'manage_downloads',
-	            	'delete_terms' 		=> 'manage_downloads',
-	            	'assign_terms' 		=> 'manage_downloads',
-	            ),
-	            'rewrite' 				=> false,
-	            'show_in_nav_menus'     => false
-	        ) )
-	    );
+			array( 'dlm_download' ),
+			apply_filters( 'dlm_download_category_args', array(
+				'hierarchical'          => true,
+				'update_count_callback' => '_update_post_term_count',
+				'label'                 => __( 'Categories', 'download-monitor' ),
+				'labels'                => array(
+					'name'              => __( 'Categories', 'download-monitor' ),
+					'singular_name'     => __( 'Download Category', 'download-monitor' ),
+					'search_items'      => __( 'Search Download Categories', 'download-monitor' ),
+					'all_items'         => __( 'All Download Categories', 'download-monitor' ),
+					'parent_item'       => __( 'Parent Download Category', 'download-monitor' ),
+					'parent_item_colon' => __( 'Parent Download Category:', 'download-monitor' ),
+					'edit_item'         => __( 'Edit Download Category', 'download-monitor' ),
+					'update_item'       => __( 'Update Download Category', 'download-monitor' ),
+					'add_new_item'      => __( 'Add New Download Category', 'download-monitor' ),
+					'new_item_name'     => __( 'New Download Category Name', 'download-monitor' )
+				),
+				'show_ui'               => true,
+				'query_var'             => true,
+				'capabilities'          => array(
+					'manage_terms' => 'manage_downloads',
+					'edit_terms'   => 'manage_downloads',
+					'delete_terms' => 'manage_downloads',
+					'assign_terms' => 'manage_downloads',
+				),
+				'rewrite'               => false,
+				'show_in_nav_menus'     => false
+			) )
+		);
 
 		register_taxonomy( 'dlm_download_tag',
-	        array( 'dlm_download' ),
-	        apply_filters( 'dlm_download_tag_args', array(
-	            'hierarchical' 			=> false,
-	            'label' 				=> __( 'Tags', 'download-monitor'),
-	            'labels' => array(
-	                    'name' 				=> __( 'Tags', 'download-monitor'),
-	                    'singular_name' 	=> __( 'Download Tag', 'download-monitor'),
-	                    'search_items' 		=> __( 'Search Download Tags', 'download-monitor'),
-	                    'all_items' 		=> __( 'All Download Tags', 'download-monitor'),
-	                    'parent_item' 		=> __( 'Parent Download Tag', 'download-monitor'),
-	                    'parent_item_colon' => __( 'Parent Download Tag:', 'download-monitor'),
-	                    'edit_item' 		=> __( 'Edit Download Tag', 'download-monitor'),
-	                    'update_item' 		=> __( 'Update Download Tag', 'download-monitor'),
-	                    'add_new_item' 		=> __( 'Add New Download Tag', 'download-monitor'),
-	                    'new_item_name' 	=> __( 'New Download Tag Name', 'download-monitor')
-	            	),
-	            'show_ui' 				=> true,
-	            'query_var' 			=> true,
-	            'capabilities'			=> array(
-	            	'manage_terms' 		=> 'manage_downloads',
-	            	'edit_terms' 		=> 'manage_downloads',
-	            	'delete_terms' 		=> 'manage_downloads',
-	            	'assign_terms' 		=> 'manage_downloads',
-	            ),
-	            'rewrite' 				=> false,
-	            'show_in_nav_menus'     => false
-	        ) )
-	    );
+			array( 'dlm_download' ),
+			apply_filters( 'dlm_download_tag_args', array(
+				'hierarchical'      => false,
+				'label'             => __( 'Tags', 'download-monitor' ),
+				'labels'            => array(
+					'name'              => __( 'Tags', 'download-monitor' ),
+					'singular_name'     => __( 'Download Tag', 'download-monitor' ),
+					'search_items'      => __( 'Search Download Tags', 'download-monitor' ),
+					'all_items'         => __( 'All Download Tags', 'download-monitor' ),
+					'parent_item'       => __( 'Parent Download Tag', 'download-monitor' ),
+					'parent_item_colon' => __( 'Parent Download Tag:', 'download-monitor' ),
+					'edit_item'         => __( 'Edit Download Tag', 'download-monitor' ),
+					'update_item'       => __( 'Update Download Tag', 'download-monitor' ),
+					'add_new_item'      => __( 'Add New Download Tag', 'download-monitor' ),
+					'new_item_name'     => __( 'New Download Tag Name', 'download-monitor' )
+				),
+				'show_ui'           => true,
+				'query_var'         => true,
+				'capabilities'      => array(
+					'manage_terms' => 'manage_downloads',
+					'edit_terms'   => 'manage_downloads',
+					'delete_terms' => 'manage_downloads',
+					'assign_terms' => 'manage_downloads',
+				),
+				'rewrite'           => false,
+				'show_in_nav_menus' => false
+			) )
+		);
 
-	    /**
+		/**
 		 * Post Types
 		 */
 		register_post_type( "dlm_download",
 			apply_filters( 'dlm_cpt_dlm_download_args', array(
-				'labels' => array(
-						'all_items'          => __( 'All Downloads', 'download-monitor' ),
-						'name'               => __( 'Downloads', 'download-monitor' ),
-						'singular_name'      => __( 'Download', 'download-monitor' ),
-						'add_new'            => __( 'Add New', 'download-monitor' ),
-						'add_new_item'       => __( 'Add Download', 'download-monitor' ),
-						'edit'               => __( 'Edit', 'download-monitor' ),
-						'edit_item'          => __( 'Edit Download', 'download-monitor' ),
-						'new_item'           => __( 'New Download', 'download-monitor' ),
-						'view'               => __( 'View Download', 'download-monitor' ),
-						'view_item'          => __( 'View Download', 'download-monitor' ),
-						'search_items'       => __( 'Search Downloads', 'download-monitor' ),
-						'not_found'          => __( 'No Downloads found', 'download-monitor' ),
-						'not_found_in_trash' => __( 'No Downloads found in trash', 'download-monitor' ),
-						'parent'             => __( 'Parent Download', 'download-monitor' )
-					),
-				'description' => __( 'This is where you can create and manage downloads for your site.', 'download-monitor' ),
-				'public' 				=> false,
-				'show_ui' 				=> true,
-				'capability_type' 		=> 'post',
-				'capabilities' => array(
-					'publish_posts' 		=> 'manage_downloads',
-					'edit_posts' 			=> 'manage_downloads',
-					'edit_others_posts' 	=> 'manage_downloads',
-					'delete_posts' 			=> 'manage_downloads',
-					'delete_others_posts'	=> 'manage_downloads',
-					'read_private_posts'	=> 'manage_downloads',
-					'edit_post' 			=> 'manage_downloads',
-					'delete_post' 			=> 'manage_downloads',
-					'read_post' 			=> 'manage_downloads'
+				'labels'              => array(
+					'all_items'          => __( 'All Downloads', 'download-monitor' ),
+					'name'               => __( 'Downloads', 'download-monitor' ),
+					'singular_name'      => __( 'Download', 'download-monitor' ),
+					'add_new'            => __( 'Add New', 'download-monitor' ),
+					'add_new_item'       => __( 'Add Download', 'download-monitor' ),
+					'edit'               => __( 'Edit', 'download-monitor' ),
+					'edit_item'          => __( 'Edit Download', 'download-monitor' ),
+					'new_item'           => __( 'New Download', 'download-monitor' ),
+					'view'               => __( 'View Download', 'download-monitor' ),
+					'view_item'          => __( 'View Download', 'download-monitor' ),
+					'search_items'       => __( 'Search Downloads', 'download-monitor' ),
+					'not_found'          => __( 'No Downloads found', 'download-monitor' ),
+					'not_found_in_trash' => __( 'No Downloads found in trash', 'download-monitor' ),
+					'parent'             => __( 'Parent Download', 'download-monitor' )
 				),
-				'publicly_queryable' 	=> false,
-				'exclude_from_search' 	=> true,
-				'hierarchical' 			=> false,
-				'rewrite' 				=> false,
-				'query_var' 			=> false,
-				'supports' 				=> apply_filters( 'dlm_cpt_dlm_download_supports', array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields' ) ),
-				'has_archive' 			=> false,
-				'show_in_nav_menus' 	=> false
+				'description'         => __( 'This is where you can create and manage downloads for your site.', 'download-monitor' ),
+				'public'              => false,
+				'show_ui'             => true,
+				'capability_type'     => 'post',
+				'capabilities'        => array(
+					'publish_posts'       => 'manage_downloads',
+					'edit_posts'          => 'manage_downloads',
+					'edit_others_posts'   => 'manage_downloads',
+					'delete_posts'        => 'manage_downloads',
+					'delete_others_posts' => 'manage_downloads',
+					'read_private_posts'  => 'manage_downloads',
+					'edit_post'           => 'manage_downloads',
+					'delete_post'         => 'manage_downloads',
+					'read_post'           => 'manage_downloads'
+				),
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'hierarchical'        => false,
+				'rewrite'             => false,
+				'query_var'           => false,
+				'supports'            => apply_filters( 'dlm_cpt_dlm_download_supports', array(
+						'title',
+						'editor',
+						'excerpt',
+						'thumbnail',
+						'custom-fields'
+					) ),
+				'has_archive'         => false,
+				'show_in_nav_menus'   => false
 			) )
 		);
 
 		register_post_type( "dlm_download_version",
 			apply_filters( 'dlm_cpt_dlm_download_version_args', array(
-				'public' 				=> false,
-				'show_ui' 				=> false,
-				'publicly_queryable' 	=> false,
-				'exclude_from_search' 	=> true,
-				'hierarchical' 			=> false,
-				'rewrite' 				=> false,
-				'query_var'				=> false,
-				'show_in_nav_menus' 	=> false
+				'public'              => false,
+				'show_ui'             => false,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'hierarchical'        => false,
+				'rewrite'             => false,
+				'query_var'           => false,
+				'show_in_nav_menus'   => false
 			) )
 		);
 	}
@@ -385,8 +418,10 @@ class WP_DLM {
 	 * get_template_part function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $slug
 	 * @param string $name (default: '')
+	 *
 	 * @return void
 	 */
 	public function get_template_part( $slug, $name = '', $custom_dir = '' ) {
@@ -462,7 +497,9 @@ class WP_DLM {
 	 * Enqueue JS to be added to the footer.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $code
+	 *
 	 * @return void
 	 */
 	public function add_inline_js( $code ) {
@@ -489,7 +526,9 @@ class WP_DLM {
 	 * The depth of the recursiveness can be controlled by the $levels param.
 	 *
 	 * @access public
+	 *
 	 * @param string $folder (default: '')
+	 *
 	 * @return void
 	 */
 	public function list_files( $folder = '' ) {
@@ -535,18 +574,18 @@ class WP_DLM {
 	public function directory_protection() {
 
 		// Install files and folders for uploading files and prevent hotlinking
-		$upload_dir =  wp_upload_dir();
+		$upload_dir = wp_upload_dir();
 
 		$files = array(
 			array(
-				'base' 		=> $upload_dir['basedir'] . '/dlm_uploads',
-				'file' 		=> '.htaccess',
-				'content' 	=> 'deny from all'
+				'base'    => $upload_dir['basedir'] . '/dlm_uploads',
+				'file'    => '.htaccess',
+				'content' => 'deny from all'
 			),
 			array(
-				'base' 		=> $upload_dir['basedir'] . '/dlm_uploads',
-				'file' 		=> 'index.html',
-				'content' 	=> ''
+				'base'    => $upload_dir['basedir'] . '/dlm_uploads',
+				'file'    => 'index.html',
+				'content' => ''
 			)
 		);
 
@@ -562,7 +601,9 @@ class WP_DLM {
 
 	/**
 	 * Parse a file path and return the new path and whether or not it's remote
+	 *
 	 * @param  string $file_path
+	 *
 	 * @return array
 	 */
 	public function parse_file_path( $file_path ) {
@@ -574,10 +615,10 @@ class WP_DLM {
 		$wp_uploads_url = $wp_uploads['baseurl'];
 
 		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array(
-						'http',
-						'https',
-						'ftp'
-					) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path['path'] )
+					'http',
+					'https',
+					'ftp'
+				) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path['path'] )
 		) {
 
 			/** This is an absolute path */
@@ -645,7 +686,7 @@ class WP_DLM {
 			}
 		}
 
-		return -1;
+		return - 1;
 	}
 
 	/**
@@ -682,7 +723,9 @@ class WP_DLM {
 
 	/**
 	 * Encode files for storage
+	 *
 	 * @param  array $files
+	 *
 	 * @return string
 	 */
 	public function json_encode_files( $files ) {
@@ -692,9 +735,9 @@ class WP_DLM {
 			$files = json_encode( $files );
 			if ( function_exists( 'mb_convert_encoding' ) ) {
 				$files = preg_replace_callback( '/\\\\u([0-9a-f]{4})/i', array(
-						$this,
-						'json_unscaped_unicode_fallback'
-					), $files );
+					$this,
+					'json_unscaped_unicode_fallback'
+				), $files );
 			}
 		}
 
@@ -703,7 +746,9 @@ class WP_DLM {
 
 	/**
 	 * Fallback for PHP < 5.4 where JSON_UNESCAPED_UNICODE does not exist.
+	 *
 	 * @param  array $matches
+	 *
 	 * @return string
 	 */
 	public function json_unscaped_unicode_fallback( $matches ) {

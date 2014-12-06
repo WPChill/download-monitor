@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
  * DLM_Shortcodes class.
@@ -55,7 +57,9 @@ class DLM_Shortcodes {
 	 * download function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $atts
+	 *
 	 * @return void
 	 */
 	public function download( $atts, $content = '' ) {
@@ -71,52 +75,55 @@ class DLM_Shortcodes {
 
 		$id = apply_filters( 'dlm_shortcode_download_id', $id );
 
-		if ( empty( $id ) )
+		if ( empty( $id ) ) {
 			return;
+		}
 
-	  	// If we have content, wrap in a link only
-	  	if ( $content ) {
+		// If we have content, wrap in a link only
+		if ( $content ) {
 
-	  		$download = new DLM_Download( $id );
+			$download = new DLM_Download( $id );
 
-	  		if ( $download->exists() ) {
+			if ( $download->exists() ) {
 
-		  		if ( $version )
+				if ( $version ) {
 					$version_id = $dlm_download->get_version_id( $version );
+				}
 
-				if ( $version_id )
+				if ( $version_id ) {
 					$dlm_download->set_version( $version_id );
+				}
 
 				return '<a href="' . $download->get_the_download_link() . '">' . $content . '</a>';
 
 			} else {
 				return '[' . __( 'Download not found', 'download-monitor' ) . ']';
 			}
-	  	}
+		} // If there is no content, get the template part
+		else {
 
-	  	// If there is no content, get the template part
-	  	else {
-
-	  		ob_start();
+			ob_start();
 
 			$downloads = new WP_Query( array(
-		    	'post_type'      => 'dlm_download',
-		    	'posts_per_page' => 1,
-		    	'no_found_rows'  => 1,
-		    	'post_status'    => 'publish',
-		    	'p'              => $id
-		  	) );
+				'post_type'      => 'dlm_download',
+				'posts_per_page' => 1,
+				'no_found_rows'  => 1,
+				'post_status'    => 'publish',
+				'p'              => $id
+			) );
 
 			if ( $downloads->have_posts() ) {
 
 				while ( $downloads->have_posts() ) {
 					$downloads->the_post();
 
-					if ( $version )
+					if ( $version ) {
 						$version_id = $dlm_download->get_version_id( $version );
+					}
 
-					if ( $version_id )
+					if ( $version_id ) {
 						$dlm_download->set_version( $version_id );
+					}
 
 					$download_monitor->get_template_part( 'content-download', $template );
 				}
@@ -127,19 +134,22 @@ class DLM_Shortcodes {
 
 			wp_reset_postdata();
 
-			if ( $autop === 'true' || $autop === true )
+			if ( $autop === 'true' || $autop === true ) {
 				return wpautop( ob_get_clean() );
-			else
+			} else {
 				return ob_get_clean();
-	  	}
+			}
+		}
 	}
 
 	/**
 	 * download_data function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $atts
 	 * @param mixed $content
+	 *
 	 * @return void
 	 */
 	public function download_data( $atts ) {
@@ -154,16 +164,19 @@ class DLM_Shortcodes {
 
 		$id = apply_filters( 'dlm_shortcode_download_id', $id );
 
-		if ( empty( $id ) || empty( $data ) )
+		if ( empty( $id ) || empty( $data ) ) {
 			return;
+		}
 
 		$download = new DLM_Download( $id );
 
-		if ( $version )
+		if ( $version ) {
 			$version_id = $download->get_version_id( $version );
+		}
 
-		if ( $version_id )
+		if ( $version_id ) {
 			$download->set_version( $version_id );
+		}
 
 		switch ( $data ) {
 
@@ -219,7 +232,9 @@ class DLM_Shortcodes {
 	 * downloads function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $atts
+	 *
 	 * @return void
 	 */
 	public function downloads( $atts ) {
@@ -273,61 +288,61 @@ class DLM_Shortcodes {
 				break;
 			default :
 				$orderby = 'title';
-			break;
+				break;
 		}
 
-	  	$args = array(
-	    	'post_type'      => 'dlm_download',
-	    	'posts_per_page' => $per_page,
-	    	'offset'         => $paginate ? ( max( 1, get_query_var( 'paged' ) ) - 1 ) * $per_page : $offset,
-	    	'post_status'    => 'publish',
-	    	'orderby'        => $orderby,
-	    	'order'          => $order,
-	    	'$meta_key'      => $meta_key,
-	    	'post__in'       => $post__in,
-	    	'post__not_in'   => $post__not_in,
-	    	'meta_query'     => array()
-	  	);
+		$args = array(
+			'post_type'      => 'dlm_download',
+			'posts_per_page' => $per_page,
+			'offset'         => $paginate ? ( max( 1, get_query_var( 'paged' ) ) - 1 ) * $per_page : $offset,
+			'post_status'    => 'publish',
+			'orderby'        => $orderby,
+			'order'          => $order,
+			'$meta_key'      => $meta_key,
+			'post__in'       => $post__in,
+			'post__not_in'   => $post__not_in,
+			'meta_query'     => array()
+		);
 
-	  	if ( $category || $tag ) {
-		  	$args['tax_query'] = array( 'relation' => 'AND' );
+		if ( $category || $tag ) {
+			$args['tax_query'] = array( 'relation' => 'AND' );
 
-		  	$categories = array_filter( explode( ',', $category ) );
-		  	$tags       = array_filter( explode( ',', $tag ) );
+			$categories = array_filter( explode( ',', $category ) );
+			$tags       = array_filter( explode( ',', $tag ) );
 
-		  	if ( ! empty( $categories ) ) {
-			  	$args['tax_query'][] = array(
+			if ( ! empty( $categories ) ) {
+				$args['tax_query'][] = array(
 					'taxonomy'         => 'dlm_download_category',
 					'field'            => 'slug',
 					'terms'            => $categories,
 					'include_children' => ( $category_include_children === 'true' || $category_include_children === true )
-			  	);
-		  	}
+				);
+			}
 
-		  	if ( ! empty( $tags ) ) {
-			  	$args['tax_query'][] = array(
-			  		'taxonomy' => 'dlm_download_tag',
+			if ( ! empty( $tags ) ) {
+				$args['tax_query'][] = array(
+					'taxonomy' => 'dlm_download_tag',
 					'field'    => 'slug',
 					'terms'    => $tags
-			  	);
-		  	}
-	  	}
+				);
+			}
+		}
 
-	  	if ( $featured === 'true' || $featured === true ) {
-	    	$args['meta_query'][] = array(
-	    		'key'   => '_featured',
-	    		'value' => 'yes'
-	    	);
-    	}
+		if ( $featured === 'true' || $featured === true ) {
+			$args['meta_query'][] = array(
+				'key'   => '_featured',
+				'value' => 'yes'
+			);
+		}
 
-    	if ( $members_only === 'true' || $members_only === true ) {
-	    	$args['meta_query'][] = array(
-	    		'key'   => '_members_only',
-	    		'value' => 'yes'
-	    	);
-    	}
+		if ( $members_only === 'true' || $members_only === true ) {
+			$args['meta_query'][] = array(
+				'key'   => '_members_only',
+				'value' => 'yes'
+			);
+		}
 
-	  	ob_start();
+		ob_start();
 
 		$downloads         = new WP_Query( $args );
 		$dlm_max_num_pages = $downloads->max_num_pages;
@@ -348,13 +363,15 @@ class DLM_Shortcodes {
 
 			<?php echo html_entity_decode( $loop_end ); ?>
 
-			<?php if ( $paginate ) $download_monitor->get_template_part( 'pagination', '' ); ?>
+			<?php if ( $paginate ) {
+				$download_monitor->get_template_part( 'pagination', '' );
+			} ?>
 
 		<?php endif;
 
 		wp_reset_postdata();
 
-	  	return ob_get_clean();
+		return ob_get_clean();
 	}
 }
 

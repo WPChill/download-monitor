@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
  * DLM_Admin_CPT class.
@@ -27,10 +29,12 @@ class DLM_Admin_CPT {
 	 * downloads_by_category function.
 	 *
 	 * @access public
+	 *
 	 * @param int $show_counts (default: 1)
 	 * @param int $hierarchical (default: 1)
 	 * @param int $show_uncategorized (default: 1)
 	 * @param string $orderby (default: '')
+	 *
 	 * @return void
 	 */
 	public function downloads_by_category( $show_counts = 1, $hierarchical = 1, $show_uncategorized = 1, $orderby = '' ) {
@@ -89,11 +93,14 @@ class DLM_Admin_CPT {
 
 		return call_user_func_array( array( $walker, 'walk' ), $args );
 	}
+
 	/**
 	 * delete_post function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $id
+	 *
 	 * @return void
 	 */
 	public function delete_post( $id ) {
@@ -139,7 +146,9 @@ class DLM_Admin_CPT {
 	 * post_updated_messages function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $messages
+	 *
 	 * @return void
 	 */
 	public function post_updated_messages( $messages ) {
@@ -167,7 +176,9 @@ class DLM_Admin_CPT {
 	 * columns function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $columns
+	 *
 	 * @return array
 	 */
 	public function columns( $columns ) {
@@ -194,57 +205,59 @@ class DLM_Admin_CPT {
 	 * custom_columns function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $column
+	 *
 	 * @return void
 	 */
 	public function custom_columns( $column ) {
 		global $post, $download_monitor;
 
-		$download 	= new DLM_Download( $post->ID );
-		$file   	= $download->get_file_version();
+		$download = new DLM_Download( $post->ID );
+		$file     = $download->get_file_version();
 
-		switch ($column) {
+		switch ( $column ) {
 			case "thumb" :
 				echo $download->get_the_image();
-			break;
+				break;
 			case "download_id" :
 				echo $post->ID;
-			break;
+				break;
 			case "download_cat" :
 				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_category', '', ', ', '' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
 					echo $terms;
 				}
-			break;
+				break;
 			case "download_tag" :
 				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_tag', '', ', ', '' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
 					echo $terms;
 				}
-			break;
+				break;
 			case "featured" :
 				if ( $download->is_featured() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
-			break;
+				break;
 			case "members_only" :
 				if ( $download->is_members_only() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
-			break;
+				break;
 			case "redirect_only" :
 				if ( $download->redirect_only() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
-			break;
+				break;
 			case "file" :
 				if ( $file ) {
 					echo '<a href="' . $download->get_the_download_link() . '"><code>' . $file->filename;
@@ -255,24 +268,24 @@ class DLM_Admin_CPT {
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
-			break;
+				break;
 			case "version" :
 				if ( $file && $file->version ) {
 					echo $file->version;
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
-			break;
+				break;
 			case "download_count" :
 				echo number_format( $download->get_the_download_count(), 0, '.', ',' );
-			break;
+				break;
 			case "featured" :
 				if ( $download->is_featured() ) {
 					echo '<img src="' . $download_monitor->plugin_url() . '/assets/images/on.png" alt="yes" />';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
-			break;
+				break;
 		}
 	}
 
@@ -280,7 +293,9 @@ class DLM_Admin_CPT {
 	 * sortable_columns function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $columns
+	 *
 	 * @return void
 	 */
 	public function sortable_columns( $columns ) {
@@ -291,6 +306,7 @@ class DLM_Admin_CPT {
 			'members_only'   => 'members_only',
 			'redirect_only'  => 'redirect_only',
 		);
+
 		return wp_parse_args( $custom, $columns );
 	}
 
@@ -298,7 +314,9 @@ class DLM_Admin_CPT {
 	 * sort_columns function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $vars
+	 *
 	 * @return void
 	 */
 	public function sort_columns( $vars ) {
@@ -333,7 +351,7 @@ class DLM_Admin_CPT {
 
 		return $vars;
 	}
-	
+
 }
 
 new DLM_Admin_CPT();

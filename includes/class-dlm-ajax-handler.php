@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
  * WP_DLM_Ajax_Handler class.
@@ -104,30 +106,36 @@ class WP_DLM_Ajax_Handler {
 
 		check_ajax_referer( 'list-files', 'security' );
 
-		if ( ! current_user_can('manage_downloads') ) return false;
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			return false;
+		}
 
 		$path = esc_attr( stripslashes( $_POST['path'] ) );
 
 		if ( $path ) {
 			$files = $download_monitor->list_files( $path );
 
-			foreach( $files as $found_file ) {
+			foreach ( $files as $found_file ) {
 
 				$file = pathinfo( $found_file['path'] );
 
 				if ( $found_file['type'] == 'folder' ) {
 
-					echo '<li><a href="#" class="folder" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename']  . '">' . $file['basename'] . '</a></li>';
+					echo '<li><a href="#" class="folder" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
 
 				} else {
 
-					$filename = $file['basename'];
+					$filename  = $file['basename'];
 					$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
 
-					if ( substr( $filename, 0, 1 ) == '.' ) continue; // Ignore files starting with . like htaccess
-					if ( in_array( $extension, array( '', 'php', 'html', 'htm', 'tmp' ) )  ) continue; // Ignored file types
+					if ( substr( $filename, 0, 1 ) == '.' ) {
+						continue;
+					} // Ignore files starting with . like htaccess
+					if ( in_array( $extension, array( '', 'php', 'html', 'htm', 'tmp' ) ) ) {
+						continue;
+					} // Ignored file types
 
-					echo '<li><a href="#" class="file filetype-' . sanitize_title( $extension ) . '" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename']  . '">' . $file['basename'] . '</a></li>';
+					echo '<li><a href="#" class="file filetype-' . sanitize_title( $extension ) . '" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
 
 				}
 

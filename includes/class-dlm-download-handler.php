@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
  * DLM_Download_Handler class.
@@ -20,9 +22,9 @@ class DLM_Download_Handler {
 		$this->endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
 		$this->ep_value = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
 
-		add_filter( 'query_vars', array( $this, 'add_query_vars'), 0 );
-		add_action( 'init', array( $this, 'add_endpoint'), 0 );
-		add_action( 'parse_request', array( $this, 'handler'), 0 );
+		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
+		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
+		add_action( 'parse_request', array( $this, 'handler' ), 0 );
 		add_action( 'dlm_can_download', array( $this, 'check_access' ), 10, 2 );
 	}
 
@@ -32,12 +34,15 @@ class DLM_Download_Handler {
 	 * Other plugins can use the 'dlm_can_download' filter directly to change access rights.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $download
+	 *
 	 * @return void
 	 */
 	public function check_access( $can_download, $download ) {
-		if ( $download->is_members_only() && ! is_user_logged_in() )
+		if ( $download->is_members_only() && ! is_user_logged_in() ) {
 			$can_download = false;
+		}
 
 		return $can_download;
 	}
@@ -50,6 +55,7 @@ class DLM_Download_Handler {
 	 */
 	public function add_query_vars( $vars ) {
 		$vars[] = $this->endpoint;
+
 		return $vars;
 	}
 
@@ -107,10 +113,10 @@ class DLM_Download_Handler {
 			switch ( $this->ep_value ) {
 				case 'slug' :
 					$download_id = absint( $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = '%s' AND post_type = 'dlm_download';", $raw_id ) ) );
-				break;
+					break;
 				default :
 					$download_id = absint( $raw_id );
-				break;
+					break;
 			}
 
 			if ( $download_id > 0 ) {
@@ -140,17 +146,13 @@ class DLM_Download_Handler {
 					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download-monitor' ) );
 				}
 				$this->trigger( $download, $version_id );
-			}
-
-			elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
+			} elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
 				wp_redirect( $redirect );
-			}
-
-			else {
+			} else {
 				wp_die( __( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 			}
 
-			die('1');
+			die( '1' );
 		}
 	}
 
@@ -167,7 +169,9 @@ class DLM_Download_Handler {
 	 * trigger function.
 	 *
 	 * @access private
+	 *
 	 * @param mixed $download
+	 *
 	 * @return void
 	 */
 	private function trigger( $download ) {
@@ -176,22 +180,24 @@ class DLM_Download_Handler {
 		$version    = $download->get_file_version();
 		$file_paths = $version->mirrors;
 
-		if ( empty( $file_paths ) )
+		if ( empty( $file_paths ) ) {
 			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
+		}
 
-		$file_path  = $file_paths[ array_rand( $file_paths ) ];
+		$file_path = $file_paths[ array_rand( $file_paths ) ];
 
-		if ( ! $file_path )
+		if ( ! $file_path ) {
 			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
+		}
 
 		// Check Access
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version ) ) {
 
-			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) )
+			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
 				wp_redirect( $redirect );
-
-			else
+			} else {
 				wp_die( __( 'You do not have permission to access this download.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
+			}
 
 			exit;
 		}
@@ -204,7 +210,7 @@ class DLM_Download_Handler {
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 
 			// Set cookie to prevent double logging
-			setcookie( 'wp_dlm_downloading', $download->id, time()+60, COOKIEPATH, COOKIE_DOMAIN, false );
+			setcookie( 'wp_dlm_downloading', $download->id, time() + 60, COOKIEPATH, COOKIE_DOMAIN, false );
 		}
 
 		// Redirect to the file...
@@ -223,34 +229,34 @@ class DLM_Download_Handler {
 		$this->download_headers( $file_path, $download, $version );
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
-            if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
+			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
+				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
-            	header( "X-Sendfile: $file_path" );
-            	exit;
+				header( "X-Sendfile: $file_path" );
+				exit;
 
-            } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
+			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
+				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
-            	header( "X-LIGHTTPD-send-file: $file_path" );
-            	exit;
+				header( "X-LIGHTTPD-send-file: $file_path" );
+				exit;
 
-            } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
+			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
+				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
-            	$file_path = str_ireplace( $_SERVER[ 'DOCUMENT_ROOT' ], '', $file_path );
+				$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
 				header( "X-Accel-Redirect: /$file_path" );
-            	exit;
-            }
-        }
+				exit;
+			}
+		}
 
-        // multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
+		// multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
 		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->filesize ) {
 			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'], 2 );
-			list( $range ) = explode( ",",$range, 2 );
+			list( $range ) = explode( ",", $range, 2 );
 			list( $range, $range_end ) = explode( "-", $range );
 			$range = intval( $range );
 
@@ -270,25 +276,25 @@ class DLM_Download_Handler {
 			$range = false;
 		}
 
-        if ( $this->readfile_chunked( $file_path, $range ) ) {
+		if ( $this->readfile_chunked( $file_path, $range ) ) {
 
-	        // Complete!
-	        $this->log( 'download', 'completed', '', $download, $version );
+			// Complete!
+			$this->log( 'download', 'completed', '', $download, $version );
 
-        } elseif ( $remote_file ) {
+		} elseif ( $remote_file ) {
 
-	        // Redirect - we can't track if this completes or not
-	    	$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download-monitor' ), $download, $version );
+			// Redirect - we can't track if this completes or not
+			$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download-monitor' ), $download, $version );
 
-	        header( 'Location: ' . $file_path );
+			header( 'Location: ' . $file_path );
 
-        } else {
-        	$this->log( 'download', 'failed', __( 'File not found', 'download-monitor' ), $download, $version );
+		} else {
+			$this->log( 'download', 'failed', __( 'File not found', 'download-monitor' ), $download, $version );
 
-	        wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
-        }
+			wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+		}
 
-        exit;
+		exit;
 	}
 
 	/**
@@ -311,22 +317,26 @@ class DLM_Download_Handler {
 		// Get file name
 		$file_name = urldecode( basename( $file_path ) );
 
-		if ( strstr( $file_name, '?' ) )
+		if ( strstr( $file_name, '?' ) ) {
 			$file_name = current( explode( '?', $file_name ) );
+		}
 
 		// Environment + headers
-		if ( ! ini_get('safe_mode') )
-			@set_time_limit(0);
+		if ( ! ini_get( 'safe_mode' ) ) {
+			@set_time_limit( 0 );
+		}
 
-		if ( function_exists( 'get_magic_quotes_runtime' ) && get_magic_quotes_runtime() )
-			@set_magic_quotes_runtime(0);
+		if ( function_exists( 'get_magic_quotes_runtime' ) && get_magic_quotes_runtime() ) {
+			@set_magic_quotes_runtime( 0 );
+		}
 
-		if( function_exists( 'apache_setenv' ) )
+		if ( function_exists( 'apache_setenv' ) ) {
 			@apache_setenv( 'no-gzip', 1 );
+		}
 
 		@session_write_close();
 		@ini_set( 'zlib.output_compression', 'Off' );
-		@error_reporting(0);
+		@error_reporting( 0 );
 
 		/**
 		 * Prevents errors, for example: transfer closed with 3 bytes remaining to read
@@ -341,28 +351,28 @@ class DLM_Download_Handler {
 
 		if ( $is_IE && is_ssl() ) {
 			// IE bug prevents download via SSL when Cache Control and Pragma no-cache headers set.
-			$headers[ 'Expires' ]       = 'Wed, 11 Jan 1984 05:00:00 GMT';
-			$headers[ 'Cache-Control' ] = 'private';
+			$headers['Expires']       = 'Wed, 11 Jan 1984 05:00:00 GMT';
+			$headers['Cache-Control'] = 'private';
 		} else {
 			nocache_headers();
 		}
 
-		$headers[ 'X-Robots-Tag' ]              = 'noindex, nofollow';
-		$headers[ 'Content-Type' ]              = $mime_type;
-		$headers[ 'Content-Description' ]       = 'File Transfer';
-		$headers[ 'Content-Disposition' ]       = "attachment; filename=\"{$file_name}\";";
-		$headers[ 'Content-Transfer-Encoding' ] = 'binary';
+		$headers['X-Robots-Tag']              = 'noindex, nofollow';
+		$headers['Content-Type']              = $mime_type;
+		$headers['Content-Description']       = 'File Transfer';
+		$headers['Content-Disposition']       = "attachment; filename=\"{$file_name}\";";
+		$headers['Content-Transfer-Encoding'] = 'binary';
 
-        if ( $version->filesize ) {
-			$headers[ 'Content-Length' ] = $version->filesize;
-			$headers[ 'Accept-Ranges' ]  = 'bytes';
-        }
+		if ( $version->filesize ) {
+			$headers['Content-Length'] = $version->filesize;
+			$headers['Accept-Ranges']  = 'bytes';
+		}
 
-        $headers = apply_filters( 'dlm_download_headers', $headers, $file_path, $download, $version );
+		$headers = apply_filters( 'dlm_download_headers', $headers, $file_path, $download, $version );
 
-        foreach ( $headers as $key => $value ) {
-        	header( $key . ': ' . $value );
-        }
+		foreach ( $headers as $key => $value ) {
+			header( $key . ': ' . $value );
+		}
 	}
 
 	/**
@@ -371,9 +381,11 @@ class DLM_Download_Handler {
 	 * Reads file in chunks so big downloads are possible without changing PHP.INI - http://codeigniter.com/wiki/Download_helper_for_large_files/
 	 *
 	 * @access   public
+	 *
 	 * @param    string    file
 	 * @param    boolean   return bytes of file
 	 * @param    range if  HTTP RANGE to seek
+	 *
 	 * @return   void
 	 */
 	public function readfile_chunked( $file, $retbytes = true, $range = false ) {
@@ -382,24 +394,28 @@ class DLM_Download_Handler {
 		$cnt       = 0;
 		$handle    = fopen( $file, 'r' );
 
-		if ( $handle === false )
+		if ( $handle === false ) {
 			return false;
+		}
 
-		if ( $range )
+		if ( $range ) {
 			fseek( $handle, $range );
+		}
 
 		while ( ! feof( $handle ) ) {
 			$buffer = fread( $handle, $chunksize );
 			echo $buffer;
 
-			if ( $retbytes )
+			if ( $retbytes ) {
 				$cnt += strlen( $buffer );
+			}
 		}
 
 		$status = fclose( $handle );
 
-		if ( $retbytes && $status )
+		if ( $retbytes && $status ) {
 			return $cnt;
+		}
 
 		return $status;
 	}

@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
  * DLM_Admin class.
@@ -36,17 +38,19 @@ class DLM_Admin {
 	 * ms_files_protection function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $rewrite
+	 *
 	 * @return void
 	 */
 	public function ms_files_protection( $rewrite ) {
-	    global $wp_rewrite;
+		global $wp_rewrite;
 
-	    if ( ! is_multisite() ) {
-		    return $rewrite;
-	    }
+		if ( ! is_multisite() ) {
+			return $rewrite;
+		}
 
-		$rule  = "\n# DLM Rules - Protect Files from ms-files.php\n\n";
+		$rule = "\n# DLM Rules - Protect Files from ms-files.php\n\n";
 		$rule .= "<IfModule mod_rewrite.c>\n";
 		$rule .= "RewriteEngine On\n";
 		$rule .= "RewriteCond %{QUERY_STRING} file=dlm_uploads/ [NC]\n";
@@ -60,7 +64,9 @@ class DLM_Admin {
 	 * upload_dir function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $pathdata
+	 *
 	 * @return void
 	 */
 	public function upload_dir( $pathdata ) {
@@ -68,7 +74,7 @@ class DLM_Admin {
 		if ( isset( $_POST['type'] ) && $_POST['type'] == 'dlm_download' ) {
 			if ( empty( $pathdata['subdir'] ) ) {
 				$pathdata['path']   = $pathdata['path'] . '/dlm_uploads';
-				$pathdata['url']    = $pathdata['url']. '/dlm_uploads';
+				$pathdata['url']    = $pathdata['url'] . '/dlm_uploads';
 				$pathdata['subdir'] = '/dlm_uploads';
 			} else {
 				$new_subdir = '/dlm_uploads' . $pathdata['subdir'];
@@ -91,16 +97,16 @@ class DLM_Admin {
 	private function init_settings() {
 		$this->settings = apply_filters( 'download_monitor_settings',
 			array(
-				'general' => array(
+				'general'   => array(
 					__( 'General', 'download-monitor' ),
 					array(
 						array(
-							'name' 		=> 'dlm_default_template',
-							'std' 		=> '',
-							'label' 	=> __( 'Default Template', 'download-monitor' ),
-							'desc'		=> __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download-monitor' ),
-							'type'      => 'select',
-							'options'   => array(
+							'name'    => 'dlm_default_template',
+							'std'     => '',
+							'label'   => __( 'Default Template', 'download-monitor' ),
+							'desc'    => __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download-monitor' ),
+							'type'    => 'select',
+							'options' => array(
 								''             => __( 'Default - Title and count', 'download-monitor' ),
 								'button'       => __( 'Button - CSS styled button showing title and count', 'download-monitor' ),
 								'box'          => __( 'Box - Box showing thumbnail, title, count, filename and filesize.', 'download-monitor' ),
@@ -111,34 +117,34 @@ class DLM_Admin {
 							)
 						),
 						array(
-							'name' 		=> 'dlm_custom_template',
-							'std' 		=> '',
-							'label' 	=> __( 'Custom Template', 'download-monitor' ),
-							'desc'		=> __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
+							'name'  => 'dlm_custom_template',
+							'std'   => '',
+							'label' => __( 'Custom Template', 'download-monitor' ),
+							'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
 						),
 						array(
-							'name' 		=> 'dlm_generate_hash_md5',
-							'std' 		=> '0',
-							'label' 	=> __( 'MD5 hashes', 'download-monitor' ),
-							'cb_label'  => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
-							'desc'		=> '',
-							'type'      => 'checkbox'
+							'name'     => 'dlm_generate_hash_md5',
+							'std'      => '0',
+							'label'    => __( 'MD5 hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
+							'desc'     => '',
+							'type'     => 'checkbox'
 						),
 						array(
-							'name' 		=> 'dlm_generate_hash_sha1',
-							'std' 		=> '0',
-							'label' 	=> __( 'SHA1 hashes', 'download-monitor' ),
-							'cb_label'  => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
-							'desc'		=> '',
-							'type'      => 'checkbox'
+							'name'     => 'dlm_generate_hash_sha1',
+							'std'      => '0',
+							'label'    => __( 'SHA1 hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
+							'desc'     => '',
+							'type'     => 'checkbox'
 						),
 						array(
-							'name' 		=> 'dlm_generate_hash_crc32b',
-							'std' 		=> '0',
-							'label' 	=> __( 'CRC32B hashes', 'download-monitor' ),
-							'cb_label'  => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
-							'desc'		=> __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
-							'type'      => 'checkbox'
+							'name'     => 'dlm_generate_hash_crc32b',
+							'std'      => '0',
+							'label'    => __( 'CRC32B hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
+							'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
+							'type'     => 'checkbox'
 						),
 					),
 				),
@@ -146,67 +152,67 @@ class DLM_Admin {
 					__( 'Endpoint', 'download-monitor' ),
 					array(
 						array(
-							'name' 		=> 'dlm_download_endpoint',
-							'std' 		=> 'download',
-							'placeholder'	=> __( 'download', 'download-monitor' ),
-							'label' 	=> __( 'Download Endpoint', 'download-monitor' ),
-							'desc'		=> sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code>.', 'download-monitor' ), home_url( '/download/' ) )
+							'name'        => 'dlm_download_endpoint',
+							'std'         => 'download',
+							'placeholder' => __( 'download', 'download-monitor' ),
+							'label'       => __( 'Download Endpoint', 'download-monitor' ),
+							'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code>.', 'download-monitor' ), home_url( '/download/' ) )
 						),
 						array(
-							'name' 		=> 'dlm_download_endpoint_value',
-							'std' 		=> 'ID',
-							'label' 	=> __( 'Endpoint Value', 'download-monitor' ),
-							'desc'		=> sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>', 'download-monitor' ), home_url( '/download/10/' ) ),
-							'type'      => 'select',
-							'options'   => array(
+							'name'    => 'dlm_download_endpoint_value',
+							'std'     => 'ID',
+							'label'   => __( 'Endpoint Value', 'download-monitor' ),
+							'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>', 'download-monitor' ), home_url( '/download/10/' ) ),
+							'type'    => 'select',
+							'options' => array(
 								'ID'   => __( 'Download ID', 'download-monitor' ),
 								'slug' => __( 'Download slug', 'download-monitor' )
 							)
 						),
 						array(
-							'name' 		=> 'dlm_xsendfile_enabled',
-							'std' 		=> '',
-							'label' 	=> __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
-							'cb_label'  => __( 'Enable', 'download-monitor' ),
-							'desc'		=> __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
-							'type'      => 'checkbox'
+							'name'     => 'dlm_xsendfile_enabled',
+							'std'      => '',
+							'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
+							'type'     => 'checkbox'
 						),
 						array(
-							'name' 		=> 'dlm_hotlink_protection_enabled',
-							'std' 		=> '',
-							'label' 	=> __( 'Prevent hotlinking', 'download-monitor' ),
-							'cb_label'  => __( 'Enable', 'download-monitor' ),
-							'desc'		=> __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
-							'type'      => 'checkbox'
+							'name'     => 'dlm_hotlink_protection_enabled',
+							'std'      => '',
+							'label'    => __( 'Prevent hotlinking', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
+							'type'     => 'checkbox'
 						)
 					)
 				),
-				'logging' => array(
+				'logging'   => array(
 					__( 'Logging', 'download-monitor' ),
 					array(
 						array(
-							'name' 		=> 'dlm_enable_logging',
-							'cb_label'  => __( 'Enable', 'download-monitor' ),
-							'std' 		=> '1',
-							'label' 	=> __( 'Download Log', 'download-monitor' ),
-							'desc'		=> __( 'Log download attempts, IP addresses and more.', 'download-monitor' ),
-							'type' 		=> 'checkbox'
+							'name'     => 'dlm_enable_logging',
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'std'      => '1',
+							'label'    => __( 'Download Log', 'download-monitor' ),
+							'desc'     => __( 'Log download attempts, IP addresses and more.', 'download-monitor' ),
+							'type'     => 'checkbox'
 						),
 						array(
-							'name' 			=> 'dlm_ip_blacklist',
-							'std' 			=> '192.168.0.*',
-							'label' 		=> __( 'Blacklist IPs', 'download-monitor' ),
-							'desc'			=> __( 'List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a wildcard.', 'download-monitor' ),
-							'placeholder' 	=> '',
-							'type' 			=> 'textarea'
-						),
-						array(
-							'name' 		=> 'dlm_user_agent_blacklist',
-							'std' 		=> 'Googlebot',
-							'label' 	=> __( 'Blacklist user agents', 'download-monitor' ),
-							'desc'		=> __( 'List browser user agents to blacklist, 1 per line.', 'download-monitor' ),
+							'name'        => 'dlm_ip_blacklist',
+							'std'         => '192.168.0.*',
+							'label'       => __( 'Blacklist IPs', 'download-monitor' ),
+							'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a wildcard.', 'download-monitor' ),
 							'placeholder' => '',
-							'type' 			=> 'textarea'
+							'type'        => 'textarea'
+						),
+						array(
+							'name'        => 'dlm_user_agent_blacklist',
+							'std'         => 'Googlebot',
+							'label'       => __( 'Blacklist user agents', 'download-monitor' ),
+							'desc'        => __( 'List browser user agents to blacklist, 1 per line.', 'download-monitor' ),
+							'placeholder' => '',
+							'type'        => 'textarea'
 						),
 					)
 				)
@@ -264,14 +270,14 @@ class DLM_Admin {
 			$enqueue = true;
 		}
 
-        if ( ! $enqueue ) {
-	        return;
-        }
+		if ( ! $enqueue ) {
+			return;
+		}
 
 		wp_enqueue_script( 'jquery-blockui', $download_monitor->plugin_url() . '/assets/js/blockui.min.js', array( 'jquery' ), '2.61' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_style( 'jquery-ui-style', (is_ssl()) ? 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' : 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+		wp_enqueue_style( 'jquery-ui-style', ( is_ssl() ) ? 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' : 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
 		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 	}
 
@@ -284,19 +290,22 @@ class DLM_Admin {
 	public function admin_menu() {
 		if ( get_option( 'dlm_enable_logging' ) == 1 ) {
 			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'manage_options', 'download-monitor-logs', array(
-					$this,
-					'log_viewer'
-				) );
+				$this,
+				'log_viewer'
+			) );
 		}
 
 
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download-monitor' ), __( 'Settings', 'download-monitor' ), 'manage_options', 'download-monitor-settings', array( $this, 'settings_page' ) );
+		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download-monitor' ), __( 'Settings', 'download-monitor' ), 'manage_options', 'download-monitor-settings', array(
+				$this,
+				'settings_page'
+			) );
 
 		if ( apply_filters( 'dlm_show_addons_page', true ) ) {
 			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download-monitor' ), __( 'Add-ons', 'download-monitor' ), 'manage_options', 'dlm-addons', array(
-					$this,
-					'addons_page'
-				) );
+				$this,
+				'addons_page'
+			) );
 		}
 	}
 
@@ -325,98 +334,107 @@ class DLM_Admin {
 				<?php settings_fields( 'download-monitor' ); ?>
 				<?php screen_icon(); ?>
 
-			    <h2 class="nav-tab-wrapper">
-			    	<?php
-			    		foreach ( $this->settings as $key => $section ) {
-			    			echo '<a href="#settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
-			    		}
-			    	?>
-			    </h2><br/>
+				<h2 class="nav-tab-wrapper">
+					<?php
+					foreach ( $this->settings as $key => $section ) {
+						echo '<a href="#settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
+					}
+					?>
+				</h2><br/>
 
 				<?php
-					if ( ! empty( $_GET['settings-updated'] ) ) {
-						flush_rewrite_rules();
-						echo '<div class="updated fade"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
-					}
+				if ( ! empty( $_GET['settings-updated'] ) ) {
+					flush_rewrite_rules();
+					echo '<div class="updated fade"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+				}
 
-					foreach ( $this->settings as $key => $section ) {
+				foreach ( $this->settings as $key => $section ) {
 
-						echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
+					echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
 
-						echo '<table class="form-table">';
+					echo '<table class="form-table">';
 
-						foreach ( $section[1] as $option ) {
+					foreach ( $section[1] as $option ) {
 
-							$placeholder = ( ! empty( $option['placeholder'] ) ) ? 'placeholder="' . $option['placeholder'] . '"' : '';
+						$placeholder = ( ! empty( $option['placeholder'] ) ) ? 'placeholder="' . $option['placeholder'] . '"' : '';
 
-							echo '<tr valign="top"><th scope="row"><label for="setting-' . $option['name'] . '">' . $option['label'] . '</a></th><td>';
+						echo '<tr valign="top"><th scope="row"><label for="setting-' . $option['name'] . '">' . $option['label'] . '</a></th><td>';
 
-							if ( ! isset( $option['type'] ) ) {
-								$option['type'] = '';
-							}
-
-							$value = get_option( $option['name'] );
-
-							switch ( $option['type'] ) {
-
-								case "checkbox" :
-
-									?><label><input id="setting-<?php echo $option['name']; ?>" name="<?php echo $option['name']; ?>" type="checkbox" value="1" <?php checked( '1', $value ); ?> /> <?php echo $option['cb_label']; ?></label><?php
-
-									if ( $option['desc'] ) {
-										echo ' <p class="description">' . $option['desc'] . '</p>';
-									}
-
-								break;
-								case "textarea" :
-
-									?><textarea id="setting-<?php echo $option['name']; ?>" class="large-text" cols="50" rows="3" name="<?php echo $option['name']; ?>" <?php echo $placeholder; ?>><?php echo esc_textarea( $value ); ?></textarea><?php
-
-									if ( $option['desc'] ) {
-										echo ' <p class="description">' . $option['desc'] . '</p>';
-									}
-
-								break;
-								case "select" :
-
-									?><select id="setting-<?php echo $option['name']; ?>" class="regular-text" name="<?php echo $option['name']; ?>"><?php
-										foreach( $option['options'] as $key => $name ) {
-											echo '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $name ) . '</option>';
-										}
-									?></select><?php
-
-									if ( $option['desc'] ) {
-										echo ' <p class="description">' . $option['desc'] . '</p>';
-									}
-
-								break;
-								default :
-
-									?><input id="setting-<?php echo $option['name']; ?>" class="regular-text" type="text" name="<?php echo $option['name']; ?>" value="<?php esc_attr_e( $value ); ?>" <?php echo $placeholder; ?> /><?php
-
-									if ( $option['desc'] ) {
-										echo ' <p class="description">' . $option['desc'] . '</p>';
-									}
-
-								break;
-
-							}
-
-							echo '</td></tr>';
+						if ( ! isset( $option['type'] ) ) {
+							$option['type'] = '';
 						}
 
-						echo '</table></div>';
+						$value = get_option( $option['name'] );
 
+						switch ( $option['type'] ) {
+
+							case "checkbox" :
+
+								?><label><input id="setting-<?php echo $option['name']; ?>"
+								                name="<?php echo $option['name']; ?>" type="checkbox"
+								                value="1" <?php checked( '1', $value ); ?> /> <?php echo $option['cb_label']; ?>
+								</label><?php
+
+								if ( $option['desc'] ) {
+									echo ' <p class="description">' . $option['desc'] . '</p>';
+								}
+
+								break;
+							case "textarea" :
+
+								?><textarea id="setting-<?php echo $option['name']; ?>" class="large-text" cols="50"
+								            rows="3"
+								            name="<?php echo $option['name']; ?>" <?php echo $placeholder; ?>><?php echo esc_textarea( $value ); ?></textarea><?php
+
+								if ( $option['desc'] ) {
+									echo ' <p class="description">' . $option['desc'] . '</p>';
+								}
+
+								break;
+							case "select" :
+
+								?><select id="setting-<?php echo $option['name']; ?>" class="regular-text"
+								          name="<?php echo $option['name']; ?>"><?php
+								foreach ( $option['options'] as $key => $name ) {
+									echo '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $name ) . '</option>';
+								}
+								?></select><?php
+
+								if ( $option['desc'] ) {
+									echo ' <p class="description">' . $option['desc'] . '</p>';
+								}
+
+								break;
+							default :
+
+								?><input id="setting-<?php echo $option['name']; ?>" class="regular-text" type="text"
+								         name="<?php echo $option['name']; ?>"
+								         value="<?php esc_attr_e( $value ); ?>" <?php echo $placeholder; ?> /><?php
+
+								if ( $option['desc'] ) {
+									echo ' <p class="description">' . $option['desc'] . '</p>';
+								}
+
+								break;
+
+						}
+
+						echo '</td></tr>';
 					}
+
+					echo '</table></div>';
+
+				}
 				?>
 				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'download-monitor' ); ?>" />
+					<input type="submit" class="button-primary"
+					       value="<?php _e( 'Save Changes', 'download-monitor' ); ?>"/>
 				</p>
-		    </form>
+			</form>
 		</div>
 		<?php
 
-		$download_monitor->add_inline_js("
+		$download_monitor->add_inline_js( "
 			jQuery('.nav-tab-wrapper a').click(function() {
 				jQuery('.settings_panel').hide();
 				jQuery('.nav-tab-active').removeClass('nav-tab-active');
@@ -433,7 +451,7 @@ class DLM_Admin {
 			}).change();
 
 			jQuery('.nav-tab-wrapper a:first').click();
-		");
+		" );
 	}
 
 	/**
@@ -449,18 +467,23 @@ class DLM_Admin {
 
 		require_once( 'class-dlm-logging-list-table.php' );
 
-	    $DLM_Logging_List_Table = new DLM_Logging_List_Table();
-	    $DLM_Logging_List_Table->prepare_items();
-	    ?>
-	    <div class="wrap">
-	        <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
+		$DLM_Logging_List_Table = new DLM_Logging_List_Table();
+		$DLM_Logging_List_Table->prepare_items();
+		?>
+		<div class="wrap">
+			<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
-	        <h2><?php _e( 'Download Logs', 'download-monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm_download_logs', 'true' ); ?>" class="add-new-h2"><?php _e( 'Export CSV', 'download-monitor' ); ?></a> <a href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true' ), 'delete_logs' ); ?>" class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h2><br/>
-	        <form id="dlm_logs">
-	        	<?php $DLM_Logging_List_Table->display() ?>
-	        </form>
-	    </div>
-	    <?php
+			<h2><?php _e( 'Download Logs', 'download-monitor' ); ?> <a
+					href="<?php echo add_query_arg( 'dlm_download_logs', 'true' ); ?>"
+					class="add-new-h2"><?php _e( 'Export CSV', 'download-monitor' ); ?></a> <a
+					href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true' ), 'delete_logs' ); ?>"
+					class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h2><br/>
+
+			<form id="dlm_logs">
+				<?php $DLM_Logging_List_Table->display() ?>
+			</form>
+		</div>
+	<?php
 	}
 
 	/**
@@ -489,64 +512,64 @@ class DLM_Admin {
 		}
 
 		$filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
-        $filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
+		$filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
 
 		$items = $wpdb->get_results(
 			$wpdb->prepare(
-		    	"SELECT * FROM {$wpdb->download_log}
+				"SELECT * FROM {$wpdb->download_log}
 		    	WHERE type = 'download'
 		    	" . ( $filter_status ? "AND download_status = '%s'" : "%s" ) . "
 	            " . ( $filter_month ? "AND download_date >= '%s'" : "%s" ) . "
 	            " . ( $filter_month ? "AND download_date <= '%s'" : "%s" ) . "
 		    	ORDER BY download_date DESC",
-	    		( $filter_status ? $filter_status : "" ),
-                ( $filter_month ? date( 'Y-m-01', strtotime( $filter_month ) ) : "" ),
-                ( $filter_month ? date( 'Y-m-t', strtotime( $filter_month ) ) : "" )
-            )
-        );
+				( $filter_status ? $filter_status : "" ),
+				( $filter_month ? date( 'Y-m-01', strtotime( $filter_month ) ) : "" ),
+				( $filter_month ? date( 'Y-m-t', strtotime( $filter_month ) ) : "" )
+			)
+		);
 
-        $rows   = array();
-        $row    = array();
-        $row[]  = __( 'Download ID', 'download-monitor' );
-        $row[]  = __( 'Version ID', 'download-monitor' );
-        $row[]  = __( 'Filename', 'download-monitor' );
-        $row[]  = __( 'User ID', 'download-monitor' );
-        $row[]  = __( 'User Login', 'download-monitor' );
-        $row[]  = __( 'User Email', 'download-monitor' );
-        $row[]  = __( 'User IP', 'download-monitor' );
-        $row[]  = __( 'User Agent', 'download-monitor' );
-        $row[]  = __( 'Date', 'download-monitor' );
-        $row[]  = __( 'Status', 'download-monitor' );
-        $rows[] = '"' . implode( '","', $row ) . '"';
+		$rows   = array();
+		$row    = array();
+		$row[]  = __( 'Download ID', 'download-monitor' );
+		$row[]  = __( 'Version ID', 'download-monitor' );
+		$row[]  = __( 'Filename', 'download-monitor' );
+		$row[]  = __( 'User ID', 'download-monitor' );
+		$row[]  = __( 'User Login', 'download-monitor' );
+		$row[]  = __( 'User Email', 'download-monitor' );
+		$row[]  = __( 'User IP', 'download-monitor' );
+		$row[]  = __( 'User Agent', 'download-monitor' );
+		$row[]  = __( 'Date', 'download-monitor' );
+		$row[]  = __( 'Status', 'download-monitor' );
+		$rows[] = '"' . implode( '","', $row ) . '"';
 
 		if ( ! empty( $items ) ) {
 			foreach ( $items as $item ) {
-				$row    = array();
-				$row[]  = $item->download_id;
-				$row[]  = $item->version_id;
+				$row   = array();
+				$row[] = $item->download_id;
+				$row[] = $item->version_id;
 
 				$download = new DLM_Download( $item->download_id );
-        		$download->set_version( $item->version_id );
+				$download->set_version( $item->version_id );
 
-        		if ( $download->exists() && $download->get_the_filename() ) {
-			        $row[] = $download->get_the_filename();
-		        } else {
-			        $row[] = '-';
-		        }
+				if ( $download->exists() && $download->get_the_filename() ) {
+					$row[] = $download->get_the_filename();
+				} else {
+					$row[] = '-';
+				}
 
-				$row[]  = $item->user_id;
+				$row[] = $item->user_id;
 
 				if ( $item->user_id ) {
 					$user = get_user_by( 'id', $item->user_id );
 				}
 
-        		if ( ! isset( $user ) || ! $user ) {
-	        		$row[]  = '-';
-	        		$row[]  = '-';
-        		} else {
-        			$row[]  = $user->user_login;
-	        		$row[]  = $user->user_email;
-        		}
+				if ( ! isset( $user ) || ! $user ) {
+					$row[] = '-';
+					$row[] = '-';
+				} else {
+					$row[] = $user->user_login;
+					$row[] = $user->user_email;
+				}
 
 				$row[]  = $item->user_ip;
 				$row[]  = $item->user_agent;

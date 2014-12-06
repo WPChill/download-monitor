@@ -12,9 +12,9 @@ class DLM_Download_Version {
 	 * @return void
 	 */
 	public function __construct( $version_id, $download_id ) {
-		$this->id             = absint( $version_id );
-		$this->download_id    = absint( $download_id );
-		
+		$this->id          = absint( $version_id );
+		$this->download_id = absint( $download_id );
+
 		// Get Version Data
 		$this->version        = strtolower( get_post_meta( $this->id, '_version', true ) );
 		$this->download_count = get_post_meta( $this->id, '_download_count', true );
@@ -33,9 +33,9 @@ class DLM_Download_Version {
 			$this->mirrors = array();
 		}
 
-		$this->url            = current( $this->mirrors );
-		$this->filename       = current( explode( '?', basename( $this->url ) ) );
-		$this->filetype       = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
+		$this->url      = current( $this->mirrors );
+		$this->filename = current( explode( '?', basename( $this->url ) ) );
+		$this->filetype = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
 
 		// If we don't have a filesize, lets get it now
 		if ( $this->filesize === "" ) {
@@ -63,7 +63,9 @@ class DLM_Download_Version {
 	 * get_filesize function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $file
+	 *
 	 * @return string
 	 */
 	public function get_filesize( $file_path ) {
@@ -80,7 +82,9 @@ class DLM_Download_Version {
 	 * get_file_hashes function.
 	 *
 	 * @access public
+	 *
 	 * @param mixed $file
+	 *
 	 * @return array
 	 */
 	public function get_file_hashes( $file_path ) {
