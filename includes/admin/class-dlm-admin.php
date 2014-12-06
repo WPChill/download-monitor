@@ -13,7 +13,6 @@ class DLM_Admin {
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct() {
 		include_once( 'class-dlm-admin-writepanels.php' );
@@ -43,8 +42,9 @@ class DLM_Admin {
 	public function ms_files_protection( $rewrite ) {
 	    global $wp_rewrite;
 
-	    if ( ! is_multisite() )
-	    	return $rewrite;
+	    if ( ! is_multisite() ) {
+		    return $rewrite;
+	    }
 
 		$rule  = "\n# DLM Rules - Protect Files from ms-files.php\n\n";
 		$rule .= "<IfModule mod_rewrite.c>\n";
@@ -225,8 +225,9 @@ class DLM_Admin {
 
 		foreach ( $this->settings as $section ) {
 			foreach ( $section[1] as $option ) {
-				if ( isset( $option['std'] ) )
+				if ( isset( $option['std'] ) ) {
 					add_option( $option['name'], $option['std'] );
+				}
 				register_setting( 'download-monitor', $option['name'] );
 			}
 		}
@@ -243,23 +244,29 @@ class DLM_Admin {
 
 		wp_enqueue_style( 'download_monitor_menu_css', $download_monitor->plugin_url() . '/assets/css/menu.css' );
 
-		if ( $hook == 'index.php' )
+		if ( $hook == 'index.php' ) {
 			wp_enqueue_style( 'download_monitor_dashboard_css', $download_monitor->plugin_url() . '/assets/css/dashboard.css' );
+		}
 
 		$enqueue = false;
 
-		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' )
-			if ( ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == 'dlm_download' ) || ( ! empty( $post->post_type ) && 'dlm_download' === $post->post_type ) )
+		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' ) {
+			if ( ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == 'dlm_download' ) || ( ! empty( $post->post_type ) && 'dlm_download' === $post->post_type ) ) {
 				$enqueue = true;
+			}
+		}
 
-		if ( strstr( $hook, 'dlm_download_page' ) )
+		if ( strstr( $hook, 'dlm_download_page' ) ) {
 			$enqueue = true;
+		}
 
-		if ( $hook == 'edit-tags.php' && strstr( $_GET['taxonomy'], 'dlm_download' ) )
+		if ( $hook == 'edit-tags.php' && strstr( $_GET['taxonomy'], 'dlm_download' ) ) {
 			$enqueue = true;
+		}
 
-        if ( ! $enqueue )
-        	return;
+        if ( ! $enqueue ) {
+	        return;
+        }
 
 		wp_enqueue_script( 'jquery-blockui', $download_monitor->plugin_url() . '/assets/js/blockui.min.js', array( 'jquery' ), '2.61' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
@@ -275,13 +282,22 @@ class DLM_Admin {
 	 * @return void
 	 */
 	public function admin_menu() {
-		if ( get_option( 'dlm_enable_logging' ) == 1 )
-			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'manage_options', 'download-monitor-logs', array( $this, 'log_viewer' ) );
+		if ( get_option( 'dlm_enable_logging' ) == 1 ) {
+			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'manage_options', 'download-monitor-logs', array(
+					$this,
+					'log_viewer'
+				) );
+		}
+
 
 		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download-monitor' ), __( 'Settings', 'download-monitor' ), 'manage_options', 'download-monitor-settings', array( $this, 'settings_page' ) );
 
-		if ( apply_filters( 'dlm_show_addons_page', true ) )
-			add_submenu_page(  'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download-monitor' ),  __( 'Add-ons', 'download-monitor' ) , 'manage_options', 'dlm-addons', array( $this, 'addons_page' ) );
+		if ( apply_filters( 'dlm_show_addons_page', true ) ) {
+			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download-monitor' ), __( 'Add-ons', 'download-monitor' ), 'manage_options', 'dlm-addons', array(
+					$this,
+					'addons_page'
+				) );
+		}
 	}
 
 	/**
@@ -335,7 +351,9 @@ class DLM_Admin {
 
 							echo '<tr valign="top"><th scope="row"><label for="setting-' . $option['name'] . '">' . $option['label'] . '</a></th><td>';
 
-							if ( ! isset( $option['type'] ) ) $option['type'] = '';
+							if ( ! isset( $option['type'] ) ) {
+								$option['type'] = '';
+							}
 
 							$value = get_option( $option['name'] );
 
@@ -345,35 +363,40 @@ class DLM_Admin {
 
 									?><label><input id="setting-<?php echo $option['name']; ?>" name="<?php echo $option['name']; ?>" type="checkbox" value="1" <?php checked( '1', $value ); ?> /> <?php echo $option['cb_label']; ?></label><?php
 
-									if ( $option['desc'] )
+									if ( $option['desc'] ) {
 										echo ' <p class="description">' . $option['desc'] . '</p>';
+									}
 
 								break;
 								case "textarea" :
 
 									?><textarea id="setting-<?php echo $option['name']; ?>" class="large-text" cols="50" rows="3" name="<?php echo $option['name']; ?>" <?php echo $placeholder; ?>><?php echo esc_textarea( $value ); ?></textarea><?php
 
-									if ( $option['desc'] )
+									if ( $option['desc'] ) {
 										echo ' <p class="description">' . $option['desc'] . '</p>';
+									}
 
 								break;
 								case "select" :
 
 									?><select id="setting-<?php echo $option['name']; ?>" class="regular-text" name="<?php echo $option['name']; ?>"><?php
-										foreach( $option['options'] as $key => $name )
+										foreach( $option['options'] as $key => $name ) {
 											echo '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $name ) . '</option>';
+										}
 									?></select><?php
 
-									if ( $option['desc'] )
+									if ( $option['desc'] ) {
 										echo ' <p class="description">' . $option['desc'] . '</p>';
+									}
 
 								break;
 								default :
 
 									?><input id="setting-<?php echo $option['name']; ?>" class="regular-text" type="text" name="<?php echo $option['name']; ?>" value="<?php esc_attr_e( $value ); ?>" <?php echo $placeholder; ?> /><?php
 
-									if ( $option['desc'] )
+									if ( $option['desc'] ) {
 										echo ' <p class="description">' . $option['desc'] . '</p>';
+									}
 
 								break;
 
@@ -420,8 +443,9 @@ class DLM_Admin {
 	 * @return void
 	 */
 	function log_viewer() {
-		if ( ! class_exists( 'WP_List_Table' ) )
+		if ( ! class_exists( 'WP_List_Table' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+		}
 
 		require_once( 'class-dlm-logging-list-table.php' );
 
@@ -445,8 +469,9 @@ class DLM_Admin {
 	public function delete_logs() {
 		global $wpdb;
 
-		if ( empty( $_GET['dlm_delete_logs'] ) )
+		if ( empty( $_GET['dlm_delete_logs'] ) ) {
 			return;
+		}
 
 		check_admin_referer( 'delete_logs' );
 
@@ -459,8 +484,9 @@ class DLM_Admin {
 	public function export_logs() {
 		global $wpdb;
 
-		if ( empty( $_GET['dlm_download_logs'] ) )
+		if ( empty( $_GET['dlm_download_logs'] ) ) {
 			return;
+		}
 
 		$filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
         $filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
@@ -502,15 +528,17 @@ class DLM_Admin {
 				$download = new DLM_Download( $item->download_id );
         		$download->set_version( $item->version_id );
 
-        		if ( $download->exists() && $download->get_the_filename() )
-        			$row[]  = $download->get_the_filename();
-        		else
-        			$row[]  = '-';
+        		if ( $download->exists() && $download->get_the_filename() ) {
+			        $row[] = $download->get_the_filename();
+		        } else {
+			        $row[] = '-';
+		        }
 
 				$row[]  = $item->user_id;
 
-				if ( $item->user_id )
-        			$user = get_user_by( 'id', $item->user_id );
+				if ( $item->user_id ) {
+					$user = get_user_by( 'id', $item->user_id );
+				}
 
         		if ( ! isset( $user ) || ! $user ) {
 	        		$row[]  = '-';
