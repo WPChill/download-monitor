@@ -116,6 +116,7 @@ Admin hits are not counted, log out and try!
 * Delete dlm_file_version_ids_ transient on save.
 * Plugin is now initiated at plugins_loaded.
 * Code standards correction.
+* Removed the $GLOBALS['dlm_logging'] global.
 
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.

@@ -41,6 +41,26 @@ class WP_DLM {
 	private $_inline_js;
 
 	/**
+	 * Get the plugin file
+	 *
+	 * @access public
+	 * @static
+	 * @return String
+	 */
+	public static function get_plugin_file() {
+		return __FILE__;
+	}
+
+	/**
+	 * A static method that will setup the autoloader
+	 */
+	private static function setup_autoloader() {
+		require_once( plugin_dir_path( self::get_plugin_file() ) . 'includes/class-dlm-autoloader.php' );
+		$autoloader = new DLM_Autoloader( plugin_dir_path( self::get_plugin_file() ) . 'includes/' );
+		spl_autoload_register( array( $autoloader, 'load' ) );
+	}
+
+	/**
 	 * __construct function.
 	 *
 	 * @access public
@@ -51,19 +71,39 @@ class WP_DLM {
 		// Define constants
 		define( 'DLM_VERSION', '1.5.0' );
 
+		// Setup autoloader
+		self::setup_autoloader();
+
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
 
 		// Include required files
+
+		// Setup admin classes
 		if ( is_admin() ) {
-			include_once( 'includes/admin/class-dlm-admin.php' );
+			//include_once( 'includes/admin/class-dlm-admin.php' );
+
+			// Main Admin Class
+			new DLM_Admin();
+
+			// Customize Admin CPT views
+			new DLM_Admin_CPT();
+
+			// Admin Write Panels
+			new DLM_Admin_Writepanels();
+
+			// Admin Media Browser
+			new DLM_Admin_Media_Browser();
+
+			// Admin Media Insert
+			new DLM_Admin_Media_Insert();
 		}
 
 		if ( defined( 'DOING_AJAX' ) ) {
-			include_once( 'includes/class-dlm-ajax-handler.php' );
+			new WP_DLM_Ajax_Handler();
 		}
 
-		if ( get_option( 'dlm_enable_logging' ) == 1 ) {
+		if ( 1 == get_option( 'dlm_enable_logging', 0 ) ) {
 			include_once( 'includes/class-dlm-logging.php' );
 		}
 

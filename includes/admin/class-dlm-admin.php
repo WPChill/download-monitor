@@ -17,10 +17,6 @@ class DLM_Admin {
 	 * @access public
 	 */
 	public function __construct() {
-		include_once( 'class-dlm-admin-writepanels.php' );
-		include_once( 'class-dlm-admin-media-browser.php' );
-		include_once( 'class-dlm-admin-cpt.php' );
-		include_once( 'class-dlm-admin-insert.php' );
 
 		// Directory protection
 		add_filter( 'mod_rewrite_rules', array( $this, 'ms_files_protection' ) );
@@ -71,7 +67,7 @@ class DLM_Admin {
 	 */
 	public function upload_dir( $pathdata ) {
 
-		if ( isset( $_POST['type'] ) && $_POST['type'] == 'dlm_download' ) {
+		if ( isset( $_POST['type'] ) && 'dlm_download' === $_POST['type'] ) {
 			if ( empty( $pathdata['subdir'] ) ) {
 				$pathdata['path']   = $pathdata['path'] . '/dlm_uploads';
 				$pathdata['url']    = $pathdata['url'] . '/dlm_uploads';
@@ -304,17 +300,17 @@ class DLM_Admin {
 		if ( apply_filters( 'dlm_show_addons_page', true ) ) {
 			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download-monitor' ), __( 'Add-ons', 'download-monitor' ), 'manage_options', 'dlm-addons', array(
 				$this,
-				'addons_page'
+				'extensions_page'
 			) );
 		}
 	}
 
 	/**
-	 * Output addons page
+	 * Output extensions page
 	 */
-	public function addons_page() {
-		$addons = include( 'class-dlm-addons.php' );
-		$addons->output();
+	public function extensions_page() {
+		$admin_extensions = new DLM_Admin_Extensions();
+		$admin_extensions->output();
 	}
 
 	/**
@@ -599,5 +595,3 @@ class DLM_Admin {
 		include_once( 'class-dlm-admin-dashboard.php' );
 	}
 }
-
-new DLM_Admin();

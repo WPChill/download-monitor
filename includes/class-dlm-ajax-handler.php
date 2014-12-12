@@ -13,7 +13,6 @@ class WP_DLM_Ajax_Handler {
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_download_monitor_remove_file', array( $this, 'remove_file' ) );
@@ -145,5 +144,3 @@ class WP_DLM_Ajax_Handler {
 		die();
 	}
 }
-
-new WP_DLM_Ajax_Handler();

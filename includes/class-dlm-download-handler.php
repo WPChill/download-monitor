@@ -161,7 +161,8 @@ class DLM_Download_Handler {
 	 */
 	private function log( $type = '', $status = '', $message = '', $download, $version ) {
 		if ( function_exists( 'dlm_create_log' ) ) {
-			dlm_create_log( $type, $status, $message, $download, $version );
+			$logging = new DLM_Logging();
+			$logging->create_log( $type, $status, $message, $download, $version );
 		}
 	}
 

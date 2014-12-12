@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * DLM_Admin_CPT class.
+ *
+ * Add/modify CPT screen
+ *
  */
 class DLM_Admin_CPT {
 
@@ -353,5 +356,3 @@ class DLM_Admin_CPT {
 	}
 
 }
-
-new DLM_Admin_CPT();

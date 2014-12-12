@@ -13,7 +13,6 @@ class DLM_Admin_Media_Browser {
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct() {
 		add_action( 'media_upload_downloadable_file_browser', array( $this, 'media_browser' ) );
@@ -119,5 +118,3 @@ class DLM_Admin_Media_Browser {
 	}
 
 }
-
-new DLM_Admin_Media_Browser();

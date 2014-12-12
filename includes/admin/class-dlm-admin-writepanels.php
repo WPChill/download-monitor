@@ -13,7 +13,6 @@ class DLM_Admin_Writepanels {
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
@@ -541,5 +540,3 @@ class DLM_Admin_Writepanels {
 		do_action( 'dlm_save_metabox', $post_id, $post );
 	}
 }
-
-new DLM_Admin_Writepanels();

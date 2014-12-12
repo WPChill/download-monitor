@@ -6,13 +6,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * DLM_Admin_Insert class.
  */
-class DLM_Admin_Insert {
+class DLM_Admin_Media_Insert {
 
 	/**
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct() {
 		add_action( 'media_buttons', array( $this, 'media_buttons' ), 20 );
@@ -21,6 +20,8 @@ class DLM_Admin_Insert {
 
 	/**
 	 * media_buttons function.
+	 *
+	 * @param String $editor_id
 	 *
 	 * @access public
 	 * @return void
@@ -382,5 +383,3 @@ class DLM_Admin_Insert {
 		echo '</body></html>';
 	}
 }
-
-new DLM_Admin_Insert();
