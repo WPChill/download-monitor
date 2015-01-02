@@ -185,8 +185,6 @@ class WP_DLM {
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ) );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
-		add_action( 'wp_footer', array( $this, 'output_inline_js' ), 25 );
-		add_action( 'admin_footer', array( $this, 'output_inline_js' ), 25 );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 	}
 
@@ -494,34 +492,6 @@ class WP_DLM {
 	}
 
 	/** Helper functions *****************************************************/
-
-	/**
-	 * Enqueue JS to be added to the footer.
-	 *
-	 * @access public
-	 *
-	 * @param mixed $code
-	 *
-	 * @return void
-	 */
-	public function add_inline_js( $code ) {
-		$this->_inline_js .= "\n" . $code . "\n";
-	}
-
-	/**
-	 * Output enqueued JS
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function output_inline_js() {
-		if ( $this->_inline_js ) {
-			echo "<!-- Download Monitor JavaScript-->\n<script type=\"text/javascript\">\njQuery(document).ready(function($) {";
-			echo $this->_inline_js;
-			echo "});\n</script>\n";
-			$this->_inline_js = '';
-		}
-	}
 
 	/**
 	 * Protect the upload dir on activation.
