@@ -437,7 +437,7 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
-		global $wpdb, $download_monitor;
+		global $wpdb;
 
 		// Update options
 		$_featured      = ( isset( $_POST['_featured'] ) ) ? 'yes' : 'no';
@@ -499,16 +499,19 @@ class DLM_Admin_Writepanels {
 					'post_date'   => date( 'Y-m-d H:i:s', $date )
 				), array( 'ID' => $file_id ) );
 
+				// File Manager
+				$file_manager = new DLM_File_Manager();
+
 				// Update post meta
 				update_post_meta( $file_id, '_version', $file_version );
-				update_post_meta( $file_id, '_files', $download_monitor->json_encode_files( $files ) );
+				update_post_meta( $file_id, '_files', $file_manager->json_encode_files( $files ) );
 
 				$filesize       = - 1;
 				$main_file_path = current( $files );
 
 				if ( $main_file_path ) {
-					$filesize = $download_monitor->get_filesize( $main_file_path );
-					$hashes   = $download_monitor->get_file_hashes( $main_file_path );
+					$filesize = $file_manager->get_file_size( $main_file_path );
+					$hashes   = $file_manager->get_file_hashes( $main_file_path );
 					update_post_meta( $file_id, '_filesize', $filesize );
 					update_post_meta( $file_id, '_md5', $hashes['md5'] );
 					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
