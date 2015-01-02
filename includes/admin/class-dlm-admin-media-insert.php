@@ -33,23 +33,7 @@ class DLM_Admin_Media_Insert {
 			return;
 		}
 
-		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '">' . __( 'Insert Download', 'download-monitor' ) . '</a>';
-
-		ob_start();
-		?>
-		jQuery(function(){
-		// Browse for file
-		jQuery('body').on('click', 'a.add_download', function(e){
-
-		tb_show('<?php esc_attr_e( 'Insert Download', 'download-monitor' ); ?>', 'media-upload.php?post_id=<?php echo $post->ID; ?>&amp;type=add_download&amp;from=wpdlm01&amp;TB_iframe=true&amp;height=200');
-
-		return false;
-		});
-		});
-		<?php
-
-		$js_code = ob_get_clean();
-		$download_monitor->add_inline_js( $js_code );
+		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '" rel="' . $post->ID . '" >' . __( 'Insert Download', 'download-monitor' ) . '</a>';
 	}
 
 	/**
@@ -59,10 +43,9 @@ class DLM_Admin_Media_Insert {
 	 * @return void
 	 */
 	public function media_browser() {
-		global $download_monitor;
 
 		// Enqueue scripts and styles for panel
-		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
+		wp_enqueue_style( 'download_monitor_admin_css', WP_DLM::get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		wp_enqueue_script( 'common' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
@@ -128,17 +111,23 @@ class DLM_Admin_Media_Insert {
 						throw new Exception( __( 'Error: File was not created.', 'download-monitor' ) );
 					}
 
+					// File Manager
+					$file_manager = new DLM_File_Manager();
+
 					// Meta
 					update_post_meta( $file_id, '_version', $version );
-					update_post_meta( $file_id, '_filesize', $download_monitor->get_filesize( $url ) );
-					update_post_meta( $file_id, '_files', $download_monitor->json_encode_files( array( $url ) ) );
+					update_post_meta( $file_id, '_filesize', $file_manager->get_file_size( $url ) );
+					update_post_meta( $file_id, '_files', $file_manager->json_encode_files( array( $url ) ) );
 
-					$hashes = $download_monitor->get_file_hashes( $url );
+					// Hashes
+					$hashes = $file_manager->get_file_hashes( $url );
 
+					// Set hashes
 					update_post_meta( $file_id, '_md5', $hashes['md5'] );
 					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
 					update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
 
+					// Success message
 					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download-monitor' ) . '</p></div>';
 
 				} else {
