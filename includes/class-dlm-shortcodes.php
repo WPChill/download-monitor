@@ -10,12 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Shortcodes {
 
 	/**
-	 * __construct function.
-	 *
-	 * @access public
-	 * @return void
+	 * Setup the shortcodes
 	 */
-	public function __construct() {
+	public function setup() {
 		add_shortcode( 'total_downloads', array( $this, 'total_downloads' ) );
 		add_shortcode( 'total_files', array( $this, 'total_files' ) );
 		add_shortcode( 'download', array( $this, 'download' ) );
@@ -148,9 +145,7 @@ class DLM_Shortcodes {
 	 * @access public
 	 *
 	 * @param mixed $atts
-	 * @param mixed $content
 	 *
-	 * @return void
 	 */
 	public function download_data( $atts ) {
 		global $download_monitor;
@@ -374,5 +369,3 @@ class DLM_Shortcodes {
 		return ob_get_clean();
 	}
 }
-
-new DLM_Shortcodes();

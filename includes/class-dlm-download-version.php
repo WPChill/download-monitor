@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
 /**
  * DLM_Download_Version class.
  */
@@ -9,7 +13,6 @@ class DLM_Download_Version {
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct( $version_id, $download_id ) {
 		$this->id          = absint( $version_id );
@@ -64,7 +67,7 @@ class DLM_Download_Version {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $file
+	 * @param string $file_path
 	 *
 	 * @return string
 	 */
@@ -83,7 +86,7 @@ class DLM_Download_Version {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $file
+	 * @param string $file_path
 	 *
 	 * @return array
 	 */

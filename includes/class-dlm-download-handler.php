@@ -13,12 +13,9 @@ class DLM_Download_Handler {
 	private $ep_value;
 
 	/**
-	 * __construct function.
-	 *
-	 * @access public
-	 * @return void
+	 * Setup Download Handler class
 	 */
-	public function __construct() {
+	public function setup() {
 		$this->endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
 		$this->ep_value = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
 
@@ -27,6 +24,7 @@ class DLM_Download_Handler {
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
 		add_action( 'dlm_can_download', array( $this, 'check_access' ), 10, 2 );
 	}
+
 
 	/**
 	 * Check access (hooked into dlm_can_download) checks if the download is members only and enfoces log in.
@@ -429,5 +427,3 @@ class DLM_Download_Handler {
 		return $status;
 	}
 }
-
-$GLOBALS['DLM_Download_Handler'] = new DLM_Download_Handler();

@@ -12,12 +12,9 @@ class DLM_Admin {
 	private $settings;
 
 	/**
-	 * __construct function.
-	 *
-	 * @access public
+	 * Setup actions etc.
 	 */
-	public function __construct() {
-
+	public function setup() {
 		// Directory protection
 		add_filter( 'mod_rewrite_rules', array( $this, 'ms_files_protection' ) );
 		add_filter( 'upload_dir', array( $this, 'upload_dir' ) );

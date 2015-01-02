@@ -69,7 +69,7 @@ class WP_DLM {
 		global $wpdb;
 
 		// Define constants
-		define( 'DLM_VERSION', '1.5.0' );
+		define( 'DLM_VERSION', '1.6.0-beta1' );
 
 		// Setup autoloader
 		self::setup_autoloader();
@@ -77,14 +77,13 @@ class WP_DLM {
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
 
-		// Include required files
-
 		// Setup admin classes
 		if ( is_admin() ) {
 			//include_once( 'includes/admin/class-dlm-admin.php' );
 
-			// Main Admin Class
-			new DLM_Admin();
+			// Setup Main Admin Class
+			$dlm_admin = new DLM_Admin();
+			$dlm_admin->setup();
 
 			// Customize Admin CPT views
 			new DLM_Admin_CPT();
@@ -99,19 +98,25 @@ class WP_DLM {
 			new DLM_Admin_Media_Insert();
 		}
 
+		// Setup AJAX handler if doing AJAX
 		if ( defined( 'DOING_AJAX' ) ) {
 			new DLM_Ajax_Handler();
 		}
 
-		if ( 1 == get_option( 'dlm_enable_logging', 0 ) ) {
-			include_once( 'includes/class-dlm-logging.php' );
-		}
-
+		// Functions
 		include_once( 'includes/download-functions.php' );
-		include_once( 'includes/class-dlm-download.php' );
-		include_once( 'includes/class-dlm-download-version.php' );
-		include_once( 'includes/class-dlm-download-handler.php' );
-		include_once( 'includes/class-dlm-shortcodes.php' );
+
+		// Setup DLM Download Handler
+		$download_handler = new DLM_Download_Handler();
+		$download_handler->setup();
+
+		// Setup shortcodes
+		$dlm_shortcodes = new DLM_Shortcodes();
+		$dlm_shortcodes->setup();
+
+		/**
+		 * @todo move all activation triggers to separate fle
+		 */
 
 		// Activation
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
@@ -130,13 +135,25 @@ class WP_DLM {
 				$this,
 				'directory_protection'
 			), 10 );
+
+		// @todo Remove use of GLOBAL
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
 				$GLOBALS['DLM_Download_Handler'],
 				'add_endpoint'
 			), 10 );
+
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), 'flush_rewrite_rules', 11 );
 
-		// Actions
+		// Setup actions
+		$this->setup_actions();
+	}
+
+	/**
+	 * Setup actions
+	 *
+	 * @todo See what really needs to be in the main class
+	 */
+	private function setup_actions() {
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
@@ -456,6 +473,8 @@ class WP_DLM {
 
 	/**
 	 * get_template_part function.
+	 *
+	 * @todo move this to own template loader
 	 *
 	 * @access public
 	 *
