@@ -101,10 +101,11 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function list_files() {
-		global $download_monitor;
 
+		// Check Nonce
 		check_ajax_referer( 'list-files', 'security' );
 
+		// Check user rights
 		if ( ! current_user_can( 'manage_downloads' ) ) {
 			return false;
 		}
@@ -112,7 +113,12 @@ class DLM_Ajax_Handler {
 		$path = esc_attr( stripslashes( $_POST['path'] ) );
 
 		if ( $path ) {
-			$files = $download_monitor->list_files( $path );
+
+			// The File Manager
+			$file_manager = new DLM_File_Manager();
+
+			// List all files
+			$files = $file_manager->list_files( $path );
 
 			foreach ( $files as $found_file ) {
 
