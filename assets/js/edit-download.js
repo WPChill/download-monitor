@@ -64,7 +64,7 @@ jQuery( function ( $ ) {
         jQuery( '.download_monitor_files' ).block( {
             message: null,
             overlayCSS: {
-                background: '#fff url(<?php echo $download_monitor->plugin_url(); ?>/assets/images/ajax-loader.gif) no-repeat center',
+                background: '#fff url(' + $( '#dlm-plugin-url' ).val() + '/assets/images/ajax-loader.gif) no-repeat center',
                 opacity: 0.6
             }
         } );
@@ -112,7 +112,7 @@ jQuery( function ( $ ) {
                 jQuery( el ).block( {
                     message: null,
                     overlayCSS: {
-                        background: '#fff url(<?php echo $download_monitor->plugin_url(); ?>/assets/images/ajax-loader.gif) no-repeat center',
+                        background: '#fff url(' + $( '#dlm-plugin-url' ).val() + '/assets/images/ajax-loader.gif) no-repeat center',
                         opacity: 0.6
                     }
                 } );
