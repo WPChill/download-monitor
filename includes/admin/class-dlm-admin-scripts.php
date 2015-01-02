@@ -21,7 +21,7 @@ class DLM_Admin_Scripts {
 
 		if ( $pagenow == 'post.php' || $pagenow == 'post-new.php' ) {
 
-			// Load PL JS
+			// Enqueue Edit Post JS
 			wp_enqueue_script(
 				'dlm_edit_post',
 				plugins_url( '/assets/js/edit-post' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
@@ -33,6 +33,21 @@ class DLM_Admin_Scripts {
 			wp_localize_script( 'dlm_edit_post', 'dlm_strings', $this->get_strings( 'edit-post' ) );
 
 		}
+
+		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'] ) {
+
+			// Enqueue Settings JS
+			wp_enqueue_script(
+				'dlm_settings',
+				plugins_url( '/assets/js/settings' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION
+			);
+
+		}
+
+
+
 	}
 
 	/**

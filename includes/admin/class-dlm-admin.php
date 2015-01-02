@@ -425,25 +425,6 @@ class DLM_Admin {
 			</form>
 		</div>
 		<?php
-
-		$download_monitor->add_inline_js( "
-			jQuery('.nav-tab-wrapper a').click(function() {
-				jQuery('.settings_panel').hide();
-				jQuery('.nav-tab-active').removeClass('nav-tab-active');
-				jQuery( jQuery(this).attr('href') ).show();
-				jQuery(this).addClass('nav-tab-active');
-				return false;
-			});
-			jQuery('#setting-dlm_default_template').change(function(){
-				if ( jQuery(this).val() == 'custom' ) {
-					jQuery('#setting-dlm_custom_template').closest('tr').show();
-				} else {
-					jQuery('#setting-dlm_custom_template').closest('tr').hide();
-				}
-			}).change();
-
-			jQuery('.nav-tab-wrapper a:first').click();
-		" );
 	}
 
 	/**
