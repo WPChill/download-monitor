@@ -43,12 +43,34 @@ class WP_DLM {
 	/**
 	 * Get the plugin file
 	 *
-	 * @access public
 	 * @static
+	 *
 	 * @return String
 	 */
 	public static function get_plugin_file() {
 		return __FILE__;
+	}
+
+	/**
+	 * Get plugin path
+	 *
+	 * @static
+	 *
+	 * @return string
+	 */
+	public static function get_plugin_path() {
+		return plugin_dir_path( self::get_plugin_file() );
+	}
+
+	/**
+	 * Get plugin URL
+	 *
+	 * @static
+	 *
+	 * @return string
+	 */
+	public static function get_plugin_url() {
+		return plugins_url( basename( plugin_dir_path( self::get_plugin_file() ) ), basename( self::get_plugin_file() ) );
 	}
 
 	/**
@@ -191,7 +213,7 @@ class WP_DLM {
 	 * @return void
 	 */
 	public function frontend_scripts() {
-		wp_enqueue_style( 'dlm-frontend', $this->plugin_url() . '/assets/css/frontend.css' );
+		wp_enqueue_style( 'dlm-frontend', self::get_plugin_url() . '/assets/css/frontend.css' );
 	}
 
 	/**
@@ -433,12 +455,12 @@ class WP_DLM {
 				'rewrite'             => false,
 				'query_var'           => false,
 				'supports'            => apply_filters( 'dlm_cpt_dlm_download_supports', array(
-						'title',
-						'editor',
-						'excerpt',
-						'thumbnail',
-						'custom-fields'
-					) ),
+					'title',
+					'editor',
+					'excerpt',
+					'thumbnail',
+					'custom-fields'
+				) ),
 				'has_archive'         => false,
 				'show_in_nav_menus'   => false
 			) )
@@ -471,87 +493,6 @@ class WP_DLM {
 	}
 
 	/** Helper functions *****************************************************/
-
-	/**
-	 * get_template_part function.
-	 *
-	 * @todo move this to own template loader
-	 *
-	 * @access public
-	 *
-	 * @param mixed $slug
-	 * @param string $name (default: '')
-	 *
-	 * @return void
-	 */
-	public function get_template_part( $slug, $name = '', $custom_dir = '' ) {
-		$template = '';
-
-		// Look in yourtheme/slug-name.php and yourtheme/download-monitor/slug-name.php
-		if ( $name ) {
-			$template = locate_template( array( "{$slug}-{$name}.php", "download-monitor/{$slug}-{$name}.php" ) );
-		}
-
-		// Get default slug-name.php
-		if ( ! $template && $name && file_exists( $this->plugin_path() . "/templates/{$slug}-{$name}.php" ) ) {
-			$template = $this->plugin_path() . "/templates/{$slug}-{$name}.php";
-		}
-
-		// If a custom path was defined, check that next
-		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
-			$template = trailingslashit( $custom_dir ) . "{$slug}-{$name}.php";
-		}
-
-		// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/download-monitor/slug.php
-		if ( ! $template ) {
-			$template = locate_template( array( "{$slug}.php", "download-monitor/{$slug}.php" ) );
-		}
-
-		// If a custom path was defined, check that next
-		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
-			$template = trailingslashit( $custom_dir ) . "{$slug}.php";
-		}
-
-		// Get default slug-name.php
-		if ( ! $template && file_exists( $this->plugin_path() . "/templates/{$slug}.php" ) ) {
-			$template = $this->plugin_path() . "/templates/{$slug}.php";
-		}
-
-		// Allow 3rd party plugin filter template file from their plugin
-		$template = apply_filters( 'dlm_get_template_part', $template, $slug, $name );
-
-		if ( $template ) {
-			load_template( $template, false );
-		}
-	}
-
-	/**
-	 * Get the plugin url
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function plugin_url() {
-		if ( $this->plugin_url ) {
-			return $this->plugin_url;
-		}
-
-		return $this->plugin_url = plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) );
-	}
-
-	/**
-	 * Get the plugin path
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function plugin_path() {
-		if ( $this->plugin_path ) {
-			return $this->plugin_path;
-		}
-
-		return $this->plugin_path = plugin_dir_path( __FILE__ );
-	}
 
 	/**
 	 * Enqueue JS to be added to the footer.
@@ -820,6 +761,52 @@ class WP_DLM {
 
 		return $sym;
 	}
+
+	/**
+	 * Deprecated methods below
+	 */
+
+	/**
+	 * get_template_part function.
+	 *
+	 * @deprecated 1.6.0
+	 *
+	 * @access public
+	 *
+	 * @param mixed $slug
+	 * @param string $name (default: '')
+	 *
+	 * @return void
+	 */
+	public function get_template_part( $slug, $name = '', $custom_dir = '' ) {
+		DLM_Debug_Logger::deprecated( __METHOD__ );
+		$template_handler = new DLM_Template_Handler();
+		$template_handler->get_template_part( $slug, $name, $custom_dir );
+	}
+
+	/**
+	 * Get the plugin url
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function plugin_url() {
+		DLM_Debug_Logger::deprecated( __METHOD__ );
+
+		return self::get_plugin_url();
+	}
+
+	/**
+	 * Get the plugin path
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function plugin_path() {
+		DLM_Debug_Logger::deprecated( __METHOD__ );
+		return self::get_plugin_path();
+	}
+
 }
 
 function __download_monitor_main() {
