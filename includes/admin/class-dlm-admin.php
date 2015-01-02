@@ -40,7 +40,6 @@ class DLM_Admin {
 	 * @return void
 	 */
 	public function ms_files_protection( $rewrite ) {
-		global $wp_rewrite;
 
 		if ( ! is_multisite() ) {
 			return $rewrite;
@@ -592,6 +591,6 @@ class DLM_Admin {
 	 * @return void
 	 */
 	public function admin_dashboard() {
-		include_once( 'class-dlm-admin-dashboard.php' );
+		new DLM_Admin_Dashboard();
 	}
 }

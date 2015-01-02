@@ -98,5 +98,3 @@ class DLM_Admin_Dashboard {
 	}
 
 }
-
-new DLM_Admin_Dashboard();
