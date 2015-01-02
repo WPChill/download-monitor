@@ -19,7 +19,10 @@
  * @return void
  */
 function dlm_create_log( $type = '', $status = '', $message = '', $download, $version ) {
-	
+
+	// Deprecated notice
+	_deprecated_function( __FUNCTION__, '1.6.0', 'DLM_Logging->create_log()' );
+
 	// Logging object
 	$logging = new DLM_Logging();
 
