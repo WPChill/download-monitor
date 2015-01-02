@@ -111,12 +111,18 @@ Admin hits are not counted, log out and try!
 == Changelog ==
 
 = TRUNK =
+* Plugin is now initiated at plugins_loaded.
+* Implemented auto loader.
+* Classes are no longer initiated at bottom of class file but whenever an object is needed.
+* Code standards corrections.
+* Introduced Template_Handler. Loading of template parts should be done through this class.
+* Removed $GLOBALS['dlm_logging'] global.
+* Removed $GLOBALS['DLM_Download_Handler'] global.
+* Removed internal use of $download_monitor global.
+* Deprecated 'dlm_create_log' function.
+* Delete dlm_file_version_ids_ transient on save.
 * dlm_download_headers filter.
 * dlm_get_template_part filter.
-* Delete dlm_file_version_ids_ transient on save.
-* Plugin is now initiated at plugins_loaded.
-* Code standards correction.
-* Removed the $GLOBALS['dlm_logging'] global.
 
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.
