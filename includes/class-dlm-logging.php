@@ -10,6 +10,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Logging {
 
 	/**
+	 * Check if logging is enabled
+	 *
+	 * @return bool
+	 */
+	public function is_logging_enabled() {
+		return (1 == get_option( 'dlm_enable_logging', 0 ));
+	}
+
+	/**
 	 * create_log function.
 	 *
 	 * @access public
@@ -77,23 +86,3 @@ class DLM_Logging {
 	}
 }
 
-$GLOBALS['dlm_logging'] = new DLM_Logging();
-
-/**
- * dlm_create_log function.
- *
- * @access public
- *
- * @param string $type (default: '')
- * @param string $status (default: '')
- * @param string $message (default: '')
- * @param mixed $download
- * @param mixed $version
- *
- * @return void
- */
-function dlm_create_log( $type = '', $status = '', $message = '', $download, $version ) {
-	global $dlm_logging;
-
-	$dlm_logging->create_log( $type, $status, $message, $download, $version );
-}

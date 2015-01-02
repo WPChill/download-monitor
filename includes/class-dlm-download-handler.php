@@ -160,10 +160,18 @@ class DLM_Download_Handler {
 	 * Create a log if logging is enabled
 	 */
 	private function log( $type = '', $status = '', $message = '', $download, $version ) {
-		if ( function_exists( 'dlm_create_log' ) ) {
-			$logging = new DLM_Logging();
+
+		// Logging object
+		$logging = new DLM_Logging();
+
+		// Check if logging is enabled
+		if( $logging->is_logging_enabled() ) {
+
+			// Create log
 			$logging->create_log( $type, $status, $message, $download, $version );
+
 		}
+
 	}
 
 	/**
