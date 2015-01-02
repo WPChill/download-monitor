@@ -5,9 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /**
- * WP_DLM_Ajax_Handler class.
+ * DLM_Ajax_Handler class.
  */
-class WP_DLM_Ajax_Handler {
+class DLM_Ajax_Handler {
 
 	/**
 	 * __construct function.

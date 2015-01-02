@@ -100,7 +100,7 @@ class WP_DLM {
 		}
 
 		if ( defined( 'DOING_AJAX' ) ) {
-			new WP_DLM_Ajax_Handler();
+			new DLM_Ajax_Handler();
 		}
 
 		if ( 1 == get_option( 'dlm_enable_logging', 0 ) ) {
