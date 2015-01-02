@@ -55,9 +55,9 @@ class DLM_Shortcodes {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $atts
+	 * @param array $atts
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function download( $atts, $content = '' ) {
 		global $download_monitor, $dlm_download;
@@ -83,11 +83,11 @@ class DLM_Shortcodes {
 
 			if ( $download->exists() ) {
 
-				if ( $version ) {
+				if ( isset( $version ) && 0 != $version ) {
 					$version_id = $dlm_download->get_version_id( $version );
 				}
 
-				if ( $version_id ) {
+				if ( isset( $version_id ) && 0 != $version_id ) {
 					$dlm_download->set_version( $version_id );
 				}
 
@@ -114,15 +114,18 @@ class DLM_Shortcodes {
 				while ( $downloads->have_posts() ) {
 					$downloads->the_post();
 
-					if ( $version ) {
+					if ( isset( $version ) && 0 != $version ) {
 						$version_id = $dlm_download->get_version_id( $version );
 					}
 
-					if ( $version_id ) {
+					if ( isset( $version_id ) && 0 != $version_id ) {
 						$dlm_download->set_version( $version_id );
 					}
 
-					$download_monitor->get_template_part( 'content-download', $template );
+					// Template handler
+					$template_handler = new DLM_Template_Handler();
+
+					$template_handler->get_template_part( 'content-download', $template );
 				}
 
 			} else {
@@ -131,7 +134,7 @@ class DLM_Shortcodes {
 
 			wp_reset_postdata();
 
-			if ( $autop === 'true' || $autop === true ) {
+			if ( 'true' === $autop || true === $autop ) {
 				return wpautop( ob_get_clean() );
 			} else {
 				return ob_get_clean();
@@ -144,8 +147,9 @@ class DLM_Shortcodes {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $atts
+	 * @param array $atts
 	 *
+	 * @return mixed
 	 */
 	public function download_data( $atts ) {
 		global $download_monitor;
