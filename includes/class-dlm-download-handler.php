@@ -13,12 +13,17 @@ class DLM_Download_Handler {
 	private $ep_value;
 
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
+		$this->ep_value = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
+	}
+
+	/**
 	 * Setup Download Handler class
 	 */
 	public function setup() {
-		$this->endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
-		$this->ep_value = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
-
 		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );

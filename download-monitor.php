@@ -120,27 +120,28 @@ class WP_DLM {
 
 		// Activation
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
-				$this,
-				'init_user_roles'
-			), 10 );
+			$this,
+			'init_user_roles'
+		), 10 );
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
-				$this,
-				'init_taxonomy'
-			), 10 );
+			$this,
+			'init_taxonomy'
+		), 10 );
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
-				$this,
-				'install_tables'
-			), 10 );
+			$this,
+			'install_tables'
+		), 10 );
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
-				$this,
-				'directory_protection'
-			), 10 );
+			$this,
+			'directory_protection'
+		), 10 );
 
 		// @todo Remove use of GLOBAL
+		$dlm_download_handler = new DLM_Download_Handler();
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array(
-				$GLOBALS['DLM_Download_Handler'],
-				'add_endpoint'
-			), 10 );
+			$dlm_download_handler,
+			'add_endpoint'
+		), 10 );
 
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), 'flush_rewrite_rules', 11 );
 
