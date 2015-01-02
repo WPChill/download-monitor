@@ -94,7 +94,7 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function download_files() {
-		global $post, $download_monitor;
+		global $post;
 
 		wp_nonce_field( 'save_meta_data', 'dlm_nonce' );
 		?>

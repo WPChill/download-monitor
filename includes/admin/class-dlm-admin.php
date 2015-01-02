@@ -238,7 +238,7 @@ class DLM_Admin {
 	 * @return void
 	 */
 	public function admin_enqueue_scripts( $hook ) {
-		global $download_monitor, $post;
+		global $post;
 
 		wp_enqueue_style( 'download_monitor_menu_css', WP_DLM::get_plugin_url() . '/assets/css/menu.css' );
 
@@ -266,11 +266,11 @@ class DLM_Admin {
 			return;
 		}
 
-		wp_enqueue_script( 'jquery-blockui', $download_monitor->plugin_url() . '/assets/js/blockui.min.js', array( 'jquery' ), '2.61' );
+		wp_enqueue_script( 'jquery-blockui', WP_DLM::get_plugin_url() . '/assets/js/blockui.min.js', array( 'jquery' ), '2.61' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_style( 'jquery-ui-style', ( is_ssl() ) ? 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' : 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
-		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
+		wp_enqueue_style( 'download_monitor_admin_css', WP_DLM::get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 	}
 
 	/**
@@ -316,8 +316,6 @@ class DLM_Admin {
 	 * @return void
 	 */
 	public function settings_page() {
-		global $download_monitor;
-
 		$this->init_settings();
 		?>
 		<div class="wrap">

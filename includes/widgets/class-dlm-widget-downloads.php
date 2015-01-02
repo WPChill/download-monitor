@@ -49,8 +49,8 @@ class DLM_Widget_Downloads extends WP_Widget {
 	 * @return void
 	 */
 	function widget( $args, $instance ) {
-		global $download_monitor;
 
+		// Extract the arguments
 		extract( $args );
 
 		$title          = isset( $instance['title'] ) ? apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) : __( 'Featured Downloads', 'download-monitor' );
@@ -103,12 +103,15 @@ class DLM_Widget_Downloads extends WP_Widget {
 
 			echo apply_filters( 'dlm_widget_downloads_list_start', '<ul class="dlm-downloads">' );
 
+			// Template handler
+			$template_handler = new DLM_Template_Handler();
+
 			while ( $r->have_posts() ) {
 				$r->the_post();
 
 				echo apply_filters( 'dlm_widget_downloads_list_item_start', '<li>' );
 
-				$download_monitor->get_template_part( 'content-download', $format );
+				$template_handler->get_template_part( 'content-download', $format );
 
 				echo apply_filters( 'dlm_widget_downloads_list_item_end', '</li>' );
 			}

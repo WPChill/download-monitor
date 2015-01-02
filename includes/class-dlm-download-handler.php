@@ -187,7 +187,6 @@ class DLM_Download_Handler {
 	 * @return void
 	 */
 	private function trigger( $download ) {
-		global $download_monitor;
 
 		$version    = $download->get_file_version();
 		$file_paths = $version->mirrors;
@@ -236,7 +235,11 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		list( $file_path, $remote_file ) = $download_monitor->parse_file_path( $file_path );
+		// File Manager
+		$file_manager = new DLM_File_Manager();
+
+		// Parse file path
+		list( $file_path, $remote_file ) = $file_manager->parse_file_path( $file_path );
 
 		$this->download_headers( $file_path, $download, $version );
 

@@ -154,12 +154,10 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function get_the_image( $size = 'full' ) {
-		global $download_monitor;
-
 		if ( has_post_thumbnail( $this->id ) ) {
 			return get_the_post_thumbnail( $this->id, $size );
 		} else {
-			return '<img alt="Placeholder" class="wp-post-image" src="' . apply_filters( 'dlm_placeholder_image_src', $download_monitor->plugin_url() . '/assets/images/placeholder.png' ) . '" />';
+			return '<img alt="Placeholder" class="wp-post-image" src="' . apply_filters( 'dlm_placeholder_image_src', WP_DLM::get_plugin_url() . '/assets/images/placeholder.png' ) . '" />';
 		}
 	}
 

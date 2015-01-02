@@ -214,7 +214,7 @@ class DLM_Admin_CPT {
 	 * @return void
 	 */
 	public function custom_columns( $column ) {
-		global $post, $download_monitor;
+		global $post;
 
 		$download = new DLM_Download( $post->ID );
 		$file     = $download->get_file_version();
@@ -284,7 +284,7 @@ class DLM_Admin_CPT {
 				break;
 			case "featured" :
 				if ( $download->is_featured() ) {
-					echo '<img src="' . $download_monitor->plugin_url() . '/assets/images/on.png" alt="yes" />';
+					echo '<img src="' . WP_DLM::get_plugin_url() . '/assets/images/on.png" alt="yes" />';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}

@@ -72,9 +72,11 @@ class DLM_Download_Version {
 	 * @return string
 	 */
 	public function get_filesize( $file_path ) {
-		global $download_monitor;
+		// File Manager
+		$file_manager = new DLM_File_Manager();
 
-		$filesize = $download_monitor->get_filesize( $file_path );
+		// Get the file size
+		$filesize = $file_manager->get_filesize( $file_path );
 
 		update_post_meta( $this->id, '_filesize', $filesize );
 
@@ -91,9 +93,12 @@ class DLM_Download_Version {
 	 * @return array
 	 */
 	public function get_file_hashes( $file_path ) {
-		global $download_monitor;
 
-		$hashes = $download_monitor->get_file_hashes( $file_path );
+		// File Manager
+		$file_manager = new DLM_File_Manager();
+
+		// Get the hashes
+		$hashes = $file_manager->get_file_hashes( $file_path );
 
 		update_post_meta( $this->id, '_md5', $hashes['md5'] );
 		update_post_meta( $this->id, '_sha1', $hashes['sha1'] );

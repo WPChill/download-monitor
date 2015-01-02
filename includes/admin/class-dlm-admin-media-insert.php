@@ -27,9 +27,9 @@ class DLM_Admin_Media_Insert {
 	 * @return void
 	 */
 	public function media_buttons( $editor_id = 'content' ) {
-		global $download_monitor, $post;
+		global $post;
 
-		if ( empty( $post ) || $post->post_type == 'dlm_download' ) {
+		if ( empty( $post ) || 'dlm_download' === $post->post_type ) {
 			return;
 		}
 

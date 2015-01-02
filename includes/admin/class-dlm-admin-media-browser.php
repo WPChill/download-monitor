@@ -25,13 +25,15 @@ class DLM_Admin_Media_Browser {
 	 * @return void
 	 */
 	public function media_browser() {
-		global $download_monitor;
+		// File Manager
+		$file_manager = new DLM_File_Manager();
 
-		$files = $download_monitor->list_files( ABSPATH, 1 );
+		// Files
+		$files = $file_manager->list_files( ABSPATH, 1 );
 
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Browse for a file', 'download-monitor' ) . '</title>';
 
-		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
+		wp_enqueue_style( 'download_monitor_admin_css', WP_DLM::get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		do_action( 'admin_print_styles' );
 		do_action( 'admin_print_scripts' );
 		do_action( 'admin_head' );
