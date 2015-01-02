@@ -99,7 +99,10 @@ class WP_DLM {
 
 		// Setup admin classes
 		if ( is_admin() ) {
-			//include_once( 'includes/admin/class-dlm-admin.php' );
+
+			// Setup admin scripts
+			$admin_scripts = new DLM_Admin_Scripts();
+			$admin_scripts->setup();
 
 			// Setup Main Admin Class
 			$dlm_admin = new DLM_Admin();
