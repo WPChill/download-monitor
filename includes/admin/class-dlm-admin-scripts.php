@@ -17,7 +17,7 @@ class DLM_Admin_Scripts {
 	 * Enqueue admin scripts
 	 */
 	public function enqueue_scripts() {
-		global $pagenow;
+		global $pagenow, $post;
 
 		if ( $pagenow == 'post.php' || $pagenow == 'post-new.php' ) {
 
@@ -30,7 +30,24 @@ class DLM_Admin_Scripts {
 			);
 
 			// Make JavaScript strings translatable
-			wp_localize_script( 'dlm_edit_post', 'dlm_strings', $this->get_strings( 'edit-post' ) );
+			wp_localize_script( 'dlm_edit_post', 'dlm_ep_strings', $this->get_strings( 'edit-post' ) );
+
+			// Enqueue Downloadable Files Metabox JS
+			// @todo only enqueue if post type is
+			if ( ( $pagenow == 'post.php' && isset( $post ) && 'dlm_download' === $post->post_type ) || ( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] ) ) {
+
+				// Enqueue Edit Download JS
+				wp_enqueue_script(
+					'dlm_edit_download',
+					plugins_url( '/assets/js/edit-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+					array( 'jquery' ),
+					DLM_VERSION
+				);
+
+				// Make JavaScript strings translatable
+				wp_localize_script( 'dlm_edit_download', 'dlm_ed_strings', $this->get_strings( 'edit-download' ) );
+			}
+
 
 		}
 
@@ -47,7 +64,6 @@ class DLM_Admin_Scripts {
 		}
 
 
-
 	}
 
 	/**
@@ -62,6 +78,12 @@ class DLM_Admin_Scripts {
 			case 'edit-post':
 				$strings = array(
 					'insert_download' => __( 'Insert Download', 'download-monitor' )
+				);
+				break;
+			case 'edit-download':
+				$strings = array(
+					'confirm_delete' => __( 'Are you sure you want to delete this file ? ', 'download - monitor' ),
+					'browse_file' => __( 'Browse for a file', 'download - monitor' ),
 				);
 				break;
 			default:
