@@ -13,9 +13,8 @@ class DLM_Download {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $id
+	 * @param int $id
 	 *
-	 * @return void
 	 */
 	public function __construct( $id ) {
 		$this->id         = absint( $id );
