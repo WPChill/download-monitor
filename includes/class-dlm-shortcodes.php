@@ -60,7 +60,7 @@ class DLM_Shortcodes {
 	 * @return string
 	 */
 	public function download( $atts, $content = '' ) {
-		global $download_monitor, $dlm_download;
+		global $dlm_download;
 
 		extract( shortcode_atts( array(
 			'id'         => '',
@@ -152,7 +152,6 @@ class DLM_Shortcodes {
 	 * @return mixed
 	 */
 	public function download_data( $atts ) {
-		global $download_monitor;
 
 		extract( shortcode_atts( array(
 			'id'         => '',
@@ -169,7 +168,7 @@ class DLM_Shortcodes {
 
 		$download = new DLM_Download( $id );
 
-		if ( $version ) {
+		if ( isset( $version ) && 0 != $version ) {
 			$version_id = $download->get_version_id( $version );
 		}
 
@@ -237,7 +236,7 @@ class DLM_Shortcodes {
 	 * @return void
 	 */
 	public function downloads( $atts ) {
-		global $download_monitor, $dlm_max_num_pages;
+		global $dlm_max_num_pages;
 
 		extract( shortcode_atts( array(
 			// Query args
@@ -346,6 +345,9 @@ class DLM_Shortcodes {
 		$downloads         = new WP_Query( $args );
 		$dlm_max_num_pages = $downloads->max_num_pages;
 
+		// Template handler
+		$template_handler = new DLM_Template_Handler();
+
 		if ( $downloads->have_posts() ) : ?>
 
 			<?php echo html_entity_decode( $loop_start ); ?>
@@ -354,7 +356,7 @@ class DLM_Shortcodes {
 
 				<?php echo html_entity_decode( $before ); ?>
 
-				<?php $download_monitor->get_template_part( 'content-download', $template ); ?>
+				<?php $template_handler->get_template_part( 'content-download', $template ); ?>
 
 				<?php echo html_entity_decode( $after ); ?>
 
@@ -363,7 +365,7 @@ class DLM_Shortcodes {
 			<?php echo html_entity_decode( $loop_end ); ?>
 
 			<?php if ( $paginate ) {
-				$download_monitor->get_template_part( 'pagination', '' );
+				$template_handler->get_template_part( 'pagination', '' );
 			} ?>
 
 		<?php endif;
