@@ -119,6 +119,7 @@ Admin hits are not counted, log out and try!
 * Removed $GLOBALS['dlm_logging'] global.
 * Removed $GLOBALS['DLM_Download_Handler'] global.
 * Removed internal use of $download_monitor global.
+# Moved all inline JavaScript to separate JavaScript files.
 * Deprecated 'dlm_create_log' function.
 * Delete dlm_file_version_ids_ transient on save.
 * dlm_download_headers filter.
