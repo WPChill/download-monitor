@@ -129,6 +129,9 @@ class WP_DLM {
 		// Functions
 		include_once( 'includes/download-functions.php' );
 
+		// Deprecated
+		include_once( 'includes/deprecated.php' );
+
 		// Setup DLM Download Handler
 		$download_handler = new DLM_Download_Handler();
 		$download_handler->setup();
