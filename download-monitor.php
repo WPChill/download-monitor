@@ -148,6 +148,14 @@ class WP_DLM {
 		$widget_manager = new DLM_Widget_Manager();
 		$widget_manager->setup();
 
+		// Setup Taxonomies
+		$taxonomy_manager = new DLM_Taxonomy_Manager();
+		$taxonomy_manager->setup();
+
+		// Setup Post Types
+		$post_type_manager = new DLM_Post_Type_Manager();
+		$post_type_manager->setup();
+
 		/**
 		 * @todo move all activation triggers to separate fle
 		 */
