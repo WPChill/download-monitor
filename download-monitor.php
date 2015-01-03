@@ -94,6 +94,10 @@ class WP_DLM {
 		// Setup autoloader
 		self::setup_autoloader();
 
+		// Load plugin text domain
+		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
+		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
 
@@ -140,6 +144,10 @@ class WP_DLM {
 		$dlm_shortcodes = new DLM_Shortcodes();
 		$dlm_shortcodes->setup();
 
+		// Setup Widgets
+		$widget_manager = new DLM_Widget_Manager();
+		$widget_manager->setup();
+
 		/**
 		 * @todo move all activation triggers to separate fle
 		 */
@@ -182,13 +190,11 @@ class WP_DLM {
 	 */
 	private function setup_actions() {
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
-		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
 		add_action( 'init', array( $this, 'init_taxonomy' ) );
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ) );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
-		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 	}
 
 	/**
@@ -216,17 +222,6 @@ class WP_DLM {
 	 */
 	public function frontend_scripts() {
 		wp_enqueue_style( 'dlm-frontend', self::get_plugin_url() . '/assets/css/frontend.css' );
-	}
-
-	/**
-	 * Localisation
-	 *
-	 * @access private
-	 * @return void
-	 */
-	public function load_plugin_textdomain() {
-		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
-		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	/**
@@ -482,18 +477,6 @@ class WP_DLM {
 		);
 	}
 
-	/**
-	 * register_widgets function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function register_widgets() {
-		include_once( 'includes/widgets/class-dlm-widget-downloads.php' );
-
-		register_widget( 'DLM_Widget_Downloads' );
-	}
-
 	/** Helper functions *****************************************************/
 
 	/**
@@ -530,11 +513,7 @@ class WP_DLM {
 		}
 	}
 
-	/**
-	 *
-	 * Deprecated methods below
-	 *
-	 */
+	/** Deprecated methods **************************************************/
 
 	/**
 	 * get_template_part function.
