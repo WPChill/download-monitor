@@ -280,25 +280,30 @@ class DLM_Admin {
 	 * @return void
 	 */
 	public function admin_menu() {
-		if ( get_option( 'dlm_enable_logging' ) == 1 ) {
+
+		// Logging object
+		$logging = new DLM_Logging();
+
+		// Logs page
+		if ( $logging->is_logging_enabled() ) {
 			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'manage_options', 'download-monitor-logs', array(
 				$this,
 				'log_viewer'
 			) );
 		}
 
-
+		// Settings page
 		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download-monitor' ), __( 'Settings', 'download-monitor' ), 'manage_options', 'download-monitor-settings', array(
 				$this,
 				'settings_page'
 			) );
 
-		if ( apply_filters( 'dlm_show_addons_page', true ) ) {
-			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download-monitor' ), __( 'Add-ons', 'download-monitor' ), 'manage_options', 'dlm-addons', array(
-				$this,
-				'extensions_page'
-			) );
-		}
+		// Extensions page
+		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download-monitor' ), __( 'Add-ons', 'download-monitor' ), 'manage_options', 'dlm-addons', array(
+			$this,
+			'extensions_page'
+		) );
+
 	}
 
 	/**
