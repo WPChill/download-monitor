@@ -113,7 +113,6 @@ Admin hits are not counted, log out and try!
 = TRUNK =
 * Plugin is now initiated at plugins_loaded.
 * Implemented auto loader.
-* Fixed a bug in shortcode download where orderby=download_count wasn't working.
 * Classes are no longer initiated at bottom of class file but whenever an object is needed.
 * Code standards corrections.
 * Introduced Template_Handler. Loading of template parts should be done through this class.
@@ -124,9 +123,11 @@ Admin hits are not counted, log out and try!
 * Moved all install related code to installer class.
 * Moved main plugin class to it's own file.
 * Deprecated 'dlm_create_log' function.
+* Fixed a bug in shortcode download where orderby=download_count wasn't working.
+* Fixed a bug where downloads didn't work with default WP permalink structure.
 * Delete dlm_file_version_ids_ transient on save.
-* dlm_download_headers filter.
-* dlm_get_template_part filter.
+* Added dlm_download_headers filter.
+* Added dlm_get_template_part filter.
 
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.
