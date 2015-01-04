@@ -73,7 +73,7 @@ class DLM_Download_Handler {
 	}
 
 	/**
-	 * Listen for download requets and trigger downloading.
+	 * Listen for download requests and trigger downloading.
 	 *
 	 * @access public
 	 * @return void
@@ -85,7 +85,7 @@ class DLM_Download_Handler {
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
 		}
 
-		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && strstr( $wp->request, $this->endpoint . '/' ) ) {
+		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && ( ( null === $wp->request ) || ( null !== $wp->request && strstr( $wp->request, $this->endpoint . '/' ) ) ) ) {
 
 			// Prevent caching when endpoint is set
 			define( 'DONOTCACHEPAGE', true );
