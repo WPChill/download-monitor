@@ -113,6 +113,7 @@ Admin hits are not counted, log out and try!
 = TRUNK =
 * Plugin is now initiated at plugins_loaded.
 * Implemented auto loader.
+* Fixed a bug in shortcode download where orderby=download_count wasn't working.
 * Classes are no longer initiated at bottom of class file but whenever an object is needed.
 * Code standards corrections.
 * Introduced Template_Handler. Loading of template parts should be done through this class.
