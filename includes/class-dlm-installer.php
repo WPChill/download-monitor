@@ -78,7 +78,7 @@ class DLM_Installer {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$dlm_tables = "
-	CREATE TABLE {$wpdb->download_log} (
+	CREATE TABLE `" . $wpdb->prefix . "download_log` (
 	  ID bigint(20) NOT NULL auto_increment,
 	  type varchar(200) NOT NULL default 'download',
 	  user_id bigint(20) NOT NULL,
