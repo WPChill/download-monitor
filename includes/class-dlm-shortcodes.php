@@ -296,7 +296,7 @@ class DLM_Shortcodes {
 			'post_status'    => 'publish',
 			'orderby'        => $orderby,
 			'order'          => $order,
-			'$meta_key'      => $meta_key,
+			'meta_key'       => $meta_key,
 			'post__in'       => $post__in,
 			'post__not_in'   => $post__not_in,
 			'meta_query'     => array()
