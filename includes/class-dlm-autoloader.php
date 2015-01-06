@@ -40,8 +40,10 @@ class DLM_Autoloader {
 			// Check if we need to extend the class path
 			if ( strpos( $class_name, 'dlm_admin' ) === 0 ) {
 				$file_path .= 'admin/';
-			}else if ( strpos( $class_name, 'dlm_widget' ) === 0 ) {
+			} else if ( strpos( $class_name, 'dlm_widget' ) === 0 ) {
 				$file_path .= 'widgets/';
+			} else if ( strpos( $class_name, 'dlm_product' ) === 0 ) {
+				$file_path .= 'product/';
 			}
 
 			// Append file name to clas path
