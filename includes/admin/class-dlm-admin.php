@@ -299,7 +299,7 @@ class DLM_Admin {
 			) );
 
 		// Extensions page
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Add-ons', 'download-monitor' ), __( 'Add-ons', 'download-monitor' ), 'manage_options', 'dlm-addons', array(
+		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Extensions', 'download-monitor' ), __( 'Extensions', 'download-monitor' ), 'manage_options', 'dlm-extensions', array(
 			$this,
 			'extensions_page'
 		) );
