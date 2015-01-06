@@ -18,41 +18,56 @@ class DLM_Admin_Extensions {
 	 */
 	public function output() {
 
-		/*
-		if ( false === ( $addons = get_transient( 'download_monitor_addons_html' ) ) ) {
+		delete_transient( 'dlm_extension_json' );
 
-			$raw_addons = wp_remote_get( 'http://mikejolley.com/projects/download-monitor/add-ons/' );
+		// Load extension json
+		if ( false === ( $extension_json = get_transient( 'dlm_extension_json' ) ) ) {
 
-			if ( ! is_wp_error( $raw_addons ) ) {
+			// Extension request
+			$extension_request = wp_remote_get( 'https://download-monitor.com/?dlm-extensions=true', array( 'sslverify' => false ) );
 
-				$raw_addons = wp_remote_retrieve_body( $raw_addons );
+			if ( ! is_wp_error( $extension_request ) ) {
 
-				// Get Products
-				$dom = new DOMDocument();
-				libxml_use_internal_errors( true );
-				$dom->loadHTML( $raw_addons );
+				// The extension json from server
+				$extension_json = wp_remote_retrieve_body( $extension_request );
 
-				$xpath = new DOMXPath( $dom );
-				$tags  = $xpath->query( '//ul[@class="items"]' );
-				foreach ( $tags as $tag ) {
-					$addons = $tag->ownerDocument->saveXML( $tag );
-					break;
-				}
-
-				$addons = wp_kses_post( $addons );
-
-				if ( $addons ) {
-					set_transient( 'download_monitor_addons_html', $addons, 60 * 60 * 24 * 7 );
-				} // Cached for a week
+				// Set Transient
+				set_transient( 'dlm_extension_json', $extension_json, DAY_IN_SECONDS );
 			}
 		}
-		*/
 
 		?>
 		<div class="wrap dlm_addons_wrap">
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 			<h2><?php _e( 'Download Monitor Extensions', 'download-monitor' ); ?></h2>
-			<?php echo 'Redo this'; ?>
+			<?php
+
+			if ( false !== $extension_json ) {
+				$extensions = json_decode( $extension_json );
+				
+				if ( count( $extensions ) > 0 ) {
+					echo "<p>Extend Download Monitor with it's powerful free and paid extensions.</p>" . PHP_EOL;
+					echo '<div class="theme-browser dlm_extensions">';
+					foreach ( $extensions as $extension ) {
+						echo '<div class="theme dlm_extension">';
+							echo '<a href="' . $extension->url . '" target="_blank">';
+								echo '<div class="dlm_extension_img_wrapper"><img src="' . $extension->image . '" alt="' . $extension->name . '" /></div>' . PHP_EOL;
+								echo '<h3>' . $extension->name . '</h3>' . PHP_EOL;
+								echo '<p>' . $extension->desc . '</p>';
+								echo '<div class="product_footer">';
+									echo '<span class="loop_price">' . ( ( $extension->price > 0 ) ? '$' . $extension->price : 'FREE' ) . '</span>';
+									echo '<span class="loop_more">Get This Extension</span>';
+								echo '</div>';
+							echo '</a>';
+						echo '</div>';
+					}
+					echo '</div>';
+				}
+
+			} else {
+				echo "<p>Couldn't load extensions, please try again later.</p>" . PHP_EOL;
+			}
+			?>
 		</div>
 	<?php
 	}
