@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * WP_DLM class.
  *
- * Main Class which inits the CPT and plugin
+ * Main plugin class
  */
 class WP_DLM {
 
@@ -132,8 +132,6 @@ class WP_DLM {
 
 	/**
 	 * Setup actions
-	 *
-	 * @todo See what really needs to be in the main class
 	 */
 	private function setup_actions() {
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
@@ -141,6 +139,27 @@ class WP_DLM {
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ) );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
+		add_action( 'admin_init', array( $this, 'load_extensions' ) );
+	}
+
+	public function load_extensions() {
+
+		// Load the registered extensions
+		$registered_extensions = apply_filters( 'dlm_extensions', array() );
+
+		error_log( print_r( $registered_extensions, 1 ), 0 );
+
+		// Check if we've got extensions
+		if ( count( $registered_extensions ) > 0 ) {
+
+			// Don't block local requests
+			add_filter( 'block_local_requests', '__return_false' );
+
+			// Load products
+			DLM_Product_Manager::get()->load_products( $registered_extensions );
+
+		}
+
 	}
 
 	/**
