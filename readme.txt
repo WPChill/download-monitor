@@ -68,7 +68,7 @@ The manual installation method involves downloading the plugin and uploading it 
 
 = I used this before, so why is this version 1? =
 
-Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](http://mikejolley.com/projects/download-monitor/add-ons/legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
+Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](https://www.download-monitor.com/extensions/dlm-legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
 
 Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
 
