@@ -9,7 +9,17 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://www.download-monitor.com/?wc-api=wp_plugin_licencing_activation_api';
+	const STORE_URL = 'https://www.download-monitor.com/?wc-api=';
+
+	/**
+	 * Activation endpoint
+	 */
+	const ENDPOINT_ACTIVATION = 'wp_plugin_licencing_activation_api';
+
+	/**
+	 * Update endpoint
+	 */
+	const ENDPOINT_UPDATE = 'wp_plugin_licencing_update_api';
 
 	/**
 	 * @var String
@@ -112,7 +122,7 @@ class DLM_Product {
 			}
 
 			// Do activate request
-			$request = wp_remote_get( self::STORE_URL . '&' . http_build_query( array(
+			$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query( array(
 					'email'          => $license->get_email(),
 					'licence_key'    => $license->get_key(),
 					'api_product_id' => $this->product_id,
@@ -172,7 +182,7 @@ class DLM_Product {
 			}
 
 			// The Request
-			$request = wp_remote_get( self::STORE_URL . '&' . http_build_query( array(
+			$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query( array(
 					'api_product_id' => $this->product_id,
 					'licence_key'    => $license->get_key(),
 					'request'        => 'deactivate',
@@ -229,7 +239,7 @@ class DLM_Product {
 		$current_ver = $check_for_updates_data->checked[ $this->plugin_name ];
 
 		// The request
-		$request = wp_remote_get( self::STORE_URL . '&' . http_build_query( array(
+		$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_UPDATE . '&' . http_build_query( array(
 				'request'        => 'pluginupdatecheck',
 				'plugin_name'    => $this->plugin_name,
 				'version'        => $current_ver,
@@ -299,7 +309,7 @@ class DLM_Product {
 		$plugin_info = get_site_transient( 'update_plugins' );
 		$current_ver = isset( $plugin_info->checked[ $this->plugin_name ] ) ? $plugin_info->checked[ $this->plugin_name ] : '';
 
-		$request = wp_remote_get( $this->api_url . '&' . http_build_query( array(
+		$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_UPDATE . '&' . http_build_query( array(
 				'request'        => 'plugininformation',
 				'plugin_name'    => $this->plugin_name,
 				'version'        => $current_ver,
