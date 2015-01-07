@@ -102,12 +102,12 @@ class DLM_Product {
 		try {
 
 			// Check License key
-			if ( empty( $license['key'] ) ) {
+			if ( '' === $license->get_key() ) {
 				throw new Exception( 'Please enter your license key.' );
 			}
 
 			// Check license email
-			if ( empty( $license['email'] ) ) {
+			if ( '' === $license->get_email() ) {
 				throw new Exception( 'Please enter the email address associated with your license.' );
 			}
 
@@ -136,7 +136,7 @@ class DLM_Product {
 				$this->set_license( $license );
 
 				// Return Message
-				return 'License successfully activated.';
+				return array( 'result' => 'success', 'message' => __( 'License successfully activated.', 'download-monitor' ) );
 
 			} elseif ( $activate_results === false ) {
 				throw new Exception( 'Connection failed to the Licence Key API server. Try again later.' );
@@ -152,7 +152,7 @@ class DLM_Product {
 			$this->set_license( $license );
 
 			// Return error message
-			return $e->getMessage();
+			return array( 'result' => 'failed', 'message' => $e->getMessage() );
 		}
 	}
 
@@ -167,7 +167,7 @@ class DLM_Product {
 		try {
 
 			// Check License key
-			if ( empty( $license['key'] ) ) {
+			if ( '' === $license->get_key() ) {
 				throw new Exception( "Can't deactivate license without a license key." );
 			}
 
@@ -190,13 +190,15 @@ class DLM_Product {
 			/** @todo check result * */
 
 			// Set new license status
-			$license->set_status( 'inactive ' );
+			$license->set_status( 'inactive' );
 			$this->set_license( $license );
+
+			return array( 'result' => 'success' );
 
 		} catch ( Exception $e ) {
 
 			// Return error message
-			return $e->getMessage();
+			return array( 'result' => 'failed', 'message' => $e->getMessage() );
 		}
 
 	}
@@ -208,8 +210,6 @@ class DLM_Product {
 	 */
 	public function check_for_updates( $check_for_updates_data ) {
 
-		error_log( print_r( $check_for_updates_data->checked, 1 ), 0 );
-
 		// Get license
 		$license = $this->get_license();
 
@@ -217,6 +217,8 @@ class DLM_Product {
 		if ( empty( $check_for_updates_data->checked ) ) {
 			return $check_for_updates_data;
 		}
+
+		error_log( print_r( $check_for_updates_data->checked, 1 ), 0 );
 
 		// Only check for data if license is activated
 		if ( true !== $license->is_active() ) {

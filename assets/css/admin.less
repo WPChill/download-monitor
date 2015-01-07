@@ -608,38 +608,70 @@ table.wp-list-table {
 
 .dlm_extensions {
   padding: 15px 0;
+  overflow: hidden;
   div.dlm_extension {
+    cursor: auto !important;
     a {
       color: #444;
       text-decoration: none;
-      .dlm_extension_img_wrapper {
-        width: 100%;
-        background: #419CCB;
-        text-align: center;
-        img {
-          max-width: 100%;
-          margin: 0 auto;
-        }
+    }
+    .dlm_extension_img_wrapper {
+      width: 100%;
+      background: #419CCB;
+      text-align: center;
+      img {
+        max-width: 100%;
+        margin: 0 auto;
       }
-      h3 {
-        padding: 0 20px;
+    }
+    h3 {
+      padding: 0 20px;
 
+    }
+    p.extension-desc {
+      min-height: 85px;
+      padding: 0 20px;
+    }
+    .product_footer {
+      padding: 0 20px 15px;
+      .loop_price {
+        font-weight: bold;
       }
-      p {
-        min-height: 85px;
-        padding: 0 20px;
+      .loop_more {
+        color: #459ac9;
+        text-decoration: none;
+        font-weight: bold;
+        float: right;
       }
-      .product_footer {
-        padding: 0 20px 15px;
-        .loop_price {
-          font-weight: bold;
-        }
-        .loop_more {
-          color: #459ac9;
-          text-decoration: none;
-          font-weight: bold;
-          float: right;
-        }
+    }
+    .extension_license {
+//      padding: 0 10% 10%;
+      padding: 0 20px 20px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      p.license-status {
+        padding: 5px 0;
+        margin: 5px 0;
+        background: red;
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #fff;
+        text-align: center;
+      }
+      p.license-status.active {
+        background: #008000;
+      }
+      input {
+        width: 100%;
+        margin: 7px 0;
+        padding: 7px;
+      }
+      a.button-primary {
+        width: 100%;
+        margin: 5px auto 0;
+        color: #fff;
+        text-align: center;
       }
     }
   }

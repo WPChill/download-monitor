@@ -67,6 +67,15 @@ class DLM_Product_Manager {
 
 	}
 
+	/**
+	 * Get products
+	 *
+	 * @return array<DLM_Product>
+	 */
+	public function get_products() {
+		return $this->products;
+	}
+
 
 	/**
 	 * Handle errors from the API

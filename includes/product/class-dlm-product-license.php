@@ -35,7 +35,7 @@ class DLM_Product_License {
 		// Load license data from DB
 		$db_license = wp_parse_args( get_option( $this->product_id . '-license', array() ), array(
 			'key'    => '',
-			'email'  => '',
+			'email'  => get_option( 'admin_email', '' ),
 			'status' => 'inactive'
 		) );
 

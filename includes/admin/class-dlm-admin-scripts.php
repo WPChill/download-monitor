@@ -33,7 +33,6 @@ class DLM_Admin_Scripts {
 			wp_localize_script( 'dlm_edit_post', 'dlm_ep_strings', $this->get_strings( 'edit-post' ) );
 
 			// Enqueue Downloadable Files Metabox JS
-			// @todo only enqueue if post type is
 			if ( ( $pagenow == 'post.php' && isset( $post ) && 'dlm_download' === $post->post_type ) || ( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] ) ) {
 
 				// Enqueue Edit Download JS
@@ -51,7 +50,7 @@ class DLM_Admin_Scripts {
 
 		}
 
-		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'] ) {
+		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && ( 'download-monitor-settings' === $_GET['page'] || 'dlm-extensions' === $_GET['page'] ) ) {
 
 			// Enqueue Settings JS
 			wp_enqueue_script(
@@ -60,6 +59,17 @@ class DLM_Admin_Scripts {
 				array( 'jquery' ),
 				DLM_VERSION
 			);
+
+
+			if ( 'dlm-extensions' === $_GET['page'] ) {
+				// Enqueue Extesions JS
+				wp_enqueue_script(
+					'dlm_extensions',
+					plugins_url( '/assets/js/extensions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+					array( 'jquery' ),
+					DLM_VERSION
+				);
+			}
 
 		}
 
@@ -83,7 +93,7 @@ class DLM_Admin_Scripts {
 			case 'edit-download':
 				$strings = array(
 					'confirm_delete' => __( 'Are you sure you want to delete this file ? ', 'download - monitor' ),
-					'browse_file' => __( 'Browse for a file', 'download - monitor' ),
+					'browse_file'    => __( 'Browse for a file', 'download - monitor' ),
 				);
 				break;
 			default:
