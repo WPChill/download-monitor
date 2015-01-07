@@ -25,7 +25,7 @@ class DLM_Admin_Extensions {
 
 		// Load extension json
 		if ( false === ( $extension_json = get_transient( 'dlm_extension_json' ) ) ) {
-			
+
 			// Extension request
 			$extension_request = wp_remote_get( 'https://download-monitor.com/?dlm-extensions=true' );
 
