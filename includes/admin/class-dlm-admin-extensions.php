@@ -17,7 +17,7 @@ class DLM_Admin_Extensions {
 	 * Handles output of the reports page in admin.
 	 */
 	public function output() {
-
+		
 		// Load extension json
 		if ( false === ( $extension_json = get_transient( 'dlm_extension_json' ) ) ) {
 
@@ -43,9 +43,17 @@ class DLM_Admin_Extensions {
 			if ( false !== $extension_json ) {
 
 				// Get all extensions
-				$extensions = json_decode( $extension_json );
+				$response = json_decode( $extension_json );
 
-				if ( count( $extensions ) > 0 ) {
+				// Display message if it's there
+				if ( isset( $response->message ) && '' !== $response->message ) {
+					echo '<div id="message" class="updated">' . $response->message . '</div>' . PHP_EOL;
+				}
+
+				if ( count( $response ) > 0 && isset( $response->extensions ) && count( $response->extensions ) > 0 ) {
+
+					// Extensions
+					$extensions = $response->extensions;
 
 					// Get products
 					$products = DLM_Product_Manager::get()->get_products();
@@ -59,7 +67,6 @@ class DLM_Admin_Extensions {
 							unset( $extensions[ $extension_key ] );
 						}
 					}
-
 
 					echo "<p>Extend Download Monitor with it's powerful free and paid extensions.</p>" . PHP_EOL;
 					?>
@@ -75,23 +82,41 @@ class DLM_Admin_Extensions {
 
 						echo '<div id="available-extensions" class="settings_panel">' . PHP_EOL;
 						echo '<div class="theme-browser dlm_extensions">';
+
 						foreach ( $extensions as $extension ) {
+
+							$sale = false;
+							if ( $extension->price > 0 ) {
+								$price_display = '$' . $extension->price;
+								if ( '' != $extension->sale_price && $extension->sale_price > 0 ) {
+									$price_display = '<strike>$' . $extension->price . '</strike> $' . $extension->sale_price;
+									$sale = true;
+								}
+							} else {
+								$price_display = 'FREE';
+							}
+
+							//$price_display = ( ( $extension->price > 0 ) ? '$' . $extension->price : 'FREE' );
+
 							echo '<div class="theme dlm_extension">';
 								echo '<a href="' . $extension->url . '" target="_blank">';
 									echo '<div class="dlm_extension_img_wrapper"><img src="' . $extension->image . '" alt="' . $extension->name . '" /></div>' . PHP_EOL;
 										echo '<h3>' . $extension->name . '</h3>' . PHP_EOL;
 										echo '<p class="extension-desc">' . $extension->desc . '</p>';
 										echo '<div class="product_footer">';
-											echo '<span class="loop_price">' . ( ( $extension->price > 0 ) ? '$' . $extension->price : 'FREE' ) . '</span>';
+											echo '<span class="loop_price' . ( ( $sale ) ? ' sale' : '' ) . '">' . $price_display . '</span>';
 											echo '<span class="loop_more">Get This Extension</span>';
 										echo '</div>';
 								echo '</a>';
 							echo '</div>';
 						}
+
 						echo '</div>';
 						echo '</div>';
 
 
+					}else if ( count( $installed_extensions ) > 0 ) {
+						echo '<p>Wow, looks like you installed all our extensions. Thanks, you rock!</p>';
 					}
 
 					// Installed Extensions
