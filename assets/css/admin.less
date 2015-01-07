@@ -550,135 +550,87 @@ table.wp-list-table {
   }
 }
 
-/* Addons */
-.dlm_addons_wrap {
-  .items {
-    overflow: hidden;
-    li {
-      display: inline-block;
-      margin: 0 10px 10px 0 !important;
-      padding: 0;
-      vertical-align: top;
-      width: 250px;
-      border: 1px solid #ddd;
-      -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      position: relative;
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-      img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0;
-        background: #fff;
-      }
-      h2 {
-        margin: 0 !important;
-        padding: 10px 20px !important;
-        line-height: 1;
-        background: rgba(255, 255, 255, 0.8);
-        color: #000;
-        position: absolute;
-        max-width: 280px;
-        top: 20px;
-        left: 0;
-        font-size: 18px;
-        text-shadow: none;
-      }
-      .third_party {
-        display: none;
-      }
-      p {
-        padding: 20px !important;
-        margin: 0 !important;
-        border-top: 1px solid #f1f1f1;
-      }
-      .cost {
-        display: none;
-      }
+.dlm_extensions_wrap {
+  h2 {
+    a.dlm-reload-button {
+      float: right;
     }
   }
-}
-
-.dlm_extensions {
-  padding: 15px 0;
-  overflow: hidden;
-  div.dlm_extension {
-    cursor: auto !important;
-    a {
-      color: #444;
-      text-decoration: none;
-    }
-    .dlm_extension_img_wrapper {
-      width: 100%;
-      background: #419CCB;
-      text-align: center;
-      img {
-        max-width: 100%;
-        margin: 0 auto;
+  .dlm_extensions {
+    padding: 15px 0;
+    overflow: hidden;
+    div.dlm_extension {
+      cursor: auto !important;
+      a {
+        color: #444;
+        text-decoration: none;
       }
-    }
-    h3 {
-      padding: 0 20px;
-
-    }
-    p.extension-desc {
-      min-height: 85px;
-      padding: 0 20px;
-    }
-    .product_footer {
-      padding: 0 20px 15px;
-      .loop_price {
-        font-weight: bold;
-        &.sale {
-          color: #008000;
-          strike {
-            color: #444;
-          }
+      .dlm_extension_img_wrapper {
+        width: 100%;
+        background: #419CCB;
+        text-align: center;
+        img {
+          max-width: 100%;
+          margin: 0 auto;
         }
       }
-      .loop_more {
-        color: #459ac9;
-        text-decoration: none;
-        font-weight: bold;
-        float: right;
+      h3 {
+        padding: 0 20px;
+
       }
-    }
-    .extension_license {
-//      padding: 0 10% 10%;
-      padding: 0 20px 20px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      p.license-status {
-        padding: 5px 0;
-        margin: 5px 0;
-        background: red;
-        font-weight: bold;
-        font-size: 1.2em;
-        color: #fff;
-        text-align: center;
+      p.extension-desc {
+        min-height: 85px;
+        padding: 0 20px;
       }
-      p.license-status.active {
-        background: #008000;
+      .product_footer {
+        padding: 0 20px 15px;
+        .loop_price {
+          font-weight: bold;
+          &.sale {
+            color: #008000;
+            strike {
+              color: #444;
+            }
+          }
+        }
+        .loop_more {
+          color: #459ac9;
+          text-decoration: none;
+          font-weight: bold;
+          float: right;
+        }
       }
-      input {
-        width: 100%;
-        margin: 7px 0;
-        padding: 7px;
-      }
-      a.button-primary {
-        width: 100%;
-        margin: 5px auto 0;
-        color: #fff;
-        text-align: center;
+      .extension_license {
+        //      padding: 0 10% 10%;
+        padding: 0 20px 20px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        p.license-status {
+          padding: 5px 0;
+          margin: 5px 0;
+          background: red;
+          font-weight: bold;
+          font-size: 1.2em;
+          color: #fff;
+          text-align: center;
+        }
+        p.license-status.active {
+          background: #008000;
+        }
+        input {
+          width: 100%;
+          margin: 7px 0;
+          padding: 7px;
+        }
+        a.button-primary {
+          width: 100%;
+          margin: 5px auto 0;
+          color: #fff;
+          text-align: center;
+        }
       }
     }
   }
+
 }

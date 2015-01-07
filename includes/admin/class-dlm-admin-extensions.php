@@ -18,9 +18,14 @@ class DLM_Admin_Extensions {
 	 */
 	public function output() {
 
+		// Allow user to reload extensions
+		if ( isset( $_GET['dlm-force-recheck'] ) ) {
+			delete_transient( 'dlm_extension_json' );
+		}
+
 		// Load extension json
 		if ( false === ( $extension_json = get_transient( 'dlm_extension_json' ) ) ) {
-
+			
 			// Extension request
 			$extension_request = wp_remote_get( 'https://download-monitor.com/?dlm-extensions=true' );
 
@@ -35,9 +40,9 @@ class DLM_Admin_Extensions {
 		}
 
 		?>
-		<div class="wrap dlm_addons_wrap">
+		<div class="wrap dlm_extensions_wrap">
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
-			<h2><?php _e( 'Download Monitor Extensions', 'download-monitor' ); ?></h2>
+			<h2><?php _e( 'Download Monitor Extensions', 'download-monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm-force-recheck', '1' ); ?>" class="button dlm-reload-button">Reload Extensions</a></h2>
 			<?php
 
 			if ( false !== $extension_json ) {
