@@ -1,23 +1,25 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
- * WP_DLM_Ajax_Handler class.
+ * DLM_Ajax_Handler class.
  */
-class WP_DLM_Ajax_Handler {
+class DLM_Ajax_Handler {
 
 	/**
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_download_monitor_remove_file', array( $this, 'remove_file' ) );
 		add_action( 'wp_ajax_download_monitor_add_file', array( $this, 'add_file' ) );
 		add_action( 'wp_ajax_download_monitor_list_files', array( $this, 'list_files' ) );
 		add_action( 'wp_ajax_download_monitor_insert_panel_upload', array( $this, 'insert_panel_upload' ) );
+		add_action( 'wp_ajax_dlm_extension', array( $this, 'handle_extensions' ) );
 	}
 
 	/**
@@ -100,34 +102,46 @@ class WP_DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function list_files() {
-		global $download_monitor;
 
+		// Check Nonce
 		check_ajax_referer( 'list-files', 'security' );
 
-		if ( ! current_user_can('manage_downloads') ) return false;
+		// Check user rights
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			return false;
+		}
 
 		$path = esc_attr( stripslashes( $_POST['path'] ) );
 
 		if ( $path ) {
-			$files = $download_monitor->list_files( $path );
 
-			foreach( $files as $found_file ) {
+			// The File Manager
+			$file_manager = new DLM_File_Manager();
+
+			// List all files
+			$files = $file_manager->list_files( $path );
+
+			foreach ( $files as $found_file ) {
 
 				$file = pathinfo( $found_file['path'] );
 
 				if ( $found_file['type'] == 'folder' ) {
 
-					echo '<li><a href="#" class="folder" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename']  . '">' . $file['basename'] . '</a></li>';
+					echo '<li><a href="#" class="folder" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
 
 				} else {
 
-					$filename = $file['basename'];
+					$filename  = $file['basename'];
 					$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
 
-					if ( substr( $filename, 0, 1 ) == '.' ) continue; // Ignore files starting with . like htaccess
-					if ( in_array( $extension, array( '', 'php', 'html', 'htm', 'tmp' ) )  ) continue; // Ignored file types
+					if ( substr( $filename, 0, 1 ) == '.' ) {
+						continue;
+					} // Ignore files starting with . like htaccess
+					if ( in_array( $extension, array( '', 'php', 'html', 'htm', 'tmp' ) ) ) {
+						continue;
+					} // Ignored file types
 
-					echo '<li><a href="#" class="file filetype-' . sanitize_title( $extension ) . '" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename']  . '">' . $file['basename'] . '</a></li>';
+					echo '<li><a href="#" class="file filetype-' . sanitize_title( $extension ) . '" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
 
 				}
 
@@ -136,6 +150,50 @@ class WP_DLM_Ajax_Handler {
 
 		die();
 	}
-}
 
-new WP_DLM_Ajax_Handler();
+	/**
+	 * Handle extensions AJAX
+	 */
+	public function handle_extensions() {
+
+		// Check nonce
+		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
+
+		// Post vars
+		$product_id       = sanitize_text_field( $_POST['product_id'] );
+		$key              = sanitize_text_field( $_POST['key'] );
+		$email            = sanitize_text_field( $_POST['email'] );
+		$extension_action = $_POST['extension_action'];
+
+		// Get products
+		$products = DLM_Product_Manager::get()->get_products();
+
+		// Check if product exists
+		if ( isset( $products[ $product_id ] ) ) {
+
+			// Get correct product
+			$product = $products[ $product_id ];
+
+			// Set new key in license object
+			$product->get_license()->set_key( $key );
+
+			// Set new email in license object
+			$product->get_license()->set_email( $email );
+
+
+
+			if( 'activate' === $extension_action ) {
+				// Try to activate the license
+				$response = $product->activate();
+			}else {
+				// Try to deactivate the license
+				$response = $product->deactivate();
+			}
+
+		}
+
+		// Send JSON
+		wp_send_json( $response );
+
+	}
+}

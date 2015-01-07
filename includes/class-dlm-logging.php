@@ -1,11 +1,22 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
  * DLM_Logging class.
  */
 class DLM_Logging {
+
+	/**
+	 * Check if logging is enabled
+	 *
+	 * @return bool
+	 */
+	public function is_logging_enabled() {
+		return (1 == get_option( 'dlm_enable_logging', 0 ));
+	}
 
 	/**
 	 * create_log function.
@@ -14,9 +25,9 @@ class DLM_Logging {
 	 * @return void
 	 */
 	public function create_log( $type, $status, $message, $download, $version ) {
-	  	global $wpdb;
+		global $wpdb;
 
-	  	$wpdb->hide_errors();
+		$wpdb->hide_errors();
 
 		$wpdb->insert(
 			$wpdb->download_log,
@@ -67,28 +78,11 @@ class DLM_Logging {
 	private function get_user_ua() {
 		$ua = sanitize_text_field( isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '' );
 
-		if ( strlen( $ua ) > 200 )  
+		if ( strlen( $ua ) > 200 ) {
 			$ua = substr( $ua, 0, 199 );
+		}
 
 		return $ua;
 	}
 }
 
-$GLOBALS['dlm_logging'] = new DLM_Logging();
-
-/**
- * dlm_create_log function.
- *
- * @access public
- * @param string $type (default: '')
- * @param string $status (default: '')
- * @param string $message (default: '')
- * @param mixed $download
- * @param mixed $version
- * @return void
- */
-function dlm_create_log( $type = '', $status = '', $message = '', $download, $version ) {
-	global $dlm_logging;
-
-	$dlm_logging->create_log( $type, $status, $message, $download, $version );
-}

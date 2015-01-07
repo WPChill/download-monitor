@@ -1,16 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 
 /**
  * DLM_Admin_Insert class.
  */
-class DLM_Admin_Insert {
+class DLM_Admin_Media_Insert {
 
 	/**
 	 * __construct function.
 	 *
 	 * @access public
-	 * @return void
 	 */
 	public function __construct() {
 		add_action( 'media_buttons', array( $this, 'media_buttons' ), 20 );
@@ -20,33 +21,19 @@ class DLM_Admin_Insert {
 	/**
 	 * media_buttons function.
 	 *
+	 * @param String $editor_id
+	 *
 	 * @access public
 	 * @return void
 	 */
 	public function media_buttons( $editor_id = 'content' ) {
-		global $download_monitor, $post;
+		global $post;
 
-		if ( empty( $post ) || $post->post_type == 'dlm_download' ) {
+		if ( empty( $post ) || 'dlm_download' === $post->post_type ) {
 			return;
 		}
 
-		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '">' . __( 'Insert Download', 'download-monitor' ) . '</a>';
-
-		ob_start();
-		?>
-		jQuery(function(){
-			// Browse for file
-			jQuery('body').on('click', 'a.add_download', function(e){
-
-				tb_show('<?php esc_attr_e( 'Insert Download', 'download-monitor' ); ?>', 'media-upload.php?post_id=<?php echo $post->ID; ?>&amp;type=add_download&amp;from=wpdlm01&amp;TB_iframe=true&amp;height=200');
-
-				return false;
-			});
-		});
-		<?php
-
-		$js_code = ob_get_clean();
-		$download_monitor->add_inline_js( $js_code );
+		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '" rel="' . $post->ID . '" >' . __( 'Insert Download', 'download-monitor' ) . '</a>';
 	}
 
 	/**
@@ -56,10 +43,9 @@ class DLM_Admin_Insert {
 	 * @return void
 	 */
 	public function media_browser() {
-		global $download_monitor;
 
 		// Enqueue scripts and styles for panel
-		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
+		wp_enqueue_style( 'download_monitor_admin_css', WP_DLM::get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		wp_enqueue_script( 'common' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
@@ -76,12 +62,14 @@ class DLM_Admin_Insert {
 
 		?>
 		<h2 class="nav-tab-wrapper">
-			<a href="#insert-shortcode" class="nav-tab nav-tab-active"><?php _e( 'Insert Shortcode', 'download-monitor' ); ?></a><a href="#quick-add" class="nav-tab"><?php _e( 'Quick-add download', 'download-monitor' ); ?></a>
+			<a href="#insert-shortcode"
+			   class="nav-tab nav-tab-active"><?php _e( 'Insert Shortcode', 'download-monitor' ); ?></a><a
+				href="#quick-add" class="nav-tab"><?php _e( 'Quick-add download', 'download-monitor' ); ?></a>
 		</h2>
 		<?php
 
 		// Handle quick-add form
-		if ( ! empty( $_POST['download_url'] ) && ! empty( $_POST['download_title'] ) && wp_verify_nonce( $_POST['quick-add-nonce'], 'quick-add') ) {
+		if ( ! empty( $_POST['download_url'] ) && ! empty( $_POST['download_title'] ) && wp_verify_nonce( $_POST['quick-add-nonce'], 'quick-add' ) ) {
 
 			$url     = stripslashes( $_POST['download_url'] );
 			$title   = sanitize_text_field( stripslashes( $_POST['download_title'] ) );
@@ -119,26 +107,35 @@ class DLM_Admin_Insert {
 
 					$file_id = wp_insert_post( $file );
 
-					if ( ! $file_id )
+					if ( ! $file_id ) {
 						throw new Exception( __( 'Error: File was not created.', 'download-monitor' ) );
+					}
+
+					// File Manager
+					$file_manager = new DLM_File_Manager();
 
 					// Meta
 					update_post_meta( $file_id, '_version', $version );
-					update_post_meta( $file_id, '_filesize', $download_monitor->get_filesize( $url ) );
-					update_post_meta( $file_id, '_files', $download_monitor->json_encode_files( array( $url ) ) );
+					update_post_meta( $file_id, '_filesize', $file_manager->get_file_size( $url ) );
+					update_post_meta( $file_id, '_files', $file_manager->json_encode_files( array( $url ) ) );
 
-					$hashes = $download_monitor->get_file_hashes( $url );
+					// Hashes
+					$hashes = $file_manager->get_file_hashes( $url );
 
+					// Set hashes
 					update_post_meta( $file_id, '_md5', $hashes['md5'] );
 					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
 					update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
 
+					// Success message
 					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download-monitor' ) . '</p></div>';
 
-				} else throw new Exception( __( 'Error: Download was not created.', 'download-monitor' ) );
+				} else {
+					throw new Exception( __( 'Error: Download was not created.', 'download-monitor' ) );
+				}
 
 			} catch ( Exception $e ) {
-				echo '<div class="error"><p>' .  $e->getMessage() . "</p></div>";
+				echo '<div class="error"><p>' . $e->getMessage() . "</p></div>";
 			}
 
 		}
@@ -148,7 +145,7 @@ class DLM_Admin_Insert {
 			'post_status'    => 'publish',
 			'post_type'      => 'dlm_download',
 			'orderby'        => 'ID',
-			'posts_per_page' => -1
+			'posts_per_page' => - 1
 		) );
 		?>
 		<form id="insert-shortcode">
@@ -156,47 +153,50 @@ class DLM_Admin_Insert {
 			<fieldset>
 				<legend><?php _e( 'Choose a download', 'download-monitor' ); ?>:</legend>
 				<?php
-					$limit = 10;
-					$page  = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
+				$limit = 10;
+				$page  = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
 
-					$dlm_query = new WP_Query( array(
-					    'post_status'    => 'publish',
-						'post_type'      => 'dlm_download',
-					    'posts_per_page' => $limit,
-					    'offset'         => ( $page - 1 ) * $limit
-					) );
+				$dlm_query = new WP_Query( array(
+					'post_status'    => 'publish',
+					'post_type'      => 'dlm_download',
+					'posts_per_page' => $limit,
+					'offset'         => ( $page - 1 ) * $limit
+				) );
 
-					while ( $dlm_query->have_posts() ) {
-						$dlm_query->the_post();
-					    $download = new DLM_Download( $dlm_query->post->ID );
-					    echo '<label><input name="download_id" class="radio" type="radio" value="' . absint( $download->id ) . '" /> #' . $download->id . ' &ndash; ' . $download->get_the_title() . ' &ndash; ' . $download->get_the_filename() .'</label>';
-					}
+				while ( $dlm_query->have_posts() ) {
+					$dlm_query->the_post();
+					$download = new DLM_Download( $dlm_query->post->ID );
+					echo '<label><input name="download_id" class="radio" type="radio" value="' . absint( $download->id ) . '" /> #' . $download->id . ' &ndash; ' . $download->get_the_title() . ' &ndash; ' . $download->get_the_filename() . '</label>';
+				}
 
-					if ( $dlm_query->max_num_pages > 1 ) {
-					    echo paginate_links( apply_filters( 'download_monitor_pagination_args', array(
-							'base' 			=> str_replace( 999999999, '%#%', get_pagenum_link( 999999999 ) ),
-							'format' 		=> '',
-							'current' 		=> $page,
-							'total' 		=> $dlm_query->max_num_pages,
-							'prev_text' 	=> '&larr;',
-							'next_text' 	=> '&rarr;',
-							'type'			=> 'list',
-							'end_size'		=> 3,
-							'mid_size'		=> 3
-						) ) );
-					}
+				if ( $dlm_query->max_num_pages > 1 ) {
+					echo paginate_links( apply_filters( 'download_monitor_pagination_args', array(
+						'base'      => str_replace( 999999999, '%#%', get_pagenum_link( 999999999 ) ),
+						'format'    => '',
+						'current'   => $page,
+						'total'     => $dlm_query->max_num_pages,
+						'prev_text' => '&larr;',
+						'next_text' => '&rarr;',
+						'type'      => 'list',
+						'end_size'  => 3,
+						'mid_size'  => 3
+					) ) );
+				}
 				?>
 			</fieldset>
 
 			<p>
 				<label for="template_name"><?php _e( 'Template', 'download-monitor' ); ?>:</label>
-				<input type="text" id="template_name" value="" class="input" placeholder="<?php _e( 'Template Name', 'download-monitor' ); ?>" />
+				<input type="text" id="template_name" value="" class="input"
+				       placeholder="<?php _e( 'Template Name', 'download-monitor' ); ?>"/>
 				<span class="description">
 					<?php _e( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ); ?>
 				</span>
 			</p>
+
 			<p>
-				<input type="button" class="button insert_download button-primary button-large" value="<?php _e( 'Insert Shortcode', 'download-monitor' ); ?>" />
+				<input type="button" class="button insert_download button-primary button-large"
+				       value="<?php _e( 'Insert Shortcode', 'download-monitor' ); ?>"/>
 			</p>
 
 		</form>
@@ -208,27 +208,39 @@ class DLM_Admin_Insert {
 				<div id="drag-drop-area" style="height:240px">
 					<div class="drag-drop-inside">
 						<p class="drag-drop-info"><?php _e( 'Drop file here', 'download-monitor' ); ?></p>
+
 						<p><?php echo _x( 'or', 'Drop file here *or* select file', 'download-monitor' ); ?></p>
-						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button" /></p>
+
+						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button"
+						                                    value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>"
+						                                    class="button"/></p>
 					</div>
 				</div>
-				<p><a href="#" class="add_manually"><?php _e( 'Enter URL manually', 'download-monitor' ); ?> &rarr;</a></p>
+				<p><a href="#" class="add_manually"><?php _e( 'Enter URL manually', 'download-monitor' ); ?> &rarr;</a>
+				</p>
 			</div>
 			<div id="quick-add-details" style="display:none">
 				<p>
 					<label for="download_url"><?php _e( 'Download URL', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_url" id="download_url" value="" class="download_url input" placeholder="<?php _e( 'Required URL', 'download-monitor' ); ?>" />
+					<input type="text" name="download_url" id="download_url" value="" class="download_url input"
+					       placeholder="<?php _e( 'Required URL', 'download-monitor' ); ?>"/>
 				</p>
+
 				<p>
 					<label for="download_title"><?php _e( 'Download Title', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_title" id="download_title" value="" class="download_title input" placeholder="<?php _e( 'Required title', 'download-monitor' ); ?>" />
+					<input type="text" name="download_title" id="download_title" value="" class="download_title input"
+					       placeholder="<?php _e( 'Required title', 'download-monitor' ); ?>"/>
 				</p>
+
 				<p>
 					<label for="download_version"><?php _e( 'Version', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_version" id="download_version" value="" class="input" placeholder="<?php _e( 'Optional version number', 'download-monitor' ); ?>" />
+					<input type="text" name="download_version" id="download_version" value="" class="input"
+					       placeholder="<?php _e( 'Optional version number', 'download-monitor' ); ?>"/>
 				</p>
+
 				<p>
-					<input type="submit" class="button button-primary button-large" value="<?php _e( 'Save Download', 'download-monitor' ); ?>" />
+					<input type="submit" class="button button-primary button-large"
+					       value="<?php _e( 'Save Download', 'download-monitor' ); ?>"/>
 					<?php wp_nonce_field( 'quick-add', 'quick-add-nonce' ) ?>
 				</p>
 			</div>
@@ -236,25 +248,25 @@ class DLM_Admin_Insert {
 		</form>
 
 		<script type="text/javascript">
-			jQuery(function() {
+			jQuery( function () {
 
-				jQuery('.nav-tab-wrapper a').click(function() {
-					jQuery('#insert-shortcode, #quick-add').hide();
-					jQuery(jQuery(this).attr('href')).show();
-					jQuery('a.nav-tab-active').removeClass('nav-tab-active');
-					jQuery(this).addClass('nav-tab-active');
+				jQuery( '.nav-tab-wrapper a' ).click( function () {
+					jQuery( '#insert-shortcode, #quick-add' ).hide();
+					jQuery( jQuery( this ).attr( 'href' ) ).show();
+					jQuery( 'a.nav-tab-active' ).removeClass( 'nav-tab-active' );
+					jQuery( this ).addClass( 'nav-tab-active' );
 					return false;
-				});
+				} );
 
-				jQuery('#quick-add').hide();
+				jQuery( '#quick-add' ).hide();
 
-				jQuery('body').on('click', '.insert_download', function(){
+				jQuery( 'body' ).on( 'click', '.insert_download', function () {
 
 					var win = window.dialogArguments || opener || parent || top;
 
-					var download_id = jQuery('input[name="download_id"]:checked').val();
-					var template    = jQuery('#template_name').val();
-					var shortcode   = '[download id="' + download_id + '"';
+					var download_id = jQuery( 'input[name="download_id"]:checked' ).val();
+					var template = jQuery( '#template_name' ).val();
+					var shortcode = '[download id="' + download_id + '"';
 
 					if ( template )
 						shortcode = shortcode + ' template="' + template + '"';
@@ -264,13 +276,13 @@ class DLM_Admin_Insert {
 					win.send_to_editor( shortcode );
 
 					return false;
-				});
+				} );
 
-				jQuery('.add_manually').click(function() {
-					jQuery('#plupload-upload-ui').slideUp();
-					jQuery('#quick-add-details').slideDown();
+				jQuery( '.add_manually' ).click( function () {
+					jQuery( '#plupload-upload-ui' ).slideUp();
+					jQuery( '#quick-add-details' ).slideDown();
 					return false;
-				});
+				} );
 
 				<?php
 					$plupload_init = array(
@@ -301,64 +313,62 @@ class DLM_Admin_Insert {
 				?>
 
 				// create the uploader and pass the config from above
-				var uploader = new plupload.Uploader(<?php echo json_encode( $plupload_init ); ?>);
+				var uploader = new plupload.Uploader( <?php echo json_encode( $plupload_init ); ?> );
 
 				// checks if browser supports drag and drop upload, makes some css adjustments if necessary
-				uploader.bind('Init', function(up){
-					var uploaddiv = jQuery('#plupload-upload-ui');
+				uploader.bind( 'Init', function ( up ) {
+					var uploaddiv = jQuery( '#plupload-upload-ui' );
 
 					if ( up.features.dragdrop ) {
-						uploaddiv.addClass('drag-drop');
+						uploaddiv.addClass( 'drag-drop' );
 
-						jQuery('#drag-drop-area')
-							.bind('dragover.wp-uploader', function() {
-								uploaddiv.addClass('drag-over');
-							})
-							.bind('dragleave.wp-uploader, drop.wp-uploader', function() {
-								uploaddiv.removeClass('drag-over');
-							});
+						jQuery( '#drag-drop-area' )
+							.bind( 'dragover.wp-uploader', function () {
+								uploaddiv.addClass( 'drag-over' );
+							} )
+							.bind( 'dragleave.wp-uploader, drop.wp-uploader', function () {
+								uploaddiv.removeClass( 'drag-over' );
+							} );
 
 					} else {
-						uploaddiv.removeClass('drag-drop');
-						jQuery('#drag-drop-area').unbind('.wp-uploader');
+						uploaddiv.removeClass( 'drag-drop' );
+						jQuery( '#drag-drop-area' ).unbind( '.wp-uploader' );
 					}
-				});
+				} );
 
 				uploader.init();
 
 				// a file was added in the queue
-				uploader.bind('FilesAdded', function(up, files) {
-					var hundredmb = 100 * 1024 * 1024, max = parseInt(up.settings.max_file_size, 10);
+				uploader.bind( 'FilesAdded', function ( up, files ) {
+					var hundredmb = 100 * 1024 * 1024, max = parseInt( up.settings.max_file_size, 10 );
 
-					plupload.each(files, function(file) {
+					plupload.each( files, function ( file ) {
 						if ( max > hundredmb && file.size > hundredmb && up.runtime != 'html5' ) {
 							// file size error?
 						} else {
-							jQuery('.drag-drop-inside').html('<p><?php _e( 'Please wait...', 'download-monitor' ); ?></p>');
+							jQuery( '.drag-drop-inside' ).html( '<p><?php _e( 'Please wait...', 'download-monitor' ); ?></p>' );
 						}
-					});
+					} );
 
 					up.refresh();
 					up.start();
-				});
+				} );
 
 				// a file was uploaded
-				uploader.bind('FileUploaded', function( up, file, response ) {
-					jQuery('#quick-add-details').find('input.download_url').val( response.response );
-					jQuery('#quick-add-details').find('input.download_title').val( basename( response.response ) );
-					jQuery('#plupload-upload-ui').slideUp();
-					jQuery('#quick-add-details').slideDown();
-				});
+				uploader.bind( 'FileUploaded', function ( up, file, response ) {
+					jQuery( '#quick-add-details' ).find( 'input.download_url' ).val( response.response );
+					jQuery( '#quick-add-details' ).find( 'input.download_title' ).val( basename( response.response ) );
+					jQuery( '#plupload-upload-ui' ).slideUp();
+					jQuery( '#quick-add-details' ).slideDown();
+				} );
 
-				function basename(path) {
-				   return path.split('/').reverse()[0];
+				function basename( path ) {
+					return path.split( '/' ).reverse()[ 0 ];
 				}
 
-			});
+			} );
 		</script>
 		<?php
 		echo '</body></html>';
 	}
 }
-
-new DLM_Admin_Insert();
