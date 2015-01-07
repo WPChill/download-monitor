@@ -12,6 +12,7 @@ class DLM_Debug_Logger {
 		// Debug message
 		$message = 'Deprecated method called: ' . $method . PHP_EOL;
 
+		/*
 		// Get stack trace
 		$stack_trace = debug_backtrace();
 
@@ -45,6 +46,7 @@ class DLM_Debug_Logger {
 				$message .= PHP_EOL;
 			}
 		}
+		*/
 
 		error_log( $message, 0 );
 	}
