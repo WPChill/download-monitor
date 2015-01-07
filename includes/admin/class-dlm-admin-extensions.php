@@ -17,7 +17,7 @@ class DLM_Admin_Extensions {
 	 * Handles output of the reports page in admin.
 	 */
 	public function output() {
-		
+
 		// Load extension json
 		if ( false === ( $extension_json = get_transient( 'dlm_extension_json' ) ) ) {
 
