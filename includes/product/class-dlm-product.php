@@ -35,7 +35,7 @@ class DLM_Product {
 		$this->product_id = $product_id;
 
 		// The plugin file name
-		$this->plugin_name = $this->product_id . ' / ' . $this->product_id . '.php';
+		$this->plugin_name = $this->product_id . '/' . $this->product_id . '.php';
 	}
 
 	/**
