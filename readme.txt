@@ -110,7 +110,7 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
-= TRUNK =
+= 1.6.0 =
 * Plugin is now initiated at plugins_loaded.
 * Implemented auto loader.
 * Classes are no longer initiated at bottom of class file but whenever an object is needed.
@@ -259,3 +259,8 @@ Admin hits are not counted, log out and try!
 
 = 1.0.0 =
 * Complete rewrite of the plugin making use of custom post types and other best practices. Fresh start version '1' to prevent auto-updates (legacy importer needs to be used to migrate from old versions).
+
+== Upgrade Notice ==
+
+= 1.6.0 =
+If you're using the Page Addon or Amazon S3 extension you must update these extensions too. Visit https://www.download-monitor.com/ for more information.
