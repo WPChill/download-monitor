@@ -147,7 +147,7 @@ class DLM_Admin_Extensions {
 										echo '<input type="hidden" id="product_id" value="' . $extension->product_id . '" />' . PHP_EOL;
 										echo '<input type="text" name="key" id="key" value="' . $license->get_key() . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />' . PHP_EOL;
 										echo '<input type="text" name="email" id="email" value="' . $license->get_email() . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />' . PHP_EOL;
-										echo '<a href="javscript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
+										echo '<a href="javascript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
 									echo '</div>' . PHP_EOL;
 
 								echo '</div>';
