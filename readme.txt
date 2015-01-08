@@ -110,6 +110,9 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= TRUNK =
+* Removed assigning by reference, fixed strict notice while delete downloads.
+
 = 1.6.1 =
 * Fixed an extension activation error.
 * Fixed a bug that caused the featured image to disappear in some themes.
