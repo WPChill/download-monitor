@@ -119,11 +119,10 @@ class DLM_Admin_CPT {
 
 			switch ( $post_type ) {
 				case 'dlm_download' :
-					if ( $versions =& get_children( 'post_parent=' . $id . '&post_type=dlm_download_version' ) ) {
-						if ( $versions ) {
-							foreach ( $versions as $child ) {
-								wp_delete_post( $child->ID, true );
-							}
+					$versions = get_children( 'post_parent=' . $id . '&post_type=dlm_download_version' );
+					if ( is_array( $versions ) && count( $versions ) > 0 ) {
+						foreach ( $versions as $child ) {
+							wp_delete_post( $child->ID, true );
 						}
 					}
 					break;
