@@ -110,6 +110,11 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= TRUNK =
+* Fixed an extension activation error.
+* Fixed a bug that caused the featured image to disappear in some themes.
+* Tweak: In multisite only users that are a member of the blog can download 'member only' downloads.
+
 = 1.6.0 =
 * Plugin is now initiated at plugins_loaded.
 * Implemented auto loader.
