@@ -228,8 +228,6 @@ class DLM_Product {
 			return $check_for_updates_data;
 		}
 
-		error_log( print_r( $check_for_updates_data->checked, 1 ), 0 );
-
 		// Only check for data if license is activated
 		if ( true !== $license->is_active() ) {
 			return $check_for_updates_data;

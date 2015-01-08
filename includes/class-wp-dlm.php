@@ -147,8 +147,6 @@ class WP_DLM {
 		// Load the registered extensions
 		$registered_extensions = apply_filters( 'dlm_extensions', array() );
 
-		//error_log( print_r( $registered_extensions, 1 ), 0 );
-
 		// Check if we've got extensions
 		if ( count( $registered_extensions ) > 0 ) {
 
