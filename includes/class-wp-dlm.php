@@ -173,7 +173,15 @@ class WP_DLM {
 			remove_post_type_support( 'post', 'thumbnail' );
 			remove_post_type_support( 'page', 'thumbnail' );
 		} else {
-			add_theme_support( 'post-thumbnails', array( 'dlm_download' ) );
+
+			// Get current supported
+			$current_support = get_theme_support( 'post-thumbnails' );
+
+			// This can be a bool or array. If array we merge our post type in, if bool ignore because it's like a global theme setting.
+			if ( is_array( $current_support ) ) {
+				add_theme_support( 'post-thumbnails', array_merge( $current_support, array( 'dlm_download' ) ) );
+			}
+
 			add_post_type_support( 'download', 'thumbnail' );
 		}
 	}
