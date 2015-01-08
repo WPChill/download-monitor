@@ -43,8 +43,18 @@ class DLM_Download_Handler {
 	 * @return void
 	 */
 	public function check_access( $can_download, $download ) {
-		if ( $download->is_members_only() && ! is_user_logged_in() ) {
-			$can_download = false;
+
+		// Check if download is a 'members only' download
+		if ( $download->is_members_only() ) {
+
+			// Check if user is logged in
+			if( ! is_user_logged_in() ) {
+				$can_download = false;
+			} // Check if it's a multisite and if user is member of blog
+			else if ( is_multisite() && ! is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) ) {
+				$can_download = false;
+			}
+
 		}
 
 		return $can_download;
