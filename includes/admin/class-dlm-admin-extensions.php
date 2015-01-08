@@ -77,7 +77,7 @@ class DLM_Admin_Extensions {
 					?>
 					<h2 class="nav-tab-wrapper">
 						<a href="#available-extensions" class="nav-tab nav-tab-active">Available Extensions</a>
-						<a href="#installed-extensions" class="nav-tab">Installed Extensions</a>
+						<?php if ( count( $installed_extensions ) > 0 ) { ?><a href="#installed-extensions" class="nav-tab">Installed Extensions</a><?php } ?>
 					</h2>
 					<?php
 
