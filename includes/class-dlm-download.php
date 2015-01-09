@@ -488,7 +488,7 @@ class DLM_Download {
 	 * get_file_version_ids function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	function get_file_version_ids() {
 		if ( ! is_array( $this->file_version_ids ) ) {
