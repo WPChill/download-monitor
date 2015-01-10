@@ -111,6 +111,9 @@ Admin hits are not counted, log out and try!
 == Changelog ==
 
 = TRUNK =
+* Fixed a bug that caused translations not to load.
+* Fixed a bug that prevented download versions from being removed.
+* Fixed a pagination in 'insert download' shortcode bug.
 * Removed assigning by reference, fixed strict notice while delete downloads.
 
 = 1.6.1 =
@@ -127,7 +130,7 @@ Admin hits are not counted, log out and try!
 * Removed $GLOBALS['dlm_logging'] global.
 * Removed $GLOBALS['DLM_Download_Handler'] global.
 * Removed internal use of $download_monitor global.
-# Moved all inline JavaScript to separate JavaScript files.
+* Moved all inline JavaScript to separate JavaScript files.
 * Moved all install related code to installer class.
 * Moved main plugin class to it's own file.
 * Deprecated 'dlm_create_log' function.

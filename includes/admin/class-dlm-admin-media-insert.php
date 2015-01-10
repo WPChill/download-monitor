@@ -170,7 +170,7 @@ class DLM_Admin_Media_Insert {
 				}
 
 				if ( $dlm_query->max_num_pages > 1 ) {
-					
+
 					echo paginate_links( apply_filters( 'download_monitor_pagination_args', array(
 						'base'      => str_replace( 999999999, '%#%', get_pagenum_link( 999999999, false ) ),
 						'format'    => '',
