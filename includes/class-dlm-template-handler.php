@@ -17,7 +17,7 @@ class DLM_Template_Handler {
 	 *
 	 * @return void
 	 */
-	public function get_template_part( $slug, $name = '', $custom_dir = '' ) {
+	public function get_template_part( $slug, $name = '', $custom_dir = '', $args = array() ) {
 		$template = '';
 
 		// The plugin path
@@ -58,7 +58,18 @@ class DLM_Template_Handler {
 
 		// Load template if we've found one
 		if ( $template ) {
-			load_template( $template, false );
+
+			// Extract args if there are any
+			if ( is_array( $args ) && count( $args ) > 0 ) {
+				extract( $args );
+			}
+
+			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );
+
+			include( $template );
+
+			do_action( 'dlm_after_template_part', $template, $slug, $name, $custom_dir, $args );
+			//load_template( $template, false );
 		}
 	}
 
