@@ -46,7 +46,7 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function remove_file() {
-
+		
 		check_ajax_referer( 'remove-file', 'security' );
 
 		$file = get_post( intval( $_POST['file_id'] ) );
