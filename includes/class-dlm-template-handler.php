@@ -9,8 +9,6 @@ class DLM_Template_Handler {
 	/**
 	 * get_template_part method.
 	 *
-	 * @todo move this to own template loader
-	 *
 	 * @access public
 	 *
 	 * @param string $slug
