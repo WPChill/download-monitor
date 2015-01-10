@@ -44,7 +44,7 @@ class DLM_Template_Handler {
 		}
 
 		// If a custom path was defined, check that next
-		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
+		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}.php" ) ) {
 			$template = trailingslashit( $custom_dir ) . "{$slug}.php";
 		}
 
