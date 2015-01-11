@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@ca
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -110,11 +110,14 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
-= TRUNK =
+= 1.6.2 =
 * Fixed a bug that caused translations not to load.
 * Fixed a bug that prevented download versions from being removed.
 * Fixed a pagination in 'insert download' shortcode bug.
+* Fixed a bug in the template loader when used with a custom directory, a slug and no custom template.
 * Removed assigning by reference, fixed strict notice while delete downloads.
+* Tweaked template loader to accept arguments.
+* Allow downloads shortcode WP_Query arguments to be filtered with 'dlm_shortcode_downloads_args'.
 
 = 1.6.1 =
 * Fixed an extension activation error.
