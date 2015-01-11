@@ -342,6 +342,9 @@ class DLM_Shortcodes {
 
 		ob_start();
 
+		// Allow filtering of arguments
+		$args = apply_filters( 'dlm_shortcode_downloads_args', $args );
+
 		$downloads         = new WP_Query( $args );
 		$dlm_max_num_pages = $downloads->max_num_pages;
 
