@@ -115,7 +115,7 @@ Admin hits are not counted, log out and try!
 * Fixed a bug that prevented download versions from being removed.
 * Fixed a pagination in 'insert download' shortcode bug.
 * Fixed a bug in the template loader when used with a custom directory, a slug and no custom template.
-* Removed assigning by reference, fixed strict notice while delete downloads.
+* Removed assigning by reference, fixed strict notice when deleting downloads.
 * Tweaked template loader to accept arguments.
 * Allow downloads shortcode WP_Query arguments to be filtered with 'dlm_shortcode_downloads_args'.
 
