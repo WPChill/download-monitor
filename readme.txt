@@ -110,6 +110,9 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= TRUNK =
+* Allow third party extensions to hijack [downloads] shortcode with filter dlm_shortcode_download_content
+
 = 1.6.2 =
 * Fixed a bug that caused translations not to load.
 * Fixed a bug that prevented download versions from being removed.

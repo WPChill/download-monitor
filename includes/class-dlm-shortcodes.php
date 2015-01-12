@@ -70,10 +70,20 @@ class DLM_Shortcodes {
 			'version'    => ''
 		), $atts ) );
 
+		// Make id filterable
 		$id = apply_filters( 'dlm_shortcode_download_id', $id );
 
+		// Check id
 		if ( empty( $id ) ) {
 			return;
+		}
+
+		// Allow third party extensions to hijack shortcode
+		$hijacked_content = apply_filters( 'dlm_shortcode_download_content', '', $id );
+
+		// If there's hijacked content, return it and be done with it
+		if( '' !== $hijacked_content ) {
+			return $hijacked_content;
 		}
 
 		// If we have content, wrap in a link only
