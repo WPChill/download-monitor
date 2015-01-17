@@ -111,7 +111,8 @@ Admin hits are not counted, log out and try!
 == Changelog ==
 
 = TRUNK =
-* Allow third party extensions to hijack [downloads] shortcode with filter dlm_shortcode_download_content
+* Fixed an undefined method call 'get_filesize'.
+* Allow third party extensions to hijack [downloads] shortcode with filter dlm_shortcode_download_content.
 
 = 1.6.2 =
 * Fixed a bug that caused translations not to load.

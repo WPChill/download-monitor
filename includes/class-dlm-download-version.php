@@ -76,7 +76,7 @@ class DLM_Download_Version {
 		$file_manager = new DLM_File_Manager();
 
 		// Get the file size
-		$filesize = $file_manager->get_filesize( $file_path );
+		$filesize = $file_manager->get_file_size( $file_path );
 
 		update_post_meta( $this->id, '_filesize', $filesize );
 
