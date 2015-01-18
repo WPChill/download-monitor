@@ -231,7 +231,7 @@ class DLM_Download_Handler {
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 
 			// Set cookie to prevent double logging
-			setcookie( 'wp_dlm_downloading', $download->id, time() + 60, COOKIEPATH, COOKIE_DOMAIN, false );
+			setcookie( 'wp_dlm_downloading', $download->id, time() + 60, COOKIEPATH, COOKIE_DOMAIN, false, true );
 		}
 
 		// Redirect to the file...
