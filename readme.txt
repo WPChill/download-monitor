@@ -113,6 +113,7 @@ Admin hits are not counted, log out and try!
 = TRUNK =
 * Fixed an undefined method call 'get_filesize'.
 * Allow third party extensions to hijack [downloads] shortcode with filter dlm_shortcode_download_content.
+* Made 'wp_dlm_downloading' cookie only accessible through the HTTP protocol, props [Matt Mower](https://github.com/mdmower).
 
 = 1.6.2 =
 * Fixed a bug that caused translations not to load.
