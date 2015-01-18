@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@ca
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -110,7 +110,7 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
-= TRUNK =
+= 1.6.3 =
 * Fixed an undefined method call 'get_filesize'.
 * Allow third party extensions to hijack [downloads] shortcode with filter dlm_shortcode_download_content.
 * Made 'wp_dlm_downloading' cookie only accessible through the HTTP protocol, props [Matt Mower](https://github.com/mdmower).
