@@ -58,6 +58,7 @@ class DLM_File_Manager {
 	 * @return array
 	 */
 	public function parse_file_path( $file_path ) {
+
 		$remote_file      = true;
 		$parsed_file_path = parse_url( $file_path );
 
@@ -79,7 +80,7 @@ class DLM_File_Manager {
 
 			/** This is a local file given by URL so we need to figure out the path */
 			$remote_file = false;
-			$file_path   = str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path );
+			$file_path   = trim( str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path ) );
 			$file_path   = realpath( $file_path );
 
 		} elseif ( is_multisite() && ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false || strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) {
