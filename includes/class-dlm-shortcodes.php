@@ -79,7 +79,7 @@ class DLM_Shortcodes {
 		}
 
 		// Allow third party extensions to hijack shortcode
-		$hijacked_content = apply_filters( 'dlm_shortcode_download_content', '', $id );
+		$hijacked_content = apply_filters( 'dlm_shortcode_download_content', '', $id, $atts );
 
 		// If there's hijacked content, return it and be done with it
 		if( '' !== $hijacked_content ) {
