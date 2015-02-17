@@ -449,7 +449,12 @@ class DLM_Download {
 		$versions = $this->get_file_versions();
 
 		foreach ( $versions as $version_id => $version ) {
-			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || strtolower( $version->version ) === strtolower( $version_string ) ) {
+			// Simulate result of version string escaping as would happen when
+			// generating download link in `dlm_download_get_the_download_link`
+			// filter and remove protocol added by the `esc_url_raw()`.
+			$url_compatible_version = str_replace('http://', '', esc_url_raw($version->version));
+
+			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || strtolower( $url_compatible_version ) === strtolower( $version_string ) ) {
 				return $version_id;
 			}
 		}
