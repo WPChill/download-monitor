@@ -20,7 +20,11 @@ class DLM_Admin {
 		add_filter( 'upload_dir', array( $this, 'upload_dir' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+		// Admin menus
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 12 );
+		add_action( 'admin_menu', array( $this, 'admin_menu_extensions' ), 20 );
+
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_init', array( $this, 'export_logs' ) );
 		add_action( 'admin_init', array( $this, 'delete_logs' ) );
@@ -294,16 +298,21 @@ class DLM_Admin {
 
 		// Settings page
 		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download-monitor' ), __( 'Settings', 'download-monitor' ), 'manage_options', 'download-monitor-settings', array(
-				$this,
-				'settings_page'
-			) );
+			$this,
+			'settings_page'
+		) );
 
+	}
+
+	/**
+	 * Add the admin menu on later hook so extensions can be add before this menu item
+	 */
+	public function admin_menu_extensions() {
 		// Extensions page
 		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Extensions', 'download-monitor' ), __( 'Extensions', 'download-monitor' ), 'manage_options', 'dlm-extensions', array(
 			$this,
 			'extensions_page'
 		) );
-
 	}
 
 	/**
@@ -427,7 +436,7 @@ class DLM_Admin {
 				</p>
 			</form>
 		</div>
-		<?php
+	<?php
 	}
 
 	/**
