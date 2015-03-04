@@ -277,6 +277,3 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Complete rewrite of the plugin making use of custom post types and other best practices. Fresh start version '1' to prevent auto-updates (legacy importer needs to be used to migrate from old versions).
 
 == Upgrade Notice ==
-
-= 1.6.0 =
-If you're using the Page Addon or Amazon S3 extension you must update these extensions too. Visit https://www.download-monitor.com/ for more information.
