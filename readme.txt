@@ -107,12 +107,15 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 == Changelog ==
 
-= 1.6.3 =
+= 1.7.0: March xx, 2015 =
+* Extension page tweaks.
+
+= 1.6.3: January 18, 2015 =
 * Fixed an undefined method call 'get_filesize'.
 * Allow third party extensions to hijack [downloads] shortcode with filter dlm_shortcode_download_content.
 * Made 'wp_dlm_downloading' cookie only accessible through the HTTP protocol, props [Matt Mower](https://github.com/mdmower).
 
-= 1.6.2 =
+= 1.6.2: January 11, 2015 =
 * Fixed a bug that caused translations not to load.
 * Fixed a bug that prevented download versions from being removed.
 * Fixed a pagination in 'insert download' shortcode bug.
@@ -121,12 +124,12 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweaked template loader to accept arguments.
 * Allow downloads shortcode WP_Query arguments to be filtered with 'dlm_shortcode_downloads_args'.
 
-= 1.6.1 =
+= 1.6.1: January 9, 2015 =
 * Fixed an extension activation error.
 * Fixed a bug that caused the featured image to disappear in some themes.
 * Tweak: In multisite only users that are a member of the blog can download 'member only' downloads.
 
-= 1.6.0 =
+= 1.6.0: January 8, 2015 =
 * Plugin is now initiated at plugins_loaded.
 * Implemented auto loader.
 * Classes are no longer initiated at bottom of class file but whenever an object is needed.
