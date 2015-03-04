@@ -1,7 +1,7 @@
 === Download Monitor ===
 Contributors: barrykooij, mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@cageworks.nl&item_name=Donation+for+Download+Monitor
-Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
+Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
 Tested up to: 4.1.1
 Stable tag: 1.6.3
@@ -15,11 +15,11 @@ Download Monitor provides an interface for uploading and managing downloadable f
 
 = Features =
 
-* Add, edit and remove downloads from a familiar WP interface; just like posts.
-* Quick-add panel for adding files whilst editing posts.
-* Add multiple file versions to your downloads.
-* Define alternative links (mirrors) per version.
-* Categorise, tag, or add other meta to your downloads.
+* Add, edit and remove downloads from a familiar WP interface; Your downloads are just like posts.
+* Quick-add panel for adding downloads / files whilst editing posts.
+* Add multiple file versions to your downloads each with their own data like download count and file links.
+* Define alternative links (mirrors) per download version.
+* Categorize, tag, or add other meta to your downloads.
 * Display download links on the frontend using shortcodes.
 * Change the way download links get displayed via template files.
 * Track downloads counts and log user download attempts.
