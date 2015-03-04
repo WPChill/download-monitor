@@ -27,7 +27,7 @@ class DLM_Download_Handler {
 		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
-		add_action( 'dlm_can_download', array( $this, 'check_access' ), 10, 2 );
+		add_action( 'dlm_can_download', array( $this, 'check_access' ), 10, 2 ); /** @todo change to filter */
 	}
 
 
