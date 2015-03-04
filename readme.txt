@@ -26,7 +26,7 @@ Download Monitor provides an interface for uploading and managing downloadable f
 * Member only downloads, requires users to be logged in to download your files.
 * Customisable endpoints for showing pretty download links.
 
-[Read more about Download Monitor](https://www.download-monitor.com).
+[Read more about Download Monitor](https://www.download-monitor.com/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-after-features).
 
 > #### Download Monitor Extensions
 > Extend the core Download Monitor plugin with it's powerful extensions. All extensions come with one year of updates and support.<br />
