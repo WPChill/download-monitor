@@ -3,7 +3,7 @@ Contributors: barrykooij, mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@cageworks.nl&item_name=Donation+for+Download+Monitor
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
-Tested up to: 4.1
+Tested up to: 4.1.1
 Stable tag: 1.6.3
 License: GPLv3
 
@@ -23,18 +23,21 @@ Download Monitor provides an interface for uploading and managing downloadable f
 * Display download links on the frontend using shortcodes.
 * Change the way download links get displayed via template files.
 * Track downloads counts and log user download attempts.
-* Member only downloads.
+* Member only downloads, requires users to be logged in to download your files.
 * Customisable endpoints for showing pretty download links.
 
 [Read more about Download Monitor](https://www.download-monitor.com).
 
+> #### Download Monitor Extensions
+> Extend the core Download Monitor plugin with it's powerful extensions. All extensions come with one year of updates and support.<br />
+>
+> Some of our popular extensions include: [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-page-addon), [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-email-lock), [CSV Importer](https://www.download-monitor.com/extensions/csv-importer/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-csv-importer) and [Gravity Forms Lock](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-gravity-forms-lock).
+>
+> Want to see more? [Browse All Extensions](https://www.download-monitor.com/extensions/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-browse-all)
+
 = Documentation =
 
-Documentation will be maintained on the [GitHub Wiki here](https://github.com/download-monitor/download-monitor/wiki).
-
-= Extensions =
-
-Extensions, such as the __legacy importer__ and __page addon__ can be [found here](https://www.download-monitor.com/extensions/). Take a look!
+Documentation can be found on the [Download Monitor website](https://www.download-monitor.com/documentation/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation).
 
 = Contributing and reporting bugs =
 
@@ -46,7 +49,7 @@ You can contribute localizations via Transifex [https://www.transifex.com/projec
 
 Use the WordPress.org forums for community support. If you spot a bug, you can of course log it on [Github](https://github.com/download-monitor/download-monitor) instead where we can act upon it more efficiently.
 
-If you want help with a customisation, hire a developer!
+Unfortunately we can't offer you help with a customisation. Please consider hiring a developer for your website's customizations.
 
 == Installation ==
 
@@ -65,18 +68,6 @@ The manual installation method involves downloading the plugin and uploading it 
 * Activate the plugin from the Plugins menu within the WordPress admin.
 
 == Frequently Asked Questions ==
-
-= I used this before, so why is this version 1? =
-
-Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](https://www.download-monitor.com/extensions/dlm-legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
-
-Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
-
-= X feature/shortcode is missing from the legacy version; why? =
-
-The rewrite has trimmed the fat and only kept the best, most useful features. If something is missing, you can always code it yourself - the new system is very flexible and its easy to query files using [get_posts](http://codex.wordpress.org/Template_Tags/get_posts).
-
-If you are missing the "Page Addon", this is now a separate plugin found here: [Download Monitor Page Addon](https://www.download-monitor.com/extensions/page-addon/).
 
 = Can I upload .xxx filetype using the uploader? =
 
@@ -100,6 +91,12 @@ Download links are powered by endpoints. If you find them 404'ing, go to Setting
 = Download counts are not increasing when I download something =
 
 Admin hits are not counted, log out and try!
+
+= I used this before, so why is this version 1? =
+
+Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](https://www.download-monitor.com/extensions/dlm-legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
+
+Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
 
 == Screenshots ==
 
