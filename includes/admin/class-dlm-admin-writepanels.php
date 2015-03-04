@@ -66,21 +66,33 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function download_information( $post ) {
-		global $post, $thepostid;
+		global $post;
 
-		$thepostid = $post->ID;
+		$download = new DLM_Download( $post->ID );
+
+//		var_dump($download);
 
 		echo '<div class="dlm_information_panel">';
 
-		do_action( 'dlm_information_start', $thepostid );
+		do_action( 'dlm_information_start', $download->id );
 		?>
 		<p>
-			<label for="dlm-info-id"><?php _e( 'Download ID', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-id" value="<?php echo $post->ID; ?>" />
+			<label for="dlm-info-id"><?php _e( 'ID', 'download-monitor' ); ?>
+				<input type="text" id="dlm-info-id" value="<?php echo $download->id; ?>" />
+			</label>
+		</p>
+		<p>
+			<label for="dlm-info-url"><?php _e( 'URL', 'download-monitor' ); ?>
+				<input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>" />
+			</label>
+		</p>
+		<p>
+			<label for="dlm-info-shortcode"><?php _e( 'Shortcode', 'download-monitor' ); ?>
+				<input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->id; ?>"]' />
 			</label>
 		</p>
 		<?php
-		do_action( 'dlm_information_end', $thepostid );
+		do_action( 'dlm_information_end', $download->id );
 
 		echo '</div>';
 	}
