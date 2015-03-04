@@ -27,23 +27,62 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function add_meta_boxes() {
+
+		// Download Information
+		add_meta_box( 'download-monitor-information', __( 'Download Information', 'download-monitor' ), array(
+			$this,
+			'download_information'
+		), 'dlm_download', 'side', 'high' );
+
+		// Download Options
 		add_meta_box( 'download-monitor-options', __( 'Download Options', 'download-monitor' ), array(
-				$this,
-				'download_options'
-			), 'dlm_download', 'side', 'high' );
+			$this,
+			'download_options'
+		), 'dlm_download', 'side', 'high' );
+
+		// Versions / FIles
 		add_meta_box( 'download-monitor-file', __( 'Downloadable Files/Versions', 'download-monitor' ), array(
-				$this,
-				'download_files'
-			), 'dlm_download', 'normal', 'high' );
+			$this,
+			'download_files'
+		), 'dlm_download', 'normal', 'high' );
 
 		// Excerpt
 		if ( function_exists( 'wp_editor' ) ) {
 			remove_meta_box( 'postexcerpt', 'dlm_download', 'normal' );
 			add_meta_box( 'postexcerpt', __( 'Short Description', 'download-monitor' ), array(
-					$this,
-					'short_description'
-				), 'dlm_download', 'normal', 'high' );
+				$this,
+				'short_description'
+			), 'dlm_download', 'normal', 'high' );
 		}
+	}
+
+	/**
+	 * download_information function.
+	 *
+	 * @access public
+	 *
+	 * @param mixed $post
+	 *
+	 * @return void
+	 */
+	public function download_information( $post ) {
+		global $post, $thepostid;
+
+		$thepostid = $post->ID;
+
+		echo '<div class="dlm_information_panel">';
+
+		do_action( 'dlm_information_start', $thepostid );
+		?>
+		<p>
+			<label for="dlm-info-id"><?php _e( 'Download ID', 'download-monitor' ); ?>
+				<input type="text" id="dlm-info-id" value="<?php echo $post->ID; ?>" />
+			</label>
+		</p>
+		<?php
+		do_action( 'dlm_information_end', $thepostid );
+
+		echo '</div>';
 	}
 
 	/**
