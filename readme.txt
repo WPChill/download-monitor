@@ -108,6 +108,8 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 == Changelog ==
 
 = 1.7.0: March xx, 2015 =
+* Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
+* Added 'Download Information' meta box to edit download screen that displays useful download information.
 * Extension page tweaks.
 
 = 1.6.3: January 18, 2015 =
