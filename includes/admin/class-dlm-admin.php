@@ -15,6 +15,7 @@ class DLM_Admin {
 	 * Setup actions etc.
 	 */
 	public function setup() {
+
 		// Directory protection
 		add_filter( 'mod_rewrite_rules', array( $this, 'ms_files_protection' ) );
 		add_filter( 'upload_dir', array( $this, 'upload_dir' ) );
@@ -25,10 +26,19 @@ class DLM_Admin {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 12 );
 		add_action( 'admin_menu', array( $this, 'admin_menu_extensions' ), 20 );
 
+		// Settings
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+
+		// Logs
 		add_action( 'admin_init', array( $this, 'export_logs' ) );
 		add_action( 'admin_init', array( $this, 'delete_logs' ) );
+
+		// Dashboard
 		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
+
+		// Admin Footer Text
+		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ), 1 );
+
 	}
 
 	/**
@@ -582,5 +592,28 @@ class DLM_Admin {
 	 */
 	public function admin_dashboard() {
 		new DLM_Admin_Dashboard();
+	}
+
+	/**
+	 * Change the admin footer text on Download Monitor admin pages
+	 *
+	 * @since  1.7
+	 *
+	 * @param  string $footer_text
+	 *
+	 * @return string
+	 */
+	public function admin_footer_text( $footer_text ) {
+		$current_screen = get_current_screen();
+
+		$dlm_page_ids = array( 'edit-dlm_download', 'dlm_download', 'edit-dlm_download_category', 'edit-dlm_download_tag', 'dlm_download_page_download-monitor-logs', 'dlm_download_page_download-monitor-settings', 'dlm_download_page_dlm-extensions' );
+
+		// Check to make sure we're on a WooCommerce admin page
+		if ( isset( $current_screen->id ) && apply_filters( 'dlm_display_admin_footer_text', in_array( $current_screen->id, $dlm_page_ids ) ) ) {
+			// Change the footer text
+			$footer_text = sprintf( __( 'If you like %sDownload Monitor%s please leave us a %s★★★★★%s rating. A huge thank you in advance!', 'download-monitor' ), '<strong>', '</strong>', '<a href="https://wordpress.org/support/view/plugin-reviews/download-monitor?filter=5#postform" target="_blank">', '</a>' );
+		}
+
+		return $footer_text;
 	}
 }
