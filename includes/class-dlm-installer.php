@@ -35,6 +35,9 @@ class DLM_Installer {
 		$dlm_download_handler = new DLM_Download_Handler();
 		$dlm_download_handler->add_endpoint();
 
+		// Set the current version
+		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
+
 	}
 
 	/**
@@ -42,7 +45,7 @@ class DLM_Installer {
 	 *
 	 * @return void
 	 */
-	private function init_user_roles() {
+	public function init_user_roles() {
 		global $wp_roles;
 
 		if ( class_exists( 'WP_Roles' ) && ! isset( $wp_roles ) ) {
@@ -51,6 +54,7 @@ class DLM_Installer {
 
 		if ( is_object( $wp_roles ) ) {
 			$wp_roles->add_cap( 'administrator', 'manage_downloads' );
+			$wp_roles->add_cap( 'administrator', 'dlm_manage_logs' );
 		}
 	}
 

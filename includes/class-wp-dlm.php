@@ -93,6 +93,10 @@ class WP_DLM {
 
 			// Admin Media Insert
 			new DLM_Admin_Media_Insert();
+
+			// Upgrade Manager
+			$upgrade_manager = new DLM_Upgrade_Manager();
+			$upgrade_manager->check();
 		}
 
 		// Setup AJAX handler if doing AJAX
