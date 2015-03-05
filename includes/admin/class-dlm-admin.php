@@ -300,7 +300,7 @@ class DLM_Admin {
 
 		// Logs page
 		if ( $logging->is_logging_enabled() ) {
-			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'manage_options', 'download-monitor-logs', array(
+			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'dlm_manage_logs', 'download-monitor-logs', array(
 				$this,
 				'log_viewer'
 			) );
