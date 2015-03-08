@@ -110,6 +110,12 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.6.4 =
+* Removed unused library jqueryFileTree.
+* dlm_shortcode_download_content filter now also includes $atts.
+* Fixed small parse file parse error because of whitespace.
+* Changed some admin menu hook priorities.
+
 = 1.6.3 =
 * Fixed an undefined method call 'get_filesize'.
 * Allow third party extensions to hijack [downloads] shortcode with filter dlm_shortcode_download_content.
