@@ -40,7 +40,7 @@ class DLM_Admin_Writepanels {
 			'download_options'
 		), 'dlm_download', 'side', 'high' );
 
-		// Versions / FIles
+		// Versions / Files
 		add_meta_box( 'download-monitor-file', __( 'Downloadable Files/Versions', 'download-monitor' ), array(
 			$this,
 			'download_files'
