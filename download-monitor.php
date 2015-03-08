@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function __download_monitor_main() {
 
 	// Define DLM Version
-	define( 'DLM_VERSION', '1.6.3' );
+	define( 'DLM_VERSION', '1.6.4' );
 
 	// Define DLM FILE
 	define( 'DLM_PLUGIN_FILE', __FILE__ );
