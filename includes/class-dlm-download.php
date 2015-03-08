@@ -509,7 +509,7 @@ class DLM_Download {
 	 * get_file_versions function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function get_file_versions() {
 		if ( $this->files ) {
