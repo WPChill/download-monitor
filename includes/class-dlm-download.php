@@ -405,7 +405,8 @@ class DLM_Download {
 	 * Get a version by ID, or default to current version.
 	 *
 	 * @access public
-	 * @return void
+	 *
+	 * @return DLM_Download_Version
 	 */
 	public function get_file_version() {
 		$version = false;
@@ -423,7 +424,7 @@ class DLM_Download {
 
 		if ( ! $version ) {
 
-			$version = new stdClass();
+			$version = new DLM_Download_Version();
 
 			$version->id             = 0;
 			$version->download_id    = $this->id;
