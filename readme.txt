@@ -108,9 +108,16 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 == Changelog ==
 
 = 1.7.0: March xx, 2015 =
+* Versions now are checked on a sanitized title. Fixing a bug where versions with spaces did not work.
 * Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
 * Added 'Download Information' meta box to edit download screen that displays useful download information.
 * Extension page tweaks.
+
+= 1.6.4 =
+* Removed unused library jqueryFileTree.
+* dlm_shortcode_download_content filter now also includes $atts.
+* Fixed small parse file parse error because of whitespace.
+* Changed some admin menu hook priorities.
 
 = 1.6.3: January 18, 2015 =
 * Fixed an undefined method call 'get_filesize'.
