@@ -48,6 +48,9 @@ class DLM_Download_Version {
 	/**
 	 * __construct function.
 	 *
+	 * @param int $version_id
+	 * @param int $download_id
+	 *
 	 * @access public
 	 */
 	public function __construct( $version_id, $download_id ) {
