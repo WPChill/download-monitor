@@ -9,6 +9,42 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class DLM_Download_Version {
 
+	/** @var int  */
+	public $id;
+
+	/** @var int  */
+	public $download_id;
+
+	/** @var string  */
+	public $version;
+
+	/** @var int  */
+	public $download_count;
+
+	/** @var int  */
+	public $filesize;
+
+	/** @var string */
+	public $md5;
+
+	/** @var string */
+	public $sha1;
+
+	/** @var string */
+	public $crc32;
+
+	/** @var array  */
+	public $mirrors;
+
+	/** @var string */
+	public $url;
+
+	/** @var string  */
+	public $filename;
+
+	/** @var string */
+	public $filetype;
+
 	/**
 	 * __construct function.
 	 *
