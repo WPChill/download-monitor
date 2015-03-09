@@ -238,7 +238,7 @@ class DLM_Download {
 		if ( $this->version_id ) {
 
 			if ( $this->has_version_number() ) {
-				$link = add_query_arg( 'version', $this->get_the_version_number(), $link );
+				$link = add_query_arg( 'version', $this->get_file_version()->get_version_slug(), $link );
 			} else {
 				$link = add_query_arg( 'v', $this->version_id, $link );
 			}
@@ -285,10 +285,16 @@ class DLM_Download {
 	 * get_the_version_number function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return String
 	 */
 	public function get_the_version_number() {
-		return ( $version = $this->get_file_version()->version ) ? $version : '1';
+		$version = $this->get_file_version()->version;
+
+		if ( '' === $version ) {
+			$version = 1;
+		}
+
+		return $version;
 	}
 
 	/**
@@ -450,7 +456,7 @@ class DLM_Download {
 		$versions = $this->get_file_versions();
 
 		foreach ( $versions as $version_id => $version ) {
-			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || strtolower( $version->version ) === strtolower( $version_string ) ) {
+			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || sanitize_title( $version->version ) === sanitize_title( $version_string ) ) {
 				return $version_id;
 			}
 		}
