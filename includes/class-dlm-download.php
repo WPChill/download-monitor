@@ -456,7 +456,7 @@ class DLM_Download {
 		$versions = $this->get_file_versions();
 
 		foreach ( $versions as $version_id => $version ) {
-			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || sanitize_title( $version->version ) === sanitize_title( $version_string ) ) {
+			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || sanitize_title_with_dashes( $version->version ) === sanitize_title_with_dashes( $version_string ) ) {
 				return $version_id;
 			}
 		}

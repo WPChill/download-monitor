@@ -108,7 +108,7 @@ class DLM_Download_Version {
 	 * @return string
 	 */
 	public function get_version_slug() {
-		return sanitize_title( $this->version );
+		return sanitize_title_with_dashes( $this->version );
 	}
 
 	/**
