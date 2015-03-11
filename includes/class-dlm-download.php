@@ -9,6 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class DLM_Download {
 
+	/** @var int  */
+	public $id;
+
+	/** @var WP_Post  */
+	public $post;
+
+	/** @var string  */
+	public $version_id;
+
 	private $files;
 	private $file_version_ids;
 
