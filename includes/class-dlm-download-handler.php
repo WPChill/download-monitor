@@ -38,6 +38,7 @@ class DLM_Download_Handler {
 	 *
 	 * @access public
 	 *
+	 * @param boolean $can_download
 	 * @param mixed $download
 	 *
 	 * @return void
@@ -100,24 +101,6 @@ class DLM_Download_Handler {
 			// Prevent caching when endpoint is set
 			define( 'DONOTCACHEPAGE', true );
 
-			// Prevent hotlinking
-			if ( get_option( 'dlm_hotlink_protection_enabled' ) ) {
-				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
-				if ( $referer || apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) {
-					$allowed_referers = apply_filters( 'dlm_hotlink_allowed_referers', array( home_url() ) );
-					$allowed          = false;
-					foreach ( $allowed_referers as $allowed_referer ) {
-						if ( strstr( $referer, $allowed_referer ) ) {
-							$allowed = true;
-							break;
-						}
-					}
-					if ( ! $allowed ) {
-						wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url() ) );
-						exit;
-					}
-				}
-			}
 
 			// Get ID of download
 			$raw_id = sanitize_title( stripslashes( $wp->query_vars[ $this->endpoint ] ) );
@@ -130,6 +113,28 @@ class DLM_Download_Handler {
 				default :
 					$download_id = absint( $raw_id );
 					break;
+			}
+
+			// Prevent hotlinking
+			if ( get_option( 'dlm_hotlink_protection_enabled' ) ) {
+				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
+				if ( $referer || apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) {
+					$allowed_referers = apply_filters( 'dlm_hotlink_allowed_referers', array( home_url() ) );
+					$allowed          = false;
+					foreach ( $allowed_referers as $allowed_referer ) {
+						if ( strstr( $referer, $allowed_referer ) ) {
+							$allowed = true;
+							break;
+						}
+					}
+
+					// Check if allowed
+					if ( false == $allowed ) {
+						wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url(), $download_id ) );
+						exit;
+					}
+
+				}
 			}
 
 			if ( $download_id > 0 ) {
