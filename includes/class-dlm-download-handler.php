@@ -49,7 +49,7 @@ class DLM_Download_Handler {
 		if ( $download->is_members_only() ) {
 
 			// Check if user is logged in
-			if( ! is_user_logged_in() ) {
+			if ( ! is_user_logged_in() ) {
 				$can_download = false;
 			} // Check if it's a multisite and if user is member of blog
 			else if ( is_multisite() && ! is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) ) {
@@ -101,7 +101,6 @@ class DLM_Download_Handler {
 			// Prevent caching when endpoint is set
 			define( 'DONOTCACHEPAGE', true );
 
-
 			// Get ID of download
 			$raw_id = sanitize_title( stripslashes( $wp->query_vars[ $this->endpoint ] ) );
 
@@ -116,11 +115,18 @@ class DLM_Download_Handler {
 			}
 
 			// Prevent hotlinking
-			if ( get_option( 'dlm_hotlink_protection_enabled' ) ) {
+			if ( '1' == get_option( 'dlm_hotlink_protection_enabled' ) ) {
+
+				// Get referer
 				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
-				if ( $referer || apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) {
+
+				// Check if referer isn't empty or if referer is empty but empty referer isn't allowed
+				if ( ! empty( $referer ) || ( empty( $referer ) && apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) ) {
+
 					$allowed_referers = apply_filters( 'dlm_hotlink_allowed_referers', array( home_url() ) );
 					$allowed          = false;
+
+					// Loop allowed referers
 					foreach ( $allowed_referers as $allowed_referer ) {
 						if ( strstr( $referer, $allowed_referer ) ) {
 							$allowed = true;
@@ -135,6 +141,7 @@ class DLM_Download_Handler {
 					}
 
 				}
+
 			}
 
 			if ( $download_id > 0 ) {
@@ -183,7 +190,7 @@ class DLM_Download_Handler {
 		$logging = new DLM_Logging();
 
 		// Check if logging is enabled
-		if( $logging->is_logging_enabled() ) {
+		if ( $logging->is_logging_enabled() ) {
 
 			// Create log
 			$logging->create_log( $type, $status, $message, $download, $version );
