@@ -70,8 +70,6 @@ class DLM_Admin_Writepanels {
 
 		$download = new DLM_Download( $post->ID );
 
-//		var_dump($download);
-
 		echo '<div class="dlm_information_panel">';
 
 		do_action( 'dlm_information_start', $download->id );
