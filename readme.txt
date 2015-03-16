@@ -108,10 +108,16 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 == Changelog ==
 
 = 1.7.0: March xx, 2015 =
-* Versions now are checked on a sanitized title. Fixing a bug where versions with spaces did not work.
-* Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
-* Added 'Download Information' meta box to edit download screen that displays useful download information.
-* Extension page tweaks.
+* Feature - Added 'Download Information' meta box to edit download screen that displays useful download information.
+* Feature - Error message shown when visitor has no access to download is now an option.
+* Fix - Fixing a bug where versions with spaces did not work, versions now are checked on a sanitized title.
+* Tweak - Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
+* Tweak - Improved hotlink prevention check.
+* Tweak - Extension page tweaks.
+* Tweak - Added $download_id argument to dlm_hotlink_redirect filter.
+* Tweak - Moved hash settings to their own tab.
+* Tweak - Moved 'X-Accel-Redirect / X-Sendfile' and 'Prevent hotlinking' settings to General tab.
+
 
 = 1.6.4 =
 * Removed unused library jqueryFileTree.
