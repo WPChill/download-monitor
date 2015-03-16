@@ -235,7 +235,7 @@ class DLM_Download_Handler {
 				exit;
 			} else {
 				// Visitor don't have access to file and there's no redirect so display 'no access' message and die
-				wp_die( __( 'You do not have permission to access this download.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
+				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 			}
 
 			exit;

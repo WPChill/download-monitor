@@ -35,6 +35,12 @@ class DLM_Installer {
 		$dlm_download_handler = new DLM_Download_Handler();
 		$dlm_download_handler->add_endpoint();
 
+		// Set default 'No access message'
+		$dlm_no_access_error = get_option( 'dlm_no_access_error', '' );
+		if ( '' === $dlm_no_access_error ) {
+			update_option( 'dlm_no_access_error', sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ) );
+		}
+
 		// Set the current version
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 

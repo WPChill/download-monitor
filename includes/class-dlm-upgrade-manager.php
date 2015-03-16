@@ -15,7 +15,7 @@ class DLM_Upgrade_Manager {
 		$current_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION, 0 );
 
 		// Check if update is required
-		if ( version_compare( DLM_VERSION, $current_version, '>' ) ) {
+		if ( 1 || version_compare( DLM_VERSION, $current_version, '>' ) ) {
 
 			// Do update
 			$this->do_upgrade( $current_version );
@@ -40,6 +40,12 @@ class DLM_Upgrade_Manager {
 			// Adding new capabilities
 			$installer = new DLM_Installer();
 			$installer->init_user_roles();
+
+			// Set default 'No access message'
+			$dlm_no_access_error = get_option( 'dlm_no_access_error', '' );
+			if ( '' === $dlm_no_access_error ) {
+				update_option( 'dlm_no_access_error', sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ) );
+			}
 
 		}
 

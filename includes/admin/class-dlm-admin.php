@@ -144,6 +144,14 @@ class DLM_Admin {
 							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
+						array(
+							'name'        => 'dlm_no_access_error',
+							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
+							'placeholder' => __( 'test', 'download-monitor' ),
+							'label'       => __( 'No access message', 'download-monitor' ),
+							'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
+							'type'        => 'textarea'
+						),
 					),
 				),
 				'endpoints' => array(
@@ -169,7 +177,7 @@ class DLM_Admin {
 						)
 					)
 				),
-				'hash' => array(
+				'hash'      => array(
 					__( 'Hashes', 'download-monitor' ),
 					array(
 						array(
@@ -611,7 +619,15 @@ class DLM_Admin {
 	public function admin_footer_text( $footer_text ) {
 		$current_screen = get_current_screen();
 
-		$dlm_page_ids = array( 'edit-dlm_download', 'dlm_download', 'edit-dlm_download_category', 'edit-dlm_download_tag', 'dlm_download_page_download-monitor-logs', 'dlm_download_page_download-monitor-settings', 'dlm_download_page_dlm-extensions' );
+		$dlm_page_ids = array(
+			'edit-dlm_download',
+			'dlm_download',
+			'edit-dlm_download_category',
+			'edit-dlm_download_tag',
+			'dlm_download_page_download-monitor-logs',
+			'dlm_download_page_download-monitor-settings',
+			'dlm_download_page_dlm-extensions'
+		);
 
 		// Check to make sure we're on a WooCommerce admin page
 		if ( isset( $current_screen->id ) && apply_filters( 'dlm_display_admin_footer_text', in_array( $current_screen->id, $dlm_page_ids ) ) ) {
