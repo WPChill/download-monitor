@@ -129,27 +129,19 @@ class DLM_Admin {
 							'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
 						),
 						array(
-							'name'     => 'dlm_generate_hash_md5',
-							'std'      => '0',
-							'label'    => __( 'MD5 hashes', 'download-monitor' ),
-							'cb_label' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
-							'desc'     => '',
+							'name'     => 'dlm_xsendfile_enabled',
+							'std'      => '',
+							'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
 						array(
-							'name'     => 'dlm_generate_hash_sha1',
-							'std'      => '0',
-							'label'    => __( 'SHA1 hashes', 'download-monitor' ),
-							'cb_label' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
-							'desc'     => '',
-							'type'     => 'checkbox'
-						),
-						array(
-							'name'     => 'dlm_generate_hash_crc32b',
-							'std'      => '0',
-							'label'    => __( 'CRC32B hashes', 'download-monitor' ),
-							'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
-							'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
+							'name'     => 'dlm_hotlink_protection_enabled',
+							'std'      => '',
+							'label'    => __( 'Prevent hotlinking', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
 					),
@@ -174,23 +166,36 @@ class DLM_Admin {
 								'ID'   => __( 'Download ID', 'download-monitor' ),
 								'slug' => __( 'Download slug', 'download-monitor' )
 							)
-						),
-						array(
-							'name'     => 'dlm_xsendfile_enabled',
-							'std'      => '',
-							'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
-							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
-							'type'     => 'checkbox'
-						),
-						array(
-							'name'     => 'dlm_hotlink_protection_enabled',
-							'std'      => '',
-							'label'    => __( 'Prevent hotlinking', 'download-monitor' ),
-							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
-							'type'     => 'checkbox'
 						)
+					)
+				),
+				'hash' => array(
+					__( 'Hashes', 'download-monitor' ),
+					array(
+						array(
+							'name'     => 'dlm_generate_hash_md5',
+							'std'      => '0',
+							'label'    => __( 'MD5 hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
+							'desc'     => '',
+							'type'     => 'checkbox'
+						),
+						array(
+							'name'     => 'dlm_generate_hash_sha1',
+							'std'      => '0',
+							'label'    => __( 'SHA1 hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
+							'desc'     => '',
+							'type'     => 'checkbox'
+						),
+						array(
+							'name'     => 'dlm_generate_hash_crc32b',
+							'std'      => '0',
+							'label'    => __( 'CRC32B hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
+							'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
 					)
 				),
 				'logging'   => array(
@@ -221,7 +226,7 @@ class DLM_Admin {
 							'type'        => 'textarea'
 						),
 					)
-				)
+				),
 			)
 		);
 	}
