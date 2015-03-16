@@ -232,6 +232,7 @@ class DLM_Download_Handler {
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
 				wp_redirect( $redirect );
+				exit;
 			} else {
 				// Visitor don't have access to file and there's no redirect so display 'no access' message and die
 				wp_die( __( 'You do not have permission to access this download.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
