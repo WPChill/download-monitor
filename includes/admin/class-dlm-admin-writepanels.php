@@ -76,17 +76,17 @@ class DLM_Admin_Writepanels {
 		?>
 		<p>
 			<label for="dlm-info-id"><?php _e( 'ID', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-id" value="<?php echo $download->id; ?>" />
+				<input type="text" id="dlm-info-id" value="<?php echo $download->id; ?>"/>
 			</label>
 		</p>
 		<p>
 			<label for="dlm-info-url"><?php _e( 'URL', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>" />
+				<input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>"/>
 			</label>
 		</p>
 		<p>
 			<label for="dlm-info-shortcode"><?php _e( 'Shortcode', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->id; ?>"]' />
+				<input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->id; ?>"]'/>
 			</label>
 		</p>
 		<?php
@@ -194,7 +194,7 @@ class DLM_Admin_Writepanels {
 			<?php do_action( 'dlm_download_monitor_files_writepanel_end' ); ?>
 
 		</div>
-		<?php
+	<?php
 	}
 
 	/**
