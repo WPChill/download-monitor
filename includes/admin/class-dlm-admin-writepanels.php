@@ -321,10 +321,11 @@ class DLM_Admin_Writepanels {
 
 				// Update
 				$wpdb->update( $wpdb->posts, array(
-					'post_status' => 'publish',
-					'post_title'  => $file_post_title,
-					'menu_order'  => $file_menu_order,
-					'post_date'   => date( 'Y-m-d H:i:s', $date )
+					'post_status'   => 'publish',
+					'post_title'    => $file_post_title,
+					'menu_order'    => $file_menu_order,
+					'post_date'     => date( 'Y-m-d H:i:s', $date ),
+					'post_date_gmt' => date( 'Y-m-d H:i:s', $date ),
 				), array( 'ID' => $file_id ) );
 
 				// File Manager
