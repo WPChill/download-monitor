@@ -213,12 +213,15 @@ class DLM_Download_Handler {
 		$version    = $download->get_file_version();
 		$file_paths = $version->mirrors;
 
+		// Check if we got files in this version
 		if ( empty( $file_paths ) ) {
 			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
 		}
 
+		// Get a random file (mirror)
 		$file_path = $file_paths[ array_rand( $file_paths ) ];
 
+		// Check if we actually got a path
 		if ( ! $file_path ) {
 			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
 		}
@@ -226,9 +229,11 @@ class DLM_Download_Handler {
 		// Check Access
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version ) ) {
 
+			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
 				wp_redirect( $redirect );
 			} else {
+				// Visitor don't have access to file and there's no redirect so display 'no access' message and die
 				wp_die( __( 'You do not have permission to access this download.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 			}
 
