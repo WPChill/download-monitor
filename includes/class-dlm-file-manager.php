@@ -141,7 +141,7 @@ class DLM_File_Manager {
 			}
 		}
 
-		return -1;
+		return - 1;
 	}
 
 	/**
@@ -217,6 +217,32 @@ class DLM_File_Manager {
 		);
 
 		return $sym;
+	}
+
+	/**
+	 * Multi-byte-safe pathinfo replacement.
+	 *
+	 * @param $filepath
+	 *
+	 * @return mixed
+	 */
+	public function mb_pathinfo( $filepath ) {
+		$ret = array();
+		preg_match( '%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m );
+		if ( isset( $m[1] ) ) {
+			$ret['dirname'] = $m[1];
+		}
+		if ( isset( $m[2] ) ) {
+			$ret['basename'] = $m[2];
+		}
+		if ( isset( $m[5] ) ) {
+			$ret['extension'] = $m[5];
+		}
+		if ( isset( $m[3] ) ) {
+			$ret['filename'] = $m[3];
+		}
+
+		return $ret;
 	}
 
 }

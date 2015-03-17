@@ -123,7 +123,8 @@ class DLM_Ajax_Handler {
 
 			foreach ( $files as $found_file ) {
 
-				$file = pathinfo( $found_file['path'] );
+				// Multi-byte-safe pathinfo
+				$file = $file_manager->mb_pathinfo( $found_file['path'] );
 
 				if ( $found_file['type'] == 'folder' ) {
 
@@ -181,11 +182,10 @@ class DLM_Ajax_Handler {
 			$product->get_license()->set_email( $email );
 
 
-
-			if( 'activate' === $extension_action ) {
+			if ( 'activate' === $extension_action ) {
 				// Try to activate the license
 				$response = $product->activate();
-			}else {
+			} else {
 				// Try to deactivate the license
 				$response = $product->deactivate();
 			}
