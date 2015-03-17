@@ -29,11 +29,11 @@ class DLM_Admin_Media_Insert {
 	public function media_buttons( $editor_id = 'content' ) {
 		global $post;
 
-		if ( empty( $post ) || 'dlm_download' === $post->post_type ) {
+		if ( isset( $post ) && isset( $post->post_type ) && 'dlm_download' === $post->post_type ) {
 			return;
 		}
 
-		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '" rel="' . $post->ID . '" >' . __( 'Insert Download', 'download-monitor' ) . '</a>';
+		echo '<a href="#" class="button insert-download dlm_insert_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '">' . __( 'Insert Download', 'download-monitor' ) . '</a>';
 	}
 
 	/**
