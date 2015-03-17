@@ -117,7 +117,9 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak - Added $download_id argument to dlm_hotlink_redirect filter.
 * Tweak - Moved hash settings to their own tab.
 * Tweak - Moved 'X-Accel-Redirect / X-Sendfile' and 'Prevent hotlinking' settings to General tab.
-
+* Tweak - Optimized the Insert Download button.
+* Tweak - Introduced a multi-byte-safe pathinfo so we can handle 'special' filenames.
+* Tweak - Also set the post_date_gmt value for version dates.
 
 = 1.6.4 =
 * Removed unused library jqueryFileTree.
