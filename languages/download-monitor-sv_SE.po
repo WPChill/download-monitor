@@ -3,17 +3,19 @@
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Download Monitor\n"
+"Project-Id-Version: Download Monitor sv_SE\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
 "POT-Creation-Date: 2014-06-28 19:28:54+00:00\n"
-"PO-Revision-Date: 2014-06-29 09:07+0000\n"
-"Last-Translator: Mike Jolley <mike.jolley@me.com>\n"
-"Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/download-monitor/language/sv_SE/)\n"
+"PO-Revision-Date: 2015-01-21 03:09+0100\n"
+"Last-Translator: Mattias Tengblad <mst@eyesx.com>\n"
+"Language-Team: WordPress Sverige / Mattias Tengblad <info@wpsv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv_SE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: download-monitor.php:92 includes/admin/class-dlm-admin.php:281
 msgid "Settings"
@@ -25,10 +27,9 @@ msgstr "Tillägg"
 
 #: download-monitor.php:94
 msgid "Docs"
-msgstr "Dokument"
+msgstr "Dokumentation"
 
-#: download-monitor.php:241 download-monitor.php:243
-#: includes/admin/class-dlm-admin-cpt.php:172
+#: download-monitor.php:241 download-monitor.php:243 includes/admin/class-dlm-admin-cpt.php:172
 msgid "Categories"
 msgstr "Kategorier"
 
@@ -54,7 +55,7 @@ msgstr "Överordnad nedladdningskategori:"
 
 #: download-monitor.php:249
 msgid "Edit Download Category"
-msgstr "Ändra nedladdningskategori"
+msgstr "Redigera nedladdningskategori"
 
 #: download-monitor.php:250
 msgid "Update Download Category"
@@ -68,8 +69,7 @@ msgstr "Lägg till ny nedladdningskategori"
 msgid "New Download Category Name"
 msgstr "Nytt namn på nedladdningskategori"
 
-#: download-monitor.php:271 download-monitor.php:273
-#: includes/admin/class-dlm-admin-cpt.php:173
+#: download-monitor.php:271 download-monitor.php:273 includes/admin/class-dlm-admin-cpt.php:173
 msgid "Tags"
 msgstr "Etiketter"
 
@@ -95,7 +95,7 @@ msgstr "Överordnad nedladdningsetikett:"
 
 #: download-monitor.php:279
 msgid "Edit Download Tag"
-msgstr "Ändra nedladdningsetikett"
+msgstr "Redigera nedladdningsetikett"
 
 #: download-monitor.php:280
 msgid "Update Download Tag"
@@ -111,14 +111,13 @@ msgstr "Nytt namn på nedladdningsetikett"
 
 #: download-monitor.php:303
 msgid "All Downloads"
-msgstr ""
+msgstr "Alla nedladdningar"
 
 #: download-monitor.php:304
 msgid "Downloads"
 msgstr "Nedladdningar"
 
-#: download-monitor.php:305 includes/admin/class-dlm-admin-dashboard.php:69
-#: includes/admin/class-dlm-logging-list-table.php:123
+#: download-monitor.php:305 includes/admin/class-dlm-admin-dashboard.php:69 includes/admin/class-dlm-logging-list-table.php:123
 msgid "Download"
 msgstr "Nedladdning"
 
@@ -128,15 +127,15 @@ msgstr "Lägg till ny"
 
 #: download-monitor.php:307
 msgid "Add Download"
-msgstr "Lägg till ny nedladdning"
+msgstr "Lägg till nedladdning"
 
 #: download-monitor.php:308
 msgid "Edit"
-msgstr "Ändra"
+msgstr "Redigera"
 
 #: download-monitor.php:309
 msgid "Edit Download"
-msgstr "Ändra nedladdning"
+msgstr "Redigera nedladdning"
 
 #: download-monitor.php:310
 msgid "New Download"
@@ -152,11 +151,11 @@ msgstr "Sök nedladdning"
 
 #: download-monitor.php:314
 msgid "No Downloads found"
-msgstr "Ingen nedladdnings hittas"
+msgstr "Ingen filer hittas"
 
 #: download-monitor.php:315
 msgid "No Downloads found in trash"
-msgstr "Ingen nedladdning hittas i skräpkorgen"
+msgstr "Ingen filer  hittas i papperskorgen"
 
 #: download-monitor.php:316
 msgid "Parent Download"
@@ -166,10 +165,9 @@ msgstr "Överordnad nedladdning"
 msgid "This is where you can create and manage downloads for your site."
 msgstr "Här kan du skapa och hantera dina nedladdningar för din webbplats."
 
-#: includes/admin/class-dlm-addons.php:50
-#: includes/admin/class-dlm-admin.php:284
+#: includes/admin/class-dlm-addons.php:50 includes/admin/class-dlm-admin.php:284
 msgid "Download Monitor Add-ons"
-msgstr ""
+msgstr "Tillägg för Download Monitor"
 
 #: includes/admin/class-dlm-admin-cpt.php:64
 msgid "Select a category"
@@ -179,8 +177,7 @@ msgstr "Välj en kategori"
 msgid "Download title"
 msgstr "Nedladdningstitel"
 
-#: includes/admin/class-dlm-admin-cpt.php:140
-#: includes/admin/class-dlm-admin-cpt.php:143
+#: includes/admin/class-dlm-admin-cpt.php:140 includes/admin/class-dlm-admin-cpt.php:143
 msgid "Download updated."
 msgstr "Nedladdning uppdaterad."
 
@@ -214,7 +211,7 @@ msgstr "Nedladdning schemalagd för: <strong>%1$s</strong>."
 
 #: includes/admin/class-dlm-admin-cpt.php:149
 msgid "M j, Y @ G:i"
-msgstr "M j, Y @ G:i"
+msgstr "j M, Y @ H:i"
 
 #: includes/admin/class-dlm-admin-cpt.php:150
 msgid "Download draft updated."
@@ -224,56 +221,45 @@ msgstr "Nedladdningsutkast uppdaterat."
 msgid "Image"
 msgstr "Bild"
 
-#: includes/admin/class-dlm-admin-cpt.php:168
-#: includes/widgets/class-dlm-widget-downloads.php:171
+#: includes/admin/class-dlm-admin-cpt.php:168 includes/widgets/class-dlm-widget-downloads.php:171
 msgid "Title"
 msgstr "Titel"
 
-#: includes/admin/class-dlm-admin-cpt.php:169
-#: includes/widgets/class-dlm-widget-downloads.php:173
+#: includes/admin/class-dlm-admin-cpt.php:169 includes/widgets/class-dlm-widget-downloads.php:173
 msgid "ID"
 msgstr "ID"
 
-#: includes/admin/class-dlm-admin-cpt.php:170
-#: includes/admin/class-dlm-logging-list-table.php:124
+#: includes/admin/class-dlm-admin-cpt.php:170 includes/admin/class-dlm-logging-list-table.php:124
 msgid "File"
 msgstr "Fil"
 
-#: includes/admin/class-dlm-admin-cpt.php:171
-#: includes/admin/class-dlm-admin-insert.php:231
-#: includes/admin/html-downloadable-file-version.php:16
+#: includes/admin/class-dlm-admin-cpt.php:171 includes/admin/class-dlm-admin-insert.php:231 includes/admin/html-downloadable-file-version.php:16
 msgid "Version"
 msgstr "Version"
 
-#: includes/admin/class-dlm-admin-cpt.php:174
-#: includes/admin/class-dlm-admin-dashboard.php:70
-#: includes/admin/html-downloadable-file-version.php:52
-#: includes/widgets/class-dlm-widget-downloads.php:176
+#: includes/admin/class-dlm-admin-cpt.php:174 includes/admin/class-dlm-admin-dashboard.php:70 includes/admin/html-downloadable-file-version.php:52 includes/widgets/class-dlm-widget-downloads.php:176
 msgid "Download count"
 msgstr "Antal nedladdningar"
 
 #: includes/admin/class-dlm-admin-cpt.php:175
 msgid "Featured"
-msgstr "Viktig"
+msgstr "Utvald"
 
-#: includes/admin/class-dlm-admin-cpt.php:176
-#: includes/admin/class-dlm-admin-writepanels.php:63
+#: includes/admin/class-dlm-admin-cpt.php:176 includes/admin/class-dlm-admin-writepanels.php:63
 msgid "Members only"
 msgstr "Endast för medlemmar"
 
 #: includes/admin/class-dlm-admin-cpt.php:177
 msgid "Redirect only"
-msgstr ""
+msgstr "Omdirigera endast"
 
 #: includes/admin/class-dlm-admin-cpt.php:178
 msgid "Date posted"
 msgstr "Publiceringsdatum"
 
-#: includes/admin/class-dlm-admin-cpt.php:212
-#: includes/admin/class-dlm-admin-cpt.php:220
-#: includes/admin/class-dlm-admin-cpt.php:228
+#: includes/admin/class-dlm-admin-cpt.php:212 includes/admin/class-dlm-admin-cpt.php:220 includes/admin/class-dlm-admin-cpt.php:228
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: includes/admin/class-dlm-admin-dashboard.php:21
 msgid "Popular Downloads"
@@ -283,14 +269,11 @@ msgstr "Populära nedladdningar"
 msgid "There are no stats available yet!"
 msgstr "Det finns ingen statistik ännu!"
 
-#: includes/admin/class-dlm-admin-insert.php:32
-#: includes/admin/class-dlm-admin-insert.php:40
-#: includes/admin/class-dlm-admin-insert.php:68
+#: includes/admin/class-dlm-admin-insert.php:32 includes/admin/class-dlm-admin-insert.php:40 includes/admin/class-dlm-admin-insert.php:68
 msgid "Insert Download"
 msgstr "Infoga nedladdning"
 
-#: includes/admin/class-dlm-admin-insert.php:78
-#: includes/admin/class-dlm-admin-insert.php:203
+#: includes/admin/class-dlm-admin-insert.php:78 includes/admin/class-dlm-admin-insert.php:203
 msgid "Insert Shortcode"
 msgstr "Infoga shortcode"
 
@@ -300,7 +283,7 @@ msgstr "Enkel uppladdning"
 
 #: includes/admin/class-dlm-admin-insert.php:122
 msgid "Error: File was not created."
-msgstr "Fel: Filen skapades inte."
+msgstr "Fel: Filen kunde inte skapas."
 
 #: includes/admin/class-dlm-admin-insert.php:140
 msgid "Download successfully created."
@@ -308,11 +291,11 @@ msgstr "Nedladdning skapades."
 
 #: includes/admin/class-dlm-admin-insert.php:142
 msgid "Error: Download was not created."
-msgstr "Fel: Nedladdning skapades ej."
+msgstr "Fel: Nedladdning kunde inte skapas."
 
 #: includes/admin/class-dlm-admin-insert.php:161
 msgid "Choose a download"
-msgstr "Välj nedladdning"
+msgstr "Välj en nedladdning"
 
 #: includes/admin/class-dlm-admin-insert.php:196
 msgid "Template"
@@ -324,10 +307,9 @@ msgstr "Mallnamn"
 
 #: includes/admin/class-dlm-admin-insert.php:199
 msgid ""
-"Leaving this blank will use the default <code>content-download.php</code> "
-"template file. If you enter, for example, <code>image</code>, the <code"
-">content-download-image.php</code> template will be used instead."
-msgstr "Om detta lämnas tomt kommer standardmallen <code>content-download.php</code> användas. Om du skriver in exempelvis, <code>bild</code>, kommer <code>content-download-bild.php</code> användas istället. "
+"Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used "
+"instead."
+msgstr "Om detta lämnas tomt kommer standardmallen <code>content-download.php</code> användas. Om du t.ex anger, <code>bild</code>, kommer <code>content-download-bild.php</code> användas istället."
 
 #: includes/admin/class-dlm-admin-insert.php:214
 msgid "Drop file here"
@@ -336,7 +318,7 @@ msgstr "Släpp filen här"
 #: includes/admin/class-dlm-admin-insert.php:215
 msgctxt "Drop file here *or* select file"
 msgid "or"
-msgstr ""
+msgstr "eller"
 
 #: includes/admin/class-dlm-admin-insert.php:216
 msgid "Select File"
@@ -344,7 +326,7 @@ msgstr "Välj fil"
 
 #: includes/admin/class-dlm-admin-insert.php:219
 msgid "Enter URL manually"
-msgstr "Skriv in URL manuellt"
+msgstr "Ange en URL manuellt"
 
 #: includes/admin/class-dlm-admin-insert.php:223
 msgid "Download URL"
@@ -352,7 +334,7 @@ msgstr "Nedladdnings-URL"
 
 #: includes/admin/class-dlm-admin-insert.php:224
 msgid "Required URL"
-msgstr "Nödvändig URL"
+msgstr "Obligatorisk URL"
 
 #: includes/admin/class-dlm-admin-insert.php:227
 msgid "Download Title"
@@ -360,7 +342,7 @@ msgstr "Nedladdningstitel"
 
 #: includes/admin/class-dlm-admin-insert.php:228
 msgid "Required title"
-msgstr "Nödvändig titel"
+msgstr "Obligatorisk titel"
 
 #: includes/admin/class-dlm-admin-insert.php:232
 msgid "Optional version number"
@@ -368,7 +350,7 @@ msgstr "Alternativt versionsnummer"
 
 #: includes/admin/class-dlm-admin-insert.php:235
 msgid "Save Download"
-msgstr "Spara"
+msgstr "Spara nedladdning"
 
 #: includes/admin/class-dlm-admin-insert.php:291
 msgid "Allowed Files"
@@ -376,12 +358,11 @@ msgstr "Tillåtna filer"
 
 #: includes/admin/class-dlm-admin-insert.php:341
 msgid "Please wait..."
-msgstr "Ett ögonblick..."
+msgstr "Vänligen vänta..."
 
-#: includes/admin/class-dlm-admin-media-browser.php:31
-#: includes/admin/class-dlm-admin-writepanels.php:263
+#: includes/admin/class-dlm-admin-media-browser.php:31 includes/admin/class-dlm-admin-writepanels.php:263
 msgid "Browse for a file"
-msgstr "Välj en fil"
+msgstr "Bläddra efter en fil"
 
 #: includes/admin/class-dlm-admin-media-browser.php:101
 msgid "No files found"
@@ -393,7 +374,7 @@ msgstr "Nedladdningsaltenativ"
 
 #: includes/admin/class-dlm-admin-writepanels.php:30
 msgid "Downloadable Files/Versions"
-msgstr ""
+msgstr "Nedladdningsbara filer/versioner"
 
 #: includes/admin/class-dlm-admin-writepanels.php:35
 msgid "Short Description"
@@ -401,31 +382,27 @@ msgstr "Kort beskrivning"
 
 #: includes/admin/class-dlm-admin-writepanels.php:57
 msgid "Featured download"
-msgstr "Viktig nedladdning"
+msgstr "Utvald nedladdning"
 
 #: includes/admin/class-dlm-admin-writepanels.php:58
 msgid "Mark this download as featured. Used by shortcodes and widgets."
-msgstr "Markera denna nedladdning som viktig. Används av shortcodes och widgets."
+msgstr "Markera denna nedladdning som utvald. Används av shortcodes och widgets."
 
 #: includes/admin/class-dlm-admin-writepanels.php:64
-msgid ""
-"Only logged in users will be able to access the file via a download link if "
-"this is enabled."
-msgstr "Bara inloggade användare kommer åt filen via en nedladdningslänk om detta är aktiverat."
+msgid "Only logged in users will be able to access the file via a download link if this is enabled."
+msgstr "Endast inloggade användare kommer åt filen via en nedladdningslänk om detta är aktiverat."
 
 #: includes/admin/class-dlm-admin-writepanels.php:69
 msgid "Redirect to file"
-msgstr ""
+msgstr "Omdirigera till fil"
 
 #: includes/admin/class-dlm-admin-writepanels.php:70
-msgid ""
-"Don't force download. If the <code>dlm_upload</code> folder is protected you"
-" may need to move your file."
-msgstr ""
+msgid "Don't force download. If the <code>dlm_upload</code> folder is protected you may need to move your file."
+msgstr "Tvinga inte nedladdning. Om katalogen <code>dlm_upload</code> är skyddad kan du behöva flytta filen."
 
 #: includes/admin/class-dlm-admin-writepanels.php:94
 msgid "Add file"
-msgstr ""
+msgstr "Lägg till fil"
 
 #: includes/admin/class-dlm-admin-writepanels.php:95
 msgid "Close all"
@@ -448,80 +425,76 @@ msgid "Default Template"
 msgstr "Standardmall"
 
 #: includes/admin/class-dlm-admin.php:101
-msgid ""
-"Choose which template is used for <code>[download]</code> shortcodes by "
-"default (this can be overridden by the <code>format</code> argument)."
-msgstr "Välj vilken mall som ska användas för <code>[download]</code> shortcodes som standard (detta kan skrivas över av <code>format</code>-argumentet)."
+msgid "Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument)."
+msgstr "Välj vilken mall som ska användas för <code>[download]</code>-shortcodes som standard (detta kan skrivas över med <code>format</code>-argument)."
 
 #: includes/admin/class-dlm-admin.php:104
 msgid "Default - Title and count"
-msgstr ""
+msgstr "Standard - titel och räknare"
 
 #: includes/admin/class-dlm-admin.php:105
 msgid "Button - CSS styled button showing title and count"
-msgstr ""
+msgstr "Knapp - CSS-stylad knapp som visar titel och räknare"
 
 #: includes/admin/class-dlm-admin.php:106
 msgid "Box - Box showing thumbnail, title, count, filename and filesize."
-msgstr ""
+msgstr "Box - En box som visar miniatyrbild, titel, räknare, filnamn och filstorlek."
 
 #: includes/admin/class-dlm-admin.php:107
 msgid "Filename - Filename and download count"
-msgstr ""
+msgstr "Filnamn -  Filnamn och nedladdningsräknare"
 
 #: includes/admin/class-dlm-admin.php:108
 msgid "Title - Shows download title only"
-msgstr ""
+msgstr "Titel - Visar endast nedladdningstitel"
 
 #: includes/admin/class-dlm-admin.php:109
 msgid "Version list - Lists all download versions in an unordered list"
-msgstr ""
+msgstr "Versionslista - Listar alla nedladdningsversion i en oordnad lista"
 
 #: includes/admin/class-dlm-admin.php:110
 msgid "Custom template"
-msgstr ""
+msgstr "Anpassad mall"
 
 #: includes/admin/class-dlm-admin.php:116
 msgid "Custom Template"
-msgstr ""
+msgstr "Anpassad mall"
 
 #: includes/admin/class-dlm-admin.php:117
 msgid ""
-"Leaving this blank will use the default <code>content-download.php</code> "
-"template file. If you enter, for example, <code>image</code>, the <code"
-">content-download-image.php</code> template will be used instead. You can "
-"add custom templates inside your theme folder."
+"Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used "
+"instead. You can add custom templates inside your theme folder."
 msgstr ""
+"Om detta lämnas tomt kommer standardmallen <code>content-download.php</code> att användas. Om du t.ex anger <code>image</code> så kommer mallen <code>content-download-bild.php</code> användas istället. Du "
+"kan lägga till anpassade mallar i din temakatalog."
 
 #: includes/admin/class-dlm-admin.php:122
 msgid "MD5 hashes"
-msgstr ""
+msgstr "MD5-hashes"
 
 #: includes/admin/class-dlm-admin.php:123
 msgid "Generate MD5 hash for uploaded files"
-msgstr ""
+msgstr "Generera MD5-hash för uppladdade filer"
 
 #: includes/admin/class-dlm-admin.php:130
 msgid "SHA1 hashes"
-msgstr ""
+msgstr "SHA1-hashes"
 
 #: includes/admin/class-dlm-admin.php:131
 msgid "Generate SHA1 hash for uploaded files"
-msgstr ""
+msgstr "Generera SHA1-hash för uppladdade filer"
 
 #: includes/admin/class-dlm-admin.php:138
 msgid "CRC32B hashes"
-msgstr ""
+msgstr "CRC32B-hashes"
 
 #: includes/admin/class-dlm-admin.php:139
 msgid "Generate CRC32B hash for uploaded files"
-msgstr ""
+msgstr "Generera CRC32B-hash för uppladdade filer"
 
 #: includes/admin/class-dlm-admin.php:140
-msgid ""
-"Hashes can optionally be output via shortcodes, but may cause performance "
-"issues with large files."
-msgstr ""
+msgid "Hashes can optionally be output via shortcodes, but may cause performance issues with large files."
+msgstr "Hashes kan skrivas ut via shortcodes, men kan skapa prestandaproblem vid större filer."
 
 #: includes/admin/class-dlm-admin.php:146
 msgid "Endpoint"
@@ -529,16 +502,14 @@ msgstr "Slutpunkt"
 
 #: includes/admin/class-dlm-admin.php:151
 msgid "download"
-msgstr "ladda-ner"
+msgstr "nedladdning"
 
 #: includes/admin/class-dlm-admin.php:152
 msgid "Download Endpoint"
 msgstr "Nedladdningsslutpunkt"
 
 #: includes/admin/class-dlm-admin.php:153
-msgid ""
-"Define what endpoint should be used for download links. By default this will"
-" be <code>%s</code>."
+msgid "Define what endpoint should be used for download links. By default this will be <code>%s</code>."
 msgstr "Definiera vilken slutpunkt nedladdningar ska ha. Som standard kommer detta vara <code>%s</code>."
 
 #: includes/admin/class-dlm-admin.php:158
@@ -546,47 +517,36 @@ msgid "Endpoint Value"
 msgstr "Slutpunktsvärde"
 
 #: includes/admin/class-dlm-admin.php:159
-msgid ""
-"Define what unique value should be used on the end of your endpoint to "
-"identify the downloadable file. e.g. ID would give a link like "
-"<code>%s</code>"
+msgid "Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>"
 msgstr "Definiera vilket unikt värde i slutet på din slutpunkt för att identifiera den nedladdningsbara filen. Exempelvis, ID skulle ge dig en länk som<code>%s</code>"
 
-#: includes/admin/class-dlm-admin.php:162
-#: includes/admin/class-dlm-admin.php:484
+#: includes/admin/class-dlm-admin.php:162 includes/admin/class-dlm-admin.php:484
 msgid "Download ID"
 msgstr "Nedladdnings-ID"
 
 #: includes/admin/class-dlm-admin.php:163
 msgid "Download slug"
-msgstr "Nedladdningsslug"
+msgstr "Nedladdningspermalänk"
 
 #: includes/admin/class-dlm-admin.php:169
 msgid "X-Accel-Redirect / X-Sendfile"
 msgstr "X-Accel-Redirect / X-Sendfile"
 
-#: includes/admin/class-dlm-admin.php:170
-#: includes/admin/class-dlm-admin.php:178
-#: includes/admin/class-dlm-admin.php:189
+#: includes/admin/class-dlm-admin.php:170 includes/admin/class-dlm-admin.php:178 includes/admin/class-dlm-admin.php:189
 msgid "Enable"
 msgstr "Aktivera"
 
 #: includes/admin/class-dlm-admin.php:171
-msgid ""
-"If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be"
-" used to serve downloads instead of PHP (server requires "
-"<code>mod_xsendfile</code>)."
-msgstr "Om det stödjs, kan <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> användas för att hantera nedladdningar istället för PHP (servern behöver då <code>mod_xsendfile</code>)."
+msgid "If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>)."
+msgstr "Om stöd finns, kan <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> användas för att hantera nedladdningar istället för PHP (servern behöver då <code>mod_xsendfile</code>)."
 
 #: includes/admin/class-dlm-admin.php:177
 msgid "Prevent hotlinking"
-msgstr ""
+msgstr "Motverka extern direktlänkning"
 
 #: includes/admin/class-dlm-admin.php:179
-msgid ""
-"If enabled, the download handler will check the PHP referer to see if it "
-"originated from your site and if not, redirect them to the homepage."
-msgstr ""
+msgid "If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage."
+msgstr "Om aktiverat så kommer nedladdningshanteraren kontrollera PHP-referens för att se om förfrågan kommer från din webbplats och om så inte är fallet, omdirigera dom till startsidan."
 
 #: includes/admin/class-dlm-admin.php:185
 msgid "Logging"
@@ -605,18 +565,16 @@ msgid "Blacklist IPs"
 msgstr "Svartlista IP"
 
 #: includes/admin/class-dlm-admin.php:199
-msgid ""
-"List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a "
-"wildcard."
-msgstr "Lista IP-adresser att svartlista, 1 per rad. Använd <code>*</code> för wildcard."
+msgid "List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a wildcard."
+msgstr "Lista IP-adresser att svartlista, 1 per rad. Använd <code>*</code> som jokertecken."
 
 #: includes/admin/class-dlm-admin.php:206
 msgid "Blacklist user agents"
-msgstr "Svartlista användarprogram"
+msgstr "Svartlista användaragent"
 
 #: includes/admin/class-dlm-admin.php:207
 msgid "List browser user agents to blacklist, 1 per line."
-msgstr "Lista webbläsarprogram att svartlista, 1 per rad."
+msgstr "Lista webbläsares användaragent att svartlista, 1 per rad."
 
 #: includes/admin/class-dlm-admin.php:279
 msgid "Logs"
@@ -640,15 +598,15 @@ msgstr "Exportera CSV"
 
 #: includes/admin/class-dlm-admin.php:434
 msgid "Delete Logs"
-msgstr ""
+msgstr "Radera loggar"
 
 #: includes/admin/class-dlm-admin.php:485
 msgid "Version ID"
-msgstr "ID-version"
+msgstr "Versions-ID"
 
 #: includes/admin/class-dlm-admin.php:486
 msgid "Filename"
-msgstr ""
+msgstr "Filnamn"
 
 #: includes/admin/class-dlm-admin.php:487
 msgid "User ID"
@@ -656,23 +614,21 @@ msgstr "Användar-ID"
 
 #: includes/admin/class-dlm-admin.php:488
 msgid "User Login"
-msgstr ""
+msgstr "Användarens användarnamn"
 
 #: includes/admin/class-dlm-admin.php:489
 msgid "User Email"
-msgstr ""
+msgstr "Användarens e-postadress"
 
 #: includes/admin/class-dlm-admin.php:490
 msgid "User IP"
 msgstr "Användar-IP"
 
-#: includes/admin/class-dlm-admin.php:491
-#: includes/admin/class-dlm-logging-list-table.php:127
+#: includes/admin/class-dlm-admin.php:491 includes/admin/class-dlm-logging-list-table.php:127
 msgid "User Agent"
-msgstr "Användarprogram"
+msgstr "Användaragent"
 
-#: includes/admin/class-dlm-admin.php:492
-#: includes/admin/class-dlm-logging-list-table.php:128
+#: includes/admin/class-dlm-admin.php:492 includes/admin/class-dlm-logging-list-table.php:128
 msgid "Date"
 msgstr "Datum"
 
@@ -710,51 +666,51 @@ msgstr "IP-address"
 
 #: includes/admin/class-dlm-logging-list-table.php:142
 msgid "Any status"
-msgstr ""
+msgstr "Alla statusar"
 
 #: includes/admin/class-dlm-logging-list-table.php:143
 msgid "Failed"
-msgstr ""
+msgstr "Misslyckades"
 
 #: includes/admin/class-dlm-logging-list-table.php:144
 msgid "Redirected"
-msgstr ""
+msgstr "Omdirigerad"
 
 #: includes/admin/class-dlm-logging-list-table.php:145
 msgid "Completed"
-msgstr ""
+msgstr "Genomförd"
 
 #: includes/admin/class-dlm-logging-list-table.php:164
 msgid "Show all dates"
-msgstr ""
+msgstr "Visa alla datum"
 
 #: includes/admin/class-dlm-logging-list-table.php:177
 msgid "%1$s %2$d"
-msgstr ""
+msgstr "%1$s %2$d"
 
 #: includes/admin/class-dlm-logging-list-table.php:185
 msgid "25 per page"
-msgstr ""
+msgstr "25 per sida"
 
 #: includes/admin/class-dlm-logging-list-table.php:186
 msgid "50 per page"
-msgstr ""
+msgstr "50 per sida"
 
 #: includes/admin/class-dlm-logging-list-table.php:187
 msgid "100 per page"
-msgstr ""
+msgstr "100 per sida"
 
 #: includes/admin/class-dlm-logging-list-table.php:188
 msgid "200 per page"
-msgstr ""
+msgstr "200 per sida"
 
 #: includes/admin/class-dlm-logging-list-table.php:189
 msgid "Show All"
-msgstr ""
+msgstr "Visa alla"
 
 #: includes/admin/class-dlm-logging-list-table.php:193
 msgid "Filter"
-msgstr ""
+msgstr "Filtrera"
 
 #: includes/admin/html-downloadable-file-version.php:3
 msgid "Remove"
@@ -768,10 +724,9 @@ msgstr "Klicka för att växla"
 msgid "Version <span class=\"version\">%s</span> (%s)"
 msgstr "Version <span class=\"version\">%s</span> (%s)"
 
-#: includes/admin/html-downloadable-file-version.php:5
-#: includes/admin/html-downloadable-file-version.php:17
+#: includes/admin/html-downloadable-file-version.php:5 includes/admin/html-downloadable-file-version.php:17
 msgid "n/a"
-msgstr "Ej applicerbar"
+msgstr "Ej tillgängligt"
 
 #: includes/admin/html-downloadable-file-version.php:5
 msgid "Downloaded %s time"
@@ -784,14 +739,12 @@ msgid "File URL(s)"
 msgstr "Fil-URL(er)"
 
 #: includes/admin/html-downloadable-file-version.php:22
-msgid ""
-"Enter one file path/URL per line - multiple files will be used as mirrors "
-"(chosen at random)."
-msgstr "Skriv in en sökväg/URL per rad - multipla filer kommer att användas som alternativ/mirrors (valda slumpmässigt)."
+msgid "Enter one file path/URL per line - multiple files will be used as mirrors (chosen at random)."
+msgstr "Ange en sökväg/URL per rad - extra filer kommer att användas som alternativ/mirrors (valda slumpmässigt)."
 
 #: includes/admin/html-downloadable-file-version.php:27
 msgid "Upload file"
-msgstr "Ladda upp en fil"
+msgstr "Ladda upp fil"
 
 #: includes/admin/html-downloadable-file-version.php:29
 msgid "Choose a file"
@@ -799,15 +752,15 @@ msgstr "Välj en fil"
 
 #: includes/admin/html-downloadable-file-version.php:30
 msgid "Insert file URL"
-msgstr "Skriv in URL till fil"
+msgstr "Agne URL för fil"
 
 #: includes/admin/html-downloadable-file-version.php:34
 msgid "Browse for file"
-msgstr "Sök efter uppladdad fil"
+msgstr "Bläddra efter fil"
 
 #: includes/admin/html-downloadable-file-version.php:58
 msgid "File Date"
-msgstr "Filens datum"
+msgstr "Fildatum"
 
 #: includes/admin/html-downloadable-file-version.php:59
 msgid "h"
@@ -819,41 +772,31 @@ msgstr "min"
 
 #: includes/class-dlm-download-handler.php:140
 msgid "Password Required"
-msgstr ""
+msgstr "Lösenord krävs"
 
 #: includes/class-dlm-download-handler.php:150
 msgid "Download does not exist."
 msgstr "Nedladdning finns ej."
 
-#: includes/class-dlm-download-handler.php:150
-#: includes/class-dlm-download-handler.php:180
-#: includes/class-dlm-download-handler.php:185
-#: includes/class-dlm-download-handler.php:194
+#: includes/class-dlm-download-handler.php:150 includes/class-dlm-download-handler.php:180 includes/class-dlm-download-handler.php:185 includes/class-dlm-download-handler.php:194
 #: includes/class-dlm-download-handler.php:288
 msgid "Go to homepage &rarr;"
-msgstr "Gå till hemsidan &rarr;"
+msgstr "Gå till startsidan &rarr;"
 
-#: includes/class-dlm-download-handler.php:150
-#: includes/class-dlm-download-handler.php:180
-#: includes/class-dlm-download-handler.php:185
-#: includes/class-dlm-download-handler.php:194
+#: includes/class-dlm-download-handler.php:150 includes/class-dlm-download-handler.php:180 includes/class-dlm-download-handler.php:185 includes/class-dlm-download-handler.php:194
 #: includes/class-dlm-download-handler.php:288
 msgid "Download Error"
 msgstr "Nedladdningsfel"
 
-#: includes/class-dlm-download-handler.php:180
-#: includes/class-dlm-download-handler.php:185
+#: includes/class-dlm-download-handler.php:180 includes/class-dlm-download-handler.php:185
 msgid "No file paths defined."
-msgstr "Inga sökvägar till fil finns definierade."
+msgstr "Inga sökvägar definierade."
 
 #: includes/class-dlm-download-handler.php:194
 msgid "You do not have permission to access this download."
-msgstr "Du har inte tillräckliga rättigheter för denna nedladdning."
+msgstr "Du har inte tillräcklig behörighet för denna nedladdning."
 
-#: includes/class-dlm-download-handler.php:212
-#: includes/class-dlm-download-handler.php:228
-#: includes/class-dlm-download-handler.php:235
-#: includes/class-dlm-download-handler.php:242
+#: includes/class-dlm-download-handler.php:212 includes/class-dlm-download-handler.php:228 includes/class-dlm-download-handler.php:235 includes/class-dlm-download-handler.php:242
 msgid "Redirected to file"
 msgstr "Omdirigerad till fil"
 
@@ -863,15 +806,15 @@ msgstr "Omdirigerad till fil på annan plats."
 
 #: includes/class-dlm-download-handler.php:286
 msgid "File not found"
-msgstr "Fil hittas ej"
+msgstr "Filen kunde inte hittas"
 
 #: includes/class-dlm-download-handler.php:288
 msgid "File not found."
-msgstr "Fil hittas ej."
+msgstr "Filen kunde inte hittas."
 
 #: includes/class-dlm-shortcodes.php:93 includes/class-dlm-shortcodes.php:125
 msgid "Download not found"
-msgstr "Nedladdning hittas ej"
+msgstr "Nedladdningen kunde inte hittas"
 
 #: includes/widgets/class-dlm-widget-downloads.php:27
 msgid "Display a list of your downloads."
@@ -881,10 +824,9 @@ msgstr "Visa en lista med dina nedladdningar."
 msgid "Downloads List"
 msgstr "Nedladdningslista"
 
-#: includes/widgets/class-dlm-widget-downloads.php:52
-#: includes/widgets/class-dlm-widget-downloads.php:148
+#: includes/widgets/class-dlm-widget-downloads.php:52 includes/widgets/class-dlm-widget-downloads.php:148
 msgid "Featured Downloads"
-msgstr "Viktiga nedladdningar"
+msgstr "Utvalda nedladdningar"
 
 #: includes/widgets/class-dlm-widget-downloads.php:157
 msgid "Title:"
@@ -896,7 +838,7 @@ msgstr "Begränsning:"
 
 #: includes/widgets/class-dlm-widget-downloads.php:165
 msgid "Output template:"
-msgstr "Outputmall:"
+msgstr "Mall för utskrift:"
 
 #: includes/widgets/class-dlm-widget-downloads.php:166
 msgid "Default template"
@@ -904,11 +846,11 @@ msgstr "Standardmall"
 
 #: includes/widgets/class-dlm-widget-downloads.php:169
 msgid "Order by:"
-msgstr "Sortera på:"
+msgstr "Sortera efter:"
 
 #: includes/widgets/class-dlm-widget-downloads.php:172
 msgid "Random"
-msgstr "Slumpmässig"
+msgstr "Slumpmässigt"
 
 #: includes/widgets/class-dlm-widget-downloads.php:174
 msgid "Date added"
@@ -932,22 +874,19 @@ msgstr "Stigande"
 
 #: includes/widgets/class-dlm-widget-downloads.php:188
 msgid "Show only featured downloads"
-msgstr "Visa bara viktiga nedladdningar"
+msgstr "Visa bara utvalda nedladdningar"
 
 #: includes/widgets/class-dlm-widget-downloads.php:192
 msgid "Show only members only downloads"
-msgstr "Visa bara medlemstillåtna nedladdningar"
+msgstr "Visa bara medlemsnedladdningar"
 
-#: templates/content-download-box.php:12
-#: templates/content-download-filename.php:9 templates/content-download.php:9
+#: templates/content-download-box.php:12 templates/content-download-filename.php:9 templates/content-download.php:9
 msgid "1 download"
 msgid_plural "%d downloads"
 msgstr[0] "1 nedladdning"
 msgstr[1] "%d nedladdningar"
 
-#: templates/content-download-box.php:20
-#: templates/content-download-filename.php:8
-#: templates/content-download-title.php:8 templates/content-download.php:8
+#: templates/content-download-box.php:20 templates/content-download-filename.php:8 templates/content-download-title.php:8 templates/content-download.php:8
 msgid "Version %s"
 msgstr "Version %s"
 
@@ -959,8 +898,7 @@ msgstr "Ladda ner fil"
 msgid "Download &ldquo;%s&rdquo;"
 msgstr "Ladda ner &ldquo;%s&rdquo;"
 
-#: templates/content-download-button.php:10
-#: templates/content-download-version-list.php:17
+#: templates/content-download-button.php:10 templates/content-download-version-list.php:17
 msgid "Downloaded 1 time"
 msgid_plural "Downloaded %d times"
 msgstr[0] "Nedladdad 1 gång"
@@ -968,23 +906,20 @@ msgstr[1] "Nedladdad %d gånger"
 
 #. Plugin Name of the plugin/theme
 msgid "Download Monitor"
-msgstr ""
+msgstr "Download Monitor"
 
 #. Plugin URI of the plugin/theme
 msgid "http://mikejolley.com/projects/download-monitor/"
-msgstr ""
+msgstr "http://mikejolley.com/projects/download-monitor/"
 
 #. Description of the plugin/theme
-msgid ""
-"A full solution for managing downloadable files, monitoring downloads and "
-"outputting download links and file information on your WordPress powered "
-"site."
-msgstr ""
+msgid "A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site."
+msgstr "En fullständig lösning för att hantera nedladdningsbara filer, övervakning av nedladdningar, infogning av nedladdningslänkar och filinformation på din webbplats som drivs med WordPress."
 
 #. Author of the plugin/theme
 msgid "Mike Jolley"
-msgstr ""
+msgstr "Mike Jolley"
 
 #. Author URI of the plugin/theme
 msgid "http://mikejolley.com"
-msgstr ""
+msgstr "http://mikejolley.com"
