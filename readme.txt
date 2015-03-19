@@ -122,6 +122,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak - Also set the post_date_gmt value for version dates.
 * Tweak - Updated French translation. Props Li-An.
 * Tweak - Updated German translation. Props maphy-psd.
+* Tweak - Updated Swedish translation. Props EyesX.
 
 = 1.6.4 =
 * Removed unused library jqueryFileTree.
