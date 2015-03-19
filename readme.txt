@@ -121,6 +121,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak - Introduced a multi-byte-safe pathinfo so we can handle 'special' filenames.
 * Tweak - Also set the post_date_gmt value for version dates.
 * Tweak - Updated French translation. Props Li-An.
+* Tweak - Updated German translation. Props maphy-psd.
 
 = 1.6.4 =
 * Removed unused library jqueryFileTree.
