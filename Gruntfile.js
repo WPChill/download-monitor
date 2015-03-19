@@ -117,10 +117,10 @@ module.exports = function( grunt ){
 		'uglify'
 	]);
 
-	// Just an alias for pot file generation
-	grunt.registerTask( 'pot', [
-		'shell:generatepot'
-	]);
+    // Just an alias for pot file generation
+    grunt.registerTask('pot', [
+        'makepot'
+    ]);
 
 	grunt.registerTask( 'dev', [
 		'default',
