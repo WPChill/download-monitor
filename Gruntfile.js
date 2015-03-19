@@ -58,7 +58,7 @@ module.exports = function( grunt ){
 					dest: '<%= dirs.js %>',
 					ext: '.min.js'
 				}]
-			},
+			}
 		},
 
 		// Watch changes for assets
@@ -74,31 +74,33 @@ module.exports = function( grunt ){
 				],
 				tasks: ['uglify']
 			}
-		},	
-
-		shell: {
-			options: {
-				stdout: true,
-				stderr: true
-			},
-			txpull: {
-				command: [
-					'tx pull -a -f',
-				].join( '&&' )
-			},
-			generatemos: {
-				command: [
-					'cd languages',
-					'for i in *.po; do msgfmt $i -o ${i%%.*}.mo; done'
-				].join( '&&' )
-			},
-			generatepot: {
-				command: [
-					'makepot'
-				].join( '&&' )
-			}
 		},
-		
+
+        // Generate POT files.
+        makepot: {
+            options: {
+                type: 'wp-plugin',
+                domainPath: 'languages',
+                potHeaders: {
+                    'report-msgid-bugs-to': 'https://github.com/download-monitor/download-monitor/issues',
+                    'language-team': 'LANGUAGE <EMAIL@ADDRESS>'
+                }
+            },
+            frontend: {
+                options: {
+                    potFilename: 'download-monitor.pot',
+                    exclude: [
+                        'node_modules/.*',
+                        'tests/.*',
+                        'tmp/.*'
+                    ],
+                    processPot: function (pot) {
+                        return pot;
+                    }
+                }
+            }
+        }
+
 	});
 
 	// Load NPM tasks to be used here
