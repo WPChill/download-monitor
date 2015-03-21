@@ -147,7 +147,7 @@ class DLM_Admin {
 						array(
 							'name'        => 'dlm_no_access_error',
 							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
-							'placeholder' => __( 'test', 'download-monitor' ),
+							'placeholder' => '',
 							'label'       => __( 'No access message', 'download-monitor' ),
 							'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
 							'type'        => 'textarea'
