@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Download Monitor 1.7.0-alpha1\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2015-03-19 19:38:32+00:00\n"
+"POT-Creation-Date: 2015-03-21 18:31:05+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -152,8 +152,8 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin-extensions.php:76
 msgid ""
-"<p>Extend Download Monitor with its powerful free and paid extensions. "
-"%sClick here to browse all extensions%s</a></p>"
+"Extend Download Monitor with its powerful free and paid extensions. %sClick "
+"here to browse all extensions%s"
 msgstr ""
 
 #: includes/admin/class-dlm-admin-media-browser.php:34
