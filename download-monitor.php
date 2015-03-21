@@ -29,11 +29,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+// Define DLM Version
+define( 'DLM_VERSION', '1.7.0-alpha1' );
 
 function __download_monitor_main() {
-
-	// Define DLM Version
-	define( 'DLM_VERSION', '1.7.0-alpha1' );
 
 	// Define DLM FILE
 	define( 'DLM_PLUGIN_FILE', __FILE__ );
