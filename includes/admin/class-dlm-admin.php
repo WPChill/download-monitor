@@ -332,7 +332,7 @@ class DLM_Admin {
 	 */
 	public function admin_menu_extensions() {
 		// Extensions page
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Extensions', 'download-monitor' ), __( '<span style="color:#419CCB;font-weight:bold;">Extensions</span>', 'download-monitor' ), 'manage_options', 'dlm-extensions', array(
+		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Extensions', 'download-monitor' ), '<span style="color:#419CCB;font-weight:bold;">' . __( 'Extensions', 'download-monitor' ) . '</span>', 'manage_options', 'dlm-extensions', array(
 			$this,
 			'extensions_page'
 		) );
