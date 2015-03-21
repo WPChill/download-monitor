@@ -123,6 +123,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak - Updated French translation. Props Li-An.
 * Tweak - Updated German translation. Props maphy-psd.
 * Tweak - Updated Swedish translation. Props EyesX.
+* Tweak - Update Slovakian translation. Props attitude.
 
 = 1.6.4 =
 * Removed unused library jqueryFileTree.
