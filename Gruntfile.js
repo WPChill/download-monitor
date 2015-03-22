@@ -101,6 +101,13 @@ module.exports = function ( grunt ) {
                 }
             }
         },
+        
+        po2mo: {
+            files: {
+                src: '<%= dirs.lang %>/*.po',
+                expand: true
+            }
+        },
 
         shell: {
             options: {
