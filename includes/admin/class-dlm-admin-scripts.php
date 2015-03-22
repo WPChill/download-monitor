@@ -19,18 +19,18 @@ class DLM_Admin_Scripts {
 	public function enqueue_scripts() {
 		global $pagenow, $post;
 
+		// Enqueue Edit Post JS
+		wp_enqueue_script(
+			'dlm_insert_download',
+			plugins_url( '/assets/js/insert-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+			array( 'jquery' ),
+			DLM_VERSION
+		);
+
+		// Make JavaScript strings translatable
+		wp_localize_script( 'dlm_insert_download', 'dlm_id_strings', $this->get_strings( 'edit-post' ) );
+
 		if ( $pagenow == 'post.php' || $pagenow == 'post-new.php' ) {
-
-			// Enqueue Edit Post JS
-			wp_enqueue_script(
-				'dlm_edit_post',
-				plugins_url( '/assets/js/edit-post' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
-				array( 'jquery' ),
-				DLM_VERSION
-			);
-
-			// Make JavaScript strings translatable
-			wp_localize_script( 'dlm_edit_post', 'dlm_ep_strings', $this->get_strings( 'edit-post' ) );
 
 			// Enqueue Downloadable Files Metabox JS
 			if ( ( $pagenow == 'post.php' && isset( $post ) && 'dlm_download' === $post->post_type ) || ( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] ) ) {

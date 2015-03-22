@@ -73,7 +73,7 @@ class DLM_Admin_Extensions {
 						}
 					}
 
-					echo "<p>Extend Download Monitor with it's powerful free and paid extensions.</p>" . PHP_EOL;
+					echo '<p>' . sprintf( __( 'Extend Download Monitor with its powerful free and paid extensions. %sClick here to browse all extensions%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=extensions-top" target="_blank">', '</a>' ) . '</p>' . PHP_EOL;
 					?>
 					<h2 class="nav-tab-wrapper">
 						<a href="#available-extensions" class="nav-tab nav-tab-active">Available Extensions</a>
@@ -104,7 +104,7 @@ class DLM_Admin_Extensions {
 							//$price_display = ( ( $extension->price > 0 ) ? '$' . $extension->price : 'FREE' );
 
 							echo '<div class="theme dlm_extension">';
-								echo '<a href="' . $extension->url . '" target="_blank">';
+								echo '<a href="' . $extension->url . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . $extension->name . '" target="_blank">';
 									echo '<div class="dlm_extension_img_wrapper"><img src="' . $extension->image . '" alt="' . $extension->name . '" /></div>' . PHP_EOL;
 										echo '<h3>' . $extension->name . '</h3>' . PHP_EOL;
 										echo '<p class="extension-desc">' . $extension->desc . '</p>';

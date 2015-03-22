@@ -9,12 +9,67 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class DLM_Download_Version {
 
+	/** @var int */
+	public $id;
+
+	/** @var int */
+	public $download_id;
+
+	/** @var string */
+	public $version;
+
+	/** @var int */
+	public $download_count;
+
+	/** @var int */
+	public $filesize;
+
+	/** @var string */
+	public $md5;
+
+	/** @var string */
+	public $sha1;
+
+	/** @var string */
+	public $crc32;
+
+	/** @var array */
+	public $mirrors;
+
+	/** @var string */
+	public $url;
+
+	/** @var string */
+	public $filename;
+
+	/** @var string */
+	public $filetype;
+
 	/**
 	 * __construct function.
 	 *
+	 * @param int $version_id
+	 * @param int $download_id
+	 *
 	 * @access public
 	 */
-	public function __construct( $version_id, $download_id ) {
+	public function __construct( $version_id = 0, $download_id = 0 ) {
+
+		// Check if both version and download id are given in constructor
+		if ( 0 !== $version_id && 0 !== $download_id ) {
+			// Setup the class with DB data
+			$this->setup( $version_id, $download_id );
+		}
+	}
+
+	/**
+	 * Load data from DB. Not the ideal way to do this but we can't break BC.
+	 *
+	 * @param int $version_id
+	 * @param int $download_id
+	 */
+	private function setup( $version_id, $download_id ) {
+
 		$this->id          = absint( $version_id );
 		$this->download_id = absint( $download_id );
 
@@ -44,6 +99,16 @@ class DLM_Download_Version {
 		if ( $this->filesize === "" ) {
 			$this->filesize = $this->get_filesize( $this->url );
 		}
+
+	}
+
+	/**
+	 * Get the version slug
+	 *
+	 * @return string
+	 */
+	public function get_version_slug() {
+		return sanitize_title_with_dashes( $this->version );
 	}
 
 	/**

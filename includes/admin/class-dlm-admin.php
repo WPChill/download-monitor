@@ -15,6 +15,7 @@ class DLM_Admin {
 	 * Setup actions etc.
 	 */
 	public function setup() {
+
 		// Directory protection
 		add_filter( 'mod_rewrite_rules', array( $this, 'ms_files_protection' ) );
 		add_filter( 'upload_dir', array( $this, 'upload_dir' ) );
@@ -25,10 +26,19 @@ class DLM_Admin {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 12 );
 		add_action( 'admin_menu', array( $this, 'admin_menu_extensions' ), 20 );
 
+		// Settings
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+
+		// Logs
 		add_action( 'admin_init', array( $this, 'export_logs' ) );
 		add_action( 'admin_init', array( $this, 'delete_logs' ) );
+
+		// Dashboard
 		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
+
+		// Admin Footer Text
+		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ), 1 );
+
 	}
 
 	/**
@@ -119,28 +129,28 @@ class DLM_Admin {
 							'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
 						),
 						array(
-							'name'     => 'dlm_generate_hash_md5',
-							'std'      => '0',
-							'label'    => __( 'MD5 hashes', 'download-monitor' ),
-							'cb_label' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
-							'desc'     => '',
+							'name'     => 'dlm_xsendfile_enabled',
+							'std'      => '',
+							'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
 						array(
-							'name'     => 'dlm_generate_hash_sha1',
-							'std'      => '0',
-							'label'    => __( 'SHA1 hashes', 'download-monitor' ),
-							'cb_label' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
-							'desc'     => '',
+							'name'     => 'dlm_hotlink_protection_enabled',
+							'std'      => '',
+							'label'    => __( 'Prevent hotlinking', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
 						array(
-							'name'     => 'dlm_generate_hash_crc32b',
-							'std'      => '0',
-							'label'    => __( 'CRC32B hashes', 'download-monitor' ),
-							'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
-							'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
-							'type'     => 'checkbox'
+							'name'        => 'dlm_no_access_error',
+							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
+							'placeholder' => '',
+							'label'       => __( 'No access message', 'download-monitor' ),
+							'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
+							'type'        => 'textarea'
 						),
 					),
 				),
@@ -164,23 +174,36 @@ class DLM_Admin {
 								'ID'   => __( 'Download ID', 'download-monitor' ),
 								'slug' => __( 'Download slug', 'download-monitor' )
 							)
-						),
-						array(
-							'name'     => 'dlm_xsendfile_enabled',
-							'std'      => '',
-							'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
-							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
-							'type'     => 'checkbox'
-						),
-						array(
-							'name'     => 'dlm_hotlink_protection_enabled',
-							'std'      => '',
-							'label'    => __( 'Prevent hotlinking', 'download-monitor' ),
-							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
-							'type'     => 'checkbox'
 						)
+					)
+				),
+				'hash'      => array(
+					__( 'Hashes', 'download-monitor' ),
+					array(
+						array(
+							'name'     => 'dlm_generate_hash_md5',
+							'std'      => '0',
+							'label'    => __( 'MD5 hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
+							'desc'     => '',
+							'type'     => 'checkbox'
+						),
+						array(
+							'name'     => 'dlm_generate_hash_sha1',
+							'std'      => '0',
+							'label'    => __( 'SHA1 hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
+							'desc'     => '',
+							'type'     => 'checkbox'
+						),
+						array(
+							'name'     => 'dlm_generate_hash_crc32b',
+							'std'      => '0',
+							'label'    => __( 'CRC32B hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
+							'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
 					)
 				),
 				'logging'   => array(
@@ -211,7 +234,7 @@ class DLM_Admin {
 							'type'        => 'textarea'
 						),
 					)
-				)
+				),
 			)
 		);
 	}
@@ -290,7 +313,7 @@ class DLM_Admin {
 
 		// Logs page
 		if ( $logging->is_logging_enabled() ) {
-			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'manage_options', 'download-monitor-logs', array(
+			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'dlm_manage_logs', 'download-monitor-logs', array(
 				$this,
 				'log_viewer'
 			) );
@@ -309,7 +332,7 @@ class DLM_Admin {
 	 */
 	public function admin_menu_extensions() {
 		// Extensions page
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Extensions', 'download-monitor' ), __( 'Extensions', 'download-monitor' ), 'manage_options', 'dlm-extensions', array(
+		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Extensions', 'download-monitor' ), '<span style="color:#419CCB;font-weight:bold;">' . __( 'Extensions', 'download-monitor' ) . '</span>', 'manage_options', 'dlm-extensions', array(
 			$this,
 			'extensions_page'
 		) );
@@ -582,5 +605,36 @@ class DLM_Admin {
 	 */
 	public function admin_dashboard() {
 		new DLM_Admin_Dashboard();
+	}
+
+	/**
+	 * Change the admin footer text on Download Monitor admin pages
+	 *
+	 * @since  1.7
+	 *
+	 * @param  string $footer_text
+	 *
+	 * @return string
+	 */
+	public function admin_footer_text( $footer_text ) {
+		$current_screen = get_current_screen();
+
+		$dlm_page_ids = array(
+			'edit-dlm_download',
+			'dlm_download',
+			'edit-dlm_download_category',
+			'edit-dlm_download_tag',
+			'dlm_download_page_download-monitor-logs',
+			'dlm_download_page_download-monitor-settings',
+			'dlm_download_page_dlm-extensions'
+		);
+
+		// Check to make sure we're on a WooCommerce admin page
+		if ( isset( $current_screen->id ) && apply_filters( 'dlm_display_admin_footer_text', in_array( $current_screen->id, $dlm_page_ids ) ) ) {
+			// Change the footer text
+			$footer_text = sprintf( __( 'If you like %sDownload Monitor%s please leave us a %s★★★★★%s rating. A huge thank you from us in advance!', 'download-monitor' ), '<strong>', '</strong>', '<a href="https://wordpress.org/support/view/plugin-reviews/download-monitor?filter=5#postform" target="_blank">', '</a>' );
+		}
+
+		return $footer_text;
 	}
 }

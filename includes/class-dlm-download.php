@@ -9,6 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class DLM_Download {
 
+	/** @var int  */
+	public $id;
+
+	/** @var WP_Post  */
+	public $post;
+
+	/** @var string  */
+	public $version_id;
+
 	private $files;
 	private $file_version_ids;
 
@@ -238,7 +247,7 @@ class DLM_Download {
 		if ( $this->version_id ) {
 
 			if ( $this->has_version_number() ) {
-				$link = add_query_arg( 'version', $this->get_the_version_number(), $link );
+				$link = add_query_arg( 'version', $this->get_file_version()->get_version_slug(), $link );
 			} else {
 				$link = add_query_arg( 'v', $this->version_id, $link );
 			}
@@ -285,10 +294,16 @@ class DLM_Download {
 	 * get_the_version_number function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return String
 	 */
 	public function get_the_version_number() {
-		return ( $version = $this->get_file_version()->version ) ? $version : '1';
+		$version = $this->get_file_version()->version;
+
+		if ( '' === $version ) {
+			$version = 1;
+		}
+
+		return $version;
 	}
 
 	/**
@@ -405,7 +420,8 @@ class DLM_Download {
 	 * Get a version by ID, or default to current version.
 	 *
 	 * @access public
-	 * @return void
+	 *
+	 * @return DLM_Download_Version
 	 */
 	public function get_file_version() {
 		$version = false;
@@ -423,7 +439,7 @@ class DLM_Download {
 
 		if ( ! $version ) {
 
-			$version = new stdClass();
+			$version = new DLM_Download_Version();
 
 			$version->id             = 0;
 			$version->download_id    = $this->id;
@@ -449,7 +465,7 @@ class DLM_Download {
 		$versions = $this->get_file_versions();
 
 		foreach ( $versions as $version_id => $version ) {
-			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || strtolower( $version->version ) === strtolower( $version_string ) ) {
+			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || sanitize_title_with_dashes( $version->version ) === sanitize_title_with_dashes( $version_string ) ) {
 				return $version_id;
 			}
 		}
@@ -509,7 +525,7 @@ class DLM_Download {
 	 * get_file_versions function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function get_file_versions() {
 		if ( $this->files ) {

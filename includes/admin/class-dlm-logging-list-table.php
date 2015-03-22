@@ -226,8 +226,8 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	function prepare_items() {
 		global $wpdb;
 
-		$per_page      = $this->logs_per_page;
-		$current_page  = $this->get_pagenum();
+		$per_page      = absint( $this->logs_per_page );
+		$current_page  = absint( $this->get_pagenum() );
 		$filter_status = $this->filter_status;
 		$filter_month  = date( "m", strtotime( $this->filter_month ) );
 		$filter_year   = date( "Y", strtotime( $this->filter_month ) );

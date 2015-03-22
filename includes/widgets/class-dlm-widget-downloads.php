@@ -167,21 +167,21 @@ class DLM_Widget_Downloads extends WP_Widget {
 		?>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'download-monitor' ); ?></label>
+				for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'download-monitor' ); ?>:</label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
 			       name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text"
 			       value="<?php echo esc_attr( $title ); ?>"/>
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Limit:', 'download-monitor' ); ?></label>
+				for="<?php echo $this->get_field_id( 'posts_per_page' ); ?>"><?php _e( 'Limit', 'download-monitor' ); ?>:</label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'posts_per_page' ) ); ?>"
 			       name="<?php echo esc_attr( $this->get_field_name( 'posts_per_page' ) ); ?>" type="text"
 			       value="<?php echo esc_attr( $posts_per_page ); ?>" size="3"/>
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'format' ); ?>"><?php _e( 'Output template:', 'download-monitor' ); ?></label>
+				for="<?php echo $this->get_field_id( 'format' ); ?>"><?php _e( 'Output template', 'download-monitor' ); ?>:</label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'format' ) ); ?>"
 			       name="<?php echo esc_attr( $this->get_field_name( 'format' ) ); ?>" type="text"
 			       value="<?php echo esc_attr( $format ); ?>"
@@ -189,7 +189,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Order by:', 'download-monitor' ); ?></label>
+				for="<?php echo $this->get_field_id( 'orderby' ); ?>"><?php _e( 'Order by', 'download-monitor' ); ?>:</label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'orderby' ) ); ?>"
 			        name="<?php echo esc_attr( $this->get_field_name( 'orderby' ) ); ?>" type="text">
 				<option
@@ -208,7 +208,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Order:', 'download-monitor' ); ?></label>
+				for="<?php echo $this->get_field_id( 'order' ); ?>"><?php _e( 'Order', 'download-monitor' ); ?>:</label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'order' ) ); ?>"
 			        name="<?php echo esc_attr( $this->get_field_name( 'order' ) ); ?>" type="text">
 				<option

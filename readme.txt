@@ -1,10 +1,10 @@
 === Download Monitor ===
 Contributors: barrykooij, mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@cageworks.nl&item_name=Donation+for+Download+Monitor
-Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
+Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
 Tested up to: 4.1.1
-Stable tag: 1.6.4
+Stable tag: 1.7.0
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -15,26 +15,29 @@ Download Monitor provides an interface for uploading and managing downloadable f
 
 = Features =
 
-* Add, edit and remove downloads from a familiar WP interface; just like posts.
-* Quick-add panel for adding files whilst editing posts.
-* Add multiple file versions to your downloads.
-* Define alternative links (mirrors) per version.
-* Categorise, tag, or add other meta to your downloads.
+* Add, edit and remove downloads from a familiar WP interface; Your downloads are just like posts.
+* Quick-add panel for adding downloads / files whilst editing posts.
+* Add multiple file versions to your downloads each with their own data like download count and file links.
+* Define alternative links (mirrors) per download version.
+* Categorize, tag, or add other meta to your downloads.
 * Display download links on the frontend using shortcodes.
 * Change the way download links get displayed via template files.
 * Track downloads counts and log user download attempts.
-* Member only downloads.
+* Member only downloads, requires users to be logged in to download your files.
 * Customisable endpoints for showing pretty download links.
 
-[Read more about Download Monitor](https://www.download-monitor.com).
+[Read more about Download Monitor](https://www.download-monitor.com/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-after-features).
+
+> #### Download Monitor Extensions
+> Extend the core Download Monitor plugin with it's powerful extensions. All extensions come with one year of updates and support.<br />
+>
+> Some of our popular extensions include: [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-page-addon), [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-email-lock), [CSV Importer](https://www.download-monitor.com/extensions/csv-importer/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-csv-importer) and [Gravity Forms Lock](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-gravity-forms-lock).
+>
+> Want to see more? [Browse All Extensions](https://www.download-monitor.com/extensions/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-browse-all)
 
 = Documentation =
 
-Documentation will be maintained on the [GitHub Wiki here](https://github.com/download-monitor/download-monitor/wiki).
-
-= Extensions =
-
-Extensions, such as the __legacy importer__ and __page addon__ can be [found here](https://www.download-monitor.com/extensions/). Take a look!
+Documentation can be found on the [Download Monitor website](https://www.download-monitor.com/documentation/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation).
 
 = Contributing and reporting bugs =
 
@@ -46,7 +49,7 @@ You can contribute localizations via Transifex [https://www.transifex.com/projec
 
 Use the WordPress.org forums for community support. If you spot a bug, you can of course log it on [Github](https://github.com/download-monitor/download-monitor) instead where we can act upon it more efficiently.
 
-If you want help with a customisation, hire a developer!
+Unfortunately we can't offer you help with a customisation. Please consider hiring a developer for your website's customizations.
 
 == Installation ==
 
@@ -65,18 +68,6 @@ The manual installation method involves downloading the plugin and uploading it 
 * Activate the plugin from the Plugins menu within the WordPress admin.
 
 == Frequently Asked Questions ==
-
-= I used this before, so why is this version 1? =
-
-Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](https://www.download-monitor.com/extensions/dlm-legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
-
-Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
-
-= X feature/shortcode is missing from the legacy version; why? =
-
-The rewrite has trimmed the fat and only kept the best, most useful features. If something is missing, you can always code it yourself - the new system is very flexible and its easy to query files using [get_posts](http://codex.wordpress.org/Template_Tags/get_posts).
-
-If you are missing the "Page Addon", this is now a separate plugin found here: [Download Monitor Page Addon](https://www.download-monitor.com/extensions/page-addon/).
 
 = Can I upload .xxx filetype using the uploader? =
 
@@ -101,6 +92,12 @@ Download links are powered by endpoints. If you find them 404'ing, go to Setting
 
 Admin hits are not counted, log out and try!
 
+= I used this before, so why is this version 1? =
+
+Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](https://www.download-monitor.com/extensions/dlm-legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
+
+Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
+
 == Screenshots ==
 
 1. The main admin screen lists your downloads using familiar WordPress UI.
@@ -110,18 +107,37 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
-= 1.6.4 =
+= 1.7.0: March 22, 2015 =
+* Feature - Added 'Download Information' meta box to edit download screen that displays useful download information.
+* Feature - Error message shown when visitor has no access to download is now an option.
+* Fix - Fixing a bug where versions with spaces did not work, versions now are checked on a sanitized title.
+* Tweak - Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
+* Tweak - Improved hotlink prevention check.
+* Tweak - Extension page tweaks.
+* Tweak - Added $download_id argument to dlm_hotlink_redirect filter.
+* Tweak - Moved hash settings to their own tab.
+* Tweak - Moved 'X-Accel-Redirect / X-Sendfile' and 'Prevent hotlinking' settings to General tab.
+* Tweak - Optimized the Insert Download button.
+* Tweak - Introduced a multi-byte-safe pathinfo so we can handle 'special' filenames.
+* Tweak - Also set the post_date_gmt value for version dates.
+* Tweak - Updated French translation. Props Li-An.
+* Tweak - Updated German translation. Props maphy-psd.
+* Tweak - Updated Swedish translation. Props EyesX.
+* Tweak - Update Slovakian translation. Props attitude.
+* Tweak - Added Dutch translation.
+
+= 1.6.4: March 8, 2015 =
 * Removed unused library jqueryFileTree.
 * dlm_shortcode_download_content filter now also includes $atts.
 * Fixed small parse file parse error because of whitespace.
 * Changed some admin menu hook priorities.
 
-= 1.6.3 =
+= 1.6.3: January 18, 2015 =
 * Fixed an undefined method call 'get_filesize'.
 * Allow third party extensions to hijack [downloads] shortcode with filter dlm_shortcode_download_content.
 * Made 'wp_dlm_downloading' cookie only accessible through the HTTP protocol, props [Matt Mower](https://github.com/mdmower).
 
-= 1.6.2 =
+= 1.6.2: January 11, 2015 =
 * Fixed a bug that caused translations not to load.
 * Fixed a bug that prevented download versions from being removed.
 * Fixed a pagination in 'insert download' shortcode bug.
@@ -130,12 +146,12 @@ Admin hits are not counted, log out and try!
 * Tweaked template loader to accept arguments.
 * Allow downloads shortcode WP_Query arguments to be filtered with 'dlm_shortcode_downloads_args'.
 
-= 1.6.1 =
+= 1.6.1: January 9, 2015 =
 * Fixed an extension activation error.
 * Fixed a bug that caused the featured image to disappear in some themes.
 * Tweak: In multisite only users that are a member of the blog can download 'member only' downloads.
 
-= 1.6.0 =
+= 1.6.0: January 8, 2015 =
 * Plugin is now initiated at plugins_loaded.
 * Implemented auto loader.
 * Classes are no longer initiated at bottom of class file but whenever an object is needed.
@@ -286,6 +302,3 @@ Admin hits are not counted, log out and try!
 * Complete rewrite of the plugin making use of custom post types and other best practices. Fresh start version '1' to prevent auto-updates (legacy importer needs to be used to migrate from old versions).
 
 == Upgrade Notice ==
-
-= 1.6.0 =
-If you're using the Page Addon or Amazon S3 extension you must update these extensions too. Visit https://www.download-monitor.com/ for more information.

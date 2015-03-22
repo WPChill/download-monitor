@@ -27,7 +27,7 @@ class DLM_Download_Handler {
 		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
-		add_action( 'dlm_can_download', array( $this, 'check_access' ), 10, 2 ); /** @todo change to filter */
+		add_filter( 'dlm_can_download', array( $this, 'check_access' ), 10, 2 );
 	}
 
 
@@ -38,9 +38,10 @@ class DLM_Download_Handler {
 	 *
 	 * @access public
 	 *
+	 * @param boolean $can_download
 	 * @param mixed $download
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	public function check_access( $can_download, $download ) {
 
@@ -48,7 +49,7 @@ class DLM_Download_Handler {
 		if ( $download->is_members_only() ) {
 
 			// Check if user is logged in
-			if( ! is_user_logged_in() ) {
+			if ( ! is_user_logged_in() ) {
 				$can_download = false;
 			} // Check if it's a multisite and if user is member of blog
 			else if ( is_multisite() && ! is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) ) {
@@ -100,25 +101,6 @@ class DLM_Download_Handler {
 			// Prevent caching when endpoint is set
 			define( 'DONOTCACHEPAGE', true );
 
-			// Prevent hotlinking
-			if ( get_option( 'dlm_hotlink_protection_enabled' ) ) {
-				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
-				if ( $referer || apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) {
-					$allowed_referers = apply_filters( 'dlm_hotlink_allowed_referers', array( home_url() ) );
-					$allowed          = false;
-					foreach ( $allowed_referers as $allowed_referer ) {
-						if ( strstr( $referer, $allowed_referer ) ) {
-							$allowed = true;
-							break;
-						}
-					}
-					if ( ! $allowed ) {
-						wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url() ) );
-						exit;
-					}
-				}
-			}
-
 			// Get ID of download
 			$raw_id = sanitize_title( stripslashes( $wp->query_vars[ $this->endpoint ] ) );
 
@@ -130,6 +112,36 @@ class DLM_Download_Handler {
 				default :
 					$download_id = absint( $raw_id );
 					break;
+			}
+
+			// Prevent hotlinking
+			if ( '1' == get_option( 'dlm_hotlink_protection_enabled' ) ) {
+
+				// Get referer
+				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
+
+				// Check if referer isn't empty or if referer is empty but empty referer isn't allowed
+				if ( ! empty( $referer ) || ( empty( $referer ) && apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) ) {
+
+					$allowed_referers = apply_filters( 'dlm_hotlink_allowed_referers', array( home_url() ) );
+					$allowed          = false;
+
+					// Loop allowed referers
+					foreach ( $allowed_referers as $allowed_referer ) {
+						if ( strstr( $referer, $allowed_referer ) ) {
+							$allowed = true;
+							break;
+						}
+					}
+
+					// Check if allowed
+					if ( false == $allowed ) {
+						wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url(), $download_id ) );
+						exit;
+					}
+
+				}
+
 			}
 
 			if ( $download_id > 0 ) {
@@ -178,7 +190,7 @@ class DLM_Download_Handler {
 		$logging = new DLM_Logging();
 
 		// Check if logging is enabled
-		if( $logging->is_logging_enabled() ) {
+		if ( $logging->is_logging_enabled() ) {
 
 			// Create log
 			$logging->create_log( $type, $status, $message, $download, $version );
@@ -201,12 +213,15 @@ class DLM_Download_Handler {
 		$version    = $download->get_file_version();
 		$file_paths = $version->mirrors;
 
+		// Check if we got files in this version
 		if ( empty( $file_paths ) ) {
 			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
 		}
 
+		// Get a random file (mirror)
 		$file_path = $file_paths[ array_rand( $file_paths ) ];
 
+		// Check if we actually got a path
 		if ( ! $file_path ) {
 			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
 		}
@@ -214,10 +229,13 @@ class DLM_Download_Handler {
 		// Check Access
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version ) ) {
 
+			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
 				wp_redirect( $redirect );
+				exit;
 			} else {
-				wp_die( __( 'You do not have permission to access this download.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
+				// Visitor don't have access to file and there's no redirect so display 'no access' message and die
+				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 			}
 
 			exit;
@@ -314,7 +332,7 @@ class DLM_Download_Handler {
 			header( 'Location: ' . $file_path );
 
 		} else {
-			$this->log( 'download', 'failed', __( 'File not found', 'download-monitor' ), $download, $version );
+			$this->log( 'download', 'failed', __( 'File not found.', 'download-monitor' ), $download, $version );
 
 			wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
