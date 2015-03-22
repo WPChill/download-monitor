@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Download Monitor 1.7.0-alpha1\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2015-03-21 18:31:05+00:00\n"
+"POT-Creation-Date: 2015-03-22 12:53:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,6 +68,7 @@ msgid "Image"
 msgstr ""
 
 #: includes/admin/class-dlm-admin-cpt.php:191
+#: includes/widgets/class-dlm-widget-downloads.php:170
 #: includes/widgets/class-dlm-widget-downloads.php:196
 msgid "Title"
 msgstr ""
@@ -405,10 +406,6 @@ msgstr ""
 msgid "You do not have permission to access this download. %sGo to homepage%s"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:150
-msgid "test"
-msgstr ""
-
 #: includes/admin/class-dlm-admin.php:151
 msgid "No access message"
 msgstr ""
@@ -529,8 +526,8 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:335
-msgid "<span style=\"color:#419CCB;font-weight:bold;\">Extensions</span>"
+#: includes/admin/class-dlm-admin.php:335 includes/class-wp-dlm.php:203
+msgid "Extensions"
 msgstr ""
 
 #: includes/admin/class-dlm-admin.php:375
@@ -774,9 +771,6 @@ msgid "Redirected to remote file."
 msgstr ""
 
 #: includes/class-dlm-download-handler.php:335
-msgid "File not found"
-msgstr ""
-
 #: includes/class-dlm-download-handler.php:337
 msgid "File not found."
 msgstr ""
@@ -851,11 +845,8 @@ msgid "All Download Categories"
 msgstr ""
 
 #: includes/class-dlm-taxonomy-manager.php:33
-msgid "Parent Download Category"
-msgstr ""
-
 #: includes/class-dlm-taxonomy-manager.php:34
-msgid "Parent Download Category:"
+msgid "Parent Download Category"
 msgstr ""
 
 #: includes/class-dlm-taxonomy-manager.php:35
@@ -887,11 +878,8 @@ msgid "All Download Tags"
 msgstr ""
 
 #: includes/class-dlm-taxonomy-manager.php:64
-msgid "Parent Download Tag"
-msgstr ""
-
 #: includes/class-dlm-taxonomy-manager.php:65
-msgid "Parent Download Tag:"
+msgid "Parent Download Tag"
 msgstr ""
 
 #: includes/class-dlm-taxonomy-manager.php:66
@@ -908,10 +896,6 @@ msgstr ""
 
 #: includes/class-dlm-taxonomy-manager.php:69
 msgid "New Download Tag Name"
-msgstr ""
-
-#: includes/class-wp-dlm.php:203
-msgid "Extensions"
 msgstr ""
 
 #: includes/class-wp-dlm.php:204
@@ -935,16 +919,12 @@ msgstr ""
 msgid "Featured Downloads"
 msgstr ""
 
-#: includes/widgets/class-dlm-widget-downloads.php:170
-msgid "Title:"
-msgstr ""
-
 #: includes/widgets/class-dlm-widget-downloads.php:177
-msgid "Limit:"
+msgid "Limit"
 msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:184
-msgid "Output template:"
+msgid "Output template"
 msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:188
@@ -952,7 +932,7 @@ msgid "Default template"
 msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:192
-msgid "Order by:"
+msgid "Order by"
 msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:198
@@ -968,7 +948,7 @@ msgid "Date modified"
 msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:211
-msgid "Order:"
+msgid "Order"
 msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:215
@@ -1019,7 +999,7 @@ msgstr[1] ""
 msgid "Download Monitor"
 msgstr ""
 
-#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
 msgid "https://www.download-monitor.com"
 msgstr ""
 
@@ -1032,10 +1012,6 @@ msgstr ""
 
 #. Author of the plugin/theme
 msgid "Barry Kooij & Mike Jolley"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://www.download-monitor.com"
 msgstr ""
 
 #: includes/admin/class-dlm-admin-media-insert.php:213
