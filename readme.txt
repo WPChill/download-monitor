@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@ca
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
 Tested up to: 4.1.1
-Stable tag: 1.6.3
+Stable tag: 1.7.0
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -107,7 +107,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 == Changelog ==
 
-= 1.7.0: March xx, 2015 =
+= 1.7.0: March 22, 2015 =
 * Feature - Added 'Download Information' meta box to edit download screen that displays useful download information.
 * Feature - Error message shown when visitor has no access to download is now an option.
 * Fix - Fixing a bug where versions with spaces did not work, versions now are checked on a sanitized title.
@@ -126,7 +126,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak - Update Slovakian translation. Props attitude.
 * Tweak - Added Dutch translation.
 
-= 1.6.4 =
+= 1.6.4: March 8, 2015 =
 * Removed unused library jqueryFileTree.
 * dlm_shortcode_download_content filter now also includes $atts.
 * Fixed small parse file parse error because of whitespace.
