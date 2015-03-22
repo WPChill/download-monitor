@@ -124,6 +124,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak - Updated German translation. Props maphy-psd.
 * Tweak - Updated Swedish translation. Props EyesX.
 * Tweak - Update Slovakian translation. Props attitude.
+* Tweak - Added Dutch translation.
 
 = 1.6.4 =
 * Removed unused library jqueryFileTree.

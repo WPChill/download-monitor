@@ -41,8 +41,8 @@ class DLM_Installer {
 			update_option( 'dlm_no_access_error', sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ) );
 		}
 
-		require_once( 'class-dlm-constants.php' );
 		// Set the current version
+		require_once( 'class-dlm-constants.php' );
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 
 	}

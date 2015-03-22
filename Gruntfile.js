@@ -101,7 +101,7 @@ module.exports = function ( grunt ) {
                 }
             }
         },
-        
+
         po2mo: {
             files: {
                 src: '<%= dirs.lang %>/*.po',
