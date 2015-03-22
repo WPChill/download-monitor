@@ -332,7 +332,7 @@ class DLM_Download_Handler {
 			header( 'Location: ' . $file_path );
 
 		} else {
-			$this->log( 'download', 'failed', __( 'File not found', 'download-monitor' ), $download, $version );
+			$this->log( 'download', 'failed', __( 'File not found.', 'download-monitor' ), $download, $version );
 
 			wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
