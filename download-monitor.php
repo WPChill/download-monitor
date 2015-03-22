@@ -5,7 +5,7 @@
 	Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
 	Version: 1.7.0-alpha1
 	Author: Barry Kooij & Mike Jolley
-	Author URI: http://www.download-monitor.com
+	Author URI: https://www.download-monitor.com
 	Requires at least: 3.8
 	Tested up to: 4.1
 
