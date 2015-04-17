@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@ca
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
 Tested up to: 4.1.1
-Stable tag: 1.6.4
+Stable tag: 1.6.5
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -109,6 +109,9 @@ Admin hits are not counted, log out and try!
 4. Display regular download links or fancy ones all using shortcodes and templates.
 
 == Changelog ==
+
+= 1.6.5: April 17, 2015 =
+* Pass third arg to add_query_arg to prevent XSS.
 
 = 1.6.4 =
 * Removed unused library jqueryFileTree.
