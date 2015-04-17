@@ -459,9 +459,9 @@ class DLM_Admin {
 			<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
 			<h2><?php _e( 'Download Logs', 'download-monitor' ); ?> <a
-					href="<?php echo add_query_arg( 'dlm_download_logs', 'true' ); ?>"
+					href="<?php echo add_query_arg( 'dlm_download_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ); ?>"
 					class="add-new-h2"><?php _e( 'Export CSV', 'download-monitor' ); ?></a> <a
-					href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true' ), 'delete_logs' ); ?>"
+					href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ), 'delete_logs' ); ?>"
 					class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h2><br/>
 
 			<form id="dlm_logs">
