@@ -107,6 +107,9 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 == Changelog ==
 
+= 1.7.2: April 29, 2015 =
+* Fixed a bug that caused logs not to be displayed in WP 4.2.
+
 = 1.7.1: April 17, 2015 =
 * Pass third arg to add_query_arg to prevent XSS.
 
