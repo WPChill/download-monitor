@@ -7,6 +7,13 @@
  */
 class DLM_Logging_List_Table extends WP_List_Table {
 
+	private $filter_status = '';
+	private $logs_per_page = 25;
+	private $filter_month = '';
+
+	/** @var UAParser */
+	private $uaparser = null;
+
 	/**
 	 * __construct function.
 	 *
@@ -265,7 +272,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,
 			'per_page'    => $per_page,
-			'total_pages' => ceil( $total_items / $per_page )
+			'total_pages' => ( ( $total_items > 0 ) ? ceil( $total_items / $per_page ) : 1 )
 		) );
 
 		// Parser
@@ -273,6 +280,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			require_once( "uaparser/uaparser.php" );
 		}
 
-		$this->uaparser = new UAParser;
+		$this->uaparser = new UAParser();
 	}
 }
