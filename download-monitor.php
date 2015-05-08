@@ -3,11 +3,11 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 1.7.0
+	Version: 1.7.2
 	Author: Barry Kooij & Mike Jolley
 	Author URI: https://www.download-monitor.com
 	Requires at least: 3.8
-	Tested up to: 4.1.1
+	Tested up to: 4.2.1
 
 	License: GPL v3
 
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '1.7.0' );
+define( 'DLM_VERSION', '1.7.2' );
 
 function __download_monitor_main() {
 

@@ -14,6 +14,7 @@ class DLM_Template_Handler {
 	 * @param string $slug
 	 * @param string $name (default: '')
 	 * @param string $custom_dir
+	 * @param array $args
 	 *
 	 * @return void
 	 */
