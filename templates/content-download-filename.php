@@ -10,6 +10,5 @@ global $dlm_download;
 	   printf( __( 'Version %s', 'download-monitor' ), $dlm_download->get_the_version_number() );
    } ?>" href="<?php $dlm_download->the_download_link(); ?>" rel="nofollow">
 	<?php $dlm_download->the_filename(); ?>
-	(<?php printf( _n( '1 download', '%d downloads', $dlm_download->get_the_download_count(), 'download-monitor' ), $dlm_download->get_the_download_count() ) ?>
-	)
+	(<?php printf( _n( '1 download', '%d downloads', $dlm_download->get_the_download_count(), 'download-monitor' ), $dlm_download->get_the_download_count() ) ?>)
 </a>
