@@ -538,6 +538,8 @@ class DLM_Admin {
 
 		$rows   = array();
 		$row    = array();
+		$row[]  = __( 'Title', 'download-monitor' );
+		$row[]  = __( 'Category', 'download-monitor' );
 		$row[]  = __( 'Download ID', 'download-monitor' );
 		$row[]  = __( 'Version ID', 'download-monitor' );
 		$row[]  = __( 'Filename', 'download-monitor' );
@@ -553,6 +555,8 @@ class DLM_Admin {
 		if ( ! empty( $items ) ) {
 			foreach ( $items as $item ) {
 				$row   = array();
+				$row[] = get_post($item->download_id)->post_title;
+				$row[] = get_post($item->download_id)->post_category;
 				$row[] = $item->download_id;
 				$row[] = $item->version_id;
 
@@ -592,7 +596,11 @@ class DLM_Admin {
 		header( "Content-type: text/csv" );
 		header( "Content-Disposition: attachment; filename=download_log.csv" );
 		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
+        header('Content-Encoding: UTF-8');
+
 		header( "Content-Length: " . strlen( $log ) );
+        echo "\xEF\xBB\xBF"; // UTF-8 BOM
+
 		echo $log;
 		exit;
 	}
