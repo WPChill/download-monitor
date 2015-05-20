@@ -170,7 +170,7 @@ class DLM_Download_Handler {
 				if ( post_password_required( $download_id ) ) {
 					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download-monitor' ) );
 				}
-				$this->trigger( $download, $version_id );
+				$this->trigger( $download );
 			} elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
 				wp_redirect( $redirect );
 			} else {
