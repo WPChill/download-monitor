@@ -183,6 +183,10 @@ class DLM_Download_Handler {
 
 	/**
 	 * Create a log if logging is enabled
+	 *
+	 * @param string $type
+	 * @param string $status
+	 * @param string $message
 	 */
 	private function log( $type = '', $status = '', $message = '', $download, $version ) {
 
