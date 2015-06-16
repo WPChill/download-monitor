@@ -107,30 +107,37 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 == Changelog ==
 
+= 1.7.3: TBA =
+* Tweak: Run thumbnail compatibility method later to allowed themes to register first.
+* Tweak: Prefixed admin CSS classes to prevent plugin conflicts.
+* Tweak: Fix checking shortcodes for empty version strings, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Fixed a call of trigger() in DLM_Download_Handler, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Remove trailing space from downloads count, props [Matt Mower](https://github.com/mdmower).
+
 = 1.7.2: April 29, 2015 =
-* Fixed a bug that caused logs not to be displayed in WP 4.2.
+* Tweak: Fixed a bug that caused logs not to be displayed in WP 4.2.
 
 = 1.7.1: April 17, 2015 =
-* Pass third arg to add_query_arg to prevent XSS.
+* Tweak: Pass third arg to add_query_arg to prevent XSS.
 
 = 1.7.0: March 22, 2015 =
-* Feature - Added 'Download Information' meta box to edit download screen that displays useful download information.
-* Feature - Error message shown when visitor has no access to download is now an option.
-* Fix - Fixing a bug where versions with spaces did not work, versions now are checked on a sanitized title.
-* Tweak - Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
-* Tweak - Improved hotlink prevention check.
-* Tweak - Extension page tweaks.
-* Tweak - Added $download_id argument to dlm_hotlink_redirect filter.
-* Tweak - Moved hash settings to their own tab.
-* Tweak - Moved 'X-Accel-Redirect / X-Sendfile' and 'Prevent hotlinking' settings to General tab.
-* Tweak - Optimized the Insert Download button.
-* Tweak - Introduced a multi-byte-safe pathinfo so we can handle 'special' filenames.
-* Tweak - Also set the post_date_gmt value for version dates.
-* Tweak - Updated French translation. Props Li-An.
-* Tweak - Updated German translation. Props maphy-psd.
-* Tweak - Updated Swedish translation. Props EyesX.
-* Tweak - Update Slovakian translation. Props attitude.
-* Tweak - Added Dutch translation.
+* Feature: Added 'Download Information' meta box to edit download screen that displays useful download information.
+* Feature: Error message shown when visitor has no access to download is now an option.
+* Tweak: Fixing a bug where versions with spaces did not work, versions now are checked on a sanitized title.
+* Tweak: Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
+* Tweak: Improved hotlink prevention check.
+* Tweak: Extension page tweaks.
+* Tweak: Added $download_id argument to dlm_hotlink_redirect filter.
+* Tweak: Moved hash settings to their own tab.
+* Tweak: Moved 'X-Accel-Redirect / X-Sendfile' and 'Prevent hotlinking' settings to General tab.
+* Tweak: Optimized the Insert Download button.
+* Tweak: Introduced a multi-byte-safe pathinfo so we can handle 'special' filenames.
+* Tweak: Also set the post_date_gmt value for version dates.
+* Tweak: Updated French translation. Props Li-An.
+* Tweak: Updated German translation. Props maphy-psd.
+* Tweak: Updated Swedish translation. Props EyesX.
+* Tweak: Update Slovakian translation. Props attitude.
+* Tweak: Added Dutch translation.
 
 = 1.6.4: March 8, 2015 =
 * Removed unused library jqueryFileTree.
