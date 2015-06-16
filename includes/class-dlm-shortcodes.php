@@ -93,7 +93,7 @@ class DLM_Shortcodes {
 
 			if ( $download->exists() ) {
 
-				if ( isset( $version ) && 0 != $version ) {
+				if ( ! empty( $version ) ) {
 					$version_id = $dlm_download->get_version_id( $version );
 				}
 
@@ -124,7 +124,7 @@ class DLM_Shortcodes {
 				while ( $downloads->have_posts() ) {
 					$downloads->the_post();
 
-					if ( isset( $version ) && 0 != $version ) {
+					if ( ! empty( $version ) ) {
 						$version_id = $dlm_download->get_version_id( $version );
 					}
 
@@ -178,7 +178,7 @@ class DLM_Shortcodes {
 
 		$download = new DLM_Download( $id );
 
-		if ( isset( $version ) && 0 != $version ) {
+		if ( ! empty( $version ) ) {
 			$version_id = $download->get_version_id( $version );
 		}
 

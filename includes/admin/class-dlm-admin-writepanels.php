@@ -128,7 +128,7 @@ class DLM_Admin_Writepanels {
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( get_post_meta( $thepostid, '_redirect_only', true ), 'yes', false ) . ' />
 			<label for="_redirect_only">' . __( 'Redirect to file', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . __( 'Don\'t force download. If the <code>dlm_upload</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
+			<span class="dlm-description">' . __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
 		</p>';
 
 		do_action( 'dlm_options_end', $thepostid );
