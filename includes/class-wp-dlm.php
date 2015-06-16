@@ -140,7 +140,7 @@ class WP_DLM {
 	private function setup_actions() {
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
-		add_action( 'after_setup_theme', array( $this, 'compatibility' ) );
+		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'admin_init', array( $this, 'load_extensions' ) );
@@ -171,6 +171,7 @@ class WP_DLM {
 	 * @return void
 	 */
 	public function compatibility() {
+
 		// Post thumbnail support
 		if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 			add_theme_support( 'post-thumbnails' );
