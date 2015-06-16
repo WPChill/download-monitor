@@ -403,7 +403,7 @@ class DLM_Admin {
 								</label><?php
 
 								if ( $option['desc'] ) {
-									echo ' <p class="description">' . $option['desc'] . '</p>';
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 								}
 
 								break;
@@ -414,7 +414,7 @@ class DLM_Admin {
 								            name="<?php echo $option['name']; ?>" <?php echo $placeholder; ?>><?php echo esc_textarea( $value ); ?></textarea><?php
 
 								if ( $option['desc'] ) {
-									echo ' <p class="description">' . $option['desc'] . '</p>';
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 								}
 
 								break;
@@ -428,7 +428,7 @@ class DLM_Admin {
 								?></select><?php
 
 								if ( $option['desc'] ) {
-									echo ' <p class="description">' . $option['desc'] . '</p>';
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 								}
 
 								break;
@@ -439,7 +439,7 @@ class DLM_Admin {
 								         value="<?php esc_attr_e( $value ); ?>" <?php echo $placeholder; ?> /><?php
 
 								if ( $option['desc'] ) {
-									echo ' <p class="description">' . $option['desc'] . '</p>';
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 								}
 
 								break;

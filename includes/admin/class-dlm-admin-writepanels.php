@@ -116,19 +116,19 @@ class DLM_Admin_Writepanels {
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_featured" id="_featured" ' . checked( get_post_meta( $thepostid, '_featured', true ), 'yes', false ) . ' />
 			<label for="_featured">' . __( 'Featured download', 'download-monitor' ) . '</label>
-			<span class="description">' . __( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
+			<span class="dlm-description">' . __( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_members_only" id="_members_only" ' . checked( get_post_meta( $thepostid, '_members_only', true ), 'yes', false ) . ' />
 			<label for="_members_only">' . __( 'Members only', 'download-monitor' ) . '</label>
-			<span class="description">' . __( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
+			<span class="dlm-description">' . __( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( get_post_meta( $thepostid, '_redirect_only', true ), 'yes', false ) . ' />
 			<label for="_redirect_only">' . __( 'Redirect to file', 'download-monitor' ) . '</label>
-			<span class="description">' . __( 'Don\'t force download. If the <code>dlm_upload</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
+			<span class="dlm-description">' . __( 'Don\'t force download. If the <code>dlm_upload</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
 		</p>';
 
 		do_action( 'dlm_options_end', $thepostid );
