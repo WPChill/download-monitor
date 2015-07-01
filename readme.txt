@@ -107,7 +107,8 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 == Changelog ==
 
-= 1.7.3: TBA =
+= 1.8.0: TBA =
+* Feature: It's now possible to display downloads with the downloads shortcode that are in all given categories (AND instead of OR) by using + (plus_ instead of , (comma).
 * Tweak: Run thumbnail compatibility method later to allowed themes to register first.
 * Tweak: Prefixed admin CSS classes to prevent plugin conflicts.
 * Tweak: Fix checking shortcodes for empty version strings, props [Matt Mower](https://github.com/mdmower).
