@@ -82,7 +82,7 @@ class DLM_Shortcodes {
 		$hijacked_content = apply_filters( 'dlm_shortcode_download_content', '', $id, $atts );
 
 		// If there's hijacked content, return it and be done with it
-		if( '' !== $hijacked_content ) {
+		if ( '' !== $hijacked_content ) {
 			return $hijacked_content;
 		}
 
