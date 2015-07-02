@@ -350,10 +350,7 @@ class DLM_Admin {
 	 * Print global notices
 	 */
 	private function print_global_notices() {
-
-
-		$_SERVER['SERVER_SOFTWARE'] = 'nginx';
-
+		
 		// check for nginx
 		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
 
