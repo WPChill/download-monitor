@@ -370,9 +370,11 @@ class DLM_Admin {
 				</h2><br/>
 
 				<?php
+
 				if ( ! empty( $_GET['settings-updated'] ) ) {
+
 					flush_rewrite_rules();
-					echo '<div class="updated fade"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+					echo '<div class="updated notice is-dismissible"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
 				}
 
 				foreach ( $this->settings as $key => $section ) {
