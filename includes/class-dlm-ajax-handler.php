@@ -20,6 +20,7 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_download_monitor_list_files', array( $this, 'list_files' ) );
 		add_action( 'wp_ajax_download_monitor_insert_panel_upload', array( $this, 'insert_panel_upload' ) );
 		add_action( 'wp_ajax_dlm_extension', array( $this, 'handle_extensions' ) );
+		add_action( 'wp_ajax_dlm_dismiss_notice', array( $this, 'dismiss_notice' ) );
 	}
 
 	/**
@@ -150,6 +151,29 @@ class DLM_Ajax_Handler {
 		}
 
 		die();
+	}
+
+	/**
+	 * Handle notice dismissal
+	 */
+	public function dismiss_notice() {
+
+		// check notice
+		if ( ! isset( $_POST['notice'] ) || empty( $_POST['notice'] ) ) {
+			exit;
+		}
+
+		// the notice
+		$notice = $_POST['notice'];
+
+		// check nonce
+		check_ajax_referer( 'dlm_hide_notice-' . $notice, 'nonce' );
+
+		// update option
+		update_option( 'dlm_hide_notice-' . $notice, 1 );
+
+		// send JSON
+		wp_send_json( array( 'response' => 'success' ) );
 	}
 
 	/**

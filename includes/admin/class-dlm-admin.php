@@ -347,13 +347,45 @@ class DLM_Admin {
 	}
 
 	/**
+	 * Print global notices
+	 */
+	private function print_global_notices() {
+
+
+		$_SERVER['SERVER_SOFTWARE'] = 'nginx';
+
+		// check for nginx
+		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
+
+			// get upload dir
+			$upload_dir = wp_upload_dir();
+
+			// replace document root because nginx uses path from document root
+			$upload_path = str_replace( $_SERVER['DOCUMENT_ROOT'], '', $upload_dir['basedir'] );
+
+			// form nginx rules
+			$nginx_rules = "location " . $upload_path . "/dlm_uploads {<br/>deny all;<br/>return 403;<br/>}";
+			echo '<div class="error notice is-dismissible dlm-notice" id="nginx_rules" data-nonce="' . wp_create_nonce( 'dlm_hide_notice-nginx_rules' ) . '">';
+			echo '<p>' . __( "Because your server is running on nginx, our .htaccess file can't protect your downloads.", 'download-monitor' );
+			echo '<br/>' . sprintf( __( "Please add the following rules to your nginx config to disable direct file access: %s", 'download-monitor' ), '<br/><br/><code>' . $nginx_rules . '</code>' ) . '</p>';
+			echo '</div>';
+		}
+
+	}
+
+	/**
 	 * settings_page function.
 	 *
 	 * @access public
 	 * @return void
 	 */
 	public function settings_page() {
+
+		// initialize settings
 		$this->init_settings();
+
+		// print global notices
+		$this->print_global_notices();
 		?>
 		<div class="wrap">
 			<form method="post" action="options.php">
