@@ -222,7 +222,7 @@ class DLM_Admin {
 							'std'      => '',
 							'label'    => __( 'Count unique IPs only', 'download-monitor' ),
 							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'If enabled, the counter for each download will only increment if the client IP address is unique from previous download attempts.', 'download-monitor' ),
+							'desc'     => __( 'If enabled, the counter for each download will only increment once per IP address per 24 hours.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
 						array(
