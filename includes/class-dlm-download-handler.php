@@ -256,12 +256,6 @@ class DLM_Download_Handler {
 				$increment_download_count = false;
 			}
 
-			if($increment_download_count) {
-				error_log('increment download', 0);
-			}else {
-				error_log('NO increment download', 0);
-			}
-
 			// check if we need to increment the download count
 			if ( true === $increment_download_count ) {
 				// Increase download count
