@@ -218,6 +218,14 @@ class DLM_Admin {
 							'type'     => 'checkbox'
 						),
 						array(
+							'name'     => 'dlm_count_unique_ips',
+							'std'      => '',
+							'label'    => __( 'Count unique IPs only', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
+						array(
 							'name'        => 'dlm_ip_blacklist',
 							'std'         => '192.168.0.*',
 							'label'       => __( 'Blacklist IPs', 'download-monitor' ),

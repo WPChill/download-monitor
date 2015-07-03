@@ -245,9 +245,22 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		if ( empty( $_COOKIE['wp_dlm_downloading'] ) || $download->id != $_COOKIE['wp_dlm_downloading'] ) {
-			// Increase download count
-			$version->increase_download_count();
+		if ( 1 || empty( $_COOKIE['wp_dlm_downloading'] ) || $download->id != $_COOKIE['wp_dlm_downloading'] ) {
+
+
+			// bool if we need to increment download count
+			$increment_download_count = true;
+
+			// check if unique ips option is enabled and if so, if visitor already downloaded file in past 24 hours
+			if ( '1' == get_option( 'dlm_enable_logging' ) && '1' == get_option( 'dlm_count_unique_ips' ) && true === $this->has_ip_downloaded_version( $version ) ) {
+				$increment_download_count = false;
+			}
+
+			// check if we need to increment the download count
+			if ( true === $increment_download_count ) {
+				// Increase download count
+				$version->increase_download_count();
+			}
 
 			// Trigger Download Action
 			do_action( 'dlm_downloading', $download, $version, $file_path );
@@ -465,5 +478,18 @@ class DLM_Download_Handler {
 		}
 
 		return $status;
+	}
+
+	/**
+	 * Check if visitor has downloaded version in the past 24 hours
+	 *
+	 * @param DLM_Download_Version $version
+	 *
+	 * @return bool
+	 */
+	private function has_ip_downloaded_version( $version ) {
+		global $wpdb;
+
+		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE type = 'download' AND `version_id` = %d AND `user_ip` = %s", $version->id, DLM_Utils::get_visitor_ip() ) ) ) > 0 );
 	}
 }

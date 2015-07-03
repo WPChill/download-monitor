@@ -34,7 +34,7 @@ class DLM_Logging {
 			array(
 				'type'                    => $type,
 				'user_id'                 => absint( get_current_user_id() ),
-				'user_ip'                 => $this->get_user_ip(),
+				'user_ip'                 => DLM_Utils::get_visitor_ip(),
 				'user_agent'              => $this->get_user_ua(),
 				'download_id'             => absint( $download->id ),
 				'version_id'              => absint( $version->id ),
@@ -57,16 +57,6 @@ class DLM_Logging {
 		);
 
 		return $wpdb->insert_id;
-	}
-
-	/**
-	 * get_user_ip function.
-	 *
-	 * @access private
-	 * @return void
-	 */
-	private function get_user_ip() {
-		return sanitize_text_field( ! empty( $_SERVER['HTTP_X_FORWARD_FOR'] ) ? $_SERVER['HTTP_X_FORWARD_FOR'] : $_SERVER['REMOTE_ADDR'] );
 	}
 
 	/**
