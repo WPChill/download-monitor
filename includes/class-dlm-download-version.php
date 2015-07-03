@@ -103,35 +103,6 @@ class DLM_Download_Version {
 	}
 
 	/**
-	 * get_user_ip function.
-	 *
-	 * @access private
-	 * @return string
-	 */
-	private function get_user_ip() {
-		return sanitize_text_field( ! empty( $_SERVER['HTTP_X_FORWARD_FOR'] ) ? $_SERVER['HTTP_X_FORWARD_FOR'] : $_SERVER['REMOTE_ADDR'] );
-	}
-
-	/**
-	 * Check whether client IP has downloaded this previously
-	 * Returns true if unique, false if non-unique
-	 *
-	 * @access private
-	 * @return boolean
-	 */
-	private function unique_ip_download() {
-		global $wpdb;
-
-		$query_where = " type = 'download' ";
-		$query_where .= " AND version_id = '{$this->id}' ";
-		$query_where .= " AND user_ip = '{$this->get_user_ip()}' ";
-
-		$count = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE {$query_where}" );
-
-		return empty( $count );
-	}
-
-	/**
 	 * Get the version slug
 	 *
 	 * @return string
@@ -147,21 +118,13 @@ class DLM_Download_Version {
 	 * @return void
 	 */
 	public function increase_download_count() {
-		$enable_increment = true;
+		// File download_count
+		$this->download_count = absint( get_post_meta( $this->id, '_download_count', true ) ) + 1;
+		update_post_meta( $this->id, '_download_count', $this->download_count );
 
-		if ( '1' == get_option( 'dlm_enable_logging' ) && '1' == get_option( 'dlm_count_unique_ips' ) ) {
-			$enable_increment = $this->unique_ip_download();
-		}
-
-		if ( $enable_increment ) {
-			// File download_count
-			$this->download_count = absint( get_post_meta( $this->id, '_download_count', true ) ) + 1;
-			update_post_meta( $this->id, '_download_count', $this->download_count );
-
-			// Parent download download_count
-			$parent_download_count = absint( get_post_meta( $this->download_id, '_download_count', true ) ) + 1;
-			update_post_meta( $this->download_id, '_download_count', $parent_download_count );
-		}
+		// Parent download download_count
+		$parent_download_count = absint( get_post_meta( $this->download_id, '_download_count', true ) ) + 1;
+		update_post_meta( $this->download_id, '_download_count', $parent_download_count );
 	}
 
 	/**
