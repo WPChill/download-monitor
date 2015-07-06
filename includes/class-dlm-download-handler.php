@@ -245,7 +245,7 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		if ( 1 || empty( $_COOKIE['wp_dlm_downloading'] ) || $download->id != $_COOKIE['wp_dlm_downloading'] ) {
+		if ( empty( $_COOKIE['wp_dlm_downloading'] ) || $download->id != $_COOKIE['wp_dlm_downloading'] ) {
 
 
 			// bool if we need to increment download count
