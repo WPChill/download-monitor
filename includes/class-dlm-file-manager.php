@@ -23,7 +23,7 @@ class DLM_File_Manager {
 
 		// A listing of all files and dirs in $folder, excepting . and ..
 		// By default, the sorted order is alphabetical in ascending order
-		$files = array_diff( scandir( $folder ), array('..', '.') );
+		$files = array_diff( scandir( $folder ), array( '..', '.' ) );
 
 		$dlm_files = array();
 
