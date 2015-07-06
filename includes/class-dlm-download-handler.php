@@ -251,7 +251,7 @@ class DLM_Download_Handler {
 			// bool if we need to increment download count
 			$increment_download_count = true;
 
-			// check if unique ips option is enabled and if so, if visitor already downloaded file in past 24 hours
+			// check if unique ips option is enabled and if so, if visitor already downloaded this file version
 			if ( '1' == get_option( 'dlm_enable_logging' ) && '1' == get_option( 'dlm_count_unique_ips' ) && true === $this->has_ip_downloaded_version( $version ) ) {
 				$increment_download_count = false;
 			}
