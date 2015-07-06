@@ -61,7 +61,7 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $post
+	 * @param WP_Post $post
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $post
+	 * @param WP_Post $post
 	 *
 	 * @return void
 	 */
@@ -202,7 +202,7 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $post
+	 * @param WP_Post $post
 	 *
 	 * @return void
 	 */
@@ -223,8 +223,8 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $post_id
-	 * @param mixed $post
+	 * @param int $post_id
+	 * @param WP_Post $post
 	 *
 	 * @return void
 	 */
@@ -259,8 +259,8 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $post_id
-	 * @param mixed $post
+	 * @param int $post_id
+	 * @param WP_Post $post
 	 *
 	 * @return void
 	 */

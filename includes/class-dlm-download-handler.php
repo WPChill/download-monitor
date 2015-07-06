@@ -442,11 +442,11 @@ class DLM_Download_Handler {
 	 *
 	 * @access   public
 	 *
-	 * @param    string    file
-	 * @param    boolean   return bytes of file
-	 * @param    range if  HTTP RANGE to seek
+	 * @param    string    $file
+	 * @param    boolean   $retbytes return bytes of file
+	 * @param    boolean $range if  HTTP RANGE to seek
 	 *
-	 * @return   void
+	 * @return   mixed
 	 */
 	public function readfile_chunked( $file, $retbytes = true, $range = false ) {
 		$chunksize = 1 * ( 1024 * 1024 );
