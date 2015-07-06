@@ -102,7 +102,7 @@ class DLM_Admin_CPT {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $id
+	 * @param int $id
 	 *
 	 * @return void
 	 */
@@ -133,8 +133,11 @@ class DLM_Admin_CPT {
 	/**
 	 * enter_title_here function.
 	 *
+	 * @param string $text
+	 * @param WP_Post $post
+	 *
 	 * @access public
-	 * @return void
+	 * @return string
 	 */
 	public function enter_title_here( $text, $post ) {
 		if ( 'dlm_download' == $post->post_type ) {
@@ -149,9 +152,9 @@ class DLM_Admin_CPT {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $messages
+	 * @param array $messages
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function post_updated_messages( $messages ) {
 		global $post;
@@ -179,7 +182,7 @@ class DLM_Admin_CPT {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $columns
+	 * @param array $columns
 	 *
 	 * @return array
 	 */
@@ -298,7 +301,7 @@ class DLM_Admin_CPT {
 	 *
 	 * @param mixed $columns
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function sortable_columns( $columns ) {
 		$custom = array(
@@ -317,9 +320,9 @@ class DLM_Admin_CPT {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $vars
+	 * @param array $vars
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function sort_columns( $vars ) {
 		if ( isset( $vars['orderby'] ) ) {
