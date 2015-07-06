@@ -117,6 +117,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak: Fix checking shortcodes for empty version strings, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Fixed a call of trigger() in DLM_Download_Handler, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Remove trailing space from downloads count, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Directory browser items are now always in alphabetical order, props [Matt Mower](https://github.com/mdmower).
 
 = 1.7.2: April 29, 2015 =
 * Tweak: Fixed a bug that caused logs not to be displayed in WP 4.2.
