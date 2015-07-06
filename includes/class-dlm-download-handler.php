@@ -246,7 +246,7 @@ class DLM_Download_Handler {
 		}
 
 		// check if user downloaded this version in the past minute
-		if ( empty( $_COOKIE['wp_dlm_downloading'] ) || $download->version_id != $_COOKIE['wp_dlm_downloading'] ) {
+		if ( empty( $_COOKIE['wp_dlm_downloading'] ) || $download->get_the_version_number() != $_COOKIE['wp_dlm_downloading'] ) {
 
 
 			// bool if we need to increment download count
@@ -267,7 +267,7 @@ class DLM_Download_Handler {
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 
 			// Set cookie to prevent double logging
-			setcookie( 'wp_dlm_downloading', $download->version_id, time() + 60, COOKIEPATH, COOKIE_DOMAIN, false, true );
+			setcookie( 'wp_dlm_downloading', $download->get_the_version_number(), time() + 60, COOKIEPATH, COOKIE_DOMAIN, false, true );
 		}
 
 		// Redirect to the file...
