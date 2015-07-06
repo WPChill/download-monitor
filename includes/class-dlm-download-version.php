@@ -92,7 +92,7 @@ class DLM_Download_Version {
 		}
 
 		$this->url      = current( $this->mirrors );
-		$this->filename = current( explode( '?', basename( $this->url ) ) );
+		$this->filename = current( explode( '?', DLM_Utils::basename( $this->url ) ) );
 		$this->filetype = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
 
 		// If we don't have a filesize, lets get it now

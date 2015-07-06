@@ -377,7 +377,7 @@ class DLM_Download_Handler {
 		}
 
 		// Get file name
-		$file_name = urldecode( basename( $file_path ) );
+		$file_name = urldecode( DLM_Utils::basename( $file_path ) );
 
 		if ( strstr( $file_name, '?' ) ) {
 			$file_name = current( explode( '?', $file_name ) );

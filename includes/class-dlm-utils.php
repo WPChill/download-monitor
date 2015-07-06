@@ -11,4 +11,15 @@ abstract class DLM_Utils {
 		return sanitize_text_field( ! empty( $_SERVER['HTTP_X_FORWARD_FOR'] ) ? $_SERVER['HTTP_X_FORWARD_FOR'] : $_SERVER['REMOTE_ADDR'] );
 	}
 
+	/**
+	 * Local independent basename
+	 *
+	 * @param string $filepath
+	 *
+	 * @return string
+	 */
+	public static function basename( $filepath ) {
+		return preg_replace('/^.+[\\\\\\/]/', '', $filepath);
+	}
+
 }
