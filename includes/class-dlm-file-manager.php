@@ -14,40 +14,27 @@ class DLM_File_Manager {
 	 *
 	 * @param string $folder (default: '')
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function list_files( $folder = '' ) {
 		if ( empty( $folder ) ) {
 			return false;
 		}
 
-		$files = array();
-		if ( $dir = @opendir( $folder ) ) {
-			while ( ( $file = readdir( $dir ) ) !== false ) {
-				if ( in_array( $file, array( '.', '..' ) ) ) {
-					continue;
-				}
+		// A listing of all files and dirs in $folder, excepting . and ..
+		// By default, the sorted order is alphabetical in ascending order
+		$files = array_diff( scandir( $folder ), array('..', '.') );
 
-				if ( is_dir( $folder . '/' . $file ) ) {
+		$dlm_files = array();
 
-					$files[] = array(
-						'type' => 'folder',
-						'path' => $folder . '/' . $file
-					);
-
-				} else {
-
-					$files[] = array(
-						'type' => 'file',
-						'path' => $folder . '/' . $file
-					);
-
-				}
-			}
+		foreach ( $files as $file ) {
+			$dlm_files[] = array(
+				'type' => ( is_dir( $folder . '/' . $file ) ? 'folder' : 'file' ),
+				'path' => $folder . '/' . $file
+			);
 		}
-		@closedir( $dir );
 
-		return $files;
+		return $dlm_files;
 	}
 
 	/**
