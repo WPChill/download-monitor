@@ -193,8 +193,9 @@ class DLM_Download_Handler {
 		// Logging object
 		$logging = new DLM_Logging();
 
-		// Check if logging is enabled
-		if ( $logging->is_logging_enabled() ) {
+
+		// Check if logging is enabled and if unique ips is enabled
+		if ( $logging->is_logging_enabled() && ( ( '1' == get_option( 'dlm_count_unique_ips', '0' ) && false === $this->has_ip_downloaded_version( $version ) ) || '' == get_option( 'dlm_count_unique_ips', '' ) ) ) {
 
 			// Create log
 			$logging->create_log( $type, $status, $message, $download, $version );
