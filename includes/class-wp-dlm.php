@@ -74,6 +74,8 @@ class WP_DLM {
 		// Setup admin classes
 		if ( is_admin() ) {
 
+			// check if multisite and needs to create DB table
+
 			// Setup admin scripts
 			$admin_scripts = new DLM_Admin_Scripts();
 			$admin_scripts->setup();
