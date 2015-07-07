@@ -50,27 +50,23 @@ function __download_monitor_main() {
 // Init plugin
 add_action( 'plugins_loaded', '__download_monitor_main', 10 );
 
-if ( is_admin() && ! is_multisite() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
+if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
 
+	// set installer file constant
 	define( 'DLM_PLUGIN_FILE_INSTALLER', __FILE__ );
 
-	// Installer function
-	function __download_monitor_install() {
-
-		// Load installer functions
-		require_once plugin_dir_path( DLM_PLUGIN_FILE_INSTALLER ) . 'includes/class-dlm-installer.php';
-
-		// DLM Installer
-		$installer = new DLM_Installer();
-
-		// Install DLM
-		$installer->install();
-
-	}
+	// include installer functions
+	require_once( 'installer-functions.php' );
 
 	// Activation hook
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '__download_monitor_install' );
 
 	// Flush Rewrites on Activation
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, 'flush_rewrite_rules', 11 );
+
+	// Multisite new blog hook
+	add_action( 'wpmu_new_blog', '__download_monitor_mu_new_blog', 10, 6 );
+
+	// Multisite blog delete
+	add_filter( 'wpmu_drop_tables', '__download_monitor_mu_delete_blog' );
 }
