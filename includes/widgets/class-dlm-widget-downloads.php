@@ -20,9 +20,8 @@ class DLM_Widget_Downloads extends WP_Widget {
 	 * constructor
 	 *
 	 * @access public
-	 * @return void
 	 */
-	function DLM_Widget_Downloads() {
+	public function __construct() {
 
 		/* Widget variable settings. */
 		$this->widget_cssclass    = 'dlm_widget_downloads';
@@ -34,7 +33,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 		$widget_ops = array( 'classname' => $this->widget_cssclass, 'description' => $this->widget_description );
 
 		/* Create the widget. */
-		$this->WP_Widget( 'dlm_widget_downloads', $this->widget_name, $widget_ops );
+		parent::__construct('dlm_widget_downloads', $this->widget_name, $widget_ops );
 	}
 
 	/**
@@ -48,7 +47,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 	 *
 	 * @return void
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 
 		// Extract the arguments
 		extract( $args );
@@ -133,7 +132,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 	 *
 	 * @return array
 	 */
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance                   = $old_instance;
 		$instance['title']          = strip_tags( $new_instance['title'] );
 		$instance['posts_per_page'] = absint( $new_instance['posts_per_page'] );
@@ -156,7 +155,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 	 *
 	 * @return void
 	 */
-	function form( $instance ) {
+	public function form( $instance ) {
 		$title          = isset( $instance['title'] ) ? $instance['title'] : __( 'Featured Downloads', 'download-monitor' );
 		$posts_per_page = isset( $instance['posts_per_page'] ) ? absint( $instance['posts_per_page'] ) : 10;
 		$format         = isset( $instance['format'] ) ? sanitize_title( $instance['format'] ) : '';
