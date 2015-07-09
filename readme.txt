@@ -1,6 +1,6 @@
 === Download Monitor ===
 Contributors: never5, barrykooij, mikejolley
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@cageworks.nl&item_name=Donation+for+Download+Monitor
+Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
 Tested up to: 4.2.2
