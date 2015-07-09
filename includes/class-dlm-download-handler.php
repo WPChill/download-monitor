@@ -182,7 +182,10 @@ class DLM_Download_Handler {
 	}
 
 	/**
-	 * Create a log if logging is enabled
+	 * Create a log entry / Update statistics
+	 *
+	 * Used to create log entries and/or update statistics (e.g. download count)
+	 * when a download is triggered.
 	 *
 	 * @param string $type
 	 * @param string $status
@@ -190,18 +193,36 @@ class DLM_Download_Handler {
 	 */
 	private function log( $type = '', $status = '', $message = '', $download, $version ) {
 
-		// Logging object
-		$logging = new DLM_Logging();
+		// check if user downloaded this version in the past minute (prevent duplicate logging/counting)
+		if ( empty( $_COOKIE['wp_dlm_downloading'] ) || $download->get_the_version_number() != $_COOKIE['wp_dlm_downloading'] ) {
 
+			// bool if we need to increment download count
+			$increment_download_count = true;
 
-		// Check if logging is enabled and if unique ips is enabled
-		if ( $logging->is_logging_enabled() && ( ( '1' == get_option( 'dlm_count_unique_ips', '0' ) && false === $this->has_ip_downloaded_version( $version ) ) || '' == get_option( 'dlm_count_unique_ips', '' ) ) ) {
+			// check if unique ips option is enabled and if so, if visitor already downloaded this file version
+			if ( '1' == get_option( 'dlm_enable_logging' ) && '1' == get_option( 'dlm_count_unique_ips' ) && true === $this->has_ip_downloaded_version( $version ) ) {
+				$increment_download_count = false;
+			}
 
-			// Create log
-			$logging->create_log( $type, $status, $message, $download, $version );
+			// check if we need to increment the download count
+			if ( true === $increment_download_count ) {
+				// Increase download count
+				$version->increase_download_count();
+			}
 
+			// Logging object
+			$logging = new DLM_Logging();
+
+			// Check if logging is enabled and if unique ips option is enabled
+			if ( $logging->is_logging_enabled() && ( ( '1' == get_option( 'dlm_count_unique_ips', '0' ) && false === $this->has_ip_downloaded_version( $version ) ) || '' == get_option( 'dlm_count_unique_ips', '' ) ) ) {
+
+				// Create log
+				$logging->create_log( $type, $status, $message, $download, $version );
+			}
+
+			// Set cookie to prevent duplicate logging and stats updates from ill-behaved clients
+			setcookie( 'wp_dlm_downloading', $download->get_the_version_number(), time() + 60, COOKIEPATH, COOKIE_DOMAIN, false, true );
 		}
-
 	}
 
 	/**
@@ -246,30 +267,8 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		// check if user downloaded this version in the past minute
-		if ( empty( $_COOKIE['wp_dlm_downloading'] ) || $download->get_the_version_number() != $_COOKIE['wp_dlm_downloading'] ) {
-
-
-			// bool if we need to increment download count
-			$increment_download_count = true;
-
-			// check if unique ips option is enabled and if so, if visitor already downloaded this file version
-			if ( '1' == get_option( 'dlm_enable_logging' ) && '1' == get_option( 'dlm_count_unique_ips' ) && true === $this->has_ip_downloaded_version( $version ) ) {
-				$increment_download_count = false;
-			}
-
-			// check if we need to increment the download count
-			if ( true === $increment_download_count ) {
-				// Increase download count
-				$version->increase_download_count();
-			}
-
-			// Trigger Download Action
-			do_action( 'dlm_downloading', $download, $version, $file_path );
-
-			// Set cookie to prevent double logging
-			setcookie( 'wp_dlm_downloading', $download->get_the_version_number(), time() + 60, COOKIEPATH, COOKIE_DOMAIN, false, true );
-		}
+		// Trigger Download Action
+		do_action( 'dlm_downloading', $download, $version, $file_path );
 
 		// Redirect to the file...
 		if ( $download->redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
