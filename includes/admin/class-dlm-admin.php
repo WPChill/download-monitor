@@ -227,9 +227,9 @@ class DLM_Admin {
 						),
 						array(
 							'name'        => 'dlm_ip_blacklist',
-							'std'         => '192.168.0.*',
+							'std'         => '192.168.0.0/24',
 							'label'       => __( 'Blacklist IPs', 'download-monitor' ),
-							'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a wildcard.', 'download-monitor' ),
+							'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Only IPv4 addresses are recognized, currently. Use IP/CIDR netmask format for ranges. Examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>', 'download-monitor' ),
 							'placeholder' => '',
 							'type'        => 'textarea'
 						),
