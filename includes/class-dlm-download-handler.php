@@ -58,6 +58,66 @@ class DLM_Download_Handler {
 
 		}
 
+		// Check if IP is blacklisted
+		if ( false !== $can_download ) {
+
+			$visitor_ip = DLM_Utils::get_visitor_ip();
+			$ip_type = 0;
+
+			if ( filter_var( $visitor_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+				$ip_type = 4;
+			} elseif ( filter_var( $visitor_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
+				$ip_type = 6;
+			}
+
+			$blacklisted_ips = preg_split( "/\r?\n/", trim( get_option( 'dlm_ip_blacklist', "" ) ) );
+
+			/**
+			 * Until IPs are validated at time of save, we need to ensure entries
+			 * are legitimate before using them. Allow formats:
+			 *   IPv4, e.g. 198.51.100.1
+			 *   IPv4/CIDR netmask, e.g. 198.51.100.0/24
+			 *   IPv6, e.g. 2001:db8:0:1
+			 *   IPv6/CIDR netmask, e.g. 2001:db8::/32
+			 */
+
+			// IP/CIDR netmask regexes
+			// http://blog.markhatton.co.uk/2011/03/15/regular-expressions-for-ip-addresses-cidr-ranges-and-hostnames/
+			$ip4_with_mask_pattern = '/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$/';
+			$ip6_with_mask_pattern = '/^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\/(d|dd|1[0-1]d|12[0-8]))$/';
+
+			if ( $ip_type === 4 ) {
+				foreach ( $blacklisted_ips as $blacklisted_ip ) {
+
+					// Detect unique IPv4 address and ranges of IPv4 addresses in IP/CIDR netmask format
+					if ( filter_var( $blacklisted_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) || preg_match( $ip4_with_mask_pattern, $blacklisted_ip ) ) {
+						if ( DLM_Utils::ip_in_range( $visitor_ip, $blacklisted_ip ) ) {
+							$can_download = false;
+							break;
+						}
+					}
+				}
+			} elseif ( $ip_type === 6 ) {
+				// IPv6 not yet supported
+			}
+
+		}
+
+		// Check if user agent is blacklisted
+		if ( false !== $can_download ) {
+
+			$visitor_ua = DLM_Utils::get_visitor_ua();
+			$blacklisted_uas = preg_split( "/\r?\n/", trim( get_option( 'dlm_user_agent_blacklist', "" ) ) );
+
+			foreach ( $blacklisted_uas as $blacklisted_ua ) {
+				if ( $visitor_ua == $blacklisted_ua ) {
+					$can_download = false;
+					break;
+				}
+			}
+
+		}
+
 		return $can_download;
 	}
 
