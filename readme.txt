@@ -121,6 +121,9 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak: Directory browser items are now always in alphabetical order, props [Matt Mower](https://github.com/mdmower).
 * Tweak: The 60 seconds download counter increment cool down is now set to version ID instead of download ID, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Created and implemented local independent basename fixing issues with Cyrillic alphabets.
+* Tweak: Added Danish translation.
+* Tweak: Updated Dutch translation.
+* Tweak: Updated German translation.
 
 = 1.7.2: April 29, 2015 =
 * Tweak: Fixed a bug that caused logs not to be displayed in WP 4.2.
