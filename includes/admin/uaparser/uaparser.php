@@ -44,7 +44,7 @@ class UAParser {
 	
         $regexesFile = ($customRegexesFile !== null) ? $customRegexesFile : dirname(__FILE__).DIRECTORY_SEPARATOR.'resources/regexes.json';
         if (file_exists($regexesFile)) {
-            $this->regexes = json_decode(file_get_contents($regexesFile));
+	        $this->regexes = apply_filters( 'dlm_ua_parser_regexes', json_decode( file_get_contents( $regexesFile ) ) );
         } else {
             $title            = 'Error loading ua-parser';
             if ($customRegexesFile !== null) {

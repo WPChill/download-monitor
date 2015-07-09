@@ -121,6 +121,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak: Directory browser items are now always in alphabetical order, props [Matt Mower](https://github.com/mdmower).
 * Tweak: The 60 seconds download counter increment cool down is now set to version ID instead of download ID, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Created and implemented local independent basename fixing issues with Cyrillic alphabets.
+* Tweak: Made user agents regexes filterable: dlm_ua_parser_regexes.
 * Tweak: Added Danish translation.
 * Tweak: Updated Dutch translation.
 * Tweak: Updated German translation.
