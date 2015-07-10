@@ -27,11 +27,12 @@ class DLM_Download_Handler {
 		add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
-		add_filter( 'dlm_can_download', array( $this, 'check_access' ), 10, 2 );
+		add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
+		add_filter( 'dlm_can_download', array( $this, 'check_blacklist' ), 10, 2 );
 	}
 
 	/**
-	 * Check access (hooked into dlm_can_download) checks if the download is members only and enfoces log in.
+	 * Check members only (hooked into dlm_can_download) checks if the download is members only and enfoces log in.
 	 *
 	 * Other plugins can use the 'dlm_can_download' filter directly to change access rights.
 	 *
@@ -56,6 +57,23 @@ class DLM_Download_Handler {
 			}
 
 		}
+
+		return $can_download;
+	}
+
+	/**
+	 * Check blacklist (hooked into dlm_can_download) checks if the download request comes from blacklisted IP address or user agent
+	 *
+	 * Other plugins can use the 'dlm_can_download' filter directly to change access rights.
+	 *
+	 * @access public
+	 *
+	 * @param boolean $can_download
+	 * @param mixed $download
+	 *
+	 * @return boolean
+	 */
+	public function check_blacklist( $can_download, $download ) {
 
 		// Check if IP is blacklisted
 		if ( false !== $can_download ) {
