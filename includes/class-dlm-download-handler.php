@@ -30,7 +30,6 @@ class DLM_Download_Handler {
 		add_filter( 'dlm_can_download', array( $this, 'check_access' ), 10, 2 );
 	}
 
-
 	/**
 	 * Check access (hooked into dlm_can_download) checks if the download is members only and enfoces log in.
 	 *
@@ -187,18 +186,30 @@ class DLM_Download_Handler {
 	 * @param string $type
 	 * @param string $status
 	 * @param string $message
+	 * @param DLM_Download $download
+	 * @param DLM_Download_Version $version
 	 */
 	private function log( $type = '', $status = '', $message = '', $download, $version ) {
 
 		// Logging object
 		$logging = new DLM_Logging();
 
-
 		// Check if logging is enabled and if unique ips is enabled
-		if ( $logging->is_logging_enabled() && ( ( '1' == get_option( 'dlm_count_unique_ips', '0' ) && false === $this->has_ip_downloaded_version( $version ) ) || '' == get_option( 'dlm_count_unique_ips', '' ) ) ) {
+		if ( $logging->is_logging_enabled() ) {
 
-			// Create log
-			$logging->create_log( $type, $status, $message, $download, $version );
+			// set create_log to true
+			$create_log = true;
+
+			// check if requester downloaded this version before
+			if ( '1' == get_option( 'dlm_count_unique_ips', '0' ) && true === $this->has_ip_downloaded_version( $version ) ) {
+				$create_log = false;
+			}
+
+			// check if we need to create the log
+			if ( $create_log ) {
+				// Create log
+				$logging->create_log( $type, $status, $message, $download, $version );
+			}
 
 		}
 
