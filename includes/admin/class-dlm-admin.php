@@ -144,14 +144,6 @@ class DLM_Admin {
 							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
-						array(
-							'name'        => 'dlm_no_access_error',
-							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
-							'placeholder' => '',
-							'label'       => __( 'No access message', 'download-monitor' ),
-							'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
-							'type'        => 'textarea'
-						),
 					),
 				),
 				'endpoints' => array(
@@ -224,6 +216,19 @@ class DLM_Admin {
 							'cb_label' => __( 'Enable', 'download-monitor' ),
 							'desc'     => __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address.', 'download-monitor' ),
 							'type'     => 'checkbox'
+						),
+					)
+				),
+				'access' => array(
+					__( 'Access', 'download-monitor' ),
+					array(
+						array(
+							'name'        => 'dlm_no_access_error',
+							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
+							'placeholder' => '',
+							'label'       => __( 'No access message', 'download-monitor' ),
+							'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
+							'type'        => 'textarea'
 						),
 						array(
 							'name'        => 'dlm_ip_blacklist',
