@@ -104,7 +104,7 @@ class DLM_Download_Handler {
 			$ip4_with_mask_pattern = '/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$/';
 			$ip6_with_mask_pattern = '/^((([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(\/[0-9][0-9]?|1([01][0-9]|2[0-8])))$/';
 
-			if ( $ip_type === 4 ) {
+			if ( 4 === $ip_type ) {
 				foreach ( $blacklisted_ips as $blacklisted_ip ) {
 
 					// Detect unique IPv4 address and ranges of IPv4 addresses in IP/CIDR netmask format
@@ -115,7 +115,7 @@ class DLM_Download_Handler {
 						}
 					}
 				}
-			} elseif ( $ip_type === 6 ) {
+			} elseif ( 6 === $ip_type ) {
 				foreach ( $blacklisted_ips as $blacklisted_ip ) {
 
 					// Detect unique IPv6 address and ranges of IPv6 addresses in IP/CIDR netmask format
