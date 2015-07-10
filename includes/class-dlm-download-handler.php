@@ -43,10 +43,10 @@ class DLM_Download_Handler {
 	 *
 	 * @return boolean
 	 */
-	public function check_access( $can_download, $download ) {
+	public function check_members_only( $can_download, $download ) {
 
 		// Check if download is a 'members only' download
-		if ( $download->is_members_only() ) {
+		if ( false !== $can_download && $download->is_members_only() ) {
 
 			// Check if user is logged in
 			if ( ! is_user_logged_in() ) {
