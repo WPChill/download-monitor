@@ -107,7 +107,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 == Changelog ==
 
-= 1.8.0: TBA =
+= 1.8.0: July 10, 2015 =
 * Feature: Added option to only count downloads and add logs from unique ip addresses, props [Matt Mower](https://github.com/mdmower).
 * Feature: It's now possible to display downloads with the downloads shortcode that are in all given categories (AND instead of OR) by using + (plus_ instead of , (comma).
 * Feature: Display nginx rules if server is running nginx.
