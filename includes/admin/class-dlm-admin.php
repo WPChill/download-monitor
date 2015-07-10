@@ -229,7 +229,7 @@ class DLM_Admin {
 							'name'        => 'dlm_ip_blacklist',
 							'std'         => '192.168.0.0/24',
 							'label'       => __( 'Blacklist IPs', 'download-monitor' ),
-							'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Only IPv4 addresses are recognized, currently. Use IP/CIDR netmask format for ranges. Examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>', 'download-monitor' ),
+							'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for ranges. IPv4 examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or <code>2001:db8::/32</code>.', 'download-monitor' ),
 							'placeholder' => '',
 							'type'        => 'textarea'
 						),
