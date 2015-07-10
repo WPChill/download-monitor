@@ -52,13 +52,13 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			case 'status' :
 				switch ( $log->download_status ) {
 					case 'failed' :
-						$download_status = '<span class="failed" title="' . esc_attr( $log->download_status_message ) . '">&#10082;</span>';
+						$download_status = '<span class="failed" title="' . esc_attr( $log->download_status_message ) . '">&nbsp;</span>';
 						break;
 					case 'redirected' :
-						$download_status = '<span class="redirected" title="' . esc_attr( $log->download_status_message ) . '">&#10140;</span>';
+						$download_status = '<span class="redirected" title="' . esc_attr( $log->download_status_message ) . '">&nbsp;</span>';
 						break;
 					default :
-						$download_status = '<span class="completed" title="' . __( 'Download Complete', 'download-monitor' ) . '">&#10004;</span>';
+						$download_status = '<span class="completed" title="' . __( 'Download Complete', 'download-monitor' ) . '">&nbsp;</span>';
 						break;
 				}
 
