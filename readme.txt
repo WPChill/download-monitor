@@ -112,6 +112,8 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Feature: It's now possible to display downloads with the downloads shortcode that are in all given categories (AND instead of OR) by using + (plus_ instead of , (comma).
 * Feature: Display nginx rules if server is running nginx.
 * Feature: Added Multisite / Network compatibility.
+* Feature: Redone blacklist IP feature, now available in the 'Access' tab.
+* Feature: Redone blacklist user agent feature, now available in the 'Access' tab.
 * Tweak: Added icon support for Office X Excel & PPT extensions.
 * Tweak: Run thumbnail compatibility method later to allowed themes to register first.
 * Tweak: Prefixed admin CSS classes to prevent plugin conflicts.
@@ -122,6 +124,8 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 * Tweak: The 60 seconds download counter increment cool down is now set to version ID instead of download ID, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Created and implemented local independent basename fixing issues with Cyrillic alphabets.
 * Tweak: Made user agents regexes filterable: dlm_ua_parser_regexes.
+* Tweak: Optimized log status icons, also fixes WP emoji conflict.
+* Tweak: Members Only check now only does check if requester can still download.
 * Tweak: Replaced PHP4 constructors in widget.
 * Tweak: Added Danish translation.
 * Tweak: Updated Dutch translation.
