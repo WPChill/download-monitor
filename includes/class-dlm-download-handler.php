@@ -133,11 +133,17 @@ class DLM_Download_Handler {
 		// Check if user agent is blacklisted
 		if ( false !== $can_download ) {
 
+			// get request user agent
 			$visitor_ua = DLM_Utils::get_visitor_ua();
+
+			// get blacklisted user agents
 			$blacklisted_uas = preg_split( "/\r?\n/", trim( get_option( 'dlm_user_agent_blacklist', "" ) ) );
 
+			// loop through blacklisted user agents
 			foreach ( $blacklisted_uas as $blacklisted_ua ) {
-				if ( $visitor_ua == $blacklisted_ua ) {
+
+				// check if blacklisted user agent is found in request user agent
+				if ( false !== stristr( $visitor_ua, $blacklisted_ua ) ) {
 					$can_download = false;
 					break;
 				}
