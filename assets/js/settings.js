@@ -1,9 +1,13 @@
 jQuery( function ( $ ) {
-    $( '.nav-tab-wrapper a' ).click( function () {
+    function set_active_tab ( elm ) {
         $( '.settings_panel' ).hide();
         $( '.nav-tab-active' ).removeClass( 'nav-tab-active' );
-        $( $( this ).attr( 'href' ) ).show();
-        $( this ).addClass( 'nav-tab-active' );
+        $( elm.attr( 'href' ) ).show();
+        elm.addClass( 'nav-tab-active' );
+    }
+
+    $( '.nav-tab-wrapper a' ).click( function () {
+        set_active_tab( $( this ) );
         return false;
     } );
     $( '#setting-dlm_default_template' ).change( function () {
