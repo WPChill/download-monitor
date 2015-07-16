@@ -15,7 +15,7 @@ class DLM_Upgrade_Manager {
 		$current_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION, 0 );
 
 		// Check if update is required
-		if ( 1 || version_compare( DLM_VERSION, $current_version, '>' ) ) {
+		if ( version_compare( DLM_VERSION, $current_version, '>' ) ) {
 
 			// Do update
 			$this->do_upgrade( $current_version );
