@@ -135,7 +135,7 @@ class DLM_Shortcodes {
 					// Template handler
 					$template_handler = new DLM_Template_Handler();
 
-					$template_handler->get_template_part( 'content-download', $template );
+					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => new DLM_Download( get_the_ID() ) ) );
 				}
 
 			} else {
@@ -332,7 +332,7 @@ class DLM_Shortcodes {
 					// check if explode had results
 					if ( ! empty( $categories ) ) {
 
-						foreach($categories as $category) {
+						foreach ( $categories as $category ) {
 							$args['tax_query'][] = array(
 								'taxonomy'         => 'dlm_download_category',
 								'field'            => 'slug',
@@ -343,7 +343,7 @@ class DLM_Shortcodes {
 
 					}
 
-				}else {
+				} else {
 
 					// categories with OR
 
@@ -408,7 +408,7 @@ class DLM_Shortcodes {
 
 				<?php echo html_entity_decode( $before ); ?>
 
-				<?php $template_handler->get_template_part( 'content-download', $template ); ?>
+				<?php $template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => new DLM_Download( get_the_ID() ) ) ); ?>
 
 				<?php echo html_entity_decode( $after ); ?>
 
