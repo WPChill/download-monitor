@@ -110,7 +110,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 
 				echo apply_filters( 'dlm_widget_downloads_list_item_start', '<li>' );
 
-				$template_handler->get_template_part( 'content-download', $format );
+				$template_handler->get_template_part( 'content-download', $format, '', array( 'dlm_download' => new DLM_Download( get_the_ID() ) ) );
 
 				echo apply_filters( 'dlm_widget_downloads_list_item_end', '</li>' );
 			}
