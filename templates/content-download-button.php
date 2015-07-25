@@ -2,8 +2,6 @@
 /**
  * Download button
  */
-
-global $dlm_download;
 ?>
 <p><a class="aligncenter download-button" href="<?php $dlm_download->the_download_link(); ?>" rel="nofollow">
 		<?php printf( __( 'Download &ldquo;%s&rdquo;', 'download-monitor' ), $dlm_download->get_the_title() ); ?>

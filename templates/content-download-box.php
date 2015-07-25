@@ -3,7 +3,6 @@
  * Detailed download output
  */
 
-global $dlm_download;
 ?>
 <aside class="download-box">
 

@@ -3,8 +3,6 @@
  * List of versions
  */
 
-global $dlm_download;
-
 $versions = $dlm_download->get_file_versions();
 
 if ( $versions ) : ?>
