@@ -107,6 +107,9 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 == Changelog ==
 
+= 1.8.1: XXXX xx, 2015 =
+* Tweak: small tweak to make download count fit better in box template
+
 = 1.8.0: July 10, 2015 =
 * Feature: Added option to only count downloads and add logs from unique ip addresses, props [Matt Mower](https://github.com/mdmower).
 * Feature: It's now possible to display downloads with the downloads shortcode that are in all given categories (AND instead of OR) by using + (plus_ instead of , (comma).
