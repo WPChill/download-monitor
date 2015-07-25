@@ -3,6 +3,9 @@
  * Detailed download output
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 ?>
 <aside class="download-box">
 
