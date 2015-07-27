@@ -96,7 +96,7 @@ Admin hits are not counted, log out and try!
 
 Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](https://www.download-monitor.com/extensions/dlm-legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
 
-Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
+More documentation can be found in our [Knowledge Base](https://www.download-monitor.com/kb/).
 
 == Screenshots ==
 
