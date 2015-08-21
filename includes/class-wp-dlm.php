@@ -184,6 +184,11 @@ class WP_DLM {
 			// Get current supported
 			$current_support = get_theme_support( 'post-thumbnails' );
 
+			// fix current support for some themes
+			if ( is_array( $current_support[0] ) ) {
+				$current_support = $current_support[0];
+			}
+
 			// This can be a bool or array. If array we merge our post type in, if bool ignore because it's like a global theme setting.
 			if ( is_array( $current_support ) ) {
 				add_theme_support( 'post-thumbnails', array_merge( $current_support, array( 'dlm_download' ) ) );
