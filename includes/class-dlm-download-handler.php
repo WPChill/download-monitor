@@ -510,8 +510,9 @@ class DLM_Download_Handler {
 		 */
 		@ob_end_clean(); // Clear the output buffer
 
-		if ( ob_get_level() ) {
-			@ob_end_clean(); // Zip corruption fix
+		// Zip corruption fix
+		while ( ob_get_level() > 0 ) {
+			@ob_end_clean();
 		}
 
 		$headers = array();
