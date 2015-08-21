@@ -107,8 +107,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 1.8.1: XXXX xx, 2015 =
-* Tweak: small tweak to make download count fit better in box template
+= 1.8.1: August 21, 2015 =
+* Tweak: Small tweak to make download count fit better in box template.
+* Tweak: Fixed a zero file size bug.
+* Tweak: Fixed featured image disappears bug, props [Ricardo](https://wordpress.org/support/profile/ricardopires).
+* Tweak: Search template file in custom path before in plugin path.
 
 = 1.8.0: July 10, 2015 =
 * Feature: Added option to only count downloads and add logs from unique ip addresses, props [Matt Mower](https://github.com/mdmower).
