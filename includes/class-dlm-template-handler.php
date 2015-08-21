@@ -29,14 +29,14 @@ class DLM_Template_Handler {
 			$template = locate_template( array( "{$slug}-{$name}.php", "download-monitor/{$slug}-{$name}.php" ) );
 		}
 
-		// Get default slug-name.php
-		if ( ! $template && $name && file_exists( $plugin_path . "/templates/{$slug}-{$name}.php" ) ) {
-			$template = $plugin_path . "/templates/{$slug}-{$name}.php";
-		}
-
 		// If a custom path was defined, check that next
 		if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
 			$template = trailingslashit( $custom_dir ) . "{$slug}-{$name}.php";
+		}
+
+		// Get default slug-name.php
+		if ( ! $template && $name && file_exists( $plugin_path . "/templates/{$slug}-{$name}.php" ) ) {
+			$template = $plugin_path . "/templates/{$slug}-{$name}.php";
 		}
 
 		// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/download-monitor/slug.php
