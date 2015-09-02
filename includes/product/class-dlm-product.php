@@ -132,7 +132,7 @@ class DLM_Product {
 
 			// Check request
 			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
-				throw new Exception( 'Connection failed to the Licence Key API server. Try again later.' );
+				throw new Exception( 'Connection failed to the License Key API server. Try again later.' );
 			}
 
 			// Get activation result
@@ -149,7 +149,7 @@ class DLM_Product {
 				return array( 'result' => 'success', 'message' => __( 'License successfully activated.', 'download-monitor' ) );
 
 			} elseif ( $activate_results === false ) {
-				throw new Exception( 'Connection failed to the Licence Key API server. Try again later.' );
+				throw new Exception( 'Connection failed to the License Key API server. Try again later.' );
 			} elseif ( isset( $activate_results['error_code'] ) ) {
 				throw new Exception( $activate_results['error'] );
 			}
@@ -191,7 +191,7 @@ class DLM_Product {
 
 			// Check request
 			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
-				throw new Exception( 'Connection failed to the Licence Key API server. Try again later.' );
+				throw new Exception( 'Connection failed to the License Key API server. Try again later.' );
 			}
 
 			// Get result
