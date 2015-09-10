@@ -7,6 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Upgrade_Manager {
 
 	/**
+	 * Setup to run updater on wp_loaded
+	 */
+	public function setup() {
+		add_action( 'wp_loaded', array( $this, 'check' ) );
+	}
+
+	/**
 	 * Check if there's a plugin update
 	 */
 	public function check() {

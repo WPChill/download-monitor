@@ -98,7 +98,7 @@ class WP_DLM {
 
 			// Upgrade Manager
 			$upgrade_manager = new DLM_Upgrade_Manager();
-			$upgrade_manager->check();
+			$upgrade_manager->setup();
 		}
 
 		// Setup AJAX handler if doing AJAX
