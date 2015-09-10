@@ -41,10 +41,15 @@ class DLM_Installer {
 			update_option( 'dlm_no_access_error', sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ) );
 		}
 
+		// create no access page
+		$this->create_no_access_page();
+
 		// Set the current version
 		require_once( 'class-dlm-constants.php' );
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 
+		// flush rules after install
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -140,6 +145,36 @@ class DLM_Installer {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Create no access page
+	 */
+	public function create_no_access_page() {
+
+		// create cars listing page if not exists
+		$listings_slug = sanitize_title( __( 'No Access', 'download-monitor' ) );
+		$listings_page = get_page_by_path( $listings_slug );
+
+		// check if listings page exists
+		if ( null == $listings_page ) {
+
+			// create page
+			$page_id = wp_insert_post( array(
+				'post_type'    => 'page',
+				'post_title'   => __( 'No Access', 'download-monitor' ),
+				'post_content' => '[dlm_no_access]',
+				'post_status'  => 'publish'
+			) );
+
+			if ( ! is_wp_error( $page_id ) ) {
+				// set page id as dlm_no_access_page
+				update_option( 'dlm_no_access_page', absint( $page_id ) );
+			}
+
+
+		}
+
 	}
 
 }
