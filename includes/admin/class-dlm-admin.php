@@ -95,12 +95,36 @@ class DLM_Admin {
 	}
 
 	/**
+	 * Return pages with ID => Page title format
+	 *
+	 * @return array
+	 */
+	private function get_pages() {
+		// pages
+		$pages = array( 0 => __( 'Select Page', 'download-monitor' ) );
+
+		// get pages from db
+		$db_pages = get_pages();
+
+		// check and loop
+		if ( count( $db_pages ) > 0 ) {
+			foreach ( $db_pages as $db_page ) {
+				$pages[ $db_page->ID ] = $db_page->post_title;
+			}
+		}
+
+		// return pages
+		return $pages;
+	}
+
+	/**
 	 * init_settings function.
 	 *
 	 * @access private
 	 * @return void
 	 */
 	private function init_settings() {
+
 		$this->settings = apply_filters( 'download_monitor_settings',
 			array(
 				'general'   => array(
@@ -219,9 +243,17 @@ class DLM_Admin {
 						),
 					)
 				),
-				'access' => array(
+				'access'    => array(
 					__( 'Access', 'download-monitor' ),
 					array(
+						array(
+							'name'    => 'dlm_no_access_page',
+							'std'     => '',
+							'label'   => __( 'No Access Page', 'download-monitor' ),
+							'desc'    => __( "Choose what page is displayed when the user has no access to a file. Don't forget to add the <code>[dlm_no_access]</code> shortcode to the page.", 'download-monitor' ),
+							'type'    => 'select',
+							'options' => $this->get_pages()
+						),
 						array(
 							'name'        => 'dlm_no_access_error',
 							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
@@ -363,7 +395,7 @@ class DLM_Admin {
 	 * Print global notices
 	 */
 	private function print_global_notices() {
-		
+
 		// check for nginx
 		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
 
@@ -503,7 +535,7 @@ class DLM_Admin {
 				</p>
 			</form>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -535,7 +567,7 @@ class DLM_Admin {
 				<?php $DLM_Logging_List_Table->display() ?>
 			</form>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
