@@ -18,6 +18,7 @@ class DLM_Shortcodes {
 		add_shortcode( 'download', array( $this, 'download' ) );
 		add_shortcode( 'download_data', array( $this, 'download_data' ) );
 		add_shortcode( 'downloads', array( $this, 'downloads' ) );
+		add_shortcode( 'dlm_no_access', array( $this, 'no_access_page' ) );
 	}
 
 	/**
@@ -425,5 +426,41 @@ class DLM_Shortcodes {
 		wp_reset_postdata();
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * The dlm_no_access shortcode callback
+	 *
+	 * @param array $atts
+	 *
+	 * @return string
+	 */
+	public function no_access_page( $atts ) {
+		global $wp;
+
+		// atts
+		$atts = shortcode_atts( array(
+			'show_message' => 'true',
+		), $atts );
+
+		// start buffer
+		ob_start();
+
+		// show_message must be a bool
+		$atts['show_message'] = ( 'true' === $atts['show_message'] );
+
+		// template handler
+		$template_handler = new DLM_Template_Handler();
+
+		// load content-single-vehicle
+		$template_handler->get_template_part( 'no-access', '', '', array(
+			'download'          => new DLM_Download( $wp->query_vars['download-id'] ),
+			'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
+		) );
+
+		// set new content
+		$content = ob_get_clean();
+
+		return $content;
 	}
 }
