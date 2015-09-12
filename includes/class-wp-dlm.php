@@ -116,6 +116,10 @@ class WP_DLM {
 		$download_handler = new DLM_Download_Handler();
 		$download_handler->setup();
 
+		// setup no access page endpoints
+		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
+		$no_access_page_endpoint->setup();
+
 		// Setup shortcodes
 		$dlm_shortcodes = new DLM_Shortcodes();
 		$dlm_shortcodes->setup();
