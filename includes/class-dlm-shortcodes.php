@@ -449,10 +449,15 @@ class DLM_Shortcodes {
 		// show_message must be a bool
 		$atts['show_message'] = ( 'true' === $atts['show_message'] );
 
+		// return empty string if download-id is not set
+		if ( ! isset( $wp->query_vars['download-id'] ) ) {
+			return '';
+		}
+
 		// template handler
 		$template_handler = new DLM_Template_Handler();
 
-		// load content-single-vehicle
+		// load no access template
 		$template_handler->get_template_part( 'no-access', '', '', array(
 			'download'          => new DLM_Download( $wp->query_vars['download-id'] ),
 			'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
