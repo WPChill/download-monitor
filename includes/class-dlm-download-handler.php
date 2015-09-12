@@ -79,7 +79,7 @@ class DLM_Download_Handler {
 		if ( false !== $can_download ) {
 
 			$visitor_ip = DLM_Utils::get_visitor_ip();
-			$ip_type = 0;
+			$ip_type    = 0;
 
 			if ( filter_var( $visitor_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
 				$ip_type = 4;
@@ -344,8 +344,33 @@ class DLM_Download_Handler {
 				wp_redirect( $redirect );
 				exit;
 			} else {
-				// Visitor don't have access to file and there's no redirect so display 'no access' message and die
+
+				// get 'no access' page id
+				$no_access_page_id = get_option( 'dlm_no_access_page', 0 );
+
+				// check if a no access page is set
+				if ( $no_access_page_id > 0 ) {
+
+					// get permalink of no access page
+					$no_access_permalink = get_permalink( $no_access_page_id );
+
+					// check if we can find a permalink
+					if ( false !== $no_access_permalink ) {
+
+						// append download id to no access URL
+						$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->id . '/';
+
+						// redirect to no access page
+						wp_redirect( $no_access_permalink );
+
+						exit; // out
+					}
+
+				}
+
+				// if we get to this point, we have no proper 'no access' page. Fallback to default wp_die
 				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
+
 			}
 
 			exit;
@@ -550,8 +575,8 @@ class DLM_Download_Handler {
 	 *
 	 * @access   public
 	 *
-	 * @param    string    $file
-	 * @param    boolean   $retbytes return bytes of file
+	 * @param    string $file
+	 * @param    boolean $retbytes return bytes of file
 	 * @param    boolean $range if  HTTP RANGE to seek
 	 *
 	 * @return   mixed
