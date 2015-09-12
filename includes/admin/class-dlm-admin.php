@@ -563,7 +563,7 @@ class DLM_Admin {
 					href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ), 'delete_logs' ); ?>"
 					class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h2><br/>
 
-			<form id="dlm_logs">
+			<form id="dlm_logs" method="post">
 				<?php $DLM_Logging_List_Table->display() ?>
 			</form>
 		</div>

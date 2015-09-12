@@ -19,7 +19,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 *
 	 * @access public
 	 */
-	function __construct() {
+	public function __construct() {
 		global $status, $page, $wpdb;
 
 		parent::__construct( array(
@@ -38,6 +38,32 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * The checkbox column
+	 *
+	 * @param object $item
+	 *
+	 * @return string
+	 */
+	public function column_cb( $item ) {
+		return sprintf(
+			'<input type="checkbox" name="book[]" value="%s" />', $item->ID
+		);
+	}
+
+	/**
+	 * Add bulk actions
+	 *
+	 * @return array
+	 */
+	protected function get_bulk_actions() {
+		$actions = array(
+			'delete' => __( 'Delete', 'download-monitor' )
+		);
+
+		return $actions;
+	}
+
+	/**
 	 * column_default function.
 	 *
 	 * @access public
@@ -47,7 +73,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 *
 	 * @return void
 	 */
-	function column_default( $log, $column_name ) {
+	public function column_default( $log, $column_name ) {
 		switch ( $column_name ) {
 			case 'status' :
 				switch ( $log->download_status ) {
@@ -133,6 +159,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
+			'cb'       => '',
 			'status'   => '',
 			'download' => __( 'Download', 'download-monitor' ),
 			'file'     => __( 'File', 'download-monitor' ),
@@ -149,10 +176,23 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 * Generate the table navigation above or below the table
 	 */
 	public function display_tablenav( $which ) {
+
+		// output nonce
+		if ( 'top' == $which ) {
+			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
+		}
+
 		?>
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
+
+		<div class="alignleft actions bulkactions">
+			<?php $this->bulk_actions( $which ); ?>
+		</div>
+
 		<?php if ( 'top' == $which ) : ?>
+
 			<div class="alignleft actions">
+
 				<select name="filter_status">
 					<option value=""><?php _e( 'Any status', 'download-monitor' ); ?></option>
 					<option
@@ -230,7 +270,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 * @access public
 	 * @return void
 	 */
-	function prepare_items() {
+	public function prepare_items() {
 		global $wpdb;
 
 		$per_page      = absint( $this->logs_per_page );
@@ -281,5 +321,33 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		}
 
 		$this->uaparser = new UAParser();
+
+		// process bulk action
+		$this->process_bulk_action();
 	}
+
+	/**
+	 * Process bulk actions
+	 */
+	public function process_bulk_action() {
+
+		if ( 'delete' === $this->current_action() ) {
+
+			// check nonce
+			if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'bulk-' . $this->_args['plural'] ) ) {
+				wp_die( 'process_bulk_action() nonce check failed' );
+			}
+
+			// @todo check capability
+
+
+			// @todo delete the actual log entries
+
+			var_dump( $_POST );
+			exit;
+		}
+
+
+	}
+
 }
