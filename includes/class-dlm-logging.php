@@ -15,7 +15,7 @@ class DLM_Logging {
 	 * @return bool
 	 */
 	public function is_logging_enabled() {
-		return (1 == get_option( 'dlm_enable_logging', 0 ));
+		return ( 1 == get_option( 'dlm_enable_logging', 0 ) );
 	}
 
 	/**
@@ -57,6 +57,19 @@ class DLM_Logging {
 		);
 
 		return $wpdb->insert_id;
+	}
+
+	/**
+	 * Delete a log entry
+	 *
+	 * @param $log_id
+	 *
+	 * @return bool
+	 */
+	public function delete_log( $log_id ) {
+		global $wpdb;
+
+		return ( false !== $wpdb->delete( $wpdb->download_log, array( 'ID' => $log_id ), array( '%d' ) ) );
 	}
 
 }
