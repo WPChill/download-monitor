@@ -14,6 +14,9 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	/** @var UAParser */
 	private $uaparser = null;
 
+	/** @var bool $display_delete_message */
+	private $display_delete_message = false;
+
 	/**
 	 * __construct function.
 	 *
@@ -182,6 +185,15 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
 		}
 
+		// display 'delete' success message
+		if ( 'top' == $which && true === $this->display_delete_message ) {
+			?>
+			<div id="message" class="updated notice notice-success">
+				<p><?php _e( 'Log entries deleted', 'download-monitor' ); ?></p>
+			</div>
+			<?php
+		}
+
 		?>
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
 
@@ -343,8 +355,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				wp_die( "You're not allowed to delete logs!" );
 			}
 
-			// @todo delete the actual log entries
-
 			// logging object
 			$logging = new DLM_Logging();
 
@@ -356,7 +366,8 @@ class DLM_Logging_List_Table extends WP_List_Table {
 					$logging->delete_log( absint( $log_id ) );
 				}
 
-				// @todo add success message
+				// display delete message
+				$this->display_delete_message = true;
 
 			}
 
