@@ -46,7 +46,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="book[]" value="%s" />', $item->ID
+			'<input type="checkbox" name="log[]" value="%s" />', $item->ID
 		);
 	}
 
@@ -273,6 +273,9 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		global $wpdb;
 
+		// process bulk action
+		$this->process_bulk_action();
+
 		$per_page      = absint( $this->logs_per_page );
 		$current_page  = absint( $this->get_pagenum() );
 		$filter_status = $this->filter_status;
@@ -321,9 +324,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		}
 
 		$this->uaparser = new UAParser();
-
-		// process bulk action
-		$this->process_bulk_action();
 	}
 
 	/**
@@ -338,15 +338,29 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				wp_die( 'process_bulk_action() nonce check failed' );
 			}
 
-			// @todo check capability
-
+			// check capability
+			if ( ! current_user_can( 'dlm_manage_logs' ) ) {
+				wp_die( "You're not allowed to delete logs!" );
+			}
 
 			// @todo delete the actual log entries
 
-			var_dump( $_POST );
-			exit;
-		}
+			// logging object
+			$logging = new DLM_Logging();
 
+			// check
+			if ( count( $_POST['log'] ) > 0 ) {
+
+				// delete the posted logs
+				foreach ( $_POST['log'] as $log_id ) {
+					$logging->delete_log( absint( $log_id ) );
+				}
+
+				// @todo add success message
+
+			}
+
+		}
 
 	}
 
