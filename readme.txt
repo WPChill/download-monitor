@@ -113,6 +113,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * [No Access Page] : Added new option in Access settings tab to set No Access Page.
 * [No Access Page] : Added new template file for no access page.
 * [No Access Page] : We now redirect to set No Access page (if set) when user has no access to download.
+* Feature: Added ability to remove log entries.
+* Feature: Added browser detection for IE 11 and up
+* Feature: Added OS detection for Windows 8.1
+* Feature: Added OS detection for Windows 10
 
 = 1.8.1: August 21, 2015 =
 * Tweak: Small tweak to make download count fit better in box template.
