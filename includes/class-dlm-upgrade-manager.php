@@ -63,6 +63,8 @@ class DLM_Upgrade_Manager {
 			$installer = new DLM_Installer();
 			$installer->create_no_access_page();
 
+			// flush rules after page creation
+			flush_rewrite_rules();
 		}
 
 	}
