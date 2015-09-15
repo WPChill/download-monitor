@@ -63,6 +63,10 @@ class DLM_Upgrade_Manager {
 			$installer = new DLM_Installer();
 			$installer->create_no_access_page();
 
+			// setup no access page endpoints
+			$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
+			$no_access_page_endpoint->setup();
+
 			// flush rules after page creation
 			flush_rewrite_rules();
 		}

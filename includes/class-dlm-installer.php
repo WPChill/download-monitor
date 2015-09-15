@@ -44,6 +44,11 @@ class DLM_Installer {
 		// create no access page
 		$this->create_no_access_page();
 
+		// setup no access page endpoints
+		require_once( 'class-dlm-download-no-access-page-endpoint.php' );
+		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
+		$no_access_page_endpoint->setup();
+
 		// Set the current version
 		require_once( 'class-dlm-constants.php' );
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
