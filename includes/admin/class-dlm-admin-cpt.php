@@ -26,6 +26,11 @@ class DLM_Admin_CPT {
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
 		add_filter( 'manage_edit-dlm_download_sortable_columns', array( $this, 'sortable_columns' ) );
 		add_filter( 'request', array( $this, 'sort_columns' ) );
+
+		// bulk and quick edit
+		add_action( 'bulk_edit_custom_box', array( $this, 'bulk_quick_edit' ), 10, 2 );
+		add_action( 'quick_edit_custom_box',  array( $this, 'bulk_quick_edit' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'bulk_and_quick_edit_save_post' ), 10, 2 );
 	}
 
 	/**
@@ -357,4 +362,91 @@ class DLM_Admin_CPT {
 		return $vars;
 	}
 
+	/**
+	 * Custom bulk edit - form
+	 *
+	 * @param mixed $column_name
+	 * @param mixed $post_type
+	 */
+	public function bulk_quick_edit( $column_name, $post_type ) {
+
+		// only on our PT
+		if ( 'dlm_download' != $post_type || 'featured' != $column_name ) {
+			return;
+		}
+
+		// nonce field
+		wp_nonce_field( 'dlm_bulk_quick_edit_nonce', 'dlm_bulk_quick_edit_nonce' );
+
+		?>
+		<fieldset class="inline-edit-col-right inline-edit-col-dlm">
+			<div class="inline-edit-col inline-edit-col-dlm-inner">
+				<span class="title"><?php _e( 'Download Monitor Data', 'download-monitor' ); ?></span><br/>
+				<label for="_featured"><input type="checkbox" name="_featured" id="_featured"
+				                              value="1"/><?php _e( 'Featured download', 'download-monitor' ); ?></label>
+				<label for="_members_only"><input type="checkbox" name="_members_only" id="_members_only"
+				                                  value="1"/><?php _e( 'Members only', 'download-monitor' ); ?></label>
+				<label for="_redirect_only"><input type="checkbox" name="_redirect_only" id="_redirect_only"
+				                                   value="1"/><?php _e( 'Redirect to file', 'download-monitor' ); ?>
+				</label>
+			</div>
+		</fieldset>
+		<?php
+	}
+
+	/**
+	 * Quick and bulk edit saving
+	 *
+	 * @param int $post_id
+	 * @param WP_Post $post
+	 *
+	 * @return int
+	 */
+	public function bulk_and_quick_edit_save_post( $post_id, $post ) {
+
+		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return $post_id;
+		}
+
+		// Don't save revisions and autosaves
+		if ( wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) {
+			return $post_id;
+		}
+
+		// Check post type is product
+		if ( 'dlm_download' != $post->post_type ) {
+			return $post_id;
+		}
+
+		// Check user permission
+		if ( ! current_user_can( 'manage_downloads', $post_id ) ) {
+			return $post_id;
+		}
+
+		// Check nonces
+		if ( ! isset( $_REQUEST['dlm_bulk_quick_edit_nonce'] ) ) {
+			return $post_id;
+		}
+		if ( ! wp_verify_nonce( $_REQUEST['dlm_bulk_quick_edit_nonce'], 'dlm_bulk_quick_edit_nonce' ) ) {
+			return $post_id;
+		}
+
+		// set featured
+		if ( isset( $_REQUEST['_featured'] ) ) {
+			update_post_meta( $post_id, '_featured', 'yes' );
+		}
+
+		// set members only
+		if ( isset( $_REQUEST['_members_only'] ) ) {
+			update_post_meta( $post_id, '_members_only', 'yes' );
+		}
+
+		// set redirect only
+		if ( isset( $_REQUEST['_redirect_only'] ) ) {
+			update_post_meta( $post_id, '_redirect_only', 'yes' );
+		}
+
+		return $post_id;
+	}
 }
