@@ -76,8 +76,7 @@ function __download_monitor_mu_new_blog( $blog_id, $user_id, $domain, $path, $si
 		// run installer on blog
 		$installer->install();
 
-
-		// restore current bloh
+		// restore current blog
 		restore_current_blog();
 	}
 }

@@ -63,9 +63,6 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 	// Activation hook
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '__download_monitor_install' );
 
-	// Flush Rewrites on Activation
-	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, 'flush_rewrite_rules', 11 );
-
 	// Multisite new blog hook
 	add_action( 'wpmu_new_blog', '__download_monitor_mu_new_blog', 10, 6 );
 

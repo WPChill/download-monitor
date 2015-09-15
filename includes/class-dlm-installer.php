@@ -53,9 +53,13 @@ class DLM_Installer {
 		require_once( 'class-dlm-constants.php' );
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 
-		// flush rules after install
+		// add rewrite rules
+		add_rewrite_endpoint( 'download-id', EP_ALL );
+
+		// flush rewrite rules
 		flush_rewrite_rules();
 	}
+
 
 	/**
 	 * Init user roles
