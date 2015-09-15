@@ -107,7 +107,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 1.9.0: September xx, 2015 =
+= 1.9.0: September 15, 2015 =
 * Feature: We added a separate 'No Access' page that includes the following features:
 * [No Access Page] : Added [dlm_no_access] shortcode that displays the no access content.
 * [No Access Page] : Added new option in Access settings tab to set No Access Page.
