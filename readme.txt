@@ -109,10 +109,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 1.9.0: September 15, 2015 =
 * Feature: We added a separate 'No Access' page that includes the following features:
-* [No Access Page] : Added [dlm_no_access] shortcode that displays the no access content.
-* [No Access Page] : Added new option in Access settings tab to set No Access Page.
-* [No Access Page] : Added new template file for no access page.
-* [No Access Page] : We now redirect to set No Access page (if set) when user has no access to download.
+* No Access Page : Added [dlm_no_access] shortcode that displays the no access content.
+* No Access Page : Added new option in Access settings tab to set No Access Page.
+* No Access Page : Added new template file for no access page.
+* No Access Page : We now redirect to set No Access page (if set) when user has no access to download.
 * Feature: Added ability to remove log entries.
 * Feature: Added browser detection for IE 11 and up.
 * Feature: Added OS detection for Windows 8.1
