@@ -8,6 +8,7 @@
 	Author URI: https://www.never5.com
 	Requires at least: 3.8
 	Tested up to: 4.3
+	Text Domain: download-monitor
 
 	License: GPL v3
 
