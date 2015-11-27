@@ -222,7 +222,7 @@ class DLM_Download {
 	 * get_the_download_link function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return String
 	 */
 	public function get_the_download_link() {
 		$scheme   = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
