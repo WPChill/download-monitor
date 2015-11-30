@@ -301,6 +301,9 @@ class DLM_Admin {
 				register_setting( 'download-monitor', $option['name'] );
 			}
 		}
+
+		add_option( 'dlm_last_settings_tab', 'general' );
+		register_setting( 'download-monitor', 'dlm_last_settings_tab' );
 	}
 
 	/**
@@ -443,11 +446,22 @@ class DLM_Admin {
 					?>
 				</h2><br/>
 
+				<input type="hidden" id="setting-dlm_last_settings_tab" name="dlm_last_settings_tab" value="general" />
+
 				<?php
 
 				if ( ! empty( $_GET['settings-updated'] ) ) {
 
 					flush_rewrite_rules();
+
+					$dlm_last_settings_tab = get_option( 'dlm_last_settings_tab', 'general' );
+					?>
+
+					<script type="text/javascript">
+						var dlm_last_settings_tab = "<?php echo $dlm_last_settings_tab ?>";
+					</script>
+
+					<?php
 					echo '<div class="updated notice is-dismissible"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
 				}
 

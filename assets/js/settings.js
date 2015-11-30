@@ -1,9 +1,26 @@
 jQuery( function ( $ ) {
-    $( '.nav-tab-wrapper a' ).click( function () {
+    $( document ).ready( function () {
+        // dlm_last_settings_tab is only set when settings are saved and the page is reloaded
+        if ( typeof dlm_last_settings_tab !== 'undefined' ) {
+            var elm = $( '.nav-tab-wrapper a[href="#settings-' + dlm_last_settings_tab + '"]' );
+            if ( typeof elm !== 'undefined' ) {
+                set_active_tab( elm );
+            }
+        }
+    });
+
+    function set_active_tab ( elm ) {
         $( '.settings_panel' ).hide();
         $( '.nav-tab-active' ).removeClass( 'nav-tab-active' );
-        $( $( this ).attr( 'href' ) ).show();
-        $( this ).addClass( 'nav-tab-active' );
+        $( elm.attr( 'href' ) ).show();
+        elm.addClass( 'nav-tab-active' );
+
+        var tab = elm.attr( 'href' ).replace( "#settings-" , "" );
+        $( '#setting-dlm_last_settings_tab' ).val( tab );
+    }
+
+    $( '.nav-tab-wrapper a' ).click( function () {
+        set_active_tab( $( this ) );
         return false;
     } );
     $( '#setting-dlm_default_template' ).change( function () {
