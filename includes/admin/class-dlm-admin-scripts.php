@@ -50,6 +50,19 @@ class DLM_Admin_Scripts {
 
 		}
 
+		if ( 'edit.php' == $pagenow && isset( $_GET['post_type'] ) && 'dlm_download' === $_GET['post_type'] ) {
+
+			// Enqueue Settings JS
+			wp_enqueue_script(
+				'dlm_download_overview',
+				plugins_url( '/assets/js/overview-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
+			);
+
+		}
+
 		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && ( 'download-monitor-settings' === $_GET['page'] || 'dlm-extensions' === $_GET['page'] ) ) {
 
 			// Enqueue Settings JS
