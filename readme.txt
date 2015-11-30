@@ -109,8 +109,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 1.9.1: November 27, 2015 =
 * Tweak: Added wmv filetype icon support
-* Tweak: check if $visitor_ua isn't empty to prevent stristr warnings.
+* Tweak: Check if $visitor_ua isn't empty to prevent stristr warnings.
 * Tweak: Correctly populate data on quick edit of download.
+* Tweak: Settings tab now loads tab of set URL hash.
 
 = 1.9.0: September 15, 2015 =
 * Feature: We added a separate 'No Access' page that includes the following features:

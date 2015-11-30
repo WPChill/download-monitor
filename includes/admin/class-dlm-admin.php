@@ -438,7 +438,7 @@ class DLM_Admin {
 				<h2 class="nav-tab-wrapper">
 					<?php
 					foreach ( $this->settings as $key => $section ) {
-						echo '<a href="#settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
+						echo '<a href="#settings-' . sanitize_title( $key ) . '" id="dlm-tab-settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
 					}
 					?>
 				</h2><br/>
