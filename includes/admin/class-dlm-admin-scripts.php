@@ -50,7 +50,7 @@ class DLM_Admin_Scripts {
 
 		}
 
-		if ( 'edit.php' == $pagenow && isset( $_GET['post_type'] ) && 'dlm_download' === $_GET['post_type'] ) {
+		if ( 'edit.php' == $pagenow && isset( $_GET['post_type'] ) && 'dlm_download' === $_GET['post_type'] && ! isset( $_GET['page'] ) ) {
 
 			// Enqueue Settings JS
 			wp_enqueue_script(
