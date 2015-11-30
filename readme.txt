@@ -107,6 +107,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 1.9.1: November 27, 2015 =
+* Tweak: Added wmv filetype icon support
+* Tweak: check if $visitor_ua isn't empty to prevent stristr warnings.
+* Tweak: Correctly populate data on quick edit of download.
+
 = 1.9.0: September 15, 2015 =
 * Feature: We added a separate 'No Access' page that includes the following features:
 * No Access Page : Added [dlm_no_access] shortcode that displays the no access content.
