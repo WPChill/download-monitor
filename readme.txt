@@ -107,7 +107,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 1.9.1: November 27, 2015 =
+= 1.9.1: December 1, 2015 =
 * Tweak: Check if $visitor_ua isn't empty to prevent stristr warnings.
 * Tweak: Added wmv filetype icon support
 * Tweak: Correctly populate data on quick edit of download.
