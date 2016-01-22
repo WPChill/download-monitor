@@ -52,6 +52,8 @@ class DLM_File_Manager {
 		$wp_uploads     = wp_upload_dir();
 		$wp_uploads_dir = $wp_uploads['basedir'];
 		$wp_uploads_url = $wp_uploads['baseurl'];
+		$parsed_wp_uploads_url = parse_url( $wp_uploads_url );
+		$dlm_uploads_path = $parsed_wp_uploads_url['path'] . '/dlm_uploads';
 
 		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array(
 					'http',
@@ -87,6 +89,13 @@ class DLM_File_Manager {
 			$remote_file = false;
 			$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
 			$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
+			$file_path   = realpath( $file_path );
+
+		} elseif (isset($parsed_file_path['scheme']) && strncmp($dlm_uploads_path, $parsed_file_path['path'], strlen($dlm_uploads_path)) === 0) {
+
+			/** This is a file with other enviroments domain, just assume it's local */
+			$remote_file = false;
+			$file_path   = ABSPATH . $parsed_file_path['path'];
 			$file_path   = realpath( $file_path );
 
 		} elseif ( file_exists( ABSPATH . $file_path ) ) {

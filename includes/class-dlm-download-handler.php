@@ -431,7 +431,7 @@ class DLM_Download_Handler {
 		// Parse file path
 		list( $file_path, $remote_file ) = $file_manager->parse_file_path( $file_path );
 
-		$this->download_headers( $file_path, $download, $version );
+		$this->download_headers( $file_path, $download, $version, $remote_file );
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
@@ -505,7 +505,7 @@ class DLM_Download_Handler {
 	/**
 	 * Output download headers
 	 */
-	private function download_headers( $file_path, $download, $version ) {
+	private function download_headers( $file_path, $download, $version, $remote_file = true ) {
 		global $is_IE;
 
 		// Get Mime Type
@@ -569,8 +569,11 @@ class DLM_Download_Handler {
 		$headers['Content-Disposition']       = "attachment; filename=\"{$file_name}\";";
 		$headers['Content-Transfer-Encoding'] = 'binary';
 
-		if ( $version->filesize ) {
+		if ( $version->filesize >= 0 ) {
 			$headers['Content-Length'] = $version->filesize;
+			$headers['Accept-Ranges']  = 'bytes';
+		} elseif (!$remote_file) {
+			$headers['Content-Length'] = filesize($file_path);
 			$headers['Accept-Ranges']  = 'bytes';
 		}
 
