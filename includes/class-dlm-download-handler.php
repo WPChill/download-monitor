@@ -431,6 +431,12 @@ class DLM_Download_Handler {
 		// Parse file path
 		list( $file_path, $remote_file ) = $file_manager->parse_file_path( $file_path );
 
+		// Check file exists
+		if (empty($file_path)) {
+			$this->log( 'download', 'failed', __( 'File not found.', 'download-monitor' ), $download, $version );
+			wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+		}
+
 		$this->download_headers( $file_path, $download, $version, $remote_file );
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
