@@ -284,6 +284,7 @@ class DLM_Shortcodes {
 			case 'date' :
 			case 'modified' :
 			case 'post__in' :
+			case 'menu_order' :
 				$orderby = $orderby;
 				break;
 			case 'id' :
