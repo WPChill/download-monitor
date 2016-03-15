@@ -2,7 +2,7 @@
 /node_modules/
 project.xml
 project.properties
-.DS_Store
+*.DS_Store
 Thumbs.db
 .buildpath
 .project
