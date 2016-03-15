@@ -17,7 +17,12 @@ class DLM_Shortcodes {
 		add_shortcode( 'total_files', array( $this, 'total_files' ) );
 		add_shortcode( 'download', array( $this, 'download' ) );
 		add_shortcode( 'download_data', array( $this, 'download_data' ) );
-		add_shortcode( 'downloads', array( $this, 'downloads' ) );
+
+		// make this filterable because [downloads] has some known conflicts
+		if ( apply_filters( 'dlm_add_shortcode_downloads', true ) ) {
+			add_shortcode( 'downloads', array( $this, 'downloads' ) );
+		}
+
 		add_shortcode( 'dlm_no_access', array( $this, 'no_access_page' ) );
 	}
 
