@@ -107,6 +107,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= ? =
+* Fixed bug where 'version' and 'version_id' were ignored in [download].
+* Optimized [download] shortcode code.
+* Removed DS_Store backups, props [Matt Mower](https://github.com/mdmower).
+
 = 1.9.1: December 1, 2015 =
 * Tweak: Check if $visitor_ua isn't empty to prevent stristr warnings.
 * Tweak: Added wmv filetype icon support
