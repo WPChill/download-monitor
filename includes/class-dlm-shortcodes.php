@@ -61,8 +61,8 @@ class DLM_Shortcodes {
 	 * @return string
 	 */
 	public function download( $atts, $content = '' ) {
-		global $dlm_download;
 
+		// extract shortcode atts
 		extract( shortcode_atts( array(
 			'id'         => '',
 			'autop'      => false,
@@ -87,70 +87,55 @@ class DLM_Shortcodes {
 			return $hijacked_content;
 		}
 
-		// If we have content, wrap in a link only
-		if ( $content ) {
+		// shortcode output
+		$output = '';
 
-			$download = new DLM_Download( $id );
+		// create download object
+		$download = new DLM_Download( $id );
 
-			if ( $download->exists() ) {
+		// check if download exists
+		if ( $download->exists() ) {
 
-				if ( ! empty( $version ) ) {
-					$version_id = $dlm_download->get_version_id( $version );
-				}
-
-				if ( isset( $version_id ) && 0 != $version_id ) {
-					$dlm_download->set_version( $version_id );
-				}
-
-				return '<a href="' . $download->get_the_download_link() . '">' . $content . '</a>';
-
-			} else {
-				return '[' . __( 'Download not found', 'download-monitor' ) . ']';
-			}
-		} // If there is no content, get the template part
-		else {
-
-			ob_start();
-
-			$downloads = new WP_Query( array(
-				'post_type'      => 'dlm_download',
-				'posts_per_page' => 1,
-				'no_found_rows'  => 1,
-				'post_status'    => 'publish',
-				'p'              => $id
-			) );
-
-			if ( $downloads->have_posts() ) {
-
-				while ( $downloads->have_posts() ) {
-					$downloads->the_post();
-
-					if ( ! empty( $version ) ) {
-						$version_id = $dlm_download->get_version_id( $version );
-					}
-
-					if ( isset( $version_id ) && 0 != $version_id ) {
-						$dlm_download->set_version( $version_id );
-					}
-
-					// Template handler
-					$template_handler = new DLM_Template_Handler();
-
-					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => new DLM_Download( get_the_ID() ) ) );
-				}
-
-			} else {
-				echo '[' . __( 'Download not found', 'download-monitor' ) . ']';
+			// check if version is set
+			if ( ! empty( $version ) ) {
+				$version_id = $download->get_version_id( $version );
 			}
 
-			wp_reset_postdata();
-
-			if ( 'true' === $autop || true === $autop ) {
-				return wpautop( ob_get_clean() );
-			} else {
-				return ob_get_clean();
+			// check if version ID is set
+			if ( isset( $version_id ) && 0 != $version_id ) {
+				$download->set_version( $version_id );
 			}
+
+			// if we have content, wrap in a link only
+			if ( $content ) {
+				$output = '<a href="' . $download->get_the_download_link() . '">' . $content . '</a>';
+			} else {
+				// template handler
+				$template_handler = new DLM_Template_Handler();
+
+				// buffer
+				ob_start();
+
+				// load template
+				$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+
+				// get output
+				$output = ob_get_clean();
+
+				// check if we need to wpautop()
+				if ( 'true' === $autop || true === $autop ) {
+					$output = wpautop( $output );
+				}
+			}
+
+		} else {
+			$output = '[' . __( 'Download not found', 'download-monitor' ) . ']';
 		}
+
+		// reset post data
+		wp_reset_postdata();
+
+		return $output;
 	}
 
 	/**
