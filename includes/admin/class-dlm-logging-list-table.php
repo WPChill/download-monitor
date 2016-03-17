@@ -109,7 +109,11 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				}
 
 				if ( $log->version ) {
-					$download_string .= ' (' . sprintf( __( 'v%s', 'download-monitor' ), $log->version ) . ')';
+					if ( $download->version_exists( $log->version_id ) ) {
+						$download_string .= sprintf( __( ' (v%s)', 'download-monitor' ), $log->version );
+					} else {
+						$download_string .= sprintf( __( ' (v%s no longer exists)', 'download-monitor' ), $log->version );
+					}
 				}
 
 				return $download_string;
@@ -118,7 +122,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				$download = new DLM_Download( $log->download_id );
 				$download->set_version( $log->version_id );
 
-				if ( $download->exists() && $download->get_the_filename() ) {
+				if ( $download->exists() && $download->version_exists( $log->version_id ) && $download->get_the_filename() ) {
 					$download_string = '<code>' . $download->get_the_filename() . '</code>';
 				} else {
 					$download_string = '&ndash;';
