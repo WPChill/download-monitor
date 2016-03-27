@@ -3,8 +3,8 @@ Contributors: never5, barrykooij, mikejolley
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.4
-Stable tag: 1.9.1
+Tested up to: 4.4.2
+Stable tag: 1.9.2
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -107,7 +107,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= ? =
+= 1.9.2: March 27, 2016 =
 * Tweak: Fixed bug where 'version' and 'version_id' were ignored in [download].
 * Tweak: Fixed a bug that caused the file upload overlay to append file URL to wrong version, props [kraftner](https://github.com/kraftner).
 * Tweak: Optimized [download] shortcode code.
