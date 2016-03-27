@@ -12,6 +12,13 @@ class DLM_Admin {
 	private $settings;
 
 	/**
+	 * Variable indicating if rewrites need a flush
+	 *
+	 * @var bool
+	 */
+	private $need_rewrite_flush = false;
+
+	/**
 	 * Setup actions etc.
 	 */
 	public function setup() {
@@ -39,6 +46,8 @@ class DLM_Admin {
 		// Admin Footer Text
 		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ), 1 );
 
+		// flush rewrite rules on shutdown
+		add_action( 'shutdown', array( $this, 'maybe_flush_rewrites' ) );
 	}
 
 	/**
@@ -446,8 +455,7 @@ class DLM_Admin {
 				<?php
 
 				if ( ! empty( $_GET['settings-updated'] ) ) {
-
-					flush_rewrite_rules();
+					$this->need_rewrite_flush = true;
 					echo '<div class="updated notice is-dismissible"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
 				}
 
@@ -712,5 +720,14 @@ class DLM_Admin {
 		}
 
 		return $footer_text;
+	}
+
+	/**
+	 * Maybe flush rewrite rules
+	 */
+	public function maybe_flush_rewrites() {
+		if ( true == $this->need_rewrite_flush ) {
+			flush_rewrite_rules();
+		}
 	}
 }
