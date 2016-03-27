@@ -112,6 +112,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Fixed a bug that caused the file upload overlay to append file URL to wrong version, props [kraftner](https://github.com/kraftner).
 * Tweak: Optimized [download] shortcode code.
 * Tweak: Flush rewrites in admin settings on shutdown instead of during page load, props [sybrew](https://github.com/sybrew).
+* Tweak: Added extra checks to blacklist checks to prevent stristr empty needle notices, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Removed DS_Store backups, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Added Ukrainian translation, props [Fremler](https://www.transifex.com/user/profile/Fremler/).
 * Tweak: Added Croatian translation, props [molekula](https://www.transifex.com/user/profile/molekula/).
