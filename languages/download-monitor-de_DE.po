@@ -1,4 +1,4 @@
-# Copyright (C) 2015 Barry Kooij & Mike Jolley
+# Copyright (C) 2016 Never5
 # This file is distributed under the GPL v3.
 # Translators:
 # Andre, 2015
@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2015-03-22 12:53:18+00:00\n"
-"PO-Revision-Date: 2015-06-08 19:23+0000\n"
-"Last-Translator: Andre\n"
-"Language-Team: German (Germany) (http://www.transifex.com/p/download-monitor/language/de_DE/)\n"
+"POT-Creation-Date: 2016-03-27 14:45:08+00:00\n"
+"PO-Revision-Date: 2016-03-27 14:46+0000\n"
+"Last-Translator: Barry Kooij <mail@barrykooij.nl>\n"
+"Language-Team: German (Germany) (http://www.transifex.com/barrykooijplugins/download-monitor/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,123 +20,138 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
 
-#: includes/admin/class-dlm-admin-cpt.php:74
+#: includes/admin/class-dlm-admin-cpt.php:79
 msgid "Select a category"
 msgstr "Kategorie auswählen"
 
-#: includes/admin/class-dlm-admin-cpt.php:141
+#: includes/admin/class-dlm-admin-cpt.php:149
 msgid "Download title"
 msgstr "Titel des Downloads"
 
-#: includes/admin/class-dlm-admin-cpt.php:161
-#: includes/admin/class-dlm-admin-cpt.php:164
+#: includes/admin/class-dlm-admin-cpt.php:169
+#: includes/admin/class-dlm-admin-cpt.php:172
 msgid "Download updated."
 msgstr "Download aktualisiert."
 
-#: includes/admin/class-dlm-admin-cpt.php:162
+#: includes/admin/class-dlm-admin-cpt.php:170
 msgid "Custom field updated."
 msgstr "Sonderfeld aktualisiert."
 
-#: includes/admin/class-dlm-admin-cpt.php:163
+#: includes/admin/class-dlm-admin-cpt.php:171
 msgid "Custom field deleted."
 msgstr "Sonderfeld gelöscht."
 
-#: includes/admin/class-dlm-admin-cpt.php:165
+#: includes/admin/class-dlm-admin-cpt.php:173
 msgid "Download restored to revision from %s"
 msgstr "Download-Version von Datum %s wiederhergestellt."
 
-#: includes/admin/class-dlm-admin-cpt.php:166
+#: includes/admin/class-dlm-admin-cpt.php:174
 msgid "Download published."
 msgstr "Download veröffentlicht."
 
-#: includes/admin/class-dlm-admin-cpt.php:167
+#: includes/admin/class-dlm-admin-cpt.php:175
 msgid "Download saved."
 msgstr "Download gespeichert."
 
-#: includes/admin/class-dlm-admin-cpt.php:168
+#: includes/admin/class-dlm-admin-cpt.php:176
 msgid "Download submitted."
 msgstr "Download eingereicht."
 
-#: includes/admin/class-dlm-admin-cpt.php:169
+#: includes/admin/class-dlm-admin-cpt.php:177
 msgid "Download scheduled for: <strong>%1$s</strong>."
 msgstr "Download geplant für: <strong>%1$s</strong>."
 
-#: includes/admin/class-dlm-admin-cpt.php:170
+#: includes/admin/class-dlm-admin-cpt.php:178
 msgid "M j, Y @ G:i"
 msgstr "j.m.Y @ G:i"
 
-#: includes/admin/class-dlm-admin-cpt.php:171
+#: includes/admin/class-dlm-admin-cpt.php:179
 msgid "Download draft updated."
 msgstr "Download-Entwurf aktualisiert."
 
-#: includes/admin/class-dlm-admin-cpt.php:190
+#: includes/admin/class-dlm-admin-cpt.php:198
 msgid "Image"
 msgstr "Bild"
 
-#: includes/admin/class-dlm-admin-cpt.php:191
-#: includes/widgets/class-dlm-widget-downloads.php:170
-#: includes/widgets/class-dlm-widget-downloads.php:196
+#: includes/admin/class-dlm-admin-cpt.php:199
+#: includes/widgets/class-dlm-widget-downloads.php:169
+#: includes/widgets/class-dlm-widget-downloads.php:195
 msgid "Title"
 msgstr "Titel"
 
-#: includes/admin/class-dlm-admin-cpt.php:192
+#: includes/admin/class-dlm-admin-cpt.php:200
 #: includes/admin/class-dlm-admin-writepanels.php:78
-#: includes/widgets/class-dlm-widget-downloads.php:200
+#: includes/widgets/class-dlm-widget-downloads.php:199
 msgid "ID"
 msgstr "ID"
 
-#: includes/admin/class-dlm-admin-cpt.php:193
-#: includes/admin/class-dlm-logging-list-table.php:131
+#: includes/admin/class-dlm-admin-cpt.php:201
+#: includes/admin/class-dlm-logging-list-table.php:168
 msgid "File"
 msgstr "Datei"
 
-#: includes/admin/class-dlm-admin-cpt.php:194
+#: includes/admin/class-dlm-admin-cpt.php:202
 #: includes/admin/class-dlm-admin-media-insert.php:237
 #: includes/admin/html-downloadable-file-version.php:17
 msgid "Version"
 msgstr "Version"
 
-#: includes/admin/class-dlm-admin-cpt.php:195
+#: includes/admin/class-dlm-admin-cpt.php:203
 #: includes/class-dlm-taxonomy-manager.php:27
 #: includes/class-dlm-taxonomy-manager.php:29
 msgid "Categories"
 msgstr "Kategorien"
 
-#: includes/admin/class-dlm-admin-cpt.php:196
+#: includes/admin/class-dlm-admin-cpt.php:204
 #: includes/class-dlm-taxonomy-manager.php:58
 #: includes/class-dlm-taxonomy-manager.php:60
 msgid "Tags"
 msgstr "Tags"
 
-#: includes/admin/class-dlm-admin-cpt.php:197
+#: includes/admin/class-dlm-admin-cpt.php:205
 #: includes/admin/class-dlm-admin-dashboard.php:77
 #: includes/admin/html-downloadable-file-version.php:59
-#: includes/widgets/class-dlm-widget-downloads.php:206
+#: includes/widgets/class-dlm-widget-downloads.php:205
 msgid "Download count"
 msgstr "Download-Anzahl"
 
-#: includes/admin/class-dlm-admin-cpt.php:198
+#: includes/admin/class-dlm-admin-cpt.php:206
 msgid "Featured"
 msgstr "Hervorgehoben"
 
-#: includes/admin/class-dlm-admin-cpt.php:199
+#: includes/admin/class-dlm-admin-cpt.php:207
+#: includes/admin/class-dlm-admin-cpt.php:388
 #: includes/admin/class-dlm-admin-writepanels.php:124
 msgid "Members only"
 msgstr "Nur für Mitglieder"
 
-#: includes/admin/class-dlm-admin-cpt.php:200
+#: includes/admin/class-dlm-admin-cpt.php:208
 msgid "Redirect only"
 msgstr "Nur weiterleiten"
 
-#: includes/admin/class-dlm-admin-cpt.php:201
+#: includes/admin/class-dlm-admin-cpt.php:209
 msgid "Date posted"
 msgstr "Veröffentlichungs-Datum"
 
-#: includes/admin/class-dlm-admin-cpt.php:244
-#: includes/admin/class-dlm-admin-cpt.php:251
-#: includes/admin/class-dlm-admin-cpt.php:258
+#: includes/admin/class-dlm-admin-cpt.php:252
+#: includes/admin/class-dlm-admin-cpt.php:259
+#: includes/admin/class-dlm-admin-cpt.php:266
 msgid "Yes"
 msgstr "Ja"
+
+#: includes/admin/class-dlm-admin-cpt.php:384
+msgid "Download Monitor Data"
+msgstr ""
+
+#: includes/admin/class-dlm-admin-cpt.php:386
+#: includes/admin/class-dlm-admin-writepanels.php:118
+msgid "Featured download"
+msgstr "Hervorgehobener Download"
+
+#: includes/admin/class-dlm-admin-cpt.php:390
+#: includes/admin/class-dlm-admin-writepanels.php:130
+msgid "Redirect to file"
+msgstr "Zur Datei weiterleiten"
 
 #: includes/admin/class-dlm-admin-dashboard.php:23
 msgid "Popular Downloads"
@@ -147,13 +162,13 @@ msgid "There are no stats available yet!"
 msgstr "Es liegen noch keine Statistiken vor."
 
 #: includes/admin/class-dlm-admin-dashboard.php:76
-#: includes/admin/class-dlm-logging-list-table.php:130
+#: includes/admin/class-dlm-logging-list-table.php:167
 #: includes/class-dlm-post-type-manager.php:23
 msgid "Download"
 msgstr "Download"
 
 #: includes/admin/class-dlm-admin-extensions.php:45
-#: includes/admin/class-dlm-admin.php:335
+#: includes/admin/class-dlm-admin.php:380
 msgid "Download Monitor Extensions"
 msgstr "Download Monitor Erweiterungen"
 
@@ -164,7 +179,7 @@ msgid ""
 msgstr "Erweitere Download Monitor mit seinen leistungsstarken kostenlosen und kostenpflichtigen Erweiterungen. %sKlicke hier, um alle Erweiterungen zu durchsuchen%s"
 
 #: includes/admin/class-dlm-admin-media-browser.php:34
-#: includes/admin/class-dlm-admin-scripts.php:96
+#: includes/admin/class-dlm-admin-scripts.php:109
 msgid "Browse for a file"
 msgstr "Nach Datei suchen"
 
@@ -174,7 +189,7 @@ msgstr "Keine Dateien gefunden"
 
 #: includes/admin/class-dlm-admin-media-insert.php:36
 #: includes/admin/class-dlm-admin-media-insert.php:55
-#: includes/admin/class-dlm-admin-scripts.php:90
+#: includes/admin/class-dlm-admin-scripts.php:103
 msgid "Insert Download"
 msgstr "Download einfügen"
 
@@ -262,7 +277,7 @@ msgstr "Erlaubte Dateitypen"
 msgid "Please wait..."
 msgstr "Bitte warten ..."
 
-#: includes/admin/class-dlm-admin-scripts.php:95
+#: includes/admin/class-dlm-admin-scripts.php:108
 msgid "Are you sure you want to delete this file ? "
 msgstr "Soll die Datei wirklich gelöscht werden?"
 
@@ -290,10 +305,6 @@ msgstr "URL"
 msgid "Shortcode"
 msgstr "Shortcode"
 
-#: includes/admin/class-dlm-admin-writepanels.php:118
-msgid "Featured download"
-msgstr "Hervorgehobener Download"
-
 #: includes/admin/class-dlm-admin-writepanels.php:119
 msgid "Mark this download as featured. Used by shortcodes and widgets."
 msgstr "Download als hervorgehoben markieren. Die Hervorhebung wird in shortcodes und widgets verwendet."
@@ -304,15 +315,11 @@ msgid ""
 "this is enabled."
 msgstr "Nur angemeldete Benutzer haben Zugriff auf die Datei, wenn dies ausgewählt ist."
 
-#: includes/admin/class-dlm-admin-writepanels.php:130
-msgid "Redirect to file"
-msgstr "Zur Datei weiterleiten"
-
 #: includes/admin/class-dlm-admin-writepanels.php:131
 msgid ""
-"Don't force download. If the <code>dlm_upload</code> folder is protected you"
-" may need to move your file."
-msgstr "Download nicht erzwingen. Falls das Verzeichnis <code>dlm_upload</code> geschützt ist, muss die Datei ggf. verschoben werden."
+"Don't force download. If the <code>dlm_uploads</code> folder is protected "
+"you may need to move your file."
+msgstr ""
 
 #: includes/admin/class-dlm-admin-writepanels.php:160
 msgid "Add file"
@@ -326,53 +333,57 @@ msgstr "Alle minimieren"
 msgid "Expand all"
 msgstr "Alle expandieren"
 
-#: includes/admin/class-dlm-admin.php:107
+#: includes/admin/class-dlm-admin.php:104
+msgid "Select Page"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:131
 msgid "General"
 msgstr "Allgemein"
 
-#: includes/admin/class-dlm-admin.php:112
+#: includes/admin/class-dlm-admin.php:136
 msgid "Default Template"
 msgstr "Standard-Vorlage"
 
-#: includes/admin/class-dlm-admin.php:113
+#: includes/admin/class-dlm-admin.php:137
 msgid ""
 "Choose which template is used for <code>[download]</code> shortcodes by "
 "default (this can be overridden by the <code>format</code> argument)."
 msgstr "Standard-Vorlage für <code>[download]</code> Shortcodes auswählen (kann mit dem <code>format</code> Parameter überschrieben werden)."
 
-#: includes/admin/class-dlm-admin.php:116
+#: includes/admin/class-dlm-admin.php:140
 msgid "Default - Title and count"
 msgstr "Default - Titel und Download-Anzahl."
 
-#: includes/admin/class-dlm-admin.php:117
+#: includes/admin/class-dlm-admin.php:141
 msgid "Button - CSS styled button showing title and count"
 msgstr "Button - CSS-Button mit Titel und Download-Anzahl."
 
-#: includes/admin/class-dlm-admin.php:118
+#: includes/admin/class-dlm-admin.php:142
 msgid "Box - Box showing thumbnail, title, count, filename and filesize."
 msgstr "Box - Eine Box mit Vorschaubild, Titel, Download-Anzahl, Dateiname und -größe."
 
-#: includes/admin/class-dlm-admin.php:119
+#: includes/admin/class-dlm-admin.php:143
 msgid "Filename - Filename and download count"
 msgstr "Filename - Dateiname und Download-Anzahl."
 
-#: includes/admin/class-dlm-admin.php:120
+#: includes/admin/class-dlm-admin.php:144
 msgid "Title - Shows download title only"
 msgstr "Title - Zeigt nur den Titel des Downloads."
 
-#: includes/admin/class-dlm-admin.php:121
+#: includes/admin/class-dlm-admin.php:145
 msgid "Version list - Lists all download versions in an unordered list"
 msgstr "Version list - Zeigt alle Download-Versionen in einer ungeordneten Liste."
 
-#: includes/admin/class-dlm-admin.php:122
+#: includes/admin/class-dlm-admin.php:146
 msgid "Custom template"
 msgstr "Eigene Vorlage"
 
-#: includes/admin/class-dlm-admin.php:128
+#: includes/admin/class-dlm-admin.php:152
 msgid "Custom Template"
 msgstr "Eigene Vorlage"
 
-#: includes/admin/class-dlm-admin.php:129
+#: includes/admin/class-dlm-admin.php:153
 msgid ""
 "Leaving this blank will use the default <code>content-download.php</code> "
 "template file. If you enter, for example, <code>image</code>, the <code"
@@ -380,299 +391,346 @@ msgid ""
 "add custom templates inside your theme folder."
 msgstr "Wenn Sie dieses Feld freilassen, wird die Vorlage <code>content-download.php</code> verwendet. Wenn Sie zum Beispiel <code>image</code> eingeben, wird die Vorlage <code>content-download-image.php</code> verwendet. Eigene Vorlagen können im Theme-Verzeichnis abgelegt werden."
 
-#: includes/admin/class-dlm-admin.php:134
+#: includes/admin/class-dlm-admin.php:158
 msgid "X-Accel-Redirect / X-Sendfile"
 msgstr "X-Accel-Redirect / X-Sendfile"
 
-#: includes/admin/class-dlm-admin.php:135
-#: includes/admin/class-dlm-admin.php:143
-#: includes/admin/class-dlm-admin.php:214
+#: includes/admin/class-dlm-admin.php:159
+#: includes/admin/class-dlm-admin.php:167
+#: includes/admin/class-dlm-admin.php:230
+#: includes/admin/class-dlm-admin.php:240
 msgid "Enable"
 msgstr "Aktivieren"
 
-#: includes/admin/class-dlm-admin.php:136
+#: includes/admin/class-dlm-admin.php:160
 msgid ""
 "If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be"
 " used to serve downloads instead of PHP (server requires "
 "<code>mod_xsendfile</code>)."
 msgstr "Falls unterstützt, können <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> genutzt werden, anstelle von PHP (Server benötigt <code>mod_xsendfile</code>)."
 
-#: includes/admin/class-dlm-admin.php:142
+#: includes/admin/class-dlm-admin.php:166
 msgid "Prevent hotlinking"
 msgstr "Querverweise verhindern"
 
-#: includes/admin/class-dlm-admin.php:144
+#: includes/admin/class-dlm-admin.php:168
 msgid ""
 "If enabled, the download handler will check the PHP referer to see if it "
 "originated from your site and if not, redirect them to the homepage."
 msgstr "Wenn dies aktiviert ist, leitet der Download-Handler alle Nutzeranfragen von externen Seiten auf die Startseite um."
 
-#: includes/admin/class-dlm-admin.php:149 includes/class-dlm-installer.php:41
-#: includes/class-dlm-upgrade-manager.php:47
-msgid "You do not have permission to access this download. %sGo to homepage%s"
-msgstr "Sie besitzen nicht die nötige Berechtigung, um auf diese Download-Datei zuzugreifen. %sGehe zur Homepage%s"
-
-#: includes/admin/class-dlm-admin.php:151
-msgid "No access message"
-msgstr ""
-
-#: includes/admin/class-dlm-admin.php:152
-msgid ""
-"The message that will be displayed to visitors when they don't have access "
-"to a file."
-msgstr "Die Nachricht die angezeigt wird, wenn Besucher keinen Zugriff auf eine Datei haben."
-
-#: includes/admin/class-dlm-admin.php:158
+#: includes/admin/class-dlm-admin.php:174
 msgid "Endpoint"
 msgstr "Endpunkt"
 
-#: includes/admin/class-dlm-admin.php:163
+#: includes/admin/class-dlm-admin.php:179
 msgid "download"
 msgstr "Download"
 
-#: includes/admin/class-dlm-admin.php:164
+#: includes/admin/class-dlm-admin.php:180
 msgid "Download Endpoint"
 msgstr "Download-Endpunkt"
 
-#: includes/admin/class-dlm-admin.php:165
+#: includes/admin/class-dlm-admin.php:181
 msgid ""
 "Define what endpoint should be used for download links. By default this will"
 " be <code>%s</code>."
 msgstr "Bestimme den Endpunkt für Download-Links. Standardmäßig: <code>%s</code>."
 
-#: includes/admin/class-dlm-admin.php:170
+#: includes/admin/class-dlm-admin.php:186
 msgid "Endpoint Value"
 msgstr "Endpunkt-Wert"
 
-#: includes/admin/class-dlm-admin.php:171
+#: includes/admin/class-dlm-admin.php:187
 msgid ""
 "Define what unique value should be used on the end of your endpoint to "
 "identify the downloadable file. e.g. ID would give a link like "
 "<code>%s</code>"
 msgstr "Bestimme, welche Werte am Ende ihres Endpunkts zur Identifikation ihrer Download-Datei stehen sollen. Zum Beispiel: ID ergibt den folgenden Link <code>%s</code>"
 
-#: includes/admin/class-dlm-admin.php:174
-#: includes/admin/class-dlm-admin.php:541
+#: includes/admin/class-dlm-admin.php:190
+#: includes/admin/class-dlm-admin.php:617
 msgid "Download ID"
 msgstr "Download-ID"
 
-#: includes/admin/class-dlm-admin.php:175
+#: includes/admin/class-dlm-admin.php:191
 msgid "Download slug"
 msgstr "Download-Slug"
 
-#: includes/admin/class-dlm-admin.php:181
+#: includes/admin/class-dlm-admin.php:197
 msgid "Hashes"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:186
+#: includes/admin/class-dlm-admin.php:202
 msgid "MD5 hashes"
 msgstr "MD5-Hashwerte"
 
-#: includes/admin/class-dlm-admin.php:187
+#: includes/admin/class-dlm-admin.php:203
 msgid "Generate MD5 hash for uploaded files"
 msgstr "MD5-Hash für hochgeladene Dateien erstellen"
 
-#: includes/admin/class-dlm-admin.php:194
+#: includes/admin/class-dlm-admin.php:210
 msgid "SHA1 hashes"
 msgstr "SHA1-Hashwerte"
 
-#: includes/admin/class-dlm-admin.php:195
+#: includes/admin/class-dlm-admin.php:211
 msgid "Generate SHA1 hash for uploaded files"
 msgstr "SHA1-Hash für hochgeladene Dateien erstellen"
 
-#: includes/admin/class-dlm-admin.php:202
+#: includes/admin/class-dlm-admin.php:218
 msgid "CRC32B hashes"
 msgstr "CRC32B-Hashwerte"
 
-#: includes/admin/class-dlm-admin.php:203
+#: includes/admin/class-dlm-admin.php:219
 msgid "Generate CRC32B hash for uploaded files"
 msgstr "CRC32B-Hash für hochgeladene Dateien erstellen"
 
-#: includes/admin/class-dlm-admin.php:204
+#: includes/admin/class-dlm-admin.php:220
 msgid ""
 "Hashes can optionally be output via shortcodes, but may cause performance "
 "issues with large files."
 msgstr "Hashwerte können auch über Shortcodes ausgegeben werden, dies kann bei großen Dateien jedoch zu Performanceproblemen führen."
 
-#: includes/admin/class-dlm-admin.php:210
+#: includes/admin/class-dlm-admin.php:226
 msgid "Logging"
 msgstr "Log-Aufzeichung"
 
-#: includes/admin/class-dlm-admin.php:216
+#: includes/admin/class-dlm-admin.php:232
 msgid "Download Log"
 msgstr "Download-Log"
 
-#: includes/admin/class-dlm-admin.php:217
+#: includes/admin/class-dlm-admin.php:233
 msgid "Log download attempts, IP addresses and more."
 msgstr "Download-Versuche, IP-Adressen und anderes aufzeichnen."
 
-#: includes/admin/class-dlm-admin.php:223
+#: includes/admin/class-dlm-admin.php:239
+msgid "Count unique IPs only"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:241
+msgid ""
+"If enabled, the counter for each download will only increment and create a "
+"log entry once per IP address."
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:247
+msgid "Access"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:252
+msgid "No Access Page"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:253
+msgid ""
+"Choose what page is displayed when the user has no access to a file. Don't "
+"forget to add the <code>[dlm_no_access]</code> shortcode to the page."
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:259 includes/class-dlm-installer.php:41
+#: includes/class-dlm-upgrade-manager.php:54
+msgid "You do not have permission to access this download. %sGo to homepage%s"
+msgstr "Sie besitzen nicht die nötige Berechtigung, um auf diese Download-Datei zuzugreifen. %sGehe zur Homepage%s"
+
+#: includes/admin/class-dlm-admin.php:261
+msgid "No access message"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:262
+msgid ""
+"The message that will be displayed to visitors when they don't have access "
+"to a file."
+msgstr "Die Nachricht die angezeigt wird, wenn Besucher keinen Zugriff auf eine Datei haben."
+
+#: includes/admin/class-dlm-admin.php:268
 msgid "Blacklist IPs"
 msgstr "IPs sperren (Blacklist)"
 
-#: includes/admin/class-dlm-admin.php:224
+#: includes/admin/class-dlm-admin.php:269
 msgid ""
-"List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a "
-"wildcard."
-msgstr "IP-Adressen auf Blackliste setzen, 1 pro Zeile. Das Zeichen <code>*</code> dient als Wildcard."
+"List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for "
+"ranges. IPv4 examples: <code>198.51.100.1</code> or "
+"<code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or "
+"<code>2001:db8::/32</code>."
+msgstr ""
 
-#: includes/admin/class-dlm-admin.php:231
+#: includes/admin/class-dlm-admin.php:276
 msgid "Blacklist user agents"
 msgstr "Benutzer-Umgebungen sperren"
 
-#: includes/admin/class-dlm-admin.php:232
+#: includes/admin/class-dlm-admin.php:277
 msgid "List browser user agents to blacklist, 1 per line."
 msgstr "Benutzer-Umgebungen für Sperrung auflisten, einer pro Linie."
 
-#: includes/admin/class-dlm-admin.php:316
+#: includes/admin/class-dlm-admin.php:361
 msgid "Logs"
 msgstr "Logs"
 
-#: includes/admin/class-dlm-admin.php:323 includes/class-wp-dlm.php:202
+#: includes/admin/class-dlm-admin.php:368 includes/class-wp-dlm.php:214
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: includes/admin/class-dlm-admin.php:335 includes/class-wp-dlm.php:203
+#: includes/admin/class-dlm-admin.php:380 includes/class-wp-dlm.php:215
 msgid "Extensions"
 msgstr "Erweiterungen"
 
-#: includes/admin/class-dlm-admin.php:375
+#: includes/admin/class-dlm-admin.php:411
+msgid ""
+"Because your server is running on nginx, our .htaccess file can't protect "
+"your downloads."
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:412
+msgid ""
+"Please add the following rules to your nginx config to disable direct file "
+"access: %s"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:451
 msgid "Settings successfully saved"
 msgstr "Einstellungen gespeichert"
 
-#: includes/admin/class-dlm-admin.php:458
+#: includes/admin/class-dlm-admin.php:534
 msgid "Save Changes"
 msgstr "Änderungen speichern"
 
-#: includes/admin/class-dlm-admin.php:484
+#: includes/admin/class-dlm-admin.php:560
 msgid "Download Logs"
 msgstr "Logs herunterladen"
 
-#: includes/admin/class-dlm-admin.php:486
+#: includes/admin/class-dlm-admin.php:562
 msgid "Export CSV"
 msgstr "CSV exportieren"
 
-#: includes/admin/class-dlm-admin.php:488
+#: includes/admin/class-dlm-admin.php:564
 msgid "Delete Logs"
 msgstr "Logs leeren"
 
-#: includes/admin/class-dlm-admin.php:542
+#: includes/admin/class-dlm-admin.php:618
 msgid "Version ID"
 msgstr "Versions-ID"
 
-#: includes/admin/class-dlm-admin.php:543
+#: includes/admin/class-dlm-admin.php:619
 msgid "Filename"
 msgstr "Dateiname"
 
-#: includes/admin/class-dlm-admin.php:544
+#: includes/admin/class-dlm-admin.php:620
 msgid "User ID"
 msgstr "Benutzer-ID"
 
-#: includes/admin/class-dlm-admin.php:545
+#: includes/admin/class-dlm-admin.php:621
 msgid "User Login"
 msgstr "Benutzer-Login"
 
-#: includes/admin/class-dlm-admin.php:546
+#: includes/admin/class-dlm-admin.php:622
 msgid "User Email"
 msgstr "Benutzer-E-Mail-Adresse"
 
-#: includes/admin/class-dlm-admin.php:547
+#: includes/admin/class-dlm-admin.php:623
 msgid "User IP"
 msgstr "Benutzer-IP"
 
-#: includes/admin/class-dlm-admin.php:548
-#: includes/admin/class-dlm-logging-list-table.php:134
+#: includes/admin/class-dlm-admin.php:624
+#: includes/admin/class-dlm-logging-list-table.php:171
 msgid "User Agent"
 msgstr "Benutzer-Umgebung"
 
-#: includes/admin/class-dlm-admin.php:549
-#: includes/admin/class-dlm-logging-list-table.php:135
+#: includes/admin/class-dlm-admin.php:625
+#: includes/admin/class-dlm-logging-list-table.php:172
 msgid "Date"
 msgstr "Datum"
 
-#: includes/admin/class-dlm-admin.php:550
+#: includes/admin/class-dlm-admin.php:626
 msgid "Status"
 msgstr "Status"
 
-#: includes/admin/class-dlm-admin.php:635
+#: includes/admin/class-dlm-admin.php:711
 msgid ""
 "If you like %sDownload Monitor%s please leave us a %s★★★★★%s rating. A huge "
 "thank you from us in advance!"
 msgstr "Wenn du %sDownload Monitor%s magst, hinterlasse uns doch eine %s★★★★★%s Bewertung. Ein großes Dankeschön von uns im Voraus!"
 
-#: includes/admin/class-dlm-logging-list-table.php:54
+#: includes/admin/class-dlm-logging-list-table.php:63
+msgid "Delete"
+msgstr ""
+
+#: includes/admin/class-dlm-logging-list-table.php:90
 msgid "Download Complete"
 msgstr "Download-Eintrag komplett"
 
-#: includes/admin/class-dlm-logging-list-table.php:61
+#: includes/admin/class-dlm-logging-list-table.php:97
 msgid "%s ago"
 msgstr "Zeit verstrichen: %s"
 
-#: includes/admin/class-dlm-logging-list-table.php:68
+#: includes/admin/class-dlm-logging-list-table.php:104
 msgid "Download #%d (no longer exists)"
 msgstr "Download #%d (existiert nicht mehr)"
 
-#: includes/admin/class-dlm-logging-list-table.php:76
+#: includes/admin/class-dlm-logging-list-table.php:112
 msgid "v%s"
 msgstr "v%s"
 
-#: includes/admin/class-dlm-logging-list-table.php:99
+#: includes/admin/class-dlm-logging-list-table.php:135
 msgid "Non-member"
 msgstr "Nicht-Mitglied"
 
-#: includes/admin/class-dlm-logging-list-table.php:132
+#: includes/admin/class-dlm-logging-list-table.php:169
 msgid "User"
 msgstr "Benutzer"
 
-#: includes/admin/class-dlm-logging-list-table.php:133
+#: includes/admin/class-dlm-logging-list-table.php:170
 msgid "IP Address"
 msgstr "IP Addresse"
 
-#: includes/admin/class-dlm-logging-list-table.php:150
+#: includes/admin/class-dlm-logging-list-table.php:192
+msgid "Log entries deleted"
+msgstr ""
+
+#: includes/admin/class-dlm-logging-list-table.php:209
 msgid "Any status"
 msgstr "Jeder Status"
 
-#: includes/admin/class-dlm-logging-list-table.php:152
+#: includes/admin/class-dlm-logging-list-table.php:211
 msgid "Failed"
 msgstr "Fehlgeschlagen"
 
-#: includes/admin/class-dlm-logging-list-table.php:154
+#: includes/admin/class-dlm-logging-list-table.php:213
 msgid "Redirected"
 msgstr "Umgeleitet"
 
-#: includes/admin/class-dlm-logging-list-table.php:156
+#: includes/admin/class-dlm-logging-list-table.php:215
 msgid "Completed"
 msgstr "Abgeschlossen"
 
-#: includes/admin/class-dlm-logging-list-table.php:175
+#: includes/admin/class-dlm-logging-list-table.php:234
 msgid "Show all dates"
 msgstr "Alle Zeiträume zeigen"
 
-#: includes/admin/class-dlm-logging-list-table.php:189
+#: includes/admin/class-dlm-logging-list-table.php:248
 msgid "%1$s %2$d"
 msgstr "%1$s %2$d"
 
-#: includes/admin/class-dlm-logging-list-table.php:197
+#: includes/admin/class-dlm-logging-list-table.php:256
 msgid "25 per page"
 msgstr "25 pro Seite"
 
-#: includes/admin/class-dlm-logging-list-table.php:199
+#: includes/admin/class-dlm-logging-list-table.php:258
 msgid "50 per page"
 msgstr "50 pro Seite"
 
-#: includes/admin/class-dlm-logging-list-table.php:201
+#: includes/admin/class-dlm-logging-list-table.php:260
 msgid "100 per page"
 msgstr "100 pro Seite"
 
-#: includes/admin/class-dlm-logging-list-table.php:203
+#: includes/admin/class-dlm-logging-list-table.php:262
 msgid "200 per page"
 msgstr "200 pro Seite"
 
-#: includes/admin/class-dlm-logging-list-table.php:205
+#: includes/admin/class-dlm-logging-list-table.php:264
 msgid "Show All"
 msgstr "Alle zeigen"
 
-#: includes/admin/class-dlm-logging-list-table.php:209
+#: includes/admin/class-dlm-logging-list-table.php:268
 msgid "Filter"
 msgstr "Filter"
 
@@ -737,49 +795,53 @@ msgstr "h"
 msgid "m"
 msgstr "min"
 
-#: includes/class-dlm-download-handler.php:171
+#: includes/class-dlm-download-handler.php:277
 msgid "Password Required"
 msgstr "Passwort benötigt"
 
-#: includes/class-dlm-download-handler.php:177
+#: includes/class-dlm-download-handler.php:283
 msgid "Download does not exist."
 msgstr "Download existiert nicht."
 
-#: includes/class-dlm-download-handler.php:177
-#: includes/class-dlm-download-handler.php:218
-#: includes/class-dlm-download-handler.php:226
-#: includes/class-dlm-download-handler.php:337
+#: includes/class-dlm-download-handler.php:283
+#: includes/class-dlm-download-handler.php:341
+#: includes/class-dlm-download-handler.php:349
+#: includes/class-dlm-download-handler.php:499
 msgid "Go to homepage &rarr;"
 msgstr "Zur Homepage &rarr;"
 
-#: includes/class-dlm-download-handler.php:177
-#: includes/class-dlm-download-handler.php:218
-#: includes/class-dlm-download-handler.php:226
-#: includes/class-dlm-download-handler.php:238
-#: includes/class-dlm-download-handler.php:337
+#: includes/class-dlm-download-handler.php:283
+#: includes/class-dlm-download-handler.php:341
+#: includes/class-dlm-download-handler.php:349
+#: includes/class-dlm-download-handler.php:385
+#: includes/class-dlm-download-handler.php:499
 msgid "Download Error"
 msgstr "Downloadfehler"
 
-#: includes/class-dlm-download-handler.php:218
-#: includes/class-dlm-download-handler.php:226
+#: includes/class-dlm-download-handler.php:341
+#: includes/class-dlm-download-handler.php:349
 msgid "No file paths defined."
 msgstr "Dateipfad nicht definiert."
 
-#: includes/class-dlm-download-handler.php:257
-#: includes/class-dlm-download-handler.php:277
-#: includes/class-dlm-download-handler.php:284
-#: includes/class-dlm-download-handler.php:291
+#: includes/class-dlm-download-handler.php:419
+#: includes/class-dlm-download-handler.php:439
+#: includes/class-dlm-download-handler.php:446
+#: includes/class-dlm-download-handler.php:453
 msgid "Redirected to file"
 msgstr "Weitergeleitet zu Datei"
 
-#: includes/class-dlm-download-handler.php:330
+#: includes/class-dlm-download-handler.php:492
 msgid "Redirected to remote file."
 msgstr "Weitergeleitet zu Datei auf anderem Server."
 
-#: includes/class-dlm-download-handler.php:335
-#: includes/class-dlm-download-handler.php:337
+#: includes/class-dlm-download-handler.php:497
+#: includes/class-dlm-download-handler.php:499
 msgid "File not found."
 msgstr "Datei nicht gefunden."
+
+#: includes/class-dlm-installer.php:165 includes/class-dlm-installer.php:174
+msgid "No Access"
+msgstr ""
 
 #: includes/class-dlm-post-type-manager.php:21
 msgid "All Downloads"
@@ -834,7 +896,7 @@ msgstr "Übergeordneter Download-Eintrag"
 msgid "This is where you can create and manage downloads for your site."
 msgstr "Hier können Sie die Downloads für ihre Seite verwalten"
 
-#: includes/class-dlm-shortcodes.php:107 includes/class-dlm-shortcodes.php:142
+#: includes/class-dlm-shortcodes.php:137
 msgid "Download not found"
 msgstr "Download nicht gefunden."
 
@@ -904,7 +966,7 @@ msgstr "Download-Tag hinzufügen"
 msgid "New Download Tag Name"
 msgstr "Neuer Name für Download-Tag"
 
-#: includes/class-wp-dlm.php:204
+#: includes/class-wp-dlm.php:216
 msgid "Docs"
 msgstr "Doku"
 
@@ -912,91 +974,91 @@ msgstr "Doku"
 msgid "License successfully activated."
 msgstr "Lizenz erfolgreich aktiviert."
 
-#: includes/widgets/class-dlm-widget-downloads.php:29
+#: includes/widgets/class-dlm-widget-downloads.php:28
 msgid "Display a list of your downloads."
 msgstr "Liste der Downloads anzeigen."
 
-#: includes/widgets/class-dlm-widget-downloads.php:31
+#: includes/widgets/class-dlm-widget-downloads.php:30
 msgid "Downloads List"
 msgstr "Liste der Downloads"
 
-#: includes/widgets/class-dlm-widget-downloads.php:56
-#: includes/widgets/class-dlm-widget-downloads.php:160
+#: includes/widgets/class-dlm-widget-downloads.php:55
+#: includes/widgets/class-dlm-widget-downloads.php:159
 msgid "Featured Downloads"
 msgstr "Hervorgehobene Downloads"
 
-#: includes/widgets/class-dlm-widget-downloads.php:177
+#: includes/widgets/class-dlm-widget-downloads.php:176
 msgid "Limit"
 msgstr "Limit"
 
-#: includes/widgets/class-dlm-widget-downloads.php:184
+#: includes/widgets/class-dlm-widget-downloads.php:183
 msgid "Output template"
 msgstr ""
 
-#: includes/widgets/class-dlm-widget-downloads.php:188
+#: includes/widgets/class-dlm-widget-downloads.php:187
 msgid "Default template"
 msgstr "Standard-Vorlage"
 
-#: includes/widgets/class-dlm-widget-downloads.php:192
+#: includes/widgets/class-dlm-widget-downloads.php:191
 msgid "Order by"
 msgstr ""
 
-#: includes/widgets/class-dlm-widget-downloads.php:198
+#: includes/widgets/class-dlm-widget-downloads.php:197
 msgid "Random"
 msgstr "Zufällig"
 
-#: includes/widgets/class-dlm-widget-downloads.php:202
+#: includes/widgets/class-dlm-widget-downloads.php:201
 msgid "Date added"
 msgstr "Erstellungs-Datum"
 
-#: includes/widgets/class-dlm-widget-downloads.php:204
+#: includes/widgets/class-dlm-widget-downloads.php:203
 msgid "Date modified"
 msgstr "Letzte Änderung"
 
-#: includes/widgets/class-dlm-widget-downloads.php:211
+#: includes/widgets/class-dlm-widget-downloads.php:210
 msgid "Order"
 msgstr "Reihenfolge"
 
-#: includes/widgets/class-dlm-widget-downloads.php:215
+#: includes/widgets/class-dlm-widget-downloads.php:214
 msgid "ASC"
 msgstr "Auf"
 
-#: includes/widgets/class-dlm-widget-downloads.php:217
+#: includes/widgets/class-dlm-widget-downloads.php:216
 msgid "DESC"
 msgstr "Ab"
 
-#: includes/widgets/class-dlm-widget-downloads.php:225
+#: includes/widgets/class-dlm-widget-downloads.php:224
 msgid "Show only featured downloads"
 msgstr "Nur hervorgehobene Downloads anzeigen"
 
-#: includes/widgets/class-dlm-widget-downloads.php:232
+#: includes/widgets/class-dlm-widget-downloads.php:231
 msgid "Show only members only downloads"
 msgstr "Nur Downloads für Mitglieder zeigen"
 
-#: templates/content-download-box.php:13
-#: templates/content-download-filename.php:13
-#: templates/content-download.php:12
+#: templates/content-download-box.php:15
+#: templates/content-download-filename.php:15
+#: templates/content-download.php:15
 msgid "1 download"
 msgid_plural "%d downloads"
 msgstr[0] "1 Download"
 msgstr[1] "%d Downloads"
 
-#: templates/content-download-box.php:22
-#: templates/content-download-filename.php:10
-#: templates/content-download-title.php:9 templates/content-download.php:9
+#: templates/content-download-box.php:24
+#: templates/content-download-filename.php:12
+#: templates/content-download-title.php:11 templates/content-download.php:12
 msgid "Version %s"
 msgstr "Version %s"
 
-#: templates/content-download-box.php:24
+#: templates/content-download-box.php:26
 msgid "Download File"
 msgstr "Datei herunterladen"
 
-#: templates/content-download-button.php:9
+#: templates/content-download-button.php:11
 msgid "Download &ldquo;%s&rdquo;"
 msgstr "Download &ldquo;%s&rdquo;"
 
-#: templates/content-download-button.php:10
-#: templates/content-download-version-list.php:18
+#: templates/content-download-button.php:12
+#: templates/content-download-version-list.php:20
 msgid "Downloaded 1 time"
 msgid_plural "Downloaded %d times"
 msgstr[0] "Einmal heruntergeladen"
@@ -1006,7 +1068,7 @@ msgstr[1] "%d-mal heruntergeladen"
 msgid "Download Monitor"
 msgstr "Download Monitor"
 
-#. Author URI of the plugin/theme
+#. Plugin URI of the plugin/theme
 msgid "https://www.download-monitor.com"
 msgstr "https://www.download-monitor.com"
 
@@ -1018,8 +1080,12 @@ msgid ""
 msgstr "Eine komplette Lösung für die Verwaltung von Downloads. Stellt ein Monitoring für die Downloads bereit und bietet die Möglichkeit, Download-Links und -Informationen auf der WordPress-Seite auszugeben."
 
 #. Author of the plugin/theme
-msgid "Barry Kooij & Mike Jolley"
-msgstr "Barry Kooij & Mike Jolley"
+msgid "Never5"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.never5.com"
+msgstr ""
 
 #: includes/admin/class-dlm-admin-media-insert.php:213
 msgctxt "Drop file here *or* select file"

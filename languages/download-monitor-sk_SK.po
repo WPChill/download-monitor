@@ -1,15 +1,16 @@
-# Copyright (C) 2015 Barry Kooij & Mike Jolley
+# Copyright (C) 2016 Never5
 # This file is distributed under the GPL v3.
 # Translators:
 # Barry Kooij <mail@barrykooij.nl>, 2015
+# Martin Adamko <martinadamko.sk@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2015-03-22 12:53:18+00:00\n"
-"PO-Revision-Date: 2015-03-22 12:58+0000\n"
+"POT-Creation-Date: 2016-03-27 14:45:08+00:00\n"
+"PO-Revision-Date: 2016-03-27 14:46+0000\n"
 "Last-Translator: Barry Kooij <mail@barrykooij.nl>\n"
-"Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/download-monitor/language/sk_SK/)\n"
+"Language-Team: Slovak (Slovakia) (http://www.transifex.com/barrykooijplugins/download-monitor/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,123 +18,138 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
 
-#: includes/admin/class-dlm-admin-cpt.php:74
+#: includes/admin/class-dlm-admin-cpt.php:79
 msgid "Select a category"
 msgstr "Vyberte kategóriu"
 
-#: includes/admin/class-dlm-admin-cpt.php:141
+#: includes/admin/class-dlm-admin-cpt.php:149
 msgid "Download title"
 msgstr "Názov sťahovania"
 
-#: includes/admin/class-dlm-admin-cpt.php:161
-#: includes/admin/class-dlm-admin-cpt.php:164
+#: includes/admin/class-dlm-admin-cpt.php:169
+#: includes/admin/class-dlm-admin-cpt.php:172
 msgid "Download updated."
 msgstr "Sťahovanie aktualizované."
 
-#: includes/admin/class-dlm-admin-cpt.php:162
+#: includes/admin/class-dlm-admin-cpt.php:170
 msgid "Custom field updated."
 msgstr "Vlastné pole upravené."
 
-#: includes/admin/class-dlm-admin-cpt.php:163
+#: includes/admin/class-dlm-admin-cpt.php:171
 msgid "Custom field deleted."
 msgstr "Vlastné pole zmazané."
 
-#: includes/admin/class-dlm-admin-cpt.php:165
+#: includes/admin/class-dlm-admin-cpt.php:173
 msgid "Download restored to revision from %s"
 msgstr "Sťahovanie znovuobnovené na revíziu z %s"
 
-#: includes/admin/class-dlm-admin-cpt.php:166
+#: includes/admin/class-dlm-admin-cpt.php:174
 msgid "Download published."
 msgstr "Sťahovanie publikované."
 
-#: includes/admin/class-dlm-admin-cpt.php:167
+#: includes/admin/class-dlm-admin-cpt.php:175
 msgid "Download saved."
 msgstr "Sťahovanie uložené."
 
-#: includes/admin/class-dlm-admin-cpt.php:168
+#: includes/admin/class-dlm-admin-cpt.php:176
 msgid "Download submitted."
 msgstr "Sťahovanie odoslané."
 
-#: includes/admin/class-dlm-admin-cpt.php:169
+#: includes/admin/class-dlm-admin-cpt.php:177
 msgid "Download scheduled for: <strong>%1$s</strong>."
 msgstr "Sťahovanie naplánované na: <strong>%1$s</strong>."
 
-#: includes/admin/class-dlm-admin-cpt.php:170
+#: includes/admin/class-dlm-admin-cpt.php:178
 msgid "M j, Y @ G:i"
 msgstr "j. n. Y \\o H:i"
 
-#: includes/admin/class-dlm-admin-cpt.php:171
+#: includes/admin/class-dlm-admin-cpt.php:179
 msgid "Download draft updated."
 msgstr "Koncept na stiahnutie aktualizovaný."
 
-#: includes/admin/class-dlm-admin-cpt.php:190
+#: includes/admin/class-dlm-admin-cpt.php:198
 msgid "Image"
 msgstr "Obrázok"
 
-#: includes/admin/class-dlm-admin-cpt.php:191
-#: includes/widgets/class-dlm-widget-downloads.php:170
-#: includes/widgets/class-dlm-widget-downloads.php:196
+#: includes/admin/class-dlm-admin-cpt.php:199
+#: includes/widgets/class-dlm-widget-downloads.php:169
+#: includes/widgets/class-dlm-widget-downloads.php:195
 msgid "Title"
 msgstr "Názov"
 
-#: includes/admin/class-dlm-admin-cpt.php:192
+#: includes/admin/class-dlm-admin-cpt.php:200
 #: includes/admin/class-dlm-admin-writepanels.php:78
-#: includes/widgets/class-dlm-widget-downloads.php:200
+#: includes/widgets/class-dlm-widget-downloads.php:199
 msgid "ID"
 msgstr "ID"
 
-#: includes/admin/class-dlm-admin-cpt.php:193
-#: includes/admin/class-dlm-logging-list-table.php:131
+#: includes/admin/class-dlm-admin-cpt.php:201
+#: includes/admin/class-dlm-logging-list-table.php:168
 msgid "File"
 msgstr "Súbor"
 
-#: includes/admin/class-dlm-admin-cpt.php:194
+#: includes/admin/class-dlm-admin-cpt.php:202
 #: includes/admin/class-dlm-admin-media-insert.php:237
 #: includes/admin/html-downloadable-file-version.php:17
 msgid "Version"
 msgstr "Verzia"
 
-#: includes/admin/class-dlm-admin-cpt.php:195
+#: includes/admin/class-dlm-admin-cpt.php:203
 #: includes/class-dlm-taxonomy-manager.php:27
 #: includes/class-dlm-taxonomy-manager.php:29
 msgid "Categories"
 msgstr "Kategórie"
 
-#: includes/admin/class-dlm-admin-cpt.php:196
+#: includes/admin/class-dlm-admin-cpt.php:204
 #: includes/class-dlm-taxonomy-manager.php:58
 #: includes/class-dlm-taxonomy-manager.php:60
 msgid "Tags"
 msgstr "Značky"
 
-#: includes/admin/class-dlm-admin-cpt.php:197
+#: includes/admin/class-dlm-admin-cpt.php:205
 #: includes/admin/class-dlm-admin-dashboard.php:77
 #: includes/admin/html-downloadable-file-version.php:59
-#: includes/widgets/class-dlm-widget-downloads.php:206
+#: includes/widgets/class-dlm-widget-downloads.php:205
 msgid "Download count"
 msgstr "Počet stiahnutí"
 
-#: includes/admin/class-dlm-admin-cpt.php:198
+#: includes/admin/class-dlm-admin-cpt.php:206
 msgid "Featured"
 msgstr "Vybrané"
 
-#: includes/admin/class-dlm-admin-cpt.php:199
+#: includes/admin/class-dlm-admin-cpt.php:207
+#: includes/admin/class-dlm-admin-cpt.php:388
 #: includes/admin/class-dlm-admin-writepanels.php:124
 msgid "Members only"
 msgstr "Iba pre členov"
 
-#: includes/admin/class-dlm-admin-cpt.php:200
+#: includes/admin/class-dlm-admin-cpt.php:208
 msgid "Redirect only"
 msgstr "Iba presmerovať"
 
-#: includes/admin/class-dlm-admin-cpt.php:201
+#: includes/admin/class-dlm-admin-cpt.php:209
 msgid "Date posted"
 msgstr "Dátum zverejnenia"
 
-#: includes/admin/class-dlm-admin-cpt.php:244
-#: includes/admin/class-dlm-admin-cpt.php:251
-#: includes/admin/class-dlm-admin-cpt.php:258
+#: includes/admin/class-dlm-admin-cpt.php:252
+#: includes/admin/class-dlm-admin-cpt.php:259
+#: includes/admin/class-dlm-admin-cpt.php:266
 msgid "Yes"
 msgstr "Áno"
+
+#: includes/admin/class-dlm-admin-cpt.php:384
+msgid "Download Monitor Data"
+msgstr ""
+
+#: includes/admin/class-dlm-admin-cpt.php:386
+#: includes/admin/class-dlm-admin-writepanels.php:118
+msgid "Featured download"
+msgstr "Vybrané sťahovania"
+
+#: includes/admin/class-dlm-admin-cpt.php:390
+#: includes/admin/class-dlm-admin-writepanels.php:130
+msgid "Redirect to file"
+msgstr "Presmerovať na súbor"
 
 #: includes/admin/class-dlm-admin-dashboard.php:23
 msgid "Popular Downloads"
@@ -144,24 +160,24 @@ msgid "There are no stats available yet!"
 msgstr "Zatiaľ nie sú k dispozícii žiadne štatistiky!"
 
 #: includes/admin/class-dlm-admin-dashboard.php:76
-#: includes/admin/class-dlm-logging-list-table.php:130
+#: includes/admin/class-dlm-logging-list-table.php:167
 #: includes/class-dlm-post-type-manager.php:23
 msgid "Download"
 msgstr "Stiahnúť"
 
 #: includes/admin/class-dlm-admin-extensions.php:45
-#: includes/admin/class-dlm-admin.php:335
+#: includes/admin/class-dlm-admin.php:380
 msgid "Download Monitor Extensions"
-msgstr ""
+msgstr "Rozšírenia pre Download Monitor"
 
 #: includes/admin/class-dlm-admin-extensions.php:76
 msgid ""
 "Extend Download Monitor with its powerful free and paid extensions. %sClick "
 "here to browse all extensions%s"
-msgstr ""
+msgstr "Vylepšite svoj Download Monitor voľne dostupnými aj platenými rozšíreniami. %sPrejdite na zoznam všetkých rozšírení%s"
 
 #: includes/admin/class-dlm-admin-media-browser.php:34
-#: includes/admin/class-dlm-admin-scripts.php:96
+#: includes/admin/class-dlm-admin-scripts.php:109
 msgid "Browse for a file"
 msgstr "Súbor z disku"
 
@@ -171,7 +187,7 @@ msgstr "Žiadne súbory sa nenašli"
 
 #: includes/admin/class-dlm-admin-media-insert.php:36
 #: includes/admin/class-dlm-admin-media-insert.php:55
-#: includes/admin/class-dlm-admin-scripts.php:90
+#: includes/admin/class-dlm-admin-scripts.php:103
 msgid "Insert Download"
 msgstr "Vložiť na stiahnutie"
 
@@ -259,13 +275,13 @@ msgstr "Povolené súbory"
 msgid "Please wait..."
 msgstr "Prosím čakajte..."
 
-#: includes/admin/class-dlm-admin-scripts.php:95
+#: includes/admin/class-dlm-admin-scripts.php:108
 msgid "Are you sure you want to delete this file ? "
-msgstr ""
+msgstr "Naozaj chcete tento súbor zmazať ?"
 
 #: includes/admin/class-dlm-admin-writepanels.php:32
 msgid "Download Information"
-msgstr ""
+msgstr "Informácie o sťahovaní"
 
 #: includes/admin/class-dlm-admin-writepanels.php:38
 msgid "Download Options"
@@ -281,15 +297,11 @@ msgstr "Krátky popis"
 
 #: includes/admin/class-dlm-admin-writepanels.php:83
 msgid "URL"
-msgstr ""
+msgstr "Odkaz"
 
 #: includes/admin/class-dlm-admin-writepanels.php:88
 msgid "Shortcode"
-msgstr ""
-
-#: includes/admin/class-dlm-admin-writepanels.php:118
-msgid "Featured download"
-msgstr "Vybrané sťahovania"
+msgstr "Shortcode"
 
 #: includes/admin/class-dlm-admin-writepanels.php:119
 msgid "Mark this download as featured. Used by shortcodes and widgets."
@@ -301,15 +313,11 @@ msgid ""
 "this is enabled."
 msgstr "Pri aktivovaní budú mať prístup k týmto súborom iba prihlásení užívatelia."
 
-#: includes/admin/class-dlm-admin-writepanels.php:130
-msgid "Redirect to file"
-msgstr "Presmerovať na súbor"
-
 #: includes/admin/class-dlm-admin-writepanels.php:131
 msgid ""
-"Don't force download. If the <code>dlm_upload</code> folder is protected you"
-" may need to move your file."
-msgstr "Nepoužiť force download. Ak je adresár <code>dlm_upload</code> chránený, budete potrebné súbor z neho presunúť."
+"Don't force download. If the <code>dlm_uploads</code> folder is protected "
+"you may need to move your file."
+msgstr ""
 
 #: includes/admin/class-dlm-admin-writepanels.php:160
 msgid "Add file"
@@ -323,53 +331,57 @@ msgstr "Zavrieť všetky"
 msgid "Expand all"
 msgstr "Rozbaliť všetky"
 
-#: includes/admin/class-dlm-admin.php:107
+#: includes/admin/class-dlm-admin.php:104
+msgid "Select Page"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:131
 msgid "General"
 msgstr "Všeobecné"
 
-#: includes/admin/class-dlm-admin.php:112
+#: includes/admin/class-dlm-admin.php:136
 msgid "Default Template"
 msgstr "Predvolená šablóna"
 
-#: includes/admin/class-dlm-admin.php:113
+#: includes/admin/class-dlm-admin.php:137
 msgid ""
 "Choose which template is used for <code>[download]</code> shortcodes by "
 "default (this can be overridden by the <code>format</code> argument)."
 msgstr "Vyberte, ktorú šablónu použiť štandardne pre <code>[download]</code> shortcode (toto sa dá individuálne nastaviť pomocou argumentu <code>format</code>)."
 
-#: includes/admin/class-dlm-admin.php:116
+#: includes/admin/class-dlm-admin.php:140
 msgid "Default - Title and count"
 msgstr "Predvolené – Názov a počet"
 
-#: includes/admin/class-dlm-admin.php:117
+#: includes/admin/class-dlm-admin.php:141
 msgid "Button - CSS styled button showing title and count"
 msgstr "Tlačidlo – Tlačidlo upraviteľné pomocou CSS zobrazujúce názov a počet"
 
-#: includes/admin/class-dlm-admin.php:118
+#: includes/admin/class-dlm-admin.php:142
 msgid "Box - Box showing thumbnail, title, count, filename and filesize."
 msgstr "Box – Box s náhľadovým obrázkom, názom, počtom stiahnutí, názvom súboru a veľkosťou"
 
-#: includes/admin/class-dlm-admin.php:119
+#: includes/admin/class-dlm-admin.php:143
 msgid "Filename - Filename and download count"
 msgstr "Názov súboru – Názov súboru a počet stiahnutí"
 
-#: includes/admin/class-dlm-admin.php:120
+#: includes/admin/class-dlm-admin.php:144
 msgid "Title - Shows download title only"
 msgstr "Nadpis – Zobrazí iba názov sťahovania"
 
-#: includes/admin/class-dlm-admin.php:121
+#: includes/admin/class-dlm-admin.php:145
 msgid "Version list - Lists all download versions in an unordered list"
 msgstr "Zoznam verzií – Zobraziť všetky verzie v odrážkach"
 
-#: includes/admin/class-dlm-admin.php:122
+#: includes/admin/class-dlm-admin.php:146
 msgid "Custom template"
 msgstr "Vlastná šablóna"
 
-#: includes/admin/class-dlm-admin.php:128
+#: includes/admin/class-dlm-admin.php:152
 msgid "Custom Template"
 msgstr "Vlastná šablóna"
 
-#: includes/admin/class-dlm-admin.php:129
+#: includes/admin/class-dlm-admin.php:153
 msgid ""
 "Leaving this blank will use the default <code>content-download.php</code> "
 "template file. If you enter, for example, <code>image</code>, the <code"
@@ -377,299 +389,346 @@ msgid ""
 "add custom templates inside your theme folder."
 msgstr "Ak chcete použiť štandardnú šablónu <code>content-download.php</code>, toto nevypĺňajte. Ak zadáte, napr. <code>image</code>, použije sa šablóna <code>content-download-image.php</code>. Vlastné šablóny môžete pridať do adresára aktívnej témy."
 
-#: includes/admin/class-dlm-admin.php:134
+#: includes/admin/class-dlm-admin.php:158
 msgid "X-Accel-Redirect / X-Sendfile"
 msgstr "X-Accel-Redirect / X-Sendfile"
 
-#: includes/admin/class-dlm-admin.php:135
-#: includes/admin/class-dlm-admin.php:143
-#: includes/admin/class-dlm-admin.php:214
+#: includes/admin/class-dlm-admin.php:159
+#: includes/admin/class-dlm-admin.php:167
+#: includes/admin/class-dlm-admin.php:230
+#: includes/admin/class-dlm-admin.php:240
 msgid "Enable"
 msgstr "Aktivovať"
 
-#: includes/admin/class-dlm-admin.php:136
+#: includes/admin/class-dlm-admin.php:160
 msgid ""
 "If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be"
 " used to serve downloads instead of PHP (server requires "
 "<code>mod_xsendfile</code>)."
 msgstr "Ak váš server podporuje <code>X-Accel-Redirect</code> / <code>X-Sendfile</code>, môže miesto PHP posielať súbory server (vyžaduje modul <code>mod_xsendfile</code>)."
 
-#: includes/admin/class-dlm-admin.php:142
+#: includes/admin/class-dlm-admin.php:166
 msgid "Prevent hotlinking"
 msgstr "Zabrániť priamym odkazom"
 
-#: includes/admin/class-dlm-admin.php:144
+#: includes/admin/class-dlm-admin.php:168
 msgid ""
 "If enabled, the download handler will check the PHP referer to see if it "
 "originated from your site and if not, redirect them to the homepage."
 msgstr "Po aktivácii bude modul kontrovať, kto odkazuje na súbor a v prípade, že nepochádza z vašej stránky, bude presmerovaný na hlavnú stránku."
 
-#: includes/admin/class-dlm-admin.php:149 includes/class-dlm-installer.php:41
-#: includes/class-dlm-upgrade-manager.php:47
-msgid "You do not have permission to access this download. %sGo to homepage%s"
-msgstr ""
-
-#: includes/admin/class-dlm-admin.php:151
-msgid "No access message"
-msgstr ""
-
-#: includes/admin/class-dlm-admin.php:152
-msgid ""
-"The message that will be displayed to visitors when they don't have access "
-"to a file."
-msgstr ""
-
-#: includes/admin/class-dlm-admin.php:158
+#: includes/admin/class-dlm-admin.php:174
 msgid "Endpoint"
 msgstr "Koncový bod"
 
-#: includes/admin/class-dlm-admin.php:163
+#: includes/admin/class-dlm-admin.php:179
 msgid "download"
 msgstr "sťahovanie"
 
-#: includes/admin/class-dlm-admin.php:164
+#: includes/admin/class-dlm-admin.php:180
 msgid "Download Endpoint"
 msgstr "Koncový bod na stiahnutie"
 
-#: includes/admin/class-dlm-admin.php:165
+#: includes/admin/class-dlm-admin.php:181
 msgid ""
 "Define what endpoint should be used for download links. By default this will"
 " be <code>%s</code>."
 msgstr "Definujte koncový bod, ktorý sa má použiť na odkazy na stiahnutie. Predvolene sa používa <code>%s</code>."
 
-#: includes/admin/class-dlm-admin.php:170
+#: includes/admin/class-dlm-admin.php:186
 msgid "Endpoint Value"
 msgstr "Hodnota koncového bodu"
 
-#: includes/admin/class-dlm-admin.php:171
+#: includes/admin/class-dlm-admin.php:187
 msgid ""
 "Define what unique value should be used on the end of your endpoint to "
 "identify the downloadable file. e.g. ID would give a link like "
 "<code>%s</code>"
 msgstr "Definujte jedinečnú hodnotu, ktorá sa má použiť za koncovým bodom na identifikáciu súboru na stiahnutie, napr. odkaz s použitím ID by vyzeral takto: <code>%s</code>"
 
-#: includes/admin/class-dlm-admin.php:174
-#: includes/admin/class-dlm-admin.php:541
+#: includes/admin/class-dlm-admin.php:190
+#: includes/admin/class-dlm-admin.php:617
 msgid "Download ID"
 msgstr "ID sťahovania"
 
-#: includes/admin/class-dlm-admin.php:175
+#: includes/admin/class-dlm-admin.php:191
 msgid "Download slug"
 msgstr "Slug sťahovania"
 
-#: includes/admin/class-dlm-admin.php:181
+#: includes/admin/class-dlm-admin.php:197
 msgid "Hashes"
-msgstr ""
+msgstr "Hashe"
 
-#: includes/admin/class-dlm-admin.php:186
+#: includes/admin/class-dlm-admin.php:202
 msgid "MD5 hashes"
 msgstr "Rátať MD5 hash"
 
-#: includes/admin/class-dlm-admin.php:187
+#: includes/admin/class-dlm-admin.php:203
 msgid "Generate MD5 hash for uploaded files"
 msgstr "Generovať MD5 hash pre nahrané súbory"
 
-#: includes/admin/class-dlm-admin.php:194
+#: includes/admin/class-dlm-admin.php:210
 msgid "SHA1 hashes"
 msgstr "Rátať SHA1 hash"
 
-#: includes/admin/class-dlm-admin.php:195
+#: includes/admin/class-dlm-admin.php:211
 msgid "Generate SHA1 hash for uploaded files"
 msgstr "Generovať SHA1 hash pre nahrané súbory"
 
-#: includes/admin/class-dlm-admin.php:202
+#: includes/admin/class-dlm-admin.php:218
 msgid "CRC32B hashes"
 msgstr "Rátať CRC32B hash"
 
-#: includes/admin/class-dlm-admin.php:203
+#: includes/admin/class-dlm-admin.php:219
 msgid "Generate CRC32B hash for uploaded files"
 msgstr "Generovať CRC32B hash pre nahrané súbory"
 
-#: includes/admin/class-dlm-admin.php:204
+#: includes/admin/class-dlm-admin.php:220
 msgid ""
 "Hashes can optionally be output via shortcodes, but may cause performance "
 "issues with large files."
 msgstr "Hash je možné zobraziť vrámci shortcode, čo však môže mať za následok zníženie výkonu pri generovaní z väčších súborov."
 
-#: includes/admin/class-dlm-admin.php:210
+#: includes/admin/class-dlm-admin.php:226
 msgid "Logging"
 msgstr "Logovanie"
 
-#: includes/admin/class-dlm-admin.php:216
+#: includes/admin/class-dlm-admin.php:232
 msgid "Download Log"
 msgstr "Log sťahovania"
 
-#: includes/admin/class-dlm-admin.php:217
+#: includes/admin/class-dlm-admin.php:233
 msgid "Log download attempts, IP addresses and more."
 msgstr "Logovať pokusy o stiahnutie, IP adresy a ostatné."
 
-#: includes/admin/class-dlm-admin.php:223
+#: includes/admin/class-dlm-admin.php:239
+msgid "Count unique IPs only"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:241
+msgid ""
+"If enabled, the counter for each download will only increment and create a "
+"log entry once per IP address."
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:247
+msgid "Access"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:252
+msgid "No Access Page"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:253
+msgid ""
+"Choose what page is displayed when the user has no access to a file. Don't "
+"forget to add the <code>[dlm_no_access]</code> shortcode to the page."
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:259 includes/class-dlm-installer.php:41
+#: includes/class-dlm-upgrade-manager.php:54
+msgid "You do not have permission to access this download. %sGo to homepage%s"
+msgstr "Nemáte prístupové práva k týmto súborom. %sPokračujte na úvodnú stránku%s"
+
+#: includes/admin/class-dlm-admin.php:261
+msgid "No access message"
+msgstr "Oznam o nedovolenom prístupe"
+
+#: includes/admin/class-dlm-admin.php:262
+msgid ""
+"The message that will be displayed to visitors when they don't have access "
+"to a file."
+msgstr "Oznam, ktorý sa zobrazí návštevníkom, ktorým nebol povolený prístup k súboru."
+
+#: includes/admin/class-dlm-admin.php:268
 msgid "Blacklist IPs"
 msgstr "Zakázané IP adresy"
 
-#: includes/admin/class-dlm-admin.php:224
+#: includes/admin/class-dlm-admin.php:269
 msgid ""
-"List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a "
-"wildcard."
-msgstr "Uveďte zakázané IP adresy, po 1 na riadok. Použite <code>*</code> ."
+"List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for "
+"ranges. IPv4 examples: <code>198.51.100.1</code> or "
+"<code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or "
+"<code>2001:db8::/32</code>."
+msgstr ""
 
-#: includes/admin/class-dlm-admin.php:231
+#: includes/admin/class-dlm-admin.php:276
 msgid "Blacklist user agents"
 msgstr "Zakázané hodnoty User-Agent prehliadačov"
 
-#: includes/admin/class-dlm-admin.php:232
+#: includes/admin/class-dlm-admin.php:277
 msgid "List browser user agents to blacklist, 1 per line."
 msgstr "Uveďte zakázané User Agent hodnoty prehliadačov, po 1 na riadok."
 
-#: includes/admin/class-dlm-admin.php:316
+#: includes/admin/class-dlm-admin.php:361
 msgid "Logs"
 msgstr "Logy"
 
-#: includes/admin/class-dlm-admin.php:323 includes/class-wp-dlm.php:202
+#: includes/admin/class-dlm-admin.php:368 includes/class-wp-dlm.php:214
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: includes/admin/class-dlm-admin.php:335 includes/class-wp-dlm.php:203
+#: includes/admin/class-dlm-admin.php:380 includes/class-wp-dlm.php:215
 msgid "Extensions"
+msgstr "Rozšírenia"
+
+#: includes/admin/class-dlm-admin.php:411
+msgid ""
+"Because your server is running on nginx, our .htaccess file can't protect "
+"your downloads."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:375
+#: includes/admin/class-dlm-admin.php:412
+msgid ""
+"Please add the following rules to your nginx config to disable direct file "
+"access: %s"
+msgstr ""
+
+#: includes/admin/class-dlm-admin.php:451
 msgid "Settings successfully saved"
 msgstr "Nastavenia úspešne uložené"
 
-#: includes/admin/class-dlm-admin.php:458
+#: includes/admin/class-dlm-admin.php:534
 msgid "Save Changes"
 msgstr "Uložiť zmeny"
 
-#: includes/admin/class-dlm-admin.php:484
+#: includes/admin/class-dlm-admin.php:560
 msgid "Download Logs"
 msgstr "Logy sťahovania"
 
-#: includes/admin/class-dlm-admin.php:486
+#: includes/admin/class-dlm-admin.php:562
 msgid "Export CSV"
 msgstr "Export CSV"
 
-#: includes/admin/class-dlm-admin.php:488
+#: includes/admin/class-dlm-admin.php:564
 msgid "Delete Logs"
 msgstr "Zmazať logy"
 
-#: includes/admin/class-dlm-admin.php:542
+#: includes/admin/class-dlm-admin.php:618
 msgid "Version ID"
 msgstr "ID verzie"
 
-#: includes/admin/class-dlm-admin.php:543
+#: includes/admin/class-dlm-admin.php:619
 msgid "Filename"
 msgstr "Názov súboru"
 
-#: includes/admin/class-dlm-admin.php:544
+#: includes/admin/class-dlm-admin.php:620
 msgid "User ID"
 msgstr "ID užívateľa"
 
-#: includes/admin/class-dlm-admin.php:545
+#: includes/admin/class-dlm-admin.php:621
 msgid "User Login"
 msgstr "Login užívateľa"
 
-#: includes/admin/class-dlm-admin.php:546
+#: includes/admin/class-dlm-admin.php:622
 msgid "User Email"
 msgstr "E-mail užívateľa"
 
-#: includes/admin/class-dlm-admin.php:547
+#: includes/admin/class-dlm-admin.php:623
 msgid "User IP"
 msgstr "IP užívateľa"
 
-#: includes/admin/class-dlm-admin.php:548
-#: includes/admin/class-dlm-logging-list-table.php:134
+#: includes/admin/class-dlm-admin.php:624
+#: includes/admin/class-dlm-logging-list-table.php:171
 msgid "User Agent"
 msgstr "User Agent"
 
-#: includes/admin/class-dlm-admin.php:549
-#: includes/admin/class-dlm-logging-list-table.php:135
+#: includes/admin/class-dlm-admin.php:625
+#: includes/admin/class-dlm-logging-list-table.php:172
 msgid "Date"
 msgstr "Dátum"
 
-#: includes/admin/class-dlm-admin.php:550
+#: includes/admin/class-dlm-admin.php:626
 msgid "Status"
 msgstr "Stav"
 
-#: includes/admin/class-dlm-admin.php:635
+#: includes/admin/class-dlm-admin.php:711
 msgid ""
 "If you like %sDownload Monitor%s please leave us a %s★★★★★%s rating. A huge "
 "thank you from us in advance!"
+msgstr "Ak sa vám páči %sDownload Monitor%s, dajte nám hodnotenie %s★★★★★%s. Vopred veľká vďak od každého z nás!"
+
+#: includes/admin/class-dlm-logging-list-table.php:63
+msgid "Delete"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:54
+#: includes/admin/class-dlm-logging-list-table.php:90
 msgid "Download Complete"
 msgstr "Sťahovanie dokončené"
 
-#: includes/admin/class-dlm-logging-list-table.php:61
+#: includes/admin/class-dlm-logging-list-table.php:97
 msgid "%s ago"
 msgstr "pred %s"
 
-#: includes/admin/class-dlm-logging-list-table.php:68
+#: includes/admin/class-dlm-logging-list-table.php:104
 msgid "Download #%d (no longer exists)"
 msgstr "Sťahovanie č. %d (už neexistujúce)"
 
-#: includes/admin/class-dlm-logging-list-table.php:76
+#: includes/admin/class-dlm-logging-list-table.php:112
 msgid "v%s"
 msgstr "v%s"
 
-#: includes/admin/class-dlm-logging-list-table.php:99
+#: includes/admin/class-dlm-logging-list-table.php:135
 msgid "Non-member"
 msgstr "Nečlen"
 
-#: includes/admin/class-dlm-logging-list-table.php:132
+#: includes/admin/class-dlm-logging-list-table.php:169
 msgid "User"
 msgstr "Užívateľ"
 
-#: includes/admin/class-dlm-logging-list-table.php:133
+#: includes/admin/class-dlm-logging-list-table.php:170
 msgid "IP Address"
 msgstr "IP adresa"
 
-#: includes/admin/class-dlm-logging-list-table.php:150
+#: includes/admin/class-dlm-logging-list-table.php:192
+msgid "Log entries deleted"
+msgstr ""
+
+#: includes/admin/class-dlm-logging-list-table.php:209
 msgid "Any status"
 msgstr "Akýkoľvek stav"
 
-#: includes/admin/class-dlm-logging-list-table.php:152
+#: includes/admin/class-dlm-logging-list-table.php:211
 msgid "Failed"
 msgstr "Zlyhalo"
 
-#: includes/admin/class-dlm-logging-list-table.php:154
+#: includes/admin/class-dlm-logging-list-table.php:213
 msgid "Redirected"
 msgstr "Presmerované"
 
-#: includes/admin/class-dlm-logging-list-table.php:156
+#: includes/admin/class-dlm-logging-list-table.php:215
 msgid "Completed"
 msgstr "Dokončené"
 
-#: includes/admin/class-dlm-logging-list-table.php:175
+#: includes/admin/class-dlm-logging-list-table.php:234
 msgid "Show all dates"
 msgstr "Zobraziť všetky dátumy"
 
-#: includes/admin/class-dlm-logging-list-table.php:189
+#: includes/admin/class-dlm-logging-list-table.php:248
 msgid "%1$s %2$d"
 msgstr "%1$s %2$d"
 
-#: includes/admin/class-dlm-logging-list-table.php:197
+#: includes/admin/class-dlm-logging-list-table.php:256
 msgid "25 per page"
 msgstr "25 na stránku"
 
-#: includes/admin/class-dlm-logging-list-table.php:199
+#: includes/admin/class-dlm-logging-list-table.php:258
 msgid "50 per page"
 msgstr "50 na stránku"
 
-#: includes/admin/class-dlm-logging-list-table.php:201
+#: includes/admin/class-dlm-logging-list-table.php:260
 msgid "100 per page"
 msgstr "100 na stránku"
 
-#: includes/admin/class-dlm-logging-list-table.php:203
+#: includes/admin/class-dlm-logging-list-table.php:262
 msgid "200 per page"
 msgstr "200 na stránku"
 
-#: includes/admin/class-dlm-logging-list-table.php:205
+#: includes/admin/class-dlm-logging-list-table.php:264
 msgid "Show All"
 msgstr "Zobraziť všetko"
 
-#: includes/admin/class-dlm-logging-list-table.php:209
+#: includes/admin/class-dlm-logging-list-table.php:268
 msgid "Filter"
 msgstr "Filter"
 
@@ -693,9 +752,9 @@ msgstr "nezadané"
 #: includes/admin/html-downloadable-file-version.php:5
 msgid "Downloaded %s time"
 msgid_plural "Downloaded %s times"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Stiahnuté raz"
+msgstr[1] "Stiahnuté %s razy"
+msgstr[2] "Stiahnuté %s krát"
 
 #: includes/admin/html-downloadable-file-version.php:23
 msgid "File URL(s)"
@@ -735,49 +794,53 @@ msgstr "H"
 msgid "m"
 msgstr "n"
 
-#: includes/class-dlm-download-handler.php:171
+#: includes/class-dlm-download-handler.php:277
 msgid "Password Required"
 msgstr "Potrebné heslo"
 
-#: includes/class-dlm-download-handler.php:177
+#: includes/class-dlm-download-handler.php:283
 msgid "Download does not exist."
 msgstr "Sťahovanie neexistuje."
 
-#: includes/class-dlm-download-handler.php:177
-#: includes/class-dlm-download-handler.php:218
-#: includes/class-dlm-download-handler.php:226
-#: includes/class-dlm-download-handler.php:337
+#: includes/class-dlm-download-handler.php:283
+#: includes/class-dlm-download-handler.php:341
+#: includes/class-dlm-download-handler.php:349
+#: includes/class-dlm-download-handler.php:499
 msgid "Go to homepage &rarr;"
 msgstr "Späť na hlavnú stránku &rarr;"
 
-#: includes/class-dlm-download-handler.php:177
-#: includes/class-dlm-download-handler.php:218
-#: includes/class-dlm-download-handler.php:226
-#: includes/class-dlm-download-handler.php:238
-#: includes/class-dlm-download-handler.php:337
+#: includes/class-dlm-download-handler.php:283
+#: includes/class-dlm-download-handler.php:341
+#: includes/class-dlm-download-handler.php:349
+#: includes/class-dlm-download-handler.php:385
+#: includes/class-dlm-download-handler.php:499
 msgid "Download Error"
 msgstr "Chyba sťahovania"
 
-#: includes/class-dlm-download-handler.php:218
-#: includes/class-dlm-download-handler.php:226
+#: includes/class-dlm-download-handler.php:341
+#: includes/class-dlm-download-handler.php:349
 msgid "No file paths defined."
 msgstr "Cesta k súboru nedefinovaná."
 
-#: includes/class-dlm-download-handler.php:257
-#: includes/class-dlm-download-handler.php:277
-#: includes/class-dlm-download-handler.php:284
-#: includes/class-dlm-download-handler.php:291
+#: includes/class-dlm-download-handler.php:419
+#: includes/class-dlm-download-handler.php:439
+#: includes/class-dlm-download-handler.php:446
+#: includes/class-dlm-download-handler.php:453
 msgid "Redirected to file"
 msgstr "Presmerované na súbor"
 
-#: includes/class-dlm-download-handler.php:330
+#: includes/class-dlm-download-handler.php:492
 msgid "Redirected to remote file."
 msgstr "Presmerované na vzdialený súbor."
 
-#: includes/class-dlm-download-handler.php:335
-#: includes/class-dlm-download-handler.php:337
+#: includes/class-dlm-download-handler.php:497
+#: includes/class-dlm-download-handler.php:499
 msgid "File not found."
 msgstr "Súbor sa nenašiel."
+
+#: includes/class-dlm-installer.php:165 includes/class-dlm-installer.php:174
+msgid "No Access"
+msgstr ""
 
 #: includes/class-dlm-post-type-manager.php:21
 msgid "All Downloads"
@@ -832,7 +895,7 @@ msgstr "Nadradené sťahovanie"
 msgid "This is where you can create and manage downloads for your site."
 msgstr "Na tomto mieste môžete vytvárať a spravovať na stiahnutie pre túto stránku."
 
-#: includes/class-dlm-shortcodes.php:107 includes/class-dlm-shortcodes.php:142
+#: includes/class-dlm-shortcodes.php:137
 msgid "Download not found"
 msgstr "Sťahovanie sa nenašlo"
 
@@ -902,111 +965,111 @@ msgstr "Pridať novú značku sťahovania"
 msgid "New Download Tag Name"
 msgstr "Meno novej značky sťahovania"
 
-#: includes/class-wp-dlm.php:204
+#: includes/class-wp-dlm.php:216
 msgid "Docs"
 msgstr "Dokumentácia"
 
 #: includes/product/class-dlm-product.php:149
 msgid "License successfully activated."
-msgstr ""
+msgstr "Licencia úspešne aktivovaná."
 
-#: includes/widgets/class-dlm-widget-downloads.php:29
+#: includes/widgets/class-dlm-widget-downloads.php:28
 msgid "Display a list of your downloads."
 msgstr "Zobraziť zoznam na stiahnutie."
 
-#: includes/widgets/class-dlm-widget-downloads.php:31
+#: includes/widgets/class-dlm-widget-downloads.php:30
 msgid "Downloads List"
 msgstr "Zoznam na stiahnutie"
 
-#: includes/widgets/class-dlm-widget-downloads.php:56
-#: includes/widgets/class-dlm-widget-downloads.php:160
+#: includes/widgets/class-dlm-widget-downloads.php:55
+#: includes/widgets/class-dlm-widget-downloads.php:159
 msgid "Featured Downloads"
 msgstr "Vybrané na stiahnutie"
 
-#: includes/widgets/class-dlm-widget-downloads.php:177
+#: includes/widgets/class-dlm-widget-downloads.php:176
 msgid "Limit"
-msgstr ""
+msgstr "Obmedzenie"
 
-#: includes/widgets/class-dlm-widget-downloads.php:184
+#: includes/widgets/class-dlm-widget-downloads.php:183
 msgid "Output template"
-msgstr ""
+msgstr "Zobraziť šablónu"
 
-#: includes/widgets/class-dlm-widget-downloads.php:188
+#: includes/widgets/class-dlm-widget-downloads.php:187
 msgid "Default template"
 msgstr "Predvolená šablóna"
 
-#: includes/widgets/class-dlm-widget-downloads.php:192
+#: includes/widgets/class-dlm-widget-downloads.php:191
 msgid "Order by"
-msgstr ""
+msgstr "Zoradiť podľa"
 
-#: includes/widgets/class-dlm-widget-downloads.php:198
+#: includes/widgets/class-dlm-widget-downloads.php:197
 msgid "Random"
 msgstr "Náhodne"
 
-#: includes/widgets/class-dlm-widget-downloads.php:202
+#: includes/widgets/class-dlm-widget-downloads.php:201
 msgid "Date added"
 msgstr "Dátum pridania"
 
-#: includes/widgets/class-dlm-widget-downloads.php:204
+#: includes/widgets/class-dlm-widget-downloads.php:203
 msgid "Date modified"
 msgstr "Dátum úpravy"
 
-#: includes/widgets/class-dlm-widget-downloads.php:211
+#: includes/widgets/class-dlm-widget-downloads.php:210
 msgid "Order"
-msgstr ""
+msgstr "Poradie"
 
-#: includes/widgets/class-dlm-widget-downloads.php:215
+#: includes/widgets/class-dlm-widget-downloads.php:214
 msgid "ASC"
 msgstr "Vzostupne"
 
-#: includes/widgets/class-dlm-widget-downloads.php:217
+#: includes/widgets/class-dlm-widget-downloads.php:216
 msgid "DESC"
 msgstr "Zostupne"
 
-#: includes/widgets/class-dlm-widget-downloads.php:225
+#: includes/widgets/class-dlm-widget-downloads.php:224
 msgid "Show only featured downloads"
 msgstr "Zobraziť iba vybrané na stiahnutie"
 
-#: includes/widgets/class-dlm-widget-downloads.php:232
+#: includes/widgets/class-dlm-widget-downloads.php:231
 msgid "Show only members only downloads"
 msgstr "Zobraziť na stiahnutie iba pre členov"
 
-#: templates/content-download-box.php:13
-#: templates/content-download-filename.php:13
-#: templates/content-download.php:12
+#: templates/content-download-box.php:15
+#: templates/content-download-filename.php:15
+#: templates/content-download.php:15
 msgid "1 download"
 msgid_plural "%d downloads"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "1 stiahnutie"
+msgstr[1] "%d stiahnutia"
+msgstr[2] "%d stiahnutí"
 
-#: templates/content-download-box.php:22
-#: templates/content-download-filename.php:10
-#: templates/content-download-title.php:9 templates/content-download.php:9
+#: templates/content-download-box.php:24
+#: templates/content-download-filename.php:12
+#: templates/content-download-title.php:11 templates/content-download.php:12
 msgid "Version %s"
 msgstr "Verzia %s"
 
-#: templates/content-download-box.php:24
+#: templates/content-download-box.php:26
 msgid "Download File"
 msgstr "Stiahnúť súbor"
 
-#: templates/content-download-button.php:9
+#: templates/content-download-button.php:11
 msgid "Download &ldquo;%s&rdquo;"
 msgstr "Stiahnúť &ldquo;%s&rdquo;"
 
-#: templates/content-download-button.php:10
-#: templates/content-download-version-list.php:18
+#: templates/content-download-button.php:12
+#: templates/content-download-version-list.php:20
 msgid "Downloaded 1 time"
 msgid_plural "Downloaded %d times"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Stiahnuté raz"
+msgstr[1] "Stiahnuté %d razy"
+msgstr[2] "Stiahnuté %d krát"
 
 #. Plugin Name of the plugin/theme
 msgid "Download Monitor"
 msgstr "Download Monitor"
 
-#. Author URI of the plugin/theme
+#. Plugin URI of the plugin/theme
 msgid "https://www.download-monitor.com"
 msgstr "https://www.download-monitor.com"
 
@@ -1018,10 +1081,14 @@ msgid ""
 msgstr "A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site."
 
 #. Author of the plugin/theme
-msgid "Barry Kooij & Mike Jolley"
-msgstr "Barry Kooij & Mike Jolley"
+msgid "Never5"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.never5.com"
+msgstr ""
 
 #: includes/admin/class-dlm-admin-media-insert.php:213
 msgctxt "Drop file here *or* select file"
 msgid "or"
-msgstr ""
+msgstr "alebo"
