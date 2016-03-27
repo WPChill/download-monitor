@@ -175,8 +175,7 @@ jQuery( function ( $ ) {
 
         // If the media frame already exists, reopen it.
         if ( dlm_upload_file_frame ) {
-            dlm_upload_file_frame.open();
-            return;
+            dlm_upload_file_frame.close();
         }
 
         var downloadable_file_states = [
