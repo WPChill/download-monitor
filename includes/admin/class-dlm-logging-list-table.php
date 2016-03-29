@@ -10,6 +10,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	private $filter_status = '';
 	private $logs_per_page = 25;
 	private $filter_month = '';
+	private $filter_user = 0;
 
 	/** @var UAParser */
 	private $uaparser = null;
@@ -34,6 +35,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		$this->filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
 		$this->logs_per_page = ! empty( $_REQUEST['logs_per_page'] ) ? intval( $_REQUEST['logs_per_page'] ) : 25;
 		$this->filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
+		$this->filter_user   = ! empty( $_REQUEST['filter_user'] ) ? intval( $_REQUEST['filter_user'] ) : 0;
 
 		if ( $this->logs_per_page < 1 ) {
 			$this->logs_per_page = 9999999999999;
@@ -252,6 +254,24 @@ class DLM_Logging_List_Table extends WP_List_Table {
 					</select>
 				<?php endif;
 				?>
+				<select name="filter_user">
+					<option value="0"><?php _e( 'Select a User', 'download-monitor' ); ?></option>
+					<?php 
+					$users = $wpdb->get_results( "
+							SELECT DISTINCT user_id
+							FROM {$wpdb->download_log}
+							WHERE type = 'download'" );
+
+					foreach( $users as $a_user ){
+					    if( $a_user->user_id == '0' ) continue;
+						$the_user = get_userdata( $a_user->user_id );
+						?>
+					<option value="<?php echo $a_user->user_id; ?>" <?php echo ($this->filter_user == $a_user->user_id) ? 'selected="selected"' : ''; ?>>
+						<?php echo $the_user->display_name; ?>
+					</option><?
+					}
+					?>
+				</select>
 				<select name="logs_per_page">
 					<option value="25"><?php _e( '25 per page', 'download-monitor' ); ?></option>
 					<option
@@ -293,6 +313,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		$filter_status = $this->filter_status;
 		$filter_month  = date( "m", strtotime( $this->filter_month ) );
 		$filter_year   = date( "Y", strtotime( $this->filter_month ) );
+		$filter_user   = $this->filter_user;
 
 		// Init headers
 		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
@@ -309,6 +330,10 @@ class DLM_Logging_List_Table extends WP_List_Table {
 
 		if ( $this->filter_month ) {
 			$query_where .= " AND download_date <= '" . date( 'Y-m-t', strtotime( $this->filter_month ) ) . "' ";
+		}
+
+		if( $this->filter_user > 0 ){
+			$query_where .= " AND user_id = '{$this->filter_user}' ";
 		}
 
 		// Total Count of Logs
