@@ -107,6 +107,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 1.9.3: X =
+* Tweak: Small rework of [downloads] loop. Downloads now filterable per download via dlm_shortcode_downloads_loop_download.
+
 = 1.9.2: March 27, 2016 =
 * Tweak: Fixed bug where 'version' and 'version_id' were ignored in [download].
 * Tweak: Fixed a bug that caused the file upload overlay to append file URL to wrong version, props [kraftner](https://github.com/kraftner).
