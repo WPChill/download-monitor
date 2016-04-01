@@ -392,27 +392,46 @@ class DLM_Shortcodes {
 		// Template handler
 		$template_handler = new DLM_Template_Handler();
 
-		if ( $downloads->have_posts() ) : ?>
+		if ( $downloads->have_posts() ) {
 
-			<?php echo html_entity_decode( $loop_start ); ?>
+			// loop start output
+			echo html_entity_decode( $loop_start );
 
-			<?php while ( $downloads->have_posts() ) : $downloads->the_post(); ?>
+			while ( $downloads->have_posts() ) {
 
-				<?php echo html_entity_decode( $before ); ?>
+				// next iteration in downloads loop
+				$downloads->the_post();
 
-				<?php $template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => new DLM_Download( get_the_ID() ) ) ); ?>
+				// create download instance
+				$download = new DLM_Download( get_the_ID() );
 
-				<?php echo html_entity_decode( $after ); ?>
+				// make download filterable
+				$download = apply_filters( 'dlm_shortcode_downloads_loop_download', $download );
 
-			<?php endwhile; // end of the loop. ?>
+				// check if filtered download is still a DLM_Download instance
+				if ( ! $download instanceof DLM_Download ) {
+					continue;
+				}
 
-			<?php echo html_entity_decode( $loop_end ); ?>
+				// display the 'before'
+				echo html_entity_decode( $before );
 
-			<?php if ( $paginate ) {
+				// load the template
+				$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+
+				// display the 'after'
+				echo html_entity_decode( $after );
+
+			} // end of the loop.
+
+			// end of loop html
+			echo html_entity_decode( $loop_end );
+
+			if ( $paginate ) {
 				$template_handler->get_template_part( 'pagination', '' );
 			} ?>
 
-		<?php endif;
+		<?php }
 
 		wp_reset_postdata();
 
