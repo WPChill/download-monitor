@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: https://github.com/download-monitor/download-monitor/issues\n"
 "POT-Creation-Date: 2016-03-27 14:45:08+00:00\n"
-"PO-Revision-Date: 2016-03-27 14:46+0000\n"
+"PO-Revision-Date: 2016-04-11 14:03+0000\n"
 "Last-Translator: Barry Kooij <mail@barrykooij.nl>\n"
 "Language-Team: Danish (Denmark) (http://www.transifex.com/barrykooijplugins/download-monitor/language/da_DK/)\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,7 @@ msgstr "Ja"
 
 #: includes/admin/class-dlm-admin-cpt.php:384
 msgid "Download Monitor Data"
-msgstr ""
+msgstr "Download Monitor-data"
 
 #: includes/admin/class-dlm-admin-cpt.php:386
 #: includes/admin/class-dlm-admin-writepanels.php:118
@@ -315,7 +315,7 @@ msgstr "Kun brugere, der er logget ind, vil få adgang til filen via et download
 msgid ""
 "Don't force download. If the <code>dlm_uploads</code> folder is protected "
 "you may need to move your file."
-msgstr ""
+msgstr "Gennemtving ikke download. Hvis <code>dlm_uploads</code>-mappen er beskyttet, kan du blive nødt til at flytte filen."
 
 #: includes/admin/class-dlm-admin-writepanels.php:160
 msgid "Add file"
@@ -331,7 +331,7 @@ msgstr "Udvid alle"
 
 #: includes/admin/class-dlm-admin.php:104
 msgid "Select Page"
-msgstr ""
+msgstr "Vælg side"
 
 #: includes/admin/class-dlm-admin.php:131
 msgid "General"
@@ -389,7 +389,7 @@ msgstr "Hvis uudfyldt bruges standardskabelonfilen <code>content-download.php</c
 
 #: includes/admin/class-dlm-admin.php:158
 msgid "X-Accel-Redirect / X-Sendfile"
-msgstr ""
+msgstr "X-Accel-Redirect / X-Sendfile"
 
 #: includes/admin/class-dlm-admin.php:159
 #: includes/admin/class-dlm-admin.php:167
@@ -455,7 +455,7 @@ msgstr "Downloadkorttitel"
 
 #: includes/admin/class-dlm-admin.php:197
 msgid "Hashes"
-msgstr ""
+msgstr "Hashfunktioner"
 
 #: includes/admin/class-dlm-admin.php:202
 msgid "MD5 hashes"
@@ -501,27 +501,27 @@ msgstr "Log downloadforsøg, IP-adresser m.m."
 
 #: includes/admin/class-dlm-admin.php:239
 msgid "Count unique IPs only"
-msgstr ""
+msgstr "Tæl kun unikke IP'er"
 
 #: includes/admin/class-dlm-admin.php:241
 msgid ""
 "If enabled, the counter for each download will only increment and create a "
 "log entry once per IP address."
-msgstr ""
+msgstr "Hvis aktiveret, forøges tælleren for hver downloadfil kun én gang for hver IP-adresse, og der logges kun én gang."
 
 #: includes/admin/class-dlm-admin.php:247
 msgid "Access"
-msgstr ""
+msgstr "Adgang"
 
 #: includes/admin/class-dlm-admin.php:252
 msgid "No Access Page"
-msgstr ""
+msgstr "Ingen adgang-side"
 
 #: includes/admin/class-dlm-admin.php:253
 msgid ""
 "Choose what page is displayed when the user has no access to a file. Don't "
 "forget to add the <code>[dlm_no_access]</code> shortcode to the page."
-msgstr ""
+msgstr "Vælg, hvilken side der vises, når brugeren ikke har adgang til en fil. Husk at tilføje <code>[dlm_no_access]</code>-kortkoden på siden."
 
 #: includes/admin/class-dlm-admin.php:259 includes/class-dlm-installer.php:41
 #: includes/class-dlm-upgrade-manager.php:54
@@ -548,7 +548,7 @@ msgid ""
 "ranges. IPv4 examples: <code>198.51.100.1</code> or "
 "<code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or "
 "<code>2001:db8::/32</code>."
-msgstr ""
+msgstr "Anfør IP-adresser, der skal sortlistes, 1 per linje. Brug IP/CIDR-netmaskeformat for interval. IPv4-eksempler: <code>198.51.100.1</code> eller <code>198.51.100.0/24</code>. IPv6-eksempler: <code>2001:db8::1</code> eller <code>2001:db8::/32</code>."
 
 #: includes/admin/class-dlm-admin.php:276
 msgid "Blacklist user agents"
@@ -574,13 +574,13 @@ msgstr "Udvidelser"
 msgid ""
 "Because your server is running on nginx, our .htaccess file can't protect "
 "your downloads."
-msgstr ""
+msgstr "Fordi din server kører på nginx, kan din .htaccess-fil ikke beskytte dine downloads."
 
 #: includes/admin/class-dlm-admin.php:412
 msgid ""
 "Please add the following rules to your nginx config to disable direct file "
 "access: %s"
-msgstr ""
+msgstr "Tilføj venligst de følgende regler til din nginx-konfiguration for at deaktivere direkte filadgang: %s"
 
 #: includes/admin/class-dlm-admin.php:451
 msgid "Settings successfully saved"
@@ -648,7 +648,7 @@ msgstr "Hvis du kan lide %sDownload Monitor%s, så giv os en %s★★★★★%s
 
 #: includes/admin/class-dlm-logging-list-table.php:63
 msgid "Delete"
-msgstr ""
+msgstr "Slet"
 
 #: includes/admin/class-dlm-logging-list-table.php:90
 msgid "Download Complete"
@@ -680,7 +680,7 @@ msgstr "IP-adresse"
 
 #: includes/admin/class-dlm-logging-list-table.php:192
 msgid "Log entries deleted"
-msgstr ""
+msgstr "Logoptegnelser slettet"
 
 #: includes/admin/class-dlm-logging-list-table.php:209
 msgid "Any status"
@@ -785,11 +785,11 @@ msgstr "Fildato"
 
 #: includes/admin/html-downloadable-file-version.php:69
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #: includes/admin/html-downloadable-file-version.php:72
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: includes/class-dlm-download-handler.php:277
 msgid "Password Required"
@@ -837,7 +837,7 @@ msgstr "Fil ikke fundet."
 
 #: includes/class-dlm-installer.php:165 includes/class-dlm-installer.php:174
 msgid "No Access"
-msgstr ""
+msgstr "Ingen adgang"
 
 #: includes/class-dlm-post-type-manager.php:21
 msgid "All Downloads"
