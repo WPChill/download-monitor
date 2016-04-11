@@ -107,7 +107,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 1.9.3: X =
+= 1.9.3: April 11, 2016 =
 * Tweak: Small rework of [downloads] loop. Downloads now filterable per download via dlm_shortcode_downloads_loop_download.
 * Tweak: We now report missing versions for removed downloads in logs, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Updated Danish translation, props [Georg Adamsen](https://github.com/GSAdev).
