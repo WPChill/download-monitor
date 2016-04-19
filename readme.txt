@@ -36,8 +36,19 @@ Download Monitor provides an interface for uploading and managing downloadable f
 > Want to see more? [Browse All Extensions](https://www.download-monitor.com/extensions/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-browse-all)
 
 = Documentation =
+We have a large Knowledge Base on our [Download Monitor website](https://www.download-monitor.com/kb/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation) that contains documentation about how to how to setup and use Download Monitor.
 
-Documentation can be found on the [Download Monitor website](https://www.download-monitor.com/documentation/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation).
+Are you a new Download Monitor user? Read these articles on how to get your files ready for download with Download Monitor:
+
+1. [How to install Download Monitor](https://www.download-monitor.com/kb/installation/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
+2. [How to add your first download in Download Monitor](https://www.download-monitor.com/kb/adding-downloads/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
+3. [How to list your first download on your website with the download shortcode](https://www.download-monitor.com/kb/shortcode-download/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
+
+More advanced topics that a lot of people find interesting:
+
+1. [Learn more about the different ways you can style your download buttons](https://www.download-monitor.com/kb/content-templates/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
+2. [Learn more about how to customize your download buttons](https://www.download-monitor.com/kb/overriding-content-templates/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
+3. [Learn more about what actions and filters are available in Download Monitor](https://www.download-monitor.com/kb/action-and-filter-reference/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
 
 = Contributing and reporting bugs =
 
