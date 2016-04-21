@@ -38,7 +38,9 @@ class DLM_Autoloader {
 			$file_path = $this->path;
 
 			// Check if we need to extend the class path
-			if ( strpos( $class_name, 'dlm_admin' ) === 0 ) {
+			if ( strpos( $class_name, 'dlm_admin_fields' ) === 0 ) {
+				$file_path .= 'admin/fields/';
+			}else if ( strpos( $class_name, 'dlm_admin' ) === 0 ) {
 				$file_path .= 'admin/';
 			} else if ( strpos( $class_name, 'dlm_widget' ) === 0 ) {
 				$file_path .= 'widgets/';
@@ -48,7 +50,7 @@ class DLM_Autoloader {
 
 			// Append file name to clas path
 			$file_path .= $file_name;
-
+			
 			// Check & load file
 			if ( file_exists( $file_path ) ) {
 				require_once( $file_path );

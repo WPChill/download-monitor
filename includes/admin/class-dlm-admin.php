@@ -157,6 +157,7 @@ class DLM_Admin {
 						),
 						array(
 							'name'  => 'dlm_custom_template',
+							'type'  => 'text',
 							'std'   => '',
 							'label' => __( 'Custom Template', 'download-monitor' ),
 							'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
@@ -184,6 +185,7 @@ class DLM_Admin {
 					array(
 						array(
 							'name'        => 'dlm_download_endpoint',
+							'type'        => 'text',
 							'std'         => 'download',
 							'placeholder' => __( 'download', 'download-monitor' ),
 							'label'       => __( 'Download Endpoint', 'download-monitor' ),
@@ -466,68 +468,24 @@ class DLM_Admin {
 					echo '<table class="form-table">';
 
 					foreach ( $section[1] as $option ) {
-
-						$placeholder = ( ! empty( $option['placeholder'] ) ) ? 'placeholder="' . $option['placeholder'] . '"' : '';
-
+						
 						echo '<tr valign="top"><th scope="row"><label for="setting-' . $option['name'] . '">' . $option['label'] . '</a></th><td>';
 
 						if ( ! isset( $option['type'] ) ) {
 							$option['type'] = '';
 						}
 
-						$value = get_option( $option['name'] );
+						// make new field object
+						$field = DLM_Admin_Fields_Field_Factory::make( $option );
 
-						switch ( $option['type'] ) {
+						// check if factory made a field
+						if ( null !== $field ) {
+							// render field
+							$field->render();
 
-							case "checkbox" :
-
-								?><label><input id="setting-<?php echo $option['name']; ?>"
-								                name="<?php echo $option['name']; ?>" type="checkbox"
-								                value="1" <?php checked( '1', $value ); ?> /> <?php echo $option['cb_label']; ?>
-								</label><?php
-
-								if ( $option['desc'] ) {
-									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
-								}
-
-								break;
-							case "textarea" :
-
-								?><textarea id="setting-<?php echo $option['name']; ?>" class="large-text" cols="50"
-								            rows="3"
-								            name="<?php echo $option['name']; ?>" <?php echo $placeholder; ?>><?php echo esc_textarea( $value ); ?></textarea><?php
-
-								if ( $option['desc'] ) {
-									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
-								}
-
-								break;
-							case "select" :
-
-								?><select id="setting-<?php echo $option['name']; ?>" class="regular-text"
-								          name="<?php echo $option['name']; ?>"><?php
-								foreach ( $option['options'] as $key => $name ) {
-									echo '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $name ) . '</option>';
-								}
-								?></select><?php
-
-								if ( $option['desc'] ) {
-									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
-								}
-
-								break;
-							default :
-
-								?><input id="setting-<?php echo $option['name']; ?>" class="regular-text" type="text"
-								         name="<?php echo $option['name']; ?>"
-								         value="<?php esc_attr_e( $value ); ?>" <?php echo $placeholder; ?> /><?php
-
-								if ( $option['desc'] ) {
-									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
-								}
-
-								break;
-
+							if ( $option['desc'] ) {
+								echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
+							}
 						}
 
 						echo '</td></tr>';
