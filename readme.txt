@@ -120,6 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 1.9.4: May 2, 2016 =
 * Tweak: Various cookie tweaks to prevent incorrect double logging entries.
+* Tweak: Added a Cookie Manager class to centralize cookie related tasks.
 
 = 1.9.3: April 11, 2016 =
 * Tweak: Small rework of [downloads] loop. Downloads now filterable per download via dlm_shortcode_downloads_loop_download.
