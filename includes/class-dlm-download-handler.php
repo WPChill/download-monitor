@@ -302,13 +302,13 @@ class DLM_Download_Handler {
 		$logging = new DLM_Logging();
 
 		// Check if logging is enabled and if unique ips is enabled
-		if ( $logging->is_logging_enabled() ) {
+		if ( $logging->is_logging_enabled() && false === DLM_Cookie_Manager::exists( $download ) ) {
 
 			// set create_log to true
 			$create_log = true;
 
 			// check if requester downloaded this version before
-			if ( '1' == get_option( 'dlm_count_unique_ips', '0' ) && true === $this->has_ip_downloaded_version( $version ) ) {
+			if ( $logging->is_count_unique_ips_only() && true === $logging->has_ip_downloaded_version( $version ) ) {
 				$create_log = false;
 			}
 
@@ -390,14 +390,16 @@ class DLM_Download_Handler {
 		}
 
 		// check if user downloaded this version in the past minute
-		if ( empty( $_COOKIE['wp_dlm_downloading'] ) || $download->get_the_version_number() != $_COOKIE['wp_dlm_downloading'] ) {
+		if ( false == DLM_Cookie_Manager::exists( $download ) ) {
 
+			// DLM Logging object
+			$logger = new DLM_Logging();
 
 			// bool if we need to increment download count
 			$increment_download_count = true;
 
 			// check if unique ips option is enabled and if so, if visitor already downloaded this file version
-			if ( '1' == get_option( 'dlm_enable_logging' ) && '1' == get_option( 'dlm_count_unique_ips' ) && true === $this->has_ip_downloaded_version( $version ) ) {
+			if ( $logger->is_logging_enabled() && $logger->is_count_unique_ips_only() && true === $logger->has_ip_downloaded_version( $version ) ) {
 				$increment_download_count = false;
 			}
 
@@ -411,7 +413,7 @@ class DLM_Download_Handler {
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 
 			// Set cookie to prevent double logging
-			setcookie( 'wp_dlm_downloading', $download->get_the_version_number(), time() + 60, COOKIEPATH, COOKIE_DOMAIN, false, true );
+			DLM_Cookie_Manager::set_cookie( $download );
 		}
 
 		// Redirect to the file...
@@ -626,16 +628,4 @@ class DLM_Download_Handler {
 		return $status;
 	}
 
-	/**
-	 * Check if visitor has downloaded version in the past 24 hours
-	 *
-	 * @param DLM_Download_Version $version
-	 *
-	 * @return bool
-	 */
-	private function has_ip_downloaded_version( $version ) {
-		global $wpdb;
-
-		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE type = 'download' AND `version_id` = %d AND `user_ip` = %s", $version->id, DLM_Utils::get_visitor_ip() ) ) ) > 0 );
-	}
 }
