@@ -3,8 +3,8 @@ Contributors: never5, barrykooij, mikejolley
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.5
-Stable tag: 1.9.3
+Tested up to: 4.5.1
+Stable tag: 1.9.4
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
