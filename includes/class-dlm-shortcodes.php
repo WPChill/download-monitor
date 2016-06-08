@@ -35,13 +35,15 @@ class DLM_Shortcodes {
 	public function total_downloads() {
 		global $wpdb;
 
-		return $wpdb->get_var( "
+		$total = $wpdb->get_var( "
 			SELECT SUM( meta_value ) FROM $wpdb->postmeta
 			LEFT JOIN $wpdb->posts on $wpdb->postmeta.post_id = $wpdb->posts.ID
 			WHERE meta_key = '_download_count'
 			AND post_type = 'dlm_download'
 			AND post_status = 'publish'
 		" );
+		
+		return apply_filters( 'dlm_total_downloads', $total );
 	}
 
 	/**
