@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "POT-Creation-Date: 2016-07-06 10:25+0100\n"
-"PO-Revision-Date: 2016-07-06 11:17+0100\n"
+"PO-Revision-Date: 2016-07-06 11:22+0100\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language: pt_PT\n"
@@ -836,7 +836,7 @@ msgstr[1] "Descarregado %s vezes"
 
 #: includes/admin/html-downloadable-file-version.php:23
 msgid "File URL(s)"
-msgstr "URL(s) do(s) ficheiro(s)"
+msgstr "URL do(s) ficheiro(s)"
 
 #: includes/admin/html-downloadable-file-version.php:26
 msgid ""
