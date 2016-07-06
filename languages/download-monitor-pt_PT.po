@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "POT-Creation-Date: 2016-07-06 10:25+0100\n"
-"PO-Revision-Date: 2016-07-06 11:00+0100\n"
+"PO-Revision-Date: 2016-07-06 11:17+0100\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language-Team: Pedro Mendonça <ped.gaspar@gmail.com>\n"
 "Language: pt_PT\n"
@@ -766,7 +766,7 @@ msgstr "Qualquer estado"
 
 #: includes/admin/class-dlm-logging-list-table.php:215
 msgid "Failed"
-msgstr "Falhou"
+msgstr "Falhado"
 
 #: includes/admin/class-dlm-logging-list-table.php:217
 msgid "Redirected"
@@ -774,7 +774,7 @@ msgstr "Redireccionado"
 
 #: includes/admin/class-dlm-logging-list-table.php:219
 msgid "Completed"
-msgstr "Concluída"
+msgstr "Concluído"
 
 #: includes/admin/class-dlm-logging-list-table.php:238
 msgid "Show all dates"
@@ -932,7 +932,7 @@ msgstr "Descarregamentos"
 
 #: includes/class-dlm-post-type-manager.php:24
 msgid "Add New"
-msgstr "Adicionar nova"
+msgstr "Adicionar novo"
 
 #: includes/class-dlm-post-type-manager.php:25
 msgid "Add Download"
