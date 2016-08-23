@@ -528,11 +528,13 @@ class DLM_Download {
 	 * @return array
 	 */
 	public function get_file_versions() {
+
 		if ( $this->files ) {
 			return $this->files;
 		}
 
 		$version_ids = $this->get_file_version_ids();
+
 		$this->files = array();
 
 		foreach ( $version_ids as $version_id ) {
