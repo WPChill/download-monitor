@@ -28,8 +28,8 @@ class DLM_Admin_CPT {
 		add_filter( 'request', array( $this, 'sort_columns' ) );
 
 		// bulk and quick edit
-		add_action( 'bulk_edit_custom_box', array( $this, 'bulk_quick_edit' ), 10, 2 );
-		add_action( 'quick_edit_custom_box',  array( $this, 'bulk_quick_edit' ), 10, 2 );
+		add_action( 'bulk_edit_custom_box', array( $this, 'bulk_edit' ), 10, 2 );
+		add_action( 'quick_edit_custom_box',  array( $this, 'quick_edit' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'bulk_and_quick_edit_save_post' ), 10, 2 );
 	}
 
@@ -368,7 +368,7 @@ class DLM_Admin_CPT {
 	 * @param mixed $column_name
 	 * @param mixed $post_type
 	 */
-	public function bulk_quick_edit( $column_name, $post_type ) {
+	public function quick_edit( $column_name, $post_type ) {
 
 		// only on our PT
 		if ( 'dlm_download' != $post_type || 'featured' != $column_name ) {
@@ -376,8 +376,34 @@ class DLM_Admin_CPT {
 		}
 
 		// nonce field
-		wp_nonce_field( 'dlm_bulk_quick_edit_nonce', 'dlm_bulk_quick_edit_nonce' );
+		wp_nonce_field( 'dlm_quick_edit_nonce', 'dlm_quick_edit_nonce' );
 
+		$this->bulk_quick_edit_fields();
+	}
+
+	/**
+	 * Custom bulk edit - form
+	 *
+	 * @param mixed $column_name
+	 * @param mixed $post_type
+	 */
+	public function bulk_edit( $column_name, $post_type ) {
+
+		// only on our PT
+		if ( 'dlm_download' != $post_type || 'featured' != $column_name ) {
+			return;
+		}
+
+		// nonce field
+		wp_nonce_field( 'dlm_bulk_edit_nonce', 'dlm_bulk_edit_nonce' );
+
+		$this->bulk_quick_edit_fields();
+	}
+
+	/**
+	 * Output the build and quick edit fields
+	 */
+	private function bulk_quick_edit_fields() {
 		?>
 		<fieldset class="inline-edit-col-right inline-edit-col-dlm">
 			<div class="inline-edit-col inline-edit-col-dlm-inner">
@@ -424,27 +450,60 @@ class DLM_Admin_CPT {
 			return $post_id;
 		}
 
-		// Check nonces
-		if ( ! isset( $_REQUEST['dlm_bulk_quick_edit_nonce'] ) ) {
-			return $post_id;
-		}
-		if ( ! wp_verify_nonce( $_REQUEST['dlm_bulk_quick_edit_nonce'], 'dlm_bulk_quick_edit_nonce' ) ) {
-			return $post_id;
+		// handle bulk
+		if ( isset( $_REQUEST['dlm_bulk_edit_nonce'] ) ) {
+
+			// check nonce
+			if ( ! wp_verify_nonce( $_REQUEST['dlm_bulk_edit_nonce'], 'dlm_bulk_edit_nonce' ) ) {
+				return $post_id;
+			}
+
+			// set featured
+			if ( isset( $_REQUEST['_featured'] ) ) {
+				update_post_meta( $post_id, '_featured', 'yes' );
+			}
+
+			// set members only
+			if ( isset( $_REQUEST['_members_only'] ) ) {
+				update_post_meta( $post_id, '_members_only', 'yes' );
+			}
+
+			// set redirect only
+			if ( isset( $_REQUEST['_redirect_only'] ) ) {
+				update_post_meta( $post_id, '_redirect_only', 'yes' );
+			}
+
 		}
 
-		// set featured
-		if ( isset( $_REQUEST['_featured'] ) ) {
-			update_post_meta( $post_id, '_featured', 'yes' );
-		}
+		// handle quick
+		if ( isset( $_REQUEST['dlm_quick_edit_nonce'] ) ) {
 
-		// set members only
-		if ( isset( $_REQUEST['_members_only'] ) ) {
-			update_post_meta( $post_id, '_members_only', 'yes' );
-		}
+			// check nonce
+			if ( ! wp_verify_nonce( $_REQUEST['dlm_quick_edit_nonce'], 'dlm_quick_edit_nonce' ) ) {
+				return $post_id;
+			}
 
-		// set redirect only
-		if ( isset( $_REQUEST['_redirect_only'] ) ) {
-			update_post_meta( $post_id, '_redirect_only', 'yes' );
+			// set featured
+			if ( isset( $_REQUEST['_featured'] ) ) {
+				update_post_meta( $post_id, '_featured', 'yes' );
+			} else {
+				update_post_meta( $post_id, '_featured', 'no' );
+			}
+
+			// set members only
+			if ( isset( $_REQUEST['_members_only'] ) ) {
+				update_post_meta( $post_id, '_members_only', 'yes' );
+			} else {
+				update_post_meta( $post_id, '_members_only', 'no' );
+			}
+
+			// set redirect only
+			if ( isset( $_REQUEST['_redirect_only'] ) ) {
+				update_post_meta( $post_id, '_redirect_only', 'yes' );
+			} else {
+				update_post_meta( $post_id, '_redirect_only', 'no' );
+			}
+
 		}
 
 		return $post_id;
