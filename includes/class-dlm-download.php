@@ -477,7 +477,7 @@ class DLM_Download {
 	 * @access public
 	 * @return bool
 	 */
-	function is_featured() {
+	public function is_featured() {
 		return ( $this->featured == 'yes' ) ? true : false;
 	}
 
@@ -487,7 +487,7 @@ class DLM_Download {
 	 * @access public
 	 * @return bool
 	 */
-	function is_members_only() {
+	public function is_members_only() {
 		return ( $this->members_only == 'yes' ) ? true : false;
 	}
 
@@ -497,7 +497,7 @@ class DLM_Download {
 	 * @access public
 	 * @return bool
 	 */
-	function redirect_only() {
+	public function redirect_only() {
 		return ( $this->redirect_only == 'yes' ) ? true : false;
 	}
 
@@ -507,7 +507,7 @@ class DLM_Download {
 	 * @access public
 	 * @return array
 	 */
-	function get_file_version_ids() {
+	public function get_file_version_ids() {
 		if ( ! is_array( $this->file_version_ids ) ) {
 			$transient_name = 'dlm_file_version_ids_' . $this->id;
 
