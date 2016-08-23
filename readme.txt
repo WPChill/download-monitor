@@ -120,6 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 1.9.5: August 23, 2016 =
 * Tweak: Updated settings screen description for custom templates.
+* Tweak: Download Information input fields are now readonly since these fields are informational only. Props [kraftner](https://github.com/kraftner).
 * Tweak: Removed code that triggered PHP7 incompatibility false positives in PHP7 compatibility scans.
 * Tweak: Removed old JSON library since default JSON functions are available from PHP 5.2 and up.
 
