@@ -2,13 +2,14 @@
 # This file is distributed under the GPL v3.
 # Translators:
 # Alex Efremov <alex.efremov.dev@gmail.com>, 2016
+# Володя <meetness@yahoo.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: https://github.com/download-monitor/download-monitor/issues\n"
 "POT-Creation-Date: 2016-03-27 14:45:08+00:00\n"
-"PO-Revision-Date: 2016-03-27 14:46+0000\n"
-"Last-Translator: Barry Kooij <mail@barrykooij.nl>\n"
+"PO-Revision-Date: 2016-06-06 13:06+0000\n"
+"Last-Translator: Володя <meetness@yahoo.com>\n"
 "Language-Team: Ukrainian (Ukraine) (http://www.transifex.com/barrykooijplugins/download-monitor/language/uk_UA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,13 +75,13 @@ msgstr "Зображення"
 #: includes/widgets/class-dlm-widget-downloads.php:169
 #: includes/widgets/class-dlm-widget-downloads.php:195
 msgid "Title"
-msgstr ""
+msgstr "Заголовок"
 
 #: includes/admin/class-dlm-admin-cpt.php:200
 #: includes/admin/class-dlm-admin-writepanels.php:78
 #: includes/widgets/class-dlm-widget-downloads.php:199
 msgid "ID"
-msgstr ""
+msgstr "Ідентифікатор"
 
 #: includes/admin/class-dlm-admin-cpt.php:201
 #: includes/admin/class-dlm-logging-list-table.php:168
@@ -103,7 +104,7 @@ msgstr "Категорії"
 #: includes/class-dlm-taxonomy-manager.php:58
 #: includes/class-dlm-taxonomy-manager.php:60
 msgid "Tags"
-msgstr ""
+msgstr "Теги"
 
 #: includes/admin/class-dlm-admin-cpt.php:205
 #: includes/admin/class-dlm-admin-dashboard.php:77
@@ -114,21 +115,21 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin-cpt.php:206
 msgid "Featured"
-msgstr ""
+msgstr "Вибране"
 
 #: includes/admin/class-dlm-admin-cpt.php:207
 #: includes/admin/class-dlm-admin-cpt.php:388
 #: includes/admin/class-dlm-admin-writepanels.php:124
 msgid "Members only"
-msgstr ""
+msgstr "Цей вміст є тільки для користувачів."
 
 #: includes/admin/class-dlm-admin-cpt.php:208
 msgid "Redirect only"
-msgstr ""
+msgstr "Тільки перенаправляти"
 
 #: includes/admin/class-dlm-admin-cpt.php:209
 msgid "Date posted"
-msgstr ""
+msgstr "Дата публікації"
 
 #: includes/admin/class-dlm-admin-cpt.php:252
 #: includes/admin/class-dlm-admin-cpt.php:259
@@ -162,7 +163,7 @@ msgstr ""
 #: includes/admin/class-dlm-logging-list-table.php:167
 #: includes/class-dlm-post-type-manager.php:23
 msgid "Download"
-msgstr ""
+msgstr "Скачати"
 
 #: includes/admin/class-dlm-admin-extensions.php:45
 #: includes/admin/class-dlm-admin.php:380
@@ -217,11 +218,11 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin-media-insert.php:190
 msgid "Template"
-msgstr ""
+msgstr "Шаблон"
 
 #: includes/admin/class-dlm-admin-media-insert.php:192
 msgid "Template Name"
-msgstr ""
+msgstr "Назва шаблону"
 
 #: includes/admin/class-dlm-admin-media-insert.php:194
 msgid ""
@@ -268,11 +269,11 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin-media-insert.php:300
 msgid "Allowed Files"
-msgstr ""
+msgstr "Дозволені файли"
 
 #: includes/admin/class-dlm-admin-media-insert.php:350
 msgid "Please wait..."
-msgstr "Зачекайте буль ласка..."
+msgstr "Зачекайте будь-ласка..."
 
 #: includes/admin/class-dlm-admin-scripts.php:108
 msgid "Are you sure you want to delete this file ? "
@@ -332,7 +333,7 @@ msgstr "Розкрити все"
 
 #: includes/admin/class-dlm-admin.php:104
 msgid "Select Page"
-msgstr ""
+msgstr "Вибрані сторінки"
 
 #: includes/admin/class-dlm-admin.php:131
 msgid "General"
@@ -340,7 +341,7 @@ msgstr "Головна"
 
 #: includes/admin/class-dlm-admin.php:136
 msgid "Default Template"
-msgstr ""
+msgstr "Шаблон по замовчуванню"
 
 #: includes/admin/class-dlm-admin.php:137
 msgid ""
@@ -397,7 +398,7 @@ msgstr ""
 #: includes/admin/class-dlm-admin.php:230
 #: includes/admin/class-dlm-admin.php:240
 msgid "Enable"
-msgstr ""
+msgstr "активувати"
 
 #: includes/admin/class-dlm-admin.php:160
 msgid ""
@@ -541,7 +542,7 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin.php:268
 msgid "Blacklist IPs"
-msgstr ""
+msgstr "Чорний список IP адрес"
 
 #: includes/admin/class-dlm-admin.php:269
 msgid ""
@@ -569,7 +570,7 @@ msgstr "Налаштування"
 
 #: includes/admin/class-dlm-admin.php:380 includes/class-wp-dlm.php:215
 msgid "Extensions"
-msgstr ""
+msgstr "Розширення"
 
 #: includes/admin/class-dlm-admin.php:411
 msgid ""
@@ -601,7 +602,7 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin.php:564
 msgid "Delete Logs"
-msgstr ""
+msgstr "Очистити журнал"
 
 #: includes/admin/class-dlm-admin.php:618
 msgid "Version ID"
@@ -617,15 +618,15 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin.php:621
 msgid "User Login"
-msgstr ""
+msgstr "Логін користувача"
 
 #: includes/admin/class-dlm-admin.php:622
 msgid "User Email"
-msgstr ""
+msgstr "Email користувача"
 
 #: includes/admin/class-dlm-admin.php:623
 msgid "User IP"
-msgstr ""
+msgstr "IP користувача"
 
 #: includes/admin/class-dlm-admin.php:624
 #: includes/admin/class-dlm-logging-list-table.php:171
@@ -649,7 +650,7 @@ msgstr ""
 
 #: includes/admin/class-dlm-logging-list-table.php:63
 msgid "Delete"
-msgstr ""
+msgstr "Знищити"
 
 #: includes/admin/class-dlm-logging-list-table.php:90
 msgid "Download Complete"
@@ -677,7 +678,7 @@ msgstr "Користувач"
 
 #: includes/admin/class-dlm-logging-list-table.php:170
 msgid "IP Address"
-msgstr ""
+msgstr "IP адреса"
 
 #: includes/admin/class-dlm-logging-list-table.php:192
 msgid "Log entries deleted"
@@ -751,9 +752,9 @@ msgstr ""
 #: includes/admin/html-downloadable-file-version.php:5
 msgid "Downloaded %s time"
 msgid_plural "Downloaded %s times"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Скачано %s раз"
+msgstr[1] "Скачано %s разів"
+msgstr[2] "Скачано %s разів"
 
 #: includes/admin/html-downloadable-file-version.php:23
 msgid "File URL(s)"
@@ -814,7 +815,7 @@ msgstr ""
 #: includes/class-dlm-download-handler.php:385
 #: includes/class-dlm-download-handler.php:499
 msgid "Download Error"
-msgstr ""
+msgstr "Помилка завантаження"
 
 #: includes/class-dlm-download-handler.php:341
 #: includes/class-dlm-download-handler.php:349
@@ -839,7 +840,7 @@ msgstr "Файл не знайдено."
 
 #: includes/class-dlm-installer.php:165 includes/class-dlm-installer.php:174
 msgid "No Access"
-msgstr ""
+msgstr "Доступ заборонено."
 
 #: includes/class-dlm-post-type-manager.php:21
 msgid "All Downloads"
@@ -851,7 +852,7 @@ msgstr ""
 
 #: includes/class-dlm-post-type-manager.php:24
 msgid "Add New"
-msgstr ""
+msgstr "Додати нове"
 
 #: includes/class-dlm-post-type-manager.php:25
 msgid "Add Download"
@@ -966,19 +967,19 @@ msgstr ""
 
 #: includes/class-wp-dlm.php:216
 msgid "Docs"
-msgstr ""
+msgstr "Документація"
 
 #: includes/product/class-dlm-product.php:149
 msgid "License successfully activated."
-msgstr ""
+msgstr "Ліцензія успішно активована."
 
 #: includes/widgets/class-dlm-widget-downloads.php:28
 msgid "Display a list of your downloads."
-msgstr ""
+msgstr "Відображення списку завантажень."
 
 #: includes/widgets/class-dlm-widget-downloads.php:30
 msgid "Downloads List"
-msgstr ""
+msgstr "Список завантажень"
 
 #: includes/widgets/class-dlm-widget-downloads.php:55
 #: includes/widgets/class-dlm-widget-downloads.php:159
@@ -987,7 +988,7 @@ msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:176
 msgid "Limit"
-msgstr ""
+msgstr "Обмеження"
 
 #: includes/widgets/class-dlm-widget-downloads.php:183
 msgid "Output template"
@@ -995,7 +996,7 @@ msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:187
 msgid "Default template"
-msgstr ""
+msgstr "Шаблон по замовчуванню"
 
 #: includes/widgets/class-dlm-widget-downloads.php:191
 msgid "Order by"
@@ -1003,27 +1004,27 @@ msgstr "Сортувати за"
 
 #: includes/widgets/class-dlm-widget-downloads.php:197
 msgid "Random"
-msgstr ""
+msgstr "Випадковий"
 
 #: includes/widgets/class-dlm-widget-downloads.php:201
 msgid "Date added"
-msgstr ""
+msgstr "Додано"
 
 #: includes/widgets/class-dlm-widget-downloads.php:203
 msgid "Date modified"
-msgstr ""
+msgstr "Змінено"
 
 #: includes/widgets/class-dlm-widget-downloads.php:210
 msgid "Order"
-msgstr ""
+msgstr "Порядок"
 
 #: includes/widgets/class-dlm-widget-downloads.php:214
 msgid "ASC"
-msgstr ""
+msgstr "ASC"
 
 #: includes/widgets/class-dlm-widget-downloads.php:216
 msgid "DESC"
-msgstr ""
+msgstr "Опис"
 
 #: includes/widgets/class-dlm-widget-downloads.php:224
 msgid "Show only featured downloads"
@@ -1050,7 +1051,7 @@ msgstr ""
 
 #: templates/content-download-box.php:26
 msgid "Download File"
-msgstr ""
+msgstr "Звантажити Файл"
 
 #: templates/content-download-button.php:11
 msgid "Download &ldquo;%s&rdquo;"
@@ -1085,7 +1086,7 @@ msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "https://www.never5.com"
-msgstr ""
+msgstr "https://www.never5.com"
 
 #: includes/admin/class-dlm-admin-media-insert.php:213
 msgctxt "Drop file here *or* select file"
