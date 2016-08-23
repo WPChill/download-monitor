@@ -159,7 +159,7 @@ class DLM_Admin {
 							'name'  => 'dlm_custom_template',
 							'std'   => '',
 							'label' => __( 'Custom Template', 'download-monitor' ),
-							'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
+							'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>button</code>, the <code>content-download-button.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
 						),
 						array(
 							'name'     => 'dlm_xsendfile_enabled',
