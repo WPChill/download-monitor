@@ -118,6 +118,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 1.9.5: August 23, 2016 =
+* Tweak: Updated settings screen description for custom templates.
+* Tweak: Removed code that triggered PHP7 incompatibility false positives in PHP7 compatibility scans.
+* Tweak: Removed old JSON library since default JSON functions are available from PHP 5.2 and up.
+
 = 1.9.4: May 2, 2016 =
 * Tweak: Various cookie tweaks to prevent incorrect double logging entries.
 * Tweak: Added a Cookie Manager class to centralize cookie related tasks.
