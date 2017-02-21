@@ -149,25 +149,9 @@ class WP_DLM {
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
-		add_action( 'admin_init', array( $this, 'load_extensions' ) );
-	}
 
-	public function load_extensions() {
-
-		// Load the registered extensions
-		$registered_extensions = apply_filters( 'dlm_extensions', array() );
-
-		// Check if we've got extensions
-		if ( count( $registered_extensions ) > 0 ) {
-
-			// Don't block local requests
-			add_filter( 'block_local_requests', '__return_false' );
-
-			// Load products
-			DLM_Product_Manager::get()->load_products( $registered_extensions );
-
-		}
-
+		// setup product manager
+		DLM_Product_Manager::get()->setup();
 	}
 
 	/**
