@@ -31,6 +31,8 @@ class DLM_Product {
 	 */
 	private $plugin_name;
 
+	private $version = false;
+
 	/**
 	 * @var DLM_Product_License
 	 */
@@ -41,11 +43,14 @@ class DLM_Product {
 	 *
 	 * @param String $product_id
 	 */
-	function __construct( $product_id ) {
+	function __construct( $product_id, $version=false ) {
 		$this->product_id = $product_id;
 
 		// The plugin file name
 		$this->plugin_name = $this->product_id . '/' . $this->product_id . '.php';
+
+		// Set plugin version
+		$this->version = $version;
 	}
 
 	/**
@@ -217,6 +222,8 @@ class DLM_Product {
 	 * Check for plugin updates
 	 *
 	 * @var $check_for_updates_data
+	 *
+	 * @return array
 	 */
 	public function check_for_updates( $check_for_updates_data ) {
 
@@ -234,7 +241,7 @@ class DLM_Product {
 		}
 
 		// Get current version
-		$current_ver = $check_for_updates_data->checked[ $this->plugin_name ];
+		$current_ver = ( $this->version !== false ) ? $this->version : $check_for_updates_data->checked[ $this->plugin_name ];
 
 		// The request
 		$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_UPDATE . '&' . http_build_query( array(
@@ -290,6 +297,7 @@ class DLM_Product {
 	 */
 	public function plugins_api( $false, $action, $args ) {
 
+
 		// License
 		$license = $this->get_license();
 
@@ -299,13 +307,13 @@ class DLM_Product {
 		}
 
 		// Check if this request if for this product
-		if ( ! isset( $args->slug ) || ( $args->slug !== $this->plugin_name ) ) {
+		if ( ! isset( $args->slug ) || ( $args->slug !== $this->product_id ) ) {
 			return $false;
 		}
 
 		// Get the current version
 		$plugin_info = get_site_transient( 'update_plugins' );
-		$current_ver = isset( $plugin_info->checked[ $this->plugin_name ] ) ? $plugin_info->checked[ $this->plugin_name ] : '';
+		$current_ver = ( $this->version !== false ) ? $this->version : ( isset( $plugin_info->checked[ $this->plugin_name ] ) ? $plugin_info->checked[ $this->plugin_name ] : '' );
 
 		$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_UPDATE . '&' . http_build_query( array(
 				'request'        => 'plugininformation',

@@ -52,15 +52,23 @@ class DLM_Product_Manager {
 			// Loop
 			foreach ( $extensions as $extension ) {
 
+				// backwards compat
+				if ( ! is_array( $extension ) ) {
+					$extension = array(
+						'file'    => $extension,
+						'version' => false
+					);
+				}
+
 				// Setup new Product
-				$product = new DLM_Product( $extension );
+				$product = new DLM_Product( $extension['file'], $extension['version'] );
 
 				// Setup plugin actions and filters
 				add_action( 'pre_set_site_transient_update_plugins', array( $product, 'check_for_updates' ) );
 				add_filter( 'plugins_api', array( $product, 'plugins_api' ), 10, 3 );
 
 				// Add product to products property
-				$this->products[ $extension ] = $product;
+				$this->products[ $extension['file'] ] = $product;
 			}
 
 		}
