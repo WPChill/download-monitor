@@ -27,10 +27,18 @@ class DLM_Product {
 	private $product_id;
 
 	/**
+	 * @var string
+	 */
+	private $product_name = "";
+
+	/**
 	 * @var String
 	 */
 	private $plugin_name;
 
+	/**
+	 * @var string
+	 */
 	private $version = false;
 
 	/**
@@ -42,12 +50,22 @@ class DLM_Product {
 	 * Constructor
 	 *
 	 * @param String $product_id
+	 * @param string $version
+	 * @param string $product_name
 	 */
-	function __construct( $product_id, $version=false ) {
+	function __construct( $product_id, $version = false, $product_name = "" ) {
 		$this->product_id = $product_id;
 
 		// The plugin file name
 		$this->plugin_name = $this->product_id . '/' . $this->product_id . '.php';
+
+		// set product name
+		$this->product_name = $product_name;
+
+		// BC
+		if ( empty( $this->product_name ) ) {
+			$this->product_name = $this->product_id;
+		}
 
 		// Set plugin version
 		$this->version = $version;
@@ -65,6 +83,20 @@ class DLM_Product {
 	 */
 	public function set_product_id( $product_id ) {
 		$this->product_id = $product_id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_product_name() {
+		return $this->product_name;
+	}
+
+	/**
+	 * @param string $product_name
+	 */
+	public function set_product_name( $product_name ) {
+		$this->product_name = $product_name;
 	}
 
 	/**
@@ -151,7 +183,10 @@ class DLM_Product {
 				$this->set_license( $license );
 
 				// Return Message
-				return array( 'result' => 'success', 'message' => __( 'License successfully activated.', 'download-monitor' ) );
+				return array(
+					'result'  => 'success',
+					'message' => __( 'License successfully activated.', 'download-monitor' )
+				);
 
 			} elseif ( $activate_results === false ) {
 				throw new Exception( 'Connection failed to the License Key API server. Try again later.' );
@@ -349,6 +384,28 @@ class DLM_Product {
 		if ( isset( $response ) && is_object( $response ) && false !== $response ) {
 			return $response;
 		}
+	}
+
+	/**
+	 * Gets a Google Analytics Campaign URL for this product
+	 *
+	 * @param string $link_identifier
+	 *
+	 * @return string The full URL
+	 */
+	public function get_tracking_url( $link_identifier = '' ) {
+		$tracking_vars = array(
+			'utm_campaign' => $this->get_product_name() . '_licensing',
+			'utm_medium'   => 'link',
+			'utm_source'   => $this->get_product_name(),
+			'utm_content'  => $link_identifier
+		);
+
+		// url encode tracking vars
+		$tracking_vars = urlencode_deep( $tracking_vars );
+		$query_string  = build_query( $tracking_vars );
+
+		return 'https://www.download-monitor.com/extensions/' . str_ireplace( 'dlm-', '', $this->get_product_id() ) . '?' . $query_string;
 	}
 
 }

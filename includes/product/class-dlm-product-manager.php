@@ -40,11 +40,40 @@ class DLM_Product_Manager {
 	}
 
 	/**
+	 * Setup Product Manager
+	 */
+	public function setup() {
+		add_action( 'admin_init', array( $this, 'load_extensions' ) );
+		add_action( 'admin_notices', array( $this, 'display_admin_notices' ) );
+	}
+
+	/**
+	 * Load extensions
+	 * @hooked admin_init
+	 */
+	public function load_extensions() {
+		// Load the registered extensions
+		$registered_extensions = apply_filters( 'dlm_extensions', array() );
+
+		// Check if we've got extensions
+		if ( count( $registered_extensions ) > 0 ) {
+
+			// Don't block local requests
+			add_filter( 'block_local_requests', '__return_false' );
+
+			// Load products
+			$this->load_products( $registered_extensions );
+
+		}
+	}
+
+
+	/**
 	 * Load Products
 	 *
 	 * @param array $extensions
 	 */
-	public function load_products( $extensions ) {
+	private function load_products( $extensions ) {
 
 		// Check
 		if ( count( $extensions ) > 0 ) {
@@ -56,12 +85,13 @@ class DLM_Product_Manager {
 				if ( ! is_array( $extension ) ) {
 					$extension = array(
 						'file'    => $extension,
-						'version' => false
+						'version' => false,
+						'name'    => "",
 					);
 				}
 
 				// Setup new Product
-				$product = new DLM_Product( $extension['file'], $extension['version'] );
+				$product = new DLM_Product( $extension['file'], $extension['version'], $extension['name'] );
 
 				// Setup plugin actions and filters
 				add_action( 'pre_set_site_transient_update_plugins', array( $product, 'check_for_updates' ) );
@@ -84,6 +114,43 @@ class DLM_Product_Manager {
 		return $this->products;
 	}
 
+	public function display_admin_notices() {
+
+		// get products
+		$products = $this->get_products();
+
+		// loop products
+		if ( count( $products ) > 0 ) {
+			foreach ( $products as $product ) {
+
+				// check if product is correctly activated
+				if ( true !== $product->get_license()->is_active() ) {
+
+					$is_dlm_page = ( isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] ) ? true : false;
+					$hide_notice = get_option( 'dlm_extension_license_hide_' . $product->get_product_id(), '0' );
+
+					if ( '0' == $hide_notice || $is_dlm_page ) {
+						var_dump( $product );
+
+						$message = '<b>Warning!</b> Your %s license is inactive which means you\'re missing out on updates and support! <a href="%s">Activate your license</a> or <a href="%s" target="_blank">get a license here</a>.';
+						$message = sprintf( __( $message, 'download-monitor' ), $product->get_product_name(), admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions#installed-extensions' ), $product->get_tracking_url( 'activate-license-notice' ) );
+
+						//
+						?>
+						<div class="notice notice-warning is-dismissible"
+						     style="padding-right: 40px; position: relative;">
+							<p><?php echo $message; ?></p>
+						</div>
+						<?php
+					}
+
+
+				}
+
+			}
+		}
+
+	}
 
 	/**
 	 * Handle errors from the API
