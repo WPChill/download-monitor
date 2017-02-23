@@ -124,6 +124,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Settings screen hash tweaks.
 * Tweak: Display correct tab on settings save, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Fixed issue with some dismissible notices.
+* Tweak: Add Portuguese (pt_PT) translation, props [Pedro Mendonça](https://github.com/pedro-mendonca).
 
 = 1.9.5: August 23, 2016 =
 * Tweak: Fixed a bug where Download Options couldn't be checked off in quick edit.
