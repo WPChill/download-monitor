@@ -675,6 +675,8 @@ class DLM_Admin {
 					$row[] = $user->user_email;
 				}
 
+				unset( $user );
+
 				$row[]  = $item->user_ip;
 				$row[]  = $item->user_agent;
 				$row[]  = $item->download_date;
