@@ -27,6 +27,14 @@ class DLM_Admin_Scripts {
 			DLM_VERSION
 		);
 
+		// Notices JS
+		wp_enqueue_script(
+			'dlm_notices',
+			plugins_url( '/assets/js/notices' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+			array( 'jquery' ),
+			DLM_VERSION
+		);
+
 		// Make JavaScript strings translatable
 		wp_localize_script( 'dlm_insert_download', 'dlm_id_strings', $this->get_strings( 'edit-post' ) );
 
