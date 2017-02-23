@@ -1,16 +1,20 @@
 jQuery( function ( $ ) {
 
-	$( '.nav-tab-wrapper a' ).click( function () {
-
-		if ( $( this ).hasClass( 'nav-tab-active' ) ) {
+	function dlm_set_active_tab( elm ) {
+		if ( $( elm ).hasClass( 'nav-tab-active' ) ) {
 			return false;
 		}
 
 		$( '.settings_panel' ).hide();
 		$( '.nav-tab-active' ).removeClass( 'nav-tab-active' );
-		$( $( this ).attr( 'href' ) ).show();
-		$( this ).addClass( 'nav-tab-active' );
+		$( $( elm ).attr( 'href' ) ).show();
+		$( elm ).addClass( 'nav-tab-active' );
+		$( '#setting-dlm_settings_tab_saved' ).val( $( elm ).attr( 'href' ).replace( "#settings-", "" ) );
 		return true;
+	}
+
+	$( '.nav-tab-wrapper a' ).click( function () {
+		return dlm_set_active_tab( $( this ) );
 	} );
 
 	$( '#setting-dlm_default_template' ).change( function () {
@@ -37,9 +41,20 @@ jQuery( function ( $ ) {
 		$( '.nav-tab-wrapper a:first' ).click();
 	}
 
+	// listen to hash changes
 	$( window ).bind( 'hashchange', function ( e ) {
 		var active_tab = window.location.hash.replace( '#', '' );
 		$( '.nav-tab-wrapper a#dlm-tab-' + active_tab ).click();
+	} );
+
+	$( document ).ready( function () {
+		// dlm_last_settings_tab is only set when settings are saved and the page is reloaded
+		if ( typeof dlm_settings_tab_saved !== 'undefined' ) {
+			var elm = $( '.nav-tab-wrapper a[href="#settings-' + dlm_settings_tab_saved + '"]' );
+			if ( typeof elm !== 'undefined' ) {
+				dlm_set_active_tab( elm );
+			}
+		}
 	} );
 
 } );

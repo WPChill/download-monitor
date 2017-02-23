@@ -302,6 +302,7 @@ class DLM_Admin {
 	public function register_settings() {
 		$this->init_settings();
 
+		// register our options and settings
 		foreach ( $this->settings as $section ) {
 			foreach ( $section[1] as $option ) {
 				if ( isset( $option['std'] ) ) {
@@ -310,6 +311,11 @@ class DLM_Admin {
 				register_setting( 'download-monitor', $option['name'] );
 			}
 		}
+
+		// register option for tab navigation :: 'dlm_settings_tab_saved'
+		add_option( 'dlm_settings_tab_saved', 'general' );
+		register_setting( 'download-monitor', 'dlm_settings_tab_saved' );
+
 	}
 
 	/**
@@ -452,11 +458,17 @@ class DLM_Admin {
 					?>
 				</h2><br/>
 
+				<input type="hidden" id="setting-dlm_settings_tab_saved" name="dlm_settings_tab_saved" value="general" />
+
 				<?php
 
 				if ( ! empty( $_GET['settings-updated'] ) ) {
 					$this->need_rewrite_flush = true;
 					echo '<div class="updated notice is-dismissible"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+
+					$dlm_settings_tab_saved = get_option( 'dlm_settings_tab_saved', 'general' );
+
+					echo '<script type="text/javascript">var dlm_settings_tab_saved = "' . $dlm_settings_tab_saved . '";</script>';
 				}
 
 				foreach ( $this->settings as $key => $section ) {
