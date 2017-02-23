@@ -96,6 +96,7 @@ class DLM_Product_Manager {
 				// Setup plugin actions and filters
 				add_action( 'pre_set_site_transient_update_plugins', array( $product, 'check_for_updates' ) );
 				add_filter( 'plugins_api', array( $product, 'plugins_api' ), 10, 3 );
+				add_action( 'after_plugin_row_' . $product->get_plugin_name(), array( $product, 'after_plugin_row' ), 10, 2 );
 
 				// Add product to products property
 				$this->products[ $extension['file'] ] = $product;
@@ -143,7 +144,6 @@ class DLM_Product_Manager {
 						</div>
 						<?php
 					}
-
 
 				}
 

@@ -50,7 +50,7 @@ class DLM_Product {
 	 * Constructor
 	 *
 	 * @param String $product_id
-	 * @param string $version
+	 * @param string|bool $version
 	 * @param string $product_name
 	 */
 	function __construct( $product_id, $version = false, $product_name = "" ) {
@@ -153,7 +153,7 @@ class DLM_Product {
 				throw new Exception( 'Please enter your license key.' );
 			}
 
-			// Check license email
+				// Check license email
 			if ( '' === $license->get_email() ) {
 				throw new Exception( 'Please enter the email address associated with your license.' );
 			}
@@ -384,6 +384,33 @@ class DLM_Product {
 		if ( isset( $response ) && is_object( $response ) && false !== $response ) {
 			return $response;
 		}
+	}
+
+	/**
+	 * Display notice after extension plugin row
+	 *
+	 * @param string $file
+	 * @param array $plugin_data
+	 */
+	public function after_plugin_row( $file, $plugin_data ) {
+
+		// Don't show if license is activated
+		if( $this->get_license()->is_active() ) {
+			return;
+		}
+
+		// Output row with message telling people to activate their license
+		$id = sanitize_title( $plugin_data['Name'] );
+		echo '<tr class="plugin-update-tr active">';
+		echo '<td colspan="3" class="plugin-update colspanchange">';
+		echo '<div style="padding: 6px 12px; margin: 0 10px 8px 31px; background: lightYellow;">';
+		printf( __( '<a href="%s">Register your copy</a> of the <strong>%s</strong> extension to receive access to automatic upgrades and support. Need a license key? <a href="%s" target="_blank">Purchase one now</a>.', 'download-monitor' ), admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions#installed-extensions' ), $this->get_product_name(), $this->get_tracking_url( 'plugins_page' ) );
+		echo '</div></td></tr>';
+
+		// Disable bottom border on parent row
+		echo '<style scoped="scoped">';
+		echo sprintf( "#%s td, #%s th { box-shadow: none !important; }", $id, $id );
+		echo '</style>';
 	}
 
 	/**
