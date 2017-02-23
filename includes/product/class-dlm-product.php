@@ -153,7 +153,7 @@ class DLM_Product {
 				throw new Exception( 'Please enter your license key.' );
 			}
 
-				// Check license email
+			// Check license email
 			if ( '' === $license->get_email() ) {
 				throw new Exception( 'Please enter the email address associated with your license.' );
 			}
@@ -303,8 +303,7 @@ class DLM_Product {
 		}
 
 		if ( isset( $response->errors ) ) {
-//			$this->handle_errors( $response->errors );
-			/** @todo handle errors */
+			$this->handle_errors( $response->errors );
 			return $check_for_updates_data;
 		}
 
@@ -375,8 +374,7 @@ class DLM_Product {
 
 		// Handle errors
 		if ( isset( $response->errors ) ) {
-			/** @todo handle errors */
-			//$this->handle_errors( $response->errors );
+			$this->handle_errors( $response->errors );
 			return $false;
 		}
 
@@ -387,6 +385,31 @@ class DLM_Product {
 	}
 
 	/**
+	 * Handle errors from the API
+	 *
+	 * @param  array $errors
+	 */
+
+	public function handle_errors( $errors ) {
+
+		// loop through errors
+		foreach( $errors as $error_key => $error ) {
+
+			// add error to WP
+			DLM_Product_Manager::get()->error_handler()->add( $error );
+
+			// check if error is no activation
+			if( 'no_activation' == $error_key ) {
+				// remove local activation if there's no license on API side
+				$this->get_license()->set_status( 'inactive' );
+				$this->get_license()->store();
+			}
+		}
+
+	}
+
+
+	/**
 	 * Display notice after extension plugin row
 	 *
 	 * @param string $file
@@ -395,7 +418,7 @@ class DLM_Product {
 	public function after_plugin_row( $file, $plugin_data ) {
 
 		// Don't show if license is activated
-		if( $this->get_license()->is_active() ) {
+		if ( $this->get_license()->is_active() ) {
 			return;
 		}
 

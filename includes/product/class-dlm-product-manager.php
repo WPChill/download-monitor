@@ -18,9 +18,15 @@ class DLM_Product_Manager {
 	private $products;
 
 	/**
+	 * @var DLM_Product_Error_Handler
+	 */
+	private $error_handler;
+	
+	/**
 	 * Private constructor
 	 */
 	private function __construct() {
+		$this->error_handler = DLM_Product_Error_Handler::get();
 	}
 
 	/**
@@ -37,6 +43,13 @@ class DLM_Product_Manager {
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * @return DLM_Product_Error_Handler
+	 */
+	public function error_handler() {
+		return $this->error_handler;
 	}
 
 	/**
@@ -151,32 +164,4 @@ class DLM_Product_Manager {
 		}
 
 	}
-
-	/**
-	 * Handle errors from the API
-	 *
-	 * @param  array $errors
-	 */
-	/*
-	public function handle_errors( $errors ) {
-
-		if ( ! empty( $errors['no_key'] ) ) {
-			$this->add_error( sprintf( 'A licence key for %s could not be found. Maybe you forgot to enter a licence key when setting up %s.', esc_html( $this->plugin_data['Name'] ), esc_html( $this->plugin_data['Name'] ) ) );
-		} elseif ( ! empty( $errors['invalid_request'] ) ) {
-			$this->add_error( 'Invalid update request' );
-		} elseif ( ! empty( $errors['invalid_key'] ) ) {
-			$this->add_error( $errors['invalid_key'], 'invalid_key' );
-		} elseif ( ! empty( $errors['no_activation'] ) ) {
-
-			// Deactivate license
-			RP4WP_Updater_Key_API::deactivate( array(
-				'api_product_id' => $this->plugin_slug,
-				'licence_key'    => $this->api_key,
-			) );
-
-			$this->add_error( $errors['no_activation'] );
-		}
-
-	}
-	*/
 }
