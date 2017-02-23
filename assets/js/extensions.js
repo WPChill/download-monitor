@@ -1,4 +1,5 @@
 jQuery( function ( $ ) {
+
     $.each( $( '.extension_license a' ), function ( k, v ) {
         $( v ).click( function () {
             var wrap = $( v ).closest( '.extension_license' );
