@@ -119,7 +119,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 1.9.6: February 23, 2017 =
+= 1.9.6: February 28, 2017 =
 * Tweak: Fix display for unknown user in exported log, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Settings screen hash tweaks.
 * Tweak: Display correct tab on settings save, props [Matt Mower](https://github.com/mdmower).
