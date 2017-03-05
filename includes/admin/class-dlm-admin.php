@@ -39,6 +39,7 @@ class DLM_Admin {
 		// Logs
 		add_action( 'admin_init', array( $this, 'export_logs' ) );
 		add_action( 'admin_init', array( $this, 'delete_logs' ) );
+		add_action( 'admin_init', array( $this, 'reset_counts' ) );
 
 		// Dashboard
 		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
@@ -581,7 +582,9 @@ class DLM_Admin {
 					href="<?php echo add_query_arg( 'dlm_download_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ); ?>"
 					class="add-new-h2"><?php _e( 'Export CSV', 'download-monitor' ); ?></a> <a
 					href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ), 'delete_logs' ); ?>"
-					class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h2><br/>
+					class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a> <a
+					href="<?php echo wp_nonce_url( add_query_arg( 'dlm_reset_counts', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ), 'reset_counts' ); ?>"
+					class="add-new-h2"><?php _e( 'Reset Download Counts', 'download-monitor' ); ?></a></h2><br/>
 
 			<form id="dlm_logs" method="post">
 				<?php $DLM_Logging_List_Table->display() ?>
@@ -603,6 +606,27 @@ class DLM_Admin {
 		check_admin_referer( 'delete_logs' );
 
 		$wpdb->query( "DELETE FROM {$wpdb->download_log};" );
+	}
+
+	/**
+	 * Reset download counts
+	 */
+	public function reset_counts() {
+		global $wpdb;
+
+		if ( empty( $_GET['dlm_reset_counts'] ) ) {
+			return;
+		}
+
+		check_admin_referer( 'reset_counts' );
+
+		$query_where = " post_type = 'dlm_download' ";
+		$query_where .= " OR post_type = 'dlm_download_version' ";
+		$ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} WHERE {$query_where};" );
+
+		foreach ( $ids as $id ) {
+			update_post_meta( $id, '_download_count', 0 );
+		}
 	}
 
 	/**
