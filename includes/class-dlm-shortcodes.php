@@ -69,6 +69,7 @@ class DLM_Shortcodes {
 
 		// extract shortcode atts
 		extract( shortcode_atts( array(
+			'name'       => '',
 			'id'         => '',
 			'autop'      => false,
 			'template'   => dlm_get_default_download_template(),
@@ -80,7 +81,11 @@ class DLM_Shortcodes {
 		$id = apply_filters( 'dlm_shortcode_download_id', $id );
 
 		// Check id
-		if ( empty( $id ) ) {
+		if ( !empty( $id ) ) {
+			$query = array( 'p' => $id );
+		} elseif ( !empty( $name ) ) {
+			$query = array( 'name' => $name );
+		} else {
 			return;
 		}
 
@@ -96,7 +101,7 @@ class DLM_Shortcodes {
 		$output = '';
 
 		// create download object
-		$download = new DLM_Download( $id );
+		$download = new DLM_Download( $query );
 
 		// check if download exists
 		if ( $download->exists() ) {
@@ -156,6 +161,7 @@ class DLM_Shortcodes {
 
 		extract( shortcode_atts( array(
 			'id'         => '',
+			'name'       => '',
 			'data'       => '',
 			'version_id' => '',
 			'version'    => ''
@@ -163,11 +169,19 @@ class DLM_Shortcodes {
 
 		$id = apply_filters( 'dlm_shortcode_download_id', $id );
 
-		if ( empty( $id ) || empty( $data ) ) {
+		if ( !empty( $id ) ) {
+			$query = array( 'p' => $id );
+		} elseif ( !empty( $name ) ) {
+			$query = array( 'name' => $name );
+		} else {
 			return;
 		}
 
-		$download = new DLM_Download( $id );
+		if ( empty( $data ) ) {
+			return;
+		}
+
+		$download = new DLM_Download( $query );
 
 		if ( ! empty( $version ) ) {
 			$version_id = $download->get_version_id( $version );
@@ -221,9 +235,9 @@ class DLM_Shortcodes {
 
 			// Taxonomies
 			case 'tags' :
-				return get_the_term_list( $id, 'dlm_download_tags', '', ', ', '' );
+				return get_the_term_list( $download->id, 'dlm_download_tags', '', ', ', '' );
 			case 'categories' :
-				return get_the_term_list( $id, 'dlm_download_category', '', ', ', '' );
+				return get_the_term_list( $download->id, 'dlm_download_category', '', ', ', '' );
 		}
 	}
 

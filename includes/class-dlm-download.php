@@ -26,12 +26,29 @@ class DLM_Download {
 	 *
 	 * @access public
 	 *
-	 * @param int $id
+	 * @param mixed $id
 	 *
 	 */
 	public function __construct( $id ) {
-		$this->id         = absint( $id );
-		$this->post       = get_post( $this->id );
+		if ( is_array( $id ) ) {
+			// Allow passing full WP_Query arguments
+			$post_query = $id;
+		} else {
+			// If no query passed, assume id was passed
+			$post_query = array(
+				'p' => absint( $id )
+			);
+		}
+		$default_query = array(
+			'post_type' => 'dlm_download',
+			'numberposts' => 1,
+		);
+		$post_query = array_merge( $default_query, $post_query );
+		$posts = get_posts( $post_query );
+		if ( $posts ) {
+			$this->post = $posts[0];
+			$this->id = $posts[0]->id;
+		}
 		$this->version_id = ''; // Use latest current version
 	}
 
