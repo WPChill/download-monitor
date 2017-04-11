@@ -472,6 +472,32 @@ class DLM_Download {
 	}
 
 	/**
+	 * Show the edit link
+	 *
+	 * @description Get the edit link to wp-admin to go straight to edit the page. For use in custom templates, where a developer might want to signpost admins from the frontend.
+	 * @access public
+	 * @return void
+	 */
+	public function edit_download_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
+
+		if ($id===0) {
+			$id = $this->id;
+		}
+
+		if ( null === $text ) {
+			$text = __( 'Edit Download' );
+		}
+
+		edit_post_link(
+			$text,
+			$before,
+			$after,
+			$id,
+			$class
+		);
+	}
+	
+	/**
 	 * is_featured function.
 	 *
 	 * @access public
