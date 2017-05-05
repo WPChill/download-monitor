@@ -119,6 +119,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 1.9.7: May 5, 2017 =
+* Tweak: We're now redirecting users to home on empty download request. Behavior can be changed via filters. See https://www.download-monitor.com/kb/empty-download-request-redirection/
+
 = 1.9.6: February 28, 2017 =
 * Tweak: Fix display for unknown user in exported log, props [Matt Mower](https://github.com/mdmower).
 * Tweak: Settings screen hash tweaks.
