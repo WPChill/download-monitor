@@ -600,6 +600,10 @@ class DLM_Admin {
 			return;
 		}
 
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			wp_die( "You're not allowed to delete logs." );
+		}
+
 		check_admin_referer( 'delete_logs' );
 
 		$wpdb->query( "DELETE FROM {$wpdb->download_log};" );
@@ -613,6 +617,10 @@ class DLM_Admin {
 
 		if ( empty( $_GET['dlm_download_logs'] ) ) {
 			return;
+		}
+
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			wp_die( "You're not allowed to export logs." );
 		}
 
 		$filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
