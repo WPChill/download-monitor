@@ -198,10 +198,18 @@ class DLM_Download_Handler {
 	public function handler() {
 		global $wp, $wpdb;
 
+		// GET to query_var
 		if ( ! empty( $_GET[ $this->endpoint ] ) ) {
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
 		}
 
+		// check if endpoint is set but is empty
+		if ( apply_filters( 'dlm_empty_download_redirect_enabled', true ) && isset ( $wp->query_vars[ $this->endpoint ] ) && empty ($wp->query_vars[ $this->endpoint ] ) ) {
+			wp_redirect( apply_filters( 'dlm_empty_download_redirect_url', home_url(), $download_id ) );
+			exit;
+		}
+
+		// check if need to handle an actual download
 		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && ( ( null === $wp->request ) || ( null !== $wp->request && strstr( $wp->request, $this->endpoint . '/' ) ) ) ) {
 
 			// Prevent caching when endpoint is set
