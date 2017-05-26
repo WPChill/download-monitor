@@ -119,6 +119,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 1.9.8: May xx, 2017 =
+* Tweak: Add option to allow HTTP header X_FORWARD_FOR. Allowing Download Monitor to use the X_FORWARDED_FOR HTTP header set by proxies as the IP address.
+
 = 1.9.7: May 5, 2017 =
 * Tweak: Added capability checks to log export and delete functionality. Props [Pritect](http://www.pritect.net/).
 * Tweak: We're now redirecting users to home on empty download request. Behavior can be changed via filters. See https://www.download-monitor.com/kb/empty-download-request-redirection/
