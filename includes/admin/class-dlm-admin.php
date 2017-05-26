@@ -177,6 +177,14 @@ class DLM_Admin {
 							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
+						array(
+							'name'     => 'dlm_allow_x_forwarded_for',
+							'std'      => '0',
+							'label'    => __( 'Allow Proxy IP Override', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, Download Monitor will use the X_FORWARDED_FOR HTTP header set by proxies as the IP address. Note that anyone can set this header, making it less secure.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
 					),
 				),
 				'endpoints' => array(
