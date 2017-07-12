@@ -177,6 +177,14 @@ class DLM_Admin {
 							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
+						array(
+							'name'     => 'dlm_wp_search_enabled',
+							'std'      => '',
+							'label'    => __( 'Include in Search', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, downloads will be included in the results made via a site search.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
 					),
 				),
 				'endpoints' => array(
