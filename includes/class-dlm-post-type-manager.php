@@ -15,10 +15,12 @@ class DLM_Post_Type_Manager {
 	public function register() {
 
 		// Pull the setting for determining exclude_from_search value
-		if ( '1' == get_option( 'dlm_wp_search_enabled' ) ) { // They have chosen to make downloads show in WordPress search
+		if ( '1' == get_option( 'dlm_wp_search_enabled' ) ) { // They have chosen to make downloads show in WordPress search as well as being linked to directly
 			$exclude_from_search = false;
+			$publicly_visible = true;
 		} else {
 			$exclude_from_search = true;
+			$publicly_visible = false;
 		}
 
 		// Register Download Post Type
@@ -41,7 +43,7 @@ class DLM_Post_Type_Manager {
 					'parent'             => __( 'Parent Download', 'download-monitor' )
 				),
 				'description'         => __( 'This is where you can create and manage downloads for your site.', 'download-monitor' ),
-				'public'              => false,
+				'public'              => $publicly_visible,
 				'show_ui'             => true,
 				'capability_type'     => 'post',
 				'capabilities'        => array(
@@ -55,11 +57,11 @@ class DLM_Post_Type_Manager {
 					'delete_post'         => 'manage_downloads',
 					'read_post'           => 'manage_downloads'
 				),
-				'publicly_queryable'  => false,
+				'publicly_queryable'  => $publicly_visible,
 				'exclude_from_search' => $exclude_from_search,
 				'hierarchical'        => false,
 				'rewrite'             => false,
-				'query_var'           => false,
+				'query_var'           => $publicly_visible,
 				'supports'            => apply_filters( 'dlm_cpt_dlm_download_supports', array(
 					'title',
 					'editor',
@@ -75,13 +77,29 @@ class DLM_Post_Type_Manager {
 		// Register Download Version Post Type
 		register_post_type( "dlm_download_version",
 			apply_filters( 'dlm_cpt_dlm_download_version_args', array(
-				'public'              => false,
+				'labels'              => array(
+					'all_items'          => __( 'All Download Versions', 'download-monitor' ),
+					'name'               => __( 'Download Versions', 'download-monitor' ),
+					'singular_name'      => __( 'Download Version', 'download-monitor' ),
+					'add_new'            => __( 'Add New', 'download-monitor' ),
+					'add_new_item'       => __( 'Add Download Version', 'download-monitor' ),
+					'edit'               => __( 'Edit', 'download-monitor' ),
+					'edit_item'          => __( 'Edit Download Version', 'download-monitor' ),
+					'new_item'           => __( 'New Download Version', 'download-monitor' ),
+					'view'               => __( 'View Download Version', 'download-monitor' ),
+					'view_item'          => __( 'View Download Version', 'download-monitor' ),
+					'search_items'       => __( 'Search Download Versions', 'download-monitor' ),
+					'not_found'          => __( 'No Download Versions found', 'download-monitor' ),
+					'not_found_in_trash' => __( 'No Download Versions found in trash', 'download-monitor' ),
+					'parent'             => __( 'Parent Download Version', 'download-monitor' )
+				),
+				'public'              => $publicly_visible,
 				'show_ui'             => false,
-				'publicly_queryable'  => false,
+				'publicly_queryable'  => $publicly_visible,
 				'exclude_from_search' => true,
 				'hierarchical'        => false,
 				'rewrite'             => false,
-				'query_var'           => false,
+				'query_var'           => $publicly_visible,
 				'show_in_nav_menus'   => false
 			) )
 		);
