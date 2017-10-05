@@ -33,9 +33,19 @@ class DLM_Ajax_Handler {
 
 		check_ajax_referer( 'file-upload' );
 
-		$status = wp_handle_upload( $_FILES['async-upload'], array( 'test_form' => false ) );
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
 
-		echo $status['url'];
+		$attachment_id = media_handle_upload( 'async-upload', 0 );
+
+		if ( ! is_wp_error( $attachment_id ) ) {
+			$attachment_url = wp_get_attachment_url( $attachment_id );
+
+			if ( false !== $attachment_url ) {
+				echo $attachment_url;
+			}
+		}
 
 		die();
 	}
