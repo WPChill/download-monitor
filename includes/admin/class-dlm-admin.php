@@ -557,7 +557,6 @@ class DLM_Admin {
 
 								break;
 							case "lazy_select" :
-
 								?><select id="setting-<?php echo $option['name']; ?>" class="regular-text dlm-lazy-select"
                                           name="<?php echo $option['name']; ?>" data-selected="<?php echo esc_attr( $value ); ?>">
                                 <option value="0"><?php _e( 'Loading', 'download-monitor'); ?>...</option>

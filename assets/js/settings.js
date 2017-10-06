@@ -81,8 +81,8 @@ jQuery( function ( $ ) {
 				if ( response ) {
 					var selected = lazy_select_el.data( 'selected' );
 					for ( var i = 0; i < response.length; i ++ ) {
-						var opt = $( '<option>' ).attr( 'val', response[i].key ).html( response[i].lbl );
-						if ( selected == response[i].key ) {
+						var opt = $( '<option>' ).attr( 'value', response[i].key ).html( response[i].lbl );
+						if ( selected === response[i].key ) {
 							opt.attr( 'selected', 'selected' );
 						}
 						lazy_select_el.append( opt );
