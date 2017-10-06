@@ -35,6 +35,7 @@ class DLM_Admin {
 
 		// Settings
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		$this->register_lazy_select_filters();
 
 		// Logs
 		add_action( 'admin_init', array( $this, 'export_logs' ) );
@@ -109,8 +110,9 @@ class DLM_Admin {
 	 * @return array
 	 */
 	private function get_pages() {
+
 		// pages
-		$pages = array( 0 => __( 'Select Page', 'download-monitor' ) );
+		$pages = array( array( 'key' => 0, 'lbl' => __( 'Select Page', 'download-monitor' ) ) );
 
 		// get pages from db
 		$db_pages = get_pages();
@@ -118,7 +120,7 @@ class DLM_Admin {
 		// check and loop
 		if ( count( $db_pages ) > 0 ) {
 			foreach ( $db_pages as $db_page ) {
-				$pages[ $db_page->ID ] = $db_page->post_title;
+				$pages[] = array( 'key' => $db_page->ID, 'lbl' => $db_page->post_title );
 			}
 		}
 
@@ -268,8 +270,8 @@ class DLM_Admin {
 							'std'     => '',
 							'label'   => __( 'No Access Page', 'download-monitor' ),
 							'desc'    => __( "Choose what page is displayed when the user has no access to a file. Don't forget to add the <code>[dlm_no_access]</code> shortcode to the page.", 'download-monitor' ),
-							'type'    => 'select',
-							'options' => $this->get_pages()
+							'type'    => 'lazy_select',
+							'options' => array()
 						),
 						array(
 							'name'        => 'dlm_no_access_error',
@@ -325,6 +327,24 @@ class DLM_Admin {
 		register_setting( 'download-monitor', 'dlm_settings_tab_saved' );
 
 	}
+
+	/**
+	 * Register the filters used by lazy select fields
+	 */
+	private function register_lazy_select_filters() {
+	    add_filter( 'dlm_settings_lazy_select_dlm_no_access_page', array( $this, 'lazy_select_dlm_no_access_page' ) );
+    }
+
+	/**
+     * Fetch and returns pages on lazy select for dlm_no_access_page option
+     *
+	 * @param array $options
+	 *
+	 * @return array
+	 */
+    public function lazy_select_dlm_no_access_page( $options ) {
+	    return $this->get_pages();
+    }
 
 	/**
 	 * admin_enqueue_scripts function.
@@ -530,6 +550,18 @@ class DLM_Admin {
 									echo '<option value="' . esc_attr( $key ) . '" ' . selected( $value, $key, false ) . '>' . esc_html( $name ) . '</option>';
 								}
 								?></select><?php
+
+								if ( $option['desc'] ) {
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
+								}
+
+								break;
+							case "lazy_select" :
+
+								?><select id="setting-<?php echo $option['name']; ?>" class="regular-text dlm-lazy-select"
+                                          name="<?php echo $option['name']; ?>" data-selected="<?php echo esc_attr( $value ); ?>">
+                                <option value="0"><?php _e( 'Loading', 'download-monitor'); ?>...</option>
+                                </select><?php
 
 								if ( $option['desc'] ) {
 									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
