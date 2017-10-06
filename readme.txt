@@ -3,7 +3,7 @@ Contributors: never5, barrykooij, mikejolley, hchouhan
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.7.5
+Tested up to: 4.9
 Stable tag: 1.9.8
 License: GPLv3
 Text Domain: -
@@ -119,8 +119,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 1.9.8: May xx, 2017 =
+= 1.9.8: October 6, 2017 =
 * Tweak: Add option to allow HTTP header X_FORWARD_FOR. Allowing Download Monitor to use the X_FORWARDED_FOR HTTP header set by proxies as the IP address.
+* Tweak: Download files that are added via 'Quick-add download' are now properly added to WP media library.
+* Tweak: Introduced 'lazy select' option for Download Monitor settings. Options of these select elements are only loaded on setting pages, increasing overall plugin performance.
+* Tweak: We're now filtering attachment thumbnails in media library for files in dlm_uploads. This solves 403 errors on thumbnails in the protected folder.
 
 = 1.9.7: May 5, 2017 =
 * Tweak: Added capability checks to log export and delete functionality. Props [Pritect](http://www.pritect.net/).

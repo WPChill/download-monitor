@@ -81,6 +81,8 @@ class DLM_Admin_Scripts {
 				DLM_VERSION
 			);
 
+			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array( 'img_path' => WP_DLM::get_plugin_url() . '/assets/images/', 'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ) ) );
+
 
 			if ( 'dlm-extensions' === $_GET['page'] ) {
 				// Enqueue Extesions JS
