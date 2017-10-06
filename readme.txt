@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Add option to allow HTTP header X_FORWARD_FOR. Allowing Download Monitor to use the X_FORWARDED_FOR HTTP header set by proxies as the IP address.
 * Tweak: Download files that are added via 'Quick-add download' are now properly added to WP media library.
 * Tweak: Introduced 'lazy select' option for Download Monitor settings. Options of these select elements are only loaded on setting pages, increasing overall plugin performance.
+* Tweak: We're now filtering attachment thumbnails in media library for files in dlm_uploads. This solves 403 errors on thumbnails in the protected folder.
 
 = 1.9.7: May 5, 2017 =
 * Tweak: Added capability checks to log export and delete functionality. Props [Pritect](http://www.pritect.net/).

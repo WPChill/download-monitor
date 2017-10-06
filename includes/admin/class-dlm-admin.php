@@ -49,6 +49,9 @@ class DLM_Admin {
 
 		// flush rewrite rules on shutdown
 		add_action( 'shutdown', array( $this, 'maybe_flush_rewrites' ) );
+
+        // filter attachment thumbnails in media library for files in dlm_uploads
+		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_thumbnails_protected_files' ), 10, 1 );
 	}
 
 	/**
@@ -102,6 +105,32 @@ class DLM_Admin {
 		}
 
 		return $pathdata;
+	}
+
+	/**
+     * filter attachment thumbnails in media library for files in dlm_uploads
+     *
+	 * @param array $response
+	 *
+	 * @return array
+	 */
+	public function filter_thumbnails_protected_files( $response ) {
+
+		if ( apply_filters( 'dlm_filter_thumbnails_protected_files', true ) ) {
+			$upload_dir = wp_upload_dir();
+
+			if ( strpos( $response['url'], $upload_dir['baseurl'] . '/dlm_uploads' ) !== false ) {
+				if ( ! empty( $response['sizes'] ) ) {
+					$dlm_protected_thumb = WP_DLM::get_plugin_url() . '/assets/images/protected-file-thumbnail.png';
+					foreach ( $response['sizes'] as $rs_key => $rs_val ) {
+						$rs_val['url']                = $dlm_protected_thumb;
+						$response['sizes'][ $rs_key ] = $rs_val;
+					}
+				}
+			}
+		}
+
+		return $response;
 	}
 
 	/**
