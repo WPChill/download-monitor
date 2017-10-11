@@ -45,24 +45,12 @@ class WP_DLM {
 	}
 
 	/**
-	 * A static method that will setup the autoloader
-	 */
-	private static function setup_autoloader() {
-		require_once( plugin_dir_path( self::get_plugin_file() ) . 'includes/class-dlm-autoloader.php' );
-		$autoloader = new DLM_Autoloader( plugin_dir_path( self::get_plugin_file() ) . 'includes/' );
-		spl_autoload_register( array( $autoloader, 'load' ) );
-	}
-
-	/**
 	 * __construct function.
 	 *
 	 * @access public
 	 */
 	public function __construct() {
 		global $wpdb;
-
-		// Setup autoloader
-		self::setup_autoloader();
 
 		// Load plugin text domain
 		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );

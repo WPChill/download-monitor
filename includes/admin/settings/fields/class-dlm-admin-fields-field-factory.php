@@ -30,6 +30,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'select':
 				$field = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
 				break;
+			case 'lazy_select':
+				$field = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
+				break;
 			default:
 				/**
 				 * do_filter: dlm_setting_field_$type: (null) $field, (array) $option, (String) $value, (String) $placeholder

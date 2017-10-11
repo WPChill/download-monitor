@@ -40,6 +40,9 @@ function __download_monitor_main() {
 	// Define DLM FILE
 	define( 'DLM_PLUGIN_FILE', __FILE__ );
 
+	// require autoloader
+	require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
+
 	// Require class file
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/class-wp-dlm.php';
 
@@ -57,6 +60,9 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 
 	// set installer file constant
 	define( 'DLM_PLUGIN_FILE_INSTALLER', __FILE__ );
+
+	// require autoloader
+	require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
 
 	// include installer functions
 	require_once( 'installer-functions.php' );
