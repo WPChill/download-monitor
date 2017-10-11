@@ -132,7 +132,7 @@ class WP_DLM {
 	 * Setup actions
 	 */
 	private function setup_actions() {
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ), array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
