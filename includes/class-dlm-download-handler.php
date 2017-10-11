@@ -213,7 +213,10 @@ class DLM_Download_Handler {
 		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && ( ( null === $wp->request ) || ( null !== $wp->request && strstr( $wp->request, $this->endpoint . '/' ) ) ) ) {
 
 			// Prevent caching when endpoint is set
-			define( 'DONOTCACHEPAGE', true );
+			if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+				define( 'DONOTCACHEPAGE', true );
+			}
+
 
 			// Get ID of download
 			$raw_id = sanitize_title( stripslashes( $wp->query_vars[ $this->endpoint ] ) );
