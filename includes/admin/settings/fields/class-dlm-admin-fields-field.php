@@ -70,7 +70,7 @@ abstract class DLM_Admin_Fields_Field {
 	 * Echo the placeholder
 	 */
 	public function e_placeholder() {
-		echo ( ! empty( $this->get_placeholder() ) ) ? 'placeholder="' . $this->get_placeholder() . '"' : '';
+		echo ( ! empty( $this->get_placeholder() ) ) ? 'placeholder="' . esc_attr_e( $this->get_placeholder() ) . '"' : '';
 	}
 
 	abstract public function render();

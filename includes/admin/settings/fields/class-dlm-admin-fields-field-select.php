@@ -36,8 +36,8 @@ class DLM_Admin_Fields_Field_Select extends DLM_Admin_Fields_Field {
 	 */
 	public function render() {
 		?>
-		<select id="setting-<?php echo $this->get_name(); ?>" class="regular-text"
-		        name="<?php echo $this->get_name(); ?>"><?php
+		<select id="setting-<?php esc_attr_e( $this->get_name() ); ?>" class="regular-text"
+		        name="<?php esc_attr_e( $this->get_name() ); ?>"><?php
 			foreach ( $this->get_options() as $key => $name ) {
 				echo '<option value="' . esc_attr( $key ) . '" ' . selected( $this->get_value(), $key, false ) . '>' . esc_html( $name ) . '</option>';
 			}
