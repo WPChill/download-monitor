@@ -184,8 +184,8 @@ class WP_DLM {
 	public function plugin_links( $links ) {
 		$plugin_links = array(
 			'<a href="' . admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '">' . __( 'Settings', 'download-monitor' ) . '</a>',
-			'<a href="https://www.download-monitor.com/extensions/">' . __( 'Extensions', 'download-monitor' ) . '</a>',
-			'<a href="https://github.com/download-monitor/download-monitor/wiki">' . __( 'Docs', 'download-monitor' ) . '</a>',
+			'<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=plugins-page&utm_campaign=plugin-link-extensions">' . __( 'Extensions', 'download-monitor' ) . '</a>',
+			'<a href="https://www.download-monitor.com/kb/?utm_source=plugin&utm_medium=plugins-page&utm_campaign=plugin-link-documentation">' . __( 'Documentation', 'download-monitor' ) . '</a>',
 		);
 
 		return array_merge( $plugin_links, $links );
