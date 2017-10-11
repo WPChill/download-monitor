@@ -1,53 +1,102 @@
 jQuery( function ( $ ) {
 
-    $( '.nav-tab-wrapper a' ).click( function () {
-        $( '.settings_panel' ).hide();
-        $( '.nav-tab-active' ).removeClass( 'nav-tab-active' );
-        $( $( this ).attr( 'href' ) ).show();
-        $( this ).addClass( 'nav-tab-active' );
-        return true;
-    } );
+	function dlm_set_active_tab( elm ) {
+		if ( $( elm ).hasClass( 'nav-tab-active' ) ) {
+			return false;
+		}
 
-    $( '#setting-dlm_default_template' ).change( function () {
-        if ( $( this ).val() == 'custom' ) {
-            $( '#setting-dlm_custom_template' ).closest( 'tr' ).show();
-        } else {
-            $( '#setting-dlm_custom_template' ).closest( 'tr' ).hide();
-        }
-    } ).change();
+		$( '.settings_panel' ).hide();
+		$( '.nav-tab-active' ).removeClass( 'nav-tab-active' );
+		$( $( elm ).attr( 'href' ) ).show();
+		$( elm ).addClass( 'nav-tab-active' );
+		$( '#setting-dlm_settings_tab_saved' ).val( $( elm ).attr( 'href' ).replace( "#settings-", "" ) );
+		return true;
+	}
 
-    $( '#setting-dlm_enable_logging' ).change( function () {
-        if ( $( this ).is( ":checked" ) === true ) {
-            $( '#setting-dlm_count_unique_ips' ).closest( 'tr' ).show();
-        } else {
-            $( '#setting-dlm_count_unique_ips' ).closest( 'tr' ).hide();
-        }
-    } ).change();
+	$( '.nav-tab-wrapper a' ).click( function () {
+		return dlm_set_active_tab( $( this ) );
+	} );
 
-    // load tab of hash, if no hash is present load first tab.
-    if ( window.location.hash ) {
-        var active_tab = window.location.hash.replace( '#', '' );
-        $( '.nav-tab-wrapper a#dlm-tab-' + active_tab ).click();
-    } else {
-        $( '.nav-tab-wrapper a:first' ).click();
-    }
+	$( '#setting-dlm_default_template' ).change( function () {
+		if ( $( this ).val() == 'custom' ) {
+			$( '#setting-dlm_custom_template' ).closest( 'tr' ).show();
+		} else {
+			$( '#setting-dlm_custom_template' ).closest( 'tr' ).hide();
+		}
+	} ).change();
 
-    $( '.dlm-notice.is-dismissible' ).on( 'click', '.notice-dismiss', function ( event ) {
-        //$( '#dlm-ajax-nonce' ).val()
-        var notice_el = $( this ).closest( '.dlm-notice' );
+	$( '#setting-dlm_enable_logging' ).change( function () {
+		if ( $( this ).is( ":checked" ) === true ) {
+			$( '#setting-dlm_count_unique_ips' ).closest( 'tr' ).show();
+		} else {
+			$( '#setting-dlm_count_unique_ips' ).closest( 'tr' ).hide();
+		}
+	} ).change();
 
-        var notice = notice_el.attr( 'id' );
-        var notice_nonce = notice_el.attr( 'data-nonce' );
-        $.post(
-            ajaxurl,
-            {
-                action: 'dlm_dismiss_notice',
-                nonce: notice_nonce,
-                notice: notice
-            },
-            function ( response ) {
-            }
-        )
-    } );
+	// load tab of hash, if no hash is present load first tab.
+	if ( window.location.hash ) {
+		var active_tab = window.location.hash.replace( '#', '' );
+		$( '.nav-tab-wrapper a#dlm-tab-' + active_tab ).click();
+	} else {
+		$( '.nav-tab-wrapper a:first' ).click();
+	}
+
+	// listen to hash changes
+	$( window ).bind( 'hashchange', function ( e ) {
+		var active_tab = window.location.hash.replace( '#', '' );
+		$( '.nav-tab-wrapper a#dlm-tab-' + active_tab ).click();
+	} );
+
+	$( document ).ready( function () {
+
+		// dlm_last_settings_tab is only set when settings are saved and the page is reloaded
+		if ( typeof dlm_settings_tab_saved !== 'undefined' ) {
+			var elm = $( '.nav-tab-wrapper a[href="#settings-' + dlm_settings_tab_saved + '"]' );
+			if ( typeof elm !== 'undefined' ) {
+				dlm_set_active_tab( elm );
+			}
+		}
+
+		// load lazy-select elements
+		$.each( $( '.dlm-lazy-select' ), function () {
+
+			var lazy_select_el = $( this );
+
+			// add AJAX loader
+			$( '<span>' ).addClass( 'dlm-lazy-select-loader' ).append(
+				$( '<img>' ).attr( 'src', dlm_settings_vars.img_path + 'ajax-loader.gif' )
+			).insertAfter( lazy_select_el );
+
+			// load data
+			$.post( ajaxurl, {
+				action: 'dlm_settings_lazy_select',
+				nonce: dlm_settings_vars.lazy_select_nonce,
+				option: lazy_select_el.attr( 'name' )
+			}, function ( response ) {
+
+				// remove current option(s)
+				lazy_select_el.find( 'option' ).remove();
+
+				// set new options
+				if ( response ) {
+					var selected = lazy_select_el.data( 'selected' );
+					for ( var i = 0; i < response.length; i ++ ) {
+						var opt = $( '<option>' ).attr( 'value', response[i].key ).html( response[i].lbl );
+						if ( selected === response[i].key ) {
+							opt.attr( 'selected', 'selected' );
+						}
+						lazy_select_el.append( opt );
+					}
+				}
+
+				// remove ajax loader
+				lazy_select_el.parent().find( '.dlm-lazy-select-loader' ).remove();
+
+			} );
+
+
+		} );
+
+	} );
 
 } );

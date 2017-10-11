@@ -76,8 +76,8 @@ class DLM_Admin_Extensions {
 					echo '<p>' . sprintf( __( 'Extend Download Monitor with its powerful free and paid extensions. %sClick here to browse all extensions%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=extensions-top" target="_blank">', '</a>' ) . '</p>' . PHP_EOL;
 					?>
 					<h2 class="nav-tab-wrapper">
-						<a href="#available-extensions" class="nav-tab nav-tab-active">Available Extensions</a>
-						<?php if ( count( $installed_extensions ) > 0 ) { ?><a href="#installed-extensions" class="nav-tab">Installed Extensions</a><?php } ?>
+						<a href="#available-extensions" class="nav-tab nav-tab-active" id="dlm-tab-available-extensions">Available Extensions</a>
+						<?php if ( count( $installed_extensions ) > 0 ) { ?><a href="#installed-extensions" class="nav-tab" id="dlm-tab-installed-extensions">Installed Extensions</a><?php } ?>
 					</h2>
 					<?php
 

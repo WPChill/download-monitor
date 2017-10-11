@@ -594,6 +594,20 @@ table.wp-list-table {
   }
 }
 
+.settings_panel {
+  .dlm-lazy-select-loader {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 0 0 3px;
+    img {
+      display: inline-block;
+      height: 25px;
+      width: 25px;
+      margin-top: 1px;
+    }
+  }
+}
+
 /* Extensions */
 .dlm_extensions_wrap {
   h2 {
@@ -651,6 +665,18 @@ table.wp-list-table {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+
+        div.dlm_license_error {
+          padding:.5em;
+          margin-bottom: 15px;
+          background: lightYellow;
+
+          a {
+            color: blue;
+            text-decoration: underline;
+          }
+        }
+
         p.license-status {
           padding: 5px 0;
           margin: 5px 0;

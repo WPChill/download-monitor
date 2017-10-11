@@ -27,9 +27,19 @@ class DLM_Product {
 	private $product_id;
 
 	/**
+	 * @var string
+	 */
+	private $product_name = "";
+
+	/**
 	 * @var String
 	 */
 	private $plugin_name;
+
+	/**
+	 * @var string
+	 */
+	private $version = false;
 
 	/**
 	 * @var DLM_Product_License
@@ -40,12 +50,25 @@ class DLM_Product {
 	 * Constructor
 	 *
 	 * @param String $product_id
+	 * @param string|bool $version
+	 * @param string $product_name
 	 */
-	function __construct( $product_id ) {
+	function __construct( $product_id, $version = false, $product_name = "" ) {
 		$this->product_id = $product_id;
 
 		// The plugin file name
 		$this->plugin_name = $this->product_id . '/' . $this->product_id . '.php';
+
+		// set product name
+		$this->product_name = $product_name;
+
+		// BC
+		if ( empty( $this->product_name ) ) {
+			$this->product_name = $this->product_id;
+		}
+
+		// Set plugin version
+		$this->version = $version;
 	}
 
 	/**
@@ -60,6 +83,20 @@ class DLM_Product {
 	 */
 	public function set_product_id( $product_id ) {
 		$this->product_id = $product_id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_product_name() {
+		return $this->product_name;
+	}
+
+	/**
+	 * @param string $product_name
+	 */
+	public function set_product_name( $product_name ) {
+		$this->product_name = $product_name;
 	}
 
 	/**
@@ -146,7 +183,10 @@ class DLM_Product {
 				$this->set_license( $license );
 
 				// Return Message
-				return array( 'result' => 'success', 'message' => __( 'License successfully activated.', 'download-monitor' ) );
+				return array(
+					'result'  => 'success',
+					'message' => __( 'License successfully activated.', 'download-monitor' )
+				);
 
 			} elseif ( $activate_results === false ) {
 				throw new Exception( 'Connection failed to the License Key API server. Try again later.' );
@@ -217,6 +257,8 @@ class DLM_Product {
 	 * Check for plugin updates
 	 *
 	 * @var $check_for_updates_data
+	 *
+	 * @return array
 	 */
 	public function check_for_updates( $check_for_updates_data ) {
 
@@ -234,7 +276,7 @@ class DLM_Product {
 		}
 
 		// Get current version
-		$current_ver = $check_for_updates_data->checked[ $this->plugin_name ];
+		$current_ver = ( $this->version !== false ) ? $this->version : $check_for_updates_data->checked[ $this->plugin_name ];
 
 		// The request
 		$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_UPDATE . '&' . http_build_query( array(
@@ -261,8 +303,7 @@ class DLM_Product {
 		}
 
 		if ( isset( $response->errors ) ) {
-//			$this->handle_errors( $response->errors );
-			/** @todo handle errors */
+			$this->handle_errors( $response->errors );
 			return $check_for_updates_data;
 		}
 
@@ -290,6 +331,7 @@ class DLM_Product {
 	 */
 	public function plugins_api( $false, $action, $args ) {
 
+
 		// License
 		$license = $this->get_license();
 
@@ -299,13 +341,13 @@ class DLM_Product {
 		}
 
 		// Check if this request if for this product
-		if ( ! isset( $args->slug ) || ( $args->slug !== $this->plugin_name ) ) {
+		if ( ! isset( $args->slug ) || ( $args->slug !== $this->product_id ) ) {
 			return $false;
 		}
 
 		// Get the current version
 		$plugin_info = get_site_transient( 'update_plugins' );
-		$current_ver = isset( $plugin_info->checked[ $this->plugin_name ] ) ? $plugin_info->checked[ $this->plugin_name ] : '';
+		$current_ver = ( $this->version !== false ) ? $this->version : ( isset( $plugin_info->checked[ $this->plugin_name ] ) ? $plugin_info->checked[ $this->plugin_name ] : '' );
 
 		$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_UPDATE . '&' . http_build_query( array(
 				'request'        => 'plugininformation',
@@ -332,8 +374,7 @@ class DLM_Product {
 
 		// Handle errors
 		if ( isset( $response->errors ) ) {
-			/** @todo handle errors */
-			//$this->handle_errors( $response->errors );
+			$this->handle_errors( $response->errors );
 			return $false;
 		}
 
@@ -341,6 +382,80 @@ class DLM_Product {
 		if ( isset( $response ) && is_object( $response ) && false !== $response ) {
 			return $response;
 		}
+	}
+
+	/**
+	 * Handle errors from the API
+	 *
+	 * @param  array $errors
+	 */
+
+	public function handle_errors( $errors ) {
+
+		// loop through errors
+		foreach( $errors as $error_key => $error ) {
+
+			// add error to WP
+			DLM_Product_Manager::get()->error_handler()->add( $error );
+
+			// check if error is no activation
+			if( 'no_activation' == $error_key ) {
+				// remove local activation if there's no license on API side
+				$this->get_license()->set_status( 'inactive' );
+				$this->get_license()->store();
+			}
+		}
+
+	}
+
+
+	/**
+	 * Display notice after extension plugin row
+	 *
+	 * @param string $file
+	 * @param array $plugin_data
+	 */
+	public function after_plugin_row( $file, $plugin_data ) {
+
+		// Don't show if license is activated
+		if ( $this->get_license()->is_active() ) {
+			return;
+		}
+
+		// Output row with message telling people to activate their license
+		$id = sanitize_title( $plugin_data['Name'] );
+		echo '<tr class="plugin-update-tr active">';
+		echo '<td colspan="3" class="plugin-update colspanchange">';
+		echo '<div style="padding: 6px 12px; margin: 0 10px 8px 31px; background: lightYellow;">';
+		printf( __( '<a href="%s">Register your copy</a> of the <strong>%s</strong> extension to receive access to automatic upgrades and support. Need a license key? <a href="%s" target="_blank">Purchase one now</a>.', 'download-monitor' ), admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions#installed-extensions' ), $this->get_product_name(), $this->get_tracking_url( 'plugins_page' ) );
+		echo '</div></td></tr>';
+
+		// Disable bottom border on parent row
+		echo '<style scoped="scoped">';
+		echo sprintf( "#%s td, #%s th { box-shadow: none !important; }", $id, $id );
+		echo '</style>';
+	}
+
+	/**
+	 * Gets a Google Analytics Campaign URL for this product
+	 *
+	 * @param string $link_identifier
+	 *
+	 * @return string The full URL
+	 */
+	public function get_tracking_url( $link_identifier = '' ) {
+		$tracking_vars = array(
+			'utm_campaign' => $this->get_product_name() . '_licensing',
+			'utm_medium'   => 'link',
+			'utm_source'   => $this->get_product_name(),
+			'utm_content'  => $link_identifier
+		);
+
+		// url encode tracking vars
+		$tracking_vars = urlencode_deep( $tracking_vars );
+		$query_string  = build_query( $tracking_vars );
+
+		return 'https://www.download-monitor.com/extensions/' . str_ireplace( 'dlm-', '', $this->get_product_id() ) . '?' . $query_string;
 	}
 
 }

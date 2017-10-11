@@ -19,6 +19,7 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_download_monitor_add_file', array( $this, 'add_file' ) );
 		add_action( 'wp_ajax_download_monitor_list_files', array( $this, 'list_files' ) );
 		add_action( 'wp_ajax_download_monitor_insert_panel_upload', array( $this, 'insert_panel_upload' ) );
+		add_action( 'wp_ajax_dlm_settings_lazy_select', array( $this, 'handle_settings_lazy_select' ) );
 		add_action( 'wp_ajax_dlm_extension', array( $this, 'handle_extensions' ) );
 		add_action( 'wp_ajax_dlm_dismiss_notice', array( $this, 'dismiss_notice' ) );
 	}
@@ -33,9 +34,19 @@ class DLM_Ajax_Handler {
 
 		check_ajax_referer( 'file-upload' );
 
-		$status = wp_handle_upload( $_FILES['async-upload'], array( 'test_form' => false ) );
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
 
-		echo $status['url'];
+		$attachment_id = media_handle_upload( 'async-upload', 0 );
+
+		if ( ! is_wp_error( $attachment_id ) ) {
+			$attachment_url = wp_get_attachment_url( $attachment_id );
+
+			if ( false !== $attachment_url ) {
+				echo $attachment_url;
+			}
+		}
 
 		die();
 	}
@@ -174,6 +185,26 @@ class DLM_Ajax_Handler {
 
 		// send JSON
 		wp_send_json( array( 'response' => 'success' ) );
+	}
+
+	/**
+	 * Handle lazy select AJAX calls
+	 */
+	public function handle_settings_lazy_select() {
+
+		// check nonce
+		check_ajax_referer( 'dlm-settings-lazy-select-nonce', 'nonce' );
+
+		// settings key
+		$option_key = sanitize_text_field( $_POST['option'] );
+
+		// get options
+		$options = apply_filters( 'dlm_settings_lazy_select_'.$option_key, array() );
+
+		// send options
+		wp_send_json( $options );
+		exit;
+
 	}
 
 	/**

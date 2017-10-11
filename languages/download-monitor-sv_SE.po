@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2016-03-27 14:45:08+00:00\n"
-"PO-Revision-Date: 2016-03-27 14:46+0000\n"
+"POT-Creation-Date: 2016-08-23 11:36:35+00:00\n"
+"PO-Revision-Date: 2017-09-20 06:22+0000\n"
 "Last-Translator: Barry Kooij <mail@barrykooij.nl>\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/barrykooijplugins/download-monitor/language/sv_SE/)\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgid "ID"
 msgstr "ID"
 
 #: includes/admin/class-dlm-admin-cpt.php:201
-#: includes/admin/class-dlm-logging-list-table.php:168
+#: includes/admin/class-dlm-logging-list-table.php:172
 msgid "File"
 msgstr "Fil"
 
@@ -119,7 +119,7 @@ msgid "Featured"
 msgstr "Utvald"
 
 #: includes/admin/class-dlm-admin-cpt.php:207
-#: includes/admin/class-dlm-admin-cpt.php:388
+#: includes/admin/class-dlm-admin-cpt.php:414
 #: includes/admin/class-dlm-admin-writepanels.php:124
 msgid "Members only"
 msgstr "Endast för medlemmar"
@@ -138,16 +138,16 @@ msgstr "Publiceringsdatum"
 msgid "Yes"
 msgstr "Ja"
 
-#: includes/admin/class-dlm-admin-cpt.php:384
+#: includes/admin/class-dlm-admin-cpt.php:410
 msgid "Download Monitor Data"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-cpt.php:386
+#: includes/admin/class-dlm-admin-cpt.php:412
 #: includes/admin/class-dlm-admin-writepanels.php:118
 msgid "Featured download"
 msgstr "Utvald nedladdning"
 
-#: includes/admin/class-dlm-admin-cpt.php:390
+#: includes/admin/class-dlm-admin-cpt.php:416
 #: includes/admin/class-dlm-admin-writepanels.php:130
 msgid "Redirect to file"
 msgstr "Omdirigera till fil"
@@ -161,13 +161,13 @@ msgid "There are no stats available yet!"
 msgstr "Det finns ingen statistik ännu!"
 
 #: includes/admin/class-dlm-admin-dashboard.php:76
-#: includes/admin/class-dlm-logging-list-table.php:167
+#: includes/admin/class-dlm-logging-list-table.php:171
 #: includes/class-dlm-post-type-manager.php:23
 msgid "Download"
 msgstr "Nedladdning"
 
 #: includes/admin/class-dlm-admin-extensions.php:45
-#: includes/admin/class-dlm-admin.php:380
+#: includes/admin/class-dlm-admin.php:389
 msgid "Download Monitor Extensions"
 msgstr "Download Monitor Extensions"
 
@@ -332,220 +332,220 @@ msgstr "Stäng alla"
 msgid "Expand all"
 msgstr "Expandera alla"
 
-#: includes/admin/class-dlm-admin.php:104
+#: includes/admin/class-dlm-admin.php:113
 msgid "Select Page"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:131
+#: includes/admin/class-dlm-admin.php:140
 msgid "General"
 msgstr "Allmänna"
 
-#: includes/admin/class-dlm-admin.php:136
+#: includes/admin/class-dlm-admin.php:145
 msgid "Default Template"
 msgstr "Standardmall"
 
-#: includes/admin/class-dlm-admin.php:137
+#: includes/admin/class-dlm-admin.php:146
 msgid ""
 "Choose which template is used for <code>[download]</code> shortcodes by "
 "default (this can be overridden by the <code>format</code> argument)."
 msgstr "Välj vilken mall som ska användas för <code>[download]</code>-shortcodes som standard (detta kan skrivas över med <code>format</code>-argument)."
 
-#: includes/admin/class-dlm-admin.php:140
+#: includes/admin/class-dlm-admin.php:149
 msgid "Default - Title and count"
 msgstr "Standard - titel och räknare"
 
-#: includes/admin/class-dlm-admin.php:141
+#: includes/admin/class-dlm-admin.php:150
 msgid "Button - CSS styled button showing title and count"
 msgstr "Knapp - CSS-stylad knapp som visar titel och räknare"
 
-#: includes/admin/class-dlm-admin.php:142
+#: includes/admin/class-dlm-admin.php:151
 msgid "Box - Box showing thumbnail, title, count, filename and filesize."
 msgstr "Box - En box som visar miniatyrbild, titel, räknare, filnamn och filstorlek."
 
-#: includes/admin/class-dlm-admin.php:143
+#: includes/admin/class-dlm-admin.php:152
 msgid "Filename - Filename and download count"
 msgstr "Filnamn -  Filnamn och nedladdningsräknare"
 
-#: includes/admin/class-dlm-admin.php:144
+#: includes/admin/class-dlm-admin.php:153
 msgid "Title - Shows download title only"
 msgstr "Titel - Visar endast nedladdningstitel"
 
-#: includes/admin/class-dlm-admin.php:145
+#: includes/admin/class-dlm-admin.php:154
 msgid "Version list - Lists all download versions in an unordered list"
 msgstr "Versionslista - Listar alla nedladdningsversion i en oordnad lista"
 
-#: includes/admin/class-dlm-admin.php:146
+#: includes/admin/class-dlm-admin.php:155
 msgid "Custom template"
 msgstr "Anpassad mall"
 
-#: includes/admin/class-dlm-admin.php:152
+#: includes/admin/class-dlm-admin.php:161
 msgid "Custom Template"
 msgstr "Anpassad mall"
 
-#: includes/admin/class-dlm-admin.php:153
+#: includes/admin/class-dlm-admin.php:162
 msgid ""
 "Leaving this blank will use the default <code>content-download.php</code> "
-"template file. If you enter, for example, <code>image</code>, the <code"
-">content-download-image.php</code> template will be used instead. You can "
+"template file. If you enter, for example, <code>button</code>, the <code"
+">content-download-button.php</code> template will be used instead. You can "
 "add custom templates inside your theme folder."
-msgstr "Om detta lämnas tomt kommer standardmallen <code>content-download.php</code> att användas. Om du t.ex anger <code>image</code> så kommer mallen <code>content-download-bild.php</code> användas istället. Du kan lägga till anpassade mallar i din temakatalog."
+msgstr ""
 
-#: includes/admin/class-dlm-admin.php:158
+#: includes/admin/class-dlm-admin.php:167
 msgid "X-Accel-Redirect / X-Sendfile"
 msgstr "X-Accel-Redirect / X-Sendfile"
 
-#: includes/admin/class-dlm-admin.php:159
-#: includes/admin/class-dlm-admin.php:167
-#: includes/admin/class-dlm-admin.php:230
-#: includes/admin/class-dlm-admin.php:240
+#: includes/admin/class-dlm-admin.php:168
+#: includes/admin/class-dlm-admin.php:176
+#: includes/admin/class-dlm-admin.php:239
+#: includes/admin/class-dlm-admin.php:249
 msgid "Enable"
 msgstr "Aktivera"
 
-#: includes/admin/class-dlm-admin.php:160
+#: includes/admin/class-dlm-admin.php:169
 msgid ""
 "If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be"
 " used to serve downloads instead of PHP (server requires "
 "<code>mod_xsendfile</code>)."
 msgstr "Om stöd finns, kan <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> användas för att hantera nedladdningar istället för PHP (servern behöver då <code>mod_xsendfile</code>)."
 
-#: includes/admin/class-dlm-admin.php:166
+#: includes/admin/class-dlm-admin.php:175
 msgid "Prevent hotlinking"
 msgstr "Motverka extern direktlänkning"
 
-#: includes/admin/class-dlm-admin.php:168
+#: includes/admin/class-dlm-admin.php:177
 msgid ""
 "If enabled, the download handler will check the PHP referer to see if it "
 "originated from your site and if not, redirect them to the homepage."
 msgstr "Om aktiverat så kommer nedladdningshanteraren kontrollera PHP-referens för att se om förfrågan kommer från din webbplats och om så inte är fallet, omdirigera dom till startsidan."
 
-#: includes/admin/class-dlm-admin.php:174
+#: includes/admin/class-dlm-admin.php:183
 msgid "Endpoint"
 msgstr "Slutpunkt"
 
-#: includes/admin/class-dlm-admin.php:179
+#: includes/admin/class-dlm-admin.php:188
 msgid "download"
 msgstr "nedladdning"
 
-#: includes/admin/class-dlm-admin.php:180
+#: includes/admin/class-dlm-admin.php:189
 msgid "Download Endpoint"
 msgstr "Nedladdningsslutpunkt"
 
-#: includes/admin/class-dlm-admin.php:181
+#: includes/admin/class-dlm-admin.php:190
 msgid ""
 "Define what endpoint should be used for download links. By default this will"
 " be <code>%s</code>."
 msgstr "Definiera vilken slutpunkt nedladdningar ska ha. Som standard kommer detta vara <code>%s</code>."
 
-#: includes/admin/class-dlm-admin.php:186
+#: includes/admin/class-dlm-admin.php:195
 msgid "Endpoint Value"
 msgstr "Slutpunktsvärde"
 
-#: includes/admin/class-dlm-admin.php:187
+#: includes/admin/class-dlm-admin.php:196
 msgid ""
 "Define what unique value should be used on the end of your endpoint to "
 "identify the downloadable file. e.g. ID would give a link like "
 "<code>%s</code>"
 msgstr "Definiera vilket unikt värde i slutet på din slutpunkt för att identifiera den nedladdningsbara filen. Exempelvis, ID skulle ge dig en länk som<code>%s</code>"
 
-#: includes/admin/class-dlm-admin.php:190
-#: includes/admin/class-dlm-admin.php:617
+#: includes/admin/class-dlm-admin.php:199
+#: includes/admin/class-dlm-admin.php:625
 msgid "Download ID"
 msgstr "Nedladdnings-ID"
 
-#: includes/admin/class-dlm-admin.php:191
+#: includes/admin/class-dlm-admin.php:200
 msgid "Download slug"
 msgstr "Nedladdningspermalänk"
 
-#: includes/admin/class-dlm-admin.php:197
+#: includes/admin/class-dlm-admin.php:206
 msgid "Hashes"
 msgstr "Hashes"
 
-#: includes/admin/class-dlm-admin.php:202
+#: includes/admin/class-dlm-admin.php:211
 msgid "MD5 hashes"
 msgstr "MD5-hashes"
 
-#: includes/admin/class-dlm-admin.php:203
+#: includes/admin/class-dlm-admin.php:212
 msgid "Generate MD5 hash for uploaded files"
 msgstr "Generera MD5-hash för uppladdade filer"
 
-#: includes/admin/class-dlm-admin.php:210
+#: includes/admin/class-dlm-admin.php:219
 msgid "SHA1 hashes"
 msgstr "SHA1-hashes"
 
-#: includes/admin/class-dlm-admin.php:211
+#: includes/admin/class-dlm-admin.php:220
 msgid "Generate SHA1 hash for uploaded files"
 msgstr "Generera SHA1-hash för uppladdade filer"
 
-#: includes/admin/class-dlm-admin.php:218
+#: includes/admin/class-dlm-admin.php:227
 msgid "CRC32B hashes"
 msgstr "CRC32B-hashes"
 
-#: includes/admin/class-dlm-admin.php:219
+#: includes/admin/class-dlm-admin.php:228
 msgid "Generate CRC32B hash for uploaded files"
 msgstr "Generera CRC32B-hash för uppladdade filer"
 
-#: includes/admin/class-dlm-admin.php:220
+#: includes/admin/class-dlm-admin.php:229
 msgid ""
 "Hashes can optionally be output via shortcodes, but may cause performance "
 "issues with large files."
 msgstr "Hashes kan skrivas ut via shortcodes, men kan skapa prestandaproblem vid större filer."
 
-#: includes/admin/class-dlm-admin.php:226
+#: includes/admin/class-dlm-admin.php:235
 msgid "Logging"
 msgstr "Loggar"
 
-#: includes/admin/class-dlm-admin.php:232
+#: includes/admin/class-dlm-admin.php:241
 msgid "Download Log"
 msgstr "Nedladdningslogg"
 
-#: includes/admin/class-dlm-admin.php:233
+#: includes/admin/class-dlm-admin.php:242
 msgid "Log download attempts, IP addresses and more."
 msgstr "Loggar nedladdningsförsök, IP-adresser med mera."
 
-#: includes/admin/class-dlm-admin.php:239
+#: includes/admin/class-dlm-admin.php:248
 msgid "Count unique IPs only"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:241
+#: includes/admin/class-dlm-admin.php:250
 msgid ""
 "If enabled, the counter for each download will only increment and create a "
 "log entry once per IP address."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:247
+#: includes/admin/class-dlm-admin.php:256
 msgid "Access"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:252
+#: includes/admin/class-dlm-admin.php:261
 msgid "No Access Page"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:253
+#: includes/admin/class-dlm-admin.php:262
 msgid ""
 "Choose what page is displayed when the user has no access to a file. Don't "
 "forget to add the <code>[dlm_no_access]</code> shortcode to the page."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:259 includes/class-dlm-installer.php:41
+#: includes/admin/class-dlm-admin.php:268 includes/class-dlm-installer.php:41
 #: includes/class-dlm-upgrade-manager.php:54
 msgid "You do not have permission to access this download. %sGo to homepage%s"
 msgstr "Du har inte tillräckliga rättigheter för denna nedladdning. %sGå till startsidan%s"
 
-#: includes/admin/class-dlm-admin.php:261
+#: includes/admin/class-dlm-admin.php:270
 msgid "No access message"
 msgstr "Ingen åtkomst-meddelande"
 
-#: includes/admin/class-dlm-admin.php:262
+#: includes/admin/class-dlm-admin.php:271
 msgid ""
 "The message that will be displayed to visitors when they don't have access "
 "to a file."
 msgstr "Meddelandet som visas för besökare när de inte har tillgång till en fil."
 
-#: includes/admin/class-dlm-admin.php:268
+#: includes/admin/class-dlm-admin.php:277
 msgid "Blacklist IPs"
 msgstr "Svartlista IP"
 
-#: includes/admin/class-dlm-admin.php:269
+#: includes/admin/class-dlm-admin.php:278
 msgid ""
 "List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for "
 "ranges. IPv4 examples: <code>198.51.100.1</code> or "
@@ -553,97 +553,97 @@ msgid ""
 "<code>2001:db8::/32</code>."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:276
+#: includes/admin/class-dlm-admin.php:285
 msgid "Blacklist user agents"
 msgstr "Svartlista användaragent"
 
-#: includes/admin/class-dlm-admin.php:277
+#: includes/admin/class-dlm-admin.php:286
 msgid "List browser user agents to blacklist, 1 per line."
 msgstr "Lista webbläsares användaragent att svartlista, 1 per rad."
 
-#: includes/admin/class-dlm-admin.php:361
+#: includes/admin/class-dlm-admin.php:370
 msgid "Logs"
 msgstr "Loggar"
 
-#: includes/admin/class-dlm-admin.php:368 includes/class-wp-dlm.php:214
+#: includes/admin/class-dlm-admin.php:377 includes/class-wp-dlm.php:214
 msgid "Settings"
 msgstr "Inställningar"
 
-#: includes/admin/class-dlm-admin.php:380 includes/class-wp-dlm.php:215
+#: includes/admin/class-dlm-admin.php:389 includes/class-wp-dlm.php:215
 msgid "Extensions"
 msgstr "Extensions"
 
-#: includes/admin/class-dlm-admin.php:411
+#: includes/admin/class-dlm-admin.php:420
 msgid ""
 "Because your server is running on nginx, our .htaccess file can't protect "
 "your downloads."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:412
+#: includes/admin/class-dlm-admin.php:421
 msgid ""
 "Please add the following rules to your nginx config to disable direct file "
 "access: %s"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:451
+#: includes/admin/class-dlm-admin.php:459
 msgid "Settings successfully saved"
 msgstr "Inställningar sparade"
 
-#: includes/admin/class-dlm-admin.php:534
+#: includes/admin/class-dlm-admin.php:542
 msgid "Save Changes"
 msgstr "Spara ändringar"
 
-#: includes/admin/class-dlm-admin.php:560
+#: includes/admin/class-dlm-admin.php:568
 msgid "Download Logs"
 msgstr "Ladda ner loggar"
 
-#: includes/admin/class-dlm-admin.php:562
+#: includes/admin/class-dlm-admin.php:570
 msgid "Export CSV"
 msgstr "Exportera CSV"
 
-#: includes/admin/class-dlm-admin.php:564
+#: includes/admin/class-dlm-admin.php:572
 msgid "Delete Logs"
 msgstr "Radera loggar"
 
-#: includes/admin/class-dlm-admin.php:618
+#: includes/admin/class-dlm-admin.php:626
 msgid "Version ID"
 msgstr "Versions-ID"
 
-#: includes/admin/class-dlm-admin.php:619
+#: includes/admin/class-dlm-admin.php:627
 msgid "Filename"
 msgstr "Filnamn"
 
-#: includes/admin/class-dlm-admin.php:620
+#: includes/admin/class-dlm-admin.php:628
 msgid "User ID"
 msgstr "Användar-ID"
 
-#: includes/admin/class-dlm-admin.php:621
+#: includes/admin/class-dlm-admin.php:629
 msgid "User Login"
 msgstr "Användarens användarnamn"
 
-#: includes/admin/class-dlm-admin.php:622
+#: includes/admin/class-dlm-admin.php:630
 msgid "User Email"
 msgstr "Användarens e-postadress"
 
-#: includes/admin/class-dlm-admin.php:623
+#: includes/admin/class-dlm-admin.php:631
 msgid "User IP"
 msgstr "Användar-IP"
 
-#: includes/admin/class-dlm-admin.php:624
-#: includes/admin/class-dlm-logging-list-table.php:171
+#: includes/admin/class-dlm-admin.php:632
+#: includes/admin/class-dlm-logging-list-table.php:175
 msgid "User Agent"
 msgstr "Användaragent"
 
-#: includes/admin/class-dlm-admin.php:625
-#: includes/admin/class-dlm-logging-list-table.php:172
+#: includes/admin/class-dlm-admin.php:633
+#: includes/admin/class-dlm-logging-list-table.php:176
 msgid "Date"
 msgstr "Datum"
 
-#: includes/admin/class-dlm-admin.php:626
+#: includes/admin/class-dlm-admin.php:634
 msgid "Status"
 msgstr "Status"
 
-#: includes/admin/class-dlm-admin.php:711
+#: includes/admin/class-dlm-admin.php:719
 msgid ""
 "If you like %sDownload Monitor%s please leave us a %s★★★★★%s rating. A huge "
 "thank you from us in advance!"
@@ -665,71 +665,75 @@ msgstr "%s sedan"
 msgid "Download #%d (no longer exists)"
 msgstr "Nedladdning #%d (finns inte längre)"
 
-#: includes/admin/class-dlm-logging-list-table.php:112
-msgid "v%s"
-msgstr "v%s"
+#: includes/admin/class-dlm-logging-list-table.php:113
+msgid " (v%s)"
+msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:135
+#: includes/admin/class-dlm-logging-list-table.php:115
+msgid " (v%s no longer exists)"
+msgstr ""
+
+#: includes/admin/class-dlm-logging-list-table.php:139
 msgid "Non-member"
 msgstr "Icke-medlem"
 
-#: includes/admin/class-dlm-logging-list-table.php:169
+#: includes/admin/class-dlm-logging-list-table.php:173
 msgid "User"
 msgstr "Användare"
 
-#: includes/admin/class-dlm-logging-list-table.php:170
+#: includes/admin/class-dlm-logging-list-table.php:174
 msgid "IP Address"
 msgstr "IP-address"
 
-#: includes/admin/class-dlm-logging-list-table.php:192
+#: includes/admin/class-dlm-logging-list-table.php:196
 msgid "Log entries deleted"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:209
+#: includes/admin/class-dlm-logging-list-table.php:213
 msgid "Any status"
 msgstr "Alla statusar"
 
-#: includes/admin/class-dlm-logging-list-table.php:211
+#: includes/admin/class-dlm-logging-list-table.php:215
 msgid "Failed"
 msgstr "Misslyckades"
 
-#: includes/admin/class-dlm-logging-list-table.php:213
+#: includes/admin/class-dlm-logging-list-table.php:217
 msgid "Redirected"
 msgstr "Omdirigerad"
 
-#: includes/admin/class-dlm-logging-list-table.php:215
+#: includes/admin/class-dlm-logging-list-table.php:219
 msgid "Completed"
 msgstr "Genomförd"
 
-#: includes/admin/class-dlm-logging-list-table.php:234
+#: includes/admin/class-dlm-logging-list-table.php:238
 msgid "Show all dates"
 msgstr "Visa alla datum"
 
-#: includes/admin/class-dlm-logging-list-table.php:248
+#: includes/admin/class-dlm-logging-list-table.php:252
 msgid "%1$s %2$d"
 msgstr "%1$s %2$d"
 
-#: includes/admin/class-dlm-logging-list-table.php:256
+#: includes/admin/class-dlm-logging-list-table.php:260
 msgid "25 per page"
 msgstr "25 per sida"
 
-#: includes/admin/class-dlm-logging-list-table.php:258
+#: includes/admin/class-dlm-logging-list-table.php:262
 msgid "50 per page"
 msgstr "50 per sida"
 
-#: includes/admin/class-dlm-logging-list-table.php:260
+#: includes/admin/class-dlm-logging-list-table.php:264
 msgid "100 per page"
 msgstr "100 per sida"
 
-#: includes/admin/class-dlm-logging-list-table.php:262
+#: includes/admin/class-dlm-logging-list-table.php:266
 msgid "200 per page"
 msgstr "200 per sida"
 
-#: includes/admin/class-dlm-logging-list-table.php:264
+#: includes/admin/class-dlm-logging-list-table.php:268
 msgid "Show All"
 msgstr "Visa alla"
 
-#: includes/admin/class-dlm-logging-list-table.php:268
+#: includes/admin/class-dlm-logging-list-table.php:272
 msgid "Filter"
 msgstr "Filtrera"
 
@@ -805,7 +809,7 @@ msgstr "Nedladdning finns ej."
 #: includes/class-dlm-download-handler.php:283
 #: includes/class-dlm-download-handler.php:341
 #: includes/class-dlm-download-handler.php:349
-#: includes/class-dlm-download-handler.php:499
+#: includes/class-dlm-download-handler.php:501
 msgid "Go to homepage &rarr;"
 msgstr "Gå till startsidan &rarr;"
 
@@ -813,7 +817,7 @@ msgstr "Gå till startsidan &rarr;"
 #: includes/class-dlm-download-handler.php:341
 #: includes/class-dlm-download-handler.php:349
 #: includes/class-dlm-download-handler.php:385
-#: includes/class-dlm-download-handler.php:499
+#: includes/class-dlm-download-handler.php:501
 msgid "Download Error"
 msgstr "Nedladdningsfel"
 
@@ -822,19 +826,19 @@ msgstr "Nedladdningsfel"
 msgid "No file paths defined."
 msgstr "Inga sökvägar definierade."
 
-#: includes/class-dlm-download-handler.php:419
-#: includes/class-dlm-download-handler.php:439
-#: includes/class-dlm-download-handler.php:446
-#: includes/class-dlm-download-handler.php:453
+#: includes/class-dlm-download-handler.php:421
+#: includes/class-dlm-download-handler.php:441
+#: includes/class-dlm-download-handler.php:448
+#: includes/class-dlm-download-handler.php:455
 msgid "Redirected to file"
 msgstr "Omdirigerad till fil"
 
-#: includes/class-dlm-download-handler.php:492
+#: includes/class-dlm-download-handler.php:494
 msgid "Redirected to remote file."
 msgstr "Omdirigerad till fil på annan plats."
 
-#: includes/class-dlm-download-handler.php:497
 #: includes/class-dlm-download-handler.php:499
+#: includes/class-dlm-download-handler.php:501
 msgid "File not found."
 msgstr "Filen kunde inte hittas."
 

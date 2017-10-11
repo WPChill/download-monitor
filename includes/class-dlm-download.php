@@ -118,7 +118,7 @@ class DLM_Download {
 	 * get_title function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return string
 	 */
 	public function get_the_title() {
 		return $this->post->post_title;
@@ -138,7 +138,7 @@ class DLM_Download {
 	 * get_the_short_description function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return string
 	 */
 	public function get_the_short_description() {
 		return wpautop( do_shortcode( $this->post->post_excerpt ) );
@@ -161,7 +161,7 @@ class DLM_Download {
 	 *
 	 * @param string $size (default: 'full')
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function get_the_image( $size = 'full' ) {
 		if ( has_post_thumbnail( $this->id ) ) {
@@ -188,7 +188,7 @@ class DLM_Download {
 	 * get_author function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return void|string
 	 */
 	public function get_the_author() {
 		$author_id = $this->post->post_author;
@@ -284,7 +284,7 @@ class DLM_Download {
 	 * has_version_number function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return bool
 	 */
 	public function has_version_number() {
 		return ! empty( $this->get_file_version()->version );
@@ -320,7 +320,7 @@ class DLM_Download {
 	 * get_the_filename function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return string
 	 */
 	public function get_the_filename() {
 		return $this->get_file_version()->filename;
@@ -400,7 +400,7 @@ class DLM_Download {
 	 * get_the_filetype function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return string
 	 */
 	public function get_the_filetype() {
 		return $this->get_file_version()->filetype;
@@ -459,7 +459,7 @@ class DLM_Download {
 	 * Get a version ID from a version string.
 	 *
 	 * @access public
-	 * @return void
+	 * @return void|int
 	 */
 	public function get_version_id( $version_string = '' ) {
 		$versions = $this->get_file_versions();
@@ -477,7 +477,7 @@ class DLM_Download {
 	 * @access public
 	 * @return bool
 	 */
-	function is_featured() {
+	public function is_featured() {
 		return ( $this->featured == 'yes' ) ? true : false;
 	}
 
@@ -487,7 +487,7 @@ class DLM_Download {
 	 * @access public
 	 * @return bool
 	 */
-	function is_members_only() {
+	public function is_members_only() {
 		return ( $this->members_only == 'yes' ) ? true : false;
 	}
 
@@ -497,7 +497,7 @@ class DLM_Download {
 	 * @access public
 	 * @return bool
 	 */
-	function redirect_only() {
+	public function redirect_only() {
 		return ( $this->redirect_only == 'yes' ) ? true : false;
 	}
 
@@ -507,7 +507,7 @@ class DLM_Download {
 	 * @access public
 	 * @return array
 	 */
-	function get_file_version_ids() {
+	public function get_file_version_ids() {
 		if ( ! is_array( $this->file_version_ids ) ) {
 			$transient_name = 'dlm_file_version_ids_' . $this->id;
 
@@ -528,11 +528,13 @@ class DLM_Download {
 	 * @return array
 	 */
 	public function get_file_versions() {
+
 		if ( $this->files ) {
 			return $this->files;
 		}
 
 		$version_ids = $this->get_file_version_ids();
+
 		$this->files = array();
 
 		foreach ( $version_ids as $version_id ) {

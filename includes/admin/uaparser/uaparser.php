@@ -28,8 +28,13 @@
  */
 
 // address 5.1 compatibility
-if (!function_exists('json_decode') || !function_exists('json_encode')) {
-    require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'lib/json/jsonwrapper.php');
+if ( ! function_exists( 'json_decode' ) || ! function_exists( 'json_encode' ) ) {
+    $die_message = 'A minimum of PHP version 5.2.4 is required to run WordPress. More information can be read here: https://wordpress.org/about/requirements/';
+    if ( function_exists( 'wp_die' ) ) {
+        wp_die( $die_message );
+    } else {
+        die( $die_message );
+    }
 }
 
 class UAParser {
