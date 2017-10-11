@@ -1,0 +1,35 @@
+{
+  "name": "download-monitor",
+  "description": "Download Monitor",
+  "keywords": [
+    "wordpress",
+    "download monitor"
+  ],
+  "homepage": "https://www.download-monitor.com/",
+  "license": "GPL-2.0+",
+  "author": "Never5",
+  "require": {
+    "xrstf/composer-php52": "1.*"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ],
+    "post-update-cmd": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ],
+    "post-autoload-dump": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ]
+  },
+  "autoload": {
+    "classmap": [
+      "includes/",
+      "includes/admin",
+      "includes/admin/settings",
+      "includes/admin/settings/fields",
+      "includes/product",
+      "includes/widgets"
+    ]
+  }
+}
