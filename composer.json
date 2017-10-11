@@ -25,11 +25,12 @@
   "autoload": {
     "classmap": [
       "includes/",
-      "includes/admin",
-      "includes/admin/settings",
-      "includes/admin/settings/fields",
-      "includes/product",
-      "includes/widgets"
+      "includes/Admin",
+      "includes/Admin/Settings",
+      "includes/Admin/Settings/Fields",
+      "includes/Download",
+      "includes/Product",
+      "includes/Widgets"
     ]
   }
 }
