@@ -31,7 +31,7 @@ class DLM_Admin_Fields_Field_Factory {
 				$field = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
 				break;
 			case 'lazy_select':
-				$field = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
+				$field = new DLM_Admin_Fields_Field_Lazy_Select( $option['name'], $value, $option['options'] );
 				break;
 			default:
 				/**
