@@ -119,6 +119,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.0.0: November X, 2017 =
+* Tweak: Complete rewrite of setting fields.
+* Tweak: Introduced new filter "dlm_setting_field_TYPE", allowing third party programs to add custom field types to settings.
+* Tweak: Implemented Composer autoloader.
+
 = 1.9.8: October 6, 2017 =
 * Tweak: Add option to allow HTTP header X_FORWARD_FOR. Allowing Download Monitor to use the X_FORWARDED_FOR HTTP header set by proxies as the IP address.
 * Tweak: Download files that are added via 'Quick-add download' are now properly added to WP media library.
