@@ -10,15 +10,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Download {
 
 	/** @var int  */
-	public $id;
+	private $id;
 
 	/** @var WP_Post  */
 	public $post;
 
 	/** @var string  */
-	public $version_id;
+	private $version_id;
 
+	/** @var int  */
+	private $download_count = 0;
+
+	/** @var bool  */
+	private $redirect_only = false;
+
+	/** @var bool */
+	private $featured = false;
+
+	/** @var bool  */
+	private $members_only = false;
+
+	/** @var array */
 	private $files;
+
+	/** @var array */
 	private $file_version_ids;
 
 	/**
@@ -26,26 +41,19 @@ class DLM_Download {
 	 *
 	 * @access public
 	 *
-	 * @param int $id
+	 * @param bool deprecated, don't use
 	 *
 	 */
-	public function __construct( $id ) {
+	public function __construct( $id=false ) {
+
+		// backwards compatibility
+		if(false !== $id) {
+			DLM_Debug_Logger::log("DLM_Download class should not be created via the constructor. Use the DLM_Download_Factory class instead.");
+		}
+
 		$this->id         = absint( $id );
 		$this->post       = get_post( $this->id );
 		$this->version_id = ''; // Use latest current version
-	}
-
-	/**
-	 * __isset function.
-	 *
-	 * @access public
-	 *
-	 * @param mixed $key
-	 *
-	 * @return bool
-	 */
-	public function __isset( $key ) {
-		return metadata_exists( 'post', $this->id, '_' . $key );
 	}
 
 	/**
@@ -478,7 +486,7 @@ class DLM_Download {
 	 * @return bool
 	 */
 	public function is_featured() {
-		return ( $this->featured == 'yes' ) ? true : false;
+		return $this->featured;
 	}
 
 	/**
@@ -488,7 +496,7 @@ class DLM_Download {
 	 * @return bool
 	 */
 	public function is_members_only() {
-		return ( $this->members_only == 'yes' ) ? true : false;
+		return $this->members_only;
 	}
 
 	/**
@@ -497,8 +505,24 @@ class DLM_Download {
 	 * @access public
 	 * @return bool
 	 */
+	public function is_redirect_only() {
+//		return ( $this->redirect_only == 'yes' ) ? true : false;
+		return $this->redirect_only;
+	}
+
+	/**
+	 * redirect_only function.
+	 * Deprecated, use is_redirect_only() instead
+	 *
+	 * @access public
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @return bool
+	 */
 	public function redirect_only() {
-		return ( $this->redirect_only == 'yes' ) ? true : false;
+		DLM_Debug_Logger::deprecated( "DLM_Download::redirect_only()" );
+		return $this->is_redirect_only();
 	}
 
 	/**

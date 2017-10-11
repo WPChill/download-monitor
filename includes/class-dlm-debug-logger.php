@@ -2,6 +2,8 @@
 
 class DLM_Debug_Logger {
 
+	const MSG_PREFIX = "DLM Notice: ";
+
 	/**
 	 * Returns if debugging is enabled
 	 *
@@ -23,7 +25,7 @@ class DLM_Debug_Logger {
 			return;
 		}
 
-		error_log( $message, 0 );
+		error_log( self::MSG_PREFIX . $message, 0 );
 
 	}
 
@@ -42,7 +44,7 @@ class DLM_Debug_Logger {
 		// Debug message
 		$message = 'Deprecated method called: ' . $method . PHP_EOL;
 
-		error_log( $message, 0 );
+		error_log( self::MSG_PREFIX . $message, 0 );
 	}
 
 }
