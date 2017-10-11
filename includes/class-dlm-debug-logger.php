@@ -2,51 +2,45 @@
 
 class DLM_Debug_Logger {
 
+	/**
+	 * Returns if debugging is enabled
+	 *
+	 * @return bool
+	 */
+	private static function is_enabled() {
+		return WP_DEBUG;
+	}
+
+	/**
+	 * Log debug message
+	 *
+	 * @param string $message
+	 */
+	public static function log( $message ) {
+
+		// Only continue if enabled
+		if ( ! self::is_enabled() ) {
+			return;
+		}
+
+		error_log( $message, 0 );
+
+	}
+
+	/**
+	 * Log deprecated warning
+	 *
+	 * @param string $method
+	 */
 	public static function deprecated( $method ) {
 
-		// Don't log if WP_DEBUG is off
-		if ( ! WP_DEBUG ) {
+		// Only continue if enabled
+		if ( ! self::is_enabled() ) {
 			return;
 		}
 
 		// Debug message
 		$message = 'Deprecated method called: ' . $method . PHP_EOL;
-
-		/*
-		// Get stack trace
-		$stack_trace = debug_backtrace();
-
-		// Remove this method
-		array_shift( $stack_trace );
-
-		if ( count( $stack_trace ) > 0 ) {
-			foreach ( $stack_trace as $item ) {
-
-				// Add Class
-				if ( isset( $item['class'] ) ) {
-					$message .= $item['class'] . '::';
-				}
-
-				// Add Method / Functions
-				if ( isset( $item['function'] ) ) {
-					$message .= $item['function'] . ' - ';
-				}
-
-				// Add File
-				if ( isset( $item['file'] ) ) {
-					$message .= $item['file'];
-				}
-
-				// Add Line #
-				if ( isset( $item['line'] ) ) {
-					$message .= '#' . $item['line'];
-				}
-
-				// EOL
-				$message .= PHP_EOL;
-			}
-		}
-		*/
 
 		error_log( $message, 0 );
 	}
