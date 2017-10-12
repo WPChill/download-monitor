@@ -42,7 +42,7 @@ class DLM_Debug_Logger {
 		}
 
 		// Debug message
-		$message = 'Deprecated method called: ' . $method . PHP_EOL;
+		$message = 'Deprecated method called: ' . $method;
 
 		error_log( self::MSG_PREFIX . $message, 0 );
 	}

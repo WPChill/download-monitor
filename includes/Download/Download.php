@@ -9,32 +9,56 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class DLM_Download {
 
-	/** @var int  */
+	/** @var int */
 	private $id;
 
-	/** @var WP_Post  */
-	public $post;
+	/** @var string */
+	private $title;
 
-	/** @var string  */
-	private $version_id;
+	/** @var string */
+	private $slug;
 
-	/** @var int  */
+	/** @var string */
+	private $status;
+
+	/** @var int */
+	private $author;
+
+	/** @var string */
+	private $description;
+
+	/** @var string */
+	private $excerpt;
+
+	/** @var int */
 	private $download_count = 0;
 
-	/** @var bool  */
+	/** @var bool */
 	private $redirect_only = false;
 
 	/** @var bool */
 	private $featured = false;
 
-	/** @var bool  */
+	/** @var bool */
 	private $members_only = false;
 
-	/** @var array */
-	private $files;
+	/** @var DLM_Download_Version */
+	private $version = null;
 
 	/** @var array */
-	private $file_version_ids;
+	private $versions;
+
+	/** @var array */
+	private $version_ids;
+
+	/**
+	 * @var WP_Post
+	 * @deprecated 4.0
+	 *
+	 * Please don't use the $post variable directly anymore.
+	 * The variable is left in for now for backwards compatibility but will be removed in the future!
+	 */
+	public $post;
 
 	/**
 	 * __construct function.
@@ -44,16 +68,19 @@ class DLM_Download {
 	 * @param bool deprecated, don't use
 	 *
 	 */
-	public function __construct( $id=false ) {
+	public function __construct( $id = false ) {
 
 		// backwards compatibility
-		if(false !== $id) {
-			DLM_Debug_Logger::log("DLM_Download class should not be created via the constructor. Use the DLM_Download_Factory class instead.");
+		if ( false !== $id ) {
+			DLM_Debug_Logger::log( "DLM_Download class should not be created via the constructor. Use the DLM_Download_Factory class instead." );
+
+
+//			$this->id         = absint( $id );
+//			$this->post       = get_post( $this->id );
+//			$this->version_id = ''; // Use latest current version
 		}
 
-		$this->id         = absint( $id );
-		$this->post       = get_post( $this->id );
-		$this->version_id = ''; // Use latest current version
+
 	}
 
 	/**
@@ -65,25 +92,27 @@ class DLM_Download {
 	 *
 	 * @return mixed
 	 */
-	public function __get( $key ) {
-
-		// Get values or default if not set
-		if ( 'members_only' == $key ) {
-			$value = ( $value = get_post_meta( $this->id, '_members_only', true ) ) ? $value : 'no';
-		} elseif ( 'featured' == $key ) {
-			$value = ( $value = get_post_meta( $this->id, '_featured', true ) ) ? $value : 'no';
-		} elseif ( 'redirect_only' == $key ) {
-			$value = ( $value = get_post_meta( $this->id, '_redirect_only', true ) ) ? $value : 'no';
-		} else {
-			$key   = ( ( strpos( $key, '_' ) !== 0 ) ? '_' . $key : $key );
-			$value = get_post_meta( $this->id, $key, true );
-		}
-
-		return $value;
-	}
+//	public function __get( $key ) {
+//
+//		// Get values or default if not set
+//		if ( 'members_only' == $key ) {
+//			$value = ( $value = get_post_meta( $this->id, '_members_only', true ) ) ? $value : 'no';
+//		} elseif ( 'featured' == $key ) {
+//			$value = ( $value = get_post_meta( $this->id, '_featured', true ) ) ? $value : 'no';
+//		} elseif ( 'redirect_only' == $key ) {
+//			$value = ( $value = get_post_meta( $this->id, '_redirect_only', true ) ) ? $value : 'no';
+//		} else {
+//			$key   = ( ( strpos( $key, '_' ) !== 0 ) ? '_' . $key : $key );
+//			$value = get_post_meta( $this->id, $key, true );
+//		}
+//
+//		return $value;
+//	}
 
 	/**
 	 * exists function.
+	 *
+	 * @todo rewrite this method. Check on ID not on post. Also exists requires specific status
 	 *
 	 * @access public
 	 * @return bool
@@ -93,43 +122,31 @@ class DLM_Download {
 	}
 
 	/**
-	 * version_exists function.
-	 *
-	 * @access public
-	 *
-	 * @param mixed $version_id
-	 *
-	 * @return bool
+	 * @return int
 	 */
-	public function version_exists( $version_id ) {
-		return in_array( $version_id, array_keys( $this->get_file_versions() ) );
+	public function get_id() {
+		return $this->id;
 	}
 
 	/**
-	 * Set the download to a version other than the current / latest version it defaults to.
-	 *
-	 * @access public
-	 *
-	 * @param mixed $version_id
-	 *
-	 * @return void
+	 * @param int $id
 	 */
-	public function set_version( $version_id = '' ) {
-		if ( $this->version_exists( $version_id ) ) {
-			$this->version_id = $version_id;
-		} else {
-			$this->version_id = '';
-		}
+	public function set_id( $id ) {
+		$this->id = $id;
 	}
 
 	/**
-	 * get_title function.
-	 *
-	 * @access public
 	 * @return string
 	 */
-	public function get_the_title() {
-		return $this->post->post_title;
+	public function get_title() {
+		return $this->title;
+	}
+
+	/**
+	 * @param string $title
+	 */
+	public function set_title( $title ) {
+		$this->title = $title;
 	}
 
 	/**
@@ -139,39 +156,189 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_title() {
-		echo $this->get_the_title();
+		echo $this->get_title();
 	}
 
 	/**
-	 * get_the_short_description function.
+	 * @return string
+	 */
+	public function get_slug() {
+		return $this->slug;
+	}
+
+	/**
+	 * @param string $slug
+	 */
+	public function set_slug( $slug ) {
+		$this->slug = $slug;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_status() {
+		return $this->status;
+	}
+
+	/**
+	 * @param string $status
+	 */
+	public function set_status( $status ) {
+		$this->status = $status;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_author() {
+		return $this->author;
+	}
+
+	/**
+	 * @param int $author
+	 */
+	public function set_author( $author ) {
+		$this->author = $author;
+	}
+
+	/**
+	 * Helper method that returns author 'display_name'
 	 *
 	 * @access public
 	 * @return string
 	 */
-	public function get_the_short_description() {
-		return wpautop( do_shortcode( $this->post->post_excerpt ) );
+	public function get_the_author() {
+		$author_id = $this->get_author();
+		$user      = get_user_by( 'ID', $author_id );
+		if ( $user ) {
+			return $user->display_name;
+		}
+
+		return '';
 	}
 
 	/**
-	 * the_short_description function.
+	 * Helper method that prints author 'display_name'
 	 *
 	 * @access public
 	 * @return void
 	 */
-	public function the_short_description() {
-		echo $this->get_the_short_description();
+	public function the_author() {
+		echo $this->get_the_author();
 	}
 
 	/**
-	 * get_the_image function.
+	 * @return string
+	 */
+	public function get_description() {
+		return $this->description;
+	}
+
+	/**
+	 * @param string $description
+	 */
+	public function set_description( $description ) {
+		$this->description = $description;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_excerpt() {
+		return $this->excerpt;
+	}
+
+	/**
+	 * Prints the excerpt
+	 */
+	public function the_excerpt() {
+		echo $this->get_excerpt();
+	}
+
+	/**
+	 * @param string $excerpt
+	 */
+	public function set_excerpt( $excerpt ) {
+		$this->excerpt = $excerpt;
+	}
+
+	/**
+	 * redirect_only function.
 	 *
 	 * @access public
+	 * @return bool
+	 */
+	public function is_redirect_only() {
+		return $this->redirect_only;
+	}
+
+	/**
+	 * @param bool $redirect_only
+	 */
+	public function set_redirect_only( $redirect_only ) {
+		$this->redirect_only = $redirect_only;
+	}
+
+	/**
+	 * is_featured function.
 	 *
-	 * @param string $size (default: 'full')
+	 * @access public
+	 * @return bool
+	 */
+	public function is_featured() {
+		return $this->featured;
+	}
+
+	/**
+	 * @param bool $featured
+	 */
+	public function set_featured( $featured ) {
+		$this->featured = $featured;
+	}
+
+	/**
+	 * is_members_only function.
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function is_members_only() {
+		return $this->members_only;
+	}
+
+	/**
+	 * @param bool $members_only
+	 */
+	public function set_members_only( $members_only ) {
+		$this->members_only = $members_only;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_download_count() {
+		if( ! $this->get_version()->is_latest() ) {
+			return $this->get_version()->get_download_count();
+		}else {
+			return $this->download_count;
+		}
+	}
+
+	/**
+	 * @param int $download_count
+	 */
+	public function set_download_count( $download_count ) {
+		$this->download_count = $download_count;
+	}
+
+	/**
+	 * Get download image
+	 *
+	 * @param string $size
 	 *
 	 * @return string
 	 */
-	public function get_the_image( $size = 'full' ) {
+	public function get_image( $size = 'full' ) {
 		if ( has_post_thumbnail( $this->id ) ) {
 			return get_the_post_thumbnail( $this->id, $size );
 		} else {
@@ -189,31 +356,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_image( $size = 'full' ) {
-		echo $this->get_the_image( $size );
-	}
-
-	/**
-	 * get_author function.
-	 *
-	 * @access public
-	 * @return void|string
-	 */
-	public function get_the_author() {
-		$author_id = $this->post->post_author;
-		$user      = get_user_by( 'ID', $author_id );
-		if ( $user ) {
-			return $user->display_name;
-		}
-	}
-
-	/**
-	 * the_author function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function the_author() {
-		echo $this->get_the_author();
+		echo $this->get_image( $size );
 	}
 
 	/**
@@ -252,262 +395,162 @@ class DLM_Download {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
 		}
 
-		if ( $this->version_id ) {
+		// only add version argument when current version isn't latest version
+		if ( false === $this->get_version()->is_latest() ) {
 
-			if ( $this->has_version_number() ) {
-				$link = add_query_arg( 'version', $this->get_file_version()->get_version_slug(), $link );
+			if ( $this->get_version()->has_version_number() ) {
+				$link = add_query_arg( 'version', $this->get_version()->get_version_slug(), $link );
 			} else {
-				$link = add_query_arg( 'v', $this->version_id, $link );
+				$link = add_query_arg( 'v', $this->get_version()->get_id(), $link );
 			}
 		}
 
-		return apply_filters( 'dlm_download_get_the_download_link', esc_url_raw( $link ), $this, $this->version_id );
+		return apply_filters( 'dlm_download_get_the_download_link', esc_url_raw( $link ), $this, $this->get_version()->get_id() );
 	}
 
 	/**
-	 * the_download_count function.
-	 *
-	 * @access public
-	 * @return void
+	 * Version related methods
 	 */
-	public function the_download_count() {
-		echo $this->get_the_download_count();
-	}
 
 	/**
-	 * get_the_download_count function.
-	 *
-	 * @access public
-	 * @return int
-	 */
-	public function get_the_download_count() {
-		if ( $this->version_id ) {
-			return absint( $this->get_file_version()->download_count );
-		} else {
-			return absint( $this->download_count );
-		}
-	}
-
-	/**
-	 * has_version_number function.
-	 *
-	 * @access public
-	 * @return bool
-	 */
-	public function has_version_number() {
-		return ! empty( $this->get_file_version()->version );
-	}
-
-	/**
-	 * get_the_version_number function.
-	 *
-	 * @access public
-	 * @return String
-	 */
-	public function get_the_version_number() {
-		$version = $this->get_file_version()->version;
-
-		if ( '' === $version ) {
-			$version = 1;
-		}
-
-		return $version;
-	}
-
-	/**
-	 * the_version_number function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function the_version_number() {
-		echo $this->get_the_version_number();
-	}
-
-	/**
-	 * get_the_filename function.
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function get_the_filename() {
-		return $this->get_file_version()->filename;
-	}
-
-	/**
-	 * the_filename function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function the_filename() {
-		echo $this->get_the_filename();
-	}
-
-	/**
-	 * get_the_file_date function.
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function get_the_file_date() {
-		$post = get_post( $this->get_file_version()->id );
-
-		return $post->post_date;
-	}
-
-	/**
-	 * get_the_filesize function.
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function get_the_filesize() {
-		$filesize = $this->get_file_version()->filesize;
-
-		if ( $filesize > 0 ) {
-			return size_format( $filesize );
-		}
-	}
-
-	/**
-	 * the_filesize function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function the_filesize() {
-		echo $this->get_the_filesize();
-	}
-
-	/**
-	 * Get the hash
-	 *
-	 * @param  string $type md5, sha1 or crc32
-	 *
-	 * @return string
-	 */
-	public function get_the_hash( $type = 'md5' ) {
-		$hash = $this->get_file_version()->$type;
-
-		return $hash;
-	}
-
-	/**
-	 * Get the hash
-	 *
-	 * @param  string $type md5, sha1 or crc32
-	 *
-	 * @return string
-	 */
-	public function the_hash( $type = 'md5' ) {
-		echo $this->get_the_hash( $type );
-	}
-
-	/**
-	 * get_the_filetype function.
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function get_the_filetype() {
-		return $this->get_file_version()->filetype;
-	}
-
-	/**
-	 * the_filetype function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function the_filetype() {
-		echo $this->get_the_filetype();
-	}
-
-	/**
-	 * Get a version by ID, or default to current version.
-	 *
-	 * @access public
-	 *
 	 * @return DLM_Download_Version
 	 */
-	public function get_file_version() {
-		$version = false;
+	public function get_version() {
 
-		if ( $this->version_id ) {
-			$versions = $this->get_file_versions();
-
-			if ( ! empty( $versions[ $this->version_id ] ) ) {
-				$version = $versions[ $this->version_id ];
-			}
-
-		} elseif ( $versions = $this->get_file_versions() ) {
-			$version = array_shift( $versions );
+		// set latest version as current version if no version is set
+		if ( $this->version == null ) {
+			$versions = $this->get_versions();
+			$latest   = array_shift( $versions );
+			$latest->set_latest( true );
+			$this->version = $latest;
 		}
 
-		if ( ! $version ) {
-
-			$version = new DLM_Download_Version();
-
-			$version->id             = 0;
-			$version->download_id    = $this->id;
-			$version->mirrors        = array();
-			$version->url            = '';
-			$version->filename       = '';
-			$version->filetype       = '';
-			$version->version        = '';
-			$version->download_count = '';
-			$version->filesize       = '';
-		}
-
-		return $version;
+		return $this->version;
 	}
 
 	/**
-	 * Get a version ID from a version string.
+	 * Set the download to a version other than the current / latest version it defaults to.
 	 *
-	 * @access public
-	 * @return void|int
+	 * @param DLM_Download_Version $version
 	 */
-	public function get_version_id( $version_string = '' ) {
-		$versions = $this->get_file_versions();
+	public function set_version( DLM_Download_Version $version ) {
+		// check if given version is a version of this download
+		if ( $version->get_download_id() == $this->get_id() ) {
+			$this->version = $version;
+		}
+	}
+
+	/**
+	 * Get version ID by version name
+	 *
+	 * This used to be get_version_id(), moved to this method.
+	 * @TODO: Check if this class is the correct place for this method.
+	 *
+	 * @param string $name
+	 *
+	 * @return int
+	 */
+	public function get_version_id_version_name( $name ) {
+		$versions = $this->get_versions();
 
 		foreach ( $versions as $version_id => $version ) {
-			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $version_string ), '=' ) ) || sanitize_title_with_dashes( $version->version ) === sanitize_title_with_dashes( $version_string ) ) {
-				return $version_id;
+			if ( ( is_numeric( $version->version ) && version_compare( $version->version, strtolower( $name ), '=' ) ) || sanitize_title_with_dashes( $version->version ) === sanitize_title_with_dashes( $name ) ) {
+				return absint( $version_id );
 			}
 		}
+
+		return 0;
 	}
 
 	/**
-	 * is_featured function.
+	 * version_exists function.
 	 *
 	 * @access public
+	 *
+	 * @param int $version_id
+	 *
 	 * @return bool
 	 */
-	public function is_featured() {
-		return $this->featured;
+	public function version_exists( $version_id ) {
+		return in_array( absint( $version_id ), array_keys( $this->get_versions() ) );
 	}
 
 	/**
-	 * is_members_only function.
+	 * get_file_version_ids function.
 	 *
 	 * @access public
-	 * @return bool
+	 * @return array
 	 */
-	public function is_members_only() {
-		return $this->members_only;
+	public function get_version_ids() {
+		if ( ! is_array( $this->version_ids ) ) {
+			$transient_name = 'dlm_file_version_ids_' . $this->id;
+
+			if ( false === ( $this->version_ids = get_transient( $transient_name ) ) ) {
+				$this->version_ids = get_posts( 'post_parent=' . $this->id . '&post_type=dlm_download_version&orderby=menu_order&order=ASC&fields=ids&post_status=publish&numberposts=-1' );
+
+				set_transient( $transient_name, $this->version_ids, YEAR_IN_SECONDS );
+			}
+		}
+
+		return $this->version_ids;
 	}
 
 	/**
-	 * redirect_only function.
+	 * get_file_versions function.
 	 *
 	 * @access public
-	 * @return bool
+	 * @return array
 	 */
-	public function is_redirect_only() {
-//		return ( $this->redirect_only == 'yes' ) ? true : false;
-		return $this->redirect_only;
+	public function get_versions() {
+
+		if ( $this->versions ) {
+			return $this->versions;
+		}
+
+		$version_ids = $this->get_version_ids();
+
+		$this->versions = array();
+
+		foreach ( $version_ids as $version_id ) {
+			$this->versions[ absint( $version_id ) ] = new DLM_Download_Version( $version_id, $this->id );
+		}
+
+		return $this->versions;
+	}
+
+	/**
+	 *
+	 * Deprecated methods below.
+	 *
+	 */
+
+	/**
+	 * get_the_short_description function.
+	 * Deprecated, use get_excerpt() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_the_short_description() {
+		DLM_Debug_Logger::deprecated( "DLM_Download::get_the_short_description()" );
+
+		return $this->get_excerpt();
+	}
+
+	/**
+	 * the_short_description function.
+	 * Deprecated, use the_excerpt() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function the_short_description() {
+		DLM_Debug_Logger::deprecated( "DLM_Download::the_short_description()" );
+		$this->the_excerpt();
 	}
 
 	/**
@@ -522,49 +565,301 @@ class DLM_Download {
 	 */
 	public function redirect_only() {
 		DLM_Debug_Logger::deprecated( "DLM_Download::redirect_only()" );
+
 		return $this->is_redirect_only();
 	}
 
 	/**
-	 * get_file_version_ids function.
+	 * get_the_title function.
+	 * Deprecated, use get_title() instead.
+	 *
+	 * @deprecated 4.0
 	 *
 	 * @access public
-	 * @return array
+	 * @return string
 	 */
-	public function get_file_version_ids() {
-		if ( ! is_array( $this->file_version_ids ) ) {
-			$transient_name = 'dlm_file_version_ids_' . $this->id;
+	public function get_the_title() {
+		DLM_Debug_Logger::deprecated( "DLM_Download::get_the_title()" );
 
-			if ( false === ( $this->file_version_ids = get_transient( $transient_name ) ) ) {
-				$this->file_version_ids = get_posts( 'post_parent=' . $this->id . '&post_type=dlm_download_version&orderby=menu_order&order=ASC&fields=ids&post_status=publish&numberposts=-1' );
-
-				set_transient( $transient_name, $this->file_version_ids, YEAR_IN_SECONDS );
-			}
-		}
-
-		return $this->file_version_ids;
+		return $this->get_title();
 	}
 
 	/**
-	 * get_file_versions function.
+	 * get_the_image function.
+	 * Deprecated, use get_image() instead.
 	 *
 	 * @access public
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @param string $size (default: 'full')
+	 *
+	 * @return string
+	 */
+	public function get_the_image( $size = 'full' ) {
+		DLM_Debug_Logger::deprecated( "DLM_Download::get_the_image()" );
+
+		return $this->get_image( $size );
+	}
+
+	/**
+	 * the_download_count function.
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function the_download_count() {
+		DLM_Debug_Logger::deprecated( "DLM_Download::the_download_count()" );
+
+		echo $this->get_download_count();
+	}
+
+	/**
+	 * get_the_download_count function.
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return int
+	 */
+	public function get_the_download_count() {
+		DLM_Debug_Logger::deprecated( "DLM_Download::get_the_download_count()" );
+
+		return $this->get_download_count();
+	}
+
+	/**
+	 * Deprecated, use get_versions() instead
+	 *
+	 * @deprecated 4.0
+	 *
 	 * @return array
 	 */
 	public function get_file_versions() {
+		DLM_Debug_Logger::deprecated( "DLM_Download::get_file_versions()" );
 
-		if ( $this->files ) {
-			return $this->files;
+		return $this->get_versions();
+	}
+
+	/**
+	 * Deprecated, use get_version_ids() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @return array
+	 */
+	public function get_file_version_ids() {
+		DLM_Debug_Logger::deprecated( "DLM_Download::get_file_version_ids()" );
+
+		return $this->get_version_ids();
+	}
+
+	/**
+	 * @param string (deprecated, do not use)
+	 *
+	 * @return int
+	 */
+	public function get_version_id( $version_string = '' ) {
+
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_version_id()' );
+
+		if ( ! empty( $version_string ) ) {
+			return $this->get_version_id_version_name( $version_string );
 		}
 
-		$version_ids = $this->get_file_version_ids();
+		return 0;
+	}
 
-		$this->files = array();
+	/**
+	 * Deprecated, use get_version() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 *
+	 * @return DLM_Download_Version
+	 */
+	public function get_file_version() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_file_version()' );
 
-		foreach ( $version_ids as $version_id ) {
-			$this->files[ $version_id ] = new DLM_Download_Version( $version_id, $this->id );
+		return $this->get_version();
+	}
+
+	/**
+	 * Deprecated, use get_version()->get_version_number() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_the_version_number() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_version_number()' );
+
+		return $this->get_version()->get_version_number();
+	}
+
+	/**
+	 * Deprecated, use echo get_version()->get_version_number() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function the_version_number() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::the_version_number()' );
+
+		echo $this->get_version()->get_version_number();
+	}
+
+	/**
+	 * Deprecated, use get_version()->has_version_number() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function has_version_number() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::has_version_number()' );
+
+		return $this->get_version()->has_version_number();
+	}
+
+	/**
+	 * Deprecated, use get_version()->get_filename() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_the_filename() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_filename()' );
+
+		return $this->get_version()->get_filename();
+	}
+
+	/**
+	 * Deprecated, use echo get_version()->get_filename() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function the_filename() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_filename()' );
+
+		echo $this->get_version()->get_filename();
+	}
+
+	/**
+	 * Deprecated, use echo get_version()->get_date() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_the_file_date() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_filename()' );
+
+		return $this->get_version()->get_date();
+	}
+
+	/**
+	 * Deprecated, use get_version()->get_filesize_formatted() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_the_filesize() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_filesize()' );
+
+		return $this->get_version()->get_filesize_formatted();
+	}
+
+	/**
+	 * Deprecated, use echo get_version()->get_filesize_formatted() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function the_filesize() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::the_filesize()' );
+
+		echo $this->get_version()->get_filesize_formatted();
+	}
+
+	/**
+	 * Deprecated, use get_version()->get_md5() (or hash you like) instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @param  string $type md5, sha1 or crc32
+	 *
+	 * @return string
+	 */
+	public function get_the_hash( $type = 'md5' ) {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_hash()' );
+
+		if ( method_exists( $this->get_version(), "get_" . $type ) ) {
+			return call_user_func( array( $this->get_version(), "get_" . $type ) );
 		}
 
-		return $this->files;
+		return "";
+	}
+
+	/**
+	 * Deprecated, use echo get_version()->get_md5() (or hash you like) instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @param  string $type md5, sha1 or crc32
+	 *
+	 * @return string
+	 */
+	public function the_hash( $type = 'md5' ) {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::the_hash()' );
+
+		if ( method_exists( $this->get_version(), "get_" . $type ) ) {
+			echo call_user_func( array( $this->get_version(), "get_" . $type ) );
+		}
+	}
+
+	/**
+	 * Deprecated, use get_version()->get_filetype() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_the_filetype() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_filetype()' );
+
+		return $this->get_version()->get_filetype();
+	}
+
+	/**
+	 * Deprecated, use echo get_version()->get_filetype() instead
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function the_filetype() {
+		DLM_Debug_Logger::deprecated( 'DLM_Download::the_filetype()' );
+
+		echo $this->get_version()->get_filetype();
 	}
 }

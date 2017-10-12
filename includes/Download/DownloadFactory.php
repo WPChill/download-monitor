@@ -27,11 +27,25 @@ class DLM_Download_Factory {
 
 		$download = new DLM_Download();
 
-		if($id > 0) {
+		if ( $id > 0 ) {
 
 			try {
-				$data = $this->repository->retrieve($id);
-			}catch(Exception $e) {
+				// retrieve data
+				$data = $this->repository->retrieve( $id );
+
+				// set all returned data on object
+				foreach ( $data as $dkey => $dval ) {
+					$method = 'set_' . $dkey;
+					if ( method_exists( $download, $method ) ) {
+						$download->$method( $dval );
+					}
+				}
+
+				// set id
+				$download->set_id( $data->id );
+
+
+			} catch ( Exception $e ) {
 
 			}
 
