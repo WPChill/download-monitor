@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WP_DLM {
 
+	private $services = null;
+
 	/**
 	 * Get the plugin file
 	 *
@@ -45,12 +47,26 @@ class WP_DLM {
 	}
 
 	/**
+	 * Return requested service
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function service( $key ) {
+		return $this->services->get( $key );
+	}
+
+	/**
 	 * __construct function.
 	 *
 	 * @access public
 	 */
 	public function __construct() {
 		global $wpdb;
+
+		// Setup Services
+		$this->services = new DLM_Services();
 
 		// Load plugin text domain
 		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
