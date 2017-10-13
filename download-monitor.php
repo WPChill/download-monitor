@@ -35,26 +35,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Define DLM Version
 define( 'DLM_VERSION', '4.0.0' );
 
-function __download_monitor_main() {
+// Define DLM FILE
+define( 'DLM_PLUGIN_FILE', __FILE__ );
 
-	// Define DLM FILE
-	define( 'DLM_PLUGIN_FILE', __FILE__ );
-
-	// require autoloader
-	require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
-
-	// Require class file
-	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/class-wp-dlm.php';
-
-	// Create DLM object
-	$dlm = new WP_DLM();
-
-	// Backwards compatibility
-	$GLOBALS['download_monitor'] = $dlm;
+function download_monitor() {
+	static $instance;
+	if ( is_null( $instance ) ) {
+		$instance = new WP_DLM();
+	}
+	return $instance;
 }
 
+function __load_download_monitor() {
+	// fetch instance and store in global
+	$GLOBALS['download_monitor'] = download_monitor();
+}
+
+// require autoloader
+require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
+
 // Init plugin
-add_action( 'plugins_loaded', '__download_monitor_main', 10 );
+add_action( 'plugins_loaded', '__load_download_monitor', 10 );
 
 if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
 
