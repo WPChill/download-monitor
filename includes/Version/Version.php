@@ -63,6 +63,7 @@ class DLM_Download_Version {
 
 		// Check if both version and download id are given in constructor
 		if ( 0 !== $version_id && 0 !== $download_id ) {
+			DLM_Debug_Logger::log("DLM_Download_Version should not be created via the constructor. Use DLM_Version_Factory instead.");
 			// Setup the class with DB data
 			$this->setup( $version_id, $download_id );
 		}
