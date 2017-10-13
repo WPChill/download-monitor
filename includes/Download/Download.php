@@ -72,7 +72,8 @@ class DLM_Download {
 
 		// backwards compatibility
 		if ( false !== $id ) {
-			DLM_Debug_Logger::log( "DLM_Download class should not be created via the constructor. Use the DLM_Download_Factory class instead." );
+			DLM_Debug_Logger::log( "DLM_Download class should not be created via the constructor. Use DLM_Download_Factory instead." );
+
 
 
 //			$this->id         = absint( $id );
@@ -512,7 +513,7 @@ class DLM_Download {
 		$this->versions = array();
 
 		foreach ( $version_ids as $version_id ) {
-			$this->versions[ absint( $version_id ) ] = new DLM_Download_Version( $version_id, $this->id );
+			$this->versions[ absint( $version_id ) ] = download_monitor()->service( 'version_factory' )->make( $version_id );
 		}
 
 		return $this->versions;
