@@ -427,6 +427,13 @@ class DLM_Download {
 	}
 
 	/**
+	 * Clear versions transient for this download
+	 */
+	public function clear_versions_transient() {
+		delete_transient( 'dlm_file_version_ids_' . $this->get_id() );
+	}
+
+	/**
 	 * get_file_version_ids function.
 	 *
 	 * @access public
