@@ -66,17 +66,17 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function download_information( $post ) {
-		global $post;
 
-		$download = new DLM_Download( $post->ID );
+        /** @var DLM_Download $download */
+		$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
 
 		echo '<div class="dlm_information_panel">';
 
-		do_action( 'dlm_information_start', $download->id );
+		do_action( 'dlm_information_start', $download->get_id(), $download );
 		?>
 		<p>
 			<label for="dlm-info-id"><?php _e( 'ID', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-id" value="<?php echo $download->id; ?>" readonly />
+				<input type="text" id="dlm-info-id" value="<?php echo $download->get_id(); ?>" readonly />
 			</label>
 		</p>
 		<p>
@@ -86,11 +86,11 @@ class DLM_Admin_Writepanels {
 		</p>
 		<p>
 			<label for="dlm-info-shortcode"><?php _e( 'Shortcode', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->id; ?>"]' readonly />
+				<input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->get_id(); ?>"]' readonly />
 			</label>
 		</p>
 		<?php
-		do_action( 'dlm_information_end', $download->id );
+		do_action( 'dlm_information_end', $download->get_id(), $download );
 
 		echo '</div>';
 	}
@@ -105,33 +105,33 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function download_options( $post ) {
-		global $post, $thepostid;
 
-		$thepostid = $post->ID;
+		/** @var DLM_Download $download */
+		$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
 
 		echo '<div class="dlm_options_panel">';
 
-		do_action( 'dlm_options_start', $thepostid );
+		do_action( 'dlm_options_start', $download->get_id(), $download );
 
 		echo '<p class="form-field form-field-checkbox">
-			<input type="checkbox" name="_featured" id="_featured" ' . checked( get_post_meta( $thepostid, '_featured', true ), 'yes', false ) . ' />
+			<input type="checkbox" name="_featured" id="_featured" ' . checked( true, $download->is_featured(), false ) . ' />
 			<label for="_featured">' . __( 'Featured download', 'download-monitor' ) . '</label>
 			<span class="dlm-description">' . __( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
-			<input type="checkbox" name="_members_only" id="_members_only" ' . checked( get_post_meta( $thepostid, '_members_only', true ), 'yes', false ) . ' />
+			<input type="checkbox" name="_members_only" id="_members_only" ' . checked( true, $download->is_members_only(), false ) . ' />
 			<label for="_members_only">' . __( 'Members only', 'download-monitor' ) . '</label>
 			<span class="dlm-description">' . __( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
-			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( get_post_meta( $thepostid, '_redirect_only', true ), 'yes', false ) . ' />
+			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( true, $download->is_redirect_only(), false ) . ' />
 			<label for="_redirect_only">' . __( 'Redirect to file', 'download-monitor' ) . '</label>
 			<span class="dlm-description">' . __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
 		</p>';
 
-		do_action( 'dlm_options_end', $thepostid );
+		do_action( 'dlm_options_end', $download->get_id(), $download );
 
 		echo '</div>';
 	}
@@ -145,16 +145,19 @@ class DLM_Admin_Writepanels {
 	public function download_files() {
 		global $post;
 
+		/** @var DLM_Download $download */
+		$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
+
 		wp_nonce_field( 'save_meta_data', 'dlm_nonce' );
 		?>
 		<div class="download_monitor_files dlm-metaboxes-wrapper">
 
-			<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo $post->ID; ?>" />
+			<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo $download->get_id(); ?>" />
 			<input type="hidden" name="dlm_post_id" id="dlm-plugin-url" value="<?php echo WP_DLM::get_plugin_url(); ?>" />
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-add-file" value="<?php echo wp_create_nonce( "add-file" ); ?>" />
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file" value="<?php echo wp_create_nonce( "remove-file" ); ?>" />
 
-			<?php do_action( 'dlm_download_monitor_files_writepanel_start' ); ?>
+			<?php do_action( 'dlm_download_monitor_files_writepanel_start', $download ); ?>
 
 			<p class="toolbar">
 				<a href="#" class="button plus add_file"><?php _e( 'Add file', 'download-monitor' ); ?></a>
@@ -165,25 +168,18 @@ class DLM_Admin_Writepanels {
 			<div class="dlm-metaboxes downloadable_files">
 				<?php
 				$i     = - 1;
-				$files = get_posts( 'post_parent=' . $post->ID . '&post_type=dlm_download_version&orderby=menu_order&order=ASC&post_status=any&numberposts=-1' );
+				$versions = $download->get_versions();
 
-				if ( $files ) {
-					foreach ( $files as $file ) {
+				if ( $versions ) {
+				    /** @var DLM_Download_Version $version */
+					foreach ( $versions as $version ) {
 
 						$i ++;
-						$file_id             = $file->ID;
-						$file_version        = ( $file_version = get_post_meta( $file->ID, '_version', true ) ) ? $file_version : '';
-						$file_post_date      = $file->post_date;
-						$file_download_count = absint( get_post_meta( $file->ID, '_download_count', true ) );
-						$file_urls           = get_post_meta( $file->ID, '_files', true );
-
-						if ( is_string( $file_urls ) ) {
-							$file_urls = array_filter( (array) json_decode( $file_urls ) );
-						} elseif ( is_array( $file_urls ) ) {
-							$file_urls = array_filter( $file_urls );
-						} else {
-							$file_urls = array();
-						}
+						$file_id             = $version->get_id();
+						$file_version        = $version->get_version();
+						$file_post_date      = $version->get_date();
+						$file_download_count = $version->get_download_count();
+						$file_urls           = $version->get_mirrors();
 
 						include( 'html-downloadable-file-version.php' );
 					}
@@ -191,7 +187,7 @@ class DLM_Admin_Writepanels {
 				?>
 			</div>
 
-			<?php do_action( 'dlm_download_monitor_files_writepanel_end' ); ?>
+			<?php do_action( 'dlm_download_monitor_files_writepanel_end', $download ); ?>
 
 		</div>
 	<?php
@@ -267,7 +263,28 @@ class DLM_Admin_Writepanels {
 	public function save_meta_boxes( $post_id, $post ) {
 		global $wpdb;
 
+		/**
+         * Fetch old download object
+         * There are certain props we don't need to manually persist here because WP does this automatically for us.
+         * These props are:
+         * - Download Title
+         * - Download Status
+         * - Download Author
+         * - Download Description & Excerpt
+         * - Download Categories
+         * - Download Tags
+         *
+         */
+		/** @var DLM_Download $download */
+		$download = download_monitor()->service( 'download_factory' )->make( $post_id );
+
+		// set the 'Download Options'
+		$download->set_featured( ( isset( $_POST['_featured'] ) ) );
+		$download->set_members_only( ( isset( $_POST['_members_only'] ) ) );
+		$download->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
+
 		// Update options
+        /*
 		$_featured      = ( isset( $_POST['_featured'] ) ) ? 'yes' : 'no';
 		$_members_only  = ( isset( $_POST['_members_only'] ) ) ? 'yes' : 'no';
 		$_redirect_only = ( isset( $_POST['_redirect_only'] ) ) ? 'yes' : 'no';
@@ -275,12 +292,14 @@ class DLM_Admin_Writepanels {
 		update_post_meta( $post_id, '_featured', $_featured );
 		update_post_meta( $post_id, '_members_only', $_members_only );
 		update_post_meta( $post_id, '_redirect_only', $_redirect_only );
+        */
 
 		$total_download_count = 0;
 
 		// Process files
 		if ( isset( $_POST['downloadable_file_id'] ) ) {
 
+		    // gather post data
 			$downloadable_file_id             = $_POST['downloadable_file_id'];
 			$downloadable_file_menu_order     = $_POST['downloadable_file_menu_order'];
 			$downloadable_file_version        = $_POST['downloadable_file_version'];
@@ -290,12 +309,15 @@ class DLM_Admin_Writepanels {
 			$downloadable_file_date_minute    = $_POST['downloadable_file_date_minute'];
 			$downloadable_file_download_count = $_POST['downloadable_file_download_count'];
 
+			// loop
 			for ( $i = 0; $i <= max( array_keys( $downloadable_file_id ) ); $i ++ ) {
 
+			    // file id must be set in post data
 				if ( ! isset( $downloadable_file_id[ $i ] ) ) {
 					continue;
 				}
 
+				// sanatize post data
 				$file_id             = absint( $downloadable_file_id[ $i ] );
 				$file_menu_order     = absint( $downloadable_file_menu_order[ $i ] );
 				$file_version        = strtolower( sanitize_text_field( $downloadable_file_version[ $i ] ) );
@@ -305,70 +327,48 @@ class DLM_Admin_Writepanels {
 				$file_download_count = sanitize_text_field( $downloadable_file_download_count[ $i ] );
 				$files               = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
 
+				// only continue if there's a file_id
 				if ( ! $file_id ) {
 					continue;
 				}
 
-				// Generate a useful post title
-				$file_post_title = 'Download #' . $post_id . ' File Version';
-
-				// Generate date
+				// format correct file date
 				if ( empty( $file_date ) ) {
-					$date = current_time( 'timestamp' );
+					$file_date_string = current_time( 'timestamp' );
 				} else {
-					$date = strtotime( $file_date . ' ' . $file_date_hour . ':' . $file_date_minute . ':00' );
+					$file_date_string = strtotime( $file_date . ' ' . $file_date_hour . ':' . $file_date_minute . ':00' );
 				}
+
+				// create version object
+				/** @var DLM_Download_Version $version */
+				$version = download_monitor()->service( 'version_factory' )->make( $file_id );
+
+				// set post data in version object
+				$version->set_menu_order( $file_menu_order );
+				$version->set_version( $file_version );
+				$version->set_date( $file_date_string );
+				$version->set_download_count( $file_download_count );
+				$version->set_mirrors( download_monitor()->service( 'file_manager' )->json_encode_files( $files ) );
 
 				// Update
-				$wpdb->update( $wpdb->posts, array(
-					'post_status'   => 'publish',
-					'post_title'    => $file_post_title,
-					'menu_order'    => $file_menu_order,
-					'post_date'     => date( 'Y-m-d H:i:s', $date ),
-					'post_date_gmt' => date( 'Y-m-d H:i:s', $date ),
-				), array( 'ID' => $file_id ) );
+                // TODO PERSIST VERSION OBJECT
 
-				// File Manager
-				$file_manager = new DLM_File_Manager();
-
-				// Update post meta
-				update_post_meta( $file_id, '_version', $file_version );
-				update_post_meta( $file_id, '_files', $file_manager->json_encode_files( $files ) );
-
-				$filesize       = - 1;
-				$main_file_path = current( $files );
-
-				if ( $main_file_path ) {
-					$filesize = $file_manager->get_file_size( $main_file_path );
-					$hashes   = $file_manager->get_file_hashes( $main_file_path );
-					update_post_meta( $file_id, '_filesize', $filesize );
-					update_post_meta( $file_id, '_md5', $hashes['md5'] );
-					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
-					update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
-				} else {
-					update_post_meta( $file_id, '_filesize', $filesize );
-					update_post_meta( $file_id, '_md5', '' );
-					update_post_meta( $file_id, '_sha1', '' );
-					update_post_meta( $file_id, '_crc32', '' );
-				}
-
+				// add version download count to total download count
 				if ( $file_download_count !== '' ) {
-					update_post_meta( $file_id, '_download_count', absint( $file_download_count ) );
 					$total_download_count += absint( $file_download_count );
 				} else {
 					$total_download_count += absint( get_post_meta( $file_id, '_download_count', true ) );
 				}
 
+				// do dlm_save_downloadable_file action
 				do_action( 'dlm_save_downloadable_file', $file_id, $i );
 			}
 		}
 
 		// Sync download_count
-		update_post_meta( $post_id, '_download_count', $total_download_count );
+		$download->set_download_count( $total_download_count );
 
-		// Delete transients
-		delete_transient( 'dlm_file_version_ids_' . $post_id );
-
-		do_action( 'dlm_save_metabox', $post_id, $post );
+		// do dlm_save_metabox action
+		do_action( 'dlm_save_metabox', $post_id, $post, $download );
 	}
 }
