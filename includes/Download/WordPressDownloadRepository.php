@@ -31,6 +31,12 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		$data->members_only   = ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) );
 		$data->download_count = absint( get_post_meta( $post->ID, '_download_count', true ) );
 
+		/**
+		 * This is added for backwards compatibility but will be removed in a later version!
+		 * @deprecated 4.0
+		 */
+		$data->post = $post;
+
 		return $data;
 	}
 

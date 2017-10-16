@@ -476,6 +476,31 @@ class DLM_Download {
 	 */
 
 	/**
+	 * You shouldn't use the post variable at all.
+	 * Please use one of the available getters or setters to get the download information you're looking for.
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @return WP_Post
+	 */
+	public function get_post() {
+		return $this->post;
+	}
+
+	/**
+	 * You shouldn't use the post variable at all.
+	 * Please use one of the available getters or setters to get the download information you're looking for.
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @param WP_Post $post
+	 */
+	public function set_post( $post ) {
+		$this->post = $post;
+	}
+
+
+	/**
 	 * get_the_short_description function.
 	 * Deprecated, use get_excerpt() instead
 	 *
