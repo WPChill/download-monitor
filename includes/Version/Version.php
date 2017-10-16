@@ -15,6 +15,9 @@ class DLM_Download_Version {
 	/** @var int */
 	private $download_id;
 
+	/** @var int */
+	private $menu_order;
+
 	/** @var bool If this version is latest version of Download */
 	private $latest = false;
 
@@ -77,6 +80,20 @@ class DLM_Download_Version {
 	 */
 	public function set_download_id( $download_id ) {
 		$this->download_id = $download_id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_menu_order() {
+		return $this->menu_order;
+	}
+
+	/**
+	 * @param int $menu_order
+	 */
+	public function set_menu_order( $menu_order ) {
+		$this->menu_order = $menu_order;
 	}
 
 	/**
