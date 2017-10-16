@@ -21,7 +21,7 @@ class DLM_Services {
 		try {
 			if ( ! isset( $this->services[ $key ] ) ) {
 				$method = "cb_" . $key;
-				DLM_Debug_Logger::log("--$method--");
+				DLM_Debug_Logger::log( "--$method--" );
 				if ( ! method_exists( $this, $method ) ) {
 					throw new Exception( "Requested service not found" );
 				}
@@ -42,7 +42,16 @@ class DLM_Services {
 	 * @return DLM_Download_Factory
 	 */
 	private function cb_download_factory() {
-		return new DLM_Download_Factory( new DLM_WordPress_Download_Repository() );
+		return new DLM_Download_Factory( $this->get( 'download_repository' ) );
+	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_WordPress_Download_Repository
+	 */
+	private function cb_download_repository() {
+		return new DLM_WordPress_Download_Repository();
 	}
 
 	/**
@@ -51,9 +60,23 @@ class DLM_Services {
 	 * @return DLM_Version_Factory
 	 */
 	private function cb_version_factory() {
-		return new DLM_Version_Factory( new DLM_WordPress_Version_Repository() );
+		return new DLM_Version_Factory( $this->get( 'version_repository' ) );
 	}
 
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_WordPress_Version_Repository
+	 */
+	private function cb_version_repository() {
+		return new DLM_WordPress_Version_Repository();
+	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_File_Manager
+	 */
 	private function cb_file_manager() {
 		return new DLM_File_Manager();
 	}
