@@ -10,10 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Download_Version {
 
 	/** @var int */
-	public $id;
+	private $id;
 
 	/** @var int */
-	public $download_id;
+	private $download_id;
 
 	/** @var bool If this version is latest version of Download */
 	private $latest = false;
@@ -22,52 +22,34 @@ class DLM_Download_Version {
 	private $date;
 
 	/** @var string */
-	public $version;
+	private $version;
 
 	/** @var int */
-	public $download_count;
+	private $download_count;
 
 	/** @var int */
-	public $filesize;
+	private $filesize;
 
 	/** @var string */
-	public $md5;
+	private $md5;
 
 	/** @var string */
-	public $sha1;
+	private $sha1;
 
 	/** @var string */
-	public $crc32;
+	private $crc32;
 
 	/** @var array */
-	public $mirrors;
+	private $mirrors;
 
 	/** @var string */
-	public $url;
+	private $url;
 
 	/** @var string */
-	public $filename;
+	private $filename;
 
 	/** @var string */
-	public $filetype;
-
-	/**
-	 * __construct function.
-	 *
-	 * @param int $version_id
-	 * @param int $download_id
-	 *
-	 * @access public
-	 */
-	public function __construct( $version_id = 0, $download_id = 0 ) {
-
-		// Check if both version and download id are given in constructor
-		if ( 0 !== $version_id && 0 !== $download_id ) {
-			DLM_Debug_Logger::log("DLM_Download_Version should not be created via the constructor. Use DLM_Version_Factory instead.");
-			// Setup the class with DB data
-			$this->setup( $version_id, $download_id );
-		}
-	}
+	private $filetype;
 
 	/**
 	 * @return int
@@ -255,6 +237,34 @@ class DLM_Download_Version {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function get_mirrors() {
+		return $this->mirrors;
+	}
+
+	/**
+	 * @param array $mirrors
+	 */
+	public function set_mirrors( $mirrors ) {
+		$this->mirrors = $mirrors;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_url() {
+		return $this->url;
+	}
+
+	/**
+	 * @param string $url
+	 */
+	public function set_url( $url ) {
+		$this->url = $url;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function get_filetype() {
@@ -269,57 +279,6 @@ class DLM_Download_Version {
 	}
 
 	/**
-	 * OLD METHODS BELOW
-	 */
-
-	/**
-	 * Load data from DB. Not the ideal way to do this but we can't break BC.
-	 *
-	 * @param int $version_id
-	 * @param int $download_id
-	 */
-	private function setup( $version_id, $download_id ) {
-
-		$this->id          = absint( $version_id );
-		$this->download_id = absint( $download_id );
-
-		// Get Version Data
-		$this->version        = strtolower( get_post_meta( $this->id, '_version', true ) );
-		$this->download_count = get_post_meta( $this->id, '_download_count', true );
-		$this->filesize       = get_post_meta( $this->id, '_filesize', true );
-		$this->md5            = get_post_meta( $this->id, '_md5', true );
-		$this->sha1           = get_post_meta( $this->id, '_sha1', true );
-		$this->crc32          = get_post_meta( $this->id, '_crc32', true );
-		$this->mirrors        = get_post_meta( $this->id, '_files', true );
-
-		// Get URLS
-		if ( is_string( $this->mirrors ) ) {
-			$this->mirrors = array_filter( (array) json_decode( $this->mirrors ) );
-		} elseif ( is_array( $this->mirrors ) ) {
-			$this->mirrors = array_filter( $this->mirrors );
-		} else {
-			$this->mirrors = array();
-		}
-
-		$this->url      = current( $this->mirrors );
-		$this->filename = current( explode( '?', DLM_Utils::basename( $this->url ) ) );
-		$this->filetype = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
-
-		// If we don't have a filesize, lets get it now
-		if ( $this->filesize === "" ) {
-
-			// File Manager
-			$file_manager = new DLM_File_Manager();
-
-			// Get the file size
-			$this->filesize = $file_manager->get_file_size( $this->url );
-
-			update_post_meta( $this->id, '_filesize', $this->filesize );
-		}
-
-	}
-
-	/**
 	 * Get the version slug
 	 *
 	 * @return string
@@ -330,6 +289,8 @@ class DLM_Download_Version {
 
 	/**
 	 * increase_download_count function.
+	 *
+	 * @TODO check if this is the correct place for this method
 	 *
 	 * @access public
 	 * @return void
