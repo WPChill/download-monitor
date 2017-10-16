@@ -61,56 +61,6 @@ class DLM_Download {
 	public $post;
 
 	/**
-	 * __construct function.
-	 *
-	 * @access public
-	 *
-	 * @param bool deprecated, don't use
-	 *
-	 */
-	public function __construct( $id = false ) {
-
-		// backwards compatibility
-		if ( false !== $id ) {
-			DLM_Debug_Logger::log( "DLM_Download class should not be created via the constructor. Use DLM_Download_Factory instead." );
-
-
-
-//			$this->id         = absint( $id );
-//			$this->post       = get_post( $this->id );
-//			$this->version_id = ''; // Use latest current version
-		}
-
-
-	}
-
-	/**
-	 * __get function.
-	 *
-	 * @access public
-	 *
-	 * @param mixed $key
-	 *
-	 * @return mixed
-	 */
-//	public function __get( $key ) {
-//
-//		// Get values or default if not set
-//		if ( 'members_only' == $key ) {
-//			$value = ( $value = get_post_meta( $this->id, '_members_only', true ) ) ? $value : 'no';
-//		} elseif ( 'featured' == $key ) {
-//			$value = ( $value = get_post_meta( $this->id, '_featured', true ) ) ? $value : 'no';
-//		} elseif ( 'redirect_only' == $key ) {
-//			$value = ( $value = get_post_meta( $this->id, '_redirect_only', true ) ) ? $value : 'no';
-//		} else {
-//			$key   = ( ( strpos( $key, '_' ) !== 0 ) ? '_' . $key : $key );
-//			$value = get_post_meta( $this->id, $key, true );
-//		}
-//
-//		return $value;
-//	}
-
-	/**
 	 * exists function.
 	 *
 	 * @todo rewrite this method. Check on ID not on post. Also exists requires specific status
