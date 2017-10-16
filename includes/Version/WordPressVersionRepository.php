@@ -21,6 +21,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 
 		$data->id             = $post->ID;
 		$data->download_id    = $post->post_parent;
+		$data->date           = $post->post_date;
 		$data->version        = strtolower( get_post_meta( $data->id, '_version', true ) );
 		$data->download_count = get_post_meta( $data->id, '_download_count', true );
 		$data->filesize       = get_post_meta( $data->id, '_filesize', true );
@@ -43,7 +44,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 
 		if ( "" === $data->filesize ) {
 			// Get the file size
-			$data->filesize = download_monitor()->service('file_manager')->get_file_size( $data->url );
+			$data->filesize = download_monitor()->service( 'file_manager' )->get_file_size( $data->url );
 
 			update_post_meta( $data->id, '_filesize', $data->filesize );
 		}
@@ -57,6 +58,30 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 	 * @return bool
 	 */
 	public function persist( $version ) {
+
+		// TODO only save if DOWNLOAD_COUNT string not empty
+		// update_post_meta( $file_id, '_download_count', absint( $file_download_count ) );
+
+		/**
+		 * TODO RECALCULATE ALL HASHES ON VERSION PERSIST
+		 */
+		$filesize       = - 1;
+		$main_file_path = current( $files );
+
+		if ( $main_file_path ) {
+			$filesize = $file_manager->get_file_size( $main_file_path );
+			$hashes   = $file_manager->get_file_hashes( $main_file_path );
+			update_post_meta( $file_id, '_filesize', $filesize );
+			update_post_meta( $file_id, '_md5', $hashes['md5'] );
+			update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
+			update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
+		} else {
+			update_post_meta( $file_id, '_filesize', $filesize );
+			update_post_meta( $file_id, '_md5', '' );
+			update_post_meta( $file_id, '_sha1', '' );
+			update_post_meta( $file_id, '_crc32', '' );
+		}
+
 		return true;
 	}
 
