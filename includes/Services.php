@@ -21,7 +21,6 @@ class DLM_Services {
 		try {
 			if ( ! isset( $this->services[ $key ] ) ) {
 				$method = "cb_" . $key;
-				DLM_Debug_Logger::log( "--$method--" );
 				if ( ! method_exists( $this, $method ) ) {
 					throw new Exception( "Requested service not found" );
 				}
