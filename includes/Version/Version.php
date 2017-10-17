@@ -13,6 +13,9 @@ class DLM_Download_Version {
 	private $id;
 
 	/** @var int */
+	private $author;
+
+	/** @var int */
 	private $download_id;
 
 	/** @var int */
@@ -21,14 +24,14 @@ class DLM_Download_Version {
 	/** @var bool If this version is latest version of Download */
 	private $latest = false;
 
-	/** @var string */
+	/** @var DateTime */
 	private $date;
 
 	/** @var string */
 	private $version;
 
 	/** @var int */
-	private $download_count;
+	private $download_count = null;
 
 	/** @var int */
 	private $filesize;
@@ -66,6 +69,27 @@ class DLM_Download_Version {
 	 */
 	public function set_id( $id ) {
 		$this->id = $id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_author() {
+		return $this->author;
+	}
+
+	/**
+	 * @param int $author
+	 */
+	public function set_author( $author ) {
+		$this->author = $author;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_title() {
+		return 'Download #' . $this->get_download_id() . ' File Version';
 	}
 
 	/**
@@ -111,14 +135,14 @@ class DLM_Download_Version {
 	}
 
 	/**
-	 * @return string
+	 * @return DateTime
 	 */
 	public function get_date() {
 		return $this->date;
 	}
 
 	/**
-	 * @param string $date
+	 * @param DateTime $date
 	 */
 	public function set_date( $date ) {
 		$this->date = $date;

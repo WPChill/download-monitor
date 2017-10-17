@@ -55,31 +55,78 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 	/**
 	 * @param DLM_Download_Version $version
 	 *
+	 * @throws Exception
+	 *
 	 * @return bool
 	 */
 	public function persist( $version ) {
 
-		// TODO only save if DOWNLOAD_COUNT string not empty
-		// update_post_meta( $file_id, '_download_count', absint( $file_download_count ) );
+		// check if new download or existing
+		if ( 0 == $version->get_id() ) {
 
-		/**
-		 * TODO RECALCULATE ALL HASHES ON VERSION PERSIST
-		 */
-		$filesize       = - 1;
-		$main_file_path = current( $files );
+			// create
+			$version_id = wp_insert_post( array(
+				'post_title'   => $version->get_title(),
+				'post_content' => '',
+				'post_excerpt' => '',
+				'post_author'  => $version->get_author(),
+				'post_type'    => 'dlm_download_version',
+				'post_status'  => 'publish',
+				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
+			) );
 
-		if ( $main_file_path ) {
-			$filesize = $file_manager->get_file_size( $main_file_path );
-			$hashes   = $file_manager->get_file_hashes( $main_file_path );
-			update_post_meta( $file_id, '_filesize', $filesize );
-			update_post_meta( $file_id, '_md5', $hashes['md5'] );
-			update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
-			update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
+			if ( is_wp_error( $version_id ) ) {
+				throw new \Exception( 'Unable to insert version in WordPress database' );
+			}
+			// set new vehicle ID
+			$version->set_id( $version_id );
+
 		} else {
-			update_post_meta( $file_id, '_filesize', $filesize );
-			update_post_meta( $file_id, '_md5', '' );
-			update_post_meta( $file_id, '_sha1', '' );
-			update_post_meta( $file_id, '_crc32', '' );
+
+			// update
+			$version_id = wp_update_post( array(
+				'ID'           => $version->get_id(),
+				'post_title'   => $version->get_title(),
+				'post_content' => '',
+				'post_excerpt' => '',
+				'post_author'  => $version->get_author(),
+				'post_status'  => 'publish',
+				'menu_order'   => $version->get_menu_order(),
+				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
+			) );
+
+			if ( is_wp_error( $version_id ) ) {
+				throw new \Exception( 'Unable to update version in WordPress database' );
+			}
+
+		}
+
+		// store version download count if it's not NULL
+		if ( null !== $version->get_download_count() ) {
+			update_post_meta( $version_id, '_download_count', absint( $version->get_download_count() ) );
+		}
+
+		// store version
+		update_post_meta( $version_id, '_version', $version->get_version() );
+
+		// store mirrors
+		update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $version->get_mirrors() ) );
+
+		// set filesize and hashes
+		$filesize       = - 1;
+		$main_file_path = current( $version->get_mirrors() );
+		if ( $main_file_path ) {
+			$filesize = download_monitor()->service( 'file_manager' )->get_file_size( $main_file_path );
+			$hashes   = download_monitor()->service( 'file_manager' )->get_file_hashes( $main_file_path );
+			update_post_meta( $version_id, '_filesize', $filesize );
+			update_post_meta( $version_id, '_md5', $hashes['md5'] );
+			update_post_meta( $version_id, '_sha1', $hashes['sha1'] );
+			update_post_meta( $version_id, '_crc32', $hashes['crc32'] );
+		} else {
+			update_post_meta( $version_id, '_filesize', $filesize );
+			update_post_meta( $version_id, '_md5', '' );
+			update_post_meta( $version_id, '_sha1', '' );
+			update_post_meta( $version_id, '_crc32', '' );
 		}
 
 		return true;

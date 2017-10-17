@@ -334,9 +334,9 @@ class DLM_Admin_Writepanels {
 
 				// format correct file date
 				if ( empty( $file_date ) ) {
-					$file_date_string = current_time( 'timestamp' );
+					$file_date_obj = new DateTime( current_time( 'mysql' ) );
 				} else {
-					$file_date_string = strtotime( $file_date . ' ' . $file_date_hour . ':' . $file_date_minute . ':00' );
+					$file_date_obj = new DateTime( $file_date . ' ' . $file_date_hour . ':' . $file_date_minute . ':00' );
 				}
 
 				// create version object
@@ -344,21 +344,22 @@ class DLM_Admin_Writepanels {
 				$version = download_monitor()->service( 'version_factory' )->make( $file_id );
 
 				// set post data in version object
+				$version->set_author( get_current_user_id() );
 				$version->set_menu_order( $file_menu_order );
 				$version->set_version( $file_version );
-				$version->set_date( $file_date_string );
-				$version->set_download_count( $file_download_count );
-				$version->set_mirrors( download_monitor()->service( 'file_manager' )->json_encode_files( $files ) );
+				$version->set_date( $file_date_obj );
+				$version->set_mirrors( $files );
 
-				// Update
-                // TODO PERSIST VERSION OBJECT
+				// only set download count if is posted
+				if ( '' !== $file_download_count ) {
+					$version->set_download_count( $file_download_count );
+				}
+
+				// persist version
+				download_monitor()->service( 'version_repository' )->persist( $version );
 
 				// add version download count to total download count
-				if ( $file_download_count !== '' ) {
-					$total_download_count += absint( $file_download_count );
-				} else {
-					$total_download_count += absint( get_post_meta( $file_id, '_download_count', true ) );
-				}
+				$total_download_count += absint( $version->get_download_count() );
 
 				// do dlm_save_downloadable_file action
 				do_action( 'dlm_save_downloadable_file', $file_id, $i );
