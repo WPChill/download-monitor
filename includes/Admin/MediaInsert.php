@@ -69,6 +69,9 @@ class DLM_Admin_Media_Insert {
 		<?php
 
 		// Handle quick-add form
+		/**
+		 * TODO: Use new repository here
+		 */
 		if ( ! empty( $_POST['download_url'] ) && ! empty( $_POST['download_title'] ) && wp_verify_nonce( $_POST['quick-add-nonce'], 'quick-add' ) ) {
 
 			$url     = stripslashes( $_POST['download_url'] );
