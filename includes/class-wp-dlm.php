@@ -88,8 +88,17 @@ class WP_DLM {
 			$dlm_admin = new DLM_Admin();
 			$dlm_admin->setup();
 
-			// Customize Admin CPT views
-			new DLM_Admin_CPT();
+			// setup custom labels
+			$custom_labels = new DLM_Custom_Labels();
+			$custom_labels->setup();
+
+			// setup custom columns
+			$custom_columns = new DLM_Custom_Columns();
+			$custom_columns->setup();
+
+			// setup custom actions
+			$custom_actions = new DLM_Custom_Actions();
+			$custom_actions->setup();
 
 			// Admin Write Panels
 			new DLM_Admin_Writepanels();
