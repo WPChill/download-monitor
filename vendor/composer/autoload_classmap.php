@@ -21,7 +21,7 @@ return array(
     'DLM_Admin_Media_Insert' => $baseDir . '/includes/Admin/class-dlm-admin-media-insert.php',
     'DLM_Admin_Scripts' => $baseDir . '/includes/Admin/class-dlm-admin-scripts.php',
     'DLM_Admin_Settings' => $baseDir . '/includes/Admin/Settings/class-dlm-settings.php',
-    'DLM_Admin_Writepanels' => $baseDir . '/includes/Admin/class-dlm-admin-writepanels.php',
+    'DLM_Admin_Writepanels' => $baseDir . '/includes/Admin/WritePanels.php',
     'DLM_Ajax_Handler' => $baseDir . '/includes/class-dlm-ajax-handler.php',
     'DLM_Autoloader' => $baseDir . '/includes/class-dlm-autoloader.php',
     'DLM_Category_Walker' => $baseDir . '/includes/Admin/class-dlm-category-walker.php',
