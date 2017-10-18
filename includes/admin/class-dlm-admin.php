@@ -178,6 +178,14 @@ class DLM_Admin {
 							'type'     => 'checkbox'
 						),
 						array(
+							'name'     => 'dlm_allow_x_forwarded_for',
+							'std'      => '0',
+							'label'    => __( 'Allow Proxy IP Override', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, Download Monitor will use the X_FORWARDED_FOR HTTP header set by proxies as the IP address. Note that anyone can set this header, making it less secure.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
+						array(
 							'name'     => 'dlm_wp_search_enabled',
 							'std'      => '',
 							'label'    => __( 'Include in Search', 'download-monitor' ),
