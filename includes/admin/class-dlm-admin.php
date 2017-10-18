@@ -322,7 +322,7 @@ class DLM_Admin {
 							'name'        => 'dlm_user_agent_blacklist',
 							'std'         => 'Googlebot',
 							'label'       => __( 'Blacklist user agents', 'download-monitor' ),
-							'desc'        => __( 'List browser user agents to blacklist, 1 per line.', 'download-monitor' ),
+							'desc'        => __( 'List browser user agents to blacklist, 1 per line. Partial matches are sufficient. Regex matching is allowed by surrounding the pattern with forward slashes, e.g. <code>/^Mozilla.+Googlebot/</code>', 'download-monitor' ),
 							'placeholder' => '',
 							'type'        => 'textarea'
 						),
