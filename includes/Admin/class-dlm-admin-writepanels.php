@@ -204,7 +204,6 @@ class DLM_Admin_Writepanels {
 	 */
 	public function short_description( $post ) {
 		$settings = array(
-			'quicktags'     => array( 'buttons' => 'em,strong,link' ),
 			'textarea_name' => 'excerpt',
 			'quicktags'     => true,
 			'tinymce'       => true,
