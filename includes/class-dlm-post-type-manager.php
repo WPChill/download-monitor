@@ -67,7 +67,7 @@ class DLM_Post_Type_Manager {
 				'publicly_queryable'  => $publicly_visible,
 				'exclude_from_search' => $exclude_from_search,
 				'hierarchical'        => false,
-				'rewrite'             => true,
+				'rewrite'             => $rewrite,
 				'query_var'           => $publicly_visible,
 				'supports'            => apply_filters( 'dlm_cpt_dlm_download_supports', array(
 					'title',
@@ -105,7 +105,7 @@ class DLM_Post_Type_Manager {
 				'publicly_queryable'  => $publicly_visible,
 				'exclude_from_search' => true,
 				'hierarchical'        => false,
-				'rewrite'             => $rewrite,
+				'rewrite'             => false,
 				'query_var'           => $publicly_visible,
 				'show_in_nav_menus'   => false
 			) )
