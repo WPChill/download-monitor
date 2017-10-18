@@ -175,13 +175,16 @@ class DLM_Admin_Writepanels {
 					foreach ( $versions as $version ) {
 
 						$i ++;
-						$file_id             = $version->get_id();
-						$file_version        = $version->get_version();
-						$file_post_date      = $version->get_date();
-						$file_download_count = $version->get_download_count();
-						$file_urls           = $version->get_mirrors();
 
-						include( 'html-downloadable-file-version.php' );
+						download_monitor()->service( 'view_manager' )->display( 'meta-box/version', array(
+							'version_increment'   => $i,
+							'file_id'             => $version->get_id(),
+							'file_version'        => $version->get_version(),
+							'file_post_date'      => $version->get_date(),
+							'file_download_count' => $version->get_download_count(),
+							'file_urls'           => $version->get_mirrors()
+						) );
+
 					}
 				}
 				?>
