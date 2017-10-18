@@ -69,11 +69,12 @@ class DLM_Shortcodes {
 
 		// extract shortcode atts
 		extract( shortcode_atts( array(
-			'id'         => '',
-			'autop'      => false,
-			'template'   => dlm_get_default_download_template(),
-			'version_id' => '',
-			'version'    => ''
+			'id'           => '',
+			'autop'        => false,
+			'template'     => dlm_get_default_download_template(),
+			'template_dir' => '',
+			'version_id'   => '',
+			'version'      => ''
 		), $atts ) );
 
 		// Make id filterable
@@ -121,8 +122,14 @@ class DLM_Shortcodes {
 				// buffer
 				ob_start();
 
+				// check if custom path to template specified
+				$custom_dir = '';
+				if ( is_dir( $template_dir ) ) {
+					$custom_dir = $template_dir;
+				}
+
 				// load template
-				$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				$template_handler->get_template_part( 'content-download', $template, $custom_dir, array( 'dlm_download' => $download ) );
 
 				// get output
 				$output = ob_get_clean();
@@ -255,6 +262,7 @@ class DLM_Shortcodes {
 
 			// Output args
 			'template'                  => dlm_get_default_download_template(),
+			'template_dir'              => '',
 			'loop_start'                => '<ul class="dlm-downloads">',
 			'loop_end'                  => '</ul>',
 			'before'                    => '<li>',
@@ -413,11 +421,17 @@ class DLM_Shortcodes {
 					continue;
 				}
 
+				// check if custom path to template specified
+				$custom_dir = '';
+				if ( is_dir( $template_dir ) ) {
+					$custom_dir = $template_dir;
+				}
+
 				// display the 'before'
 				echo html_entity_decode( $before );
 
 				// load the template
-				$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				$template_handler->get_template_part( 'content-download', $template, $custom_dir, array( 'dlm_download' => $download ) );
 
 				// display the 'after'
 				echo html_entity_decode( $after );
