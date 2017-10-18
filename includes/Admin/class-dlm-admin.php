@@ -340,8 +340,6 @@ class DLM_Admin {
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 		}
 
-		require_once( 'class-dlm-logging-list-table.php' );
-
 		$DLM_Logging_List_Table = new DLM_Logging_List_Table();
 		$DLM_Logging_List_Table->prepare_items();
 		?>
