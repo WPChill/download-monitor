@@ -51,6 +51,7 @@ return array(
     'DLM_Utils' => $baseDir . '/includes/class-dlm-utils.php',
     'DLM_Version_Factory' => $baseDir . '/includes/Version/VersionFactory.php',
     'DLM_Version_Repository' => $baseDir . '/includes/Version/VersionRepository.php',
+    'DLM_View_Manager' => $baseDir . '/includes/Admin/ViewManager.php',
     'DLM_Widget_Downloads' => $baseDir . '/includes/Widgets/class-dlm-widget-downloads.php',
     'DLM_Widget_Manager' => $baseDir . '/includes/Widgets/class-dlm-widget-manager.php',
     'DLM_WordPress_Download_Repository' => $baseDir . '/includes/Download/WordPressDownloadRepository.php',
