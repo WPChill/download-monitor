@@ -119,6 +119,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 1.9.9: October 18, 2017 =
+* Tweak: Fixed an issue with 'No Access' page not saving correctly.
+
 = 1.9.8: October 6, 2017 =
 * Tweak: Add option to allow HTTP header X_FORWARD_FOR. Allowing Download Monitor to use the X_FORWARDED_FOR HTTP header set by proxies as the IP address.
 * Tweak: Download files that are added via 'Quick-add download' are now properly added to WP media library.
