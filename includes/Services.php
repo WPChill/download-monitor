@@ -79,4 +79,13 @@ class DLM_Services {
 	private function cb_file_manager() {
 		return new DLM_File_Manager();
 	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_File_Manager
+	 */
+	private function cb_view_manager() {
+		return new DLM_View_Manager();
+	}
 }
