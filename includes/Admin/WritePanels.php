@@ -249,6 +249,9 @@ class DLM_Admin_Writepanels {
 			return;
 		}
 
+		// unset nonce because it's only valid of 1 post
+		unset( $_POST['dlm_nonce'] );
+
 		do_action( 'dlm_save_meta_boxes', $post_id, $post );
 	}
 
@@ -356,8 +359,11 @@ class DLM_Admin_Writepanels {
 			}
 		}
 
-		// Sync download_count
+		// sync download_count
 		$download->set_download_count( $total_download_count );
+
+		// persist download
+		download_monitor()->service( 'download_repository' )->persist( $download );
 
 		// do dlm_save_metabox action
 		do_action( 'dlm_save_metabox', $post_id, $post, $download );
