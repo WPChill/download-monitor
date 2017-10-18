@@ -74,7 +74,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 * @param mixed $log
 	 * @param mixed $column_name
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function column_default( $log, $column_name ) {
 		switch ( $column_name ) {
@@ -97,14 +97,15 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				return '<time title="' . date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $log->download_date ) ) . '"">' . sprintf( __( '%s ago', 'download-monitor' ), human_time_diff( strtotime( $log->download_date ), current_time( 'timestamp' ) ) ) . '</time>';
 				break;
 			case 'download' :
-				$download = new DLM_Download( $log->download_id );
-				$download->set_version( $log->version_id );
+			    /** @var DLM_Download $download */
+				$download = download_monitor()->service( 'download_factory' )->make( $log->download_id );
+				$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->version_id ) );
 
 				if ( ! $download->exists() ) {
 					$download_string = sprintf( __( 'Download #%d (no longer exists)', 'download-monitor' ), $log->download_id );
 				} else {
-					$download_string = '<a href="' . admin_url( 'post.php?post=' . $download->id . '&action=edit' ) . '">';
-					$download_string .= '#' . $download->id . ' &ndash; ' . $download->get_the_title();
+					$download_string = '<a href="' . admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) . '">';
+					$download_string .= '#' . $download->get_id() . ' &ndash; ' . $download->get_title();
 					$download_string .= '</a>';
 				}
 
@@ -119,11 +120,12 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				return $download_string;
 				break;
 			case 'file' :
-				$download = new DLM_Download( $log->download_id );
-				$download->set_version( $log->version_id );
+			    /** @var DLM_Download $download */
+				$download = download_monitor()->service( 'download_factory' )->make( $log->download_id );
+				$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->version_id ) );
 
-				if ( $download->exists() && $download->version_exists( $log->version_id ) && $download->get_the_filename() ) {
-					$download_string = '<code>' . $download->get_the_filename() . '</code>';
+				if ( $download->exists() && $download->version_exists( $log->version_id ) && $download->get_version()->get_filename() ) {
+					$download_string = '<code>' . $download->get_version()->get_filename() . '</code>';
 				} else {
 					$download_string = '&ndash;';
 				}
@@ -162,7 +164,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 * get_columns function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function get_columns() {
 		$columns = array(
