@@ -223,12 +223,15 @@ class DLM_Admin_CPT {
 	public function custom_columns( $column ) {
 		global $post;
 
-		$download = new DLM_Download( $post->ID );
-		$file     = $download->get_file_version();
+		/** @var DLM_Download $download */
+		$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
+
+		/** @var DLM_Download_Version $file */
+		$file     = $download->get_version();
 
 		switch ( $column ) {
 			case "thumb" :
-				echo $download->get_the_image();
+				echo $download->get_image();
 				break;
 			case "download_id" :
 				echo $post->ID;
@@ -262,7 +265,7 @@ class DLM_Admin_CPT {
 				}
 				break;
 			case "redirect_only" :
-				if ( $download->redirect_only() ) {
+				if ( $download->is_redirect_only() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
@@ -270,8 +273,8 @@ class DLM_Admin_CPT {
 				break;
 			case "file" :
 				if ( $file ) {
-					echo '<a href="' . $download->get_the_download_link() . '"><code>' . $file->filename;
-					if ( $size = $download->get_the_filesize() ) {
+					echo '<a href="' . $download->get_the_download_link() . '"><code>' . $file->get_filename();
+					if ( $size = $download->get_version()->get_filesize_formatted() ) {
 						echo ' &ndash; ' . $size;
 					}
 					echo '</code></a>';
@@ -280,14 +283,14 @@ class DLM_Admin_CPT {
 				}
 				break;
 			case "version" :
-				if ( $file && $file->version ) {
-					echo $file->version;
+				if ( $file && $file->get_version() ) {
+					echo $file->get_version();
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
 				break;
 			case "download_count" :
-				echo number_format( $download->get_the_download_count(), 0, '.', ',' );
+				echo number_format( $download->get_download_count(), 0, '.', ',' );
 				break;
 			case "featured" :
 				if ( $download->is_featured() ) {
