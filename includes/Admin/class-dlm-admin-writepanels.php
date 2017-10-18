@@ -261,7 +261,6 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
-		global $wpdb;
 
 		/**
          * Fetch old download object
@@ -282,17 +281,6 @@ class DLM_Admin_Writepanels {
 		$download->set_featured( ( isset( $_POST['_featured'] ) ) );
 		$download->set_members_only( ( isset( $_POST['_members_only'] ) ) );
 		$download->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
-
-		// Update options
-        /*
-		$_featured      = ( isset( $_POST['_featured'] ) ) ? 'yes' : 'no';
-		$_members_only  = ( isset( $_POST['_members_only'] ) ) ? 'yes' : 'no';
-		$_redirect_only = ( isset( $_POST['_redirect_only'] ) ) ? 'yes' : 'no';
-
-		update_post_meta( $post_id, '_featured', $_featured );
-		update_post_meta( $post_id, '_members_only', $_members_only );
-		update_post_meta( $post_id, '_redirect_only', $_redirect_only );
-        */
 
 		$total_download_count = 0;
 

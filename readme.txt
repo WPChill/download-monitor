@@ -4,7 +4,7 @@ Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
 Tested up to: 4.9
-Stable tag: 1.9.8
+Stable tag: 1.9.9
 License: GPLv3
 Text Domain: -
 
@@ -124,6 +124,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Complete rewrite of setting fields.
 * Tweak: Introduced new filter "dlm_setting_field_TYPE", allowing third party programs to add custom field types to settings.
 * Tweak: Implemented Composer autoloader.
+
+= 1.9.9: October 18, 2017 =
+* Tweak: Fixed an issue with 'No Access' page not saving correctly.
 
 = 1.9.8: October 6, 2017 =
 * Tweak: Add option to allow HTTP header X_FORWARD_FOR. Allowing Download Monitor to use the X_FORWARDED_FOR HTTP header set by proxies as the IP address.

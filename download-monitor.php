@@ -7,7 +7,7 @@
 	Author: Never5
 	Author URI: https://www.never5.com
 	Requires at least: 3.8
-	Tested up to: 4.5
+	Tested up to: 4.9
 	Text Domain: download-monitor
 
 	License: GPL v3
@@ -61,9 +61,6 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 
 	// set installer file constant
 	define( 'DLM_PLUGIN_FILE_INSTALLER', __FILE__ );
-
-	// require autoloader
-	require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
 
 	// include installer functions
 	require_once( 'installer-functions.php' );
