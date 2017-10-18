@@ -24,10 +24,10 @@ class DLM_Post_Type_Manager {
 		}
 
 		// Check the Download Monitor setting/option for its download endpoint/URL/slug
-		if(get_option('dlm_download_endpoint_value') == 'ID'){
-			$rewrite = false;
+		if(get_option('dlm_download_endpoint_value') == 'slug'){
+			$rewrite = array( 'slug' => get_option('dlm_download_endpoint'));
 		}else{
-			$rewrite = array( 'slug' => get_option('dlm_download_endpoint_value'));
+			$rewrite = false;
 		}
 
 		// Register Download Post Type
