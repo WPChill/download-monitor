@@ -1,5 +1,6 @@
 <?php
 
+// TODO Add Admin_Settings as service
 class DLM_Admin_Settings {
 
 	/**
