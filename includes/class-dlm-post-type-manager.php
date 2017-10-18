@@ -23,6 +23,13 @@ class DLM_Post_Type_Manager {
 			$publicly_visible = false;
 		}
 
+		// Check the Download Monitor setting/option for its download endpoint/URL/slug
+		if(get_option('dlm_download_endpoint_value') == 'ID'){
+			$rewrite = false;
+		}else{
+			$rewrite = array( 'slug' => get_option('dlm_download_endpoint_value'));
+		}
+
 		// Register Download Post Type
 		register_post_type( "dlm_download",
 			apply_filters( 'dlm_cpt_dlm_download_args', array(
