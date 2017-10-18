@@ -22,8 +22,6 @@ class DLM_View_Manager {
 		// setup full view path
 		$view = $path . $view . '.php';
 
-		error_log($view, 0 );
-
 		// check if view exists
 		if ( file_exists( $view ) ) {
 
