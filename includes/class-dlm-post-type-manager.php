@@ -25,7 +25,7 @@ class DLM_Post_Type_Manager {
 
 		// Check the Download Monitor setting/option for its download endpoint/URL/slug
 		if(get_option('dlm_download_endpoint_value') == 'slug'){
-			$rewrite = array( 'slug' => get_option('dlm_download_endpoint'));
+			$rewrite = array( 'slug' => get_option('dlm_download_endpoint').'-link'); // Append "-link" to slug to prevent conflict with the existing slug handling (would cause redirect loop if this matched exactly)
 		}else{
 			$rewrite = false;
 		}
