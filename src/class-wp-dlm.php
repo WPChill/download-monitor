@@ -20,7 +20,7 @@ class WP_DLM {
 	 *
 	 * @return String
 	 */
-	public static function get_plugin_file() {
+	public function get_plugin_file() {
 		return DLM_PLUGIN_FILE;
 	}
 
@@ -31,8 +31,8 @@ class WP_DLM {
 	 *
 	 * @return string
 	 */
-	public static function get_plugin_path() {
-		return plugin_dir_path( self::get_plugin_file() );
+	public function get_plugin_path() {
+		return plugin_dir_path( $this->get_plugin_file() );
 	}
 
 	/**
@@ -42,8 +42,8 @@ class WP_DLM {
 	 *
 	 * @return string
 	 */
-	public static function get_plugin_url() {
-		return plugins_url( basename( plugin_dir_path( self::get_plugin_file() ) ), basename( self::get_plugin_file() ) );
+	public function get_plugin_url() {
+		return plugins_url( basename( plugin_dir_path( $this->get_plugin_file() ) ), basename( $this->get_plugin_file() ) );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class WP_DLM {
 	 * @return void
 	 */
 	public function frontend_scripts() {
-		wp_enqueue_style( 'dlm-frontend', self::get_plugin_url() . '/assets/css/frontend.css' );
+		wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
 	}
 
 	/**
@@ -294,7 +294,7 @@ class WP_DLM {
 		// Deprecated
 		DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		return self::get_plugin_url();
+		return $this->get_plugin_url();
 	}
 
 	/**
@@ -310,7 +310,7 @@ class WP_DLM {
 		// Deprecated
 		DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		return self::get_plugin_path();
+		return $this->get_plugin_path();
 	}
 
 	/**
@@ -323,7 +323,7 @@ class WP_DLM {
 	 *
 	 * @param string $folder (default: '')
 	 *
-	 * @return void
+	 * @return array|bool
 	 */
 	public function list_files( $folder = '' ) {
 

@@ -22,7 +22,7 @@ class DLM_Template_Handler {
 		$template = '';
 
 		// The plugin path
-		$plugin_path = WP_DLM::get_plugin_path();
+		$plugin_path = download_monitor()->get_plugin_path();
 
 		// Look in yourtheme/slug-name.php and yourtheme/download-monitor/slug-name.php
 		if ( $name ) {

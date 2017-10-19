@@ -33,7 +33,7 @@ class DLM_Admin_Media_Browser {
 
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Browse for a file', 'download-monitor' ) . '</title>';
 
-		wp_enqueue_style( 'download_monitor_admin_css', WP_DLM::get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
+		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		do_action( 'admin_print_styles' );
 		do_action( 'admin_print_scripts' );
 		do_action( 'admin_head' );

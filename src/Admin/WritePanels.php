@@ -153,7 +153,7 @@ class DLM_Admin_Writepanels {
 		<div class="download_monitor_files dlm-metaboxes-wrapper">
 
 			<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo $download->get_id(); ?>" />
-			<input type="hidden" name="dlm_post_id" id="dlm-plugin-url" value="<?php echo WP_DLM::get_plugin_url(); ?>" />
+			<input type="hidden" name="dlm_post_id" id="dlm-plugin-url" value="<?php echo download_monitor()->get_plugin_url(); ?>" />
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-add-file" value="<?php echo wp_create_nonce( "add-file" ); ?>" />
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file" value="<?php echo wp_create_nonce( "remove-file" ); ?>" />
 

@@ -19,10 +19,12 @@ class DLM_Admin_Scripts {
 	public function enqueue_scripts() {
 		global $pagenow, $post;
 
+		$dlm = download_monitor();
+
 		// Enqueue Edit Post JS
 		wp_enqueue_script(
 			'dlm_insert_download',
-			plugins_url( '/assets/js/insert-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+			plugins_url( '/assets/js/insert-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
 			DLM_VERSION
 		);
@@ -30,7 +32,7 @@ class DLM_Admin_Scripts {
 		// Notices JS
 		wp_enqueue_script(
 			'dlm_notices',
-			plugins_url( '/assets/js/notices' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+			plugins_url( '/assets/js/notices' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
 			DLM_VERSION
 		);
@@ -46,7 +48,7 @@ class DLM_Admin_Scripts {
 				// Enqueue Edit Download JS
 				wp_enqueue_script(
 					'dlm_edit_download',
-					plugins_url( '/assets/js/edit-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+					plugins_url( '/assets/js/edit-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 					array( 'jquery' ),
 					DLM_VERSION
 				);
@@ -63,7 +65,7 @@ class DLM_Admin_Scripts {
 			// Enqueue Settings JS
 			wp_enqueue_script(
 				'dlm_download_overview',
-				plugins_url( '/assets/js/overview-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+				plugins_url( '/assets/js/overview-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION,
 				true
@@ -76,19 +78,19 @@ class DLM_Admin_Scripts {
 			// Enqueue Settings JS
 			wp_enqueue_script(
 				'dlm_settings',
-				plugins_url( '/assets/js/settings' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+				plugins_url( '/assets/js/settings' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION
 			);
 
-			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array( 'img_path' => WP_DLM::get_plugin_url() . '/assets/images/', 'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ) ) );
+			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array( 'img_path' => download_monitor()->get_plugin_url() . '/assets/images/', 'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ) ) );
 
 
 			if ( 'dlm-extensions' === $_GET['page'] ) {
 				// Enqueue Extesions JS
 				wp_enqueue_script(
 					'dlm_extensions',
-					plugins_url( '/assets/js/extensions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', WP_DLM::get_plugin_file() ),
+					plugins_url( '/assets/js/extensions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 					array( 'jquery' ),
 					DLM_VERSION
 				);

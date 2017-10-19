@@ -45,7 +45,7 @@ class DLM_Admin_Media_Insert {
 	public function media_browser() {
 
 		// Enqueue scripts and styles for panel
-		wp_enqueue_style( 'download_monitor_admin_css', WP_DLM::get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
+		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		wp_enqueue_script( 'common' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );

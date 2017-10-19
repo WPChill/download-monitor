@@ -120,7 +120,7 @@ class DLM_Custom_Columns {
 				break;
 			case "featured" :
 				if ( $download->is_featured() ) {
-					echo '<img src="' . WP_DLM::get_plugin_url() . '/assets/images/on.png" alt="yes" />';
+					echo '<img src="' . download_monitor()->get_plugin_url() . '/assets/images/on.png" alt="yes" />';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
