@@ -24,13 +24,13 @@
   },
   "autoload": {
     "classmap": [
-      "includes/",
-      "includes/Admin",
-      "includes/Admin/Settings",
-      "includes/Admin/Settings/Fields",
-      "includes/Download",
-      "includes/Product",
-      "includes/Widgets"
+      "src/",
+      "src/Admin",
+      "src/Admin/Settings",
+      "src/Admin/Settings/Fields",
+      "src/Download",
+      "src/Product",
+      "src/Widgets"
     ]
   }
 }
