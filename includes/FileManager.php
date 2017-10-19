@@ -14,7 +14,7 @@ class DLM_File_Manager {
 	 *
 	 * @param string $folder (default: '')
 	 *
-	 * @return array
+	 * @return array|bool
 	 */
 	public function list_files( $folder = '' ) {
 		if ( empty( $folder ) ) {
