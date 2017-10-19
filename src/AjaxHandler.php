@@ -120,23 +120,20 @@ class DLM_Ajax_Handler {
 
 		// Check user rights
 		if ( ! current_user_can( 'manage_downloads' ) ) {
-			return false;
+			die();
 		}
 
 		$path = esc_attr( stripslashes( $_POST['path'] ) );
 
 		if ( $path ) {
 
-			// The File Manager
-			$file_manager = new DLM_File_Manager();
-
 			// List all files
-			$files = $file_manager->list_files( $path );
+			$files = download_monitor()->service( 'file_manager' )->list_files( $path );
 
 			foreach ( $files as $found_file ) {
 
 				// Multi-byte-safe pathinfo
-				$file = $file_manager->mb_pathinfo( $found_file['path'] );
+				$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
 
 				if ( $found_file['type'] == 'folder' ) {
 
