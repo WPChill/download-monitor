@@ -79,31 +79,48 @@ class DLM_Ajax_Handler {
 	 */
 	public function add_file() {
 
+		// check nonce
 		check_ajax_referer( 'add-file', 'security' );
 
-		$post_id = intval( $_POST['post_id'] );
-		$size    = intval( $_POST['size'] );
+		// get POST data
+		$download_id = absint( $_POST['post_id'] );
+		$size        = absint( $_POST['size'] );
 
-		$file = array(
-			'post_title'   => 'Download #' . $post_id . ' File Version',
-			'post_content' => '',
-			'post_status'  => 'publish',
-			'post_author'  => get_current_user_id(),
-			'post_parent'  => $post_id,
-			'post_type'    => 'dlm_download_version'
-		);
+		// create download object
+		/** @var DLM_Download $download */
+		$download = download_monitor()->service( 'download_factory' )->make( $download_id );
 
-		$file_id             = wp_insert_post( $file );
-		$i                   = $size;
-		$file_version        = '';
-		$file_post_date      = current_time( 'mysql' );
-		$file_download_count = 0;
-		$file_urls           = array();
+		// check if download is found
+		if ( $download->get_id() != $download_id ) {
+			die( '0' );
+		}
 
-		delete_transient( 'dlm_file_version_ids_' . $post_id );
+		/** @var DLM_Download_Version $new_version */
+		$new_version = download_monitor()->service( 'version_factory' )->make();
 
-		include( 'admin/html-downloadable-file-version.php' );
+		// set download id
+		$new_version->set_download_id( $download_id );
 
+		// set other version data
+		$new_version->set_author( get_current_user_id() );
+		$new_version->set_date( new DateTime( current_time( 'mysql' ) ) );
+
+		// persist new version
+		download_monitor()->service( 'version_repository' )->persist( $new_version );
+
+		// clear download transient
+		$download->clear_versions_transient();
+
+		// output new version admin html
+		download_monitor()->service( 'view_manager' )->display( 'meta-box/version', array(
+			'version_increment'   => $size,
+			'file_id'             => $new_version->get_id(),
+			'file_version'        => $new_version->get_version(),
+			'file_post_date'      => $new_version->get_date(),
+			'file_download_count' => $new_version->get_download_count(),
+			'file_urls'           => $new_version->get_mirrors()
+		) );
+		
 		die();
 	}
 
@@ -222,9 +239,11 @@ class DLM_Ajax_Handler {
 		$products = DLM_Product_Manager::get()->get_products();
 
 		// Check if product exists
+		$response = "";
 		if ( isset( $products[ $product_id ] ) ) {
 
 			// Get correct product
+			/** @var DLM_Product $product */
 			$product = $products[ $product_id ];
 
 			// Set new key in license object
@@ -232,7 +251,6 @@ class DLM_Ajax_Handler {
 
 			// Set new email in license object
 			$product->get_license()->set_email( $email );
-
 
 			if ( 'activate' === $extension_action ) {
 				// Try to activate the license
@@ -246,6 +264,5 @@ class DLM_Ajax_Handler {
 
 		// Send JSON
 		wp_send_json( $response );
-
 	}
 }
