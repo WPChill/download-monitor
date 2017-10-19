@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<h3>
 		<button type="button" class="remove_file button"><?php _e( 'Remove', 'download-monitor' ); ?></button>
 		<div class="handlediv" title="<?php _e( 'Click to toggle', 'download-monitor' ); ?>"></div>
-		<strong>#<?php echo $file_id; ?> &mdash; <?php echo sprintf( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ), ( $file_version ) ? $file_version : __( 'n/a', 'download-monitor' ), date_i18n( get_option( 'date_format' ), strtotime( $file_post_date ) ) ); ?> &mdash; <?php echo sprintf( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ), $file_download_count ); ?></strong>
+		<strong>#<?php echo $file_id; ?> &mdash; <?php echo sprintf( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ), ( $file_version ) ? $file_version : __( 'n/a', 'download-monitor' ), date_i18n( get_option( 'date_format' ), $file_post_date->getTimestamp() ) ); ?> &mdash; <?php echo sprintf( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ), $file_download_count ); ?></strong>
 		<input type="hidden" name="downloadable_file_id[<?php echo $version_increment; ?>]" value="<?php echo $file_id; ?>"/>
 		<input type="hidden" class="file_menu_order" name="downloadable_file_menu_order[<?php echo $version_increment; ?>]"
 		       value="<?php echo $version_increment; ?>"/>
@@ -70,14 +70,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<td>
 				<label><?php _e( 'File Date', 'download-monitor' ); ?>:</label>
 				<input type="text" class="date-picker-field" name="downloadable_file_date[<?php echo $version_increment; ?>]"
-				       maxlength="10" value="<?php echo date( 'Y-m-d', strtotime( $file_post_date ) ); ?>"/> @ <input
+				       maxlength="10" value="<?php echo $file_post_date->format('Y-m-d'); ?>"/> @ <input
 					type="text" class="hour" placeholder="<?php _e( 'h', 'download-monitor' ) ?>"
 					name="downloadable_file_date_hour[<?php echo $version_increment; ?>]" maxlength="2" size="2"
-					value="<?php echo date( 'H', strtotime( $file_post_date ) ); ?>"/>:<input type="text" class="minute"
+					value="<?php echo $file_post_date->format('H'); ?>"/>:<input type="text" class="minute"
 				                                                                              placeholder="<?php _e( 'm', 'download-monitor' ) ?>"
 				                                                                              name="downloadable_file_date_minute[<?php echo $version_increment; ?>]"
 				                                                                              maxlength="2" size="2"
-				                                                                              value="<?php echo date( 'i', strtotime( $file_post_date ) ); ?>"/>
+				                                                                              value="<?php echo $file_post_date->format('i'); ?>"/>
 			</td>
 		</tr>
 
