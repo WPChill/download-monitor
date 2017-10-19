@@ -63,5 +63,5 @@ return array(
     'RoundTripTest' => $baseDir . '/src/Admin/uaparser/lib/spyc-0.5/tests/RoundTripTest.php',
     'Spyc' => $baseDir . '/src/Admin/uaparser/lib/spyc-0.5/spyc.php',
     'UAParser' => $baseDir . '/src/Admin/uaparser/uaparser.php',
-    'WP_DLM' => $baseDir . '/src/class-wp-dlm.php',
+    'WP_DLM' => $baseDir . '/src/DLM.php',
 );
