@@ -69,7 +69,7 @@ class DLM_Download_Handler {
 	 * @access public
 	 *
 	 * @param boolean $can_download
-	 * @param mixed $download
+	 * @param DLM_Download $download
 	 *
 	 * @return boolean
 	 */
@@ -171,7 +171,7 @@ class DLM_Download_Handler {
 	 * add_query_vars function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	public function add_query_vars( $vars ) {
 		$vars[] = $this->endpoint;
@@ -205,7 +205,7 @@ class DLM_Download_Handler {
 
 		// check if endpoint is set but is empty
 		if ( apply_filters( 'dlm_empty_download_redirect_enabled', true ) && isset ( $wp->query_vars[ $this->endpoint ] ) && empty ($wp->query_vars[ $this->endpoint ] ) ) {
-			wp_redirect( apply_filters( 'dlm_empty_download_redirect_url', home_url(), $download_id ) );
+			wp_redirect( apply_filters( 'dlm_empty_download_redirect_url', home_url() ) );
 			exit;
 		}
 
