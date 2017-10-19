@@ -81,7 +81,7 @@ class DLM_Shortcodes {
 
 		// Check id
 		if ( empty( $id ) ) {
-			return;
+			return "";
 		}
 
 		// Allow third party extensions to hijack shortcode
@@ -96,19 +96,20 @@ class DLM_Shortcodes {
 		$output = '';
 
 		// create download object
-		$download = new DLM_Download( $id );
+		/** @var DLM_Download $download */
+		$download = download_monitor()->service( 'download_factory' )->make( $id );
 
 		// check if download exists
 		if ( $download->exists() ) {
 
 			// check if version is set
 			if ( ! empty( $version ) ) {
-				$version_id = $download->get_version_id( $version );
+				$version_id = $download->get_version_id_version_name( $version );
 			}
 
 			// check if version ID is set
 			if ( isset( $version_id ) && 0 != $version_id ) {
-				$download->set_version( $version_id );
+				$download->set_version( download_monitor()->service( 'version_factory' )->make( $version_id ) );
 			}
 
 			// if we have content, wrap in a link only
@@ -150,7 +151,7 @@ class DLM_Shortcodes {
 	 *
 	 * @param array $atts
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function download_data( $atts ) {
 
@@ -164,66 +165,87 @@ class DLM_Shortcodes {
 		$id = apply_filters( 'dlm_shortcode_download_id', $id );
 
 		if ( empty( $id ) || empty( $data ) ) {
-			return;
+			return "";
 		}
 
-		$download = new DLM_Download( $id );
+		/** @var DLM_Download $download */
+		$download = download_monitor()->service('download_factory')->make($id);
 
 		if ( ! empty( $version ) ) {
-			$version_id = $download->get_version_id( $version );
+			$version_id = $download->get_version_id_version_name( $version );
 		}
 
-		if ( $version_id ) {
-			$download->set_version( $version_id );
+		if ( ! empty( $version_id ) ) {
+			$download->set_version( download_monitor()->service( 'version_factory' )->make( $version_id ) );
 		}
 
 		switch ( $data ) {
 
 			// File / Version Info
 			case 'filename' :
-				return $download->get_the_filename();
+				return $download->get_version()->get_filename();
 			case 'filetype' :
-				return $download->get_the_filetype();
+				return $download->get_version()->get_filetype();
 			case 'filesize' :
-				return $download->get_the_filesize();
+				return $download->get_version()->get_filesize_formatted();
 			case 'md5' :
-				return $download->get_the_hash( 'md5' );
+				return $download->get_version()->get_md5();
 			case 'sha1' :
-				return $download->get_the_hash( 'sha1' );
+				return $download->get_version()->get_sha1();
 			case 'crc32' :
-				return $download->get_the_hash( 'crc32' );
+				return $download->get_version()->get_crc32();
 			case 'version' :
-				return $download->get_the_version_number();
+				return $download->get_version()->get_version_number();
 
 			// Download Info
 			case 'title' :
-				return $download->get_the_title();
+				return $download->get_title();
 			case 'short_description' :
-				return $download->get_the_short_description();
+				return $download->get_excerpt();
 			case 'download_link' :
 				return $download->get_the_download_link();
 			case 'download_count' :
-				return $download->get_the_download_count();
+				return $download->get_download_count();
 			case 'post_content' :
-				return wpautop( wptexturize( do_shortcode( $download->post->post_content ) ) );
+				return wpautop( wptexturize( do_shortcode( $download->get_description() ) ) );
 			case 'post_date' :
-				return date_i18n( get_option( 'date_format' ), strtotime( $download->post->post_date ) );
 			case 'file_date' :
-				return date_i18n( get_option( 'date_format' ), strtotime( $download->get_the_file_date() ) );
+				return date_i18n( get_option( 'date_format' ), $download->get_version()->get_date()->getTimestamp() );
 			case 'author' :
 				return $download->get_the_author();
 
 			// Images
 			case 'image' :
-				return $download->get_the_image( 'full' );
+				return $download->get_image( 'full' );
 			case 'thumbnail' :
-				return $download->get_the_image( 'thumbnail' );
+				return $download->get_image( 'thumbnail' );
 
 			// Taxonomies
 			case 'tags' :
-				return get_the_term_list( $id, 'dlm_download_tags', '', ', ', '' );
+				$returnstr = "";
+				$terms     = get_the_terms( $id, 'dlm_download_tag' );
+				if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+					$terms_names = array();
+					foreach ( $terms as $term ) {
+						$terms_names[] = $term->name;
+					}
+					$returnstr = implode( ", ", $terms_names );
+				}
+
+				return $returnstr;
 			case 'categories' :
-				return get_the_term_list( $id, 'dlm_download_category', '', ', ', '' );
+				$returnstr = "";
+				$terms     = get_the_terms( $id, 'dlm_download_category' );
+				if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+					$terms_names = array();
+					foreach ( $terms as $term ) {
+						$terms_names[] = $term->name;
+					}
+					$returnstr = implode( ", ", $terms_names );
+				}
+
+				return $returnstr;
+
 		}
 	}
 
