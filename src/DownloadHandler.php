@@ -261,17 +261,18 @@ class DLM_Download_Handler {
 
 			}
 
+			/** @var DLM_Download $download */
+			$download = null;
+
 			if ( $download_id > 0 ) {
-				$download = new DLM_Download( $download_id );
-			} else {
-				$download = null;
+				$download = download_monitor()->service( 'download_factory' )->make( $download_id );
 			}
 
 			// Handle version (if set)
 			$version_id = '';
 
 			if ( ! empty( $_GET['version'] ) ) {
-				$version_id = $download->get_version_id( $_GET['version'] );
+				$version_id = $download->get_version_id_version_name( $_GET['version'] );
 			}
 
 			if ( ! empty( $_GET['v'] ) ) {
@@ -279,7 +280,7 @@ class DLM_Download_Handler {
 			}
 
 			if ( $version_id ) {
-				$download->set_version( $version_id );
+				$download->set_version( download_monitor()->service( 'version_factory' )->make( $version_id ) );
 			}
 
 			// Action on found download
@@ -338,7 +339,7 @@ class DLM_Download_Handler {
 	 *
 	 * @access private
 	 *
-	 * @param mixed $download
+	 * @param DLM_Download $download
 	 *
 	 * @return void
 	 */
