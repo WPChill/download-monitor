@@ -345,8 +345,11 @@ class DLM_Download_Handler {
 	 */
 	private function trigger( $download ) {
 
-		$version    = $download->get_file_version();
-		$file_paths = $version->mirrors;
+		/** @var DLM_Download_Version $version */
+		$version    = $download->get_version();
+
+		/** @var array $file_paths */
+		$file_paths = $version->get_mirrors();
 
 		// Check if we got files in this version
 		if ( empty( $file_paths ) ) {
@@ -383,7 +386,7 @@ class DLM_Download_Handler {
 					if ( false !== $no_access_permalink ) {
 
 						// append download id to no access URL
-						$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->id . '/';
+						$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
 
 						// redirect to no access page
 						wp_redirect( $no_access_permalink );
@@ -429,7 +432,7 @@ class DLM_Download_Handler {
 		}
 
 		// Redirect to the file...
-		if ( $download->redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
+		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 			// Ensure we have a valid URL, not a file path
@@ -439,11 +442,8 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		// File Manager
-		$file_manager = new DLM_File_Manager();
-
 		// Parse file path
-		list( $file_path, $remote_file ) = $file_manager->parse_file_path( $file_path );
+		list( $file_path, $remote_file ) = download_monitor()->service( 'file_manager' )->parse_file_path( $file_path );
 
 		$this->download_headers( $file_path, $download, $version );
 
@@ -473,14 +473,14 @@ class DLM_Download_Handler {
 		}
 
 		// multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
-		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->filesize ) {
+		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->get_filesize() ) {
 			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'], 2 );
 			list( $range ) = explode( ",", $range, 2 );
 			list( $range, $range_end ) = explode( "-", $range );
 			$range = intval( $range );
 
 			if ( ! $range_end ) {
-				$range_end = $version->filesize - 1;
+				$range_end = $version->get_filesize() - 1;
 			} else {
 				$range_end = intval( $range_end );
 			}
@@ -489,7 +489,7 @@ class DLM_Download_Handler {
 
 			header( "HTTP/1.1 206 Partial Content" );
 			header( "Content-Length: $new_length" );
-			header( "Content-Range: bytes {$range}-{$range_end}/{$version->filesize}" );
+			header( "Content-Range: bytes {$range}-{$range_end}/{$version->get_filesize()}" );
 
 		} else {
 			$range = false;
@@ -518,6 +518,10 @@ class DLM_Download_Handler {
 
 	/**
 	 * Output download headers
+	 *
+	 * @param string $file_path
+	 * @param DLM_Download $download
+	 * @param DLM_Download_Version $version
 	 */
 	private function download_headers( $file_path, $download, $version ) {
 		global $is_IE;
@@ -527,7 +531,7 @@ class DLM_Download_Handler {
 
 		foreach ( get_allowed_mime_types() as $mime => $type ) {
 			$mimes = explode( '|', $mime );
-			if ( in_array( $version->filetype, $mimes ) ) {
+			if ( in_array( $version->get_filetype(), $mimes ) ) {
 				$mime_type = $type;
 				break;
 			}
@@ -583,8 +587,8 @@ class DLM_Download_Handler {
 		$headers['Content-Disposition']       = "attachment; filename=\"{$file_name}\";";
 		$headers['Content-Transfer-Encoding'] = 'binary';
 
-		if ( $version->filesize ) {
-			$headers['Content-Length'] = $version->filesize;
+		if ( $version->get_filesize() ) {
+			$headers['Content-Length'] = $version->get_filesize();
 			$headers['Accept-Ranges']  = 'bytes';
 		}
 
