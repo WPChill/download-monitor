@@ -21,7 +21,7 @@ return array(
     'DLM_Admin_Scripts' => $baseDir . '/src/Admin/AdminScripts.php',
     'DLM_Admin_Settings' => $baseDir . '/src/Admin/Settings/Settings.php',
     'DLM_Admin_Writepanels' => $baseDir . '/src/Admin/WritePanels.php',
-    'DLM_Ajax_Handler' => $baseDir . '/src/class-dlm-ajax-handler.php',
+    'DLM_Ajax_Handler' => $baseDir . '/src/AjaxHandler.php',
     'DLM_Category_Walker' => $baseDir . '/src/Admin/CategoryWalker.php',
     'DLM_Constants' => $baseDir . '/src/Constants.php',
     'DLM_Cookie_Manager' => $baseDir . '/src/CookieManager.php',
