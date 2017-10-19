@@ -237,7 +237,7 @@ class WP_DLM {
 	}
 
 	/**
-	 * When the_post is called, get product data too
+	 * When the_post is called, get download data too
 	 *
 	 * @access public
 	 *
@@ -254,7 +254,7 @@ class WP_DLM {
 			return;
 		}
 
-		$GLOBALS['dlm_download'] = new DLM_Download( $post->ID );
+		$GLOBALS['dlm_download'] = $this->service( 'download_factory' )->make( $post->ID );
 	}
 
 	/** Deprecated methods **************************************************/
