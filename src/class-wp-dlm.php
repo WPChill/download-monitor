@@ -120,10 +120,10 @@ class WP_DLM {
 		}
 
 		// Functions
-		include_once( 'download-functions.php' );
+		require_once( $this->get_plugin_path() . 'includes/download-functions.php' );
 
 		// Deprecated
-		include_once( 'deprecated.php' );
+		require_once( $this->get_plugin_path() . 'includes/deprecated.php' );
 
 		// Setup DLM Download Handler
 		$download_handler = new DLM_Download_Handler();
