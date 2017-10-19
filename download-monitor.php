@@ -63,7 +63,7 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 	define( 'DLM_PLUGIN_FILE_INSTALLER', __FILE__ );
 
 	// include installer functions
-	require_once( 'installer-functions.php' );
+	require_once( 'includes/installer-functions.php' );
 
 	// Activation hook
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '__download_monitor_install' );

@@ -15,12 +15,10 @@ class DLM_Installer {
 		$this->init_user_roles();
 
 		// Setup Taxonomies
-		require_once( 'class-dlm-taxonomy-manager.php' );
 		$taxonomy_manager = new DLM_Taxonomy_Manager();
 		$taxonomy_manager->setup();
 
 		// Setup Post Types
-		require_once( 'class-dlm-post-type-manager.php' );
 		$post_type_manager = new DLM_Post_Type_Manager();
 		$post_type_manager->setup();
 
@@ -31,7 +29,6 @@ class DLM_Installer {
 		$this->directory_protection();
 
 		// Add endpoints
-		require_once( 'class-dlm-download-handler.php' );
 		$dlm_download_handler = new DLM_Download_Handler();
 		$dlm_download_handler->add_endpoint();
 
@@ -45,12 +42,10 @@ class DLM_Installer {
 		$this->create_no_access_page();
 
 		// setup no access page endpoints
-		require_once( 'class-dlm-download-no-access-page-endpoint.php' );
 		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
 		$no_access_page_endpoint->setup();
 
 		// Set the current version
-		require_once( 'class-dlm-constants.php' );
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 
 		// add rewrite rules

@@ -12,11 +12,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function __download_monitor_install( $network_wide = false ) {
 
-	// Load installer functions
-	require_once plugin_dir_path( DLM_PLUGIN_FILE_INSTALLER ) . 'includes/class-dlm-installer.php';
-
 	// DLM Installer
 	$installer = new DLM_Installer();
+
+	error_log(print_r($installer,1),0);
 
 	// check if
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
