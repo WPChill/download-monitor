@@ -46,7 +46,7 @@ class DLM_Download_Version {
 	private $crc32;
 
 	/** @var array */
-	private $mirrors;
+	private $mirrors = array();
 
 	/** @var string */
 	private $url;
