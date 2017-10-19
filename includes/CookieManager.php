@@ -21,7 +21,7 @@ class DLM_Cookie_Manager {
 		if ( null != $cdata && is_array( $cdata ) && ! empty( $cdata ) ) {
 
 			// check in cookie data for download AND version ID
-			if ( $cdata['download'] == $download->id && $cdata['version'] == $download->get_the_version_number() ) {
+			if ( $cdata['download'] == $download->get_id() && $cdata['version'] == $download->get_version()->get_version_number() ) {
 				$exists = true;
 			}
 		}
@@ -51,8 +51,8 @@ class DLM_Cookie_Manager {
 	 */
 	public static function set_cookie( $download ) {
 		setcookie( self::KEY, base64_encode( json_encode( array(
-			'download' => $download->id,
-			'version'  => $download->get_the_version_number()
+			'download' => $download->get_id(),
+			'version'  => $download->get_version()->get_version_number()
 		) ) ), time() + 60, COOKIEPATH, COOKIE_DOMAIN, false, true );
 	}
 
