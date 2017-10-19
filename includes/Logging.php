@@ -37,14 +37,19 @@ class DLM_Logging {
 	public function has_ip_downloaded_version( $version ) {
 		global $wpdb;
 
-		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE type = 'download' AND `version_id` = %d AND `user_ip` = %s", $version->id, DLM_Utils::get_visitor_ip() ) ) ) > 0 );
+		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE type = 'download' AND `version_id` = %d AND `user_ip` = %s", $version->get_id(), DLM_Utils::get_visitor_ip() ) ) ) > 0 );
 	}
 
 	/**
 	 * create_log function.
 	 *
-	 * @access public
-	 * @return void
+	 * @param string $type
+	 * @param string $status
+	 * @param string $message
+	 * @param DLM_Download $download
+	 * @param DLM_Download_Version $version
+	 *
+	 * @return int
 	 */
 	public function create_log( $type, $status, $message, $download, $version ) {
 		global $wpdb;
@@ -58,9 +63,9 @@ class DLM_Logging {
 				'user_id'                 => absint( get_current_user_id() ),
 				'user_ip'                 => DLM_Utils::get_visitor_ip(),
 				'user_agent'              => DLM_Utils::get_visitor_ua(),
-				'download_id'             => absint( $download->id ),
-				'version_id'              => absint( $version->id ),
-				'version'                 => $version->version,
+				'download_id'             => absint( $download->get_id() ),
+				'version_id'              => absint( $version->get_id() ),
+				'version'                 => $version->get_version(),
 				'download_date'           => current_time( 'mysql' ),
 				'download_status'         => $status,
 				'download_status_message' => $message
