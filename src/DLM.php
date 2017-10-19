@@ -16,8 +16,6 @@ class WP_DLM {
 	/**
 	 * Get the plugin file
 	 *
-	 * @static
-	 *
 	 * @return String
 	 */
 	public function get_plugin_file() {
@@ -27,8 +25,6 @@ class WP_DLM {
 	/**
 	 * Get plugin path
 	 *
-	 * @static
-	 *
 	 * @return string
 	 */
 	public function get_plugin_path() {
@@ -37,8 +33,6 @@ class WP_DLM {
 
 	/**
 	 * Get plugin URL
-	 *
-	 * @static
 	 *
 	 * @return string
 	 */
