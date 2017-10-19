@@ -15,8 +15,6 @@ function __download_monitor_install( $network_wide = false ) {
 	// DLM Installer
 	$installer = new DLM_Installer();
 
-	error_log(print_r($installer,1),0);
-
 	// check if
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
