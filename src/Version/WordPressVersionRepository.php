@@ -72,6 +72,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				'post_author'  => $version->get_author(),
 				'post_type'    => 'dlm_download_version',
 				'post_status'  => 'publish',
+				'post_parent'  => $version->get_download_id(),
 				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
 			) );
 
@@ -91,6 +92,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				'post_excerpt' => '',
 				'post_author'  => $version->get_author(),
 				'post_status'  => 'publish',
+				'post_parent'  => $version->get_download_id(),
 				'menu_order'   => $version->get_menu_order(),
 				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
 			) );
