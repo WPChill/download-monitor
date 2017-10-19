@@ -21,7 +21,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 
 		$data->id             = $post->ID;
 		$data->download_id    = $post->post_parent;
-		$data->date           = $post->post_date;
+		$data->date           = new DateTime( $post->post_date );
 		$data->version        = strtolower( get_post_meta( $data->id, '_version', true ) );
 		$data->download_count = get_post_meta( $data->id, '_download_count', true );
 		$data->filesize       = get_post_meta( $data->id, '_filesize', true );
