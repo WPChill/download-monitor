@@ -36,7 +36,7 @@ return array(
     'DLM_Download_Repository' => $baseDir . '/src/Download/DownloadRepository.php',
     'DLM_Download_Version' => $baseDir . '/src/Version/Version.php',
     'DLM_File_Manager' => $baseDir . '/src/FileManager.php',
-    'DLM_Installer' => $baseDir . '/src/class-dlm-installer.php',
+    'DLM_Installer' => $baseDir . '/src/Installer.php',
     'DLM_Logging' => $baseDir . '/src/Logging.php',
     'DLM_Logging_List_Table' => $baseDir . '/src/Admin/LoggingListTable.php',
     'DLM_Post_Type_Manager' => $baseDir . '/src/PostTypeManager.php',

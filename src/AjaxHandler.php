@@ -120,7 +120,7 @@ class DLM_Ajax_Handler {
 			'file_download_count' => $new_version->get_download_count(),
 			'file_urls'           => $new_version->get_mirrors()
 		) );
-		
+
 		die();
 	}
 
