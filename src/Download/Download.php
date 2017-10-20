@@ -63,13 +63,11 @@ class DLM_Download {
 	/**
 	 * exists function.
 	 *
-	 * @todo rewrite this method. Check on ID not on post. Also exists requires specific status
-	 *
 	 * @access public
 	 * @return bool
 	 */
 	public function exists() {
-		return ( ! is_null( $this->post ) );
+		return ( $this->get_id() > 0 && in_array( $this->get_status(), apply_filters( 'dlm_download_exists_status', array( 'publish' ) ) ) );
 	}
 
 	/**
