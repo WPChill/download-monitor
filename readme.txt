@@ -121,11 +121,13 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 4.0.0: November X, 2017 =
 * Feature: Added hash values to version blocks.
+* Tweak: Downloads need to be published in order to exist, draft downloads can no longer be downloaded.
 * Tweak: Fixed plugin links on plugin overview page.
 * Tweak: Optimization rewrite of DLM_Download class.
 * Tweak: Optimization rewrite of DLM_Download_Version class.
 * Tweak: Introduction of Factory and Repository design patterns for Downloads and Versions.
 * Tweak: Complete rewrite of setting fields.
+* Tweak: Updated template files to use new download methods.
 * Tweak: Introduced new filter "dlm_setting_field_TYPE", allowing third party programs to add custom field types to settings.
 * Tweak: Implemented Composer autoloader.
 
