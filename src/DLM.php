@@ -389,11 +389,8 @@ class WP_DLM {
 		// Deprecated
 		DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		// File Manger
-		$file_manager = new DLM_File_Manager();
-
 		// Return files
-		return $file_manager->get_file_hashes( $file_path );
+		return $this->service('hasher')->get_file_hashes( $file_path );
 	}
 
 	/**

@@ -193,7 +193,8 @@ class DLM_Shortcodes {
 			case 'sha1' :
 				return $download->get_version()->get_sha1();
 			case 'crc32' :
-				return $download->get_version()->get_crc32();
+			case 'crc32b' :
+				return $download->get_version()->get_crc32b();
 			case 'version' :
 				return $download->get_version()->get_version_number();
 
@@ -425,6 +426,7 @@ class DLM_Shortcodes {
 				$downloads->the_post();
 
 				// create download instance
+				// TODO implement factory
 				$download = new DLM_Download( get_the_ID() );
 
 				// make download filterable

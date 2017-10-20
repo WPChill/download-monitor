@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<input type="text" class="short" name="downloadable_file_version[<?php echo $version_increment; ?>]"
 				       placeholder="<?php _e( 'n/a', 'download-monitor' ); ?>" value="<?php echo $file_version; ?>"/>
 			</td>
-			<td rowspan="3">
+			<td colspan="2" rowspan="3">
 
 				<label><?php _e( 'File URL(s)', 'download-monitor' ); ?>:</label>
 				<textarea name="downloadable_file_urls[<?php echo $version_increment; ?>]" wrap="off" class="downloadable_file_urls"
@@ -80,6 +80,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 				                                                                              value="<?php echo $file_post_date->format('i'); ?>"/>
 			</td>
 		</tr>
+
+		<?php
+
+        // get available hashes
+		$hashes = download_monitor()->service( 'hasher' )->get_available_hashes();
+
+		if ( ! empty( $hashes ) ) {
+			?>
+            <tr>
+				<?php
+				foreach ( $hashes as $hash ) {
+					$value  = "";
+					$method = 'get_' . $hash;
+					if ( method_exists( $version, $method ) ) {
+						$value = $version->$method();
+					}
+					?>
+                    <td>
+                        <label><?php echo strtoupper( $hash ); ?> Hash</label>
+                        <input type="text" readonly="readonly" value="<?php echo $value; ?>"/>
+                    </td>
+				<?php } ?>
+            </tr>
+			<?php
+		}
+
+		?>
+
+
 
 		<?php do_action( 'dlm_downloadable_file_version_table_end' ); ?>
 

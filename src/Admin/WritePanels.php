@@ -182,7 +182,8 @@ class DLM_Admin_Writepanels {
 							'file_version'        => $version->get_version(),
 							'file_post_date'      => $version->get_date(),
 							'file_download_count' => $version->get_download_count(),
-							'file_urls'           => $version->get_mirrors()
+							'file_urls'           => $version->get_mirrors(),
+							'version'             => $version,
 						) );
 
 					}

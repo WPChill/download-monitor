@@ -43,7 +43,7 @@ class DLM_Download_Version {
 	private $sha1;
 
 	/** @var string */
-	private $crc32;
+	private $crc32b;
 
 	/** @var array */
 	private $mirrors = array();
@@ -266,15 +266,15 @@ class DLM_Download_Version {
 	/**
 	 * @return string
 	 */
-	public function get_crc32() {
-		return $this->crc32;
+	public function get_crc32b() {
+		return $this->crc32b;
 	}
 
 	/**
-	 * @param string $crc32
+	 * @param string $crc32b
 	 */
-	public function set_crc32( $crc32 ) {
-		$this->crc32 = $crc32;
+	public function set_crc32b( $crc32b ) {
+		$this->crc32b = $crc32b;
 	}
 
 	/**
@@ -365,10 +365,18 @@ class DLM_Download_Version {
 	 */
 	public function get_file_hashes( $file_path ) {
 
-		// File Manager
-		$file_manager = new DLM_File_Manager();
+		DLM_Debug_Logger::deprecated( 'DLM_Download_Version::get_file_hashes()' );
 
 		// Get the hashes
-		return $file_manager->get_file_hashes( $file_path );
+		return download_monitor()->service( 'hasher' )->get_file_hashes( $file_path );
+	}
+
+	/**
+	 * @deprecated 4.0
+	 *
+	 * @return string
+	 */
+	public function get_crc32() {
+		return $this->get_crc32b();
 	}
 }

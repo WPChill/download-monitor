@@ -120,6 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.0.0: November X, 2017 =
+* Feature: Added hash values to version blocks.
 * Tweak: Fixed plugin links on plugin overview page.
 * Tweak: Complete rewrite of setting fields.
 * Tweak: Introduced new filter "dlm_setting_field_TYPE", allowing third party programs to add custom field types to settings.

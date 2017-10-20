@@ -88,4 +88,13 @@ class DLM_Services {
 	private function cb_view_manager() {
 		return new DLM_View_Manager();
 	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_Hasher
+	 */
+	private function cb_hasher() {
+		return new DLM_Hasher();
+	}
 }

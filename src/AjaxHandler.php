@@ -118,7 +118,8 @@ class DLM_Ajax_Handler {
 			'file_version'        => $new_version->get_version(),
 			'file_post_date'      => $new_version->get_date(),
 			'file_download_count' => $new_version->get_download_count(),
-			'file_urls'           => $new_version->get_mirrors()
+			'file_urls'           => $new_version->get_mirrors(),
+			'version'             => $new_version
 		) );
 
 		die();
