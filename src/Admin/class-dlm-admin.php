@@ -380,6 +380,8 @@ class DLM_Admin {
 
 	/**
 	 * export_logs function
+     *
+     * TODO move this to log dir
 	 */
 	public function export_logs() {
 		global $wpdb;
@@ -429,11 +431,12 @@ class DLM_Admin {
 				$row[] = $item->download_id;
 				$row[] = $item->version_id;
 
-				$download = new DLM_Download( $item->download_id );
-				$download->set_version( $item->version_id );
+				/** @var DLM_Download $download */
+				$download = download_monitor()->service( 'download_factory' )->make( $item->download_id );
+				$download->set_version( download_monitor()->service( 'version_factory' )->make( $item->version_id ) );
 
-				if ( $download->exists() && $download->get_the_filename() ) {
-					$row[] = $download->get_the_filename();
+				if ( $download->exists() && $download->get_version()->get_filename() ) {
+					$row[] = $download->get_version()->get_filename();
 				} else {
 					$row[] = '-';
 				}
