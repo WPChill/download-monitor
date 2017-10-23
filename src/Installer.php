@@ -128,11 +128,22 @@ class DLM_Installer {
 		// Install files and folders for uploading files and prevent hotlinking
 		$upload_dir = wp_upload_dir();
 
+		$htaccess_content = "# Apache 2.4 and up
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+
+# Apache 2.3 and down
+<IfModule !mod_authz_core.c>
+Order Allow,Deny
+Deny from all
+</IfModule>";
+
 		$files = array(
 			array(
 				'base'    => $upload_dir['basedir'] . '/dlm_uploads',
 				'file'    => '.htaccess',
-				'content' => 'deny from all'
+				'content' => $htaccess_content
 			),
 			array(
 				'base'    => $upload_dir['basedir'] . '/dlm_uploads',
