@@ -266,9 +266,9 @@ class DLM_Download {
 	 * @return int
 	 */
 	public function get_download_count() {
-		if( ! $this->get_version()->is_latest() ) {
+		if ( null != $this->get_version() && ! $this->get_version()->is_latest() ) {
 			return $this->get_version()->get_download_count();
-		}else {
+		} else {
 			return $this->download_count;
 		}
 	}
