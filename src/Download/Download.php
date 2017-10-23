@@ -46,10 +46,10 @@ class DLM_Download {
 	private $version = null;
 
 	/** @var array */
-	private $versions;
+	private $versions = array();
 
 	/** @var array */
-	private $version_ids;
+	private $version_ids = array();
 
 	/**
 	 * @var WP_Post
@@ -431,14 +431,22 @@ class DLM_Download {
 	 * @return array
 	 */
 	public function get_version_ids() {
-		if ( ! is_array( $this->version_ids ) ) {
-			$transient_name = 'dlm_file_version_ids_' . $this->id;
+		if ( empty( $this->version_ids ) ) {
 
-			if ( false === ( $this->version_ids = get_transient( $transient_name ) ) ) {
-				$this->version_ids = get_posts( 'post_parent=' . $this->id . '&post_type=dlm_download_version&orderby=menu_order&order=ASC&fields=ids&post_status=publish&numberposts=-1' );
+			if ( apply_filters( 'dlm_download_use_version_transient', true, $this ) ) {
 
-				set_transient( $transient_name, $this->version_ids, YEAR_IN_SECONDS );
+				$transient_name = 'dlm_file_version_ids_' . $this->get_id();
+
+				if ( false === ( $this->version_ids = get_transient( $transient_name ) ) ) {
+					$this->version_ids = download_monitor()->service( 'version_manager' )->get_version_ids( $this->get_id() );
+
+					set_transient( $transient_name, $this->version_ids, YEAR_IN_SECONDS );
+				}
+
+			} else {
+				$this->version_ids = download_monitor()->service( 'version_manager' )->get_version_ids( $this->get_id() );
 			}
+
 		}
 
 		return $this->version_ids;
@@ -452,7 +460,7 @@ class DLM_Download {
 	 */
 	public function get_versions() {
 
-		if ( $this->versions ) {
+		if ( ! empty( $this->versions ) ) {
 			return $this->versions;
 		}
 

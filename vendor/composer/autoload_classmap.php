@@ -53,6 +53,7 @@ return array(
     'DLM_Upgrade_Manager' => $baseDir . '/src/UpgradeManager.php',
     'DLM_Utils' => $baseDir . '/src/Utils.php',
     'DLM_Version_Factory' => $baseDir . '/src/Version/VersionFactory.php',
+    'DLM_Version_Manager' => $baseDir . '/src/Version/VersionManager.php',
     'DLM_Version_Repository' => $baseDir . '/src/Version/VersionRepository.php',
     'DLM_View_Manager' => $baseDir . '/src/Admin/ViewManager.php',
     'DLM_Widget_Downloads' => $baseDir . '/src/Widgets/class-dlm-widget-downloads.php',

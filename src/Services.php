@@ -106,4 +106,13 @@ class DLM_Services {
 	private function cb_download_manager() {
 		return new DLM_Download_Manager();
 	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_Version_Manager
+	 */
+	private function cb_version_manager() {
+		return new DLM_Version_Manager();
+	}
 }
