@@ -43,6 +43,9 @@ class DLM_Download_Version {
 	private $sha1;
 
 	/** @var string */
+	private $sha256;
+
+	/** @var string */
 	private $crc32b;
 
 	/** @var array */
@@ -261,6 +264,20 @@ class DLM_Download_Version {
 	 */
 	public function set_sha1( $sha1 ) {
 		$this->sha1 = $sha1;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_sha256() {
+		return $this->sha256;
+	}
+
+	/**
+	 * @param string $sha256
+	 */
+	public function set_sha256( $sha256 ) {
+		$this->sha256 = $sha256;
 	}
 
 	/**

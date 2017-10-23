@@ -121,6 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 4.0.0: November X, 2017 =
 * Feature: Added hash values to version blocks.
+* Feature: Added SHA256 hash.
 * Tweak: Downloads need to be published in order to exist, draft downloads can no longer be downloaded.
 * Tweak: Fixed plugin links on plugin overview page.
 * Tweak: Optimization rewrite of DLM_Download class.

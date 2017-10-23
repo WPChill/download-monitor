@@ -28,6 +28,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 		$data->filesize       = get_post_meta( $data->id, '_filesize', true );
 		$data->md5            = get_post_meta( $data->id, '_md5', true );
 		$data->sha1           = get_post_meta( $data->id, '_sha1', true );
+		$data->sha256         = get_post_meta( $data->id, '_sha256', true );
 		$data->crc32b         = get_post_meta( $data->id, '_crc32', true );
 		$data->mirrors        = get_post_meta( $data->id, '_files', true );
 
@@ -124,11 +125,13 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 			update_post_meta( $version_id, '_filesize', $filesize );
 			update_post_meta( $version_id, '_md5', $hashes['md5'] );
 			update_post_meta( $version_id, '_sha1', $hashes['sha1'] );
+			update_post_meta( $version_id, '_sha256', $hashes['sha256'] );
 			update_post_meta( $version_id, '_crc32', $hashes['crc32b'] );
 		} else {
 			update_post_meta( $version_id, '_filesize', $filesize );
 			update_post_meta( $version_id, '_md5', '' );
 			update_post_meta( $version_id, '_sha1', '' );
+			update_post_meta( $version_id, '_sha256', '' );
 			update_post_meta( $version_id, '_crc32', '' );
 		}
 

@@ -134,6 +134,14 @@ class DLM_Admin_Settings {
 							'type'     => 'checkbox'
 						),
 						array(
+							'name'     => 'dlm_generate_hash_sha256',
+							'std'      => '0',
+							'label'    => __( 'SHA256 hashes', 'download-monitor' ),
+							'cb_label' => __( 'Generate SHA256 hash for uploaded files', 'download-monitor' ),
+							'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
+						array(
 							'name'     => 'dlm_generate_hash_crc32b',
 							'std'      => '0',
 							'label'    => __( 'CRC32B hashes', 'download-monitor' ),

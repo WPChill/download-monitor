@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<input type="text" class="short" name="downloadable_file_version[<?php echo $version_increment; ?>]"
 				       placeholder="<?php _e( 'n/a', 'download-monitor' ); ?>" value="<?php echo $file_version; ?>"/>
 			</td>
-			<td colspan="2" rowspan="3">
+			<td rowspan="3">
 
 				<label><?php _e( 'File URL(s)', 'download-monitor' ); ?>:</label>
 				<textarea name="downloadable_file_urls[<?php echo $version_increment; ?>]" wrap="off" class="downloadable_file_urls"
@@ -90,7 +90,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
             <tr>
 				<?php
+                $hi = 0;
 				foreach ( $hashes as $hash ) {
+					if ( $hi > 0 && ( $hi % 2 ) == 0 ) {
+						?></tr><tr><?php
+					}
+					$hi ++;
 					$value  = "";
 					$method = 'get_' . $hash;
 					if ( method_exists( $version, $method ) ) {

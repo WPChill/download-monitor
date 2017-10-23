@@ -13,6 +13,7 @@ class DLM_Hasher {
 	public function get_file_hashes( $file_path ) {
 		$md5    = false;
 		$sha1   = false;
+		$sha256 = false;
 		$crc32b = false;
 
 		if ( $file_path ) {
@@ -29,6 +30,10 @@ class DLM_Hasher {
 						$sha1 = $this->generate_hash( 'sha1', $file_path );
 					}
 
+					if ( $this->is_hash_enabled( 'sha256' ) ) {
+						$sha256 = $this->generate_hash( 'sha256', $file_path );
+					}
+
 					if ( $this->is_hash_enabled( 'crc32b' ) ) {
 						$crc32b = $this->generate_hash( 'crc32b', $file_path );
 					}
@@ -37,7 +42,7 @@ class DLM_Hasher {
 			}
 		}
 
-		return array( 'md5' => $md5, 'sha1' => $sha1, 'crc32b' => $crc32b );
+		return array( 'md5' => $md5, 'sha1' => $sha1, 'sha256' => $sha256, 'crc32b' => $crc32b );
 	}
 
 	/**
@@ -56,6 +61,9 @@ class DLM_Hasher {
 				break;
 			case 'sha1':
 				$hash = hash_file( 'sha1', $file_path );
+				break;
+			case 'sha256':
+				$hash = hash_file( 'sha256', $file_path );
 				break;
 			case 'crc32b':
 				$hash = hash_file( 'crc32b', $file_path );
@@ -82,7 +90,7 @@ class DLM_Hasher {
 	 * @return array
 	 */
 	public function get_available_hashes() {
-		$hashes = array( 'md5', 'sha1', 'crc32b' );
+		$hashes = array( 'md5', 'sha1', 'crc32b', 'sha256' );
 
 		foreach ( $hashes as $hash_key => $hash ) {
 			if ( ! $this->is_hash_enabled( $hash ) ) {

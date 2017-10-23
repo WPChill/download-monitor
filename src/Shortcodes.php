@@ -192,6 +192,8 @@ class DLM_Shortcodes {
 				return $download->get_version()->get_md5();
 			case 'sha1' :
 				return $download->get_version()->get_sha1();
+			case 'sha256' :
+				return $download->get_version()->get_sha256();
 			case 'crc32' :
 			case 'crc32b' :
 				return $download->get_version()->get_crc32b();
