@@ -345,7 +345,7 @@ class DLM_Download {
 		}
 
 		// only add version argument when current version isn't latest version
-		if ( false === $this->get_version()->is_latest() ) {
+		if ( null !== $this->get_version() && false === $this->get_version()->is_latest() ) {
 
 			if ( $this->get_version()->has_version_number() ) {
 				$link = add_query_arg( 'version', $this->get_version()->get_version_slug(), $link );
@@ -354,7 +354,7 @@ class DLM_Download {
 			}
 		}
 
-		return apply_filters( 'dlm_download_get_the_download_link', esc_url_raw( $link ), $this, $this->get_version()->get_id() );
+		return apply_filters( 'dlm_download_get_the_download_link', esc_url_raw( $link ), $this, $this->get_version() );
 	}
 
 	/**
@@ -369,9 +369,11 @@ class DLM_Download {
 		// set latest version as current version if no version is set
 		if ( $this->version == null ) {
 			$versions = $this->get_versions();
-			$latest   = array_shift( $versions );
-			$latest->set_latest( true );
-			$this->version = $latest;
+			if ( ! empty( $versions ) ) {
+				$latest = array_shift( $versions );
+				$latest->set_latest( true );
+				$this->version = $latest;
+			}
 		}
 
 		return $this->version;
@@ -431,7 +433,7 @@ class DLM_Download {
 	 * @return array
 	 */
 	public function get_version_ids() {
-		if ( empty( $this->version_ids ) ) {
+		if ( empty( $this->version_ids ) && $this->exists() ) {
 
 			if ( apply_filters( 'dlm_download_use_version_transient', true, $this ) ) {
 

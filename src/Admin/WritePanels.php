@@ -171,6 +171,7 @@ class DLM_Admin_Writepanels {
 				$versions = $download->get_versions();
 
 				if ( $versions ) {
+
 				    /** @var DLM_Download_Version $version */
 					foreach ( $versions as $version ) {
 
