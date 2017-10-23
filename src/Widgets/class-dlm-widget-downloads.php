@@ -54,7 +54,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 
 		$title          = isset( $instance['title'] ) ? apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) : __( 'Featured Downloads', 'download-monitor' );
 		$posts_per_page = isset( $instance['posts_per_page'] ) ? absint( $instance['posts_per_page'] ) : 10;
-		$format         = isset( $instance['format'] ) ? sanitize_title( $instance['format'] ) : '';
+		$format         = ! empty( $instance['format'] ) ? sanitize_title( $instance['format'] ) : dlm_get_default_download_template();
 		$orderby        = isset( $instance['orderby'] ) ? $instance['orderby'] : 'title';
 		$order          = isset( $instance['order'] ) ? $instance['order'] : 'ASC';
 		$featured       = isset( $instance['featured'] ) ? $instance['featured'] : 'no';

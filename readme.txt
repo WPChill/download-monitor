@@ -132,6 +132,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Introduced new filter "dlm_setting_field_TYPE", allowing third party programs to add custom field types to settings.
 * Tweak: Implemented Composer autoloader.
 * Tweak: Download Categories and Download Tags label name now contains 'Download'.
+* Tweak: Download Widget now uses default template output set in settings when no output template is set.
+* Tweak: Download Widget CSS tweaks.
 
 = 1.9.9: October 18, 2017 =
 * Tweak: Fixed an issue with 'No Access' page not saving correctly.
