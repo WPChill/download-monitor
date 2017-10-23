@@ -26,7 +26,8 @@ class DLM_Taxonomy_Manager {
 				'update_count_callback' => '_update_post_term_count',
 				'label'                 => __( 'Categories', 'download-monitor' ),
 				'labels'                => array(
-					'name'              => __( 'Categories', 'download-monitor' ),
+					'name'              => __( 'Download Categories', 'download-monitor' ),
+					'menu_name'         => __( 'Categories', 'download-monitor' ),
 					'singular_name'     => __( 'Download Category', 'download-monitor' ),
 					'search_items'      => __( 'Search Download Categories', 'download-monitor' ),
 					'all_items'         => __( 'All Download Categories', 'download-monitor' ),
@@ -57,7 +58,8 @@ class DLM_Taxonomy_Manager {
 				'hierarchical'      => false,
 				'label'             => __( 'Tags', 'download-monitor' ),
 				'labels'            => array(
-					'name'              => __( 'Tags', 'download-monitor' ),
+					'name'              => __( 'Download Tags', 'download-monitor' ),
+					'menu_name'         => __( 'Tags', 'download-monitor' ),
 					'singular_name'     => __( 'Download Tag', 'download-monitor' ),
 					'search_items'      => __( 'Search Download Tags', 'download-monitor' ),
 					'all_items'         => __( 'All Download Tags', 'download-monitor' ),

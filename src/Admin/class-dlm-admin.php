@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * DLM_Admin class.
+ *
+ * TODO Rewrite this monster class
  */
 class DLM_Admin {
 
