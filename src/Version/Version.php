@@ -186,7 +186,8 @@ class DLM_Download_Version {
 	 * @return bool
 	 */
 	public function has_version_number() {
-		return ! empty( $this->get_version() );
+		$version = $this->get_version();
+		return ! empty( $version );
 	}
 
 	/**
