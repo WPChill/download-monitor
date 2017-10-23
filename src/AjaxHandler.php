@@ -64,7 +64,9 @@ class DLM_Ajax_Handler {
 		$file = get_post( intval( $_POST['file_id'] ) );
 
 		if ( $file && $file->post_type == "dlm_download_version" ) {
-			delete_transient( 'dlm_file_version_ids_' . $file->post_parent );
+			// clear transient
+			download_monitor()->service( 'download_manager' )->clear_transient( $file->post_parent );
+
 			wp_delete_post( $file->ID );
 		}
 
@@ -109,7 +111,7 @@ class DLM_Ajax_Handler {
 		download_monitor()->service( 'version_repository' )->persist( $new_version );
 
 		// clear download transient
-		$download->clear_versions_transient();
+		download_monitor()->service( 'download_manager' )->clear_transient( $download->get_id() );
 
 		// output new version admin html
 		download_monitor()->service( 'view_manager' )->display( 'meta-box/version', array(

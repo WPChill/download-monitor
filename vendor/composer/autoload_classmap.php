@@ -32,6 +32,7 @@ return array(
     'DLM_Download' => $baseDir . '/src/Download/Download.php',
     'DLM_Download_Factory' => $baseDir . '/src/Download/DownloadFactory.php',
     'DLM_Download_Handler' => $baseDir . '/src/DownloadHandler.php',
+    'DLM_Download_Manager' => $baseDir . '/src/Download/DownloadManager.php',
     'DLM_Download_No_Access_Page_Endpoint' => $baseDir . '/src/DownloadNoAccessPageEndpoint.php',
     'DLM_Download_Repository' => $baseDir . '/src/Download/DownloadRepository.php',
     'DLM_Download_Version' => $baseDir . '/src/Version/Version.php',

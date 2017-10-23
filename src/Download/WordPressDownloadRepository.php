@@ -95,7 +95,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		update_post_meta( $download_id, '_download_count', $download->get_download_count() );
 
 		// clear versions transient
-		$download->clear_versions_transient();
+		download_monitor()->service( 'download_manager' )->clear_transient( $download_id );
 
 		return true;
 	}

@@ -97,4 +97,13 @@ class DLM_Services {
 	private function cb_hasher() {
 		return new DLM_Hasher();
 	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_Download_Manager
+	 */
+	private function cb_download_manager() {
+		return new DLM_Download_Manager();
+	}
 }
