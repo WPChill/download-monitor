@@ -3,9 +3,10 @@ Contributors: never5, barrykooij, mikejolley, hchouhan
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.5.1
-Stable tag: 1.9.4
+Tested up to: 4.9
+Stable tag: 1.9.9
 License: GPLv3
+Text Domain: -
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
 
@@ -117,6 +118,54 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. Display regular download links or fancy ones all using shortcodes and templates.
 
 == Changelog ==
+
+= 4.0.0: November X, 2017 =
+* Feature: Added hash values to version blocks.
+* Feature: Added SHA256 hash.
+* Feature: Added support for regex patterns in user agent blacklist, props [Matt Mower](https://github.com/mdmower).
+* Feature: Added user filter to logs, props [neptuneweb](https://github.com/neptuneweb).
+* Tweak: Added support for Apache 2.4 and up in generated .htaccess file.
+* Tweak: Added 'dlm_download_use_version_transient' filter to allow website to not use cache transients.
+* Tweak: Downloads need to be published in order to exist, draft downloads can no longer be downloaded.
+* Tweak: Fixed plugin links on plugin overview page.
+* Tweak: Optimization rewrite of DLM_Download class.
+* Tweak: Optimization rewrite of DLM_Download_Version class.
+* Tweak: Introduction of Factory and Repository design patterns for Downloads and Versions.
+* Tweak: Complete rewrite of setting fields.
+* Tweak: Updated template files to use new download methods.
+* Tweak: Introduced new filter "dlm_setting_field_TYPE", allowing third party programs to add custom field types to settings.
+* Tweak: Implemented Composer autoloader.
+* Tweak: Download Categories and Download Tags label name now contains 'Download'.
+* Tweak: Download Widget now uses default template output set in settings when no output template is set.
+* Tweak: Download Widget CSS tweaks.
+
+= 1.9.9: October 18, 2017 =
+* Tweak: Fixed an issue with 'No Access' page not saving correctly.
+
+= 1.9.8: October 6, 2017 =
+* Tweak: Add option to allow HTTP header X_FORWARD_FOR. Allowing Download Monitor to use the X_FORWARDED_FOR HTTP header set by proxies as the IP address.
+* Tweak: Download files that are added via 'Quick-add download' are now properly added to WP media library.
+* Tweak: Introduced 'lazy select' option for Download Monitor settings. Options of these select elements are only loaded on setting pages, increasing overall plugin performance.
+* Tweak: We're now filtering attachment thumbnails in media library for files in dlm_uploads. This solves 403 errors on thumbnails in the protected folder.
+
+= 1.9.7: May 5, 2017 =
+* Tweak: Added capability checks to log export and delete functionality. Props [Pritect](http://www.pritect.net/).
+* Tweak: We're now redirecting users to home on empty download request. Behavior can be changed via filters. See https://www.download-monitor.com/kb/empty-download-request-redirection/
+
+= 1.9.6: February 28, 2017 =
+* Tweak: Fix display for unknown user in exported log, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Settings screen hash tweaks.
+* Tweak: Display correct tab on settings save, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Fixed issue with some dismissible notices.
+* Tweak: Add Portuguese (pt_PT) translation, props [Pedro Mendonça](https://github.com/pedro-mendonca).
+* Tweak: Included various language tweaks via Transifex. Help out over at [Transifex](https://www.transifex.com/barrykooijplugins/download-monitor/).
+
+= 1.9.5: August 23, 2016 =
+* Tweak: Fixed a bug where Download Options couldn't be checked off in quick edit.
+* Tweak: Updated settings screen description for custom templates.
+* Tweak: Download Information input fields are now readonly since these fields are informational only. Props [kraftner](https://github.com/kraftner).
+* Tweak: Removed code that triggered PHP7 incompatibility false positives in PHP7 compatibility scans.
+* Tweak: Removed old JSON library since default JSON functions are available from PHP 5.2 and up.
 
 = 1.9.4: May 2, 2016 =
 * Tweak: Various cookie tweaks to prevent incorrect double logging entries.

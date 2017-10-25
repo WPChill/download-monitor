@@ -2,12 +2,13 @@
 # This file is distributed under the GPL v3.
 # Translators:
 # Alex Efremov <alex.efremov.dev@gmail.com>, 2016
+# Володя <meetness@yahoo.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2016-03-27 14:45:08+00:00\n"
-"PO-Revision-Date: 2016-03-27 14:46+0000\n"
+"POT-Creation-Date: 2016-08-23 11:36:35+00:00\n"
+"PO-Revision-Date: 2017-09-22 18:14+0000\n"
 "Last-Translator: Barry Kooij <mail@barrykooij.nl>\n"
 "Language-Team: Ukrainian (Ukraine) (http://www.transifex.com/barrykooijplugins/download-monitor/language/uk_UA/)\n"
 "MIME-Version: 1.0\n"
@@ -74,16 +75,16 @@ msgstr "Зображення"
 #: includes/widgets/class-dlm-widget-downloads.php:169
 #: includes/widgets/class-dlm-widget-downloads.php:195
 msgid "Title"
-msgstr ""
+msgstr "Заголовок"
 
 #: includes/admin/class-dlm-admin-cpt.php:200
 #: includes/admin/class-dlm-admin-writepanels.php:78
 #: includes/widgets/class-dlm-widget-downloads.php:199
 msgid "ID"
-msgstr ""
+msgstr "Ідентифікатор"
 
 #: includes/admin/class-dlm-admin-cpt.php:201
-#: includes/admin/class-dlm-logging-list-table.php:168
+#: includes/admin/class-dlm-logging-list-table.php:172
 msgid "File"
 msgstr "Файл"
 
@@ -103,7 +104,7 @@ msgstr "Категорії"
 #: includes/class-dlm-taxonomy-manager.php:58
 #: includes/class-dlm-taxonomy-manager.php:60
 msgid "Tags"
-msgstr ""
+msgstr "Теги"
 
 #: includes/admin/class-dlm-admin-cpt.php:205
 #: includes/admin/class-dlm-admin-dashboard.php:77
@@ -114,21 +115,21 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin-cpt.php:206
 msgid "Featured"
-msgstr ""
+msgstr "Вибране"
 
 #: includes/admin/class-dlm-admin-cpt.php:207
-#: includes/admin/class-dlm-admin-cpt.php:388
+#: includes/admin/class-dlm-admin-cpt.php:414
 #: includes/admin/class-dlm-admin-writepanels.php:124
 msgid "Members only"
-msgstr ""
+msgstr "Цей вміст є тільки для користувачів."
 
 #: includes/admin/class-dlm-admin-cpt.php:208
 msgid "Redirect only"
-msgstr ""
+msgstr "Тільки перенаправляти"
 
 #: includes/admin/class-dlm-admin-cpt.php:209
 msgid "Date posted"
-msgstr ""
+msgstr "Дата публікації"
 
 #: includes/admin/class-dlm-admin-cpt.php:252
 #: includes/admin/class-dlm-admin-cpt.php:259
@@ -136,16 +137,16 @@ msgstr ""
 msgid "Yes"
 msgstr "Так"
 
-#: includes/admin/class-dlm-admin-cpt.php:384
+#: includes/admin/class-dlm-admin-cpt.php:410
 msgid "Download Monitor Data"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-cpt.php:386
+#: includes/admin/class-dlm-admin-cpt.php:412
 #: includes/admin/class-dlm-admin-writepanels.php:118
 msgid "Featured download"
 msgstr ""
 
-#: includes/admin/class-dlm-admin-cpt.php:390
+#: includes/admin/class-dlm-admin-cpt.php:416
 #: includes/admin/class-dlm-admin-writepanels.php:130
 msgid "Redirect to file"
 msgstr ""
@@ -159,13 +160,13 @@ msgid "There are no stats available yet!"
 msgstr ""
 
 #: includes/admin/class-dlm-admin-dashboard.php:76
-#: includes/admin/class-dlm-logging-list-table.php:167
+#: includes/admin/class-dlm-logging-list-table.php:171
 #: includes/class-dlm-post-type-manager.php:23
 msgid "Download"
-msgstr ""
+msgstr "Скачати"
 
 #: includes/admin/class-dlm-admin-extensions.php:45
-#: includes/admin/class-dlm-admin.php:380
+#: includes/admin/class-dlm-admin.php:389
 msgid "Download Monitor Extensions"
 msgstr ""
 
@@ -217,11 +218,11 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin-media-insert.php:190
 msgid "Template"
-msgstr ""
+msgstr "Шаблон"
 
 #: includes/admin/class-dlm-admin-media-insert.php:192
 msgid "Template Name"
-msgstr ""
+msgstr "Назва шаблону"
 
 #: includes/admin/class-dlm-admin-media-insert.php:194
 msgid ""
@@ -268,11 +269,11 @@ msgstr ""
 
 #: includes/admin/class-dlm-admin-media-insert.php:300
 msgid "Allowed Files"
-msgstr ""
+msgstr "Дозволені файли"
 
 #: includes/admin/class-dlm-admin-media-insert.php:350
 msgid "Please wait..."
-msgstr "Зачекайте буль ласка..."
+msgstr "Зачекайте будь-ласка..."
 
 #: includes/admin/class-dlm-admin-scripts.php:108
 msgid "Are you sure you want to delete this file ? "
@@ -330,220 +331,220 @@ msgstr "Закрити все"
 msgid "Expand all"
 msgstr "Розкрити все"
 
-#: includes/admin/class-dlm-admin.php:104
+#: includes/admin/class-dlm-admin.php:113
 msgid "Select Page"
-msgstr ""
+msgstr "Вибрані сторінки"
 
-#: includes/admin/class-dlm-admin.php:131
+#: includes/admin/class-dlm-admin.php:140
 msgid "General"
 msgstr "Головна"
 
-#: includes/admin/class-dlm-admin.php:136
+#: includes/admin/class-dlm-admin.php:145
 msgid "Default Template"
-msgstr ""
+msgstr "Шаблон по замовчуванню"
 
-#: includes/admin/class-dlm-admin.php:137
+#: includes/admin/class-dlm-admin.php:146
 msgid ""
 "Choose which template is used for <code>[download]</code> shortcodes by "
 "default (this can be overridden by the <code>format</code> argument)."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:140
+#: includes/admin/class-dlm-admin.php:149
 msgid "Default - Title and count"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:141
+#: includes/admin/class-dlm-admin.php:150
 msgid "Button - CSS styled button showing title and count"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:142
+#: includes/admin/class-dlm-admin.php:151
 msgid "Box - Box showing thumbnail, title, count, filename and filesize."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:143
+#: includes/admin/class-dlm-admin.php:152
 msgid "Filename - Filename and download count"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:144
+#: includes/admin/class-dlm-admin.php:153
 msgid "Title - Shows download title only"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:145
+#: includes/admin/class-dlm-admin.php:154
 msgid "Version list - Lists all download versions in an unordered list"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:146
+#: includes/admin/class-dlm-admin.php:155
 msgid "Custom template"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:152
+#: includes/admin/class-dlm-admin.php:161
 msgid "Custom Template"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:153
+#: includes/admin/class-dlm-admin.php:162
 msgid ""
 "Leaving this blank will use the default <code>content-download.php</code> "
-"template file. If you enter, for example, <code>image</code>, the <code"
-">content-download-image.php</code> template will be used instead. You can "
+"template file. If you enter, for example, <code>button</code>, the <code"
+">content-download-button.php</code> template will be used instead. You can "
 "add custom templates inside your theme folder."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:158
+#: includes/admin/class-dlm-admin.php:167
 msgid "X-Accel-Redirect / X-Sendfile"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:159
-#: includes/admin/class-dlm-admin.php:167
-#: includes/admin/class-dlm-admin.php:230
-#: includes/admin/class-dlm-admin.php:240
+#: includes/admin/class-dlm-admin.php:168
+#: includes/admin/class-dlm-admin.php:176
+#: includes/admin/class-dlm-admin.php:239
+#: includes/admin/class-dlm-admin.php:249
 msgid "Enable"
-msgstr ""
+msgstr "активувати"
 
-#: includes/admin/class-dlm-admin.php:160
+#: includes/admin/class-dlm-admin.php:169
 msgid ""
 "If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be"
 " used to serve downloads instead of PHP (server requires "
 "<code>mod_xsendfile</code>)."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:166
+#: includes/admin/class-dlm-admin.php:175
 msgid "Prevent hotlinking"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:168
+#: includes/admin/class-dlm-admin.php:177
 msgid ""
 "If enabled, the download handler will check the PHP referer to see if it "
 "originated from your site and if not, redirect them to the homepage."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:174
+#: includes/admin/class-dlm-admin.php:183
 msgid "Endpoint"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:179
+#: includes/admin/class-dlm-admin.php:188
 msgid "download"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:180
+#: includes/admin/class-dlm-admin.php:189
 msgid "Download Endpoint"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:181
+#: includes/admin/class-dlm-admin.php:190
 msgid ""
 "Define what endpoint should be used for download links. By default this will"
 " be <code>%s</code>."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:186
+#: includes/admin/class-dlm-admin.php:195
 msgid "Endpoint Value"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:187
+#: includes/admin/class-dlm-admin.php:196
 msgid ""
 "Define what unique value should be used on the end of your endpoint to "
 "identify the downloadable file. e.g. ID would give a link like "
 "<code>%s</code>"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:190
-#: includes/admin/class-dlm-admin.php:617
+#: includes/admin/class-dlm-admin.php:199
+#: includes/admin/class-dlm-admin.php:625
 msgid "Download ID"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:191
+#: includes/admin/class-dlm-admin.php:200
 msgid "Download slug"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:197
+#: includes/admin/class-dlm-admin.php:206
 msgid "Hashes"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:202
+#: includes/admin/class-dlm-admin.php:211
 msgid "MD5 hashes"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:203
+#: includes/admin/class-dlm-admin.php:212
 msgid "Generate MD5 hash for uploaded files"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:210
+#: includes/admin/class-dlm-admin.php:219
 msgid "SHA1 hashes"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:211
+#: includes/admin/class-dlm-admin.php:220
 msgid "Generate SHA1 hash for uploaded files"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:218
+#: includes/admin/class-dlm-admin.php:227
 msgid "CRC32B hashes"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:219
+#: includes/admin/class-dlm-admin.php:228
 msgid "Generate CRC32B hash for uploaded files"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:220
+#: includes/admin/class-dlm-admin.php:229
 msgid ""
 "Hashes can optionally be output via shortcodes, but may cause performance "
 "issues with large files."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:226
+#: includes/admin/class-dlm-admin.php:235
 msgid "Logging"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:232
+#: includes/admin/class-dlm-admin.php:241
 msgid "Download Log"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:233
+#: includes/admin/class-dlm-admin.php:242
 msgid "Log download attempts, IP addresses and more."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:239
+#: includes/admin/class-dlm-admin.php:248
 msgid "Count unique IPs only"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:241
+#: includes/admin/class-dlm-admin.php:250
 msgid ""
 "If enabled, the counter for each download will only increment and create a "
 "log entry once per IP address."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:247
+#: includes/admin/class-dlm-admin.php:256
 msgid "Access"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:252
+#: includes/admin/class-dlm-admin.php:261
 msgid "No Access Page"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:253
+#: includes/admin/class-dlm-admin.php:262
 msgid ""
 "Choose what page is displayed when the user has no access to a file. Don't "
 "forget to add the <code>[dlm_no_access]</code> shortcode to the page."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:259 includes/class-dlm-installer.php:41
+#: includes/admin/class-dlm-admin.php:268 includes/class-dlm-installer.php:41
 #: includes/class-dlm-upgrade-manager.php:54
 msgid "You do not have permission to access this download. %sGo to homepage%s"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:261
+#: includes/admin/class-dlm-admin.php:270
 msgid "No access message"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:262
+#: includes/admin/class-dlm-admin.php:271
 msgid ""
 "The message that will be displayed to visitors when they don't have access "
 "to a file."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:268
+#: includes/admin/class-dlm-admin.php:277
 msgid "Blacklist IPs"
-msgstr ""
+msgstr "Чорний список IP адрес"
 
-#: includes/admin/class-dlm-admin.php:269
+#: includes/admin/class-dlm-admin.php:278
 msgid ""
 "List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for "
 "ranges. IPv4 examples: <code>198.51.100.1</code> or "
@@ -551,97 +552,97 @@ msgid ""
 "<code>2001:db8::/32</code>."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:276
+#: includes/admin/class-dlm-admin.php:285
 msgid "Blacklist user agents"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:277
+#: includes/admin/class-dlm-admin.php:286
 msgid "List browser user agents to blacklist, 1 per line."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:361
+#: includes/admin/class-dlm-admin.php:370
 msgid "Logs"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:368 includes/class-wp-dlm.php:214
+#: includes/admin/class-dlm-admin.php:377 includes/class-wp-dlm.php:214
 msgid "Settings"
 msgstr "Налаштування"
 
-#: includes/admin/class-dlm-admin.php:380 includes/class-wp-dlm.php:215
+#: includes/admin/class-dlm-admin.php:389 includes/class-wp-dlm.php:215
 msgid "Extensions"
-msgstr ""
+msgstr "Розширення"
 
-#: includes/admin/class-dlm-admin.php:411
+#: includes/admin/class-dlm-admin.php:420
 msgid ""
 "Because your server is running on nginx, our .htaccess file can't protect "
 "your downloads."
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:412
+#: includes/admin/class-dlm-admin.php:421
 msgid ""
 "Please add the following rules to your nginx config to disable direct file "
 "access: %s"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:451
+#: includes/admin/class-dlm-admin.php:459
 msgid "Settings successfully saved"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:534
+#: includes/admin/class-dlm-admin.php:542
 msgid "Save Changes"
 msgstr "Зберегти зміни"
 
-#: includes/admin/class-dlm-admin.php:560
+#: includes/admin/class-dlm-admin.php:568
 msgid "Download Logs"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:562
+#: includes/admin/class-dlm-admin.php:570
 msgid "Export CSV"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:564
+#: includes/admin/class-dlm-admin.php:572
 msgid "Delete Logs"
-msgstr ""
+msgstr "Очистити журнал"
 
-#: includes/admin/class-dlm-admin.php:618
+#: includes/admin/class-dlm-admin.php:626
 msgid "Version ID"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:619
+#: includes/admin/class-dlm-admin.php:627
 msgid "Filename"
 msgstr "Назва файлу"
 
-#: includes/admin/class-dlm-admin.php:620
+#: includes/admin/class-dlm-admin.php:628
 msgid "User ID"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:621
+#: includes/admin/class-dlm-admin.php:629
 msgid "User Login"
-msgstr ""
+msgstr "Логін користувача"
 
-#: includes/admin/class-dlm-admin.php:622
+#: includes/admin/class-dlm-admin.php:630
 msgid "User Email"
-msgstr ""
+msgstr "Email користувача"
 
-#: includes/admin/class-dlm-admin.php:623
+#: includes/admin/class-dlm-admin.php:631
 msgid "User IP"
-msgstr ""
+msgstr "IP користувача"
 
-#: includes/admin/class-dlm-admin.php:624
-#: includes/admin/class-dlm-logging-list-table.php:171
+#: includes/admin/class-dlm-admin.php:632
+#: includes/admin/class-dlm-logging-list-table.php:175
 msgid "User Agent"
 msgstr ""
 
-#: includes/admin/class-dlm-admin.php:625
-#: includes/admin/class-dlm-logging-list-table.php:172
+#: includes/admin/class-dlm-admin.php:633
+#: includes/admin/class-dlm-logging-list-table.php:176
 msgid "Date"
 msgstr "Дата"
 
-#: includes/admin/class-dlm-admin.php:626
+#: includes/admin/class-dlm-admin.php:634
 msgid "Status"
 msgstr "Статус"
 
-#: includes/admin/class-dlm-admin.php:711
+#: includes/admin/class-dlm-admin.php:719
 msgid ""
 "If you like %sDownload Monitor%s please leave us a %s★★★★★%s rating. A huge "
 "thank you from us in advance!"
@@ -649,7 +650,7 @@ msgstr ""
 
 #: includes/admin/class-dlm-logging-list-table.php:63
 msgid "Delete"
-msgstr ""
+msgstr "Знищити"
 
 #: includes/admin/class-dlm-logging-list-table.php:90
 msgid "Download Complete"
@@ -663,71 +664,75 @@ msgstr "%s тому"
 msgid "Download #%d (no longer exists)"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:112
-msgid "v%s"
+#: includes/admin/class-dlm-logging-list-table.php:113
+msgid " (v%s)"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:135
+#: includes/admin/class-dlm-logging-list-table.php:115
+msgid " (v%s no longer exists)"
+msgstr ""
+
+#: includes/admin/class-dlm-logging-list-table.php:139
 msgid "Non-member"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:169
+#: includes/admin/class-dlm-logging-list-table.php:173
 msgid "User"
 msgstr "Користувач"
 
-#: includes/admin/class-dlm-logging-list-table.php:170
+#: includes/admin/class-dlm-logging-list-table.php:174
 msgid "IP Address"
-msgstr ""
+msgstr "IP адреса"
 
-#: includes/admin/class-dlm-logging-list-table.php:192
+#: includes/admin/class-dlm-logging-list-table.php:196
 msgid "Log entries deleted"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:209
+#: includes/admin/class-dlm-logging-list-table.php:213
 msgid "Any status"
 msgstr "Будь-який статус"
 
-#: includes/admin/class-dlm-logging-list-table.php:211
+#: includes/admin/class-dlm-logging-list-table.php:215
 msgid "Failed"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:213
+#: includes/admin/class-dlm-logging-list-table.php:217
 msgid "Redirected"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:215
+#: includes/admin/class-dlm-logging-list-table.php:219
 msgid "Completed"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:234
+#: includes/admin/class-dlm-logging-list-table.php:238
 msgid "Show all dates"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:248
+#: includes/admin/class-dlm-logging-list-table.php:252
 msgid "%1$s %2$d"
 msgstr ""
 
-#: includes/admin/class-dlm-logging-list-table.php:256
+#: includes/admin/class-dlm-logging-list-table.php:260
 msgid "25 per page"
 msgstr "25 на сторінці"
 
-#: includes/admin/class-dlm-logging-list-table.php:258
+#: includes/admin/class-dlm-logging-list-table.php:262
 msgid "50 per page"
 msgstr "50 на сторінці"
 
-#: includes/admin/class-dlm-logging-list-table.php:260
+#: includes/admin/class-dlm-logging-list-table.php:264
 msgid "100 per page"
 msgstr "100 на сторінці"
 
-#: includes/admin/class-dlm-logging-list-table.php:262
+#: includes/admin/class-dlm-logging-list-table.php:266
 msgid "200 per page"
 msgstr "200 на сторінці"
 
-#: includes/admin/class-dlm-logging-list-table.php:264
+#: includes/admin/class-dlm-logging-list-table.php:268
 msgid "Show All"
 msgstr "Показати всі"
 
-#: includes/admin/class-dlm-logging-list-table.php:268
+#: includes/admin/class-dlm-logging-list-table.php:272
 msgid "Filter"
 msgstr "Фільтр"
 
@@ -751,9 +756,9 @@ msgstr ""
 #: includes/admin/html-downloadable-file-version.php:5
 msgid "Downloaded %s time"
 msgid_plural "Downloaded %s times"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Скачано %s раз"
+msgstr[1] "Скачано %s разів"
+msgstr[2] "Скачано %s разів"
 
 #: includes/admin/html-downloadable-file-version.php:23
 msgid "File URL(s)"
@@ -804,7 +809,7 @@ msgstr ""
 #: includes/class-dlm-download-handler.php:283
 #: includes/class-dlm-download-handler.php:341
 #: includes/class-dlm-download-handler.php:349
-#: includes/class-dlm-download-handler.php:499
+#: includes/class-dlm-download-handler.php:501
 msgid "Go to homepage &rarr;"
 msgstr ""
 
@@ -812,34 +817,34 @@ msgstr ""
 #: includes/class-dlm-download-handler.php:341
 #: includes/class-dlm-download-handler.php:349
 #: includes/class-dlm-download-handler.php:385
-#: includes/class-dlm-download-handler.php:499
+#: includes/class-dlm-download-handler.php:501
 msgid "Download Error"
-msgstr ""
+msgstr "Помилка завантаження"
 
 #: includes/class-dlm-download-handler.php:341
 #: includes/class-dlm-download-handler.php:349
 msgid "No file paths defined."
 msgstr ""
 
-#: includes/class-dlm-download-handler.php:419
-#: includes/class-dlm-download-handler.php:439
-#: includes/class-dlm-download-handler.php:446
-#: includes/class-dlm-download-handler.php:453
+#: includes/class-dlm-download-handler.php:421
+#: includes/class-dlm-download-handler.php:441
+#: includes/class-dlm-download-handler.php:448
+#: includes/class-dlm-download-handler.php:455
 msgid "Redirected to file"
 msgstr ""
 
-#: includes/class-dlm-download-handler.php:492
+#: includes/class-dlm-download-handler.php:494
 msgid "Redirected to remote file."
 msgstr ""
 
-#: includes/class-dlm-download-handler.php:497
 #: includes/class-dlm-download-handler.php:499
+#: includes/class-dlm-download-handler.php:501
 msgid "File not found."
 msgstr "Файл не знайдено."
 
 #: includes/class-dlm-installer.php:165 includes/class-dlm-installer.php:174
 msgid "No Access"
-msgstr ""
+msgstr "Доступ заборонено."
 
 #: includes/class-dlm-post-type-manager.php:21
 msgid "All Downloads"
@@ -851,7 +856,7 @@ msgstr ""
 
 #: includes/class-dlm-post-type-manager.php:24
 msgid "Add New"
-msgstr ""
+msgstr "Додати нове"
 
 #: includes/class-dlm-post-type-manager.php:25
 msgid "Add Download"
@@ -966,19 +971,19 @@ msgstr ""
 
 #: includes/class-wp-dlm.php:216
 msgid "Docs"
-msgstr ""
+msgstr "Документація"
 
 #: includes/product/class-dlm-product.php:149
 msgid "License successfully activated."
-msgstr ""
+msgstr "Ліцензія успішно активована."
 
 #: includes/widgets/class-dlm-widget-downloads.php:28
 msgid "Display a list of your downloads."
-msgstr ""
+msgstr "Відображення списку завантажень."
 
 #: includes/widgets/class-dlm-widget-downloads.php:30
 msgid "Downloads List"
-msgstr ""
+msgstr "Список завантажень"
 
 #: includes/widgets/class-dlm-widget-downloads.php:55
 #: includes/widgets/class-dlm-widget-downloads.php:159
@@ -987,7 +992,7 @@ msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:176
 msgid "Limit"
-msgstr ""
+msgstr "Обмеження"
 
 #: includes/widgets/class-dlm-widget-downloads.php:183
 msgid "Output template"
@@ -995,7 +1000,7 @@ msgstr ""
 
 #: includes/widgets/class-dlm-widget-downloads.php:187
 msgid "Default template"
-msgstr ""
+msgstr "Шаблон по замовчуванню"
 
 #: includes/widgets/class-dlm-widget-downloads.php:191
 msgid "Order by"
@@ -1003,27 +1008,27 @@ msgstr "Сортувати за"
 
 #: includes/widgets/class-dlm-widget-downloads.php:197
 msgid "Random"
-msgstr ""
+msgstr "Випадковий"
 
 #: includes/widgets/class-dlm-widget-downloads.php:201
 msgid "Date added"
-msgstr ""
+msgstr "Додано"
 
 #: includes/widgets/class-dlm-widget-downloads.php:203
 msgid "Date modified"
-msgstr ""
+msgstr "Змінено"
 
 #: includes/widgets/class-dlm-widget-downloads.php:210
 msgid "Order"
-msgstr ""
+msgstr "Порядок"
 
 #: includes/widgets/class-dlm-widget-downloads.php:214
 msgid "ASC"
-msgstr ""
+msgstr "ASC"
 
 #: includes/widgets/class-dlm-widget-downloads.php:216
 msgid "DESC"
-msgstr ""
+msgstr "Опис"
 
 #: includes/widgets/class-dlm-widget-downloads.php:224
 msgid "Show only featured downloads"
@@ -1050,7 +1055,7 @@ msgstr ""
 
 #: templates/content-download-box.php:26
 msgid "Download File"
-msgstr ""
+msgstr "Звантажити Файл"
 
 #: templates/content-download-button.php:11
 msgid "Download &ldquo;%s&rdquo;"
@@ -1085,7 +1090,7 @@ msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "https://www.never5.com"
-msgstr ""
+msgstr "https://www.never5.com"
 
 #: includes/admin/class-dlm-admin-media-insert.php:213
 msgctxt "Drop file here *or* select file"

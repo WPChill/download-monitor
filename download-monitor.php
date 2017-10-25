@@ -3,11 +3,11 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 1.9.4
+	Version: 4.0.0-dev
 	Author: Never5
 	Author URI: https://www.never5.com
 	Requires at least: 3.8
-	Tested up to: 4.5.1
+	Tested up to: 4.9
 	Text Domain: download-monitor
 
 	License: GPL v3
@@ -33,25 +33,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '1.9.4' );
+define( 'DLM_VERSION', '4.0.0' );
 
-function __download_monitor_main() {
+// Define DLM FILE
+define( 'DLM_PLUGIN_FILE', __FILE__ );
 
-	// Define DLM FILE
-	define( 'DLM_PLUGIN_FILE', __FILE__ );
-
-	// Require class file
-	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/class-wp-dlm.php';
-
-	// Create DLM object
-	$dlm = new WP_DLM();
-
-	// Backwards compatibility
-	$GLOBALS['download_monitor'] = $dlm;
+function download_monitor() {
+	static $instance;
+	if ( is_null( $instance ) ) {
+		$instance = new WP_DLM();
+	}
+	return $instance;
 }
 
+function __load_download_monitor() {
+	// fetch instance and store in global
+	$GLOBALS['download_monitor'] = download_monitor();
+}
+
+// require autoloader
+require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
+
 // Init plugin
-add_action( 'plugins_loaded', '__download_monitor_main', 10 );
+add_action( 'plugins_loaded', '__load_download_monitor', 10 );
 
 if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
 
@@ -59,7 +63,7 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 	define( 'DLM_PLUGIN_FILE_INSTALLER', __FILE__ );
 
 	// include installer functions
-	require_once( 'installer-functions.php' );
+	require_once( 'includes/installer-functions.php' );
 
 	// Activation hook
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '__download_monitor_install' );
