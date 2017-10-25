@@ -30,7 +30,7 @@ class DLM_Shortcodes {
 	 * total_downloads function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return int
 	 */
 	public function total_downloads() {
 		global $wpdb;
@@ -43,7 +43,7 @@ class DLM_Shortcodes {
 			AND post_status = 'publish'
 		" );
 		
-		return apply_filters( 'dlm_total_downloads', $total );
+		return apply_filters( 'dlm_shortcode_total_downloads', $total );
 	}
 
 	/**
