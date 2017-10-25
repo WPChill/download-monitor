@@ -196,110 +196,114 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		// display 'delete' success message
 		if ( 'top' == $which && true === $this->display_delete_message ) {
 			?>
-			<div id="message" class="updated notice notice-success">
-				<p><?php _e( 'Log entries deleted', 'download-monitor' ); ?></p>
-			</div>
+            <div id="message" class="updated notice notice-success">
+                <p><?php _e( 'Log entries deleted', 'download-monitor' ); ?></p>
+            </div>
 			<?php
 		}
 
 		?>
-	<div class="tablenav <?php echo esc_attr( $which ); ?>">
+        <div class="tablenav <?php echo esc_attr( $which ); ?>">
 
-		<div class="alignleft actions bulkactions">
-			<?php $this->bulk_actions( $which ); ?>
-		</div>
+            <div class="alignleft actions bulkactions">
+				<?php $this->bulk_actions( $which ); ?>
+            </div>
 
-		<?php if ( 'top' == $which ) : ?>
+			<?php if ( 'top' == $which ) { ?>
 
-			<div class="alignleft actions">
+                <div class="alignleft actions">
 
-				<select name="filter_status">
-					<option value=""><?php _e( 'Any status', 'download-monitor' ); ?></option>
-					<option
-						value="failed" <?php selected( $this->filter_status, 'failed' ); ?>><?php _e( 'Failed', 'download-monitor' ); ?></option>
-					<option
-						value="redirected" <?php selected( $this->filter_status, 'redirected' ); ?>><?php _e( 'Redirected', 'download-monitor' ); ?></option>
-					<option
-						value="completed" <?php selected( $this->filter_status, 'completed' ); ?>><?php _e( 'Completed', 'download-monitor' ); ?></option>
-				</select>
-				<?php
-				global $wpdb, $wp_locale;
+                    <select name="filter_status">
+                        <option value=""><?php _e( 'Any status', 'download-monitor' ); ?></option>
+                        <option
+                                value="failed" <?php selected( $this->filter_status, 'failed' ); ?>><?php _e( 'Failed', 'download-monitor' ); ?></option>
+                        <option
+                                value="redirected" <?php selected( $this->filter_status, 'redirected' ); ?>><?php _e( 'Redirected', 'download-monitor' ); ?></option>
+                        <option
+                                value="completed" <?php selected( $this->filter_status, 'completed' ); ?>><?php _e( 'Completed', 'download-monitor' ); ?></option>
+                    </select>
+					<?php
+					global $wpdb, $wp_locale;
 
-				$months = $wpdb->get_results( "
+					$months = $wpdb->get_results( "
 							SELECT DISTINCT YEAR( download_date ) AS year, MONTH( download_date ) AS month
 							FROM {$wpdb->download_log}
 							WHERE type = 'download'
 							ORDER BY download_date DESC
 						"
-				);
+					);
 
-				$month_count = count( $months );
+					$month_count = count( $months );
 
-				if ( $month_count && ! ( 1 == $month_count && 0 == $months[0]->month ) ) :
-					$m = isset( $_GET['filter_month'] ) ? $_GET['filter_month'] : 0;
-					?>
-					<select name="filter_month">
-						<option <?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
-						<?php
-						foreach ( $months as $arc_row ) {
-							if ( 0 == $arc_row->year ) {
-								continue;
-							}
-
-							$month = zeroise( $arc_row->month, 2 );
-							$year  = $arc_row->year;
-
-							printf( "<option %s value='%s'>%s</option>\n",
-								selected( $m, $year . '-' . $month, false ),
-								esc_attr( $year . '-' . $month ),
-
-								sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
-							);
-						}
+					if ( $month_count && ! ( 1 == $month_count && 0 == $months[0]->month ) ) {
+						$m = isset( $_GET['filter_month'] ) ? $_GET['filter_month'] : 0;
 						?>
-					</select>
-				<?php endif;
-				?>
-				<select name="filter_user">
-					<option value="0"><?php _e( 'Select a User', 'download-monitor' ); ?></option>
-					<?php 
-					$users = $wpdb->get_results( "
+                        <select name="filter_month">
+                            <option <?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
+							<?php
+							foreach ( $months as $arc_row ) {
+								if ( 0 == $arc_row->year ) {
+									continue;
+								}
+
+								$month = zeroise( $arc_row->month, 2 );
+								$year  = $arc_row->year;
+
+								printf( "<option %s value='%s'>%s</option>\n",
+									selected( $m, $year . '-' . $month, false ),
+									esc_attr( $year . '-' . $month ),
+
+									sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+								);
+							}
+							?>
+                        </select>
+					<?php } ?>
+                    <select name="filter_user">
+                        <option value="0"><?php _e( 'Select a User', 'download-monitor' ); ?></option>
+						<?php
+						$users = $wpdb->get_results( "
 							SELECT DISTINCT user_id
 							FROM {$wpdb->download_log}
 							WHERE type = 'download'" );
 
-					foreach( $users as $a_user ){
-					    if( $a_user->user_id == '0' ) continue;
-						$the_user = get_userdata( $a_user->user_id );
+						foreach( $users as $a_user ) {
+							if( $a_user->user_id == '0' ) {
+							    continue;
+							}
+							$the_user = get_userdata( $a_user->user_id );
+							?>
+                        <option value="<?php echo $a_user->user_id; ?>" <?php echo ($this->filter_user == $a_user->user_id) ? 'selected="selected"' : ''; ?>>
+							<?php echo $the_user->display_name; ?>
+                            </option><?php
+						}
 						?>
-					<option value="<?php echo $a_user->user_id; ?>" <?php echo ($this->filter_user == $a_user->user_id) ? 'selected="selected"' : ''; ?>>
-						<?php echo $the_user->display_name; ?>
-					</option><?
-					}
-					?>
-				</select>
-				<select name="logs_per_page">
-					<option value="25"><?php _e( '25 per page', 'download-monitor' ); ?></option>
-					<option
-						value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php _e( '50 per page', 'download-monitor' ); ?></option>
-					<option
-						value="100" <?php selected( $this->logs_per_page, 100 ) ?>><?php _e( '100 per page', 'download-monitor' ); ?></option>
-					<option
-						value="200" <?php selected( $this->logs_per_page, 200 ) ?>><?php _e( '200 per page', 'download-monitor' ); ?></option>
-					<option
-						value="-1" <?php selected( $this->logs_per_page, - 1 ) ?>><?php _e( 'Show All', 'download-monitor' ); ?></option>
-				</select>
-				<input type="hidden" name="post_type" value="dlm_download"/>
-				<input type="hidden" name="page" value="download-monitor-logs"/>
-				<input type="submit" value="<?php _e( 'Filter', 'download-monitor' ); ?>" class="button"/>
-			</div>
-		<?php endif; ?>
+                    </select>
+                    <select name="logs_per_page">
+                        <option value="25"><?php _e( '25 per page', 'download-monitor' ); ?></option>
+                        <option
+                                value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php _e( '50 per page', 'download-monitor' ); ?></option>
+                        <option
+                                value="100" <?php selected( $this->logs_per_page, 100 ) ?>><?php _e( '100 per page', 'download-monitor' ); ?></option>
+                        <option
+                                value="200" <?php selected( $this->logs_per_page, 200 ) ?>><?php _e( '200 per page', 'download-monitor' ); ?></option>
+                        <option
+                                value="-1" <?php selected( $this->logs_per_page, - 1 ) ?>><?php _e( 'Show All', 'download-monitor' ); ?></option>
+                    </select>
+                    <input type="hidden" name="post_type" value="dlm_download"/>
+                    <input type="hidden" name="page" value="download-monitor-logs"/>
+                    <input type="submit" value="<?php _e( 'Filter', 'download-monitor' ); ?>" class="button"/>
+                </div>
+			<?php
+			}
+			?>
+			<?php
+			$this->extra_tablenav( $which );
+			$this->pagination( $which );
+			?>
+            <br class="clear"/>
+        </div>
 		<?php
-		$this->extra_tablenav( $which );
-		$this->pagination( $which );
-		?>
-		<br class="clear"/>
-		</div><?php
 	}
 
 	/**
