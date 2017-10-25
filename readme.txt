@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Feature: Added hash values to version blocks.
 * Feature: Added SHA256 hash.
 * Feature: Added support for regex patterns in user agent blacklist, props [Matt Mower](https://github.com/mdmower).
+* Feature: Added user filter to logs, props [neptuneweb](https://github.com/neptuneweb).
 * Tweak: Added support for Apache 2.4 and up in generated .htaccess file.
 * Tweak: Added 'dlm_download_use_version_transient' filter to allow website to not use cache transients.
 * Tweak: Downloads need to be published in order to exist, draft downloads can no longer be downloaded.
