@@ -148,11 +148,20 @@ class DLM_Download_Handler {
 					foreach ( $blacklisted_uas as $blacklisted_ua ) {
 
 						if ( ! empty( $blacklisted_ua ) ) {
+
 							// check if blacklisted user agent is found in request user agent
-							if ( false !== stristr( $visitor_ua, $blacklisted_ua ) ) {
-								$can_download = false;
-								break;
+							if ( '/' == $blacklisted_ua[0] && '/' == substr( $blacklisted_ua, -1 ) ) { // /regex/ pattern
+								if ( preg_match( $blacklisted_ua, $visitor_ua ) ) {
+									$can_download = false;
+									break;
+								}
+							} else { // string matching
+								if ( false !== stristr( $visitor_ua, $blacklisted_ua ) ) {
+									$can_download = false;
+									break;
+								}
 							}
+
 						}
 
 					}
