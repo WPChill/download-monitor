@@ -413,25 +413,25 @@ class DLM_Shortcodes {
 		// Allow filtering of arguments
 		$args = apply_filters( 'dlm_shortcode_downloads_args', $args );
 
-		$downloads         = new WP_Query( $args );
-		$dlm_max_num_pages = $downloads->max_num_pages;
+		$query_obj = new WP_Query();
+
+		$download_posts = $query_obj->query( $args );
+
+		$dlm_max_num_pages = $query_obj->max_num_pages;
 
 		// Template handler
 		$template_handler = new DLM_Template_Handler();
 
-		if ( $downloads->have_posts() ) {
+		if ( count( $download_posts ) > 0 ) {
 
 			// loop start output
 			echo html_entity_decode( $loop_start );
 
-			while ( $downloads->have_posts() ) {
-
-				// next iteration in downloads loop
-				$downloads->the_post();
+			foreach ( $download_posts as $download_post ) {
 
 				// create download instance
 				// TODO implement factory
-				$download = new DLM_Download( get_the_ID() );
+				$download = download_monitor()->service( 'download_factory' )->make( $download_post->ID );
 
 				// make download filterable
 				$download = apply_filters( 'dlm_shortcode_downloads_loop_download', $download );
