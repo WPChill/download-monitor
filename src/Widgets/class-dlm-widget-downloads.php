@@ -90,9 +90,10 @@ class DLM_Widget_Downloads extends WP_Widget {
 			);
 		}
 
-		$r = new WP_Query( $args );
+		$query_obj      = new WP_Query();
+		$download_posts = $query_obj->query( $args );
 
-		if ( $r->have_posts() ) {
+		if ( count( $download_posts ) > 0 ) {
 
 			echo $before_widget;
 
@@ -105,12 +106,11 @@ class DLM_Widget_Downloads extends WP_Widget {
 			// Template handler
 			$template_handler = new DLM_Template_Handler();
 
-			while ( $r->have_posts() ) {
-				$r->the_post();
+			foreach($download_posts as $download_post ) {
 
 				echo apply_filters( 'dlm_widget_downloads_list_item_start', '<li>' );
 
-				$template_handler->get_template_part( 'content-download', $format, '', array( 'dlm_download' => new DLM_Download( get_the_ID() ) ) );
+				$template_handler->get_template_part( 'content-download', $format, '', array( 'dlm_download' => download_monitor()->service( 'download_factory' )->make( $download_post->ID )  ) );
 
 				echo apply_filters( 'dlm_widget_downloads_list_item_end', '</li>' );
 			}
