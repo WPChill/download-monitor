@@ -39,6 +39,7 @@ return array(
     'DLM_File_Manager' => $baseDir . '/src/FileManager.php',
     'DLM_Hasher' => $baseDir . '/src/Hasher.php',
     'DLM_Installer' => $baseDir . '/src/Installer.php',
+    'DLM_Integrations_YoastSEO' => $baseDir . '/src/Integrations/YoastSEO.php',
     'DLM_Logging' => $baseDir . '/src/Logging.php',
     'DLM_Logging_List_Table' => $baseDir . '/src/Admin/LoggingListTable.php',
     'DLM_Post_Type_Manager' => $baseDir . '/src/PostTypeManager.php',

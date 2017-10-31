@@ -145,6 +145,9 @@ class WP_DLM {
 
 		// Setup actions
 		$this->setup_actions();
+
+		// Setup integrations
+		$this->setup_integrations();
 	}
 
 	/**
@@ -159,6 +162,14 @@ class WP_DLM {
 
 		// setup product manager
 		DLM_Product_Manager::get()->setup();
+	}
+
+	/**
+	 * Setup 3rd party integrations
+	 */
+	private function setup_integrations() {
+		$yoast = new DLM_Integrations_YoastSEO();
+		$yoast->setup();
 	}
 
 	/**
