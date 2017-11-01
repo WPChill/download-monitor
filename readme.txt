@@ -124,6 +124,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Feature: Added SHA256 hash.
 * Feature: Added support for regex patterns in user agent blacklist, props [Matt Mower](https://github.com/mdmower).
 * Feature: Added user filter to logs, props [neptuneweb](https://github.com/neptuneweb).
+* Tweak: We're now only serving downloads when requested over the GET or POST HTTP method. This can be filtered via filter dlm_accepted_request_methods.
 * Tweak: Added Download Title to download log CSV export file.
 * Tweak: Added 'dlm_shortcode_total_downloads' filter to output of [total_downloads] shortcode, props [Joel James](https://github.com/Joel-James).
 * Tweak: Added support for Apache 2.4 and up in generated .htaccess file.

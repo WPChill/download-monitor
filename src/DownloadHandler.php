@@ -207,6 +207,12 @@ class DLM_Download_Handler {
 	public function handler() {
 		global $wp, $wpdb;
 
+		// check HTTP method
+		$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] ) ? $_SERVER['REQUEST_METHOD'] : 'GET' );
+		if ( ! in_array( $request_method, apply_filters( 'dlm_accepted_request_methods', array( 'GET', 'POST' ) ) ) ) {
+			return;
+		}
+
 		// GET to query_var
 		if ( ! empty( $_GET[ $this->endpoint ] ) ) {
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
