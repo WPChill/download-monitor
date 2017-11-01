@@ -416,6 +416,7 @@ class DLM_Admin {
 		$rows   = array();
 		$row    = array();
 		$row[]  = __( 'Download ID', 'download-monitor' );
+		$row[]  = __( 'Download Title', 'download-monitor' );
 		$row[]  = __( 'Version ID', 'download-monitor' );
 		$row[]  = __( 'Filename', 'download-monitor' );
 		$row[]  = __( 'User ID', 'download-monitor' );
@@ -429,13 +430,16 @@ class DLM_Admin {
 
 		if ( ! empty( $items ) ) {
 			foreach ( $items as $item ) {
-				$row   = array();
-				$row[] = $item->download_id;
-				$row[] = $item->version_id;
 
 				/** @var DLM_Download $download */
+			    // get download object
 				$download = download_monitor()->service( 'download_factory' )->make( $item->download_id );
 				$download->set_version( download_monitor()->service( 'version_factory' )->make( $item->version_id ) );
+
+				$row   = array();
+				$row[] = $item->download_id;
+				$row[] = $download->get_title();
+				$row[] = $item->version_id;
 
 				if ( $download->exists() && $download->get_version()->get_filename() ) {
 					$row[] = $download->get_version()->get_filename();
