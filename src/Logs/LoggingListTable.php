@@ -45,13 +45,13 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	/**
 	 * The checkbox column
 	 *
-	 * @param object $item
+	 * @param DLM_Log_Item $item
 	 *
 	 * @return string
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="log[]" value="%s" />', $item->ID
+			'<input type="checkbox" name="log[]" value="%s" />', $item->get_id()
 		);
 	}
 
@@ -73,20 +73,20 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 *
 	 * @access public
 	 *
-	 * @param mixed $log
+	 * @param DLM_Log_Item $log
 	 * @param mixed $column_name
 	 *
 	 * @return string
 	 */
 	public function column_default( $log, $column_name ) {
-		switch ( $column_name ) {
+	    switch ( $column_name ) {
 			case 'status' :
-				switch ( $log->download_status ) {
+				switch ( $log->get_download_status() ) {
 					case 'failed' :
-						$download_status = '<span class="failed" title="' . esc_attr( $log->download_status_message ) . '">&nbsp;</span>';
+						$download_status = '<span class="failed" title="' . esc_attr( $log->get_download_status_message() ) . '">&nbsp;</span>';
 						break;
 					case 'redirected' :
-						$download_status = '<span class="redirected" title="' . esc_attr( $log->download_status_message ) . '">&nbsp;</span>';
+						$download_status = '<span class="redirected" title="' . esc_attr( $log->get_download_status_message() ) . '">&nbsp;</span>';
 						break;
 					default :
 						$download_status = '<span class="completed" title="' . __( 'Download Complete', 'download-monitor' ) . '">&nbsp;</span>';
@@ -96,37 +96,38 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				return $download_status;
 				break;
 			case 'date' :
-				return '<time title="' . date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $log->download_date ) ) . '"">' . sprintf( __( '%s ago', 'download-monitor' ), human_time_diff( strtotime( $log->download_date ), current_time( 'timestamp' ) ) ) . '</time>';
+			    $time_str = date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $log->get_download_date()->getTimestamp() ) );
+				return '<time title="' . $time_str . '"">' . sprintf( __( '%s ago', 'download-monitor' ), human_time_diff( $log->get_download_date()->getTimestamp(), current_time( 'timestamp' ) ) ) . '</time>';
 				break;
 			case 'download' :
-			    /** @var DLM_Download $download */
-				$download = download_monitor()->service( 'download_factory' )->make( $log->download_id );
-				$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->version_id ) );
+				/** @var DLM_Download $download */
+				$download = download_monitor()->service( 'download_factory' )->make( $log->get_download_id() );
+				$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->get_version_id() ) );
 
 				if ( ! $download->exists() ) {
-					$download_string = sprintf( __( 'Download #%d (no longer exists)', 'download-monitor' ), $log->download_id );
+					$download_string = sprintf( __( 'Download #%d (no longer exists)', 'download-monitor' ), $log->get_download_id() );
 				} else {
 					$download_string = '<a href="' . admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) . '">';
 					$download_string .= '#' . $download->get_id() . ' &ndash; ' . $download->get_title();
 					$download_string .= '</a>';
 				}
 
-				if ( $log->version ) {
-					if ( $download->version_exists( $log->version_id ) ) {
-						$download_string .= sprintf( __( ' (v%s)', 'download-monitor' ), $log->version );
+				if ( $log->get_version() ) {
+					if ( $download->version_exists( $log->get_version_id() ) ) {
+						$download_string .= sprintf( __( ' (v%s)', 'download-monitor' ), $log->get_version() );
 					} else {
-						$download_string .= sprintf( __( ' (v%s no longer exists)', 'download-monitor' ), $log->version );
+						$download_string .= sprintf( __( ' (v%s no longer exists)', 'download-monitor' ), $log->get_version() );
 					}
 				}
 
 				return $download_string;
 				break;
 			case 'file' :
-			    /** @var DLM_Download $download */
-				$download = download_monitor()->service( 'download_factory' )->make( $log->download_id );
-				$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->version_id ) );
+				/** @var DLM_Download $download */
+				$download = download_monitor()->service( 'download_factory' )->make( $log->get_download_id() );
+				$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->get_version_id() ) );
 
-				if ( $download->exists() && $download->version_exists( $log->version_id ) && $download->get_version()->get_filename() ) {
+				if ( $download->exists() && $download->version_exists( $log->get_version_id() ) && $download->get_version()->get_filename() ) {
 					$download_string = '<code>' . $download->get_version()->get_filename() . '</code>';
 				} else {
 					$download_string = '&ndash;';
@@ -135,8 +136,8 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				return $download_string;
 				break;
 			case 'user' :
-				if ( $log->user_id ) {
-					$user = get_user_by( 'id', $log->user_id );
+				if ( $log->get_user_id() ) {
+					$user = get_user_by( 'id', $log->get_user_id() );
 				}
 
 				if ( ! isset( $user ) || ! $user ) {
@@ -152,10 +153,10 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				return $user_string;
 				break;
 			case 'user_ip' :
-				return '<a href="http://whois.arin.net/rest/ip/' . $log->user_ip . '" target="_blank">' . $log->user_ip . '</a>';
+				return '<a href="http://whois.arin.net/rest/ip/' . $log->get_user_ip() . '" target="_blank">' . $log->get_user_ip() . '</a>';
 				break;
 			case 'user_ua' :
-				$ua = $this->uaparser->parse( $log->user_agent );
+				$ua = $this->uaparser->parse( $log->get_user_agent() );
 
 				return $ua->toFullString;
 				break;
@@ -228,7 +229,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 					$months = $wpdb->get_results( "
 							SELECT DISTINCT YEAR( download_date ) AS year, MONTH( download_date ) AS month
 							FROM {$wpdb->download_log}
-							WHERE type = 'download'
 							ORDER BY download_date DESC
 						"
 					);
@@ -264,16 +264,15 @@ class DLM_Logging_List_Table extends WP_List_Table {
 						<?php
 						$users = $wpdb->get_results( "
 							SELECT DISTINCT user_id
-							FROM {$wpdb->download_log}
-							WHERE type = 'download'" );
+							FROM {$wpdb->download_log}" );
 
-						foreach( $users as $a_user ) {
-							if( $a_user->user_id == '0' ) {
-							    continue;
+						foreach ( $users as $a_user ) {
+							if ( $a_user->user_id == '0' ) {
+								continue;
 							}
 							$the_user = get_userdata( $a_user->user_id );
 							?>
-                        <option value="<?php echo $a_user->user_id; ?>" <?php echo ($this->filter_user == $a_user->user_id) ? 'selected="selected"' : ''; ?>>
+                        <option value="<?php echo $a_user->user_id; ?>" <?php echo ( $this->filter_user == $a_user->user_id ) ? 'selected="selected"' : ''; ?>>
 							<?php echo $the_user->display_name; ?>
                             </option><?php
 						}
@@ -294,7 +293,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
                     <input type="hidden" name="page" value="download-monitor-logs"/>
                     <input type="submit" value="<?php _e( 'Filter', 'download-monitor' ); ?>" class="button"/>
                 </div>
-			<?php
+				<?php
 			}
 			?>
 			<?php
@@ -318,52 +317,59 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		// process bulk action
 		$this->process_bulk_action();
 
-		$per_page      = absint( $this->logs_per_page );
-		$current_page  = absint( $this->get_pagenum() );
-		$filter_status = $this->filter_status;
-		$filter_month  = date( "m", strtotime( $this->filter_month ) );
-		$filter_year   = date( "Y", strtotime( $this->filter_month ) );
-		$filter_user   = $this->filter_user;
-
 		// Init headers
 		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
 
-		$query_where = " type = 'download' ";
+		$per_page     = absint( $this->logs_per_page );
+		$current_page = absint( $this->get_pagenum() );
 
+		// setup filters
+		$filters = array();
+
+		// filter status
 		if ( $this->filter_status ) {
-			$query_where .= " AND download_status = '{$filter_status}' ";
+			$filters[] = array(
+				'key'   => 'download_status',
+				'value' => $this->filter_status
+			);
 		}
 
+		// filter month
 		if ( $this->filter_month ) {
-			$query_where .= " AND download_date >= '" . date( 'Y-m-01', strtotime( $this->filter_month ) ) . "' ";
+			$filters[] = array(
+				'key'      => 'download_date',
+				'value'    => date( 'Y-m-01', strtotime( $this->filter_month ) ),
+				'operator' => '>='
+			);
+
+			$filters[] = array(
+				'key'      => 'download_date',
+				'value'    => date( 'Y-m-t', strtotime( $this->filter_month ) ),
+				'operator' => '<='
+			);
 		}
 
-		if ( $this->filter_month ) {
-			$query_where .= " AND download_date <= '" . date( 'Y-m-t', strtotime( $this->filter_month ) ) . "' ";
+		// filter on user
+		if ( $this->filter_user > 0 ) {
+			$filters[] = array(
+				'key'   => 'user_id',
+				'value' => $this->filter_user
+			);
 		}
 
-		if( $this->filter_user > 0 ){
-			$query_where .= " AND user_id = '{$this->filter_user}' ";
-		}
+		$version_repository = download_monitor()->service( 'log_item_repository' );
 
-		// Total Count of Logs
-		$total_items = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE {$query_where};" );
-
-		// Get Logs
-		$this->items = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM {$wpdb->download_log} WHERE {$query_where} ORDER BY download_date DESC LIMIT %d, %d;",
-				( $current_page - 1 ) * $per_page,
-				$per_page
-			)
-		);
+		$total_items = $version_repository->num_rows( $filters );
+		$this->items = $version_repository->retrieve( $filters, $per_page, ( ( $current_page - 1 ) * $per_page ) );
 
 		// Pagination
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,
-			'per_page'    => $per_page,
-			'total_pages' => ( ( $total_items > 0 ) ? ceil( $total_items / $per_page ) : 1 )
+			'per_page'    => absint( $this->logs_per_page ),
+			'total_pages' => ( ( $total_items > 0 ) ? ceil( $total_items / absint( $this->logs_per_page ) ) : 1 )
 		) );
+
+		// TODO setup UAParser differently
 
 		// Parser
 		if ( ! class_exists( 'UAParser' ) ) {

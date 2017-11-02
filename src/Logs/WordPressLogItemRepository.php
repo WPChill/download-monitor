@@ -3,36 +3,106 @@
 class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 	/**
-	 * @param int $id
+	 * Prep where statement for WP DB SQL queries
 	 *
-	 * @throws \Exception
+	 * @param $filters
 	 *
-	 * @return \stdClass()
+	 * @return string
 	 */
-	public function retrieve( $id ) {
+	private function prep_where_statement( $filters ) {
 		global $wpdb;
 
-		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->download_log} WHERE `ID` = %d", $id ) );
+		// setup where statements
+		$where = array( "WHERE 1=1" );
 
-		if ( null === $row ) {
-			throw new Exception( 'Log Item not found' );
+		foreach ( $filters as $filter ) {
+			$operator = ( ! empty( $filter ) ) ? esc_sql( $filter['operator'] ) : "=";
+			$where[]  = $wpdb->prepare( "AND `" . esc_sql( $filter['key'] ) . "` " . $operator . " '%s'", $filter['value'] );
 		}
 
-		$data = new stdClass();
+		$where_str = "";
+		if ( count( $where ) > 1 ) {
+			$where_str = implode( " ", $where );
+		}
 
-		$data->id                      = $row->ID;
-		$data->user_id                 = $row->user_id;
-		$data->user_ip                 = $row->user_ip;
-		$data->user_agent              = $row->user_agent;
-		$data->download_id             = $row->download_id;
-		$data->version_id              = $row->version_id;
-		$data->version                 = $row->version;
-		$data->download_date           = new DateTime( $row->download_date );
-		$data->download_status         = $row->download_status;
-		$data->download_status_message = $row->download_status_message;
-		$data->meta_data               = json_decode( $row->meta_data );
+		return $where_str;
+	}
 
-		return $data;
+	/**
+	 * Returns number of rows for given filters
+	 *
+	 * @param array $filters
+	 *
+	 * @return int
+	 */
+	public function num_rows( $filters = array() ) {
+		global $wpdb;
+
+		return $wpdb->get_var( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . ";" );
+	}
+
+	/**
+	 * Retrieve single item
+	 *
+	 * @param int $id
+	 *
+	 * @return DLM_Log_Item
+	 */
+	public function retrieve_single( $id ) {
+		// TODO: Implement retrieve_single() method.
+
+	}
+
+	/**
+	 * @param array $filters
+	 * @param int $limit
+	 * @param int $offset
+	 *
+	 * @return array
+	 * @throws Exception
+	 */
+	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
+		global $wpdb;
+
+		$items = array();
+
+		// prep where statement
+		$where_str = $this->prep_where_statement( $filters );
+
+		// setup limit & offset
+		$limit_str = "";
+		$limit     = absint( $limit );
+		$offset    = absint( $offset );
+		if ( $limit > 0 ) {
+			$limit_str = "LIMIT {$offset},{$limit}";
+		}
+
+		// query
+		$data = $wpdb->get_results(
+			"SELECT * FROM {$wpdb->download_log} {$where_str} ORDER BY download_date DESC {$limit_str};"
+		);
+
+		if ( count( $data ) > 0 ) {
+			foreach ( $data as $row ) {
+				$log_item = new DLM_Log_Item();
+				$log_item->set_id( $row->ID );
+				$log_item->set_user_id( $row->user_id );
+				$log_item->set_user_ip( $row->user_ip );
+				$log_item->set_user_agent( $row->user_agent );
+				$log_item->set_download_id( $row->download_id );
+				$log_item->set_version_id( $row->version_id );
+				$log_item->set_version( $row->version );
+				$log_item->set_download_date( new DateTime( $row->download_date ) );
+				$log_item->set_download_status( $row->download_status );
+				$log_item->set_download_status_message( $row->download_status_message );
+				$log_item->set_meta_data( json_decode( $row->meta_data ) );
+				$items[] = $log_item;
+			}
+		}
+
+		error_log( print_r( $items, 1 ), 0 );
+
+		return $items;
 	}
 
 	/**

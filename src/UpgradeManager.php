@@ -40,6 +40,7 @@ class DLM_Upgrade_Manager {
 	 * @param $current_version
 	 */
 	private function do_upgrade( $current_version ) {
+		global $wpdb;
 
 		// Upgrade to version 1.7.0
 		if ( version_compare( $current_version, '1.7.0', '<' ) ) {
@@ -69,6 +70,16 @@ class DLM_Upgrade_Manager {
 
 			// flush rules after page creation
 			flush_rewrite_rules();
+		}
+
+		// upgrade to version 4.0
+		if ( version_compare( $current_version, '4.0.0', '<' ) ) {
+
+			// upgrade log table
+			$wpdb->query( "ALTER TABLE {$wpdb->download_log} CHANGE `download_date` `download_date` DATETIME NULL DEFAULT NULL;" );
+			$wpdb->query( "ALTER TABLE {$wpdb->download_log} ADD `meta_data` LONGTEXT NULL DEFAULT NULL AFTER `download_status_message`;" );
+			$wpdb->query( "ALTER TABLE {$wpdb->download_log} DROP `type`;" );
+
 		}
 
 	}

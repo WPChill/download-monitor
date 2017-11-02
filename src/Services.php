@@ -115,4 +115,13 @@ class DLM_Services {
 	private function cb_version_manager() {
 		return new DLM_Version_Manager();
 	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_WordPress_Log_Item_Repository
+	 */
+	private function cb_log_item_repository() {
+		return new DLM_WordPress_Log_Item_Repository();
+	}
 }
