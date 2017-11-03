@@ -2,6 +2,9 @@
 
 class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 
+	/**
+	 * tearDown
+	 */
 	public function tearDown() {
 		global $wpdb;
 		parent::tearDown();
@@ -21,20 +24,20 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		$wp_repo->persist( $log );
 
 		// should have 1 log item in DB now
-		$this->assertEquals( $wp_repo->num_rows(), 1 );
+		$this->assertEquals( 1, $wp_repo->num_rows() );
 
 		// another new dummy log item
 		$log2 = new DLM_Test_Log_Item_Mock();
 		$wp_repo->persist( $log2 );
 
 		// should have 2 log items in DB now
-		$this->assertEquals( $wp_repo->num_rows(), 2 );
+		$this->assertEquals( 2, $wp_repo->num_rows() );
 
 		// perist an exiting log item, this should NOT increase total count
 		$wp_repo->persist( $log );
 
 		// should still have 2 items in DB
-		$this->assertEquals( $wp_repo->num_rows(), 2 );
+		$this->assertEquals( 2, $wp_repo->num_rows() );
 
 	}
 
@@ -45,7 +48,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		// repo
 		$wp_repo = new DLM_WordPress_Log_Item_Repository();
 
-		$filter_user = array(
+		$filters = array(
 			array( "key" => "user_id", "value" => 1 ),
 			array( "key" => "download_status", "value" => "completed" ),
 		);
@@ -58,7 +61,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		unset( $log );
 
 		// should have 1 result
-		$this->assertEquals( $wp_repo->num_rows( $filter_user ), 1 );
+		$this->assertEquals( 1, $wp_repo->num_rows( $filters ) );
 
 		// log item with user id 2 & status 'completed'
 		$log = new DLM_Test_Log_Item_Mock();
@@ -68,7 +71,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		unset( $log );
 
 		// should still have only 1 result
-		$this->assertEquals( $wp_repo->num_rows( $filter_user ), 1 );
+		$this->assertEquals( 1, $wp_repo->num_rows( $filters ) );
 
 		// log item with user id 1 & status 'redirected'
 		$log = new DLM_Test_Log_Item_Mock();
@@ -78,7 +81,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		unset( $log );
 
 		// should still have only 1 result
-		$this->assertEquals( $wp_repo->num_rows( $filter_user ), 1 );
+		$this->assertEquals( 1, $wp_repo->num_rows( $filters ) );
 
 		// log item with user id 1 & status 'completed'
 		$log = new DLM_Test_Log_Item_Mock();
@@ -88,17 +91,17 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		unset( $log );
 
 		// should have 2 rows now
-		$this->assertEquals( $wp_repo->num_rows( $filter_user ), 2 );
+		$this->assertEquals( 2, $wp_repo->num_rows( $filters ) );
 
 		// expand filter with date filter of this month
-		$now           = new DateTime( current_time( "mysql" ) );
-		$filter_user[] = array(
+		$now       = new DateTime( current_time( "mysql" ) );
+		$filters[] = array(
 			'key'      => 'download_date',
 			'value'    => $now->format( 'Y-m-01' ),
 			'operator' => '>='
 		);
 
-		$filter_user[] = array(
+		$filters[] = array(
 			'key'      => 'download_date',
 			'value'    => $now->format( 'Y-m-t' ),
 			'operator' => '<='
@@ -113,7 +116,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		unset( $log );
 
 		// should have 3 rows now
-		$this->assertEquals( $wp_repo->num_rows( $filter_user ), 3 );
+		$this->assertEquals( 3, $wp_repo->num_rows( $filters ) );
 
 		// add log item with user id 1, status completed and download date of last month
 		$now->modify( "-1 month" );
@@ -125,7 +128,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		unset( $log );
 
 		// should still have 3 rows now
-		$this->assertEquals( $wp_repo->num_rows( $filter_user ), 3 );
+		$this->assertEquals( 3, $wp_repo->num_rows( $filters ) );
 	}
 
 	/**
@@ -141,13 +144,13 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		$log->set_user_ip( "1.2.3.4" );
 
 		// validate that currently it has no id
-		$this->assertEquals( $log->get_id(), 0 );
+		$this->assertEquals( 0, $log->get_id() );
 
 		// persist via WP repo
 		$wp_repo->persist( $log );
 
 		// validate that log now has id 1
-		$this->assertEquals( $log->get_id(), 1 );
+		$this->assertEquals( 1, $log->get_id() );
 
 		// clear obj and fetch from DB
 		$log_id = $log->get_id();
@@ -155,8 +158,8 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		$log = $wp_repo->retrieve_single( $log_id );
 
 		// validate that we were able to retrieve to just saved log
-		$this->assertEquals( $log->get_id(), 1 );
-		$this->assertEquals( $log->get_user_ip(), "1.2.3.4" );
+		$this->assertEquals( 1, $log->get_id() );
+		$this->assertEquals( "1.2.3.4", $log->get_user_ip() );
 
 	}
 
@@ -174,7 +177,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		$wp_repo->persist( $log );
 
 		// validate that log now has id 1
-		$this->assertEquals( $log->get_id(), 1 );
+		$this->assertEquals( 1, $log->get_id() );
 
 		// update log in db
 		$log->set_user_ip( "1.2.3.5" );
@@ -186,8 +189,168 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		$log = $wp_repo->retrieve_single( $log_id );
 
 		// validate that we were able to retrieve to just saved log
-		$this->assertEquals( $log->get_id(), 1 );
-		$this->assertEquals( $log->get_user_ip(), "1.2.3.5" );
+		$this->assertEquals( 1, $log->get_id() );
+		$this->assertEquals( "1.2.3.5", $log->get_user_ip() );
+
+	}
+
+	/**
+	 * Test retrieve_single()
+	 */
+	public function test_retrieve_single() {
+		// repo
+		$wp_repo = new DLM_WordPress_Log_Item_Repository();
+
+		// dummy log item
+		$log = new DLM_Test_Log_Item_Mock();
+		$log->set_version( "2.5" );
+		$wp_repo->persist( $log );
+
+		// store id and clear obj
+		$log_id = $log->get_id();
+		unset( $log );
+
+		// fetch log via DB
+		$log = $wp_repo->retrieve_single( $log_id );
+
+		// check type
+		$this->assertInstanceOf( "DLM_Log_Item", $log );
+
+		// check version
+		$this->assertEquals( "2.5", $log->get_version() );
+	}
+
+	/**
+	 * Test retrieve function
+	 */
+	public function test_retrieve() {
+
+		// repo
+		$wp_repo = new DLM_WordPress_Log_Item_Repository();
+
+		// dummy log item
+		$log = new DLM_Test_Log_Item_Mock();
+		$log->set_user_id( 1 );
+		$wp_repo->persist( $log );
+
+		// retrieve rows from db
+		$rows = $wp_repo->retrieve();
+
+		// tests
+		$this->assertInternalType( "array", $rows );
+		$this->assertCount( 1, $rows );
+		$this->assertEquals( 1, $rows[0]->get_user_id() );
+
+		// create another one
+		unset( $log );
+		$log = new DLM_Test_Log_Item_Mock();
+		$log->set_user_id( 2 );
+		$wp_repo->persist( $log );
+
+		// retrieve rows from db
+		unset( $rows );
+		$rows = $wp_repo->retrieve();
+
+		// tests #2
+		$this->assertInternalType( "array", $rows );
+		$this->assertCount( 2, $rows );
+		$this->assertEquals( 1, $rows[0]->get_user_id() );
+		$this->assertEquals( 2, $rows[1]->get_user_id() );
+
+	}
+
+	/**
+	 * Test retrieve function with filters
+	 */
+	public function test_retrieve_filtered() {
+
+		// repo
+		$wp_repo = new DLM_WordPress_Log_Item_Repository();
+
+		$filters = array(
+			array( "key" => "user_id", "value" => 1 ),
+			array( "key" => "download_status", "value" => "completed" ),
+		);
+
+		// dummy log item
+		$log = new DLM_Test_Log_Item_Mock();
+		$log->set_user_id( 1 );
+		$wp_repo->persist( $log );
+
+		// retrieve rows from db
+		$rows = $wp_repo->retrieve( $filters );
+
+		// tests
+		$this->assertInternalType( "array", $rows );
+		$this->assertCount( 1, $rows );
+		$this->assertEquals( 1, $rows[0]->get_user_id() );
+
+		// create another one
+		$log = new DLM_Test_Log_Item_Mock();
+		$log->set_user_id( 2 );
+		$wp_repo->persist( $log );
+
+		// retrieve rows from db
+		$rows = $wp_repo->retrieve( $filters );
+
+		// tests #2
+		$this->assertInternalType( "array", $rows );
+		$this->assertCount( 1, $rows );
+		$this->assertEquals( 1, $rows[0]->get_user_id() );
+
+		// create another one
+		$log = new DLM_Test_Log_Item_Mock();
+		$log->set_user_id( 1 );
+		$wp_repo->persist( $log );
+
+		// retrieve rows from db
+		$rows = $wp_repo->retrieve( $filters );
+
+		// tests #2
+		$this->assertInternalType( "array", $rows );
+		$this->assertCount( 2, $rows );
+		$this->assertEquals( 1, $rows[0]->get_user_id() );
+		$this->assertEquals( 1, $rows[1]->get_user_id() );
+	}
+
+	/**
+	 * Test retrieve function with limit and offset
+	 */
+	public function test_retrieve_limit_offset() {
+		// repo
+		$wp_repo = new DLM_WordPress_Log_Item_Repository();
+
+		// add 2 log items
+		for ( $i = 1; $i < 3; $i ++ ) {
+			$log = new DLM_Test_Log_Item_Mock();
+			$log->set_user_id( $i );
+			$wp_repo->persist( $log );
+		}
+
+		// get rows without any offset or limits
+		$rows = $wp_repo->retrieve();
+
+		// tests #1
+		$this->assertInternalType( "array", $rows );
+		$this->assertCount( 2, $rows );
+		$this->assertEquals( 1, $rows[0]->get_user_id() );
+		$this->assertEquals( 2, $rows[1]->get_user_id() );
+
+		// get rows without any offset or limits
+		$rows = $wp_repo->retrieve( array(), 1 );
+
+		// tests #2
+		$this->assertInternalType( "array", $rows );
+		$this->assertCount( 1, $rows );
+		$this->assertEquals( 1, $rows[0]->get_user_id() );
+
+		// get rows without any offset or limits
+		$rows = $wp_repo->retrieve( array(), 1, 1 );
+
+		// tests #2
+		$this->assertInternalType( "array", $rows );
+		$this->assertCount( 1, $rows );
+		$this->assertEquals( 2, $rows[0]->get_user_id() );
 
 	}
 
