@@ -152,6 +152,8 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 					'%d',
 					'%s',
 					'%s',
+					'%s',
+					'%s',
 					'%s'
 				)
 			);
@@ -187,6 +189,8 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 					'%s',
 					'%d',
 					'%d',
+					'%s',
+					'%s',
 					'%s',
 					'%s',
 					'%s'
