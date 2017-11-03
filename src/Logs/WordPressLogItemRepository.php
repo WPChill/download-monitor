@@ -16,7 +16,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		$where = array( "WHERE 1=1" );
 
 		foreach ( $filters as $filter ) {
-			$operator = ( ! empty( $filter ) ) ? esc_sql( $filter['operator'] ) : "=";
+			$operator = ( ! empty( $filter['operator'] ) ) ? esc_sql( $filter['operator'] ) : "=";
 			$where[]  = $wpdb->prepare( "AND `" . esc_sql( $filter['key'] ) . "` " . $operator . " '%s'", $filter['value'] );
 		}
 
