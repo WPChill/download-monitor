@@ -12,6 +12,13 @@ sftp-config.json
 .idea
 /tmp/
 
+# Exclude everything in /vendor except our autoload stuff
+vendor/*
+!vendor/composer
+!vendor/autoload_52.php
+vendor/composer/installers
+vendor/composer/installed.json
+
 # Ignore all log files except for .htaccess
 /logs/*
 !/logs/.htaccess
