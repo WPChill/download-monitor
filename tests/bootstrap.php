@@ -75,6 +75,9 @@ class DLM_Unit_Tests_Bootstrap {
 	public function includes() {
 		// test cases
 		require_once( $this->tests_dir . '/framework/class-dlm-unit-test-case.php' );
+
+		// helpers
+		require_once( $this->tests_dir . '/framework/helpers/WPDBHelper.php' );
 	}
 
 	/**
