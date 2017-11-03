@@ -32,6 +32,8 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			'ajax'     => false
 		) );
 
+		$this->uaparser = new UAParser();
+
 		$this->filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
 		$this->logs_per_page = ! empty( $_REQUEST['logs_per_page'] ) ? intval( $_REQUEST['logs_per_page'] ) : 25;
 		$this->filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
@@ -368,15 +370,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			'per_page'    => absint( $this->logs_per_page ),
 			'total_pages' => ( ( $total_items > 0 ) ? ceil( $total_items / absint( $this->logs_per_page ) ) : 1 )
 		) );
-
-		// TODO setup UAParser differently
-
-		// Parser
-		if ( ! class_exists( 'UAParser' ) ) {
-			require_once( "uaparser/uaparser.php" );
-		}
-
-		$this->uaparser = new UAParser();
 	}
 
 	/**

@@ -30,7 +30,8 @@
       "src/Admin/Settings/Fields",
       "src/Download",
       "src/Product",
-      "src/Widgets"
+      "src/Widgets",
+      "src/Libs/uaparser"
     ]
   },
   "require-dev": {
