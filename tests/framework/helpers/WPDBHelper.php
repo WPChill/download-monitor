@@ -12,10 +12,10 @@ class DLM_Test_WP_DB_Helper {
 	 *
 	 * @param string $table
 	 */
-	public static function flush( $table ) {
+	public static function truncate( $table ) {
 		global $wpdb;
 		$table = esc_sql( $table );
-		$wpdb->query( "FLUSH TABLE {$table};" );
+		$wpdb->query( "TRUNCATE TABLE {$table};" );
 	}
 
 }
