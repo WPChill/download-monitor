@@ -26,3 +26,4 @@ filter:
     - includes/
     - tests/
     - assets/js/*.min.js
+    - vendor/
