@@ -341,8 +341,24 @@ class DLM_Download_Handler {
 
 			// check if we need to create the log
 			if ( $create_log ) {
-				// Create log
-				$logging->create_log( $type, $status, $message, $download, $version );
+
+				// setup new log item object
+				$log_item = new DLM_Log_Item();
+				$log_item->set_user_id( absint( get_current_user_id() ) );
+				$log_item->set_user_ip( DLM_Utils::get_visitor_ip() );
+				$log_item->set_user_agent( DLM_Utils::get_visitor_ua() );
+				$log_item->set_download_id( absint( $download->get_id() ) );
+				$log_item->set_version_id( absint( $version->get_id() ) );
+				$log_item->set_version( $version->get_version() );
+				$log_item->set_download_date( new DateTime( current_time( 'mysql' ) ) );
+				$log_item->set_download_status( $status );
+				$log_item->set_download_status_message( $message );
+
+				// allow filtering of log item
+				$log_item = apply_filters( 'dlm_log_item', $log_item );
+
+				// persist log item
+				download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 			}
 
 		}
