@@ -1,6 +1,6 @@
 <?php
 
-class DLM_Tests_Log_Item_Mock extends DLM_Log_Item {
+class DLM_Test_Log_Item_Mock extends DLM_Log_Item {
 
 	/**
 	 * DLM_Tests_Log_Item_Mock constructor.
