@@ -100,8 +100,6 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			}
 		}
 
-		error_log( print_r( $items, 1 ), 0 );
-
 		return $items;
 	}
 
