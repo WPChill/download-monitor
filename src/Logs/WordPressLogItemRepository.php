@@ -129,6 +129,13 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			$log_item_date_string = current_time( 'mysql' );
 		}
 
+		// format log item meta data
+		$meta_data = null;
+		$lmd       = $log_item->get_meta_data();
+		if ( ! empty( $lmd ) ) {
+			$meta_data = json_encode( $lmd );
+		}
+
 		// check if new download or existing
 		if ( 0 == $log_item->get_id() ) {
 
@@ -145,7 +152,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 					'download_date'           => $log_item_date_string,
 					'download_status'         => $log_item->get_download_status(),
 					'download_status_message' => $log_item->get_download_status_message(),
-					'meta_data'               => json_encode( $log_item->get_meta_data() )
+					'meta_data'               => $meta_data
 				),
 				array(
 					'%d',
@@ -183,7 +190,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 					'download_date'           => $log_item_date_string,
 					'download_status'         => $log_item->get_download_status(),
 					'download_status_message' => $log_item->get_download_status_message(),
-					'meta_data'               => json_encode( $log_item->get_meta_data() )
+					'meta_data'               => $meta_data
 				),
 				array( 'ID' => $log_item->get_id() ),
 				array(
