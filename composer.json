@@ -32,5 +32,8 @@
       "src/Product",
       "src/Widgets"
     ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.4"
   }
 }
