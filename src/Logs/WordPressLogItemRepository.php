@@ -47,10 +47,16 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * @param int $id
 	 *
 	 * @return DLM_Log_Item
+	 * @throws Exception
 	 */
 	public function retrieve_single( $id ) {
-		// TODO: Implement retrieve_single() method.
+		$logs = $this->retrieve( array( array( 'key' => 'ID', 'value' => absint( $id ) ) ) );
 
+		if ( count( $logs ) != 1 ) {
+			throw new Exception( "Log Item not found" );
+		}
+
+		return array_shift( $logs );
 	}
 
 	/**
@@ -59,7 +65,6 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * @param int $offset
 	 *
 	 * @return array
-	 * @throws Exception
 	 */
 	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
 		global $wpdb;
@@ -106,7 +111,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	/**
 	 * @param DLM_Log_Item $log_item
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 *
 	 * @return bool
 	 */
@@ -157,7 +162,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			);
 
 			if ( false === $result ) {
-				throw new \Exception( 'Unable to insert log item in WordPress database' );
+				throw new Exception( 'Unable to insert log item in WordPress database' );
 			}
 
 			// set new log id
@@ -197,7 +202,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			);
 
 			if ( false === $result ) {
-				throw new \Exception( 'Unable to insert log item in WordPress database' );
+				throw new Exception( 'Unable to insert log item in WordPress database' );
 			}
 
 		}
