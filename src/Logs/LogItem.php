@@ -3,7 +3,7 @@
 class DLM_Log_Item {
 
 	/** @var int */
-	private $id;
+	private $id = 0;
 
 	/** @var int */
 	private $user_id;
