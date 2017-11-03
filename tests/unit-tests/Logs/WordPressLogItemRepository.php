@@ -5,7 +5,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 	public function tearDown() {
 		global $wpdb;
 		parent::tearDown();
-		DLM_Test_WP_DB_Helper::flush( $wpdb->download_log );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->download_log );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		$this->assertEquals( $wp_repo->num_rows( $filter_user ), 3 );
 
 		// add log item with user id 1, status completed and download date of last month
-		$now->modify("-1 month");
+		$now->modify( "-1 month" );
 		$log = new DLM_Test_Log_Item_Mock();
 		$log->set_user_id( 1 );
 		$log->set_download_status( "completed" );
@@ -126,6 +126,69 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 
 		// should still have 3 rows now
 		$this->assertEquals( $wp_repo->num_rows( $filter_user ), 3 );
+	}
+
+	/**
+	 * Test persist() on new log item
+	 */
+	public function test_persist_new() {
+
+		// repo
+		$wp_repo = new DLM_WordPress_Log_Item_Repository();
+
+		// dummy log item
+		$log = new DLM_Test_Log_Item_Mock();
+		$log->set_user_ip( "1.2.3.4" );
+
+		// validate that currently it has no id
+		$this->assertEquals( $log->get_id(), 0 );
+
+		// persist via WP repo
+		$wp_repo->persist( $log );
+
+		// validate that log now has id 1
+		$this->assertEquals( $log->get_id(), 1 );
+
+		// clear obj and fetch from DB
+		$log_id = $log->get_id();
+		unset( $log );
+		$log = $wp_repo->retrieve_single( $log_id );
+
+		// validate that we were able to retrieve to just saved log
+		$this->assertEquals( $log->get_id(), 1 );
+		$this->assertEquals( $log->get_user_ip(), "1.2.3.4" );
+
+	}
+
+	/**
+	 * Test persist()
+	 */
+	public function test_persist_existing() {
+
+		// repo
+		$wp_repo = new DLM_WordPress_Log_Item_Repository();
+
+		// dummy log item
+		$log = new DLM_Test_Log_Item_Mock();
+		$log->set_user_ip( "1.2.3.4" );
+		$wp_repo->persist( $log );
+
+		// validate that log now has id 1
+		$this->assertEquals( $log->get_id(), 1 );
+
+		// update log in db
+		$log->set_user_ip( "1.2.3.5" );
+		$wp_repo->persist( $log );
+
+		// clear obj and fetch from DB
+		$log_id = $log->get_id();
+		unset( $log );
+		$log = $wp_repo->retrieve_single( $log_id );
+
+		// validate that we were able to retrieve to just saved log
+		$this->assertEquals( $log->get_id(), 1 );
+		$this->assertEquals( $log->get_user_ip(), "1.2.3.5" );
+
 	}
 
 }
