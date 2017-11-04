@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Download {
 
 	/** @var int */
-	private $id;
+	private $id = 0;
 
 	/** @var string */
 	private $title;

@@ -3,41 +3,118 @@
 class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 
 	/**
-	 * @param int $id
+	 * Filter query arguments for download WP_Query queries
 	 *
-	 * @throws \Exception
+	 * @param array $args
+	 * @param int $limit
+	 * @param int $offset
 	 *
-	 * @return \stdClass()
+	 * @return array
 	 */
-	public function retrieve( $id ) {
+	private function filter_query_args( $args = array(), $limit = 0, $offset = 0 ) {
 
-		$post = get_post( $id );
+		// most be absint
+		$limit  = absint( $limit );
+		$offset = absint( $offset );
 
-		if ( null === $post ) {
-			throw new Exception( 'Download not found' );
+		// start with removing reserved keys
+		unset( $args['post_type'] );
+		unset( $args['posts_per_page'] );
+		unset( $args['offset'] );
+		unset( $args['paged'] );
+		unset( $args['nopaging'] );
+
+		// setup our reserved keys
+		$args['post_type']      = 'dlm_download';
+		$args['posts_per_page'] = - 1;
+
+		// set limit if set
+		if ( $limit > 0 ) {
+			$args['posts_per_page'] = $limit;
 		}
 
-		$data = new stdClass();
+		// set offset if set
+		if ( $offset > 0 ) {
+			$args['offset'] = $offset;
+		}
 
-		$data->id             = $post->ID;
-		$data->status         = $post->post_status;
-		$data->title          = $post->post_title;
-		$data->slug           = $post->post_name;
-		$data->author         = $post->post_author;
-		$data->description    = $post->post_content;
-		$data->excerpt        = wpautop( do_shortcode( $post->post_excerpt ) );
-		$data->redirect_only  = ( 'yes' == get_post_meta( $post->ID, '_redirect_only', true ) );
-		$data->featured       = ( 'yes' == get_post_meta( $post->ID, '_featured', true ) );
-		$data->members_only   = ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) );
-		$data->download_count = absint( get_post_meta( $post->ID, '_download_count', true ) );
+		return $args;
+	}
 
-		/**
-		 * This is added for backwards compatibility but will be removed in a later version!
-		 * @deprecated 4.0
-		 */
-		$data->post = $post;
+	/**
+	 * Returns number of rows for given filters
+	 *
+	 * @param array $filters
+	 *
+	 * @return int
+	 */
+	public function num_rows( $filters = array() ) {
+		$q = new WP_Query();
+		$q->query( $this->filter_query_args( $filters ) );
 
-		return $data;
+		return $q->found_posts;
+	}
+
+	/**
+	 * Retrieve single download
+	 *
+	 * @param int $id
+	 *
+	 * @return DLM_Download
+	 * @throws Exception
+	 */
+	public function retrieve_single( $id ) {
+		$downloads = $this->retrieve( array( 'p' => absint( $id ) ) );
+
+		if ( count( $downloads ) != 1 ) {
+			throw new Exception( "Download not found" );
+		}
+
+		return array_shift( $downloads );
+	}
+
+	/**
+	 * Retrieve downloads
+	 *
+	 * @param array $filters
+	 * @param int $limit
+	 * @param int $offset
+	 *
+	 * @return array<DLM_Download>
+	 */
+	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
+
+		$items = array();
+
+		$q     = new WP_Query();
+		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
+
+		if ( count( $posts ) > 0 ) {
+			foreach ( $posts as $post ) {
+
+				// create download object
+				$download = new DLM_Download();
+				$download->set_id( $post->ID );
+				$download->set_status( $post->post_status );
+				$download->set_title( $post->post_title );
+				$download->set_slug( $post->post_name );
+				$download->set_author( $post->post_author );
+				$download->set_description( $post->post_content );
+				$download->set_excerpt( wpautop( do_shortcode( $post->post_excerpt ) ) );
+				$download->set_redirect_only( ( 'yes' == get_post_meta( $post->ID, '_redirect_only', true ) ) );
+				$download->set_featured( ( 'yes' == get_post_meta( $post->ID, '_featured', true ) ) );
+				$download->set_members_only( ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) ) );
+				$download->set_download_count( absint( get_post_meta( $post->ID, '_download_count', true ) ) );
+
+				// This is added for backwards compatibility but will be removed in a later version!
+				$download->post = $post;
+
+				// add download to return array
+				$items[] = $download;
+			}
+		}
+
+		return $items;
 	}
 
 	/**
