@@ -38,15 +38,6 @@ class DLM_Services {
 	/**
 	 * Dynamically called via get()
 	 *
-	 * @return DLM_Download_Factory
-	 */
-	private function cb_download_factory() {
-		return new DLM_Download_Factory( $this->get( 'download_repository' ) );
-	}
-
-	/**
-	 * Dynamically called via get()
-	 *
 	 * @return DLM_WordPress_Download_Repository
 	 */
 	private function cb_download_repository() {
