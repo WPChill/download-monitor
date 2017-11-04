@@ -433,7 +433,7 @@ class DLM_Admin {
 
 				/** @var DLM_Download $download */
 			    // get download object
-				$download = download_monitor()->service( 'download_factory' )->make( $item->download_id );
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $item->download_id );
 				$download->set_version( download_monitor()->service( 'version_factory' )->make( $item->version_id ) );
 
 				$row   = array();

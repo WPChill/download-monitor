@@ -50,7 +50,7 @@ class DLM_Custom_Columns {
 		global $post;
 
 		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
+		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
 
 		/** @var DLM_Download_Version $file */
 		$file = $download->get_version();

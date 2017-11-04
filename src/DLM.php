@@ -259,7 +259,7 @@ class WP_DLM {
 			return;
 		}
 
-		$GLOBALS['dlm_download'] = $this->service( 'download_factory' )->make( $post->ID );
+		$GLOBALS['dlm_download'] = $this->service( 'download_repository' )->retrieve_single( $post->ID );
 	}
 
 	/** Deprecated methods **************************************************/

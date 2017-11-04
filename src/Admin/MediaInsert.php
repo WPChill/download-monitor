@@ -169,7 +169,7 @@ class DLM_Admin_Media_Insert {
 				while ( $dlm_query->have_posts() ) {
 					$dlm_query->the_post();
 					/** @var DLM_Download $download */
-					$download = download_monitor()->service( 'download_factory' )->make( $dlm_query->post->ID );
+					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $dlm_query->post->ID );
 					echo '<label><input name="download_id" class="radio" type="radio" value="' . absint( $download->get_id() ) . '" /> #' . $download->get_id() . ' &ndash; ' . $download->get_title() . ' &ndash; ' . $download->get_version()->get_filename() . '</label>';
 				}
 

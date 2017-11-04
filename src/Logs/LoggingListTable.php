@@ -102,36 +102,40 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				return '<time title="' . $time_str . '"">' . sprintf( __( '%s ago', 'download-monitor' ), human_time_diff( $log->get_download_date()->getTimestamp(), current_time( 'timestamp' ) ) ) . '</time>';
 				break;
 			case 'download' :
-				/** @var DLM_Download $download */
-				$download = download_monitor()->service( 'download_factory' )->make( $log->get_download_id() );
-				$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->get_version_id() ) );
+				try {
+					/** @var DLM_Download $download */
+					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $log->get_download_id() );
+					$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->get_version_id() ) );
 
-				if ( ! $download->exists() ) {
-					$download_string = sprintf( __( 'Download #%d (no longer exists)', 'download-monitor' ), $log->get_download_id() );
-				} else {
 					$download_string = '<a href="' . admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) . '">';
 					$download_string .= '#' . $download->get_id() . ' &ndash; ' . $download->get_title();
 					$download_string .= '</a>';
-				}
 
-				if ( $log->get_version() ) {
-					if ( $download->version_exists( $log->get_version_id() ) ) {
-						$download_string .= sprintf( __( ' (v%s)', 'download-monitor' ), $log->get_version() );
-					} else {
-						$download_string .= sprintf( __( ' (v%s no longer exists)', 'download-monitor' ), $log->get_version() );
+					if ( $log->get_version() ) {
+						if ( $download->version_exists( $log->get_version_id() ) ) {
+							$download_string .= sprintf( __( ' (v%s)', 'download-monitor' ), $log->get_version() );
+						} else {
+							$download_string .= sprintf( __( ' (v%s no longer exists)', 'download-monitor' ), $log->get_version() );
+						}
 					}
+				} catch ( Exception $e ) {
+					$download_string = sprintf( __( 'Download #%d (no longer exists)', 'download-monitor' ), $log->get_download_id() );
 				}
 
 				return $download_string;
 				break;
 			case 'file' :
-				/** @var DLM_Download $download */
-				$download = download_monitor()->service( 'download_factory' )->make( $log->get_download_id() );
-				$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->get_version_id() ) );
+				try {
+					/** @var DLM_Download $download */
+					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $log->get_download_id() );
+					$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->get_version_id() ) );
 
-				if ( $download->exists() && $download->version_exists( $log->get_version_id() ) && $download->get_version()->get_filename() ) {
+					if ( ! $download->version_exists( $log->get_version_id() ) || ! $download->get_version()->get_filename() ) {
+						throw new Exception( "No version found" );
+					}
+
 					$download_string = '<code>' . $download->get_version()->get_filename() . '</code>';
-				} else {
+				} catch ( Exception $e ) {
 					$download_string = '&ndash;';
 				}
 

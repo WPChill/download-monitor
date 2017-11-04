@@ -90,7 +90,7 @@ class DLM_Ajax_Handler {
 
 		// create download object
 		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_factory' )->make( $download_id );
+		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 
 		// check if download is found
 		if ( $download->get_id() != $download_id ) {

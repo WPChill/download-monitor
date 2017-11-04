@@ -98,11 +98,9 @@ class DLM_Shortcodes {
 		$output = '';
 
 		// create download object
-		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_factory' )->make( $id );
-
-		// check if download exists
-		if ( $download->exists() ) {
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $id );
 
 			// check if version is set
 			if ( ! empty( $version ) ) {
@@ -135,13 +133,9 @@ class DLM_Shortcodes {
 					$output = wpautop( $output );
 				}
 			}
-
-		} else {
+		} catch ( Exception $e ) {
 			$output = '[' . __( 'Download not found', 'download-monitor' ) . ']';
 		}
-
-		// reset post data
-		wp_reset_postdata();
 
 		return $output;
 	}
@@ -170,92 +164,99 @@ class DLM_Shortcodes {
 			return "";
 		}
 
-		/** @var DLM_Download $download */
-		$download = download_monitor()->service('download_factory')->make($id);
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $id );
 
-		if ( ! empty( $version ) ) {
-			$version_id = $download->get_version_id_version_name( $version );
-		}
+			if ( ! empty( $version ) ) {
+				$version_id = $download->get_version_id_version_name( $version );
+			}
 
-		if ( ! empty( $version_id ) ) {
-			$download->set_version( download_monitor()->service( 'version_factory' )->make( $version_id ) );
-		}
+			if ( ! empty( $version_id ) ) {
+				$download->set_version( download_monitor()->service( 'version_factory' )->make( $version_id ) );
+			}
 
-		switch ( $data ) {
+			switch ( $data ) {
 
-			// File / Version Info
-			case 'filename' :
-				return $download->get_version()->get_filename();
-			case 'filetype' :
-				return $download->get_version()->get_filetype();
-			case 'filesize' :
-				return $download->get_version()->get_filesize_formatted();
-			case 'md5' :
-				return $download->get_version()->get_md5();
-			case 'sha1' :
-				return $download->get_version()->get_sha1();
-			case 'sha256' :
-				return $download->get_version()->get_sha256();
-			case 'crc32' :
-			case 'crc32b' :
-				return $download->get_version()->get_crc32b();
-			case 'version' :
-				return $download->get_version()->get_version_number();
+				// File / Version Info
+				case 'filename' :
+					return $download->get_version()->get_filename();
+				case 'filetype' :
+					return $download->get_version()->get_filetype();
+				case 'filesize' :
+					return $download->get_version()->get_filesize_formatted();
+				case 'md5' :
+					return $download->get_version()->get_md5();
+				case 'sha1' :
+					return $download->get_version()->get_sha1();
+				case 'sha256' :
+					return $download->get_version()->get_sha256();
+				case 'crc32' :
+				case 'crc32b' :
+					return $download->get_version()->get_crc32b();
+				case 'version' :
+					return $download->get_version()->get_version_number();
 
-			// Download Info
-			case 'title' :
-				return $download->get_title();
-			case 'short_description' :
-				return $download->get_excerpt();
-			case 'download_link' :
-				return $download->get_the_download_link();
-			case 'download_count' :
-				return $download->get_download_count();
-			case 'post_content' :
-				return wpautop( wptexturize( do_shortcode( $download->get_description() ) ) );
-			case 'post_date' :
-			case 'file_date' :
-				return date_i18n( get_option( 'date_format' ), $download->get_version()->get_date()->getTimestamp() );
-			case 'author' :
-				return $download->get_the_author();
+				// Download Info
+				case 'title' :
+					return $download->get_title();
+				case 'short_description' :
+					return $download->get_excerpt();
+				case 'download_link' :
+					return $download->get_the_download_link();
+				case 'download_count' :
+					return $download->get_download_count();
+				case 'post_content' :
+					return wpautop( wptexturize( do_shortcode( $download->get_description() ) ) );
+				case 'post_date' :
+				case 'file_date' :
+					return date_i18n( get_option( 'date_format' ), $download->get_version()->get_date()->getTimestamp() );
+				case 'author' :
+					return $download->get_the_author();
 
-			// Images
-			case 'image' :
-				return $download->get_image( 'full' );
-			case 'thumbnail' :
-				return $download->get_image( 'thumbnail' );
+				// Images
+				case 'image' :
+					return $download->get_image( 'full' );
+				case 'thumbnail' :
+					return $download->get_image( 'thumbnail' );
 
-			// Taxonomies
-			case 'tags' :
-				$returnstr = "";
-				$terms     = get_the_terms( $id, 'dlm_download_tag' );
-				if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
-					$terms_names = array();
-					foreach ( $terms as $term ) {
-						$terms_names[] = $term->name;
+				// Taxonomies
+				case 'tags' :
+					$returnstr = "";
+					$terms     = get_the_terms( $id, 'dlm_download_tag' );
+					if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+						$terms_names = array();
+						foreach ( $terms as $term ) {
+							$terms_names[] = $term->name;
+						}
+						$returnstr = implode( ", ", $terms_names );
 					}
-					$returnstr = implode( ", ", $terms_names );
-				}
 
-				return $returnstr;
-			case 'categories' :
-				$returnstr = "";
-				$terms     = get_the_terms( $id, 'dlm_download_category' );
-				if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
-					$terms_names = array();
-					foreach ( $terms as $term ) {
-						$terms_names[] = $term->name;
+					return $returnstr;
+				case 'categories' :
+					$returnstr = "";
+					$terms     = get_the_terms( $id, 'dlm_download_category' );
+					if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+						$terms_names = array();
+						foreach ( $terms as $term ) {
+							$terms_names[] = $term->name;
+						}
+						$returnstr = implode( ", ", $terms_names );
 					}
-					$returnstr = implode( ", ", $terms_names );
-				}
 
-				return $returnstr;
+					return $returnstr;
 
+			}
+		} catch ( Exception $e ) {
+			return '[' . __( 'Download not found', 'download-monitor' ) . ']';
 		}
+
 	}
 
 	/**
 	 * downloads function.
+	 *
+	 * @TODO remove custom WP_Query and use repository
 	 *
 	 * @access public
 	 *
@@ -430,8 +431,7 @@ class DLM_Shortcodes {
 			foreach ( $download_posts as $download_post ) {
 
 				// create download instance
-				// TODO implement factory
-				$download = download_monitor()->service( 'download_factory' )->make( $download_post->ID );
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_post->ID );
 
 				// make download filterable
 				$download = apply_filters( 'dlm_shortcode_downloads_loop_download', $download );

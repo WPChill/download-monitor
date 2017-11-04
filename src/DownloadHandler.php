@@ -280,7 +280,7 @@ class DLM_Download_Handler {
 			$download = null;
 
 			if ( $download_id > 0 ) {
-				$download = download_monitor()->service( 'download_factory' )->make( $download_id );
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 			}
 
 			// Handle version (if set)

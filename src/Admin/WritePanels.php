@@ -68,7 +68,7 @@ class DLM_Admin_Writepanels {
 	public function download_information( $post ) {
 
         /** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
+		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
 
 		echo '<div class="dlm_information_panel">';
 
@@ -107,7 +107,7 @@ class DLM_Admin_Writepanels {
 	public function download_options( $post ) {
 
 		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
+		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
 
 		echo '<div class="dlm_options_panel">';
 
@@ -146,7 +146,7 @@ class DLM_Admin_Writepanels {
 		global $post;
 
 		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
+		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
 
 		wp_nonce_field( 'save_meta_data', 'dlm_nonce' );
 		?>
@@ -282,7 +282,7 @@ class DLM_Admin_Writepanels {
          *
          */
 		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_factory' )->make( $post_id );
+		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post_id );
 
 		// set the 'Download Options'
 		$download->set_featured( ( isset( $_POST['_featured'] ) ) );
