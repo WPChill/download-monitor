@@ -98,16 +98,16 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				$version->set_download_id( $post->post_parent );
 				$version->set_menu_order( $post->menu_order );
 				$version->set_date( new DateTime( $post->post_date ) );
-				$version->set_version( strtolower( get_post_meta( $data->id, '_version', true ) ) );
-				$version->set_download_count( absint( get_post_meta( $data->id, '_download_count', true ) ) );
-				$version->set_filesize( get_post_meta( $data->id, '_filesize', true ) );
-				$version->set_md5( get_post_meta( $data->id, '_md5', true ) );
-				$version->set_sha1( get_post_meta( $data->id, '_sha1', true ) );
-				$version->set_sha256( get_post_meta( $data->id, '_sha256', true ) );
-				$version->set_crc32b( get_post_meta( $data->id, '_crc32', true ) );
+				$version->set_version( strtolower( get_post_meta( $version->get_id(), '_version', true ) ) );
+				$version->set_download_count( absint( get_post_meta( $version->get_id(), '_download_count', true ) ) );
+				$version->set_filesize( get_post_meta( $version->get_id(), '_filesize', true ) );
+				$version->set_md5( get_post_meta( $version->get_id(), '_md5', true ) );
+				$version->set_sha1( get_post_meta( $version->get_id(), '_sha1', true ) );
+				$version->set_sha256( get_post_meta( $version->get_id(), '_sha256', true ) );
+				$version->set_crc32b( get_post_meta( $version->get_id(), '_crc32', true ) );
 
 				// mirrors
-				$mirrors = get_post_meta( $data->id, '_files', true );
+				$mirrors = get_post_meta( $version->get_id(), '_files', true );
 				if ( is_string( $mirrors ) ) {
 					$mirrors = array_filter( (array) json_decode( $mirrors ) );
 				} elseif ( is_array( $mirrors ) ) {
@@ -131,9 +131,9 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				// fix empty file sizes
 				if ( "" === $version->get_filesize() ) {
 					// Get the file size
-					$filesize = download_monitor()->service( 'file_manager' )->get_file_size( $data->url );
+					$filesize = download_monitor()->service( 'file_manager' )->get_file_size( $url );
 
-					update_post_meta( $data->id, '_filesize', $filesize );
+					update_post_meta( $version->get_id(), '_filesize', $filesize );
 					$version->set_filesize( $filesize );
 				}
 

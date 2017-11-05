@@ -98,7 +98,7 @@ class DLM_Ajax_Handler {
 		}
 
 		/** @var DLM_Download_Version $new_version */
-		$new_version = download_monitor()->service( 'version_factory' )->make();
+		$new_version = new DLM_Download_Version();
 
 		// set download id
 		$new_version->set_download_id( $download_id );

@@ -109,7 +109,11 @@ class DLM_Shortcodes {
 
 			// check if version ID is set
 			if ( isset( $version_id ) && 0 != $version_id ) {
-				$download->set_version( download_monitor()->service( 'version_factory' )->make( $version_id ) );
+				try {
+					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
+					$download->set_version( $version );
+				} catch ( Exception $e ) {
+				}
 			}
 
 			// if we have content, wrap in a link only
@@ -173,7 +177,12 @@ class DLM_Shortcodes {
 			}
 
 			if ( ! empty( $version_id ) ) {
-				$download->set_version( download_monitor()->service( 'version_factory' )->make( $version_id ) );
+				try {
+					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
+					$download->set_version( $version );
+				} catch ( Exception $e ) {
+
+				}
 			}
 
 			switch ( $data ) {

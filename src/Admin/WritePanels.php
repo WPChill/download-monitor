@@ -334,27 +334,31 @@ class DLM_Admin_Writepanels {
 					$file_date_obj = new DateTime( $file_date . ' ' . $file_date_hour . ':' . $file_date_minute . ':00' );
 				}
 
-				// create version object
-				/** @var DLM_Download_Version $version */
-				$version = download_monitor()->service( 'version_factory' )->make( $file_id );
+				try {
+					// create version object
+					/** @var DLM_Download_Version $version */
+					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $file_id );
 
-				// set post data in version object
-				$version->set_author( get_current_user_id() );
-				$version->set_menu_order( $file_menu_order );
-				$version->set_version( $file_version );
-				$version->set_date( $file_date_obj );
-				$version->set_mirrors( $files );
+					// set post data in version object
+					$version->set_author( get_current_user_id() );
+					$version->set_menu_order( $file_menu_order );
+					$version->set_version( $file_version );
+					$version->set_date( $file_date_obj );
+					$version->set_mirrors( $files );
 
-				// only set download count if is posted
-				if ( '' !== $file_download_count ) {
-					$version->set_download_count( $file_download_count );
+					// only set download count if is posted
+					if ( '' !== $file_download_count ) {
+						$version->set_download_count( $file_download_count );
+					}
+
+					// persist version
+					download_monitor()->service( 'version_repository' )->persist( $version );
+
+					// add version download count to total download count
+					$total_download_count += absint( $version->get_download_count() );
+				} catch ( Exception $e ) {
+
 				}
-
-				// persist version
-				download_monitor()->service( 'version_repository' )->persist( $version );
-
-				// add version download count to total download count
-				$total_download_count += absint( $version->get_download_count() );
 
 				// do dlm_save_downloadable_file action
 				do_action( 'dlm_save_downloadable_file', $file_id, $i );

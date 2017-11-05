@@ -457,6 +457,8 @@ class DLM_Download {
 	/**
 	 * get_file_versions function.
 	 *
+	 * @todo Look into replacing retrieve_single() in loop with a single retrieve() with filters
+	 *
 	 * @access public
 	 * @return array
 	 */
@@ -471,7 +473,12 @@ class DLM_Download {
 		$this->versions = array();
 
 		foreach ( $version_ids as $version_id ) {
-			$this->versions[ absint( $version_id ) ] = download_monitor()->service( 'version_factory' )->make( $version_id );
+			try {
+				$version                                 = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
+				$this->versions[ absint( $version_id ) ] = $version;
+			} catch ( Exception $e ) {
+
+			}
 		}
 
 		return $this->versions;

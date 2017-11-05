@@ -105,7 +105,14 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				try {
 					/** @var DLM_Download $download */
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $log->get_download_id() );
-					$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->get_version_id() ) );
+
+					try {
+						$version_obj = download_monitor()->service( 'version_repository' )->retrieve_single( $log->get_version_id() );
+                        $download->set_version( $version_obj );
+                    } catch ( Exception $e ) {
+
+					}
+
 
 					$download_string = '<a href="' . admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) . '">';
 					$download_string .= '#' . $download->get_id() . ' &ndash; ' . $download->get_title();
@@ -128,7 +135,13 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				try {
 					/** @var DLM_Download $download */
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $log->get_download_id() );
-					$download->set_version( download_monitor()->service( 'version_factory' )->make( $log->get_version_id() ) );
+
+					try {
+						$version_obj = download_monitor()->service( 'version_repository' )->retrieve_single( $log->get_version_id() );
+						$download->set_version( $version_obj );
+					} catch ( Exception $e ) {
+
+					}
 
 					if ( ! $download->version_exists( $log->get_version_id() ) || ! $download->get_version()->get_filename() ) {
 						throw new Exception( "No version found" );

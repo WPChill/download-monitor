@@ -295,7 +295,12 @@ class DLM_Download_Handler {
 			}
 
 			if ( $version_id ) {
-				$download->set_version( download_monitor()->service( 'version_factory' )->make( $version_id ) );
+				try {
+					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
+					$download->set_version( $version );
+				} catch ( Exception $e ) {
+
+				}
 			}
 
 			// Action on found download
