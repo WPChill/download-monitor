@@ -27,6 +27,8 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 		// setup our reserved keys
 		$args['post_type']      = 'dlm_download_version';
 		$args['posts_per_page'] = - 1;
+		$args['orderby']        = 'menu_order';
+		$args['order']          = 'ASC';
 
 		// set limit if set
 		if ( $limit > 0 ) {
@@ -90,11 +92,16 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
 
 		if ( count( $posts ) > 0 ) {
+
+			/** @var DLM_File_Manager $file_manager */
+			$file_manager = download_monitor()->service( 'file_manager' );
+
 			foreach ( $posts as $post ) {
 
 				// create download object
 				$version = new DLM_Download_Version();
 				$version->set_id( $post->ID );
+				$version->set_author( $post->post_author );
 				$version->set_download_id( $post->post_parent );
 				$version->set_menu_order( $post->menu_order );
 				$version->set_date( new DateTime( $post->post_date ) );
@@ -122,16 +129,16 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				$version->set_url( $url );
 
 				// filename
-				$filename = current( explode( '?', DLM_Utils::basename( $url ) ) );
+				$filename = $file_manager->get_file_name( $url );
 				$version->set_filename( $filename );
 
 				// filetype
-				$version->set_filetype( strtolower( substr( strrchr( $filename, "." ), 1 ) ) );
+				$version->set_filetype( $file_manager->get_file_type( $filename ) );
 
 				// fix empty file sizes
 				if ( "" === $version->get_filesize() ) {
 					// Get the file size
-					$filesize = download_monitor()->service( 'file_manager' )->get_file_size( $url );
+					$filesize = $file_manager->get_file_size( $url );
 
 					update_post_meta( $version->get_id(), '_filesize', $filesize );
 					$version->set_filesize( $filesize );
@@ -166,6 +173,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				'post_type'    => 'dlm_download_version',
 				'post_status'  => 'publish',
 				'post_parent'  => $version->get_download_id(),
+				'menu_order'   => $version->get_menu_order(),
 				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
 			) );
 

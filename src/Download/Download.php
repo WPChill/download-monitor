@@ -369,6 +369,7 @@ class DLM_Download {
 		// set latest version as current version if no version is set
 		if ( $this->version == null ) {
 			$versions = $this->get_versions();
+
 			if ( ! empty( $versions ) ) {
 				$latest = array_shift( $versions );
 				$latest->set_latest( true );

@@ -198,6 +198,28 @@ class DLM_File_Manager {
 	}
 
 	/**
+	 * Get file name for given path
+	 *
+	 * @param string $file_path
+	 *
+	 * @return string
+	 */
+	public function get_file_name( $file_path ) {
+		return current( explode( '?', DLM_Utils::basename( $file_path ) ) );
+	}
+
+	/**
+	 * Get file type of give file name
+	 *
+	 * @param string $file_name
+	 *
+	 * @return string
+	 */
+	public function get_file_type( $file_name ) {
+		return strtolower( substr( strrchr( $file_name, "." ), 1 ) );
+	}
+
+	/**
 	 * Gets md5, sha1 and crc32 hashes for a file and store it.
 	 *
 	 * @deprecated use hasher service get_file_hashes() instead
