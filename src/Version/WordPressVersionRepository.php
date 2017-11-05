@@ -3,55 +3,146 @@
 class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 
 	/**
+	 * Filter query arguments for version WP_Query queries
+	 *
+	 * @param array $args
+	 * @param int $limit
+	 * @param int $offset
+	 *
+	 * @return array
+	 */
+	private function filter_query_args( $args = array(), $limit = 0, $offset = 0 ) {
+
+		// most be absint
+		$limit  = absint( $limit );
+		$offset = absint( $offset );
+
+		// start with removing reserved keys
+		unset( $args['post_type'] );
+		unset( $args['posts_per_page'] );
+		unset( $args['offset'] );
+		unset( $args['paged'] );
+		unset( $args['nopaging'] );
+
+		// setup our reserved keys
+		$args['post_type']      = 'dlm_download_version';
+		$args['posts_per_page'] = - 1;
+
+		// set limit if set
+		if ( $limit > 0 ) {
+			$args['posts_per_page'] = $limit;
+		}
+
+		// set offset if set
+		if ( $offset > 0 ) {
+			$args['offset'] = $offset;
+		}
+
+		return $args;
+	}
+
+	/**
+	 * Returns number of rows for given filters
+	 *
+	 * @param array $filters
+	 *
+	 * @return int
+	 */
+	public function num_rows( $filters = array() ) {
+		$q = new WP_Query();
+		$q->query( $this->filter_query_args( $filters ) );
+
+		return $q->found_posts;
+	}
+
+	/**
+	 * Retrieve single version
+	 *
 	 * @param int $id
 	 *
-	 * @throws \Exception
-	 *
-	 * @return \stdClass()
+	 * @return DLM_Download_Version
+	 * @throws Exception
 	 */
-	public function retrieve( $id ) {
+	public function retrieve_single( $id ) {
+		$versions = $this->retrieve( array( 'p' => absint( $id ) ) );
 
-		$post = get_post( $id );
-
-		if ( null === $post ) {
-			throw new Exception( 'Version not found' );
+		if ( count( $versions ) != 1 ) {
+			throw new Exception( "Version not found" );
 		}
 
-		$data = new stdClass();
+		return array_shift( $versions );
+	}
 
-		$data->id             = $post->ID;
-		$data->download_id    = $post->post_parent;
-		$data->menu_order     = $post->menu_order;
-		$data->date           = new DateTime( $post->post_date );
-		$data->version        = strtolower( get_post_meta( $data->id, '_version', true ) );
-		$data->download_count = get_post_meta( $data->id, '_download_count', true );
-		$data->filesize       = get_post_meta( $data->id, '_filesize', true );
-		$data->md5            = get_post_meta( $data->id, '_md5', true );
-		$data->sha1           = get_post_meta( $data->id, '_sha1', true );
-		$data->sha256         = get_post_meta( $data->id, '_sha256', true );
-		$data->crc32b         = get_post_meta( $data->id, '_crc32', true );
-		$data->mirrors        = get_post_meta( $data->id, '_files', true );
+	/**
+	 * Retrieve downloads
+	 *
+	 * @param array $filters
+	 * @param int $limit
+	 * @param int $offset
+	 *
+	 * @return array<DLM_Download>
+	 */
+	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
 
-		if ( is_string( $data->mirrors ) ) {
-			$data->mirrors = array_filter( (array) json_decode( $data->mirrors ) );
-		} elseif ( is_array( $data->mirrors ) ) {
-			$data->mirrors = array_filter( $data->mirrors );
-		} else {
-			$data->mirrors = array();
+		$items = array();
+
+		$q     = new WP_Query();
+		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
+
+		if ( count( $posts ) > 0 ) {
+			foreach ( $posts as $post ) {
+
+				// create download object
+				$version = new DLM_Download_Version();
+				$version->set_id( $post->ID );
+				$version->set_download_id( $post->post_parent );
+				$version->set_menu_order( $post->menu_order );
+				$version->set_date( new DateTime( $post->post_date ) );
+				$version->set_version( strtolower( get_post_meta( $data->id, '_version', true ) ) );
+				$version->set_download_count( absint( get_post_meta( $data->id, '_download_count', true ) ) );
+				$version->set_filesize( get_post_meta( $data->id, '_filesize', true ) );
+				$version->set_md5( get_post_meta( $data->id, '_md5', true ) );
+				$version->set_sha1( get_post_meta( $data->id, '_sha1', true ) );
+				$version->set_sha256( get_post_meta( $data->id, '_sha256', true ) );
+				$version->set_crc32b( get_post_meta( $data->id, '_crc32', true ) );
+
+				// mirrors
+				$mirrors = get_post_meta( $data->id, '_files', true );
+				if ( is_string( $mirrors ) ) {
+					$mirrors = array_filter( (array) json_decode( $mirrors ) );
+				} elseif ( is_array( $mirrors ) ) {
+					$mirrors = array_filter( $mirrors );
+				} else {
+					$mirrors = array();
+				}
+				$version->set_mirrors( $mirrors );
+
+				// url
+				$url = current( $mirrors );
+				$version->set_url( $url );
+
+				// filename
+				$filename = current( explode( '?', DLM_Utils::basename( $url ) ) );
+				$version->set_filename( $filename );
+
+				// filetype
+				$version->set_filetype( strtolower( substr( strrchr( $filename, "." ), 1 ) ) );
+
+				// fix empty file sizes
+				if ( "" === $version->get_filesize() ) {
+					// Get the file size
+					$filesize = download_monitor()->service( 'file_manager' )->get_file_size( $data->url );
+
+					update_post_meta( $data->id, '_filesize', $filesize );
+					$version->set_filesize( $filesize );
+				}
+
+				// add download to return array
+				$items[] = $version;
+			}
 		}
 
-		$data->url      = current( $data->mirrors );
-		$data->filename = current( explode( '?', DLM_Utils::basename( $data->url ) ) );
-		$data->filetype = strtolower( substr( strrchr( $data->filename, "." ), 1 ) );
-
-		if ( "" === $data->filesize ) {
-			// Get the file size
-			$data->filesize = download_monitor()->service( 'file_manager' )->get_file_size( $data->url );
-
-			update_post_meta( $data->id, '_filesize', $data->filesize );
-		}
-
-		return $data;
+		return $items;
 	}
 
 	/**

@@ -47,15 +47,6 @@ class DLM_Services {
 	/**
 	 * Dynamically called via get()
 	 *
-	 * @return DLM_Version_Factory
-	 */
-	private function cb_version_factory() {
-		return new DLM_Version_Factory( $this->get( 'version_repository' ) );
-	}
-
-	/**
-	 * Dynamically called via get()
-	 *
 	 * @return DLM_WordPress_Version_Repository
 	 */
 	private function cb_version_repository() {
