@@ -40,18 +40,5 @@ class DLM_Logging {
 		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE type = 'download' AND `version_id` = %d AND `user_ip` = %s", $version->get_id(), DLM_Utils::get_visitor_ip() ) ) ) > 0 );
 	}
 
-	/**
-	 * Delete a log entry
-	 *
-	 * @param $log_id
-	 *
-	 * @return bool
-	 */
-	public function delete_log( $log_id ) {
-		global $wpdb;
-
-		return ( false !== $wpdb->delete( $wpdb->download_log, array( 'ID' => $log_id ), array( '%d' ) ) );
-	}
-
 }
 

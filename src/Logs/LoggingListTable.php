@@ -406,15 +406,12 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				wp_die( "You're not allowed to delete logs!" );
 			}
 
-			// logging object
-			$logging = new DLM_Logging();
-
 			// check
 			if ( count( $_POST['log'] ) > 0 ) {
 
 				// delete the posted logs
 				foreach ( $_POST['log'] as $log_id ) {
-					$logging->delete_log( absint( $log_id ) );
+					download_monitor()->service( 'log_item_repository' )->delete( $log_id );
 				}
 
 				// display delete message

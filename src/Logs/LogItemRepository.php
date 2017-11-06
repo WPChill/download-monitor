@@ -39,4 +39,13 @@ interface DLM_Log_Item_Repository {
 	 * @return bool
 	 */
 	public function persist( $log_item );
+
+	/**
+	 * Delete log item
+	 *
+	 * @param int $id
+	 *
+	 * @return bool
+	 */
+	public function delete( $id );
 }

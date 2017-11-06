@@ -217,4 +217,18 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		return true;
 	}
 
+	/**
+	 * Delete log item
+	 *
+	 * @param int $id
+	 *
+	 * @return bool
+	 */
+	public function delete( $id ) {
+		global $wpdb;
+
+		$id = absint( $id );
+
+		return ( false !== $wpdb->delete( $wpdb->download_log, array( 'ID' => $id ), array( '%d' ) ) );
+	}
 }
