@@ -204,6 +204,22 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	}
 
 	/**
+     * Sortable columns
+     *
+	 * @return array
+	 */
+	public function get_sortable_columns() {
+		return array(
+			'download' => array( 'download_id', false ),
+			'file'     => array( 'version_id', false ),
+			'user'     => array( 'user_id', false ),
+			'user_ip'  => array( 'user_ip', false ),
+			'user_ua'  => array( 'user_agent', false ),
+			'date'     => array( 'download_date', false )
+		);
+	}
+
+	/**
 	 * Generate the table navigation above or below the table
 	 */
 	public function display_tablenav( $which ) {
@@ -376,10 +392,15 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			);
 		}
 
-		$version_repository = download_monitor()->service( 'log_item_repository' );
+		// check for order
+		$order_by = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'download_date';
+		$order    = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'DESC';
 
-		$total_items = $version_repository->num_rows( $filters );
-		$this->items = $version_repository->retrieve( $filters, $per_page, ( ( $current_page - 1 ) * $per_page ) );
+		/** @var DLM_WordPress_Log_Item_Repository $log_item_repository */
+		$log_item_repository = download_monitor()->service( 'log_item_repository' );
+
+		$total_items = $log_item_repository->num_rows( $filters );
+		$this->items = $log_item_repository->retrieve( $filters, $per_page, ( ( $current_page - 1 ) * $per_page ), $order_by, $order );
 
 		// Pagination
 		$this->set_pagination_args( array(
