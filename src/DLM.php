@@ -258,7 +258,7 @@ class WP_DLM {
 		if ( $post->post_type !== 'dlm_download' ) {
 			return;
 		}
-
+		
 		$GLOBALS['dlm_download'] = $this->service( 'download_repository' )->retrieve_single( $post->ID );
 	}
 

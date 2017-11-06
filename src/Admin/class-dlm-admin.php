@@ -38,9 +38,9 @@ class DLM_Admin {
 		add_action( 'admin_init', array( $settings, 'register_settings' ) );
 		$settings->register_lazy_load_callbacks();
 
-		// Logs
-		add_action( 'admin_init', array( $this, 'export_logs' ) );
-		add_action( 'admin_init', array( $this, 'delete_logs' ) );
+		// setup logs
+		$log_page = new DLM_Log_Page();
+		$log_page->setup();
 
 		// Dashboard
 		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
@@ -51,7 +51,7 @@ class DLM_Admin {
 		// flush rewrite rules on shutdown
 		add_action( 'shutdown', array( $this, 'maybe_flush_rewrites' ) );
 
-        // filter attachment thumbnails in media library for files in dlm_uploads
+		// filter attachment thumbnails in media library for files in dlm_uploads
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_thumbnails_protected_files' ), 10, 1 );
 	}
 
@@ -62,7 +62,7 @@ class DLM_Admin {
 	 *
 	 * @param mixed $rewrite
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function ms_files_protection( $rewrite ) {
 
@@ -87,7 +87,7 @@ class DLM_Admin {
 	 *
 	 * @param mixed $pathdata
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function upload_dir( $pathdata ) {
 
@@ -183,17 +183,6 @@ class DLM_Admin {
 	 * @return void
 	 */
 	public function admin_menu() {
-
-		// Logging object
-		$logging = new DLM_Logging();
-
-		// Logs page
-		if ( $logging->is_logging_enabled() ) {
-			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'dlm_manage_logs', 'download-monitor-logs', array(
-				$this,
-				'log_viewer'
-			) );
-		}
 
 		// Settings page
 		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download-monitor' ), __( 'Settings', 'download-monitor' ), 'manage_options', 'download-monitor-settings', array(
@@ -329,162 +318,6 @@ class DLM_Admin {
 			</form>
 		</div>
 		<?php
-	}
-
-	/**
-	 * log_viewer function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function log_viewer() {
-		if ( ! class_exists( 'WP_List_Table' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-		}
-
-		$DLM_Logging_List_Table = new DLM_Logging_List_Table();
-		$DLM_Logging_List_Table->prepare_items();
-		?>
-		<div class="wrap">
-			<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
-
-			<h2><?php _e( 'Download Logs', 'download-monitor' ); ?> <a
-					href="<?php echo add_query_arg( 'dlm_download_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ); ?>"
-					class="add-new-h2"><?php _e( 'Export CSV', 'download-monitor' ); ?></a> <a
-					href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ), 'delete_logs' ); ?>"
-					class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h2><br/>
-
-			<form id="dlm_logs" method="post">
-				<?php $DLM_Logging_List_Table->display() ?>
-			</form>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Delete logs
-	 */
-	public function delete_logs() {
-		global $wpdb;
-
-		if ( empty( $_GET['dlm_delete_logs'] ) ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'manage_downloads' ) ) {
-			wp_die( "You're not allowed to delete logs." );
-		}
-
-		check_admin_referer( 'delete_logs' );
-
-		$wpdb->query( "DELETE FROM {$wpdb->download_log};" );
-	}
-
-	/**
-	 * export_logs function
-     *
-     * TODO move this to log dir
-	 */
-	public function export_logs() {
-		global $wpdb;
-
-		if ( empty( $_GET['dlm_download_logs'] ) ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'manage_downloads' ) ) {
-			wp_die( "You're not allowed to export logs." );
-		}
-
-		$filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
-		$filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
-
-		$items = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT * FROM {$wpdb->download_log}
-		    	WHERE type = 'download'
-		    	" . ( $filter_status ? "AND download_status = '%s'" : "%s" ) . "
-	            " . ( $filter_month ? "AND download_date >= '%s'" : "%s" ) . "
-	            " . ( $filter_month ? "AND download_date <= '%s'" : "%s" ) . "
-		    	ORDER BY download_date DESC",
-				( $filter_status ? $filter_status : "" ),
-				( $filter_month ? date( 'Y-m-01', strtotime( $filter_month ) ) : "" ),
-				( $filter_month ? date( 'Y-m-t', strtotime( $filter_month ) ) : "" )
-			)
-		);
-
-		$rows   = array();
-		$row    = array();
-		$row[]  = __( 'Download ID', 'download-monitor' );
-		$row[]  = __( 'Download Title', 'download-monitor' );
-		$row[]  = __( 'Version ID', 'download-monitor' );
-		$row[]  = __( 'Filename', 'download-monitor' );
-		$row[]  = __( 'User ID', 'download-monitor' );
-		$row[]  = __( 'User Login', 'download-monitor' );
-		$row[]  = __( 'User Email', 'download-monitor' );
-		$row[]  = __( 'User IP', 'download-monitor' );
-		$row[]  = __( 'User Agent', 'download-monitor' );
-		$row[]  = __( 'Date', 'download-monitor' );
-		$row[]  = __( 'Status', 'download-monitor' );
-		$rows[] = '"' . implode( '","', $row ) . '"';
-
-		if ( ! empty( $items ) ) {
-			foreach ( $items as $item ) {
-
-				/** @var DLM_Download $download */
-			    // get download object
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $item->download_id );
-
-				try {
-					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $item->version_id );
-					$download->set_version( $version );
-				} catch ( Exception $e ) {
-
-				}
-
-				$row   = array();
-				$row[] = $item->download_id;
-				$row[] = $download->get_title();
-				$row[] = $item->version_id;
-
-				if ( $download->exists() && $download->get_version()->get_filename() ) {
-					$row[] = $download->get_version()->get_filename();
-				} else {
-					$row[] = '-';
-				}
-
-				$row[] = $item->user_id;
-
-				if ( $item->user_id ) {
-					$user = get_user_by( 'id', $item->user_id );
-				}
-
-				if ( ! isset( $user ) || ! $user ) {
-					$row[] = '-';
-					$row[] = '-';
-				} else {
-					$row[] = $user->user_login;
-					$row[] = $user->user_email;
-				}
-
-				unset( $user );
-
-				$row[]  = $item->user_ip;
-				$row[]  = $item->user_agent;
-				$row[]  = $item->download_date;
-				$row[]  = $item->download_status . ( $item->download_status_message ? ' - ' : '' ) . $item->download_status_message;
-				$rows[] = '"' . implode( '","', $row ) . '"';
-			}
-		}
-
-		$log = implode( "\n", $rows );
-
-		header( "Content-type: text/csv" );
-		header( "Content-Disposition: attachment; filename=download_log.csv" );
-		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
-		header( "Content-Length: " . strlen( $log ) );
-		echo $log;
-		exit;
 	}
 
 	/**
