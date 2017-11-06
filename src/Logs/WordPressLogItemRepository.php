@@ -63,10 +63,12 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * @param array $filters
 	 * @param int $limit
 	 * @param int $offset
+	 * @param string $order_by
+	 * @param string $order
 	 *
 	 * @return array
 	 */
-	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
+	public function retrieve( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
 		global $wpdb;
 
 		$items = array();
@@ -82,9 +84,15 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			$limit_str = "LIMIT {$offset},{$limit}";
 		}
 
+		// escape order_by
+		$order_by = esc_sql( $order_by );
+
+		// order can only be ASC or DESC
+		$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
+
 		// query
 		$data = $wpdb->get_results(
-			"SELECT * FROM {$wpdb->download_log} {$where_str} ORDER BY download_date DESC {$limit_str};"
+			"SELECT * FROM {$wpdb->download_log} {$where_str} ORDER BY `{$order_by}` {$order} {$limit_str};"
 		);
 
 		if ( count( $data ) > 0 ) {

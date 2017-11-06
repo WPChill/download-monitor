@@ -8,10 +8,12 @@ interface DLM_Log_Item_Repository {
 	 * @param array $filters
 	 * @param int $limit
 	 * @param int $offset
+	 * @param string $order_by
+	 * @param string $order
 	 *
 	 * @return array<DLM_Log_Item>
 	 */
-	public function retrieve( $filters=array(), $limit=0, $offset=0 );
+	public function retrieve( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' );
 
 	/**
 	 * Retrieve single item
