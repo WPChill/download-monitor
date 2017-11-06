@@ -258,8 +258,13 @@ class WP_DLM {
 		if ( $post->post_type !== 'dlm_download' ) {
 			return;
 		}
-		
-		$GLOBALS['dlm_download'] = $this->service( 'download_repository' )->retrieve_single( $post->ID );
+
+		try {
+			$download                = $this->service( 'download_repository' )->retrieve_single( $post->ID );
+			$GLOBALS['dlm_download'] = $download;
+		} catch ( Exception $e ) {
+
+		}
 	}
 
 	/** Deprecated methods **************************************************/
