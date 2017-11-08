@@ -36,7 +36,7 @@ if ( 1 === $clean_up ) {
 	$wpdb->query( "DELETE FROM $wpdb->posts WHERE `ID` IN (" . implode( ",", $ids ) . ");" );
 
 	/**
-	 * Remove all optionsgit
+	 * Remove all options
 	 */
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'dlm_%';" );
 
