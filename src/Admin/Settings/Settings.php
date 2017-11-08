@@ -89,7 +89,7 @@ class DLM_Admin_Settings {
 							'type'     => 'checkbox'
 						),
 						array(
-							'name'     => 'clean_on_uninstall',
+							'name'     => 'dlm_clean_on_uninstall',
 							'std'      => '0',
 							'label'    => __( 'Remove Data on Uninstall?', 'download-monitor' ),
 							'cb_label' => __( 'Enable', 'download-monitor' ),
