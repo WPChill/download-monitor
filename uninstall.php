@@ -2,7 +2,7 @@
 
 // What is happening?
 if ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit(); // TODO: uncomment this
+	exit();
 }
 
 // get option
@@ -13,13 +13,17 @@ if ( 1 === $clean_up ) {
 
 	global $wpdb;
 
-	// WP Download Repository
-	$repo = new DLM_WordPress_Download_Repository();
-
 	/**
 	 * Fetch all Download ID's
 	 */
-	$ids = $repo->retrieve( array( 'fields' => 'ids' ) );
+	$ids = get_posts(
+		array(
+			'post_type'      => 'dlm_download',
+			'fields'         => 'ids',
+			'post_status'    => 'any',
+			'posts_per_page' => - 1
+		)
+	);
 
 	/**
 	 * Remove all download meta data
@@ -32,7 +36,7 @@ if ( 1 === $clean_up ) {
 	$wpdb->query( "DELETE FROM $wpdb->posts WHERE `ID` IN (" . implode( ",", $ids ) . ");" );
 
 	/**
-	 * Remove all options
+	 * Remove all optionsgit
 	 */
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'dlm_%';" );
 
