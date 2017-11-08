@@ -88,6 +88,14 @@ class DLM_Admin_Settings {
 							'desc'     => __( 'If enabled, Download Monitor will use the X_FORWARDED_FOR HTTP header set by proxies as the IP address. Note that anyone can set this header, making it less secure.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
+						array(
+							'name'     => 'clean_on_uninstall',
+							'std'      => '0',
+							'label'    => __( 'Remove Data on Uninstall?', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'Check this box if you would like to completely remove all Download Monitor data when the plugin is deleted.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
 					),
 				),
 				'endpoints' => array(
