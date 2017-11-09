@@ -41,6 +41,12 @@ if ( 1 === $clean_up ) {
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'dlm_%';" );
 
 	/**
+	 * Remove all DLM transients
+	 */
+	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_timeout_dlm_%';" );
+	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '_transient_dlm_%';" );
+
+	/**
 	 * Drop logs table
 	 */
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}download_log ;" );
