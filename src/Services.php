@@ -83,10 +83,10 @@ class DLM_Services {
 	/**
 	 * Dynamically called via get()
 	 *
-	 * @return DLM_Download_Manager
+	 * @return DLM_Transient_Manager
 	 */
-	private function cb_download_manager() {
-		return new DLM_Download_Manager();
+	private function cb_transient_manager() {
+		return new DLM_Transient_Manager();
 	}
 
 	/**

@@ -38,6 +38,9 @@ class DLM_Admin {
 		add_action( 'admin_init', array( $settings, 'register_settings' ) );
 		$settings->register_lazy_load_callbacks();
 
+		// catch setting actions
+		add_action( 'admin_init', array( $this, 'catch_admin_actions' ) );
+
 		// setup logs
 		$log_page = new DLM_Log_Page();
 		$log_page->setup();
@@ -54,6 +57,53 @@ class DLM_Admin {
 		// filter attachment thumbnails in media library for files in dlm_uploads
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_thumbnails_protected_files_grid' ), 10, 1 );
 		add_filter( 'wp_get_attachment_image_src', array( $this, 'filter_thumbnails_protected_files_list' ), 10, 1 );
+	}
+
+	/**
+	 * Catch and trigger admin actions
+	 */
+	public function catch_admin_actions() {
+
+		if ( isset( $_GET['dlm_action'] ) && isset( $_GET['dlm_nonce'] ) ) {
+			$action = $_GET['dlm_action'];
+			$nonce  = $_GET['dlm_nonce'];
+
+			// check nonce
+			if ( ! wp_verify_nonce( $nonce, $action ) ) {
+				wp_die( "Download Monitor action nonce failed." );
+			}
+
+			switch ( $action ) {
+				case 'dlm_clear_transients':
+					$result = download_monitor()->service( 'transient_manager' )->clear_all_version_transients();
+					if ( $result ) {
+						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), DLM_Admin_Settings::get_url() ) );
+						exit;
+					}
+					break;
+			}
+		}
+
+		if ( isset( $_GET['dlm_action_done'] ) ) {
+			add_action( 'admin_notices', array( $this, 'display_admin_action_message' ) );
+		}
+	}
+
+	/**
+	 * Display the admin action success mesage
+	 */
+	public function display_admin_action_message() {
+		?>
+        <div class="notice notice-success">
+			<?php
+			switch ( $_GET['dlm_action_done'] ) {
+				case 'dlm_clear_transients':
+					echo "<p>" . __( 'Download Monitor Transients successfully cleared!', 'download-monitor' ) . "</p>";
+					break;
+			}
+			?>
+        </div>
+		<?php
 	}
 
 	/**
@@ -264,6 +314,8 @@ class DLM_Admin {
 	/**
 	 * settings_page function.
 	 *
+     * @TODO Move this to a separate setting page class
+     *
 	 * @access public
 	 * @return void
 	 */
@@ -285,7 +337,7 @@ class DLM_Admin {
 				<h2 class="nav-tab-wrapper">
 					<?php
 					foreach ( $settings as $key => $section ) {
-						echo '<a href="#settings-' . sanitize_title( $key ) . '" id="dlm-tab-settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
+						echo '<a href="' . DLM_Admin_Settings::get_url() . '#settings-' . sanitize_title( $key ) . '" id="dlm-tab-settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
 					}
 					?>
 				</h2><br/>

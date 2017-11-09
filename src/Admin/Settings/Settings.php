@@ -4,6 +4,15 @@
 class DLM_Admin_Settings {
 
 	/**
+	 * Get settings URL
+	 *
+	 * @return string
+	 */
+	public static function get_url() {
+		return admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' );
+	}
+
+	/**
 	 * register_settings function.
 	 *
 	 * @access public
@@ -87,15 +96,7 @@ class DLM_Admin_Settings {
 							'cb_label' => __( 'Enable', 'download-monitor' ),
 							'desc'     => __( 'If enabled, Download Monitor will use the X_FORWARDED_FOR HTTP header set by proxies as the IP address. Note that anyone can set this header, making it less secure.', 'download-monitor' ),
 							'type'     => 'checkbox'
-						),
-						array(
-							'name'     => 'dlm_clean_on_uninstall',
-							'std'      => '0',
-							'label'    => __( 'Remove Data on Uninstall?', 'download-monitor' ),
-							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'Check this box if you would like to completely remove all Download Monitor data when the plugin is deleted.', 'download-monitor' ),
-							'type'     => 'checkbox'
-						),
+						)
 					),
 				),
 				'endpoints' => array(
@@ -217,6 +218,27 @@ class DLM_Admin_Settings {
 						),
 					)
 				),
+				'misc'      => array(
+					__( 'Misc', 'download-monitor' ),
+					array(
+						array(
+							'name'     => 'dlm_clean_on_uninstall',
+							'std'      => '0',
+							'label'    => __( 'Remove Data on Uninstall?', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'Check this box if you would like to completely remove all Download Monitor data when the plugin is deleted.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
+						array(
+							'name'  => 'dlm_clear_transients',
+							'std'   => '0',
+							'label' => __( 'Clear all transients', 'download-monitor' ),
+							'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
+							'type'  => 'action_button',
+							'link'  => self::get_url() . '#settings-misc'
+						),
+					),
+				)
 			)
 		);
 	}

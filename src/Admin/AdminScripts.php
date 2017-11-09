@@ -83,8 +83,11 @@ class DLM_Admin_Scripts {
 				DLM_VERSION
 			);
 
-			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array( 'img_path' => download_monitor()->get_plugin_url() . '/assets/images/', 'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ) ) );
-
+			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array(
+				'img_path'          => download_monitor()->get_plugin_url() . '/assets/images/',
+				'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ),
+				'settings_url'      => DLM_Admin_Settings::get_url()
+			) );
 
 			if ( 'dlm-extensions' === $_GET['page'] ) {
 				// Enqueue Extesions JS
