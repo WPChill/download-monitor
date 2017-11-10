@@ -51,6 +51,7 @@ return array(
     'DLM_Product_License' => $baseDir . '/src/Product/ProductLicense.php',
     'DLM_Product_Manager' => $baseDir . '/src/Product/ProductManager.php',
     'DLM_Services' => $baseDir . '/src/Services.php',
+    'DLM_Settings_Page' => $baseDir . '/src/Admin/Settings/Page.php',
     'DLM_Shortcodes' => $baseDir . '/src/Shortcodes.php',
     'DLM_Taxonomy_Manager' => $baseDir . '/src/TaxonomyManager.php',
     'DLM_Template_Handler' => $baseDir . '/src/TemplateHandler.php',
