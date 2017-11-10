@@ -287,6 +287,7 @@ class DLM_Shortcodes {
 			'category'                  => '', // Comma separate slugs
 			'category_include_children' => true, // Set to false to not include child categories
 			'tag'                       => '', // Comma separate slugs
+			'exclude_tag'               => '', // Comma separate slugs
 			'featured'                  => false, // Set to true to only pull featured downloads
 			'members_only'              => false, // Set to true to only pull member downloads
 
@@ -341,7 +342,7 @@ class DLM_Shortcodes {
 			'meta_query'     => array()
 		);
 
-		if ( $category || $tag ) {
+		if ( $category || $tag || $exclude_tag ) {
 			$args['tax_query'] = array( 'relation' => 'AND' );
 
 			$tags = array_filter( explode( ',', $tag ) );
@@ -400,6 +401,15 @@ class DLM_Shortcodes {
 					'taxonomy' => 'dlm_download_tag',
 					'field'    => 'slug',
 					'terms'    => $tags
+				);
+			}
+
+			if ( ! empty( $exclude_tag ) ) {
+				$args['tax_query'][] = array(
+					'taxonomy' => 'dlm_download_tag',
+					'field'    => 'slug',
+					'terms'    => $exclude_tag,
+					'operator' => 'NOT IN'
 				);
 			}
 		}

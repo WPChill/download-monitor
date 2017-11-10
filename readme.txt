@@ -126,6 +126,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Feature: Added user filter to logs, props [neptuneweb](https://github.com/neptuneweb).
 * Feature: Log columns in log table are now sortable.
 * Feature: Added an option for the user to remove all transients.
+* Feature: Added the ability to exclude tags from the [downloads] shortcode.
 * Tweak: We're now only serving downloads when requested over the GET or POST HTTP method. This can be filtered via filter dlm_accepted_request_methods.
 * Tweak: Added Download Title to download log CSV export file.
 * Tweak: Added 'dlm_shortcode_total_downloads' filter to output of [total_downloads] shortcode, props [Joel James](https://github.com/Joel-James).
