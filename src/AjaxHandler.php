@@ -88,15 +88,6 @@ class DLM_Ajax_Handler {
 		$download_id = absint( $_POST['post_id'] );
 		$size        = absint( $_POST['size'] );
 
-		// create download object
-		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
-
-		// check if download is found
-		if ( $download->get_id() != $download_id ) {
-			die( '0' );
-		}
-
 		/** @var DLM_Download_Version $new_version */
 		$new_version = new DLM_Download_Version();
 
@@ -111,7 +102,7 @@ class DLM_Ajax_Handler {
 		download_monitor()->service( 'version_repository' )->persist( $new_version );
 
 		// clear download transient
-		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download->get_id() );
+		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );
 
 		// output new version admin html
 		download_monitor()->service( 'view_manager' )->display( 'meta-box/version', array(

@@ -67,30 +67,34 @@ class DLM_Admin_Writepanels {
 	 */
 	public function download_information( $post ) {
 
-        /** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
-
 		echo '<div class="dlm_information_panel">';
 
-		do_action( 'dlm_information_start', $download->get_id(), $download );
-		?>
-		<p>
-			<label for="dlm-info-id"><?php _e( 'ID', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-id" value="<?php echo $download->get_id(); ?>" readonly />
-			</label>
-		</p>
-		<p>
-			<label for="dlm-info-url"><?php _e( 'URL', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>" readonly />
-			</label>
-		</p>
-		<p>
-			<label for="dlm-info-shortcode"><?php _e( 'Shortcode', 'download-monitor' ); ?>
-				<input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->get_id(); ?>"]' readonly />
-			</label>
-		</p>
-		<?php
-		do_action( 'dlm_information_end', $download->get_id(), $download );
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+
+			do_action( 'dlm_information_start', $download->get_id(), $download );
+			?>
+            <p>
+                <label for="dlm-info-id"><?php _e( 'ID', 'download-monitor' ); ?>
+                    <input type="text" id="dlm-info-id" value="<?php echo $download->get_id(); ?>" readonly />
+                </label>
+            </p>
+            <p>
+                <label for="dlm-info-url"><?php _e( 'URL', 'download-monitor' ); ?>
+                    <input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>" readonly />
+                </label>
+            </p>
+            <p>
+                <label for="dlm-info-shortcode"><?php _e( 'Shortcode', 'download-monitor' ); ?>
+                    <input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->get_id(); ?>"]' readonly />
+                </label>
+            </p>
+			<?php
+			do_action( 'dlm_information_end', $download->get_id(), $download );
+		} catch ( Exception $e ) {
+			echo "<p>" . __( "No download information for new downloads.", 'download-monitor' ) . "</p>";
+		}
 
 		echo '</div>';
 	}
@@ -106,8 +110,12 @@ class DLM_Admin_Writepanels {
 	 */
 	public function download_options( $post ) {
 
-		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		} catch ( Exception $e ) {
+			$download = new DLM_Download();
+		}
 
 		echo '<div class="dlm_options_panel">';
 
@@ -145,14 +153,18 @@ class DLM_Admin_Writepanels {
 	public function download_files() {
 		global $post;
 
-		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		} catch ( Exception $e ) {
+		    $download = new DLM_Download();
+		}
 
 		wp_nonce_field( 'save_meta_data', 'dlm_nonce' );
 		?>
 		<div class="download_monitor_files dlm-metaboxes-wrapper">
 
-			<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo $download->get_id(); ?>" />
+			<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo $post->ID; ?>" />
 			<input type="hidden" name="dlm_post_id" id="dlm-plugin-url" value="<?php echo download_monitor()->get_plugin_url(); ?>" />
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-add-file" value="<?php echo wp_create_nonce( "add-file" ); ?>" />
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file" value="<?php echo wp_create_nonce( "remove-file" ); ?>" />
