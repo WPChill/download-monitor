@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'DLM_Admin' => $baseDir . '/src/Admin/class-dlm-admin.php',
+    'DLM_Admin' => $baseDir . '/src/Admin/Admin.php',
     'DLM_Admin_Dashboard' => $baseDir . '/src/Admin/Dashboard.php',
     'DLM_Admin_Extensions' => $baseDir . '/src/Admin/Extensions.php',
     'DLM_Admin_Fields_Field' => $baseDir . '/src/Admin/Settings/Fields/Field.php',
