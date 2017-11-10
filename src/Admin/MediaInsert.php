@@ -143,43 +143,43 @@ class DLM_Admin_Media_Insert {
 
 		}
 
-		// Get all downloads
-		$downloads = get_posts( array(
-			'post_status'    => 'publish',
-			'post_type'      => 'dlm_download',
-			'orderby'        => 'ID',
-			'posts_per_page' => - 1
-		) );
 		?>
-		<form id="insert-shortcode">
+		<form id="insert-shortcode" method="post">
+
+            <?php
+            $search_query = ( ! empty( $_POST['dlm_search'] ) ? $_POST['dlm_search'] : '' );
+            $limit      = 10;
+            $page       = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
+            $filters    = array( 'post_status' => 'publish' );
+            if ( ! empty( $search_query ) ) {
+	            $filters['s'] = $search_query;
+            }
+            $d_num_rows = download_monitor()->service( 'download_repository' )->num_rows( $filters );
+            $downloads  = download_monitor()->service( 'download_repository' )->retrieve( $filters, $limit, ( ( $page - 1 ) * $limit ) );
+            ?>
+            <fieldset>
+                <legend><?php _e( 'Search download', 'download-monitor' ); ?>:</legend>
+                <label>
+                    <input type="text" name="dlm_search" value='<?php echo str_replace( "'", "", stripslashes( ( $search_query ) ) ); ?>'/>
+                    <input type="submit" name="dlm_search_submit" value="Search" class="button button-primary" />
+                </label>
+            </fieldset>
 
 			<fieldset>
 				<legend><?php _e( 'Choose a download', 'download-monitor' ); ?>:</legend>
 				<?php
-				$limit = 10;
-				$page  = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
 
-				$dlm_query = new WP_Query( array(
-					'post_status'    => 'publish',
-					'post_type'      => 'dlm_download',
-					'posts_per_page' => $limit,
-					'offset'         => ( $page - 1 ) * $limit
-				) );
-
-				while ( $dlm_query->have_posts() ) {
-					$dlm_query->the_post();
-					/** @var DLM_Download $download */
-					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $dlm_query->post->ID );
+				foreach ( $downloads as $download ) {
 					echo '<label><input name="download_id" class="radio" type="radio" value="' . absint( $download->get_id() ) . '" /> #' . $download->get_id() . ' &ndash; ' . $download->get_title() . ' &ndash; ' . $download->get_version()->get_filename() . '</label>';
 				}
 
-				if ( $dlm_query->max_num_pages > 1 ) {
+				if ( $d_num_rows > $limit ) {
 
 					echo paginate_links( apply_filters( 'download_monitor_pagination_args', array(
 						'base'      => str_replace( 999999999, '%#%', get_pagenum_link( 999999999, false ) ),
 						'format'    => '',
 						'current'   => $page,
-						'total'     => $dlm_query->max_num_pages,
+						'total'     => ceil( $d_num_rows / $limit ),
 						'prev_text' => '&larr;',
 						'next_text' => '&rarr;',
 						'type'      => 'list',
