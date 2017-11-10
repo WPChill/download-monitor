@@ -42,7 +42,7 @@ class DLM_Hasher {
 			}
 		}
 
-		return array( 'md5' => $md5, 'sha1' => $sha1, 'sha256' => $sha256, 'crc32b' => $crc32b );
+		return apply_filters( "dlm_file_hashes", array( 'md5' => $md5, 'sha1' => $sha1, 'sha256' => $sha256, 'crc32b' => $crc32b ), $file_path );
 	}
 
 	/**
