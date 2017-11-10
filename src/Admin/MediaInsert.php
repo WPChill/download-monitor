@@ -123,7 +123,7 @@ class DLM_Admin_Media_Insert {
 					update_post_meta( $file_id, '_files', $file_manager->json_encode_files( array( $url ) ) );
 
 					// Hashes
-					$hashes = $file_manager->get_file_hashes( $url );
+					$hashes = download_monitor()->service( 'hasher' )->get_file_hashes( $url );
 
 					// Set hashes
 					update_post_meta( $file_id, '_md5', $hashes['md5'] );
