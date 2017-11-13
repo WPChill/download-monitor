@@ -34,41 +34,29 @@ class DLM_Admin_Dashboard {
 	 */
 	public function popular_downloads() {
 
-		$args = array(
-			'post_status'    => 'publish',
-			'post_type'      => 'dlm_download',
+		$filters = array(
 			'no_found_rows'  => 1,
 			'posts_per_page' => 10,
-			'orderby'        => 'meta_value_num',
-			'order'          => 'desc',
-			'meta_query'     => array(
+			'orderby'    => 'meta_value_num',
+			'order'      => 'desc',
+			'meta_query' => array(
 				array(
 					'key'     => '_download_count',
 					'value'   => '0',
 					'compare' => '>'
 				)
 			),
-			'meta_key'       => '_download_count',
-			'fields'         => 'ids'
+			'meta_key'       => '_download_count'
 		);
+		$downloads = download_monitor()->service('download_repository')->retrieve($filters);
 
-		$download_ids = get_posts( $args );
-
-		if ( empty( $download_ids ) ) {
+		if ( empty( $downloads ) ) {
 			echo '<p>' . __( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
 
 			return;
 		}
 
-		$downloads = array();
-
-		foreach ( $download_ids as $download_id ) {
-			$downloads[ $download_id ] = get_post_meta( $download_id, '_download_count', true );
-		}
-
-		if ( $downloads ) {
-			$max_count = max( $downloads );
-		}
+		$max_count = $downloads[0]->get_download_count();
 		?>
 		<table class="download_chart" cellpadding="0" cellspacing="0">
 			<thead>
@@ -80,14 +68,14 @@ class DLM_Admin_Dashboard {
 			<tbody>
 			<?php
 			if ( $downloads ) {
-				foreach ( $downloads as $download_id => $count ) {
-					$download = new DLM_Download( $download_id );
+			    /** @var DLM_Download $download */
+				foreach ( $downloads as $download ) {
 
-					$width = $count / ( $max_count ? $max_count : 1 ) * 67;
+					$width = $download->get_download_count() / ( $max_count ? $max_count : 1 ) * 80;
 
 					echo '<tr>
-							<th scope="row" style="width:25%;"><a href="' . admin_url( 'post.php?post=' . $download_id . '&action=edit' ) . '">' . $download->get_the_title() . '</a></th>
-							<td><span class="bar" style="width:' . $width . '%;"></span>' . number_format( $count, 0, '.', ',' ) . '</td>
+							<th scope="row" style="width:25%;"><a href="' . admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) . '">' . $download->get_title() . '</a></th>
+							<td><span class="bar" style="width:' . $width . '%;"></span>' . number_format( $download->get_download_count(), 0, '.', ',' ) . '</td>
 						</tr>';
 				}
 			}
