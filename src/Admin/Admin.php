@@ -45,6 +45,10 @@ class DLM_Admin {
 		$log_page = new DLM_Log_Page();
 		$log_page->setup();
 
+		// setup report
+		$reports_page = new DLM_Reports_Page();
+		$reports_page->setup();
+
 		// Dashboard
 		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
 
