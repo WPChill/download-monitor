@@ -71,6 +71,7 @@ class DLM_Installer {
 		if ( is_object( $wp_roles ) ) {
 			$wp_roles->add_cap( 'administrator', 'manage_downloads' );
 			$wp_roles->add_cap( 'administrator', 'dlm_manage_logs' );
+			$wp_roles->add_cap( 'administrator', 'dlm_view_reports' );
 		}
 	}
 

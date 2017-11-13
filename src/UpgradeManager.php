@@ -80,6 +80,10 @@ class DLM_Upgrade_Manager {
 			$wpdb->query( "ALTER TABLE {$wpdb->download_log} ADD `meta_data` LONGTEXT NULL DEFAULT NULL AFTER `download_status_message`;" );
 			$wpdb->query( "ALTER TABLE {$wpdb->download_log} DROP `type`;" );
 
+			// add new capability
+			$wp_roles = new WP_Roles();
+			$wp_roles->add_cap( 'administrator', 'dlm_view_reports' );
+
 		}
 
 	}
