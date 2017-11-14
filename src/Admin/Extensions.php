@@ -42,7 +42,7 @@ class DLM_Admin_Extensions {
 		?>
 		<div class="wrap dlm_extensions_wrap">
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
-			<h2><?php _e( 'Download Monitor Extensions', 'download-monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ); ?>" class="button dlm-reload-button">Reload Extensions</a></h2>
+			<h1><?php _e( 'Download Monitor Extensions', 'download-monitor' ); ?> <a href="<?php echo add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ); ?>" class="button dlm-reload-button">Reload Extensions</a></h1>
 			<?php
 
 			if ( false !== $extension_json ) {
