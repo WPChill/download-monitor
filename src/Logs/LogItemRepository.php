@@ -34,6 +34,15 @@ interface DLM_Log_Item_Repository {
 	public function num_rows( $filters=array() );
 
 	/**
+	 * Retrieve grouped counts. Useful for statistics
+	 *
+	 * @param array $filters
+	 *
+	 * @return array
+	 */
+	public function retrieve_grouped_count( $filters = array() );
+
+	/**
 	 * Persist item
 	 *
 	 * @param DLM_Log_Item $log_item

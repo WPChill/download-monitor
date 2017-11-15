@@ -617,14 +617,99 @@ table.wp-list-table {
 .dlm-reports {
 
   h1 {
-    a.dlm-reports-header-chart-switcher,
-    a.dlm-reports-header-date-selector {
+    .dlm-reports-actions {
       float: right;
+
+      a.dlm-reports-header-chart-switcher,
+      .dlm-reports-header-date-selector {
+        margin: 0 5px;
+        float: left;
+      }
+
+      :last-child {
+        margin-right: 0;
+      }
+
+      .dlm-reports-header-date-selector {
+
+        position: relative;
+
+        input {
+          width: 125px;
+          height: 30px;
+          padding: 5px 10px;
+          font-size: 12px;
+          line-height: 1.5;
+          border: 1px solid #ccc;
+          float: left;
+          text-align: center;
+        }
+
+        .dlm-input-sep {
+          float: left;
+          margin-top: 1px;
+          margin-left: -5px;
+          margin-right: -5px;
+
+          width: 16px;
+          height: 18px;
+
+          padding: 5px 10px;
+
+          color: #555;
+          text-align: center;
+          background-color: #eee;
+          border: 1px solid #ccc;
+          border-width: 1px 0;
+
+
+          line-height: 1.4;
+          text-shadow: 0 1px 0 #fff;
+
+          font-size: 14px;
+          font-weight: bold;
+        }
+      }
+
+      a.dlm-reports-header-chart-switcher {
+        display: block;
+        margin-top: 1px;
+        padding-top: 4px;
+        color: #23282d;
+        //border: 1px solid #23282d;
+        text-decoration: none;
+        &:before {
+          font-family: "dashicons" !important;
+          font-style: normal;
+          font-weight: normal;
+          speak: none;
+          display: inline-block;
+          text-decoration: inherit;
+          width: 1em;
+          text-align: center;
+          font-variant: normal;
+          text-transform: none;
+          line-height: 1em;
+          font-size: 1.4em;
+        }
+        &.dlm-line:before {
+          content: "\f238";
+        }
+        &.dlm-bar:before {
+          content: "\f185";
+        }
+      }
+
     }
   }
 
   .dlm-reports-chart {
-
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    overflow: hidden;
   }
 
   .dlm-reports-table {
@@ -692,7 +777,7 @@ table.wp-list-table {
         box-sizing: border-box;
 
         div.dlm_license_error {
-          padding:.5em;
+          padding: .5em;
           margin-bottom: 15px;
           background: lightYellow;
 
