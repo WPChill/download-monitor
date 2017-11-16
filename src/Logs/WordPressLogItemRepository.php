@@ -45,13 +45,19 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * Retrieve grouped counts. Useful for statistics
 	 *
 	 * @param array $filters
+	 * @param string $period
 	 *
 	 * @return array
 	 */
-	public function retrieve_grouped_count( $filters = array() ) {
+	public function retrieve_grouped_count( $filters = array(), $period="day" ) {
 		global $wpdb;
 
-		return $wpdb->get_results( "SELECT COUNT(`ID`) AS `amount`,  DATE_FORMAT(`download_date`, '%d-%m-%Y') AS `date` FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . " GROUP BY `date` ORDER BY `date` ASC;" );
+		$format = "%Y-%m-%d";
+		if('month' === $period) {
+			$format = "%Y-%m";
+		}
+
+		return $wpdb->get_results( "SELECT COUNT(`ID`) AS `amount`,  DATE_FORMAT(`download_date`, '" . $format . "') AS `date` FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . " GROUP BY `date` ORDER BY `date` ASC;" );
 	}
 
 	/**

@@ -37,10 +37,11 @@ interface DLM_Log_Item_Repository {
 	 * Retrieve grouped counts. Useful for statistics
 	 *
 	 * @param array $filters
+	 * @param string $period
 	 *
 	 * @return array
 	 */
-	public function retrieve_grouped_count( $filters = array() );
+	public function retrieve_grouped_count( $filters = array(), $period="day" );
 
 	/**
 	 * Persist item

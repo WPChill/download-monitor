@@ -75,10 +75,18 @@ class DLM_Admin_Scripts {
 
 		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-reports' === $_GET['page'] ) {
 
-			// Enqueue Settings JS
+			// Enqueue Reports JS
 			wp_enqueue_script(
-				'dlm_download_frappe_charts',
+				'dlm_reports_frappe_charts',
 				plugins_url( '/assets/js/frappe-charts/frappe-charts.min.iife.js', $dlm->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
+			);
+
+			wp_enqueue_script(
+				'dlm_reports_date_range_selector',
+				plugins_url( '/assets/js/charts-date-range-selector' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION,
 				true

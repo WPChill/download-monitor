@@ -23,30 +23,6 @@ class DLM_Reports_Page {
 	}
 
 	/**
-	 * Get Reports page URL
-	 *
-	 * @return string
-	 */
-	public function get_url() {
-		return add_query_arg( array(
-			'tab'   => $this->get_current_tab(),
-			'chart' => $this->get_current_chart()
-		), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-reports' ) );
-	}
-
-	/**
-	 * Get date range for data
-	 *
-	 * @return array
-	 */
-	private function get_date_range() {
-		return array(
-			'from' => '2017-11-01',
-			'to'   => '2017-11-30'
-		);
-	}
-
-	/**
 	 * Generate data repo retrieve filters
 	 *
 	 * @return array
@@ -56,38 +32,50 @@ class DLM_Reports_Page {
 	}
 
 	/**
-	 * Get log items based on filters
+	 * Get Reports page URL
 	 *
 	 * @return string
 	 */
-	public function get_chart_data() {
-		/** @var DLM_Log_Item_Repository $repo */
-		$repo     = download_monitor()->service( 'log_item_repository' );
-		$data     = $repo->retrieve_grouped_count( $this->generate_data_filters() );
-		$data_map = array();
-		foreach ( $data as $data_row ) {
-			$data_map[ $data_row->date ] = $data_row->amount;
+	public function get_url() {
+		$date_range = $this->get_date_range();
+
+		return add_query_arg( array(
+			'tab'       => $this->get_current_tab(),
+			'chart'     => $this->get_current_chart(),
+			'period'    => $this->get_current_period(),
+			'date_from' => $date_range['from'],
+			'date_to'   => $date_range['to']
+		), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-reports' ) );
+	}
+
+	/**
+	 * Get date range for data
+	 *
+	 * @return array
+	 */
+	private function get_date_range() {
+
+		$from = ( isset( $_GET['date_from'] ) ) ? $_GET['date_from'] : null;
+		$to   = ( isset( $_GET['date_to'] ) ) ? $_GET['date_to'] : null;
+
+		if ( null === $to ) {
+			$to_date = new DateTime( current_time( "mysql" ) );
+			$to_date->setTime( 0, 0, 0 )->modify( '-1 day' );
+			$to = $to_date->format( 'Y-m-d' );
+		} else {
+			$to_date = new DateTime( $to );
+			$to_date->setTime( 0, 0, 0 );
 		}
 
-		$range = $this->get_date_range();
+		if ( null === $from ) {
+			$from = $to_date->modify( '-1 month' )->format( 'Y-m-d' );
 
-		$startDate = new DateTime( $range['from'] );
-		$endDate   = new DateTime( $range['to'] );
-
-		$data_formatted = array();
-
-		while ( $startDate != $endDate ) {
-
-			if ( isset( $data_map[ $startDate->format( "d-m-Y" ) ] ) ) {
-				$data_formatted[] = absint( $data_map[ $startDate->format( "d-m-Y" ) ] );
-			} else {
-				$data_formatted[] = 0;
-			}
-
-			$startDate->modify( "+1 day" );
 		}
 
-		return '[ { title: "", color: "blue", values: [' . implode( ',', $data_formatted ) . ']}]';
+		return array(
+			'from' => $from,
+			'to'   => $to
+		);
 	}
 
 	/**
@@ -100,7 +88,7 @@ class DLM_Reports_Page {
 	}
 
 	/**
-	 * Get current tab
+	 * Get current chart
 	 *
 	 * @return string
 	 */
@@ -109,52 +97,54 @@ class DLM_Reports_Page {
 	}
 
 	/**
+	 * Get current period
+	 *
+	 * @return string
+	 */
+	private function get_current_period() {
+		$current_period = ( ! empty( $_GET['period'] ) ) ? $_GET['period'] : "day";
+
+		// add check to prevent crazy period modifiers via get
+		if ( $current_period != 'month' ) {
+			$current_period = 'day';
+		}
+
+		return $current_period;
+	}
+
+	/**
 	 * Char button
 	 */
 	private function chart_button() {
 		$other_chart = ( "line" == $this->get_current_chart() ) ? "bar" : "line";
-		echo "<a title='" . sprintf( __( "Switch to %s", 'download-monitor' ), $other_chart ) . "' href='" . add_query_arg( array(
-				'tab'   => $this->get_current_tab(),
-				'chart' => $other_chart,
-			), $this->get_url() ) . "' class='button dlm-reports-header-chart-switcher dlm-" . $other_chart . "'></a>";
+		echo "<a title='" . sprintf( __( "Switch to %s", 'download-monitor' ), $other_chart ) . "' href='" . add_query_arg( array( 'chart' => $other_chart ), $this->get_url() ) . "' class='button dlm-reports-header-chart-switcher dlm-" . $other_chart . "'></a>";
 	}
 
 	/**
 	 * Date range filter element
 	 */
-	private function date_range_filter() {
-	    $date_range = $this->get_date_range();
-	    $start = new DateTime($date_range['from']);
-	    $end = new DateTime($date_range['to']);
+	private function date_range_button() {
+
+		$date_range = $this->get_date_range();
+		$start      = new DateTime( $date_range['from'] );
+		$end        = new DateTime( $date_range['to'] );
 		?>
         <div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
-            <input type="text" class="dlm-input-daterange" name="start" value="<?php echo $start->format("d M Y"); ?>"/>
-            <span class="dlm-input-sep">to</span>
-            <input type="text" class="dlm-input-daterange" name="end" value="<?php echo $end->format("d M Y"); ?>"/>
+			<?php echo $start->format( "d M Y" ) . " - " . $end->format( "d M Y" ); ?>
+            <span class="dlm-arrow"></span>
         </div>
 		<?php
 	}
 
 	/**
-	 * Generate labels
-	 *
-	 * @return string
+	 * Period interval buttons
 	 */
-	private function generate_labels() {
-
-		$range = $this->get_date_range();
-
-		$startDate = new DateTime( $range['from'] );
-		$endDate   = new DateTime( $range['to'] );
-
-		$labels = array();
-
-		while ( $startDate != $endDate ) {
-			$labels[] = $startDate->format( "j M Y" );
-			$startDate->modify( "+1 day" );
-		}
-
-		return '["' . implode( '","', $labels ) . '"]';
+	private function period_interval_buttons() {
+		$current = $this->get_current_period();
+		echo "<div class='dlm-reports-header-period'>";
+		echo "<a href='" . add_query_arg( array( 'period' => 'day' ), $this->get_url() ) . "' class='button" . ( ( 'day' === $current ) ? ' active' : '' ) . "'>" . __( 'Per Day', 'download-monitor' ) . "</a>";
+		echo "<a href='" . add_query_arg( array( 'period' => 'month' ), $this->get_url() ) . "' class='button" . ( ( 'month' === $current ) ? ' active' : '' ) . "'>" . __( 'Month', 'download-monitor' ) . "</a>";
+		echo "</div>";
 	}
 
 	/**
@@ -169,6 +159,18 @@ class DLM_Reports_Page {
 
 		$current_tab = $this->get_current_tab();
 
+		/** @var DLM_WordPress_Log_Item_Repository $repo */
+		$repo = download_monitor()->service( 'log_item_repository' );
+		$data = $repo->retrieve_grouped_count( $this->generate_data_filters(), $this->get_current_period() );
+
+		$date_range = $this->get_date_range();
+
+		$js_url = remove_query_arg( array( 'date_from', 'date_to' ), $this->get_url() );
+
+//		echo "<pre>";
+//        print_r($data);
+//		echo "</pre>";
+
 		?>
         <div class="wrap dlm-reports">
             <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
@@ -177,7 +179,8 @@ class DLM_Reports_Page {
 				_e( 'Download Reports', 'download-monitor' );
 				echo '<div class="dlm-reports-actions">';
 				$this->chart_button();
-				$this->date_range_filter();
+				$this->date_range_button();
+				$this->period_interval_buttons();
 				echo "</div>";
 				?></h1>
 
@@ -188,36 +191,18 @@ class DLM_Reports_Page {
 				}
 				?>
             </h2>
-            <div class="dlm-reports-chart" id="dlm-reports-chart"></div>
+
+			<?php
+			$chart = new DLM_Reports_Chart( $data, $this->get_current_chart(), $this->get_date_range(), $this->get_current_period() );
+			$chart->display();
+			?>
 
             <div class="dlm-reports-table"></div>
 
             <script type="text/javascript">
 				jQuery( document ).ready( function ( $ ) {
-					// Javascript
-					var data = {
-						labels: <?php echo $this->generate_labels(); ?>,
-						datasets: <?php echo $this->get_chart_data(); ?>
-					};
-
-					<?php echo 'var chart = new Chart( {
-						parent: "#dlm-reports-chart",
-						title: "",
-						data: data,
-						type: "' . $this->get_current_chart() . '",
-						height: 250,
-						x_axis_mode: "tick",
-						y_axis_mode: "span",
-						is_series: 1,
-						format_tooltip_x: d => (d + "").toUpperCase(),
-						format_tooltip_y: d => d + " downloads"
-						} );'; ?>
-
-					$( '#dlm-date-range-picker .dlm-input-daterange' ).datepicker( {
-						dateFormat: "dd M yy"
-					} );
+					$( '#dlm-date-range-picker' ).dlm_reports_date_range( '<?php echo $date_range['from']; ?>', '<?php echo $date_range['to']; ?>', '<?php echo $js_url; ?>' );
 				} );
-
             </script>
         </div>
 		<?php

@@ -621,19 +621,97 @@ table.wp-list-table {
       float: right;
 
       a.dlm-reports-header-chart-switcher,
-      .dlm-reports-header-date-selector {
+      .dlm-reports-header-date-selector,
+      .dlm-reports-header-period {
         margin: 0 5px;
         float: left;
       }
 
-      :last-child {
+      &>:last-child {
         margin-right: 0;
       }
 
       .dlm-reports-header-date-selector {
 
         position: relative;
+        font-size: 14px;
+        padding: 0 .5em 0 1em;
+        background: #fff;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
 
+        user-select: none;
+
+        cursor: pointer;
+
+        .dlm-arrow {
+          &:before {
+            font-family: "dashicons" !important;
+            content: "\f140";
+            font-style: normal;
+            font-weight: normal;
+            speak: none;
+            display: inline-block;
+            text-decoration: inherit;
+            width: 1em;
+            text-align: center;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1em;
+            font-size: 1.6em;
+            vertical-align: middle;
+            margin-top: -2px;
+          }
+        }
+
+        .dlm_rdrs_overlay {
+          display: block;
+          width: 466px;
+          //height: 198px;
+          padding: 10px;
+          background: #fff;
+          border: 1px solid #cccccc;
+          position: absolute;
+          top: 30px;
+          right: 0;
+          z-index: 10;
+          overflow: hidden;
+
+          .dlm_rdrs_date {
+            font-size: 70%;
+            margin-right: 5px;
+            float: left;
+            z-index: 11;
+
+            .ui-datepicker-inline {
+              border: 0;
+
+              .ui-state-highlight {
+                background: #e6e6e6 url(//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+                color: #555555;
+                border: 1px solid #D3D3D3;
+              }
+
+              td, th {
+                padding: 0;
+                margin: 0;
+                line-height: 2em;
+                a {
+                  text-align: center !important;
+                }
+
+              }
+            }
+          }
+          .dlm_rdrs_actions {
+            width: 70px;
+            padding-left: 10px;
+            text-align: center;
+            float: left;
+          }
+        }
+
+        /*
         input {
           width: 125px;
           height: 30px;
@@ -669,6 +747,7 @@ table.wp-list-table {
           font-size: 14px;
           font-weight: bold;
         }
+        */
       }
 
       a.dlm-reports-header-chart-switcher {
@@ -697,6 +776,22 @@ table.wp-list-table {
         }
         &.dlm-bar:before {
           content: "\f185";
+        }
+      }
+
+      .dlm-reports-header-period {
+        a {
+          border-color: #cccccc !important;
+        }
+        a:first-child {
+          border-bottom-right-radius: 0;
+          border-top-right-radius: 0;
+          border-right: 0;
+        }
+        a:last-child {
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+          border-left: 0;
         }
       }
 
@@ -815,3 +910,6 @@ table.wp-list-table {
   }
 
 }
+
+/* Fix Datepicker's UI bug */
+#ui-datepicker-div { display: none; }
