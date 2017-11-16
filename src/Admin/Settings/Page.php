@@ -117,7 +117,6 @@ class DLM_Settings_Page {
             <form method="post" action="options.php">
 
 				<?php settings_fields( 'download-monitor' ); ?>
-				<?php screen_icon(); ?>
 
                 <h2 class="nav-tab-wrapper">
 					<?php
