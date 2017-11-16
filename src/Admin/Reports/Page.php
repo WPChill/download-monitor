@@ -183,7 +183,7 @@ class DLM_Reports_Page {
 				$this->period_interval_buttons();
 				echo "</div>";
 				?></h1>
-
+            <br/>
             <h2 class="nav-tab-wrapper">
 				<?php
 				foreach ( $tabs as $tab_key => $tab ) {
@@ -192,12 +192,18 @@ class DLM_Reports_Page {
 				?>
             </h2>
 
+
 			<?php
 			$chart = new DLM_Reports_Chart( $data, $this->get_current_chart(), $this->get_date_range(), $this->get_current_period() );
 			$chart->display();
 			?>
 
-            <div class="dlm-reports-table"></div>
+            <div class="dlm-reports-table">
+                <ul>
+                    <li><label>Total Downloads</label><span>88</span></li>
+                    <li><label>Daily Average Downloads</label><span>5</span></li>
+                </ul>
+            </div>
 
             <script type="text/javascript">
 				jQuery( document ).ready( function ( $ ) {
