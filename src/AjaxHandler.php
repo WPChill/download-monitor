@@ -34,6 +34,11 @@ class DLM_Ajax_Handler {
 
 		check_ajax_referer( 'file-upload' );
 
+		// Check user rights
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			die();
+		}
+
 		require_once( ABSPATH . 'wp-admin/includes/image.php' );
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
 		require_once( ABSPATH . 'wp-admin/includes/media.php' );
@@ -61,6 +66,11 @@ class DLM_Ajax_Handler {
 
 		check_ajax_referer( 'remove-file', 'security' );
 
+		// Check user rights
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			die();
+		}
+
 		$file = get_post( intval( $_POST['file_id'] ) );
 
 		if ( $file && $file->post_type == "dlm_download_version" ) {
@@ -83,6 +93,11 @@ class DLM_Ajax_Handler {
 
 		// check nonce
 		check_ajax_referer( 'add-file', 'security' );
+
+		// Check user rights
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			die();
+		}
 
 		// get POST data
 		$download_id = absint( $_POST['post_id'] );

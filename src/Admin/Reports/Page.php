@@ -27,15 +27,6 @@ class DLM_Reports_Page {
 	}
 
 	/**
-	 * Generate data repo retrieve filters
-	 *
-	 * @return array
-	 */
-	private function generate_data_filters() {
-		return array();
-	}
-
-	/**
 	 * Get Reports page URL
 	 *
 	 * @return string
@@ -151,6 +142,12 @@ class DLM_Reports_Page {
 		echo "</div>";
 	}
 
+	private function generate_js_data() {
+	    $range = $this->get_date_range();
+
+		return ' data-type="' . $this->get_current_chart() . '" data-period="' . $this->get_current_period() . '" data-from="' . $range['from'] . '" data-to="' . $range['to'] . '"';
+    }
+
 	/**
 	 * Display page
 	 */
@@ -168,8 +165,8 @@ class DLM_Reports_Page {
 	    */
 
 		/** @var DLM_WordPress_Log_Item_Repository $repo */
-		$repo = download_monitor()->service( 'log_item_repository' );
-		$data = $repo->retrieve_grouped_count( $this->generate_data_filters(), $this->get_current_period() );
+//		$repo = download_monitor()->service( 'log_item_repository' );
+//		$data = $repo->retrieve_grouped_count( $this->generate_data_filters(), $this->get_current_period() );
 
 		$date_range = $this->get_date_range();
 
@@ -209,9 +206,13 @@ class DLM_Reports_Page {
 
 
 			<?php
-			$chart = new DLM_Reports_Chart( $data, $this->get_current_chart(), $this->get_date_range(), $this->get_current_period() );
-			$chart->display();
+//			$chart = new DLM_Reports_Chart( $data, $this->get_current_chart(), $this->get_date_range(), $this->get_current_period() );
+//			$chart->display();
 			?>
+
+            <?php
+            echo '<div class="dlm-reports-block-chart" id="total_downloads"' . $this->generate_js_data() . '></div>';
+            ?>
 
             <div class="dlm-reports-block">
                 <ul>

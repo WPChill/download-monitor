@@ -4,13 +4,11 @@ class DLM_Reports_Chart {
 
 	private $current_period;
 	private $date_range;
-	private $chart_type;
 
 	private $data;
 
-	public function __construct( $data, $chart_type, $date_range, $current_period ) {
+	public function __construct( $data, $date_range, $current_period ) {
 		$this->data           = $data;
-		$this->chart_type     = $chart_type;
 		$this->date_range     = $date_range;
 		$this->current_period = $current_period;
 	}
@@ -32,9 +30,9 @@ class DLM_Reports_Chart {
 	/**
 	 * Generate labels
 	 *
-	 * @return string
+	 * @return array
 	 */
-	private function generate_labels() {
+	public function generate_labels() {
 
 		$range = $this->date_range;
 
@@ -53,13 +51,15 @@ class DLM_Reports_Chart {
 			$startDate->modify( "+1 " . $this->current_period );
 		}
 
-		return '["' . implode( '","', $labels ) . '"]';
+		return $labels;
+
+//		return '["' . implode( '","', $labels ) . '"]';
 	}
 
 	/**
 	 * Get log items based on filters
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function generate_chart_data() {
 
@@ -88,12 +88,15 @@ class DLM_Reports_Chart {
 			$startDate->modify( "+1 " . $this->current_period );
 		}
 
-		return '[ { title: "", color: "blue", values: [' . implode( ',', $data_formatted ) . ']}]';
+		return array( 'title' => '', 'color' => 'blue', 'values' => $data_formatted );
+
+//		return '[ { title: "", color: "blue", values: [' . implode( ',', $data_formatted ) . ']}]';
 	}
 
 	/**
 	 * Display chart
 	 */
+	/*
 	public function display() {
 		?>
         <div class="dlm-reports-block-chart" id="total_downloads" ></div>
@@ -112,7 +115,7 @@ class DLM_Reports_Chart {
 						data: data,
 						type: "' . $this->chart_type . '",
 						height: 250,
-						show_dots: 0, 
+						show_dots: 0,
 						x_axis_mode: "tick",
 						y_axis_mode: "span",
 						is_series: 1,
@@ -124,5 +127,6 @@ class DLM_Reports_Chart {
         </script>
 		<?php
 	}
+	*/
 
 }
