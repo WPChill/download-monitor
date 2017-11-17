@@ -78,15 +78,26 @@ class DLM_Admin_Scripts {
 			// Enqueue Reports JS
 			wp_enqueue_script(
 				'dlm_reports_frappe_charts',
-				plugins_url( '/assets/js/frappe-charts/frappe-charts.min.iife.js', $dlm->get_plugin_file() ),
+				plugins_url( '/assets/js/reports/frappe-charts.min.iife.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION,
 				true
 			);
 
 			wp_enqueue_script(
+				'dlm_reports',
+				plugins_url( '/assets/js/reports/reports' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
+			);
+
+			// Make JavaScript strings translatable
+			wp_localize_script( 'dlm_reports', 'dlm_rs', $this->get_strings( 'reports' ) );
+
+			wp_enqueue_script(
 				'dlm_reports_date_range_selector',
-				plugins_url( '/assets/js/charts-date-range-selector' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				plugins_url( '/assets/js/reports/charts-date-range-selector' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION,
 				true
@@ -143,6 +154,11 @@ class DLM_Admin_Scripts {
 				$strings = array(
 					'confirm_delete' => __( 'Are you sure you want to delete this file ? ', 'download - monitor' ),
 					'browse_file'    => __( 'Browse for a file', 'download - monitor' ),
+				);
+				break;
+			case 'reports':
+				$strings = array(
+					'dlm_ajax_nonce' => wp_create_nonce( 'dlm_reports_data' )
 				);
 				break;
 			default:

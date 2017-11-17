@@ -16,15 +16,6 @@ class DLM_Reports_Chart {
 	}
 
 	/**
-	 * Generate unique string for chart ID
-	 *
-	 * @return string
-	 */
-	private function generate_unique_id() {
-		return md5( uniqid() );
-	}
-
-	/**
 	 * Get currently used date format
 	 *
 	 * @return string
@@ -104,10 +95,8 @@ class DLM_Reports_Chart {
 	 * Display chart
 	 */
 	public function display() {
-		$id = $this->generate_unique_id();
-
 		?>
-        <div class="dlm-reports-chart" id="dlm-reports-chart-<?php echo $id; ?>"></div>
+        <div class="dlm-reports-block-chart" id="total_downloads" ></div>
 
         <script type="text/javascript">
 			jQuery( document ).ready( function ( $ ) {
@@ -118,7 +107,7 @@ class DLM_Reports_Chart {
 				};
 
 				<?php echo 'var chart = new Chart( {
-						parent: "#dlm-reports-chart-' . $id . '",
+						parent: "#dlm-reports-chart-",
 						title: "",
 						data: data,
 						type: "' . $this->chart_type . '",

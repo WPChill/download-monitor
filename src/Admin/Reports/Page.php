@@ -9,6 +9,10 @@ class DLM_Reports_Page {
 
 		// menu item
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 12 );
+
+		// setup Reports AJAX calls
+		$ajax = new DLM_Reports_Ajax();
+		$ajax->setup();
 	}
 
 	/**
@@ -152,12 +156,16 @@ class DLM_Reports_Page {
 	 */
 	public function view() {
 
+	    /*
+	     * We'll add more tabs / reports in future versions.
+	     *
 		$tabs = array(
 			'totals'       => __( 'Totals', 'download-monitor' ),
 			'per_download' => __( 'Per Download', 'download-monitor' ),
 		);
 
 		$current_tab = $this->get_current_tab();
+	    */
 
 		/** @var DLM_WordPress_Log_Item_Repository $repo */
 		$repo = download_monitor()->service( 'log_item_repository' );
@@ -184,6 +192,11 @@ class DLM_Reports_Page {
 				echo "</div>";
 				?></h1>
             <br/>
+            <?php
+            /*
+             * We'll add more tabs / reports in future versions.
+             *
+            ?>
             <h2 class="nav-tab-wrapper">
 				<?php
 				foreach ( $tabs as $tab_key => $tab ) {
@@ -191,6 +204,8 @@ class DLM_Reports_Page {
 				}
 				?>
             </h2>
+            */
+            ?>
 
 
 			<?php
@@ -198,11 +213,90 @@ class DLM_Reports_Page {
 			$chart->display();
 			?>
 
-            <div class="dlm-reports-table">
+            <div class="dlm-reports-block">
                 <ul>
                     <li><label>Total Downloads</label><span>88</span></li>
                     <li><label>Daily Average Downloads</label><span>5</span></li>
+                    <li><label>Most Popular Download</label><span>Sample PDF</span></li>
                 </ul>
+            </div>
+
+            <div class="dlm-reports-block dlm-reports-block-half">
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>Downloads</th>
+                        <th>%</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>United States</td>
+                        <td>1337</td>
+                        <td>48%</td>
+                    </tr>
+                    <tr>
+                        <td>The Netherlands</td>
+                        <td>888</td>
+                        <td>33%</td>
+                    </tr>
+                    <tr>
+                        <td>Greenland</td>
+                        <td>547</td>
+                        <td>27%</td>
+                    </tr>
+                    <tr>
+                        <td>Greenland</td>
+                        <td>547</td>
+                        <td>27%</td>
+                    </tr>
+                    <tr>
+                        <td>Greenland</td>
+                        <td>547</td>
+                        <td>27%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="dlm-reports-block dlm-reports-block-half-right">
+                <table cellspacing="0" cellpadding="0" border="0">
+                    <thead>
+                    <tr>
+                        <th>Browser</th>
+                        <th>Downloads</th>
+                        <th>%</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Chrome</td>
+                        <td>1337</td>
+                        <td>48%</td>
+                    </tr>
+                    <tr>
+                        <td>Firefox</td>
+                        <td>888</td>
+                        <td>33%</td>
+                    </tr>
+                    <tr>
+                        <td>Safari</td>
+                        <td>547</td>
+                        <td>27%</td>
+                    </tr>
+                    <tr>
+                        <td>Internet Explorer</td>
+                        <td>547</td>
+                        <td>27%</td>
+                    </tr>
+                    <tr>
+                        <td>Edge</td>
+                        <td>547</td>
+                        <td>27%</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
 
             <script type="text/javascript">

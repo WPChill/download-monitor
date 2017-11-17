@@ -50,6 +50,7 @@ return array(
     'DLM_Product_Error_Handler' => $baseDir . '/src/Product/ProductErrorHandler.php',
     'DLM_Product_License' => $baseDir . '/src/Product/ProductLicense.php',
     'DLM_Product_Manager' => $baseDir . '/src/Product/ProductManager.php',
+    'DLM_Reports_Ajax' => $baseDir . '/src/Admin/Reports/Ajax.php',
     'DLM_Reports_Chart' => $baseDir . '/src/Admin/Reports/Chart.php',
     'DLM_Reports_Page' => $baseDir . '/src/Admin/Reports/Page.php',
     'DLM_Services' => $baseDir . '/src/Services.php',
