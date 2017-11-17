@@ -257,6 +257,7 @@ class DLM_Admin {
 			'edit-dlm_download_tag',
 			'dlm_download_page_download-monitor-logs',
 			'dlm_download_page_download-monitor-settings',
+			'dlm_download_page_download-monitor-reports',
 			'dlm_download_page_dlm-extensions'
 		);
 
