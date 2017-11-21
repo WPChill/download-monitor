@@ -158,7 +158,8 @@ class DLM_Admin_Scripts {
 				break;
 			case 'reports':
 				$strings = array(
-					'dlm_ajax_nonce' => wp_create_nonce( 'dlm_reports_data' )
+					'ajax_nonce' => wp_create_nonce( 'dlm_reports_data' ),
+					'img_path'   => download_monitor()->get_plugin_url() . '/assets/images/',
 				);
 				break;
 			default:

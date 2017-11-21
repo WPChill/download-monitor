@@ -211,7 +211,7 @@ class DLM_Reports_Page {
 			?>
 
             <?php
-            echo '<div class="dlm-reports-block-chart" id="total_downloads"' . $this->generate_js_data() . '></div>';
+            echo '<div class="dlm-reports-block dlm-reports-block-chart" id="total_downloads"' . $this->generate_js_data() . '></div>';
             ?>
 
             <div class="dlm-reports-block">

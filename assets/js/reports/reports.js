@@ -7,6 +7,20 @@ jQuery( function ( $ ) {
 
 } );
 
+function DLM_createLoaderObj() {
+	var loaderObj = document.createElement( "div" );
+	loaderObj = jQuery( loaderObj );
+	loaderObj.addClass( 'dlm_reports_loader' );
+
+	var loaderImgObj = document.createElement( "img" );
+	loaderImgObj = jQuery( loaderImgObj );
+	loaderImgObj.attr( 'src', dlm_rs.img_path + 'ajax-loader.gif' );
+
+	loaderObj.append( loaderImgObj );
+
+	return loaderObj;
+}
+
 var DLM_Reports_Data_Fetch = function ( id, from, to, period, cb ) {
 	this.id = id;
 	this.cb = cb;
@@ -25,7 +39,7 @@ DLM_Reports_Data_Fetch.prototype.fetch = function () {
 	var period = this.period;
 	jQuery.get( ajaxurl, {
 		action: 'dlm_reports_data',
-		nonce: dlm_rs.dlm_ajax_nonce,
+		nonce: dlm_rs.ajax_nonce,
 		id: id,
 		from: from,
 		to: to,
@@ -52,6 +66,7 @@ var DLM_Reports_Block_Chart = function ( c ) {
 		this.to = jQuery( this.container ).data( 'to' );
 		this.from = jQuery( this.container ).data( 'from' );
 		this.period = jQuery( this.container ).data( 'period' );
+		this.displayLoader();
 		this.fetch();
 	};
 
@@ -59,10 +74,19 @@ var DLM_Reports_Block_Chart = function ( c ) {
 
 };
 
+DLM_Reports_Block_Chart.prototype.displayLoader = function () {
+	jQuery( this.container ).append( DLM_createLoaderObj() );
+};
+
+DLM_Reports_Block_Chart.prototype.hideLoader = function () {
+	jQuery( this.container ).find( '.dlm_reports_loader' ).remove();
+};
+
 DLM_Reports_Block_Chart.prototype.fetch = function () {
 	var instance = this;
 	new DLM_Reports_Data_Fetch( this.id, this.from, this.to, this.period, function ( response ) {
 		instance.data = response;
+		instance.hideLoader();
 		instance.render();
 	} );
 };
