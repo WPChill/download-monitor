@@ -5,8 +5,18 @@ jQuery( function ( $ ) {
 		new DLM_Reports_Block_Chart( v );
 	} );
 
+	$.each( $( '.dlm-reports-block-grouped' ), function ( k, v ) {
+		new DLM_Reports_Block_Grouped( v );
+	} );
+
 } );
 
+/**
+ * Creates a loader obj used in report blocks
+ *
+ * @returns {Element}
+ * @constructor
+ */
 function DLM_createLoaderObj() {
 	var loaderObj = document.createElement( "div" );
 	loaderObj = jQuery( loaderObj );
@@ -21,22 +31,48 @@ function DLM_createLoaderObj() {
 	return loaderObj;
 }
 
-var DLM_Reports_Data_Fetch = function ( id, from, to, period, cb ) {
-	this.id = id;
-	this.cb = cb;
-	this.period = period;
-	this.from = from;
-	this.to = to;
+/**
+ * DLM_Reports_Data
+ *
+ * @param el
+ * @constructor
+ */
+var DLM_Reports_Data = function ( el ) {
+	this.type = null;
+	this.from = null;
+	this.to = null;
+	this.period = null;
 
+	this.init = function ( el ) {
+		this.type = jQuery( el ).data( 'type' );
+		this.to = jQuery( el ).data( 'to' );
+		this.from = jQuery( el ).data( 'from' );
+		this.period = jQuery( el ).data( 'period' );
+	};
+	this.init( el );
+};
+
+/**
+ * DLM_Reports_Data_Fetch
+ *
+ * @param id
+ * @param data
+ * @param cb
+ * @constructor
+ */
+var DLM_Reports_Data_Fetch = function ( id, data, cb ) {
+	this.id = id;
+	this.data = data;
+	this.cb = cb;
 	this.fetch();
 };
 
 DLM_Reports_Data_Fetch.prototype.fetch = function () {
 	var id = this.id;
 	var cb = this.cb;
-	var from = this.from;
-	var to = this.to;
-	var period = this.period;
+	var from = this.data.from;
+	var to = this.data.to;
+	var period = this.data.period;
 	jQuery.get( ajaxurl, {
 		action: 'dlm_reports_data',
 		nonce: dlm_rs.ajax_nonce,
@@ -49,23 +85,25 @@ DLM_Reports_Data_Fetch.prototype.fetch = function () {
 	} );
 };
 
+/**
+ * DLM_Reports_Block_Chart
+ *
+ * @param c
+ * @constructor
+ */
 var DLM_Reports_Block_Chart = function ( c ) {
 
 	this.container = c;
 	this.id = null;
-	this.type = null;
-	this.from = null;
-	this.to = null;
-	this.period = null;
+
+	this.queryData = null;
+
 	this.data = null;
 	this.chart = null;
 
 	this.setup = function () {
 		this.id = jQuery( this.container ).attr( 'id' );
-		this.type = jQuery( this.container ).attr( 'type' );
-		this.to = jQuery( this.container ).data( 'to' );
-		this.from = jQuery( this.container ).data( 'from' );
-		this.period = jQuery( this.container ).data( 'period' );
+		this.queryData = new DLM_Reports_Data( this.container );
 		this.displayLoader();
 		this.fetch();
 	};
@@ -84,7 +122,7 @@ DLM_Reports_Block_Chart.prototype.hideLoader = function () {
 
 DLM_Reports_Block_Chart.prototype.fetch = function () {
 	var instance = this;
-	new DLM_Reports_Data_Fetch( this.id, this.from, this.to, this.period, function ( response ) {
+	new DLM_Reports_Data_Fetch( this.id, this.queryData, function ( response ) {
 		instance.data = response;
 		instance.hideLoader();
 		instance.render();
@@ -100,7 +138,7 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 		parent: this.container,
 		title: "",
 		data: this.data,
-		type: this.type,
+		type: this.queryData.type,
 		height: 250,
 		show_dots: 0,
 		x_axis_mode: "tick",
@@ -113,6 +151,64 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 		},
 		format_tooltip_y: function ( d ) {
 			return d + " downloads"
+		}
+	} );
+};
+
+/**
+ * DLM_Reports_Block_Grouped
+ *
+ * @param c
+ * @constructor
+ */
+var DLM_Reports_Block_Grouped = function ( c ) {
+
+	this.container = c;
+	this.id = null;
+
+	this.data = null;
+
+	this.data = null;
+	this.chart = null;
+
+	this.setup = function () {
+		this.id = jQuery( this.container ).attr( 'id' );
+		this.data = new DLM_Reports_Data( this.container );
+		this.displayLoader();
+		this.fetch();
+	};
+
+	this.setup();
+
+};
+
+DLM_Reports_Block_Grouped.prototype.displayLoader = function () {
+	jQuery( this.container ).append( DLM_createLoaderObj() );
+};
+
+DLM_Reports_Block_Grouped.prototype.hideLoader = function () {
+	jQuery( this.container ).find( '.dlm_reports_loader' ).remove();
+};
+
+DLM_Reports_Block_Grouped.prototype.fetch = function () {
+	var instance = this;
+	new DLM_Reports_Data_Fetch( this.id, this.data, function ( response ) {
+		instance.data = response;
+		instance.hideLoader();
+		instance.render();
+	} );
+};
+
+DLM_Reports_Block_Grouped.prototype.render = function () {
+	if ( this.data === null ) {
+		return;
+	}
+
+	var instance = this;
+
+	jQuery.each( this.data, function ( k, v ) {
+		if ( jQuery( instance.container ).find( '#' + k ) ) {
+			jQuery( instance.container ).find( '#' + k ).find( 'span:first' ).html( v );
 		}
 	} );
 };

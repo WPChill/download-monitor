@@ -17,7 +17,16 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		foreach ( $filters as $filter ) {
 			$operator = ( ! empty( $filter['operator'] ) ) ? esc_sql( $filter['operator'] ) : "=";
-			$where[]  = $wpdb->prepare( "AND `" . esc_sql( $filter['key'] ) . "` " . $operator . " '%s'", $filter['value'] );
+
+			if ( 'IN' == $operator && is_array( $filter['value'] ) ) {
+				array_walk( $filter['value'], 'esc_sql' );
+				$value_str = implode( "','", $filter['value'] );
+				$where[]   = "AND `" . esc_sql( $filter['key'] ) . "` " . $operator . " ('" . $value_str . "')";
+			} else {
+				$where[] = $wpdb->prepare( "AND `" . esc_sql( $filter['key'] ) . "` " . $operator . " '%s'", $filter['value'] );
+			}
+
+
 		}
 
 		$where_str = "";
@@ -49,11 +58,11 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 *
 	 * @return array
 	 */
-	public function retrieve_grouped_count( $filters = array(), $period="day" ) {
+	public function retrieve_grouped_count( $filters = array(), $period = "day" ) {
 		global $wpdb;
 
 		$format = "%Y-%m-%d";
-		if('month' === $period) {
+		if ( 'month' === $period ) {
 			$format = "%Y-%m";
 		}
 

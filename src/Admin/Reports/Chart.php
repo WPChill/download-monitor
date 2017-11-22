@@ -52,8 +52,6 @@ class DLM_Reports_Chart {
 		}
 
 		return $labels;
-
-//		return '["' . implode( '","', $labels ) . '"]';
 	}
 
 	/**
@@ -89,44 +87,6 @@ class DLM_Reports_Chart {
 		}
 
 		return array( 'title' => '', 'color' => 'blue', 'values' => $data_formatted );
-
-//		return '[ { title: "", color: "blue", values: [' . implode( ',', $data_formatted ) . ']}]';
 	}
-
-	/**
-	 * Display chart
-	 */
-	/*
-	public function display() {
-		?>
-        <div class="dlm-reports-block-chart" id="total_downloads" ></div>
-
-        <script type="text/javascript">
-			jQuery( document ).ready( function ( $ ) {
-				// Javascript
-				var data = {
-					labels: <?php echo $this->generate_labels(); ?>,
-					datasets: <?php echo $this->generate_chart_data(); ?>
-				};
-
-				<?php echo 'var chart = new Chart( {
-						parent: "#dlm-reports-chart-",
-						title: "",
-						data: data,
-						type: "' . $this->chart_type . '",
-						height: 250,
-						show_dots: 0,
-						x_axis_mode: "tick",
-						y_axis_mode: "span",
-						is_series: 1,
-						format_tooltip_x: d => (d + "").toUpperCase(),
-						format_tooltip_y: d => d + " downloads"
-						} );'; ?>
-			} );
-
-        </script>
-		<?php
-	}
-	*/
 
 }

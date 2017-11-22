@@ -210,15 +210,13 @@ class DLM_Reports_Page {
 //			$chart->display();
 			?>
 
-            <?php
-            echo '<div class="dlm-reports-block dlm-reports-block-chart" id="total_downloads"' . $this->generate_js_data() . '></div>';
-            ?>
+            <div class="dlm-reports-block dlm-reports-block-chart" id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></div>
 
-            <div class="dlm-reports-block">
+            <div class="dlm-reports-block dlm-reports-block-grouped" id="total_downloads_grouped"<?php echo $this->generate_js_data(); ?>>
                 <ul>
-                    <li><label>Total Downloads</label><span>88</span></li>
-                    <li><label>Daily Average Downloads</label><span>5</span></li>
-                    <li><label>Most Popular Download</label><span>Sample PDF</span></li>
+                    <li id="total"><label>Total Downloads</label><span>...</span></li>
+                    <li id="average"><label>Daily Average Downloads</label><span>...</span></li>
+                    <li id="popular"><label>Most Popular Download</label><span>...</span></li>
                 </ul>
             </div>
 
