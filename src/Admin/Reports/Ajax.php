@@ -26,20 +26,20 @@ class DLM_Reports_Ajax {
 		$period = ( ! empty( $_GET['period'] ) ) ? $_GET['period'] : 'day';
 
 		// setup date filter query
-		$filters = array(
+		$filters   = array(
 			array( "key" => "download_status", "value" => array( "completed", "redirected" ), "operator" => "IN" ),
 		);
 		$fromObj   = new DateTime( $from );
 		$toObj     = new DateTime( $to );
 		$filters[] = array(
 			'key'      => 'download_date',
-			'value'    => $fromObj->format( 'Y-m-d' ),
+			'value'    => $fromObj->format( 'Y-m-d 00:00:00' ),
 			'operator' => '>='
 		);
 
 		$filters[] = array(
 			'key'      => 'download_date',
-			'value'    => $toObj->format( 'Y-m-d' ),
+			'value'    => $toObj->format( 'Y-m-d 23:59:59' ),
 			'operator' => '<='
 		);
 
@@ -61,11 +61,63 @@ class DLM_Reports_Ajax {
 					$response['datasets'] = array( $chart->generate_chart_data() );
 
 					break;
-				case 'total_downloads_grouped':
+				case 'total_downloads_summary':
+
+					// fetch totals
 					$total = $repo->num_rows( $filters );
+
+					// calculate how many days are in this range
+					$interval = $fromObj->diff( $toObj );
+					$days     = absint( $interval->format( "%a" ) ) + 1;
+
+					// fetch download stats grouped by downloads
+					$popular_download = "n/a";
+					$data             = $repo->retrieve_grouped_count( $filters, $period, "download_id", 1, 0, "amount", "DESC" );
+					if ( ! empty( $data ) ) {
+						$d           = array_shift( $data );
+						$download_id = $d->value;
+						try {
+							/** @var DLM_Download $download */
+							$download         = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+							$popular_download = $download->get_title();
+						} catch ( Exception $e ) {
+
+						}
+					}
+
 					$response['total']   = $total;
-					$response['average'] = "8";
-					$response['popular'] = "Great PDF";
+					$response['average'] = round( ( $total / $days ), 2 );
+					$response['popular'] = $popular_download;
+					break;
+				case 'total_downloads_table':
+					$total = $repo->num_rows( $filters );
+
+					$data = $repo->retrieve_grouped_count( $filters, $period, "download_id", 0, 0, "amount", "DESC" );
+					if ( ! empty( $data ) ) {
+
+						/** @var DLM_Download_Repository $download_repo */
+						$download_repo = download_monitor()->service( 'download_repository' );
+
+						$response[] = array( "Download Title", "Times Downloaded", "%" );
+						foreach ( $data as $row ) {
+
+							$percentage = round( 100 * ( absint( $row->amount ) / absint( $total ) ), 2 );
+
+							try {
+
+								$download   = $download_repo->retrieve_single( $row->value );
+								$response[] = array( $download->get_title(), $row->amount, $percentage . "%" );
+
+							} catch ( Exception $e ) {
+								$response[] = array(
+									sprintf( "Download no longer exists (%d)", $row->value, $percentage . "%" ),
+									$row->amount
+								);
+							}
+
+
+						}
+					}
 					break;
 			}
 		}

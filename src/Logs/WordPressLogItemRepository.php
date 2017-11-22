@@ -55,18 +55,44 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 *
 	 * @param array $filters
 	 * @param string $period
+	 * @param string $grouped_by
+	 * @param int $limit
+	 * @param int $offset
+	 * @param string $order_by
+	 * @param string $order
 	 *
 	 * @return array
 	 */
-	public function retrieve_grouped_count( $filters = array(), $period = "day" ) {
+	public function retrieve_grouped_count( $filters = array(), $period = "day", $grouped_by = "date", $limit = 0, $offset = 0, $order_by = 'value', $order = 'DESC' ) {
 		global $wpdb;
 
-		$format = "%Y-%m-%d";
-		if ( 'month' === $period ) {
-			$format = "%Y-%m";
+		// escape grouped_by
+		$grouped_by = esc_sql( $grouped_by );
+
+		if ( "date" == $grouped_by ) {
+			$format = "%Y-%m-%d";
+			if ( 'month' === $period ) {
+				$format = "%Y-%m";
+			}
+
+			$grouped_by = "DATE_FORMAT(`download_date`, '" . $format . "')";
 		}
 
-		return $wpdb->get_results( "SELECT COUNT(`ID`) AS `amount`,  DATE_FORMAT(`download_date`, '" . $format . "') AS `date` FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . " GROUP BY `date` ORDER BY `date` ASC;" );
+		// escape order_by
+		$order_by = esc_sql( $order_by );
+
+		// order can only be ASC or DESC
+		$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
+
+		// setup limit & offset
+		$limit_str = "";
+		$limit     = absint( $limit );
+		$offset    = absint( $offset );
+		if ( $limit > 0 ) {
+			$limit_str = "LIMIT {$offset},{$limit}";
+		}
+
+		return $wpdb->get_results( "SELECT COUNT(`ID`) AS `amount`, " . $grouped_by . " AS `value` FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . " GROUP BY " . $grouped_by . " ORDER BY `" . $order_by . "` " . $order . " " . $limit_str . ";" );
 	}
 
 	/**

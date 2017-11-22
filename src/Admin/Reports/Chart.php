@@ -63,7 +63,7 @@ class DLM_Reports_Chart {
 
 		$data_map = array();
 		foreach ( $this->data as $data_row ) {
-			$data_map[ $data_row->date ] = $data_row->amount;
+			$data_map[ $data_row->value ] = $data_row->amount;
 		}
 
 		$range = $this->date_range;
