@@ -143,26 +143,26 @@ class DLM_Reports_Page {
 	}
 
 	private function generate_js_data() {
-	    $range = $this->get_date_range();
+		$range = $this->get_date_range();
 
 		return ' data-type="' . $this->get_current_chart() . '" data-period="' . $this->get_current_period() . '" data-from="' . $range['from'] . '" data-to="' . $range['to'] . '"';
-    }
+	}
 
 	/**
 	 * Display page
 	 */
 	public function view() {
 
-	    /*
-	     * We'll add more tabs / reports in future versions.
-	     *
+		/*
+		 * We'll add more tabs / reports in future versions.
+		 *
 		$tabs = array(
 			'totals'       => __( 'Totals', 'download-monitor' ),
 			'per_download' => __( 'Per Download', 'download-monitor' ),
 		);
 
 		$current_tab = $this->get_current_tab();
-	    */
+		*/
 
 		/** @var DLM_WordPress_Log_Item_Repository $repo */
 //		$repo = download_monitor()->service( 'log_item_repository' );
@@ -189,30 +189,26 @@ class DLM_Reports_Page {
 				echo "</div>";
 				?></h1>
             <br/>
-            <?php
-            /*
-             * We'll add more tabs / reports in future versions.
-             *
-            ?>
-            <h2 class="nav-tab-wrapper">
+			<?php
+			/*
+			 * We'll add more tabs / reports in future versions.
+			 *
+			?>
+			<h2 class="nav-tab-wrapper">
 				<?php
 				foreach ( $tabs as $tab_key => $tab ) {
 					echo "<a href='" . add_query_arg( array( 'tab' => $tab_key ), $this->get_url() ) . "' class='nav-tab" . ( ( $tab_key === $current_tab ) ? " nav-tab-active" : "" ) . "'>" . $tab . "</a>";
 				}
 				?>
-            </h2>
-            */
-            ?>
-
-
-			<?php
-//			$chart = new DLM_Reports_Chart( $data, $this->get_current_chart(), $this->get_date_range(), $this->get_current_period() );
-//			$chart->display();
+			</h2>
+			*/
 			?>
 
-            <div class="dlm-reports-block dlm-reports-block-chart" id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></div>
+            <div class="dlm-reports-block dlm-reports-block-chart"
+                 id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></div>
 
-            <div class="dlm-reports-block dlm-reports-block-summary" id="total_downloads_summary"<?php echo $this->generate_js_data(); ?>>
+            <div class="dlm-reports-block dlm-reports-block-summary"
+                 id="total_downloads_summary"<?php echo $this->generate_js_data(); ?>>
                 <ul>
                     <li id="total"><label>Total Downloads</label><span>...</span></li>
                     <li id="average"><label>Daily Average Downloads</label><span>...</span></li>
@@ -220,49 +216,12 @@ class DLM_Reports_Page {
                 </ul>
             </div>
 
-        <div class="dlm-reports-block dlm-reports-block-table" id="total_downloads_table"<?php echo $this->generate_js_data(); ?>>
-        </div>
-
-            <div class="dlm-reports-block dlm-reports-block-half">
-                <table cellspacing="0" cellpadding="0" border="0">
-                    <thead>
-                    <tr>
-                        <th>Country</th>
-                        <th>Downloads</th>
-                        <th>%</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>United States</td>
-                        <td>1337</td>
-                        <td>48%</td>
-                    </tr>
-                    <tr>
-                        <td>The Netherlands</td>
-                        <td>888</td>
-                        <td>33%</td>
-                    </tr>
-                    <tr>
-                        <td>Greenland</td>
-                        <td>547</td>
-                        <td>27%</td>
-                    </tr>
-                    <tr>
-                        <td>Greenland</td>
-                        <td>547</td>
-                        <td>27%</td>
-                    </tr>
-                    <tr>
-                        <td>Greenland</td>
-                        <td>547</td>
-                        <td>27%</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half"
+                 id="total_downloads_table"<?php echo $this->generate_js_data(); ?>>
             </div>
 
-            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half-right" id="total_downloads_browser_table"<?php echo $this->generate_js_data(); ?>>
+            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half-right"
+                 id="total_downloads_browser_table"<?php echo $this->generate_js_data(); ?>>
             </div>
 
             <script type="text/javascript">
