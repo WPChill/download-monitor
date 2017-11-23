@@ -262,43 +262,7 @@ class DLM_Reports_Page {
                 </table>
             </div>
 
-            <div class="dlm-reports-block dlm-reports-block-half-right">
-                <table cellspacing="0" cellpadding="0" border="0">
-                    <thead>
-                    <tr>
-                        <th>Browser</th>
-                        <th>Downloads</th>
-                        <th>%</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Chrome</td>
-                        <td>1337</td>
-                        <td>48%</td>
-                    </tr>
-                    <tr>
-                        <td>Firefox</td>
-                        <td>888</td>
-                        <td>33%</td>
-                    </tr>
-                    <tr>
-                        <td>Safari</td>
-                        <td>547</td>
-                        <td>27%</td>
-                    </tr>
-                    <tr>
-                        <td>Internet Explorer</td>
-                        <td>547</td>
-                        <td>27%</td>
-                    </tr>
-                    <tr>
-                        <td>Edge</td>
-                        <td>547</td>
-                        <td>27%</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half-right" id="total_downloads_browser_table"<?php echo $this->generate_js_data(); ?>>
             </div>
 
             <script type="text/javascript">

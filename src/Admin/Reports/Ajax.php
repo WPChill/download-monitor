@@ -119,6 +119,47 @@ class DLM_Reports_Ajax {
 						}
 					}
 					break;
+				case 'total_downloads_browser_table':
+
+					// get total
+					$total = $repo->num_rows( $filters );
+
+					// get data
+					$data = $repo->retrieve_grouped_count( $filters, $period, "user_agent", 0, 0, "amount", "DESC" );
+
+					// UA parser
+					$ua_parser = new UAParser();
+
+					// header row
+					$response[] = array( "Browser", "Downloaded", "%" );
+
+					// we need to parse raw UA data
+					$formatted_data = array();
+
+					if ( ! empty( $data ) ) {
+						foreach ( $data as $row ) {
+
+							$ua = $ua_parser->parse( $row->value );
+
+							if ( ! isset( $formatted_data[ $ua->ua->family ] ) ) {
+								$formatted_data[ $ua->ua->family ] = 0;
+							}
+
+							$formatted_data[ $ua->ua->family ] += $row->amount;
+
+						}
+					}
+
+					if ( ! empty( $formatted_data ) ) {
+
+						foreach ( $formatted_data as $ua => $amount ) {
+
+							$percentage = round( 100 * ( absint( $amount ) / absint( $total ) ), 2 );
+
+							$response[] = array( $ua, $amount, $percentage . "%" );
+						}
+					}
+					break;
 			}
 		}
 
