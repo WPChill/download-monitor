@@ -1,5 +1,6 @@
 /nbproject/private/
 /node_modules/
+/assets/js/legacy-upgrader/node_modules/
 project.xml
 project.properties
 *.DS_Store

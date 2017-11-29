@@ -106,6 +106,11 @@ class WP_DLM {
 			// Upgrade Manager
 			$upgrade_manager = new DLM_Upgrade_Manager();
 			$upgrade_manager->setup();
+
+			// Legacy Upgrader
+			// @TODO Check if we can only include when legacy upgrade needed
+			$lu_page = new DLM_LU_Page();
+			$lu_page->setup();
 		}
 
 		// Setup AJAX handler if doing AJAX

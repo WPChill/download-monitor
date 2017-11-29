@@ -39,6 +39,7 @@ return array(
     'DLM_Hasher' => $baseDir . '/src/Hasher.php',
     'DLM_Installer' => $baseDir . '/src/Installer.php',
     'DLM_Integrations_YoastSEO' => $baseDir . '/src/Integrations/YoastSEO.php',
+    'DLM_LU_Page' => $baseDir . '/src/LegacyUpgrader/Page.php',
     'DLM_Log_Export_CSV' => $baseDir . '/src/Logs/LogExportCSV.php',
     'DLM_Log_Item' => $baseDir . '/src/Logs/LogItem.php',
     'DLM_Log_Item_Repository' => $baseDir . '/src/Logs/LogItemRepository.php',

@@ -133,6 +133,20 @@ class DLM_Admin_Scripts {
 
 		}
 
+		if ( 'options.php' == $pagenow && isset( $_GET['page'] ) && 'dlm_legacy_upgrade' === $_GET['page'] ) {
+
+			// Enqueue Settings JS
+			wp_enqueue_script(
+				'dlm_legacy_upgrader',
+				plugins_url( '/assets/js/legacy-upgrader/build/bundle.js', $dlm->get_plugin_file() ),
+				array(),
+				DLM_VERSION
+			);
+
+			//wp_localize_script( 'dlm_legacy_upgrader', 'dlm__vars', array() );
+
+		}
+
 
 	}
 
