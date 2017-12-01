@@ -1,11 +1,19 @@
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
 
-import Header from './header';
-import Home from './home';
-import Profile from './profile';
+import Welcome from './welcome';
+import Queue from './queue';
 
 export default class App extends Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			queue: []
+		};
+	}
+
 	/** Gets fired when the route changes.
 	 *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
 	 *	@param {string} event.url	The newly routed URL
@@ -17,12 +25,11 @@ export default class App extends Component {
 	render() {
 		return (
 			<div id="dlm_legacy_upgrader_app">
-				<Header />
 				<Router onChange={this.handleRoute}>
-					<Home path="/" />
-					<Profile path="/profile/" user="me" />
-					<Profile path="/profile/:user" />
+					<Welcome path="" />
+					<Queue path="/queue" />
 				</Router>
+
 			</div>
 		);
 	}

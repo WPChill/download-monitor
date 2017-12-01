@@ -111,6 +111,9 @@ class WP_DLM {
 			// @TODO Check if we can only include when legacy upgrade needed
 			$lu_page = new DLM_LU_Page();
 			$lu_page->setup();
+
+			$lu_ajax = new DLM_LU_Ajax();
+			$lu_ajax->setup();
 		}
 
 		// Setup AJAX handler if doing AJAX

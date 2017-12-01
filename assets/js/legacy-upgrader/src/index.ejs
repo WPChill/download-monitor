@@ -8,9 +8,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title> &lsaquo; Download Monitor &#8212; WordPress</title>
+
 <script type="text/javascript">
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
-var ajaxurl = '/download-monitor/wp-admin/admin-ajax.php',
+var ajaxurl = 'http://lnmp.dev/download-monitor/wp-admin/admin-ajax.php',
 	pagenow = 'admin_page_dlm_legacy_upgrade',
 	typenow = '',
 	adminpage = 'admin_page_dlm_legacy_upgrade',
@@ -18,6 +19,7 @@ var ajaxurl = '/download-monitor/wp-admin/admin-ajax.php',
 	decimalPoint = '.',
 	isRtl = 0;
 </script>
+
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <link rel='dns-prefetch' href='//s.w.org' />
 <style type="text/css">
@@ -399,78 +401,8 @@ var dlm_id_strings = {"insert_download":"Insert Download"};
 	</div>
 	</div>
 	</div>
-	<script type='text/javascript' src='http://lnmp.dev/download-monitor/wp-includes/js/hoverIntent.js?ver=1.8.1'></script>
-<script type='text/javascript'>
-/* <![CDATA[ */
-var commonL10n = {"warnDelete":"You are about to permanently delete these items from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete.","dismiss":"Dismiss this notice.","collapseMenu":"Collapse Main menu","expandMenu":"Expand Main menu"};
-/* ]]> */
-</script>
-<script type='text/javascript' src='http://lnmp.dev/download-monitor/wp-admin/js/common.js?ver=4.9'></script>
-<script type='text/javascript' src='http://lnmp.dev/download-monitor/wp-includes/js/admin-bar.js?ver=4.9'></script>
-<script type='text/javascript' src='http://lnmp.dev/download-monitor/wp-admin/js/svg-painter.js?ver=4.9'></script>
-<script type='text/javascript'>
-/* <![CDATA[ */
-var heartbeatSettings = {"nonce":"b147819090"};
-/* ]]> */
-</script>
-<script type='text/javascript' src='http://lnmp.dev/download-monitor/wp-includes/js/heartbeat.js?ver=4.9'></script>
-<script type='text/javascript'>
-/* <![CDATA[ */
-var authcheckL10n = {"beforeunload":"Your session has expired. You can log in again from this page or go to the login page.","interval":"180"};
-/* ]]> */
-</script>
-<script type='text/javascript' src='http://lnmp.dev/download-monitor/wp-includes/js/wp-auth-check.js?ver=4.9'></script>
-	<script type="text/javascript">
-	var compressionNonce = "9ee8137278";
-	var testCompression = {
-		get : function(test) {
-			var x;
-			if ( window.XMLHttpRequest ) {
-				x = new XMLHttpRequest();
-			} else {
-				try{x=new ActiveXObject('Msxml2.XMLHTTP');}catch(e){try{x=new ActiveXObject('Microsoft.XMLHTTP');}catch(e){};}
-			}
 
-			if (x) {
-				x.onreadystatechange = function() {
-					var r, h;
-					if ( x.readyState == 4 ) {
-						r = x.responseText.substr(0, 18);
-						h = x.getResponseHeader('Content-Encoding');
-						testCompression.check(r, h, test);
-					}
-				};
-
-				x.open('GET', ajaxurl + '?action=wp-compression-test&test='+test+'&_ajax_nonce='+compressionNonce+'&'+(new Date()).getTime(), true);
-				x.send('');
-			}
-		},
-
-		check : function(r, h, test) {
-			if ( ! r && ! test )
-				this.get(1);
-
-			if ( 1 == test ) {
-				if ( h && ( h.match(/deflate/i) || h.match(/gzip/i) ) )
-					this.get('no');
-				else
-					this.get(2);
-
-				return;
-			}
-
-			if ( 2 == test ) {
-				if ( '"wpCompressionTest' == r )
-					this.get('yes');
-				else
-					this.get('no');
-			}
-		}
-	};
-	testCompression.check();
-	</script>
 
 <div class="clear"></div></div><!-- wpwrap -->
-<script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
 </body>
 </html>

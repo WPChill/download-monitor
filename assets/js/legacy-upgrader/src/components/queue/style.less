@@ -1,0 +1,28 @@
+@import '~style/helpers';
+
+.queue {
+
+  ul {
+    padding: 10px 0;
+
+    li {
+      &:before {
+        .iconbefore("\f147");
+        font-size: 1.5em;
+      }
+
+      &.todo {
+        &:before {
+          color: black;
+        }
+      }
+
+      &.done {
+        &:before {
+          color: green;
+        }
+      }
+    }
+
+  }
+}

@@ -172,8 +172,9 @@ module.exports = {
 	devtool: ENV==='production' ? 'source-map' : 'cheap-module-eval-source-map',
 
 	devServer: {
+		inline: true,
 		port: 1337,
-		host: '0.0.0.0',
+		host: 'lnmp.dev',
 		publicPath: '/',
 		contentBase: './src',
 		historyApiFallback: true,
