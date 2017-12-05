@@ -1,6 +1,7 @@
 import {h, Component} from 'preact';
 import style from './style.less';
 import QueueItem from './QueueItem';
+import { route } from 'preact-router';
 
 export default class Queue extends Component {
 
@@ -14,11 +15,12 @@ export default class Queue extends Component {
 		super(props);
 
 		this.startUpgrade = this.startUpgrade.bind(this);
+		this.upgradeNext = this.upgradeNext.bind(this);
+		this.upgradeItem = this.upgradeItem.bind(this);
 	}
 
 	// gets called when this route is navigated to
 	componentDidMount() {
-
 		fetch( ajaxurl + "?action=dlm_lu_get_queue", {
 			method: 'GET',
 			credentials: 'include'
@@ -46,13 +48,55 @@ export default class Queue extends Component {
 		// todo clear queue
 	}
 
+	upgradeNext() {
+		var upgradeDone = true;
+		for( var i = 0; i < this.state.items.length; i++ ) {
+			if( this.state.items[i].done === false ) {
+				upgradeDone = false;
+				this.upgradeItem( this.state.items[i] );
+				break;
+			}
+		}
+
+		if( upgradeDone ) {
+			route( "/done/"+this.state.items.length, true );
+		}
+	}
+
+	upgradeItem( item ) {
+		fetch( ajaxurl + "?action=dlm_lu_upgrade_download&download_id="+item.id, {
+			method: 'GET',
+			credentials: 'include'
+		} ).then( ( r ) => {
+			if ( r.status == 200 ) {
+				return r.json();
+			}
+
+			throw "AJAX API OFFLINE";
+		} ).then( ( j ) => {
+			console.log( j );
+			item.done = true;
+			this.forceUpdate();
+			this.upgradeNext();
+			return;
+		} ).catch( ( e ) => {
+			console.log( e );
+			return;
+		} );
+	}
+
 	startUpgrade() {
-		if(this.state.upgrading) {
+		// check if we're upgrading
+		if( this.state.upgrading ) {
 			console.log("already upgrading");
 			return;
 		}
-		this.setState({upgrading: true});
-		console.log("starting upgrade");
+
+		// set we're upgrading
+		this.setState( {upgrading: true} );
+
+		// upgrade next download
+		this.upgradeNext();
 	}
 
 	render() {
@@ -68,13 +112,18 @@ export default class Queue extends Component {
 
 		if ( this.state.items.length == 0 ) {
 			return (
-				<p>No Downloads found that require migrating</p>
+				<p>No Downloads found that require upgrading</p>
 			);
 		}
 
 		return (
 			<div class={style.queue}>
 				<h2>Queue</h2>
+
+				{this.state.upgrading &&
+					<p class={style.upgrading_notice}>Currently upgrading your downloads, please wait...</p>
+				}
+
 				<p>The following legacy download ID's have been found that need upgrading:</p>
 
 				{this.state.items.length > 0 &&

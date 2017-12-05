@@ -3,6 +3,7 @@ import { Router } from 'preact-router';
 
 import Welcome from './welcome';
 import Queue from './queue';
+import Done from './done';
 
 export default class App extends Component {
 
@@ -28,6 +29,7 @@ export default class App extends Component {
 				<Router onChange={this.handleRoute}>
 					<Welcome path="" />
 					<Queue path="/queue" />
+					<Done path="/done/:amount" />
 				</Router>
 
 			</div>
