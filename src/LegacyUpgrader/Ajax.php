@@ -15,6 +15,8 @@ class DLM_LU_Ajax {
 	 */
 	public function handle_get_queue() {
 
+		// @TODO add nonce check
+
 		// queue object
 		$queue = new DLM_LU_Queue();
 
@@ -33,7 +35,19 @@ class DLM_LU_Ajax {
 	 */
 	public function handle_upgrade_download() {
 
-		wp_send_json( array( 'testing' => 1 ) );
+		// @TODO add nonce check
+
+		// get download id
+		$download_id = absint( $_GET['download_id'] );
+
+		// upgrade download
+		$upgrader = new DLM_LU_Upgrader();
+
+		if( $upgrader->upgrade_download( $download_id ) ){
+			wp_send_json( array( 'success' => true ) );
+		}else {
+			wp_send_json( array( 'success' => false ) );
+		}
 
 		// alaaf
 		exit;

@@ -42,6 +42,7 @@ return array(
     'DLM_LU_Ajax' => $baseDir . '/src/LegacyUpgrader/Ajax.php',
     'DLM_LU_Page' => $baseDir . '/src/LegacyUpgrader/Page.php',
     'DLM_LU_Queue' => $baseDir . '/src/LegacyUpgrader/Queue.php',
+    'DLM_LU_Upgrader' => $baseDir . '/src/LegacyUpgrader/Upgrader.php',
     'DLM_Log_Export_CSV' => $baseDir . '/src/Logs/LogExportCSV.php',
     'DLM_Log_Item' => $baseDir . '/src/Logs/LogItem.php',
     'DLM_Log_Item_Repository' => $baseDir . '/src/Logs/LogItemRepository.php',

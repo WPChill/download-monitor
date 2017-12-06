@@ -9,7 +9,7 @@ class DLM_LU_Queue {
 	 *
 	 * @return array
 	 */
-	private function get_legacy_tables() {
+	public function get_legacy_tables() {
 		global $wpdb;
 
 		return array(
@@ -96,7 +96,11 @@ class DLM_LU_Queue {
 	 * @return bool
 	 */
 	public function mark_download_upgrading( $legacy_id ) {
-		return true;
+		global $wpdb;
+
+		$res = $wpdb->query( $wpdb->prepare( "UPDATE `" . $this->get_queue_table() . "` SET `processing` = NOW() WHERE `legacy_id` = %d ;", $legacy_id ) );
+
+		return ( false === $res );
 	}
 
 	/**
@@ -108,7 +112,11 @@ class DLM_LU_Queue {
 	 * @return bool
 	 */
 	public function mark_download_upgraded( $legacy_id, $new_id ) {
-		return true;
+		global $wpdb;
+
+		$res = $wpdb->query( $wpdb->prepare( "UPDATE `" . $this->get_queue_table() . "` SET `done` = NOW(), `new_id` = %d WHERE `legacy_id` = %d ;", $new_id, $legacy_id ) );
+
+		return ( false === $res );
 	}
 
 }
