@@ -234,7 +234,7 @@ class DLM_LU_Upgrader {
 		// set download options
 		$download->set_featured( false ); // there was no featured in legacy
 		$download->set_redirect_only( false ); // there was no redirect only in legacy
-		$download->set_members_only( ( 0 === absint( $legacy_download->members ) ) );
+		$download->set_members_only( ( 1 === absint( $legacy_download->members ) ) );
 
 		// set download count
 		$download->set_download_count( absint( $legacy_download->hits ) );
@@ -251,6 +251,9 @@ class DLM_LU_Upgrader {
 
 		// set version name on version
 		$version->set_version( $legacy_download->dlversion );
+
+		// set download count in version
+		$version->set_download_count( absint( $legacy_download->hits ) );
 
 		// set mirrors
 		$urls = array();
