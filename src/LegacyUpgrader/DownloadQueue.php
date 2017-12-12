@@ -1,27 +1,8 @@
 <?php
 
-class DLM_LU_Queue {
+class DLM_LU_Download_Queue {
 
-	const TABLE = 'legacy_upgrade_queue';
-
-	/**
-	 * Get legacy tables
-	 *
-	 * @return array
-	 */
-	public function get_legacy_tables() {
-		global $wpdb;
-
-		return array(
-			'files'   => $wpdb->prefix . "download_monitor_files",
-			'tax'     => $wpdb->prefix . "download_monitor_taxonomies",
-			'rel'     => $wpdb->prefix . "download_monitor_relationships",
-			'formats' => $wpdb->prefix . "download_monitor_formats",
-			'stats'   => $wpdb->prefix . "download_monitor_stats",
-			'log'     => $wpdb->prefix . "download_monitor_log",
-			'meta'    => $wpdb->prefix . "download_monitor_file_meta"
-		);
-	}
+	const TABLE = 'legacy_upgrade_queue_downloads';
 
 	/**
 	 * Get the queue table
@@ -61,7 +42,8 @@ class DLM_LU_Queue {
 		$this->create_table_if_not_exists();
 
 		// legacy tables we're fetching from
-		$legacy_tables = $this->get_legacy_tables();
+		$upgrader      = new DLM_LU_Download_Upgrader();
+		$legacy_tables = $upgrader->get_legacy_tables();
 
 		// fetch legacy downloads that aren't in our queue
 		$legacy_downloads = $wpdb->get_results( "SELECT F.`ID` FROM `{$legacy_tables['files']}` F LEFT JOIN `" . $this->get_queue_table() . "` Q ON F.ID=Q.legacy_id WHERE Q.legacy_id IS NULL ;" );

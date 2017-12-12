@@ -2,7 +2,8 @@ import { h, Component } from 'preact';
 import { Router } from 'preact-router';
 
 import Welcome from './welcome';
-import Queue from './queue';
+import Downloads from './downloads';
+import Content from './content';
 import Done from './done';
 
 export default class App extends Component {
@@ -28,8 +29,9 @@ export default class App extends Component {
 			<div id="dlm_legacy_upgrader_app">
 				<Router onChange={this.handleRoute}>
 					<Welcome path="" />
-					<Queue path="/queue" />
-					<Done path="/done/:amount" />
+					<Downloads path="/downloads" />
+					<Content path="/content/:download_amount" />
+					<Done path="/done/:download_amount/:content_amount" />
 				</Router>
 
 			</div>

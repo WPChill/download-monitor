@@ -1,6 +1,25 @@
 <?php
 
-class DLM_LU_Upgrader {
+class DLM_LU_Download_Upgrader {
+
+	/**
+	 * Get legacy tables
+	 *
+	 * @return array
+	 */
+	public function get_legacy_tables() {
+		global $wpdb;
+
+		return array(
+			'files'   => $wpdb->prefix . "download_monitor_files",
+			'tax'     => $wpdb->prefix . "download_monitor_taxonomies",
+			'rel'     => $wpdb->prefix . "download_monitor_relationships",
+			'formats' => $wpdb->prefix . "download_monitor_formats",
+			'stats'   => $wpdb->prefix . "download_monitor_stats",
+			'log'     => $wpdb->prefix . "download_monitor_log",
+			'meta'    => $wpdb->prefix . "download_monitor_file_meta"
+		);
+	}
 
 	/**
 	 * Add terms to download
@@ -203,9 +222,9 @@ class DLM_LU_Upgrader {
 	public function upgrade_download( $download_id ) {
 		global $wpdb;
 
-		$queue = new DLM_LU_Queue();
+		$queue = new DLM_LU_Download_Queue();
 
-		$legacy_tables = $queue->get_legacy_tables();
+		$legacy_tables = $this->get_legacy_tables();
 
 		// mark download upgrading
 		$queue->mark_download_upgrading( $download_id );

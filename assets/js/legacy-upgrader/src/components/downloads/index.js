@@ -3,7 +3,7 @@ import style from './style.less';
 import QueueItem from './QueueItem';
 import { route } from 'preact-router';
 
-export default class Queue extends Component {
+export default class Downloads extends Component {
 
 	state = {
 		checked: false,
@@ -21,7 +21,7 @@ export default class Queue extends Component {
 
 	// gets called when this route is navigated to
 	componentDidMount() {
-		fetch( ajaxurl + "?action=dlm_lu_get_queue", {
+		fetch( ajaxurl + "?action=dlm_lu_get_download_queue", {
 			method: 'GET',
 			credentials: 'include'
 		} ).then( ( r ) => {
@@ -59,7 +59,7 @@ export default class Queue extends Component {
 		}
 
 		if( upgradeDone ) {
-			route( "/done/"+this.state.items.length, true );
+			route( "/content/"+this.state.items.length, true );
 		}
 	}
 
@@ -88,7 +88,6 @@ export default class Queue extends Component {
 	startUpgrade() {
 		// check if we're upgrading
 		if( this.state.upgrading ) {
-			console.log("already upgrading");
 			return;
 		}
 
@@ -104,7 +103,7 @@ export default class Queue extends Component {
 		if ( this.state.checked == false ) {
 			return (
 				<div class={style.queue}>
-					<h2>Queue</h2>
+					<h2>Downloads Queue</h2>
 					<p>We're currently building the queue, please wait.</p>
 				</div>
 			);
@@ -112,13 +111,17 @@ export default class Queue extends Component {
 
 		if ( this.state.items.length == 0 ) {
 			return (
-				<p>No Downloads found that require upgrading</p>
+				<div class={style.queue}>
+					<h2>Downloads Queue</h2>
+					<p>No Downloads found that require upgrading</p>
+					<a href="/content/0" class="button button-primary button-large">Continue to Post/Page upgrade</a>
+				</div>
 			);
 		}
 
 		return (
 			<div class={style.queue}>
-				<h2>Queue</h2>
+				<h2>Downloads Queue</h2>
 
 				{this.state.upgrading &&
 					<p class={style.upgrading_notice}>Currently upgrading your downloads, please wait...</p>
