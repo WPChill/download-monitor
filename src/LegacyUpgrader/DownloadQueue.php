@@ -31,6 +31,21 @@ class DLM_LU_Download_Queue {
 	}
 
 	/**
+	 * Get new ID of legacy ID
+	 *
+	 * @param $legacy_id
+	 *
+	 * @return int
+	 */
+	public function get_new_id( $legacy_id ) {
+		global $wpdb;
+
+		$legacy_id = absint( $legacy_id );
+
+		return absint( $wpdb->get_var( $wpdb->prepare( "SELECT `new_id` FROM `" . $this->get_queue_table() . "` WHERE `legacy_id` = %d ", $legacy_id ) ) );
+	}
+
+	/**
 	 * Build queue of downloads that need upgrading
 	 *
 	 * @return bool
