@@ -143,6 +143,8 @@ class DLM_Admin_Scripts {
 				DLM_VERSION
 			);
 
+			wp_enqueue_style( 'dlm_legacy_upgrader_css', download_monitor()->get_plugin_url() . '/assets/js/legacy-upgrader/build/style.css' );
+
 			//wp_localize_script( 'dlm_legacy_upgrader', 'dlm__vars', array() );
 
 		}

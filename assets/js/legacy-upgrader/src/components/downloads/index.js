@@ -1,7 +1,7 @@
 import {h, Component} from 'preact';
 import style from './style.less';
 import QueueItem from './QueueItem';
-import { route } from 'preact-router';
+import { Link } from 'react-router-dom';
 
 export default class Downloads extends Component {
 
@@ -59,7 +59,7 @@ export default class Downloads extends Component {
 		}
 
 		if( upgradeDone ) {
-			route( "/content/"+this.state.items.length, true );
+			window.location.hash = "/content/"+this.state.items.length;
 		}
 	}
 
@@ -114,7 +114,7 @@ export default class Downloads extends Component {
 				<div class={style.queue}>
 					<h2>Downloads Queue</h2>
 					<p>No Downloads found that require upgrading</p>
-					<a href="/content/0" class="button button-primary button-large">Continue to Post/Page upgrade</a>
+					<Link to="/content/0" class="button button-primary button-large">Continue to Post/Page upgrade</Link>
 				</div>
 			);
 		}

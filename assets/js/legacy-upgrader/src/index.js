@@ -4,7 +4,7 @@ import { h, render } from 'preact';
 import './style';
 
 let root;
-function init() {
+function DLM_LU_init() {
 	let App = require('./components/app').default;
 	root = render(<App />, document.getElementById("dlm-legacy-upgrade-container"), root);
 }
@@ -16,5 +16,5 @@ if (module.hot) {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-	init();
+	DLM_LU_init();
 });

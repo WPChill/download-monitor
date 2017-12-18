@@ -1,7 +1,6 @@
 import {h, Component} from 'preact';
 import style from './style.less';
 import QueueItem from './QueueItem';
-import { route } from 'preact-router';
 
 export default class Content extends Component {
 
@@ -59,7 +58,7 @@ export default class Content extends Component {
 		}
 
 		if( upgradeDone ) {
-			route( "/done/"+this.props.download_amount+"/"+this.state.items.length, true );
+			window.location.hash = "/done/"+this.props.download_amount+"/"+this.state.items.length;
 		}
 	}
 
@@ -98,13 +97,13 @@ export default class Content extends Component {
 		this.upgradeNext();
 	}
 
-	render( {download_amount} ) {
+	render() {
 
 		if ( this.state.checked == false ) {
 			return (
 				<div class={style.queue}>
 					<h2>Posts/Pages Queue</h2>
-					<p><strong>{download_amount}</strong> downloads have been upgraded.</p>
+					<p><strong>{this.props.download_amount}</strong> downloads have been upgraded.</p>
 					<p>We're currently building the posts/pages queue, please wait.</p>
 				</div>
 			);
@@ -113,7 +112,7 @@ export default class Content extends Component {
 		if ( this.state.items.length == 0 ) {
 			return (
 				<div class={style.queue}>
-					<p><strong>{download_amount}</strong> downloads have been upgraded.</p>
+					<p><strong>{this.props.download_amount}</strong> downloads have been upgraded.</p>
 					<p>No posts/pages found that require upgrading.</p>
 			</div>
 			);
