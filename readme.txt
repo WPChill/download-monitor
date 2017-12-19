@@ -3,8 +3,8 @@ Contributors: never5, barrykooij, mikejolley, hchouhan
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.7.4
-Stable tag: 1.9.7
+Tested up to: 4.9
+Stable tag: 1.9.9
 License: GPLv3
 Text Domain: -
 
@@ -118,6 +118,48 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. Display regular download links or fancy ones all using shortcodes and templates.
 
 == Changelog ==
+
+= 4.0.0: November X, 2017 =
+* Feature: Added reports page for download statistics.
+* Feature: Added hash values to version blocks.
+* Feature: Added SHA256 hash.
+* Feature: Added support for regex patterns in user agent blacklist, props [Matt Mower](https://github.com/mdmower).
+* Feature: Added user filter to logs, props [neptuneweb](https://github.com/neptuneweb).
+* Feature: Log columns in log table are now sortable.
+* Feature: Added an option for the user to remove all transients.
+* Feature: Added the ability to exclude tags from the [downloads] shortcode.
+* Feature: Added search option in "Insert Download" overlay.
+* Feature: Added builtin legacy upgrade tool.
+* Tweak: Added 'dlm_file_path' filter to filter file_path in download request.
+* Tweak: We're now only serving downloads when requested over the GET or POST HTTP method. This can be filtered via filter dlm_accepted_request_methods.
+* Tweak: Added Download Title to download log CSV export file.
+* Tweak: Added 'dlm_shortcode_total_downloads' filter to output of [total_downloads] shortcode, props [Joel James](https://github.com/Joel-James).
+* Tweak: Added support for Apache 2.4 and up in generated .htaccess file.
+* Tweak: Added 'dlm_download_use_version_transient' filter to allow website to not use cache transients.
+* Tweak: Downloads need to be published in order to exist, draft downloads can no longer be downloaded.
+* Tweak: Fixed plugin links on plugin overview page.
+* Tweak: Optimization rewrite of DLM_Download class.
+* Tweak: Optimization rewrite of DLM_Download_Version class.
+* Tweak: Introduction of Factory and Repository design patterns for Downloads and Versions.
+* Tweak: Complete rewrite of setting fields.
+* Tweak: Updated template files to use new download methods.
+* Tweak: Introduced new filter "dlm_setting_field_TYPE", allowing third party programs to add custom field types to settings.
+* Tweak: Implemented Composer autoloader.
+* Tweak: Download Categories and Download Tags label name now contains 'Download'.
+* Tweak: Download Widget now uses default template output set in settings when no output template is set.
+* Tweak: Download Widget CSS tweaks.
+* Tweak: Download category and download tags are now excluded from Yoast SEO sitemap.
+* Tweak: 'Delete Logs' button now requires a confirmation.
+* Tweak: Placeholders for download thumbnails in media library list view are now also properly replaced.
+
+= 1.9.9: October 18, 2017 =
+* Tweak: Fixed an issue with 'No Access' page not saving correctly.
+
+= 1.9.8: October 6, 2017 =
+* Tweak: Add option to allow HTTP header X_FORWARD_FOR. Allowing Download Monitor to use the X_FORWARDED_FOR HTTP header set by proxies as the IP address.
+* Tweak: Download files that are added via 'Quick-add download' are now properly added to WP media library.
+* Tweak: Introduced 'lazy select' option for Download Monitor settings. Options of these select elements are only loaded on setting pages, increasing overall plugin performance.
+* Tweak: We're now filtering attachment thumbnails in media library for files in dlm_uploads. This solves 403 errors on thumbnails in the protected folder.
 
 = 1.9.7: May 5, 2017 =
 * Tweak: Added capability checks to log export and delete functionality. Props [Pritect](http://www.pritect.net/).

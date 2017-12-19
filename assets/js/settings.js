@@ -5,11 +5,13 @@ jQuery( function ( $ ) {
 			return false;
 		}
 
+		var tabID = $( elm ).attr( 'href' ).replace( dlm_settings_vars.settings_url, "" );
+
 		$( '.settings_panel' ).hide();
 		$( '.nav-tab-active' ).removeClass( 'nav-tab-active' );
-		$( $( elm ).attr( 'href' ) ).show();
+		$( tabID ).show();
 		$( elm ).addClass( 'nav-tab-active' );
-		$( '#setting-dlm_settings_tab_saved' ).val( $( elm ).attr( 'href' ).replace( "#settings-", "" ) );
+		$( '#setting-dlm_settings_tab_saved' ).val( tabID.replace( "#settings-", "" ) );
 		return true;
 	}
 
@@ -48,13 +50,55 @@ jQuery( function ( $ ) {
 	} );
 
 	$( document ).ready( function () {
+
 		// dlm_last_settings_tab is only set when settings are saved and the page is reloaded
 		if ( typeof dlm_settings_tab_saved !== 'undefined' ) {
-			var elm = $( '.nav-tab-wrapper a[href="#settings-' + dlm_settings_tab_saved + '"]' );
+			var elm = $( '.nav-tab-wrapper a[href="' + dlm_settings_vars.settings_url + '#settings-' + dlm_settings_tab_saved + '"]' );
 			if ( typeof elm !== 'undefined' ) {
 				dlm_set_active_tab( elm );
 			}
 		}
+
+		// load lazy-select elements
+		$.each( $( '.dlm-lazy-select' ), function () {
+
+			var lazy_select_el = $( this );
+
+			// add AJAX loader
+			$( '<span>' ).addClass( 'dlm-lazy-select-loader' ).append(
+				$( '<img>' ).attr( 'src', dlm_settings_vars.img_path + 'ajax-loader.gif' )
+			).insertAfter( lazy_select_el );
+
+			// load data
+			$.post( ajaxurl, {
+				action: 'dlm_settings_lazy_select',
+				nonce: dlm_settings_vars.lazy_select_nonce,
+				option: lazy_select_el.attr( 'name' )
+			}, function ( response ) {
+
+				// remove current option(s)
+				lazy_select_el.find( 'option' ).remove();
+
+				// set new options
+				if ( response ) {
+					var selected = lazy_select_el.data( 'selected' );
+					for ( var i = 0; i < response.length; i ++ ) {
+						var opt = $( '<option>' ).attr( 'value', response[i].key ).html( response[i].lbl );
+						if ( selected === response[i].key ) {
+							opt.attr( 'selected', 'selected' );
+						}
+						lazy_select_el.append( opt );
+					}
+				}
+
+				// remove ajax loader
+				lazy_select_el.parent().find( '.dlm-lazy-select-loader' ).remove();
+
+			} );
+
+
+		} );
+
 	} );
 
 } );

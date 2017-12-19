@@ -1,5 +1,7 @@
 /nbproject/private/
 /node_modules/
+/assets/js/legacy-upgrader/node_modules/
+/assets/js/legacy-upgrader/build/index.html
 project.xml
 project.properties
 *.DS_Store
@@ -9,6 +11,15 @@ Thumbs.db
 .settings*
 sftp-config.json
 /deploy/
+.idea
+/tmp/
+
+# Exclude everything in /vendor except our autoload stuff
+vendor/*
+!vendor/composer
+!vendor/autoload_52.php
+vendor/composer/installers
+vendor/composer/installed.json
 
 # Ignore all log files except for .htaccess
 /logs/*

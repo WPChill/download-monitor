@@ -1,0 +1,53 @@
+@import '~style/helpers';
+
+.queue {
+
+  .upgrading_notice {
+    position: relative;
+    background: #419ccb;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 10px 10px 35px;
+
+    &:before {
+      content: '';
+      background: url('/assets/loading.gif');
+      background-size: 15px 15px;
+      background-repeat: no-repeat;
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      z-index: 10;
+      width: 15px;
+      height: 15px;
+      display: block;
+    }
+  }
+
+  ul {
+    width: 100%;
+    padding: 10px 0;
+
+    li {
+      display: inline-block;
+      width: 50%;
+      &:before {
+        .iconbefore("\f147");
+        font-size: 1.5em;
+      }
+
+      &.todo {
+        &:before {
+          color: black;
+        }
+      }
+
+      &.done {
+        &:before {
+          color: green;
+        }
+      }
+    }
+
+  }
+}
