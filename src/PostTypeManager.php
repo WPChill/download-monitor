@@ -51,7 +51,7 @@ class DLM_Post_Type_Manager {
 				'publicly_queryable'  => false,
 				'exclude_from_search' => ( 1 !== absint( get_option( 'dlm_wp_search_enabled', 0 ) ) ),
 				'hierarchical'        => false,
-				'rewrite'             => true,
+				'rewrite'             => false,
 				'query_var'           => false,
 				'supports'            => apply_filters( 'dlm_cpt_dlm_download_supports', array(
 					'title',
