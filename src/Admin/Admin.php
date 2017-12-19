@@ -68,6 +68,7 @@ class DLM_Admin {
 			$lu_message = new DLM_LU_Message();
 			$lu_message->display();
 		}
+
 	}
 
 	/**

@@ -61,6 +61,7 @@ return array(
     'DLM_Reports_Ajax' => $baseDir . '/src/Admin/Reports/Ajax.php',
     'DLM_Reports_Chart' => $baseDir . '/src/Admin/Reports/Chart.php',
     'DLM_Reports_Page' => $baseDir . '/src/Admin/Reports/Page.php',
+    'DLM_Search' => $baseDir . '/src/Search.php',
     'DLM_Services' => $baseDir . '/src/Services.php',
     'DLM_Settings_Page' => $baseDir . '/src/Admin/Settings/Page.php',
     'DLM_Shortcodes' => $baseDir . '/src/Shortcodes.php',
