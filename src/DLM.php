@@ -154,6 +154,10 @@ class WP_DLM {
 		// Setup actions
 		$this->setup_actions();
 
+		// Setup Search support
+		$search = new DLM_Search();
+		$search->setup();
+
 		// Setup integrations
 		$this->setup_integrations();
 	}

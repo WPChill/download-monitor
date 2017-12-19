@@ -49,7 +49,7 @@ class DLM_Post_Type_Manager {
 					'read_post'           => 'manage_downloads'
 				),
 				'publicly_queryable'  => false,
-				'exclude_from_search' => true,
+				'exclude_from_search' => ( 1 !== absint( get_option( 'dlm_wp_search_enabled', 0 ) ) ),
 				'hierarchical'        => false,
 				'rewrite'             => false,
 				'query_var'           => false,
@@ -68,6 +68,22 @@ class DLM_Post_Type_Manager {
 		// Register Download Version Post Type
 		register_post_type( "dlm_download_version",
 			apply_filters( 'dlm_cpt_dlm_download_version_args', array(
+				'labels'              => array(
+					'all_items'          => __( 'All Download Versions', 'download-monitor' ),
+					'name'               => __( 'Download Versions', 'download-monitor' ),
+					'singular_name'      => __( 'Download Version', 'download-monitor' ),
+					'add_new'            => __( 'Add New', 'download-monitor' ),
+					'add_new_item'       => __( 'Add Download Version', 'download-monitor' ),
+					'edit'               => __( 'Edit', 'download-monitor' ),
+					'edit_item'          => __( 'Edit Download Version', 'download-monitor' ),
+					'new_item'           => __( 'New Download Version', 'download-monitor' ),
+					'view'               => __( 'View Download Version', 'download-monitor' ),
+					'view_item'          => __( 'View Download Version', 'download-monitor' ),
+					'search_items'       => __( 'Search Download Versions', 'download-monitor' ),
+					'not_found'          => __( 'No Download Versions found', 'download-monitor' ),
+					'not_found_in_trash' => __( 'No Download Versions found in trash', 'download-monitor' ),
+					'parent'             => __( 'Parent Download Version', 'download-monitor' )
+				),
 				'public'              => false,
 				'show_ui'             => false,
 				'publicly_queryable'  => false,
