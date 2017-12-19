@@ -14,13 +14,6 @@ class DLM_Post_Type_Manager {
 	 */
 	public function register() {
 
-		// Pull the setting for determining exclude_from_search value
-		if ( '1' == get_option( 'dlm_wp_search_enabled' ) ) { // They have chosen to make downloads show in WordPress search as well as being linked to directly
-			$exclude_from_search = false;
-		} else {
-			$exclude_from_search = true;
-		}
-
 		// Register Download Post Type
 		register_post_type( "dlm_download",
 			apply_filters( 'dlm_cpt_dlm_download_args', array(
@@ -56,7 +49,7 @@ class DLM_Post_Type_Manager {
 					'read_post'           => 'manage_downloads'
 				),
 				'publicly_queryable'  => false,
-				'exclude_from_search' => $exclude_from_search,
+				'exclude_from_search' => ( 1 !== absint( get_option( 'dlm_wp_search_enabled', 0 ) ) ),
 				'hierarchical'        => false,
 				'rewrite'             => true,
 				'query_var'           => false,
