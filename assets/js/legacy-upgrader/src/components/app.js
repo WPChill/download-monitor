@@ -1,6 +1,12 @@
 import { h, Component } from 'preact';
-//import { Router } from 'preact-router';
 import { HashRouter, Route, Redirect } from 'react-router-dom';
+
+// polyfill fetch and promise
+import 'whatwg-fetch';
+import Promise from 'promise-polyfill';
+if (!window.Promise) {
+  window.Promise = Promise;
+}
 
 import Welcome from './welcome';
 import Downloads from './downloads';

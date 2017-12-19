@@ -61,6 +61,13 @@ class DLM_Admin {
 		// filter attachment thumbnails in media library for files in dlm_uploads
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_thumbnails_protected_files_grid' ), 10, 1 );
 		add_filter( 'wp_get_attachment_image_src', array( $this, 'filter_thumbnails_protected_files_list' ), 10, 1 );
+
+		// Legacy Upgrader
+		$lu_check = new DLM_LU_Checker();
+		if ( $lu_check->needs_upgrading() ) {
+			$lu_message = new DLM_LU_Message();
+			$lu_message->display();
+		}
 	}
 
 	/**

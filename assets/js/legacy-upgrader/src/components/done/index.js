@@ -3,6 +3,27 @@ import { Link } from 'preact-router';
 import style from './style.less';
 
 export default class Done extends Component {
+
+	// gets called when this route is navigated to
+	componentDidMount() {
+		// mark upgrade as completed
+		fetch( ajaxurl + "?action=dlm_lu_mark_upgrade_done", {
+			method: 'GET',
+			credentials: 'include'
+		} ).then( ( r ) => {
+			if ( r.status == 200 ) {
+				return r.json();
+			}
+
+			throw "AJAX API OFFLINE";
+		} ).then( ( j ) => {
+			return;
+		} ).catch( ( e ) => {
+			console.log( e );
+			return;
+		} );
+	}
+
 	render() {
 		return (
 			<div class={style.welcome}>

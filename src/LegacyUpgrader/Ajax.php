@@ -10,6 +10,7 @@ class DLM_LU_Ajax {
 		add_action( 'wp_ajax_dlm_lu_get_content_queue', array( $this, 'handle_get_content_queue' ) );
 		add_action( 'wp_ajax_dlm_lu_upgrade_download', array( $this, 'handle_upgrade_download' ) );
 		add_action( 'wp_ajax_dlm_lu_upgrade_content', array( $this, 'handle_upgrade_content_item' ) );
+		add_action( 'wp_ajax_dlm_lu_mark_upgrade_done', array( $this, 'handle_mark_upgrade_done' ) );
 	}
 
 	/**
@@ -28,7 +29,7 @@ class DLM_LU_Ajax {
 		// send queue as response
 		wp_send_json( $queue->get_queue() );
 
-		// bye
+		// houdoe
 		exit;
 	}
 
@@ -51,7 +52,7 @@ class DLM_LU_Ajax {
 			wp_send_json( array( 'success' => false ) );
 		}
 
-		// alaaf
+		// ciao
 		exit;
 	}
 
@@ -95,6 +96,24 @@ class DLM_LU_Ajax {
 		}
 
 		// alaaf
+		exit;
+	}
+
+	/**
+	 * Handle dlm_lu_mark_upgrade_done AJAX request
+	 */
+	public function handle_mark_upgrade_done() {
+
+		// @TODO add nonce check
+
+		// hide upgrade message
+		$checker = new DLM_LU_Checker();
+		$checker->mark_upgraded();
+
+		// success
+		wp_send_json( array( 'success' => true ) );
+
+		// tschüss
 		exit;
 	}
 

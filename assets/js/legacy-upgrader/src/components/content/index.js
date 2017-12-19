@@ -1,6 +1,7 @@
 import {h, Component} from 'preact';
 import style from './style.less';
 import QueueItem from './QueueItem';
+import { Link } from 'react-router-dom';
 
 export default class Content extends Component {
 
@@ -110,10 +111,12 @@ export default class Content extends Component {
 		}
 
 		if ( this.state.items.length == 0 ) {
+			var linkURL = "/done/"+this.props.download_amount+"/0";
 			return (
 				<div class={style.queue}>
 					<p><strong>{this.props.download_amount}</strong> downloads have been upgraded.</p>
 					<p>No posts/pages found that require upgrading.</p>
+					<Link to={linkURL} class="button button-primary button-large">Continue to Post/Page upgrade</Link>
 			</div>
 			);
 		}
@@ -126,7 +129,7 @@ export default class Content extends Component {
 					<p class={style.upgrading_notice}>Currently upgrading your downloads, please wait...</p>
 				}
 
-				<p><strong>{download_amount}</strong> downloads have been upgraded.</p>
+				<p><strong>{this.props.download_amount}</strong> downloads have been upgraded.</p>
 
 				<p>The following posts/pages items have been found that need upgrading:</p>
 
