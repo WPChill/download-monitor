@@ -480,6 +480,7 @@ class DLM_Download_Handler {
 
 		// Parse file path
 		list( $file_path, $remote_file ) = download_monitor()->service( 'file_manager' )->parse_file_path( $file_path );
+		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
 
 		$this->download_headers( $file_path, $download, $version );
 

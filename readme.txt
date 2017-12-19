@@ -130,6 +130,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Feature: Added the ability to exclude tags from the [downloads] shortcode.
 * Feature: Added search option in "Insert Download" overlay.
 * Feature: Added builtin legacy upgrade tool.
+* Tweak: Added 'dlm_file_path' filter to filter file_path in download request.
 * Tweak: We're now only serving downloads when requested over the GET or POST HTTP method. This can be filtered via filter dlm_accepted_request_methods.
 * Tweak: Added Download Title to download log CSV export file.
 * Tweak: Added 'dlm_shortcode_total_downloads' filter to output of [total_downloads] shortcode, props [Joel James](https://github.com/Joel-James).
