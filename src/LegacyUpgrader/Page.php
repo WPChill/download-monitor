@@ -14,7 +14,7 @@ class DLM_LU_Page {
 	 */
 	public function add_admin_menu() {
 		// Settings page
-		add_submenu_page( '_dlm_not_existing_slug', __( 'Legacy Upgrader', 'download-monitor' ), __( 'Legacy Upgrader', 'download-monitor' ), 'manage_options', 'dlm_legacy_upgrade', array(
+		add_submenu_page( '_dlm_not_existing_slug', __( 'Legacy Upgrader', 'download-monitor' ), __( 'Legacy Upgrader', 'download-monitor' ), 'manage_downloads', 'dlm_legacy_upgrade', array(
 			$this,
 			'view'
 		) );

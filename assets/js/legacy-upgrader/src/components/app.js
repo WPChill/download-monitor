@@ -13,6 +13,13 @@ import Downloads from './downloads';
 import Content from './content';
 import Done from './done';
 
+// mock dlm_vars for dev
+if(window.dlm_lu_vars == undefined) {
+  window.dlm_lu_vars = {
+    nonce: 'noncemock'
+  };
+}
+
 export default class App extends Component {
 
 	ROUTES = {

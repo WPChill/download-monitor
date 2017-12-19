@@ -7,7 +7,7 @@ export default class Done extends Component {
 	// gets called when this route is navigated to
 	componentDidMount() {
 		// mark upgrade as completed
-		fetch( ajaxurl + "?action=dlm_lu_mark_upgrade_done", {
+		fetch( ajaxurl + "?action=dlm_lu_mark_upgrade_done&nonce="+window.dlm_lu_vars.nonce, {
 			method: 'GET',
 			credentials: 'include'
 		} ).then( ( r ) => {

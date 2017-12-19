@@ -120,6 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.0.0: November X, 2017 =
+* Feature: Added reports page for download statistics.
 * Feature: Added hash values to version blocks.
 * Feature: Added SHA256 hash.
 * Feature: Added support for regex patterns in user agent blacklist, props [Matt Mower](https://github.com/mdmower).
@@ -128,6 +129,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Feature: Added an option for the user to remove all transients.
 * Feature: Added the ability to exclude tags from the [downloads] shortcode.
 * Feature: Added search option in "Insert Download" overlay.
+* Feature: Added builtin legacy upgrade tool.
 * Tweak: We're now only serving downloads when requested over the GET or POST HTTP method. This can be filtered via filter dlm_accepted_request_methods.
 * Tweak: Added Download Title to download log CSV export file.
 * Tweak: Added 'dlm_shortcode_total_downloads' filter to output of [total_downloads] shortcode, props [Joel James](https://github.com/Joel-James).

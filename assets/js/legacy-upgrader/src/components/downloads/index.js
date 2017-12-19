@@ -21,7 +21,7 @@ export default class Downloads extends Component {
 
 	// gets called when this route is navigated to
 	componentDidMount() {
-		fetch( ajaxurl + "?action=dlm_lu_get_download_queue", {
+		fetch( ajaxurl + "?action=dlm_lu_get_download_queue&nonce="+window.dlm_lu_vars.nonce, {
 			method: 'GET',
 			credentials: 'include'
 		} ).then( ( r ) => {
@@ -64,7 +64,7 @@ export default class Downloads extends Component {
 	}
 
 	upgradeItem( item ) {
-		fetch( ajaxurl + "?action=dlm_lu_upgrade_download&download_id="+item.id, {
+		fetch( ajaxurl + "?action=dlm_lu_upgrade_download&download_id="+item.id+"&nonce="+window.dlm_lu_vars.nonce, {
 			method: 'GET',
 			credentials: 'include'
 		} ).then( ( r ) => {

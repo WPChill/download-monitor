@@ -18,7 +18,13 @@ class DLM_LU_Ajax {
 	 */
 	public function handle_get_download_queue() {
 
-		// @TODO add nonce check
+		// nonce check
+		check_ajax_referer( 'dlm_legacy_upgrade', 'nonce' );
+
+		// check cap access
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			exit;
+		}
 
 		// queue object
 		$queue = new DLM_LU_Download_Queue();
@@ -38,7 +44,13 @@ class DLM_LU_Ajax {
 	 */
 	public function handle_upgrade_download() {
 
-		// @TODO add nonce check
+		// nonce check
+		check_ajax_referer( 'dlm_legacy_upgrade', 'nonce' );
+
+		// check cap access
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			exit;
+		}
 
 		// get download id
 		$download_id = absint( $_GET['download_id'] );
@@ -61,7 +73,13 @@ class DLM_LU_Ajax {
 	 */
 	public function handle_get_content_queue() {
 
-		// @TODO add nonce check
+		// nonce check
+		check_ajax_referer( 'dlm_legacy_upgrade', 'nonce' );
+
+		// check cap access
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			exit;
+		}
 
 		// queue object
 		$queue = new DLM_LU_Content_Queue();
@@ -81,7 +99,13 @@ class DLM_LU_Ajax {
 	 */
 	public function handle_upgrade_content_item() {
 
-		// @TODO add nonce check
+		// nonce check
+		check_ajax_referer( 'dlm_legacy_upgrade', 'nonce' );
+
+		// check cap access
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			exit;
+		}
 
 		// get download id
 		$content_id = absint( $_GET['content_id'] );
@@ -104,7 +128,13 @@ class DLM_LU_Ajax {
 	 */
 	public function handle_mark_upgrade_done() {
 
-		// @TODO add nonce check
+		// nonce check
+		check_ajax_referer( 'dlm_legacy_upgrade', 'nonce' );
+
+		// check cap access
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			exit;
+		}
 
 		// hide upgrade message
 		$checker = new DLM_LU_Checker();
