@@ -471,11 +471,13 @@ class DLM_Download {
 
 		$this->versions = array();
 
-		$versions = download_monitor()->service( 'version_repository' )->retrieve( array( 'post__in' => $version_ids ) );
+		if ( count( $version_ids ) > 0 ) {
+			$versions = download_monitor()->service( 'version_repository' )->retrieve( array( 'post__in' => $version_ids ) );
 
-		/** @var DLM_Download_Version $version */
-		foreach ( $versions as $version ) {
-			$this->versions[ absint( $version->get_id() ) ] = $version;
+			/** @var DLM_Download_Version $version */
+			foreach ( $versions as $version ) {
+				$this->versions[ absint( $version->get_id() ) ] = $version;
+			}
 		}
 
 		return $this->versions;
