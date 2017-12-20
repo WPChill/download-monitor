@@ -42,7 +42,7 @@ class DLM_Shortcodes {
 			AND post_type = 'dlm_download'
 			AND post_status = 'publish'
 		" );
-		
+
 		return apply_filters( 'dlm_shortcode_total_downloads', $total );
 	}
 
@@ -265,8 +265,6 @@ class DLM_Shortcodes {
 	/**
 	 * downloads function.
 	 *
-	 * @TODO remove custom WP_Query and use repository
-	 *
 	 * @access public
 	 *
 	 * @param mixed $atts
@@ -330,16 +328,14 @@ class DLM_Shortcodes {
 		}
 
 		$args = array(
-			'post_type'      => 'dlm_download',
-			'posts_per_page' => $per_page,
-			'offset'         => $paginate ? ( max( 1, get_query_var( 'paged' ) ) - 1 ) * $per_page : $offset,
-			'post_status'    => 'publish',
-			'orderby'        => $orderby,
-			'order'          => $order,
-			'meta_key'       => $meta_key,
-			'post__in'       => $post__in,
-			'post__not_in'   => $post__not_in,
-			'meta_query'     => array()
+			'post_type'    => 'dlm_download',
+			'post_status'  => 'publish',
+			'orderby'      => $orderby,
+			'order'        => $order,
+			'meta_key'     => $meta_key,
+			'post__in'     => $post__in,
+			'post__not_in' => $post__not_in,
+			'meta_query'   => array()
 		);
 
 		if ( $category || $tag || $exclude_tag ) {
@@ -433,24 +429,26 @@ class DLM_Shortcodes {
 		// Allow filtering of arguments
 		$args = apply_filters( 'dlm_shortcode_downloads_args', $args );
 
-		$query_obj = new WP_Query();
+		$offset = $paginate ? ( max( 1, get_query_var( 'paged' ) ) - 1 ) * $per_page : $offset;
 
-		$download_posts = $query_obj->query( $args );
+		// fetch downloads
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $args, $per_page, $offset );
 
-		$dlm_max_num_pages = $query_obj->max_num_pages;
+		// only calculate pages if we're paginating. Saves us a query when we're not
+		$pages = 1;
+		if ( $paginate ) {
+			$pages = ceil( download_monitor()->service( 'download_repository' )->num_rows( $args ) / $per_page );
+		}
 
 		// Template handler
 		$template_handler = new DLM_Template_Handler();
 
-		if ( count( $download_posts ) > 0 ) {
+		if ( count( $downloads ) > 0 ) {
 
 			// loop start output
 			echo html_entity_decode( $loop_start );
 
-			foreach ( $download_posts as $download_post ) {
-
-				// create download instance
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_post->ID );
+			foreach ( $downloads as $download ) {
 
 				// make download filterable
 				$download = apply_filters( 'dlm_shortcode_downloads_loop_download', $download );
@@ -475,7 +473,9 @@ class DLM_Shortcodes {
 			echo html_entity_decode( $loop_end );
 
 			if ( $paginate ) {
-				$template_handler->get_template_part( 'pagination', '' );
+				$template_handler->get_template_part( 'pagination', '', '', array(
+					'pages' => $pages
+				) );
 			} ?>
 
 		<?php }

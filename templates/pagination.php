@@ -6,9 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-global $dlm_max_num_pages;
-
-if ( $dlm_max_num_pages <= 1 ) {
+if ( $pages <= 1 ) {
 	return;
 }
 ?>
@@ -18,7 +16,7 @@ if ( $dlm_max_num_pages <= 1 ) {
 		'base'      => str_replace( 999999999, '%#%', get_pagenum_link( 999999999 ) ),
 		'format'    => '',
 		'current'   => max( 1, get_query_var( 'paged' ) ),
-		'total'     => $dlm_max_num_pages,
+		'total'     => $pages,
 		'prev_text' => '&larr;',
 		'next_text' => '&rarr;',
 		'type'      => 'list',
