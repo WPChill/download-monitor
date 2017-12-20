@@ -74,7 +74,7 @@ return array(
     'DLM_Version_Repository' => $baseDir . '/src/Version/VersionRepository.php',
     'DLM_View_Manager' => $baseDir . '/src/Admin/ViewManager.php',
     'DLM_Widget_Downloads' => $baseDir . '/src/Widgets/Downloads.php',
-    'DLM_Widget_Manager' => $baseDir . '/src/Widgets/class-dlm-widget-manager.php',
+    'DLM_Widget_Manager' => $baseDir . '/src/Widgets/Manager.php',
     'DLM_WordPress_Download_Repository' => $baseDir . '/src/Download/WordPressDownloadRepository.php',
     'DLM_WordPress_Log_Item_Repository' => $baseDir . '/src/Logs/WordPressLogItemRepository.php',
     'DLM_WordPress_Version_Repository' => $baseDir . '/src/Version/WordPressVersionRepository.php',
