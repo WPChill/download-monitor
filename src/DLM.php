@@ -108,7 +108,6 @@ class WP_DLM {
 			$upgrade_manager->setup();
 
 			// Legacy Upgrader
-			// @TODO Check if we can only include when legacy upgrade needed
 			$lu_page = new DLM_LU_Page();
 			$lu_page->setup();
 
