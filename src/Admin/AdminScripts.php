@@ -78,7 +78,7 @@ class DLM_Admin_Scripts {
 			// Enqueue Reports JS
 			wp_enqueue_script(
 				'dlm_reports_frappe_charts',
-				plugins_url( '/assets/js/reports/frappe-charts.min.iife.js', $dlm->get_plugin_file() ),
+				plugins_url( '/assets/js/reports/frappe-charts.min.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION,
 				true

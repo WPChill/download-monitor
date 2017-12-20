@@ -8,6 +8,7 @@ module.exports = function ( grunt ) {
             css: 'assets/css',
             images: 'assets/images',
             js: 'assets/js',
+            reports: 'assets/js/reports',
             lang: 'languages'
         },
 
@@ -59,7 +60,19 @@ module.exports = function ( grunt ) {
                     dest: '<%= dirs.js %>',
                     ext: '.min.js'
                 } ]
-            }
+            },
+	        reports: {
+		        files: [ {
+			        expand: true,
+			        cwd: '<%= dirs.reports %>',
+			        src: [
+				        '*.js',
+				        '!*.min.js'
+			        ],
+			        dest: '<%= dirs.reports %>',
+			        ext: '.min.js'
+		        } ]
+	        }
         },
 
         // Watch changes for assets
