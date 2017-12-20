@@ -347,9 +347,7 @@ class DLM_Download_Version {
 	}
 
 	/**
-	 * increase_download_count function.
-	 *
-	 * @TODO check if this is the correct place for this method
+	 * Increase the version and total download count
 	 *
 	 * @access public
 	 * @return void

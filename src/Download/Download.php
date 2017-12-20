@@ -396,7 +396,6 @@ class DLM_Download {
 	 * Get version ID by version name
 	 *
 	 * This used to be get_version_id(), moved to this method.
-	 * @TODO: Check if this class is the correct place for this method.
 	 *
 	 * @param string $name
 	 *
