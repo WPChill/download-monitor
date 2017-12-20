@@ -25,7 +25,7 @@ class DLM_LU_Content_Upgrader {
 			$this->id_map[ $m[3] ] = $this->download_queue->get_new_id( $m[3] );
 		}
 
-		return "[download".$m[1]."id=".$m[2].$this->id_map[ $m[3] ].$m[2].$m[4]."]";
+		return "[download ".$m[1]."id=".$m[2].$this->id_map[ $m[3] ].$m[2].$m[4]."]";
 	}
 
 	/**
@@ -54,7 +54,7 @@ class DLM_LU_Content_Upgrader {
 		$content = $post->post_content;
 
 		// generate new content
-		$regex = "`\[download([^\]]*)(?:id=([\"|']{0,1})([0-9]+)(?:[\"|']{0,1}))([^\]]*)\]`";
+		$regex = "`\[download ([^\]]*)(?:id=([\"|']{0,1})([0-9]+)(?:[\"|']{0,1}))([^\]]*)\]`";
 		$new_content = preg_replace_callback( $regex, array( $this, 'preg_replace_cb' ), $content );
 
 		// update content in database
