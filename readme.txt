@@ -119,9 +119,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.0.0: November X, 2017 =
+= 4.0.0: December X, 2017 =
 * Feature: Added reports page for download statistics.
 * Feature: Added hash values to version blocks.
+* Feature: Added option to include downloads in WordPress default search results, props [Kurt Zenisek](https://github.com/KZeni).
 * Feature: Added SHA256 hash.
 * Feature: Added support for regex patterns in user agent blacklist, props [Matt Mower](https://github.com/mdmower).
 * Feature: Added user filter to logs, props [neptuneweb](https://github.com/neptuneweb).
