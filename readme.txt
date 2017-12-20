@@ -3,8 +3,8 @@ Contributors: never5, barrykooij, mikejolley, hchouhan
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.9
-Stable tag: 1.9.9
+Tested up to: 4.9.1
+Stable tag: 4.0-beta
 License: GPLv3
 Text Domain: -
 
