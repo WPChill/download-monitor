@@ -25,10 +25,10 @@ class DLM_Download {
 	private $author;
 
 	/** @var string */
-	private $description;
+	private $description = "";
 
 	/** @var string */
-	private $excerpt;
+	private $excerpt = "";
 
 	/** @var int */
 	private $download_count = 0;
@@ -360,6 +360,15 @@ class DLM_Download {
 	/**
 	 * Version related methods
 	 */
+
+	/**
+	 * Returns if download has at least 1 version
+	 *
+	 * @return bool
+	 */
+	public function has_version() {
+		return ( null !== $this->get_version() );
+	}
 
 	/**
 	 * @return DLM_Download_Version

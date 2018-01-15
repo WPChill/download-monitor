@@ -462,7 +462,11 @@ class DLM_Shortcodes {
 				echo html_entity_decode( $before );
 
 				// load the template
-				$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				if ( $download->has_version() ) {
+					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				}else {
+					$template_handler->get_template_part( 'content-download', 'no-version', '', array( 'dlm_download' => $download ) );
+				}
 
 				// display the 'after'
 				echo html_entity_decode( $after );
