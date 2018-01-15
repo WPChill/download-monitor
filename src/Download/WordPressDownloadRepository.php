@@ -13,8 +13,10 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 */
 	private function filter_query_args( $args = array(), $limit = 0, $offset = 0 ) {
 
+		// limit must be int, not abs
+		$limit  = intval( $limit );
+
 		// most be absint
-		$limit  = absint( $limit );
 		$offset = absint( $offset );
 
 		// start with removing reserved keys
