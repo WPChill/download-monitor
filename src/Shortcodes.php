@@ -431,8 +431,16 @@ class DLM_Shortcodes {
 
 		$offset = $paginate ? ( max( 1, get_query_var( 'paged' ) ) - 1 ) * $per_page : $offset;
 
+		// set offset to 0 if empty
+		if ( '' === $offset ) {
+			$offset = 0;
+		}
+
 		// fetch downloads
 		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $args, $per_page, $offset );
+
+		// make all downloads filterable
+		$downloads = apply_filters( 'dlm_shortcode_downloads_downloads', $downloads );
 
 		// only calculate pages if we're paginating. Saves us a query when we're not
 		$pages = 1;
