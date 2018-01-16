@@ -14,6 +14,7 @@ return array(
     'DLM_Admin_Fields_Field_Checkbox' => $baseDir . '/src/Admin/Settings/Fields/Checkbox.php',
     'DLM_Admin_Fields_Field_Factory' => $baseDir . '/src/Admin/Settings/Fields/FieldFactory.php',
     'DLM_Admin_Fields_Field_Lazy_Select' => $baseDir . '/src/Admin/Settings/Fields/LazySelect.php',
+    'DLM_Admin_Fields_Field_Password' => $baseDir . '/src/Admin/Settings/Fields/Password.php',
     'DLM_Admin_Fields_Field_Select' => $baseDir . '/src/Admin/Settings/Fields/Select.php',
     'DLM_Admin_Fields_Field_Text' => $baseDir . '/src/Admin/Settings/Fields/Text.php',
     'DLM_Admin_Fields_Field_Textarea' => $baseDir . '/src/Admin/Settings/Fields/Textarea.php',

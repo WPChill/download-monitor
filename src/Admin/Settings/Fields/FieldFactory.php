@@ -21,6 +21,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'text':
 				$field = new DLM_Admin_Fields_Field_Text( $option['name'], $value, $placeholder );
 				break;
+			case 'password':
+				$field = new DLM_Admin_Fields_Field_Password( $option['name'], $value, $placeholder );
+				break;
 			case 'textarea':
 				$field = new DLM_Admin_Fields_Field_Textarea( $option['name'], $value, $placeholder );
 				break;
