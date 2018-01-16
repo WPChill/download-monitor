@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <?php do_action( 'dlm_no_access_before_message', $download ); ?>
-
 <?php if ( ! empty( $no_access_message ) ) : ?>
 	<p><?php echo $no_access_message; ?></p>
 <?php endif; ?>

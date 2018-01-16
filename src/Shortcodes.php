@@ -472,7 +472,7 @@ class DLM_Shortcodes {
 				// load the template
 				if ( $download->has_version() ) {
 					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
-				}else {
+				} else {
 					$template_handler->get_template_part( 'content-download', 'no-version', '', array( 'dlm_download' => $download ) );
 				}
 
@@ -526,11 +526,18 @@ class DLM_Shortcodes {
 		// template handler
 		$template_handler = new DLM_Template_Handler();
 
-		// load no access template
-		$template_handler->get_template_part( 'no-access', '', '', array(
-			'download'          => new DLM_Download( $wp->query_vars['download-id'] ),
-			'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
-		) );
+		try {
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $wp->query_vars['download-id'] ) );
+
+			// load no access template
+			$template_handler->get_template_part( 'no-access', '', '', array(
+				'download'          => $download,
+				'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
+			) );
+
+		} catch ( Exception $exception ) {
+			// no download with given ID
+		}
 
 		// set new content
 		$content = ob_get_clean();
