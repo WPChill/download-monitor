@@ -8,11 +8,11 @@
 
 2) Install WordPress and the WP Unit Test lib using the `install.sh` script. Change to the plugin root directory and type:
 
-    $ bash tests/bin/install.sh <db-name> <db-user> <db-password> [db-host]
+    $ tests/bin/install.sh <db-name> <db-user> <db-password> [db-host]
 
 Sample usage:
 
-    $ tests/bin/install.sh dlm_tests root root
+    $ bash tests/bin/install.sh dlm_tests root root
 
 **Important**: The `<db-name>` database will be created if it doesn't exist and all data will be removed during testing.
 
