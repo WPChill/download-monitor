@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param bool $network_wide
  */
-function __download_monitor_install( $network_wide = false ) {
+function _download_monitor_install( $network_wide = false ) {
 
 	// DLM Installer
 	$installer = new DLM_Installer();
@@ -59,7 +59,7 @@ function __download_monitor_install( $network_wide = false ) {
  * @param $site_id
  * @param $meta
  */
-function __download_monitor_mu_new_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
+function _download_monitor_mu_new_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 
 	// check if plugin is network activated
 	if ( is_plugin_active_for_network( 'download-monitor/download-monitor.php' ) ) {
@@ -84,7 +84,7 @@ function __download_monitor_mu_new_blog( $blog_id, $user_id, $domain, $path, $si
  *
  * @return array
  */
-function __download_monitor_mu_delete_blog( $tables ) {
+function _download_monitor_mu_delete_blog( $tables ) {
 	global $wpdb;
 	$tables[] = $wpdb->prefix . 'download_log';
 

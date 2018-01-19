@@ -46,7 +46,7 @@ function download_monitor() {
 	return $instance;
 }
 
-function __load_download_monitor() {
+function _load_download_monitor() {
 	// fetch instance and store in global
 	$GLOBALS['download_monitor'] = download_monitor();
 }
@@ -55,7 +55,7 @@ function __load_download_monitor() {
 require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
 
 // Init plugin
-add_action( 'plugins_loaded', '__load_download_monitor', 10 );
+add_action( 'plugins_loaded', '_load_download_monitor', 10 );
 
 if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
 
@@ -66,11 +66,11 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 	require_once( 'includes/installer-functions.php' );
 
 	// Activation hook
-	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '__download_monitor_install' );
+	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '_download_monitor_install' );
 
 	// Multisite new blog hook
-	add_action( 'wpmu_new_blog', '__download_monitor_mu_new_blog', 10, 6 );
+	add_action( 'wpmu_new_blog', '_download_monitor_mu_new_blog', 10, 6 );
 
 	// Multisite blog delete
-	add_filter( 'wpmu_drop_tables', '__download_monitor_mu_delete_blog' );
+	add_filter( 'wpmu_drop_tables', '_download_monitor_mu_delete_blog' );
 }

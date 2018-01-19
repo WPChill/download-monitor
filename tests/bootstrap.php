@@ -64,7 +64,7 @@ class DLM_Unit_Tests_Bootstrap {
 
 //		$installer = include( $this->plugin_dir . '/includes/installer-functions.php' );
 		require_once( 'includes/installer-functions.php' );
-		__download_monitor_install();
+		_download_monitor_install();
 
 		echo "Installing Download Monitor..." . PHP_EOL;
 	}
