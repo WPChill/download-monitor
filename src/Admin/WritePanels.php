@@ -77,17 +77,17 @@ class DLM_Admin_Writepanels {
 			?>
             <p>
                 <label for="dlm-info-id"><?php _e( 'ID', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-id" value="<?php echo $download->get_id(); ?>" readonly />
+                    <input type="text" id="dlm-info-id" value="<?php echo $download->get_id(); ?>" readonly onfocus="this.select()" />
                 </label>
             </p>
             <p>
                 <label for="dlm-info-url"><?php _e( 'URL', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>" readonly />
+                    <input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>" readonly onfocus="this.select()" />
                 </label>
             </p>
             <p>
                 <label for="dlm-info-shortcode"><?php _e( 'Shortcode', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->get_id(); ?>"]' readonly />
+                    <input type="text" id="dlm-info-shortcode" value='[download id="<?php echo $download->get_id(); ?>"]' readonly onfocus="this.select()" />
                 </label>
             </p>
 			<?php
