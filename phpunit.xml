@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        bootstrap="tests/bootstrap.php"
+        backupGlobals="false"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        verbose="true"
+        syntaxCheck="true"
+>
+    <testsuites>
+        <testsuite name="Download Monitor Test Suite">
+            <directory suffix=".php">./tests/unit-tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./includes</directory>
+            <file>download-monitor.php</file>
+            <file>uninstall.php</file>
+            <exclude>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

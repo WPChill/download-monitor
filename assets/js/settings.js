@@ -5,11 +5,13 @@ jQuery( function ( $ ) {
 			return false;
 		}
 
+		var tabID = $( elm ).attr( 'href' ).replace( dlm_settings_vars.settings_url, "" );
+
 		$( '.settings_panel' ).hide();
 		$( '.nav-tab-active' ).removeClass( 'nav-tab-active' );
-		$( $( elm ).attr( 'href' ) ).show();
+		$( tabID ).show();
 		$( elm ).addClass( 'nav-tab-active' );
-		$( '#setting-dlm_settings_tab_saved' ).val( $( elm ).attr( 'href' ).replace( "#settings-", "" ) );
+		$( '#setting-dlm_settings_tab_saved' ).val( tabID.replace( "#settings-", "" ) );
 		return true;
 	}
 
@@ -51,7 +53,7 @@ jQuery( function ( $ ) {
 
 		// dlm_last_settings_tab is only set when settings are saved and the page is reloaded
 		if ( typeof dlm_settings_tab_saved !== 'undefined' ) {
-			var elm = $( '.nav-tab-wrapper a[href="#settings-' + dlm_settings_tab_saved + '"]' );
+			var elm = $( '.nav-tab-wrapper a[href="' + dlm_settings_vars.settings_url + '#settings-' + dlm_settings_tab_saved + '"]' );
 			if ( typeof elm !== 'undefined' ) {
 				dlm_set_active_tab( elm );
 			}

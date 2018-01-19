@@ -17,6 +17,18 @@
 }
 
 /* Logs */
+.post-type-dlm_download {
+  h1 {
+    a.dlm-delete-logs {
+      color: #a00;
+      &:hover {
+        color: #fff;
+        background: #a00;
+        border-color: #7C0900;
+      }
+    }
+  }
+}
 #dlm_logs {
   td {
     padding: 7px 7px;
@@ -278,8 +290,7 @@ table.wp-list-table {
       margin-left: 1em;
       line-height: 22px;
       text-decoration: none;
-    }
-    .expand_all {
+    }.expand_all {
       &:before {
         .iconbefore("\f168");
       }
@@ -533,6 +544,10 @@ table.wp-list-table {
 #insert-download {
   padding: 20px 20px;
 
+  #insert-shortcode, #drag-drop-area {
+    margin: 1em 0;
+  }
+
   .updated, .error {
     margin-left: 0;
     margin-right: 0;
@@ -594,7 +609,17 @@ table.wp-list-table {
   }
 }
 
+/* Settings */
+.dlm-code-nginx-rules {
+  display: block;
+}
+
 .settings_panel {
+  .form-table {
+    td {
+      padding-left: 0;
+    }
+  }
   .dlm-lazy-select-loader {
     display: inline-block;
     vertical-align: middle;
@@ -608,9 +633,260 @@ table.wp-list-table {
   }
 }
 
+/* Reports */
+.dlm-reports {
+
+  h1 {
+    .dlm-reports-actions {
+      float: right;
+
+      a.dlm-reports-header-chart-switcher,
+      .dlm-reports-header-date-selector,
+      .dlm-reports-header-period {
+        margin: 0 5px;
+        float: left;
+      }
+
+      &>:last-child {
+        margin-right: 0;
+      }
+
+      .dlm-reports-header-date-selector {
+
+        position: relative;
+        font-size: 14px;
+        padding: 0 .5em 0 1em;
+        background: #fff;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+
+        user-select: none;
+
+        cursor: pointer;
+
+        .dlm-arrow {
+          &:before {
+            font-family: "dashicons" !important;
+            content: "\f140";
+            font-style: normal;
+            font-weight: normal;
+            speak: none;
+            display: inline-block;
+            text-decoration: inherit;
+            width: 1em;
+            text-align: center;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1em;
+            font-size: 1.6em;
+            vertical-align: middle;
+            margin-top: -2px;
+          }
+        }
+
+        .dlm_rdrs_overlay {
+          display: block;
+          width: 466px;
+          //height: 198px;
+          padding: 10px;
+          background: #fff;
+          border: 1px solid #cccccc;
+          position: absolute;
+          top: 30px;
+          right: 0;
+          z-index: 10;
+          overflow: hidden;
+
+          .dlm_rdrs_date {
+            font-size: 70%;
+            margin-right: 5px;
+            float: left;
+            z-index: 11;
+
+            .ui-datepicker-inline {
+              border: 0;
+
+              .ui-state-highlight {
+                background: #e6e6e6 url(//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+                color: #555555;
+                border: 1px solid #D3D3D3;
+              }
+
+              .ui-state-active {
+                border: 1px solid #aaaaaa;
+                background: #ffffff url(//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+              }
+
+              td, th {
+                padding: 0;
+                margin: 0;
+                line-height: 2em;
+                a {
+                  text-align: center !important;
+                }
+
+              }
+            }
+          }
+          .dlm_rdrs_actions {
+            width: 70px;
+            padding-left: 10px;
+            text-align: center;
+            float: left;
+          }
+        }
+
+      }
+
+      a.dlm-reports-header-chart-switcher {
+        display: block;
+        margin-top: 1px;
+        padding-top: 4px;
+        color: #23282d;
+        //border: 1px solid #23282d;
+        text-decoration: none;
+        &:before {
+          font-family: "dashicons" !important;
+          font-style: normal;
+          font-weight: normal;
+          speak: none;
+          display: inline-block;
+          text-decoration: inherit;
+          width: 1em;
+          text-align: center;
+          font-variant: normal;
+          text-transform: none;
+          line-height: 1em;
+          font-size: 1.4em;
+        }
+        &.dlm-line:before {
+          content: "\f238";
+        }
+        &.dlm-bar:before {
+          content: "\f185";
+        }
+      }
+
+      .dlm-reports-header-period {
+        a {
+          border-color: #cccccc !important;
+        }
+        a:first-child {
+          border-bottom-right-radius: 0;
+          border-top-right-radius: 0;
+          border-right: 0;
+        }
+        a:last-child {
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+          border-left: 0;
+        }
+      }
+
+    }
+  }
+
+  .dlm_reports_loader {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 50%;
+    left: 50%;
+    margin: -16px 0 0 -16px;
+  }
+
+  .dlm-reports-block-chart {
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    overflow: hidden;
+
+    .chart-container {
+      h6 {
+        display: none;
+      }
+    }
+  }
+
+  .dlm-reports-block {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    //height: 300px;
+    padding: 20px 10px;
+    margin-top: 20px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    overflow: hidden;
+    float: left;
+
+    &.dlm-reports-block-half {
+      width: 49%;
+      margin-right: 1%;
+    }
+
+    &.dlm-reports-block-half-right {
+      width: 49%;
+      margin-left: 1%;
+    }
+
+    .dlm-reports-placeholder-no-data {
+      display: inline-block;
+      width: 100%;
+      font-size: 1.5em;
+      color: #b4b9be;
+      font-style: italic;
+      text-align: center;
+    }
+
+    ul {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      li {
+        display: inline-block;
+        width: 33%;
+        padding: 5px 0;
+
+        label, span {
+          display: block;
+          width: 100%;
+          text-align: center;
+        }
+        span {
+          font-size: 2.5em;
+          font-weight: bold;
+          padding: .5em 0 0;
+        }
+      }
+    }
+
+    table {
+      width: 100%;
+
+      th, td {
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #e5e5e5;
+        &:first-child {
+          text-align: left;
+        }
+      }
+
+      th {
+        padding-bottom: 20px;
+      }
+    }
+  }
+
+}
+
 /* Extensions */
 .dlm_extensions_wrap {
-  h2 {
+  h1 {
     a.dlm-reload-button {
       float: right;
     }
@@ -667,7 +943,7 @@ table.wp-list-table {
         box-sizing: border-box;
 
         div.dlm_license_error {
-          padding:.5em;
+          padding: .5em;
           margin-bottom: 15px;
           background: lightYellow;
 
@@ -705,3 +981,6 @@ table.wp-list-table {
   }
 
 }
+
+/* Fix Datepicker's UI bug */
+#ui-datepicker-div { display: none; }

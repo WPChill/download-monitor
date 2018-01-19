@@ -3,11 +3,11 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 1.9.9
+	Version: 4.0.0
 	Author: Never5
 	Author URI: https://www.never5.com
 	Requires at least: 3.8
-	Tested up to: 4.9
+	Tested up to: 4.9.2
 	Text Domain: download-monitor
 
 	License: GPL v3
@@ -33,25 +33,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '1.9.9' );
+define( 'DLM_VERSION', '4.0.0' );
 
-function __download_monitor_main() {
+// Define DLM FILE
+define( 'DLM_PLUGIN_FILE', __FILE__ );
 
-	// Define DLM FILE
-	define( 'DLM_PLUGIN_FILE', __FILE__ );
-
-	// Require class file
-	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/class-wp-dlm.php';
-
-	// Create DLM object
-	$dlm = new WP_DLM();
-
-	// Backwards compatibility
-	$GLOBALS['download_monitor'] = $dlm;
+function download_monitor() {
+	static $instance;
+	if ( is_null( $instance ) ) {
+		$instance = new WP_DLM();
+	}
+	return $instance;
 }
 
+function _load_download_monitor() {
+	// fetch instance and store in global
+	$GLOBALS['download_monitor'] = download_monitor();
+}
+
+// require autoloader
+require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
+
 // Init plugin
-add_action( 'plugins_loaded', '__download_monitor_main', 10 );
+add_action( 'plugins_loaded', '_load_download_monitor', 10 );
 
 if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
 
@@ -59,14 +63,14 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 	define( 'DLM_PLUGIN_FILE_INSTALLER', __FILE__ );
 
 	// include installer functions
-	require_once( 'installer-functions.php' );
+	require_once( 'includes/installer-functions.php' );
 
 	// Activation hook
-	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '__download_monitor_install' );
+	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '_download_monitor_install' );
 
 	// Multisite new blog hook
-	add_action( 'wpmu_new_blog', '__download_monitor_mu_new_blog', 10, 6 );
+	add_action( 'wpmu_new_blog', '_download_monitor_mu_new_blog', 10, 6 );
 
 	// Multisite blog delete
-	add_filter( 'wpmu_drop_tables', '__download_monitor_mu_delete_blog' );
+	add_filter( 'wpmu_drop_tables', '_download_monitor_mu_delete_blog' );
 }
