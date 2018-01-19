@@ -152,6 +152,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Download category and download tags are now excluded from Yoast SEO sitemap.
 * Tweak: 'Delete Logs' button now requires a confirmation.
 * Tweak: Placeholders for download thumbnails in media library list view are now also properly replaced.
+* Tweak: Minor UX improvement on Download Information fields making it easier to copy these, props [Danny van Kooten](https://github.com/dannyvankooten).
 
 = 1.9.9: October 18, 2017 =
 * Tweak: Fixed an issue with 'No Access' page not saving correctly.
