@@ -50,7 +50,16 @@ class DLM_Custom_Columns {
 		global $post;
 
 		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve( array(
+			'p'           => absint( $post->ID ),
+			'post_status' => array( 'any', 'trash' )
+		), 1 );
+
+		if ( 0 == count( $downloads ) ) {
+			return;
+		}
+
+		$download = $downloads[0];
 
 		/** @var DLM_Download_Version $file */
 		$file = $download->get_version();
