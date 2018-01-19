@@ -3,15 +3,13 @@
 
 class DLM_LU_Checker {
 
-	const OPTION_UPGRADED = "dlm_lu_upgraded";
-
 	/**
 	 * Check if DLM has already been upgraded
 	 *
 	 * @return bool
 	 */
 	private function has_been_upgraded() {
-		return ( 1 === absint( get_option( self::OPTION_UPGRADED, 0 ) ) );
+		return ( 1 === absint( get_option( DLM_Constants::LU_OPTION_UPGRADED, 0 ) ) );
 	}
 
 	/**
@@ -38,7 +36,7 @@ class DLM_LU_Checker {
 	 * @return void
 	 */
 	public function mark_upgraded() {
-		update_option( self::OPTION_UPGRADED, 1 );
+		update_option( DLM_Constants::LU_OPTION_UPGRADED, 1 );
 	}
 
 	/**

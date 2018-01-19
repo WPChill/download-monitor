@@ -5,6 +5,15 @@ class DLM_LU_Download_Queue {
 	const TABLE = 'legacy_upgrade_queue_downloads';
 
 	/**
+	 * check if queue has already been build once
+	 *
+	 * @return bool
+	 */
+	private function is_queue_already_build() {
+		return ( 1 === absint( get_option( DLM_Constants::LU_OPTION_DOWNLOAD_QUEUE_BUILD, 0 ) ) );
+	}
+
+	/**
 	 * Get the queue table
 	 *
 	 * @return string
@@ -53,6 +62,11 @@ class DLM_LU_Download_Queue {
 	public function build_queue() {
 		global $wpdb;
 
+		// check if queue was already build because YOBO! (you only build once).
+		if ( $this->is_queue_already_build() ) {
+			return false;
+		}
+
 		// create database table if not exists
 		$this->create_table_if_not_exists();
 
@@ -69,6 +83,9 @@ class DLM_LU_Download_Queue {
 				$wpdb->insert( $this->get_queue_table(), array( 'legacy_id' => $legacy_download->ID ) );
 			}
 		}
+
+		// set queue build
+		update_option( DLM_Constants::LU_OPTION_DOWNLOAD_QUEUE_BUILD, 1 );
 
 		return true;
 	}
