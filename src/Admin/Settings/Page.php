@@ -7,7 +7,7 @@ class DLM_Settings_Page {
 	 */
 	public function setup() {
 
-	    // menu item
+		// menu item
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 12 );
 
 		// catch setting actions
@@ -147,7 +147,17 @@ class DLM_Settings_Page {
 
 					foreach ( $section[1] as $option ) {
 
-						echo '<tr valign="top"><th scope="row"><label for="setting-' . $option['name'] . '">' . $option['label'] . '</a></th><td>';
+						$cs = 1;
+
+						echo '<tr valign="top">';
+						if ( isset( $option['label'] ) && '' !== $option['label'] ) {
+							echo '<th scope="row"><label for="setting-' . $option['name'] . '">' . $option['label'] . '</a></th>';
+						} else {
+							$cs ++;
+						}
+
+
+						echo '<td colspan="' . $cs . '">';
 
 						if ( ! isset( $option['type'] ) ) {
 							$option['type'] = '';
@@ -161,7 +171,7 @@ class DLM_Settings_Page {
 							// render field
 							$field->render();
 
-							if ( $option['desc'] ) {
+							if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
 								echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 							}
 						}

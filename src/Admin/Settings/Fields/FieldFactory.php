@@ -39,6 +39,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'action_button':
 				$field = new DLM_Admin_Fields_Field_ActionButton( $option['name'], $option['link'], $option['label'] );
 				break;
+			case 'desc':
+				$field = new DLM_Admin_Fields_Field_Desc( $option['name'], $option['text'], $placeholder );
+				break;
 			default:
 				/**
 				 * do_filter: dlm_setting_field_$type: (null) $field, (array) $option, (String) $value, (String) $placeholder

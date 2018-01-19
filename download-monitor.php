@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '4.0.0-beta' );
+define( 'DLM_VERSION', '4.0.0' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );

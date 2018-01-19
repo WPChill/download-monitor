@@ -134,6 +134,11 @@ class DLM_Admin_Settings {
 					__( 'Hashes', 'download-monitor' ),
 					array(
 						array(
+							'name' => 'dlm_hash_desc',
+							'text' => sprintf( __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files. %sYou can read more about hashes here%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/download-hashes/" target="_blank">', '</a>' ),
+							'type' => 'desc'
+						),
+						array(
 							'name'     => 'dlm_generate_hash_md5',
 							'std'      => '0',
 							'label'    => __( 'MD5 hashes', 'download-monitor' ),
@@ -164,7 +169,7 @@ class DLM_Admin_Settings {
 							'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
 							'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
 							'type'     => 'checkbox'
-						),
+						)
 					)
 				),
 				'logging'   => array(
