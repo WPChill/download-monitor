@@ -15,7 +15,7 @@ class DLM_Product_Manager {
 	/**
 	 * @var array<DLM_Product>
 	 */
-	private $products;
+	private $products = array();
 
 	/**
 	 * @var DLM_Product_Error_Handler
