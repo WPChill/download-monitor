@@ -16,7 +16,8 @@ import Done from './done';
 // mock dlm_vars for dev
 if(window.dlm_lu_vars == undefined) {
   window.dlm_lu_vars = {
-    nonce: 'noncemock'
+    nonce: 'noncemock',
+    assets_path: 'http://lnmp.dev:1337/assets/'
   };
 }
 

@@ -100,6 +100,8 @@ export default class Content extends Component {
 
 	render() {
 
+		var loadingImg = window.dlm_lu_vars.assets_path + "loading.gif";
+
 		if ( this.state.checked == false ) {
 			return (
 				<div class={style.queue}>
@@ -126,7 +128,7 @@ export default class Content extends Component {
 				<h2>Posts/Pages Queue</h2>
 
 				{this.state.upgrading &&
-					<p class={style.upgrading_notice}>Currently upgrading your downloads, please wait...</p>
+					<p class={style.upgrading_notice}><img src={loadingImg} />Currently upgrading your downloads, please wait...</p>
 				}
 
 				<p><strong>{this.props.download_amount}</strong> downloads have been upgraded.</p>

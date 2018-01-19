@@ -144,7 +144,8 @@ class DLM_Admin_Scripts {
 			);
 
 			wp_localize_script( 'dlm_legacy_upgrader', 'dlm_lu_vars', array(
-				'nonce' => wp_create_nonce( 'dlm_legacy_upgrade' )
+				'nonce'       => wp_create_nonce( 'dlm_legacy_upgrade' ),
+				'assets_path' => plugins_url( '/assets/js/legacy-upgrader/build/assets/', $dlm->get_plugin_file() )
 			) );
 
 			wp_enqueue_style( 'dlm_legacy_upgrader_css', download_monitor()->get_plugin_url() . '/assets/js/legacy-upgrader/build/style.css' );
