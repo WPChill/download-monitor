@@ -262,7 +262,7 @@ DLM_Reports_Block_Table.prototype.fetch = function () {
 };
 
 DLM_Reports_Block_Table.prototype.render = function () {
-	if ( this.data === null || this.data.length === 0 ) {
+	if ( this.data === null || this.data.length < 2 ) {
 		return;
 	}
 

@@ -172,10 +172,6 @@ class DLM_Reports_Page {
 
 		$js_url = remove_query_arg( array( 'date_from', 'date_to' ), $this->get_url() );
 
-//		echo "<pre>";
-//        print_r($data);
-//		echo "</pre>";
-
 		?>
         <div class="wrap dlm-reports">
             <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
@@ -218,10 +214,12 @@ class DLM_Reports_Page {
 
             <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half"
                  id="total_downloads_table"<?php echo $this->generate_js_data(); ?>>
+                <span class="dlm-reports-placeholder-no-data">NO DATA</span>
             </div>
 
             <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half-right"
                  id="total_downloads_browser_table"<?php echo $this->generate_js_data(); ?>>
+                <span class="dlm-reports-placeholder-no-data">NO DATA</span>
             </div>
 
             <script type="text/javascript">
