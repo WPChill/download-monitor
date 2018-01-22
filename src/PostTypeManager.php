@@ -14,6 +14,22 @@ class DLM_Post_Type_Manager {
 	 */
 	public function register() {
 
+		// Pull the setting for determining exclude_from_search value
+		if ( 1 == absint( get_option( 'dlm_wp_search_enabled', 0 ) ) ) { // They have chosen to make downloads show in WordPress search as well as being linked to directly
+			$exclude_from_search = false;
+			$publicly_visible = true;
+		} else { // Default to not having downloads included in search & accessible
+			$exclude_from_search = true;
+			$publicly_visible = false;
+		}
+
+		// Check the Download Monitor setting/option for its download endpoint/URL/slug
+		if(get_option('dlm_download_endpoint_value') == 'slug'){
+			$rewrite = array( 'slug' => get_option('dlm_download_endpoint').'-link'); // Append "-link" to slug to prevent conflict with the existing slug handling (would cause redirect loop if this matched exactly)
+		}else{
+			$rewrite = false;
+		}
+
 		// Register Download Post Type
 		register_post_type( "dlm_download",
 			apply_filters( 'dlm_cpt_dlm_download_args', array(
@@ -34,7 +50,7 @@ class DLM_Post_Type_Manager {
 					'parent'             => __( 'Parent Download', 'download-monitor' )
 				),
 				'description'         => __( 'This is where you can create and manage downloads for your site.', 'download-monitor' ),
-				'public'              => false,
+				'public'              => $publicly_visible,
 				'show_ui'             => true,
 				'capability_type'     => 'post',
 				'capabilities'        => array(
@@ -48,11 +64,11 @@ class DLM_Post_Type_Manager {
 					'delete_post'         => 'manage_downloads',
 					'read_post'           => 'manage_downloads'
 				),
-				'publicly_queryable'  => false,
-				'exclude_from_search' => ( 1 !== absint( get_option( 'dlm_wp_search_enabled', 0 ) ) ),
+				'publicly_queryable'  => $publicly_visible,
+				'exclude_from_search' => $exclude_from_search,
 				'hierarchical'        => false,
-				'rewrite'             => false,
-				'query_var'           => false,
+				'rewrite'             => $rewrite,
+				'query_var'           => $publicly_visible,
 				'supports'            => apply_filters( 'dlm_cpt_dlm_download_supports', array(
 					'title',
 					'editor',
@@ -84,13 +100,13 @@ class DLM_Post_Type_Manager {
 					'not_found_in_trash' => __( 'No Download Versions found in trash', 'download-monitor' ),
 					'parent'             => __( 'Parent Download Version', 'download-monitor' )
 				),
-				'public'              => false,
+				'public'              => $publicly_visible,
 				'show_ui'             => false,
-				'publicly_queryable'  => false,
+				'publicly_queryable'  => $publicly_visible,
 				'exclude_from_search' => true,
 				'hierarchical'        => false,
 				'rewrite'             => false,
-				'query_var'           => false,
+				'query_var'           => $publicly_visible,
 				'show_in_nav_menus'   => false
 			) )
 		);
