@@ -115,7 +115,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.0.0: January 20, 2018 =
+= 4.0.0: January 22, 2018 =
 * Feature: Added reports page for download statistics.
 * Feature: Added hash values to version blocks.
 * Feature: Added option to include downloads in WordPress default search results, props [Kurt Zenisek](https://github.com/KZeni).
