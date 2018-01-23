@@ -54,8 +54,10 @@ function dlm_download_single_post_type_template($single) {
 			}
 			$downloadURL = $download->get_the_download_link();
 			wp_redirect($downloadURL);
+			exit();
 		} elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
 			wp_redirect( $redirect );
+			exit();
 		} else {
 			wp_die( __( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
