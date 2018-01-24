@@ -294,7 +294,13 @@ class DLM_Admin_Writepanels {
          *
          */
 		/** @var DLM_Download $download */
-		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post_id );
+		try {
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post_id );
+        }catch (Exception $e) {
+		    // download not found, no point in continueing
+		    return;
+        }
+
 
 		// set the 'Download Options'
 		$download->set_featured( ( isset( $_POST['_featured'] ) ) );
