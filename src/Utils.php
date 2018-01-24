@@ -8,7 +8,15 @@ abstract class DLM_Utils {
 	 * @return string
 	 */
 	public static function get_visitor_ip() {
-		return sanitize_text_field( ( ( '1' == get_option( 'dlm_allow_x_forwarded_for', 0 ) ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ? trim( array_shift( explode( ",", $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) : $_SERVER['REMOTE_ADDR'] );
+
+		$ip = $_SERVER['REMOTE_ADDR'];
+
+		if (  ( '1' == get_option( 'dlm_allow_x_forwarded_for', 0 ) ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			$parts = explode( ",", $_SERVER['HTTP_X_FORWARDED_FOR'] );
+			$ip    = trim( array_shift( $parts ) );
+		}
+
+		return sanitize_text_field( $ip );
 	}
 
 	/**
