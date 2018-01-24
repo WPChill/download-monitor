@@ -23,11 +23,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php $dlm_download->the_excerpt(); ?>
 
-		<a class="download-button" title="<?php if ( $dlm_download->get_version()->has_version_number() ) {
+		<a class="download-button" title="<?php if ( $dlm_download->get_version() && $dlm_download->get_version()->has_version_number() ) {
 			printf( __( 'Version %s', 'download-monitor' ), $dlm_download->get_version()->get_version_number() );
 		} ?>" href="<?php $dlm_download->the_download_link(); ?>" rel="nofollow">
 			<?php _e( 'Download File', 'download-monitor' ); ?>
+			<?php if( $dlm_download->get_version() ): ?>
 			<small><?php echo $dlm_download->get_version()->get_filename(); ?> &ndash; <?php echo $dlm_download->get_version()->get_filesize_formatted(); ?></small>
+			<?php else: ?>
+			<small><?php echo $dlm_download->the_title(); ?></small>
+			<?php endif; ?>
 		</a>
 
 	</div>
