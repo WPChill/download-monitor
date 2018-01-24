@@ -120,6 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Fixed an count() warning in PHP7.2 on extension page.
 * Tweak: Fixed a passed by reference notice in lower PHP versions in get_visitor_ip() call.
 * Tweak: Added 'dlm_download_count' filter to fitler get_download_count() return value.
+* Tweak: Downloads now return an empty version if no version is added. This prevents mulitple possible fatal errors when external scripts don't check if get_version() returns null.
 
 = 4.0.0: January 22, 2018 =
 * Feature: Added reports page for download statistics.
