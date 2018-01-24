@@ -116,6 +116,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.0.1: January x, 2018 =
+* Tweak: Fixed an issue that caused widget limit to not work.
 * Tweak: Fixed an count() warning in PHP7.2 on extension page.
 * Tweak: Fixed a passed by reference notice in lower PHP versions in get_visitor_ip() call.
 

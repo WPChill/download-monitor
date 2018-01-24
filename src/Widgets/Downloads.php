@@ -64,7 +64,6 @@ class DLM_Widget_Downloads extends WP_Widget {
 			'post_status'    => 'publish',
 			'post_type'      => 'dlm_download',
 			'no_found_rows'  => 1,
-			'posts_per_page' => $posts_per_page,
 			'orderby'        => $orderby,
 			'order'          => $order,
 			'meta_query'     => array(),
@@ -91,7 +90,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 		}
 
 		// fetch downloads
-		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $args );
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $args, $posts_per_page );
 
 		if ( count( $downloads ) > 0 ) {
 
