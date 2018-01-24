@@ -266,11 +266,16 @@ class DLM_Download {
 	 * @return int
 	 */
 	public function get_download_count() {
+
+		// set default download count
+		$download_count = $this->download_count;
+
+		// set download count of latest version if set
 		if ( null != $this->get_version() && ! $this->get_version()->is_latest() ) {
-			return $this->get_version()->get_download_count();
-		} else {
-			return $this->download_count;
+			$download_count = $this->get_version()->get_download_count();
 		}
+
+		return apply_filters( 'dlm_download_count', $download_count, $this );
 	}
 
 	/**

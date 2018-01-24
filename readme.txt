@@ -119,6 +119,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Fixed an issue that caused widget limit to not work.
 * Tweak: Fixed an count() warning in PHP7.2 on extension page.
 * Tweak: Fixed a passed by reference notice in lower PHP versions in get_visitor_ip() call.
+* Tweak: Added 'dlm_download_count' filter to fitler get_download_count() return value.
 
 = 4.0.0: January 22, 2018 =
 * Feature: Added reports page for download statistics.
