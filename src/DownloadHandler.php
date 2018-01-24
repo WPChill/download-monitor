@@ -280,7 +280,12 @@ class DLM_Download_Handler {
 			$download = null;
 
 			if ( $download_id > 0 ) {
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+				try {
+					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+				}catch (Exception $e) {
+					// download not found
+				}
+
 			}
 
 			// Handle version (if set)
@@ -294,7 +299,7 @@ class DLM_Download_Handler {
 				$version_id = absint( $_GET['v'] );
 			}
 
-			if ( $version_id ) {
+			if ( null != $download && $version_id ) {
 				try {
 					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
 					$download->set_version( $version );

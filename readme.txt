@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Downloads now return an empty version if no version is added. This prevents mulitple possible fatal errors when external scripts don't check if get_version() returns null.
 * Tweak: Added an extra check to if website needs upgrading. If there are new downloads in the database, no upgrade is recommended.
 * Tweak: Added an extra warning on the upgrade page to users that navigate to the page while we think no upgrade is needed.
+* Tweak: Requesting a non existing download no longer triggers a fatal error (exception is now properly handled).
 
 = 4.0.0: January 22, 2018 =
 * Feature: Added reports page for download statistics.
