@@ -388,9 +388,12 @@ class DLM_Download {
 				$latest = array_shift( $versions );
 				$latest->set_latest( true );
 				$this->version = $latest;
-			}else {
+			} else {
 				// return an empty version if there is no version
 				$this->version = new DLM_Download_Version();
+
+				// set empty version as latest so download object doesn't think we're dealing with a 'special' version
+				$this->version->set_latest( true );
 			}
 		}
 
