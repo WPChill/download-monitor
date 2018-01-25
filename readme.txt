@@ -4,7 +4,7 @@ Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
 Tested up to: 4.9.2
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GPLv3
 Text Domain: -
 
@@ -115,7 +115,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.0.1: January x, 2018 =
+= 4.0.1: January 25, 2018 =
 * Tweak: Fixed an issue that caused widget limit to not work.
 * Tweak: Fixed an count() warning in PHP7.2 on extension page.
 * Tweak: Fixed a passed by reference notice in lower PHP versions in get_visitor_ip() call.
