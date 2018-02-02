@@ -3,8 +3,8 @@ Contributors: never5, barrykooij, mikejolley, hchouhan
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.9.2
-Stable tag: 4.0.1
+Tested up to: 4.9.3
+Stable tag: 4.0.2
 License: GPLv3
 Text Domain: -
 
@@ -111,7 +111,6 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 1. The main admin screen lists your downloads using familiar WordPress UI.
 2. Easily add file information and multiple versions.
 3. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
-4. Display regular download links or fancy ones all using shortcodes and templates.
 
 == Changelog ==
 
