@@ -117,6 +117,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 4.0.2: February 2, 2018 =
 * Tweak: Moved no cache headers up in download process, improving cache prevention.
+* Tweak: Added new log item meta data methods, making it easier to add meta data.
+* Tweak: Added new action 'dlm_downloading_log_item_added'. Is triggered after log item is added on download request.
+* Tweak: Added $download and $version arguments to 'dlm_log_item' filter.
 
 = 4.0.1: January 25, 2018 =
 * Tweak: Fixed an issue that caused widget limit to not work.
