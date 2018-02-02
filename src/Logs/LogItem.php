@@ -33,7 +33,7 @@ class DLM_Log_Item {
 	private $download_status_message;
 
 	/** @var array */
-	private $meta_data;
+	private $meta_data = array();
 
 	/**
 	 * @return int
@@ -187,6 +187,40 @@ class DLM_Log_Item {
 	 */
 	public function set_meta_data( $meta_data ) {
 		$this->meta_data = $meta_data;
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 */
+	public function add_meta_data_item( $key, $value ) {
+
+		// get meta
+		$meta = $this->get_meta_data();
+
+		// just to be sure we have an array
+		if ( ! is_array( $meta ) ) {
+			$meta = array();
+		}
+
+		// set new meta. We're not checking if it exists, this means we override by default. Check in your code if exists before adding!
+		$meta[ $key ] = $value;
+
+		// set meta
+		$this->set_meta_data( $meta );
+	}
+
+	/**
+	 * Checks if meta data exists for given key
+	 *
+	 * @param $key
+	 *
+	 * @return bool
+	 */
+	public function meta_data_exist( $key ) {
+		$meta = $this->get_meta_data();
+
+		return ( is_array( $meta ) && isset( $meta[ $key ] ) );
 	}
 
 }
