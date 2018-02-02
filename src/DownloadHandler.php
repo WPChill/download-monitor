@@ -365,10 +365,13 @@ class DLM_Download_Handler {
 				$log_item->set_download_status_message( $message );
 
 				// allow filtering of log item
-				$log_item = apply_filters( 'dlm_log_item', $log_item );
+				$log_item = apply_filters( 'dlm_log_item', $log_item, $download, $version );
 
 				// persist log item
 				download_monitor()->service( 'log_item_repository' )->persist( $log_item );
+
+				// trigger action when new log item was added for a download request
+				do_action( 'dlm_downloading_log_item_added', $log_item, $download, $version );
 			}
 
 		}
