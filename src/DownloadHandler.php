@@ -389,6 +389,9 @@ class DLM_Download_Handler {
 	 */
 	private function trigger( $download ) {
 
+		// Download is triggered. First thing we do, send no cache headers.
+		$this->cache_headers();
+
 		/** @var DLM_Download_Version $version */
 		$version    = $download->get_version();
 
@@ -562,6 +565,21 @@ class DLM_Download_Handler {
 	}
 
 	/**
+	 * Send cache headers to browser. No cache pelase.
+	 */
+	private function cache_headers() {
+		global $is_IE;
+
+		if ( $is_IE && is_ssl() ) {
+			// IE bug prevents download via SSL when Cache Control and Pragma no-cache headers set.
+			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
+			header( 'Cache-Control: private' );
+		} else {
+			nocache_headers();
+		}
+	}
+
+	/**
 	 * Output download headers
 	 *
 	 * @param string $file_path
@@ -569,7 +587,6 @@ class DLM_Download_Handler {
 	 * @param DLM_Download_Version $version
 	 */
 	private function download_headers( $file_path, $download, $version ) {
-		global $is_IE;
 
 		// Get Mime Type
 		$mime_type = "application/octet-stream";
@@ -617,14 +634,6 @@ class DLM_Download_Handler {
 		}
 
 		$headers = array();
-
-		if ( $is_IE && is_ssl() ) {
-			// IE bug prevents download via SSL when Cache Control and Pragma no-cache headers set.
-			$headers['Expires']       = 'Wed, 11 Jan 1984 05:00:00 GMT';
-			$headers['Cache-Control'] = 'private';
-		} else {
-			nocache_headers();
-		}
 
 		$headers['X-Robots-Tag']              = 'noindex, nofollow';
 		$headers['Content-Type']              = $mime_type;

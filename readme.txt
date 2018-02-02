@@ -115,6 +115,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.0.2: February 2, 2018 =
+* Tweak: Moved no cache headers up in download process, improving cache prevention.
+
 = 4.0.1: January 25, 2018 =
 * Tweak: Fixed an issue that caused widget limit to not work.
 * Tweak: Fixed an count() warning in PHP7.2 on extension page.
