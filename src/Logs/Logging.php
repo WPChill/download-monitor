@@ -28,7 +28,7 @@ class DLM_Logging {
 	}
 
 	/**
-	 * Check if visitor has downloaded version in the past 24 hours
+	 * Check if visitor has downloaded version
 	 *
 	 * @param DLM_Download_Version $version
 	 *
@@ -37,7 +37,7 @@ class DLM_Logging {
 	public function has_ip_downloaded_version( $version ) {
 		global $wpdb;
 
-		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE type = 'download' AND `version_id` = %d AND `user_ip` = %s", $version->get_id(), DLM_Utils::get_visitor_ip() ) ) ) > 0 );
+		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE `version_id` = %d AND `user_ip` = %s", $version->get_id(), DLM_Utils::get_visitor_ip() ) ) ) > 0 );
 	}
 
 }
