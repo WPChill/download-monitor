@@ -17,6 +17,7 @@
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./includes</directory>
+            <directory suffix=".php">./src</directory>
             <file>download-monitor.php</file>
             <file>uninstall.php</file>
             <exclude>
