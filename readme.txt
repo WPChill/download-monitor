@@ -114,6 +114,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.0.3: February 9, 2018 =
+* Tweak: We now cache if we need to upgrade legacy downloads. This prevents us from checking if we need to upgrade on every pageload, improving performance and preventing constant sql warning when legacy table doesn't exist.
+* Tweak: Fixed SQL error in has_ip_downloaded_version() call ('type' does not exist).
+
 = 4.0.2: February 2, 2018 =
 * Tweak: Moved no cache headers up in download process, improving cache prevention.
 * Tweak: Added new log item meta data methods, making it easier to add meta data.
