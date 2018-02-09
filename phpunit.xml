@@ -21,6 +21,7 @@
             <file>download-monitor.php</file>
             <file>uninstall.php</file>
             <exclude>
+                <directory suffix=".php">./src/Libs</directory>
             </exclude>
         </whitelist>
     </filter>
