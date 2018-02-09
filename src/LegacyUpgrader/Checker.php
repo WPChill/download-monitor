@@ -19,8 +19,6 @@ class DLM_LU_Checker {
 	private function has_legacy_tables() {
 		global $wpdb;
 
-		error_log( 'checking legacy tables', 0 );
-
 		$du                    = new DLM_LU_Download_Upgrader();
 		$legacy_tables         = $du->get_legacy_tables();
 		$sql                   = "SELECT 1 FROM `" . $legacy_tables['files'] . "` LIMIT 1;";
