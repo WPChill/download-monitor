@@ -115,7 +115,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.0.4: February x, 2018 =
-* Tweak: Fixed a bug where versions of draft and pending review downloads were not displayed.
+* Tweak: Fixed a bug where versions of draft and pending review downloads were not displayed in the backend.
 
 = 4.0.3: February 9, 2018 =
 * Tweak: We now cache if we need to upgrade legacy downloads. This prevents us from checking if we need to upgrade on every pageload, improving performance and preventing constant sql warning when legacy table doesn't exist.
