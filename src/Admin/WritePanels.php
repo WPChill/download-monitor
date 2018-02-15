@@ -153,12 +153,17 @@ class DLM_Admin_Writepanels {
 	public function download_files() {
 		global $post;
 
-		try {
-			/** @var DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
-		} catch ( Exception $e ) {
-		    $download = new DLM_Download();
+		/** @var DLM_Download $download */
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve( array(
+			'p'           => absint( $post->ID ),
+			'post_status' => array( 'any', 'trash' )
+		), 1 );
+
+		if ( 0 == count( $downloads ) ) {
+			return;
 		}
+
+		$download = $downloads[0];
 
 		wp_nonce_field( 'save_meta_data', 'dlm_nonce' );
 		?>

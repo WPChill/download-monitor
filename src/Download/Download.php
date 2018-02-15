@@ -454,7 +454,7 @@ class DLM_Download {
 	 * @return array
 	 */
 	public function get_version_ids() {
-		if ( empty( $this->version_ids ) && $this->exists() ) {
+		if ( empty( $this->version_ids ) ) {
 
 			if ( apply_filters( 'dlm_download_use_version_transient', true, $this ) ) {
 
