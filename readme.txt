@@ -114,7 +114,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.0.4: February x, 2018 =
+= 4.0.4: February 19, 2018 =
 * Tweak: Fixed a bug where versions of draft and pending review downloads were not displayed in the backend.
 
 = 4.0.3: February 9, 2018 =
