@@ -167,8 +167,6 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 			// create
 			$version_id = wp_insert_post( array(
 				'post_title'   => $version->get_title(),
-				'post_content' => '',
-				'post_excerpt' => '',
 				'post_author'  => $version->get_author(),
 				'post_type'    => 'dlm_download_version',
 				'post_status'  => 'publish',
@@ -189,8 +187,6 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 			$version_id = wp_update_post( array(
 				'ID'           => $version->get_id(),
 				'post_title'   => $version->get_title(),
-				'post_content' => '',
-				'post_excerpt' => '',
 				'post_author'  => $version->get_author(),
 				'post_status'  => 'publish',
 				'post_parent'  => $version->get_download_id(),
