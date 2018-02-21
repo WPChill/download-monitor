@@ -128,7 +128,7 @@ class DLM_Admin_Media_Insert {
 					// Set hashes
 					update_post_meta( $file_id, '_md5', $hashes['md5'] );
 					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
-					update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
+					update_post_meta( $file_id, '_crc32', $hashes['crc32b'] );
 
 					// Success message
 					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download-monitor' ) . '</p></div>';

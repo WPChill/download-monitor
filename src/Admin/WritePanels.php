@@ -159,11 +159,11 @@ class DLM_Admin_Writepanels {
 			'post_status' => array( 'any', 'trash' )
 		), 1 );
 
-		if ( 0 == count( $downloads ) ) {
-			return;
+		if ( count( $downloads ) > 0 ) {
+			$download = $downloads[0];
+		} else {
+			$download = new DLM_Download();
 		}
-
-		$download = $downloads[0];
 
 		wp_nonce_field( 'save_meta_data', 'dlm_nonce' );
 		?>
