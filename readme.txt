@@ -117,6 +117,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 4.0.5: February 21, 2018 =
 * Tweak: Fixed a bug that caused the "Add file" button to not appear on the Add New Download screen.
 * Tweak: Fixed a bug that caused the crc32b hash not to be saved when adding a download via the 'Quick-add Download' option.
+* Tweak: WordPressVersionRepository no longer explicitly sets 'post_content' and 'post_excerpt' database fields of dlm_download_version to empty strings. Props [Erin Morelli](https://github.com/ErinMorelli).
 
 = 4.0.4: February 19, 2018 =
 * Tweak: Fixed a bug where versions of draft and pending review downloads were not displayed in the backend.
