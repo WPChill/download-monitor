@@ -79,7 +79,7 @@ class DLM_Shortcodes {
 		), $atts ) );
 
 		// Make id filterable
-		$id = apply_filters( 'dlm_shortcode_download_id', $id );
+		$id = apply_filters( 'dlm_shortcode_download_id', $id, $atts );
 
 		// Check id
 		if ( empty( $id ) ) {
@@ -87,7 +87,7 @@ class DLM_Shortcodes {
 		}
 
 		// Allow third party extensions to hijack shortcode
-		$hijacked_content = apply_filters( 'dlm_shortcode_download_content', '', $id, $atts );
+		$hijacked_content = apply_filters( 'dlm_shortcode_download_content', '', $id, $atts, $content );
 
 		// If there's hijacked content, return it and be done with it
 		if ( '' !== $hijacked_content ) {
@@ -162,7 +162,7 @@ class DLM_Shortcodes {
 			'version'    => ''
 		), $atts ) );
 
-		$id = apply_filters( 'dlm_shortcode_download_id', $id );
+		$id = apply_filters( 'dlm_shortcode_download_id', $id, $atts );
 
 		if ( empty( $id ) || empty( $data ) ) {
 			return "";
