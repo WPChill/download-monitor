@@ -19,7 +19,7 @@ if ( $versions ) : ?>
 			?>
 			<li><a class="download-link"
 			       title="<?php printf( _n( 'Downloaded 1 time', 'Downloaded %d times', $dlm_download->get_download_count(), 'download-monitor' ), $dlm_download->get_download_count() ) ?>"
-			       href="<?php $dlm_download->the_download_link(); ?>" rel="nofollow">
+			       href="<?php echo add_query_arg( 'v', $version->get_id(), $dlm_download->get_the_download_link() ); ?>" rel="nofollow">
 					<?php echo $version->get_filename(); ?> <?php if ( $version->has_version_number() ) {
 						echo '- ' . $version->get_version_number();
 					} ?>
