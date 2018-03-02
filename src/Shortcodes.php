@@ -427,7 +427,7 @@ class DLM_Shortcodes {
 		ob_start();
 
 		// Allow filtering of arguments
-		$args = apply_filters( 'dlm_shortcode_downloads_args', $args );
+		$args = apply_filters( 'dlm_shortcode_downloads_args', $args, $atts );
 
 		$offset = $paginate ? ( max( 1, get_query_var( 'paged' ) ) - 1 ) * $per_page : $offset;
 
