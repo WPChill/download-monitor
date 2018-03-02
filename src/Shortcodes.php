@@ -341,72 +341,19 @@ class DLM_Shortcodes {
 		if ( $category || $tag || $exclude_tag ) {
 			$args['tax_query'] = array( 'relation' => 'AND' );
 
-			$tags = array_filter( explode( ',', $tag ) );
-
 			// check if we include category children
 			$include_children = ( $category_include_children === 'true' || $category_include_children === true );
 
 			if ( ! empty( $category ) ) {
-
-				if ( preg_match( '/\+/', $category ) ) {
-
-					// categories with AND
-
-					// string to array
-					$categories = array_filter( explode( '+', $category ) );
-
-					// check if explode had results
-					if ( ! empty( $categories ) ) {
-
-						foreach ( $categories as $category ) {
-							$args['tax_query'][] = array(
-								'taxonomy'         => 'dlm_download_category',
-								'field'            => 'slug',
-								'terms'            => $category,
-								'include_children' => $include_children
-							);
-						}
-
-					}
-
-				} else {
-
-					// categories with OR
-
-					// string to array
-					$categories = array_filter( explode( ',', $category ) );
-
-					// check if explode had results
-					if ( ! empty( $categories ) ) {
-
-						$args['tax_query'][] = array(
-							'taxonomy'         => 'dlm_download_category',
-							'field'            => 'slug',
-							'terms'            => $categories,
-							'include_children' => $include_children
-						);
-
-					}
-
-				}
-
+				$args['tax_query'] = array_merge( $args['tax_query'], $this->format_tags( 'dlm_download_category', $category, array( 'include_children' => $include_children ) ) );
 			}
 
-			if ( ! empty( $tags ) ) {
-				$args['tax_query'][] = array(
-					'taxonomy' => 'dlm_download_tag',
-					'field'    => 'slug',
-					'terms'    => $tags
-				);
+			if ( ! empty( $tag ) ) {
+				$args['tax_query'] = array_merge( $args['tax_query'], $this->format_tags( 'dlm_download_tag', $tag ) );
 			}
 
 			if ( ! empty( $exclude_tag ) ) {
-				$args['tax_query'][] = array(
-					'taxonomy' => 'dlm_download_tag',
-					'field'    => 'slug',
-					'terms'    => $exclude_tag,
-					'operator' => 'NOT IN'
-				);
+				$args['tax_query'] = array_merge( $args['tax_query'], $this->format_tags( 'dlm_download_tag', $exclude_tag, array( 'operator' => 'NOT IN' ) ) );
 			}
 		}
 
@@ -495,6 +442,57 @@ class DLM_Shortcodes {
 		wp_reset_postdata();
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Format taxonomy filter for query
+	 *
+	 * @param string $tax Taxonomy name to be used
+	 * @param string $terms Comma or plus delimited list of terms
+	 * @param array $args Arguments to be appended to each query
+	 *
+	 * @return array
+	 */
+	public function format_tags( $tax, $terms, $args = array() ) {
+		$tax_query = array();
+
+		if ( preg_match( '/\+/', $terms ) ) {
+
+			// Taxonomy with AND
+
+			// string to array
+			$terms = array_filter( explode( '+', $terms ) );
+
+			// check if explode had results
+			if ( ! empty( $terms ) ) {
+
+				foreach ( $terms as $term ) {
+					$tax_query[] = array_merge( array(
+						'taxonomy'         => $tax,
+						'field'            => 'slug',
+						'terms'            => $term,
+					), $args );
+				}
+			}
+
+		} else {
+
+			// Taxonomy with OR
+
+			// string to array
+			$terms = array_filter( explode( ',', $terms ) );
+
+			// check if explode had results
+			if ( ! empty( $terms ) ) {
+
+				$tax_query[] = array_merge( array(
+					'taxonomy'         => $tax,
+					'field'            => 'slug',
+					'terms'            => $terms,
+				), $args );
+			}
+		}
+		return $tax_query;
 	}
 
 	/**
