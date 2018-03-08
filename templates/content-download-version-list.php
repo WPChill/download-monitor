@@ -16,6 +16,9 @@ if ( $versions ) : ?>
 		<?php
 		/** @var DLM_Download_Version $version */
 		foreach ( $versions as $version ) {
+
+		    // set loop version as current version
+			$dlm_download->set_version( $version );
 			?>
 			<li><a class="download-link"
 			       title="<?php printf( _n( 'Downloaded 1 time', 'Downloaded %d times', $dlm_download->get_download_count(), 'download-monitor' ), $dlm_download->get_download_count() ) ?>"
