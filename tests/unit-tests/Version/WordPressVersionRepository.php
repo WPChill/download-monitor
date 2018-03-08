@@ -3,16 +3,6 @@
 class DLM_Test_WordPress_Version_Repository extends DLM_Unit_Test_Case {
 
 	/**
-	 * tearDown
-	 */
-	public function tearDown() {
-		global $wpdb;
-		parent::tearDown();
-		DLM_Test_WP_DB_Helper::truncate( $wpdb->posts );
-		DLM_Test_WP_DB_Helper::truncate( $wpdb->postmeta );
-	}
-
-	/**
 	 * Test num_rows() without filters
 	 */
 	public function test_num_rows() {

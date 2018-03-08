@@ -3,15 +3,6 @@
 class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 
 	/**
-	 * tearDown
-	 */
-	public function tearDown() {
-		global $wpdb;
-		parent::tearDown();
-		DLM_Test_WP_DB_Helper::truncate( $wpdb->download_log );
-	}
-
-	/**
 	 * Test test_num_rows() without any filters
 	 */
 	public function test_num_rows() {

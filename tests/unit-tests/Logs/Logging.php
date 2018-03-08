@@ -2,15 +2,6 @@
 
 class DLM_Test_Logging extends DLM_Unit_Test_Case {
 
-	/**
-	 * tearDown
-	 */
-	public function tearDown() {
-		global $wpdb;
-		parent::tearDown();
-		DLM_Test_WP_DB_Helper::truncate( $wpdb->download_log );
-	}
-
 	public function test_has_ip_downloaded_version() {
 
 		// repo

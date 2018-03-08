@@ -3,9 +3,22 @@
 class DLM_Unit_Test_Case extends WP_UnitTestCase {
 
 	/**
+	 * tearDown
+	 */
+	public function tearDown() {
+		global $wpdb;
+		parent::tearDown();
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->posts );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->postmeta );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->term_relationships );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->term_taxonomy );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->termmeta );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->terms );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->download_log );
+	}
+
+	/**
 	 * Setup test case
-	 *
-	 * @since 1.2.0
 	 */
 	public function setUp() {
 
