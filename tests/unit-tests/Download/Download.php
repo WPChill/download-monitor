@@ -11,7 +11,7 @@ class DLM_Test_Download extends DLM_Unit_Test_Case {
 		$download = new DLM_Test_Download_Mock();
 
 		// should not exist due lack of id
-		$this->assertNotTrue( $download->exists() );
+		$this->assertFalse( $download->exists() );
 
 		// should exists with ID
 		$download->set_id( 1 );
