@@ -372,7 +372,7 @@ class DLM_Download {
 	 * @return bool
 	 */
 	public function has_version() {
-		return ( null !== $this->get_version() );
+		return ( null !== $this->get_version() && $this->get_version()->get_id() > 0 );
 	}
 
 	/**
