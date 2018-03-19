@@ -16,7 +16,7 @@ class DLM_Admin_Dashboard {
 	 */
 	public function __construct() {
 
-		if ( ! current_user_can( 'manage_downloads' ) ) {
+		if ( ! current_user_can( 'manage_downloads' ) || apply_filters( 'dlm_remove_dashboard_popular_downloads', false ) ) {
 			return;
 		}
 

@@ -114,6 +114,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.0.7: March x, 2018 =
+* Tweak: Added "dlm_remove_dashboard_popular_downloads" filter that allows for not loading of dashboard widget.
+
 = 4.0.6: March 8, 2018 =
 * Tweak: Fixed a bug in the version-list template, correct version links are now displayed.
 
