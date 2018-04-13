@@ -118,6 +118,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Added "dlm_remove_dashboard_popular_downloads" filter that allows for not loading of dashboard widget.
 * Tweak: Moved 'dlm_log_item' filter to within the WordPressLogItemRepository::persist() method. This way the filter will always be called upon a log persist.
 * Tweak: Filter 'dlm_log_item' 2nd and 3rd argument changed from DLM_Download & DLM_Download_Version type to int (ID's of both download and version).
+* Tweak: Moved 'dlm_downloading_log_item_added' filter to within the WordPressLogItemRepository::persist() method. This way the filter will always be called upon a log persist.
+* Tweak: Filter 'dlm_downloading_log_item_added' 2nd and 3rd argument changed from DLM_Download & DLM_Download_Version type to int (ID's of both download and version).
 
 = 4.0.6: March 8, 2018 =
 * Tweak: Fixed a bug in the version-list template, correct version links are now displayed.
