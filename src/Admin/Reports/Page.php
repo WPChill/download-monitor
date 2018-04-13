@@ -200,6 +200,8 @@ class DLM_Reports_Page {
 			*/
 			?>
 
+	        <?php do_action( 'dlm_reports_page_start' ); ?>
+
             <div class="dlm-reports-block dlm-reports-block-chart"
                  id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></div>
 
@@ -221,6 +223,8 @@ class DLM_Reports_Page {
                  id="total_downloads_browser_table"<?php echo $this->generate_js_data(); ?>>
                 <span class="dlm-reports-placeholder-no-data">NO DATA</span>
             </div>
+
+            <?php do_action( 'dlm_reports_page_end' ); ?>
 
             <script type="text/javascript">
 				jQuery( document ).ready( function ( $ ) {
