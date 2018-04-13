@@ -3,11 +3,11 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 4.0.6
+	Version: 4.0.7
 	Author: Never5
 	Author URI: https://www.never5.com
 	Requires at least: 3.8
-	Tested up to: 4.9.4
+	Tested up to: 4.9.5
 	Text Domain: download-monitor
 
 	License: GPL v3
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '4.0.6' );
+define( 'DLM_VERSION', '4.0.7' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
