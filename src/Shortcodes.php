@@ -64,6 +64,7 @@ class DLM_Shortcodes {
 	 * @access public
 	 *
 	 * @param array $atts
+	 * @param string $content
 	 *
 	 * @return string
 	 */
