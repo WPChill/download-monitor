@@ -125,7 +125,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Added filter 'dlm_reports_page_end' to add content on bottom of admin reports page.
 * Tweak: Added download id and download object to 'dlm_placeholder_image_src' filter, props [James Golovich](https://github.com/jamesgol).
 * Tweak: Added filter 'dlm_download_get_versions' on return of DLM_Download::get_versions(), props [James Golovich](https://github.com/jamesgol).
-* Tweak: Added $atts to 'dlm_shortcode_downloads_args' filter in [downloads] shortcode, props [James Golovich](https://github.com/jamesgol).
+* Tweak: Added $atts to various shortcode filters, props [James Golovich](https://github.com/jamesgol).
 
 = 4.0.6: March 8, 2018 =
 * Tweak: Fixed a bug in the version-list template, correct version links are now displayed.
