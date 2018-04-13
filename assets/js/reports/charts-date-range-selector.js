@@ -74,8 +74,8 @@ DLM_Reports_Date_Range_Selector.prototype.createElement = function () {
 	} );
 	actions.append( applyButton );
 	el.append( startDate ).append( endDate ).append( actions ).append( this.startDateInput ).append( this.endDateInput );
-	startDate.datepicker( {inline: true, altField: this.startDateInput, dateFormat: "dd M yy", defaultDate: this.startDate } );
-	endDate.datepicker( {inline: true, altField: this.endDateInput, dateFormat: "dd M yy", defaultDate: this.endDate } );
+	startDate.datepicker( {inline: true, altField: this.startDateInput, dateFormat: "yy-m-dd", defaultDate: this.startDate } );
+	endDate.datepicker( {inline: true, altField: this.endDateInput, dateFormat: "yy-m-dd", defaultDate: this.endDate } );
 	el.click( function () {
 		return false
 	} );
