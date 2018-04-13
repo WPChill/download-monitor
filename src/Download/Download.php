@@ -296,7 +296,7 @@ class DLM_Download {
 		if ( has_post_thumbnail( $this->id ) ) {
 			return get_the_post_thumbnail( $this->id, $size );
 		} else {
-			return '<img alt="Placeholder" class="wp-post-image" src="' . apply_filters( 'dlm_placeholder_image_src', download_monitor()->get_plugin_url() . '/assets/images/placeholder.png' ) . '" />';
+			return '<img alt="Placeholder" class="wp-post-image" src="' . apply_filters( 'dlm_placeholder_image_src', download_monitor()->get_plugin_url() . '/assets/images/placeholder.png', $this->id, $this ) . '" />';
 		}
 	}
 
