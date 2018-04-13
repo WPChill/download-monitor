@@ -180,6 +180,9 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	public function persist( $log_item ) {
 		global $wpdb;
 
+		// allow filtering of log item
+		$log_item = apply_filters( 'dlm_log_item', $log_item, $log_item->get_download_id(), $log_item->get_version_id() );
+
 		// hide wpdb errors to prevent errors in download request
 		$wpdb->hide_errors();
 

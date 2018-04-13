@@ -364,9 +364,6 @@ class DLM_Download_Handler {
 				$log_item->set_download_status( $status );
 				$log_item->set_download_status_message( $message );
 
-				// allow filtering of log item
-				$log_item = apply_filters( 'dlm_log_item', $log_item, $download, $version );
-
 				// persist log item
 				download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 
