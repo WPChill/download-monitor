@@ -115,6 +115,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.0.7: March x, 2018 =
+* Tweak: Fixed a bug that caused the 10 download limit on the Dashboard Widget to be ignored.
 * Tweak: Added "dlm_remove_dashboard_popular_downloads" filter that allows for not loading of dashboard widget.
 * Tweak: Moved 'dlm_log_item' filter to within the WordPressLogItemRepository::persist() method. This way the filter will always be called upon a log persist.
 * Tweak: Filter 'dlm_log_item' 2nd and 3rd argument changed from DLM_Download & DLM_Download_Version type to int (ID's of both download and version).

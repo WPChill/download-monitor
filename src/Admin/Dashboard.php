@@ -36,7 +36,6 @@ class DLM_Admin_Dashboard {
 
 		$filters = array(
 			'no_found_rows'  => 1,
-			'posts_per_page' => 10,
 			'orderby'    => 'meta_value_num',
 			'order'      => 'desc',
 			'meta_query' => array(
@@ -48,7 +47,7 @@ class DLM_Admin_Dashboard {
 			),
 			'meta_key'       => '_download_count'
 		);
-		$downloads = download_monitor()->service('download_repository')->retrieve($filters);
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
 
 		if ( empty( $downloads ) ) {
 			echo '<p>' . __( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
