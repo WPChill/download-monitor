@@ -500,7 +500,7 @@ class DLM_Download {
 			}
 		}
 
-		return $this->versions;
+		return apply_filters( 'dlm_download_get_versions', $this->versions, $this );
 	}
 
 	/**
