@@ -220,7 +220,7 @@ class DLM_Shortcodes {
 					return wpautop( wptexturize( do_shortcode( $download->get_description() ) ) );
 				case 'post_date' :
 				case 'file_date' :
-					return date_i18n( get_option( 'date_format' ), $download->get_version()->get_date()->getTimestamp() );
+					return date_i18n( get_option( 'date_format' ), $download->get_version()->get_date()->format( 'U' ) );
 				case 'author' :
 					return $download->get_the_author();
 
