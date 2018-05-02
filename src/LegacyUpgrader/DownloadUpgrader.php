@@ -285,7 +285,13 @@ class DLM_LU_Download_Upgrader {
 		// set other version data
 		$version->set_filesize( "" ); // empty filesize so it's calculated on persist
 		$version->set_author( $download->get_author() );
-		$version->set_date( new DateTime( $legacy_download->postDate ) );
+
+		// version date
+		$version_date = new DateTime( $legacy_download->postDate );
+		if ( $version_date->format( 'U' ) < 0 ) {
+			$version_date = new DateTime();
+		}
+		$version->set_date( $version_date );
 
 		// persist new version
 		download_monitor()->service( 'version_repository' )->persist( $version );
