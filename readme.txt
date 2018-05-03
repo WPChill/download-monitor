@@ -114,6 +114,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.0.8: May 2, 2018 =
+* Tweak: Fixed a bug in the legacy upgrader that caused versions with empty dates not to added.
+* Tweak: Fixed the use of getTimeStamp() because PHP 5.2 doesn't support this.
+
 = 4.0.7: April 13, 2018 =
 * Tweak: Fixed a bug that caused certain months in the reports filter to crash for non English languages.
 * Tweak: Fixed a bug that caused the 10 download limit on the Dashboard Widget to be ignored.
