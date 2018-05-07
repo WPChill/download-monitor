@@ -98,7 +98,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 				return $download_status;
 				break;
 			case 'date' :
-			    $time_str = date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), strtotime( $log->get_download_date()->format( 'U' ) ) );
+			    $time_str = date_i18n( get_option( 'date_format' ) . ' @ ' . get_option( 'time_format' ), $log->get_download_date()->format( 'U' ) );
 				return '<time title="' . $time_str . '"">' . sprintf( __( '%s ago', 'download-monitor' ), human_time_diff( $log->get_download_date()->format( 'U' ), current_time( 'timestamp' ) ) ) . '</time>';
 				break;
 			case 'download' :
