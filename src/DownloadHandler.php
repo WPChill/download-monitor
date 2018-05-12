@@ -293,6 +293,9 @@ class DLM_Download_Handler {
 
 			if ( ! empty( $_GET['version'] ) ) {
 				$version_id = $download->get_version_id_version_name( $_GET['version'] );
+				if ( apply_filters( 'dlm_version_require_exact', false, $download, $this ) ) {
+					wp_die( __( 'Download version does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+				}
 			}
 
 			if ( ! empty( $_GET['v'] ) ) {
@@ -304,6 +307,9 @@ class DLM_Download_Handler {
 					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
 					$download->set_version( $version );
 				} catch ( Exception $e ) {
+					if ( apply_filters( 'dlm_version_require_exact', false, $download, $this ) ) {
+						wp_die( __( 'Download version does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+					}
 
 				}
 			}
