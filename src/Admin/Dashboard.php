@@ -34,19 +34,26 @@ class DLM_Admin_Dashboard {
 	 */
 	public function popular_downloads() {
 
-		$filters = array(
-			'no_found_rows'  => 1,
-			'orderby'    => 'meta_value_num',
-			'order'      => 'desc',
-			'meta_query' => array(
+		$filters   = apply_filters( 'dlm_admin_dashboard_popular_downloads_filters', array(
+			'no_found_rows' => 1,
+			'orderby'       => array(
+				'orderby_meta' => 'DESC'
+			),
+			'meta_query'    => array(
+				'orderby_meta' => array(
+					'key'  => '_download_count',
+					'type' => 'NUMERIC'
+				),
 				array(
 					'key'     => '_download_count',
 					'value'   => '0',
-					'compare' => '>'
+					'compare' => '>',
+					'type'    => 'NUMERIC'
 				)
 			),
-			'meta_key'       => '_download_count'
-		);
+		) );
+
+
 		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
 
 		if ( empty( $downloads ) ) {
@@ -55,22 +62,25 @@ class DLM_Admin_Dashboard {
 			return;
 		}
 
-		$max_count = $downloads[0]->get_download_count();
+		$max_count = absint( $downloads[0]->get_download_count() );
+		if ( $max_count < 1 ) {
+			$max_count = 1;
+		}
 		?>
-		<table class="download_chart" cellpadding="0" cellspacing="0">
-			<thead>
-			<tr>
-				<th scope="col"><?php _e( 'Download', "download_monitor" ); ?></th>
-				<th scope="col"><?php _e( 'Download count', "download_monitor" ); ?></th>
-			</tr>
-			</thead>
-			<tbody>
+        <table class="download_chart" cellpadding="0" cellspacing="0">
+            <thead>
+            <tr>
+                <th scope="col"><?php _e( 'Download', "download_monitor" ); ?></th>
+                <th scope="col"><?php _e( 'Download count', "download_monitor" ); ?></th>
+            </tr>
+            </thead>
+            <tbody>
 			<?php
 			if ( $downloads ) {
-			    /** @var DLM_Download $download */
+				/** @var DLM_Download $download */
 				foreach ( $downloads as $download ) {
 
-					$width = $download->get_download_count() / ( $max_count ? $max_count : 1 ) * 80;
+					$width = ( $download->get_download_count() / $max_count ) * 80;
 
 					echo '<tr>
 							<th scope="row" style="width:25%;"><a href="' . admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) . '">' . $download->get_title() . '</a></th>
@@ -79,9 +89,9 @@ class DLM_Admin_Dashboard {
 				}
 			}
 			?>
-			</tbody>
-		</table>
-	<?php
+            </tbody>
+        </table>
+		<?php
 	}
 
 }

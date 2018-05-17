@@ -181,6 +181,9 @@ class WP_DLM {
 	private function setup_integrations() {
 		$yoast = new DLM_Integrations_YoastSEO();
 		$yoast->setup();
+
+		$post_types_order = new DLM_Integrations_PostTypesOrder();
+		$post_types_order->setup();
 	}
 
 	/**
