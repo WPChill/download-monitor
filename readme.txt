@@ -114,6 +114,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.1.0: May x, 2018 =
+* Tweak: Added compatibility for 'Post Types Order' plugin. The dashboard widget no longer is affected by their custom order.
+
 = 4.0.8: May 3, 2018 =
 * Tweak: Fixed a bug in the legacy upgrader that caused versions with empty dates not to added.
 * Tweak: Fixed the use of getTimeStamp() because PHP 5.2 doesn't support this.
