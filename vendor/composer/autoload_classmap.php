@@ -40,6 +40,7 @@ return array(
     'DLM_File_Manager' => $baseDir . '/src/FileManager.php',
     'DLM_Hasher' => $baseDir . '/src/Hasher.php',
     'DLM_Installer' => $baseDir . '/src/Installer.php',
+    'DLM_Integrations_PostTypesOrder' => $baseDir . '/src/Integrations/PostTypesOrder.php',
     'DLM_Integrations_YoastSEO' => $baseDir . '/src/Integrations/YoastSEO.php',
     'DLM_LU_Ajax' => $baseDir . '/src/LegacyUpgrader/Ajax.php',
     'DLM_LU_Checker' => $baseDir . '/src/LegacyUpgrader/Checker.php',
