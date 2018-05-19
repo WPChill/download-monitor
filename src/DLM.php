@@ -150,6 +150,10 @@ class WP_DLM {
 		$post_type_manager = new DLM_Post_Type_Manager();
 		$post_type_manager->setup();
 
+		// Setup Log Filters
+		$log_filters = new DLM_Log_Filters();
+		$log_filters->setup();
+
 		// Setup actions
 		$this->setup_actions();
 
@@ -420,7 +424,7 @@ class WP_DLM {
 		DLM_Debug_Logger::deprecated( __METHOD__ );
 
 		// Return files
-		return $this->service('hasher')->get_file_hashes( $file_path );
+		return $this->service( 'hasher' )->get_file_hashes( $file_path );
 	}
 
 	/**

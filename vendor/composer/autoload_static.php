@@ -110,6 +110,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'DLM_LU_Message' => __DIR__ . '/../..' . '/src/LegacyUpgrader/Message.php',
         'DLM_LU_Page' => __DIR__ . '/../..' . '/src/LegacyUpgrader/Page.php',
         'DLM_Log_Export_CSV' => __DIR__ . '/../..' . '/src/Logs/LogExportCSV.php',
+        'DLM_Log_Filters' => __DIR__ . '/../..' . '/src/Logs/LogFilters.php',
         'DLM_Log_Item' => __DIR__ . '/../..' . '/src/Logs/LogItem.php',
         'DLM_Log_Item_Repository' => __DIR__ . '/../..' . '/src/Logs/LogItemRepository.php',
         'DLM_Log_Page' => __DIR__ . '/../..' . '/src/Logs/LogPage.php',
