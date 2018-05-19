@@ -19,6 +19,24 @@ class DLM_Logging {
 	}
 
 	/**
+	 * Get the type of IP logging that is configured in settings
+	 *
+	 * @return string
+	 */
+	public function get_ip_logging_type() {
+		$type = get_option( 'dlm_logging_ip_type', 'full' );
+		if ( empty( $type ) ) {
+			$type = 'full';
+		}
+
+		return $type;
+	}
+
+	public function is_ua_logging_enabled() {
+		return (1==get_option('dlm_logging_ua', 1));
+	}
+
+	/**
 	 * Check if 'dlm_count_unique_ips' is enabled
 	 *
 	 * @return bool
