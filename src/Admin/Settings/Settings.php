@@ -184,11 +184,31 @@ class DLM_Admin_Settings {
 							'type'     => 'checkbox'
 						),
 						array(
+							'name'    => 'dlm_logging_ip_type',
+							'std'     => '',
+							'label'   => __( 'IP Address Logging', 'download-monitor' ),
+							'desc'    => __( 'Define if and how you like to store IP addresses of users that download your files in your logs.', 'download-monitor' ),
+							'type'    => 'select',
+							'options' => array(
+								'full'       => __( 'Store full IP address', 'download-monitor' ),
+								'anonymized' => __( 'Store anonymized IP address (remove last 3 digits)', 'download-monitor' ),
+								'none'       => __( 'Store no IP address', 'download-monitor' )
+							)
+						),
+						array(
+							'name'     => 'dlm_logging_ua',
+							'std'      => '1',
+							'label'    => __( 'User Agent Logging', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, the user agent (browser) the user uses to download the file will be stored in your logs.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
+						array(
 							'name'     => 'dlm_count_unique_ips',
 							'std'      => '',
 							'label'    => __( 'Count unique IPs only', 'download-monitor' ),
 							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address.', 'download-monitor' ),
+							'desc'     => sprintf( __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address. Note that this option only works if %s is set to %s.', 'download-monitor' ), '<strong>' . __( 'IP Address Logging', 'download-monitor' ) . '</strong>', '<strong>' . __( 'Store full IP address', 'download-monitor' ) . '</strong>' ),
 							'type'     => 'checkbox'
 						),
 					)
