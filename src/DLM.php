@@ -246,7 +246,9 @@ class WP_DLM {
 	 * @return void
 	 */
 	public function frontend_scripts() {
-		wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
+		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
+			wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
+		}
 	}
 
 	/**

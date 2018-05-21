@@ -119,6 +119,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Feature: Added a new option that allows site-owners to decide if they wish to track user agent of users.
 * Tweak: Fixed an issue where title of log dates had incorrect date.
 * Tweak: Added compatibility for 'Post Types Order' plugin. The dashboard widget no longer is affected by their custom order.
+* Tweak: Added dlm_frontend_scripts filter, allows user to not include DLM frontend assets.
 
 = 4.0.8: May 3, 2018 =
 * Tweak: Fixed a bug in the legacy upgrader that caused versions with empty dates not to added.
