@@ -416,6 +416,12 @@ class DLM_Shortcodes {
 				'key'   => '_featured',
 				'value' => 'yes'
 			);
+		} else {
+			$args['meta_query'][] = array(
+				'key'     => '_featured',
+				'value'   => 'yes',
+				'compare' => '!='
+			);
 		}
 
 		if ( $members_only === 'true' || $members_only === true ) {

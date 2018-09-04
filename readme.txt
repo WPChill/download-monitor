@@ -114,6 +114,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.1.0: September 4, 2018 =
+* Tweak: Fixed a bug that incorrectly included featured downloads by default in [downloads].
+
 = 4.1.0: May 21, 2018 =
 * Feature: Added a new option that allows site-owners if and how they wish to track IP addresses of users.
 * Feature: Added a new option that allows site-owners to decide if they wish to track user agent of users.
