@@ -1,10 +1,10 @@
 === Download Monitor ===
-Contributors: never5, barrykooij, mikejolley, hchouhan
+Contributors: never5, barrykooij, hchouhan, mikejolley
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.9.6
-Stable tag: 4.1.0
+Tested up to: 4.9.8
+Stable tag: 4.1.1
 License: GPLv3
 Text Domain: -
 
@@ -114,7 +114,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.1.0: September 4, 2018 =
+= 4.1.1: September 12, 2018 =
 * Tweak: Fixed a bug that incorrectly included featured downloads by default in [downloads].
 * Tweak: Added 'dlm_get_template_part_args' filter that allows arugment filtering on Download Monitor templates.
 
