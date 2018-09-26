@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Ecommerce\Order;
+namespace Never5\DownloadMonitor\Ecommerce\Session;
 
 class Session {
 
@@ -87,20 +87,6 @@ class Session {
 	 */
 	public function set_items( $items ) {
 		$this->items = $items;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function to_data() {
-		return '';
-	}
-
-	/**
-	 * @param string $data
-	 */
-	public function load_from_data( $data ) {
-
 	}
 	
 }
