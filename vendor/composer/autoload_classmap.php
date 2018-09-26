@@ -93,6 +93,8 @@ return array(
     'Never5\\DownloadMonitor\\Ecommerce\\Order\\OrderItem' => $baseDir . '/src/Ecommerce/Order/OrderItem.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Order\\OrderTransaction' => $baseDir . '/src/Ecommerce/Order/OrderTransaction.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Session\\Factory' => $baseDir . '/src/Ecommerce/Session/Factory.php',
+    'Never5\\DownloadMonitor\\Ecommerce\\Session\\Item\\Factory' => $baseDir . '/src/Ecommerce/Session/Item/Factory.php',
+    'Never5\\DownloadMonitor\\Ecommerce\\Session\\Item\\Item' => $baseDir . '/src/Ecommerce/Session/Item/Item.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Session\\Repository' => $baseDir . '/src/Ecommerce/Session/Repository.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Session\\Session' => $baseDir . '/src/Ecommerce/Session/Session.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Session\\WordPressRepository' => $baseDir . '/src/Ecommerce/Session/WordPressRepository.php',

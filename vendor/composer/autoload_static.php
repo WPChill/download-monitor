@@ -30,8 +30,8 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -152,6 +152,8 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'Never5\\DownloadMonitor\\Ecommerce\\Order\\OrderItem' => __DIR__ . '/../..' . '/src/Ecommerce/Order/OrderItem.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Order\\OrderTransaction' => __DIR__ . '/../..' . '/src/Ecommerce/Order/OrderTransaction.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Session\\Factory' => __DIR__ . '/../..' . '/src/Ecommerce/Session/Factory.php',
+        'Never5\\DownloadMonitor\\Ecommerce\\Session\\Item\\Factory' => __DIR__ . '/../..' . '/src/Ecommerce/Session/Item/Factory.php',
+        'Never5\\DownloadMonitor\\Ecommerce\\Session\\Item\\Item' => __DIR__ . '/../..' . '/src/Ecommerce/Session/Item/Item.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Session\\Repository' => __DIR__ . '/../..' . '/src/Ecommerce/Session/Repository.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Session\\Session' => __DIR__ . '/../..' . '/src/Ecommerce/Session/Session.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Session\\WordPressRepository' => __DIR__ . '/../..' . '/src/Ecommerce/Session/WordPressRepository.php',

@@ -11,6 +11,8 @@ interface Repository {
 	 * @param string $hash
 	 *
 	 * @return Session
+	 *
+	 * @throws \Exception
 	 */
 	public function retrieve( $key, $hash );
 

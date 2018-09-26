@@ -13,10 +13,10 @@ class Session {
 	/** @var \DateTimeImmutable */
 	private $expiry;
 
-	/** @var \Never5\DownloadMonitor\Ecommerce\Order\OrderCoupon[] */
+	/** @var string[] */
 	private $coupons;
 
-	/** @var \Never5\DownloadMonitor\Ecommerce\Order\OrderItem[] */
+	/** @var Item\Item[] */
 	private $items;
 
 	/**
@@ -62,31 +62,50 @@ class Session {
 	}
 
 	/**
-	 * @return OrderCoupon[]
+	 * @return string[]
 	 */
 	public function get_coupons() {
 		return $this->coupons;
 	}
 
 	/**
-	 * @param OrderCoupon[] $coupons
+	 * @param string[] $coupons
 	 */
 	public function set_coupons( $coupons ) {
 		$this->coupons = $coupons;
 	}
 
 	/**
-	 * @return OrderItem[]
+	 * @return Item[]
 	 */
 	public function get_items() {
 		return $this->items;
 	}
 
 	/**
-	 * @param OrderItem[] $items
+	 * @param Item[] $items
 	 */
 	public function set_items( $items ) {
 		$this->items = $items;
 	}
-	
+
+	/**
+	 * @param Item $item
+	 */
+	public function add_item( $item ) {
+
+		if ( ! is_array( $this->items ) ) {
+			$this->items = array();
+		}
+
+		$this->items[] = $item;
+	}
+
+	/**
+	 * @param string $key
+	 */
+	public function remove_item( $key ) {
+
+	}
+
 }
