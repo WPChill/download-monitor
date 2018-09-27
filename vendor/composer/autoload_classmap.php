@@ -57,6 +57,7 @@ return array(
     'DLM_Log_Page' => $baseDir . '/src/Logs/LogPage.php',
     'DLM_Logging' => $baseDir . '/src/Logs/Logging.php',
     'DLM_Logging_List_Table' => $baseDir . '/src/Logs/LoggingListTable.php',
+    'DLM_PHPVersion' => $baseDir . '/src/PHPVersion.php',
     'DLM_Post_Type_Manager' => $baseDir . '/src/PostTypeManager.php',
     'DLM_Product' => $baseDir . '/src/Product/Product.php',
     'DLM_Product_Error_Handler' => $baseDir . '/src/Product/ProductErrorHandler.php',

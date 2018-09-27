@@ -13,6 +13,8 @@ class WP_DLM {
 
 	private $services = null;
 
+	private $is_ecommerce_enabled = false;
+
 	/**
 	 * Get the plugin file
 	 *
@@ -38,6 +40,15 @@ class WP_DLM {
 	 */
 	public function get_plugin_url() {
 		return plugins_url( basename( plugin_dir_path( $this->get_plugin_file() ) ), basename( $this->get_plugin_file() ) );
+	}
+
+	/**
+	 * Returns if ecommerce component is enabled
+	 *
+	 * @return bool
+	 */
+	public function is_ecommerce_enabled() {
+		return $this->is_ecommerce_enabled;
 	}
 
 	/**
@@ -163,6 +174,21 @@ class WP_DLM {
 
 		// Setup integrations
 		$this->setup_integrations();
+	}
+
+	/**
+	 * This method checks if ecommerce is enabled and sets $is_ecommerce_enabled property accordingly
+	 */
+	private function check_ecommerce_enabled() {
+
+		// check if PHP version is compatible
+		if ( DLM_PHPVersion::is_ecommerce_ready() ) {
+
+			// @todo check if ecommerce is enabled in settings
+			$this->is_ecommerce_enabled = true;
+
+		}
+
 	}
 
 	/**

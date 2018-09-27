@@ -116,6 +116,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'DLM_Log_Page' => __DIR__ . '/../..' . '/src/Logs/LogPage.php',
         'DLM_Logging' => __DIR__ . '/../..' . '/src/Logs/Logging.php',
         'DLM_Logging_List_Table' => __DIR__ . '/../..' . '/src/Logs/LoggingListTable.php',
+        'DLM_PHPVersion' => __DIR__ . '/../..' . '/src/PHPVersion.php',
         'DLM_Post_Type_Manager' => __DIR__ . '/../..' . '/src/PostTypeManager.php',
         'DLM_Product' => __DIR__ . '/../..' . '/src/Product/Product.php',
         'DLM_Product_Error_Handler' => __DIR__ . '/../..' . '/src/Product/ProductErrorHandler.php',
