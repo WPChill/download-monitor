@@ -38,7 +38,15 @@ class WordPressRepository implements Repository {
 		$session->set_expiry( new \DateTimeImmutable( $r->expiry ) );
 
 		if ( isset( $data->items ) ) {
-			$session->set_items( $data->items );
+			$session_items = array();
+			foreach ( $data->items as $db_item ) {
+				$item = new Item\Item();
+				$item->set_key( $db_item->key );
+				$item->set_download_id( $db_item->download_id );
+				$item->set_qty( $db_item->qty );
+				$session_items[ $db_item->key ] = $item;
+			}
+			$session->set_items( $session_items );
 		}
 
 		if ( isset( $data->coupons ) ) {
@@ -48,12 +56,23 @@ class WordPressRepository implements Repository {
 		return $session;
 	}
 
+	/**
+	 * @param Session $session
+	 *
+	 * @return bool|void
+	 */
 	public function persist( $session ) {
 		global $wpdb;
 
+		// prep items for JSON
+		$items_array = array();
+		foreach ( $session->get_items() as $k => $v ) {
+			$items_array[ $k ] = $v->to_array();
+		}
+
 		// prepare data
 		$data = json_encode( array(
-			'items'   => $session->get_items(),
+			'items'   => $items_array,
 			'coupons' => $session->get_coupons()
 		) );
 

@@ -76,21 +76,49 @@ class Session {
 	}
 
 	/**
-	 * @return Item[]
+	 * @param string $code
+	 */
+	public function add_coupon( $code ) {
+
+		if ( ! is_array( $this->coupons ) ) {
+			$this->coupons = array();
+		}
+
+		// add if not added already
+		if ( ! in_array( $code, $this->coupons ) ) {
+			$this->coupons[] = $code;
+		}
+
+	}
+
+	/**
+	 * @param string $code
+	 */
+	public function remove_coupon( $code ) {
+		if ( in_array( $code, $this->coupons ) ) {
+			$key = array_search( $code, $this->coupons );
+			if ( false !== $key ) {
+				unset( $this->coupons[ $key ] );
+			}
+		}
+	}
+
+	/**
+	 * @return Item\Item[]
 	 */
 	public function get_items() {
 		return $this->items;
 	}
 
 	/**
-	 * @param Item[] $items
+	 * @param Item\Item[] $items
 	 */
 	public function set_items( $items ) {
 		$this->items = $items;
 	}
 
 	/**
-	 * @param Item $item
+	 * @param Item\Item $item
 	 */
 	public function add_item( $item ) {
 
@@ -98,14 +126,16 @@ class Session {
 			$this->items = array();
 		}
 
-		$this->items[] = $item;
+		$this->items[ $item->get_key() ] = $item;
 	}
 
 	/**
 	 * @param string $key
 	 */
 	public function remove_item( $key ) {
-
+		if ( isset( $this->items[ $key ] ) ) {
+			unset( $this->items[ $key ] );
+		}
 	}
 
 }

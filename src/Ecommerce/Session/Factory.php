@@ -37,6 +37,9 @@ class Factory {
 		$session->set_key( $this->generate_key() );
 		$session->set_hash( $this->generate_hash( $session->get_key() ) );
 
+		$session->set_items( array() );
+		$session->set_coupons( array() );
+
 		try {
 			$expiry = new \DateTimeImmutable();
 			$expiry = $expiry->modify( '+' . apply_filters( 'dlm_ecommerce_session_expiry_days', 7 ) . 'days' );

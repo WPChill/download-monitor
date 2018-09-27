@@ -28,5 +28,4 @@ class Factory {
 
 		return $item;
 	}
-
 }

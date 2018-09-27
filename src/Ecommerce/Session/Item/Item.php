@@ -55,4 +55,16 @@ class Item {
 		$this->qty = $qty;
 	}
 
+	/**
+	 * We're building these manually because 🤔implementing JsonSerializable is only available from PHP5.4+
+	 *
+	 * @return array
+	 */
+	public function to_array() {
+		return array(
+			'key'         => $this->get_key(),
+			'download_id' => $this->get_download_id(),
+			'qty'         => $this->get_qty()
+		);
+	}
 }
