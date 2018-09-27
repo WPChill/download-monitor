@@ -56,7 +56,7 @@ class Item {
 	}
 
 	/**
-	 * We're building these manually because 🤔implementing JsonSerializable is only available from PHP5.4+
+	 * We're building these manually because implementing JsonSerializable is only available from PHP5.4+
 	 *
 	 * @return array
 	 */
