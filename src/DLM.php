@@ -73,6 +73,9 @@ class WP_DLM {
 		// Setup Services
 		$this->services = new DLM_Services();
 
+		// check if e-commerce is enabled
+		$this->check_ecommerce_enabled();
+
 		// Load plugin text domain
 		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
 		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( DLM_PLUGIN_FILE ) ) . '/languages' );
@@ -174,6 +177,11 @@ class WP_DLM {
 
 		// Setup integrations
 		$this->setup_integrations();
+
+		// check if we need to bootstrap E-Commerce
+		if ( $this->is_ecommerce_enabled() ) {
+			require_once( $this->get_plugin_path() . 'src/Ecommerce/bootstrap.php' );
+		}
 	}
 
 	/**
