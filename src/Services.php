@@ -47,6 +47,15 @@ class DLM_Services {
 	/**
 	 * Dynamically called via get()
 	 *
+	 * @return DLM_Download_Factory
+	 */
+	private function cb_download_factory() {
+		return new DLM_Download_Factory();
+	}
+
+	/**
+	 * Dynamically called via get()
+	 *
 	 * @return DLM_WordPress_Version_Repository
 	 */
 	private function cb_version_repository() {
@@ -105,5 +114,14 @@ class DLM_Services {
 	 */
 	private function cb_log_item_repository() {
 		return new DLM_WordPress_Log_Item_Repository();
+	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_Settings_Helper
+	 */
+	private function cb_settings() {
+		return new DLM_Settings_Helper();
 	}
 }
