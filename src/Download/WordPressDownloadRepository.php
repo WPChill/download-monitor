@@ -14,7 +14,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	private function filter_query_args( $args = array(), $limit = 0, $offset = 0 ) {
 
 		// limit must be int, not abs
-		$limit  = intval( $limit );
+		$limit = intval( $limit );
 
 		// most be absint
 		$offset = absint( $offset );
@@ -95,7 +95,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 			foreach ( $posts as $post ) {
 
 				// create download object
-				$download = new DLM_Download();
+				$download = download_monitor()->service( 'download_factory' )->make( $post->ID );
 				$download->set_id( $post->ID );
 				$download->set_status( $post->post_status );
 				$download->set_title( $post->post_title );
@@ -172,6 +172,9 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 
 		// other download meta
 		update_post_meta( $download_id, '_download_count', $download->get_download_count() );
+
+		// trigger even that download is persisted
+		// @todo ADD TRIGGER
 
 		// clear versions transient
 		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );
