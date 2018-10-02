@@ -25,6 +25,10 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 		$container['session_item_factory'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Session\Item\Factory();
 		};
+
+		$container['currency'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Currency();
+		};
 	}
 
 
