@@ -30,6 +30,45 @@ class DownloadProduct extends \DLM_Download {
 	}
 
 	/**
+	 * Set the price from user input.
+	 * Format the input so the decimal separator will become a dot (.)
+	 * Multiply input by 100 because we store prices in cents
+	 *
+	 * @param string $user_input
+	 */
+	public function set_price_from_user_input( $user_input ) {
+
+		$price = $user_input;
+
+		// if the thousand sep is not a dot, it's a comma. In this case remove all dots, then replace
+		if ( '.' !== download_monitor()->service( 'settings' )->get_option( 'decimal_separator' ) ) {
+			$price = str_replace( ".", "", $price );
+			$price = str_replace( ",", ".", $price );
+		} else {
+			// thousand sep is dot. Leave the dot, remove the commas
+			$price = str_replace( ",", "", $price );
+		}
+
+		// convert to cents
+		$price = $price * 100;
+
+		$this->set_price( $price );
+	}
+
+	/**
+	 * Return the price ready to be used in a user input field
+	 *
+	 * @return string
+	 */
+	public function get_price_for_user_input() {
+		$decimal_sep  = download_monitor()->service( 'settings' )->get_option( 'decimal_separator' );
+		$thousand_sep = ( ( '.' === $decimal_sep ) ? ',' : '.' );
+		$price        = ( $this->get_price() / 100 );
+
+		return number_format( $price, 2, $decimal_sep, $thousand_sep );
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function is_taxable() {

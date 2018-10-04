@@ -1,0 +1,37 @@
+<div class="dlm_mb_ecommerce">
+
+	<?php do_action( 'dlm_mb_ecommerce_start', $download->get_id(), $download ); ?>
+
+    <p>
+        <label><?php _e( 'Is Purchasable', 'download-monitor' ); ?></label>
+        <input type="checkbox" name="_dlm_is_purchasable"
+               value="1" <?php checked( true, $download->is_purchasable() ); ?>/>
+    </p>
+
+    <p>
+        <label><?php printf( __( 'Price (%s)', 'download-monitor' ), \Never5\DownloadMonitor\Ecommerce\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
+        <input type="text" name="_dlm_price" value="<?php echo $download->get_price_for_user_input(); ?>">
+    </p>
+
+    <p>
+        <label><?php _e( 'Taxable', 'download-monitor' ); ?></label>
+        <input type="checkbox" name="_dlm_taxable" value="1" <?php checked( true, $download->is_taxable() ); ?>/>
+    </p>
+
+    <p>
+        <label><?php _e( 'Tax Class', 'download-monitor' ); ?></label>
+        <select name="_dlm_tax_class">
+			<?php
+			$classes = \Never5\DownloadMonitor\Ecommerce\Services\Services::get()->service( 'tax_class_manager' )->get_tax_rates();
+			if ( count( $classes ) > 0 ) {
+				foreach ( $classes as $class ) {
+					echo "<option value='" . $class . "'" . selected( $download->get_tax_class(), $class ) . ">" . $class . " " . __( 'rate', 'download-monitor' ) . "</option>";
+				}
+			}
+			?>
+        </select>
+    </p>
+
+	<?php do_action( 'dlm_mb_ecommerce_end', $download->get_id(), $download ); ?>
+
+</div>

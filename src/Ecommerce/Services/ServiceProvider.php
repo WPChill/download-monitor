@@ -26,6 +26,10 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 			return new \Never5\DownloadMonitor\Ecommerce\Session\Item\Factory();
 		};
 
+		$container['tax_class_manager'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Tax\TaxClassManager();
+		};
+
 		$container['currency'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Currency();
 		};

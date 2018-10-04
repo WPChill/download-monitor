@@ -9,7 +9,6 @@ class WritePanels {
 	 */
 	public function setup() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
-		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_box' ), 1, 2 );
 	}
 
 	/**
@@ -38,20 +37,6 @@ class WritePanels {
 				'download' => $download
 			)
 		);
-	}
-
-	/**
-	 * save function.
-	 *
-	 * @access public
-	 *
-	 * @param int $post_id
-	 * @param \WP_Post $post
-	 *
-	 * @return void
-	 */
-	public function save_meta_box( $post_id, $post ) {
-
 	}
 
 
