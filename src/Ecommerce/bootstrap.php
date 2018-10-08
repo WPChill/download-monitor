@@ -28,3 +28,9 @@ if ( is_admin() ) {
 	$write_panels->setup();
 
 }
+
+/**
+ * Setup shortcodes
+ */
+$cart = new \Never5\DownloadMonitor\Ecommerce\Shortcode\Cart();
+$cart->register();

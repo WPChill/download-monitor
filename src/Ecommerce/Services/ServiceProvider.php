@@ -33,6 +33,14 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 		$container['currency'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Currency();
 		};
+
+		$container['session'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Session\Manager();
+		};
+
+		$container['cart'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Cart\Manager();
+		};
 	}
 
 

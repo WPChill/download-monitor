@@ -83,6 +83,15 @@ class DLM_Services {
 	/**
 	 * Dynamically called via get()
 	 *
+	 * @return DLM_Template_Handler
+	 */
+	private function cb_template_handler() {
+		return new DLM_Template_Handler();
+	}
+
+	/**
+	 * Dynamically called via get()
+	 *
 	 * @return DLM_Hasher
 	 */
 	private function cb_hasher() {
