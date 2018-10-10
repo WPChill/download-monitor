@@ -19,9 +19,18 @@
  */
 
 /**
+ * Import functions file
+ */
+require_once( 'functions.php' );
+
+/**
  * Only add following things in the admin
  */
 if ( is_admin() ) {
+
+	// Add e-commerce settings
+	$settings = new \Never5\DownloadMonitor\Ecommerce\Admin\Settings();
+	$settings->setup();
 
 	// Setup the write panels (meta boxes)
 	$write_panels = new \Never5\DownloadMonitor\Ecommerce\Admin\WritePanels();
