@@ -2,6 +2,7 @@
 
 namespace Never5\DownloadMonitor\Ecommerce\Shortcode;
 
+use Never5\DownloadMonitor\Ecommerce\Services\Services;
 use Never5\DownloadMonitor\Ecommerce\Session\Manager;
 
 class Cart {
@@ -20,11 +21,10 @@ class Cart {
 	 */
 	public function content( $atts ) {
 
-
+		$cart = Services::get()->service( 'cart' )->get_cart();
 
 		download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart', '', '', array(
-			'items' => $session->get_items(),
-			'coupons' => $session->get_coupons()
+			'cart' => $cart
 		) );
 	}
 
