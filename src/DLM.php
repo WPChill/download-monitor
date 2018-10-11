@@ -282,6 +282,8 @@ class WP_DLM {
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
 			wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
+
+			do_action( 'dlm_frontend_scripts_after' );
 		}
 	}
 

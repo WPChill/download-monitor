@@ -24,7 +24,8 @@ class Cart {
 		$cart = Services::get()->service( 'cart' )->get_cart();
 
 		download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart', '', '', array(
-			'cart' => $cart
+			'cart'         => $cart,
+			'url_checkout' => Services::get()->service( 'page' )->get_checkout_url()
 		) );
 	}
 

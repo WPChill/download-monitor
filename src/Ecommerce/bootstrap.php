@@ -43,3 +43,9 @@ if ( is_admin() ) {
  */
 $cart = new \Never5\DownloadMonitor\Ecommerce\Shortcode\Cart();
 $cart->register();
+
+/**
+ * Setup assets
+ */
+$assets = new \Never5\DownloadMonitor\Ecommerce\Util\Assets();
+$assets->setup();

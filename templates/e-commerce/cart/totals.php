@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 * @todo [COUPONS] Implement coupons
 	 */
 	?>
-    <tr>
+    <tr class="dlm-totals-last-row">
         <th><?php _e( 'Total', 'download-monitor' ); ?></th>
         <td><?php echo dlm_format_money( $cart->get_total() ); ?></td>
     </tr>

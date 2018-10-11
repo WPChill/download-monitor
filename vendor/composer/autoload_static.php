@@ -184,6 +184,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'Never5\\DownloadMonitor\\Ecommerce\\Shortcode\\Cart' => __DIR__ . '/../..' . '/src/Ecommerce/Shortcode/Cart.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Tax\\TaxClassManager' => __DIR__ . '/../..' . '/src/Ecommerce/Tax/TaxClassManager.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Tax\\TaxRate' => __DIR__ . '/../..' . '/src/Ecommerce/Tax/TaxRate.php',
+        'Never5\\DownloadMonitor\\Ecommerce\\Util\\Assets' => __DIR__ . '/../..' . '/src/Ecommerce/Util/Assets.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Util\\Page' => __DIR__ . '/../..' . '/src/Ecommerce/Util/Page.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',

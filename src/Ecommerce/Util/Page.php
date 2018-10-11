@@ -10,6 +10,10 @@ class Page {
 	 * @return bool
 	 */
 	public function is_cart() {
+		if ( download_monitor()->service( 'settings' )->get_option( 'page_cart' ) == get_the_ID() ) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -19,6 +23,10 @@ class Page {
 	 * @return bool
 	 */
 	public function is_checkout() {
+		if ( download_monitor()->service( 'settings' )->get_option( 'page_checkout' ) == get_the_ID() ) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -28,7 +36,7 @@ class Page {
 	 * @return string
 	 */
 	public function get_cart_url() {
-		return '';
+		return get_permalink( download_monitor()->service( 'settings' )->get_option( 'page_cart' ) );
 	}
 
 	/**
@@ -37,7 +45,7 @@ class Page {
 	 * @return string
 	 */
 	public function get_checkout_url() {
-		return '';
+		return get_permalink( download_monitor()->service( 'settings' )->get_option( 'page_checkout' ) );
 	}
 
 	/**

@@ -32,18 +32,23 @@ if ( ! defined( 'ABSPATH' ) ) {
             </tbody>
         </table>
     </div>
-    <div class="dlm-cart-coupons">
+    <div class="dlm-cart-bottom">
+        <div class="dlm-cart-coupons">
 
+        </div>
+        <div class="dlm-cart-bottom-right">
+            <div class="dlm-cart-totals">
+                <h2><?php _e( 'Cart Totals', 'download-monitor' ); ?></h2>
+		        <?php
+		        download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart/totals', '', '', array(
+			        'cart' => $cart
+		        ) );
+		        ?>
+            </div>
+            <div class="dlm-proceed-to-checkout">
+                <a href="<?php echo $url_checkout; ?>" class="dlm-button-checkout"><?php _e( 'Proceed to checkout', 'download-monitor' ); ?> »</a>
+            </div>
+        </div>
     </div>
-    <div class="dlm-cart-totals">
-        <h2><?php _e( 'Cart Totals', 'download-monitor' ); ?></h2>
-		<?php
-		download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart/totals', '', '', array(
-			'cart' => $cart
-		) );
-		?>
-    </div>
-    <div class="dlm-proceed-to-checkout">
-        <a href="" class="dlm-button-checkout"><?php _e( 'Proceed to checkout', 'download-monitor' ); ?></a>
-    </div>
+
 </div>
