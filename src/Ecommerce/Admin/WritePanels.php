@@ -29,12 +29,27 @@ class WritePanels {
 		try {
 			/** @var DLM_Download $download */
 			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
-		} catch ( Exception $e ) {
+		} catch ( \Exception $e ) {
 			$download = new \DLM_Download();
 		}
 
+		$price     = "";
+		$taxable   = false;
+		$tax_class = "";
+		if ( $download->is_purchasable() ) {
+
+			/** @var \Never5\DownloadMonitor\Ecommerce\DownloadProduct\DownloadProduct $download */
+
+			$price     = $download->get_price_for_user_input();
+			$taxable   = $download->is_taxable();
+			$tax_class = $download->get_tax_class();
+		}
+
 		download_monitor()->service( 'view_manager' )->display( 'meta-box/e-commerce', array(
-				'download' => $download
+				'download'  => $download,
+				'price'     => $price,
+				'taxable'   => $taxable,
+				'tax_class' => $tax_class
 			)
 		);
 	}
