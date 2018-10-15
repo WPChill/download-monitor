@@ -34,6 +34,16 @@ class Cart {
 	}
 
 	/**
+	 * @param Item $item
+	 */
+	public function add_item( $item ) {
+		if ( ! is_array( $this->items ) ) {
+			$this->items = array();
+		}
+		$this->items[] = $item;
+	}
+
+	/**
 	 * @return Coupon[]
 	 */
 	public function get_coupons() {
@@ -45,6 +55,16 @@ class Cart {
 	 */
 	public function set_coupons( $coupons ) {
 		$this->coupons = $coupons;
+	}
+
+	/**
+	 * @param Coupon $coupon
+	 */
+	public function add_coupon( $coupon ) {
+		if ( ! is_array( $this->coupons ) ) {
+			$this->coupons = array();
+		}
+		$this->coupons[] = $coupon;
 	}
 
 	/**

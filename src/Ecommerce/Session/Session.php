@@ -62,6 +62,23 @@ class Session {
 	}
 
 	/**
+	 * Reset the expiry date
+	 *
+	 * @return bool
+	 */
+	public function reset_expiry() {
+		try {
+			$expiry = new \DateTimeImmutable();
+			$expiry = $expiry->modify( '+' . apply_filters( 'dlm_ecommerce_session_expiry_days', 7 ) . 'days' );
+			$this->set_expiry( $expiry );
+			return true;
+		} catch ( \Exception $e ) {
+
+		}
+		return false;
+	}
+
+	/**
 	 * @return string[]
 	 */
 	public function get_coupons() {

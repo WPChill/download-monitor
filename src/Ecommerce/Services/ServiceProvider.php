@@ -42,6 +42,10 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 			return new \Never5\DownloadMonitor\Ecommerce\Cart\Manager();
 		};
 
+		$container['cart_item_factory'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Cart\Item\Factory();
+		};
+
 		$container['page'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Util\Page();
 		};

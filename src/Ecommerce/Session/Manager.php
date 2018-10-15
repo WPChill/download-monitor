@@ -74,10 +74,8 @@ class Manager {
 	 */
 	public function persist_session( $session ) {
 
-		// don't persist empty sessions
-		if ( 0 == count( $session->get_items() ) ) {
-			return;
-		}
+		// also set session cache on persist
+		$this->set_session( $session );
 
 		// can't set cookies when headers are already sent
 		if ( headers_sent( $file, $line ) ) {

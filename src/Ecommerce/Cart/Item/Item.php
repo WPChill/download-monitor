@@ -1,8 +1,11 @@
 <?php
 
-namespace Never5\DownloadMonitor\Ecommerce\Cart;
+namespace Never5\DownloadMonitor\Ecommerce\Cart\Item;
 
 class Item {
+
+	/** @var int */
+	private $download_id;
 
 	/** @var string */
 	private $label;
@@ -18,6 +21,20 @@ class Item {
 
 	/** @var int */
 	private $total;
+
+	/**
+	 * @return int
+	 */
+	public function get_download_id() {
+		return $this->download_id;
+	}
+
+	/**
+	 * @param int $download_id
+	 */
+	public function set_download_id( $download_id ) {
+		$this->download_id = $download_id;
+	}
 
 	/**
 	 * @return string

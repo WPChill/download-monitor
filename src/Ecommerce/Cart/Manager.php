@@ -3,12 +3,11 @@
 namespace Never5\DownloadMonitor\Ecommerce\Cart;
 
 use Never5\DownloadMonitor\Ecommerce\Services\Services;
-use Never5\DownloadMonitor\Ecommerce\Session;
 
 class Manager {
 
 	/**
-	 * @param Session\Session $session
+	 * @param \Never5\DownloadMonitor\Ecommerce\Session\Session $session
 	 *
 	 * @return Cart
 	 */
@@ -25,32 +24,29 @@ class Manager {
 		$session_items = $session->get_items();
 		$items         = array();
 		if ( ! empty( $session_items ) ) {
-			/** @var Session\Item\Item $session_item */
-			foreach ( $session_items as $session_item ) {
-				$item = new Item();
-				$item->set_qty( $session_item->get_qty() );
-				try {
-					/** @var \Never5\DownloadMonitor\Ecommerce\DownloadProduct\DownloadProduct $download */
-					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $session_item->get_download_id() );
-					$item->set_label( $download->get_title() );
-					$item->set_subtotal( $download->get_price() );
 
-					/** @todo [TAX] Implement taxes */
-					$item->set_tax_total( 0 );
-					$item->set_total( $download->get_price() );
+			/** @var Item\Factory $item_factory */
+			$item_factory = Services::get()->service( 'cart_item_factory' );
+
+			/** @var \Never5\DownloadMonitor\Ecommerce\Session\Item\Item $session_item */
+			foreach ( $session_items as $session_item ) {
+
+				try {
+					$item = $item_factory->make( $session_item->get_download_id() );
+					$item->set_qty( $session_item->get_qty() );
 
 					// add item to items array
 					$items[] = $item;
 
 					// add this price to sub total
-					$subtotal += $download->get_price();
-				} catch ( Exception $exception ) {
-					// no download with ID 4 found
+					$subtotal += $item->get_subtotal();
+				} catch ( \Exception $exception ) {
+
 				}
+
 			}
 		}
 		$cart->set_items( $items );
-
 
 		/**
 		 * Set sub total
@@ -70,6 +66,49 @@ class Manager {
 		return $cart;
 	}
 
+	/**
+	 * Build session from cart
+	 *
+	 * @param Cart $cart
+	 *
+	 * @return \Never5\DownloadMonitor\Ecommerce\Session\Session
+	 */
+	private function build_session_from_cart( $cart ) {
+
+		/** @var \Never5\DownloadMonitor\Ecommerce\Session\Session $session */
+		$session = Services::get()->service( 'session' )->get_session();
+
+		// reset expiry date
+		$session->reset_expiry();
+
+		// convert cart items to session items
+		$cart_items    = $cart->get_items();
+		$session_items = array();
+		if ( ! empty( $cart_items ) ) {
+
+			$session_item_factory = Services::get()->service( 'session_item_factory' );
+
+			/** @var Item\Item $cart_item */
+			foreach ( $cart_items as $cart_item ) {
+				$session_items[] = $session_item_factory->make( $cart_item->get_download_id(), $cart_item->get_qty() );
+			}
+		}
+		$session->set_items( $session_items );
+
+		// convert cart discounts to session discounts
+		$cart_coupons    = $cart->get_coupons();
+		$session_coupons = array();
+		if ( ! empty( $cart_coupons ) ) {
+			/** @var Coupon $cart_coupon */
+			foreach ( $cart_coupons as $cart_coupon ) {
+				$session_coupons[] = $cart_coupon->get_code();
+			}
+		}
+		$session->set_coupons( $session_coupons );
+
+		return $session;
+	}
+
 
 	/**
 	 * Get current cart.
@@ -84,6 +123,53 @@ class Manager {
 
 		// build a cart object from given session
 		return $this->build_cart_from_session( $session );
+	}
+
+	/**
+	 * Save cart.
+	 * This will turn a cart object to a session, store session in DB and set cookie with reference to DB session.
+	 *
+	 * @param Cart $cart
+	 *
+	 * @return bool
+	 */
+	public function save_cart( $cart ) {
+
+		// build new session from cart
+		$session = $this->build_session_from_cart( $cart );
+
+		// persist session
+		Services::get()->service( 'session' )->persist_session( $session );
+
+		return true;
+	}
+
+	/**
+	 * Add a download to cart
+	 *
+	 * @param int $download_id
+	 * @param int $qty
+	 */
+	public function add_to_cart( $download_id, $qty ) {
+
+		try {
+
+			/** @var Item\Item $item */
+			$item = Services::get()->service( 'cart_item_factory' )->make( $download_id );
+			$item->set_qty( $qty );
+
+			// add item to cart
+			$cart = $this->get_cart();
+			$cart->add_item( $item );
+
+			// save cart
+			$this->save_cart( $cart );
+
+
+		} catch ( \Exception $exception ) {
+
+		}
+
 	}
 
 

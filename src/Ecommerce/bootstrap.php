@@ -39,6 +39,12 @@ if ( is_admin() ) {
 }
 
 /**
+ * Setup Cart hooks
+ */
+$cart_hooks = new \Never5\DownloadMonitor\Ecommerce\Cart\Hooks();
+$cart_hooks->setup();
+
+/**
  * Setup shortcodes
  */
 $cart = new \Never5\DownloadMonitor\Ecommerce\Shortcode\Cart();

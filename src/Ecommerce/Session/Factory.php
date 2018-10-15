@@ -40,13 +40,7 @@ class Factory {
 		$session->set_items( array() );
 		$session->set_coupons( array() );
 
-		try {
-			$expiry = new \DateTimeImmutable();
-			$expiry = $expiry->modify( '+' . apply_filters( 'dlm_ecommerce_session_expiry_days', 7 ) . 'days' );
-			$session->set_expiry( $expiry );
-		} catch ( \Exception $e ) {
-
-		}
+		$session->reset_expiry();
 
 		return $session;
 
