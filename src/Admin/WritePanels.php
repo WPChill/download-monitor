@@ -295,7 +295,6 @@ class DLM_Admin_Writepanels {
 		// we set if the download is purchasable hard here so we get the right download object from retrieve_single()
 		if ( isset( $_POST['_dlm_is_purchasable'] ) ) {
 			update_post_meta( $post_id, '_is_purchasable', 1 );
-			error_log( 'this is purchasable' );
 		} else {
 			update_post_meta( $post_id, '_is_purchasable', 0 );
 		}
@@ -319,8 +318,6 @@ class DLM_Admin_Writepanels {
 			// download not found, no point in continuing
 			return;
 		}
-
-		error_log( print_r( $download, 1 ), 0 );
 
 		// set the 'Download Options'
 		$download->set_featured( ( isset( $_POST['_featured'] ) ) );

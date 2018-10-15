@@ -201,7 +201,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 			if ( $download->is_taxable() ) {
 				update_post_meta( $download_id, '_taxable', 1 );
 			} else {
-				update_post_meta( $download_id, '_taxable', 1 );
+				update_post_meta( $download_id, '_taxable', 0 );
 			}
 		}
 
