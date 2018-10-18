@@ -44,6 +44,16 @@ class Cart {
 	}
 
 	/**
+	 * Check if there are items in the cart.
+	 * Returns true if there are no items in the cart, false if there are items.
+	 *
+	 * @return bool
+	 */
+	public function is_empty() {
+		return empty( $this->items );
+	}
+
+	/**
 	 * @return Coupon[]
 	 */
 	public function get_coupons() {

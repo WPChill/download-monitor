@@ -27,3 +27,7 @@ function dlm_format_money( $price, $include_currency_symbol = true ) {
 
 	return $new_price;
 }
+
+function dlm_checkout_fields() {
+	\Never5\DownloadMonitor\Ecommerce\Services\Services::get()->service('checkout_field')->output_all_fields();
+}

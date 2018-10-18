@@ -14,6 +14,14 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 	 */
 	public function register( Container $container ) {
 
+		$container['currency'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Helper\Currency();
+		};
+
+		$container['country'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Helper\Country();
+		};
+
 		$container['session_repository'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Session\WordPressRepository();
 		};
@@ -34,10 +42,6 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 			return new \Never5\DownloadMonitor\Ecommerce\Tax\TaxClassManager();
 		};
 
-		$container['currency'] = function ( $c ) {
-			return new \Never5\DownloadMonitor\Ecommerce\Currency();
-		};
-
 		$container['cart'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Cart\Manager();
 		};
@@ -48,6 +52,14 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 
 		$container['page'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Util\Page();
+		};
+
+		$container['redirect'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Util\Redirect();
+		};
+
+		$container['checkout_field'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Checkout\Field();
 		};
 	}
 

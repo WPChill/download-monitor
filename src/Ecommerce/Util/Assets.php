@@ -22,6 +22,10 @@ class Assets {
 			wp_enqueue_style( 'dlm-frontend-cart', download_monitor()->get_plugin_url() . '/assets/css/cart.css' );
 		}
 
+		if ( Services::get()->service( 'page' )->is_checkout() ) {
+			wp_enqueue_style( 'dlm-frontend-cart', download_monitor()->get_plugin_url() . '/assets/css/checkout.css' );
+		}
+
 	}
 
 }

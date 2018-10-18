@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Ecommerce;
+namespace Never5\DownloadMonitor\Ecommerce\Helper;
 
 class Currency {
 

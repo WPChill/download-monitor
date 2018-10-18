@@ -3,7 +3,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var Never5\DownloadMonitor\Ecommerce\Cart\Cart $cart */
+/**
+ * @var Never5\DownloadMonitor\Ecommerce\Cart\Cart $cart
+ * @var string $url_cart
+ * @var string $url_checkout
+ */
 
 ?>
 <div class="dlm-cart">
@@ -11,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <table cellpadding="0" cellspacing="0" border="0">
             <thead>
             <tr>
+                <th>&nbsp;</th>
                 <th><?php _e( 'Name', 'download-monitor' ); ?></th>
                 <th><?php _e( 'Price', 'download-monitor' ); ?></th>
                 <th><?php _e( 'Quantity', 'download-monitor' ); ?></th>
@@ -24,7 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				/** @var \Never5\DownloadMonitor\Ecommerce\Cart\Item $item */
 				foreach ( $items as $item ) {
 					download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart/item', '', '', array(
-						'item' => $item
+						'item'     => $item,
+						'url_cart' => $url_cart
 					) );
 				}
 			}
@@ -39,14 +45,15 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="dlm-cart-bottom-right">
             <div class="dlm-cart-totals">
                 <h2><?php _e( 'Cart Totals', 'download-monitor' ); ?></h2>
-		        <?php
-		        download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart/totals', '', '', array(
-			        'cart' => $cart
-		        ) );
-		        ?>
+				<?php
+				download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart/totals', '', '', array(
+					'cart' => $cart
+				) );
+				?>
             </div>
             <div class="dlm-proceed-to-checkout">
-                <a href="<?php echo $url_checkout; ?>" class="dlm-button-checkout"><?php _e( 'Proceed to checkout', 'download-monitor' ); ?> »</a>
+                <a href="<?php echo $url_checkout; ?>"
+                   class="dlm-button-checkout"><?php _e( 'Proceed to checkout', 'download-monitor' ); ?> »</a>
             </div>
         </div>
     </div>

@@ -11,6 +11,7 @@ class Hooks {
 	 */
 	public function setup() {
 		add_action( 'init', array( $this, 'catch_add_to_cart' ), 1 );
+		add_action( 'init', array( $this, 'catch_remove_from_cart' ), 1 );
 	}
 
 	/**
@@ -22,6 +23,21 @@ class Hooks {
 
 			if ( $atc_id > 0 ) {
 				Services::get()->service( 'cart' )->add_to_cart( $atc_id, 1 );
+				Services::get()->service( 'redirect' )->to_cart();
+			}
+		}
+	}
+
+	/**
+	 * Catch remove from cart request
+	 */
+	public function catch_remove_from_cart() {
+		if ( ! empty( $_GET['dlm-remove-from-cart'] ) ) {
+			$atc_id = absint( $_GET['dlm-remove-from-cart'] );
+
+			if ( $atc_id > 0 ) {
+				Services::get()->service( 'cart' )->remove_from_cart( $atc_id );
+				Services::get()->service( 'redirect' )->to_cart();
 			}
 		}
 	}

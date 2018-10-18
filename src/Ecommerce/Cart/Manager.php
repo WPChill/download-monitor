@@ -172,5 +172,36 @@ class Manager {
 
 	}
 
+	/**
+	 * Remove a download from cart
+	 *
+	 * @param int $download_id
+	 */
+	public function remove_from_cart( $download_id ) {
+
+		// get cart and items
+		$cart  = $this->get_cart();
+		$items = $cart->get_items();
+
+		// search for given download ID in cart items, remove if found
+		if ( ! empty( $items ) ) {
+
+			/** @var int $ik */
+			/** @var Item\Item $iv */
+			foreach ( $items as $ik => $iv ) {
+				if ( $iv->get_download_id() == $download_id ) {
+					unset( $items[ $ik ] );
+				}
+			}
+
+		}
+
+		// set items back in cart
+		$cart->set_items( $items );
+
+		// save cart
+		$this->save_cart( $cart );
+
+	}
 
 }

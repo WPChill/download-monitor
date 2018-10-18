@@ -50,6 +50,9 @@ $cart_hooks->setup();
 $cart = new \Never5\DownloadMonitor\Ecommerce\Shortcode\Cart();
 $cart->register();
 
+$checkout = new \Never5\DownloadMonitor\Ecommerce\Shortcode\Checkout();
+$checkout->register();
+
 /**
  * Setup assets
  */
