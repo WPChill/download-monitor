@@ -61,6 +61,22 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 		$container['checkout_field'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Checkout\Field();
 		};
+
+		$container['payment_gateway'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway\Manager();
+		};
+
+		$container['order'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Order\Manager();
+		};
+
+		$container['order_factory'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Order\Factory();
+		};
+
+		$container['order_repository'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Order\WordPressRepository();
+		};
 	}
 
 

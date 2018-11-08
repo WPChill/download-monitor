@@ -41,6 +41,37 @@ class OrderCustomer {
 	private $ip_address;
 
 	/**
+	 * OrderCustomer constructor.
+	 *
+	 * @param string $first_name
+	 * @param string $last_name
+	 * @param string $company
+	 * @param string $address_1
+	 * @param string $address_2
+	 * @param string $city
+	 * @param string $state
+	 * @param string $postcode
+	 * @param string $country
+	 * @param string $email
+	 * @param string $phone
+	 * @param string $ip_address
+	 */
+	public function __construct( $first_name, $last_name, $company, $address_1, $address_2, $city, $state, $postcode, $country, $email, $phone, $ip_address ) {
+		$this->first_name = $first_name;
+		$this->last_name  = $last_name;
+		$this->company    = $company;
+		$this->address_1  = $address_1;
+		$this->address_2  = $address_2;
+		$this->city       = $city;
+		$this->state      = $state;
+		$this->postcode   = $postcode;
+		$this->country    = $country;
+		$this->email      = $email;
+		$this->phone      = $phone;
+		$this->ip_address = $ip_address;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function get_first_name() {

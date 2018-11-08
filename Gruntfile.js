@@ -9,6 +9,7 @@ module.exports = function ( grunt ) {
             images: 'assets/images',
             js: 'assets/js',
             reports: 'assets/js/reports',
+            shop: 'assets/js/shop',
             lang: 'languages'
         },
 
@@ -72,7 +73,19 @@ module.exports = function ( grunt ) {
 			        dest: '<%= dirs.reports %>',
 			        ext: '.min.js'
 		        } ]
-	        }
+	        },
+            shop: {
+                files: [ {
+                    expand: true,
+                    cwd: '<%= dirs.shop %>',
+                    src: [
+                        '*.js',
+                        '!*.min.js'
+                    ],
+                    dest: '<%= dirs.shop %>',
+                    ext: '.min.js'
+                } ]
+            }
         },
 
         // Watch changes for assets
@@ -84,7 +97,9 @@ module.exports = function ( grunt ) {
             js: {
                 files: [
                     '<%= dirs.js %>/*js',
+                    '<%= dirs.shop %>/*js',
                     '!<%= dirs.js %>/*.min.js',
+                    '!<%= dirs.shop %>/*.min.js',
                 ],
                 tasks: [ 'uglify' ]
             }

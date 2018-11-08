@@ -2,6 +2,11 @@
 
 .dlm-checkout {
 
+  form {
+    padding: 0;
+    margin: 0;
+  }
+
   .dlm-checkout-billing {
     width: 55%;
     float: left;
@@ -47,6 +52,39 @@
 
   .dlm-checkout-row-last {
     float: right;
+  }
+
+  .dlm-checkout-payment {
+    ul, li {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    ul {
+      li {
+        background: #fbfbfb;
+        margin-bottom: 20px;
+        label {
+          display: inline-block;
+          width: 100%;
+          padding: 15px 25px;
+          background: #f8f8f8;
+          cursor: pointer;
+
+          input {
+            margin-right: 10px;
+          }
+        }
+        .dlm_gateway_details {
+          padding: 15px 25px;
+
+          p {
+            padding: 0;
+            margin: 0;
+          }
+        }
+      }
+    }
   }
 
 }

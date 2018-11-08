@@ -58,3 +58,9 @@ $checkout->register();
  */
 $assets = new \Never5\DownloadMonitor\Ecommerce\Util\Assets();
 $assets->setup();
+
+/**
+ * Setup AJAX
+ */
+$ajax = new \Never5\DownloadMonitor\Ecommerce\Ajax\Manager();
+$ajax->setup();

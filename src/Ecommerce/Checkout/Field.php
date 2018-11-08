@@ -102,7 +102,7 @@ class Field {
 	private function do_field( $options ) {
 		switch ( $options['type'] ) {
 			case 'select':
-				$return = sprintf( '<select name="dlm_%s">', $options['name'] );
+				$return = sprintf( '<select name="dlm_%s" id="dlm_%s">', esc_attr( $options['name'] ), esc_attr( $options['name'] ) );
 				if ( ! empty( $options['options'] ) ) {
 					foreach ( $options['options'] as $k => $v ) {
 						$return .= sprintf( '<option value="%s">%s</option>', esc_attr( $k ), esc_html( $v ) );
@@ -114,7 +114,12 @@ class Field {
 				break;
 			case 'text':
 			default:
-				return sprintf( '<input type="text" id="dlm_%s" name="dlm_%s" value="" placeholder="%s" />', esc_attr( $options['name'] ), esc_attr( $options['name'] ), esc_attr( $options['placeholder'] ) );
+				$v = '';
+				for ( $i = 0; $i < 9; $i ++ ) {
+					$v .= mt_rand( 0, 9 );
+				}
+
+				return sprintf( '<input type="text" id="dlm_%s" name="dlm_%s" value="' . $v . '" placeholder="%s" />', esc_attr( $options['name'] ), esc_attr( $options['name'] ), esc_attr( $options['placeholder'] ) );
 				break;
 		}
 

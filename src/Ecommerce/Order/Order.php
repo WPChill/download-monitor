@@ -4,14 +4,17 @@ namespace Never5\DownloadMonitor\Ecommerce\Order;
 
 class Order {
 
+	/** @var int */
+	private $id;
+
 	/** @var string */
 	private $status;
 
 	/** @var \DateTimeImmutable */
-	private $date_created;
+	private $date_created = null;
 
 	/** @var \DateTimeImmutable */
-	private $date_modified;
+	private $date_modified = null;
 
 	/** @var string */
 	private $currency;
@@ -27,6 +30,20 @@ class Order {
 
 	/** @var OrderTransaction[] */
 	private $transactions;
+
+	/**
+	 * @return int
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function set_id( $id ) {
+		$this->id = $id;
+	}
 
 	/**
 	 * @return string
