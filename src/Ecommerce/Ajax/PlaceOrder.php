@@ -62,6 +62,7 @@ class PlaceOrder extends Ajax {
 		// get gateway
 		$enabled_gateways = Services::get()->service( 'payment_gateway' )->get_enabled_gateways();
 
+		/** @var \Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway\PaymentGateway $gateway */
 		$gateway = ( isset( $enabled_gateways[ $_POST['payment_gateway'] ] ) ? $enabled_gateways[ $_POST['payment_gateway'] ] : null );
 
 		//error_log( print_r( $gateway, 1 ), 0 );
@@ -105,7 +106,12 @@ class PlaceOrder extends Ajax {
 		$order->set_items( Services::get()->service( 'order' )->build_order_items_from_cart() );
 
 		// persist order
-		Services::get()->service( 'order_repository' )->persist( $order );
+		try {
+			Services::get()->service( 'order_repository' )->persist( $order );
+		}catch (\Exception $exception) {
+
+		}
+
 
 		error_log( print_r( $order, 1 ), 0 );
 

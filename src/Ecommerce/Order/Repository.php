@@ -34,6 +34,8 @@ interface Repository {
 	 *
 	 * @param Order $order
 	 *
+	 * @throws \Exception
+	 *
 	 * @return bool
 	 */
 	public function persist( $order );

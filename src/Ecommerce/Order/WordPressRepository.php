@@ -80,6 +80,8 @@ class WordPressRepository implements Repository {
 	 *
 	 * @param Order $order
 	 *
+	 * @throws \Exception
+	 *
 	 * @return bool
 	 */
 	public function persist( $order ) {
@@ -185,26 +187,9 @@ class WordPressRepository implements Repository {
 
 		} else {
 
-		}
+			/** @todo create update order method */
 
-		// insert new session
-		/*
-		$wpdb->insert(
-			$wpdb->prefix . 'dlm_session',
-			array(
-				'key'    => $session->get_key(),
-				'hash'   => $session->get_hash(),
-				'expiry' => $session->get_expiry()->format( 'Y-m-d H:i:s' ),
-				'data'   => $data
-			),
-			array(
-				'%s',
-				'%s',
-				'%s',
-				'%s'
-			)
-		);
-		*/
+		}
 
 	}
 
