@@ -47,6 +47,15 @@ class PlaceOrder extends Ajax {
 	}
 
 	/**
+	 * @param bool $success
+	 * @param string $redirect
+	 * @param string $error
+	 */
+	private function response( $success, $redirect, $error ) {
+		wp_send_json( array( 'success' => $success, 'redirect' => $redirect, 'error' => $error ) );
+	}
+
+	/**
 	 * AJAX callback method
 	 *
 	 * @return void
@@ -108,16 +117,20 @@ class PlaceOrder extends Ajax {
 		// persist order
 		try {
 			Services::get()->service( 'order_repository' )->persist( $order );
-		}catch (\Exception $exception) {
-
+		} catch ( \Exception $exception ) {
+			$this->response( false, '', $exception->getMessage() );
 		}
 
+		// run gateway
+		$gateway_result = $gateway->process( $order->get_id() );
 
-		error_log( print_r( $order, 1 ), 0 );
+		// exit if gateway was not successful
+		if ( ! $gateway_result->is_success() ) {
+			$this->response( false, '', sprintf( __( 'Payment gateway error: %s', 'download-monitor' ), $gateway_result->get_error_message() ) );
+		}
 
-		// send JSON
-		wp_send_json( array( 'success' => false ) );
-
+		//
+		$this->response( true, $gateway_result->get_redirect(), '' );
 
 		// bye
 		exit;

@@ -42,10 +42,31 @@ class Page {
 	/**
 	 * Returns checkout URL
 	 *
+	 * @param string $action
+	 *
 	 * @return string
 	 */
-	public function get_checkout_url() {
-		return get_permalink( download_monitor()->service( 'settings' )->get_option( 'page_checkout' ) );
+	public function get_checkout_url( $action = '' ) {
+
+		$endpoint = '';
+		if ( ! empty( $action ) ) {
+			switch ( $action ) {
+				case 'complete':
+					$endpoint = 'complete';
+					break;
+				default:
+					$endpoint = '';
+					break;
+			}
+		}
+
+		$url = get_permalink( download_monitor()->service( 'settings' )->get_option( 'page_checkout' ) );
+
+		if ( ! empty( $endpoint ) ) {
+			$url = add_query_arg( 'ep', $endpoint, $url );
+		}
+
+		return $url;
 	}
 
 	/**

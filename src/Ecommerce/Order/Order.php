@@ -7,7 +7,7 @@ class Order {
 	/** @var int */
 	private $id;
 
-	/** @var string */
+	/** @var Status\OrderStatus */
 	private $status;
 
 	/** @var \DateTimeImmutable */
@@ -46,14 +46,14 @@ class Order {
 	}
 
 	/**
-	 * @return string
+	 * @return Status\OrderStatus
 	 */
 	public function get_status() {
 		return $this->status;
 	}
 
 	/**
-	 * @param string $status
+	 * @param Status\OrderStatus $status
 	 */
 	public function set_status( $status ) {
 		$this->status = $status;

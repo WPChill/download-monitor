@@ -2,6 +2,8 @@
 
 namespace Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway;
 
+use Never5\DownloadMonitor\Ecommerce\Services\Services;
+
 abstract class PaymentGateway {
 
 	/** @var string */
@@ -110,6 +112,17 @@ abstract class PaymentGateway {
 				'default'     => false
 			)
 		) );
+	}
+
+	/**
+	 * Get the success URL for given order
+	 *
+	 * @param $order_id
+	 *
+	 * @return string
+	 */
+	protected function get_success_url( $order_id ) {
+		return add_query_arg( 'order_id', $order_id, Services::get()->service( 'page' )->get_checkout_url( 'complete' ) );
 	}
 
 	/**

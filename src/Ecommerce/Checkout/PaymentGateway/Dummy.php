@@ -2,6 +2,8 @@
 
 namespace Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway;
 
+use Never5\DownloadMonitor\Ecommerce\Services\Services;
+
 class Dummy extends PaymentGateway {
 
 	/**
@@ -26,11 +28,27 @@ class Dummy extends PaymentGateway {
 	 */
 	public function process( $order_id ) {
 
-		/**
-		 *
-		 */
+		$error_message = '';
 
-		return new Result( true, '' );
+		try {
+
+			/** @var \Never5\DownloadMonitor\Ecommerce\Order\Repository $order_repo */
+			$order_repo = Services::get()->service( 'order_repository' );
+
+			/** @var \Never5\DownloadMonitor\Ecommerce\Order\Order $order */
+			$order = $order_repo->retrieve_single( $order_id );
+
+			$order->set_status( Services::get()->service( 'order_status_factory' )->make( 'completed' ) );
+
+			$order_repo->persist( $order );
+
+			return new Result( true, $this->get_success_url( $order_id ) );
+
+		} catch ( \Exception $exception ) {
+			$error_message = $exception->getMessage();
+		}
+
+		return new Result( false, '', $error_message );
 
 	}
 

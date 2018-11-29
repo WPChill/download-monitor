@@ -14,7 +14,7 @@ class Factory {
 	public function make() {
 		$order = new Order();
 
-		$order->set_status( Services::get()->service( 'order' )->get_default_status() );
+		$order->set_status( Services::get()->service( 'order_status' )->get_default_status() );
 
 		$order->set_currency( Services::get()->service( 'currency' )->get_shop_currency() );
 

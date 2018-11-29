@@ -10,15 +10,19 @@ class Result {
 	/** @var string */
 	private $redirect = null;
 
+	/** @var string $error_message */
+	private $error_message = '';
+
 	/**
 	 * Result constructor.
 	 *
 	 * @param bool $success
 	 * @param string $redirect
 	 */
-	public function __construct( $success, $redirect ) {
-		$this->success  = $success;
-		$this->redirect = $redirect;
+	public function __construct( $success, $redirect, $error_message = '' ) {
+		$this->success       = $success;
+		$this->redirect      = $redirect;
+		$this->error_message = $error_message;
 	}
 
 	/**
@@ -47,6 +51,20 @@ class Result {
 	 */
 	public function set_redirect( $redirect ) {
 		$this->redirect = $redirect;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_error_message() {
+		return $this->error_message;
+	}
+
+	/**
+	 * @param string $error_message
+	 */
+	public function set_error_message( $error_message ) {
+		$this->error_message = $error_message;
 	}
 
 }

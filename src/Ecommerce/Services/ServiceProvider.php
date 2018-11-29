@@ -77,6 +77,14 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 		$container['order_repository'] = function ( $c ) {
 			return new \Never5\DownloadMonitor\Ecommerce\Order\WordPressRepository();
 		};
+
+		$container['order_status'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Order\Status\Manager();
+		};
+
+		$container['order_status_factory'] = function ( $c ) {
+			return new \Never5\DownloadMonitor\Ecommerce\Order\Status\Factory();
+		};
 	}
 
 
