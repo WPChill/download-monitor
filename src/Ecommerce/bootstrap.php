@@ -36,6 +36,10 @@ if ( is_admin() ) {
 	$write_panels = new \Never5\DownloadMonitor\Ecommerce\Admin\WritePanels();
 	$write_panels->setup();
 
+	// Admin pages
+	$order_page = new \Never5\DownloadMonitor\Ecommerce\Admin\Pages\Orders();
+	$order_page->setup();
+
 }
 
 /**

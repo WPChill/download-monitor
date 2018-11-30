@@ -17,10 +17,11 @@ class Manager {
 		$factory = Services::get()->service( 'order_status_factory' );
 
 		return apply_filters( 'dlm_ecommerce_order_statuses', array(
+			$factory->make( 'trash' ),
 			$factory->make( 'pending-payment' ),
 			$factory->make( 'completed' ),
 			$factory->make( 'failed' ),
-			$factory->make( 'refunded' )
+			$factory->make( 'refunded' ),
 		) );
 	}
 

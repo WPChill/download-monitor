@@ -112,7 +112,7 @@ class WordPressRepository implements Repository {
 			}
 
 			if ( ! empty( $result->date_modified ) ) {
-				$order->set_date_created( new \DateTimeImmutable( $result->date_modified ) );
+				$order->set_date_modified( new \DateTimeImmutable( $result->date_modified ) );
 			}
 
 			// create and set customer
@@ -178,6 +178,28 @@ class WordPressRepository implements Repository {
 		}
 
 		return $orders[0];
+	}
+
+	/**
+	 * Returns number of rows for given filters
+	 *
+	 * @param array $filters
+	 *
+	 * @return int
+	 */
+	public function num_rows( $filters = array() ) {
+		global $wpdb;
+
+		// prep where statement
+		$where_str = $this->prep_where_statement( $filters );
+
+		$num = $wpdb->get_var( "SELECT COUNT(id) FROM `" . $wpdb->prefix . "dlm_order` {$where_str} " );
+
+		if ( null === $num ) {
+			$num = 0;
+		}
+
+		return $num;
 	}
 
 	/**

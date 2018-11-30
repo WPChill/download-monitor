@@ -156,4 +156,21 @@ class Order {
 	public function set_transactions( $transactions ) {
 		$this->transactions = $transactions;
 	}
+
+	/**
+	 * Returns order total in cents
+	 *
+	 * @return int
+	 */
+	public function get_total() {
+		$total = 0;
+		$items = $this->get_items();
+		if ( ! empty( $items ) ) {
+			foreach ( $items as $item ) {
+				$total += (int) $item->get_total();
+			}
+		}
+
+		return $total;
+	}
 }

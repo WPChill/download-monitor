@@ -30,6 +30,15 @@ interface Repository {
 	public function retrieve_single( $id );
 
 	/**
+	 * Returns number of rows for given filters
+	 *
+	 * @param array $filters
+	 *
+	 * @return int
+	 */
+	public function num_rows( $filters=array() );
+
+	/**
 	 * Persist order
 	 *
 	 * @param Order $order

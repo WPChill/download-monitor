@@ -29,6 +29,9 @@ class Factory {
 			case 'refunded':
 				$status->set_label( __( 'Refunded', 'download-monitor' ) );
 				break;
+			case 'trash':
+				$status->set_label( __( 'Trash', 'download-monitor' ) );
+				break;
 			default:
 				$status->set_label( apply_filters( 'dlm_ecommerce_order_status_label', $key ) );
 				break;
