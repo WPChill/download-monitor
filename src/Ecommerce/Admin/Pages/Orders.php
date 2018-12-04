@@ -31,9 +31,32 @@ class Orders {
 		if ( isset( $_GET['details'] ) && ! empty( $_GET['details'] ) ) {
 			$order_id = absint( $_GET['details'] );
 			try {
+				/** @var \Never5\DownloadMonitor\Ecommerce\Order\Order $order */
 				$order = Services::get()->service( 'order_repository' )->retrieve_single( $order_id );
+
+				/**
+				 *                 <li>%Firstname% %Lastname%</li>
+				 * <li>%CompanyName%</li>
+				 * <li>%Street%</li>
+				 * <li>%City%</li>
+				 * <li>%ZIP%</li>
+				 * <li>%Country%</li>
+				 * <li>%Email Address%</li>
+				 */
+
+				$customer = array(
+					'name'     => $order->get_customer()->get_first_name() . ' ' . $order->get_customer()->get_last_name(),
+					'company'  => $order->get_customer()->get_company(),
+					'street'   => $order->get_customer()->get_address_1(),
+					'city'     => $order->get_customer()->get_city(),
+					'postcode' => $order->get_customer()->get_postcode(),
+					'country'  => $order->get_customer()->get_country(),
+					'email'    => $order->get_customer()->get_email()
+				);
+
 				download_monitor()->service( 'view_manager' )->display( 'order/page-order-details', array(
-					'order' => $order
+					'order'    => $order,
+					'customer' => $customer
 				) );
 			} catch ( \Exception $exception ) {
 				wp_die( __( "Order with that ID could not be found", 'download-monitor' ) );

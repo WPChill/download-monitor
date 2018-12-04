@@ -932,6 +932,65 @@ table.wp-list-table {
       line-height: 1.4em;
       font-size: 13px;
     }
+
+    &.dlm-order-details-customer {
+      .dlm-order-details-customer-image {
+        float: right;
+      }
+      ul {
+        li {
+          margin-bottom: 4px;
+
+          &:first-child {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    &.dlm-order-details-order-items {
+
+      overflow: hidden;
+
+      .dlm-order-details-items {
+        width: 100%;
+
+        th,td {
+         text-align: center;
+          &:first-child {
+            text-align: left;
+            padding-left: .5em;
+          }
+        }
+
+        th {
+          padding-top: .5em;
+          padding-bottom: .5em;
+          border-bottom: 2px solid #c3c1bc;
+        }
+
+        td {
+          padding-top: 1.5em;
+          padding-bottom: 1.5em;
+          border-bottom: 1px solid #c3c1bc;
+        }
+
+      }
+
+      .dlm-order-details-overview {
+        width: 25%;
+        margin-right: 15px;
+        float: right;
+        th, td {
+          padding-top: 1.5em;
+          padding-bottom: 1.5em;
+
+        }
+        td {
+          text-align: right;
+        }
+      }
+    }
   }
 
 }
@@ -940,12 +999,12 @@ table.wp-list-table {
   .dlm-order-details {
 
     .dlm-order-details-main {
-      width: 55%;
+      width: 60%;
       float: left;
     }
 
     .dlm-order-details-side {
-      width: 40%;
+      width: 35%;
       float: right;
     }
 
