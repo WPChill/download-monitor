@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
 
 #: assets/views/meta-box/version.php:8
@@ -40,6 +40,7 @@ msgid_plural "Downloaded %s times"
 msgstr[0] "Staženo %s ×"
 msgstr[1] "Staženo %s ×"
 msgstr[2] "Staženo %s ×"
+msgstr[3] "Staženo %s ×"
 
 #: assets/views/meta-box/version.php:22 src/Admin/CustomColumns.php:28
 #: src/Admin/MediaInsert.php:241
@@ -1172,6 +1173,7 @@ msgid_plural "%d downloads"
 msgstr[0] "staženo 1×"
 msgstr[1] "staženo %d× "
 msgstr[2] "staženo %d× "
+msgstr[3] "staženo %d× "
 
 #: templates/content-download-box.php:27
 #: templates/content-download-filename.php:14
@@ -1194,6 +1196,7 @@ msgid_plural "Downloaded %d times"
 msgstr[0] "Staženo 1 ×"
 msgstr[1] "Staženo %d ×"
 msgstr[2] "Staženo %d ×"
+msgstr[3] "Staženo %d ×"
 
 #. Plugin Name of the plugin/theme
 msgid "Download Monitor"

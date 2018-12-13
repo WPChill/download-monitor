@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fa_IR\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
 
 #: assets/views/meta-box/version.php:8
@@ -37,6 +37,7 @@ msgstr "n/a"
 msgid "Downloaded %s time"
 msgid_plural "Downloaded %s times"
 msgstr[0] ""
+msgstr[1] ""
 
 #: assets/views/meta-box/version.php:22 src/Admin/CustomColumns.php:28
 #: src/Admin/MediaInsert.php:241
@@ -1167,6 +1168,7 @@ msgstr "فقط دانلود های مخصوص اعضا را نشان بده"
 msgid "1 download"
 msgid_plural "%d downloads"
 msgstr[0] ""
+msgstr[1] ""
 
 #: templates/content-download-box.php:27
 #: templates/content-download-filename.php:14
@@ -1187,6 +1189,7 @@ msgstr "دانلود &ldquo;%s&rdquo;"
 msgid "Downloaded 1 time"
 msgid_plural "Downloaded %d times"
 msgstr[0] ""
+msgstr[1] ""
 
 #. Plugin Name of the plugin/theme
 msgid "Download Monitor"
