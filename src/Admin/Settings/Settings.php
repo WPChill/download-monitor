@@ -55,15 +55,7 @@ class DLM_Admin_Settings {
 							'label'   => __( 'Default Template', 'download-monitor' ),
 							'desc'    => __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download-monitor' ),
 							'type'    => 'select',
-							'options' => array(
-								''             => __( 'Default - Title and count', 'download-monitor' ),
-								'button'       => __( 'Button - CSS styled button showing title and count', 'download-monitor' ),
-								'box'          => __( 'Box - Box showing thumbnail, title, count, filename and filesize.', 'download-monitor' ),
-								'filename'     => __( 'Filename - Filename and download count', 'download-monitor' ),
-								'title'        => __( 'Title - Shows download title only', 'download-monitor' ),
-								'version-list' => __( 'Version list - Lists all download versions in an unordered list', 'download-monitor' ),
-								'custom'       => __( 'Custom template', 'download-monitor' )
-							)
+							'options' => download_monitor()->service('template_handler')->get_available_templates()
 						),
 						array(
 							'name'  => 'dlm_custom_template',

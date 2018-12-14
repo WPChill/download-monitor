@@ -7180,6 +7180,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_DownloadButton__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_DownloadInput__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_VersionInput__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_TemplateInput__ = __webpack_require__(81);
 //import 'whatwg-fetch';
 
 var _wp$i18n = wp.i18n,
@@ -7199,16 +7200,8 @@ var _wp$editor = wp.editor,
 
 
 
-//setLocaleData( window.gutenberg_dlm_blocks.localeData, 'download-monitor' );
 
-/**
- *        download_data: {
-			download_id: 'number',
-			version_id: 'number',
-			version: 'string',
-			template: 'string'
-		}
- */
+//setLocaleData( window.gutenberg_dlm_blocks.localeData, 'download-monitor' );
 
 registerBlockType('download-monitor/download-button', {
 	title: __('Download Button', 'download-monitor'),
@@ -7229,6 +7222,9 @@ registerBlockType('download-monitor/download-button', {
 		},
 		template: {
 			type: 'string'
+		},
+		custom_template: {
+			type: 'string'
 		}
 	},
 
@@ -7238,9 +7234,16 @@ registerBlockType('download-monitor/download-button', {
 		    download_id = _props$attributes.download_id,
 		    version_id = _props$attributes.version_id,
 		    template = _props$attributes.template,
+		    custom_template = _props$attributes.custom_template,
 		    setAttributes = props.setAttributes,
 		    className = props.className;
 
+
+		var valueFromId = function valueFromId(opts, id) {
+			return opts.find(function (o) {
+				return o.value === id;
+			});
+		};
 
 		return wp.element.createElement(
 			Fragment,
@@ -7280,14 +7283,29 @@ registerBlockType('download-monitor/download-button', {
 					PanelBody,
 					{ title: __('Template', 'download-monitor') },
 					wp.element.createElement(
-						'label',
-						null,
-						__('Template', 'download-monitor')
+						'div',
+						{ 'class': 'components-base-control' },
+						wp.element.createElement(
+							'span',
+							{ 'class': 'components-base-control__label' },
+							__('Template', 'download-monitor')
+						),
+						wp.element.createElement(__WEBPACK_IMPORTED_MODULE_3__components_TemplateInput__["a" /* default */], { onChange: function onChange(v) {
+								return setAttributes({ template: v });
+							}, selectedTemplate: template, templatesStr: dlmBlocks.templates })
 					),
-					wp.element.createElement('input', { type: 'text', value: template,
-						onChange: function onChange(v) {
-							return setAttributes({ template: v.target.value });
-						} })
+					template === "custom" && wp.element.createElement(
+						'div',
+						{ 'class': 'components-base-control' },
+						wp.element.createElement(
+							'span',
+							{ 'class': 'components-base-control__label' },
+							__('Custom Template', 'download-monitor')
+						),
+						wp.element.createElement('input', { 'class': 'components-text-control__input', onChange: function onChange(e) {
+								return setAttributes({ custom_template: e.target.value });
+							}, value: custom_template })
+					)
 				)
 			),
 			wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__components_DownloadButton__["a" /* default */], {
@@ -35834,6 +35852,78 @@ var VersionInput = function (_Component) {
 }(Component);
 
 /* harmony default export */ __webpack_exports__["a"] = (VersionInput);
+
+/***/ }),
+/* 81 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_select__ = __webpack_require__(17);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Component = wp.element.Component;
+
+
+
+
+
+var TemplateInput = function (_Component) {
+	_inherits(TemplateInput, _Component);
+
+	function TemplateInput(props) {
+		_classCallCheck(this, TemplateInput);
+
+		var _this = _possibleConstructorReturn(this, (TemplateInput.__proto__ || Object.getPrototypeOf(TemplateInput)).call(this, props));
+
+		_this.state = { templates: [] };
+		return _this;
+	}
+
+	_createClass(TemplateInput, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.setState({ templates: JSON.parse(this.props.templatesStr) });
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var valueFromId = function valueFromId(opts, id) {
+				return opts.find(function (o) {
+					return o.value === id;
+				});
+			};
+
+			console.log(this.props.selectedTemplate);
+
+			return wp.element.createElement(
+				'div',
+				null,
+				wp.element.createElement(__WEBPACK_IMPORTED_MODULE_1_react_select__["a" /* default */], {
+					value: valueFromId(this.state.templates, this.props.selectedTemplate),
+					onChange: function onChange(selectedOption) {
+						return _this2.props.onChange(selectedOption.value);
+					},
+					options: this.state.templates,
+					isSearchable: 'true'
+				})
+			);
+		}
+	}]);
+
+	return TemplateInput;
+}(Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (TemplateInput);
 
 /***/ })
 /******/ ]);

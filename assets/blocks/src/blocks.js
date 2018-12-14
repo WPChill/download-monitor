@@ -9,17 +9,9 @@ const {InspectorControls, AlignmentToolbar} = wp.editor;
 import DownloadButton from './components/DownloadButton';
 import DownloadInput from './components/DownloadInput';
 import VersionInput from './components/VersionInput';
+import TemplateInput from './components/TemplateInput';
 
 //setLocaleData( window.gutenberg_dlm_blocks.localeData, 'download-monitor' );
-
-/**
- *        download_data: {
-			download_id: 'number',
-			version_id: 'number',
-			version: 'string',
-			template: 'string'
-		}
- */
 
 registerBlockType( 'download-monitor/download-button', {
 	title: __( 'Download Button', 'download-monitor' ),
@@ -41,10 +33,15 @@ registerBlockType( 'download-monitor/download-button', {
 		template: {
 			type: 'string'
 		},
+		custom_template: {
+			type: 'string'
+		},
 	}
 	,
 	edit: ( props ) => {
-		const {attributes: {content, download_id, version_id, template}, setAttributes, className} = props;
+		const {attributes: {content, download_id, version_id, template, custom_template}, setAttributes, className} = props;
+
+		const valueFromId = (opts, id) => opts.find(o => o.value === id);
 
 		return (
 			<Fragment>
@@ -62,9 +59,16 @@ registerBlockType( 'download-monitor/download-button', {
 
 					</PanelBody>
 					<PanelBody title={__( 'Template', 'download-monitor' )}>
-						<label>{__( 'Template', 'download-monitor' )}</label>
-						<input type="text" value={template}
-						       onChange={( v ) => setAttributes( {template: v.target.value} )}/>
+						<div class="components-base-control">
+							<span class="components-base-control__label">{__( 'Template', 'download-monitor' )}</span>
+							<TemplateInput onChange={( v ) => setAttributes( {template: v} )} selectedTemplate={template} templatesStr={dlmBlocks.templates} />
+						</div>
+						{ template === "custom" &&
+						<div class="components-base-control">
+							<span class="components-base-control__label">{__( 'Custom Template', 'download-monitor' )}</span>
+							<input class="components-text-control__input" onChange={( e ) => setAttributes( {custom_template: e.target.value} ) } value={custom_template} />
+						</div>
+						}
 					</PanelBody>
 				</InspectorControls>
 				<DownloadButton

@@ -36,9 +36,15 @@ class DLM_Gutenberg {
 
 		wp_set_script_translations( 'dlm_gutenberg_blocks', 'download-monitor', plugin_dir_path( DLM_PLUGIN_FILE ) . 'languages' );
 
+		$templates = array();
+		foreach ( download_monitor()->service( 'template_handler' )->get_available_templates() as $template_key => $template_value ) {
+			$templates[] = array( 'value' => $template_key, 'label' => $template_value );
+		}
+
 		wp_localize_script( 'dlm_gutenberg_blocks', 'dlmBlocks', array(
 			'ajax_getDownloads' => DLM_Ajax_Manager::get_ajax_url( 'get_downloads' ),
 			'ajax_getVersions'  => DLM_Ajax_Manager::get_ajax_url( 'get_versions' ),
+			'templates'         => json_encode( $templates )
 		) );
 
 
