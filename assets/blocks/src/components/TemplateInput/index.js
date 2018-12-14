@@ -17,8 +17,6 @@ export default class TemplateInput extends Component {
 	render() {
 		const valueFromId = (opts, id) => opts.find(o => o.value === id);
 
-		console.log(this.props.selectedTemplate);
-
 		return (
 			<div>
 				<Select

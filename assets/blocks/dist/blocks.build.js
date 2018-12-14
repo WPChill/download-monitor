@@ -341,7 +341,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 var printWarning = function() {};
 
 if (true) {
-  var ReactPropTypesSecret = __webpack_require__(16);
+  var ReactPropTypesSecret = __webpack_require__(17);
   var loggedTypeFailures = {};
 
   printWarning = function(text) {
@@ -424,899 +424,6 @@ module.exports = checkPropTypes;
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function checkDCE() {
-  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
-  if (
-    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' ||
-    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function'
-  ) {
-    return;
-  }
-  if (true) {
-    // This branch is unreachable because this function is only called
-    // in production, but the condition is true only in development.
-    // Therefore if the branch is still here, dead code elimination wasn't
-    // properly applied.
-    // Don't change the message. React DevTools relies on it. Also make sure
-    // this message doesn't occur elsewhere in this function, or it will cause
-    // a false positive.
-    throw new Error('^_^');
-  }
-  try {
-    // Verify that the code above has been dead code eliminated (DCE'd).
-    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
-  } catch (err) {
-    // DevTools shouldn't crash React, no matter what.
-    // We should still report in case we break this code.
-    console.error(err);
-  }
-}
-
-if (false) {
-  // DCE check should happen before ReactDOM bundle executes so that
-  // DevTools can report bad minification during injection.
-  checkDCE();
-  module.exports = require('./cjs/react-dom.production.min.js');
-} else {
-  module.exports = __webpack_require__(64);
-}
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutProperties__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__wordpress_i18n__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__middlewares_nonce__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__middlewares_root_url__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__middlewares_preloading__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__middlewares_fetch_all_middleware__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__middlewares_namespace_endpoint__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__middlewares_http_v1__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__middlewares_user_locale__ = __webpack_require__(52);
-
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-
-
-/**
- * Default set of header values which should be sent with every request unless
- * explicitly provided through apiFetch options.
- *
- * @type {Object}
- */
-
-var DEFAULT_HEADERS = {
-  // The backend uses the Accept header as a condition for considering an
-  // incoming request as a REST request.
-  //
-  // See: https://core.trac.wordpress.org/ticket/44534
-  Accept: 'application/json, */*;q=0.1'
-};
-/**
- * Default set of fetch option values which should be sent with every request
- * unless explicitly provided through apiFetch options.
- *
- * @type {Object}
- */
-
-var DEFAULT_OPTIONS = {
-  credentials: 'include'
-};
-var middlewares = [];
-
-function registerMiddleware(middleware) {
-  middlewares.push(middleware);
-}
-
-function apiFetch(options) {
-  var raw = function raw(nextOptions) {
-    var url = nextOptions.url,
-        path = nextOptions.path,
-        data = nextOptions.data,
-        _nextOptions$parse = nextOptions.parse,
-        parse = _nextOptions$parse === void 0 ? true : _nextOptions$parse,
-        remainingOptions = Object(__WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutProperties__["a" /* default */])(nextOptions, ["url", "path", "data", "parse"]);
-
-    var body = nextOptions.body,
-        headers = nextOptions.headers; // Merge explicitly-provided headers with default values.
-
-    headers = Object(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__["a" /* default */])({}, DEFAULT_HEADERS, headers); // The `data` property is a shorthand for sending a JSON body.
-
-    if (data) {
-      body = JSON.stringify(data);
-      headers['Content-Type'] = 'application/json';
-    }
-
-    var responsePromise = window.fetch(url || path, Object(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__["a" /* default */])({}, DEFAULT_OPTIONS, remainingOptions, {
-      body: body,
-      headers: headers
-    }));
-
-    var checkStatus = function checkStatus(response) {
-      if (response.status >= 200 && response.status < 300) {
-        return response;
-      }
-
-      throw response;
-    };
-
-    var parseResponse = function parseResponse(response) {
-      if (parse) {
-        if (response.status === 204) {
-          return null;
-        }
-
-        return response.json ? response.json() : Promise.reject(response);
-      }
-
-      return response;
-    };
-
-    return responsePromise.then(checkStatus).then(parseResponse).catch(function (response) {
-      if (!parse) {
-        throw response;
-      }
-
-      var invalidJsonError = {
-        code: 'invalid_json',
-        message: Object(__WEBPACK_IMPORTED_MODULE_2__wordpress_i18n__["a" /* __ */])('The response is not a valid JSON response.')
-      };
-
-      if (!response || !response.json) {
-        throw invalidJsonError;
-      }
-
-      return response.json().catch(function () {
-        throw invalidJsonError;
-      }).then(function (error) {
-        var unknownError = {
-          code: 'unknown_error',
-          message: Object(__WEBPACK_IMPORTED_MODULE_2__wordpress_i18n__["a" /* __ */])('An unknown error occurred.')
-        };
-        throw error || unknownError;
-      });
-    });
-  };
-
-  var steps = [raw, __WEBPACK_IMPORTED_MODULE_6__middlewares_fetch_all_middleware__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__middlewares_http_v1__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__middlewares_namespace_endpoint__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__middlewares_user_locale__["a" /* default */]].concat(middlewares).reverse();
-
-  var runMiddleware = function runMiddleware(index) {
-    return function (nextOptions) {
-      var nextMiddleware = steps[index];
-      var next = runMiddleware(index + 1);
-      return nextMiddleware(nextOptions, next);
-    };
-  };
-
-  return runMiddleware(0)(options);
-}
-
-apiFetch.use = registerMiddleware;
-apiFetch.createNonceMiddleware = __WEBPACK_IMPORTED_MODULE_3__middlewares_nonce__["a" /* default */];
-apiFetch.createPreloadingMiddleware = __WEBPACK_IMPORTED_MODULE_5__middlewares_preloading__["a" /* default */];
-apiFetch.createRootURLMiddleware = __WEBPACK_IMPORTED_MODULE_4__middlewares_root_url__["a" /* default */];
-apiFetch.fetchAllMiddleware = __WEBPACK_IMPORTED_MODULE_6__middlewares_fetch_all_middleware__["a" /* default */];
-/* harmony default export */ __webpack_exports__["a"] = (apiFetch);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = _objectWithoutProperties;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__objectWithoutPropertiesLoose__ = __webpack_require__(26);
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = Object(__WEBPACK_IMPORTED_MODULE_0__objectWithoutPropertiesLoose__["a" /* default */])(source, excluded);
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-/***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * Validate a namespace string.
- *
- * @param  {string} namespace The namespace to validate - should take the form
- *                            `vendor/plugin/function`.
- *
- * @return {boolean}             Whether the namespace is valid.
- */
-function validateNamespace(namespace) {
-  if ('string' !== typeof namespace || '' === namespace) {
-    // eslint-disable-next-line no-console
-    console.error('The namespace must be a non-empty string.');
-    return false;
-  }
-
-  if (!/^[a-zA-Z][a-zA-Z0-9_.\-\/]*$/.test(namespace)) {
-    // eslint-disable-next-line no-console
-    console.error('The namespace can only contain numbers, letters, dashes, periods, underscores and slashes.');
-    return false;
-  }
-
-  return true;
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (validateNamespace);
-//# sourceMappingURL=validateNamespace.js.map
-
-/***/ }),
-/* 12 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__ = __webpack_require__(1);
-
-
-var namespaceAndEndpointMiddleware = function namespaceAndEndpointMiddleware(options, next) {
-  var path = options.path;
-  var namespaceTrimmed, endpointTrimmed;
-
-  if (typeof options.namespace === 'string' && typeof options.endpoint === 'string') {
-    namespaceTrimmed = options.namespace.replace(/^\/|\/$/g, '');
-    endpointTrimmed = options.endpoint.replace(/^\//, '');
-
-    if (endpointTrimmed) {
-      path = namespaceTrimmed + '/' + endpointTrimmed;
-    } else {
-      path = namespaceTrimmed;
-    }
-  }
-
-  delete options.namespace;
-  delete options.endpoint;
-  return next(Object(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__["a" /* default */])({}, options, {
-    path: path
-  }));
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (namespaceAndEndpointMiddleware);
-//# sourceMappingURL=namespace-endpoint.js.map
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export isURL */
-/* unused harmony export getProtocol */
-/* unused harmony export isValidProtocol */
-/* unused harmony export getAuthority */
-/* unused harmony export isValidAuthority */
-/* unused harmony export getPath */
-/* unused harmony export isValidPath */
-/* unused harmony export getQueryString */
-/* unused harmony export isValidQueryString */
-/* unused harmony export getFragment */
-/* unused harmony export isValidFragment */
-/* harmony export (immutable) */ __webpack_exports__["a"] = addQueryArgs;
-/* unused harmony export getQueryArg */
-/* harmony export (immutable) */ __webpack_exports__["b"] = hasQueryArg;
-/* unused harmony export removeQueryArgs */
-/* unused harmony export prependHTTP */
-/* unused harmony export safeDecodeURI */
-/* unused harmony export filterURLForDisplay */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qs__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qs__);
-
-
-/**
- * External dependencies
- */
-
-var URL_REGEXP = /^(?:https?:)?\/\/\S+$/i;
-var EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
-var USABLE_HREF_REGEXP = /^(?:[a-z]+:|#|\?|\.|\/)/i;
-/**
- * Determines whether the given string looks like a URL.
- *
- * @param {string} url The string to scrutinise.
- *
- * @return {boolean} Whether or not it looks like a URL.
- */
-
-function isURL(url) {
-  return URL_REGEXP.test(url);
-}
-/**
- * Returns the protocol part of the URL.
- *
- * @param {string} url The full URL.
- *
- * @return {?string} The protocol part of the URL.
- */
-
-function getProtocol(url) {
-  var matches = /^([^\s:]+:)/.exec(url);
-
-  if (matches) {
-    return matches[1];
-  }
-}
-/**
- * Tests if a url protocol is valid.
- *
- * @param {string} protocol The url protocol.
- *
- * @return {boolean} True if the argument is a valid protocol (e.g. http:, tel:).
- */
-
-function isValidProtocol(protocol) {
-  if (!protocol) {
-    return false;
-  }
-
-  return /^[a-z\-.\+]+[0-9]*:$/i.test(protocol);
-}
-/**
- * Returns the authority part of the URL.
- *
- * @param {string} url The full URL.
- *
- * @return {?string} The authority part of the URL.
- */
-
-function getAuthority(url) {
-  var matches = /^[^\/\s:]+:(?:\/\/)?\/?([^\/\s#?]+)[\/#?]{0,1}\S*$/.exec(url);
-
-  if (matches) {
-    return matches[1];
-  }
-}
-/**
- * Checks for invalid characters within the provided authority.
- *
- * @param {string} authority A string containing the URL authority.
- *
- * @return {boolean} True if the argument contains a valid authority.
- */
-
-function isValidAuthority(authority) {
-  if (!authority) {
-    return false;
-  }
-
-  return /^[^\s#?]+$/.test(authority);
-}
-/**
- * Returns the path part of the URL.
- *
- * @param {string} url The full URL.
- *
- * @return {?string} The path part of the URL.
- */
-
-function getPath(url) {
-  var matches = /^[^\/\s:]+:(?:\/\/)?[^\/\s#?]+[\/]([^\s#?]+)[#?]{0,1}\S*$/.exec(url);
-
-  if (matches) {
-    return matches[1];
-  }
-}
-/**
- * Checks for invalid characters within the provided path.
- *
- * @param {string} path The URL path.
- *
- * @return {boolean} True if the argument contains a valid path
- */
-
-function isValidPath(path) {
-  if (!path) {
-    return false;
-  }
-
-  return /^[^\s#?]+$/.test(path);
-}
-/**
- * Returns the query string part of the URL.
- *
- * @param {string} url The full URL.
- *
- * @return {?string} The query string part of the URL.
- */
-
-function getQueryString(url) {
-  var matches = /^\S+?\?([^\s#]+)/.exec(url);
-
-  if (matches) {
-    return matches[1];
-  }
-}
-/**
- * Checks for invalid characters within the provided query string.
- *
- * @param {string} queryString The query string.
- *
- * @return {boolean} True if the argument contains a valid query string.
- */
-
-function isValidQueryString(queryString) {
-  if (!queryString) {
-    return false;
-  }
-
-  return /^[^\s#?\/]+$/.test(queryString);
-}
-/**
- * Returns the fragment part of the URL.
- *
- * @param {string} url The full URL
- *
- * @return {?string} The fragment part of the URL.
- */
-
-function getFragment(url) {
-  var matches = /^\S+?(#[^\s\?]*)/.exec(url);
-
-  if (matches) {
-    return matches[1];
-  }
-}
-/**
- * Checks for invalid characters within the provided fragment.
- *
- * @param {string} fragment The url fragment.
- *
- * @return {boolean} True if the argument contains a valid fragment.
- */
-
-function isValidFragment(fragment) {
-  if (!fragment) {
-    return false;
-  }
-
-  return /^#[^\s#?\/]*$/.test(fragment);
-}
-/**
- * Appends arguments to the query string of the url
- *
- * @param {string} url  URL
- * @param {Object} args Query Args
- *
- * @return {string} Updated URL
- */
-
-function addQueryArgs(url, args) {
-  var queryStringIndex = url.indexOf('?');
-  var query = queryStringIndex !== -1 ? Object(__WEBPACK_IMPORTED_MODULE_1_qs__["parse"])(url.substr(queryStringIndex + 1)) : {};
-  var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
-  return baseUrl + '?' + Object(__WEBPACK_IMPORTED_MODULE_1_qs__["stringify"])(Object(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__["a" /* default */])({}, query, args));
-}
-/**
- * Returns a single query argument of the url
- *
- * @param {string} url URL
- * @param {string} arg Query arg name
- *
- * @return {Array|string} Query arg value.
- */
-
-function getQueryArg(url, arg) {
-  var queryStringIndex = url.indexOf('?');
-  var query = queryStringIndex !== -1 ? Object(__WEBPACK_IMPORTED_MODULE_1_qs__["parse"])(url.substr(queryStringIndex + 1)) : {};
-  return query[arg];
-}
-/**
- * Determines whether the URL contains a given query arg.
- *
- * @param {string} url URL
- * @param {string} arg Query arg name
- *
- * @return {boolean} Whether or not the URL contains the query aeg.
- */
-
-function hasQueryArg(url, arg) {
-  return getQueryArg(url, arg) !== undefined;
-}
-/**
- * Removes arguments from the query string of the url
- *
- * @param {string} url  URL
- * @param {...string} args Query Args
- *
- * @return {string} Updated URL
- */
-
-function removeQueryArgs(url) {
-  var queryStringIndex = url.indexOf('?');
-  var query = queryStringIndex !== -1 ? Object(__WEBPACK_IMPORTED_MODULE_1_qs__["parse"])(url.substr(queryStringIndex + 1)) : {};
-  var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
-
-  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  args.forEach(function (arg) {
-    return delete query[arg];
-  });
-  return baseUrl + '?' + Object(__WEBPACK_IMPORTED_MODULE_1_qs__["stringify"])(query);
-}
-/**
- * Prepends "http://" to a url, if it looks like something that is meant to be a TLD.
- *
- * @param  {string} url The URL to test
- *
- * @return {string}     The updated URL
- */
-
-function prependHTTP(url) {
-  if (!USABLE_HREF_REGEXP.test(url) && !EMAIL_REGEXP.test(url)) {
-    return 'http://' + url;
-  }
-
-  return url;
-}
-/**
- * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
- * `decodeURI` throws an error.
- *
- * @param {string} uri URI to decode.
- *
- * @return {string} Decoded URI if possible.
- */
-
-function safeDecodeURI(uri) {
-  try {
-    return decodeURI(uri);
-  } catch (uriError) {
-    return uri;
-  }
-}
-/**
- * Returns a URL for display.
- *
- * @param {string} url Original URL.
- *
- * @return {string} Displayed URL.
- */
-
-function filterURLForDisplay(url) {
-  // Remove protocol and www prefixes.
-  var filteredURL = url.replace(/^(?:https?:)\/\/(?:www\.)?/, ''); // Ends with / and only has that single slash, strip it.
-
-  if (filteredURL.match(/^[^\/]+\/$/)) {
-    return filteredURL.replace('/', '');
-  }
-
-  return filteredURL;
-}
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var has = Object.prototype.hasOwnProperty;
-
-var hexTable = (function () {
-    var array = [];
-    for (var i = 0; i < 256; ++i) {
-        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
-    }
-
-    return array;
-}());
-
-var compactQueue = function compactQueue(queue) {
-    var obj;
-
-    while (queue.length) {
-        var item = queue.pop();
-        obj = item.obj[item.prop];
-
-        if (Array.isArray(obj)) {
-            var compacted = [];
-
-            for (var j = 0; j < obj.length; ++j) {
-                if (typeof obj[j] !== 'undefined') {
-                    compacted.push(obj[j]);
-                }
-            }
-
-            item.obj[item.prop] = compacted;
-        }
-    }
-
-    return obj;
-};
-
-var arrayToObject = function arrayToObject(source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
-    for (var i = 0; i < source.length; ++i) {
-        if (typeof source[i] !== 'undefined') {
-            obj[i] = source[i];
-        }
-    }
-
-    return obj;
-};
-
-var merge = function merge(target, source, options) {
-    if (!source) {
-        return target;
-    }
-
-    if (typeof source !== 'object') {
-        if (Array.isArray(target)) {
-            target.push(source);
-        } else if (typeof target === 'object') {
-            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
-                target[source] = true;
-            }
-        } else {
-            return [target, source];
-        }
-
-        return target;
-    }
-
-    if (typeof target !== 'object') {
-        return [target].concat(source);
-    }
-
-    var mergeTarget = target;
-    if (Array.isArray(target) && !Array.isArray(source)) {
-        mergeTarget = arrayToObject(target, options);
-    }
-
-    if (Array.isArray(target) && Array.isArray(source)) {
-        source.forEach(function (item, i) {
-            if (has.call(target, i)) {
-                if (target[i] && typeof target[i] === 'object') {
-                    target[i] = merge(target[i], item, options);
-                } else {
-                    target.push(item);
-                }
-            } else {
-                target[i] = item;
-            }
-        });
-        return target;
-    }
-
-    return Object.keys(source).reduce(function (acc, key) {
-        var value = source[key];
-
-        if (has.call(acc, key)) {
-            acc[key] = merge(acc[key], value, options);
-        } else {
-            acc[key] = value;
-        }
-        return acc;
-    }, mergeTarget);
-};
-
-var assign = function assignSingleSource(target, source) {
-    return Object.keys(source).reduce(function (acc, key) {
-        acc[key] = source[key];
-        return acc;
-    }, target);
-};
-
-var decode = function (str) {
-    try {
-        return decodeURIComponent(str.replace(/\+/g, ' '));
-    } catch (e) {
-        return str;
-    }
-};
-
-var encode = function encode(str) {
-    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-    // It has been adapted here for stricter adherence to RFC 3986
-    if (str.length === 0) {
-        return str;
-    }
-
-    var string = typeof str === 'string' ? str : String(str);
-
-    var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
-
-        if (
-            c === 0x2D // -
-            || c === 0x2E // .
-            || c === 0x5F // _
-            || c === 0x7E // ~
-            || (c >= 0x30 && c <= 0x39) // 0-9
-            || (c >= 0x41 && c <= 0x5A) // a-z
-            || (c >= 0x61 && c <= 0x7A) // A-Z
-        ) {
-            out += string.charAt(i);
-            continue;
-        }
-
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        out += hexTable[0xF0 | (c >> 18)]
-            + hexTable[0x80 | ((c >> 12) & 0x3F)]
-            + hexTable[0x80 | ((c >> 6) & 0x3F)]
-            + hexTable[0x80 | (c & 0x3F)];
-    }
-
-    return out;
-};
-
-var compact = function compact(value) {
-    var queue = [{ obj: { o: value }, prop: 'o' }];
-    var refs = [];
-
-    for (var i = 0; i < queue.length; ++i) {
-        var item = queue[i];
-        var obj = item.obj[item.prop];
-
-        var keys = Object.keys(obj);
-        for (var j = 0; j < keys.length; ++j) {
-            var key = keys[j];
-            var val = obj[key];
-            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
-                queue.push({ obj: obj, prop: key });
-                refs.push(val);
-            }
-        }
-    }
-
-    return compactQueue(queue);
-};
-
-var isRegExp = function isRegExp(obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-var isBuffer = function isBuffer(obj) {
-    if (obj === null || typeof obj === 'undefined') {
-        return false;
-    }
-
-    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
-};
-
-module.exports = {
-    arrayToObject: arrayToObject,
-    assign: assign,
-    compact: compact,
-    decode: decode,
-    encode: encode,
-    isBuffer: isBuffer,
-    isRegExp: isRegExp,
-    merge: merge
-};
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var replace = String.prototype.replace;
-var percentTwenties = /%20/g;
-
-module.exports = {
-    'default': 'RFC3986',
-    formatters: {
-        RFC1738: function (value) {
-            return replace.call(value, percentTwenties, '+');
-        },
-        RFC3986: function (value) {
-            return value;
-        }
-    },
-    RFC1738: 'RFC1738',
-    RFC3986: 'RFC3986'
-};
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1334,7 +441,7 @@ module.exports = ReactPropTypesSecret;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_emotion__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_prop_types__);
@@ -6134,6 +5241,899 @@ var index$1 = manageState(Select);
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function checkDCE() {
+  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+  if (
+    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' ||
+    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function'
+  ) {
+    return;
+  }
+  if (true) {
+    // This branch is unreachable because this function is only called
+    // in production, but the condition is true only in development.
+    // Therefore if the branch is still here, dead code elimination wasn't
+    // properly applied.
+    // Don't change the message. React DevTools relies on it. Also make sure
+    // this message doesn't occur elsewhere in this function, or it will cause
+    // a false positive.
+    throw new Error('^_^');
+  }
+  try {
+    // Verify that the code above has been dead code eliminated (DCE'd).
+    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
+  } catch (err) {
+    // DevTools shouldn't crash React, no matter what.
+    // We should still report in case we break this code.
+    console.error(err);
+  }
+}
+
+if (false) {
+  // DCE check should happen before ReactDOM bundle executes so that
+  // DevTools can report bad minification during injection.
+  checkDCE();
+  module.exports = require('./cjs/react-dom.production.min.js');
+} else {
+  module.exports = __webpack_require__(64);
+}
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutProperties__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__wordpress_i18n__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__middlewares_nonce__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__middlewares_root_url__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__middlewares_preloading__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__middlewares_fetch_all_middleware__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__middlewares_namespace_endpoint__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__middlewares_http_v1__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__middlewares_user_locale__ = __webpack_require__(52);
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+
+
+/**
+ * Default set of header values which should be sent with every request unless
+ * explicitly provided through apiFetch options.
+ *
+ * @type {Object}
+ */
+
+var DEFAULT_HEADERS = {
+  // The backend uses the Accept header as a condition for considering an
+  // incoming request as a REST request.
+  //
+  // See: https://core.trac.wordpress.org/ticket/44534
+  Accept: 'application/json, */*;q=0.1'
+};
+/**
+ * Default set of fetch option values which should be sent with every request
+ * unless explicitly provided through apiFetch options.
+ *
+ * @type {Object}
+ */
+
+var DEFAULT_OPTIONS = {
+  credentials: 'include'
+};
+var middlewares = [];
+
+function registerMiddleware(middleware) {
+  middlewares.push(middleware);
+}
+
+function apiFetch(options) {
+  var raw = function raw(nextOptions) {
+    var url = nextOptions.url,
+        path = nextOptions.path,
+        data = nextOptions.data,
+        _nextOptions$parse = nextOptions.parse,
+        parse = _nextOptions$parse === void 0 ? true : _nextOptions$parse,
+        remainingOptions = Object(__WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectWithoutProperties__["a" /* default */])(nextOptions, ["url", "path", "data", "parse"]);
+
+    var body = nextOptions.body,
+        headers = nextOptions.headers; // Merge explicitly-provided headers with default values.
+
+    headers = Object(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__["a" /* default */])({}, DEFAULT_HEADERS, headers); // The `data` property is a shorthand for sending a JSON body.
+
+    if (data) {
+      body = JSON.stringify(data);
+      headers['Content-Type'] = 'application/json';
+    }
+
+    var responsePromise = window.fetch(url || path, Object(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__["a" /* default */])({}, DEFAULT_OPTIONS, remainingOptions, {
+      body: body,
+      headers: headers
+    }));
+
+    var checkStatus = function checkStatus(response) {
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      }
+
+      throw response;
+    };
+
+    var parseResponse = function parseResponse(response) {
+      if (parse) {
+        if (response.status === 204) {
+          return null;
+        }
+
+        return response.json ? response.json() : Promise.reject(response);
+      }
+
+      return response;
+    };
+
+    return responsePromise.then(checkStatus).then(parseResponse).catch(function (response) {
+      if (!parse) {
+        throw response;
+      }
+
+      var invalidJsonError = {
+        code: 'invalid_json',
+        message: Object(__WEBPACK_IMPORTED_MODULE_2__wordpress_i18n__["a" /* __ */])('The response is not a valid JSON response.')
+      };
+
+      if (!response || !response.json) {
+        throw invalidJsonError;
+      }
+
+      return response.json().catch(function () {
+        throw invalidJsonError;
+      }).then(function (error) {
+        var unknownError = {
+          code: 'unknown_error',
+          message: Object(__WEBPACK_IMPORTED_MODULE_2__wordpress_i18n__["a" /* __ */])('An unknown error occurred.')
+        };
+        throw error || unknownError;
+      });
+    });
+  };
+
+  var steps = [raw, __WEBPACK_IMPORTED_MODULE_6__middlewares_fetch_all_middleware__["a" /* default */], __WEBPACK_IMPORTED_MODULE_8__middlewares_http_v1__["a" /* default */], __WEBPACK_IMPORTED_MODULE_7__middlewares_namespace_endpoint__["a" /* default */], __WEBPACK_IMPORTED_MODULE_9__middlewares_user_locale__["a" /* default */]].concat(middlewares).reverse();
+
+  var runMiddleware = function runMiddleware(index) {
+    return function (nextOptions) {
+      var nextMiddleware = steps[index];
+      var next = runMiddleware(index + 1);
+      return nextMiddleware(nextOptions, next);
+    };
+  };
+
+  return runMiddleware(0)(options);
+}
+
+apiFetch.use = registerMiddleware;
+apiFetch.createNonceMiddleware = __WEBPACK_IMPORTED_MODULE_3__middlewares_nonce__["a" /* default */];
+apiFetch.createPreloadingMiddleware = __WEBPACK_IMPORTED_MODULE_5__middlewares_preloading__["a" /* default */];
+apiFetch.createRootURLMiddleware = __WEBPACK_IMPORTED_MODULE_4__middlewares_root_url__["a" /* default */];
+apiFetch.fetchAllMiddleware = __WEBPACK_IMPORTED_MODULE_6__middlewares_fetch_all_middleware__["a" /* default */];
+/* harmony default export */ __webpack_exports__["a"] = (apiFetch);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = _objectWithoutProperties;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__objectWithoutPropertiesLoose__ = __webpack_require__(26);
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+  var target = Object(__WEBPACK_IMPORTED_MODULE_0__objectWithoutPropertiesLoose__["a" /* default */])(source, excluded);
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Validate a namespace string.
+ *
+ * @param  {string} namespace The namespace to validate - should take the form
+ *                            `vendor/plugin/function`.
+ *
+ * @return {boolean}             Whether the namespace is valid.
+ */
+function validateNamespace(namespace) {
+  if ('string' !== typeof namespace || '' === namespace) {
+    // eslint-disable-next-line no-console
+    console.error('The namespace must be a non-empty string.');
+    return false;
+  }
+
+  if (!/^[a-zA-Z][a-zA-Z0-9_.\-\/]*$/.test(namespace)) {
+    // eslint-disable-next-line no-console
+    console.error('The namespace can only contain numbers, letters, dashes, periods, underscores and slashes.');
+    return false;
+  }
+
+  return true;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (validateNamespace);
+//# sourceMappingURL=validateNamespace.js.map
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__ = __webpack_require__(1);
+
+
+var namespaceAndEndpointMiddleware = function namespaceAndEndpointMiddleware(options, next) {
+  var path = options.path;
+  var namespaceTrimmed, endpointTrimmed;
+
+  if (typeof options.namespace === 'string' && typeof options.endpoint === 'string') {
+    namespaceTrimmed = options.namespace.replace(/^\/|\/$/g, '');
+    endpointTrimmed = options.endpoint.replace(/^\//, '');
+
+    if (endpointTrimmed) {
+      path = namespaceTrimmed + '/' + endpointTrimmed;
+    } else {
+      path = namespaceTrimmed;
+    }
+  }
+
+  delete options.namespace;
+  delete options.endpoint;
+  return next(Object(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__["a" /* default */])({}, options, {
+    path: path
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (namespaceAndEndpointMiddleware);
+//# sourceMappingURL=namespace-endpoint.js.map
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export isURL */
+/* unused harmony export getProtocol */
+/* unused harmony export isValidProtocol */
+/* unused harmony export getAuthority */
+/* unused harmony export isValidAuthority */
+/* unused harmony export getPath */
+/* unused harmony export isValidPath */
+/* unused harmony export getQueryString */
+/* unused harmony export isValidQueryString */
+/* unused harmony export getFragment */
+/* unused harmony export isValidFragment */
+/* harmony export (immutable) */ __webpack_exports__["a"] = addQueryArgs;
+/* unused harmony export getQueryArg */
+/* harmony export (immutable) */ __webpack_exports__["b"] = hasQueryArg;
+/* unused harmony export removeQueryArgs */
+/* unused harmony export prependHTTP */
+/* unused harmony export safeDecodeURI */
+/* unused harmony export filterURLForDisplay */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qs__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_qs__);
+
+
+/**
+ * External dependencies
+ */
+
+var URL_REGEXP = /^(?:https?:)?\/\/\S+$/i;
+var EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
+var USABLE_HREF_REGEXP = /^(?:[a-z]+:|#|\?|\.|\/)/i;
+/**
+ * Determines whether the given string looks like a URL.
+ *
+ * @param {string} url The string to scrutinise.
+ *
+ * @return {boolean} Whether or not it looks like a URL.
+ */
+
+function isURL(url) {
+  return URL_REGEXP.test(url);
+}
+/**
+ * Returns the protocol part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @return {?string} The protocol part of the URL.
+ */
+
+function getProtocol(url) {
+  var matches = /^([^\s:]+:)/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Tests if a url protocol is valid.
+ *
+ * @param {string} protocol The url protocol.
+ *
+ * @return {boolean} True if the argument is a valid protocol (e.g. http:, tel:).
+ */
+
+function isValidProtocol(protocol) {
+  if (!protocol) {
+    return false;
+  }
+
+  return /^[a-z\-.\+]+[0-9]*:$/i.test(protocol);
+}
+/**
+ * Returns the authority part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @return {?string} The authority part of the URL.
+ */
+
+function getAuthority(url) {
+  var matches = /^[^\/\s:]+:(?:\/\/)?\/?([^\/\s#?]+)[\/#?]{0,1}\S*$/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Checks for invalid characters within the provided authority.
+ *
+ * @param {string} authority A string containing the URL authority.
+ *
+ * @return {boolean} True if the argument contains a valid authority.
+ */
+
+function isValidAuthority(authority) {
+  if (!authority) {
+    return false;
+  }
+
+  return /^[^\s#?]+$/.test(authority);
+}
+/**
+ * Returns the path part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @return {?string} The path part of the URL.
+ */
+
+function getPath(url) {
+  var matches = /^[^\/\s:]+:(?:\/\/)?[^\/\s#?]+[\/]([^\s#?]+)[#?]{0,1}\S*$/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Checks for invalid characters within the provided path.
+ *
+ * @param {string} path The URL path.
+ *
+ * @return {boolean} True if the argument contains a valid path
+ */
+
+function isValidPath(path) {
+  if (!path) {
+    return false;
+  }
+
+  return /^[^\s#?]+$/.test(path);
+}
+/**
+ * Returns the query string part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @return {?string} The query string part of the URL.
+ */
+
+function getQueryString(url) {
+  var matches = /^\S+?\?([^\s#]+)/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Checks for invalid characters within the provided query string.
+ *
+ * @param {string} queryString The query string.
+ *
+ * @return {boolean} True if the argument contains a valid query string.
+ */
+
+function isValidQueryString(queryString) {
+  if (!queryString) {
+    return false;
+  }
+
+  return /^[^\s#?\/]+$/.test(queryString);
+}
+/**
+ * Returns the fragment part of the URL.
+ *
+ * @param {string} url The full URL
+ *
+ * @return {?string} The fragment part of the URL.
+ */
+
+function getFragment(url) {
+  var matches = /^\S+?(#[^\s\?]*)/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Checks for invalid characters within the provided fragment.
+ *
+ * @param {string} fragment The url fragment.
+ *
+ * @return {boolean} True if the argument contains a valid fragment.
+ */
+
+function isValidFragment(fragment) {
+  if (!fragment) {
+    return false;
+  }
+
+  return /^#[^\s#?\/]*$/.test(fragment);
+}
+/**
+ * Appends arguments to the query string of the url
+ *
+ * @param {string} url  URL
+ * @param {Object} args Query Args
+ *
+ * @return {string} Updated URL
+ */
+
+function addQueryArgs(url, args) {
+  var queryStringIndex = url.indexOf('?');
+  var query = queryStringIndex !== -1 ? Object(__WEBPACK_IMPORTED_MODULE_1_qs__["parse"])(url.substr(queryStringIndex + 1)) : {};
+  var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
+  return baseUrl + '?' + Object(__WEBPACK_IMPORTED_MODULE_1_qs__["stringify"])(Object(__WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__["a" /* default */])({}, query, args));
+}
+/**
+ * Returns a single query argument of the url
+ *
+ * @param {string} url URL
+ * @param {string} arg Query arg name
+ *
+ * @return {Array|string} Query arg value.
+ */
+
+function getQueryArg(url, arg) {
+  var queryStringIndex = url.indexOf('?');
+  var query = queryStringIndex !== -1 ? Object(__WEBPACK_IMPORTED_MODULE_1_qs__["parse"])(url.substr(queryStringIndex + 1)) : {};
+  return query[arg];
+}
+/**
+ * Determines whether the URL contains a given query arg.
+ *
+ * @param {string} url URL
+ * @param {string} arg Query arg name
+ *
+ * @return {boolean} Whether or not the URL contains the query aeg.
+ */
+
+function hasQueryArg(url, arg) {
+  return getQueryArg(url, arg) !== undefined;
+}
+/**
+ * Removes arguments from the query string of the url
+ *
+ * @param {string} url  URL
+ * @param {...string} args Query Args
+ *
+ * @return {string} Updated URL
+ */
+
+function removeQueryArgs(url) {
+  var queryStringIndex = url.indexOf('?');
+  var query = queryStringIndex !== -1 ? Object(__WEBPACK_IMPORTED_MODULE_1_qs__["parse"])(url.substr(queryStringIndex + 1)) : {};
+  var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
+
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  args.forEach(function (arg) {
+    return delete query[arg];
+  });
+  return baseUrl + '?' + Object(__WEBPACK_IMPORTED_MODULE_1_qs__["stringify"])(query);
+}
+/**
+ * Prepends "http://" to a url, if it looks like something that is meant to be a TLD.
+ *
+ * @param  {string} url The URL to test
+ *
+ * @return {string}     The updated URL
+ */
+
+function prependHTTP(url) {
+  if (!USABLE_HREF_REGEXP.test(url) && !EMAIL_REGEXP.test(url)) {
+    return 'http://' + url;
+  }
+
+  return url;
+}
+/**
+ * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
+ * `decodeURI` throws an error.
+ *
+ * @param {string} uri URI to decode.
+ *
+ * @return {string} Decoded URI if possible.
+ */
+
+function safeDecodeURI(uri) {
+  try {
+    return decodeURI(uri);
+  } catch (uriError) {
+    return uri;
+  }
+}
+/**
+ * Returns a URL for display.
+ *
+ * @param {string} url Original URL.
+ *
+ * @return {string} Displayed URL.
+ */
+
+function filterURLForDisplay(url) {
+  // Remove protocol and www prefixes.
+  var filteredURL = url.replace(/^(?:https?:)\/\/(?:www\.)?/, ''); // Ends with / and only has that single slash, strip it.
+
+  if (filteredURL.match(/^[^\/]+\/$/)) {
+    return filteredURL.replace('/', '');
+  }
+
+  return filteredURL;
+}
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    var obj;
+
+    while (queue.length) {
+        var item = queue.pop();
+        obj = item.obj[item.prop];
+
+        if (Array.isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+
+    return obj;
+};
+
+var arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+var merge = function merge(target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+var assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+var decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+var encode = function encode(str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+var compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    return compactQueue(queue);
+};
+
+var isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var isBuffer = function isBuffer(obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    merge: merge
+};
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6147,7 +6147,7 @@ var PropTypes = _interopRequireWildcard(__webpack_require__(2));
 
 var _react = _interopRequireDefault(__webpack_require__(0));
 
-var _reactDom = _interopRequireDefault(__webpack_require__(8));
+var _reactDom = _interopRequireDefault(__webpack_require__(9));
 
 var _reactLifecyclesCompat = __webpack_require__(19);
 
@@ -7368,10 +7368,10 @@ var DownloadButton = function (_Component) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wordpress_api_fetch__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wordpress_api_fetch__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_select__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_select__ = __webpack_require__(7);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8602,7 +8602,7 @@ function createHooks() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validateNamespace_js__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validateNamespace_js__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__validateHookName_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2____ = __webpack_require__(3);
 
@@ -8701,7 +8701,7 @@ function createAddHook(hooks) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validateNamespace_js__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validateNamespace_js__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__validateHookName_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2____ = __webpack_require__(3);
 
@@ -9002,7 +9002,7 @@ function createDidHook(hooks) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_objectSpread__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__namespace_endpoint__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__namespace_endpoint__ = __webpack_require__(13);
 
 
 /**
@@ -9103,8 +9103,8 @@ var createPreloadingMiddleware = function createPreloadingMiddleware(preloadedDa
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_runtime_helpers_esm_asyncToGenerator__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_runtime_helpers_esm_objectSpread__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_objectWithoutProperties__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__wordpress_url__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__babel_runtime_helpers_esm_objectWithoutProperties__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__wordpress_url__ = __webpack_require__(14);
 
 
 
@@ -9318,7 +9318,7 @@ function _asyncToGenerator(fn) {
 
 var stringify = __webpack_require__(49);
 var parse = __webpack_require__(50);
-var formats = __webpack_require__(15);
+var formats = __webpack_require__(16);
 
 module.exports = {
     formats: formats,
@@ -9334,8 +9334,8 @@ module.exports = {
 "use strict";
 
 
-var utils = __webpack_require__(14);
-var formats = __webpack_require__(15);
+var utils = __webpack_require__(15);
+var formats = __webpack_require__(16);
 
 var arrayPrefixGenerators = {
     brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
@@ -9551,7 +9551,7 @@ module.exports = function (object, opts) {
 "use strict";
 
 
-var utils = __webpack_require__(14);
+var utils = __webpack_require__(15);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -9787,7 +9787,7 @@ function httpV1Middleware(options, next) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wordpress_url__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wordpress_url__ = __webpack_require__(14);
 /**
  * WordPress dependencies
  */
@@ -11739,7 +11739,7 @@ module.exports.polyfill = function(object) {
   object.cancelAnimationFrame = caf
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 55 */
@@ -12008,7 +12008,7 @@ var _createEmotion = Object(__WEBPACK_IMPORTED_MODULE_0_create_emotion__["a" /* 
 
 
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8)))
 
 /***/ }),
 /* 58 */
@@ -33732,7 +33732,7 @@ exports.unstable_shouldYield = unstable_shouldYield;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 67 */
@@ -34191,7 +34191,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 
 var assign = __webpack_require__(5);
 
-var ReactPropTypesSecret = __webpack_require__(16);
+var ReactPropTypesSecret = __webpack_require__(17);
 var checkPropTypes = __webpack_require__(6);
 
 var printWarning = function() {};
@@ -35460,7 +35460,7 @@ var _propTypes = _interopRequireDefault(__webpack_require__(2));
 
 var _react = _interopRequireDefault(__webpack_require__(0));
 
-var _reactDom = __webpack_require__(8);
+var _reactDom = __webpack_require__(9);
 
 var _TransitionGroup = _interopRequireDefault(__webpack_require__(21));
 
@@ -35765,10 +35765,10 @@ function getNextChildMapping(nextProps, prevChildMapping, onExited) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wordpress_api_fetch__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wordpress_api_fetch__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_select__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_select__ = __webpack_require__(7);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35860,7 +35860,7 @@ var VersionInput = function (_Component) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_select__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_select__ = __webpack_require__(7);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35902,8 +35902,6 @@ var TemplateInput = function (_Component) {
 					return o.value === id;
 				});
 			};
-
-			console.log(this.props.selectedTemplate);
 
 			return wp.element.createElement(
 				'div',
