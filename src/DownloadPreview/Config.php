@@ -12,9 +12,6 @@ class DLM_DownloadPreview_Config {
 	/** @var string */
 	private $template = "";
 
-	/** @var string */
-	private $custom_template = "";
-
 	/**
 	 * @return DLM_Download
 	 */

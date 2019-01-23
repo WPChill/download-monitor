@@ -24,11 +24,7 @@ class DLM_DownloadPreview_Preview {
 		$config = new DLM_DownloadPreview_Config();
 
 		if ( isset( $_GET['download_id'] ) ) {
-
-			/**
-			 * @todo fetch download with id
-			 */
-
+			
 			try {
 				/** @var DLM_Download $download */
 				$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $_GET['download_id'] ) );

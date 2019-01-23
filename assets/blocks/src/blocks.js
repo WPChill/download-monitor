@@ -11,6 +11,9 @@ import DownloadInput from './components/DownloadInput';
 import VersionInput from './components/VersionInput';
 import TemplateInput from './components/TemplateInput';
 
+import React from 'react';
+import Select from 'react-select';
+
 //setLocaleData( window.gutenberg_dlm_blocks.localeData, 'download-monitor' );
 
 registerBlockType( 'download-monitor/download-button', {
@@ -35,12 +38,17 @@ registerBlockType( 'download-monitor/download-button', {
 			type: 'string',
 			default: ''
 		},
+		autop: {
+			type: 'number',
+			default: 0
+		},
 	}
 	,
 	edit: ( props ) => {
-		const {attributes: { download_id, version_id, template, custom_template}, setAttributes, className} = props;
+		const {attributes: { download_id, version_id, template, custom_template, autop}, setAttributes, className} = props;
 
 		const valueFromId = (opts, id) => opts.find(o => o.value === id);
+		let autoPOptions = [{ value: 0, label: 'No'},{ value: 1, label: 'Yes'}];
 
 		return (
 			<Fragment>
@@ -68,6 +76,15 @@ registerBlockType( 'download-monitor/download-button', {
 							<input className="components-text-control__input" onChange={( e ) => setAttributes( {custom_template: e.target.value} ) } value={custom_template} />
 						</div>
 						}
+						<div className="components-base-control dlmGbEditorTemplateWrapper">
+							<span className="components-base-control__label">{__( 'Wrap in paragraph tag (<p>)?', 'download-monitor' )}</span>
+							<Select
+								value={valueFromId( autoPOptions, autop )}
+								onChange={(selectedOption) => { setAttributes({autop: selectedOption.value}) }}
+								options={autoPOptions}
+								isSearchable="false"
+							 />
+						</div>
 					</PanelBody>
 				</InspectorControls>
 				<DownloadButton download_id={download_id} version_id={version_id} template={template} custom_template={custom_template} />
@@ -75,6 +92,6 @@ registerBlockType( 'download-monitor/download-button', {
 		);
 	},
 	save: ( props ) => {
-		return <a>{props.attributes.content}</a>;
+		return null;
 	},
 } );
