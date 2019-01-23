@@ -1032,58 +1032,6 @@
         ]
     },
     {
-        "name": "webmozart/assert",
-        "version": "1.3.0",
-        "version_normalized": "1.3.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/webmozart/assert.git",
-            "reference": "0df1908962e7a3071564e857d86874dad1ef204a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/webmozart/assert/zipball/0df1908962e7a3071564e857d86874dad1ef204a",
-            "reference": "0df1908962e7a3071564e857d86874dad1ef204a",
-            "shasum": ""
-        },
-        "require": {
-            "php": "^5.3.3 || ^7.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^4.6",
-            "sebastian/version": "^1.0.1"
-        },
-        "time": "2018-01-29 19:49:41",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.3-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Webmozart\\Assert\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Bernhard Schussek",
-                "email": "bschussek@gmail.com"
-            }
-        ],
-        "description": "Assertions to validate method input/output with nice error messages.",
-        "keywords": [
-            "assert",
-            "check",
-            "validate"
-        ]
-    },
-    {
         "name": "phpdocumentor/reflection-common",
         "version": "1.0.1",
         "version_normalized": "1.0.1.0",
@@ -1546,6 +1494,119 @@
             "phpunit",
             "testing",
             "xunit"
+        ]
+    },
+    {
+        "name": "symfony/polyfill-ctype",
+        "version": "v1.10.0",
+        "version_normalized": "1.10.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-ctype.git",
+            "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
+            "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "suggest": {
+            "ext-ctype": "For best performance"
+        },
+        "time": "2018-08-06 14:22:27",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.9-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Ctype\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            },
+            {
+                "name": "Gert de Pagter",
+                "email": "backendtea@gmail.com"
+            }
+        ],
+        "description": "Symfony polyfill for ctype functions",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "ctype",
+            "polyfill",
+            "portable"
+        ]
+    },
+    {
+        "name": "webmozart/assert",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/webmozart/assert.git",
+            "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
+            "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.3.3 || ^7.0",
+            "symfony/polyfill-ctype": "^1.8"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.6",
+            "sebastian/version": "^1.0.1"
+        },
+        "time": "2018-12-25 11:19:39",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Webmozart\\Assert\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bernhard Schussek",
+                "email": "bschussek@gmail.com"
+            }
+        ],
+        "description": "Assertions to validate method input/output with nice error messages.",
+        "keywords": [
+            "assert",
+            "check",
+            "validate"
         ]
     }
 ]

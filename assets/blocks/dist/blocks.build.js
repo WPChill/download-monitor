@@ -7209,28 +7209,26 @@ registerBlockType('download-monitor/download-button', {
 	keywords: [__('download', 'download-monitor'), 'download monitor', __('file', 'download-monitor')],
 	category: 'common',
 	attributes: {
-		content: {
-			type: 'string',
-			source: 'html',
-			selector: 'p'
-		},
 		download_id: {
-			type: 'number'
+			type: 'number',
+			default: 0
 		},
 		version_id: {
-			type: 'number'
+			type: 'number',
+			default: 0
 		},
 		template: {
-			type: 'string'
+			type: 'string',
+			default: 'settings'
 		},
 		custom_template: {
-			type: 'string'
+			type: 'string',
+			default: ''
 		}
 	},
 
 	edit: function edit(props) {
 		var _props$attributes = props.attributes,
-		    content = _props$attributes.content,
 		    download_id = _props$attributes.download_id,
 		    version_id = _props$attributes.version_id,
 		    template = _props$attributes.template,
@@ -7256,10 +7254,10 @@ registerBlockType('download-monitor/download-button', {
 					{ title: __('Download Information', 'download-monitor') },
 					wp.element.createElement(
 						'div',
-						{ 'class': 'components-base-control' },
+						{ className: 'components-base-control' },
 						wp.element.createElement(
 							'span',
-							{ 'class': 'components-base-control__label' },
+							{ className: 'components-base-control__label' },
 							__('Download', 'download-monitor')
 						),
 						wp.element.createElement(__WEBPACK_IMPORTED_MODULE_1__components_DownloadInput__["a" /* default */], { onChange: function onChange(v) {
@@ -7268,10 +7266,10 @@ registerBlockType('download-monitor/download-button', {
 					),
 					wp.element.createElement(
 						'div',
-						{ 'class': 'components-base-control' },
+						{ className: 'components-base-control' },
 						wp.element.createElement(
 							'span',
-							{ 'class': 'components-base-control__label' },
+							{ className: 'components-base-control__label' },
 							__('Version', 'download-monitor')
 						),
 						wp.element.createElement(__WEBPACK_IMPORTED_MODULE_2__components_VersionInput__["a" /* default */], { onChange: function onChange(v) {
@@ -7284,10 +7282,10 @@ registerBlockType('download-monitor/download-button', {
 					{ title: __('Template', 'download-monitor') },
 					wp.element.createElement(
 						'div',
-						{ 'class': 'components-base-control' },
+						{ className: 'components-base-control dlmGbEditorTemplateWrapper' },
 						wp.element.createElement(
 							'span',
-							{ 'class': 'components-base-control__label' },
+							{ className: 'components-base-control__label' },
 							__('Template', 'download-monitor')
 						),
 						wp.element.createElement(__WEBPACK_IMPORTED_MODULE_3__components_TemplateInput__["a" /* default */], { onChange: function onChange(v) {
@@ -7296,21 +7294,19 @@ registerBlockType('download-monitor/download-button', {
 					),
 					template === "custom" && wp.element.createElement(
 						'div',
-						{ 'class': 'components-base-control' },
+						{ className: 'components-base-control' },
 						wp.element.createElement(
 							'span',
-							{ 'class': 'components-base-control__label' },
+							{ className: 'components-base-control__label' },
 							__('Custom Template', 'download-monitor')
 						),
-						wp.element.createElement('input', { 'class': 'components-text-control__input', onChange: function onChange(e) {
+						wp.element.createElement('input', { className: 'components-text-control__input', onChange: function onChange(e) {
 								return setAttributes({ custom_template: e.target.value });
 							}, value: custom_template })
 					)
 				)
 			),
-			wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__components_DownloadButton__["a" /* default */], {
-				value: content
-			})
+			wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__components_DownloadButton__["a" /* default */], { download_id: download_id, version_id: version_id, template: template, custom_template: custom_template })
 		);
 	},
 	save: function save(props) {
@@ -7344,16 +7340,69 @@ var DownloadButton = function (_Component) {
 	function DownloadButton(props) {
 		_classCallCheck(this, DownloadButton);
 
-		return _possibleConstructorReturn(this, (DownloadButton.__proto__ || Object.getPrototypeOf(DownloadButton)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (DownloadButton.__proto__ || Object.getPrototypeOf(DownloadButton)).call(this, props));
+
+		_this.updateHeight = _this.updateHeight.bind(_this);
+		_this.getIframeUrl = _this.getIframeUrl.bind(_this);
+
+		_this.state = { calculatedHeight: {
+				cacheKey: "",
+				height: 100
+			} };
+		return _this;
 	}
 
 	_createClass(DownloadButton, [{
+		key: "getIframeUrl",
+		value: function getIframeUrl() {
+			var iframeURL = dlmBlocks.urlButtonPreview;
+
+			if (this.props.download_id != 0) {
+				iframeURL += "&download_id=" + this.props.download_id;
+			}
+
+			if (this.props.version_id != 0) {
+				iframeURL += "&version_id=" + this.props.version_id;
+			}
+
+			if (this.props.template != "") {
+				iframeURL += "&template=" + this.props.template;
+			}
+
+			if (this.props.custom_template != "") {
+				iframeURL += "&custom_template=" + this.props.custom_template;
+			}
+
+			return iframeURL;
+		}
+	}, {
+		key: "updateHeight",
+		value: function updateHeight(target) {
+
+			var cacheKey = encodeURI(this.getIframeUrl());
+
+			// check if we need to reset height to new URL
+			if (this.state.chacheKey != cacheKey) {
+				this.setState({ calculatedHeight: {
+						cacheKey: cacheKey,
+						height: target.contentDocument.getElementById("dlmPreviewContainer").scrollHeight
+					} });
+			}
+		}
+	}, {
 		key: "render",
 		value: function render() {
+			var _this2 = this;
+
+			var iframeURL = this.getIframeUrl();
+			var frameHeight = this.state.calculatedHeight.height + "px";
+
 			return wp.element.createElement(
-				"p",
-				null,
-				"test"
+				"div",
+				{ className: "dlmPreviewButton" },
+				wp.element.createElement("iframe", { src: iframeURL, width: "100%", height: frameHeight, onLoad: function onLoad(e) {
+						_this2.updateHeight(e.target);
+					} })
 			);
 		}
 	}]);

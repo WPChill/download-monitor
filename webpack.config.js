@@ -16,6 +16,7 @@ let webpack = require( 'webpack' ),
 					loader: 'babel-loader',
 					exclude: /node_modules/,
 				},
+
 			],
 		},
 		plugins: [

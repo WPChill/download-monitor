@@ -169,6 +169,10 @@ class WP_DLM {
 		$gutenberg = new DLM_Gutenberg();
 		$gutenberg->setup();
 
+		// Setup Gutenberg Download Preview
+		$gb_download_preview = new DLM_DownloadPreview_Preview();
+		$gb_download_preview->setup();
+
 		// Setup integrations
 		$this->setup_integrations();
 	}
@@ -255,8 +259,24 @@ class WP_DLM {
 	 */
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
+			wp_enqueue_style(
+				'dlm-frontend',
+				$this->get_plugin_url() . '/assets/css/frontend.css',
+				array(),
+				DLM_VERSION );
 		}
+
+		// only enqueue preview stylesheet when we're in the preview
+		if ( isset( $_GET['dlm_gutenberg_download_preview'] ) ) {
+			// Enqueue admin css
+			wp_enqueue_style(
+				'dlm_preview',
+				plugins_url( '/assets/css/preview.css', $this->get_plugin_file() ),
+				array(),
+				DLM_VERSION
+			);
+		}
+
 	}
 
 	/**

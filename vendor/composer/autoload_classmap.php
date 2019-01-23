@@ -37,6 +37,8 @@ return array(
     'DLM_Custom_Labels' => $baseDir . '/src/Admin/CustomLabels.php',
     'DLM_Debug_Logger' => $baseDir . '/src/DebugLogger.php',
     'DLM_Download' => $baseDir . '/src/Download/Download.php',
+    'DLM_DownloadPreview_Config' => $baseDir . '/src/DownloadPreview/Config.php',
+    'DLM_DownloadPreview_Preview' => $baseDir . '/src/DownloadPreview/Preview.php',
     'DLM_Download_Handler' => $baseDir . '/src/DownloadHandler.php',
     'DLM_Download_No_Access_Page_Endpoint' => $baseDir . '/src/DownloadNoAccessPageEndpoint.php',
     'DLM_Download_Repository' => $baseDir . '/src/Download/DownloadRepository.php',
