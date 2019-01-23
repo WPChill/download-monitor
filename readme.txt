@@ -114,6 +114,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.2.0: January 24, 2018 =
+* Feature: Added Gutenberg download block. Type /download in your post screen to see it in action!
+
 = 4.1.1: September 12, 2018 =
 * Tweak: Fixed a bug that incorrectly included featured downloads by default in [downloads].
 * Tweak: Added 'dlm_get_template_part_args' filter that allows arugment filtering on Download Monitor templates.
