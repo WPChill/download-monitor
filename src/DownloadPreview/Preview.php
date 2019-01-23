@@ -96,6 +96,10 @@ class DLM_DownloadPreview_Preview {
 		// check if this is a buttons preview request
 		if ( isset( $_GET['dlm_gutenberg_download_preview'] ) ) {
 
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				return;
+			}
+
 			// remove the admin bar styling
 			remove_action( 'wp_head', '_admin_bar_bump_cb' );
 
