@@ -7,6 +7,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Template_Handler {
 
 	/**
+	 * Returns available templates for download button
+	 *
+	 * @return array
+	 */
+	public function get_available_templates() {
+		return apply_filters( 'dlm_available_templates', array(
+			''             => __( 'Default - Title and count', 'download-monitor' ),
+			'button'       => __( 'Button - CSS styled button showing title and count', 'download-monitor' ),
+			'box'          => __( 'Box - Box showing thumbnail, title, count, filename and filesize.', 'download-monitor' ),
+			'filename'     => __( 'Filename - Filename and download count', 'download-monitor' ),
+			'title'        => __( 'Title - Shows download title only', 'download-monitor' ),
+			'version-list' => __( 'Version list - Lists all download versions in an unordered list', 'download-monitor' ),
+			'custom'       => __( 'Custom template', 'download-monitor' )
+		) );
+	}
+
+	/**
 	 * get_template_part method.
 	 *
 	 * @access public

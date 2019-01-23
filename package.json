@@ -5,18 +5,38 @@
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
-    "grunt": "~0.4.4",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-less": "~0.11.0",
-    "grunt-contrib-cssmin": "~0.7.0",
-    "grunt-shell": "~0.6.4",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-checktextdomain": "^0.1.1",
-    "grunt-wp-i18n": "^0.4.6",
-    "grunt-po2mo": "~0.1.0"
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "cross-env": "^5.0.1",
+    "grunt": "~1.0.3",
+    "grunt-checktextdomain": "^1.0.1",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-cssmin": "~3.0.0",
+    "grunt-contrib-less": "~2.0.0",
+    "grunt-contrib-rename": "^0.2.0",
+    "grunt-contrib-uglify": "~4.0.0",
+    "grunt-contrib-watch": "~1.1.0",
+    "grunt-po2json": "^0.3.0",
+    "grunt-po2mo": "~0.1.0",
+    "grunt-shell": "~2.1.0",
+    "grunt-wp-i18n": "^1.0.2",
+    "webpack": "^3.1.0"
   },
   "engines": {
     "node": ">=0.8.0",
     "npm": ">=1.1.0"
+  },
+  "scripts": {
+    "build": "cross-env BABEL_ENV=default NODE_ENV=production webpack",
+    "dev": "cross-env BABEL_ENV=default webpack --watch"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^2.2.8",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-select": "^2.3.0",
+    "whatwg-fetch": "^3.0.0"
   }
 }

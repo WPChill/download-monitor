@@ -1,7 +1,7 @@
 # Copyright (C) 2017 Never5
 # This file is distributed under the GPL v3.
 # Translators:
-# Andre, 2015
+# Andre Meyering, 2015
 # Barry Kooij <mail@barrykooij.nl>, 2015
 # Marcel Pietschmann <inactive+maphy_psd@transifex.com>, 2015
 # Patrick Brückner, 2014

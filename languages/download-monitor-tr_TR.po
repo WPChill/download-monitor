@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr_TR\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
 
 #: assets/views/meta-box/version.php:8
@@ -39,6 +39,7 @@ msgstr "-"
 msgid "Downloaded %s time"
 msgid_plural "Downloaded %s times"
 msgstr[0] "%s defa yüklendi"
+msgstr[1] "%s defa yüklendi"
 
 #: assets/views/meta-box/version.php:22 src/Admin/CustomColumns.php:28
 #: src/Admin/MediaInsert.php:241
@@ -1169,6 +1170,7 @@ msgstr "Sadece üyeler için olan dosyaları göster"
 msgid "1 download"
 msgid_plural "%d downloads"
 msgstr[0] "%d indirme"
+msgstr[1] "%d indirme"
 
 #: templates/content-download-box.php:27
 #: templates/content-download-filename.php:14
@@ -1189,6 +1191,7 @@ msgstr "İndir &ldquo;%s&rdquo;"
 msgid "Downloaded 1 time"
 msgid_plural "Downloaded %d times"
 msgstr[0] "%d defa indirildi"
+msgstr[1] "%d defa indirildi"
 
 #. Plugin Name of the plugin/theme
 msgid "Download Monitor"
