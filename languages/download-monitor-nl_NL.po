@@ -2,13 +2,14 @@
 # This file is distributed under the GPL v3.
 # Translators:
 # Barry Kooij <mail@barrykooij.nl>, 2015-2016
+# Jan de Boer <golf1025@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Download Monitor\n"
 "Report-Msgid-Bugs-To: https://github.com/download-monitor/download-monitor/issues\n"
 "POT-Creation-Date: 2017-12-19 12:47:52+00:00\n"
-"PO-Revision-Date: 2017-12-19 12:48+0000\n"
-"Last-Translator: Barry Kooij <mail@barrykooij.nl>\n"
+"PO-Revision-Date: 2017-12-20 14:18+0000\n"
+"Last-Translator: Jan de Boer <golf1025@gmail.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/barrykooijplugins/download-monitor/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,7 +92,7 @@ msgstr "m"
 msgid ""
 "It looks like you upgraded to the latest version of Download Monitor from a "
 "legacy version (3.x)"
-msgstr ""
+msgstr "Het lijkt of je van een oude versie (3.x) van Download Monitor hebt geügrade naar de nieuwste versie"
 
 #: assets/views/notice-lu-upgrade.php:8
 msgid ""
@@ -101,7 +102,7 @@ msgstr ""
 
 #: assets/views/notice-lu-upgrade.php:8
 msgid "upgrade your downloads"
-msgstr ""
+msgstr "Upgrade je downloads"
 
 #: assets/views/notice-lu-upgrade.php:9
 msgid ""
@@ -112,11 +113,11 @@ msgstr ""
 
 #: assets/views/notice-lu-upgrade.php:10
 msgid "Take me to the Upgrade Tool"
-msgstr ""
+msgstr "Bren me naar de Upgrade Tool"
 
 #: assets/views/notice-lu-upgrade.php:11
 msgid "hide notice"
-msgstr ""
+msgstr "Verberg de melding"
 
 #: src/Admin/Admin.php:224 src/Admin/Extensions.php:45
 msgid "Download Monitor Extensions"
@@ -301,7 +302,7 @@ msgstr "Foutmelding: Download is niet aangemaakt"
 
 #: src/Admin/MediaInsert.php:161
 msgid "Search download"
-msgstr ""
+msgstr "Search download"
 
 #: src/Admin/MediaInsert.php:169
 msgid "Choose a download"
@@ -368,27 +369,27 @@ msgstr "Even wachten..."
 
 #: src/Admin/Reports/Page.php:23
 msgid "Reports"
-msgstr ""
+msgstr "Rapporten"
 
 #: src/Admin/Reports/Page.php:115
 msgid "Switch to %s"
-msgstr ""
+msgstr "Switch naar %s"
 
 #: src/Admin/Reports/Page.php:140
 msgid "Per Day"
-msgstr ""
+msgstr "Per dag"
 
 #: src/Admin/Reports/Page.php:141
 msgid "Month"
-msgstr ""
+msgstr "Maand"
 
 #: src/Admin/Reports/Page.php:184
 msgid "Download Reports"
-msgstr ""
+msgstr "Download rapporten"
 
 #: src/Admin/Settings/Fields/LazySelect.php:41
 msgid "Loading"
-msgstr ""
+msgstr "Laden"
 
 #: src/Admin/Settings/Page.php:22 src/DLM.php:224
 msgid "Settings"

@@ -3,8 +3,8 @@ Contributors: never5, barrykooij, hchouhan, mikejolley
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.9.8
-Stable tag: 4.1.1
+Tested up to: 5.0.3
+Stable tag: 4.2.0
 License: GPLv3
 Text Domain: -
 
@@ -17,6 +17,7 @@ Download Monitor provides an interface for uploading and managing downloadable f
 = Features =
 
 * Add, edit and remove downloads from a familiar WP interface; Your downloads are just like posts.
+* 100% Gutenberg compatible, including a new Download Monitor Download Block. Type /download to use it!
 * Quick-add panel for adding downloads / files whilst editing posts.
 * Add multiple file versions to your downloads each with their own data like download count and file links.
 * Define alternative links (mirrors) per download version.
@@ -108,11 +109,15 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Screenshots ==
 
-1. The main admin screen lists your downloads using familiar WordPress UI.
-2. Easily add file information and multiple versions.
-3. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
+1. Easily add downloads to your website with our Gutenberg block!
+2. The main admin screen lists your downloads using familiar WordPress UI.
+3. Easily add file information and multiple versions.
+4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.2.0: January 24, 2018 =
+* Feature: Added Gutenberg download block. Type /download in your post screen to see it in action!
 
 = 4.1.1: September 12, 2018 =
 * Tweak: Fixed a bug that incorrectly included featured downloads by default in [downloads].

@@ -7,7 +7,7 @@
 	Author: Never5
 	Author URI: https://www.never5.com
 	Requires at least: 3.8
-	Tested up to: 4.9.8
+	Tested up to: 5.0.3
 	Text Domain: download-monitor
 
 	License: GPL v3
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '4.1.1' );
+define( 'DLM_VERSION', '4.2.0' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );

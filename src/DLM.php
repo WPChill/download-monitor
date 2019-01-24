@@ -73,9 +73,6 @@ class WP_DLM {
 		// Setup Services
 		$this->services = new DLM_Services();
 
-		// check if e-commerce is enabled
-		$this->check_ecommerce_enabled();
-
 		// Load plugin text domain
 		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
 		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( DLM_PLUGIN_FILE ) ) . '/languages' );
@@ -175,16 +172,24 @@ class WP_DLM {
 		$search = new DLM_Search();
 		$search->setup();
 
+		// Setup Gutenberg
+		$gutenberg = new DLM_Gutenberg();
+		$gutenberg->setup();
+
+		// Setup Gutenberg Download Preview
+		$gb_download_preview = new DLM_DownloadPreview_Preview();
+		$gb_download_preview->setup();
+
 		// Setup integrations
 		$this->setup_integrations();
 
-		// check if we need to bootstrap E-Commerce
+// check if we need to bootstrap E-Commerce
 		if ( $this->is_ecommerce_enabled() ) {
 			require_once( $this->get_plugin_path() . 'src/Ecommerce/bootstrap.php' );
 		}
 	}
 
-	/**
+/**
 	 * This method checks if ecommerce is enabled and sets $is_ecommerce_enabled property accordingly
 	 */
 	private function check_ecommerce_enabled() {
@@ -282,9 +287,21 @@ class WP_DLM {
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
 			wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
-
-			do_action( 'dlm_frontend_scripts_after' );
 		}
+
+		// only enqueue preview stylesheet when we're in the preview
+		if ( isset( $_GET['dlm_gutenberg_download_preview'] ) ) {
+			// Enqueue admin css
+			wp_enqueue_style(
+				'dlm_preview',
+				plugins_url( '/assets/css/preview.css', $this->get_plugin_file() ),
+				array(),
+				DLM_VERSION
+			);
+		}
+
+do_action( 'dlm_frontend_scripts_after' );
+
 	}
 
 	/**

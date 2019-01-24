@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk_UA\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
 
 #: assets/views/meta-box/version.php:8
@@ -40,6 +40,7 @@ msgid_plural "Downloaded %s times"
 msgstr[0] "Скачано %s раз"
 msgstr[1] "Скачано %s разів"
 msgstr[2] "Скачано %s разів"
+msgstr[3] "Скачано %s разів"
 
 #: assets/views/meta-box/version.php:22 src/Admin/CustomColumns.php:28
 #: src/Admin/MediaInsert.php:241
@@ -1172,6 +1173,7 @@ msgid_plural "%d downloads"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: templates/content-download-box.php:27
 #: templates/content-download-filename.php:14
@@ -1194,6 +1196,7 @@ msgid_plural "Downloaded %d times"
 msgstr[0] "Завантажене %d раз"
 msgstr[1] "Завантажене %d разів"
 msgstr[2] "Завантажене %d разів"
+msgstr[3] "Завантажене %d разів"
 
 #. Plugin Name of the plugin/theme
 msgid "Download Monitor"
