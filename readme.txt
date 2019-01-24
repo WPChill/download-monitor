@@ -17,6 +17,7 @@ Download Monitor provides an interface for uploading and managing downloadable f
 = Features =
 
 * Add, edit and remove downloads from a familiar WP interface; Your downloads are just like posts.
+* 100% Gutenberg compatible, including a new Download Monitor Download Block. Type /download to use it!
 * Quick-add panel for adding downloads / files whilst editing posts.
 * Add multiple file versions to your downloads each with their own data like download count and file links.
 * Define alternative links (mirrors) per download version.
@@ -108,9 +109,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Screenshots ==
 
-1. The main admin screen lists your downloads using familiar WordPress UI.
-2. Easily add file information and multiple versions.
-3. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
+1. Easily add downloads to your website with our Gutenberg block!
+2. The main admin screen lists your downloads using familiar WordPress UI.
+3. Easily add file information and multiple versions.
+4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
 
