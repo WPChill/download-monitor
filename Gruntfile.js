@@ -92,7 +92,7 @@ module.exports = function ( grunt ) {
         watch: {
             less: {
                 files: [ '<%= dirs.css %>/*.less' ],
-                tasks: [ 'less', 'cssmin' ],
+                tasks: [ 'less', 'cssmin' ]
             },
             js: {
                 files: [
