@@ -72,7 +72,7 @@ class PlaceOrder extends Ajax {
 		$enabled_gateways = Services::get()->service( 'payment_gateway' )->get_enabled_gateways();
 
 		/** @var \Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway\PaymentGateway $gateway */
-		$gateway = ( isset( $enabled_gateways[ $_POST['payment_gateway'] ] ) ? $enabled_gateways[ $_POST['payment_gateway'] ] : null );
+		$gateway = ( isset( $_POST['payment_gateway'] ) && isset( $enabled_gateways[ $_POST['payment_gateway'] ] ) ? $enabled_gateways[ $_POST['payment_gateway'] ] : null );
 
 		//error_log( print_r( $gateway, 1 ), 0 );
 
