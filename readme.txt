@@ -116,6 +116,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.2.1: January 25, 2018 =
+* Tweak: Correctly set default template of Gutenberg block on frontend of website when no specific template is set.
+
 = 4.2.0: January 24, 2018 =
 * Feature: Added Gutenberg download block. Type /download in your post screen to see it in action!
 

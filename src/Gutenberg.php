@@ -69,7 +69,7 @@ class DLM_Gutenberg {
 	public function render_download_button( $attributes, $content ) {
 
 		$download = null;
-		$template = "";
+		$template = dlm_get_default_download_template();
 
 		// try fetching the download from the attributes
 		if ( isset( $attributes['download_id'] ) ) {
