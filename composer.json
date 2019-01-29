@@ -44,7 +44,7 @@
       "dep_namespace": "Never5\\DownloadMonitor\\Ecommerce\\Dependencies\\",
       "dep_directory": "/src/Ecommerce/Dependencies/",
       "classmap_directory": "/tmp/mozart",
-      "classmap_prefix": "TROEP_",
+      "classmap_prefix": "NOTUSED_",
       "packages": [
         "paypal/rest-api-sdk-php",
         "psr/log"
