@@ -122,7 +122,7 @@ class PlaceOrder extends Ajax {
 		}
 
 		// run gateway
-		$gateway_result = $gateway->process( $order->get_id() );
+		$gateway_result = $gateway->process( $order );
 
 		// exit if gateway was not successful
 		if ( ! $gateway_result->is_success() ) {

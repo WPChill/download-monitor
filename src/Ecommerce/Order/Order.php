@@ -173,4 +173,23 @@ class Order {
 
 		return $total;
 	}
+
+	/**
+	 * Returns order subtotal in cents (subtotal of all items, WITHOUT TAX, DISCOUNTS, ETC)
+	 *
+	 * @return int
+	 */
+	public function get_subtotal()
+	{
+		$subtotal = 0;
+		$items = $this->get_items();
+		if ( ! empty( $items ) ) {
+			foreach ( $items as $item ) {
+				$subtotal += (int) $item->get_subtotal();
+			}
+		}
+
+		return $subtotal;
+	}
+
 }

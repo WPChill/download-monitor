@@ -13,7 +13,10 @@ class Manager {
 	public function __construct() {
 
 		// add gateways
-		$this->gateways = apply_filters( 'dlm_ecommerce_payment_gateways', array( new PayPal(), new Dummy() ) );
+		$this->gateways = apply_filters( 'dlm_ecommerce_payment_gateways', array(
+			new PayPal\PayPalGateway(),
+			new Dummy\DummyGateway()
+		) );
 
 	}
 
@@ -43,6 +46,21 @@ class Manager {
 		}
 
 		return $eg;
+	}
+
+	/**
+	 * ****** DO NOT CALL THIS METHOD YOURSELF *****
+	 * Setup all enabled gateways. This is automatically called in bootstrap.
+	 */
+	public function setup_gateways() {
+
+		/** @var PaymentGateway[] $gateways */
+		$gateways = $this->get_enabled_gateways();
+		if ( count( $gateways ) > 0 ) {
+			foreach ( $gateways as $gateway ) {
+				$gateway->setup_gateway();
+			}
+		}
 	}
 
 }

@@ -114,12 +114,7 @@ class Field {
 				break;
 			case 'text':
 			default:
-				$v = '';
-				for ( $i = 0; $i < 9; $i ++ ) {
-					$v .= mt_rand( 0, 9 );
-				}
-
-				return sprintf( '<input type="text" id="dlm_%s" name="dlm_%s" value="' . $v . '" placeholder="%s" />', esc_attr( $options['name'] ), esc_attr( $options['name'] ), esc_attr( $options['placeholder'] ) );
+				return sprintf( '<input type="text" id="dlm_%s" name="dlm_%s" value="" placeholder="%s" />', esc_attr( $options['name'] ), esc_attr( $options['name'] ), esc_attr( $options['placeholder'] ) );
 				break;
 		}
 

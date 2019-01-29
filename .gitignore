@@ -18,6 +18,7 @@ sftp-config.json
 vendor/*
 !vendor/composer
 !vendor/autoload_52.php
+vendor/composer/autoload_static.php
 vendor/composer/installers
 vendor/composer/installed.json
 

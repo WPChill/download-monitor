@@ -18,7 +18,7 @@ class Factory {
 
 		switch ( $key ) {
 			case 'pending-payment':
-				$status->set_label( __( 'Pending Payement', 'download-monitor' ) );
+				$status->set_label( __( 'Pending Payment', 'download-monitor' ) );
 				break;
 			case 'completed':
 				$status->set_label( __( 'Completed', 'download-monitor' ) );

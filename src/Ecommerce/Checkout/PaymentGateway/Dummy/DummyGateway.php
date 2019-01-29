@@ -1,10 +1,11 @@
 <?php
 
-namespace Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway;
+namespace Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway\Dummy;
 
+use Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway;
 use Never5\DownloadMonitor\Ecommerce\Services\Services;
 
-class Dummy extends PaymentGateway {
+class DummyGateway extends PaymentGateway\PaymentGateway {
 
 	/**
 	 * PayPal constructor.
@@ -22,11 +23,11 @@ class Dummy extends PaymentGateway {
 	/**
 	 * Process the payment
 	 *
-	 * @param int $order_id
+	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
 	 *
-	 * @return Result
+	 * @return PaymentGateway\Result
 	 */
-	public function process( $order_id ) {
+	public function process( $order ) {
 
 		$error_message = '';
 
@@ -35,20 +36,18 @@ class Dummy extends PaymentGateway {
 			/** @var \Never5\DownloadMonitor\Ecommerce\Order\Repository $order_repo */
 			$order_repo = Services::get()->service( 'order_repository' );
 
-			/** @var \Never5\DownloadMonitor\Ecommerce\Order\Order $order */
-			$order = $order_repo->retrieve_single( $order_id );
 
 			$order->set_status( Services::get()->service( 'order_status_factory' )->make( 'completed' ) );
 
 			$order_repo->persist( $order );
 
-			return new Result( true, $this->get_success_url( $order_id ) );
+			return new PaymentGateway\Result( true, $this->get_success_url( $order->get_id() ) );
 
 		} catch ( \Exception $exception ) {
 			$error_message = $exception->getMessage();
 		}
 
-		return new Result( false, '', $error_message );
+		return new PaymentGateway\Result( false, '', $error_message );
 
 	}
 

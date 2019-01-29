@@ -68,3 +68,10 @@ $assets->setup();
  */
 $ajax = new \Never5\DownloadMonitor\Ecommerce\Ajax\Manager();
 $ajax->setup();
+
+/**
+ * Run setup for every enabled payment gateway
+ */
+add_action( 'init', function () {
+	\Never5\DownloadMonitor\Ecommerce\Services\Services::get()->service( 'payment_gateway' )->setup_gateways();
+} );

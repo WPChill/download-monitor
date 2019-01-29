@@ -32,9 +32,23 @@
     ]
   },
   "require": {
-    "xrstf/composer-php52": "1.*"
+    "xrstf/composer-php52": "1.*",
+    "paypal/rest-api-sdk-php": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.4"
+    "phpunit/phpunit": "^6.4",
+    "coenjacobs/mozart": "^0.2.2"
+  },
+  "extra": {
+    "mozart": {
+      "dep_namespace": "Never5\\DownloadMonitor\\Ecommerce\\Dependencies\\",
+      "dep_directory": "/src/Ecommerce/Dependencies/",
+      "classmap_directory": "/tmp/mozart",
+      "classmap_prefix": "TROEP_",
+      "packages": [
+        "paypal/rest-api-sdk-php",
+        "psr/log"
+      ]
+    }
   }
 }

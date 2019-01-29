@@ -74,7 +74,9 @@ abstract class PaymentGateway {
 	 * @return bool
 	 */
 	public function is_enabled() {
-		/** @todo remove this later, for testing: */ return true;
+		/** @todo remove this later, for testing: */
+		return true;
+
 		return $this->enabled;
 	}
 
@@ -100,6 +102,51 @@ abstract class PaymentGateway {
 	}
 
 	/**
+	 * This is the place to setup all things related to your gateway.
+	 * Need to capture an event? Set up the listener here.
+	 * Want to add an extra page? This is the place.
+	 * Add an extra endpoint? Set it up here.
+	 *
+	 * This method is triggered for every *enabled* gateway, on init (should still be safe to redirect as well at this point)
+	 */
+	public function setup_gateway() {
+		/** Override in gateway */
+	}
+
+	/**
+	 * Get the success URL for given order
+	 *
+	 * @param $order_id
+	 *
+	 * @return string
+	 */
+	public function get_success_url( $order_id ) {
+		return add_query_arg( 'order_id', $order_id, Services::get()->service( 'page' )->get_checkout_url( 'complete' ) );
+	}
+
+	/**
+	 * Get the failed URL for given order
+	 *
+	 * @param $order_id
+	 *
+	 * @return string
+	 */
+	public function get_failed_url( $order_id ) {
+		return add_query_arg( 'order_id', $order_id, Services::get()->service( 'page' )->get_checkout_url( 'failed' ) );
+	}
+
+	/**
+	 * Get the success URL for given order
+	 *
+	 * @param $order_id
+	 *
+	 * @return string
+	 */
+	public function get_cancel_url( $order_id ) {
+		return add_query_arg( 'order_id', $order_id, Services::get()->service( 'page' )->get_checkout_url( 'cancelled' ) );
+	}
+
+	/**
 	 * Setup settings for this payment gateway
 	 * Default setting is if the gateway is enabled
 	 */
@@ -112,17 +159,6 @@ abstract class PaymentGateway {
 				'default'     => false
 			)
 		) );
-	}
-
-	/**
-	 * Get the success URL for given order
-	 *
-	 * @param $order_id
-	 *
-	 * @return string
-	 */
-	protected function get_success_url( $order_id ) {
-		return add_query_arg( 'order_id', $order_id, Services::get()->service( 'page' )->get_checkout_url( 'complete' ) );
 	}
 
 	/**
