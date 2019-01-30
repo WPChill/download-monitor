@@ -901,6 +901,10 @@ table.wp-list-table {
 
 .dlm-order-details {
 
+  max-width: 1250px;
+  margin-left: auto;
+  margin-right: auto;
+
   h1 {
     padding-bottom: 25px;
   }
@@ -928,9 +932,37 @@ table.wp-list-table {
 
     .dlm-order-details-block-inside {
       margin: 6px 0 0 0;
-      padding: 0 12px 12px;
+      padding: 6px 12px 12px;
       line-height: 1.4em;
       font-size: 13px;
+
+      label {
+        display: block;
+        font-weight: bold;
+        padding-bottom: 6px;
+      }
+      p {
+        padding: 0;
+        margin: 0;
+      }
+
+      ul {
+        &, li {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        li {
+          padding: 6px 0;
+        }
+      }
+
+      .dlm-order-details-current-state {
+        width: 70%;
+        height: 30px;
+      }
+
     }
 
     &.dlm-order-details-customer {
@@ -940,6 +972,7 @@ table.wp-list-table {
       ul {
         li {
           margin-bottom: 4px;
+          padding: 0;
 
           &:first-child {
             font-weight: bold;
@@ -955,8 +988,8 @@ table.wp-list-table {
       .dlm-order-details-items {
         width: 100%;
 
-        th,td {
-         text-align: center;
+        th, td {
+          text-align: center;
           &:first-child {
             text-align: left;
             padding-left: .5em;
@@ -975,19 +1008,30 @@ table.wp-list-table {
           border-bottom: 1px solid #c3c1bc;
         }
 
+        th, td {
+          &.dlm-order-details-order-items-item-total {
+            text-align: right;
+            padding-right: 1em;
+          }
+        }
+
       }
 
       .dlm-order-details-overview {
         width: 25%;
-        margin-right: 15px;
         float: right;
         th, td {
           padding-top: 1.5em;
           padding-bottom: 1.5em;
-
+          text-align: right;
+        }
+        th {
+          width: 50%;
+          font-weight: normal;
         }
         td {
-          text-align: right;
+          padding-right: 1em;
+          font-weight: bold;
         }
       }
     }

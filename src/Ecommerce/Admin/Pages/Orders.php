@@ -56,7 +56,8 @@ class Orders {
 
 				download_monitor()->service( 'view_manager' )->display( 'order/page-order-details', array(
 					'order'    => $order,
-					'customer' => $customer
+					'customer' => $customer,
+					'statuses' => Services::get()->service( 'order_status' )->get_available_statuses()
 				) );
 			} catch ( \Exception $exception ) {
 				wp_die( __( "Order with that ID could not be found", 'download-monitor' ) );

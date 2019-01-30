@@ -24,7 +24,7 @@ $items = $order->get_items();
                         <th><?php _e( "Product", 'download-monitor' ); ?></th>
                         <th><?php _e( "Price", 'download-monitor' ); ?></th>
                         <th><?php _e( "QTY", 'download-monitor' ); ?></th>
-                        <th><?php _e( "Total", 'download-monitor' ); ?></th>
+                        <th class="dlm-order-details-order-items-item-total"><?php _e( "Total", 'download-monitor' ); ?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,7 +34,7 @@ $items = $order->get_items();
                                 <td><?php echo esc_html( $item->get_label() ); ?></td>
                                 <td><?php echo esc_html( dlm_format_money( $item->get_subtotal() ) ); ?></td>
                                 <td><?php echo esc_html( $item->get_qty() ); ?></td>
-                                <td><?php echo esc_html( dlm_format_money( $item->get_total() ) ); ?></td>
+                                <td class="dlm-order-details-order-items-item-total"><?php echo esc_html( dlm_format_money( $item->get_total() ) ); ?></td>
                             </tr>
 						<?php endforeach; ?>
 					<?php endif; ?>
@@ -80,14 +80,32 @@ $items = $order->get_items();
             </div>
         </div>
 
-        <div class="dlm-order-details-block dlm-order-details-customer">
+        <div class="dlm-order-details-block">
             <h2 class="dlm-order-details-block-title"><span><?php _e( 'Order Details', 'download-monitor' ); ?></span>
             </h2>
             <div class="dlm-order-details-block-inside">
                 <ul>
                     <li>
+                        <label><?php _e( "Order Status", 'download-monitor' ); ?>:</label>
+                        <select name="dlm_new_order_status" class="dlm-order-details-current-state">
+							<?php
+							if ( ! empty( $statuses ) ) :
+								foreach ( $statuses as $status ):
+									echo "<option value='" . $status->get_key() . "' " . selected( $status->get_key(), $order->get_status()->get_key(), false ) . ">" . $status->get_label() . "</option>" . PHP_EOL;
+								endforeach;
+							endif;
+							?>
+                            <option value="">Test</option>
+                        </select>
+                        <button class="button button-primary button-large"><?php _e( "Change", 'download-montior' ); ?></button>
+                    </li>
+                    <li>
                         <label><?php _e( "Date created", 'download-monitor' ); ?>:</label>
                         <p><?php echo $order->get_date_created()->format( 'Y-h-d H:i:s' ); ?></p>
+                    </li>
+                    <li>
+                        <label><?php _e( "IP Address", 'download-monitor' ); ?>:</label>
+                        <p><?php echo $order->get_customer()->get_ip_address(); ?></p>
                     </li>
                 </ul>
             </div>
