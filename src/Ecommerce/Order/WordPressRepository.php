@@ -92,7 +92,7 @@ class WordPressRepository implements Repository {
 		$results = $wpdb->get_results( $sql );
 
 		// check if result if found
-		if ( null == $results ) {
+		if ( null === $results ) {
 			throw new \Exception( 'SQL error while fetching order' );
 		}
 
@@ -131,6 +131,7 @@ class WordPressRepository implements Repository {
 				$result->ip_address
 			) );
 
+			/** Fetch order items */
 			$order_items = array();
 			$db_items    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `" . $wpdb->prefix . "dlm_order_item` WHERE `order_id` = %d ORDER BY `id` ASC ;", $order->get_id() ) );
 			if ( count( $db_items ) > 0 ) {
@@ -151,6 +152,36 @@ class WordPressRepository implements Repository {
 			}
 
 			$order->set_items( $order_items );
+
+			/** Fetch transactions */
+			$order_transactions = array();
+			$db_items           = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `" . $wpdb->prefix . "dlm_order_transaction` WHERE `order_id` = %d ORDER BY `id` ASC ;", $order->get_id() ) );
+			if ( count( $db_items ) > 0 ) {
+				foreach ( $db_items as $db_item ) {
+					$order_transaction = new Transaction\OrderTransaction();
+
+					$order_transaction->set_id( $db_item->id );
+
+					if ( ! empty( $db_item->date_created ) ) {
+						$order_transaction->set_date_created( new \DateTimeImmutable( $db_item->date_created ) );
+					}
+
+					if ( ! empty( $db_item->date_modified ) ) {
+						$order_transaction->set_date_modified( new \DateTimeImmutable( $db_item->date_modified ) );
+					}
+
+					$order_transaction->set_amount( $db_item->amount );
+					$order_transaction->set_status( Services::get()->service( 'order_transaction_status_factory' )->make( $db_item->status ) );
+					$order_transaction->set_processor( $db_item->processor );
+					$order_transaction->set_processor_nice_name( $db_item->processor_nice_name );
+					$order_transaction->set_processor_transaction_id( $db_item->processor_transaction_id );
+					$order_transaction->set_processor_status( $db_item->set_processor_status );
+					
+					$order_transactions[] = $order_transaction;
+				}
+			}
+
+			$order->set_transactions( $order_transactions );
 
 
 			// add new order object to array
@@ -226,6 +257,8 @@ class WordPressRepository implements Repository {
 
 		$order_id = $order->get_id();
 
+		$customer = $order->get_customer();
+
 		// check if it's a new order or if we need to update an existing one
 		if ( empty( $order_id ) ) {
 			// new order
@@ -254,18 +287,18 @@ class WordPressRepository implements Repository {
 			$wpdb->insert(
 				$wpdb->prefix . 'dlm_order_customer',
 				array(
-					'first_name' => $order->get_customer()->get_first_name(),
-					'last_name'  => $order->get_customer()->get_last_name(),
-					'company'    => $order->get_customer()->get_company(),
-					'address_1'  => $order->get_customer()->get_address_1(),
-					'address_2'  => $order->get_customer()->get_address_2(),
-					'city'       => $order->get_customer()->get_city(),
-					'state'      => $order->get_customer()->get_state(),
-					'postcode'   => $order->get_customer()->get_postcode(),
-					'country'    => $order->get_customer()->get_country(),
-					'email'      => $order->get_customer()->get_email(),
-					'phone'      => $order->get_customer()->get_phone(),
-					'ip_address' => $order->get_customer()->get_ip_address(),
+					'first_name' => $customer->get_first_name(),
+					'last_name'  => $customer->get_last_name(),
+					'company'    => $customer->get_company(),
+					'address_1'  => $customer->get_address_1(),
+					'address_2'  => $customer->get_address_2(),
+					'city'       => $customer->get_city(),
+					'state'      => $customer->get_state(),
+					'postcode'   => $customer->get_postcode(),
+					'country'    => $customer->get_country(),
+					'email'      => $customer->get_email(),
+					'phone'      => $customer->get_phone(),
+					'ip_address' => $customer->get_ip_address(),
 					'order_id'   => $order->get_id()
 				),
 				array(
@@ -288,8 +321,7 @@ class WordPressRepository implements Repository {
 		} else {
 
 			// update an existing order
-			$wpdb->update(
-				$wpdb->prefix . 'dlm_order',
+			$wpdb->update( $wpdb->prefix . 'dlm_order',
 				array(
 					'status'        => $order->get_status()->get_key(),
 					'date_modified' => current_time( 'mysql', 1 ),
@@ -308,18 +340,18 @@ class WordPressRepository implements Repository {
 			$wpdb->update(
 				$wpdb->prefix . 'dlm_order_customer',
 				array(
-					'first_name' => $order->get_customer()->get_first_name(),
-					'last_name'  => $order->get_customer()->get_last_name(),
-					'company'    => $order->get_customer()->get_company(),
-					'address_1'  => $order->get_customer()->get_address_1(),
-					'address_2'  => $order->get_customer()->get_address_2(),
-					'city'       => $order->get_customer()->get_city(),
-					'state'      => $order->get_customer()->get_state(),
-					'postcode'   => $order->get_customer()->get_postcode(),
-					'country'    => $order->get_customer()->get_country(),
-					'email'      => $order->get_customer()->get_email(),
-					'phone'      => $order->get_customer()->get_phone(),
-					'ip_address' => $order->get_customer()->get_ip_address(),
+					'first_name' => $customer->get_first_name(),
+					'last_name'  => $customer->get_last_name(),
+					'company'    => $customer->get_company(),
+					'address_1'  => $customer->get_address_1(),
+					'address_2'  => $customer->get_address_2(),
+					'city'       => $customer->get_city(),
+					'state'      => $customer->get_state(),
+					'postcode'   => $customer->get_postcode(),
+					'country'    => $customer->get_country(),
+					'email'      => $customer->get_email(),
+					'phone'      => $customer->get_phone(),
+					'ip_address' => $customer->get_ip_address(),
 					'order_id'   => $order->get_id()
 				),
 				array( 'order_id' => $order_id ),
@@ -342,7 +374,6 @@ class WordPressRepository implements Repository {
 			);
 
 		}
-
 
 		// handle order items
 		$order_items = $order->get_items();
@@ -408,6 +439,94 @@ class WordPressRepository implements Repository {
 
 				}
 			}
+		}
+
+		// handle transactions
+		$transactions = $order->get_transactions();
+		if ( ! empty( $transactions ) ) {
+
+			/** @var Transaction\OrderTransaction $transaction */
+			foreach ( $transactions as $transaction ) {
+
+				$transaction_id = $transaction->get_id();
+
+				$transaction_date_created = '';
+				if ( null !== $transaction->get_date_created() ) {
+					$transaction_date_created = $transaction->get_date_created()->format( 'Y-m-d H:i:s' );
+				}
+
+				$transaction_date_modified = '';
+				if ( null !== $transaction->get_date_modified() ) {
+					$transaction_date_modified = $transaction->get_date_modified()->format( 'Y-m-d H:i:s' );
+				}
+
+				// check if it's a new transaction or an existing one
+				if ( empty( $order_item_id ) ) {
+
+					// it's a new transaction
+
+					$wpdb->insert(
+						$wpdb->prefix . 'dlm_order_transaction',
+						array(
+							'order_id'                 => $order->get_id(),
+							'date_created'             => $transaction_date_created,
+							'date_modified'            => $transaction_date_modified,
+							'amount'                   => $transaction->get_amount(),
+							'status'                   => $transaction->get_status()->get_key(),
+							'processor'                => $transaction->get_processor(),
+							'processor_nice_name'      => $transaction->get_processor_nice_name(),
+							'processor_transaction_id' => $transaction->get_processor_transaction_id(),
+							'processor_status'         => $transaction->get_processor_status()
+						),
+						array(
+							'%d',
+							'%s',
+							'%s',
+							'%d',
+							'%s',
+							'%s',
+							'%s',
+							'%s',
+							'%s'
+						)
+					);
+
+				} else {
+
+					// it's an existing transaction
+
+					$wpdb->update(
+						$wpdb->prefix . 'dlm_order_transaction',
+						array(
+							'order_id'                 => $order->get_id(),
+							'date_created'             => $transaction_date_created,
+							'date_modified'            => $transaction_date_modified,
+							'amount'                   => $transaction->get_amount(),
+							'status'                   => $transaction->get_status()->get_key(),
+							'processor'                => $transaction->get_processor(),
+							'processor_nice_name'      => $transaction->get_processor_nice_name(),
+							'processor_transaction_id' => $transaction->get_processor_transaction_id(),
+							'processor_status'         => $transaction->get_processor_status()
+						),
+						array( 'id' => $transaction_id ),
+						array(
+							'%d',
+							'%s',
+							'%s',
+							'%d',
+							'%s',
+							'%s',
+							'%s',
+							'%s',
+							'%s'
+						),
+						array( '%d' )
+					);
+
+				}
+
+			}
+
 		}
 
 	}
