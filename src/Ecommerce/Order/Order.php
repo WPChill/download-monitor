@@ -28,7 +28,7 @@ class Order {
 	/** @var OrderItem[] */
 	private $items;
 
-	/** @var OrderTransaction[] */
+	/** @var Transaction\OrderTransaction[] */
 	private $transactions;
 
 	/**
@@ -144,18 +144,31 @@ class Order {
 	}
 
 	/**
-	 * @return OrderTransaction[]
+	 * @return Transaction\OrderTransaction[]
 	 */
 	public function get_transactions() {
 		return $this->transactions;
 	}
 
 	/**
-	 * @param OrderTransaction[] $transactions
+	 * @param Transaction\OrderTransaction[] $transactions
 	 */
 	public function set_transactions( $transactions ) {
 		$this->transactions = $transactions;
 	}
+
+	/**
+	 * @param Transaction\OrderTransaction $transaction
+	 */
+	public function add_transaction( $transaction ) {
+		$transactions = $this->get_transactions();
+		if ( ! is_array( $transactions ) ) {
+			$transactions = array();
+		}
+		$transactions[] = $transaction;
+		$this->set_transactions( $transactions );
+	}
+
 
 	/**
 	 * Returns order total in cents
@@ -179,10 +192,9 @@ class Order {
 	 *
 	 * @return int
 	 */
-	public function get_subtotal()
-	{
+	public function get_subtotal() {
 		$subtotal = 0;
-		$items = $this->get_items();
+		$items    = $this->get_items();
 		if ( ! empty( $items ) ) {
 			foreach ( $items as $item ) {
 				$subtotal += (int) $item->get_subtotal();

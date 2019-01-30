@@ -95,17 +95,30 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		try {
 			$payment->create( Helper::get_api_context() );
 		} catch ( \Exception $ex ) {
-			// NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-			//ResultPrinter::printError("Created Payment Using PayPal. Please visit the URL to Approve.", "Payment", null, $request, $ex);
 			return new PaymentGateway\Result( false, '', 'PayPal error: could not create payment. Please check your PayPal logs.' );
+		}
+
+		// create local transaction
+		/** @var \Never5\DownloadMonitor\Ecommerce\Order\Transaction\OrderTransaction $dlm_transaction */
+		$dlm_transaction = Services::get()->service( 'order_transaction_factory' )->make();
+		$dlm_transaction->set_amount( $order->get_total() );
+		$dlm_transaction->set_processor( $this->get_id() );
+		$dlm_transaction->set_processor_nice_name( $this->get_title() );
+		$dlm_transaction->set_processor_transaction_id( $payment->getId() );
+		$dlm_transaction->set_processor_status( $payment->getState() );
+
+		// add transaction to order
+		$order->add_transaction( $dlm_transaction );
+
+		// persist order
+		try {
+			Services::get()->service( 'order_repository' )->persist( $order );
+		} catch ( \Exception $exception ) {
+			return new PaymentGateway\Result( false, '', 'Error saving order with PayPal transaction.' );
 		}
 
 		// get the URL where user can pay
 		$approvalUrl = $payment->getApprovalLink();
-
-		/**
-		 * @todo insert the transaction in local database before redirecting
-		 */
 
 		return new PaymentGateway\Result( true, $approvalUrl );
 	}
@@ -123,7 +136,6 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 			'paypal_action' => 'execute_payment'
 		), Services::get()->service( 'page' )->get_checkout_url( 'complete' ) );
 	}
-
 
 
 	/**

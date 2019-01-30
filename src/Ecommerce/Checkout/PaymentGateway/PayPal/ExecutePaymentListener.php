@@ -5,6 +5,7 @@ namespace Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway\PayPal;
 use Never5\DownloadMonitor\Ecommerce\Dependencies\PayPal;
 use Never5\DownloadMonitor\Ecommerce\Services\Services;
 use PHPUnit\Runner\Exception;
+use Symfony\Component\Debug\Debug;
 
 class ExecutePaymentListener {
 
@@ -83,7 +84,25 @@ class ExecutePaymentListener {
 			 */
 
 			// update the order status to 'completed'
+			$transactions = $order->get_transactions();
+			foreach($transactions as $transaction)
+			{
+				if( $transaction->get_processor_transaction_id() ==  $result->getId() )
+				{
+					$transaction->set_status( Services::get()->service( 'order_transaction_factory' )->make_status( 'success' ) );
+					$transaction->set_processor_status($result->getState());
 
+					try {
+						$transaction->set_date_modified( new \DateTimeImmutable() );
+					} catch ( \Exception $e ) {
+
+					}
+
+					$order->set_transactions($transactions);
+					break;
+				}
+
+			}
 
 			$order->set_status( Services::get()->service( 'order_status_factory' )->make( 'completed' ) );
 

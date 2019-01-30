@@ -171,12 +171,12 @@ class WordPressRepository implements Repository {
 					}
 
 					$order_transaction->set_amount( $db_item->amount );
-					$order_transaction->set_status( Services::get()->service( 'order_transaction_status_factory' )->make( $db_item->status ) );
+					$order_transaction->set_status( Services::get()->service( 'order_transaction_factory' )->make_status( $db_item->status ) );
 					$order_transaction->set_processor( $db_item->processor );
 					$order_transaction->set_processor_nice_name( $db_item->processor_nice_name );
 					$order_transaction->set_processor_transaction_id( $db_item->processor_transaction_id );
-					$order_transaction->set_processor_status( $db_item->set_processor_status );
-					
+					$order_transaction->set_processor_status( $db_item->processor_status );
+
 					$order_transactions[] = $order_transaction;
 				}
 			}
