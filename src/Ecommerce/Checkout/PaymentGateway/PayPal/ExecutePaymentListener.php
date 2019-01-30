@@ -123,25 +123,6 @@ class ExecutePaymentListener {
 			return;
 		}
 
-
-		// don't think another payment fetch is needed
-		/**
-		 * try {
-		 *
-		 * $payment = PayPal\Api\Payment::get( $paymentId, Helper::get_api_context() );
-		 *
-		 *
-		 * error_log( "START OF PAYMENT::::", 0 );
-		 * error_log( print_r( $payment, 1 ), 0 );
-		 * error_log( "START OF PAYMENT::::", 0 );
-		 *
-		 * if ( $payment->getState() === "approved" ) {
-		 * }
-		 *
-		 * } catch ( \Exception $ex ) {
-		 * }
-		 */
-
 	}
 
 	/**
