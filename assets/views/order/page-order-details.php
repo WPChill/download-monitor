@@ -14,11 +14,12 @@ $items = $order->get_items();
     <h1><?php printf( __( 'Order Details #%s', 'download-monitor' ), $order->get_id() ); ?></h1>
 
     <div class="dlm-order-details-main">
+
         <div class="dlm-order-details-block dlm-order-details-order-items">
             <h2 class="dlm-order-details-block-title"><span><?php _e( 'Order Items', 'download-monitor' ); ?></span>
             </h2>
             <div class="dlm-order-details-block-inside">
-                <table cellspacing="0" cellpadding="0" border="0" class="dlm-order-details-items">
+                <table cellspacing="0" cellpadding="0" border="0" class="dlm-order-details-data-table">
                     <thead>
                     <tr>
                         <th><?php _e( "Product", 'download-monitor' ); ?></th>
@@ -50,6 +51,57 @@ $items = $order->get_items();
                 </table>
             </div>
         </div>
+
+        <div class="dlm-order-details-block">
+            <h2 class="dlm-order-details-block-title">
+                <span><?php _e( 'Transactions', 'download-monitor' ); ?></span>
+            </h2>
+            <div class="dlm-order-details-block-inside">
+				<?php
+				$transactions = $order->get_transactions();
+				if ( ! empty( $transactions ) ) :
+					?>
+                    <table cellspacing="0" cellpadding="0" border="0" class="dlm-order-details-data-table">
+                        <thead>
+                        <tr>
+                            <th><?php _e( "ID", 'download-monitor' ); ?></th>
+                            <th><?php _e( "Date", 'download-monitor' ); ?></th>
+                            <th><?php _e( "Status", 'download-monitor' ); ?></th>
+                            <th><?php _e( "Amount", 'download-monitor' ); ?></th>
+                            <th><?php _e( "Processor", 'download-monitor' ); ?></th>
+                            <th><?php _e( "Processor ID", 'download-monitor' ); ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+						<?php
+						foreach ( $transactions as $transaction ) :
+
+							if ( $transaction->get_date_modified() != null ) {
+								$date = $transaction->get_date_modified()->format( 'Y-h-d H:i:s' );
+							} else {
+								$date = $transaction->get_date_created()->format( 'Y-h-d H:i:s' );
+							}
+							?>
+                            <tr>
+                                <td><?php echo $transaction->get_id(); ?></td>
+                                <td><?php echo $date; ?></td>
+                                <td><?php echo $transaction->get_status()->get_label(); ?></td>
+                                <td><?php echo dlm_format_money( $transaction->get_amount() ); ?></td>
+                                <td><?php echo $transaction->get_processor_nice_name(); ?></td>
+                                <td><?php echo $transaction->get_processor_transaction_id(); ?></td>
+                            </tr>
+							<?php
+						endforeach;
+						?>
+                        </tbody>
+                    </table>
+					<?php
+				else: ?>
+                    <p><?php _e( "No transactions found", 'download-monitor' ); ?></p>
+				<?php endif; ?>
+            </div>
+        </div>
+
     </div>
 
     <div class="dlm-order-details-side">
@@ -107,12 +159,12 @@ $items = $order->get_items();
                         <label><?php _e( "IP Address", 'download-monitor' ); ?>:</label>
                         <p><?php echo $order->get_customer()->get_ip_address(); ?></p>
                     </li>
-                    <?php if(!empty($processors)) : ?>
-                    <li>
-                        <label><?php _e( "Payment Method", 'download-monitor' ); ?>:</label>
-                        <p><?php echo $processors[0]; ?></p>
-                    </li>
-                    <?php endif; ?>
+					<?php if ( ! empty( $processors ) ) : ?>
+                        <li>
+                            <label><?php _e( "Payment Method", 'download-monitor' ); ?>:</label>
+                            <p><?php echo $processors[0]; ?></p>
+                        </li>
+					<?php endif; ?>
                 </ul>
             </div>
         </div>
