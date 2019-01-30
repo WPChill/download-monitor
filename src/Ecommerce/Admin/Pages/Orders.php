@@ -54,10 +54,21 @@ class Orders {
 					'email'    => $order->get_customer()->get_email()
 				);
 
+				$processors   = array();
+				$transactions = $order->get_transactions();
+				if ( ! empty( $transactions ) ) {
+					foreach ( $transactions as $transaction ) {
+						if ( ! in_array( $transaction->get_processor_nice_name(), $processors ) ) {
+							$processors[] = $transaction->get_processor_nice_name();
+						}
+					}
+				}
+
 				download_monitor()->service( 'view_manager' )->display( 'order/page-order-details', array(
-					'order'    => $order,
-					'customer' => $customer,
-					'statuses' => Services::get()->service( 'order_status' )->get_available_statuses()
+					'order'      => $order,
+					'customer'   => $customer,
+					'statuses'   => Services::get()->service( 'order_status' )->get_available_statuses(),
+					'processors' => $processors
 				) );
 			} catch ( \Exception $exception ) {
 				wp_die( __( "Order with that ID could not be found", 'download-monitor' ) );

@@ -107,6 +107,12 @@ $items = $order->get_items();
                         <label><?php _e( "IP Address", 'download-monitor' ); ?>:</label>
                         <p><?php echo $order->get_customer()->get_ip_address(); ?></p>
                     </li>
+                    <?php if(!empty($processors)) : ?>
+                    <li>
+                        <label><?php _e( "Payment Method", 'download-monitor' ); ?>:</label>
+                        <p><?php echo $processors[0]; ?></p>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
