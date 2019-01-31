@@ -99,7 +99,6 @@ return array(
     'IndentTest' => $baseDir . '/src/Libs/uaparser/lib/spyc-0.5/tests/IndentTest.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Admin\\OrderTable' => $baseDir . '/src/Ecommerce/Admin/OrderTable.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Admin\\Pages\\Orders' => $baseDir . '/src/Ecommerce/Admin/Pages/Orders.php',
-    'Never5\\DownloadMonitor\\Ecommerce\\Admin\\Settings' => $baseDir . '/src/Ecommerce/Admin/Settings.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Admin\\WritePanels' => $baseDir . '/src/Ecommerce/Admin/WritePanels.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Ajax\\Ajax' => $baseDir . '/src/Ecommerce/Ajax/Ajax.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Ajax\\Manager' => $baseDir . '/src/Ecommerce/Ajax/Manager.php',

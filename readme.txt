@@ -4,9 +4,10 @@ Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
 Tested up to: 5.0.3
-Stable tag: 4.2.0
+Stable tag: 4.2.1
 License: GPLv3
 Text Domain: -
+Requires PHP: 5.3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
 
@@ -116,7 +117,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.2.1: January 25, 2018 =
+= 4.2.1: January 31, 2018 =
 * Tweak: Correctly set default template of Gutenberg block on frontend of website when no specific template is set.
 
 = 4.2.0: January 24, 2018 =
