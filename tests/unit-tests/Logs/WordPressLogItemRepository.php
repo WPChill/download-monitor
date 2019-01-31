@@ -33,9 +33,9 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 	}
 
 	/**
-	 * Test test_num_rows() with filters
+	 * Test test_num_rows() with user filters
 	 */
-	public function test_num_rows_filtered() {
+	public function test_num_rows_filtered_user() {
 		// repo
 		$wp_repo = new DLM_WordPress_Log_Item_Repository();
 
@@ -83,19 +83,28 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 
 		// should have 2 rows now
 		$this->assertEquals( 2, $wp_repo->num_rows( $filters ) );
+	}
 
-		// expand filter with date filter of this month
+	/**
+	 * Test test_num_rows() with filters
+	 */
+	public function test_num_rows_filtered_date() {
+		// repo
+		$wp_repo = new DLM_WordPress_Log_Item_Repository();
+
 		$now       = new DateTime( current_time( "mysql" ) );
-		$filters[] = array(
-			'key'      => 'download_date',
-			'value'    => $now->format( 'Y-m-01' ),
-			'operator' => '>='
-		);
 
-		$filters[] = array(
-			'key'      => 'download_date',
-			'value'    => $now->format( 'Y-m-t' ),
-			'operator' => '<='
+		$filters = array(
+			array(
+				'key'      => 'download_date',
+				'value'    => $now->format( 'Y-m-01 00:00:00' ),
+				'operator' => '>='
+			),
+			array(
+				'key'      => 'download_date',
+				'value'    => $now->format( 'Y-m-t 23:59:59' ),
+				'operator' => '<='
+			)
 		);
 
 		// add log item with user id 1, status completed and download date of now
@@ -106,8 +115,8 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		$wp_repo->persist( $log );
 		unset( $log );
 
-		// should have 3 rows now
-		$this->assertEquals( 3, $wp_repo->num_rows( $filters ) );
+		// should have 1 row
+		$this->assertEquals( 1, $wp_repo->num_rows( $filters ) );
 
 		// add log item with user id 1, status completed and download date of last month
 		$now->modify( "-1 month" );
@@ -118,8 +127,8 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		$wp_repo->persist( $log );
 		unset( $log );
 
-		// should still have 3 rows now
-		$this->assertEquals( 3, $wp_repo->num_rows( $filters ) );
+		// should still have 1 rows now
+		$this->assertEquals( 1, $wp_repo->num_rows( $filters ) );
 	}
 
 	/**
