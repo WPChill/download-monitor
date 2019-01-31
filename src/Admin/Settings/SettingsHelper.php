@@ -17,9 +17,10 @@ class DLM_Settings_Helper {
 	 */
 	private function setup_defaults() {
 		$this->defaults = array(
-			'currency'              => 'USD',
-			'currency_pos'          => 'left',
-			'decimal_separator'     => '.'
+			'currency'           => 'USD',
+			'currency_pos'       => 'left',
+			'decimal_separator'  => '.',
+			'thousand_separator' => ','
 		);
 	}
 

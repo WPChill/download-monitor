@@ -408,6 +408,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'Never5\\DownloadMonitor\\Ecommerce\\DownloadProduct\\DownloadProduct' => __DIR__ . '/../..' . '/src/Ecommerce/DownloadProduct/DownloadProduct.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Helper\\Country' => __DIR__ . '/../..' . '/src/Ecommerce/Helper/Country.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Helper\\Currency' => __DIR__ . '/../..' . '/src/Ecommerce/Helper/Currency.php',
+        'Never5\\DownloadMonitor\\Ecommerce\\Helper\\Format' => __DIR__ . '/../..' . '/src/Ecommerce/Helper/Format.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Libs\\Pimple\\Container' => __DIR__ . '/../..' . '/src/Ecommerce/Libs/Pimple/Container.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Libs\\Pimple\\Exception\\ExpectedInvokableException' => __DIR__ . '/../..' . '/src/Ecommerce/Libs/Pimple/Exception/ExpectedInvokableException.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Libs\\Pimple\\Exception\\FrozenServiceException' => __DIR__ . '/../..' . '/src/Ecommerce/Libs/Pimple/Exception/FrozenServiceException.php',

@@ -1,5 +1,7 @@
 <?php
 
+use Never5\DownloadMonitor\Ecommerce\Services\Services;
+
 class DLM_Admin_Settings {
 
 	/**
@@ -24,9 +26,9 @@ class DLM_Admin_Settings {
 		foreach ( $settings as $tab_key => $tab ) {
 			foreach ( $tab['sections'] as $section_key => $section ) {
 
-				$option_group = "dlm_".$tab_key."_".$section_key;
+				$option_group = "dlm_" . $tab_key . "_" . $section_key;
 
-				foreach($section['fields'] as $field) {
+				foreach ( $section['fields'] as $field ) {
 					if ( isset( $field['std'] ) ) {
 						add_option( $field['name'], $field['std'] );
 					}
@@ -46,6 +48,10 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	public function get_settings() {
+
+		/**
+		 * @todo get all payment gateway options, format them into settings sections, add them to payment_gateway tab
+		 */
 
 		return apply_filters( 'download_monitor_settings',
 			array(
@@ -293,37 +299,74 @@ class DLM_Admin_Settings {
 				'shop'      => array(
 					'title'    => __( 'Shop', 'download-monitor' ),
 					'sections' => array(
-						'general' => array(
-							'title' => __( 'General', 'download-monitor' ),
+						'general'  => array(
+							'title'  => __( 'General', 'download-monitor' ),
 							'fields' => array(
 								array(
-									'name'     => 'dlm_currency',
-									'std'      => 'USD',
-									'label'    => __( 'Currency', 'download-monitor' ),
-									'desc'     => __( 'In what currency are you selling?', 'download-monitor' ),
-									'type'     => 'select',
-									'options'  => array(
+									'name'    => 'dlm_base_country',
+									'std'     => 'US',
+									'label'   => __( 'Base Country', 'download-monitor' ),
+									'desc'    => __( 'Where is your store located?', 'download-monitor' ),
+									'type'    => 'select',
+									'options' => Services::get()->service( "country" )->get_countries()
+								),
+								array(
+									'name'    => 'dlm_currency',
+									'std'     => 'USD',
+									'label'   => __( 'Currency', 'download-monitor' ),
+									'desc'    => __( 'In what currency are you selling?', 'download-monitor' ),
+									'type'    => 'select',
+									'options' => $this->get_currency_list_with_symbols()
+								),
+								array(
+									'name'    => 'dlm_currency_pos',
+									'std'     => 'left',
+									'label'   => __( 'Currency Position', 'download-monitor' ),
+									'desc'    => __( 'The position of the currency symbol.', 'download-monitor' ),
+									'type'    => 'select',
+									'options' => array(
+										'left'        => sprintf( __( 'Left (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left' ) ) ),
+										'right'       => sprintf( __( 'Right (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right' ) ) ),
+										'left_space'  => sprintf( __( 'Left with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left_space' ) ) ),
+										'right_space' => sprintf( __( 'Right with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right_space' ) ) )
+									)
+								),
+								array(
+									'name'  => 'dlm_decimal_separator',
+									'type'  => 'text',
+									'std'   => '.',
+									'label' => __( 'Decimal Separator', 'download-monitor' ),
+									'desc'  => __( 'The decimal separator of distance unites and prices.', 'download-monitor' )
+								),
+								array(
+									'name'  => 'dlm_thousand_separator',
+									'type'  => 'text',
+									'std'   => ',',
+									'label' => __( 'Thousand Separator', 'download-monitor' ),
+									'desc'  => __( 'The thousand separator of displayed distance unites and prices.', 'download-monitor' )
+								)
+							)
+						)
+					)
+				),
+				'payments'  => array(
+					'title'    => __( 'Payment Methods', 'download-monitor' ),
+					'sections' => array(
+						'payments' => array(
+							'title'  => __( 'General', 'download-monitor' ),
+							'fields' => array(
+								array(
+									'name'    => 'dlm_currency',
+									'std'     => 'USD',
+									'label'   => __( 'Currency', 'download-monitor' ),
+									'desc'    => __( 'In what currency are you selling?', 'download-monitor' ),
+									'type'    => 'select',
+									'options' => array(
 										'USD' => __( 'USD', 'download-monitor' ),
 										'EUR' => __( 'Euro', 'download-monitor' )
 									)
 								),
 							)
-						),
-						'gateways' => array(
-							'title' => __( 'Payment', 'download-monitor' ),
-							'fields' => array(
-								array(
-									'name'     => 'dlm_currency',
-									'std'      => 'USD',
-									'label'    => __( 'Currency', 'download-monitor' ),
-									'desc'     => __( 'In what currency are you selling?', 'download-monitor' ),
-									'type'     => 'select',
-									'options'  => array(
-										'USD' => __( 'USD', 'download-monitor' ),
-										'EUR' => __( 'Euro', 'download-monitor' )
-									)
-								),
-							),
 						)
 					)
 				),
@@ -399,5 +442,29 @@ class DLM_Admin_Settings {
 		// return pages
 		return $pages;
 	}
+
+	/**
+	 * Returns the list of all available currencies and add the symbol to the label
+	 *
+	 * @return array
+	 */
+	private function get_currency_list_with_symbols() {
+
+		/** @var \Never5\DownloadMonitor\Ecommerce\Helper\Currency $currency_helper */
+		$currency_helper = Services::get()->service( "currency" );
+
+		$currencies = $currency_helper->get_available_currencies();
+
+		//get_currency_symbol
+
+		if ( ! empty( $currencies ) ) {
+			foreach ( $currencies as $k => $v ) {
+				$currencies[ $k ] = $v . " (" . $currency_helper->get_currency_symbol( $k ) . ")";
+			}
+		}
+
+		return $currencies;
+	}
+
 
 }

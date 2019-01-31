@@ -168,7 +168,7 @@ Deny from all
 	 */
 	public function create_no_access_page() {
 
-		// create cars listing page if not exists
+		// create no-access listing page if not exists
 		$listings_slug = sanitize_title( __( 'No Access', 'download-monitor' ) );
 		$listings_page = get_page_by_path( $listings_slug );
 

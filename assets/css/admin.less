@@ -97,6 +97,40 @@
   }
 }
 
+/* Settings */
+.nav-section-wrapper {
+  padding: 0;
+  margin: 0;
+  li {
+    display: inline-block;
+    padding: 0 0 0 2px;
+    margin: 0 2px;
+
+    a {
+      text-decoration:  none;
+    }
+
+    &.active-section {
+      a {
+        font-weight: bold;
+        color: #000;
+      }
+    }
+    &:after {
+      content: "|";
+      padding-left: 7px;
+    }
+    &:last-child:after {
+      content: "";
+      padding: 0;
+    }
+  }
+}
+
+#setting-dlm_decimal_separator, #setting-dlm_thousand_separator {
+  width: 50px;
+}
+
 /* File lists */
 ul.download_monitor_file_browser {
   list-style: none outside;

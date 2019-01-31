@@ -23,6 +23,10 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 			return new Ecommerce\Helper\Country();
 		};
 
+		$container['format'] = function ( $c ) {
+			return new Ecommerce\Helper\Format();
+		};
+
 		$container['session_repository'] = function ( $c ) {
 			return new Ecommerce\Session\WordPressRepository();
 		};

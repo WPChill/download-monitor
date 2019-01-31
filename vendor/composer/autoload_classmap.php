@@ -298,6 +298,7 @@ return array(
     'Never5\\DownloadMonitor\\Ecommerce\\DownloadProduct\\DownloadProduct' => $baseDir . '/src/Ecommerce/DownloadProduct/DownloadProduct.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Helper\\Country' => $baseDir . '/src/Ecommerce/Helper/Country.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Helper\\Currency' => $baseDir . '/src/Ecommerce/Helper/Currency.php',
+    'Never5\\DownloadMonitor\\Ecommerce\\Helper\\Format' => $baseDir . '/src/Ecommerce/Helper/Format.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Libs\\Pimple\\Container' => $baseDir . '/src/Ecommerce/Libs/Pimple/Container.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Libs\\Pimple\\Exception\\ExpectedInvokableException' => $baseDir . '/src/Ecommerce/Libs/Pimple/Exception/ExpectedInvokableException.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Libs\\Pimple\\Exception\\FrozenServiceException' => $baseDir . '/src/Ecommerce/Libs/Pimple/Exception/FrozenServiceException.php',
