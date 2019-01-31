@@ -7,12 +7,12 @@ use Never5\DownloadMonitor\Ecommerce\Services\Services;
 class Format {
 
 	/**
-	 * @param float $price
+	 * @param float $cents
 	 * @param array $args
 	 *
 	 * @return string
 	 */
-	public function money( $price, $args = array() ) {
+	public function money( $cents, $args = array() ) {
 
 		/** @var \DLM_Settings_Helper $settings_helper */
 		$settings_helper = download_monitor()->service( 'settings' );
@@ -29,9 +29,10 @@ class Format {
 
 		$price_format = $this->get_money_format( $args['currency_position'] );
 
-		$negative = $price < 0;
+		$negative = $cents < 0;
+		$price    = $cents / 100;
 		$price    = floatval( $negative ? $price * - 1 : $price );
-		$price    = number_format( $price, 2, $args['decimal_separator'], $args['thousand_separator'] );
+		$price    = number_format( $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'] );
 
 		$formatted_price = ( $negative ? '-' : '' ) . sprintf( $price_format, $currency_helper->get_currency_symbol(), $price );
 
