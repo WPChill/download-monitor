@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9021b8b62e32ec5fc9b5ec0cc019369",
+    "content-hash": "65fad892f65185c9b4d6637e90448b03",
     "packages": [
         {
             "name": "paypal/rest-api-sdk-php",
@@ -101,37 +101,6 @@
                 "psr-3"
             ],
             "time": "2018-11-20T15:27:04+00:00"
-        },
-        {
-            "name": "xrstf/composer-php52",
-            "version": "v1.0.20",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer-php52/composer-php52.git",
-                "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer-php52/composer-php52/zipball/bd41459d5e27df8d33057842b32377c39e97a5a8",
-                "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-default": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "xrstf\\Composer52": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "time": "2016-04-16T21:52:24+00:00"
         }
     ],
     "packages-dev": [

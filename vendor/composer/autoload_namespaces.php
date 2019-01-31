@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'xrstf\\Composer52' => array($vendorDir . '/xrstf/composer-php52/lib'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'PayPal' => array($vendorDir . '/paypal/rest-api-sdk-php/lib'),
 );

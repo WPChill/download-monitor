@@ -102,13 +102,6 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
     );
 
     public static $prefixesPsr0 = array (
-        'x' => 
-        array (
-            'xrstf\\Composer52' => 
-            array (
-                0 => __DIR__ . '/..' . '/xrstf/composer-php52/lib',
-            ),
-        ),
         'P' => 
         array (
             'Prophecy\\' => 
