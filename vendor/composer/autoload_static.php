@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
 {
     public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     );
 
@@ -19,6 +20,10 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         array (
             'Webmozart\\Assert\\' => 17,
         ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Ctype\\' => 23,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -30,12 +35,16 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -83,7 +92,11 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'DLM_Admin_Scripts' => __DIR__ . '/../..' . '/src/Admin/AdminScripts.php',
         'DLM_Admin_Settings' => __DIR__ . '/../..' . '/src/Admin/Settings/Settings.php',
         'DLM_Admin_Writepanels' => __DIR__ . '/../..' . '/src/Admin/WritePanels.php',
+        'DLM_Ajax' => __DIR__ . '/../..' . '/src/Ajax/Ajax.php',
+        'DLM_Ajax_GetDownloads' => __DIR__ . '/../..' . '/src/Ajax/GetDownloads.php',
+        'DLM_Ajax_GetVersions' => __DIR__ . '/../..' . '/src/Ajax/GetVersions.php',
         'DLM_Ajax_Handler' => __DIR__ . '/../..' . '/src/AjaxHandler.php',
+        'DLM_Ajax_Manager' => __DIR__ . '/../..' . '/src/Ajax/Manager.php',
         'DLM_Category_Walker' => __DIR__ . '/../..' . '/src/Admin/CategoryWalker.php',
         'DLM_Constants' => __DIR__ . '/../..' . '/src/Constants.php',
         'DLM_Cookie_Manager' => __DIR__ . '/../..' . '/src/CookieManager.php',
@@ -92,11 +105,14 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'DLM_Custom_Labels' => __DIR__ . '/../..' . '/src/Admin/CustomLabels.php',
         'DLM_Debug_Logger' => __DIR__ . '/../..' . '/src/DebugLogger.php',
         'DLM_Download' => __DIR__ . '/../..' . '/src/Download/Download.php',
+        'DLM_DownloadPreview_Config' => __DIR__ . '/../..' . '/src/DownloadPreview/Config.php',
+        'DLM_DownloadPreview_Preview' => __DIR__ . '/../..' . '/src/DownloadPreview/Preview.php',
         'DLM_Download_Handler' => __DIR__ . '/../..' . '/src/DownloadHandler.php',
         'DLM_Download_No_Access_Page_Endpoint' => __DIR__ . '/../..' . '/src/DownloadNoAccessPageEndpoint.php',
         'DLM_Download_Repository' => __DIR__ . '/../..' . '/src/Download/DownloadRepository.php',
         'DLM_Download_Version' => __DIR__ . '/../..' . '/src/Version/Version.php',
         'DLM_File_Manager' => __DIR__ . '/../..' . '/src/FileManager.php',
+        'DLM_Gutenberg' => __DIR__ . '/../..' . '/src/Gutenberg.php',
         'DLM_Hasher' => __DIR__ . '/../..' . '/src/Hasher.php',
         'DLM_Installer' => __DIR__ . '/../..' . '/src/Installer.php',
         'DLM_Integrations_PostTypesOrder' => __DIR__ . '/../..' . '/src/Integrations/PostTypesOrder.php',
