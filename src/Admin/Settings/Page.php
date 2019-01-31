@@ -26,31 +26,6 @@ class DLM_Settings_Page {
 	}
 
 	/**
-	 * Print global notices
-	 */
-	private function print_global_notices() {
-
-		// check for nginx
-		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
-
-			// get upload dir
-			$upload_dir = wp_upload_dir();
-
-			// replace document root because nginx uses path from document root
-			$upload_path = str_replace( $_SERVER['DOCUMENT_ROOT'], '', $upload_dir['basedir'] );
-
-			// form nginx rules
-			$nginx_rules = "location " . $upload_path . "/dlm_uploads {<br/>deny all;<br/>return 403;<br/>}";
-			echo '<div class="error notice is-dismissible dlm-notice" id="nginx_rules" data-nonce="' . wp_create_nonce( 'dlm_hide_notice-nginx_rules' ) . '">';
-			echo '<p>' . __( "Because your server is running on nginx, our .htaccess file can't protect your downloads.", 'download-monitor' );
-			echo '<br/>' . sprintf( __( "Please add the following rules to your nginx config to disable direct file access: %s", 'download-monitor' ), '<br/><br/><code class="dlm-code-nginx-rules">' . $nginx_rules . '</code>' ) . '</p>';
-			echo '</div>';
-		}
-
-	}
-
-
-	/**
 	 * Catch and trigger admin actions
 	 */
 	public function catch_admin_actions() {
@@ -109,6 +84,7 @@ class DLM_Settings_Page {
 		// initialize settings
 		$admin_settings = new DLM_Admin_Settings();
 		$settings       = $admin_settings->get_settings();
+		$tab            = $this->get_active_tab();
 
 		// print global notices
 		$this->print_global_notices();
@@ -116,17 +92,7 @@ class DLM_Settings_Page {
         <div class="wrap">
             <form method="post" action="options.php">
 
-				<?php settings_fields( 'download-monitor' ); ?>
-
-                <h2 class="nav-tab-wrapper">
-					<?php
-					foreach ( $settings as $key => $section ) {
-						echo '<a href="' . DLM_Admin_Settings::get_url() . '#settings-' . sanitize_title( $key ) . '" id="dlm-tab-settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
-					}
-					?>
-                </h2><br/>
-
-                <input type="hidden" id="setting-dlm_settings_tab_saved" name="dlm_settings_tab_saved" value="general"/>
+				<?php $this->generate_tabs( $settings ); ?>
 
 				<?php
 
@@ -139,13 +105,27 @@ class DLM_Settings_Page {
 					echo '<script type="text/javascript">var dlm_settings_tab_saved = "' . $dlm_settings_tab_saved . '";</script>';
 				}
 
-				foreach ( $settings as $key => $section ) {
+				// loop fields for this tab
+				if ( isset( $settings[ $tab ] ) ) {
 
-					echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
+					/** @todo add BC support for when 'sections' is not set yet */
 
+					$section = $this->get_active_section( $settings[ $tab ]['sections'] );
+
+					// output correct settings_fields
+					$option_name = "dlm_" . $tab . "_" . $section;
+					settings_fields( $option_name );
+
+					if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
+						/** @todo generate 'subtabs' for sections */
+
+						echo "<h2>" . esc_html( $settings[ $tab ]['sections'][ $section ]['title'] ) . "</h2>" . PHP_EOL;
+					}
+
+					//echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
 					echo '<table class="form-table">';
+					foreach ( $settings[ $tab ]['sections'][ $section ]['fields'] as $option ) {
 
-					foreach ( $section[1] as $option ) {
 
 						$cs = 1;
 
@@ -177,11 +157,15 @@ class DLM_Settings_Page {
 						}
 
 						echo '</td></tr>';
+
+
 					}
+					echo '</table>';
 
-					echo '</table></div>';
-
+					//echo '</div>';
 				}
+
+
 				?>
                 <p class="submit">
                     <input type="submit" class="button-primary"
@@ -191,5 +175,82 @@ class DLM_Settings_Page {
         </div>
 		<?php
 	}
+
+	/**
+	 * Print global notices
+	 */
+	private function print_global_notices() {
+
+		// check for nginx
+		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
+
+			// get upload dir
+			$upload_dir = wp_upload_dir();
+
+			// replace document root because nginx uses path from document root
+			$upload_path = str_replace( $_SERVER['DOCUMENT_ROOT'], '', $upload_dir['basedir'] );
+
+			// form nginx rules
+			$nginx_rules = "location " . $upload_path . "/dlm_uploads {<br/>deny all;<br/>return 403;<br/>}";
+			echo '<div class="error notice is-dismissible dlm-notice" id="nginx_rules" data-nonce="' . wp_create_nonce( 'dlm_hide_notice-nginx_rules' ) . '">';
+			echo '<p>' . __( "Because your server is running on nginx, our .htaccess file can't protect your downloads.", 'download-monitor' );
+			echo '<br/>' . sprintf( __( "Please add the following rules to your nginx config to disable direct file access: %s", 'download-monitor' ), '<br/><br/><code class="dlm-code-nginx-rules">' . $nginx_rules . '</code>' ) . '</p>';
+			echo '</div>';
+		}
+
+	}
+
+	/**
+	 * @param array $settings
+	 */
+	private function generate_tabs( $settings ) {
+		?>
+        <h2 class="nav-tab-wrapper">
+			<?php
+			foreach ( $settings as $key => $section ) {
+
+				// backwards compatibility for when $section did not have 'title' index yet (it simply had the title set at 0)
+				$title = ( isset( $section['title'] ) ? $section['title'] : $section[0] );
+
+				echo '<a href="' . add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . '</a>';
+			}
+			?>
+        </h2><br/>
+		<?php
+	}
+
+	/**
+	 * Returns first key of array
+	 *
+	 * @param $a
+	 *
+	 * @return string
+	 */
+	private function array_first_key( $a ) {
+		reset( $a );
+
+		return key( $a );
+	}
+
+	/**
+	 * Return active tab
+	 *
+	 * @return string
+	 */
+	private function get_active_tab() {
+		return ( ! empty( $_GET['tab'] ) ? sanitize_title( $_GET['tab'] ) : 'general' );
+	}
+
+	/**
+	 * Return active section
+	 *
+	 * @param $sections
+	 *
+	 * @return string
+	 */
+	private function get_active_section( $sections ) {
+		return ( ! empty( $_GET['section'] ) ? sanitize_title( $_GET['section'] ) : $this->array_first_key( $sections ) );
+	}
+
 
 }

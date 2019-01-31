@@ -28,10 +28,6 @@ require_once( 'functions.php' );
  */
 if ( is_admin() ) {
 
-	// Add e-commerce settings
-	$settings = new \Never5\DownloadMonitor\Ecommerce\Admin\Settings();
-	$settings->setup();
-
 	// Setup the write panels (meta boxes)
 	$write_panels = new \Never5\DownloadMonitor\Ecommerce\Admin\WritePanels();
 	$write_panels->setup();
