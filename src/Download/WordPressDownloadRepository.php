@@ -89,7 +89,6 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		$items = array();
 
 		$q     = new WP_Query();
-		error_log(print_r($this->filter_query_args( $filters, $limit, $offset ),1),0);
 		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
 
 		if ( count( $posts ) > 0 ) {
