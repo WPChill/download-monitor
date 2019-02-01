@@ -114,7 +114,7 @@ class OrderTable extends \WP_List_Table {
 				break;
 
 			case 'total':
-				return '<span class"dlm-order-total">' . dlm_format_money( $order->get_total() ) . '</span>';
+				return '<span class"dlm-order-total">' . dlm_format_money( $order->get_total(), array( 'currency' => $order->get_currency() ) ) . '</span>';
 				break;
 		}
 	}

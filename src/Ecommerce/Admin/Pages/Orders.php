@@ -34,16 +34,6 @@ class Orders {
 				/** @var \Never5\DownloadMonitor\Ecommerce\Order\Order $order */
 				$order = Services::get()->service( 'order_repository' )->retrieve_single( $order_id );
 
-				/**
-				 *                 <li>%Firstname% %Lastname%</li>
-				 * <li>%CompanyName%</li>
-				 * <li>%Street%</li>
-				 * <li>%City%</li>
-				 * <li>%ZIP%</li>
-				 * <li>%Country%</li>
-				 * <li>%Email Address%</li>
-				 */
-
 				$customer = array(
 					'name'     => $order->get_customer()->get_first_name() . ' ' . $order->get_customer()->get_last_name(),
 					'company'  => $order->get_customer()->get_company(),

@@ -33,9 +33,9 @@ $items = $order->get_items();
 						<?php foreach ( $items as $item ) : ?>
                             <tr>
                                 <td><?php echo esc_html( $item->get_label() ); ?></td>
-                                <td><?php echo esc_html( dlm_format_money( $item->get_subtotal() ) ); ?></td>
+                                <td><?php echo esc_html( dlm_format_money( $item->get_subtotal(), array( 'currency' => $order->get_currency() ) ) ); ?></td>
                                 <td><?php echo esc_html( $item->get_qty() ); ?></td>
-                                <td class="dlm-order-details-order-items-item-total"><?php echo esc_html( dlm_format_money( $item->get_total() ) ); ?></td>
+                                <td class="dlm-order-details-order-items-item-total"><?php echo esc_html( dlm_format_money( $item->get_total(), array( 'currency' => $order->get_currency() ) ) ); ?></td>
                             </tr>
 						<?php endforeach; ?>
 					<?php endif; ?>
@@ -45,7 +45,7 @@ $items = $order->get_items();
                     <tbody>
                     <tr>
                         <th><?php _e( "Total", 'download-monitor' ); ?>:</th>
-                        <td><?php echo dlm_format_money( $order->get_total() ); ?></td>
+                        <td><?php echo dlm_format_money( $order->get_total(), array( 'currency' => $order->get_currency() ) ); ?></td>
                     </tr>
                     </tbody>
                 </table>
@@ -83,12 +83,12 @@ $items = $order->get_items();
 							}
 							?>
                             <tr>
-                                <td><?php echo $transaction->get_id(); ?></td>
-                                <td><?php echo $date; ?></td>
-                                <td><?php echo $transaction->get_status()->get_label(); ?></td>
-                                <td><?php echo dlm_format_money( $transaction->get_amount() ); ?></td>
-                                <td><?php echo $transaction->get_processor_nice_name(); ?></td>
-                                <td><?php echo $transaction->get_processor_transaction_id(); ?></td>
+                                <td><?php echo esc_html( $transaction->get_id() ); ?></td>
+                                <td><?php echo esc_html( $date ); ?></td>
+                                <td><?php echo esc_html( $transaction->get_status()->get_label() ); ?></td>
+                                <td><?php echo esc_html( dlm_format_money( $transaction->get_amount(), array( 'currency' => $order->get_currency() ) ) ); ?></td>
+                                <td><?php echo esc_html( $transaction->get_processor_nice_name() ); ?></td>
+                                <td><?php echo esc_html( $transaction->get_processor_transaction_id() ); ?></td>
                             </tr>
 							<?php
 						endforeach;
@@ -153,16 +153,16 @@ $items = $order->get_items();
                     </li>
                     <li>
                         <label><?php _e( "Date created", 'download-monitor' ); ?>:</label>
-                        <p><?php echo $order->get_date_created()->format( 'Y-h-d H:i:s' ); ?></p>
+                        <p><?php echo esc_html( $order->get_date_created()->format( 'Y-h-d H:i:s' ) ); ?></p>
                     </li>
                     <li>
                         <label><?php _e( "IP Address", 'download-monitor' ); ?>:</label>
-                        <p><?php echo $order->get_customer()->get_ip_address(); ?></p>
+                        <p><?php echo esc_html( $order->get_customer()->get_ip_address() ); ?></p>
                     </li>
 					<?php if ( ! empty( $processors ) ) : ?>
                         <li>
                             <label><?php _e( "Payment Method", 'download-monitor' ); ?>:</label>
-                            <p><?php echo $processors[0]; ?></p>
+                            <p><?php echo esc_html( $processors[0] ); ?></p>
                         </li>
 					<?php endif; ?>
                 </ul>

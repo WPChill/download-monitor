@@ -21,6 +21,7 @@ class Format {
 		$currency_helper = Services::get()->service( 'currency' );
 
 		$args = apply_filters( 'wpcm_format_price_args', wp_parse_args( $args, array(
+			'currency'           => $currency_helper->get_shop_currency(),
 			'currency_position'  => $currency_helper->get_currency_position(),
 			'decimal_separator'  => $settings_helper->get_option( 'decimal_separator' ),
 			'thousand_separator' => $settings_helper->get_option( 'thousand_separator' ),
@@ -34,7 +35,7 @@ class Format {
 		$price    = floatval( $negative ? $price * - 1 : $price );
 		$price    = number_format( $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'] );
 
-		$formatted_price = ( $negative ? '-' : '' ) . sprintf( $price_format, $currency_helper->get_currency_symbol(), $price );
+		$formatted_price = ( $negative ? '-' : '' ) . sprintf( $price_format, $currency_helper->get_currency_symbol( $args['currency'] ), $price );
 
 		return apply_filters( 'dlm_format_money', $formatted_price );
 
