@@ -22,7 +22,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 
 		parent::__construct();
 
-		$this->set_sandbox( '1' == $this->get_option( 'sandbox' ) );
+		$this->set_sandbox( '1' == $this->get_option( 'sandbox_enabled' ) );
 
 	}
 
@@ -38,6 +38,35 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	 */
 	public function set_sandbox( $sandbox ) {
 		$this->sandbox = $sandbox;
+	}
+
+	/**
+	 * Returns API context used in all PayPal API calls
+	 *
+	 * @return PayPal\Rest\ApiContext
+	 */
+	public function get_api_context() {
+
+		$client_id     = "";
+		$client_secret = "";
+
+		if ( ! $this->is_sandbox() ) {
+			// get live keys
+			$client_id     = $this->get_option( 'client_id' );
+			$client_secret = $this->get_option( 'client_secret' );
+
+		} else {
+			// get sandbox keys
+			$client_id     = $this->get_option( 'sandbox_client_id' );
+			$client_secret = $this->get_option( 'sandbox_client_secret' );
+		}
+
+		return new PayPal\Rest\ApiContext(
+			new PayPal\Auth\OAuthTokenCredential(
+				$client_id,
+				$client_secret
+			)
+		);
 	}
 
 	/**
@@ -62,7 +91,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		$application_desc .= " - ";
 		$application_desc .= "<a href='https://www.download-monitor.com/kb/payment-gateway-paypal' target='_blank'>" . __( "Click here to read the full documentation page", 'download-monitor' ) . "</a>";
 
-		$sandbox_desc = __( 'The same fields from your PayPal application but from the "sandbox" mode.', 'download-monitor');
+		$sandbox_desc = __( 'The same fields from your PayPal application but from the "sandbox" mode.', 'download-monitor' );
 		$sandbox_desc .= " <a href='https://www.download-monitor.com/kb/payment-gateway-paypal' target='_blank'>" . __( "Click here to read more on how to set this up", 'download-monitor' ) . "</a>";
 
 		$this->set_settings( array(
@@ -154,7 +183,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		        ->setRedirectUrls( $redirectUrls );
 
 		try {
-			$payment->create( Helper::get_api_context() );
+			$payment->create( $this->get_api_context() );
 		} catch ( \Exception $ex ) {
 			return new PaymentGateway\Result( false, '', 'PayPal error: could not create payment. Please check your PayPal logs.' );
 		}

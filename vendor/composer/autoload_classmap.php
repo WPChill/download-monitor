@@ -114,7 +114,6 @@ return array(
     'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\Field' => $baseDir . '/src/Ecommerce/Checkout/Field.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\Manager' => $baseDir . '/src/Ecommerce/Checkout/PaymentGateway/Manager.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\PayPal\\ExecutePaymentListener' => $baseDir . '/src/Ecommerce/Checkout/PaymentGateway/PayPal/ExecutePaymentListener.php',
-    'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\PayPal\\Helper' => $baseDir . '/src/Ecommerce/Checkout/PaymentGateway/PayPal/Helper.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\PayPal\\PayPalGateway' => $baseDir . '/src/Ecommerce/Checkout/PaymentGateway/PayPal/PayPalGateway.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\PaymentGateway' => $baseDir . '/src/Ecommerce/Checkout/PaymentGateway/PaymentGateway.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\Result' => $baseDir . '/src/Ecommerce/Checkout/PaymentGateway/Result.php',

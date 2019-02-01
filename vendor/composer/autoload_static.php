@@ -224,7 +224,6 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\Field' => __DIR__ . '/../..' . '/src/Ecommerce/Checkout/Field.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\Manager' => __DIR__ . '/../..' . '/src/Ecommerce/Checkout/PaymentGateway/Manager.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\PayPal\\ExecutePaymentListener' => __DIR__ . '/../..' . '/src/Ecommerce/Checkout/PaymentGateway/PayPal/ExecutePaymentListener.php',
-        'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\PayPal\\Helper' => __DIR__ . '/../..' . '/src/Ecommerce/Checkout/PaymentGateway/PayPal/Helper.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\PayPal\\PayPalGateway' => __DIR__ . '/../..' . '/src/Ecommerce/Checkout/PaymentGateway/PayPal/PayPalGateway.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\PaymentGateway' => __DIR__ . '/../..' . '/src/Ecommerce/Checkout/PaymentGateway/PaymentGateway.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Checkout\\PaymentGateway\\Result' => __DIR__ . '/../..' . '/src/Ecommerce/Checkout/PaymentGateway/Result.php',

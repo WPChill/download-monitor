@@ -5,7 +5,6 @@ namespace Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway\PayPal;
 use Never5\DownloadMonitor\Ecommerce\Dependencies\PayPal;
 use Never5\DownloadMonitor\Ecommerce\Services\Services;
 use PHPUnit\Runner\Exception;
-use Symfony\Component\Debug\Debug;
 
 class ExecutePaymentListener {
 
@@ -55,7 +54,7 @@ class ExecutePaymentListener {
 		 * Get Payment by paymentId
 		 */
 		$paymentId = $_GET['paymentId'];
-		$payment   = PayPal\Api\Payment::get( $paymentId, Helper::get_api_context() );
+		$payment   = PayPal\Api\Payment::get( $paymentId, $this->gateway->get_api_context() );
 
 		/**
 		 * Setup PaymentExecution object
@@ -72,7 +71,7 @@ class ExecutePaymentListener {
 			/**
 			 * Execute the payment
 			 */
-			$result = $payment->execute( $execution, Helper::get_api_context() );
+			$result = $payment->execute( $execution, $this->gateway->get_api_context() );
 
 			// if payment is not approved, exit;
 			if ( $result->getState() !== "approved" ) {
