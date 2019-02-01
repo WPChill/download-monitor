@@ -26,6 +26,8 @@ abstract class PaymentGateway {
 	 */
 	public function __construct() {
 		$this->setup_settings();
+
+		$this->set_enabled( 1 == $this->get_option('enabled') );
 	}
 
 	/**
@@ -74,9 +76,6 @@ abstract class PaymentGateway {
 	 * @return bool
 	 */
 	public function is_enabled() {
-		/** @todo remove this later, for testing: */
-		return true;
-
 		return $this->enabled;
 	}
 
@@ -162,7 +161,7 @@ abstract class PaymentGateway {
 	 * @return string
 	 */
 	protected function get_option( $option ) {
-		return '';
+		return download_monitor()->service( 'settings' )->get_option( 'gateway_' . $this->get_id() . '_' . $option );
 	}
 
 	/**

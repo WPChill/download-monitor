@@ -16,12 +16,12 @@ class DLM_Settings_Helper {
 	 * Setup the defaults used in the get_option() method
 	 */
 	private function setup_defaults() {
-		$this->defaults = array(
+		$this->defaults = apply_filters( 'dlm_settings_defaults', array(
 			'currency'           => 'USD',
 			'currency_pos'       => 'left',
 			'decimal_separator'  => '.',
 			'thousand_separator' => ','
-		);
+		) );
 	}
 
 
