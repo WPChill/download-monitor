@@ -17,8 +17,8 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	public function __construct() {
 
 		$this->set_id( 'paypal' );
-		$this->set_title( 'Paypal' );
-		$this->set_description( __( 'Pay with Paypal', 'download-monitor' ) );
+		$this->set_title( 'PayPal' );
+		$this->set_description( __( 'Pay with PayPal', 'download-monitor' ) );
 
 		parent::__construct();
 
@@ -55,19 +55,83 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	 * Setup gateway settings
 	 */
 	protected function setup_settings() {
+
+		//
+
+
+		$application_desc = __( "In order to allow users to pay via PayPal on your website, you need to create an application in PayPal's developer portal. After you've done so, please copy the Client ID and Secret and set them here.", 'download-monitor' );
+		$application_desc .= "<br/>";
+		$application_desc .= "<a href='https://developer.paypal.com/developer/applications/create' target='_blank'>" . __( "Click here to create a new PayPal application", 'download-monitor' ) . "</a>";
+		$application_desc .= " - ";
+		$application_desc .= "<a href='https://www.download-monitor.com/kb/payment-gateway-paypal' target='_blank'>" . __( "Click here to read the full documentation page", 'download-monitor' ) . "</a>";
+
+		$sandbox_desc = __( 'The same fields from your PayPal application but from the "sandbox" mode.', 'download-monitor');
+		$sandbox_desc .= " <a href='https://www.download-monitor.com/kb/payment-gateway-paypal' target='_blank'>" . __( "Click here to read more on how to set this up", 'download-monitor' ) . "</a>";
+
 		$this->set_settings( array(
-			'enabled' => array(
-				'type'        => 'checkbox',
-				'title'       => 'Enabled',
-				'description' => 'Check to enable this payment gateway',
-				'default'     => false
+			array(
+				'name'  => 'invoice_prefix',
+				'type'  => 'text',
+				'std'   => '',
+				'label' => __( 'Invoice Prefix', 'download-monitor' ),
+				'desc'  => __( "This prefix is added to the paypal invoice ID. If you run multiple stores with the same PayPal account, enter an unique prefix per store here.", 'download-monitor' )
 			),
-			'sandbox' => array(
-				'type'        => 'checkbox',
-				'title'       => 'Sandbox',
-				'description' => 'Check to enable PayPal sandbox mode.',
-				'default'     => false
-			)
+			array(
+				'name'  => '',
+				'type'  => 'title',
+				'title' => __( 'Application Details', 'download-monitor' )
+			),
+			array(
+				'name' => '',
+				'type' => 'desc',
+				'text' => $application_desc
+			),
+			array(
+				'name'  => 'client_id',
+				'type'  => 'text',
+				'std'   => '',
+				'label' => __( 'Application Client ID', 'download-monitor' ),
+				'desc'  => __( 'Your application client ID.', 'download-monitor' )
+			),
+			array(
+				'name'  => 'client_secret',
+				'type'  => 'text',
+				'std'   => '',
+				'label' => __( 'Application Client Secret', 'download-monitor' ),
+				'desc'  => __( 'Your application client secret.', 'download-monitor' )
+			),
+			array(
+				'name'  => '',
+				'type'  => 'title',
+				'title' => __( 'Test Settings', 'download-monitor' )
+			),
+			array(
+				'name' => '',
+				'type' => 'desc',
+				'text' => $sandbox_desc
+			),
+			array(
+				'name'     => 'sandbox_enabled',
+				'type'     => 'checkbox',
+				'label'    => __( 'Sandbox', 'download-monitor' ),
+				'desc'     => __( 'Check to enable PayPal sandbox mode. This allows you to test your PayPal integration.', 'download-monitor' ),
+				'cb_label' => __( 'Enable Sandbox', 'download-monitor' ),
+				'std'      => 0
+			),
+			array(
+				'name'  => 'sandbox_client_id',
+				'type'  => 'text',
+				'std'   => '',
+				'label' => __( 'Sandbox Client ID', 'download-monitor' ),
+				'desc'  => __( 'Your application sandbox client ID.', 'download-monitor' )
+			),
+			array(
+				'name'  => 'sandbox_client_secret',
+				'type'  => 'text',
+				'std'   => '',
+				'label' => __( 'Sandbox Client Secret', 'download-monitor' ),
+				'desc'  => __( 'Your application sandbox client secret.', 'download-monitor' )
+			),
 		) );
 	}
 

@@ -151,14 +151,7 @@ abstract class PaymentGateway {
 	 * Default setting is if the gateway is enabled
 	 */
 	protected function setup_settings() {
-		$this->set_settings( array(
-			'enabled' => array(
-				'type'        => 'checkbox',
-				'title'       => '',
-				'description' => '',
-				'default'     => false
-			)
-		) );
+		$this->set_settings( array() );
 	}
 
 	/**

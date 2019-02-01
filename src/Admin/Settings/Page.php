@@ -89,7 +89,7 @@ class DLM_Settings_Page {
 		// print global notices
 		$this->print_global_notices();
 		?>
-        <div class="wrap">
+        <div class="wrap dlm-admin-settings">
         <form method="post" action="options.php">
 
 		<?php $this->generate_tabs( $settings ); ?>
@@ -160,7 +160,7 @@ class DLM_Settings_Page {
 							$field->render();
 
 							if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
-								echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
+								echo ' <p class="dlm-description description">' . $option['desc'] . '</p>';
 							}
 						}
 

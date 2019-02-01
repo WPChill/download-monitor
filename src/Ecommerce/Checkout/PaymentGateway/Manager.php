@@ -26,7 +26,15 @@ class Manager {
 	 * @return PaymentGateway[]
 	 */
 	public function get_all_gateways() {
-		return $this->gateways;
+		$gateways = array();
+		if ( ! empty( $this->gateways ) ) {
+			/** @var PaymentGateway $gateway */
+			foreach ( $this->gateways as $gateway ) {
+				$gateways[ $gateway->get_id() ] = $gateway;
+			}
+		}
+
+		return $gateways;
 	}
 
 	/**
