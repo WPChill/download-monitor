@@ -408,6 +408,8 @@ class WordPressRepository implements Repository {
 							'%d',
 						)
 					);
+
+					$order_item->set_id( $wpdb->insert_id );
 				} else {
 
 					// update existing order item record
@@ -461,7 +463,7 @@ class WordPressRepository implements Repository {
 				}
 
 				// check if it's a new transaction or an existing one
-				if ( empty( $order_item_id ) ) {
+				if ( empty( $transaction_id ) ) {
 
 					// it's a new transaction
 
@@ -490,6 +492,9 @@ class WordPressRepository implements Repository {
 							'%s'
 						)
 					);
+
+
+					$transaction->set_id( $wpdb->insert_id );
 
 				} else {
 
