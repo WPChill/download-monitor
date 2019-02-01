@@ -15,7 +15,7 @@ class Manager {
 		// add gateways
 		$this->gateways = apply_filters( 'dlm_ecommerce_payment_gateways', array(
 			new PayPal\PayPalGateway(),
-			new Dummy\DummyGateway()
+			new Test\TestGateway()
 		) );
 
 	}
