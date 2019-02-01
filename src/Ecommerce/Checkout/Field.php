@@ -85,7 +85,7 @@ class Field {
 				'class'       => array(),
 				'row-class'   => array(),
 				'label'       => __( 'Country', 'download-monitor' ),
-				'placeholder' => "",
+				'placeholder' => download_monitor()->service( 'settings' )->get_option( 'base_country' ),
 				'required'    => true,
 			),
 		);
@@ -105,7 +105,7 @@ class Field {
 				$return = sprintf( '<select name="dlm_%s" id="dlm_%s">', esc_attr( $options['name'] ), esc_attr( $options['name'] ) );
 				if ( ! empty( $options['options'] ) ) {
 					foreach ( $options['options'] as $k => $v ) {
-						$return .= sprintf( '<option value="%s">%s</option>', esc_attr( $k ), esc_html( $v ) );
+						$return .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $k ), selected( $options['placeholder'], $k, false ), esc_html( $v ) );
 					}
 				}
 				$return .= '</select>';
