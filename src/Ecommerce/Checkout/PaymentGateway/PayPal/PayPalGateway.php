@@ -61,6 +61,10 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 			$client_secret = $this->get_option( 'sandbox_client_secret' );
 		}
 
+		// remove spaces
+		$client_id     = trim( $client_id );
+		$client_secret = trim( $client_secret );
+
 		return new PayPal\Rest\ApiContext(
 			new PayPal\Auth\OAuthTokenCredential(
 				$client_id,
@@ -319,11 +323,17 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		       ->setDetails( $details );
 
 		// setup transactions
+		$invoiceStr = $order->get_id();
+		if ( ! empty( $this->get_option( 'invoice_prefix' ) ) ) {
+			$invoiceStr = $this->get_option( 'invoice_prefix' ) . $invoiceStr;
+		}
+
+		// setup transaction object
 		$transaction = new PayPal\Api\Transaction();
 		$transaction->setAmount( $amount )
 		            ->setItemList( $itemList )
 		            ->setDescription( sprintf( "%s - Order #%d ", get_bloginfo( 'name' ), $order->get_id() ) )
-		            ->setInvoiceNumber( $order->get_id() );
+		            ->setInvoiceNumber( $invoiceStr );
 
 		return $transaction;
 	}
