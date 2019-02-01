@@ -17,7 +17,6 @@ class Factory {
 		try {
 			$transaction->set_date_created( new \DateTimeImmutable() );
 		} catch ( \Exception $e ) {
-
 		}
 
 		return $transaction;

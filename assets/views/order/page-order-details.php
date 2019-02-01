@@ -76,7 +76,7 @@ $items = $order->get_items();
 						<?php
 						foreach ( $transactions as $transaction ) :
 
-							if ( $transaction->get_date_modified() != null ) {
+							if ( $transaction->get_date_modified() !== null ) {
 								$date = $transaction->get_date_modified()->format( 'Y-h-d H:i:s' );
 							} else {
 								$date = $transaction->get_date_created()->format( 'Y-h-d H:i:s' );

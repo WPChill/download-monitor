@@ -452,12 +452,12 @@ class WordPressRepository implements Repository {
 
 				$transaction_id = $transaction->get_id();
 
-				$transaction_date_created = '';
+				$transaction_date_created = null;
 				if ( null !== $transaction->get_date_created() ) {
 					$transaction_date_created = $transaction->get_date_created()->format( 'Y-m-d H:i:s' );
 				}
 
-				$transaction_date_modified = '';
+				$transaction_date_modified = null;
 				if ( null !== $transaction->get_date_modified() ) {
 					$transaction_date_modified = $transaction->get_date_modified()->format( 'Y-m-d H:i:s' );
 				}
