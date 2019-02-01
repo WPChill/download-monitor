@@ -41,7 +41,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	}
 
 	/**
-	 * Setup paypal extension
+	 * Setup PayPal extension
 	 */
 	public function setup_gateway() {
 
@@ -55,9 +55,6 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	 * Setup gateway settings
 	 */
 	protected function setup_settings() {
-
-		//
-
 
 		$application_desc = __( "In order to allow users to pay via PayPal on your website, you need to create an application in PayPal's developer portal. After you've done so, please copy the Client ID and Secret and set them here.", 'download-monitor' );
 		$application_desc .= "<br/>";
@@ -200,7 +197,6 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 			'paypal_action' => 'execute_payment'
 		), Services::get()->service( 'page' )->get_checkout_url( 'complete' ) );
 	}
-
 
 	/**
 	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
