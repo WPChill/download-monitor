@@ -37,6 +37,16 @@ class DLM_Admin_Settings {
 					}
 				}
 
+				// on the overview page, we also register the enabled setting for every gateway. This makes the checkboxes to enable gateways work.
+				if ( 'overview' == $section_key ) {
+					$gateways = Services::get()->service( 'payment_gateway' )->get_all_gateways();
+					if ( ! empty( $gateways ) ) {
+						foreach ( $gateways as $gateway ) {
+							register_setting( $option_group, 'dlm_gateway_' . esc_attr( $gateway->get_id() ) . '_enabled' );
+						}
+					}
+				}
+
 			}
 		}
 
