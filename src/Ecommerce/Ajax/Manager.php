@@ -45,6 +45,10 @@ class Manager {
 		$place_order = new PlaceOrder();
 		$place_order->register();
 
+		// register GetVehicleResults
+		$admin_change_status = new AdminChangeOrderStatus();
+		$admin_change_status->register();
+
 	}
 
 	/**

@@ -2,6 +2,8 @@
 
 namespace Never5\DownloadMonitor\Ecommerce\Order;
 
+use PHPUnit\Runner\Exception;
+
 class Order {
 
 	/** @var int */
@@ -85,6 +87,15 @@ class Order {
 	 */
 	public function set_date_modified( $date_modified ) {
 		$this->date_modified = $date_modified;
+	}
+
+	public function set_date_modified_now() {
+		try{
+			$this->date_modified = new \DateTimeImmutable(current_time( 'mysql' ));
+		}catch(\Exception $exception) {
+			return false;
+		}
+		return true;
 	}
 
 	/**

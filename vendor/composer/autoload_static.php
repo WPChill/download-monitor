@@ -212,6 +212,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'Never5\\DownloadMonitor\\Ecommerce\\Admin\\OrderTable' => __DIR__ . '/../..' . '/src/Ecommerce/Admin/OrderTable.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Admin\\Pages\\Orders' => __DIR__ . '/../..' . '/src/Ecommerce/Admin/Pages/Orders.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Admin\\WritePanels' => __DIR__ . '/../..' . '/src/Ecommerce/Admin/WritePanels.php',
+        'Never5\\DownloadMonitor\\Ecommerce\\Ajax\\AdminChangeOrderStatus' => __DIR__ . '/../..' . '/src/Ecommerce/Ajax/AdminChangeOrderStatus.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Ajax\\Ajax' => __DIR__ . '/../..' . '/src/Ecommerce/Ajax/Ajax.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Ajax\\Manager' => __DIR__ . '/../..' . '/src/Ecommerce/Ajax/Manager.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Ajax\\PlaceOrder' => __DIR__ . '/../..' . '/src/Ecommerce/Ajax/PlaceOrder.php',

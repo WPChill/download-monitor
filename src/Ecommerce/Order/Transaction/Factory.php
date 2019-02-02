@@ -15,7 +15,7 @@ class Factory {
 		$transaction->set_status( $this->make_status( 'pending' ) );
 
 		try {
-			$transaction->set_date_created( new \DateTimeImmutable() );
+			$transaction->set_date_created( new \DateTimeImmutable(current_time( 'mysql' )) );
 		} catch ( \Exception $e ) {
 		}
 

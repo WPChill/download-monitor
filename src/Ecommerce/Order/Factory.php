@@ -19,7 +19,7 @@ class Factory {
 		$order->set_currency( Services::get()->service( 'currency' )->get_shop_currency() );
 
 		try {
-			$order->set_date_created( new \DateTimeImmutable() );
+			$order->set_date_created( new \DateTimeImmutable(current_time( 'mysql' )) );
 		} catch ( \Exception $e ) {
 
 		}

@@ -139,7 +139,7 @@ $items = $order->get_items();
                 <ul>
                     <li>
                         <label><?php _e( "Order Status", 'download-monitor' ); ?>:</label>
-                        <select name="dlm_new_order_status" class="dlm-order-details-current-state">
+                        <select name="dlm_new_order_status" class="dlm-order-details-current-state" id="dlm-order-details-current-state">
 							<?php
 							if ( ! empty( $statuses ) ) :
 								foreach ( $statuses as $status ):
@@ -149,7 +149,7 @@ $items = $order->get_items();
 							?>
                             <option value="">Test</option>
                         </select>
-                        <button class="button button-primary button-large"><?php _e( "Change", 'download-montior' ); ?></button>
+                        <button class="button button-primary button-large" id="dlm-order-details-button-change-state"><?php _e( "Change", 'download-montior' ); ?></button>
                     </li>
                     <li>
                         <label><?php _e( "Date created", 'download-monitor' ); ?>:</label>

@@ -92,7 +92,7 @@ class ExecutePaymentListener {
 					$transaction->set_processor_status($result->getState());
 
 					try {
-						$transaction->set_date_modified( new \DateTimeImmutable() );
+						$transaction->set_date_modified( new \DateTimeImmutable(current_time( 'mysql' )) );
 					} catch ( \Exception $e ) {
 
 					}

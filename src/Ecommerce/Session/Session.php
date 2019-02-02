@@ -68,7 +68,7 @@ class Session {
 	 */
 	public function reset_expiry() {
 		try {
-			$expiry = new \DateTimeImmutable();
+			$expiry = new \DateTimeImmutable(current_time( 'mysql' ));
 			$expiry = $expiry->modify( '+' . apply_filters( 'dlm_ecommerce_session_expiry_days', 7 ) . 'days' );
 			$this->set_expiry( $expiry );
 			return true;
