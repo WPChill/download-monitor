@@ -18,8 +18,10 @@ class Factory {
 
 		$order->set_currency( Services::get()->service( 'currency' )->get_shop_currency() );
 
+		$order->set_hash( $this->generate_order_hash( $order ) );
+
 		try {
-			$order->set_date_created( new \DateTimeImmutable(current_time( 'mysql' )) );
+			$order->set_date_created( new \DateTimeImmutable( current_time( 'mysql' ) ) );
 		} catch ( \Exception $e ) {
 
 		}
@@ -30,6 +32,20 @@ class Factory {
 
 
 		return $order;
+	}
+
+	/**
+	 * Generate order hash
+	 *
+	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
+	 *
+	 * @return string
+	 */
+	private function generate_order_hash( $order ) {
+
+		$hash = apply_filters( 'dlm_order_hash', sha1( $order->get_id() . time() . uniqid( 'dlm' . time() ) ), $order );
+
+		return $hash;
 	}
 
 }

@@ -21,6 +21,9 @@ class Order {
 	/** @var string */
 	private $currency;
 
+	/** @var string */
+	private $hash;
+
 	/** @var OrderCustomer */
 	private $customer;
 
@@ -110,6 +113,20 @@ class Order {
 	 */
 	public function set_currency( $currency ) {
 		$this->currency = $currency;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_hash() {
+		return $this->hash;
+	}
+
+	/**
+	 * @param string $hash
+	 */
+	public function set_hash( $hash ) {
+		$this->hash = $hash;
 	}
 
 	/**

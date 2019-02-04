@@ -270,9 +270,11 @@ class WordPressRepository implements Repository {
 					'status'        => $order->get_status()->get_key(),
 					'date_created'  => $date_created,
 					'date_modified' => $date_modified,
-					'currency'      => $order->get_currency()
+					'currency'      => $order->get_currency(),
+					'hash'          => $order->get_hash()
 				),
 				array(
+					'%s',
 					'%s',
 					'%s',
 					'%s',
@@ -325,13 +327,15 @@ class WordPressRepository implements Repository {
 				array(
 					'status'        => $order->get_status()->get_key(),
 					'date_modified' => current_time( 'mysql', 1 ),
-					'currency'      => $order->get_currency()
+					'currency'      => $order->get_currency(),
+					'hash'          => $order->get_hash()
 				),
 				array( 'id' => $order_id ),
 				array(
 					'%s',
 					'%s',
 					'%s',
+					'%s'
 				),
 				array( '%d' )
 			);
