@@ -65,10 +65,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 						$version_label        = "-";
 						$download_button_html = __( 'Download is no longer available', 'download-monitor' );
 						try {
-							/** @var DLM_Download $download */
+							/** @var \Never5\DownloadMonitor\Ecommerce\DownloadProduct\DownloadProduct $download */
 							$download             = download_monitor()->service( 'download_repository' )->retrieve_single( $order_item->get_download_id() );
+
 							$version_label        = $download->get_version()->get_version();
-							$download_button_html = "<a href='" . $download->get_the_download_link() . "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
+							$download_button_html = "<a href='" . $download->get_secure_download_link( $order ) . "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
 						} catch ( \Exception $e ) {
 						}
 						?>

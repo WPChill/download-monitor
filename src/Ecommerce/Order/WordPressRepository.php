@@ -106,6 +106,7 @@ class WordPressRepository implements Repository {
 			$order->set_id( $result->id );
 			$order->set_status( Services::get()->service( 'order_status_factory' )->make( $result->status ) );
 			$order->set_currency( $result->currency );
+			$order->set_hash( $result->hash );
 
 			if ( ! empty( $result->date_created ) ) {
 				$order->set_date_created( new \DateTimeImmutable( $result->date_created ) );

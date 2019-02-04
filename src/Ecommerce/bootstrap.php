@@ -43,6 +43,12 @@ if ( is_admin() ) {
 }
 
 /**
+ * Setup Access manager
+ */
+$access_manager = new \Never5\DownloadMonitor\Ecommerce\Access\Manager();
+$access_manager->setup();
+
+/**
  * Setup Cart hooks
  */
 $cart_hooks = new \Never5\DownloadMonitor\Ecommerce\Cart\Hooks();

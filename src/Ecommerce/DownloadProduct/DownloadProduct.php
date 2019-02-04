@@ -96,4 +96,23 @@ class DownloadProduct extends \DLM_Download {
 		$this->tax_class = $tax_class;
 	}
 
+	/**
+	 * Get a secure download link for this download linked to given order
+	 *
+	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
+	 *
+	 * @return string
+	 */
+	public function get_secure_download_link( $order ) {
+		$download_url = $this->get_the_download_link();
+
+		$download_url = add_query_arg( array( 'order_id'   => $order->get_id(),
+		                                      'order_hash' => $order->get_hash()
+		), $download_url );
+
+		$download_url = apply_filters( 'dlm_secure_download_link', $download_url, $this, $order );
+
+		return $download_url;
+	}
+
 }
