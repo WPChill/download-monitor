@@ -35,7 +35,7 @@ class ExecutePaymentListener {
 		 */
 
 		$order_id   = ( isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : "" );
-		$order_hash = ( isset( $_GET['order_hash'] ) ? absint( $_GET['order_hash'] ) : "" );
+		$order_hash = ( isset( $_GET['order_hash'] ) ? $_GET['order_hash'] : "" );
 
 		if ( empty( $order_id ) || empty( $order_hash ) ) {
 			$this->execute_failed( $order_id, $order_hash );
