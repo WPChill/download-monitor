@@ -110,14 +110,14 @@ class ExecutePaymentListener {
 			/**
 			 * Redirect user to "clean" complete URL
 			 */
-			wp_redirect( $this->gateway->get_success_url( $order->get_id() ), 302 );
+			wp_redirect( $this->gateway->get_success_url( $order ), 302 );
 			exit;
 
 		} catch ( \Exception $ex ) {
 			/**
 			 * @todo add error logging for separate PayPal log
 			 */
-			$this->execute_failed( $order_id );
+			$this->execute_failed( $order );
 
 			return;
 		}
@@ -128,10 +128,10 @@ class ExecutePaymentListener {
 	 * This method gets called when execute failed. Reason for fail will be logged in PayPal log (if enabled).
 	 * User will be redirected to the checkout 'failed' endpoint.
 	 *
-	 * @param int $order_id
+	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
 	 */
-	private function execute_failed( $order_id ) {
-		wp_redirect( $this->gateway->get_failed_url( $order_id ), 302 );
+	private function execute_failed( $order ) {
+		wp_redirect( $this->gateway->get_failed_url( $order ), 302 );
 		exit;
 	}
 

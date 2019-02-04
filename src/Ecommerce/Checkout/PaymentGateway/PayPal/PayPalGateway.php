@@ -177,8 +177,8 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		$transaction = $this->get_transaction( $order );
 
 		$redirectUrls = new PayPal\Api\RedirectUrls();
-		$redirectUrls->setReturnUrl( $this->get_execute_payment_url( $order->get_id() ) )
-		             ->setCancelUrl( $this->get_cancel_url( $order->get_id() ) );
+		$redirectUrls->setReturnUrl( $this->get_execute_payment_url( $order ) )
+		             ->setCancelUrl( $this->get_cancel_url( $order ) );
 
 		$payment = new PayPal\Api\Payment();
 		$payment->setIntent( 'sale' )
@@ -220,13 +220,14 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	/**
 	 * Get the URL for executing a payment
 	 *
-	 * @param $order_id
+	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
 	 *
 	 * @return string
 	 */
-	private function get_execute_payment_url( $order_id ) {
+	private function get_execute_payment_url( $order ) {
 		return add_query_arg( array(
-			'order_id'      => $order_id,
+			'order_id'      => $order->get_id(),
+			'order_hash'    => $order->get_hash(),
 			'paypal_action' => 'execute_payment'
 		), Services::get()->service( 'page' )->get_checkout_url( 'complete' ) );
 	}
