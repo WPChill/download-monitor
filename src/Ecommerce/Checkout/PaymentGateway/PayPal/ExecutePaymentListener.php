@@ -34,7 +34,12 @@ class ExecutePaymentListener {
 		 * Get order
 		 */
 
-		$order_id = absint( $_GET['order_id'] );
+		$order_id   = ( isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : "" );
+		$order_hash = ( isset( $_GET['order_hash'] ) ? absint( $_GET['order_hash'] ) : "" );
+
+		if ( empty( $order_id ) || empty( $order_hash ) ) {
+			$this->execute_failed( $order_id, $order_hash );
+		}
 
 		/** @var \Never5\DownloadMonitor\Ecommerce\Order\Repository $order_repo */
 		$order_repo = Services::get()->service( 'order_repository' );
@@ -44,7 +49,7 @@ class ExecutePaymentListener {
 			/**
 			 * @todo log error in PayPal error log ($exception->getMessage())
 			 */
-			$this->execute_failed( $order_id );
+			$this->execute_failed( $order_id, $order_hash );
 
 			return;
 		}
@@ -84,20 +89,18 @@ class ExecutePaymentListener {
 
 			// update the order status to 'completed'
 			$transactions = $order->get_transactions();
-			foreach($transactions as $transaction)
-			{
-				if( $transaction->get_processor_transaction_id() ==  $result->getId() )
-				{
+			foreach ( $transactions as $transaction ) {
+				if ( $transaction->get_processor_transaction_id() == $result->getId() ) {
 					$transaction->set_status( Services::get()->service( 'order_transaction_factory' )->make_status( 'success' ) );
-					$transaction->set_processor_status($result->getState());
+					$transaction->set_processor_status( $result->getState() );
 
 					try {
-						$transaction->set_date_modified( new \DateTimeImmutable(current_time( 'mysql' )) );
+						$transaction->set_date_modified( new \DateTimeImmutable( current_time( 'mysql' ) ) );
 					} catch ( \Exception $e ) {
 
 					}
 
-					$order->set_transactions($transactions);
+					$order->set_transactions( $transactions );
 					break;
 				}
 
@@ -110,14 +113,14 @@ class ExecutePaymentListener {
 			/**
 			 * Redirect user to "clean" complete URL
 			 */
-			wp_redirect( $this->gateway->get_success_url( $order ), 302 );
+			wp_redirect( $this->gateway->get_success_url( $order->get_id(), $order->get_hash() ), 302 );
 			exit;
 
 		} catch ( \Exception $ex ) {
 			/**
 			 * @todo add error logging for separate PayPal log
 			 */
-			$this->execute_failed( $order );
+			$this->execute_failed( $order->get_id(), $order->get_hash() );
 
 			return;
 		}
@@ -128,10 +131,11 @@ class ExecutePaymentListener {
 	 * This method gets called when execute failed. Reason for fail will be logged in PayPal log (if enabled).
 	 * User will be redirected to the checkout 'failed' endpoint.
 	 *
-	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
+	 * @param int $order_id
+	 * @param string $order_hash
 	 */
-	private function execute_failed( $order ) {
-		wp_redirect( $this->gateway->get_failed_url( $order ), 302 );
+	private function execute_failed( $order_id, $order_hash ) {
+		wp_redirect( $this->gateway->get_failed_url( $order_id, $order_hash ), 302 );
 		exit;
 	}
 

@@ -56,7 +56,7 @@ class TestGateway extends PaymentGateway\PaymentGateway {
 
 			$order_repo->persist( $order );
 
-			return new PaymentGateway\Result( true, $this->get_success_url( $order ) );
+			return new PaymentGateway\Result( true, $this->get_success_url( $order->get_id(), $order->get_hash() ) );
 
 		} catch ( \Exception $exception ) {
 			$error_message = $exception->getMessage();

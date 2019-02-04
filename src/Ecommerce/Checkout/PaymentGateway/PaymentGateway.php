@@ -115,34 +115,37 @@ abstract class PaymentGateway {
 	/**
 	 * Get the success URL for given order
 	 *
-	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
+	 * @param int $order_id
+	 * @param string $order_hash
 	 *
 	 * @return string
 	 */
-	public function get_success_url( $order ) {
-		return add_query_arg( array( 'order_id' => $order->get_id(), 'order_hash' => $order->get_hash() ), Services::get()->service( 'page' )->get_checkout_url( 'complete' ) );
+	public function get_success_url( $order_id, $order_hash ) {
+		return add_query_arg( array( 'order_id' => $order_id, 'order_hash' => $order_hash ), Services::get()->service( 'page' )->get_checkout_url( 'complete' ) );
 	}
 
 	/**
 	 * Get the failed URL for given order
 	 *
-	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
+	 * @param int $order_id
+	 * @param string $order_hash
 	 *
 	 * @return string
 	 */
-	public function get_failed_url( $order ) {
-		return add_query_arg( array( 'order_id' => $order->get_id(), 'order_hash' => $order->get_hash() ), Services::get()->service( 'page' )->get_checkout_url( 'failed' ) );
+	public function get_failed_url( $order_id, $order_hash ) {
+		return add_query_arg( array( 'order_id' => $order_id, 'order_hash' => $order_hash ), Services::get()->service( 'page' )->get_checkout_url( 'failed' ) );
 	}
 
 	/**
 	 * Get the success URL for given order
 	 *
-	 * @param \Never5\DownloadMonitor\Ecommerce\Order\Order $order
+	 * @param int $order_id
+	 * @param string $order_hash
 	 *
 	 * @return string
 	 */
-	public function get_cancel_url( $order ) {
-		return add_query_arg( array( 'order_id' => $order->get_id(), 'order_hash' => $order->get_hash() ), Services::get()->service( 'page' )->get_checkout_url( 'cancelled' ) );
+	public function get_cancel_url( $order_id, $order_hash ) {
+		return add_query_arg( array( 'order_id' => $order_id, 'order_hash' => $order_hash ), Services::get()->service( 'page' )->get_checkout_url( 'cancelled' ) );
 	}
 
 	/**

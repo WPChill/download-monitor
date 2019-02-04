@@ -178,7 +178,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 
 		$redirectUrls = new PayPal\Api\RedirectUrls();
 		$redirectUrls->setReturnUrl( $this->get_execute_payment_url( $order ) )
-		             ->setCancelUrl( $this->get_cancel_url( $order ) );
+		             ->setCancelUrl( $this->get_cancel_url( $order->get_id(), $order->get_hash() ) );
 
 		$payment = new PayPal\Api\Payment();
 		$payment->setIntent( 'sale' )
