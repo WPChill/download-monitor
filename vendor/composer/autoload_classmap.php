@@ -98,6 +98,7 @@ return array(
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
     'IndentTest' => $baseDir . '/src/Libs/uaparser/lib/spyc-0.5/tests/IndentTest.php',
+    'Never5\\DownloadMonitor\\Ecommerce\\Access\\Manager' => $baseDir . '/src/Ecommerce/Access/Manager.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Admin\\Fields\\GatewayOverview' => $baseDir . '/src/Ecommerce/Admin/Fields/GatewayOverview.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Admin\\OrderTable' => $baseDir . '/src/Ecommerce/Admin/OrderTable.php',
     'Never5\\DownloadMonitor\\Ecommerce\\Admin\\Pages\\Orders' => $baseDir . '/src/Ecommerce/Admin/Pages/Orders.php',

@@ -1656,17 +1656,17 @@
     },
     {
         "name": "symfony/console",
-        "version": "v3.4.21",
-        "version_normalized": "3.4.21.0",
+        "version": "v3.4.22",
+        "version_normalized": "3.4.22.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "a700b874d3692bc8342199adfb6d3b99f62cc61a"
+            "reference": "069bf3f0e8f871a2169a06e43d9f3f03f355e9be"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/a700b874d3692bc8342199adfb6d3b99f62cc61a",
-            "reference": "a700b874d3692bc8342199adfb6d3b99f62cc61a",
+            "url": "https://api.github.com/repos/symfony/console/zipball/069bf3f0e8f871a2169a06e43d9f3f03f355e9be",
+            "reference": "069bf3f0e8f871a2169a06e43d9f3f03f355e9be",
             "shasum": ""
         },
         "require": {
@@ -1678,6 +1678,9 @@
             "symfony/dependency-injection": "<3.4",
             "symfony/process": "<3.3"
         },
+        "provide": {
+            "psr/log-implementation": "1.0"
+        },
         "require-dev": {
             "psr/log": "~1.0",
             "symfony/config": "~3.3|~4.0",
@@ -1687,12 +1690,12 @@
             "symfony/process": "~3.3|~4.0"
         },
         "suggest": {
-            "psr/log-implementation": "For using the console logger",
+            "psr/log": "For using the console logger",
             "symfony/event-dispatcher": "",
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2019-01-04T04:42:43+00:00",
+        "time": "2019-01-25T10:42:12+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1727,17 +1730,17 @@
     },
     {
         "name": "symfony/debug",
-        "version": "v4.2.2",
-        "version_normalized": "4.2.2.0",
+        "version": "v4.2.3",
+        "version_normalized": "4.2.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/debug.git",
-            "reference": "64cb33c81e37d19b7715d4a6a4d49c1c382066dd"
+            "reference": "cf9b2e33f757deb884ce474e06d2647c1c769b65"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/debug/zipball/64cb33c81e37d19b7715d4a6a4d49c1c382066dd",
-            "reference": "64cb33c81e37d19b7715d4a6a4d49c1c382066dd",
+            "url": "https://api.github.com/repos/symfony/debug/zipball/cf9b2e33f757deb884ce474e06d2647c1c769b65",
+            "reference": "cf9b2e33f757deb884ce474e06d2647c1c769b65",
             "shasum": ""
         },
         "require": {
@@ -1750,7 +1753,7 @@
         "require-dev": {
             "symfony/http-kernel": "~3.4|~4.0"
         },
-        "time": "2019-01-03T09:07:35+00:00",
+        "time": "2019-01-25T14:35:16+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1785,23 +1788,23 @@
     },
     {
         "name": "symfony/finder",
-        "version": "v3.4.21",
-        "version_normalized": "3.4.21.0",
+        "version": "v3.4.22",
+        "version_normalized": "3.4.22.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/finder.git",
-            "reference": "3f2a2ab6315dd7682d4c16dcae1e7b95c8b8555e"
+            "reference": "7c0c627220308928e958a87c293108e5891cde1d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/finder/zipball/3f2a2ab6315dd7682d4c16dcae1e7b95c8b8555e",
-            "reference": "3f2a2ab6315dd7682d4c16dcae1e7b95c8b8555e",
+            "url": "https://api.github.com/repos/symfony/finder/zipball/7c0c627220308928e958a87c293108e5891cde1d",
+            "reference": "7c0c627220308928e958a87c293108e5891cde1d",
             "shasum": ""
         },
         "require": {
             "php": "^5.5.9|>=7.0.8"
         },
-        "time": "2019-01-01T13:45:19+00:00",
+        "time": "2019-01-16T13:43:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

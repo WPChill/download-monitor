@@ -208,6 +208,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
         'IndentTest' => __DIR__ . '/../..' . '/src/Libs/uaparser/lib/spyc-0.5/tests/IndentTest.php',
+        'Never5\\DownloadMonitor\\Ecommerce\\Access\\Manager' => __DIR__ . '/../..' . '/src/Ecommerce/Access/Manager.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Admin\\Fields\\GatewayOverview' => __DIR__ . '/../..' . '/src/Ecommerce/Admin/Fields/GatewayOverview.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Admin\\OrderTable' => __DIR__ . '/../..' . '/src/Ecommerce/Admin/OrderTable.php',
         'Never5\\DownloadMonitor\\Ecommerce\\Admin\\Pages\\Orders' => __DIR__ . '/../..' . '/src/Ecommerce/Admin/Pages/Orders.php',
