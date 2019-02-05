@@ -4,7 +4,7 @@ namespace Never5\DownloadMonitor\Ecommerce\Ajax;
 
 class Manager {
 
-	const ENDPOINT = 'dlm-ajax';
+	const ENDPOINT = 'dlm-shop-ajax';
 
 	/**
 	 * Setup custom AJAX calls & custom AJAX handler
