@@ -5,6 +5,7 @@ jQuery( function ( $ ) {
 		var form = $( this );
 
 		dlmShopResetErrorFields( form );
+		dlmShopRemoveErrors( form );
 
 		dlmShopShowLoading( form );
 
@@ -36,7 +37,10 @@ jQuery( function ( $ ) {
 		}
 
 		if ( success === false ) {
-			dlmShopShowErrorFields( form, errorFields );
+			dlmShopMarkErrorFields( form, errorFields );
+
+			dlmShopDisplayError( form, dlm_strings.error_message_required_fields );
+
 			dlmShopHideLoading( form );
 			return false;
 		}
@@ -52,7 +56,7 @@ jQuery( function ( $ ) {
 		return false;
 	} );
 
-	function dlmShopShowErrorFields( form, fields ) {
+	function dlmShopMarkErrorFields( form, fields ) {
 		for ( var i = 0; i < fields.length; i ++ ) {
 			$( form ).find( '#dlm_' + fields[i] ).addClass( 'dlm-checkout-field-error' );
 		}
@@ -60,6 +64,17 @@ jQuery( function ( $ ) {
 
 	function dlmShopResetErrorFields( form ) {
 		$( form ).find( '.dlm-checkout-field-error' ).removeClass( 'dlm-checkout-field-error' );
+	}
+
+	function dlmShopDisplayError( form, errorMessage ) {
+		var errorContainer = $( '<div>' ).addClass( "dlm-checkout-error" );
+		errorContainer.append( $( '<img>' ).attr( 'src', dlm_strings.icon_error ).attr( 'alt', 'Checkout error' ).addClass( 'dlm-checkout-error-icon' ) );
+		errorContainer.append( $( '<p>' ).html( errorMessage ) );
+		form.prepend( errorContainer );
+	}
+
+	function dlmShopRemoveErrors( form ) {
+		form.find( '.dlm-checkout-error' ).remove();
 	}
 
 	function dlmShopShowLoading( form ) {
