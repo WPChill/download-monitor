@@ -34,9 +34,39 @@ jQuery( function ( $ ) {
 
 	function dlmShopShowLoading( form ) {
 		$( form ).find( '#dlm_checkout_submit' ).attr( 'disabled', true );
+
+		var overlayBg = $( '<div>' ).addClass( 'dlm-checkout-overlay-bg' );
+
+		var overlay = $( '<div>' ).addClass( 'dlm-checkout-overlay' );
+		overlay.append( $( '<h2>' ).html( dlm_strings.overlay_title ) );
+		overlay.append( $( '<span>' ).html( dlm_strings.overlay_body ) );
+		overlay.append( $( '<img>' ).attr( 'src', dlm_strings.overlay_img_src ) );
+
+		$( 'body' ).append( overlayBg );
+		$( 'body' ).append( overlay );
+
+		overlayBg.fadeIn( 300, function () {
+			overlay.css( 'display', 'block' ).css( 'top', '47%' );
+			overlay.animate( {
+				"top": "+=3%"
+			}, 300 );
+		} );
 	}
 
 	function dlmShopHideLoading( form ) {
-		$( form ).find( '#dlm_checkout_submit' ).attr( 'disabled', false );
+
+		var overlay = $( '.dlm-checkout-overlay:first' );
+		var overlayBg = $( '.dlm-checkout-overlay-bg:first' );
+
+		overlay.fadeOut( 300, function () {
+			overlay.remove();
+		} );
+
+		overlayBg.fadeOut( 300, function () {
+			overlayBg.remove();
+			$( form ).find( '#dlm_checkout_submit' ).attr( 'disabled', false );
+		} );
 	}
 } );
+
+

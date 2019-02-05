@@ -36,7 +36,10 @@ class Assets {
 
 			// Make JavaScript strings translatable
 			wp_localize_script( 'dlm-frontend-checkout-js', 'dlm_strings', array(
-				'ajax_url_place_order' => Ajax\Manager::get_ajax_url( 'place_order' )
+				'ajax_url_place_order' => Ajax\Manager::get_ajax_url( 'place_order' ),
+				'overlay_title'        => __( 'Placing your order', 'download-monitor' ),
+				'overlay_body'         => __( 'Please wait while we process your order', 'download-monitor' ),
+				'overlay_img_src'      => plugins_url( '/assets/images/shop/loading.gif', download_monitor()->get_plugin_file() )
 			) );
 		}
 
