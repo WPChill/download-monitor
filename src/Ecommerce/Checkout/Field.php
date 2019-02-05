@@ -14,7 +14,7 @@ class Field {
 	public function __construct() {
 
 		$this->fields = array(
-			array(
+			'first_name' => array(
 				'name'        => 'first_name',
 				'type'        => 'text',
 				'class'       => array(),
@@ -24,7 +24,7 @@ class Field {
 				'required'    => true,
 				'row-type'    => 'half'
 			),
-			array(
+			'last_name'  => array(
 				'name'        => 'last_name',
 				'type'        => 'text',
 				'class'       => array(),
@@ -33,7 +33,7 @@ class Field {
 				'placeholder' => "",
 				'required'    => true,
 			),
-			array(
+			'company'    => array(
 				'name'        => 'company',
 				'type'        => 'text',
 				'class'       => array(),
@@ -42,7 +42,7 @@ class Field {
 				'placeholder' => "",
 				'required'    => false,
 			),
-			array(
+			'email'      => array(
 				'name'        => 'email',
 				'type'        => 'text',
 				'class'       => array(),
@@ -51,7 +51,7 @@ class Field {
 				'placeholder' => "",
 				'required'    => true,
 			),
-			array(
+			'address_1'  => array(
 				'name'        => 'address_1',
 				'type'        => 'text',
 				'class'       => array(),
@@ -60,7 +60,7 @@ class Field {
 				'placeholder' => "",
 				'required'    => true,
 			),
-			array(
+			'postcode'   => array(
 				'name'        => 'postcode',
 				'type'        => 'text',
 				'class'       => array(),
@@ -69,7 +69,7 @@ class Field {
 				'placeholder' => "",
 				'required'    => true,
 			),
-			array(
+			'city'       => array(
 				'name'        => 'city',
 				'type'        => 'text',
 				'class'       => array(),
@@ -78,7 +78,7 @@ class Field {
 				'placeholder' => "",
 				'required'    => true,
 			),
-			array(
+			'country'    => array(
 				'name'        => 'country',
 				'type'        => 'select',
 				'options'     => Services::get()->service( 'country' )->get_countries(),
@@ -87,7 +87,7 @@ class Field {
 				'label'       => __( 'Country', 'download-monitor' ),
 				'placeholder' => download_monitor()->service( 'settings' )->get_option( 'base_country' ),
 				'required'    => true,
-			),
+			)
 		);
 
 	}
@@ -127,7 +127,7 @@ class Field {
 	 * @return array
 	 */
 	public function get_fields() {
-		return $this->fields;
+		return apply_filters( 'dlm_ecommerce_checkout_fields', $this->fields );
 	}
 
 	/**
