@@ -1,6 +1,10 @@
 jQuery( function ( $ ) {
+
 	$( '#dlm-form-checkout' ).submit( function ( e ) {
 
+		var form = $( this );
+
+		dlmShopShowLoading( form );
 
 		var customer = {
 			first_name: $( this ).find( '#dlm_first_name' ).val(),
@@ -17,15 +21,22 @@ jQuery( function ( $ ) {
 			payment_gateway: $( 'input[name=dlm_gateway]:checked', $( this ) ).val(),
 			customer: customer
 		};
-
-		//console.log(data);
-
 		$.post( dlm_strings.ajax_url_place_order, data, function ( response ) {
-			if ( response.success === true && typeof response.redirect != 'undefined' ) {
-				window.location.replace(response.redirect);
+			if ( response.success === true && typeof response.redirect !== 'undefined' ) {
+				window.location.replace( response.redirect );
+				return false;
 			}
+			dlmShopHideLoading( form );
 		} );
 
 		return false;
 	} );
+
+	function dlmShopShowLoading( form ) {
+		$( form ).find( '#dlm_checkout_submit' ).attr( 'disabled', true );
+	}
+
+	function dlmShopHideLoading( form ) {
+		$( form ).find( '#dlm_checkout_submit' ).attr( 'disabled', false );
+	}
 } );
