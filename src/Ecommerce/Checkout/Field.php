@@ -102,7 +102,7 @@ class Field {
 	private function do_field( $options ) {
 		switch ( $options['type'] ) {
 			case 'select':
-				$return = sprintf( '<select name="dlm_%s" id="dlm_%s">', esc_attr( $options['name'] ), esc_attr( $options['name'] ) );
+				$return = sprintf( '<select name="dlm_%s" id="dlm_%s" class="dlm-checkout-field">', esc_attr( $options['name'] ), esc_attr( $options['name'] ) );
 				if ( ! empty( $options['options'] ) ) {
 					foreach ( $options['options'] as $k => $v ) {
 						$return .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $k ), selected( $options['placeholder'], $k, false ), esc_html( $v ) );
@@ -114,7 +114,7 @@ class Field {
 				break;
 			case 'text':
 			default:
-				return sprintf( '<input type="text" id="dlm_%s" name="dlm_%s" value="" placeholder="%s" />', esc_attr( $options['name'] ), esc_attr( $options['name'] ), esc_attr( $options['placeholder'] ) );
+				return sprintf( '<input type="text" class="dlm-checkout-field" id="dlm_%s" name="dlm_%s" value="" placeholder="%s" />', esc_attr( $options['name'] ), esc_attr( $options['name'] ), esc_attr( $options['placeholder'] ) );
 				break;
 		}
 
@@ -129,6 +129,24 @@ class Field {
 	public function get_fields() {
 		return apply_filters( 'dlm_ecommerce_checkout_fields', $this->fields );
 	}
+
+	/**
+	 * @return array
+	 */
+	public function get_required_fields() {
+		$required_fields = array();
+		$fields          = $this->get_fields();
+		if ( ! empty( $fields ) ) {
+			foreach ( $fields as $field ) {
+				if ( ! empty( $field['required'] ) && true === $field['required'] ) {
+					$required_fields[] = $field['name'];
+				}
+			}
+		}
+
+		return $required_fields;
+	}
+
 
 	/**
 	 * Generate field based on given options

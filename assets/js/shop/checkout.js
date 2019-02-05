@@ -4,6 +4,8 @@ jQuery( function ( $ ) {
 
 		var form = $( this );
 
+		dlmShopResetErrorFields( form );
+
 		dlmShopShowLoading( form );
 
 		var customer = {
@@ -21,6 +23,24 @@ jQuery( function ( $ ) {
 			payment_gateway: $( 'input[name=dlm_gateway]:checked', $( this ) ).val(),
 			customer: customer
 		};
+
+		// check if required data is set
+		var errorFields = [];
+		var success = true;
+		for ( var i = 0; i < dlm_strings.required_fields.length; i ++ ) {
+
+			if ( customer[dlm_strings.required_fields[i]] === "" ) {
+				success = false;
+				errorFields.push( dlm_strings.required_fields[i] );
+			}
+		}
+
+		if ( success === false ) {
+			dlmShopShowErrorFields( form, errorFields );
+			dlmShopHideLoading( form );
+			return false;
+		}
+
 		$.post( dlm_strings.ajax_url_place_order, data, function ( response ) {
 			if ( response.success === true && typeof response.redirect !== 'undefined' ) {
 				window.location.replace( response.redirect );
@@ -31,6 +51,16 @@ jQuery( function ( $ ) {
 
 		return false;
 	} );
+
+	function dlmShopShowErrorFields( form, fields ) {
+		for ( var i = 0; i < fields.length; i ++ ) {
+			$( form ).find( '#dlm_' + fields[i] ).addClass( 'dlm-checkout-field-error' );
+		}
+	}
+
+	function dlmShopResetErrorFields( form ) {
+		$( form ).find( '.dlm-checkout-field-error' ).removeClass( 'dlm-checkout-field-error' );
+	}
 
 	function dlmShopShowLoading( form ) {
 		$( form ).find( '#dlm_checkout_submit' ).attr( 'disabled', true );
