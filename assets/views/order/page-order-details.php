@@ -147,7 +147,6 @@ $items = $order->get_items();
 								endforeach;
 							endif;
 							?>
-                            <option value="">Test</option>
                         </select>
                         <button class="button button-primary button-large" id="dlm-order-details-button-change-state"><?php _e( "Change", 'download-montior' ); ?></button>
                     </li>
