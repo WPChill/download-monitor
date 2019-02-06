@@ -42,50 +42,54 @@ if ( ! defined( 'ABSPATH' ) ) {
 		 * Downloadable files table
 		 */
 
-		?>
-        <div class="dlm-checkout-complete-files">
-            <h2>Your Files</h2>
-			<?php
-			$order_items = $order->get_items();
+		if ( $order->get_status()->get_key() === 'completed' ) :
 
-			if ( count( $order_items ) > 0 ) : ?>
+			?>
+            <div class="dlm-checkout-complete-files">
+                <h2>Your Files</h2>
+				<?php
+				$order_items = $order->get_items();
 
-                <table cellpadding="0" cellspacing="0" border="0">
-                    <thead>
-                    <tr>
-                        <th><?php _e( "Download name", 'download-monitor' ); ?></th>
-                        <th><?php _e( "Download version", 'download-monitor' ); ?></th>
-                        <th>&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-					<?php foreach ( $order_items as $order_item ) : ?>
-						<?php
-						$download             = null;
-						$version_label        = "-";
-						$download_button_html = __( 'Download is no longer available', 'download-monitor' );
-						try {
-							/** @var \Never5\DownloadMonitor\Ecommerce\DownloadProduct\DownloadProduct $download */
-							$download             = download_monitor()->service( 'download_repository' )->retrieve_single( $order_item->get_download_id() );
+				if ( count( $order_items ) > 0 ) : ?>
 
-							$version_label        = $download->get_version()->get_version();
-							$download_button_html = "<a href='" . $download->get_secure_download_link( $order ) . "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
-						} catch ( \Exception $e ) {
-						}
-						?>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <thead>
                         <tr>
-                            <td><?php echo $order_item->get_label(); ?></td>
-                            <td><?php echo $version_label; ?></td>
-                            <td><?php echo $download_button_html; ?></td>
+                            <th><?php _e( "Download name", 'download-monitor' ); ?></th>
+                            <th><?php _e( "Download version", 'download-monitor' ); ?></th>
+                            <th>&nbsp;</th>
                         </tr>
-					<?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+						<?php foreach ( $order_items as $order_item ) : ?>
+							<?php
+							$download             = null;
+							$version_label        = "-";
+							$download_button_html = __( 'Download is no longer available', 'download-monitor' );
+							try {
+								/** @var \Never5\DownloadMonitor\Ecommerce\DownloadProduct\DownloadProduct $download */
+								$download = download_monitor()->service( 'download_repository' )->retrieve_single( $order_item->get_download_id() );
 
-			<?php else: ?>
-                <p>No items found.</p>
-			<?php endif; ?>
-        </div>
+								$version_label        = $download->get_version()->get_version();
+								$download_button_html = "<a href='" . $download->get_secure_download_link( $order ) . "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
+							} catch ( \Exception $e ) {
+							}
+							?>
+                            <tr>
+                                <td><?php echo $order_item->get_label(); ?></td>
+                                <td><?php echo $version_label; ?></td>
+                                <td><?php echo $download_button_html; ?></td>
+                            </tr>
+						<?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+				<?php else: ?>
+                    <p>No items found.</p>
+				<?php endif; ?>
+            </div>
+
+		<?php endif; ?>
 
 	<?php endif; ?>
 </div>
