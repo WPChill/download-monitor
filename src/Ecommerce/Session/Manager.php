@@ -94,4 +94,36 @@ class Manager {
 		) ) ), $session->get_expiry()->getTimestamp(), COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, false, true );
 	}
 
+	/**
+	 * Destroys given session and reference cookie
+	 *
+	 * @param Session $session
+	 */
+	public function destroy_session( $session ) {
+
+		// can't set cookies when headers are already sent
+		if ( headers_sent( $file, $line ) ) {
+			\DLM_Debug_Logger::log( sprintf( "Couldn't destroy DLM Session cookie. Headers already set at %s:%s", $file, $line ) );
+
+			return;
+		}
+
+		// remove from DB
+		Services::get()->service( 'session_repository' )->remove( $session->get_key(), $session->get_hash() );
+
+		// remove cookie by clearing it and setting it to a negative expire date
+		setcookie( self::COOKIE_NAME, "", 1, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, false, true );
+	}
+
+	/**
+	 * Destroys current session (based on reference cookie)
+	 */
+	public function destroy_current_session() {
+		// destroy current session
+		$this->destroy_session( $this->get_session() );
+
+		// reset internal session cache
+		$this->set_session( null );
+	}
+
 }

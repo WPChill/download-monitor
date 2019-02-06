@@ -132,7 +132,10 @@ class PlaceOrder extends Ajax {
 			$this->response( false, '', sprintf( __( 'Payment gateway error: %s', 'download-monitor' ), $gateway_result->get_error_message() ) );
 		}
 
-		//
+		// order is in DB, gateway did what it had to do -> clear the cart
+		Services::get()->service('cart')->destroy_cart();
+
+		// we good, send response with redirect
 		$this->response( true, $gateway_result->get_redirect(), '' );
 
 		// bye

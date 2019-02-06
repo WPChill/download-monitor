@@ -126,6 +126,14 @@ class Manager {
 	}
 
 	/**
+	 * Destroys the full cart.
+	 * Session in DB as well as cookie reference will be removed.
+	 */
+	public function destroy_cart() {
+		Services::get()->service( 'session' )->destroy_current_session();
+	}
+
+	/**
 	 * Save cart.
 	 * This will turn a cart object to a session, store session in DB and set cookie with reference to DB session.
 	 *

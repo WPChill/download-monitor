@@ -26,4 +26,14 @@ interface Repository {
 	 */
 	public function persist( $session );
 
+	/**
+	 * Removes session
+	 *
+	 * @param string $key
+	 * @param string $hash
+	 *
+	 * @return bool
+	 */
+	public function remove( $key, $hash );
+
 }

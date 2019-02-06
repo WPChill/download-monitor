@@ -4,7 +4,7 @@ namespace Never5\DownloadMonitor\Ecommerce\Cart;
 
 class Cart {
 
-	/** @var Item[] */
+	/** @var Item\Item[] */
 	private $items;
 
 	/** @var Coupon[] */
@@ -20,21 +20,21 @@ class Cart {
 	private $tax_total;
 
 	/**
-	 * @return Item[]
+	 * @return Item\Item[]
 	 */
 	public function get_items() {
 		return $this->items;
 	}
 
 	/**
-	 * @param Item[] $items
+	 * @param Item\Item[] $items
 	 */
 	public function set_items( $items ) {
 		$this->items = $items;
 	}
 
 	/**
-	 * @param Item $item
+	 * @param Item\Item $item
 	 */
 	public function add_item( $item ) {
 		if ( ! is_array( $this->items ) ) {

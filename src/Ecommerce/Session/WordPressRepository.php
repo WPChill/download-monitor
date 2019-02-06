@@ -77,10 +77,7 @@ class WordPressRepository implements Repository {
 		) );
 
 		// delete previous session in database
-		$wpdb->delete( $wpdb->prefix . 'dlm_session', array(
-			'key'  => $session->get_key(),
-			'hash' => $session->get_hash()
-		), array( '%s', '%s' ) );
+		$this->remove( $session->get_key(), $session->get_hash() );
 
 		// insert new session
 		$wpdb->insert(
@@ -99,6 +96,25 @@ class WordPressRepository implements Repository {
 			)
 		);
 
+	}
+
+	/**
+	 * Removes session
+	 *
+	 * @param string $key
+	 * @param string $hash
+	 *
+	 * @return bool
+	 */
+	public function remove( $key, $hash ) {
+		global $wpdb;
+
+		$wpdb->delete( $wpdb->prefix . 'dlm_session', array(
+			'key'  => $key,
+			'hash' => $hash
+		), array( '%s', '%s' ) );
+
+		return true;
 	}
 
 }
