@@ -20,7 +20,8 @@ class DLM_Settings_Helper {
 			'currency'           => 'USD',
 			'currency_pos'       => 'left',
 			'decimal_separator'  => '.',
-			'thousand_separator' => ','
+			'thousand_separator' => ',',
+			'default_gateway'    => 'paypal'
 		) );
 	}
 
