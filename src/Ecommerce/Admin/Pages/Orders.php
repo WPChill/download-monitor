@@ -40,7 +40,7 @@ class Orders {
 					'street'   => $order->get_customer()->get_address_1(),
 					'city'     => $order->get_customer()->get_city(),
 					'postcode' => $order->get_customer()->get_postcode(),
-					'country'  => $order->get_customer()->get_country(),
+					'country'  => Services::get()->service( 'country' )->get_country_label_by_code( $order->get_customer()->get_country() ),
 					'email'    => $order->get_customer()->get_email()
 				);
 

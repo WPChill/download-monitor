@@ -257,4 +257,22 @@ class Country {
 			'ZW' => __( 'Zimbabwe', 'download-monitor' ),
 		) );
 	}
+
+	/**
+	 * Get country label by country code
+	 *
+	 * @param string $code
+	 *
+	 * @return string
+	 */
+	public function get_country_label_by_code( $code ) {
+		$countries = $this->get_countries();
+		$return    = "";
+
+		if ( isset( $countries[ $code ] ) ) {
+			$return = $countries[ $code ];
+		}
+
+		return $return;
+	}
 }
