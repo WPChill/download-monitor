@@ -53,6 +53,7 @@ class PlaceOrder extends Ajax {
 	 */
 	private function response( $success, $redirect, $error ) {
 		wp_send_json( array( 'success' => $success, 'redirect' => $redirect, 'error' => $error ) );
+		exit;
 	}
 
 	/**
@@ -79,15 +80,17 @@ class PlaceOrder extends Ajax {
 		/**
 		 * Check if all required fields are set
 		 */
+		$required_fields = Services::get()->service( 'checkout_field' )->get_required_fields();
+		foreach ( $required_fields as $required_field ) {
+			if ( ! isset( $customer_post[ $required_field ] ) || $customer_post[ $required_field ] === "" ) {
+				$this->failed( __( 'Not all required fields are set', 'download-monitor' ) );
+			}
+		}
 
 		// check if gateway is valid
 		if ( is_null( $gateway ) ) {
 			$this->failed( __( 'Invalid Payment Gateway', 'download-monitor' ) );
 		}
-
-		/**
-		 * @todo check fields
-		 */
 
 		// create order
 		/** @var Order\Order $order */
