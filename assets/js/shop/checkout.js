@@ -49,6 +49,8 @@ jQuery( function ( $ ) {
 			if ( response.success === true && typeof response.redirect !== 'undefined' ) {
 				window.location.replace( response.redirect );
 				return false;
+			}else if( response.success === false && response.error !== '' ) {
+				dlmShopDisplayError( form, response.error );
 			}
 			dlmShopHideLoading( form );
 		} );

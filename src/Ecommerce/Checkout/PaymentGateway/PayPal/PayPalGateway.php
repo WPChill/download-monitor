@@ -189,7 +189,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		try {
 			$payment->create( $this->get_api_context() );
 		} catch ( \Exception $ex ) {
-			return new PaymentGateway\Result( false, '', 'PayPal error: could not create payment. Please check your PayPal logs.' );
+			return new PaymentGateway\Result( false, '', 'Could not create payment. Please check your PayPal logs.' );
 		}
 
 		// create local transaction
