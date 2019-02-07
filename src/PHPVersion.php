@@ -8,7 +8,7 @@ class DLM_PHPVersion {
 	 *
 	 * @return bool
 	 */
-	public static function is_ecommerce_ready() {
+	public static function is_shop_ready() {
 		if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 			return true;
 		}

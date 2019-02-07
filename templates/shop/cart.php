@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			if ( ! empty( $items ) ) {
 				/** @var \Never5\DownloadMonitor\Ecommerce\Cart\Item $item */
 				foreach ( $items as $item ) {
-					download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart/item', '', '', array(
+					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/cart/item', '', '', array(
 						'item'     => $item,
 						'url_cart' => $url_cart
 					) );
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="dlm-cart-totals">
                 <h2><?php _e( 'Cart Totals', 'download-monitor' ); ?></h2>
 				<?php
-				download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart/totals', '', '', array(
+				download_monitor()->service( 'template_handler' )->get_template_part( 'shop/cart/totals', '', '', array(
 					'cart' => $cart
 				) );
 				?>

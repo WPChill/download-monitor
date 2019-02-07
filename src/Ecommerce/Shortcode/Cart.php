@@ -24,13 +24,13 @@ class Cart {
 		$cart = Services::get()->service( 'cart' )->get_cart();
 
 		if ( ! $cart->is_empty() ) {
-			download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart', '', '', array(
+			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/cart', '', '', array(
 				'cart'         => $cart,
 				'url_cart'     => Services::get()->service( 'page' )->get_cart_url(),
 				'url_checkout' => Services::get()->service( 'page' )->get_checkout_url()
 			) );
 		} else {
-			download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/cart/empty', '', '', array() );
+			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/cart/empty', '', '', array() );
 		}
 
 	}

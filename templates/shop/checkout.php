@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="dlm-checkout-order-review">
             <h2><?php _e( 'Your order', 'download-monitor' ); ?></h2>
 			<?php
-			download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/checkout/order-review', '', '', array(
+			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/order-review', '', '', array(
 				'cart'         => $cart,
 				'url_checkout' => $url_checkout
 			) );
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <div class="dlm-checkout-payment">
 				<?php
-				download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/checkout/payment', '', '', array(
+				download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/payment', '', '', array(
 					'cart'         => $cart,
 					'url_checkout' => $url_checkout
 				) );
@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <div class="dlm-checkout-submit">
 				<?php
-				download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/checkout/submit-button', '', '', array(
+				download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/submit-button', '', '', array(
 					'cart'         => $cart,
 					'url_checkout' => $url_checkout
 				) );

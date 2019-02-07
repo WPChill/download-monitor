@@ -14,7 +14,7 @@ if ( ! empty( $payment_gateways ) ) {
     <ul>
 		<?php
 		foreach ( $payment_gateways as $gateway ) {
-			download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/checkout/payment-gateway', '', '', array(
+			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/payment-gateway', '', '', array(
 				'cart'            => $cart,
 				'gateway'         => $gateway,
 				'default_gateway' => $default_gateway

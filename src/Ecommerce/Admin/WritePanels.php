@@ -15,7 +15,7 @@ class WritePanels {
 	 * Add the meta boxes
 	 */
 	public function add_meta_box() {
-		add_meta_box( 'download-monitor-ecommerce', __( 'E-Commerce', 'download-monitor' ), array(
+		add_meta_box( 'download-monitor-ecommerce', __( 'Shop', 'download-monitor' ), array(
 			$this,
 			'display_ecommerce'
 		), 'dlm_download', 'side', 'high' );
@@ -45,7 +45,7 @@ class WritePanels {
 			$tax_class = $download->get_tax_class();
 		}
 
-		download_monitor()->service( 'view_manager' )->display( 'meta-box/e-commerce', array(
+		download_monitor()->service( 'view_manager' )->display( 'meta-box/shop', array(
 				'download'  => $download,
 				'price'     => $price,
 				'taxable'   => $taxable,

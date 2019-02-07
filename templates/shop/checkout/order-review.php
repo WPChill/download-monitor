@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	if ( ! empty( $items ) ) {
 		/** @var \Never5\DownloadMonitor\Ecommerce\Cart\Item $item */
 		foreach ( $items as $item ) {
-			download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/checkout/order-review-item', '', '', array(
+			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/order-review-item', '', '', array(
 				'item' => $item
 			) );
 		}

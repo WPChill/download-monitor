@@ -50,7 +50,7 @@ class Checkout {
 				}
 
 				// load the template
-				download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/checkout/order-complete', '', '', array(
+				download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/order-complete', '', '', array(
 					'order_id' => $order_id,
 					'order'    => $order
 				) );
@@ -58,13 +58,13 @@ class Checkout {
 				break;
 			case "":
 				if ( ! $cart->is_empty() ) {
-					download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/checkout', '', '', array(
+					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout', '', '', array(
 						'cart'         => $cart,
 						'url_cart'     => Services::get()->service( 'page' )->get_cart_url(),
 						'url_checkout' => Services::get()->service( 'page' )->get_checkout_url()
 					) );
 				} else {
-					download_monitor()->service( 'template_handler' )->get_template_part( 'e-commerce/checkout/empty', '', '', array() );
+					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/empty', '', '', array() );
 				}
 
 				break;
