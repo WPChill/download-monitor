@@ -18,14 +18,17 @@ if ( ! defined( 'ABSPATH' ) ) {
             padding: 25px;
         }
 
-        .dlm-downloads-table {
+        .dlm-order-table {
             width: 100%;
         }
 
-        .dlm-downloads-table th, .dlm-downloads-table td {
+        .dlm-order-table th, .dlm-order-table td {
             padding: 1em 0;
             border-bottom: 1px solid #c3c1bc;
             text-align: left;
+        }
+        .dlm-order-table th {
+            width: 40%;
         }
     </style>
 </head>

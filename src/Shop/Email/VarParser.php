@@ -80,12 +80,39 @@ class VarParser {
 	 * @return array
 	 */
 	private function build_simplified_order_data_array( $order ) {
+
+		$processor    = "";
+		$transactions = $order->get_transactions();
+		if ( count( $transactions ) > 0 ) {
+			/** @var \Never5\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $transaction */
+			foreach ( $transactions as $transaction ) {
+				if ( 'success' === $transaction->get_status()->get_key() ) {
+					$processor = $transaction->get_processor_nice_name();
+				}
+			}
+		}
+
 		$data = array(
 			array(
 				'key'   => __( 'Order ID' ),
 				'value' => $order->get_id()
+			),
+			array(
+				'key'   => __( 'Order Date' ),
+				'value' => date_i18n( get_option( 'date_format' ), $order->get_date_created()->getTimestamp() )
+			),
+			array(
+				'key'   => __( 'Order Total' ),
+				'value' => dlm_format_money( $order->get_total() )
 			)
 		);
+
+		if ( ! empty( $processor ) ) {
+			$data[] = array(
+				'key'   => __( 'Payment Gateway' ),
+				'value' => $processor
+			);
+		}
 
 		return $data;
 	}
