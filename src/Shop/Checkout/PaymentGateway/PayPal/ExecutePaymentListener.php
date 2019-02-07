@@ -106,9 +106,8 @@ class ExecutePaymentListener {
 
 			}
 
-			$order->set_status( Services::get()->service( 'order_status_factory' )->make( 'completed' ) );
-
-			$order_repo->persist( $order );
+			// set order as completed, this also persists the orer
+			$order->set_completed();
 
 			/**
 			 * Redirect user to "clean" complete URL

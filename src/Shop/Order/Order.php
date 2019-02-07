@@ -2,7 +2,7 @@
 
 namespace Never5\DownloadMonitor\Shop\Order;
 
-use PHPUnit\Runner\Exception;
+use \Never5\DownloadMonitor\Shop\Services\Services;
 
 class Order {
 
@@ -93,11 +93,12 @@ class Order {
 	}
 
 	public function set_date_modified_now() {
-		try{
-			$this->date_modified = new \DateTimeImmutable(current_time( 'mysql' ));
-		}catch(\Exception $exception) {
+		try {
+			$this->date_modified = new \DateTimeImmutable( current_time( 'mysql' ) );
+		} catch ( \Exception $exception ) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -197,6 +198,25 @@ class Order {
 		$this->set_transactions( $transactions );
 	}
 
+	/**
+	 * This marks the order as completed, should be called only once preferably by the payment gateway.
+	 */
+	public function set_completed() {
+
+		// set new status
+		$this->set_status( Services::get()->service( 'order_status_factory' )->make( 'completed' ) );
+
+		// set date modified
+		$this->set_date_modified_now();
+
+		// persist order in database
+		Services::get()->service( 'order_repository' )->persist( $this );
+
+		// send emails
+		$email = Services::get()->service( 'email' );
+		$email->send_new_order( $this );
+		$email->send_new_order_admin( $this );
+	}
 
 	/**
 	 * Returns order total in cents

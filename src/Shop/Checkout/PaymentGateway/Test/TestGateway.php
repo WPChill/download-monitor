@@ -36,11 +36,6 @@ class TestGateway extends PaymentGateway\PaymentGateway {
 			/** @var \Never5\DownloadMonitor\Shop\Order\Repository $order_repo */
 			$order_repo = Services::get()->service( 'order_repository' );
 
-
-			// set status to completed
-			$order->set_status( Services::get()->service( 'order_status_factory' )->make( 'completed' ) );
-
-
 			// add a test transaction as well
 			/** @var \Never5\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
 			$dlm_transaction = Services::get()->service( 'order_transaction_factory' )->make();
@@ -54,7 +49,8 @@ class TestGateway extends PaymentGateway\PaymentGateway {
 			// add transaction to order
 			$order->add_transaction( $dlm_transaction );
 
-			$order_repo->persist( $order );
+			// mark order as completed
+			$order->set_completed();
 
 			return new PaymentGateway\Result( true, $this->get_success_url( $order->get_id(), $order->get_hash() ) );
 
