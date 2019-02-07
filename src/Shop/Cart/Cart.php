@@ -23,6 +23,10 @@ class Cart {
 	 * @return Item\Item[]
 	 */
 	public function get_items() {
+		if ( ! is_array( $this->items ) ) {
+			$this->items = array();
+		}
+
 		return $this->items;
 	}
 
@@ -37,10 +41,28 @@ class Cart {
 	 * @param Item\Item $item
 	 */
 	public function add_item( $item ) {
-		if ( ! is_array( $this->items ) ) {
-			$this->items = array();
+		$items   = $this->get_items();
+		$items[] = $item;
+		$this->set_items( $items );
+	}
+
+	/**
+	 * @param Item\Item $item
+	 *
+	 * @return bool
+	 */
+	public function has_item( $item ) {
+		$items = $this->get_items();
+		if ( count( $items ) > 0 ) {
+			/** @var Item\Item $item */
+			foreach ( $items as $i ) {
+				if ( $i->get_download_id() === $item->get_download_id() ) {
+					return true;
+				}
+			}
 		}
-		$this->items[] = $item;
+
+		return false;
 	}
 
 	/**

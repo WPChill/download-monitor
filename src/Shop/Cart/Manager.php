@@ -168,7 +168,9 @@ class Manager {
 
 			// add item to cart
 			$cart = $this->get_cart();
-			$cart->add_item( $item );
+			if ( ! $cart->has_item( $item ) ) {
+				$cart->add_item( $item );
+			}
 
 			// save cart
 			$this->save_cart( $cart );
