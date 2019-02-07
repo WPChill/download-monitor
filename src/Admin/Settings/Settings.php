@@ -1,6 +1,6 @@
 <?php
 
-use Never5\DownloadMonitor\Ecommerce\Services\Services;
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 class DLM_Admin_Settings {
 
@@ -451,7 +451,7 @@ class DLM_Admin_Settings {
 	 */
 	private function get_currency_list_with_symbols() {
 
-		/** @var \Never5\DownloadMonitor\Ecommerce\Helper\Currency $currency_helper */
+		/** @var \Never5\DownloadMonitor\Shop\Helper\Currency $currency_helper */
 		$currency_helper = Services::get()->service( "currency" );
 
 		$currencies = $currency_helper->get_available_currencies();
@@ -506,7 +506,7 @@ class DLM_Admin_Settings {
 
 		/** Generate sections for all gateways */
 		if ( ! empty( $gateways ) ) {
-			/** @var \Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway\PaymentGateway $gateway */
+			/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
 
 				// all gateways have an 'enabled' option by default

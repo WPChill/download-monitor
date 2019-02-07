@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65fad892f65185c9b4d6637e90448b03",
+    "content-hash": "0430b9669d8fc1bc67f507fa1f0039e3",
     "packages": [
         {
             "name": "paypal/rest-api-sdk-php",
@@ -106,16 +106,16 @@
     "packages-dev": [
         {
             "name": "coenjacobs/mozart",
-            "version": "0.2.2",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coenjacobs/mozart.git",
-                "reference": "f9218cc4643ba15d775bb8018a2c1b716a2951a6"
+                "reference": "a9b17004e9139204276ff327ca6b6c8a9c7cf0ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/f9218cc4643ba15d775bb8018a2c1b716a2951a6",
-                "reference": "f9218cc4643ba15d775bb8018a2c1b716a2951a6",
+                "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/a9b17004e9139204276ff327ca6b6c8a9c7cf0ee",
+                "reference": "a9b17004e9139204276ff327ca6b6c8a9c7cf0ee",
                 "shasum": ""
             },
             "require": {
@@ -147,7 +147,8 @@
                     "email": "coenjacobs@gmail.com"
                 }
             ],
-            "time": "2018-06-25T14:11:53+00:00"
+            "description": "Composes all dependencies as a package inside a WordPress plugin",
+            "time": "2019-02-06T16:49:20+00:00"
         },
         {
             "name": "doctrine/instantiator",

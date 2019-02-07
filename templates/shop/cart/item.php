@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var Never5\DownloadMonitor\Ecommerce\Cart\Item\Item $item */
+/** @var Never5\DownloadMonitor\Shop\Cart\Item\Item $item */
 ?>
 <tr>
     <td><a href="<?php echo add_query_arg( array( 'dlm-remove-from-cart' => $item->get_download_id() ), $url_cart ); ?>"

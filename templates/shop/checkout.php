@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /**
- * @var Never5\DownloadMonitor\Ecommerce\Cart\Cart $cart
+ * @var Never5\DownloadMonitor\Shop\Cart\Cart $cart
  * @var string $url_cart
  * @var string $url_checkout
  */

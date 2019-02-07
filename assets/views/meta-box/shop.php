@@ -9,7 +9,7 @@
     </p>
 
     <p>
-        <label><?php printf( __( 'Price (%s)', 'download-monitor' ), \Never5\DownloadMonitor\Ecommerce\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
+        <label><?php printf( __( 'Price (%s)', 'download-monitor' ), \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
         <input type="text" name="_dlm_price" value="<?php echo $price; ?>">
     </p>
 
@@ -22,7 +22,7 @@
         <label><?php _e( 'Tax Class', 'download-monitor' ); ?></label>
         <select name="_dlm_tax_class">
 			<?php
-			$classes = \Never5\DownloadMonitor\Ecommerce\Services\Services::get()->service( 'tax_class_manager' )->get_tax_rates();
+			$classes = \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'tax_class_manager' )->get_tax_rates();
 			if ( count( $classes ) > 0 ) {
 				foreach ( $classes as $class ) {
 					echo "<option value='" . $class . "'" . selected( $tax_class, $class ) . ">" . $class . " " . __( 'rate', 'download-monitor' ) . "</option>";

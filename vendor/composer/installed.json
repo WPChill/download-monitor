@@ -1,17 +1,17 @@
 [
     {
         "name": "coenjacobs/mozart",
-        "version": "0.2.2",
-        "version_normalized": "0.2.2.0",
+        "version": "0.3.0",
+        "version_normalized": "0.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/coenjacobs/mozart.git",
-            "reference": "f9218cc4643ba15d775bb8018a2c1b716a2951a6"
+            "reference": "a9b17004e9139204276ff327ca6b6c8a9c7cf0ee"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/f9218cc4643ba15d775bb8018a2c1b716a2951a6",
-            "reference": "f9218cc4643ba15d775bb8018a2c1b716a2951a6",
+            "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/a9b17004e9139204276ff327ca6b6c8a9c7cf0ee",
+            "reference": "a9b17004e9139204276ff327ca6b6c8a9c7cf0ee",
             "shasum": ""
         },
         "require": {
@@ -24,7 +24,7 @@
             "coenjacobs/php-composter-phpcs": "^0.1.0",
             "phpunit/phpunit": "^4.0"
         },
-        "time": "2018-06-25T14:11:53+00:00",
+        "time": "2019-02-06T16:49:20+00:00",
         "bin": [
             "bin/mozart"
         ],
@@ -44,7 +44,8 @@
                 "name": "Coen Jacobs",
                 "email": "coenjacobs@gmail.com"
             }
-        ]
+        ],
+        "description": "Composes all dependencies as a package inside a WordPress plugin"
     },
     {
         "name": "doctrine/instantiator",

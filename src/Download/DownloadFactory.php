@@ -5,7 +5,7 @@ class DLM_Download_Factory {
 	/**
 	 * @param string $type
 	 *
-	 * @return DLM_Download | \Never5\DownloadMonitor\Ecommerce\DownloadProduct\DownloadProduct
+	 * @return DLM_Download | \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct
 	 */
 	public function make( $type = 'regular' ) {
 
@@ -13,7 +13,7 @@ class DLM_Download_Factory {
 
 		// check if this is a download product (a download that can be sold), if so create a DownloadProduct instance
 		if ( download_monitor()->is_shop_enabled() && 'product' === $type ) {
-			$class_name = '\Never5\DownloadMonitor\Ecommerce\DownloadProduct\DownloadProduct';
+			$class_name = '\Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct';
 		}
 
 		// make it filterable

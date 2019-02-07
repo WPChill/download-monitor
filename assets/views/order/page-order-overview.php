@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="wrap dlm-order-overview">
 
 	<?php
-	$table = new \Never5\DownloadMonitor\Ecommerce\Admin\OrderTable();
+	$table = new \Never5\DownloadMonitor\Shop\Admin\OrderTable();
 	$table->prepare_items();
 	?>
 

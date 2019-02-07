@@ -25,17 +25,16 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^6.4",
-    "coenjacobs/mozart": "^0.2.2"
+    "coenjacobs/mozart": "^0.3.0"
   },
   "extra": {
     "mozart": {
-      "dep_namespace": "Never5\\DownloadMonitor\\Ecommerce\\Dependencies\\",
-      "dep_directory": "/src/Ecommerce/Dependencies/",
+      "dep_namespace": "Never5\\DownloadMonitor\\Shop\\Dependencies\\",
+      "dep_directory": "/src/Shop/Dependencies/",
       "classmap_directory": "/tmp/mozart",
       "classmap_prefix": "NOTUSED_",
       "packages": [
-        "paypal/rest-api-sdk-php",
-        "psr/log"
+        "paypal/rest-api-sdk-php"
       ]
     }
   }

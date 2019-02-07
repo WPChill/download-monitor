@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var \Never5\DownloadMonitor\Ecommerce\Checkout\PaymentGateway\PaymentGateway $gateway */
+/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 ?>
 <li>
     <label for="dlm_gateway_<?php echo $gateway->get_id(); ?>">

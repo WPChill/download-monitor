@@ -188,7 +188,7 @@ class WP_DLM {
 
 		// check if we need to bootstrap E-Commerce
 		if ( $this->is_shop_enabled() ) {
-			require_once( $this->get_plugin_path() . 'src/Ecommerce/bootstrap.php' );
+			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
 		}
 	}
 

@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var \Never5\DownloadMonitor\Ecommerce\Order\Order $order */
+/** @var \Never5\DownloadMonitor\Shop\Order\Order $order */
 ?>
 <div class="dlm-checkout dlm-checkout-complete">
     <p><?php _e( 'Thank you for your order. Please find your order details below.', 'download-monitor' ); ?></p>
@@ -67,7 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							$version_label        = "-";
 							$download_button_html = __( 'Download is no longer available', 'download-monitor' );
 							try {
-								/** @var \Never5\DownloadMonitor\Ecommerce\DownloadProduct\DownloadProduct $download */
+								/** @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download */
 								$download = download_monitor()->service( 'download_repository' )->retrieve_single( $order_item->get_download_id() );
 
 								$version_label        = $download->get_version()->get_version();

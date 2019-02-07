@@ -46,7 +46,7 @@ class DLM_Admin_Fields_Field_Factory {
 				$field = new DLM_Admin_Fields_Field_Title( $option['title'] );
 				break;
 			case 'gateway_overview':
-				$field = new \Never5\DownloadMonitor\Ecommerce\Admin\Fields\GatewayOverview( $option['gateways'] );
+				$field = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
 				break;
 			default:
 				/**
