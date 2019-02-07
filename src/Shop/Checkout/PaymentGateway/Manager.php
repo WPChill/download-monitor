@@ -13,7 +13,7 @@ class Manager {
 	public function __construct() {
 
 		// add gateways
-		$this->gateways = apply_filters( 'dlm_ecommerce_payment_gateways', array(
+		$this->gateways = apply_filters( 'dlm_shop_payment_gateways', array(
 			new PayPal\PayPalGateway(),
 			new Test\TestGateway()
 		) );

@@ -11,7 +11,7 @@ class Currency {
 	 */
 	public function get_available_currencies() {
 		return array_unique(
-			apply_filters( 'dlm_ecommerce_currencies',
+			apply_filters( 'dlm_shop_currencies',
 				array(
 					'ARS' => __( 'Argentine Peso', 'download-monitor' ),
 					'AUD' => __( 'Australian Dollars', 'download-monitor' ),
@@ -267,7 +267,7 @@ class Currency {
 				break;
 		}
 
-		return apply_filters( 'dlm_ecommerce_currency_symbol', $currency_symbol, $currency );
+		return apply_filters( 'dlm_shop_currency_symbol', $currency_symbol, $currency );
 	}
 
 	/**

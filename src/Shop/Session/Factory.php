@@ -10,7 +10,7 @@ class Factory {
 	 * @return string
 	 */
 	private function generate_key() {
-		return md5( uniqid( 'dlm_ecommerce_session_key', true ) . $_SERVER['REMOTE_ADDR'] );
+		return md5( uniqid( 'dlm_shop_session_key', true ) . $_SERVER['REMOTE_ADDR'] );
 	}
 
 	/**
@@ -23,7 +23,7 @@ class Factory {
 	private function generate_hash( $key ) {
 		$nonce = ( defined( 'NONCE_SALT' ) ? NONCE_SALT : 'nononce' );
 
-		return md5( uniqid( 'dlm_ecommerce_session_hash', true ) . mt_rand( 0, 99 ) . $_SERVER['REMOTE_ADDR'] . $nonce . $key );
+		return md5( uniqid( 'dlm_shop_session_hash', true ) . mt_rand( 0, 99 ) . $_SERVER['REMOTE_ADDR'] . $nonce . $key );
 	}
 
 	/**

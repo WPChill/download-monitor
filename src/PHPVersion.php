@@ -3,7 +3,7 @@
 class DLM_PHPVersion {
 
 	/**
-	 * This method check if the installed PHP version is high enough to run the ecommerce component of DLM.
+	 * This method check if the installed PHP version is high enough to run the shop component of DLM.
 	 * Currently PHP 5.3 or higher is required.
 	 *
 	 * @return bool

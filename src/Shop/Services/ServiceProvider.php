@@ -94,6 +94,10 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 		$container['order_transaction_factory'] = function ( $c ) {
 			return new Shop\Order\Transaction\Factory();
 		};
+
+		$container['email'] = function ( $c ) {
+			return new Shop\Email\Handler();
+		};
 	}
 
 

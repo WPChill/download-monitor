@@ -5,7 +5,7 @@ namespace Never5\DownloadMonitor\Shop\Helper;
 class Country {
 
 	public function get_countries() {
-		return apply_filters( 'dlm_ecommerce_countries', array(
+		return apply_filters( 'dlm_shop_countries', array(
 			'AF' => __( 'Afghanistan', 'download-monitor' ),
 			'AX' => __( '&#197;land Islands', 'download-monitor' ),
 			'AL' => __( 'Albania', 'download-monitor' ),

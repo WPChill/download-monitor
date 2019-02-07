@@ -10,7 +10,7 @@ class Factory {
 	 * @return string
 	 */
 	private function generate_key() {
-		return md5( uniqid( 'dlm_ecommerce_session_item_key', true ) . mt_rand( 0, 99 ) );
+		return md5( uniqid( 'dlm_shop_session_item_key', true ) . mt_rand( 0, 99 ) );
 	}
 
 	/**

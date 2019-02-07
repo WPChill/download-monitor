@@ -16,7 +16,7 @@ class Manager {
 		/** @var \Never5\DownloadMonitor\Shop\Order\Status\Factory $factory */
 		$factory = Services::get()->service( 'order_status_factory' );
 
-		return apply_filters( 'dlm_ecommerce_order_statuses', array(
+		return apply_filters( 'dlm_shop_order_statuses', array(
 			$factory->make( 'trash' ),
 			$factory->make( 'pending-payment' ),
 			$factory->make( 'completed' ),
@@ -31,7 +31,7 @@ class Manager {
 	 * @return string
 	 */
 	public function get_default_status() {
-		return apply_filters( 'dlm_ecommerce_default_order_status', Services::get()->service( 'order_status_factory' )->make( 'pending-payment' ) );
+		return apply_filters( 'dlm_shop_default_order_status', Services::get()->service( 'order_status_factory' )->make( 'pending-payment' ) );
 	}
 
 }

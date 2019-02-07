@@ -127,7 +127,7 @@ class Field {
 	 * @return array
 	 */
 	public function get_fields() {
-		return apply_filters( 'dlm_ecommerce_checkout_fields', $this->fields );
+		return apply_filters( 'dlm_shop_checkout_fields', $this->fields );
 	}
 
 	/**

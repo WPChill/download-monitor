@@ -15,16 +15,16 @@ class WritePanels {
 	 * Add the meta boxes
 	 */
 	public function add_meta_box() {
-		add_meta_box( 'download-monitor-ecommerce', __( 'Shop', 'download-monitor' ), array(
+		add_meta_box( 'download-monitor-shop', __( 'Shop', 'download-monitor' ), array(
 			$this,
-			'display_ecommerce'
+			'display_shop'
 		), 'dlm_download', 'side', 'high' );
 	}
 
 	/**
 	 * @param \WP_Post $post
 	 */
-	public function display_ecommerce( $post ) {
+	public function display_shop( $post ) {
 
 		try {
 			/** @var DLM_Download $download */

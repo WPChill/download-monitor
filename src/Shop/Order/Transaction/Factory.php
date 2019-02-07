@@ -45,7 +45,7 @@ class Factory {
 				$status->set_label( __( 'Failed', 'download-monitor' ) );
 				break;
 			default:
-				$status->set_label( apply_filters( 'dlm_ecommerce_order_transaction_status_label', $key ) );
+				$status->set_label( apply_filters( 'dlm_shop_order_transaction_status_label', $key ) );
 				break;
 		}
 
