@@ -52,7 +52,7 @@ function _load_download_monitor() {
 }
 
 // require autoloader
-require_once dirname( __FILE__ ) . '/vendor/autoload_52.php';
+require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 
 // Init plugin
 add_action( 'plugins_loaded', '_load_download_monitor', 10 );
