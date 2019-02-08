@@ -27,7 +27,7 @@ class WritePanels {
 	public function display_shop( $post ) {
 
 		try {
-			/** @var DLM_Download $download */
+			/** @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download */
 			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
 		} catch ( \Exception $e ) {
 			$download = new \DLM_Download();
@@ -37,8 +37,6 @@ class WritePanels {
 		$taxable   = false;
 		$tax_class = "";
 		if ( $download->is_purchasable() ) {
-
-			/** @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download */
 
 			$price     = $download->get_price_for_user_input();
 			$taxable   = $download->is_taxable();

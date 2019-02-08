@@ -13,6 +13,7 @@
         <input type="text" name="_dlm_price" value="<?php echo $price; ?>">
     </p>
 
+    <?php /*
     <p>
         <label><?php _e( 'Taxable', 'download-monitor' ); ?></label>
         <input type="checkbox" name="_dlm_taxable" value="1" <?php checked( true, $taxable ); ?>/>
@@ -31,6 +32,7 @@
 			?>
         </select>
     </p>
+ */ ?>
 
 	<?php do_action( 'dlm_mb_ecommerce_end', $download->get_id(), $download ); ?>
 
