@@ -38,39 +38,9 @@ define( 'DLM_VERSION', '4.2.1' );
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
 
-function download_monitor() {
-	static $instance;
-	if ( is_null( $instance ) ) {
-		$instance = new WP_DLM();
-	}
-	return $instance;
+if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
+	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
+}else {
+	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
 
-function _load_download_monitor() {
-	// fetch instance and store in global
-	$GLOBALS['download_monitor'] = download_monitor();
-}
-
-// require autoloader
-require_once dirname( __FILE__ ) . '/vendor/autoload.php';
-
-// Init plugin
-add_action( 'plugins_loaded', '_load_download_monitor', 10 );
-
-if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
-
-	// set installer file constant
-	define( 'DLM_PLUGIN_FILE_INSTALLER', __FILE__ );
-
-	// include installer functions
-	require_once( 'includes/installer-functions.php' );
-
-	// Activation hook
-	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '_download_monitor_install' );
-
-	// Multisite new blog hook
-	add_action( 'wpmu_new_blog', '_download_monitor_mu_new_blog', 10, 6 );
-
-	// Multisite blog delete
-	add_filter( 'wpmu_drop_tables', '_download_monitor_mu_delete_blog' );
-}
