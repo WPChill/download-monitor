@@ -13,8 +13,6 @@ class WP_DLM {
 
 	private $services = null;
 
-	private $is_shop_enabled = false;
-
 	/**
 	 * Get the plugin file
 	 *
@@ -43,15 +41,6 @@ class WP_DLM {
 	}
 
 	/**
-	 * Returns if shop component is enabled
-	 *
-	 * @return bool
-	 */
-	public function is_shop_enabled() {
-		return $this->is_shop_enabled;
-	}
-
-	/**
 	 * Return requested service
 	 *
 	 * @param string $key
@@ -72,9 +61,6 @@ class WP_DLM {
 
 		// Setup Services
 		$this->services = new DLM_Services();
-
-		// check if shop enabled
-		$this->check_shop_enabled();
 
 		// Load plugin text domain
 		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
@@ -187,22 +173,8 @@ class WP_DLM {
 		$this->setup_integrations();
 
 		// check if we need to bootstrap E-Commerce
-		if ( $this->is_shop_enabled() ) {
+		if ( apply_filters( 'dlm_shop_load_bootstrap', true ) ) {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
-		}
-	}
-
-	/**
-	 * This method checks if shop is enabled and sets $is_shop_enabled property accordingly
-	 */
-	private function check_shop_enabled() {
-
-		// check if PHP version is compatible
-		if ( DLM_PHPVersion::is_shop_ready() ) {
-
-			// @todo check if shop is enabled in settings
-			$this->is_shop_enabled = true;
-
 		}
 
 	}
