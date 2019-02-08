@@ -12,6 +12,8 @@ class Hooks {
 	public function setup() {
 		add_action( 'init', array( $this, 'catch_add_to_cart' ), 1 );
 		add_action( 'init', array( $this, 'catch_remove_from_cart' ), 1 );
+
+		add_action( 'template_redirect', array( $this, 'check_for_cart_redirect' ) );
 	}
 
 	/**
@@ -38,6 +40,18 @@ class Hooks {
 			if ( $atc_id > 0 ) {
 				Services::get()->service( 'cart' )->remove_from_cart( $atc_id );
 				Services::get()->service( 'redirect' )->to_cart();
+			}
+		}
+	}
+
+	/**
+	 * Check if the 'disable_cart' setting is enabled. If so, redirect customer to checkout on cart pages
+	 */
+	public function check_for_cart_redirect() {
+		if ( download_monitor()->service( 'settings' )->get_option( 'disable_cart' ) ) {
+			if ( Services::get()->service( 'page' )->is_cart() ) {
+				wp_redirect( Services::get()->service( 'page' )->get_checkout_url(), 302 );
+				exit;
 			}
 		}
 	}

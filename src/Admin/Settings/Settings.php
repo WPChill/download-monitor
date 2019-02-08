@@ -355,7 +355,15 @@ class DLM_Admin_Settings {
 								'std'   => ',',
 								'label' => __( 'Thousand Separator', 'download-monitor' ),
 								'desc'  => __( 'The thousand separator of displayed distance unites and prices.', 'download-monitor' )
-							)
+							),
+							array(
+								'name'     => 'dlm_disable_cart',
+								'std'      => '',
+								'label'    => __( 'Disable Cart', 'download-monitor' ),
+								'cb_label' => __( 'Disable', 'download-monitor' ),
+								'desc'     => __( 'If checked, your customers will be send to your checkout page directly.', 'download-monitor' ),
+								'type'     => 'checkbox'
+							),
 						)
 					)
 				)

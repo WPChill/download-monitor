@@ -21,7 +21,8 @@ class DLM_Settings_Helper {
 			'currency_pos'       => 'left',
 			'decimal_separator'  => '.',
 			'thousand_separator' => ',',
-			'default_gateway'    => 'paypal'
+			'default_gateway'    => 'paypal',
+			'disable_cart'       => '0',
 		) );
 	}
 
