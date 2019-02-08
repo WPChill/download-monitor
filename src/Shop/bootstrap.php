@@ -57,11 +57,15 @@ $cart_hooks->setup();
 /**
  * Setup shortcodes
  */
-$cart = new \Never5\DownloadMonitor\Shop\Shortcode\Cart();
-$cart->register();
+$shortcode_cart = new \Never5\DownloadMonitor\Shop\Shortcode\Cart();
+$shortcode_cart->register();
 
-$checkout = new \Never5\DownloadMonitor\Shop\Shortcode\Checkout();
-$checkout->register();
+$shortcode_checkout = new \Never5\DownloadMonitor\Shop\Shortcode\Checkout();
+$shortcode_checkout->register();
+
+
+$shortcode_add_to_cart = new \Never5\DownloadMonitor\Shop\Shortcode\AddToCart();
+$shortcode_add_to_cart->register();
 
 /**
  * Setup assets

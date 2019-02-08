@@ -338,6 +338,7 @@ return array(
     'Never5\\DownloadMonitor\\Shop\\Session\\Repository' => $baseDir . '/src/Shop/Session/Repository.php',
     'Never5\\DownloadMonitor\\Shop\\Session\\Session' => $baseDir . '/src/Shop/Session/Session.php',
     'Never5\\DownloadMonitor\\Shop\\Session\\WordPressRepository' => $baseDir . '/src/Shop/Session/WordPressRepository.php',
+    'Never5\\DownloadMonitor\\Shop\\Shortcode\\AddToCart' => $baseDir . '/src/Shop/Shortcode/AddToCart.php',
     'Never5\\DownloadMonitor\\Shop\\Shortcode\\Cart' => $baseDir . '/src/Shop/Shortcode/Cart.php',
     'Never5\\DownloadMonitor\\Shop\\Shortcode\\Checkout' => $baseDir . '/src/Shop/Shortcode/Checkout.php',
     'Never5\\DownloadMonitor\\Shop\\Tax\\TaxClassManager' => $baseDir . '/src/Shop/Tax/TaxClassManager.php',
