@@ -12,7 +12,7 @@ class DLM_Download_Factory {
 		$class_name = 'DLM_Download';
 
 		// check if this is a download product (a download that can be sold), if so create a DownloadProduct instance
-		if ( download_monitor()->is_shop_enabled() && 'product' === $type ) {
+		if ( 'product' === $type ) {
 			$class_name = '\Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct';
 		}
 
