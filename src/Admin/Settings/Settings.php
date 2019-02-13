@@ -424,6 +424,38 @@ class DLM_Admin_Settings {
 	}
 
 	/**
+	 * Settings format changed in 4.3
+	 * This method formats old settings added via filters to work with new format
+	 * This method is hooked into dlm_settings(priority:99) in Admin.php
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
+	public function backwards_compatibility_settings( $settings ) {
+
+		foreach ( $settings as $tab_key => $tab ) {
+
+			// if 'sections' is not set, it's most likely old format
+			if ( ! isset( $tab['sections'] ) ) {
+
+				$new_tab = array(
+					'title'    => $tab[0], // old format just had title as first key
+					'sections' => array(
+						$tab_key => array(
+							'fields' => $tab[1] // old format had fields on index 1
+						)
+					)
+				);
+
+				$settings[$tab_key] = $new_tab;
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
 	 * Return pages with ID => Page title format
 	 *
 	 * @return array
@@ -553,6 +585,5 @@ class DLM_Admin_Settings {
 
 		return $sections;
 	}
-
 
 }
