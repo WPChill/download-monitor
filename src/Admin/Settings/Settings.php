@@ -475,6 +475,11 @@ class DLM_Admin_Settings {
 		return $currencies;
 	}
 
+	/**
+	 * Generate payment method sections for settings
+	 *
+	 * @return array
+	 */
 	private function get_payment_methods_sections() {
 
 		$gateways = Services::get()->service( 'payment_gateway' )->get_all_gateways();
