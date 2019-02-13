@@ -126,6 +126,10 @@ class WP_DLM {
 			new DLM_Ajax_Handler();
 		}
 
+		// Setup new AJAX handler
+		$ajax_manager = new DLM_Ajax_Manager();
+		$ajax_manager->setup();
+
 		// Functions
 		require_once( $this->get_plugin_path() . 'includes/download-functions.php' );
 
