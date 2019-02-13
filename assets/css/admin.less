@@ -1083,6 +1083,10 @@ table.wp-list-table {
           text-align: right;
           padding-right: 1em;
         }
+
+        &.dlm-order-transaction-processor-id {
+          display: none;
+        }
       }
 
     }
@@ -1108,6 +1112,17 @@ table.wp-list-table {
     .dlm-order-details-side {
       width: 35%;
       float: right;
+    }
+
+    .dlm-order-details-block {
+      table.dlm-order-details-data-table {
+        th, td {
+
+          &.dlm-order-transaction-processor-id {
+            display: table-cell;
+          }
+        }
+      }
     }
 
   }

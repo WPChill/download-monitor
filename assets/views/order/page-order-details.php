@@ -69,7 +69,7 @@ $items = $order->get_items();
                             <th><?php _e( "Status", 'download-monitor' ); ?></th>
                             <th><?php _e( "Amount", 'download-monitor' ); ?></th>
                             <th><?php _e( "Processor", 'download-monitor' ); ?></th>
-                            <th><?php _e( "Processor ID", 'download-monitor' ); ?></th>
+                            <th class="dlm-order-transaction-processor-id"><?php _e( "Processor ID", 'download-monitor' ); ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -88,7 +88,7 @@ $items = $order->get_items();
                                 <td><?php echo esc_html( $transaction->get_status()->get_label() ); ?></td>
                                 <td><?php echo esc_html( dlm_format_money( $transaction->get_amount(), array( 'currency' => $order->get_currency() ) ) ); ?></td>
                                 <td><?php echo esc_html( $transaction->get_processor_nice_name() ); ?></td>
-                                <td><?php echo esc_html( $transaction->get_processor_transaction_id() ); ?></td>
+                                <td class="dlm-order-transaction-processor-id"><?php echo esc_html( $transaction->get_processor_transaction_id() ); ?></td>
                             </tr>
 							<?php
 						endforeach;
