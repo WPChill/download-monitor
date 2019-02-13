@@ -17,6 +17,9 @@ class DLM_Settings_Helper {
 	 */
 	private function setup_defaults() {
 		$this->defaults = apply_filters( 'dlm_settings_defaults', array(
+			'no_access_page'     => 0,
+			'page_cart'          => 0,
+			'page_checkout'      => 0,
 			'currency'           => 'USD',
 			'currency_pos'       => 'left',
 			'decimal_separator'  => '.',

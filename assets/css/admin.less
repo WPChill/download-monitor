@@ -1143,8 +1143,10 @@ table.wp-list-table {
     }
 
     &.dlm-onboarding-section-three-col {
-      margin-top: 40px;
-      max-width: 1020px;
+      //margin-top: 40px;
+      max-width: 680px;
+      margin: 40px auto 0;
+      //max-width: 1020px;
       overflow: hidden;
       display: flex;
       justify-content: space-between;
@@ -1156,6 +1158,10 @@ table.wp-list-table {
         align-self: flex-start;
         min-width: 100%;
         max-width: 100%;
+
+        img {
+          width: 100%;
+        }
       }
     }
 
@@ -1173,11 +1179,22 @@ table.wp-list-table {
     }
 
     a.button-hero {
-      font-size: 14px;
+      width: 170px;
       height: 46px;
+      font-size: 14px;
       line-height: 44px;
       padding: 0 36px;
       font-weight: bold;
+      text-align: center;
+
+      &.dlm-page-exists {
+        background: #46b450;
+        border-color: #46b450 #4a8442 #467a3f;
+        box-shadow: 0 2px 0 #467a3f;
+        text-shadow: 0 -1px 1px #4a8442, 1px 0 1px #4a8442, 0 1px 1px #4a8442, -1px 0 1px #4a8442;
+
+        &:active {box-shadow: 0 2px 0 #467a3f;}
+      }
     }
 
   }

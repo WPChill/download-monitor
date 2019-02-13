@@ -136,6 +136,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'DLM_Admin_Settings' => __DIR__ . '/../..' . '/src/Admin/Settings/Settings.php',
         'DLM_Admin_Writepanels' => __DIR__ . '/../..' . '/src/Admin/WritePanels.php',
         'DLM_Ajax' => __DIR__ . '/../..' . '/src/Ajax/Ajax.php',
+        'DLM_Ajax_CreatePage' => __DIR__ . '/../..' . '/src/Ajax/CreatePage.php',
         'DLM_Ajax_GetDownloads' => __DIR__ . '/../..' . '/src/Ajax/GetDownloads.php',
         'DLM_Ajax_GetVersions' => __DIR__ . '/../..' . '/src/Ajax/GetVersions.php',
         'DLM_Ajax_Handler' => __DIR__ . '/../..' . '/src/AjaxHandler.php',

@@ -56,22 +56,21 @@ class Onboarding {
 	 * Enqueue onboarding assets
 	 */
 	public function enqueue_assets() {
-		/*
+
 		wp_enqueue_script(
-			'wpcm_onboarding',
-			wp_car_manager()->service( 'file' )->plugin_url( '/assets/js/onboarding' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js' ),
+			'dlm_onboarding',
+			plugins_url( '/assets/js/onboarding' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', download_monitor()->get_plugin_file() ),
 			array( 'jquery' ),
-			wp_car_manager()->get_version()
+			DLM_VERSION
 		);
 
-		wp_localize_script( 'wpcm_onboarding', 'wpcm', array(
-			'ajax_url_create_page' => Ajax\Manager::get_ajax_url( 'create_page' ),
-			'nonce_create_page'    => wp_create_nonce( 'wpcm_ajax_nonce_create_page' ),
+		wp_localize_script( 'dlm_onboarding', 'dlm_onboarding', array(
+			'ajax_url_create_page' => \DLM_Ajax_Manager::get_ajax_url( 'create_page' ),
 			'lbl_creating'         => __( 'Creating', 'download-monitor' ) . '...',
-			'lbl_created'          => __( 'Page created', 'download-monitor' ),
+			'lbl_created'          => __( 'Page Created', 'download-monitor' ),
 			'lbl_create_page'      => __( 'Create Page', 'download-monitor' ),
 		) );
-		*/
+
 	}
 
 	/**
@@ -105,10 +104,9 @@ class Onboarding {
 					<?php _e( "On top of that, Download Monitor allows you to sell your downloads, turning your WordPress website into fully featured e-commerce website out of the box.", 'download-monitor' ); ?>
                 </p>
                 <p>
-					<?php _e( "You decide if you want to offer you downloads for free or want to start selling them (or both!). Whatever you decide, you choose the right plugin for the job!", 'download-monitor' ); ?>
+					<?php _e( "You decide if you want to offer you downloads for free or want to start selling them (or both!). Whatever you decide, you chose the right plugin for the job!", 'download-monitor' ); ?>
                 </p>
             </div>
-
 
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
                 <h2><?php _e( "Let's Create Your Pages", 'download-monitor' ); ?></h2>
@@ -123,23 +121,46 @@ class Onboarding {
                     <tr>
                         <th><?php _e( 'No Access', 'download-monitor' ); ?></th>
                         <td><?php _e( "The page your visitors see when they are not allowed to download a file.", 'download-monitor' ); ?></td>
-                        <td><a href="javascript:;"
-                               class="button button-primary button-hero"
-                               data-page="listings"><?php _e( 'Create Page', 'download-monitor' ); ?></a></td>
+                        <td>
+							<?php
+							/**
+							 * Check if no access page is already set in settings
+							 */
+							/** @var \DLM_Settings_Helper $settings */
+							$settings = download_monitor()->service( "settings" );
+
+							$page_no_access = $settings->get_option( 'no_access_page' );
+
+							if ( $page_no_access != 0 ) :
+								?>
+                                <a href="javascript:;"
+                                   class="button button-primary button-hero dlm-page-exists"
+                                   data-page="no-access"><?php _e( 'Page Created', 'download-monitor' ); ?></a>
+								<?php
+							else:
+								?>
+                                <a href="javascript:;"
+                                   class="button button-primary button-hero dlm-create-page"
+                                   data-page="no-access"><?php _e( 'Create Page', 'download-monitor' ); ?></a>
+								<?php
+							endif;
+							?>
+
+                        </td>
                     </tr>
                     <tr>
                         <th><?php _e( 'Cart', 'download-monitor' ); ?></th>
                         <td><?php _e( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></td>
                         <td><a href="javascript:;"
-                               class="button button-primary button-hero"
-                               data-page="submit"><?php _e( 'Create Page', 'download-monitor' ); ?></a></td>
+                               class="button button-primary button-hero dlm-create-page"
+                               data-page="cart"><?php _e( 'Create Page', 'download-monitor' ); ?></a></td>
                     </tr>
                     <tr>
                         <th><?php _e( 'Checkout', 'download-monitor' ); ?></th>
                         <td><?php _e( 'Your shop checkout page if you decide to sell downloads.', 'download-monitor' ); ?></td>
                         <td><a href="javascript:;"
-                               class="button button-primary button-hero"
-                               data-page="dashboard"><?php _e( 'Create Page', 'download-monitor' ); ?></a></td>
+                               class="button button-primary button-hero dlm-create-page"
+                               data-page="checkout"><?php _e( 'Create Page', 'download-monitor' ); ?></a></td>
                     </tr>
 
                 </table>
@@ -162,9 +183,10 @@ class Onboarding {
 					foreach ( $response->extensions as $extension ) :
 						?>
                         <div class="dlm-onboarding-col">
-                            <img src="<?php echo esc_attr( $extension->image ); ?>" alt="<?php echo esc_attr( $extension->name ); ?>" />
+                            <img src="<?php echo esc_attr( $extension->image ); ?>"
+                                 alt="<?php echo esc_attr( $extension->name ); ?>"/>
                             <h3><?php echo esc_html( $extension->name ); ?></h3>
-                            <p><?php echo esc_html($extension->desc); ?></p>
+                            <p><?php echo esc_html( $extension->desc ); ?></p>
                         </div>
 						<?php
 						$i ++;
@@ -180,7 +202,7 @@ class Onboarding {
                 <p>
                     <a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=onboarding"
                        class="button button-primary button-hero"
-                       data-page="dashboard"><?php _e( 'View More Extensions', 'download-monitor' ); ?></a>
+                       target="_blank"><?php _e( 'View More Extensions', 'download-monitor' ); ?></a>
                 </p>
             </div>
 
@@ -198,8 +220,7 @@ class Onboarding {
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col dlm-onboarding-section-cta">
                 <p>
                     <a href="<?php echo admin_url( 'post-new.php?post_type=dlm_download' ); ?>"
-                       class="button button-primary button-hero"
-                       data-page="dashboard"><?php _e( 'Create Your First Download', 'download-monitor' ); ?></a>
+                       class="button button-primary button-hero"><?php _e( 'Create Your First Download', 'download-monitor' ); ?></a>
                 </p>
             </div>
 
