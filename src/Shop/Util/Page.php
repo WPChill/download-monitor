@@ -10,7 +10,6 @@ class Page {
 	 * @return bool
 	 */
 	public function is_cart() {
-		error_log(get_the_ID() . ' :: '. download_monitor()->service( 'settings' )->get_option( 'page_cart' ), 0 );
 		if ( download_monitor()->service( 'settings' )->get_option( 'page_cart' ) == get_the_ID() ) {
 			return true;
 		}

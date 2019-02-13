@@ -75,8 +75,6 @@ class PlaceOrder extends Ajax {
 		/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 		$gateway = ( isset( $_POST['payment_gateway'] ) && isset( $enabled_gateways[ $_POST['payment_gateway'] ] ) ? $enabled_gateways[ $_POST['payment_gateway'] ] : null );
 
-		//error_log( print_r( $gateway, 1 ), 0 );
-
 		/**
 		 * Check if all required fields are set
 		 */
