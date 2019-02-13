@@ -59,12 +59,7 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	public function get_settings() {
-
-		/**
-		 * @todo get all payment gateway options, format them into settings sections, add them to payment_gateway tab
-		 */
-
-
+		
 		$settings = array(
 			'general'   => array(
 				'title'    => __( 'General', 'download-monitor' ),
