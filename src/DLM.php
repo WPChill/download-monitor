@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+use \Never5\DownloadMonitor\Util;
+
 /**
  * WP_DLM class.
  *
@@ -113,6 +115,10 @@ class WP_DLM {
 
 			$lu_ajax = new DLM_LU_Ajax();
 			$lu_ajax->setup();
+
+			// Onboarding
+			$onboarding = new Util\Onboarding();
+			$onboarding->setup();
 		}
 
 		// Setup AJAX handler if doing AJAX
