@@ -59,7 +59,7 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	public function get_settings() {
-		
+
 		$settings = array(
 			'general'   => array(
 				'title'    => __( 'General', 'download-monitor' ),

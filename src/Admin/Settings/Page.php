@@ -108,8 +108,6 @@ class DLM_Settings_Page {
 		// loop fields for this tab
 		if ( isset( $settings[ $tab ] ) ) {
 
-			/** @todo add BC support for when 'sections' is not set yet */
-
 			$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
 
 			// output correct settings_fields
