@@ -76,14 +76,149 @@ class DLM_Installer {
 	}
 
 	/**
-	 * install_tables function.
-	 *
-	 * @return void
+	 * Creates the shop-related tables in the database.
+	 * This is a separate method because it's also called from within the UpgradeManager.
 	 */
-	private function install_tables() {
+	public function create_shop_tables() {
 		global $wpdb;
 
 		$wpdb->hide_errors();
+
+		$collate = $this->get_db_collate();
+
+		$table_prefix = $wpdb->prefix;
+
+		$tables_sql = array();
+
+		// order table
+		$tables_sql[] = "
+		CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_order` (
+		  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+		  `status` VARCHAR(255) NOT NULL,
+		  `date_created` DATETIME NOT NULL,
+		  `date_modified` DATETIME NULL,
+		  `currency` VARCHAR(5) NOT NULL,
+		  `hash` VARCHAR(255) NOT NULL,
+		  PRIMARY KEY (`id`))
+		ENGINE = InnoDB {$collate};";
+
+		// order customer
+		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_order_customer` (
+		  `first_name` VARCHAR(255) NULL,
+		  `last_name` VARCHAR(255) NULL,
+		  `company` VARCHAR(255) NULL,
+		  `address_1` VARCHAR(255) NULL,
+		  `address_2` VARCHAR(255) NULL,
+		  `city` VARCHAR(255) NULL,
+		  `state` VARCHAR(255) NULL,
+		  `postcode` VARCHAR(255) NULL,
+		  `country` VARCHAR(5) NULL,
+		  `email` VARCHAR(255) NULL,
+		  `phone` VARCHAR(50) NULL,
+		  `ip_address` VARCHAR(50) NULL,
+		  `order_id` INT UNSIGNED NOT NULL,
+		  INDEX `fk_order_customer_order_idx` (`order_id` ASC),
+		  PRIMARY KEY (`order_id`),
+		  CONSTRAINT `fk_order_customer_order`
+		    FOREIGN KEY (`order_id`)
+		    REFERENCES `{$table_prefix}dlm_order` (`id`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION)
+		ENGINE = InnoDB {$collate};";
+
+		// transaction table
+		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_order_transaction` (
+		  `id` INT NOT NULL AUTO_INCREMENT,
+		  `date_created` DATETIME NULL,
+		  `date_modified` DATETIME NULL,
+		  `amount` INT NULL,
+		  `status` VARCHAR(50) NULL,
+		  `processor` VARCHAR(255) NULL,
+		  `processor_nice_name` VARCHAR(255) NULL,
+		  `processor_transaction_id` VARCHAR(255) NULL,
+		  `processor_status` VARCHAR(255) NULL,
+		  `order_id` INT UNSIGNED NOT NULL,
+		  PRIMARY KEY (`id`),
+		  INDEX `fk_transaction_order1_idx` (`order_id` ASC),
+		  CONSTRAINT `fk_transaction_order1`
+		    FOREIGN KEY (`order_id`)
+		    REFERENCES `{$table_prefix}dlm_order` (`id`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION)
+		ENGINE = InnoDB {$collate};";
+
+		// order items
+		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_order_item` (
+		  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+		  `order_id` INT UNSIGNED NOT NULL,
+		  `label` VARCHAR(255) NULL,
+		  `qty` INT NULL,
+		  `download_id` INT UNSIGNED NULL,
+		  `tax_class` VARCHAR(255) NULL,
+		  `tax_total` INT NULL,
+		  `subtotal` INT NULL,
+		  `total` INT NULL,
+		  INDEX `fk_order_item_order1_idx` (`order_id` ASC),
+		  PRIMARY KEY (`id`),
+		  CONSTRAINT `fk_order_item_order1`
+		    FOREIGN KEY (`order_id`)
+		    REFERENCES `{$table_prefix}dlm_order` (`id`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION)
+		ENGINE = InnoDB {$collate};";
+
+		// session
+		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_session` (
+		  `key` VARCHAR(255) NOT NULL,
+		  `hash` VARCHAR(255) NOT NULL,
+		  `expiry` DATETIME NOT NULL,
+		  `data` LONGTEXT NOT NULL,
+		  PRIMARY KEY (`key`))
+		ENGINE = InnoDB {$collate};";
+
+		foreach($tables_sql as $sql) {
+			$wpdb->query( $sql );
+		}
+
+	}
+
+	/**
+	 * Create no access page
+	 */
+	public function create_no_access_page() {
+
+		// create no-access listing page if not exists
+		$listings_slug = sanitize_title( __( 'No Access', 'download-monitor' ) );
+		$listings_page = get_page_by_path( $listings_slug );
+
+		// check if listings page exists
+		if ( null == $listings_page ) {
+
+			// create page
+			$page_id = wp_insert_post( array(
+				'post_type'    => 'page',
+				'post_title'   => __( 'No Access', 'download-monitor' ),
+				'post_content' => '[dlm_no_access]',
+				'post_status'  => 'publish'
+			) );
+
+			if ( ! is_wp_error( $page_id ) ) {
+				// set page id as dlm_no_access_page
+				update_option( 'dlm_no_access_page', absint( $page_id ) );
+			}
+
+
+		}
+
+	}
+
+	/**
+	 * Get DB collate
+	 *
+	 * @return string
+	 */
+	private function get_db_collate() {
+		global $wpdb;
 
 		$collate = '';
 
@@ -95,6 +230,21 @@ class DLM_Installer {
 				$collate .= " COLLATE $wpdb->collate";
 			}
 		}
+
+		return $collate;
+	}
+
+	/**
+	 * install_tables function.
+	 *
+	 * @return void
+	 */
+	private function install_tables() {
+		global $wpdb;
+
+		$wpdb->hide_errors();
+
+		$collate = $this->get_db_collate();
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -116,6 +266,9 @@ class DLM_Installer {
 	) $collate;
 	";
 		dbDelta( $dlm_tables );
+
+		// install shop tables
+		$this->create_shop_tables();
 	}
 
 	/**
@@ -161,36 +314,6 @@ Deny from all
 				}
 			}
 		}
-	}
-
-	/**
-	 * Create no access page
-	 */
-	public function create_no_access_page() {
-
-		// create no-access listing page if not exists
-		$listings_slug = sanitize_title( __( 'No Access', 'download-monitor' ) );
-		$listings_page = get_page_by_path( $listings_slug );
-
-		// check if listings page exists
-		if ( null == $listings_page ) {
-
-			// create page
-			$page_id = wp_insert_post( array(
-				'post_type'    => 'page',
-				'post_title'   => __( 'No Access', 'download-monitor' ),
-				'post_content' => '[dlm_no_access]',
-				'post_status'  => 'publish'
-			) );
-
-			if ( ! is_wp_error( $page_id ) ) {
-				// set page id as dlm_no_access_page
-				update_option( 'dlm_no_access_page', absint( $page_id ) );
-			}
-
-
-		}
-
 	}
 
 }

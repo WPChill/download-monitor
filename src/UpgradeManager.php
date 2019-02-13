@@ -91,6 +91,11 @@ class DLM_Upgrade_Manager {
 			update_option( 'dlm_logging_ua', 1 );
 		}
 
+		// upgrade to version 4.3
+		if ( version_compare( $current_version, '4.3.0', '<' ) ) {
+
+		}
+
 
 	}
 
