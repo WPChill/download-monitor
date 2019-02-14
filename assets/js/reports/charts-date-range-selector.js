@@ -52,8 +52,9 @@ DLM_Reports_Date_Range_Selector.prototype.hide = function () {
 };
 
 DLM_Reports_Date_Range_Selector.prototype.apply = function () {
-	var sd = new Date(this.startDateInput.val());
-	var ed = new Date(this.endDateInput.val());
+
+	var sd = new Date( this.startDateInput.val() + "T00:00:00" );
+	var ed = new Date( this.endDateInput.val() + "T00:00:00" );
 	var sds = sd.getFullYear()+ "-"+(sd.getMonth()+1)+"-"+sd.getDate();
 	var eds = ed.getFullYear()+ "-"+(ed.getMonth()+1)+"-"+ed.getDate();
 	this.hide();
@@ -74,8 +75,8 @@ DLM_Reports_Date_Range_Selector.prototype.createElement = function () {
 	} );
 	actions.append( applyButton );
 	el.append( startDate ).append( endDate ).append( actions ).append( this.startDateInput ).append( this.endDateInput );
-	startDate.datepicker( {inline: true, altField: this.startDateInput, dateFormat: "yy-m-dd", defaultDate: this.startDate } );
-	endDate.datepicker( {inline: true, altField: this.endDateInput, dateFormat: "yy-m-dd", defaultDate: this.endDate } );
+	startDate.datepicker( {inline: true, altField: this.startDateInput, dateFormat: "yy-mm-dd", defaultDate: this.startDate } );
+	endDate.datepicker( {inline: true, altField: this.endDateInput, dateFormat: "yy-mm-dd", defaultDate: this.endDate } );
 	el.click( function () {
 		return false
 	} );
