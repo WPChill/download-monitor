@@ -458,6 +458,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'Never5\\DownloadMonitor\\Shop\\Util\\Redirect' => __DIR__ . '/../..' . '/src/Shop/Util/Redirect.php',
         'Never5\\DownloadMonitor\\Util\\ExtensionLoader' => __DIR__ . '/../..' . '/src/Util/ExtensionLoader.php',
         'Never5\\DownloadMonitor\\Util\\Onboarding' => __DIR__ . '/../..' . '/src/Util/Onboarding.php',
+        'Never5\\DownloadMonitor\\Util\\PageCreator' => __DIR__ . '/../..' . '/src/Util/PageCreator.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

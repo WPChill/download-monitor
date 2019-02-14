@@ -1,5 +1,7 @@
 <?php
 
+use \Never5\DownloadMonitor\Util;
+
 class DLM_Ajax_CreatePage extends DLM_Ajax {
 
 	/**
@@ -23,8 +25,35 @@ class DLM_Ajax_CreatePage extends DLM_Ajax {
 			exit( 0 );
 		}
 
+		if ( ! empty( $_GET['page'] ) ) {
 
-		wp_send_json( array( 'lol' ) );
+			$pc      = new Util\PageCreator();
+			$success = false;
+
+			switch ( $_GET['page'] ) {
+				case 'no-access':
+					$success = $pc->create_no_access_page();
+					break;
+				case 'cart':
+					$success = $pc->create_cart_page();
+					break;
+				case 'checkout':
+					$success = $pc->create_checkout_page();
+					break;
+			}
+
+			if ( $success ) {
+				wp_send_json( array( 'result' => 'success' ) );
+				exit;
+			} else {
+				wp_send_json( array(
+					'result' => 'failed',
+					'error'  => __( "Couldn't create page", 'download-monitor' )
+				) );
+			}
+		}
+		
+		wp_send_json( array( 'result' => 'failed', 'error' => __( "No page set", 'download-monitor' ) ) );
 
 		exit;
 	}

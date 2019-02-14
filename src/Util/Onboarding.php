@@ -92,6 +92,9 @@ class Onboarding {
 		// been there, done that
 		//update_option( 'dlm_notice_onboarding', 1 );
 
+		/** @var \DLM_Settings_Helper $settings */
+		$settings = download_monitor()->service( "settings" );
+
 		// the actual page
 		?>
         <div class="wrap dlm-onboarding">
@@ -126,16 +129,12 @@ class Onboarding {
 							/**
 							 * Check if no access page is already set in settings
 							 */
-							/** @var \DLM_Settings_Helper $settings */
-							$settings = download_monitor()->service( "settings" );
-
 							$page_no_access = $settings->get_option( 'no_access_page' );
 
 							if ( $page_no_access != 0 ) :
 								?>
                                 <a href="javascript:;"
-                                   class="button button-primary button-hero dlm-page-exists"
-                                   data-page="no-access"><?php _e( 'Page Created', 'download-monitor' ); ?></a>
+                                   class="button button-primary button-hero dlm-page-exists"><?php _e( 'Page Created', 'download-monitor' ); ?></a>
 								<?php
 							else:
 								?>
@@ -151,16 +150,52 @@ class Onboarding {
                     <tr>
                         <th><?php _e( 'Cart', 'download-monitor' ); ?></th>
                         <td><?php _e( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></td>
-                        <td><a href="javascript:;"
-                               class="button button-primary button-hero dlm-create-page"
-                               data-page="cart"><?php _e( 'Create Page', 'download-monitor' ); ?></a></td>
+                        <td>
+							<?php
+							/**
+							 * Check if no access page is already set in settings
+							 */
+							$page_cart = $settings->get_option( 'page_cart' );
+
+							if ( $page_cart != 0 ) :
+								?>
+                                <a href="javascript:;"
+                                   class="button button-primary button-hero dlm-page-exists"><?php _e( 'Page Created', 'download-monitor' ); ?></a>
+								<?php
+							else:
+								?>
+                                <a href="javascript:;"
+                                   class="button button-primary button-hero dlm-create-page"
+                                   data-page="cart"><?php _e( 'Create Page', 'download-monitor' ); ?></a>
+								<?php
+							endif;
+							?>
+                        </td>
                     </tr>
                     <tr>
                         <th><?php _e( 'Checkout', 'download-monitor' ); ?></th>
                         <td><?php _e( 'Your shop checkout page if you decide to sell downloads.', 'download-monitor' ); ?></td>
-                        <td><a href="javascript:;"
-                               class="button button-primary button-hero dlm-create-page"
-                               data-page="checkout"><?php _e( 'Create Page', 'download-monitor' ); ?></a></td>
+                        <td>
+		                    <?php
+		                    /**
+		                     * Check if no access page is already set in settings
+		                     */
+		                    $page_checkout = $settings->get_option( 'page_checkout' );
+
+		                    if ( $page_checkout != 0 ) :
+			                    ?>
+                                <a href="javascript:;"
+                                   class="button button-primary button-hero dlm-page-exists"><?php _e( 'Page Created', 'download-monitor' ); ?></a>
+			                    <?php
+		                    else:
+			                    ?>
+                                <a href="javascript:;"
+                                   class="button button-primary button-hero dlm-create-page"
+                                   data-page="checkout"><?php _e( 'Create Page', 'download-monitor' ); ?></a>
+			                    <?php
+		                    endif;
+		                    ?>
+                        </td>
                     </tr>
 
                 </table>

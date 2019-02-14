@@ -61,10 +61,6 @@ class DLM_Upgrade_Manager {
 		// Upgrade to version 1.9.0
 		if ( version_compare( $current_version, '1.9.0', '<' ) ) {
 
-			// Adding new capabilities
-			$installer = new DLM_Installer();
-			$installer->create_no_access_page();
-
 			// setup no access page endpoints
 			$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
 			$no_access_page_endpoint->setup();

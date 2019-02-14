@@ -348,6 +348,7 @@ return array(
     'Never5\\DownloadMonitor\\Shop\\Util\\Redirect' => $baseDir . '/src/Shop/Util/Redirect.php',
     'Never5\\DownloadMonitor\\Util\\ExtensionLoader' => $baseDir . '/src/Util/ExtensionLoader.php',
     'Never5\\DownloadMonitor\\Util\\Onboarding' => $baseDir . '/src/Util/Onboarding.php',
+    'Never5\\DownloadMonitor\\Util\\PageCreator' => $baseDir . '/src/Util/PageCreator.php',
     'PHPUnit\\Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',
     'PHPUnit\\Framework\\Assert' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert.php',
     'PHPUnit\\Framework\\AssertionFailedError' => $vendorDir . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

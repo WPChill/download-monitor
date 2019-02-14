@@ -26,7 +26,7 @@ jQuery( function ( $ ) {
 var DLM_Onboarding_CP = function ( el ) {
 	this.el = el;
 	this.page = jQuery( el ).data( 'page' );
-	this.isProcessing = false;
+	this.allowAction = true;
 	this.setup();
 };
 
@@ -38,15 +38,32 @@ DLM_Onboarding_CP.prototype.setup = function () {
 };
 
 DLM_Onboarding_CP.prototype.process = function () {
-	if ( this.isProcessing ) {
+	if ( !this.allowAction ) {
 		return false;
 	}
 
-	this.isProcessing = true;
+	this.allowAction = false;
+
+	var instance = this;
+
+	jQuery( instance.el ).html( dlm_onboarding.lbl_creating );
 
 	jQuery.get( dlm_onboarding.ajax_url_create_page, {
 		page: this.page
 	}, function ( response ) {
+		if ( response.result === 'success' ) {
+			jQuery( instance.el ).html( dlm_onboarding.lbl_created );
+			jQuery( instance.el ).removeClass( 'dlm-create-page' ).addClass( 'dlm-page-exists' );
+		} else {
+			jQuery( instance.el ).html( dlm_onboarding.lbl_create_page );
+
+			if ( typeof response.error !== 'undefined' ) {
+				alert( response.error );
+			}
+
+			instance.allowAction = true;
+		}
+
 		console.log( response );
 	} );
 
