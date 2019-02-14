@@ -2,6 +2,10 @@
 
 .dlm-checkout {
 
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden;
+
   .dlm-checkout-error {
     padding: 1em;
     margin-bottom: 15px;
@@ -38,6 +42,12 @@
   .dlm-checkout-order-review {
     width: 40%;
     float: right;
+
+    table {
+      th {
+        text-align: left;
+      }
+    }
   }
 
   .dlm-checkout-row {
@@ -120,6 +130,12 @@
 
 .dlm-checkout-complete {
 
+  table {
+    th {
+      text-align: left;
+    }
+  }
+
   .dlm-checkout-download-button {
     display: inline-block;
     padding: 1em 1.5em;
@@ -156,7 +172,7 @@
   border-radius: 8px;
   box-shadow: 1px 2px;
   z-index: 9999;
-
+  text-align: center;
   display: none;
 
   h2 {
@@ -165,9 +181,15 @@
     font-size: 26px;
     font-weight: 400;
     text-align: center;
+
+    &:before {
+      content:"";
+      display: none;
+    }
   }
 
   span {
+    font-size: 16px;
     display: inline-block;
     width: 100%;
     padding: 10px 0 20px;
@@ -175,7 +197,10 @@
   }
 
   img {
-    margin: 0 auto;
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    margin-left: -22px;
   }
 
 }
