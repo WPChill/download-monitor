@@ -64,8 +64,8 @@ $shortcode_checkout = new \Never5\DownloadMonitor\Shop\Shortcode\Checkout();
 $shortcode_checkout->register();
 
 
-$shortcode_add_to_cart = new \Never5\DownloadMonitor\Shop\Shortcode\AddToCart();
-$shortcode_add_to_cart->register();
+$shortcode_buy = new \Never5\DownloadMonitor\Shop\Shortcode\Buy();
+$shortcode_buy->register();
 
 /**
  * Setup assets

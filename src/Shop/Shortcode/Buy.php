@@ -4,13 +4,13 @@ namespace Never5\DownloadMonitor\Shop\Shortcode;
 
 use Never5\DownloadMonitor\Shop\Services\Services;
 
-class AddToCart {
+class Buy {
 
 	/**
 	 * Register the shortcode
 	 */
 	public function register() {
-		add_shortcode( 'dlm_add_to_cart', array( $this, 'content' ) );
+		add_shortcode( 'dlm_buy', array( $this, 'content' ) );
 	}
 
 	/**

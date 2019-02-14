@@ -448,7 +448,7 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'Never5\\DownloadMonitor\\Shop\\Session\\Repository' => __DIR__ . '/../..' . '/src/Shop/Session/Repository.php',
         'Never5\\DownloadMonitor\\Shop\\Session\\Session' => __DIR__ . '/../..' . '/src/Shop/Session/Session.php',
         'Never5\\DownloadMonitor\\Shop\\Session\\WordPressRepository' => __DIR__ . '/../..' . '/src/Shop/Session/WordPressRepository.php',
-        'Never5\\DownloadMonitor\\Shop\\Shortcode\\AddToCart' => __DIR__ . '/../..' . '/src/Shop/Shortcode/AddToCart.php',
+        'Never5\\DownloadMonitor\\Shop\\Shortcode\\Buy' => __DIR__ . '/../..' . '/src/Shop/Shortcode/Buy.php',
         'Never5\\DownloadMonitor\\Shop\\Shortcode\\Cart' => __DIR__ . '/../..' . '/src/Shop/Shortcode/Cart.php',
         'Never5\\DownloadMonitor\\Shop\\Shortcode\\Checkout' => __DIR__ . '/../..' . '/src/Shop/Shortcode/Checkout.php',
         'Never5\\DownloadMonitor\\Shop\\Tax\\TaxClassManager' => __DIR__ . '/../..' . '/src/Shop/Tax/TaxClassManager.php',

@@ -331,6 +331,7 @@ class DLM_Admin_Writepanels {
 			$download->set_price_from_user_input( $_POST['_dlm_price'] );
 		}
 
+		/*
 		if ( method_exists( $download, 'set_taxable' ) ) {
 			if ( isset( $_POST['_dlm_taxable'] ) ) {
 				$download->set_taxable( true );
@@ -338,10 +339,13 @@ class DLM_Admin_Writepanels {
 				$download->set_taxable( false );
 			}
 		}
+		*/
 
+		/*
 		if ( method_exists( $download, 'set_tax_class' ) ) {
 			$download->set_tax_class( $_POST['_dlm_tax_class'] );
 		}
+		*/
 
 		$total_download_count = 0;
 
