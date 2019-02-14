@@ -78,7 +78,7 @@ class Onboarding {
 	 */
 	public function add_notice() {
 		?>
-        <div class="notice notice-warning is-dismissible dlm-notice" data-id="onboarding">
+        <div class="notice notice-warning is-dismissible dlm-onboarding-notice" data-id="onboarding">
             <p><?php printf( __( 'Download Monitor is almost ready for use, %sclick here%s to finish the installation process.', 'download-monitor' ), '<a href="' . admin_url( 'edit.php?post_type=dlm_download&page=dlm_onboarding' ) . '">', '</a>' ); ?></p>
         </div>
 		<?php
