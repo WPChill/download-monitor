@@ -20,6 +20,7 @@ class VarParser {
 		$body = str_ireplace( "%DOWNLOADS_TABLE_PLAIN%", $this->generate_download_table_plain( $order ), $body );
 
 		$body = str_ireplace( "%ORDER_TABLE%", $this->generate_order_table( $order ), $body );
+		$body = str_ireplace( "%ORDER_TABLE_PLAIN%", $this->generate_order_table_plain( $order ), $body );
 
 
 		$body = str_ireplace( "%WEBSITE_NAME%", get_bloginfo( 'name' ), $body );
@@ -165,6 +166,25 @@ class VarParser {
 
 		ob_start();
 		download_monitor()->service( 'template_handler' )->get_template_part( 'shop/email/elements/order-table', '', '', array(
+			'items' => $this->build_simplified_order_data_array( $order )
+		) );
+		$output = ob_get_clean();
+
+
+		return $output;
+	}
+
+	/**
+	 * Generate the plain text overview with downloads customer just purchased
+	 *
+	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 *
+	 * @return string
+	 */
+	private function generate_order_table_plain( $order ) {
+
+		ob_start();
+		download_monitor()->service( 'template_handler' )->get_template_part( 'shop/email/elements/order-table-plain', '', '', array(
 			'items' => $this->build_simplified_order_data_array( $order )
 		) );
 		$output = ob_get_clean();
