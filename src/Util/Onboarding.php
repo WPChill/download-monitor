@@ -13,7 +13,7 @@ class Onboarding {
 		add_action( 'admin_menu', array( $this, 'add_admin_page' ) );
 
 		// add notice
-		if ( false === get_option( 'dlm_notice_onboarding' ) && ( ! isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'dlm_onboarding' != $_GET['page'] ) ) ) {
+		if ( false === get_option( 'dlm_hide_notice-onboarding' ) && ( ! isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'dlm_onboarding' != $_GET['page'] ) ) ) {
 			add_action( 'admin_notices', array( $this, 'add_notice' ) );
 
 			/*
@@ -78,7 +78,7 @@ class Onboarding {
 	 */
 	public function add_notice() {
 		?>
-        <div class="notice notice-warning is-dismissible dlm-onboarding-notice" data-id="onboarding">
+        <div class="notice notice-warning is-dismissible dlm-notice dlm-onboarding-notice" data-id="onboarding" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm_hide_notice-onboarding' ) ); ?>" id="onboarding">
             <p><?php printf( __( 'Download Monitor is almost ready for use, %sclick here%s to finish the installation process.', 'download-monitor' ), '<a href="' . admin_url( 'edit.php?post_type=dlm_download&page=dlm_onboarding' ) . '">', '</a>' ); ?></p>
         </div>
 		<?php
@@ -90,7 +90,7 @@ class Onboarding {
 	public function page() {
 
 		// been there, done that
-		//update_option( 'dlm_notice_onboarding', 1 );
+		update_option( 'dlm_hide_notice-onboarding', 1 );
 
 		/** @var \DLM_Settings_Helper $settings */
 		$settings = download_monitor()->service( "settings" );
