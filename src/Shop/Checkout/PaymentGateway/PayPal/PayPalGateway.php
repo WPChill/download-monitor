@@ -325,7 +325,8 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 
 		// setup transactions
 		$invoiceStr = $order->get_id();
-		if ( ! empty( $this->get_option( 'invoice_prefix' ) ) ) {
+		$invoice_prefix = $this->get_option( 'invoice_prefix' );
+		if ( ! empty( $invoice_prefix ) ) {
 			$invoiceStr = $this->get_option( 'invoice_prefix' ) . $invoiceStr;
 		}
 
