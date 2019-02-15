@@ -18,8 +18,6 @@ sftp-config.json
 vendor/*
 !vendor/composer
 !vendor/autoload_*
-vendor/composer/installers
-vendor/composer/installed.json
 
 # Ignore all log files except for .htaccess
 /logs/*
