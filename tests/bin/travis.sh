@@ -9,8 +9,6 @@ if [ $1 == 'before' ]; then
 		composer global require "phpunit/phpunit=6.2.*"
 	fi
 
-	composer global require "symfony/polyfill-ctype=1.*"
-
 fi
 
 if [ $1 == 'after' ]; then
