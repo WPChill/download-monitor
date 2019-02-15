@@ -12,11 +12,21 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var array $items
  * @var string $subtotal
  * @var string $total
+ * @var array $errors
  */
 
 ?>
 <div class="dlm-checkout">
     <form method="post" action="<?php echo $url_checkout; ?>" id="dlm-form-checkout" <?php echo $form_data_str; ?>>
+		<?php
+		if ( ! empty( $errors ) ):
+			foreach ( $errors as $error ):
+				download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/error', '', '', array(
+					'error' => $error
+				) );
+			endforeach;
+		endif;
+		?>
         <div class="dlm-checkout-billing">
             <h2><?php _e( 'Billing details', 'download-monitor' ); ?></h2>
 			<?php dlm_checkout_fields( $field_values ); ?>

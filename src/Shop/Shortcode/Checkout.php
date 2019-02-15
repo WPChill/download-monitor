@@ -49,10 +49,11 @@ class Checkout {
 				$order = $this->get_order_from_url();
 				if ( $order !== null ) {
 
+					// get simplified items array
 					$items = $this->get_simplified_item_array( $order->get_items() );
 
-					$customer = $order->get_customer();
-
+					// create field values
+					$customer     = $order->get_customer();
 					$field_values = array(
 						'first_name' => $customer->get_first_name(),
 						'last_name'  => $customer->get_last_name(),
@@ -65,6 +66,11 @@ class Checkout {
 
 					);
 
+					// set error
+					$errors = array(
+						__( "Your payment failed, please try again.", 'download-monitor' )
+					);
+
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout', '', '', array(
 						'form_data_str' => sprintf( 'data-order_id="%s" data-order_hash="%s"', esc_attr( $order->get_id() ), esc_attr( $order->get_hash() ) ),
 						'cart'          => $cart,
@@ -73,7 +79,8 @@ class Checkout {
 						'field_values'  => $field_values,
 						'items'         => $items,
 						'subtotal'      => dlm_format_money( $order->get_subtotal() ),
-						'total'         => dlm_format_money( $order->get_total() )
+						'total'         => dlm_format_money( $order->get_total() ),
+						'errors'        => $errors
 					) );
 				} else {
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/empty', '', '', array() );
@@ -92,7 +99,8 @@ class Checkout {
 						'field_values'  => array(),
 						'items'         => $items,
 						'subtotal'      => dlm_format_money( $cart->get_subtotal() ),
-						'total'         => dlm_format_money( $cart->get_total() )
+						'total'         => dlm_format_money( $cart->get_total() ),
+						'errors'        => array()
 					) );
 				} else {
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/empty', '', '', array() );
