@@ -65,6 +65,9 @@ class Page {
 				case 'complete':
 					$endpoint = 'complete';
 					break;
+				case 'cancelled':
+					$endpoint = 'cancelled';
+					break;
 				default:
 					$endpoint = '';
 					break;

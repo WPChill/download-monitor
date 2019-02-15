@@ -5,6 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * @var Never5\DownloadMonitor\Shop\Cart\Cart $cart
+ * @var array $items
+ * @var string $subtotal
+ * @var string $total
  */
 ?>
 <table cellpadding="0" cellspacing="0" border="0">
@@ -16,7 +19,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     </thead>
     <tbody>
 	<?php
-	$items = $cart->get_items();
 	if ( ! empty( $items ) ) {
 		/** @var \Never5\DownloadMonitor\Shop\Cart\Item $item */
 		foreach ( $items as $item ) {
@@ -30,11 +32,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     <tfoot>
     <tr>
         <th><?php _e( 'Subtotal', 'download-monitor' ); ?></th>
-        <td><?php echo dlm_format_money( $cart->get_subtotal() ); ?></td>
+        <td><?php echo $subtotal; ?></td>
     </tr>
     <tr>
         <th><?php _e( 'Total', 'download-monitor' ); ?></th>
-        <td><?php echo dlm_format_money( $cart->get_total() ); ?></td>
+        <td><?php echo $total; ?></td>
     </tr>
     </tfoot>
 </table>

@@ -96,16 +96,20 @@ class Field {
 	 * Generate field on options
 	 *
 	 * @param array $options
+	 * @param string $value
 	 *
 	 * @return string
 	 */
-	private function do_field( $options ) {
+	private function do_field( $options, $value ) {
 		switch ( $options['type'] ) {
 			case 'select':
+
+				$selected = ( $value !== "" ) ? $value : $options['placeholder'];
+
 				$return = sprintf( '<select name="dlm_%s" id="dlm_%s" class="dlm-checkout-field">', esc_attr( $options['name'] ), esc_attr( $options['name'] ) );
 				if ( ! empty( $options['options'] ) ) {
 					foreach ( $options['options'] as $k => $v ) {
-						$return .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $k ), selected( $options['placeholder'], $k, false ), esc_html( $v ) );
+						$return .= sprintf( '<option value="%s" %s>%s</option>', esc_attr( $k ), selected( $selected, $k, false ), esc_html( $v ) );
 					}
 				}
 				$return .= '</select>';
@@ -114,7 +118,7 @@ class Field {
 				break;
 			case 'text':
 			default:
-				return sprintf( '<input type="text" class="dlm-checkout-field" id="dlm_%s" name="dlm_%s" value="" placeholder="%s" />', esc_attr( $options['name'] ), esc_attr( $options['name'] ), esc_attr( $options['placeholder'] ) );
+				return sprintf( '<input type="text" class="dlm-checkout-field" id="dlm_%s" name="dlm_%s" value="%s" placeholder="%s" />', esc_attr( $options['name'] ), esc_attr( $options['name'] ), esc_attr( $value ), esc_attr( $options['placeholder'] ) );
 				break;
 		}
 
@@ -152,10 +156,11 @@ class Field {
 	 * Generate field based on given options
 	 *
 	 * @param array $options
+	 * @param string $value
 	 *
 	 * @return string
 	 */
-	public function generate( $options ) {
+	public function generate( $options, $value = "" ) {
 		$output = "";
 
 		$row_class = 'dlm-checkout-row' . ( isset( $options['row-class'] ) ? ' dlm-checkout-row-' . implode( ' dlm-checkout-row-', $options['row-class'] ) : '' );
@@ -174,7 +179,7 @@ class Field {
 
 		$output .= '<span class="dlm-checkout-input-wrapper">';
 
-		$output .= $this->do_field( $options );
+		$output .= $this->do_field( $options, $value );
 
 		$output .= '</span>';
 		$output .= '</div>';
@@ -185,12 +190,15 @@ class Field {
 
 	/**
 	 * Generate and output all checkout fields
+	 *
+	 * @var array $values ([ 'option_key' => 'option_value' ])
 	 */
-	public function output_all_fields() {
+	public function output_all_fields( $values = array() ) {
 		$fields = $this->get_fields();
 
 		foreach ( $fields as $field ) {
-			echo $this->generate( $field );
+			$val = ( isset( $values[ $field['name'] ] ) ) ? $values[ $field['name'] ] : "";
+			echo $this->generate( $field, $val );
 		}
 
 	}
