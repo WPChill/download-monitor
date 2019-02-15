@@ -17,8 +17,7 @@ sftp-config.json
 # Exclude everything in /vendor except our autoload stuff
 vendor/*
 !vendor/composer
-!vendor/autoload_52.php
-vendor/composer/autoload_static.php
+!vendor/autoload_*
 vendor/composer/installers
 vendor/composer/installed.json
 
