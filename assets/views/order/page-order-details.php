@@ -161,10 +161,9 @@ $items = $order->get_items();
 					<?php if ( ! empty( $processors ) ) : ?>
                         <li>
                             <label><?php _e( "Payment Method", 'download-monitor' ); ?>:</label>
-                            <p><?php echo esc_html( $processors[0] ); ?></p>
+                            <p><?php echo esc_html( $processors[ count( $processors ) - 1 ] ); ?></p>
                         </li>
 					<?php endif; ?>
-                </ul>
             </div>
         </div>
 
