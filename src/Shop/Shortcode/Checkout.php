@@ -17,6 +17,8 @@ class Checkout {
 	 * Shortcode content
 	 *
 	 * @param $atts array
+	 *
+	 * @return string
 	 */
 	public function content( $atts ) {
 
@@ -25,6 +27,8 @@ class Checkout {
 
 
 		$endpoint = ( isset( $_GET['ep'] ) ? $_GET['ep'] : "" );
+
+		ob_start();
 
 		switch ( $endpoint ) {
 			case "complete":
@@ -97,6 +101,7 @@ class Checkout {
 				break;
 		}
 
+		return ob_get_clean();
 
 	}
 

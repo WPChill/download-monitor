@@ -17,11 +17,15 @@ class Cart {
 	 * Shortcode content
 	 *
 	 * @param $atts array
+	 *
+	 * @return string
 	 */
 	public function content( $atts ) {
 
 		/** @var \Never5\DownloadMonitor\Shop\Cart\Cart $cart */
 		$cart = Services::get()->service( 'cart' )->get_cart();
+
+		ob_start();
 
 		if ( ! $cart->is_empty() ) {
 			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/cart', '', '', array(
@@ -32,6 +36,8 @@ class Cart {
 		} else {
 			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/cart/empty', '', '', array() );
 		}
+
+		return ob_get_clean();
 
 	}
 

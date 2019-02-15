@@ -76,8 +76,6 @@ class Buy {
 
 		return $output;
 
-		//download_monitor()->service( 'template_handler' )->get_template_part( 'shop/button/add-to-cart', '', '', array() );
-
 	}
 
 }
