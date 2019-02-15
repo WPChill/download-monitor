@@ -3,7 +3,11 @@
 
 if [ $1 == 'before' ]; then
 
-composer global require "phpunit/phpunit=6.*"
+	if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
+		composer global require "phpunit/phpunit=4.8.*"
+	else
+		composer global require "phpunit/phpunit=6.2.*"
+	fi
 
 fi
 
