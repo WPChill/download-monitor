@@ -33,18 +33,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '4.2.1' );
+define( 'DLM_VERSION', '4.3.0' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
 
-require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
-
-/*
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
 }else {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
-*/
 
