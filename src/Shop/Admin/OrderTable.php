@@ -74,6 +74,7 @@ class OrderTable extends \WP_List_Table {
 	 * @return array
 	 */
 	protected function get_bulk_actions() {
+	    return array(); /** @todo add bulk actions in later version */
 		$actions = array(
 			'delete' => __( 'Delete', 'download-monitor' )
 		);
@@ -223,7 +224,7 @@ class OrderTable extends \WP_List_Table {
 					$month_count = count( $months );
 
 					if ( $month_count && ! ( 1 == $month_count && 0 == $months[0]->month ) ) {
-						$m = isset( $_GET['filter_month'] ) ? $_GET['filter_month'] : 0;
+						$m = !empty( $this->filter_month ) ? $this->filter_month : 0;
 						?>
                         <select name="filter_month">
                             <option <?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
