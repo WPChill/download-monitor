@@ -62,13 +62,14 @@ class Checkout {
 					);
 
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout', '', '', array(
-						'cart'         => $cart,
-						'url_cart'     => Services::get()->service( 'page' )->get_cart_url(),
-						'url_checkout' => Services::get()->service( 'page' )->get_checkout_url(),
-						'field_values' => $field_values,
-						'items'        => $items,
-						'subtotal'     => dlm_format_money( $order->get_subtotal() ),
-						'total'        => dlm_format_money( $order->get_total() )
+						'form_data_str' => sprintf( 'order_id="%s" order_hash="%s"', esc_attr( $order->get_id() ), esc_attr( $order->get_hash() ) ),
+						'cart'          => $cart,
+						'url_cart'      => Services::get()->service( 'page' )->get_cart_url(),
+						'url_checkout'  => Services::get()->service( 'page' )->get_checkout_url(),
+						'field_values'  => $field_values,
+						'items'         => $items,
+						'subtotal'      => dlm_format_money( $order->get_subtotal() ),
+						'total'         => dlm_format_money( $order->get_total() )
 					) );
 				} else {
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/empty', '', '', array() );
@@ -80,13 +81,14 @@ class Checkout {
 					$items = $this->get_simplified_item_array( $cart->get_items() );
 
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout', '', '', array(
-						'cart'         => $cart,
-						'url_cart'     => Services::get()->service( 'page' )->get_cart_url(),
-						'url_checkout' => Services::get()->service( 'page' )->get_checkout_url(),
-						'field_values' => array(),
-						'items'        => $items,
-						'subtotal'     => dlm_format_money( $cart->get_subtotal() ),
-						'total'        => dlm_format_money( $cart->get_total() )
+						'form_data_str' => '',
+						'cart'          => $cart,
+						'url_cart'      => Services::get()->service( 'page' )->get_cart_url(),
+						'url_checkout'  => Services::get()->service( 'page' )->get_checkout_url(),
+						'field_values'  => array(),
+						'items'         => $items,
+						'subtotal'      => dlm_format_money( $cart->get_subtotal() ),
+						'total'         => dlm_format_money( $cart->get_total() )
 					) );
 				} else {
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/empty', '', '', array() );

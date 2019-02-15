@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /**
+ * @var string $form_data_str
  * @var Never5\DownloadMonitor\Shop\Cart\Cart $cart
  * @var string $url_cart
  * @var string $url_checkout
@@ -15,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div class="dlm-checkout">
-    <form method="post" action="<?php echo $url_checkout; ?>" id="dlm-form-checkout">
+    <form method="post" action="<?php echo $url_checkout; ?>" id="dlm-form-checkout" <?php echo $form_data_str; ?>>
         <div class="dlm-checkout-billing">
             <h2><?php _e( 'Billing details', 'download-monitor' ); ?></h2>
 			<?php dlm_checkout_fields( $field_values ); ?>
