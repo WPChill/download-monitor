@@ -10,20 +10,28 @@ jQuery( function ( $ ) {
 		dlmShopShowLoading( form );
 
 		var customer = {
-			first_name: $( this ).find( '#dlm_first_name' ).val(),
-			last_name: $( this ).find( '#dlm_last_name' ).val(),
-			company: $( this ).find( '#dlm_company' ).val(),
-			email: $( this ).find( '#dlm_email' ).val(),
-			address_1: $( this ).find( '#dlm_address_1' ).val(),
-			postcode: $( this ).find( '#dlm_postcode' ).val(),
-			city: $( this ).find( '#dlm_city' ).val(),
-			country: $( this ).find( '#dlm_country' ).val(),
+			first_name: form.find( '#dlm_first_name' ).val(),
+			last_name: form.find( '#dlm_last_name' ).val(),
+			company: form.find( '#dlm_company' ).val(),
+			email: form.find( '#dlm_email' ).val(),
+			address_1: form.find( '#dlm_address_1' ).val(),
+			postcode: form.find( '#dlm_postcode' ).val(),
+			city: form.find( '#dlm_city' ).val(),
+			country: form.find( '#dlm_country' ).val(),
 		};
 
 		var data = {
 			payment_gateway: $( 'input[name=dlm_gateway]:checked', $( this ) ).val(),
 			customer: customer
 		};
+
+		if ( typeof form.data( 'order_id' ) !== "undefined" ) {
+			data.order_id = form.data( 'order_id' );
+		}
+
+		if ( typeof form.data( 'order_hash' ) !== "undefined" ) {
+			data.order_hash = form.data( 'order_hash' );
+		}
 
 		// check if required data is set
 		var errorFields = [];
@@ -49,7 +57,7 @@ jQuery( function ( $ ) {
 			if ( response.success === true && typeof response.redirect !== 'undefined' ) {
 				window.location.replace( response.redirect );
 				return false;
-			}else if( response.success === false && response.error !== '' ) {
+			} else if ( response.success === false && response.error !== '' ) {
 				dlmShopDisplayError( form, response.error );
 			}
 			dlmShopHideLoading( form );

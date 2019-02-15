@@ -66,7 +66,7 @@ class Checkout {
 					);
 
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout', '', '', array(
-						'form_data_str' => sprintf( 'order_id="%s" order_hash="%s"', esc_attr( $order->get_id() ), esc_attr( $order->get_hash() ) ),
+						'form_data_str' => sprintf( 'data-order_id="%s" data-order_hash="%s"', esc_attr( $order->get_id() ), esc_attr( $order->get_hash() ) ),
 						'cart'          => $cart,
 						'url_cart'      => Services::get()->service( 'page' )->get_cart_url(),
 						'url_checkout'  => Services::get()->service( 'page' )->get_checkout_url(),

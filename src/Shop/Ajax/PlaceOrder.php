@@ -90,9 +90,40 @@ class PlaceOrder extends Ajax {
 			$this->failed( __( 'Invalid Payment Gateway', 'download-monitor' ) );
 		}
 
-		// create order
-		/** @var Order\Order $order */
-		$order = Services::get()->service( 'order_factory' )->make();
+		// check if we need to create an order or fetch one based on id and hash
+		$order_id     = absint( ( isset( $_POST['order_id'] ) ) ? $_POST['order_id'] : 0 );
+		$order_hash   = ( isset( $_POST['order_hash'] ) ? $_POST['order_hash'] : '' );
+		$order        = null;
+		$is_new_order = true;
+
+		if ( $order_id > 0 && ! empty( $order_hash ) ) {
+			/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $op */
+			try {
+				$op        = Services::get()->service( 'order_repository' );
+				$tmp_order = $op->retrieve_single( $order_id );
+
+				// check order hashes
+				if ( $order_hash !== $tmp_order->get_hash() ) {
+					throw new \Exception( 'Order hash incorrect' );
+				}
+
+				if ( $tmp_order->get_status()->get_key() !== 'pending-payment' ) {
+					throw new \Exception( 'Order status not pending payment' );
+				}
+
+				$order        = $tmp_order;
+				$is_new_order = false;
+
+			} catch ( \Exception $e ) {
+				$order = null;
+			}
+		}
+
+		// create order if no order is set at this point
+		if ( null === $order ) {
+			/** @var Order\Order $order */
+			$order = Services::get()->service( 'order_factory' )->make();
+		}
 
 		/**
 		 * Create OrderCustomer
@@ -112,8 +143,10 @@ class PlaceOrder extends Ajax {
 			$customer_post['ip_address']
 		) );
 
-		// build array with order items based on current cart
-		$order->set_items( Services::get()->service( 'order' )->build_order_items_from_cart() );
+		// build array with order items based on current cart if this is a new order
+		if ( $is_new_order ) {
+			$order->set_items( Services::get()->service( 'order' )->build_order_items_from_cart() );
+		}
 
 		// persist order
 		try {
@@ -131,7 +164,7 @@ class PlaceOrder extends Ajax {
 		}
 
 		// order is in DB, gateway did what it had to do -> clear the cart
-		Services::get()->service('cart')->destroy_cart();
+		Services::get()->service( 'cart' )->destroy_cart();
 
 		// we good, send response with redirect
 		$this->response( true, $gateway_result->get_redirect(), '' );
