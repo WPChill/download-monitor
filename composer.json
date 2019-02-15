@@ -13,14 +13,7 @@
       "Never5\\DownloadMonitor\\": "src/"
     },
     "classmap": [
-      "src/",
-      "src/Admin",
-      "src/Admin/Settings",
-      "src/Admin/Settings/Fields",
-      "src/Download",
-      "src/Product",
-      "src/Widgets",
-      "src/Libs/uaparser"
+      "src/"
     ]
   },
   "require": {
