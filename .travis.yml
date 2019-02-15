@@ -4,6 +4,7 @@ sudo: false
 
 # Test main supported versions of PHP against latest WP.
 php:
+  - 5.4
   - 5.6
   - 7.0
   - 7.1
@@ -20,7 +21,6 @@ matrix:
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - if [[ $TRAVIS_PHP_VERSION == '7.1' ]]; then composer install; fi
   - bash tests/bin/install.sh dlm_test root '' localhost $WP_VERSION
   - bash tests/bin/travis.sh before
 
