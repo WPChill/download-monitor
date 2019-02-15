@@ -33,6 +33,10 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         array (
             'Psr\\Log\\' => 8,
         ),
+        'N' => 
+        array (
+            'Never5\\DownloadMonitor\\' => 23,
+        ),
         'L' => 
         array (
             'League\\Flysystem\\' => 17,
@@ -82,6 +86,10 @@ class ComposerStaticInitc1fc7acd466984c203d3edc7d7f0400a
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Never5\\DownloadMonitor\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'League\\Flysystem\\' => 
         array (

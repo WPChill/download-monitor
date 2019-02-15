@@ -9,6 +9,9 @@
   "license": "GPL-2.0+",
   "author": "Never5",
   "autoload": {
+    "psr-4": {
+      "Never5\\DownloadMonitor\\": "src/"
+    },
     "classmap": [
       "src/",
       "src/Admin",
