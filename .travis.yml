@@ -4,10 +4,20 @@ sudo: false
 
 # Test main supported versions of PHP against latest WP.
 php:
+  - 5.4
+  - 5.6
+  - 7.0
   - 7.1
 
 env:
   - WP_VERSION=latest WP_MULTISITE=0 PHP_LATEST_STABLE=7.1
+
+# Additional tests
+matrix:
+  include:
+  - php: 5.3
+    env: WP_VERSION=latest WP_MULTISITE=0 PHP_LATEST_STABLE=7.1
+    dist: precise
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
