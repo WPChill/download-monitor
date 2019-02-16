@@ -25,7 +25,7 @@ class Hooks {
 
 			if ( $atc_id > 0 ) {
 				Services::get()->service( 'cart' )->add_to_cart( $atc_id, 1 );
-				Services::get()->service( 'redirect' )->to_cart();
+				Services::get()->service( 'page' )->to_cart();
 			}
 		}
 	}
@@ -39,7 +39,7 @@ class Hooks {
 
 			if ( $atc_id > 0 ) {
 				Services::get()->service( 'cart' )->remove_from_cart( $atc_id );
-				Services::get()->service( 'redirect' )->to_cart();
+				Services::get()->service( 'page' )->to_cart();
 			}
 		}
 	}

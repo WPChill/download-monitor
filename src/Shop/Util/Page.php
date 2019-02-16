@@ -2,6 +2,8 @@
 
 namespace Never5\DownloadMonitor\Shop\Util;
 
+use Never5\DownloadMonitor\Shop\Services\Services;
+
 class Page {
 
 	/**
@@ -81,6 +83,20 @@ class Page {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Redirect to checkout page
+	 */
+	public function to_checkout() {
+		Services::get()->service( 'redirect' )->redirect( Services::get()->service( 'page' )->get_checkout_url() );
+	}
+
+	/**
+	 * Redirect to cart page
+	 */
+	public function to_cart() {
+		Services::get()->service( 'redirect' )->redirect( Services::get()->service( 'page' )->get_cart_url() );
 	}
 
 	/**
