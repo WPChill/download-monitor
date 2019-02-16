@@ -24,7 +24,6 @@ class DLM_Unit_Test_Case extends WP_UnitTestCase {
 		DLM_Test_WP_DB_Helper::truncate( $wpdb->prefix . 'dlm_order' );
 		DLM_Test_WP_DB_Helper::truncate( $wpdb->prefix . 'dlm_session' );
 		$wpdb->query( "SET FOREIGN_KEY_CHECKS = 1;" );
-
 	}
 
 	/**

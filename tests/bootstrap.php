@@ -1,5 +1,6 @@
 <?php
 
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 class DLM_Unit_Tests_Bootstrap {
 
@@ -43,6 +44,9 @@ class DLM_Unit_Tests_Bootstrap {
 
 		// load testing framework
 		$this->includes();
+
+		// setup mock services
+		$this->setup_mock_services();
 	}
 
 	/**
@@ -78,6 +82,23 @@ class DLM_Unit_Tests_Bootstrap {
 
 		// helpers
 		require_once( $this->tests_dir . '/framework/helpers/WPDBHelper.php' );
+
+		// mocks
+		require_once( $this->tests_dir . '/framework/mock/Redirect.php' );
+	}
+
+	/**
+	 * Setup mock services.
+	 * Replaces some "real" services with mocks.
+	 * Example of this: replaces redirect with mock redirect
+	 *      which doesn't really try to HTTP header the user.
+	 */
+	public function setup_mock_services() {
+
+		// replace redirect service with custom redirect mock
+		Services::get()->replace( 'redirect', function () {
+			return new DLM_Test_Mock_Redirect();
+		} );
 	}
 
 	/**
