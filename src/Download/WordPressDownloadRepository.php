@@ -14,7 +14,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	private function filter_query_args( $args = array(), $limit = 0, $offset = 0 ) {
 
 		// limit must be int, not abs
-		$limit  = intval( $limit );
+		$limit = intval( $limit );
 
 		// most be absint
 		$offset = absint( $offset );
@@ -89,13 +89,18 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		$items = array();
 
 		$q     = new WP_Query();
+
 		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
 
 		if ( count( $posts ) > 0 ) {
 			foreach ( $posts as $post ) {
 
 				// create download object
-				$download = new DLM_Download();
+
+				/**
+				 * @var $download \DLM_Download
+				 */
+				$download = download_monitor()->service( 'download_factory' )->make( ( ( 1 == get_post_meta( $post->ID, '_is_purchasable', true ) ) ? 'product' : 'regular' ) );
 				$download->set_id( $post->ID );
 				$download->set_status( $post->post_status );
 				$download->set_title( $post->post_title );
@@ -107,6 +112,14 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_featured( ( 'yes' == get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) ) );
 				$download->set_download_count( absint( get_post_meta( $post->ID, '_download_count', true ) ) );
+				$download->set_purchasable( ( 1 == get_post_meta( $post->ID, '_is_purchasable', true ) ) );
+
+				if ( $download->is_purchasable() ) {
+					$download->set_price( get_post_meta( $post->ID, '_price', true ) );
+					$download->set_taxable( ( 1 == get_post_meta( $post->ID, '_taxable', true ) ) );
+					$download->set_tax_class( get_post_meta( $post->ID, '_tax_class', true ) );
+				}
+
 
 				// This is added for backwards compatibility but will be removed in a later version!
 				$download->post = $post;
@@ -172,6 +185,34 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 
 		// other download meta
 		update_post_meta( $download_id, '_download_count', $download->get_download_count() );
+
+		// check if this product is purchasable.
+		if ( $download->is_purchasable() ) {
+			update_post_meta( $download_id, '_is_purchasable', 1 );
+		} else {
+			update_post_meta( $download_id, '_is_purchasable', 0 );
+		}
+
+		// update E-Commerce meta
+		if ( method_exists( $download, 'get_price' ) ) {
+			update_post_meta( $download_id, '_price', $download->get_price() );
+		}
+
+		if ( method_exists( $download, 'is_taxable' ) ) {
+			if ( $download->is_taxable() ) {
+				update_post_meta( $download_id, '_taxable', 1 );
+			} else {
+				update_post_meta( $download_id, '_taxable', 0 );
+			}
+		}
+
+		if ( method_exists( $download, 'get_price' ) ) {
+			update_post_meta( $download_id, '_price', $download->get_price() );
+		}
+
+		if ( method_exists( $download, 'get_tax_class' ) ) {
+			update_post_meta( $download_id, '_tax_class', $download->get_tax_class() );
+		}
 
 		// clear versions transient
 		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );

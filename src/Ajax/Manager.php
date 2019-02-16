@@ -44,6 +44,9 @@ class DLM_Ajax_Manager {
 		$get_versions = new DLM_Ajax_GetVersions();
 		$get_versions->register();
 
+		$create_page = new DLM_Ajax_CreatePage();
+		$create_page->register();
+
 	}
 
 	/**

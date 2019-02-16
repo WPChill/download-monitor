@@ -4,6 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+use \Never5\DownloadMonitor\Util;
+
 /**
  * WP_DLM class.
  *
@@ -113,6 +115,10 @@ class WP_DLM {
 
 			$lu_ajax = new DLM_LU_Ajax();
 			$lu_ajax->setup();
+
+			// Onboarding
+			$onboarding = new Util\Onboarding();
+			$onboarding->setup();
 		}
 
 		// Setup AJAX handler if doing AJAX
@@ -120,7 +126,7 @@ class WP_DLM {
 			new DLM_Ajax_Handler();
 		}
 
-		// Setup AJAX
+		// Setup new AJAX handler
 		$ajax_manager = new DLM_Ajax_Manager();
 		$ajax_manager->setup();
 
@@ -175,6 +181,12 @@ class WP_DLM {
 
 		// Setup integrations
 		$this->setup_integrations();
+
+		// check if we need to bootstrap E-Commerce
+		if ( apply_filters( 'dlm_shop_load_bootstrap', true ) ) {
+			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
+		}
+
 	}
 
 	/**
@@ -259,11 +271,7 @@ class WP_DLM {
 	 */
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_enqueue_style(
-				'dlm-frontend',
-				$this->get_plugin_url() . '/assets/css/frontend.css',
-				array(),
-				DLM_VERSION );
+			wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
 		}
 
 		// only enqueue preview stylesheet when we're in the preview
@@ -276,6 +284,8 @@ class WP_DLM {
 				DLM_VERSION
 			);
 		}
+
+		do_action( 'dlm_frontend_scripts_after' );
 
 	}
 

@@ -117,10 +117,14 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.2.1: January 31, 2018 =
+= 4.3.0: x x, 2019 =
+* Feature: Added an onboarding screen, helping the user set up the plugin.
+* Tweak: We're no longer automatically creating the No Access page. This is now done via the onboarding screen.
+
+= 4.2.1: January 31, 2019 =
 * Tweak: Correctly set default template of Gutenberg block on frontend of website when no specific template is set.
 
-= 4.2.0: January 24, 2018 =
+= 4.2.0: January 24, 2019 =
 * Feature: Added Gutenberg download block. Type /download in your post screen to see it in action!
 
 = 4.1.1: September 12, 2018 =

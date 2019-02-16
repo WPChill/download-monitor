@@ -47,6 +47,15 @@ class DLM_Services {
 	/**
 	 * Dynamically called via get()
 	 *
+	 * @return DLM_Download_Factory
+	 */
+	private function cb_download_factory() {
+		return new DLM_Download_Factory();
+	}
+
+	/**
+	 * Dynamically called via get()
+	 *
 	 * @return DLM_WordPress_Version_Repository
 	 */
 	private function cb_version_repository() {
@@ -69,6 +78,15 @@ class DLM_Services {
 	 */
 	private function cb_view_manager() {
 		return new DLM_View_Manager();
+	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_Template_Handler
+	 */
+	private function cb_template_handler() {
+		return new DLM_Template_Handler();
 	}
 
 	/**
@@ -110,10 +128,9 @@ class DLM_Services {
 	/**
 	 * Dynamically called via get()
 	 *
-	 * @return DLM_Template_Handler
+	 * @return DLM_Settings_Helper
 	 */
-	private function cb_template_handler() {
-		return new DLM_Template_Handler();
+	private function cb_settings() {
+		return new DLM_Settings_Helper();
 	}
-
 }

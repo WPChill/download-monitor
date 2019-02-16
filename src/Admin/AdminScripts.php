@@ -151,6 +151,7 @@ class DLM_Admin_Scripts {
 			wp_enqueue_style( 'dlm_legacy_upgrader_css', download_monitor()->get_plugin_url() . '/assets/js/legacy-upgrader/build/style.css' );
 		}
 
+		do_action( 'dlm_admin_scripts_after' );
 
 	}
 

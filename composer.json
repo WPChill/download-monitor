@@ -1,5 +1,5 @@
 {
-  "name": "download-monitor",
+  "name": "never5/download-monitor",
   "description": "Download Monitor",
   "keywords": [
     "wordpress",
@@ -8,33 +8,30 @@
   "homepage": "https://www.download-monitor.com/",
   "license": "GPL-2.0+",
   "author": "Never5",
-  "require": {
-    "xrstf/composer-php52": "1.*"
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "xrstf\\Composer52\\Generator::onPostInstallCmd"
-    ],
-    "post-update-cmd": [
-      "xrstf\\Composer52\\Generator::onPostInstallCmd"
-    ],
-    "post-autoload-dump": [
-      "xrstf\\Composer52\\Generator::onPostInstallCmd"
-    ]
-  },
   "autoload": {
+    "psr-4": {
+      "Never5\\DownloadMonitor\\": "src/"
+    },
     "classmap": [
-      "src/",
-      "src/Admin",
-      "src/Admin/Settings",
-      "src/Admin/Settings/Fields",
-      "src/Download",
-      "src/Product",
-      "src/Widgets",
-      "src/Libs/uaparser"
+      "src/"
     ]
+  },
+  "require": {
+    "paypal/rest-api-sdk-php": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.4"
+    "phpunit/phpunit": "^6.4",
+    "coenjacobs/mozart": "^0.3.0"
+  },
+  "extra": {
+    "mozart": {
+      "dep_namespace": "Never5\\DownloadMonitor\\Shop\\Dependencies\\",
+      "dep_directory": "/src/Shop/Dependencies/",
+      "classmap_directory": "/tmp/mozart",
+      "classmap_prefix": "NOTUSED_",
+      "packages": [
+        "paypal/rest-api-sdk-php"
+      ]
+    }
   }
 }

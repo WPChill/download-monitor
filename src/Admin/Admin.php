@@ -35,10 +35,11 @@ class DLM_Admin {
 		// setup settings
 		$settings = new DLM_Admin_Settings();
 		add_action( 'admin_init', array( $settings, 'register_settings' ) );
+		add_filter( 'dlm_settings', array( $settings, 'backwards_compatibility_settings' ), 99, 1 );
 		$settings->register_lazy_load_callbacks();
 
 		// setup settings page
-        $settings_page = new DLM_Settings_Page();
+		$settings_page = new DLM_Settings_Page();
 		$settings_page->setup();
 
 		// setup logs

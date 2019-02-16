@@ -42,11 +42,12 @@ class DLM_Upgrade_Manager {
 	private function do_upgrade( $current_version ) {
 		global $wpdb;
 
+		$installer = new DLM_Installer();
+
 		// Upgrade to version 1.7.0
 		if ( version_compare( $current_version, '1.7.0', '<' ) ) {
 
 			// Adding new capabilities
-			$installer = new DLM_Installer();
 			$installer->init_user_roles();
 
 			// Set default 'No access message'
@@ -59,10 +60,6 @@ class DLM_Upgrade_Manager {
 
 		// Upgrade to version 1.9.0
 		if ( version_compare( $current_version, '1.9.0', '<' ) ) {
-
-			// Adding new capabilities
-			$installer = new DLM_Installer();
-			$installer->create_no_access_page();
 
 			// setup no access page endpoints
 			$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
@@ -89,6 +86,11 @@ class DLM_Upgrade_Manager {
 		// upgrade to version 4.1
 		if ( version_compare( $current_version, '4.1.0', '<' ) ) {
 			update_option( 'dlm_logging_ua', 1 );
+		}
+
+		// upgrade to version 4.3
+		if ( version_compare( $current_version, '4.3.0', '<' ) ) {
+			$installer->create_shop_tables();
 		}
 
 

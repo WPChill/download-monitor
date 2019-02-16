@@ -42,6 +42,12 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'desc':
 				$field = new DLM_Admin_Fields_Field_Desc( $option['name'], $option['text'], $placeholder );
 				break;
+			case 'title':
+				$field = new DLM_Admin_Fields_Field_Title( $option['title'] );
+				break;
+			case 'gateway_overview':
+				$field = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
+				break;
 			default:
 				/**
 				 * do_filter: dlm_setting_field_$type: (null) $field, (array) $option, (String) $value, (String) $placeholder
