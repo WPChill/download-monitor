@@ -141,6 +141,7 @@ class DLM_Test_Page extends DLM_Unit_Test_Case {
 		// check different endpoint checkout URLs
 		$this->assertEquals( add_query_arg( 'ep', 'complete', get_permalink( $checkout_id ) ), $pageUtil->get_checkout_url( 'complete' ) );
 		$this->assertEquals( add_query_arg( 'ep', 'cancelled', get_permalink( $checkout_id ) ), $pageUtil->get_checkout_url( 'cancelled' ) );
+		$this->assertEquals( get_permalink( $checkout_id ), $pageUtil->get_checkout_url( 'nonexisting' ) );
 	}
 
 	/**
