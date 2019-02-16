@@ -48,4 +48,16 @@ class Services {
 		return $this->container[ $service ];
 	}
 
+	/**
+	 * Replace an existing service with a new one.
+	 * Used mostly for inject unit test mocks.
+	 * Don't use this on _real_ websites unless you REALLY know what you're doing.
+	 *
+	 * @param $service_key
+	 * @param $new_service
+	 */
+	public function replace( $service_key, $new_service ) {
+		$this->container[ $service_key ] = $new_service;
+	}
+
 }
