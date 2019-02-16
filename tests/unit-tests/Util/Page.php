@@ -12,7 +12,7 @@ class DLM_Test_Page extends DLM_Unit_Test_Case {
 	public function test_is_cart() {
 
 		// create Page Util
-		$pageUtil = new Util\Page();
+		$pageUtil = Services::get()->service( 'page' );
 
 		// create other page
 		$other_id = $this->factory()->post->create(
@@ -48,7 +48,7 @@ class DLM_Test_Page extends DLM_Unit_Test_Case {
 	public function test_get_cart_url() {
 
 		// create Page Util
-		$pageUtil = new Util\Page();
+		$pageUtil = Services::get()->service( 'page' );
 
 		// create cart page
 		$cart_id = $this->factory()->post->create(
@@ -69,7 +69,7 @@ class DLM_Test_Page extends DLM_Unit_Test_Case {
 	public function test_get_add_to_cart_url() {
 
 		// create Page Util
-		$pageUtil = new Util\Page();
+		$pageUtil = Services::get()->service( 'page' );
 
 		// create cart page
 		$cart_id = $this->factory()->post->create(
@@ -90,7 +90,7 @@ class DLM_Test_Page extends DLM_Unit_Test_Case {
 	public function test_is_checkout() {
 
 		// create Page Util
-		$pageUtil = new Util\Page();
+		$pageUtil = Services::get()->service( 'page' );
 
 		// create other page
 		$other_id = $this->factory()->post->create(
@@ -126,7 +126,7 @@ class DLM_Test_Page extends DLM_Unit_Test_Case {
 	public function test_get_checkout_url() {
 
 		// create Page Util
-		$pageUtil = new Util\Page();
+		$pageUtil = Services::get()->service( 'page' );
 
 		// create checkout page
 		$checkout_id = $this->factory()->post->create(
