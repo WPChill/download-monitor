@@ -15,6 +15,16 @@ class DLM_Unit_Test_Case extends WP_UnitTestCase {
 		DLM_Test_WP_DB_Helper::truncate( $wpdb->termmeta );
 		DLM_Test_WP_DB_Helper::truncate( $wpdb->terms );
 		DLM_Test_WP_DB_Helper::truncate( $wpdb->download_log );
+
+
+		$wpdb->query( "SET FOREIGN_KEY_CHECKS = 0;" );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->prefix . 'dlm_order_transaction' );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->prefix . 'dlm_order_item' );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->prefix . 'dlm_order_customer' );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->prefix . 'dlm_order' );
+		DLM_Test_WP_DB_Helper::truncate( $wpdb->prefix . 'dlm_session' );
+		$wpdb->query( "SET FOREIGN_KEY_CHECKS = 1;" );
+
 	}
 
 	/**
@@ -66,6 +76,7 @@ class DLM_Unit_Test_Case extends WP_UnitTestCase {
 	 *
 	 * @param $condition
 	 * @param string $message
+	 *
 	 * @return mixed
 	 */
 	public static function assertNotFalse( $condition, $message = '' ) {
