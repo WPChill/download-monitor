@@ -71,24 +71,4 @@ class DLM_Unit_Test_Case extends WP_UnitTestCase {
 		$this->assertInstanceOf( 'WP_Error', $actual, $message );
 	}
 
-	/**
-	 * Backport assertNotFalse to PHPUnit 3.6.12 which only runs in PHP 5.2
-	 *
-	 * @param $condition
-	 * @param string $message
-	 *
-	 * @return mixed
-	 */
-	public static function assertNotFalse( $condition, $message = '' ) {
-
-		if ( version_compare( phpversion(), '5.3', '<' ) ) {
-
-			self::assertThat( $condition, self::logicalNot( self::isFalse() ), $message );
-
-		} else {
-
-			parent::assertNotFalse( $condition, $message );
-		}
-	}
-
 }
