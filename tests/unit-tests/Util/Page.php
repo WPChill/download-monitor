@@ -2,6 +2,8 @@
 
 use \Never5\DownloadMonitor\Shop\Util;
 
+use Never5\DownloadMonitor\Shop\Services\Services;
+
 class DLM_Test_Page extends DLM_Unit_Test_Case {
 
 	/**
@@ -145,6 +147,52 @@ class DLM_Test_Page extends DLM_Unit_Test_Case {
 	}
 
 	/**
+	 * Test is_cart()
+	 */
+	public function test_to_cart() {
+
+		// create Page Util
+		$pageUtil = Services::get()->service( 'page' );
+
+		// create cart page
+		$cart_id = $this->factory()->post->create(
+			array( 'post_title' => 'Cart', 'post_content' => '[dlm_cart]', 'post_type' => 'page' )
+		);
+
+		// set cart ID
+		update_option( 'dlm_page_cart', $cart_id );
+
+		// redirect to cart via Util\Redirect
+		$pageUtil->to_cart();
+
+		// we are on cart page now
+		$this->assertTrue( $pageUtil->is_cart() );
+	}
+
+	/**
+	 * Test is_cart()
+	 */
+	public function test_to_checkout() {
+
+		// create Page Util
+		$pageUtil = Services::get()->service( 'page' );
+
+		// create cart page
+		$checkout_id = $this->factory()->post->create(
+			array( 'post_title' => 'Checkout', 'post_content' => '[dlm_checkout]', 'post_type' => 'page' )
+		);
+
+		// set cart ID
+		update_option( 'dlm_page_checkout', $checkout_id );
+
+		// redirect to cart via Util\Redirect
+		$pageUtil->to_checkout();
+
+		// we are on cart page now
+		$this->assertTrue( $pageUtil->is_checkout() );
+	}
+
+	/**
 	 * Test get_pages()
 	 */
 	public function test_get_pages() {
@@ -153,7 +201,7 @@ class DLM_Test_Page extends DLM_Unit_Test_Case {
 		$pageUtil = new Util\Page();
 
 		// create other page
-		$checkout_id = $this->factory()->post->create(
+		$this->factory()->post->create(
 			array( 'post_title' => 'Checkout', 'post_content' => '[dlm_checkout]', 'post_type' => 'page' )
 
 		);
