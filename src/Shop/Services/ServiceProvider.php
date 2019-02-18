@@ -27,6 +27,10 @@ class ServiceProvider implements Pimple\ServiceProviderInterface {
 			return new Shop\Helper\Format();
 		};
 
+		$container['session_cookie'] = function ( $c ) {
+			return new Shop\Session\Cookie();
+		};
+
 		$container['session_repository'] = function ( $c ) {
 			return new Shop\Session\WordPressRepository();
 		};
