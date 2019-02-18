@@ -1,7 +1,6 @@
 <?php
 
 use \Never5\DownloadMonitor\Shop\Util;
-
 use Never5\DownloadMonitor\Shop\Services\Services;
 
 class DLM_Test_Page extends DLM_Unit_Test_Case {

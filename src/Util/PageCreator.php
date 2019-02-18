@@ -7,7 +7,7 @@ class PageCreator {
 	/**
 	 * Create no access page
 	 *
-	 * @return bool
+	 * @return int
 	 */
 	public function create_no_access_page() {
 		return $this->setup_page(
@@ -20,7 +20,7 @@ class PageCreator {
 	/**
 	 * Create cart page
 	 *
-	 * @return bool
+	 * @return int
 	 */
 	public function create_cart_page() {
 		return $this->setup_page(
@@ -33,7 +33,7 @@ class PageCreator {
 	/**
 	 * Create checkout page
 	 *
-	 * @return bool
+	 * @return int
 	 */
 	public function create_checkout_page() {
 		return $this->setup_page(
@@ -50,18 +50,16 @@ class PageCreator {
 	 * @param string $content
 	 * @param string $option
 	 *
-	 * @return bool
+	 * @return int
 	 */
 	private function setup_page( $title, $content, $option ) {
 		$new_page_id = $this->create_page( $title, $content );
 
 		if ( 0 !== $new_page_id ) {
 			update_option( $option, absint( $new_page_id ) );
-
-			return true;
 		}
 
-		return false;
+		return $new_page_id;
 	}
 
 	/**

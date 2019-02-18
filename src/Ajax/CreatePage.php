@@ -28,21 +28,21 @@ class DLM_Ajax_CreatePage extends DLM_Ajax {
 		if ( ! empty( $_GET['page'] ) ) {
 
 			$pc      = new Util\PageCreator();
-			$success = false;
+			$new_page_id = 0;
 
 			switch ( $_GET['page'] ) {
 				case 'no-access':
-					$success = $pc->create_no_access_page();
+					$new_page_id = $pc->create_no_access_page();
 					break;
 				case 'cart':
-					$success = $pc->create_cart_page();
+					$new_page_id = $pc->create_cart_page();
 					break;
 				case 'checkout':
-					$success = $pc->create_checkout_page();
+					$new_page_id = $pc->create_checkout_page();
 					break;
 			}
 
-			if ( $success ) {
+			if ( $new_page_id !== 0 ) {
 				wp_send_json( array( 'result' => 'success' ) );
 				exit;
 			} else {
