@@ -103,5 +103,18 @@ class DLM_Test_DownloadProduct extends DLM_Unit_Test_Case {
 		update_option( 'dlm_thousand_separator', $o_ts );
 	}
 
+	/**
+	 * Test set_taxable and is_taxable
+	 */
+	public function test_taxable() {
+		$download_product = new DownloadProduct\DownloadProduct();
+		$download_product->set_taxable( false );
+
+		$this->assertFalse( $download_product->is_taxable() );
+
+		$download_product->set_taxable( true );
+
+		$this->assertTrue( $download_product->is_taxable() );
+	}
 
 }
