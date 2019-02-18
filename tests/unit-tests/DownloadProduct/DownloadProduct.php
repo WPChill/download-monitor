@@ -117,4 +117,15 @@ class DLM_Test_DownloadProduct extends DLM_Unit_Test_Case {
 		$this->assertTrue( $download_product->is_taxable() );
 	}
 
+	/**
+	 * Test set_tax_class and get_tax_class
+	 */
+	public function test_tax_class() {
+
+		$download_product = new DownloadProduct\DownloadProduct();
+		$download_product->set_tax_class( "test_tax_class" );
+
+		$this->assertEquals( "test_tax_class", $download_product->get_tax_class() );
+	}
+
 }
