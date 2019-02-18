@@ -49,4 +49,19 @@ class DLM_Test_PageCreator extends DLM_Unit_Test_Case {
 		$this->assertEquals( $checkout_id, $checkout_option_id );
 	}
 
+	/**
+	 * Test create_no_access_page()
+	 */
+	public function test_create_existing_page() {
+		$pc = new Util\PageCreator();
+
+		$na_id = $pc->create_no_access_page();
+
+		$this->assertNotEquals( 0, $na_id );
+
+		$na_id_second = $pc->create_no_access_page();
+
+		$this->assertEquals( $na_id, $na_id_second );
+	}
+
 }
