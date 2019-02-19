@@ -24,6 +24,8 @@
     "phpunit/phpunit": "^6.4",
     "coenjacobs/mozart": "^0.3.0"
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "extra": {
     "mozart": {
       "dep_namespace": "Never5\\DownloadMonitor\\Dependencies\\",
