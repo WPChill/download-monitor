@@ -20,6 +20,12 @@ parsers:
       method: no
       macro: no
 
+ignore:
+    - "src/Dependencies"
+    - "includes"
+    - "tests"
+    - "vendor"
+
 comment:
   layout: "reach, diff, flags, files, footer"
   behavior: default

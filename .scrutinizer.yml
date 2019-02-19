@@ -27,3 +27,4 @@ filter:
     - tests/
     - assets/js/*.min.js
     - vendor/
+    - src/Dependencies
