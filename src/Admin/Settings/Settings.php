@@ -342,14 +342,14 @@ class DLM_Admin_Settings {
 								'type'  => 'text',
 								'std'   => '.',
 								'label' => __( 'Decimal Separator', 'download-monitor' ),
-								'desc'  => __( 'The decimal separator of distance unites and prices.', 'download-monitor' )
+								'desc'  => __( 'The decimal separator of displayed prices.', 'download-monitor' )
 							),
 							array(
 								'name'  => 'dlm_thousand_separator',
 								'type'  => 'text',
 								'std'   => ',',
 								'label' => __( 'Thousand Separator', 'download-monitor' ),
-								'desc'  => __( 'The thousand separator of displayed distance unites and prices.', 'download-monitor' )
+								'desc'  => __( 'The thousand separator of displayed prices.', 'download-monitor' )
 							),
 							array(
 								'name'     => 'dlm_disable_cart',
