@@ -166,8 +166,8 @@ class DLM_Installer {
 
 		// session
 		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_session` (
-		  `key` VARCHAR(255) NOT NULL,
-		  `hash` VARCHAR(255) NOT NULL,
+		  `key` VARCHAR(190) NOT NULL,
+		  `hash` VARCHAR(190) NOT NULL,
 		  `expiry` DATETIME NOT NULL,
 		  `data` LONGTEXT NOT NULL,
 		  PRIMARY KEY (`key`))
