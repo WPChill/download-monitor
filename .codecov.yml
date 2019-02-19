@@ -25,6 +25,7 @@ ignore:
     - "includes"
     - "tests"
     - "vendor"
+    - "src/Shop/Session/Cookie.php"
 
 comment:
   layout: "reach, diff, flags, files, footer"
