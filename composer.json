@@ -17,6 +17,7 @@
     ]
   },
   "require": {
+    "pimple/pimple": "*",
     "paypal/rest-api-sdk-php": "*"
   },
   "require-dev": {
@@ -25,12 +26,13 @@
   },
   "extra": {
     "mozart": {
-      "dep_namespace": "Never5\\DownloadMonitor\\Shop\\Dependencies\\",
-      "dep_directory": "/src/Shop/Dependencies/",
+      "dep_namespace": "Never5\\DownloadMonitor\\Dependencies\\",
+      "dep_directory": "/src/Dependencies/",
       "classmap_directory": "/tmp/mozart",
       "classmap_prefix": "NOTUSED_",
       "packages": [
-        "paypal/rest-api-sdk-php"
+        "paypal/rest-api-sdk-php",
+        "pimple/pimple"
       ]
     }
   }

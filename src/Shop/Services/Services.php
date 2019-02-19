@@ -2,7 +2,7 @@
 
 namespace Never5\DownloadMonitor\Shop\Services;
 
-use Never5\DownloadMonitor\Shop\Libs\Pimple;
+use Never5\DownloadMonitor\Dependencies\Pimple;
 
 class Services {
 

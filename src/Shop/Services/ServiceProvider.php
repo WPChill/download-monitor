@@ -2,8 +2,8 @@
 
 namespace Never5\DownloadMonitor\Shop\Services;
 
-use Never5\DownloadMonitor\Shop\Libs\Pimple;
-use Never5\DownloadMonitor\Shop\Libs\Pimple\Container;
+use Never5\DownloadMonitor\Dependencies\Pimple;
+use Never5\DownloadMonitor\Dependencies\Pimple\Container;
 use Never5\DownloadMonitor\Shop;
 
 class ServiceProvider implements Pimple\ServiceProviderInterface {

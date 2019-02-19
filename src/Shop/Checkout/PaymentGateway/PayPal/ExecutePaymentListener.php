@@ -2,7 +2,7 @@
 
 namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
 
-use Never5\DownloadMonitor\Shop\Dependencies\PayPal;
+use Never5\DownloadMonitor\Dependencies\PayPal;
 use Never5\DownloadMonitor\Shop\Services\Services;
 use PHPUnit\Runner\Exception;
 
@@ -106,7 +106,7 @@ class ExecutePaymentListener {
 
 			}
 
-			// set order as completed, this also persists the orer
+			// set order as completed, this also persists the order
 			$order->set_completed();
 
 			/**

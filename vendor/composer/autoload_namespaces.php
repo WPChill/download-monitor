@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
+    'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'PayPal' => array($vendorDir . '/paypal/rest-api-sdk-php/lib'),
 );

@@ -4,7 +4,7 @@ namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
 
 use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway;
 use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Shop\Dependencies\PayPal;
+use Never5\DownloadMonitor\Dependencies\PayPal;
 
 class PayPalGateway extends PaymentGateway\PaymentGateway {
 
