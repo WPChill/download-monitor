@@ -22,6 +22,8 @@ parsers:
 
 ignore:
     - "src/Dependencies"
+    - "src/Libs"
+    - "src/Polyfill"
     - "includes"
     - "tests"
     - "vendor"
