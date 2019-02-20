@@ -74,13 +74,18 @@ $items = $order->get_items();
                         </thead>
                         <tbody>
 						<?php
+                        // replace long date format vars for short ones
+						$date_short_format = str_replace( "F", "M", str_replace( "Y", "y", get_option( 'date_format' ) ) );
+
 						foreach ( $transactions as $transaction ) :
 
 							if ( $transaction->get_date_modified() !== null ) {
-								$date = $transaction->get_date_modified()->format( 'Y-h-d H:i:s' );
+								$date_obj = $transaction->get_date_modified();
 							} else {
-								$date = $transaction->get_date_created()->format( 'Y-h-d H:i:s' );
+								$date_obj = $transaction->get_date_created();
 							}
+
+							$date = date_i18n( $date_short_format, $date_obj->format( 'U' ) ) . " " . $date_obj->format( 'H:i:s' );
 							?>
                             <tr>
                                 <td><?php echo esc_html( $transaction->get_id() ); ?></td>
@@ -139,7 +144,8 @@ $items = $order->get_items();
                 <ul>
                     <li>
                         <label><?php _e( "Order Status", 'download-monitor' ); ?>:</label>
-                        <select name="dlm_new_order_status" class="dlm-order-details-current-state" id="dlm-order-details-current-state">
+                        <select name="dlm_new_order_status" class="dlm-order-details-current-state"
+                                id="dlm-order-details-current-state">
 							<?php
 							if ( ! empty( $statuses ) ) :
 								foreach ( $statuses as $status ):
@@ -148,11 +154,12 @@ $items = $order->get_items();
 							endif;
 							?>
                         </select>
-                        <button class="button button-primary button-large" id="dlm-order-details-button-change-state"><?php _e( "Change", 'download-montior' ); ?></button>
+                        <button class="button button-primary button-large"
+                                id="dlm-order-details-button-change-state"><?php _e( "Change", 'download-montior' ); ?></button>
                     </li>
                     <li>
                         <label><?php _e( "Date created", 'download-monitor' ); ?>:</label>
-                        <p><?php echo esc_html( $order->get_date_created()->format( 'Y-h-d H:i:s' ) ); ?></p>
+                        <p><?php echo esc_html( date_i18n( get_option( 'date_format' ), $order->get_date_created()->format( 'U' ) ) . " " . $order->get_date_created()->format( 'H:i:s' ) ); ?></p>
                     </li>
                     <li>
                         <label><?php _e( "IP Address", 'download-monitor' ); ?>:</label>
