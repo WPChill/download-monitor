@@ -43,6 +43,85 @@ class WordPressRepository implements Repository {
 	}
 
 	/**
+	 * Fetch and add orders items to order
+	 *
+	 * @param Order $order
+	 *
+	 * @return Order
+	 */
+	private function add_order_items_to_order( $order ) {
+		global $wpdb;
+
+		/** Fetch order items */
+		$order_items = array();
+		$db_items    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `" . $wpdb->prefix . "dlm_order_item` WHERE `order_id` = %d ORDER BY `id` ASC ;", $order->get_id() ) );
+		if ( count( $db_items ) > 0 ) {
+			foreach ( $db_items as $db_item ) {
+				$order_item = new OrderItem();
+
+				$order_item->set_id( $db_item->id );
+				$order_item->set_label( $db_item->label );
+				$order_item->set_qty( $db_item->qty );
+				$order_item->set_download_id( $db_item->download_id );
+				$order_item->set_subtotal( $db_item->subtotal );
+				$order_item->set_tax_class( $db_item->tax_class );
+				$order_item->set_tax_total( $db_item->tax_total );
+				$order_item->set_total( $db_item->total );
+
+				$order_items[] = $order_item;
+			}
+		}
+
+		$order->set_items( $order_items );
+
+		return $order;
+	}
+
+	/**
+	 * Fetch and add transactions to order
+	 *
+	 * @param Order $order
+	 *
+	 * @return Order
+	 */
+	private function add_transactions_to_order( $order ) {
+		global $wpdb;
+
+		/** Fetch transactions */
+		$order_transactions = array();
+		$db_items           = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `" . $wpdb->prefix . "dlm_order_transaction` WHERE `order_id` = %d ORDER BY `id` ASC ;", $order->get_id() ) );
+		if ( count( $db_items ) > 0 ) {
+			foreach ( $db_items as $db_item ) {
+				$order_transaction = new Transaction\OrderTransaction();
+
+				$order_transaction->set_id( $db_item->id );
+
+				if ( ! empty( $db_item->date_created ) ) {
+					$order_transaction->set_date_created( new \DateTimeImmutable( $db_item->date_created ) );
+				}
+
+				if ( ! empty( $db_item->date_modified ) ) {
+					$order_transaction->set_date_modified( new \DateTimeImmutable( $db_item->date_modified ) );
+				}
+
+				$order_transaction->set_amount( $db_item->amount );
+				$order_transaction->set_status( Services::get()->service( 'order_transaction_factory' )->make_status( $db_item->status ) );
+				$order_transaction->set_processor( $db_item->processor );
+				$order_transaction->set_processor_nice_name( $db_item->processor_nice_name );
+				$order_transaction->set_processor_transaction_id( $db_item->processor_transaction_id );
+				$order_transaction->set_processor_status( $db_item->processor_status );
+
+				$order_transactions[] = $order_transaction;
+			}
+		}
+
+		$order->set_transactions( $order_transactions );
+
+		return $order;
+	}
+
+
+	/**
 	 * Retrieve session
 	 *
 	 * @param array $filters
@@ -132,58 +211,11 @@ class WordPressRepository implements Repository {
 				$result->ip_address
 			) );
 
-			/** Fetch order items */
-			$order_items = array();
-			$db_items    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `" . $wpdb->prefix . "dlm_order_item` WHERE `order_id` = %d ORDER BY `id` ASC ;", $order->get_id() ) );
-			if ( count( $db_items ) > 0 ) {
-				foreach ( $db_items as $db_item ) {
-					$order_item = new OrderItem();
+			// add order items to order object
+			$order = $this->add_order_items_to_order( $order );
 
-					$order_item->set_id( $db_item->id );
-					$order_item->set_label( $db_item->label );
-					$order_item->set_qty( $db_item->qty );
-					$order_item->set_download_id( $db_item->download_id );
-					$order_item->set_subtotal( $db_item->subtotal );
-					$order_item->set_tax_class( $db_item->tax_class );
-					$order_item->set_tax_total( $db_item->tax_total );
-					$order_item->set_total( $db_item->total );
-
-					$order_items[] = $order_item;
-				}
-			}
-
-			$order->set_items( $order_items );
-
-			/** Fetch transactions */
-			$order_transactions = array();
-			$db_items           = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM `" . $wpdb->prefix . "dlm_order_transaction` WHERE `order_id` = %d ORDER BY `id` ASC ;", $order->get_id() ) );
-			if ( count( $db_items ) > 0 ) {
-				foreach ( $db_items as $db_item ) {
-					$order_transaction = new Transaction\OrderTransaction();
-
-					$order_transaction->set_id( $db_item->id );
-
-					if ( ! empty( $db_item->date_created ) ) {
-						$order_transaction->set_date_created( new \DateTimeImmutable( $db_item->date_created ) );
-					}
-
-					if ( ! empty( $db_item->date_modified ) ) {
-						$order_transaction->set_date_modified( new \DateTimeImmutable( $db_item->date_modified ) );
-					}
-
-					$order_transaction->set_amount( $db_item->amount );
-					$order_transaction->set_status( Services::get()->service( 'order_transaction_factory' )->make_status( $db_item->status ) );
-					$order_transaction->set_processor( $db_item->processor );
-					$order_transaction->set_processor_nice_name( $db_item->processor_nice_name );
-					$order_transaction->set_processor_transaction_id( $db_item->processor_transaction_id );
-					$order_transaction->set_processor_status( $db_item->processor_status );
-
-					$order_transactions[] = $order_transaction;
-				}
-			}
-
-			$order->set_transactions( $order_transactions );
-
+			// add transactions to order object
+			$order = $this->add_transactions_to_order( $order );
 
 			// add new order object to array
 			$orders[] = $order;
