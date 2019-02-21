@@ -573,4 +573,41 @@ class WordPressRepository implements Repository {
 
 	}
 
+	/**
+	 * Delete order including all attached items (items, transactions, customer, etc.)
+	 *
+	 * @param $id
+	 *
+	 * @return bool
+	 */
+	public function delete( $id ) {
+		global $wpdb;
+
+		$success = true;
+
+		try {
+
+			if ( false === $wpdb->query( $wpdb->prepare( "DELETE FROM `" . $wpdb->prefix . "dlm_order_transaction` WHERE `order_id` = %d ;", $id ) ) ) {
+				throw new \Exception( "Failed deleting transactions" );
+			}
+
+			if ( false === $wpdb->query( $wpdb->prepare( "DELETE FROM `" . $wpdb->prefix . "dlm_order_item` WHERE `order_id` = %d ;", $id ) ) ) {
+				throw new \Exception( "Failed deleting order items" );
+			}
+
+			if ( false === $wpdb->query( $wpdb->prepare( "DELETE FROM `" . $wpdb->prefix . "dlm_order_customer` WHERE `order_id` = %d ;", $id ) ) ) {
+				throw new \Exception( "Failed deleting customer" );
+			}
+
+			if ( false === $wpdb->query( $wpdb->prepare( "DELETE FROM `" . $wpdb->prefix . "dlm_order` WHERE `id` = %d ;", $id ) ) ) {
+				throw new \Exception( "Failed deleting customer" );
+			}
+
+		} catch ( \Exception $exception ) {
+			\DLM_Debug_Logger::log( $exception->getMessage() );
+			$success = false;
+		}
+
+		return $success;
+	}
 }

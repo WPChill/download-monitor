@@ -111,8 +111,6 @@ class DLM_Unit_Tests_Bootstrap {
 
 			return $mock;
 		} );
-
-
 	}
 
 	/**
