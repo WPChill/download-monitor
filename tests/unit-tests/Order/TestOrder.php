@@ -33,7 +33,7 @@ class TestOrder {
 			"TestCity",
 			"TestState",
 			"TestPostcode",
-			"TestCountry",
+			"NL",
 			"TestEmail",
 			"TestPhone",
 			"TestIPAddress"

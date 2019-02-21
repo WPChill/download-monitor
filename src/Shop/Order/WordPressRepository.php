@@ -294,10 +294,10 @@ class WordPressRepository implements Repository {
 
 		// check if it's a new order or if we need to update an existing one
 		if ( empty( $order_id ) ) {
-			// new order
+			/** New order */
 
 			// insert order
-			$wpdb->insert(
+			$r = $wpdb->insert(
 				$wpdb->prefix . 'dlm_order',
 				array(
 					'status'        => $order->get_status()->get_key(),
@@ -315,11 +315,15 @@ class WordPressRepository implements Repository {
 				)
 			);
 
+			if ( false === $r ) {
+				throw new \Exception( "Failed creating Order" );
+			}
+
 			// set the new id as order id
 			$order->set_id( $wpdb->insert_id );
 
 			// insert customer record
-			$wpdb->insert(
+			$r = $wpdb->insert(
 				$wpdb->prefix . 'dlm_order_customer',
 				array(
 					'first_name' => $customer->get_first_name(),
@@ -353,10 +357,14 @@ class WordPressRepository implements Repository {
 				)
 			);
 
+			if ( false === $r ) {
+				throw new \Exception( "Failed creating Customer" );
+			}
+
 		} else {
 
 			// update an existing order
-			$wpdb->update( $wpdb->prefix . 'dlm_order',
+			$r = $wpdb->update( $wpdb->prefix . 'dlm_order',
 				array(
 					'status'        => $order->get_status()->get_key(),
 					'date_modified' => current_time( 'mysql', 1 ),
@@ -373,8 +381,12 @@ class WordPressRepository implements Repository {
 				array( '%d' )
 			);
 
+			if ( false === $r ) {
+				throw new \Exception( "Failed updating Order" );
+			}
+
 			// update customer record
-			$wpdb->update(
+			$r = $wpdb->update(
 				$wpdb->prefix . 'dlm_order_customer',
 				array(
 					'first_name' => $customer->get_first_name(),
@@ -410,6 +422,10 @@ class WordPressRepository implements Repository {
 				array( '%d' )
 			);
 
+			if ( false === $r ) {
+				throw new \Exception( "Failed updating customer" );
+			}
+
 		}
 
 		// handle order items
@@ -422,7 +438,7 @@ class WordPressRepository implements Repository {
 				if ( empty( $order_item_id ) ) {
 
 					// insert new order item
-					$wpdb->insert(
+					$r = $wpdb->insert(
 						$wpdb->prefix . 'dlm_order_item',
 						array(
 							'order_id'    => $order->get_id(),
@@ -446,11 +462,15 @@ class WordPressRepository implements Repository {
 						)
 					);
 
+					if ( false === $r ) {
+						throw new \Exception( "Failed creating OrderItem" );
+					}
+
 					$order_item->set_id( $wpdb->insert_id );
 				} else {
 
 					// update existing order item record
-					$wpdb->update(
+					$r = $wpdb->update(
 						$wpdb->prefix . 'dlm_order_item',
 						array(
 							'order_id'    => $order->get_id(),
@@ -475,6 +495,10 @@ class WordPressRepository implements Repository {
 						),
 						array( '%d' )
 					);
+
+					if ( false === $r ) {
+						throw new \Exception( "Failed updating OrderItem" );
+					}
 
 				}
 			}
@@ -504,7 +528,7 @@ class WordPressRepository implements Repository {
 
 					// it's a new transaction
 
-					$wpdb->insert(
+					$r = $wpdb->insert(
 						$wpdb->prefix . 'dlm_order_transaction',
 						array(
 							'order_id'                 => $order->get_id(),
@@ -530,6 +554,10 @@ class WordPressRepository implements Repository {
 						)
 					);
 
+					if ( false === $r ) {
+						throw new \Exception( "Failed creating OrderTransaction" );
+					}
+
 
 					$transaction->set_id( $wpdb->insert_id );
 
@@ -537,7 +565,7 @@ class WordPressRepository implements Repository {
 
 					// it's an existing transaction
 
-					$wpdb->update(
+					$r = $wpdb->update(
 						$wpdb->prefix . 'dlm_order_transaction',
 						array(
 							'order_id'                 => $order->get_id(),
@@ -564,6 +592,10 @@ class WordPressRepository implements Repository {
 						),
 						array( '%d' )
 					);
+
+					if ( false === $r ) {
+						throw new \Exception( "Failed updating OrderTransaction" );
+					}
 
 				}
 
