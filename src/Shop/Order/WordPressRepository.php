@@ -157,6 +157,12 @@ class WordPressRepository implements Repository {
 		$limit  = absint( $limit );
 		$offset = absint( $offset );
 
+		// if we have an offset, we NEED a limit
+		if ( $offset > 0 && $limit < 1 ) {
+			\DLM_Debug_Logger::log("Order\WordPressRepository::retrieve(): If \$offset set, \$limit must be greater than 0");
+			$limit = 99999;
+		}
+
 		if ( $limit > 0 ) {
 			$sql .= " LIMIT " . $limit;
 		}
