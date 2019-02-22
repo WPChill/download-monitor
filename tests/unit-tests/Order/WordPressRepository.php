@@ -163,7 +163,7 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	public function test_retrieve_single_not_found() {
 		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
-		$this->expectException( \Exception::class );
+		$this->setExpectedException( \Exception::class );
 		$repo->retrieve_single( 1 );
 	}
 
