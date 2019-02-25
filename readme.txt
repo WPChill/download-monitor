@@ -118,8 +118,12 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.3.0: x x, 2019 =
+* Feature: Added Shop (Beta) feature. You can now sell your downloads via Download Monitor! More addition to shop (like taxes and discounts) coming soon.
+* Feature: Added PayPal integration for shop feature.
 * Feature: Added an onboarding screen, helping the user set up the plugin.
+* Tweak: Fixed an error when changing dates in reports on Safari.
 * Tweak: We're no longer automatically creating the No Access page. This is now done via the onboarding screen.
+* Tweak: We're no longer supporting PHP 5.2. If you upgrade and are still running PHP 5.2, the plugin will not load but display an upgrade notice instead. More info: https://www.download-monitor.com/kb/minimum-required-php-version/
 
 = 4.2.1: January 31, 2019 =
 * Tweak: Correctly set default template of Gutenberg block on frontend of website when no specific template is set.
@@ -129,7 +133,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 4.1.1: September 12, 2018 =
 * Tweak: Fixed a bug that incorrectly included featured downloads by default in [downloads].
-* Tweak: Added 'dlm_get_template_part_args' filter that allows arugment filtering on Download Monitor templates.
+* Tweak: Added 'dlm_get_template_part_args' filter that allows argument filtering on Download Monitor templates.
 
 = 4.1.0: May 21, 2018 =
 * Feature: Added a new option that allows site-owners if and how they wish to track IP addresses of users.
