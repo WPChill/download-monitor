@@ -647,4 +647,23 @@ class WordPressRepository implements Repository {
 
 		return $success;
 	}
+
+	/**
+	 * Remove all items in trash
+	 */
+	public function empty_trash() {
+		global $wpdb;
+
+		$ids = $wpdb->get_col( "SELECT `id` FROM `" . $wpdb->prefix . "dlm_order` WHERE `status` = 'trash' ;" );
+
+		if ( is_array( $ids ) && count( $ids ) > 0 ) {
+			foreach ( $ids as $id ) {
+				if ( ! $this->delete( $id ) ) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 }

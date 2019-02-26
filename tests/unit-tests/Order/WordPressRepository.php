@@ -247,4 +247,36 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 		// check for 0 orders in DB
 		$this->assertEquals( 0, $repo->num_rows() );
 	}
+
+	/**
+	 * Test empty_trash()
+	 */
+	public function test_empty_trash() {
+
+		/** @var \Never5\DownloadMonitor\Shop\Order\Status\Factory $osf */
+		$osf = Services::get()->service( 'order_status_factory' );
+
+		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		$repo = Services::get()->service( "order_repository" );
+
+		// check if we're starting clean
+		$this->assertEquals( 0, $repo->num_rows() );
+
+		// create dummy order trash
+		$order = TestOrder::make();
+		$order->set_status( $osf->make( 'trash' ) );
+		$repo->persist( $order );
+
+		// create dummy order normal
+		$order = TestOrder::make();
+		$repo->persist( $order );
+
+		$this->assertEquals( 2, $repo->num_rows() );
+
+		$this->assertTrue( $repo->empty_trash() );
+
+		// check for 0 orders in DB
+		$this->assertEquals( 1, $repo->num_rows() );
+	}
+
 }

@@ -37,6 +37,11 @@ class OrderTable extends \WP_List_Table {
 			'ajax'     => false
 		) );
 
+		// check if we need to empty the trash
+		if ( isset( $_REQUEST['dlm_empty_trash'] ) ) {
+			$this->empty_trash();
+		}
+
 		$this->filter_status   = isset( $_REQUEST['status'] ) ? sanitize_text_field( $_REQUEST['status'] ) : '';
 		$this->orders_per_page = ! empty( $_REQUEST['orders_per_page'] ) ? intval( $_REQUEST['orders_per_page'] ) : 25;
 		$this->filter_month    = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
@@ -44,6 +49,19 @@ class OrderTable extends \WP_List_Table {
 		if ( $this->orders_per_page < 1 ) {
 			$this->orders_per_page = 9999999999999;
 		}
+	}
+
+	/**
+	 * Empty trash
+	 */
+	private function empty_trash() {
+		if(Services::get()->service( 'order_repository' )->empty_trash()) {
+		    ?>
+            <div id="message" class="updated notice notice-success">
+                <p><?php _e( 'Trashed orders have been permanently deleted.', 'download-monitor' ); ?></p>
+            </div>
+            <?php
+        }
 	}
 
 	/**
@@ -74,7 +92,8 @@ class OrderTable extends \WP_List_Table {
 	 * @return array
 	 */
 	protected function get_bulk_actions() {
-	    return array(); /** @todo add bulk actions in later version */
+		return array();
+		/** @todo add bulk actions in later version */
 		$actions = array(
 			'delete' => __( 'Delete', 'download-monitor' )
 		);
@@ -224,7 +243,7 @@ class OrderTable extends \WP_List_Table {
 					$month_count = count( $months );
 
 					if ( $month_count && ! ( 1 == $month_count && 0 == $months[0]->month ) ) {
-						$m = !empty( $this->filter_month ) ? $this->filter_month : 0;
+						$m = ! empty( $this->filter_month ) ? $this->filter_month : 0;
 						?>
                         <select name="filter_month">
                             <option <?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
@@ -259,9 +278,20 @@ class OrderTable extends \WP_List_Table {
                         <option
                                 value="-1" <?php selected( $this->orders_per_page, - 1 ) ?>><?php _e( 'Show All', 'download-monitor' ); ?></option>
                     </select>
+
                     <input type="hidden" name="post_type" value="dlm_download"/>
                     <input type="hidden" name="page" value="download-monitor-logs"/>
                     <input type="submit" value="<?php _e( 'Filter', 'download-monitor' ); ?>" class="button"/>
+
+					<?php
+
+					if ( 'trash' === $this->filter_status ) {
+						?><input type="submit" name="dlm_empty_trash" id="dlm_empty_trash" class="button apply"
+                                 value="<?php _e( "Empty Trash", 'download-monitor' ); ?>"/>
+						<?php
+					}
+
+					?>
                 </div>
 				<?php
 			}
