@@ -17,10 +17,10 @@
     ]
   },
   "require": {
-    "pimple/pimple": "*",
-    "paypal/rest-api-sdk-php": "*"
   },
   "require-dev": {
+    "pimple/pimple": "*",
+    "paypal/rest-api-sdk-php": "*",
     "phpunit/phpunit": "^6.4",
     "coenjacobs/mozart": "^0.3.0"
   },
