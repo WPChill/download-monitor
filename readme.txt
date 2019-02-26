@@ -122,6 +122,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Feature: Added PayPal integration for shop feature.
 * Feature: Added an onboarding screen, helping the user set up the plugin.
 * Tweak: Fixed an error when changing dates in reports on Safari.
+* Tweak: Added download ID to Reports overview table.
+* Tweak: Increased spacing of download title on reports summary block.
 * Tweak: We're no longer automatically creating the No Access page. This is now done via the onboarding screen.
 * Tweak: We're no longer supporting PHP 5.2. If you upgrade and are still running PHP 5.2, the plugin will not load but display an upgrade notice instead. More info: https://www.download-monitor.com/kb/minimum-required-php-version/
 
