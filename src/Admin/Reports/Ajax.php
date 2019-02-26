@@ -106,11 +106,15 @@ class DLM_Reports_Ajax {
 							try {
 
 								$download   = $download_repo->retrieve_single( $row->value );
-								$response[] = array( $download->get_title(), $row->amount, $percentage . "%" );
+								$response[] = array(
+									sprintf( "%s (#%d)", $download->get_title(), $download->get_id() ),
+									$row->amount,
+									$percentage . "%"
+								);
 
 							} catch ( Exception $e ) {
 								$response[] = array(
-									sprintf( "Download no longer exists (%d)", $row->value, $percentage . "%" ),
+									sprintf( "Download no longer exists (#%d)", $row->value, $percentage . "%" ),
 									$row->amount
 								);
 							}
