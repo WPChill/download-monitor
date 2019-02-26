@@ -17,6 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div class="dlm-checkout">
+    <noscript><?php
+		download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/error', '', '', array(
+			'error' => __( "Your browser does not support JavaScript which our checkout page requires to function properly.", 'download-monitor' )
+		) );
+		?></noscript>
     <form method="post" action="<?php echo $url_checkout; ?>" id="dlm-form-checkout" <?php echo $form_data_str; ?>>
 		<?php
 		if ( ! empty( $errors ) ):
