@@ -65,8 +65,8 @@ class PayPalLogger extends AbstractLogger
             if ($this->isLoggingEnabled) {
                 $this->loggerFile = ($config['log.FileName']) ? $config['log.FileName'] : ini_get('error_log');
                 $loggingLevel = strtoupper($config['log.LogLevel']);
-                $this->loggingLevel = (isset($loggingLevel) && defined("\\Psr\\Log\\LogLevel::$loggingLevel")) ?
-                    constant("\\Psr\\Log\\LogLevel::$loggingLevel") :
+                $this->loggingLevel = (isset($loggingLevel) && defined("\\Never5\\DownloadMonitor\\Dependencies\\Psr\\Log::$loggingLevel")) ?
+                    constant("\\Never5\\DownloadMonitor\\Dependencies\\Psr\\Log::$loggingLevel") :
                     LogLevel::INFO;
             }
         }
