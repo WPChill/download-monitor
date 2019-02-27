@@ -18,7 +18,7 @@ Download Monitor provides an interface for uploading and managing downloadable f
 = Features =
 
 * Add, edit and remove downloads from a familiar WP interface; Your downloads are just like posts.
-* Sell your downloads from within your WordPress websites!
+* Sell your downloads from within your WordPress website!
 * 100% Gutenberg compatible, including a new Download Monitor Download Block. Type /download to use it!
 * Quick-add panel for adding downloads / files whilst editing posts.
 * Add multiple file versions to your downloads each with their own data like download count and file links.
