@@ -1,7 +1,7 @@
 === Download Monitor ===
 Contributors: never5, barrykooij, hchouhan, mikejolley
 Donate link: http://www.barrykooij.com/donate/
-Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
+Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 3.8
 Tested up to: 5.1.0
 Stable tag: 4.3.0
@@ -9,15 +9,16 @@ License: GPLv3
 Text Domain: -
 Requires PHP: 5.3
 
-Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
+Download Monitor is a plugin for uploading and managing downloads, tracking downloads, displaying links and selling downloads!
 
 == Description ==
 
-Download Monitor provides an interface for uploading and managing downloadable files (including support for multiple versions), inserting download links into posts, and logging downloads.
+Download Monitor provides an interface for uploading and managing downloadable files (including support for multiple versions), inserting download links into posts, logging downloads and selling downloads!
 
 = Features =
 
 * Add, edit and remove downloads from a familiar WP interface; Your downloads are just like posts.
+* Sell your downloads from within your WordPress websites!
 * 100% Gutenberg compatible, including a new Download Monitor Download Block. Type /download to use it!
 * Quick-add panel for adding downloads / files whilst editing posts.
 * Add multiple file versions to your downloads each with their own data like download count and file links.
