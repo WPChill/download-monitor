@@ -117,7 +117,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.3.0: x x, 2019 =
+= 4.3.0: February 27, 2019 =
 * Feature: Added Shop (Beta) feature. You can now sell your downloads via Download Monitor! More addition to shop (like taxes and discounts) coming soon.
 * Feature: Added PayPal integration for shop feature.
 * Feature: Added an onboarding screen, helping the user set up the plugin.
@@ -126,6 +126,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 * Tweak: Increased spacing of download title on reports summary block.
 * Tweak: We're no longer automatically creating the No Access page. This is now done via the onboarding screen.
 * Tweak: We're no longer supporting PHP 5.2. If you upgrade and are still running PHP 5.2, the plugin will not load but display an upgrade notice instead. More info: https://www.download-monitor.com/kb/minimum-required-php-version/
+* Tweak: Updated translations.
 
 = 4.2.1: January 31, 2019 =
 * Tweak: Correctly set default template of Gutenberg block on frontend of website when no specific template is set.
