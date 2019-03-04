@@ -18,3 +18,12 @@ function dlm_format_money( $price, $args = array() ) {
 function dlm_checkout_fields( $values = array() ) {
 	\Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'checkout_field' )->output_all_fields( $values );
 }
+
+/**
+ * Return if the shop functionality of Download Monitor is enabled
+ *
+ * @return bool
+ */
+function dlm_is_shop_enabled() {
+	return ( 1 == download_monitor()->service( 'settings' )->get_option( 'shop_enabled' ) );
+}

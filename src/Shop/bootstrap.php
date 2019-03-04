@@ -28,6 +28,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once( 'functions.php' );
 
 /**
+ * Setup product post type
+ */
+$post_type = new \Never5\DownloadMonitor\Shop\Util\PostType();
+$post_type->setup();
+
+/**
  * Only add following things in the admin
  */
 if ( is_admin() ) {

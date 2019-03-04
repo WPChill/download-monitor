@@ -17,6 +17,7 @@ class DLM_Settings_Helper {
 	 */
 	private function setup_defaults() {
 		$this->defaults = apply_filters( 'dlm_settings_defaults', array(
+			'dlm_shop_enabled'   => 0,
 			'no_access_page'     => 0,
 			'page_cart'          => 0,
 			'page_checkout'      => 0,

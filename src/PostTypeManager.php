@@ -61,7 +61,8 @@ class DLM_Post_Type_Manager {
 					'custom-fields'
 				) ),
 				'has_archive'         => false,
-				'show_in_nav_menus'   => false
+				'show_in_nav_menus'   => false,
+				'menu_position'       => 35
 			) )
 		);
 
@@ -94,6 +95,9 @@ class DLM_Post_Type_Manager {
 				'show_in_nav_menus'   => false
 			) )
 		);
+
+		do_action( 'dlm_after_post_type_register' );
+
 
 	}
 
