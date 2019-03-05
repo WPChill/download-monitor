@@ -19,6 +19,11 @@ class WritePanels {
 			$this,
 			'display_shop'
 		), 'dlm_download', 'side', 'high' );
+
+		add_meta_box( 'download-monitor-product-info', __( 'Product Information', 'download-monitor' ), array(
+			$this,
+			'display_product_information'
+		), 'dlm_download_product', 'normal', 'high' );
 	}
 
 	/**
@@ -44,6 +49,34 @@ class WritePanels {
 		}
 
 		download_monitor()->service( 'view_manager' )->display( 'meta-box/shop', array(
+				'download'  => $download,
+				'price'     => $price,
+				'taxable'   => $taxable,
+				'tax_class' => $tax_class
+			)
+		);
+	}
+
+	/**
+	 * @param \WP_Post $post
+	 */
+	public function display_product_information( $post ) {
+
+		try {
+			/** @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		} catch ( \Exception $e ) {
+			$download = new \DLM_Download();
+		}
+
+		$price     = "";
+		$taxable   = false;
+		$tax_class = "";
+
+
+		$price     = $download->get_price_for_user_input();
+
+		download_monitor()->service( 'view_manager' )->display( 'meta-box/product-information', array(
 				'download'  => $download,
 				'price'     => $price,
 				'taxable'   => $taxable,

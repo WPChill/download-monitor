@@ -83,6 +83,7 @@ class WordPressRepository implements Repository {
 	 * @param Order $order
 	 *
 	 * @return Order
+	 * @throws \Exception
 	 */
 	private function add_transactions_to_order( $order ) {
 		global $wpdb;

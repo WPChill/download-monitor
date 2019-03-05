@@ -1,8 +1,23 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\DownloadProduct;
+namespace Never5\DownloadMonitor\Shop\Product;
 
-class DownloadProduct extends \DLM_Download {
+class Product {
+
+	/** @var int */
+	private $id;
+
+	/** @var string */
+	private $title;
+
+	/** @var string */
+	private $content;
+
+	/** @var string */
+	private $status;
+
+	/** @var string */
+	private $excerpt;
 
 	/**
 	 * @var int Price of DownloadProduct in cents
@@ -14,6 +29,79 @@ class DownloadProduct extends \DLM_Download {
 
 	/** @var string */
 	private $tax_class;
+
+	/** @var \DLM_Download[] array */
+	private $downloads = array();
+
+	/**
+	 * @return int
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function set_id( $id ) {
+		$this->id = $id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_title() {
+		return $this->title;
+	}
+
+	/**
+	 * @param string $title
+	 */
+	public function set_title( $title ) {
+		$this->title = $title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_content() {
+		return $this->content;
+	}
+
+	/**
+	 * @param string $content
+	 */
+	public function set_content( $content ) {
+		$this->content = $content;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_status() {
+		return $this->status;
+	}
+
+	/**
+	 * @param string $status
+	 */
+	public function set_status( $status ) {
+		$this->status = $status;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_excerpt() {
+		return $this->excerpt;
+	}
+
+	/**
+	 * @param string $excerpt
+	 */
+	public function set_excerpt( $excerpt ) {
+		$this->excerpt = $excerpt;
+	}
 
 	/**
 	 * @return int
@@ -100,11 +188,12 @@ class DownloadProduct extends \DLM_Download {
 	 * Get a secure download link for this download linked to given order
 	 *
 	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \DLM_Download $download
 	 *
 	 * @return string
 	 */
-	public function get_secure_download_link( $order ) {
-		$download_url = $this->get_the_download_link();
+	public function get_secure_download_link( $order, $download ) {
+		$download_url = $download->get_the_download_link();
 
 		$download_url = add_query_arg( array( 'order_id'   => $order->get_id(),
 		                                      'order_hash' => $order->get_hash()
@@ -115,4 +204,17 @@ class DownloadProduct extends \DLM_Download {
 		return $download_url;
 	}
 
+	/**
+	 * @return \DLM_Download[]
+	 */
+	public function get_downloads() {
+		return $this->downloads;
+	}
+
+	/**
+	 * @param \DLM_Download[] $downloads
+	 */
+	public function set_downloads( $downloads ) {
+		$this->downloads = $downloads;
+	}
 }
