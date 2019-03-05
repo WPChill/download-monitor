@@ -307,7 +307,7 @@ class DLM_Admin_Settings {
 				'type'    => 'lazy_select',
 				'options' => array()
 			);
-			
+
 			$settings['pages']['sections']['pages']['fields'][] = array(
 				'name'    => 'dlm_page_checkout',
 				'std'     => '',

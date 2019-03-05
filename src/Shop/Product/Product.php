@@ -16,6 +16,9 @@ class Product {
 	/** @var string */
 	private $status;
 
+	/** @var int */
+	private $author;
+
 	/** @var string */
 	private $excerpt;
 
@@ -87,6 +90,20 @@ class Product {
 	 */
 	public function set_status( $status ) {
 		$this->status = $status;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_author() {
+		return $this->author;
+	}
+
+	/**
+	 * @param int $author
+	 */
+	public function set_author( $author ) {
+		$this->author = $author;
 	}
 
 	/**

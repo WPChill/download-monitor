@@ -194,7 +194,11 @@ class DLM_Admin {
 		$enqueue = false;
 
 		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' ) {
-			if ( ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == 'dlm_download' ) || ( ! empty( $post->post_type ) && 'dlm_download' === $post->post_type ) ) {
+			if (
+				( ! empty( $_GET['post_type'] ) && in_array( $_GET['post_type'], array('dlm_download', 'dlm_download_product') ) )
+				||
+				( ! empty( $post->post_type ) && in_array( $post->post_type, array('dlm_download', 'dlm_download_product')  ) )
+			) {
 				$enqueue = true;
 			}
 		}

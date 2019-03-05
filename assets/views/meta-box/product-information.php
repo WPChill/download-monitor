@@ -1,13 +1,15 @@
-<div class="dlm_mb_ecommerce">
+<div class="dlm_mb_shop_product_information">
 
-	<?php do_action( 'dlm_mb_product_information_start', $download->get_id(), $download ); ?>
+	<?php do_action( 'dlm_mb_product_information_start', $product->get_id(), $product ); ?>
 
-    <p>
-        <label><?php printf( __( 'Price (%s)', 'download-monitor' ), \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
+    <p class="dlm_shop_field_row">
+        <label class="dlm_shop_field_label"><?php printf( __( 'Price (%s)', 'download-monitor' ), \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
+        <span class="dlm_shop_field_input">
         <input type="text" name="_dlm_price" value="<?php echo $price; ?>">
+        </span>
     </p>
 
-    <?php /*
+	<?php /*
     <p>
         <label><?php _e( 'Taxable', 'download-monitor' ); ?></label>
         <input type="checkbox" name="_dlm_taxable" value="1" <?php checked( true, $taxable ); ?>/>
@@ -28,6 +30,6 @@
     </p>
  */ ?>
 
-	<?php do_action( 'dlm_mb_product_information_end', $download->get_id(), $download ); ?>
+	<?php do_action( 'dlm_mb_product_information_end', $product->get_id(), $product ); ?>
 
 </div>

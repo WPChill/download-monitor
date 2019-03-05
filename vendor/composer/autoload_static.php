@@ -57,8 +57,8 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -448,7 +448,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'Never5\\DownloadMonitor\\Shop\\Checkout\\PaymentGateway\\PaymentGateway' => __DIR__ . '/../..' . '/src/Shop/Checkout/PaymentGateway/PaymentGateway.php',
         'Never5\\DownloadMonitor\\Shop\\Checkout\\PaymentGateway\\Result' => __DIR__ . '/../..' . '/src/Shop/Checkout/PaymentGateway/Result.php',
         'Never5\\DownloadMonitor\\Shop\\Checkout\\PaymentGateway\\Test\\TestGateway' => __DIR__ . '/../..' . '/src/Shop/Checkout/PaymentGateway/Test/TestGateway.php',
-        'Never5\\DownloadMonitor\\Shop\\DownloadProduct\\DownloadProduct' => __DIR__ . '/../..' . '/src/Shop/DownloadProduct/DownloadProduct.php',
         'Never5\\DownloadMonitor\\Shop\\Email\\Handler' => __DIR__ . '/../..' . '/src/Shop/Email/Handler.php',
         'Never5\\DownloadMonitor\\Shop\\Email\\Message' => __DIR__ . '/../..' . '/src/Shop/Email/Message.php',
         'Never5\\DownloadMonitor\\Shop\\Email\\VarParser' => __DIR__ . '/../..' . '/src/Shop/Email/VarParser.php',
@@ -469,6 +468,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'Never5\\DownloadMonitor\\Shop\\Order\\Transaction\\OrderTransaction' => __DIR__ . '/../..' . '/src/Shop/Order/Transaction/OrderTransaction.php',
         'Never5\\DownloadMonitor\\Shop\\Order\\Transaction\\OrderTransactionStatus' => __DIR__ . '/../..' . '/src/Shop/Order/Transaction/OrderTransactionStatus.php',
         'Never5\\DownloadMonitor\\Shop\\Order\\WordPressRepository' => __DIR__ . '/../..' . '/src/Shop/Order/WordPressRepository.php',
+        'Never5\\DownloadMonitor\\Shop\\Product\\Product' => __DIR__ . '/../..' . '/src/Shop/Product/Product.php',
         'Never5\\DownloadMonitor\\Shop\\Services\\ServiceProvider' => __DIR__ . '/../..' . '/src/Shop/Services/ServiceProvider.php',
         'Never5\\DownloadMonitor\\Shop\\Services\\Services' => __DIR__ . '/../..' . '/src/Shop/Services/Services.php',
         'Never5\\DownloadMonitor\\Shop\\Session\\Cookie' => __DIR__ . '/../..' . '/src/Shop/Session/Cookie.php',
