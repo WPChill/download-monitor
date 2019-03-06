@@ -51,9 +51,6 @@ class DLM_Download {
 	/** @var array */
 	private $version_ids = array();
 
-	/** @var bool  */
-	private $purchasable = false;
-
 	/**
 	 * @var WP_Post
 	 * @deprecated 4.0
@@ -504,20 +501,6 @@ class DLM_Download {
 		}
 
 		return apply_filters( 'dlm_download_get_versions', $this->versions, $this );
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function is_purchasable() {
-		return $this->purchasable;
-	}
-
-	/**
-	 * @param bool $purchasable
-	 */
-	public function set_purchasable( $purchasable ) {
-		$this->purchasable = $purchasable;
 	}
 
 	/**
