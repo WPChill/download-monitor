@@ -52,8 +52,6 @@ class ProductTableColumns {
 		try {
 			$product = Services::get()->service( 'product_repository' )->retrieve_single( $post_id );
 		} catch ( \Exception $exception ) {
-			error_log( "test" );
-
 			return;
 		}
 
