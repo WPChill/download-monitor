@@ -234,4 +234,17 @@ class Product {
 	public function set_downloads( $downloads ) {
 		$this->downloads = $downloads;
 	}
+
+	/**
+	 * Get image of this product
+	 *
+	 * @return string
+	 */
+	public function get_image() {
+		if ( has_post_thumbnail( $this->id ) ) {
+			return get_the_post_thumbnail( $this->id, 'full' );
+		} else {
+			return '<img alt="Placeholder" class="wp-post-image" src="' . apply_filters( 'dlm_placeholder_image_src', download_monitor()->get_plugin_url() . '/assets/images/placeholder.png', $this->id, $this ) . '" />';
+		}
+	}
 }

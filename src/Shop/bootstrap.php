@@ -46,6 +46,10 @@ if ( is_admin() ) {
 	$order_page = new \Never5\DownloadMonitor\Shop\Admin\Pages\Orders();
 	$order_page->setup();
 
+	// Product table columns
+	$columns = new \Never5\DownloadMonitor\Shop\Admin\ProductTableColumns();
+	$columns->setup();
+
 }
 
 /**
