@@ -43,7 +43,11 @@ class DLM_Admin_Scripts {
 		if ( $pagenow == 'post.php' || $pagenow == 'post-new.php' ) {
 
 			// Enqueue Downloadable Files Metabox JS
-			if ( ( $pagenow == 'post.php' && isset( $post ) && 'dlm_download' === $post->post_type ) || ( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] ) ) {
+			if (
+				( $pagenow == 'post.php' && isset( $post ) && 'dlm_download' === $post->post_type )
+				||
+				( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] )
+			) {
 
 				// Enqueue Edit Download JS
 				wp_enqueue_script(
@@ -57,6 +61,34 @@ class DLM_Admin_Scripts {
 				wp_localize_script( 'dlm_edit_download', 'dlm_ed_strings', $this->get_strings( 'edit-download' ) );
 			}
 
+			// Enqueue Downloadable Files Metabox JS
+			if (
+				( $pagenow == 'post.php' && isset( $post ) && 'dlm_download_product' === $post->post_type )
+				||
+				( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && 'dlm_download_product' == $_GET['post_type'] )
+			) {
+
+				// Enqueue Select2
+				wp_enqueue_script(
+					'dlm_select2',
+					plugins_url( '/assets/js/select2/select2.min.js', $dlm->get_plugin_file() ),
+					array( 'jquery' ),
+					DLM_VERSION
+				);
+
+				wp_enqueue_style( 'dlm_select2_css', download_monitor()->get_plugin_url() . '/assets/js/select2/select2.min.css' );
+
+				// Enqueue Edit Product JS
+				wp_enqueue_script(
+					'dlm_edit_product',
+					plugins_url( '/assets/js/shop/edit-product' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+					array( 'jquery', 'dlm_select2' ),
+					DLM_VERSION
+				);
+
+				// Make JavaScript strings translatable
+				wp_localize_script( 'dlm_edit_product', 'dlm_ep_strings', $this->get_strings( 'edit-product' ) );
+			}
 
 		}
 

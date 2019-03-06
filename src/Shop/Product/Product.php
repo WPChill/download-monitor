@@ -33,7 +33,7 @@ class Product {
 	/** @var string */
 	private $tax_class;
 
-	/** @var \DLM_Download[] array */
+	/** @var int[] array array with download ids */
 	private $downloads = array();
 
 	/**
@@ -222,14 +222,14 @@ class Product {
 	}
 
 	/**
-	 * @return \DLM_Download[]
+	 * @return int[]
 	 */
 	public function get_downloads() {
 		return $this->downloads;
 	}
 
 	/**
-	 * @param \DLM_Download[] $downloads
+	 * @param int[] $downloads
 	 */
 	public function set_downloads( $downloads ) {
 		$this->downloads = $downloads;

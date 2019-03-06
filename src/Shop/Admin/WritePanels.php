@@ -96,6 +96,7 @@ class WritePanels {
 		}
 
 		$product->set_price_from_user_input( $_POST['_dlm_price'] );
+		$product->set_downloads( $_POST['_dlm_downloads'] );
 
 		// persist download
 		Services::get()->service( 'product_repository' )->persist( $product );
@@ -117,16 +118,26 @@ class WritePanels {
 		$taxable   = false;
 		$tax_class = "";
 
-
 		$price = $product->get_price_for_user_input();
+
+		/**
+		 * Fetch downloads
+		 */
+		/** @todo fetch actual downloads */
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve( array(
+			'orderby' => 'title',
+			'order'   => 'ASC'
+		) );
 
 		wp_nonce_field( 'save_meta_data', 'dlm_product_nonce' );
 
 		download_monitor()->service( 'view_manager' )->display( 'meta-box/product-information', array(
-				'product'   => $product,
-				'price'     => $price,
-				'taxable'   => $taxable,
-				'tax_class' => $tax_class
+				'product'              => $product,
+				'price'                => $price,
+				'taxable'              => $taxable,
+				'tax_class'            => $tax_class,
+				'downloads'            => $downloads,
+				'current_download_ids' => $product->get_downloads()
 			)
 		);
 	}
