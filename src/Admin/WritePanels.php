@@ -292,13 +292,6 @@ class DLM_Admin_Writepanels {
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
 
-		// we set if the download is purchasable hard here so we get the right download object from retrieve_single()
-		if ( isset( $_POST['_dlm_is_purchasable'] ) ) {
-			update_post_meta( $post_id, '_is_purchasable', 1 );
-		} else {
-			update_post_meta( $post_id, '_is_purchasable', 0 );
-		}
-
 		/**
 		 * Fetch old download object
 		 * There are certain props we don't need to manually persist here because WP does this automatically for us.
@@ -323,30 +316,7 @@ class DLM_Admin_Writepanels {
 		$download->set_featured( ( isset( $_POST['_featured'] ) ) );
 		$download->set_members_only( ( isset( $_POST['_members_only'] ) ) );
 		$download->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
-
-		// is this download purchasable?
-		$download->set_purchasable( ( isset( $_POST['_dlm_is_purchasable'] ) ) );
-
-		if ( method_exists( $download, 'set_price_from_user_input' ) ) {
-			$download->set_price_from_user_input( $_POST['_dlm_price'] );
-		}
-
-		/*
-		if ( method_exists( $download, 'set_taxable' ) ) {
-			if ( isset( $_POST['_dlm_taxable'] ) ) {
-				$download->set_taxable( true );
-			} else {
-				$download->set_taxable( false );
-			}
-		}
-		*/
-
-		/*
-		if ( method_exists( $download, 'set_tax_class' ) ) {
-			$download->set_tax_class( $_POST['_dlm_tax_class'] );
-		}
-		*/
-
+        
 		$total_download_count = 0;
 
 		// Process files
