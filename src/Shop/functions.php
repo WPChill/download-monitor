@@ -25,5 +25,8 @@ function dlm_checkout_fields( $values = array() ) {
  * @return bool
  */
 function dlm_is_shop_enabled() {
-	return ( 1 == download_monitor()->service( 'settings' )->get_option( 'shop_enabled' ) );
+	// we don't use the service here because this function needs to before the service is available
+	$settings = new DLM_Settings_Helper();
+
+	return ( 1 == $settings->get_option( 'shop_enabled' ) );
 }

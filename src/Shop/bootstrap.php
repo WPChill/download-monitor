@@ -27,6 +27,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 require_once( 'functions.php' );
 
+if ( ! dlm_is_shop_enabled() ) {
+	return;
+}
+
 /**
  * Setup product post type
  */

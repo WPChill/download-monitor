@@ -10,6 +10,7 @@ class DownloadOption {
 	 * Setup the download option
 	 */
 	public function setup() {
+
 		// Add option
 		add_action( 'dlm_options_end', array( $this, 'add_download_option' ), 10, 1 );
 
