@@ -46,43 +46,61 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			?>
             <div class="dlm-checkout-complete-files">
-                <h2>Your Files</h2>
+                <h2>Your Products</h2>
 				<?php
 				$order_items = $order->get_items();
 
 				if ( count( $order_items ) > 0 ) : ?>
 
-                    <table cellpadding="0" cellspacing="0" border="0">
-                        <thead>
-                        <tr>
-                            <th><?php _e( "Download name", 'download-monitor' ); ?></th>
-                            <th><?php _e( "Download version", 'download-monitor' ); ?></th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-						<?php foreach ( $order_items as $order_item ) : ?>
-							<?php
-							$download             = null;
-							$version_label        = "-";
-							$download_button_html = __( 'Download is no longer available', 'download-monitor' );
-							try {
-								/** @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download */
-								$download = download_monitor()->service( 'download_repository' )->retrieve_single( $order_item->get_download_id() );
+					<?php foreach ( $order_items as $order_item ) : ?>
 
-								$version_label        = $download->get_version()->get_version();
-								$download_button_html = "<a href='" . $download->get_secure_download_link( $order ) . "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
-							} catch ( \Exception $e ) {
-							}
+						<?php
+						try {
+							$product = \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'product_repository' )->retrieve_single( $order_item->get_product_id() );
+						} catch ( \Exception $exception ) {
+							continue;
+						}
+
+						?>
+
+                        <h3><?php echo esc_html( $product->get_title() ); ?></h3>
+						<?php
+						$downloads = $product->get_downloads();
+						if ( ! empty( $downloads ) ) :
 							?>
-                            <tr>
-                                <td><?php echo $order_item->get_label(); ?></td>
-                                <td><?php echo $version_label; ?></td>
-                                <td><?php echo $download_button_html; ?></td>
-                            </tr>
-						<?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <thead>
+                                <tr>
+                                    <th><?php _e( "Download name", 'download-monitor' ); ?></th>
+                                    <th><?php _e( "Download version", 'download-monitor' ); ?></th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+								<?php foreach ( $downloads as $download ) : ?>
+									<?php
+									$download_title       = "-";
+									$version_label        = "-";
+									$download_button_html = __( 'Download is no longer available', 'download-monitor' );
+
+									if ( $download->exists() ) {
+										$download_title       = $download->get_title();
+										$version_label        = $download->get_version()->get_version();
+										$download_button_html = "<a href='" . $product->get_secure_download_link( $order, $download ) . "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
+									}
+
+									?>
+                                    <tr>
+                                        <td><?php echo $download_title; ?></td>
+                                        <td><?php echo $version_label; ?></td>
+                                        <td><?php echo $download_button_html; ?></td>
+                                    </tr>
+								<?php endforeach; ?>
+                                </tbody>
+                            </table>
+						<?php endif; ?>
+					<?php endforeach; ?>
+
 
 				<?php else: ?>
                     <p>No items found.</p>
