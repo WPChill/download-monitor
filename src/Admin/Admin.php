@@ -211,9 +211,15 @@ class DLM_Admin {
 			$enqueue = true;
 		}
 
+		if ( isset( $_GET['page'] ) && 'download-monitor-orders' === $_GET['page'] ) {
+			$enqueue = true;
+		}
+
 		if ( ! $enqueue ) {
 			return;
 		}
+
+
 
 		wp_enqueue_script( 'jquery-blockui', download_monitor()->get_plugin_url() . '/assets/js/blockui.min.js', array( 'jquery' ), '2.61' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
