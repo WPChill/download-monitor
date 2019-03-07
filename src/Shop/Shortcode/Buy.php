@@ -42,7 +42,7 @@ class Buy {
 		try {
 			/** @var \Never5\DownloadMonitor\Shop\Product\Product $download */
 			$product = Services::get()->service( 'product_repository' )->retrieve_single( $id );
-			
+
 			$atc_url = Services::get()->service( 'page' )->get_add_to_cart_url( $product->get_id() );
 
 			// if we have content, wrap in a link only
