@@ -57,7 +57,7 @@ class Assets {
 		if (
 			'edit.php' == $pagenow
 			&& isset( $_GET['post_type'] )
-			&& 'dlm_download' === $_GET['post_type']
+			&& 'dlm_download_product' === $_GET['post_type']
 			&& isset( $_GET['page'] )
 			&& 'download-monitor-orders' == $_GET['page']
 			&& isset( $_GET['details'] )
