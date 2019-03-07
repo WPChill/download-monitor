@@ -9,10 +9,6 @@ class PostType {
 		// register the post type
 		add_action( 'dlm_after_post_type_register', function () {
 
-			if ( ! dlm_is_shop_enabled() ) {
-				return;
-			}
-
 			register_post_type( "dlm_download_product",
 				apply_filters( 'dlm_cpt_dlm_download_product_args', array(
 					'labels'              => array(
@@ -76,10 +72,6 @@ class PostType {
 		// setup a custom separator
 		add_action( 'admin_menu', function () {
 
-			if ( ! dlm_is_shop_enabled() ) {
-				return;
-			}
-
 			global $menu;
 
 			$menu["34.9999"] = array(
@@ -89,9 +81,6 @@ class PostType {
 				'',
 				'wp-menu-separator'
 			);
-
-//			var_dump($menu);
-//			exit;
 
 
 		}, 9 );

@@ -279,8 +279,8 @@ class OrderTable extends \WP_List_Table {
                                 value="-1" <?php selected( $this->orders_per_page, - 1 ) ?>><?php _e( 'Show All', 'download-monitor' ); ?></option>
                     </select>
 
-                    <input type="hidden" name="post_type" value="dlm_download"/>
-                    <input type="hidden" name="page" value="download-monitor-logs"/>
+                    <input type="hidden" name="post_type" value="dlm_download_product"/>
+                    <input type="hidden" name="page" value="download-monitor-orders"/>
                     <input type="submit" value="<?php _e( 'Filter', 'download-monitor' ); ?>" class="button"/>
 
 					<?php
@@ -383,6 +383,8 @@ class OrderTable extends \WP_List_Table {
 	 */
 	public function process_bulk_action() {
 
+	    return;
+
 		if ( 'delete' === $this->current_action() ) {
 
 			// check nonce
@@ -392,7 +394,7 @@ class OrderTable extends \WP_List_Table {
 
 			// check capability
 			if ( ! current_user_can( 'dlm_manage_logs' ) ) {
-				wp_die( "You're not allowed to delete logs!" );
+				wp_die( "You're not allowed to delete orders!" );
 			}
 
 			// check
