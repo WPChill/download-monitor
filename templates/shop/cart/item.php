@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var Never5\DownloadMonitor\Shop\Cart\Item\Item $item */
 ?>
 <tr>
-    <td><a href="<?php echo add_query_arg( array( 'dlm-remove-from-cart' => $item->get_download_id() ), $url_cart ); ?>"
+    <td><a href="<?php echo add_query_arg( array( 'dlm-remove-from-cart' => $item->get_product_id() ), $url_cart ); ?>"
            class="dlm-cart-remove-item"
            aria-label="<?php _e( 'Remove this item from your cart', 'download-monitor' ); ?>">x</a></td>
     <td><?php echo $item->get_label(); ?></td>

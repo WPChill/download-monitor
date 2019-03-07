@@ -50,6 +50,9 @@ class VarParser {
 				$download_button_html = __( 'Download is no longer available', 'download-monitor' );
 				$download_url         = "";
 
+				/**
+				 * @todo rebuild this to fetch products and then for each product create a download link
+				 */
 				try {
 					/** @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download */
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $order_item->get_download_id() );

@@ -62,7 +62,7 @@ class WordPressRepository implements Repository {
 				$order_item->set_id( $db_item->id );
 				$order_item->set_label( $db_item->label );
 				$order_item->set_qty( $db_item->qty );
-				$order_item->set_download_id( $db_item->download_id );
+				$order_item->set_product_id( $db_item->product_id );
 				$order_item->set_subtotal( $db_item->subtotal );
 				$order_item->set_tax_class( $db_item->tax_class );
 				$order_item->set_tax_total( $db_item->tax_total );
@@ -447,14 +447,14 @@ class WordPressRepository implements Repository {
 					$r = $wpdb->insert(
 						$wpdb->prefix . 'dlm_order_item',
 						array(
-							'order_id'    => $order->get_id(),
-							'label'       => $order_item->get_label(),
-							'qty'         => $order_item->get_qty(),
-							'download_id' => $order_item->get_download_id(),
-							'tax_class'   => $order_item->get_tax_class(),
-							'tax_total'   => $order_item->get_tax_total(),
-							'subtotal'    => $order_item->get_subtotal(),
-							'total'       => $order_item->get_total()
+							'order_id'   => $order->get_id(),
+							'label'      => $order_item->get_label(),
+							'qty'        => $order_item->get_qty(),
+							'product_id' => $order_item->get_product_id(),
+							'tax_class'  => $order_item->get_tax_class(),
+							'tax_total'  => $order_item->get_tax_total(),
+							'subtotal'   => $order_item->get_subtotal(),
+							'total'      => $order_item->get_total()
 						),
 						array(
 							'%d',
@@ -479,14 +479,14 @@ class WordPressRepository implements Repository {
 					$r = $wpdb->update(
 						$wpdb->prefix . 'dlm_order_item',
 						array(
-							'order_id'    => $order->get_id(),
-							'label'       => $order_item->get_label(),
-							'qty'         => $order_item->get_qty(),
-							'download_id' => $order_item->get_download_id(),
-							'tax_class'   => $order_item->get_tax_class(),
-							'tax_total'   => $order_item->get_tax_total(),
-							'subtotal'    => $order_item->get_subtotal(),
-							'total'       => $order_item->get_total()
+							'order_id'   => $order->get_id(),
+							'label'      => $order_item->get_label(),
+							'qty'        => $order_item->get_qty(),
+							'product_id' => $order_item->get_product_id(),
+							'tax_class'  => $order_item->get_tax_class(),
+							'tax_total'  => $order_item->get_tax_total(),
+							'subtotal'   => $order_item->get_subtotal(),
+							'total'      => $order_item->get_total()
 						),
 						array( 'id' => $order_item_id ),
 						array(

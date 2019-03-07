@@ -34,7 +34,7 @@ class Product {
 	private $tax_class;
 
 	/** @var int[] array array with download ids */
-	private $downloads = array();
+	private $download_ids = array();
 
 	/**
 	 * @return int
@@ -224,15 +224,15 @@ class Product {
 	/**
 	 * @return int[]
 	 */
-	public function get_downloads() {
-		return $this->downloads;
+	public function get_download_ids() {
+		return $this->download_ids;
 	}
 
 	/**
-	 * @param int[] $downloads
+	 * @param int[] $download_ids
 	 */
-	public function set_downloads( $downloads ) {
-		$this->downloads = $downloads;
+	public function set_download_ids( $download_ids ) {
+		$this->download_ids = $download_ids;
 	}
 
 	/**

@@ -302,7 +302,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 			$item->setName( $order_item->get_label() )
 			     ->setCurrency( $currency )
 			     ->setQuantity( $order_item->get_qty() )
-			     ->setSku( $order_item->get_download_id() )
+			     ->setSku( $order_item->get_product_id() )
 			     ->setPrice( $this->cents_to_full( $order_item->get_subtotal() ) );
 			$items[] = $item;
 		}

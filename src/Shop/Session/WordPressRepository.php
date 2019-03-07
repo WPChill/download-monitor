@@ -42,7 +42,7 @@ class WordPressRepository implements Repository {
 			foreach ( $data->items as $db_item ) {
 				$item = new Item\Item();
 				$item->set_key( $db_item->key );
-				$item->set_download_id( $db_item->download_id );
+				$item->set_product_id( $db_item->product_id );
 				$item->set_qty( $db_item->qty );
 				$session_items[ $db_item->key ] = $item;
 			}

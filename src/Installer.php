@@ -150,7 +150,7 @@ class DLM_Installer {
 		  `order_id` INT UNSIGNED NOT NULL,
 		  `label` VARCHAR(255) NULL,
 		  `qty` INT NULL,
-		  `download_id` INT UNSIGNED NULL,
+		  `product_id` INT UNSIGNED NULL,
 		  `tax_class` VARCHAR(255) NULL,
 		  `tax_total` INT NULL,
 		  `subtotal` INT NULL,

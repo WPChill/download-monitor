@@ -2,39 +2,42 @@
 
 namespace Never5\DownloadMonitor\Shop\Cart\Item;
 
+use Never5\DownloadMonitor\Shop\Services\Services;
+
 class Factory {
 
 
 	/**
 	 * Make Item for given Download ID
 	 *
-	 * @param int $download_id
+	 * @param int $product_id
 	 *
 	 * @return Item
 	 * @throws \Exception
 	 */
-	public function make( $download_id ) {
+	public function make( $product_id ) {
 
 		/**
 		 * Fetch the download
 		 *
-		 * @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download
+		 * @var \Never5\DownloadMonitor\Shop\Product\Product $product
 		 */
-		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+		$product = Services::get()->service( 'product_repository' )->retrieve_single( $product_id );
 
-		// don't continue if this download isn't purchasable
-		if ( ! $download->is_purchasable() ) {
-			throw new \Exception( 'Download not purchasable' );
+		if ( ! in_array( $product->get_status(), array( 'publish' ) ) ) {
+			throw new \Exception( 'Product not purchasable' );
 		}
+
 
 		// build item
 		$item = new Item();
-		$item->set_download_id( $download_id );
+		$item->set_product_id( $product_id );
 		$item->set_qty( 1 );
-		$item->set_label( $download->get_title() );
-		$item->set_subtotal( $download->get_price() );
-		$item->set_tax_total( 0 ); /** @todo [TAX] Implement taxes */
-		$item->set_total( $download->get_price() );
+		$item->set_label( $product->get_title() );
+		$item->set_subtotal( $product->get_price() );
+		$item->set_tax_total( 0 );
+		/** @todo [TAX] Implement taxes */
+		$item->set_total( $product->get_price() );
 
 		return $item;
 	}

@@ -96,7 +96,7 @@ class WritePanels {
 		}
 
 		$product->set_price_from_user_input( $_POST['_dlm_price'] );
-		$product->set_downloads( $_POST['_dlm_downloads'] );
+		$product->set_download_ids( $_POST['_dlm_downloads'] );
 
 		// persist download
 		Services::get()->service( 'product_repository' )->persist( $product );
@@ -137,7 +137,7 @@ class WritePanels {
 				'taxable'              => $taxable,
 				'tax_class'            => $tax_class,
 				'downloads'            => $downloads,
-				'current_download_ids' => $product->get_downloads()
+				'current_download_ids' => $product->get_download_ids()
 			)
 		);
 	}

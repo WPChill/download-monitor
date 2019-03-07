@@ -112,7 +112,7 @@ class WordPressRepository implements Repository {
 				$product->set_price( get_post_meta( $post->ID, '_price', true ) );
 				$product->set_taxable( ( 1 == get_post_meta( $post->ID, '_taxable', true ) ) );
 				$product->set_tax_class( get_post_meta( $post->ID, '_tax_class', true ) );
-				$product->set_downloads( get_post_meta( $post->ID, '_downloads' ) );
+				$product->set_download_ids( get_post_meta( $post->ID, '_downloads' ) );
 				// add download to return array
 				$items[] = $product;
 			}
@@ -173,7 +173,7 @@ class WordPressRepository implements Repository {
 
 		// delete all linked downloads before linking set ones
 		delete_post_meta( $product_id, '_downloads' );
-		$downloads = $product->get_downloads();
+		$downloads = $product->get_download_ids();
 		if ( ! empty( $downloads ) ) {
 			foreach ( $downloads as $download_id ) {
 				add_post_meta( $product_id, '_downloads', intval( $download_id ) );
