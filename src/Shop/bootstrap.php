@@ -50,6 +50,10 @@ if ( is_admin() ) {
 	$columns = new \Never5\DownloadMonitor\Shop\Admin\ProductTableColumns();
 	$columns->setup();
 
+	// Download Option
+	$download_option = new \Never5\DownloadMonitor\Shop\Admin\DownloadOption();
+	$download_option->setup();
+
 }
 
 /**

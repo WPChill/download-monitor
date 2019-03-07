@@ -2,6 +2,7 @@
 
 namespace Never5\DownloadMonitor\Shop\Access;
 
+use Never5\DownloadMonitor\Shop\Admin\DownloadOption;
 use Never5\DownloadMonitor\Shop\Services\Services;
 
 class Manager {
@@ -25,7 +26,7 @@ class Manager {
 	public function check_access( $has_access, $download, $version ) {
 
 		// check if request still has access at this point this is a purchasable download
-		if ( true === $has_access && $download->is_purchasable() ) {
+		if ( true === $has_access && 1 == get_post_meta( $download->get_id(), DownloadOption::OPTION_KEY, true ) ) {
 
 			/**
 			 * This is a purchasable product.

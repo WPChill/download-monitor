@@ -316,7 +316,7 @@ class DLM_Admin_Writepanels {
 		$download->set_featured( ( isset( $_POST['_featured'] ) ) );
 		$download->set_members_only( ( isset( $_POST['_members_only'] ) ) );
 		$download->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
-        
+
 		$total_download_count = 0;
 
 		// Process files
