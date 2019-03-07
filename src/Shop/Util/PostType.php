@@ -4,13 +4,15 @@ namespace Never5\DownloadMonitor\Shop\Util;
 
 class PostType {
 
+	const KEY = 'dlm_product';
+
 	public function setup() {
 
 		// register the post type
 		add_action( 'dlm_after_post_type_register', function () {
 
-			register_post_type( "dlm_download_product",
-				apply_filters( 'dlm_cpt_dlm_download_product_args', array(
+			register_post_type( PostType::KEY,
+				apply_filters( 'dlm_cpt_dlm_product_args', array(
 					'labels'              => array(
 						'all_items'          => __( 'All Products', 'download-monitor' ),
 						'name'               => __( 'Shop', 'download-monitor' ),
@@ -52,7 +54,7 @@ class PostType {
 						'pages'      => true,
 						'feeds'      => true,
 					),
-					'supports'            => apply_filters( 'dlm_cpt_dlm_download_supports', array(
+					'supports'            => apply_filters( 'dlm_cpt_dlm_product_supports', array(
 						'title',
 						'editor',
 						'excerpt',

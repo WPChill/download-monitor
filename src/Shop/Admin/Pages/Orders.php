@@ -3,6 +3,7 @@
 namespace Never5\DownloadMonitor\Shop\Admin\Pages;
 
 use Never5\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Util\PostType;
 
 class Orders {
 
@@ -18,7 +19,7 @@ class Orders {
 	 */
 	public function add_admin_menu() {
 		// Settings page
-		add_submenu_page( 'edit.php?post_type=dlm_download_product', __( 'Orders', 'download-monitor' ), __( 'Orders', 'download-monitor' ), 'manage_options', 'download-monitor-orders', array(
+		add_submenu_page( 'edit.php?post_type=' . PostType::KEY, __( 'Orders', 'download-monitor' ), __( 'Orders', 'download-monitor' ), 'manage_options', 'download-monitor-orders', array(
 			$this,
 			'view'
 		) );

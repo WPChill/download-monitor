@@ -3,6 +3,7 @@
 namespace Never5\DownloadMonitor\Shop\Product;
 
 use Never5\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Util\PostType;
 
 class WordPressRepository implements Repository {
 
@@ -31,7 +32,7 @@ class WordPressRepository implements Repository {
 		unset( $args['nopaging'] );
 
 		// setup our reserved keys
-		$args['post_type']      = 'dlm_download_product';
+		$args['post_type']      = PostType::KEY;
 		$args['posts_per_page'] = - 1;
 
 		// set limit if set
@@ -139,7 +140,7 @@ class WordPressRepository implements Repository {
 				'post_content' => $product->get_content(),
 				'post_excerpt' => $product->get_excerpt(),
 				'post_author'  => $product->get_author(),
-				'post_type'    => 'dlm_download_product',
+				'post_type'    => PostType::KEY,
 				'post_status'  => $product->get_status()
 			) );
 

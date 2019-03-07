@@ -3,6 +3,7 @@
 namespace Never5\DownloadMonitor\Shop\Admin;
 
 use Never5\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Util\PostType;
 
 class ProductTableColumns {
 
@@ -10,9 +11,9 @@ class ProductTableColumns {
 	 * Setup product columns
 	 */
 	public function setup() {
-		add_filter( 'manage_edit-dlm_download_product_columns', array( $this, 'add_columns' ) );
-		add_action( 'manage_dlm_download_product_posts_custom_column', array( $this, 'column_data' ), 10, 2 );
-		add_filter( 'manage_edit-dlm_download_product_sortable_columns', array( $this, 'sortable_columns' ) );
+		add_filter( 'manage_edit-' . PostType::KEY . '_columns', array( $this, 'add_columns' ) );
+		add_action( 'manage_' . PostType::KEY . '_posts_custom_column', array( $this, 'column_data' ), 10, 2 );
+		add_filter( 'manage_edit-' . PostType::KEY . '_sortable_columns', array( $this, 'sortable_columns' ) );
 	}
 
 	/**

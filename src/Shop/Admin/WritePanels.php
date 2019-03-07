@@ -4,6 +4,7 @@ namespace Never5\DownloadMonitor\Shop\Admin;
 
 use Never5\DownloadMonitor\Shop\Product\Product;
 use Never5\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Util\PostType;
 
 class WritePanels {
 
@@ -23,7 +24,7 @@ class WritePanels {
 		add_meta_box( 'download-monitor-product-info', __( 'Product Information', 'download-monitor' ), array(
 			$this,
 			'display_product_information'
-		), 'dlm_download_product', 'normal', 'high' );
+		), PostType::KEY, 'normal', 'high' );
 	}
 
 	/**
@@ -55,7 +56,7 @@ class WritePanels {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
-		if ( $post->post_type != 'dlm_download_product' ) {
+		if ( $post->post_type != PostType::KEY ) {
 			return;
 		}
 
