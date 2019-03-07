@@ -36,6 +36,9 @@ class Product {
 	/** @var int[] array array with download ids */
 	private $download_ids = array();
 
+	/** @var \DLM_Download[] */
+	private $downloads_cache = null;
+
 	/**
 	 * @return int
 	 */
@@ -212,8 +215,9 @@ class Product {
 	public function get_secure_download_link( $order, $download ) {
 		$download_url = $download->get_the_download_link();
 
-		$download_url = add_query_arg( array( 'order_id'   => $order->get_id(),
-		                                      'order_hash' => $order->get_hash()
+		$download_url = add_query_arg( array(
+			'order_id'   => $order->get_id(),
+			'order_hash' => $order->get_hash()
 		), $download_url );
 
 		$download_url = apply_filters( 'dlm_secure_download_link', $download_url, $this, $order );
@@ -233,6 +237,33 @@ class Product {
 	 */
 	public function set_download_ids( $download_ids ) {
 		$this->download_ids = $download_ids;
+		$this->reset_download_cache();
+	}
+
+	/**
+	 * Get download objects linked to this product.
+	 * We use $this->download_ids and cache the downloads in this object
+	 *
+	 * @return \DLM_Download[]
+	 */
+	public function get_downloads() {
+		if ( null === $this->downloads_cache ) {
+			$downloads             = download_monitor()->service( 'download_repository' )->retrieve(
+				array(
+					'post__in' => $this->get_download_ids()
+				)
+			);
+			$this->downloads_cache = $downloads;
+		}
+
+		return $this->downloads_cache;
+	}
+
+	/**
+	 * Resets internal download cache
+	 */
+	public function reset_download_cache() {
+		$this->downloads_cache = null;
 	}
 
 	/**
