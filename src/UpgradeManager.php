@@ -96,6 +96,9 @@ class DLM_Upgrade_Manager {
 		// upgrade to version 4.4
 		if ( version_compare( $current_version, '4.4.0', '<' ) ) {
 			$wpdb->query( "ALTER TABLE {$wpdb->prefix}dlm_order_item RENAME COLUMN `download_id` TO `product_id`;" );
+
+			// flush rules because of new post type in 4.4
+			flush_rewrite_rules();
 		}
 
 	}

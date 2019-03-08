@@ -61,6 +61,13 @@ if ( is_admin() ) {
 }
 
 /**
+ * Setup Template Inejctor
+ */
+$template_injector = new \Never5\DownloadMonitor\Shop\Util\TemplateInjector();
+$template_injector->init();
+
+
+/**
  * Setup Access manager
  */
 $access_manager = new \Never5\DownloadMonitor\Shop\Access\Manager();
