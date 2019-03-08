@@ -82,6 +82,14 @@ class DLM_Admin_Settings {
 								'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>button</code>, the <code>content-download-button.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' )
 							),
 							array(
+								'name'     => 'dlm_shop_enabled',
+								'std'      => '',
+								'label'    => __( 'Shop Enabled', 'download-monitor' ),
+								'cb_label' => __( 'Enable Shop', 'download-monitor' ),
+								'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
+								'type'     => 'checkbox'
+							),
+							array(
 								'name'     => 'dlm_xsendfile_enabled',
 								'std'      => '',
 								'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
@@ -281,28 +289,35 @@ class DLM_Admin_Settings {
 								'desc'    => __( "Choose what page is displayed when the user has no access to a file. Don't forget to add the <code>[dlm_no_access]</code> shortcode to the page.", 'download-monitor' ),
 								'type'    => 'lazy_select',
 								'options' => array()
-							),
-							array(
-								'name'    => 'dlm_page_cart',
-								'std'     => '',
-								'label'   => __( 'Cart page', 'download-monitor' ),
-								'desc'    => __( 'Your cart page, make sure it has the <code>[dlm_cart]</code> shortcode.', 'download-monitor' ),
-								'type'    => 'lazy_select',
-								'options' => array()
-							),
-							array(
-								'name'    => 'dlm_page_checkout',
-								'std'     => '',
-								'label'   => __( 'Checkout page', 'download-monitor' ),
-								'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
-								'type'    => 'lazy_select',
-								'options' => array()
-							),
+							)
 						)
 					)
 				)
-			),
-			'shop'      => array(
+			)
+
+		);
+
+		if ( dlm_is_shop_enabled() ) {
+
+			$settings['pages']['sections']['pages']['fields'][] = array(
+				'name'    => 'dlm_page_cart',
+				'std'     => '',
+				'label'   => __( 'Cart page', 'download-monitor' ),
+				'desc'    => __( 'Your cart page, make sure it has the <code>[dlm_cart]</code> shortcode.', 'download-monitor' ),
+				'type'    => 'lazy_select',
+				'options' => array()
+			);
+
+			$settings['pages']['sections']['pages']['fields'][] = array(
+				'name'    => 'dlm_page_checkout',
+				'std'     => '',
+				'label'   => __( 'Checkout page', 'download-monitor' ),
+				'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
+				'type'    => 'lazy_select',
+				'options' => array()
+			);
+
+			$settings['shop'] = array(
 				'title'    => __( 'Shop', 'download-monitor' ),
 				'sections' => array(
 					'general' => array(
@@ -362,33 +377,36 @@ class DLM_Admin_Settings {
 						)
 					)
 				)
-			),
-			'payments'  => array(
+			);
+
+			$settings['payments'] = array(
 				'title'    => __( 'Payment Methods', 'download-monitor' ),
 				'sections' => $this->get_payment_methods_sections()
-			),
-			'misc'      => array(
-				'title'    => __( 'Misc', 'download-monitor' ),
-				'sections' => array(
-					'misc' => array(
-						'fields' => array(
-							array(
-								'name'     => 'dlm_clean_on_uninstall',
-								'std'      => '0',
-								'label'    => __( 'Remove Data on Uninstall?', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
-								'desc'     => __( 'Check this box if you would like to completely remove all Download Monitor data when the plugin is deleted.', 'download-monitor' ),
-								'type'     => 'checkbox'
-							),
-							array(
-								'name'  => 'dlm_clear_transients',
-								'std'   => '0',
-								'label' => __( 'Clear all transients', 'download-monitor' ),
-								'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
-								'type'  => 'action_button',
-								'link'  => self::get_url() . '#settings-misc'
-							),
-						)
+			);
+		}
+
+
+		$settings['misc'] = array(
+			'title'    => __( 'Misc', 'download-monitor' ),
+			'sections' => array(
+				'misc' => array(
+					'fields' => array(
+						array(
+							'name'     => 'dlm_clean_on_uninstall',
+							'std'      => '0',
+							'label'    => __( 'Remove Data on Uninstall?', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'Check this box if you would like to completely remove all Download Monitor data when the plugin is deleted.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
+						array(
+							'name'  => 'dlm_clear_transients',
+							'std'   => '0',
+							'label' => __( 'Clear all transients', 'download-monitor' ),
+							'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
+							'type'  => 'action_button',
+							'link'  => self::get_url() . '#settings-misc'
+						),
 					)
 				)
 			)
@@ -448,7 +466,7 @@ class DLM_Admin_Settings {
 					)
 				);
 
-				$settings[$tab_key] = $new_tab;
+				$settings[ $tab_key ] = $new_tab;
 			}
 		}
 

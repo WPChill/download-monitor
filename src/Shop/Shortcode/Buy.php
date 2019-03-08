@@ -40,13 +40,10 @@ class Buy {
 
 		// create download object
 		try {
-			/** @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $id );
+			/** @var \Never5\DownloadMonitor\Shop\Product\Product $download */
+			$product = Services::get()->service( 'product_repository' )->retrieve_single( $id );
 
-
-			/** @todo check if product */
-
-			$atc_url = Services::get()->service( 'page' )->get_add_to_cart_url( $download->get_id() );
+			$atc_url = Services::get()->service( 'page' )->get_add_to_cart_url( $product->get_id() );
 
 			// if we have content, wrap in a link only
 			if ( $content ) {
@@ -58,8 +55,8 @@ class Buy {
 
 				// load template
 				download_monitor()->service( 'template_handler' )->get_template_part( 'shop/button/add-to-cart', $template, '', array(
-					'download' => $download,
-					'atc_url'  => $atc_url
+					'product' => $product,
+					'atc_url' => $atc_url
 				) );
 
 				// get output
@@ -71,7 +68,7 @@ class Buy {
 				}
 			}
 		} catch ( \Exception $e ) {
-			$output = '[' . __( 'Download not found', 'download-monitor' ) . ']';
+			$output = '[' . __( 'Product not found', 'download-monitor' ) . ']';
 		}
 
 		return $output;

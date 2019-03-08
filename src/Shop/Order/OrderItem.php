@@ -14,7 +14,7 @@ class OrderItem {
 	private $qty;
 
 	/** @var int */
-	private $download_id;
+	private $product_id;
 
 	/** @var string */
 	private $tax_class;
@@ -73,15 +73,15 @@ class OrderItem {
 	/**
 	 * @return int
 	 */
-	public function get_download_id() {
-		return $this->download_id;
+	public function get_product_id() {
+		return $this->product_id;
 	}
 
 	/**
-	 * @param int $download_id
+	 * @param int $product_id
 	 */
-	public function set_download_id( $download_id ) {
-		$this->download_id = $download_id;
+	public function set_product_id( $product_id ) {
+		$this->product_id = $product_id;
 	}
 
 	/**

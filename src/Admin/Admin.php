@@ -194,7 +194,17 @@ class DLM_Admin {
 		$enqueue = false;
 
 		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' ) {
-			if ( ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == 'dlm_download' ) || ( ! empty( $post->post_type ) && 'dlm_download' === $post->post_type ) ) {
+			if (
+				( ! empty( $_GET['post_type'] ) && in_array( $_GET['post_type'], array(
+						'dlm_download',
+						\Never5\DownloadMonitor\Shop\Util\PostType::KEY
+					) ) )
+				||
+				( ! empty( $post->post_type ) && in_array( $post->post_type, array(
+						'dlm_download',
+						\Never5\DownloadMonitor\Shop\Util\PostType::KEY
+					) ) )
+			) {
 				$enqueue = true;
 			}
 		}
@@ -204,6 +214,10 @@ class DLM_Admin {
 		}
 
 		if ( $hook == 'edit-tags.php' && strstr( $_GET['taxonomy'], 'dlm_download' ) ) {
+			$enqueue = true;
+		}
+
+		if ( isset( $_GET['page'] ) && 'download-monitor-orders' === $_GET['page'] ) {
 			$enqueue = true;
 		}
 

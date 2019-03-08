@@ -150,7 +150,7 @@ class DLM_Download_Handler {
 						if ( ! empty( $blacklisted_ua ) ) {
 
 							// check if blacklisted user agent is found in request user agent
-							if ( '/' == $blacklisted_ua[0] && '/' == substr( $blacklisted_ua, -1 ) ) { // /regex/ pattern
+							if ( '/' == $blacklisted_ua[0] && '/' == substr( $blacklisted_ua, - 1 ) ) { // /regex/ pattern
 								if ( preg_match( $blacklisted_ua, $visitor_ua ) ) {
 									$can_download = false;
 									break;
@@ -219,7 +219,7 @@ class DLM_Download_Handler {
 		}
 
 		// check if endpoint is set but is empty
-		if ( apply_filters( 'dlm_empty_download_redirect_enabled', true ) && isset ( $wp->query_vars[ $this->endpoint ] ) && empty ($wp->query_vars[ $this->endpoint ] ) ) {
+		if ( apply_filters( 'dlm_empty_download_redirect_enabled', true ) && isset ( $wp->query_vars[ $this->endpoint ] ) && empty ( $wp->query_vars[ $this->endpoint ] ) ) {
 			wp_redirect( apply_filters( 'dlm_empty_download_redirect_url', home_url() ) );
 			exit;
 		}
@@ -282,7 +282,7 @@ class DLM_Download_Handler {
 			if ( $download_id > 0 ) {
 				try {
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
-				}catch (Exception $e) {
+				} catch ( Exception $e ) {
 					// download not found
 				}
 
@@ -387,7 +387,7 @@ class DLM_Download_Handler {
 		$this->cache_headers();
 
 		/** @var DLM_Download_Version $version */
-		$version    = $download->get_version();
+		$version = $download->get_version();
 
 		/** @var array $file_paths */
 		$file_paths = $version->get_mirrors();
@@ -428,6 +428,10 @@ class DLM_Download_Handler {
 
 						// append download id to no access URL
 						$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
+
+						if ( ! $download->get_version()->is_latest() ) {
+							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
+						}
 
 						// redirect to no access page
 						wp_redirect( $no_access_permalink );

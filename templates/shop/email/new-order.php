@@ -69,7 +69,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <br/>
             Thank you for your purchase, this email confirms your order.<br/>
             <br/>
-            Here's an overview of your files:<br/>
+            Here's an overview of your purchase:<br/>
             <br/>
             %DOWNLOADS_TABLE%
             <br/>

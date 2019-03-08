@@ -14,16 +14,16 @@ class Factory {
 	}
 
 	/**
-	 * @param int $download_id
+	 * @param int $product_id
 	 * @param int $qty
 	 *
 	 * @return Item
 	 */
-	public function make( $download_id, $qty ) {
+	public function make( $product_id, $qty ) {
 		$item = new Item();
 
 		$item->set_key( $this->generate_key() );
-		$item->set_download_id( $download_id );
+		$item->set_product_id( $product_id );
 		$item->set_qty( $qty );
 
 		return $item;

@@ -44,12 +44,12 @@ class Page {
 	/**
 	 * Returns add to cart URL for given download ID
 	 *
-	 * @param int $download_id
+	 * @param int $product_id
 	 *
 	 * @return string
 	 */
-	public function get_add_to_cart_url( $download_id ) {
-		return add_query_arg( array( 'dlm-add-to-cart' => $download_id ), $this->get_cart_url() );
+	public function get_add_to_cart_url( $product_id ) {
+		return add_query_arg( array( 'dlm-add-to-cart' => $product_id ), $this->get_cart_url() );
 	}
 
 	/**

@@ -27,7 +27,7 @@ class Manager {
 
 				$order_item->set_label( $cart_item->get_label() );
 				$order_item->set_qty( $cart_item->get_qty() );
-				$order_item->set_download_id( $cart_item->get_download_id() );
+				$order_item->set_product_id( $cart_item->get_product_id() );
 				$order_item->set_subtotal( $cart_item->get_subtotal() );
 				$order_item->set_tax_total( $cart_item->get_tax_total() );
 				/** @todo set tax class */

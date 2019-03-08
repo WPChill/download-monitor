@@ -43,7 +43,7 @@ class TestOrder {
 		$order_item = new Order\OrderItem();
 		$order_item->set_label( "A test Item" );
 		$order_item->set_qty( 1 );
-		$order_item->set_download_id( 1 );
+		$order_item->set_product_id( 1 );
 		$order_item->set_subtotal( 999 );
 		$order_item->set_tax_total( 0 );
 		$order_item->set_total( 999 );

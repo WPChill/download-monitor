@@ -2,6 +2,8 @@
 
 namespace Never5\DownloadMonitor\Shop\Email;
 
+use Never5\DownloadMonitor\Shop\Services\Services;
+
 class VarParser {
 
 	/**
@@ -45,27 +47,45 @@ class VarParser {
 
 			foreach ( $order_items as $order_item ) {
 
-				$download             = null;
-				$version_label        = "-";
-				$download_button_html = __( 'Download is no longer available', 'download-monitor' );
-				$download_url         = "";
-
 				try {
-					/** @var \Never5\DownloadMonitor\Shop\DownloadProduct\DownloadProduct $download */
-					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $order_item->get_download_id() );
+					/** @var \Never5\DownloadMonitor\Shop\Product\Product $product */
+					$product = Services::get()->service( 'product_repository' )->retrieve_single( $order_item->get_product_id() );
 
-					$version_label        = $download->get_version()->get_version();
-					$download_button_html = "<a href='" . $download->get_secure_download_link( $order ) . "' class='dlm-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
-					$download_url         = $download->get_secure_download_link( $order );
+					$html_item = array(
+						'label'     => $product->get_title(),
+						'downloads' => array()
+					);
+
+					$downloads = $product->get_downloads();
+					if ( ! empty( $downloads ) ) {
+
+						foreach ( $downloads as $download ) {
+
+							$version_label        = "-";
+							$download_button_html = __( 'Download is no longer available', 'download-monitor' );
+							$download_url         = "";
+
+							if ( $download->exists() ) {
+								$version_label        = $download->get_version()->get_version();
+								$download_button_html = "<a href='" . $product->get_secure_download_link( $order, $download ) . "' class='dlm-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
+								$download_url         = $product->get_secure_download_link( $order, $download );
+							}
+
+							$html_item['downloads'][] = array(
+								'label'        => $download->get_title(),
+								'version'      => $version_label,
+								'button'       => $download_button_html,
+								'download_url' => $download_url
+							);
+						}
+					}
+
+					$html_items[] = $html_item;
+
+
 				} catch ( \Exception $e ) {
 				}
 
-				$html_items[] = array(
-					'label'        => $order_item->get_label(),
-					'version'      => $version_label,
-					'button'       => $download_button_html,
-					'download_url' => $download_url
-				);
 			}
 
 		}
@@ -129,7 +149,7 @@ class VarParser {
 
 		ob_start();
 		download_monitor()->service( 'template_handler' )->get_template_part( 'shop/email/elements/downloads-table', '', '', array(
-			'items' => $this->build_simplified_order_items_array( $order )
+			'products' => $this->build_simplified_order_items_array( $order )
 		) );
 		$output = ob_get_clean();
 
@@ -147,7 +167,7 @@ class VarParser {
 	private function generate_download_table_plain( $order ) {
 		ob_start();
 		download_monitor()->service( 'template_handler' )->get_template_part( 'shop/email/elements/downloads-table-plain', '', '', array(
-			'items' => $this->build_simplified_order_items_array( $order )
+			'products' => $this->build_simplified_order_items_array( $order )
 		) );
 		$output = ob_get_clean();
 

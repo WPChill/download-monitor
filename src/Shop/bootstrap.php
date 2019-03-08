@@ -27,6 +27,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 require_once( 'functions.php' );
 
+if ( ! dlm_is_shop_enabled() ) {
+	return;
+}
+
+/**
+ * Setup product post type
+ */
+$post_type = new \Never5\DownloadMonitor\Shop\Util\PostType();
+$post_type->setup();
+
 /**
  * Only add following things in the admin
  */
@@ -40,7 +50,22 @@ if ( is_admin() ) {
 	$order_page = new \Never5\DownloadMonitor\Shop\Admin\Pages\Orders();
 	$order_page->setup();
 
+	// Product table columns
+	$columns = new \Never5\DownloadMonitor\Shop\Admin\ProductTableColumns();
+	$columns->setup();
+
+	// Download Option
+	$download_option = new \Never5\DownloadMonitor\Shop\Admin\DownloadOption();
+	$download_option->setup();
+
 }
+
+/**
+ * Setup Template Inejctor
+ */
+$template_injector = new \Never5\DownloadMonitor\Shop\Util\TemplateInjector();
+$template_injector->init();
+
 
 /**
  * Setup Access manager

@@ -32,7 +32,7 @@ class Manager {
 			foreach ( $session_items as $session_item ) {
 
 				try {
-					$item = $item_factory->make( $session_item->get_download_id() );
+					$item = $item_factory->make( $session_item->get_product_id() );
 					$item->set_qty( $session_item->get_qty() );
 
 					// add item to items array
@@ -90,7 +90,7 @@ class Manager {
 
 			/** @var Item\Item $cart_item */
 			foreach ( $cart_items as $cart_item ) {
-				$session_items[] = $session_item_factory->make( $cart_item->get_download_id(), $cart_item->get_qty() );
+				$session_items[] = $session_item_factory->make( $cart_item->get_product_id(), $cart_item->get_qty() );
 			}
 		}
 		$session->set_items( $session_items );
@@ -155,15 +155,15 @@ class Manager {
 	/**
 	 * Add a download to cart
 	 *
-	 * @param int $download_id
+	 * @param int $product_id
 	 * @param int $qty
 	 */
-	public function add_to_cart( $download_id, $qty ) {
+	public function add_to_cart( $product_id, $qty ) {
 
 		try {
 
 			/** @var Item\Item $item */
-			$item = Services::get()->service( 'cart_item_factory' )->make( $download_id );
+			$item = Services::get()->service( 'cart_item_factory' )->make( $product_id );
 			$item->set_qty( $qty );
 
 			// add item to cart
@@ -185,9 +185,9 @@ class Manager {
 	/**
 	 * Remove a download from cart
 	 *
-	 * @param int $download_id
+	 * @param int $product_id
 	 */
-	public function remove_from_cart( $download_id ) {
+	public function remove_from_cart( $product_id ) {
 
 		// get cart and items
 		$cart  = $this->get_cart();
@@ -199,7 +199,7 @@ class Manager {
 			/** @var int $ik */
 			/** @var Item\Item $iv */
 			foreach ( $items as $ik => $iv ) {
-				if ( $iv->get_download_id() == $download_id ) {
+				if ( $iv->get_product_id() == $product_id ) {
 					unset( $items[ $ik ] );
 				}
 			}

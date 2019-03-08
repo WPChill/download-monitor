@@ -134,8 +134,8 @@ class ExecutePaymentListener {
 	 * @param string $order_hash
 	 */
 	private function execute_failed( $order_id, $order_hash ) {
-		echo 'failed';
-		exit();
+//		echo 'failed';
+//		exit();
 		wp_redirect( $this->gateway->get_failed_url( $order_id, $order_hash ), 302 );
 		exit;
 	}

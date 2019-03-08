@@ -56,7 +56,7 @@ class Cart {
 		if ( count( $items ) > 0 ) {
 			/** @var Item\Item $item */
 			foreach ( $items as $i ) {
-				if ( $i->get_download_id() === $item->get_download_id() ) {
+				if ( $i->get_product_id() === $item->get_product_id() ) {
 					return true;
 				}
 			}
