@@ -93,6 +93,10 @@ class DLM_Upgrade_Manager {
 			$installer->create_shop_tables();
 		}
 
+		// upgrade to version 4.4
+		if ( version_compare( $current_version, '4.4.0', '<' ) ) {
+			$wpdb->query( "ALTER TABLE {$wpdb->prefix}dlm_order_item RENAME COLUMN `download_id` TO `product_id`;" );
+		}
 
 	}
 
