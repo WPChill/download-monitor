@@ -118,6 +118,15 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.4.0: March 8, 2019 =
+* Feature: Added a new product post type to create a clear separation between downloads and the products you can sell. Read more about this here: https://www.download-monitor.com/kb/products/
+* Feature: Shop products now have a basic detail (single) page. This will be improved in future updates.
+* Feature: Added "Paid Only" option to downloads. This allows you to require users to have a purchase linked to the download before file can be downloaded.
+* Feature: Versions are now passed through the no-access page.
+* Tweak: dlm_buy shortcode now takes a product id, instead of a download ID. These need to be updated manually.
+* Tweak: Shop feature has been more isolated from non-shop. To enable shop, go to general Download Monitor settings and check "Enable Shop".
+* Tweak: PayPal gateway is now enabled by default.
+
 = 4.3.0: February 27, 2019 =
 * Feature: Added Shop (Beta) feature. You can now sell your downloads via Download Monitor! More addition to shop (like taxes and discounts) coming soon.
 * Feature: Added PayPal integration for shop feature.
