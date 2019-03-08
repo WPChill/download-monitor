@@ -534,7 +534,27 @@ class DLM_Shortcodes {
 		$template_handler = new DLM_Template_Handler();
 
 		try {
+			/** @var \DLM_Download $download */
 			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $wp->query_vars['download-id'] ) );
+
+			$version_id = '';
+
+			if ( ! empty( $_GET['version'] ) ) {
+				$version_id = $download->get_version_id_version_name( $_GET['version'] );
+			}
+
+			if ( ! empty( $_GET['v'] ) ) {
+				$version_id = absint( $_GET['v'] );
+			}
+
+			if ( null != $download && $version_id ) {
+				try {
+					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
+					$download->set_version( $version );
+				} catch ( Exception $e ) {
+
+				}
+			}
 
 			// load no access template
 			$template_handler->get_template_part( 'no-access', '', '', array(
