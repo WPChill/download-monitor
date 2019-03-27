@@ -123,10 +123,10 @@ class OrderTable extends \WP_List_Table {
 					$customer_name .= " " . $order->get_customer()->get_last_name();
 				}
 
-				return '<a href="' . add_query_arg( 'details', $order->get_id(), $this->get_base_url() ) . '">#' . $order->get_id() . ' ' . $customer_name . '</a>';
+				return '<a href="' . add_query_arg( 'details', $order->get_id(), $this->get_base_url() ) . '">#' . esc_html( $order->get_id() . ' ' . $customer_name ) . '</a>';
 				break;
 			case 'status' :
-				return '<span class="dlm-order-status dlm-order-status-' . $order->get_status()->get_key() . '" title="' . $order->get_status()->get_label() . '">' . $order->get_status()->get_label() . '</span>';
+				return '<span class="dlm-order-status dlm-order-status-' . $order->get_status()->get_key() . '" title="' . $order->get_status()->get_label() . '">' . esc_html( $order->get_status()->get_label() ) . '</span>';
 				break;
 			case 'date' :
 				$time_str = date_i18n( get_option( 'date_format' ), $order->get_date_created()->format( 'U' ) );
