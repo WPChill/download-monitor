@@ -118,6 +118,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.4.1: March 27, 2019 =
+* Tweak: Added proper html escaping to order overview page, props Nam.Dinh.
+
 = 4.4.0: March 8, 2019 =
 * Feature: Added a new product post type to create a clear separation between downloads and the products you can sell. Read more about this here: https://www.download-monitor.com/kb/products/
 * Feature: Shop products now have a basic detail (single) page. This will be improved in future updates.
