@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Import functions file
  */
-require_once( 'functions.php' );
+require_once( plugin_dir_path( DLM_PLUGIN_FILE ) . 'src/Shop/functions.php' );
 
 if ( ! dlm_is_shop_enabled() ) {
 	return;
