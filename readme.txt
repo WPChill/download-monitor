@@ -118,6 +118,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.4.2: April 3, 2019 =
+* Tweak: Fixed an relative inclusion bug that sometimes caused bootstrap not to properly load. (Undefined function dlm_is_shop_enabled()).
+
 = 4.4.1: March 27, 2019 =
 * Tweak: Added proper html escaping to order overview page, props Nam.Dinh.
 
