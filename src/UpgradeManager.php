@@ -101,6 +101,15 @@ class DLM_Upgrade_Manager {
 			flush_rewrite_rules();
 		}
 
+		// upgrade to version 4.5
+		if ( version_compare( $current_version, '4.5.0', '<' ) ) {
+			// add tax_rate column to order_item table
+			$wpdb->query( "ALTER TABLE `{$wpdb->prefix}dlm_order_item` ADD `tax_rate` DECIMAL(10,4) NULL DEFAULT NULL AFTER `tax_class`;" );
+
+			// create tax rate table
+			$installer->create_tax_rate_table();
+		}
+
 	}
 
 	/**

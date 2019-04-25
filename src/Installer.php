@@ -152,6 +152,7 @@ class DLM_Installer {
 		  `qty` INT NULL,
 		  `product_id` INT UNSIGNED NULL,
 		  `tax_class` VARCHAR(255) NULL,
+		  `tax_rate` DECIMAL(10,4) NULL,
 		  `tax_total` INT NULL,
 		  `subtotal` INT NULL,
 		  `total` INT NULL,
@@ -173,10 +174,29 @@ class DLM_Installer {
 		  PRIMARY KEY (`key`))
 		ENGINE = InnoDB {$collate};";
 
-		foreach($tables_sql as $sql) {
+		foreach ( $tables_sql as $sql ) {
 			$wpdb->query( $sql );
 		}
 
+	}
+
+	/**
+	 * Create the tax rate table
+	 */
+	public function create_tax_rate_table() {
+		global $wpdb;
+
+		$table_sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_tax_rate` (
+			`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+			`class` VARCHAR(255) NOT NULL,
+			`country` VARCHAR(5) NULL,
+			`state` VARCHAR(5) NULL,
+			`rate` DECIMAL(10,4) NULL,
+			`label` VARCHAR(255) NULL,
+		PRIMARY KEY (`id`))
+		ENGINE = InnoDB ".$this->get_db_collate().";";
+
+		$wpdb->query( $table_sql );
 	}
 
 	/**
@@ -236,6 +256,9 @@ class DLM_Installer {
 
 		// install shop tables
 		$this->create_shop_tables();
+
+		// install tax rate table
+		$this->create_tax_rate_table();
 	}
 
 	/**
