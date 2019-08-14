@@ -68,6 +68,7 @@ class DLM_Gutenberg {
 
 	public function render_download_button( $attributes, $content ) {
 
+		$output = '';
 		$download = null;
 		$template = dlm_get_default_download_template();
 
@@ -94,25 +95,26 @@ class DLM_Gutenberg {
 			} catch ( Exception $exception ) {
 				// no download found, don't do anything.
 			}
-		}
-
-		if ( isset( $attributes['template'] ) ) {
-			$template = $attributes['template'];
-		}
-
-		if ( isset( $attributes['custom_template'] ) ) {
-			$template = $attributes['custom_template'];
-		}
-
-		$template_handler = new DLM_Template_Handler();
-
-		// do the output
-		ob_start();
-		$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
-		$output = ob_get_clean();
-
-		if ( isset( $attributes['autop'] ) && $attributes['autop'] == "1" ) {
-			$output = wpautop( $output );
+		
+			if ( isset( $attributes['template'] ) ) {
+				$template = $attributes['template'];
+			}
+	
+			if ( isset( $attributes['custom_template'] ) ) {
+				$template = $attributes['custom_template'];
+			}
+	
+			$template_handler = new DLM_Template_Handler();
+	
+			// do the output
+			ob_start();
+			$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+			$output = ob_get_clean();
+	
+			if ( isset( $attributes['autop'] ) && $attributes['autop'] == "1" ) {
+				$output = wpautop( $output );
+			}
+			
 		}
 
 		return $output;

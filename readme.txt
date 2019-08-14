@@ -118,6 +118,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.4.3 =
+* Bugfix: Saving a Gutenberg block without selecting a download causing a null error.
+
 = 4.4.2: April 3, 2019 =
 * Tweak: Fixed an relative inclusion bug that sometimes caused bootstrap not to properly load. (Undefined function dlm_is_shop_enabled()).
 
