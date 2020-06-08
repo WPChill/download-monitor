@@ -4,7 +4,7 @@ Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, files, versions, logging, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 3.8
 Tested up to: 5.4.1
-Stable tag: 4.4.2
+Stable tag: 4.4.3
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.3
@@ -117,6 +117,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.4.3: June 8, 2020 =
+* Tweak: Small minor fixes and tweaks.
 
 = 4.4.2: April 3, 2019 =
 * Tweak: Fixed an relative inclusion bug that sometimes caused bootstrap not to properly load. (Undefined function dlm_is_shop_enabled()).
