@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<table cellpadding="0" cellspacing="0" class="dlm-metabox-content">
 		<tbody>
 
-		<?php do_action( 'dlm_downloadable_file_version_table_start' ); ?>
+		<?php do_action( 'dlm_downloadable_file_version_table_start', $file_id, $version_increment ); ?>
 
 		<tr>
 			<td width="1%">
@@ -115,7 +115,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 
-		<?php do_action( 'dlm_downloadable_file_version_table_end' ); ?>
+		<?php do_action( 'dlm_downloadable_file_version_table_end', $file_id, $version_increment ); ?>
 
 		</tbody>
 	</table>
