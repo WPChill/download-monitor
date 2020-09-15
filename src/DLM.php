@@ -233,7 +233,7 @@ class WP_DLM {
 			$current_support = get_theme_support( 'post-thumbnails' );
 
 			// fix current support for some themes
-			if ( is_array( $current_support[0] ) ) {
+			if ( is_array( $current_support ) && is_array( $current_support[0] ) ) {
 				$current_support = $current_support[0];
 			}
 
