@@ -609,7 +609,7 @@ class DLM_Download_Handler {
 			@set_time_limit( 0 );
 		}
 
-		if ( function_exists( 'get_magic_quotes_runtime' ) && get_magic_quotes_runtime() ) {
+		if ( version_compare( PHP_VERSION, '7.4.0', '<' ) && function_exists( 'get_magic_quotes_runtime' ) && get_magic_quotes_runtime() ) {
 			@set_magic_quotes_runtime( 0 );
 		}
 
