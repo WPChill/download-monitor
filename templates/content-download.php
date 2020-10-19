@@ -7,6 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+if( ! $dlm_download ) {
+	return;
+}
+
 /** @var DLM_Download $dlm_download */
 ?>
 <a class="download-link" title="<?php if ( $dlm_download->get_version()->has_version_number() ) {
