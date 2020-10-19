@@ -3,8 +3,8 @@ Contributors: never5, barrykooij, hchouhan, mikejolley
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, files, versions, logging, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 3.8
-Tested up to: 5.4.1
-Stable tag: 4.4.3
+Tested up to: 5.5.1
+Stable tag: 4.4.4
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.3
@@ -117,6 +117,12 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.4.4: October 19, 2020 =
+* Tweak: Fixed PHP 7.4 notices.
+* Tweak: Check if download variable is set in content-download template. This prevents a fatal error in odd case no download is given.
+* Tweak: Now passing variables to actions to version.php admin view file.
+* Tweak: Bump websocket-extensions from 0.1.3 to 0.1.4
 
 = 4.4.3: June 8, 2020 =
 * Tweak: Small minor fixes and tweaks.
