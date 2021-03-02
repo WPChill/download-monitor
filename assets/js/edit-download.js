@@ -69,7 +69,7 @@ jQuery( function ( $ ) {
             }
         } );
 
-        var size = jQuery( '.downloadable_files .downloadable_file' ).size();
+        var size = jQuery( '.downloadable_files .downloadable_file' ).length;
 
         var data = {
             action: 'download_monitor_add_file',
