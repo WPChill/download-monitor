@@ -128,7 +128,11 @@ class DLM_Shortcodes {
 				ob_start();
 
 				// load template
-				$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				if( $download ) {
+					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				} else {
+					echo __( 'No download defined', 'download-monitor' );
+				}
 
 				// get output
 				$output = ob_get_clean();

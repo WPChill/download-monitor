@@ -108,7 +108,10 @@ class DLM_Gutenberg {
 
 		// do the output
 		ob_start();
-		$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+		if($download)
+		{
+			$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+		}
 		$output = ob_get_clean();
 
 		if ( isset( $attributes['autop'] ) && $attributes['autop'] == "1" ) {
