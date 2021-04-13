@@ -66,6 +66,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 * @throws Exception
 	 */
 	public function retrieve_single( $id ) {
+
 		$downloads = $this->retrieve( array( 'p' => absint( $id ) ) );
 
 		if ( count( $downloads ) != 1 ) {
@@ -85,6 +86,13 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 * @return array<DLM_Download>
 	 */
 	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
+
+		// WPML gives original website language in AJAX Requests
+		// So we handle all the languages, as the download will be searched based on the post ID which will be unique
+		if ( class_exists( 'SitePress' ) ) {
+			global $sitepress;
+			$sitepress->switch_lang( 'all' );
+		}
 
 		$items = array();
 
