@@ -333,7 +333,7 @@ class DLM_Download_Handler {
 	 * @param DLM_Download $download
 	 * @param DLM_Download_Version $version
 	 */
-	private function log( $type = '', $status = '', $message = '', $download, $version ) {
+	private function log( $type, $status, $message, $download, $version ) {
 
 		// Logging object
 		$logging = new DLM_Logging();
