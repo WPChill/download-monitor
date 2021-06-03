@@ -118,6 +118,12 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.4.5 : TBD =
+
+* Tweak: Fixed PHP8 bug ( https://github.com/WPChill/download-monitor/issues/685 )
+* Tweak: Fixed deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issues/682 thanks to @ashleyfae )
+
+
 = 4.4.4: October 19, 2020 =
 * Tweak: Fixed PHP 7.4 notices.
 * Tweak: Check if download variable is set in content-download template. This prevents a fatal error in odd case no download is given.

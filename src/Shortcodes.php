@@ -75,9 +75,10 @@ class DLM_Shortcodes {
 			'id'         => '',
 			'autop'      => false,
 			'template'   => dlm_get_default_download_template(),
-			'version_id' => '',
+			'version_id' => null,
 			'version'    => ''
 		), $atts ) );
+
 
 		// Make id filterable
 		$id = apply_filters( 'dlm_shortcode_download_id', $id, $atts );
