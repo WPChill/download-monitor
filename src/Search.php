@@ -45,6 +45,18 @@ class DLM_Search {
 			}
 		}
 
+		if ( 'dlm_download' == $post->post_type ) {
+			// fetch download object
+			try{
+				/** @var DLM_Download $download */
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+
+				return $download->get_the_download_link();
+			}
+			catch ( Exception $e ){
+			}
+		}
+
 		return $post_link;
 	}
 
