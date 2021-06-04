@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'dlm_before_single_product', $product );
 ?>
     <div class="dlm-product">
-		<?php if ( $product->get_content() != "" ) : ?>
+		<?php if ( $product->get_content() != "" || 0 != $product->get_id() ) : ?>
             <p><?php echo esc_html( $product->get_content() ); ?></p>
 			<?php echo do_shortcode( sprintf( '[dlm_buy id="%s"]', intval( $product->get_id() ) ) ); ?>
 		<?php endif; ?>

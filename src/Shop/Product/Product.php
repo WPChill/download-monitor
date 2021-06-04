@@ -158,7 +158,10 @@ class Product {
 		}
 
 		// convert to cents
-		$price = $price * 100;
+		if( isset( $price ) && '' != $price ) {
+			$price = $price * 100;
+		}
+
 
 		$this->set_price( $price );
 	}
@@ -171,8 +174,12 @@ class Product {
 	public function get_price_for_user_input() {
 		$decimal_sep  = download_monitor()->service( 'settings' )->get_option( 'decimal_separator' );
 		$thousand_sep = ( ( '.' === $decimal_sep ) ? ',' : '.' );
-		$price        = ( $this->get_price() / 100 );
 
+		if( '' != $this->get_price() ) {
+			$price        = ( $this->get_price() / 100 );
+		}else {
+			$price = 0;
+		}
 		return number_format( $price, 2, $decimal_sep, $thousand_sep );
 	}
 
