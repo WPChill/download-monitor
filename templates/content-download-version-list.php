@@ -9,6 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** @var DLM_Download $dlm_download */
 
+if( ! $dlm_download ) {
+	return esc_html__('No download found', 'download-monitor');
+}
+
 $versions = $dlm_download->get_versions();
 
 if ( $versions ) : ?>

@@ -8,6 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /** @var DLM_Download $dlm_download */
+
+if( ! $dlm_download ) {
+	return esc_html__('No download found', 'download-monitor');
+}
 ?>
 <a class="download-link filetype-icon <?php echo 'filetype-' . $dlm_download->get_version()->get_filetype(); ?>"
    title="<?php if ( $dlm_download->get_version()->has_version_number() ) {

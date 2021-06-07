@@ -9,7 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** @var DLM_Download $dlm_download */
 
+if( ! $dlm_download ) {
+	return esc_html__('No download found', 'download-monitor');
+}
+
 ?>
+
 <aside class="download-box">
 
 	<?php $dlm_download->the_image(); ?>

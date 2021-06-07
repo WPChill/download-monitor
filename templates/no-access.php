@@ -8,6 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /** @var DLM_Download $download */
+
+if( ! $dlm_download ) {
+	return esc_html__('No download found', 'download-monitor');
+}
 ?>
 
 <?php do_action( 'dlm_no_access_before_message', $download ); ?>
