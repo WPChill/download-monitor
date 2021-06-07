@@ -4,7 +4,7 @@ Donate link: http://www.barrykooij.com/donate/
 Tags: download, sell, document-management, sell-products, ecommerce, monitor, download monitor, tracking, digital, documents, download category, download manager, file manager , monitor, password, protect downloads, sell, shop, paypal, stripe
 Requires at least: 3.8
 Tested up to: 5.7
-Stable tag: 4.4.4
+Stable tag: 4.4.5
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.3
@@ -122,6 +122,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 * Tweak: Fixed PHP8 bug ( https://github.com/WPChill/download-monitor/issues/685 )
 * Tweak: Fixed deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issues/682 thanks to @ashleyfae )
+Tweak : Fixed PHP templates errors ( https://github.com/WPChill/download-monitor/issues/691 )
+Tweak : Fixed single shop download error ( https://github.com/WPChill/download-monitor/issues/690 )
+Tweak : Fixed permalink erros ( https://github.com/WPChill/download-monitor/issues/689 )
 
 
 = 4.4.4: October 19, 2020 =
