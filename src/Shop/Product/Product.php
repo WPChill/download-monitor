@@ -148,20 +148,22 @@ class Product {
 
 		$price = $user_input;
 
-		// if the thousand sep is not a dot, it's a comma. In this case remove all dots, then replace
-		if ( '.' !== download_monitor()->service( 'settings' )->get_option( 'decimal_separator' ) ) {
-			$price = str_replace( ".", "", $price );
-			$price = str_replace( ",", ".", $price );
+		// Check if $price is not set
+		if ( ! $price || '' == $price ) {
+			$price = 0;
 		} else {
-			// thousand sep is dot. Leave the dot, remove the commas
-			$price = str_replace( ",", "", $price );
+			// if the thousand sep is not a dot, it's a comma. In this case remove all dots, then replace
+			if ( '.' !== download_monitor()->service( 'settings' )->get_option( 'decimal_separator' ) ) {
+				$price = str_replace( ".", "", $price );
+				$price = str_replace( ",", ".", $price );
+			} else {
+				// thousand sep is dot. Leave the dot, remove the commas
+				$price = str_replace( ",", "", $price );
+			}
 		}
 
 		// convert to cents
-		if( isset( $price ) && '' != $price ) {
-			$price = $price * 100;
-		}
-
+		$price = $price * 100;
 
 		$this->set_price( $price );
 	}
@@ -172,14 +174,17 @@ class Product {
 	 * @return string
 	 */
 	public function get_price_for_user_input() {
+
 		$decimal_sep  = download_monitor()->service( 'settings' )->get_option( 'decimal_separator' );
 		$thousand_sep = ( ( '.' === $decimal_sep ) ? ',' : '.' );
+		$price = $this->get_price();
 
-		if( '' != $this->get_price() ) {
-			$price        = ( $this->get_price() / 100 );
+		if( '' != $price ) {
+			$price        = ( $price / 100 );
 		}else {
 			$price = 0;
 		}
+
 		return number_format( $price, 2, $decimal_sep, $thousand_sep );
 	}
 
