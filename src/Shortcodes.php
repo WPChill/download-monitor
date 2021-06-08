@@ -164,7 +164,7 @@ class DLM_Shortcodes {
 		extract( shortcode_atts( array(
 			'id'         => '',
 			'data'       => '',
-			'version_id' => '',
+			'version_id' => null,
 			'version'    => ''
 		), $atts ) );
 
