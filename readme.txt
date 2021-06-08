@@ -118,13 +118,13 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.4.5 : TBD =
+= 4.4.5 - 08.06.2021 =
 
-* Tweak: Fixed PHP8 bug ( https://github.com/WPChill/download-monitor/issues/685 )
-* Tweak: Fixed deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issues/682 thanks to @ashleyfae )
-Tweak : Fixed PHP templates errors ( https://github.com/WPChill/download-monitor/issues/691 )
-Tweak : Fixed single shop download error ( https://github.com/WPChill/download-monitor/issues/690 )
-Tweak : Fixed permalink erros ( https://github.com/WPChill/download-monitor/issues/689 )
+Fixed: PHP 8 bug - slow query ( https://github.com/WPChill/download-monitor/issues/685 )
+Fixed: Deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issues/682 thanks to @ashleyfae )
+Fixed: PHP templates errors ( https://github.com/WPChill/download-monitor/issues/691 )
+Fixed: Single shop download error ( https://github.com/WPChill/download-monitor/issues/690 )
+Fixed: Permalink errors - retrieved permalinks on archives didn't show the correct URL ( https://github.com/WPChill/download-monitor/issues/689 )
 
 
 = 4.4.4: October 19, 2020 =
