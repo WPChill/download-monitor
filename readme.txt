@@ -125,7 +125,9 @@ Fixed: Deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issu
 Fixed: PHP templates errors ( https://github.com/WPChill/download-monitor/issues/691 )
 Fixed: Single shop download error ( https://github.com/WPChill/download-monitor/issues/690 )
 Fixed: Permalink errors - retrieved permalinks on archives didn't show the correct URL ( https://github.com/WPChill/download-monitor/issues/689 )
-
+Fixed : [downloads] shortcode now displays both featured and not featured downloads when left as is ( thanks to @kadimi https://github.com/WPChill/download-monitor/pull/526 )
+Added : Size filter in the placeholder image ( thanks to @jamesgol https://github.com/WPChill/download-monitor/pull/507 )
+Fixed : Sha256 support added when new files are added ( thanks to @jamesgol https://github.com/WPChill/download-monitor/pull/633 )
 
 = 4.4.4: October 19, 2020 =
 * Tweak: Fixed PHP 7.4 notices.
