@@ -169,11 +169,17 @@ class DLM_Settings_Page {
 					}
 					echo '</table>';
 
+					echo '<div class="wpchill-upsells-wrapper">';
+
+					do_action( 'dlm_tab_content_' . $tab, $settings );
+
+					echo '</div>';
 					//echo '</div>';
 				}
 
 
 				?>
+				<div class="wp-clearfix"></div>
 				<p class="submit">
 					<input type="submit" class="button-primary"
 						   value="<?php _e( 'Save Changes', 'download-monitor' ); ?>"/>

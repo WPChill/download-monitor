@@ -20,6 +20,9 @@ function _load_download_monitor() {
 // require autoloader
 require_once dirname( DLM_PLUGIN_FILE ) . '/vendor/autoload.php';
 
+// load the upsells
+require_once dirname( DLM_PLUGIN_FILE ) . '/includes/admin/class-dlm-upsells.php';
+
 // Init plugin
 add_action( 'plugins_loaded', '_load_download_monitor', 10 );
 
