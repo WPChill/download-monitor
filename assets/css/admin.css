@@ -1496,3 +1496,23 @@ table.wp-list-table .column-thumb img {
   width: 30%;
   float: right;
 }
+#dlm-download-page-upsell .wpchill-upsells-wrapper,
+#dlm-amazon-s3-upsell .wpchill-upsells-wrapper,
+#dlm-google-drive-upsell .wpchill-upsells-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  background: #f1f1f1;
+}
+#dlm-download-page-upsell .wpchill-upsells-wrapper .wpchill-upsell,
+#dlm-amazon-s3-upsell .wpchill-upsells-wrapper .wpchill-upsell,
+#dlm-google-drive-upsell .wpchill-upsells-wrapper .wpchill-upsell {
+  background: transparent;
+  text-align: center;
+  width: 100%;
+}
+#dlm-download-page-upsell .inside,
+#dlm-amazon-s3-upsell .inside,
+#dlm-google-drive-upsell .inside {
+  margin: 0;
+  padding: 0;
+}
