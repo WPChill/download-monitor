@@ -171,9 +171,9 @@ class DLM_Upsells {
 			echo $this->generate_upsell_box( 'Ninja forms extension', 'Use the Ninja Forms extension to add forms easily to your download files.', 'access' );
 		}
 
-		if ( ! $this->check_extension( 'dlm-mailchimp' ) ) {
+		if ( ! $this->check_extension( 'dlm-mailchimp-lock' ) ) {
 
-			echo $this->generate_upsell_box( 'Ninja forms extension', 'Use the Ninja Forms extension to add forms easily to your download files.', 'access' );
+			echo $this->generate_upsell_box( 'Ninja forms extension', 'Create a MailChimp list and ask users to subscribe to it before accessing a downloadable file.', 'access' );
 		}
 
 	}
