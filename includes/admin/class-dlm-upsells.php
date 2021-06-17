@@ -37,6 +37,10 @@ class DLM_Upsells {
 
 		add_action( 'dlm_tab_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
+		add_action( 'dlm_tab_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
+
+		add_action( 'dlm_tab_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
+
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10 );
 
 		$this->set_extensions();
@@ -124,12 +128,12 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-download-duplicator' ) ) {
 
-			echo $this->generate_upsell_box( 'Duplicate your downloads', 'Duplicate downloads including all data and versions with a single click', 'general' );
+			echo $this->generate_upsell_box( 'Duplicate your downloads', 'You’re one click away from duplicating downloads, including their data, versions, and files.', 'general' );
 		}
 
 		if ( ! $this->check_extension( 'dlm-email-notification' ) ) {
 
-			echo $this->generate_upsell_box( 'Email notifications', 'The Email Notification extension for Download Monitor sends you an email whenever one of your files is downloaded.', 'general' );
+			echo $this->generate_upsell_box( 'Email notifications', 'Create an email alert to be notified each time one of your files has been downloaded.', 'general' );
 		}
 
 	}
@@ -144,28 +148,32 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-advanced-access-manager' ) ) {
 
-			echo $this->generate_upsell_box( 'Advanced access manager', 'The Advanced Access Manager extensions allows you to create more advanced download limitations.
-', 'access' );
+			echo $this->generate_upsell_box( 'Advanced access manager', 'Limit access to your downloads by setting advanced access rules and restrictions with this extension.', 'access' );
 		}
 
 		if ( ! $this->check_extension( 'dlm-twitter-lock' ) ) {
 
-			echo $this->generate_upsell_box( 'Twitter lock', 'The Twitter Lock extension for Download Monitor allows you to require users to tweet your pre-defined text before they gain access to a download.', 'access' );
+			echo $this->generate_upsell_box( 'Twitter lock', 'Allow your users to tweet a pre-defined text before accessing a download.', 'access' );
 		}
 
 		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
 
-			echo $this->generate_upsell_box( 'Email lock', 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'access' );
+			echo $this->generate_upsell_box( 'Email lock', 'Require your users’ email addresses to send newsletters and create a list of your customers.', 'access' );
 		}
 
 		if ( ! $this->check_extension( 'dlm-gravity-forms' ) ) {
 
-			echo $this->generate_upsell_box( 'Gravity forms extension', 'The Gravity Forms extension for Download Monitor allows you to require users to fill out a Gravity Forms form before they gain access to a download.', 'access' );
+			echo $this->generate_upsell_box( 'Gravity forms extension', 'Ask users to fill in a form created on Gravity Forms before they start downloading your files.', 'access' );
 		}
 
 		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
 
-			echo $this->generate_upsell_box( 'Ninja forms extension', 'The Ninja Forms extension for Download Monitor allows you to require users to fill out a Ninja Forms form before they gain access to a download.', 'access' );
+			echo $this->generate_upsell_box( 'Ninja forms extension', 'Use the Ninja Forms extension to add forms easily to your download files.', 'access' );
+		}
+
+		if ( ! $this->check_extension( 'dlm-mailchimp' ) ) {
+
+			echo $this->generate_upsell_box( 'Ninja forms extension', 'Use the Ninja Forms extension to add forms easily to your download files.', 'access' );
 		}
 
 	}
@@ -179,7 +187,7 @@ class DLM_Upsells {
 	public function logging_tab_upsell() {
 
 		if ( ! $this->check_extension( 'dlm-captcha' ) ) {
-			echo $this->generate_upsell_box( 'Captcha', 'The Captcha extension for Download Monitor allows you to require users to complete a reCAPTCHA before they gain access to a download.', 'access' );
+			echo $this->generate_upsell_box( 'Captcha', 'Stop bots from spamming your downloads and ask users to complete Google reCAPTCHA.', 'logging' );
 		}
 
 	}
@@ -195,12 +203,49 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-terms-conditions' ) ) {
 
-			echo $this->generate_upsell_box( 'Terms & Conditions', 'The Terms and Conditions extension for Download Monitor requires your users to accept your terms and conditions before they can download your files.', 'access' );
+			echo $this->generate_upsell_box( 'Terms & Conditions', 'Easily require your visitors to agree to your terms and conditions before downloading files.', 'pages' );
 		}
 
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
-			echo $this->generate_upsell_box( 'Page Addon', 'Add a self contained [download_page] shortcode to your site to list downloads, categories, tags, and show info pages about each of your resources.', 'access' );
+			echo $this->generate_upsell_box( 'Page Addon', 'List all downloads, categories, tags, and showcase info pages of each resource with a self-contained [download_page] shortcode!', 'pages' );
+		}
+
+	}
+
+	/**
+	 * Settings Misc tab upsell
+	 *
+	 *
+	 * @since 4.4.5
+	 */
+	public function misc_tab_upsell() {
+
+		if ( ! $this->check_extension( 'dlm-buttons' ) ) {
+
+			echo $this->generate_upsell_box( 'Buttons', 'The Buttons extension allows you to customize your download buttons as you please in order to improve the user experience. Create stunning buttons without needing any coding skills!', 'misc' );
+		}
+
+	}
+
+	/**
+	 * Settings Misc tab upsell
+	 *
+	 *
+	 * @since 4.4.5
+	 */
+	public function endpoint_tab_upsell() {
+
+		if ( ! $this->check_extension( 'dlm-csv-impoter' ) ) {
+
+			echo $this->generate_upsell_box( 'Importer', 'Easily import your downloads, including their categories, tags, and files.
+', 'endpoint' );
+		}
+
+		if ( ! $this->check_extension( 'dlm-csv-exporter' ) ) {
+
+			echo $this->generate_upsell_box( 'Exporter', 'With a single click, you can quickly export your downloads and their tags, categories, and file versions to a CSV file.
+', 'endpoint' );
 		}
 
 	}
@@ -255,7 +300,7 @@ class DLM_Upsells {
 		?>
 		<div class="wpchill-upsells-wrapper">
 			<div class="wpchill-upsell wpchill-upsell-item">
-				<p class="wpchill-upsell-description"><?php esc_html_e( 'The Downloading Page extension for Download Monitor forces your downloads to be served from a seperate page. This page can be for example be used to show ads or display a \'thank you\' message.', 'download-monitor' ) ?></p>
+				<p class="wpchill-upsell-description"><?php esc_html_e( 'Customize the downloading page by adding banners, ads, and anything you like.', 'download-monitor' ) ?></p>
 				<p>
 					<a target="_blank"
 					   style="margin-top:10px;"
@@ -276,7 +321,7 @@ class DLM_Upsells {
 		?>
 		<div class="wpchill-upsells-wrapper">
 			<div class="wpchill-upsell wpchill-upsell-item">
-				<p class="wpchill-upsell-description"><?php esc_html_e( 'Link to files hosted on Amazon S3 so that you can serve secure, expiring download links.', 'download-monitor' ) ?></p>
+				<p class="wpchill-upsell-description"><?php esc_html_e( 'Use Amazon S3 links for Download Monitor files to run secure, expiring download links.', 'download-monitor' ) ?></p>
 				<p>
 					<a target="_blank"
 					   style="margin-top:10px;"
@@ -297,7 +342,7 @@ class DLM_Upsells {
 		?>
 		<div class="wpchill-upsells-wrapper">
 			<div class="wpchill-upsell wpchill-upsell-item">
-				<p class="wpchill-upsell-description"><?php esc_html_e( 'The Google Drive extension for Download Monitor lets you use the files hosted on your Google Drive as Download Monitor files.', 'download-monitor' ) ?></p>
+				<p class="wpchill-upsell-description"><?php esc_html_e( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ) ?></p>
 				<p>
 					<a target="_blank"
 					   style="margin-top:10px;"
@@ -330,7 +375,7 @@ class DLM_Upsells {
 	 */
 	public function check_extension( $extension ) {
 
-		if ( empty( $this->extensions) || ! in_array( $extension, $this->extensions ) ) {
+		if ( empty( $this->extensions ) || ! in_array( $extension, $this->extensions ) ) {
 			return false;
 		}
 
