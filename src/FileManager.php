@@ -53,8 +53,8 @@ class DLM_File_Manager {
 		$wp_uploads_dir = $wp_uploads['basedir'];
 		$wp_uploads_url = $wp_uploads['baseurl'];
 
-		// Temp fix for DigitalOcean Spaces
-		if ( class_exists( 'DOS' ) && ! strpos( $_SERVER['SERVER_NAME'], $wp_uploads_url ) ) {
+		// Fix for plugins that modify the uploads dir
+		if ( ! strpos( get_site_url(), $wp_uploads_url ) ) {
 			return array( $file_path, $remote_file );
 		}
 
