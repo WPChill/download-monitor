@@ -4,9 +4,9 @@
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing and selling downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
 	Version: 4.4.5
-	Author: Never5
-	Author URI: https://www.never5.com
-	Requires at least: 3.8
+	Author: WPChill
+	Author URI: https://wpchill.com
+	Requires at least: 5.4
 	Tested up to: 5.7
 	Text Domain: download-monitor
 
