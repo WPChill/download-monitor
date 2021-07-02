@@ -173,7 +173,7 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-mailchimp-lock' ) ) {
 
-			echo $this->generate_upsell_box( 'Ninja forms extension', 'Create a MailChimp list and ask users to subscribe to it before accessing a downloadable file.', 'access' );
+			echo $this->generate_upsell_box( 'Mailchimp extension', 'Create a MailChimp list and ask users to subscribe to it before accessing a downloadable file.', 'access' );
 		}
 
 	}
