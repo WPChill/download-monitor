@@ -118,7 +118,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.4.5 - 08.06.2021 =
+= 4.4.5 - 02.07.2021 =
 
 Fixed: PHP 8 bug - slow query ( https://github.com/WPChill/download-monitor/issues/685 )
 Fixed: Deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issues/682 thanks to @ashleyfae )
@@ -128,6 +128,8 @@ Fixed: Permalink errors - retrieved permalinks on archives didn't show the corre
 Fixed : [downloads] shortcode now displays both featured and not featured downloads when left as is ( thanks to @kadimi https://github.com/WPChill/download-monitor/pull/526 )
 Added : Size filter in the placeholder image ( thanks to @jamesgol https://github.com/WPChill/download-monitor/pull/507 )
 Fixed : Sha256 support added when new files are added ( thanks to @jamesgol https://github.com/WPChill/download-monitor/pull/633 )
+Added: Upsells
+Fixed: Fix download from CDN where uploads folder is replaced ( https://github.com/WPChill/download-monitor/issues/698 )
 
 = 4.4.4: October 19, 2020 =
 * Tweak: Fixed PHP 7.4 notices.
