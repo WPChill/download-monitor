@@ -241,15 +241,22 @@ class DLM_Admin {
 			$this,
 			'extensions_page'
 		) );
+
+		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Installed Extensions', 'download-monitor' ),  __( 'Instlled Extensions', 'download-monitor' ) , 'manage_options', 'dlm-installed-extensions', array(
+			$this,
+			'extensions_page'
+		) );
 	}
 
 	/**
-	 * Output extensions page
+	 * Output extensions and installed extensions page
 	 */
 	public function extensions_page() {
 		$admin_extensions = new DLM_Admin_Extensions();
-		$admin_extensions->output();
+		$admin_extensions->available_extensions();
+		$admin_extensions->installed_extensions_page();
 	}
+
 
 	/**
 	 * admin_dashboard function.

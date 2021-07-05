@@ -1,0 +1,145 @@
+<?php
+
+
+class DLM_Admin_Helper {
+
+	/**
+	 * Holds the class object.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var object
+	 */
+	public static $instance;
+
+	/**
+	 * Primary class constructor.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+
+		add_filter( 'dlm_settings_tabs', array( $this, 'extensions_tabs' ), 40, 2 );
+
+	}
+
+	/**
+	 * Returns the singleton instance of the class.
+	 *
+	 * @return object The DLM_Admin_Helper object.
+	 * @since 1.0.0
+	 *
+	 */
+	public static function get_instance() {
+
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Admin_Helper ) ) {
+			self::$instance = new DLM_Admin_Helper();
+		}
+
+		return self::$instance;
+
+	}
+
+	/**
+	 * Tab navigation display
+	 *
+	 * @param $tabs
+	 * @param $active_tab
+	 */
+	public static function dlm_tab_navigation( $tabs, $active_tab ) {
+
+		if ( $tabs ) {
+
+			$i = count( $tabs );
+			$j = 1;
+
+			foreach ( $tabs as $tab_id => $tab ) {
+
+				$last_tab = ( $i == $j ) ? ' last_tab' : '';
+				$active   = ( $active_tab == $tab_id ? ' nav-tab-active' : '' );
+				$j ++;
+
+				if ( isset( $tab['url'] ) ) {
+					// For Extensions and Gallery list tabs
+					$url = $tab['url'];
+				} else {
+					// For Settings tabs
+					$url = admin_url( 'edit.php?post_type=modula-gallery&page=modula&modula-tab=' . $tab_id );
+				}
+
+				echo '<a href="' . esc_url( $url ) . '" class="nav-tab' . esc_attr( $active ) . esc_attr( $last_tab ) . '" ' . ( isset( $tab['target'] ) ? 'target="' . esc_attr( $tab['target'] ) . '"' : '' ) . '>';
+
+				if ( isset( $tab['icon'] ) ) {
+					echo '<span class="dashicons ' . esc_attr( $tab['icon'] ) . '"></span>';
+				}
+
+				// For Extensions and Gallery list tabs
+				if ( isset( $tab['name'] ) ) {
+					echo esc_html( $tab['name'] );
+				}
+
+				// For Settings tabs
+				if ( isset( $tab['label'] ) ) {
+					echo esc_html( $tab['label'] );
+				}
+
+				if ( isset( $tab['badge'] ) ) {
+					echo '<span class="modula-badge">' . esc_html( $tab['badge'] ) . '</span>';
+				}
+
+				echo '</a>';
+			}
+		}
+	}
+
+	/**
+	 * Callback to sort tabs/fields on priority.
+	 *
+	 * @return bool
+	 *
+	 */
+	public static function sort_data_by_priority( $a, $b ) {
+		if ( ! isset( $a['priority'], $b['priority'] ) ) {
+			return - 1;
+		}
+		if ( $a['priority'] == $b['priority'] ) {
+			return 0;
+		}
+
+		return $a['priority'] < $b['priority'] ? - 1 : 1;
+	}
+
+	public function admin_menu() {
+
+		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Installed Extensions', 'download-monitor' ), __( 'Instlled Extensions', 'download-monitor' ), 'manage_options', 'dlm-installed-extensions', array(
+			$this,
+			'installed_extensions_page'
+		) );
+	}
+
+	/**
+	 * Add Suggest a feature tab
+	 *
+	 * @param $tabs
+	 *
+	 * @return mixed
+	 *
+	 * @since 4.4.5
+	 */
+	public function extensions_tabs($tabs){
+
+		$tabs['suggest_feature'] = array(
+			'name'     => esc_html__( 'Suggest a feature', 'modula-best-grid-gallery' ),
+			'url'      => 'https://www.download-monitor.com/contact/',
+			'icon'     => 'dashicons dashicons-external',
+			'target'   => '_blank',
+			'priority' => '90',
+		);
+
+		return $tabs;
+
+	}
+
+}
+
+DLM_Admin_Helper::get_instance();
