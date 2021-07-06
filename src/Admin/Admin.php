@@ -29,8 +29,10 @@ class DLM_Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
+		add_action( 'init', array( $this, 'required_classes' ), 30 );
+
 		// Admin menus
-		add_action( 'admin_menu', array( $this, 'admin_menu_extensions' ), 20 );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ), 20 );
 
 		// setup settings
 		$settings = new DLM_Admin_Settings();
@@ -235,26 +237,46 @@ class DLM_Admin {
 	/**
 	 * Add the admin menu on later hook so extensions can be add before this menu item
 	 */
-	public function admin_menu_extensions() {
-		// Extensions page
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Extensions', 'download-monitor' ), '<span style="color:#419CCB;font-weight:bold;">' . __( 'Extensions', 'download-monitor' ) . '</span>', 'manage_options', 'dlm-extensions', array(
-			$this,
-			'extensions_page'
-		) );
+	public function admin_menu() {
 
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Installed Extensions', 'download-monitor' ),  __( 'Instlled Extensions', 'download-monitor' ) , 'manage_options', 'dlm-installed-extensions', array(
-			$this,
-			'extensions_page'
-		) );
+		/**
+		 * Hook for menu link
+		 *
+		 * @hooked DLM_Settings_Page add_settings_page() - 30
+		 * @hooked DLM_Admin_Extensions extensions_pages() - 30
+		 * @hooked DLM_Reports_Page add_admin_menu() - 30
+		 * @hooked DLM_Log_Page add_logs_menu() - 30
+		 * @hooked Orders orders_menu() - 30
+		 *
+		 */
+		$links = apply_filters(
+			'dlm_admin_menu_links',
+			array()
+		);
+
+		uasort( $links, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+		// Extensions page
+
+		if ( ! empty( $links ) ) {
+			foreach ( $links as $link ) {
+				add_submenu_page( 'edit.php?post_type=dlm_download', $link['page_title'], $link['menu_title'], $link['capability'], $link['menu_slug'], $link['function'], $link['priority'] );
+			}
+		}
+
 	}
 
 	/**
-	 * Output extensions and installed extensions page
+	 * Load our classes
 	 */
-	public function extensions_page() {
-		$admin_extensions = new DLM_Admin_Extensions();
-		$admin_extensions->available_extensions();
-		$admin_extensions->installed_extensions_page();
+	public function required_classes() {
+
+		// Loads the DLM Admin Extensions class
+		// Add Extensions pages
+		DLM_Admin_Extensions::get_instance();
+
+		// Load the DLM Admin Helper class
+		DLM_Admin_Helper::get_instance();
+
 	}
 
 

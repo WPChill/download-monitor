@@ -6,7 +6,8 @@ class DLM_Log_Page {
 	 * Setup log page related hooks
 	 */
 	public function setup() {
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 12 );
+
+		add_filter( 'dlm_admin_menu_links', array( $this, 'add_logs_menu' ), 30 );
 		add_action( 'admin_init', array( $this, 'catch_export_request' ) );
 		add_action( 'admin_init', array( $this, 'catch_delete_request' ) );
 	}
@@ -14,17 +15,25 @@ class DLM_Log_Page {
 	/**
 	 * Add admin menu item
 	 */
-	public function add_admin_menu() {
+	public function add_logs_menu($links) {
+
 		// Logging object
 		$logging = new DLM_Logging();
 
 		// Logs page
 		if ( $logging->is_logging_enabled() ) {
-			add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Logs', 'download-monitor' ), __( 'Logs', 'download-monitor' ), 'dlm_manage_logs', 'download-monitor-logs', array(
-				$this,
-				'view'
-			) );
+
+			$links[] = array(
+					'page_title' => __( 'Logs', 'download-monitor' ),
+					'menu_title' => __( 'Logs', 'download-monitor' ),
+					'capability' => 'manage_options',
+					'menu_slug'  => 'download-monitor-logs',
+					'function'   => array( $this, 'view' ),
+					'priority'   => 50,
+			);
 		}
+
+		return $links;
 	}
 
 	/**

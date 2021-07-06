@@ -8,7 +8,7 @@ class DLM_Settings_Page {
 	public function setup() {
 
 		// menu item
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 12 );
+		add_filter( 'dlm_admin_menu_links', array( $this, 'add_settings_page' ), 30 );
 
 		// catch setting actions
 		add_action( 'admin_init', array( $this, 'catch_admin_actions' ) );
@@ -17,12 +17,18 @@ class DLM_Settings_Page {
 	/**
 	 * Add settings menu item
 	 */
-	public function add_admin_menu() {
+	public function add_settings_page( $links ) {
 		// Settings page
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Settings', 'download-monitor' ), __( 'Settings', 'download-monitor' ), 'manage_options', 'download-monitor-settings', array(
-				$this,
-				'settings_page'
-		) );
+		$links[] = array(
+				'page_title' => __( 'Settings', 'download-monitor' ),
+				'menu_title' => __( 'Settings', 'download-monitor' ),
+				'capability' => 'manage_options',
+				'menu_slug'  => 'download-monitor-settings',
+				'function'   => array( $this, 'settings_page' ),
+				'priority'   => 20,
+		);
+
+		return $links;
 	}
 
 	/**

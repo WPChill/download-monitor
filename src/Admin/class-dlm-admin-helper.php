@@ -19,8 +19,6 @@ class DLM_Admin_Helper {
 	 */
 	public function __construct() {
 
-		add_filter( 'dlm_settings_tabs', array( $this, 'extensions_tabs' ), 40, 2 );
-
 	}
 
 	/**
@@ -109,37 +107,4 @@ class DLM_Admin_Helper {
 		return $a['priority'] < $b['priority'] ? - 1 : 1;
 	}
 
-	public function admin_menu() {
-
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Installed Extensions', 'download-monitor' ), __( 'Instlled Extensions', 'download-monitor' ), 'manage_options', 'dlm-installed-extensions', array(
-			$this,
-			'installed_extensions_page'
-		) );
-	}
-
-	/**
-	 * Add Suggest a feature tab
-	 *
-	 * @param $tabs
-	 *
-	 * @return mixed
-	 *
-	 * @since 4.4.5
-	 */
-	public function extensions_tabs($tabs){
-
-		$tabs['suggest_feature'] = array(
-			'name'     => esc_html__( 'Suggest a feature', 'modula-best-grid-gallery' ),
-			'url'      => 'https://www.download-monitor.com/contact/',
-			'icon'     => 'dashicons dashicons-external',
-			'target'   => '_blank',
-			'priority' => '90',
-		);
-
-		return $tabs;
-
-	}
-
 }
-
-DLM_Admin_Helper::get_instance();

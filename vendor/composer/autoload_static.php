@@ -387,6 +387,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'Spyc' => __DIR__ . '/../..' . '/src/Libs/uaparser/lib/spyc-0.5/spyc.php',
         'UAParser' => __DIR__ . '/../..' . '/src/Libs/uaparser/uaparser.php',
         'WP_DLM' => __DIR__ . '/../..' . '/src/DLM.php',
+        'DLM_Admin_Helper' => __DIR__ . '/../..' . '/src/Admin/class-dlm-admin-helper.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

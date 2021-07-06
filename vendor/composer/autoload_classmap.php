@@ -372,4 +372,5 @@ return array(
     'Spyc' => $baseDir . '/src/Libs/uaparser/lib/spyc-0.5/spyc.php',
     'UAParser' => $baseDir . '/src/Libs/uaparser/uaparser.php',
     'WP_DLM' => $baseDir . '/src/DLM.php',
+    'DLM_Admin_Helper' => $baseDir . '/src/Admin/class-dlm-admin-helper.php',
 );
