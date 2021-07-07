@@ -1443,7 +1443,33 @@ table.wp-list-table {
       float: right;
     }
   }
+
+  .nav-tab-wrapper {
+
+    a.nav-tab {
+      margin: 0 auto;
+      border-right: 0;
+
+      &:first-child {
+        border-top-left-radius: 5px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 5px;
+        border-right: 1px solid #c3c4c7;
+      }
+    }
+  }
+
+  .dlm-upsell-badge {
+    background:green;
+    color:#fff;
+    padding:5px 10px;
+    font-size:11px;
+  }
 }
+
+
 
 #dlm-download-page-upsell,
 #dlm-amazon-s3-upsell ,

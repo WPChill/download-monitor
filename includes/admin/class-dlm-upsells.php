@@ -47,7 +47,7 @@ class DLM_Upsells {
 
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
 
-		//add_action( 'dlm_tab_content_ninja_forms', array( $this, 'ninja_it' ) );
+		add_action( 'dlm_tab_content_ninja_forms', array( $this, 'ninja_it' ) );
 
 		$this->set_extensions();
 
@@ -402,37 +402,44 @@ class DLM_Upsells {
 						'ninja_forms'      => array(
 								'title'    => __( 'Ninja Forms', 'download-monitor' ),
 								'sections' => array(), // Need to put sections here for backwards compatibility
-								'upsell'   => true
+								'upsell'   => true,
+								'badge'    => true
 						),
 						'amazon_s3'        => array(
 								'title'    => __( 'Amazon S3', 'download-monitor' ),
 								'sections' => array(), // Need to put sections here for backwards compatibility
-								'upsell'   => true
+								'upsell'   => true,
+								'badge'    => true
 						),
 						'page_addon'       => array(
 								'title'    => __( 'Page Addon', 'download-monitor' ),
 								'sections' => array(), // Need to put sections here for backwards compatibility
-								'upsell'   => true
+								'upsell'   => true,
+								'badge'    => true
 						),
 						'gravity_forms'    => array(
 								'title'    => __( 'Gravity Forms', 'download-monitor' ),
 								'sections' => array(), // Need to put sections here for backwards compatibility
-								'upsell'   => true
+								'upsell'   => true,
+								'badge'    => true
 						),
 						'email_lock'       => array(
 								'title'    => __( 'Email lock', 'download-monitor' ),
 								'sections' => array(), // Need to put sections here for backwards compatibility
-								'upsell'   => true
+								'upsell'   => true,
+								'badge'    => true
 						),
 						'downloading_page' => array(
 								'title'    => __( 'Downloading Page', 'download-monitor' ),
 								'sections' => array(), // Need to put sections here for backwards compatibility
-								'upsell'   => true
+								'upsell'   => true,
+								'badge'    => true
 						),
 						'captcha'          => array(
 								'title'    => __( 'Captcha', 'download-monitor' ),
 								'sections' => array(), // Need to put sections here for backwards compatibility
-								'upsell'   => true
+								'upsell'   => true,
+								'badge'    => true
 						)
 				)
 		);
@@ -459,25 +466,158 @@ class DLM_Upsells {
 
 	}
 
+	/**
+	 * Add Upsell tabs content
+	 *
+	 * @since 4.4.5
+	 */
 	public function set_upsell_actions() {
 
-		foreach($this->upsell_tabs as $key=>$tab){
+		foreach ( $this->upsell_tabs as $key => $tab ) {
 
-			add_action( 'dlm_tab_content_' . $key, array( $this, 'ninja_it' ), 30, 1 );
+			add_action( 'dlm_tab_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
 
 		}
-		/**/?><!--
+	}
+
+	/**
+	 * Upsell for Ninja Forms setting tab
+	 *
+	 * @since 4.4.5
+	 */
+	public function upsell_tab_content_ninja_forms() {
+		?>
 		<div class="wpchill-upsell wpchill-upsell-item">
-			<h1> Something </h1>
-			<p class="wpchill-upsell-description"><?php /*esc_html_e( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ) */?></p>
+			<h1> <?php esc_html_e( 'Ninja Forms extension', 'download-monitor' ); ?> </h1>
+			<p class="wpchill-upsell-description"><?php esc_html_e( 'The Ninja Forms extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.', 'download-monitor' ); ?></p>
 			<p>
 				<a target="_blank"
 				   style="margin-top:10px;"
 				   href="https://download-monitor.com/extensions/?utm_source=upsell&utm_medium=sorting-metabox&utm_campaign=wpchill-sorting"
-				   class="button-primary button"><?php /*esc_html_e( 'Get Extension!', 'download-monitor' ) */?></a>
+				   class="button-primary button"><?php esc_html_e( 'Get Extension!', 'download-monitor' ); ?></a>
 			</p>
 		</div>
-		--><?php
+		<?php
+	}
+
+	/**
+	 * Upsell for Amazon S3 setting tab
+	 *
+	 * @since 4.4.5
+	 */
+	public function upsell_tab_content_amazon_s3() {
+		?>
+		<div class="wpchill-upsell wpchill-upsell-item">
+			<h1> <?php esc_html_e( 'Amazon S3', 'download-monitor' ); ?> </h1>
+			<p class="wpchill-upsell-description"><?php esc_html_e( 'Link to files hosted on Amazon s3 so that you can serve secure, expiring download links.', 'download-monitor' ); ?></p>
+			<p>
+				<a target="_blank"
+				   style="margin-top:10px;"
+				   href="https://download-monitor.com/extensions/?utm_source=upsell&utm_medium=sorting-metabox&utm_campaign=wpchill-sorting"
+				   class="button-primary button"><?php esc_html_e( 'Get Extension!', 'download-monitor' ); ?></a>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Upsell for Email Lock setting tab
+	 *
+	 * @since 4.4.5
+	 */
+	public function upsell_tab_content_email_lock() {
+		?>
+		<div class="wpchill-upsell wpchill-upsell-item">
+			<h1> <?php esc_html_e( 'Email lock extension', 'download-monitor' ); ?> </h1>
+			<p class="wpchill-upsell-description"><?php esc_html_e( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ); ?></p>
+			<p>
+				<a target="_blank"
+				   style="margin-top:10px;"
+				   href="https://download-monitor.com/extensions/?utm_source=upsell&utm_medium=sorting-metabox&utm_campaign=wpchill-sorting"
+				   class="button-primary button"><?php esc_html_e( 'Get Extension!', 'download-monitor' ); ?></a>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Upsell for Gravity Forms setting tab
+	 *
+	 * @since 4.4.5
+	 */
+	public function upsell_tab_content_gravity_forms() {
+		?>
+		<div class="wpchill-upsell wpchill-upsell-item">
+			<h1> <?php esc_html_e( 'Gravity Forms extension', 'download-monitor' ); ?> </h1>
+			<p class="wpchill-upsell-description"><?php esc_html_e( 'The Gravity Forms extension for Download Monitor allows you to require users to fill out a Gravity Forms form before they gain access to a download.', 'download-monitor' ); ?></p>
+			<p>
+				<a target="_blank"
+				   style="margin-top:10px;"
+				   href="https://download-monitor.com/extensions/?utm_source=upsell&utm_medium=sorting-metabox&utm_campaign=wpchill-sorting"
+				   class="button-primary button"><?php esc_html_e( 'Get Extension!', 'download-monitor' ); ?></a>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Upsell for Page Addon setting tab
+	 *
+	 * @since 4.4.5
+	 */
+	public function upsell_tab_content_page_addon() {
+		?>
+		<div class="wpchill-upsell wpchill-upsell-item">
+			<h1> <?php esc_html_e( 'Page addon extension', 'download-monitor' ); ?> </h1>
+			<p class="wpchill-upsell-description"><?php esc_html_e( 'Add a self contained [download_page] shortcode to your site to list downloads, categories, tags, and show info pages about each of your resources.', 'download-monitor' ); ?></p>
+			<p>
+				<a target="_blank"
+				   style="margin-top:10px;"
+				   href="https://download-monitor.com/extensions/?utm_source=upsell&utm_medium=sorting-metabox&utm_campaign=wpchill-sorting"
+				   class="button-primary button"><?php esc_html_e( 'Get Extension!', 'download-monitor' ); ?></a>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Upsell for Captcha setting tab
+	 *
+	 * @since 4.4.5
+	 */
+	public function upsell_tab_content_captcha() {
+		?>
+		<div class="wpchill-upsell wpchill-upsell-item">
+			<h1> <?php esc_html_e( 'Captcha extension', 'download-monitor' ); ?> </h1>
+			<p class="wpchill-upsell-description"><?php esc_html_e( 'The Captcha extension for Download Monitor allows you to require users to complete a Google reCAPTCHA before they gain access to a download.', 'download-monitor' ); ?></p>
+			<p>
+				<a target="_blank"
+				   style="margin-top:10px;"
+				   href="https://download-monitor.com/extensions/?utm_source=upsell&utm_medium=sorting-metabox&utm_campaign=wpchill-sorting"
+				   class="button-primary button"><?php esc_html_e( 'Get Extension!', 'download-monitor' ); ?></a>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Upsell for Downloading Page setting tab
+	 *
+	 * @since 4.4.5
+	 */
+	public function upsell_tab_content_downloading_page() {
+		?>
+		<div class="wpchill-upsell wpchill-upsell-item">
+			<h1> <?php esc_html_e( 'Downloading page extension', 'download-monitor' ); ?> </h1>
+			<p class="wpchill-upsell-description"><?php esc_html_e( 'The Downloading Page extension for Download Monitor forces your downloads to be served from a separate page.', 'download-monitor' ); ?></p>
+			<p>
+				<a target="_blank"
+				   style="margin-top:10px;"
+				   href="https://download-monitor.com/extensions/?utm_source=upsell&utm_medium=sorting-metabox&utm_campaign=wpchill-sorting"
+				   class="button-primary button"><?php esc_html_e( 'Get Extension!', 'download-monitor' ); ?></a>
+			</p>
+		</div>
+		<?php
 	}
 }
 

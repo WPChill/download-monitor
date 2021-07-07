@@ -248,7 +248,7 @@ class DLM_Settings_Page {
 				// backwards compatibility for when $section did not have 'title' index yet (it simply had the title set at 0)
 				$title = ( isset( $section['title'] ) ? $section['title'] : $section[0] );
 
-				echo '<a href="' . add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . '</a>';
+				echo '<a href="' . add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . ( isset( $section['badge'] ) ? ' <span class="dlm-upsell-badge">PRO</span>' : '' ) . '</a>';
 			}
 			?>
 		</h2><br/>
