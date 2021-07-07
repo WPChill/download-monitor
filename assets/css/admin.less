@@ -1429,15 +1429,19 @@ table.wp-list-table {
   }
 }
 
+.wpchill-upsells-wrapper {
+  width: 100%;
+}
+
 .wrap.dlm-admin-settings {
   .form-table {
     width: 65%;
-    float:left
-  }
+    float: left;
 
-  .wpchill-upsells-wrapper {
-    width: 30%;
-    float: right;
+    & + .wpchill-upsells-wrapper {
+      width: 30%;
+      float: right;
+    }
   }
 }
 

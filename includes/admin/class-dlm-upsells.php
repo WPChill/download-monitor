@@ -22,6 +22,8 @@ class DLM_Upsells {
 
 	public $extensions = array();
 
+	private $upsell_tabs = array();
+
 	/**
 	 * DLM_Upsells constructor.
 	 *
@@ -43,7 +45,15 @@ class DLM_Upsells {
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10 );
 
+		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
+
+		//add_action( 'dlm_tab_content_ninja_forms', array( $this, 'ninja_it' ) );
+
 		$this->set_extensions();
+
+		$this->set_tabs();
+
+		$this->set_upsell_actions();
 
 	}
 
@@ -380,6 +390,94 @@ class DLM_Upsells {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Set DLM's upsell tabs
+	 *
+	 * @since 4.4.5
+	 */
+	public function set_tabs() {
+		$this->upsell_tabs = apply_filters( 'dlm_upsell_tabs', array(
+						'ninja_forms'      => array(
+								'title'    => __( 'Ninja Forms', 'download-monitor' ),
+								'sections' => array(), // Need to put sections here for backwards compatibility
+								'upsell'   => true
+						),
+						'amazon_s3'        => array(
+								'title'    => __( 'Amazon S3', 'download-monitor' ),
+								'sections' => array(), // Need to put sections here for backwards compatibility
+								'upsell'   => true
+						),
+						'page_addon'       => array(
+								'title'    => __( 'Page Addon', 'download-monitor' ),
+								'sections' => array(), // Need to put sections here for backwards compatibility
+								'upsell'   => true
+						),
+						'gravity_forms'    => array(
+								'title'    => __( 'Gravity Forms', 'download-monitor' ),
+								'sections' => array(), // Need to put sections here for backwards compatibility
+								'upsell'   => true
+						),
+						'email_lock'       => array(
+								'title'    => __( 'Email lock', 'download-monitor' ),
+								'sections' => array(), // Need to put sections here for backwards compatibility
+								'upsell'   => true
+						),
+						'downloading_page' => array(
+								'title'    => __( 'Downloading Page', 'download-monitor' ),
+								'sections' => array(), // Need to put sections here for backwards compatibility
+								'upsell'   => true
+						),
+						'captcha'          => array(
+								'title'    => __( 'Captcha', 'download-monitor' ),
+								'sections' => array(), // Need to put sections here for backwards compatibility
+								'upsell'   => true
+						)
+				)
+		);
+	}
+
+	/**
+	 * Add PRO Tabs upsells
+	 *
+	 * @param $settings
+	 *
+	 * @return mixed
+	 *
+	 * @since 4.4.5
+	 */
+	public function pro_tab_upsells( $settings ) {
+
+		foreach ( $this->upsell_tabs as $key => $tab ) {
+			if ( ! isset( $settings[ $key ] ) ) {
+				$settings[ $key ] = $tab;
+			}
+		}
+
+		return $settings;
+
+	}
+
+	public function set_upsell_actions() {
+
+		foreach($this->upsell_tabs as $key=>$tab){
+
+			add_action( 'dlm_tab_content_' . $key, array( $this, 'ninja_it' ), 30, 1 );
+
+		}
+		/**/?><!--
+		<div class="wpchill-upsell wpchill-upsell-item">
+			<h1> Something </h1>
+			<p class="wpchill-upsell-description"><?php /*esc_html_e( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ) */?></p>
+			<p>
+				<a target="_blank"
+				   style="margin-top:10px;"
+				   href="https://download-monitor.com/extensions/?utm_source=upsell&utm_medium=sorting-metabox&utm_campaign=wpchill-sorting"
+				   class="button-primary button"><?php /*esc_html_e( 'Get Extension!', 'download-monitor' ) */?></a>
+			</p>
+		</div>
+		--><?php
 	}
 }
 
