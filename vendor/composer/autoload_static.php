@@ -388,6 +388,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'UAParser' => __DIR__ . '/../..' . '/src/Libs/uaparser/uaparser.php',
         'WP_DLM' => __DIR__ . '/../..' . '/src/DLM.php',
         'DLM_Admin_Helper' => __DIR__ . '/../..' . '/src/Admin/class-dlm-admin-helper.php',
+        'DLM_Uninstall' => __DIR__ . '/../..' . '/includes/admin/uninstall/class-dlm-uninstall.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

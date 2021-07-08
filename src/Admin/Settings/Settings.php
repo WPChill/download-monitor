@@ -365,8 +365,8 @@ class DLM_Admin_Settings {
 			);
 		}
 
-
-		$settings['misc'] = array(
+		// @todo: Remove commented lines after testing new uninstall functionality
+		/*$settings['misc'] = array(
 			'title'    => __( 'Misc', 'download-monitor' ),
 			'sections' => array(
 				'misc' => array(
@@ -390,7 +390,7 @@ class DLM_Admin_Settings {
 					)
 				)
 			)
-		);
+		);*/
 
 		// this is here to maintain backwards compatibility, use 'dlm_settings' instead
 		$settings = apply_filters( 'download_monitor_settings', $settings );

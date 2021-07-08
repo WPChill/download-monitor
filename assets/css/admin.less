@@ -1417,7 +1417,7 @@ table.wp-list-table {
   padding: 15px;
   margin-top: 30px;
 
-  .modula-upsell-features {
+  .wpchill-upsell-features {
     text-align: left;
     display: flex;
     flex-wrap: wrap;
@@ -1469,7 +1469,26 @@ table.wp-list-table {
   }
 }
 
+.post-type-dlm_download {
 
+  .nav-tab-wrapper {
+
+    a.nav-tab {
+      margin: 0 auto;
+      border-right: 0;
+
+      &:first-child {
+        border-top-left-radius: 5px;
+      }
+
+      &:last-child,
+      &.last_tab{
+        border-top-right-radius: 5px;
+        border-right: 1px solid #c3c4c7;
+      }
+    }
+  }
+}
 
 #dlm-download-page-upsell,
 #dlm-amazon-s3-upsell ,

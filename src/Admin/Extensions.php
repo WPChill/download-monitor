@@ -421,7 +421,7 @@ class DLM_Admin_Extensions {
 						'priority' => '10',
 				),
 				'suggest_feature' => array(
-						'name'     => esc_html__( 'Suggest a feature', 'modula-best-grid-gallery' ),
+						'name'     => esc_html__( 'Suggest a feature', 'download-monitor' ),
 						'url'      => 'https://www.download-monitor.com/contact/',
 						'icon'     => 'dashicons dashicons-external',
 						'target'   => '_blank',

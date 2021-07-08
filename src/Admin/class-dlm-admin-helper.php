@@ -62,7 +62,7 @@ class DLM_Admin_Helper {
 					$url = $tab['url'];
 				} else {
 					// For Settings tabs
-					$url = admin_url( 'edit.php?post_type=modula-gallery&page=modula&modula-tab=' . $tab_id );
+					$url = admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=' . $tab_id );
 				}
 
 				echo '<a href="' . esc_url( $url ) . '" class="nav-tab' . esc_attr( $active ) . esc_attr( $last_tab ) . '" ' . ( isset( $tab['target'] ) ? 'target="' . esc_attr( $tab['target'] ) . '"' : '' ) . '>';
@@ -82,7 +82,7 @@ class DLM_Admin_Helper {
 				}
 
 				if ( isset( $tab['badge'] ) ) {
-					echo '<span class="modula-badge">' . esc_html( $tab['badge'] ) . '</span>';
+					echo '<span class="dlm-badge">' . esc_html( $tab['badge'] ) . '</span>';
 				}
 
 				echo '</a>';

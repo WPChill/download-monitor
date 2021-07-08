@@ -277,6 +277,9 @@ class DLM_Admin {
 		// Load the DLM Admin Helper class
 		DLM_Admin_Helper::get_instance();
 
+		// Load the DLM Uninstall class
+		DLM_Uninstall::get_instance();
+
 	}
 
 
