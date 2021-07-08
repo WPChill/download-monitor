@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-if( ! $dlm_download ) {
+if ( ! isset( $dlm_download ) || ! $dlm_download ) {
 	return esc_html__('No download found', 'download-monitor');
 }
 

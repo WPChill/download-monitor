@@ -65,6 +65,7 @@ class DLM_Admin_Settings {
 				'title'    => __( 'General', 'download-monitor' ),
 				'sections' => array(
 					'general' => array(
+						'title'    => __( 'General', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'    => 'dlm_default_template',
@@ -122,13 +123,9 @@ class DLM_Admin_Settings {
 								'type'     => 'checkbox'
 							),
 						)
-					)
-				)
-			),
-			'endpoints' => array(
-				'title'    => __( 'Endpoint', 'download-monitor' ),
-				'sections' => array(
+					),
 					'endpoints' => array(
+						'title'    => __( 'Endpoint', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'        => 'dlm_download_endpoint',
@@ -153,10 +150,11 @@ class DLM_Admin_Settings {
 					)
 				)
 			),
-			'hash'      => array(
-				'title'    => __( 'Hashes', 'download-monitor' ),
+			'hal' => array(
+				'title' => 'HAL',
 				'sections' => array(
 					'hash' => array(
+						'title' => __( 'Hashes', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name' => 'dlm_hash_desc',
@@ -196,13 +194,46 @@ class DLM_Admin_Settings {
 								'type'     => 'checkbox'
 							)
 						)
-					)
-				)
-			),
-			'logging'   => array(
-				'title'    => __( 'Logging', 'download-monitor' ),
-				'sections' => array(
-					'logging' => array(
+					),
+					'access'    => array(
+						'title'    => __( 'Access', 'download-monitor' ),
+						'fields' => array(
+							array(
+								'name'    => 'dlm_no_access_page',
+								'std'     => '',
+								'label'   => __( 'No Access Page', 'download-monitor' ),
+								'desc'    => __( "Choose what page is displayed when the user has no access to a file. Don't forget to add the <code>[dlm_no_access]</code> shortcode to the page.", 'download-monitor' ),
+								'type'    => 'lazy_select',
+								'options' => array()
+							),
+							array(
+								'name'        => 'dlm_no_access_error',
+								'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
+								'placeholder' => '',
+								'label'       => __( 'No access message', 'download-monitor' ),
+								'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
+								'type'        => 'textarea'
+							),
+							array(
+								'name'        => 'dlm_ip_blacklist',
+								'std'         => '192.168.0.0/24',
+								'label'       => __( 'Blacklist IPs', 'download-monitor' ),
+								'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for ranges. IPv4 examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or <code>2001:db8::/32</code>.', 'download-monitor' ),
+								'placeholder' => '',
+								'type'        => 'textarea'
+							),
+							array(
+								'name'        => 'dlm_user_agent_blacklist',
+								'std'         => 'Googlebot',
+								'label'       => __( 'Blacklist user agents', 'download-monitor' ),
+								'desc'        => __( 'List browser user agents to blacklist, 1 per line.  Partial matches are sufficient. Regex matching is allowed by surrounding the pattern with forward slashes, e.g. <code>/^Mozilla.+Googlebot/</code>', 'download-monitor' ),
+								'placeholder' => '',
+								'type'        => 'textarea'
+							),
+						)
+					),
+					'logging'   => array(
+						'title'    => __( 'Logging', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'     => 'dlm_enable_logging',
@@ -241,60 +272,9 @@ class DLM_Admin_Settings {
 								'type'     => 'checkbox'
 							),
 						)
-					)
+					),
 				)
 			),
-			'access'    => array(
-				'title'    => __( 'Access', 'download-monitor' ),
-				'sections' => array(
-					'access' => array(
-						'fields' => array(
-							array(
-								'name'        => 'dlm_no_access_error',
-								'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
-								'placeholder' => '',
-								'label'       => __( 'No access message', 'download-monitor' ),
-								'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
-								'type'        => 'textarea'
-							),
-							array(
-								'name'        => 'dlm_ip_blacklist',
-								'std'         => '192.168.0.0/24',
-								'label'       => __( 'Blacklist IPs', 'download-monitor' ),
-								'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for ranges. IPv4 examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or <code>2001:db8::/32</code>.', 'download-monitor' ),
-								'placeholder' => '',
-								'type'        => 'textarea'
-							),
-							array(
-								'name'        => 'dlm_user_agent_blacklist',
-								'std'         => 'Googlebot',
-								'label'       => __( 'Blacklist user agents', 'download-monitor' ),
-								'desc'        => __( 'List browser user agents to blacklist, 1 per line.  Partial matches are sufficient. Regex matching is allowed by surrounding the pattern with forward slashes, e.g. <code>/^Mozilla.+Googlebot/</code>', 'download-monitor' ),
-								'placeholder' => '',
-								'type'        => 'textarea'
-							),
-						)
-					)
-				)
-			),
-			'pages'     => array(
-				'title'    => __( 'Pages', 'download-monitor' ),
-				'sections' => array(
-					'pages' => array(
-						'fields' => array(
-							array(
-								'name'    => 'dlm_no_access_page',
-								'std'     => '',
-								'label'   => __( 'No Access Page', 'download-monitor' ),
-								'desc'    => __( "Choose what page is displayed when the user has no access to a file. Don't forget to add the <code>[dlm_no_access]</code> shortcode to the page.", 'download-monitor' ),
-								'type'    => 'lazy_select',
-								'options' => array()
-							)
-						)
-					)
-				)
-			)
-
 		);
 
 		if ( dlm_is_shop_enabled() ) {

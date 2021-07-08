@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** @var DLM_Download $dlm_download */
 
-if( ! $dlm_download ) {
+if ( ! isset( $dlm_download ) || ! $dlm_download ) {
 	return esc_html__('No download found', 'download-monitor');
 }
 
