@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
+/** @var DLM_Download $download */
+
 ?>
 
 <?php do_action( 'dlm_no_access_before_message', $download ); ?>
