@@ -28,12 +28,15 @@ class DLM_Admin_Settings {
 
 				$option_group = "dlm_" . $tab_key . "_" . $section_key;
 
-				foreach ( $section['fields'] as $field ) {
-					if ( ! empty( $field['name'] ) && ! in_array( $field['type'], apply_filters( 'dlm_settings_display_only_fields', array( 'action_button' ) ) ) ) {
-						if ( isset( $field['std'] ) ) {
-							add_option( $field['name'], $field['std'] );
+				// Check to see if $section['fields'] is set, we could be using it for upsells
+				if ( isset( $section['fields'] ) ) {
+					foreach ( $section['fields'] as $field ) {
+						if ( ! empty( $field['name'] ) && ! in_array( $field['type'], apply_filters( 'dlm_settings_display_only_fields', array( 'action_button' ) ) ) ) {
+							if ( isset( $field['std'] ) ) {
+								add_option( $field['name'], $field['std'] );
+							}
+							register_setting( $option_group, $field['name'] );
 						}
-						register_setting( $option_group, $field['name'] );
 					}
 				}
 
@@ -124,34 +127,10 @@ class DLM_Admin_Settings {
 							),
 						)
 					),
-					'endpoints' => array(
-						'title'    => __( 'Endpoint', 'download-monitor' ),
-						'fields' => array(
-							array(
-								'name'        => 'dlm_download_endpoint',
-								'type'        => 'text',
-								'std'         => 'download',
-								'placeholder' => __( 'download', 'download-monitor' ),
-								'label'       => __( 'Download Endpoint', 'download-monitor' ),
-								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code>.', 'download-monitor' ), home_url( '/download/' ) )
-							),
-							array(
-								'name'    => 'dlm_download_endpoint_value',
-								'std'     => 'ID',
-								'label'   => __( 'Endpoint Value', 'download-monitor' ),
-								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>', 'download-monitor' ), home_url( '/download/10/' ) ),
-								'type'    => 'select',
-								'options' => array(
-									'ID'   => __( 'Download ID', 'download-monitor' ),
-									'slug' => __( 'Download slug', 'download-monitor' )
-								)
-							)
-						)
-					)
 				)
 			),
-			'hal' => array(
-				'title' => 'HAL',
+			'advanced' => array(
+				'title' => __('Advanced','download-monitor'),
 				'sections' => array(
 					'hash' => array(
 						'title' => __( 'Hashes', 'download-monitor' ),
@@ -198,6 +177,25 @@ class DLM_Admin_Settings {
 					'access'    => array(
 						'title'    => __( 'Access', 'download-monitor' ),
 						'fields' => array(
+							array(
+								'name'        => 'dlm_download_endpoint',
+								'type'        => 'text',
+								'std'         => 'download',
+								'placeholder' => __( 'download', 'download-monitor' ),
+								'label'       => __( 'Download Endpoint', 'download-monitor' ),
+								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code>.', 'download-monitor' ), home_url( '/download/' ) )
+							),
+							array(
+								'name'    => 'dlm_download_endpoint_value',
+								'std'     => 'ID',
+								'label'   => __( 'Endpoint Value', 'download-monitor' ),
+								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>', 'download-monitor' ), home_url( '/download/10/' ) ),
+								'type'    => 'select',
+								'options' => array(
+									'ID'   => __( 'Download ID', 'download-monitor' ),
+									'slug' => __( 'Download slug', 'download-monitor' )
+								)
+							),
 							array(
 								'name'    => 'dlm_no_access_page',
 								'std'     => '',
@@ -279,24 +277,6 @@ class DLM_Admin_Settings {
 
 		if ( dlm_is_shop_enabled() ) {
 
-			$settings['pages']['sections']['pages']['fields'][] = array(
-				'name'    => 'dlm_page_cart',
-				'std'     => '',
-				'label'   => __( 'Cart page', 'download-monitor' ),
-				'desc'    => __( 'Your cart page, make sure it has the <code>[dlm_cart]</code> shortcode.', 'download-monitor' ),
-				'type'    => 'lazy_select',
-				'options' => array()
-			);
-
-			$settings['pages']['sections']['pages']['fields'][] = array(
-				'name'    => 'dlm_page_checkout',
-				'std'     => '',
-				'label'   => __( 'Checkout page', 'download-monitor' ),
-				'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
-				'type'    => 'lazy_select',
-				'options' => array()
-			);
-
 			$settings['shop'] = array(
 				'title'    => __( 'Shop', 'download-monitor' ),
 				'sections' => array(
@@ -357,6 +337,25 @@ class DLM_Admin_Settings {
 						)
 					)
 				)
+			);
+
+			$settings['shop']['sections']['pages']['title'] = __('Shop Pages Setup','download-monitor');
+			$settings['shop']['sections']['pages']['fields'][] = array(
+				'name'    => 'dlm_page_cart',
+				'std'     => '',
+				'label'   => __( 'Cart page', 'download-monitor' ),
+				'desc'    => __( 'Your cart page, make sure it has the <code>[dlm_cart]</code> shortcode.', 'download-monitor' ),
+				'type'    => 'lazy_select',
+				'options' => array()
+			);
+
+			$settings['shop']['sections']['pages']['fields'][] = array(
+				'name'    => 'dlm_page_checkout',
+				'std'     => '',
+				'label'   => __( 'Checkout page', 'download-monitor' ),
+				'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
+				'type'    => 'lazy_select',
+				'options' => array()
 			);
 
 			$settings['payments'] = array(

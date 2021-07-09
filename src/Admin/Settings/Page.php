@@ -114,14 +114,7 @@ class DLM_Settings_Page {
 				// loop fields for this tab
 				if ( isset( $settings[ $tab ] ) ) {
 
-					if ( ! isset( $settings[ $tab ]['upsell'] ) ) {
-
 						$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
-
-						// output correct settings_fields
-						$option_name = "dlm_" . $tab . "_" . $active_section;
-						settings_fields( $option_name );
-
 
 						if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
 
@@ -143,10 +136,14 @@ class DLM_Settings_Page {
 
 						if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 
+							// output correct settings_fields
+							// We change the output location so that it won't interfere with our upsells
+							$option_name = "dlm_" . $tab . "_" . $active_section;
+							settings_fields( $option_name );
+
 							echo '<table class="form-table">';
 
 							foreach ( $settings[ $tab ]['sections'][ $active_section ]['fields'] as $option ) {
-
 
 								$cs = 1;
 
@@ -183,7 +180,6 @@ class DLM_Settings_Page {
 
 							echo '</table>';
 						}
-					}
 
 
 					echo '<div class="wpchill-upsells-wrapper">';
@@ -196,7 +192,7 @@ class DLM_Settings_Page {
 				?>
 				<div class="wp-clearfix"></div>
 				<?php
-				if ( isset( $settings[ $tab ] ) && ! isset( $settings[ $tab ]['upsell'] ) ) {
+				if ( isset( $settings[ $tab ] ) &&  ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) ) {
 
 					?>
 					<p class="submit">

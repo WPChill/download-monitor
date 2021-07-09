@@ -198,49 +198,60 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function set_tabs() {
+		// Define our upsell tabs
+		// First is the tab and then are the sections
 		$this->upsell_tabs = apply_filters( 'dlm_upsell_tabs', array(
-				'ninja_forms'      => array(
-					'title'    => __( 'Ninja Forms', 'download-monitor' ),
-					'sections' => array(), // Need to put sections here for backwards compatibility
+				'locking'          => array(
+					'title'    => esc_html__( 'Locking', 'download-monitor' ),
 					'upsell'   => true,
-					'badge'    => true
+					'sections' => array(
+						'ninja_forms'   => array(
+							'title'    => __( 'Ninja Forms', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
+						'gravity_forms' => array(
+							'title'    => __( 'Gravity Forms', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+							'upsell'   => true,
+							'badge'    => true,
+						),
+						'email_lock'    => array(
+							'title'    => __( 'Email lock', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
+					),
 				),
-				'amazon_s3'        => array(
-					'title'    => __( 'Amazon S3', 'download-monitor' ),
-					'sections' => array(), // Need to put sections here for backwards compatibility
-					'upsell'   => true,
-					'badge'    => true
+				'external_hosting' => array(
+					'title'    => esc_html__( 'External hosting', 'download-monitor' ),
+					'sections' => array(
+						'amazon_s3' => array(
+							'title'    => __( 'Amazon S3', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
+					),
 				),
-				'page_addon'       => array(
-					'title'    => __( 'Page Addon', 'download-monitor' ),
-					'sections' => array(), // Need to put sections here for backwards compatibility
-					'upsell'   => true,
-					'badge'    => true
+				'content'          => array(
+					'title'    => esc_html__( 'Content', 'download-monitor' ),
+					'sections' => array(
+						'page_addon'       => array(
+							'title'    => __( 'Page Addon', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
+						'downloading_page' => array(
+							'title'    => __( 'Downloading Page', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
+					),
 				),
-				'gravity_forms'    => array(
-					'title'    => __( 'Gravity Forms', 'download-monitor' ),
-					'sections' => array(), // Need to put sections here for backwards compatibility
-					'upsell'   => true,
-					'badge'    => true
+				'advanced'         => array(
+					'title'    => esc_html__( 'Advanced', 'download-monitor' ),
+					'sections' => array(
+						'captcha' => array(
+							'title'    => __( 'Captcha', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						)
+					),
 				),
-				'email_lock'       => array(
-					'title'    => __( 'Email lock', 'download-monitor' ),
-					'sections' => array(), // Need to put sections here for backwards compatibility
-					'upsell'   => true,
-					'badge'    => true
-				),
-				'downloading_page' => array(
-					'title'    => __( 'Downloading Page', 'download-monitor' ),
-					'sections' => array(), // Need to put sections here for backwards compatibility
-					'upsell'   => true,
-					'badge'    => true
-				),
-				'captcha'          => array(
-					'title'    => __( 'Captcha', 'download-monitor' ),
-					'sections' => array(), // Need to put sections here for backwards compatibility
-					'upsell'   => true,
-					'badge'    => true
-				)
 			)
 		);
 	}
@@ -257,8 +268,22 @@ class DLM_Upsells {
 	public function pro_tab_upsells( $settings ) {
 
 		foreach ( $this->upsell_tabs as $key => $tab ) {
+
 			if ( ! isset( $settings[ $key ] ) ) {
-				$settings[ $key ] = $tab;
+
+				if ( ! isset( $settings[ $key ]['title'] ) ) {
+
+					$settings[ $key ]['title'] = $tab['title'];
+				}
+
+				foreach ( $tab['sections'] as $section_key => $section ) {
+
+					if ( ! isset( $settings[ $key ]['sections'][ $section_key ] ) ) {
+
+						$settings[ $key ]['sections'][ $section_key ]           = $section;
+						$settings[ $key ]['sections'][ $section_key ]['upsell'] = true;
+					}
+				}
 			}
 		}
 
@@ -349,6 +374,7 @@ class DLM_Upsells {
 	public function logging_tab_upsell() {
 
 		if ( ! $this->check_extension( 'dlm-captcha' ) ) {
+
 			echo $this->generate_upsell_box( 'Captcha', 'Stop bots from spamming your downloads and ask users to complete Google reCAPTCHA.', 'logging', 'captcha' );
 		}
 
@@ -383,6 +409,7 @@ class DLM_Upsells {
 	public function output_buttons_upsell() {
 
 		if ( ! $this->check_extension( 'dlm-buttons' ) ) {
+
 			echo $this->generate_upsell_box( 'Buttons', 'The Buttons extension allows you to customize your download buttons as you please in order to improve the user experience. Create stunning buttons without needing any coding skills!', 'cpt', 'buttons' );
 		}
 
@@ -417,19 +444,33 @@ class DLM_Upsells {
 	public function output_download_page_upsell() {
 
 		if ( ! $this->check_extension( 'dlm-downloading-page' ) ) {
+
 			echo $this->generate_upsell_box( '', esc_html__( 'Customize the downloading page by adding banners, ads, and anything you like.', 'download-monitor' ), 'downloading_page', 'downloading-page' );
 		}
 
 	}
 
 	/**
-	 * Upsell for Ninja Forms setting tab
+	 * Upsell for Locking tab
 	 *
 	 * @since 4.4.5
 	 */
-	public function upsell_tab_content_ninja_forms() {
+	public function upsell_tab_content_locking() {
 
-		echo $this->generate_upsell_box( esc_html__( 'Ninja Forms extension', 'download-monitor' ), esc_html__( 'The Ninja Forms extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.', 'download-monitor' ), 'ninja_forms', 'ninja-forms' );
+		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
+
+			echo $this->generate_upsell_box( esc_html__( 'Ninja Forms extension', 'download-monitor' ), esc_html__( 'The Ninja Forms extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.', 'download-monitor' ), 'ninja_forms', 'ninja-forms' );
+		}
+
+		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
+
+			echo $this->generate_upsell_box( esc_html__( 'Email lock extension', 'download-monitor' ), esc_html__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ), 'email_lock', 'email-lock' );
+		}
+
+		if ( ! $this->check_extension( 'dlm-gravity-forms' ) ) {
+
+			echo $this->generate_upsell_box( esc_html__( 'Gravity Forms extension', 'download-monitor' ), esc_html__( 'The Gravity Forms extension for Download Monitor allows you to require users to fill out a Gravity Forms form before they gain access to a download.', 'download-monitor' ), 'gravity_forms', 'gravity-forms' );
+		}
 
 	}
 
@@ -438,42 +479,34 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function upsell_tab_content_amazon_s3() {
+	public function upsell_tab_content_external_hosting() {
 
-		echo $this->generate_upsell_box( esc_html__( 'Amazon S3', 'download-monitor' ), esc_html__( 'Link to files hosted on Amazon s3 so that you can serve secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' );
+		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
 
-	}
+			echo $this->generate_upsell_box( esc_html__( 'Amazon S3', 'download-monitor' ), esc_html__( 'Link to files hosted on Amazon s3 so that you can serve secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' );
+		}
 
-	/**
-	 * Upsell for Email Lock setting tab
-	 *
-	 * @since 4.4.5
-	 */
-	public function upsell_tab_content_email_lock() {
-
-		echo $this->generate_upsell_box( esc_html__( 'Email lock extension', 'download-monitor' ), esc_html__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ), 'email_lock', 'email-lock' );
 
 	}
 
-	/**
-	 * Upsell for Gravity Forms setting tab
-	 *
-	 * @since 4.4.5
-	 */
-	public function upsell_tab_content_gravity_forms() {
-
-		echo $this->generate_upsell_box( esc_html__( 'Gravity Forms extension', 'download-monitor' ), esc_html__( 'The Gravity Forms extension for Download Monitor allows you to require users to fill out a Gravity Forms form before they gain access to a download.', 'download-monitor' ), 'gravity_forms', 'gravity-forms' );
-
-	}
 
 	/**
 	 * Upsell for Page Addon setting tab
 	 *
 	 * @since 4.4.5
 	 */
-	public function upsell_tab_content_page_addon() {
+	public function upsell_tab_content_content() {
 
-		echo $this->generate_upsell_box( esc_html__( 'Page addon extension', 'download-monitor' ), esc_html__( 'Add a self contained [download_page] shortcode to your site to list downloads, categories, tags, and show info pages about each of your resources.', 'download-monitor' ), 'page_addon', 'page-addon' );
+		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
+
+			echo $this->generate_upsell_box( esc_html__( 'Page addon extension', 'download-monitor' ), esc_html__( 'Add a self contained [download_page] shortcode to your site to list downloads, categories, tags, and show info pages about each of your resources.', 'download-monitor' ), 'page_addon', 'page-addon' );
+		}
+
+		if ( ! $this->check_extension( 'dlm-downloading-page' ) ) {
+
+			echo $this->generate_upsell_box( esc_html__( 'Downloading page extension', 'download-monitor' ), esc_html__( 'The Downloading Page extension for Download Monitor forces your downloads to be served from a separate page.', 'download-monitor' ), 'downloading_page', 'downloading-page' );
+		}
+
 
 	}
 
@@ -484,20 +517,14 @@ class DLM_Upsells {
 	 */
 	public function upsell_tab_content_captcha() {
 
-		echo $this->generate_upsell_box( esc_html__( 'Captcha extension', 'download-monitor' ), esc_html__( 'The Captcha extension for Download Monitor allows you to require users to complete a Google reCAPTCHA before they gain access to a download.', 'download-monitor' ), 'captcha', 'captcha' );
+		if ( ! $this->check_extension( 'dlm=captcha' ) ) {
+
+			echo $this->generate_upsell_box( esc_html__( 'Captcha extension', 'download-monitor' ), esc_html__( 'The Captcha extension for Download Monitor allows you to require users to complete a Google reCAPTCHA before they gain access to a download.', 'download-monitor' ), 'captcha', 'captcha' );
+		}
+
 
 	}
 
-	/**
-	 * Upsell for Downloading Page setting tab
-	 *
-	 * @since 4.4.5
-	 */
-	public function upsell_tab_content_downloading_page() {
-
-		echo $this->generate_upsell_box( esc_html__( 'Downloading page extension', 'download-monitor' ), esc_html__( 'The Downloading Page extension for Download Monitor forces your downloads to be served from a separate page.', 'download-monitor' ), 'downloading_page', 'downloading-page' );
-
-	}
 
 	/**
 	 * Output the Downloadable Files locations in the Downloadable files metabox
@@ -512,12 +539,12 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-amazons-s3' ) ) {
 
-			echo '<div class="upsells-columns-2"><span class="dashicons dashicons-amazon"></span><h3>'.esc_html__('Amazon S3','download-monitor').'</h3>' . $this->generate_upsell_box( '', esc_html__( 'Use Amazon S3 links for Download Monitor files to run secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' ) . '</div>';
+			echo '<div class="upsells-columns-2"><span class="dashicons dashicons-amazon"></span><h3>' . esc_html__( 'Amazon S3', 'download-monitor' ) . '</h3>' . $this->generate_upsell_box( '', esc_html__( 'Use Amazon S3 links for Download Monitor files to run secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' ) . '</div>';
 		}
 
 		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
 
-			echo '<div class="upsells-columns-2"><span class="dashicons dashicons-google"></span><h3>'.esc_html__('Google Drive','download-monitor').'</h3>' . $this->generate_upsell_box( '', esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ), 'google_drive', 'google-drive' ) . '</div>';
+			echo '<div class="upsells-columns-2"><span class="dashicons dashicons-google"></span><h3>' . esc_html__( 'Google Drive', 'download-monitor' ) . '</h3>' . $this->generate_upsell_box( '', esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ), 'google_drive', 'google-drive' ) . '</div>';
 		}
 
 		echo '</div>';
