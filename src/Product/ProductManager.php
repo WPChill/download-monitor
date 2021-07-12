@@ -56,8 +56,8 @@ class DLM_Product_Manager {
 	 * Setup Product Manager
 	 */
 	public function setup() {
+
 		add_action( 'admin_init', array( $this, 'load_extensions' ) );
-		add_action( 'admin_notices', array( $this, 'display_admin_notices' ) );
 	}
 
 	/**
@@ -126,42 +126,5 @@ class DLM_Product_Manager {
 	 */
 	public function get_products() {
 		return $this->products;
-	}
-
-	public function display_admin_notices() {
-
-		// get products
-		$products = $this->get_products();
-
-		// loop products
-		if ( count( $products ) > 0 ) {
-			foreach ( $products as $product ) {
-
-				// check if product is correctly activated
-				if ( true !== $product->get_license()->is_active() ) {
-
-					$is_dlm_page = ( isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] ) ? true : false;
-
-					$notice_id = "extension-" . esc_attr( $product->get_product_id() );
-
-					if ( 1 != get_option( 'dlm_hide_notice-'.$notice_id, 0 ) || $is_dlm_page ) {
-
-						$message = '<b>Warning!</b> Your %s license is inactive which means you\'re missing out on updates and support! <a href="%s">Activate your license</a> or <a href="%s" target="_blank">get a license here</a>.';
-						$message = sprintf( __( $message, 'download-monitor' ), $product->get_product_name(), admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions#installed-extensions' ), $product->get_tracking_url( 'activate-license-notice' ) );
-
-						?>
-						<div class="notice notice-warning dlm-notice<?php echo (!$is_dlm_page?" is-dismissible":""); ?>"
-						     id="<?php echo $notice_id; ?>"
-						     data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm_hide_notice-'.$notice_id ) ); ?>">
-							<p><?php echo $message; ?></p>
-						</div>
-						<?php
-					}
-
-				}
-
-			}
-		}
-
 	}
 }

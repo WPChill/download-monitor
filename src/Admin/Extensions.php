@@ -422,7 +422,7 @@ class DLM_Admin_Extensions {
 				),
 				'suggest_feature' => array(
 						'name'     => esc_html__( 'Suggest a feature', 'download-monitor' ),
-						'url'      => 'https://www.download-monitor.com/contact/',
+						'url'      => 'https://forms.gle/3igARBBzrbp6M8Fc7',
 						'icon'     => 'dashicons dashicons-external',
 						'target'   => '_blank',
 						'priority' => '90',

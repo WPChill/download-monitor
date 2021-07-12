@@ -121,7 +121,7 @@ class DLM_Post_Type_Manager {
 				'suggest_feature' => array(
 					'name'     => esc_html__( 'Suggest a feature', 'download-monitor' ),
 					'icon'     => 'dashicons-external',
-					'url'      => 'https://docs.google.com/forms/d/e/1FAIpQLSc5eAZbxGROm_WSntX_3JVji2cMfS3LIbCNDKG1yF_VNe3R4g/viewform',
+					'url'      => 'https://forms.gle/3igARBBzrbp6M8Fc7',
 					'target'   => '_blank',
 					'priority' => '60'
 				),
