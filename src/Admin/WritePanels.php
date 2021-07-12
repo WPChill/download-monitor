@@ -233,9 +233,13 @@ class DLM_Admin_Writepanels {
 	public function short_description( $post ) {
 		$settings = array(
 			'textarea_name' => 'excerpt',
-			'quicktags'     => true,
+			'editor_css'    => '<style>#wp-excerpt-editor-container .wp-editor-area{height:200px; width:100%;}</style>',
+			'teeny'         => true,
+			'dfw'           => false,
 			'tinymce'       => true,
-			'editor_css'    => '<style>#wp-excerpt-editor-container .wp-editor-area{height:200px; width:100%;}</style>'
+			'quicktags'     => false,
+			'wpautop'             => false,
+			'media_buttons'       => false,
 		);
 
 		wp_editor( htmlspecialchars_decode( $post->post_excerpt ), 'excerpt', $settings );
