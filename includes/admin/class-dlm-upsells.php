@@ -172,6 +172,7 @@ class DLM_Upsells {
 	public function set_extensions() {
 
 		$this->extensions = apply_filters( 'dlm_extensions', array() );
+
 	}
 
 	/**
@@ -201,8 +202,8 @@ class DLM_Upsells {
 		// Define our upsell tabs
 		// First is the tab and then are the sections
 		$this->upsell_tabs = apply_filters( 'dlm_upsell_tabs', array(
-				'locking'          => array(
-					'title'    => esc_html__( 'Locking', 'download-monitor' ),
+				'lead_generation'  => array(
+					'title'    => esc_html__( 'Lead Generation', 'download-monitor' ),
 					'upsell'   => true,
 					'sections' => array(
 						'ninja_forms'   => array(
@@ -224,14 +225,18 @@ class DLM_Upsells {
 				'external_hosting' => array(
 					'title'    => esc_html__( 'External hosting', 'download-monitor' ),
 					'sections' => array(
-						'amazon_s3' => array(
+						'amazon_s3'    => array(
 							'title'    => __( 'Amazon S3', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
+						'google_drive' => array(
+							'title'    => __( 'Google Drive', 'download-monitor' ),
 							'sections' => array(), // Need to put sections here for backwards compatibility
 						),
 					),
 				),
-				'content'          => array(
-					'title'    => esc_html__( 'Content', 'download-monitor' ),
+				'advanced'         => array(
+					'title'    => esc_html__( 'Advanced', 'download-monitor' ),
 					'sections' => array(
 						'page_addon'       => array(
 							'title'    => __( 'Page Addon', 'download-monitor' ),
@@ -241,10 +246,14 @@ class DLM_Upsells {
 							'title'    => __( 'Downloading Page', 'download-monitor' ),
 							'sections' => array(), // Need to put sections here for backwards compatibility
 						),
+						'captcha'          => array(
+							'title'    => __( 'Captcha', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						)
 					),
 				),
-				'advanced'         => array(
-					'title'    => esc_html__( 'Advanced', 'download-monitor' ),
+				'integration'      => array(
+					'title'    => esc_html__( 'Integration', 'download-monitor' ),
 					'sections' => array(
 						'captcha' => array(
 							'title'    => __( 'Captcha', 'download-monitor' ),
@@ -300,7 +309,9 @@ class DLM_Upsells {
 
 		foreach ( $this->upsell_tabs as $key => $tab ) {
 
-			add_action( 'dlm_tab_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
+			if ( method_exists( 'DLM_Upsells', 'upsell_tab_content_' . $key ) ) {
+				add_action( 'dlm_tab_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
+			}
 
 		}
 	}
@@ -455,7 +466,7 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function upsell_tab_content_locking() {
+	public function upsell_tab_content_lead_generation() {
 
 		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
 
@@ -486,6 +497,11 @@ class DLM_Upsells {
 			echo $this->generate_upsell_box( esc_html__( 'Amazon S3', 'download-monitor' ), esc_html__( 'Link to files hosted on Amazon s3 so that you can serve secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' );
 		}
 
+		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
+
+			echo $this->generate_upsell_box( esc_html__( 'Google Drive', 'download-monitor' ), esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ), 'google_drive', 'google-drive' );
+		}
+
 
 	}
 
@@ -495,7 +511,7 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function upsell_tab_content_content() {
+	public function upsell_tab_content_advanced() {
 
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
@@ -548,6 +564,20 @@ class DLM_Upsells {
 		}
 
 		echo '</div>';
+
+	}
+
+	/**
+	 * Upsell for Integration tab
+	 *
+	 * @since 4.4.5
+	 */
+	public function upsell_tab_content_integration() {
+
+		if ( ! $this->check_extension( 'dlm-captcha' ) ) {
+
+			echo $this->generate_upsell_box( 'Captcha', 'Stop bots from spamming your downloads and ask users to complete Google reCAPTCHA.', 'logging', 'captcha' );
+		}
 
 	}
 }
