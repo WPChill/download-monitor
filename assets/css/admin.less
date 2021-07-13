@@ -1523,13 +1523,51 @@ table.wp-list-table {
   .upsells-columns-2 {
     width: 50%;
     text-align: center;
+    display:flex;
+    align-items:center;
+    align-content:center;
+  }
+
+  .upsells-column {
+    width: 100%;
+    text-align: center;
+    > * {
+      display: inline-block;
+      align-content: center;
+      vertical-align: middle;
+      margin: 0 15px;
+      float: left;
+      padding:15px;
+
+      &.wpchill-upsell {
+        width: 70%;
+        position: relative;
+        float: right;
+
+        .wpchill-upsell-description {
+          margin:0 auto;
+        }
+
+        a {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+
+    h3 {
+      line-height:1.3em;
+    }
+
+    &:last-child {
+      border-top: 1px solid #c3c4c7;
+      border-bottom: 1px solid #c3c4c7;
+    }
   }
 
   .wpchill-upsell {
     margin-top: 0;
-  }
-
-  .dashicons {
-    margin-top:30px;
   }
 }

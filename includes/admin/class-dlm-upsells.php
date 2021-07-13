@@ -102,7 +102,10 @@ class DLM_Upsells {
 	public function generate_upsell_box( $title, $description, $tab, $extension, $features = array(), $utm_source = null ) {
 
 		$upsell_box = '<div class="wpchill-upsell">';
-		$upsell_box .= '<h2>' . esc_html( $title ) . '</h2>';
+
+		if ( ! empty( $title ) ) {
+			$upsell_box .= '<h2>' . esc_html( $title ) . '</h2>';
+		}
 
 		if ( ! empty( $features ) ) {
 
@@ -570,14 +573,14 @@ class DLM_Upsells {
 
 		echo '<div class="upsells-columns">';
 
-		if ( ! $this->check_extension( 'dlm-amazons-s3' ) ) {
+		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
 
-			echo '<div class="upsells-columns-2"><span class="dashicons dashicons-amazon"></span><h3>' . esc_html__( 'Amazon S3', 'download-monitor' ) . '</h3>' . $this->generate_upsell_box( '', esc_html__( 'Use Amazon S3 links for Download Monitor files to run secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' ) . '</div>';
+			echo '<div class="upsells-column"><span class="dashicons dashicons-amazon"></span><h3>' . esc_html__( 'Amazon S3', 'download-monitor' ) . '</h3>' . $this->generate_upsell_box( '', esc_html__( 'Use Amazon S3 links for Download Monitor files to run secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' ) . '</div>';
 		}
 
 		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
 
-			echo '<div class="upsells-columns-2"><span class="dashicons dashicons-google"></span><h3>' . esc_html__( 'Google Drive', 'download-monitor' ) . '</h3>' . $this->generate_upsell_box( '', esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ), 'google_drive', 'google-drive' ) . '</div>';
+			echo '<div class="upsells-column"><span class="dashicons dashicons-google"></span><h3>' . esc_html__( 'Google Drive', 'download-monitor' ) . '</h3>' . $this->generate_upsell_box( '', esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ), 'google_drive', 'google-drive' ) . '</div>';
 		}
 
 		echo '</div>';
