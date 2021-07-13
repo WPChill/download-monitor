@@ -31,25 +31,7 @@ class DLM_Upsells {
 	 */
 	public function __construct() {
 
-		add_action( 'dlm_tab_content_general', array( $this, 'general_tab_upsell' ), 15 );
-
-		add_action( 'dlm_tab_content_access', array( $this, 'access_tab_upsell' ), 15 );
-
-		add_action( 'dlm_tab_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
-
-		add_action( 'dlm_tab_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
-
-		add_action( 'dlm_tab_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
-
-		add_action( 'dlm_tab_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
-
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10 );
-
-		add_action( 'dlm_download_monitor_files_writepanel_start', array( $this, 'files_metabox_upsells' ), 30, 1 );
-
-		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
-
-		$this->set_extensions();
+		$this->set_hooks();
 
 		$this->set_tabs();
 
@@ -71,6 +53,35 @@ class DLM_Upsells {
 		}
 
 		return self::$instance;
+
+	}
+
+	/**
+	 * Set our hooks
+	 *
+	 * @since 4.4.5
+	 */
+	public function set_hooks(){
+
+		add_action( 'dlm_tab_content_general', array( $this, 'general_tab_upsell' ), 15 );
+
+		add_action( 'dlm_tab_content_access', array( $this, 'access_tab_upsell' ), 15 );
+
+		add_action( 'dlm_tab_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
+
+		add_action( 'dlm_tab_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
+
+		add_action( 'dlm_tab_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
+
+		add_action( 'dlm_tab_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
+
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10 );
+
+		add_action( 'dlm_download_monitor_files_writepanel_start', array( $this, 'files_metabox_upsells' ), 30, 1 );
+
+		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
+
+		add_action( 'admin_init', array( $this, 'set_extensions' ), 99 );
 
 	}
 
@@ -171,7 +182,13 @@ class DLM_Upsells {
 	 */
 	public function set_extensions() {
 
-		$this->extensions = apply_filters( 'dlm_extensions', array() );
+		$dlm_Extensions = DLM_Admin_Extensions::get_instance();
+
+		$extensions = $dlm_Extensions->get_extensions();
+
+		foreach ( $extensions as $extension ) {
+			$this->extensions[] = $extension->product_id;
+		}
 
 	}
 

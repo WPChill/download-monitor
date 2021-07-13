@@ -459,4 +459,15 @@ class DLM_Admin_Extensions {
 
 		return $this->tabs;
 	}
+
+	/**
+	 * Get extensions
+	 *
+	 * @return array
+	 *
+	 * @since 4.4.5
+	 */
+	public function get_extensions(){
+		return $this->installed_extensions;
+	}
 }
