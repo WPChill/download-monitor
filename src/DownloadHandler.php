@@ -278,7 +278,6 @@ class DLM_Download_Handler {
 
 			/** @var DLM_Download $download */
 			$download = null;
-
 			if ( $download_id > 0 ) {
 				try {
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
@@ -291,7 +290,7 @@ class DLM_Download_Handler {
 			// Handle version (if set)
 			$version_id = '';
 
-			if ( ! empty( $_GET['version'] ) ) {
+			if (  ! is_null($download) && ! empty( $_GET['version'] ) ) {
 				$version_id = $download->get_version_id_version_name( $_GET['version'] );
 			}
 
@@ -299,7 +298,8 @@ class DLM_Download_Handler {
 				$version_id = absint( $_GET['v'] );
 			}
 
-			if ( null != $download && $version_id ) {
+
+			if ( ! is_null($download) && $version_id ) {
 				try {
 					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
 					$download->set_version( $version );
@@ -313,6 +313,7 @@ class DLM_Download_Handler {
 				if ( post_password_required( $download_id ) ) {
 					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download-monitor' ) );
 				}
+
 				$this->trigger( $download );
 			} elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
 				wp_redirect( $redirect );
