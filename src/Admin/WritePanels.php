@@ -15,7 +15,7 @@ class DLM_Admin_Writepanels {
 	 * @access public
 	 */
 	public function __construct() {
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 15 );
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
 		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_boxes' ), 1, 2 );
 	}
@@ -28,23 +28,60 @@ class DLM_Admin_Writepanels {
 	 */
 	public function add_meta_boxes() {
 
-		// Download Information
-		add_meta_box( 'download-monitor-information', __( 'Download Information', 'download-monitor' ), array(
-			$this,
-			'download_information'
-		), 'dlm_download', 'side', 'high' );
+		// We remove the Publish metabox and add to our queue
+		remove_meta_box( 'submitdiv', 'dlm_download', 'side' );
 
-		// Download Options
-		add_meta_box( 'download-monitor-options', __( 'Download Options', 'download-monitor' ), array(
-			$this,
-			'download_options'
-		), 'dlm_download', 'side', 'high' );
+		$meta_boxes = apply_filters( 'dlm_download_metaboxes', array(
+						array(
+								'id'       => 'submitdiv',
+								'title'    => __( 'Publish' ),
+								'callback' => 'post_submit_meta_box',
+								'screen'   => 'dlm_download',
+								'context'  => 'side',
+								'priority' => 1
+						),
+						array(
+								'id'       => 'download-monitor-information',
+								'title'    => __( 'Download Information', 'download-monitor' ),
+								'callback' => array(
+										$this,
+										'download_information'
+								),
+								'screen'   => 'dlm_download',
+								'context'  => 'side',
+								'priority' => 5
+						),
+						array(
+								'id'       => 'download-monitor-options',
+								'title'    => __( 'Download Options', 'download-monitor' ),
+								'callback' => array(
+										$this,
+										'download_options'
+								),
+								'screen'   => 'dlm_download',
+								'context'  => 'side',
+								'priority' => 10
+						),
+						array(
+								'id'       => 'download-monitor-file',
+								'title'    => __( 'Downloadable Files/Versions', 'download-monitor' ),
+								'callback' => array(
+										$this,
+										'download_files'
+								),
+								'screen'   => 'dlm_download',
+								'context'  => 'normal',
+								'priority' => 20
+						),
+				)
+		);
 
-		// Versions / Files
-		add_meta_box( 'download-monitor-file', __( 'Downloadable Files/Versions', 'download-monitor' ), array(
-			$this,
-			'download_files'
-		), 'dlm_download', 'normal', 'high' );
+		uasort( $meta_boxes, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+
+		foreach($meta_boxes as $metabox){
+			// Priority is left out as we prioritise based on our sorting function
+			add_meta_box( $metabox['id'], $metabox['title'], $metabox['callback'], $metabox['screen'], $metabox['context'],'high' );
+		}
 
 		// Excerpt
 		if ( function_exists( 'wp_editor' ) ) {

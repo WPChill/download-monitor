@@ -75,7 +75,7 @@ class DLM_Upsells {
 
 		add_action( 'dlm_tab_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
 
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10 );
+		add_filter( 'dlm_download_metaboxes', array( $this, 'add_meta_boxes' ), 30 );
 
 		add_action( 'dlm_download_monitor_files_writepanel_start', array( $this, 'files_metabox_upsells' ), 30, 1 );
 
@@ -84,6 +84,7 @@ class DLM_Upsells {
 		add_action( 'admin_init', array( $this, 'set_extensions' ), 99 );
 
 	}
+
 
 	/**
 	 * Generate the all-purpose upsell box
@@ -151,31 +152,33 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes( $meta_boxes ) {
 
 		if ( ! $this->check_extension( 'dlm-download-page' ) ) {
 
-			add_meta_box(
-				'dlm-download-page-upsell',
-				esc_html__( 'Downloading page', 'download-monitor' ),
-				array( $this, 'output_download_page_upsell' ),
-				'dlm_download',
-				'side',
-				'high'
+			$meta_boxes[] = array(
+				'id'       => 'dlm-download-page-upsell',
+				'title'    => esc_html__( 'Downloading page', 'download-monitor' ),
+				'callback' => array( $this, 'output_download_page_upsell' ),
+				'screen'   => 'dlm_download',
+				'context'  => 'side',
+				'priority' => 30
 			);
 		}
 
 		if ( ! $this->check_extension( 'dlm-buttons' ) ) {
 
-			add_meta_box(
-				'dlm-buttons-upsell',
-				esc_html__( 'Buttons', 'download-monitor' ),
-				array( $this, 'output_buttons_upsell' ),
-				'dlm_download',
-				'side',
-				'high'
+			$meta_boxes[] = array(
+				'id'       => 'dlm-buttons-upsell',
+				'title'    => esc_html__( 'Buttons', 'download-monitor' ),
+				'callback' => array( $this, 'output_buttons_upsell' ),
+				'screen'   => 'dlm_download',
+				'context'  => 'side',
+				'priority' => 40
 			);
 		}
+
+		return $meta_boxes;
 	}
 
 	/**
