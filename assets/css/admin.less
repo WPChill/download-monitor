@@ -1531,21 +1531,26 @@ table.wp-list-table {
   .upsells-column {
     width: 100%;
     text-align: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+
     > * {
       display: inline-block;
       align-content: center;
       vertical-align: middle;
       margin: 0 15px;
       float: left;
-      padding:15px;
+      padding: 15px;
 
       &.wpchill-upsell {
-        width: 70%;
+        width: 100%;
         position: relative;
         float: right;
 
         .wpchill-upsell-description {
           margin:0 auto;
+          max-width:calc(100% - 200px);
         }
 
         a {
@@ -1565,6 +1570,7 @@ table.wp-list-table {
       border-top: 1px solid #c3c4c7;
       border-bottom: 1px solid #c3c4c7;
     }
+
   }
 
   .wpchill-upsell {
