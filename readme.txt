@@ -1,13 +1,12 @@
 === Download Monitor ===
-Contributors: never5, barrykooij, hchouhan, mikejolley
-Donate link: http://www.barrykooij.com/donate/
-Tags: download, sell, document-management, sell-products, ecommerce, monitor, download monitor, tracking, digital, documents, download category, download manager, file manager , monitor, password, protect downloads, sell, shop, paypal, stripe
-Requires at least: 3.8
+Contributors: wpchill, silkalns, barrykooij, mikejolley
+Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, files, versions, logging, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker, sell, shop, ecommerce, paypal
+Requires at least: 5.4
 Tested up to: 5.7
 Stable tag: 4.4.5
 License: GPLv3
 Text Domain: -
-Requires PHP: 5.3
+Requires PHP: 5.6
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, displaying links and selling downloads!
 
