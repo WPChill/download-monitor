@@ -118,7 +118,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.4.5 - 02.07.2021 =
+= 4.4.5 - 27.07.2021 =
 
 Fixed: PHP 8 bug - slow query ( https://github.com/WPChill/download-monitor/issues/685 )
 Fixed: Deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issues/682 thanks to @ashleyfae )
@@ -130,6 +130,10 @@ Added : Size filter in the placeholder image ( thanks to @jamesgol https://githu
 Fixed : Sha256 support added when new files are added ( thanks to @jamesgol https://github.com/WPChill/download-monitor/pull/633 )
 Added: Upsells
 Fixed: Fix download from CDN where uploads folder is replaced ( https://github.com/WPChill/download-monitor/issues/698 )
+Fixed: Fatal error on URL with version param ( https://github.com/WPChill/download-monitor/issues/709 )
+Changed: Notice display
+Changed: Tab reconstruction
+Changed: TinyMCE interface for short description ( https://github.com/WPChill/download-monitor/issues/708 )
 
 = 4.4.4: October 19, 2020 =
 * Tweak: Fixed PHP 7.4 notices.
