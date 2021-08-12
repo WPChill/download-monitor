@@ -432,7 +432,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				$body['theme_parent'] = sanitize_text_field( $theme->Template );
 			}
 
-			$body['download_monitor_views'] = $this->get_downloads();
+			$body['download_monitor'] = $this->get_downloads();
 			// Return the data.
 			return $body;
 
