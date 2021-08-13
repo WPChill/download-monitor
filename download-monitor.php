@@ -44,3 +44,44 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
 
+/**
+ * This function allows you to track usage of your plugin
+ * Place in your main plugin file
+ * Refer to https://wisdomplugin.com/support for help
+ */
+if( ! class_exists( 'Download_Monitor_Usage_Tracker') ) {
+	require_once dirname( __FILE__ ) . '/includes/tracking/class-download-monitor-usage-tracker.php';
+}
+if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
+	function download_monitor_start_plugin_tracking() {
+		$wisdom = new Download_Monitor_Usage_Tracker(
+			__FILE__,
+			'https://tracking.download-monitor.com/',
+			array(),
+			true,
+			true,
+			0
+		);
+	}
+	download_monitor_start_plugin_tracking();
+}
+
+ini_set("xdebug.var_display_max_depth", -1);
+ini_set("xdebug.var_display_max_children", -1);
+ini_set("xdebug.var_display_max_data", -1);
+
+$active_plugins = get_option( 'active_plugins', array() );
+$licenses = array();
+			if ( ! empty( $active_plugins ) ) {
+				foreach ( $active_plugins as $plugin => $value ) {
+					if ( 0 === strpos( $value, 'dlm' ) ) {
+						$new_val                 = explode( '/', $value );
+						$licenses[ $new_val[0] ] = get_option( $new_val[0] . '-license' );
+						unset( $licenses[ $new_val[0] ][1] );
+						$licenses[ $new_val[0] ] = serialize( $licenses[ $new_val[0] ] );
+					}
+				}
+			}
+
+			// var_dump( $licenses );
+			// die();

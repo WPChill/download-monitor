@@ -112,12 +112,12 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 * @param bool   $_marketing            defauts to false.
 		 */
 		public function __construct(
-			$_plugin_file,
-			$_home_url,
-			$_options,
-			$_require_optin = true,
-			$_include_goodbye_form = true,
-			$_marketing = false ) {
+		$_plugin_file,
+		$_home_url,
+		$_options,
+		$_require_optin = true,
+		$_include_goodbye_form = true,
+		$_marketing = false ) {
 
 			$this->plugin_file = $_plugin_file;
 			$this->home_url    = trailingslashit( $_home_url );
@@ -911,7 +911,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php _e( 'Do Not Allow', 'singularity' ); ?></a>
 					</p>
 				</div>
-				<?php
+					<?php
 			}
 
 		}
@@ -1176,7 +1176,6 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 
 		public function get_downloads() {
 			$settings_class     = new DLM_Admin_Settings();
-			$dlm_extensions     = DLM_Admin_Extensions::get_instance();
 			$args               = array(
 				'numberposts' => -1,
 				'post_type'   => 'dlm_download',
@@ -1188,11 +1187,15 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			$licenses           = array();
 			$return_array       = array();
 
-			$installed_extensions = $dlm_extensions->get_extensions();
+			$active_plugins = get_option( 'active_plugins', array() );
 
-			if ( ! empty( $installed_extensions ) ) {
-				foreach ( $installed_extensions as $extension ) {
-					$licenses[ $extension['product_id'] ] = get_option( $extension['product_id'] );
+			if ( ! empty( $active_plugins ) ) {
+				foreach ( $active_plugins as $plugin => $value ) {
+					if ( 0 === strpos( $value, 'dlm' ) ) {
+						$new_val                 = explode( '/', $value );
+						$licenses[ $new_val[0] ] = get_option( $new_val[0] . '-license' );
+						unset( $licenses[ $new_val[0] ][1] );
+					}
 				}
 			}
 
@@ -1203,7 +1206,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 					if ( isset( $section['fields'] ) ) {
 						foreach ( $section['fields'] as $field ) {
 							if ( isset( $field['name'] ) ) {
-								$formatted_settings['name'] = get_option( $field['name'] );
+								$formatted_settings[ $field['name'] ] = get_option( $field['name'] );
 							}
 						}
 					}
