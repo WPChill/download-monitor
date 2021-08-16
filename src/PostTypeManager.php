@@ -146,10 +146,6 @@ class DLM_Post_Type_Manager {
 
 			DLM_Admin_Helper::dlm_tab_navigation($tabs,'downloads');
 			?>
-
-			<a href="<?php echo admin_url( 'post-new.php?post_type=dlm_download' ); ?>" class="page-title-action">
-				<?php esc_html_e( 'Add New', 'download-monitor' ); ?>
-			</a>
 		</h2>
 		<br/>
 		<?php
