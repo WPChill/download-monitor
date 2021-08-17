@@ -1103,7 +1103,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).html( '<?php echo $html; ?>' + '<div class="<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer"><p><a id="<?php echo esc_attr($this->plugin_name); ?>-put-submit-form" class="button primary" href="#"><?php _e( 'Submit and Deactivate', 'download-monitor' ); ?></a>&nbsp;<a class="secondary button" href="' + url + '"><?php _e( 'Just Deactivate', 'download-monitor' ); ?></a></p></div>' );
 					} );
 
-					$( '#put-submit-form' ).on( 'click', function ( e ) {
+					$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form"  ).on( "click", "#<?php echo esc_attr( $this->plugin_name ); ?>-put-submit-form", function ( e ) {
 						// As soon as we click, the body of the form should disappear.
 						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-body" ).fadeOut();
 						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer" ).fadeOut();
