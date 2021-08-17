@@ -119,12 +119,12 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 * @param bool   $_marketing            defauts to false.
 		 */
 		public function __construct(
-		$_plugin_file,
-		$_home_url,
-		$_options,
-		$_require_optin = true,
-		$_include_goodbye_form = true,
-		$_marketing = false ) {
+				$_plugin_file,
+				$_home_url,
+				$_options,
+				$_require_optin = true,
+				$_include_goodbye_form = true,
+				$_marketing = false ) {
 
 			$this->plugin_file = $_plugin_file;
 			$this->home_url    = trailingslashit( $_home_url );
@@ -172,10 +172,10 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			// Hook our do_tracking function to the weekly action.
 			add_filter( 'cron_schedules', array( $this, 'schedule_weekly_event' ) );
 			// It's called weekly, but in fact it could be daily, weekly or monthly.
-			//add_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
+			add_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
 
 			// Use this action for local testing.
-			 //add_action( 'admin_init', array( $this, 'do_tracking' ) );
+			//add_action( 'admin_init', array( $this, 'do_tracking' ) );
 
 			// Display the admin notice on activation.
 			add_action( 'admin_init', array( $this, 'set_notification_time' ) );
@@ -185,9 +185,11 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			// Deactivation.
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_file ), array( $this, 'filter_action_links' ) );
 			add_action( 'admin_footer-plugins.php', array( $this, 'goodbye_ajax' ) );
-			add_action( 'wp_ajax_dlm_goodbye_form', array( $this, 'goodbye_form_callback' ) );
+			add_action( 'wp_ajax_'.$this->plugin_name.'_goodbye_form', array( $this, 'goodbye_form_callback' ) );
 
 			add_filter( 'dlm_uninstall_db_options', array( $this, 'uninstall_options' ) );
+
+			add_filter( 'dlm_settings', array( $this, 'optin_tracking' ), 30, 1 );
 
 		}
 
@@ -215,12 +217,12 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 */
 		public function schedule_weekly_event( $schedules ) {
 			$schedules['weekly']  = array(
-				'interval' => 604800,
-				'display'  => __( 'Once Weekly' ),
+					'interval' => 604800,
+					'display'  => __( 'Once Weekly' ),
 			);
 			$schedules['monthly'] = array(
-				'interval' => 2635200,
-				'display'  => __( 'Once Monthly' ),
+					'interval' => 2635200,
+					'display'  => __( 'Once Monthly' ),
 			);
 			return $schedules;
 		}
@@ -254,8 +256,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			}
 
 			// Check to see if the user has opted in to tracking.
-			$allow_tracking = $this->get_is_tracking_allowed();
-			if ( ! $allow_tracking ) {
+			if ( ! $this->get_is_tracking_allowed() ) {
 				return;
 			}
 
@@ -280,16 +281,16 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		public function send_data( $body ) {
 
 			$request = wp_remote_post(
-				esc_url( $this->home_url . '?usage_tracker=hello' ),
-				array(
-					'method'      => 'POST',
-					'timeout'     => 20,
-					'redirection' => 5,
-					'httpversion' => '1.1',
-					'blocking'    => true,
-					'body'        => $body,
-					'user-agent'  => 'PUT/1.0.0; ' . home_url(),
-				)
+					esc_url( $this->home_url . '?usage_tracker=hello' ),
+					array(
+							'method'      => 'POST',
+							'timeout'     => 20,
+							'redirection' => 5,
+							'httpversion' => '1.1',
+							'blocking'    => true,
+							'body'        => $body,
+							'user-agent'  => 'PUT/1.0.0; ' . home_url(),
+					)
 			);
 			ini_set( 'xdebug.var_display_max_depth', '100' );
 			ini_set( 'xdebug.var_display_max_children', '25006' );
@@ -518,11 +519,10 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			} else {
 
 				// The wisdom_allow_tracking option is an array of plugins that are being tracked.
-				$allow_tracking = get_option( 'download_monitor_troubleshooting_option' );
-				if ( is_array( $allow_tracking ) ) {
-					if ( isset( $allow_tracking['track_data'] ) && true == $allow_tracking['track_data'] ) {
-						return true;
-					}
+				$allow_tracking = get_option( $this->plugin_name.'_wisdom_tracking' );
+
+				if ( $allow_tracking && '1' === $allow_tracking ) {
+					return true;
 				}
 			}
 
@@ -581,6 +581,10 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				}
 			}
 
+			if ( isset( $allow_tracking['track_data'] ) && $allow_tracking['track_data'] ) {
+				update_option( $this->plugin_name.'_wisdom_tracking', '1' );
+			}
+
 			update_option( 'download_monitor_troubleshooting_option', $allow_tracking );
 		}
 
@@ -601,18 +605,17 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 					return true;
 				}
 			} else {
-				// Iterate through the options that are being tracked looking for wisdom_opt_out setting.
-				if ( ! empty( $this->options ) ) {
-					foreach ( $this->options as $option_name ) {
-						// Check each option.
-						$options = get_option( $option_name );
-						// If we find the setting, return true.
-						if ( ! empty( $options['wisdom_opt_out'] ) ) {
-							return true;
-						}
-					}
+
+				// The wisdom_allow_tracking option is an array of plugins that are being tracked
+				$allow_tracking = get_option( $this->plugin_name.'_wisdom_tracking' );
+
+				if ( ! isset( $allow_tracking ) || ! $allow_tracking || '1' != $allow_tracking ) {
+
+					return true;
 				}
+
 			}
+
 			return false;
 		}
 
@@ -788,8 +791,9 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 * @since 1.0.0
 		 */
 		public function optin_notice() {
+
 			// Check for plugin args.
-			if ( isset( $_GET['plugin'] ) && isset( $_GET['plugin_action'] ) ) {
+			if ( isset( $_GET['plugin'] ) && $this->plugin_name === $_GET['plugin'] && isset( $_GET['plugin_action'] ) ) {
 
 				$action = sanitize_text_field( $_GET['plugin_action'] );
 				if ( $action === 'yes' ) {
@@ -804,6 +808,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 
 			// Is it time to display the notification?.
 			$is_time = $this->get_is_notification_time();
+
 			if ( ! $is_time ) {
 				return false;
 			}
@@ -838,8 +843,8 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 
 				// Args to add to query if user opts in to tracking.
 				$yes_args = array(
-					'plugin'        => $this->plugin_name,
-					'plugin_action' => 'yes',
+						'plugin'        => $this->plugin_name,
+						'plugin_action' => 'yes',
 				);
 
 				// Decide how to request permission to collect email addresses.
@@ -852,24 +857,24 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				}
 				$url_yes = add_query_arg( $yes_args );
 				$url_no  = add_query_arg(
-					array(
-						'plugin'        => $this->plugin_name,
-						'plugin_action' => 'no',
-					)
+						array(
+								'plugin'        => $this->plugin_name,
+								'plugin_action' => 'no',
+						)
 				);
 
 				// Decide on notice text.
 				if ( $this->marketing != 1 ) {
 					// Standard notice text.
 					$notice_text = sprintf(
-						__( 'Thank you for installing our %1$s. We would like to track its usage on your site. We don\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional. You can always opt out by going to Settings-> Misc and uncheck the track data field.', 'download-monitor' ),
-						$this->what_am_i
+							__( 'Thank you for installing our %1$s. We would like to track its usage on your site. We don\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional. You can always opt out by going to Settings-> Advanced-> Tracking and uncheck the track data field.', 'download-monitor' ),
+							$this->what_am_i
 					);
 				} else {
 					// If we have option 1 for marketing, we include reference to sending product information here.
 					$notice_text = sprintf(
-						__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.You can always opt out by going to Settings-> Misc and uncheck the track data field.', 'download-monitor' ),
-						$this->what_am_i
+							__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.You can always opt out by going to Settings-> Advanced-> Tracking and uncheck the track data field.', 'download-monitor' ),
+							$this->what_am_i
 					);
 				}
 				// And we allow you to filter the text anyway.
@@ -883,7 +888,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php _e( 'Do Not Allow', 'download-monitor' ); ?></a>
 					</p>
 				</div>
-					<?php
+				<?php
 			}
 
 		}
@@ -908,21 +913,21 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				$plugin_name = $plugin['Name'];
 
 				$url_yes = add_query_arg(
-					array(
-						'plugin'          => $this->plugin_name,
-						'marketing_optin' => 'yes',
-					)
+						array(
+								'plugin'          => $this->plugin_name,
+								'marketing_optin' => 'yes',
+						)
 				);
 				$url_no  = add_query_arg(
-					array(
-						'plugin'          => $this->plugin_name,
-						'marketing_optin' => 'no',
-					)
+						array(
+								'plugin'          => $this->plugin_name,
+								'marketing_optin' => 'no',
+						)
 				);
 
 				$marketing_text = sprintf(
-					__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'download-monitor' ),
-					$this->what_am_i
+						__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'download-monitor' ),
+						$this->what_am_i
 				);
 				$marketing_text = apply_filters( 'wisdom_marketing_text_' . esc_attr( $this->plugin_name ), $marketing_text );
 				?>
@@ -945,16 +950,19 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 * @since 1.0.0
 		 */
 		public function filter_action_links( $links ) {
+
 			// Check to see if the user has opted in to tracking.
 			if ( ! $this->get_is_tracking_allowed() ) {
 				return $links;
 			}
+
 			if ( isset( $links['deactivate'] ) && $this->include_goodbye_form ) {
 				$deactivation_link = $links['deactivate'];
 				// Insert an onClick action to allow form before deactivating.
-				$deactivation_link   = str_replace( '<a ', '<div class="put-goodbye-form-wrapper"><span class="put-goodbye-form" id="put-goodbye-form-' . esc_attr( $this->plugin_name ) . '"></span></div><a onclick="javascript:event.preventDefault();" id="put-goodbye-link-' . esc_attr( $this->plugin_name ) . '" ', $deactivation_link );
+				$deactivation_link   = str_replace( '<a ', '<div class="' . esc_attr( $this->plugin_name ) . '-put-goodbye-form-wrapper"><span class="' . esc_attr( $this->plugin_name ) . '-put-goodbye-form" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-form"></span></div><a onclick="javascript:event.preventDefault();" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-link" ', $deactivation_link );
 				$links['deactivate'] = $deactivation_link;
 			}
+
 			return $links;
 		}
 
@@ -968,13 +976,13 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			$form['heading'] = __( 'Sorry to see you go', 'download-monitor' );
 			$form['body']    = __( 'Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'download-monitor' );
 			$form['options'] = array(
-				__( 'Set up is too difficult', 'download-monitor' ),
-				__( 'Lack of documentation', 'download-monitor' ),
-				__( 'Not the features I wanted', 'download-monitor' ),
-				__( 'Found a better plugin', 'download-monitor' ),
-				__( 'Installed by mistake', 'download-monitor' ),
-				__( 'Only required temporarily', 'download-monitor' ),
-				__( 'Didn\'t work', 'download-monitor' ),
+					__( 'Set up is too difficult', 'download-monitor' ),
+					__( 'Lack of documentation', 'download-monitor' ),
+					__( 'Not the features I wanted', 'download-monitor' ),
+					__( 'Found a better plugin', 'download-monitor' ),
+					__( 'Installed by mistake', 'download-monitor' ),
+					__( 'Only required temporarily', 'download-monitor' ),
+					__( 'Didn\'t work', 'download-monitor' ),
 			);
 			$form['details'] = __( 'Details (optional)', 'download-monitor' );
 			return $form;
@@ -1007,25 +1015,25 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				$form = $this->form_default_text();
 			}
 			// Build the HTML to go in the form.
-			$html  = '<div class="put-goodbye-form-head"><strong>' . esc_html( $form['heading'] ) . '</strong></div>';
-			$html .= '<div class="put-goodbye-form-body"><p>' . esc_html( $form['body'] ) . '</p>';
+			$html  = '<div class="'.esc_attr($this->plugin_name).'-put-goodbye-form-head"><strong>' . esc_html( $form['heading'] ) . '</strong></div>';
+			$html .= '<div class="'.esc_attr($this->plugin_name).'-put-goodbye-form-body"><p>' . esc_html( $form['body'] ) . '</p>';
 
 			if ( is_array( $form['options'] ) ) {
 
-				$html .= '<div class="put-goodbye-options"><p>';
+				$html .= '<div class="'.esc_attr($this->plugin_name).'-put-goodbye-options"><p>';
 				foreach ( $form['options'] as $option ) {
-					$html .= '<input type="checkbox" name="put-goodbye-options[]" id="' . str_replace( ' ', '', esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( ' ', '', esc_attr( $option ) ) . '">' . esc_html( $option ) . '</label><br>';
+					$html .= '<input type="checkbox" name="'.esc_attr($this->plugin_name).'-put-goodbye-options[]" id="' . str_replace( ' ', '', esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( ' ', '', esc_attr( $option ) ) . '">' . esc_html( $option ) . '</label><br>';
 				}
-				$html .= '</p><label for="put-goodbye-reasons">' . esc_html( $form['details'] ) . '</label><textarea name="put-goodbye-reasons" id="put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
+				$html .= '</p><label for="'.esc_attr($this->plugin_name).'-put-goodbye-reasons">' . esc_html( $form['details'] ) . '</label><textarea name="'.esc_attr($this->plugin_name).'-put-goodbye-reasons" id="'.esc_attr($this->plugin_name).'-put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
 				$html .= '</div><!-- .put-goodbye-options -->';
 			}
 
 			$html .= '</div><!-- .put-goodbye-form-body -->';
-			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'download-monitor' ) . '</p>';
+			$html .= '<p class="'.esc_attr($this->plugin_name).'-deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'download-monitor' ) . '</p>';
 			?>
-			<div class="put-goodbye-form-bg"></div>
+			<div class="<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-bg"></div>
 			<style type="text/css">
-				.put-form-active .put-goodbye-form-bg {
+				.<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-bg {
 					background: rgba( 0, 0, 0, .5 );
 					position: fixed;
 					top: 0;
@@ -1033,7 +1041,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 					width: 100%;
 					height: 100%;
 				}
-				.put-goodbye-form-wrapper {
+				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-wrapper {
 					position: fixed;
 					z-index: 999;
 					display: none;
@@ -1044,13 +1052,13 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 					width:100vw;
 					height:100vh;
 				}
-				.put-form-active .put-goodbye-form-wrapper {
+				.<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-wrapper {
 					display: block;
 				}
-				.put-goodbye-form {
+				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form {
 					display: none;
 				}
-				.put-form-active .put-goodbye-form {
+				.<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form {
 					position: absolute;
 					left:0;
 					right:0;
@@ -1061,57 +1069,57 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 					top:50%;
 					transform: translateY(-50%);
 				}
-				.put-goodbye-form-head {
+				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-head {
 					background: #0073aa;
 					color: #fff;
 					padding: 8px 18px;
 				}
-				.put-goodbye-form-body {
+				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-body {
 					padding: 8px 18px;
 					color: #444;
 				}
-				.deactivating-spinner {
+				.<?php echo esc_attr($this->plugin_name); ?>-deactivating-spinner {
 					display: none;
 				}
-				.deactivating-spinner .spinner {
+				.<?php echo esc_attr($this->plugin_name); ?>-deactivating-spinner .spinner {
 					float: none;
 					margin: 4px 4px 0 18px;
 					vertical-align: bottom;
 					visibility: visible;
 				}
-				.put-goodbye-form-footer {
+				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer {
 					padding: 8px 18px;
 				}
 			</style>
 			<script>
 				jQuery( document ).ready( function ( $ ) {
 
-					var url = document.getElementById( "put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>" );
+					var url = document.getElementById( "<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-link" );
 
-					$( "#put-goodbye-link-<?php echo esc_attr( $this->plugin_name ); ?>" ).on( "click", function () {
+					$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-link" ).on( "click", function () {
 						// We'll send the user to this deactivation link when they've completed or dismissed the form.
-						$( 'body' ).toggleClass( 'put-form-active' );
-						$( "#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>" ).fadeIn();
-						$( "#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>" ).html( '<?php echo $html; ?>' + '<div class="put-goodbye-form-footer"><p><a id="put-submit-form" class="button primary" href="#"><?php _e( 'Submit and Deactivate', 'download-monitor' ); ?></a>&nbsp;<a class="secondary button" href="' + url + '"><?php _e( 'Just Deactivate', 'download-monitor' ); ?></a></p></div>' );
+						$( 'body' ).toggleClass( '<?php echo esc_attr($this->plugin_name); ?>-put-form-active' );
+						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).fadeIn();
+						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).html( '<?php echo $html; ?>' + '<div class="<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer"><p><a id="<?php echo esc_attr($this->plugin_name); ?>-put-submit-form" class="button primary" href="#"><?php _e( 'Submit and Deactivate', 'download-monitor' ); ?></a>&nbsp;<a class="secondary button" href="' + url + '"><?php _e( 'Just Deactivate', 'download-monitor' ); ?></a></p></div>' );
 					} );
 
 					$( '#put-submit-form' ).on( 'click', function ( e ) {
 						// As soon as we click, the body of the form should disappear.
-						$( "#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .put-goodbye-form-body" ).fadeOut();
-						$( "#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .put-goodbye-form-footer" ).fadeOut();
+						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-body" ).fadeOut();
+						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer" ).fadeOut();
 						// Fade in spinner.
-						$( "#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?> .deactivating-spinner" ).fadeIn();
+						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr($this->plugin_name); ?>-deactivating-spinner" ).fadeIn();
 						e.preventDefault();
 
 						var values = new Array();
-						$.each( $( "input[name='put-goodbye-options[]']:checked" ), function () {
+						$.each( $( "input[name='<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-options[]']:checked" ), function () {
 							values.push( $( this ).val() );
 						} );
 
-						var details = $( '#put-goodbye-reasons' ).val();
+						var details = $( '#<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-reasons' ).val();
 
 						var data = {
-							'action'  : 'dlm_goodbye_form',
+							'action'  : '<?php echo esc_attr($this->plugin_name); ?>_goodbye_form',
 							'values'  : values,
 							'details' : details,
 							'security': "<?php echo wp_create_nonce( 'wisdom_goodbye_form' ); ?>",
@@ -1129,9 +1137,13 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 					} );
 
 					// If we click outside the form, the form will close.
-					$( '.put-goodbye-form-bg' ).on( 'click', function () {
-						$( "#put-goodbye-form-<?php echo esc_attr( $this->plugin_name ); ?>" ).fadeOut();
-						$( 'body' ).removeClass( 'put-form-active' );
+					$( '.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form' ).on( 'click', function (e) {
+						e.stopPropagation();
+					});
+
+					$( '.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-wrapper' ).on( 'click', function () {
+						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).fadeOut();
+						$( 'body' ).removeClass( '<?php echo esc_attr($this->plugin_name); ?>-put-form-active' );
 					} );
 				} );
 			</script>
@@ -1165,8 +1177,8 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		public function get_downloads() {
 			$settings_class     = new DLM_Admin_Settings();
 			$args               = array(
-				'numberposts' => -1,
-				'post_type'   => 'dlm_download',
+					'numberposts' => -1,
+					'post_type'   => 'dlm_download',
 			);
 			$downloads          = get_posts( $args );
 			$total_downloads    = count( $downloads );
@@ -1225,8 +1237,39 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			$options[] = 'download_monitor_wisdom_admin_emails';
 			$options[] = 'wisdom_deactivation_reason_' . $this->plugin_name;
 			$options[] = 'wisdom_deactivation_details_' . $this->plugin_name;
+			$options[] = $this->plugin_name . '_wisdom_tracking';
 
 			return $options;
+
+		}
+
+		/**
+		 * Add the optin setting
+		 *
+		 * @param $settings
+		 *
+		 * @return array
+		 */
+		public function optin_tracking( $settings ) {
+
+			if ( isset( $settings['advanced'] ) ) {
+
+				$settings['advanced']['sections']['tracking'] = array(
+						'title'  => __( 'Tracking', 'download-monitor' ),
+						'fields' => array(
+								array(
+										'name'     => $this->plugin_name.'_wisdom_tracking',
+										'std'      => '0',
+										'label'    => __( 'Track data', 'download-monitor' ),
+										'cb_label' => __( 'We would like to track its usage on your site. We don\'t record any sensitive data, only information regarding the WordPress environment and Download Monitor settings, which we will use to help us make improvements.', 'download-monitor' ),
+										'desc'     => '',
+										'type'     => 'checkbox'
+								),
+						)
+				);
+			}
+
+			return $settings;
 
 		}
 
