@@ -484,8 +484,19 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			}
 
 			$this->send_data( $body );
+
 			// Clear scheduled update.
-			wp_clear_scheduled_hook( 'put_do_weekly_action' );
+			if ( has_action( 'put_do_weekly' ) ) {
+				// check if put_do_weekly_action has any other actions attached to it
+				// if # of callbacks is > 1 it means it has callbacks attached on different priorities
+				// if # of callbacks <= 1 it means it has callbacks attached on default priority 10
+				if ( isset( $GLOBALS['wp_filter']['put_do_weekly_action'] ) && ( count( $GLOBALS['wp_filter']['put_do_weekly_action']->callbacks ) > 1 || count( $GLOBALS['wp_filter']['put_do_weekly_action']->callbacks['10'] ) ) ) {
+					remove_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
+
+				} else {
+					wp_clear_scheduled_hook( 'put_do_weekly_action' );
+				}
+			}
 
 			// Clear the wisdom_last_track_time value for this plugin.
 			// @since 1.2.2
