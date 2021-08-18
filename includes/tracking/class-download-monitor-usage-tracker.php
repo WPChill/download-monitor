@@ -191,6 +191,8 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 
 			add_filter( 'dlm_settings', array( $this, 'optin_tracking' ), 30, 1 );
 
+			add_filter( 'dlm_settings_defaults', array( $this, 'default_tracking' ) );
+
 		}
 
 		/**
@@ -522,10 +524,9 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				}
 			} else {
 
-				// The wisdom_allow_tracking option is an array of plugins that are being tracked.
-				$allow_tracking = get_option( $this->plugin_name.'_wisdom_tracking' );
-
-				if ( $allow_tracking && '1' === $allow_tracking ) {
+				// The wisdom_allow_tracking option is an array of plugins that are being tracked
+				$allow_tracking = get_option( $this->plugin_name . '_wisdom_tracking' );
+				if ( isset( $allow_tracking ) && '1' === $allow_tracking ) {
 					return true;
 				}
 			}
@@ -553,43 +554,47 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			}
 
 			// The wisdom_allow_tracking option is an array of plugins that are being tracked.
-			$allow_tracking               = get_option( 'download_monitor_troubleshooting_option' );
-			$allow_tracking['track_data'] = false;
-
+			$allow_tracking = get_option( $this->plugin_name . '_wisdom_tracking' );
+			$track          = false;
 			// If the user has decided to opt out.
 			if ( $this->has_user_opted_out() ) {
 				if ( $this->what_am_i == 'theme' ) {
 					set_theme_mod( 'download_monitor-wisdom-allow-tracking', 0 );
 				} else {
-					if ( true == $allow_tracking['track_data'] ) {
-						$allow_tracking['track_data'] = false;
+					if ( isset( $allow_tracking ) && '1' == $allow_tracking ) {
+						$track = false;
 					}
 				}
-			} elseif ( $is_allowed || ! $this->require_optin ) {
-				// If the user has agreed to allow tracking or if opt-in is not required.
+
+			} else if ( $is_allowed || ! $this->require_optin ) {
+				// If the user has agreed to allow tracking or if opt-in is not required
 
 				if ( $this->what_am_i == 'theme' ) {
 					set_theme_mod( 'download_monitor-wisdom-allow-tracking', 1 );
 				} else {
-					if ( false == $allow_tracking['track_data'] ) {
-						$allow_tracking['track_data'] = true;
+					if ( ! isset( $allow_tracking ) || '1' != $allow_tracking ) {
+						$track = true;
 					}
 				}
+
 			} else {
 				if ( $this->what_am_i == 'theme' ) {
 					set_theme_mod( 'download_monitor-wisdom-allow-tracking', 0 );
 				} else {
-					if ( true == $allow_tracking['track_data'] ) {
-						$allow_tracking['track_data'] = false;
+					if ( isset( $allow_tracking ) && '1' === $allow_tracking ) {
+						$track = false;
 					}
 				}
+
 			}
 
-			if ( isset( $allow_tracking['track_data'] ) && $allow_tracking['track_data'] ) {
-				update_option( $this->plugin_name.'_wisdom_tracking', '1' );
+			if ( $track ) {
+				update_option( $this->plugin_name . '_wisdom_tracking', '1' );
+			} else {
+				delete_option( $this->plugin_name . '_wisdom_tracking' );
 			}
 
-			update_option( 'download_monitor_troubleshooting_option', $allow_tracking );
+			//update_option( 'download_monitor_troubleshooting_option', $allow_tracking );
 		}
 
 		/**
@@ -600,26 +605,27 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 * @return Boolean
 		 */
 		public function has_user_opted_out() {
-			// Different opt-out methods for plugins and themes.
-			if ( $this->what_am_i == 'theme' ) {
+			// Different opt-out methods for plugins and themes
+			if( $this->what_am_i == 'theme' ) {
 				// Look for the theme mod
-				$mod = get_theme_mod( 'download_monitor-wisdom-allow-tracking', 0 );
-				if ( false === $mod ) {
-					// If the theme mod is not set, then return true - the user has opted out.
+				$mod = get_theme_mod( 'modula-wisdom-allow-tracking', 0 );
+				if( false === $mod ) {
+					// If the theme mod is not set, then return true - the user has opted out
 					return true;
 				}
 			} else {
-
-				// The wisdom_allow_tracking option is an array of plugins that are being tracked
-				$allow_tracking = get_option( $this->plugin_name.'_wisdom_tracking' );
-
-				if ( ! isset( $allow_tracking ) || ! $allow_tracking || '1' != $allow_tracking ) {
-
-					return true;
+				// Iterate through the options that are being tracked looking for wisdom_opt_out setting
+				if( ! empty( $this->options ) ) {
+					foreach( $this->options as $option_name ) {
+						// Check each option
+						$options = get_option( $option_name );
+						// If we find the setting, return true
+						if( ! empty( $options['wisdom_opt_out'] ) ) {
+							return true;
+						}
+					}
 				}
-
 			}
-
 			return false;
 		}
 
@@ -1234,7 +1240,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		public function uninstall_options( $options ) {
 
 			$options[] = 'download_monitor_wisdom_last_track_time';
-			$options[] = 'download_monitor_troubleshooting_option';
+			//$options[] = 'download_monitor_troubleshooting_option';
 			$options[] = 'download_monitor_wisdom_notification_times';
 			$options[] = 'download_monitor_wisdom_block_notice';
 			$options[] = 'download_monitor_wisdom_collect_email';
@@ -1274,6 +1280,21 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			}
 
 			return $settings;
+
+		}
+
+		/**
+		 * Default tracking
+		 *
+		 * @param $defaults
+		 *
+		 * @return mixed
+		 */
+		public function default_tracking( $defaults ) {
+
+			$defaults[ $this->plugin_name . '_wisdom_tracking' ] = '1';
+
+			return $defaults;
 
 		}
 
