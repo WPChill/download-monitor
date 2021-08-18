@@ -172,7 +172,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			// Hook our do_tracking function to the weekly action.
 			add_filter( 'cron_schedules', array( $this, 'schedule_weekly_event' ) );
 			// It's called weekly, but in fact it could be daily, weekly or monthly.
-			add_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
+			add_action( 'wpchill_do_weekly_action', array( $this, 'do_tracking' ) );
 
 			// Use this action for local testing.
 			//add_action( 'admin_init', array( $this, 'do_tracking' ) );
@@ -201,9 +201,9 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 * @since 1.0.0
 		 */
 		public function schedule_tracking() {
-			if ( ! wp_next_scheduled( 'put_do_weekly_action' ) ) {
+			if ( ! wp_next_scheduled( 'wpchill_do_weekly_action' ) ) {
 				$schedule = $this->get_schedule();
-				wp_schedule_event( time(), $schedule, 'put_do_weekly_action' );
+				wp_schedule_event( time(), $schedule, 'wpchill_do_weekly_action' );
 			}
 			$this->do_tracking();
 		}
@@ -486,15 +486,15 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			$this->send_data( $body );
 
 			// Clear scheduled update.
-			if ( has_action( 'put_do_weekly' ) ) {
-				// check if put_do_weekly_action has any other actions attached to it
+			if ( has_action( 'wpchill_do_weekly_action' ) ) {
+				// check if wpchill_do_weekly_action has any other actions attached to it
 				// if # of callbacks is > 1 it means it has callbacks attached on different priorities
-				// if # of callbacks <= 1 it means it has callbacks attached on default priority 10
-				if ( isset( $GLOBALS['wp_filter']['put_do_weekly_action'] ) && ( count( $GLOBALS['wp_filter']['put_do_weekly_action']->callbacks ) > 1 || count( $GLOBALS['wp_filter']['put_do_weekly_action']->callbacks['10'] ) ) ) {
-					remove_action( 'put_do_weekly_action', array( $this, 'do_tracking' ) );
+				// if # of callbacks = 1 it means it has callbacks attached on default priority 10
+				if ( isset( $GLOBALS['wp_filter']['wpchill_do_weekly_action'] ) && ( count( $GLOBALS['wp_filter']['wpchill_do_weekly_action']->callbacks ) > 1 || count( $GLOBALS['wp_filter']['wpchill_do_weekly_action']->callbacks['10'] ) ) ) {
+					remove_action( 'wpchill_do_weekly_action', array( $this, 'do_tracking' ) );
 
 				} else {
-					wp_clear_scheduled_hook( 'put_do_weekly_action' );
+					wp_clear_scheduled_hook( 'wpchill_do_weekly_action' );
 				}
 			}
 
