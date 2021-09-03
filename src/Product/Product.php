@@ -253,4 +253,51 @@ class DLM_Product {
 
 	}
 
+	/**
+	 * Handle errors from the API
+	 *
+	 * @param  array $errors
+	 */
+
+	public function handle_errors( $errors ) {
+
+		// loop through errors
+		foreach( $errors as $error_key => $error ) {
+
+			// add error to WP
+			DLM_Product_Manager::get()->error_handler()->add( $error );
+
+			// check if error is no activation
+			if( 'no_activation' == $error_key ) {
+				// remove local activation if there's no license on API side
+				$this->get_license()->set_status( 'inactive' );
+				$this->get_license()->store();
+			}
+		}
+
+	}
+
+
+	/**
+	 * Gets a Google Analytics Campaign URL for this product
+	 *
+	 * @param string $link_identifier
+	 *
+	 * @return string The full URL
+	 */
+	public function get_tracking_url( $link_identifier = '' ) {
+		$tracking_vars = array(
+			'utm_campaign' => $this->get_product_name() . '_licensing',
+			'utm_medium'   => 'link',
+			'utm_source'   => $this->get_product_name(),
+			'utm_content'  => $link_identifier
+		);
+
+		// url encode tracking vars
+		$tracking_vars = urlencode_deep( $tracking_vars );
+		$query_string  = build_query( $tracking_vars );
+
+		return 'https://www.download-monitor.com/extensions/' . str_ireplace( 'dlm-', '', $this->get_product_id() ) . '?' . $query_string;
+	}
+
 }
