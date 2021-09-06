@@ -69,6 +69,10 @@ class DLM_Upsells {
 
 		add_action( 'dlm_tab_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
 
+		add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
+
+		add_action( 'dlm_tab_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
+
 		add_action( 'dlm_tab_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
 		add_action( 'dlm_tab_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
@@ -410,6 +414,36 @@ class DLM_Upsells {
 		if ( ! $this->check_extension( 'dlm-captcha' ) ) {
 
 			echo $this->generate_upsell_box( 'Captcha', 'Stop bots from spamming your downloads and ask users to complete Google reCAPTCHA.', 'logging', 'captcha' );
+		}
+
+	}
+
+	/**
+	 * Settings Terms and conditions tab upsell
+	 *
+	 *
+	 * @since 4.4.5
+	 */
+	public function terms_and_conditions_tab_upsell() {
+
+		if ( ! $this->check_extension( 'dlm-terms-and-conditions' ) ) {
+
+			echo $this->generate_upsell_box( 'Terms and conditions', 'Require your users to accept your terms and conditions before they can download your files.', 'terns_and_conditions', 'terms-and-conditions' );
+		}
+
+	}
+
+	/**
+	 * Settings Emails tab upsell
+	 *
+	 *
+	 * @since 4.4.5
+	 */
+	public function emails_tab_upsell() {
+
+		if ( ! $this->check_extension( 'dlm-email-notification' ) ) {
+
+			echo $this->generate_upsell_box( 'Email notifications', 'The Email Notification extension for Download Monitor sends you an email whenever one of your files is downloaded', 'email_notifications', 'email-notifications' );
 		}
 
 	}

@@ -24,6 +24,7 @@ class DLM_Admin_Settings {
 
 		// register our options and settings
 		foreach ( $settings as $tab_key => $tab ) {
+
 			foreach ( $tab['sections'] as $section_key => $section ) {
 
 				$option_group = "dlm_" . $tab_key . "_" . $section_key;
@@ -370,32 +371,11 @@ class DLM_Admin_Settings {
 		$settings['integration']['title']    = esc_html__( 'Integration', 'download-monitor' );
 		$settings['integration']['sections'] = array();
 
-		// @todo: Remove commented lines after testing new uninstall functionality
-		/*$settings['misc'] = array(
-			'title'    => __( 'Misc', 'download-monitor' ),
-			'sections' => array(
-				'misc' => array(
-					'fields' => array(
-						array(
-							'name'     => 'dlm_clean_on_uninstall',
-							'std'      => '0',
-							'label'    => __( 'Remove Data on Uninstall?', 'download-monitor' ),
-							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'Check this box if you would like to completely remove all Download Monitor data when the plugin is deleted.', 'download-monitor' ),
-							'type'     => 'checkbox'
-						),
-						array(
-							'name'  => 'dlm_clear_transients',
-							'std'   => '0',
-							'label' => __( 'Clear all transients', 'download-monitor' ),
-							'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
-							'type'  => 'action_button',
-							'link'  => self::get_url() . '#settings-misc'
-						),
-					)
-				)
-			)
-		);*/
+		$settings['email_notification']['title']    = esc_html__( 'Emails', 'download-monitor' );
+		$settings['email_notification']['sections'] = array();
+
+		$settings['terns_and_conditions']['title']    = esc_html__( 'Terms and Conditions', 'download-monitor' );
+		$settings['terns_and_conditions']['sections'] = array();
 
 		// this is here to maintain backwards compatibility, use 'dlm_settings' instead
 		$settings = apply_filters( 'download_monitor_settings', $settings );
@@ -437,21 +417,109 @@ class DLM_Admin_Settings {
 	 */
 	public function backwards_compatibility_settings( $settings ) {
 
+		$compatibility_tabs = array(
+			'access',
+			'amazon_s3',
+			'captcha',
+			'downloading_page',
+			'email_lock',
+			'email_notification',
+			'gravity_forms',
+			'ninja_forms',
+			'terns_and_conditions',
+			'twitter_lock',
+			'page_addon'
+		);
+
 		foreach ( $settings as $tab_key => $tab ) {
 
-			// if 'sections' is not set, it's most likely old format
-			if ( ! isset( $tab['sections'] ) ) {
+			$tab_title = false;
 
-				$new_tab = array(
-					'title'    => $tab[0], // old format just had title as first key
-					'sections' => array(
-						$tab_key => array(
-							'fields' => $tab[1] // old format had fields on index 1
-						)
-					)
-				);
+			if ( in_array( $tab_key, $compatibility_tabs ) && ! empty( $tab[1] ) ) {
 
-				$settings[ $tab_key ] = $new_tab;
+				if ( 'access' == $tab_key ) {
+					$tab_parent  = 'advanced';
+					$tab_section = 'access';
+				}
+
+				if ( 'amazon_s3' == $tab_key ) {
+					$tab_parent  = 'external_hosting';
+					$tab_section = 'amazon_s3';
+				}
+
+				if ( 'captcha' == $tab_key ) {
+					$tab_parent  = 'integration';
+					$tab_section = 'captcha';
+				}
+
+				if ( 'downloading_page' == $tab_key ) {
+					$tab_parent  = 'advanced';
+					$tab_section = 'page_setup';
+					$tab_title   = true;
+				}
+
+				if ( 'page_addon' == $tab_key ) {
+					$tab_parent  = 'advanced';
+					$tab_section = 'page_setup';
+					$tab_title   = true;
+				}
+
+				if ( 'email_lock' == $tab_key ) {
+					$tab_parent  = 'lead_generation';
+					$tab_section = 'email_lock';
+				}
+
+				if ( 'twitter_lock' == $tab_key ) {
+					$tab_parent  = 'lead_generation';
+					$tab_section = 'twitter_lock';
+				}
+
+				if ( 'gravity_forms' == $tab_key ) {
+					$tab_parent  = 'lead_generation';
+					$tab_section = 'gravity_forms';
+				}
+
+				if ( 'ninja_forms' == $tab_key ) {
+					$tab_parent  = 'lead_generation';
+					$tab_section = 'ninja_forms';
+				}
+
+				if ( 'email_notification' == $tab_key ) {
+					$tab_parent  = 'email_notification';
+					$tab_section = 'email_notification';
+					$tab_title   = true;
+
+					// Reassign the title because the extension overwrittens it
+					$settings['email_notification']['title']    = esc_html__( 'Emails', 'download-monitor' );
+					$settings['email_notification']['sections'] = array();
+				}
+
+				if ( 'terns_and_conditions' == $tab_key ) {
+					$tab_parent  = 'terns_and_conditions';
+					$tab_section = 'terns_and_conditions';
+					$tab_title   = true;
+				}
+
+				if ( isset( $tab[0] ) && ! $tab_title ) {
+
+					$settings[ $tab_parent ]['sections'][ $tab_section ] = array(
+						'title'    => $tab[0],
+						'sections' => array()
+					);
+				}
+
+				// Let's check if there are sections or fields so we can add other fields and not overwrite them
+				if ( isset( $settings[ $tab_parent ]['sections'] ) && isset( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] ) ) {
+
+					$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = array_merge( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'], $tab[1] );
+				} else {
+					$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = $tab[1];
+				}
+
+				// Unset the previous used tab - new tabs are already provided thanks to upsells
+				if ( 'email_notification' != $tab_key && 'terns_and_conditions' != $tab_key ) {
+					unset( $settings[ $tab_key ] );
+				}
 			}
 		}
 
