@@ -131,7 +131,7 @@ Added: Upsells
 Fixed: Fix download from CDN where uploads folder is replaced ( https://github.com/WPChill/download-monitor/issues/698 )
 Fixed: Fatal error on URL with version param ( https://github.com/WPChill/download-monitor/issues/709 )
 Changed: Notice display
-Changed: Tab reconstruction
+Changed: Tab reconstruction and settings structure
 Changed: TinyMCE interface for short description ( https://github.com/WPChill/download-monitor/issues/708 )
 
 = 4.4.4: October 19, 2020 =
