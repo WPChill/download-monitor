@@ -65,11 +65,11 @@ class DLM_Admin_Settings {
 	public function get_settings() {
 
 		$settings = array(
-			'general'   => array(
+			'general'              => array(
 				'title'    => __( 'General', 'download-monitor' ),
 				'sections' => array(
 					'general' => array(
-						'title'    => __( 'Download', 'download-monitor' ),
+						'title'  => __( 'Download', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'    => 'dlm_default_template',
@@ -130,11 +130,11 @@ class DLM_Admin_Settings {
 					),
 				)
 			),
-			'advanced' => array(
-				'title' => __('Advanced','download-monitor'),
+			'advanced'             => array(
+				'title'    => __( 'Advanced', 'download-monitor' ),
 				'sections' => array(
 					'page_setup' => array(
-						'title' => __('Pages Setup','download-monitor'),
+						'title'  => __( 'Pages Setup', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'        => 'dlm_download_endpoint',
@@ -165,8 +165,8 @@ class DLM_Admin_Settings {
 							),
 						),
 					),
-					'access'    => array(
-						'title'    => __( 'Access', 'download-monitor' ),
+					'access'     => array(
+						'title'  => __( 'Access', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'        => 'dlm_no_access_error',
@@ -194,8 +194,8 @@ class DLM_Admin_Settings {
 							),
 						)
 					),
-					'hash' => array(
-						'title' => __( 'Hashes', 'download-monitor' ),
+					'hash'       => array(
+						'title'  => __( 'Hashes', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name' => 'dlm_hash_desc',
@@ -234,8 +234,8 @@ class DLM_Admin_Settings {
 							)
 						)
 					),
-					'logging'   => array(
-						'title'    => __( 'Logging', 'download-monitor' ),
+					'logging'    => array(
+						'title'  => __( 'Logging', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'     => 'dlm_enable_logging',
@@ -277,6 +277,26 @@ class DLM_Admin_Settings {
 					),
 				)
 			),
+			'lead_generation'      => array(
+				'title'    => esc_html__( 'Lead Generation', 'download-monitor' ),
+				'sections' => array()
+			),
+			'external_hosting'     => array(
+				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
+				'sections' => array()
+			),
+			'integration'          => array(
+				'title'    => esc_html__( 'Integration', 'download-monitor' ),
+				'sections' => array()
+			),
+			'email_notification'   => array(
+				'title'    => esc_html__( 'Emails', 'download-monitor' ),
+				'sections' => array()
+			),
+			'terns_and_conditions' => array(
+				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+				'sections' => array()
+			)
 		);
 
 		if ( dlm_is_shop_enabled() ) {
@@ -362,28 +382,19 @@ class DLM_Admin_Settings {
 			);
 		}
 
-		$settings['lead_generation']['title']    = esc_html__( 'Lead Generation', 'download-monitor' );
-		$settings['lead_generation']['sections'] = array();
-
-		$settings['external_hosting']['title']    = esc_html__( 'External Hosting', 'download-monitor' );
-		$settings['external_hosting']['sections'] = array();
-
-		$settings['integration']['title']    = esc_html__( 'Integration', 'download-monitor' );
-		$settings['integration']['sections'] = array();
-
-		$settings['email_notification']['title']    = esc_html__( 'Emails', 'download-monitor' );
-		$settings['email_notification']['sections'] = array();
-
-		$settings['terns_and_conditions']['title']    = esc_html__( 'Terms and Conditions', 'download-monitor' );
-		$settings['terns_and_conditions']['sections'] = array();
-
 		// this is here to maintain backwards compatibility, use 'dlm_settings' instead
-		$settings = apply_filters( 'download_monitor_settings', $settings );
+		$old_settings = apply_filters( 'download_monitor_settings', array() );
 
 		// This is the correct filter
 		$settings = apply_filters( 'dlm_settings', $settings );
 
-		return $settings;
+		if ( ! empty( $old_settings ) ) {
+			$new_settings = $this->backwards_compatibility_settings( $old_settings, $settings );
+		} else {
+			$new_settings = $settings;
+		}
+
+		return $new_settings;
 	}
 
 	/**
@@ -407,124 +418,121 @@ class DLM_Admin_Settings {
 	}
 
 	/**
-	 * Settings format changed in 4.3
-	 * This method formats old settings added via filters to work with new format
-	 * This method is hooked into dlm_settings(priority:99) in Admin.php
+	 * Backwards compatibility for settings
 	 *
-	 * @param array $settings
+	 * @param $old_settings
+	 * @param $settings
 	 *
-	 * @return array
+	 * @return mixed
+	 * @since 4.4.5
 	 */
-	public function backwards_compatibility_settings( $settings ) {
+	public function backwards_compatibility_settings( $old_settings, $settings ) {
 
-		$compatibility_tabs = array(
-			'access',
-			'amazon_s3',
-			'captcha',
-			'downloading_page',
-			'email_lock',
-			'email_notification',
-			'gravity_forms',
-			'ninja_forms',
-			'terns_and_conditions',
-			'twitter_lock',
-			'page_addon'
-		);
+		// First we check if there is info in $old_settings
+		if ( ! empty( $old_settings ) ) {
 
-		foreach ( $settings as $tab_key => $tab ) {
+			$compatibility_tabs = array(
+				'access',
+				'amazon_s3',
+				'captcha',
+				'downloading_page',
+				'email_lock',
+				'email_notification',
+				'gravity_forms',
+				'ninja_forms',
+				'terns_and_conditions',
+				'twitter_lock',
+				'page_addon'
+			);
 
-			$tab_title = false;
+			foreach ( $old_settings as $tab_key => $tab ) {
+				// $tab[1] contains the fields inside the setting, not being set means it doesn't have any fields
+				if ( ! empty( $tab[1] ) ) {
 
-			if ( in_array( $tab_key, $compatibility_tabs ) && ! empty( $tab[1] ) ) {
+					if ( in_array( $tab_key, $compatibility_tabs ) ) {
 
-				if ( 'access' == $tab_key ) {
-					$tab_parent  = 'advanced';
-					$tab_section = 'access';
-				}
+						$tab_title   = false;
+						$tab_section = $tab_key;
 
-				if ( 'amazon_s3' == $tab_key ) {
-					$tab_parent  = 'external_hosting';
-					$tab_section = 'amazon_s3';
-				}
+						if ( 'access' == $tab_key ) {
+							$tab_parent = 'advanced';
+						}
 
-				if ( 'captcha' == $tab_key ) {
-					$tab_parent  = 'integration';
-					$tab_section = 'captcha';
-				}
+						if ( 'amazon_s3' == $tab_key ) {
+							$tab_parent = 'external_hosting';
+						}
 
-				if ( 'downloading_page' == $tab_key ) {
-					$tab_parent  = 'advanced';
-					$tab_section = 'page_setup';
-					$tab_title   = true;
-				}
+						if ( 'captcha' == $tab_key ) {
+							$tab_parent = 'integration';
+						}
 
-				if ( 'page_addon' == $tab_key ) {
-					$tab_parent  = 'advanced';
-					$tab_section = 'page_setup';
-					$tab_title   = true;
-				}
+						if ( 'downloading_page' == $tab_key || 'page_addon' == $tab_key ) {
+							$tab_parent  = 'advanced';
+							$tab_section = 'page_setup';
+							$tab_title   = true;
+						}
 
-				if ( 'email_lock' == $tab_key ) {
-					$tab_parent  = 'lead_generation';
-					$tab_section = 'email_lock';
-				}
+						if ( 'email_lock' == $tab_key || 'twitter_lock' == $tab_key || 'gravity_forms' == $tab_key || 'ninja_forms' == $tab_key ) {
+							$tab_parent = 'lead_generation';
+						}
 
-				if ( 'twitter_lock' == $tab_key ) {
-					$tab_parent  = 'lead_generation';
-					$tab_section = 'twitter_lock';
-				}
+						if ( 'email_notification' == $tab_key ) {
+							$tab_parent = 'email_notification';
+							$tab_title  = true;
 
-				if ( 'gravity_forms' == $tab_key ) {
-					$tab_parent  = 'lead_generation';
-					$tab_section = 'gravity_forms';
-				}
+							// Reassign the title because the extension overwrittens it
+							$settings['email_notification'] = array(
+								'title' => esc_html__( 'Emails', 'download-monitor' )
+							);
 
-				if ( 'ninja_forms' == $tab_key ) {
-					$tab_parent  = 'lead_generation';
-					$tab_section = 'ninja_forms';
-				}
+						}
 
-				if ( 'email_notification' == $tab_key ) {
-					$tab_parent  = 'email_notification';
-					$tab_section = 'email_notification';
-					$tab_title   = true;
+						if ( 'terns_and_conditions' == $tab_key ) {
+							$tab_parent = 'terns_and_conditions';
+							$tab_title  = true;
+						}
 
-					// Reassign the title because the extension overwrittens it
-					$settings['email_notification']['title']    = esc_html__( 'Emails', 'download-monitor' );
-					$settings['email_notification']['sections'] = array();
-				}
+						if ( isset( $tab[0] ) && ! $tab_title ) {
 
-				if ( 'terns_and_conditions' == $tab_key ) {
-					$tab_parent  = 'terns_and_conditions';
-					$tab_section = 'terns_and_conditions';
-					$tab_title   = true;
-				}
+							$settings[ $tab_parent ]['sections'][ $tab_section ] = array(
+								'title'    => $tab[0],
+								'sections' => array()
+							);
+						}
 
-				if ( isset( $tab[0] ) && ! $tab_title ) {
+						// Let's check if there are sections or fields so we can add other fields and not overwrite them
+						if ( isset( $settings[ $tab_parent ]['sections'] ) && isset( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] ) ) {
 
-					$settings[ $tab_parent ]['sections'][ $tab_section ] = array(
-						'title'    => $tab[0],
-						'sections' => array()
-					);
-				}
+							$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = array_merge( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'], $tab[1] );
+						} else {
+							$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = $tab[1];
+						}
 
-				// Let's check if there are sections or fields so we can add other fields and not overwrite them
-				if ( isset( $settings[ $tab_parent ]['sections'] ) && isset( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] ) ) {
+						// Unset the previous used tab - new tabs are already provided thanks to upsells
+						if ( 'email_notification' != $tab_key && 'terns_and_conditions' != $tab_key ) {
+							unset( $settings[ $tab_key ] );
+						}
 
-					$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = array_merge( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'], $tab[1] );
-				} else {
-					$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = $tab[1];
-				}
+					} else {
 
-				// Unset the previous used tab - new tabs are already provided thanks to upsells
-				if ( 'email_notification' != $tab_key && 'terns_and_conditions' != $tab_key ) {
-					unset( $settings[ $tab_key ] );
+						foreach ( $tab[1] as $other_tab_fields ) {
+
+							$settings['other']['sections']['other']['fields'][] = $other_tab_fields;
+						}
+
+					}
 				}
 			}
 		}
 
+		// Check to see if there is any info in Other tab
+		if ( isset( $settings['other'] ) ) {
+			$settings['other']['title'] = esc_html__( 'Other', 'download-monitor' );
+		}
+
 		return $settings;
 	}
+
 
 	/**
 	 * Return pages with ID => Page title format
