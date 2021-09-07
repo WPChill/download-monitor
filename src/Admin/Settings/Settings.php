@@ -388,13 +388,10 @@ class DLM_Admin_Settings {
 		// This is the correct filter
 		$settings = apply_filters( 'dlm_settings', $settings );
 
-		if ( ! empty( $old_settings ) ) {
-			$new_settings = $this->backwards_compatibility_settings( $old_settings, $settings );
-		} else {
-			$new_settings = $settings;
-		}
+		// Backwards compatibility for 4.3 and 4.4.4
+		$settings = $this->backwards_compatibility_settings( $old_settings, $settings );
 
-		return $new_settings;
+		return $settings;
 	}
 
 	/**
@@ -429,98 +426,100 @@ class DLM_Admin_Settings {
 	public function backwards_compatibility_settings( $old_settings, $settings ) {
 
 		// First we check if there is info in $old_settings
-		if ( ! empty( $old_settings ) ) {
+		if ( empty( $old_settings ) ) {
 
-			$compatibility_tabs = array(
-				'access',
-				'amazon_s3',
-				'captcha',
-				'downloading_page',
-				'email_lock',
-				'email_notification',
-				'gravity_forms',
-				'ninja_forms',
-				'terns_and_conditions',
-				'twitter_lock',
-				'page_addon'
-			);
+			return $settings;
+		}
 
-			foreach ( $old_settings as $tab_key => $tab ) {
-				// $tab[1] contains the fields inside the setting, not being set means it doesn't have any fields
-				if ( ! empty( $tab[1] ) ) {
+		$compatibility_tabs = array(
+			'access',
+			'amazon_s3',
+			'captcha',
+			'downloading_page',
+			'email_lock',
+			'email_notification',
+			'gravity_forms',
+			'ninja_forms',
+			'terns_and_conditions',
+			'twitter_lock',
+			'page_addon'
+		);
 
-					if ( in_array( $tab_key, $compatibility_tabs ) ) {
+		foreach ( $old_settings as $tab_key => $tab ) {
+			// $tab[1] contains the fields inside the setting, not being set means it doesn't have any fields
+			if ( ! empty( $tab[1] ) ) {
 
-						$tab_title   = false;
-						$tab_section = $tab_key;
+				if ( in_array( $tab_key, $compatibility_tabs ) ) {
 
-						if ( 'access' == $tab_key ) {
-							$tab_parent = 'advanced';
-						}
+					$tab_title   = false;
+					$tab_section = $tab_key;
 
-						if ( 'amazon_s3' == $tab_key ) {
-							$tab_parent = 'external_hosting';
-						}
+					if ( 'access' == $tab_key ) {
+						$tab_parent = 'advanced';
+					}
 
-						if ( 'captcha' == $tab_key ) {
-							$tab_parent = 'integration';
-						}
+					if ( 'amazon_s3' == $tab_key ) {
+						$tab_parent = 'external_hosting';
+					}
 
-						if ( 'downloading_page' == $tab_key || 'page_addon' == $tab_key ) {
-							$tab_parent  = 'advanced';
-							$tab_section = 'page_setup';
-							$tab_title   = true;
-						}
+					if ( 'captcha' == $tab_key ) {
+						$tab_parent = 'integration';
+					}
 
-						if ( 'email_lock' == $tab_key || 'twitter_lock' == $tab_key || 'gravity_forms' == $tab_key || 'ninja_forms' == $tab_key ) {
-							$tab_parent = 'lead_generation';
-						}
+					if ( 'downloading_page' == $tab_key || 'page_addon' == $tab_key ) {
+						$tab_parent  = 'advanced';
+						$tab_section = 'page_setup';
+						$tab_title   = true;
+					}
 
-						if ( 'email_notification' == $tab_key ) {
-							$tab_parent = 'email_notification';
-							$tab_title  = true;
+					if ( 'email_lock' == $tab_key || 'twitter_lock' == $tab_key || 'gravity_forms' == $tab_key || 'ninja_forms' == $tab_key ) {
+						$tab_parent = 'lead_generation';
+					}
 
-							// Reassign the title because the extension overwrittens it
-							$settings['email_notification'] = array(
-								'title' => esc_html__( 'Emails', 'download-monitor' )
-							);
+					if ( 'email_notification' == $tab_key ) {
+						$tab_parent = 'email_notification';
+						$tab_title  = true;
 
-						}
-
-						if ( 'terns_and_conditions' == $tab_key ) {
-							$tab_parent = 'terns_and_conditions';
-							$tab_title  = true;
-						}
-
-						if ( isset( $tab[0] ) && ! $tab_title ) {
-
-							$settings[ $tab_parent ]['sections'][ $tab_section ] = array(
-								'title'    => $tab[0],
-								'sections' => array()
-							);
-						}
-
-						// Let's check if there are sections or fields so we can add other fields and not overwrite them
-						if ( isset( $settings[ $tab_parent ]['sections'] ) && isset( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] ) ) {
-
-							$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = array_merge( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'], $tab[1] );
-						} else {
-							$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = $tab[1];
-						}
-
-						// Unset the previous used tab - new tabs are already provided thanks to upsells
-						if ( 'email_notification' != $tab_key && 'terns_and_conditions' != $tab_key ) {
-							unset( $settings[ $tab_key ] );
-						}
-
-					} else {
-
-						foreach ( $tab[1] as $other_tab_fields ) {
-
-							$settings['other']['sections']['other']['fields'][] = $other_tab_fields;
-						}
+						// Reassign the title because the extension overwrittens it
+						$settings['email_notification'] = array(
+							'title' => esc_html__( 'Emails', 'download-monitor' )
+						);
 
 					}
+
+					if ( 'terns_and_conditions' == $tab_key ) {
+						$tab_parent = 'terns_and_conditions';
+						$tab_title  = true;
+					}
+
+					if ( isset( $tab[0] ) && ! $tab_title ) {
+
+						$settings[ $tab_parent ]['sections'][ $tab_section ] = array(
+							'title'    => $tab[0],
+							'sections' => array()
+						);
+					}
+
+					// Let's check if there are sections or fields so we can add other fields and not overwrite them
+					if ( isset( $settings[ $tab_parent ]['sections'] ) && isset( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] ) ) {
+
+						$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = array_merge( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'], $tab[1] );
+					} else {
+						$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = $tab[1];
+					}
+
+					// Unset the previous used tab - new tabs are already provided thanks to upsells
+					if ( 'email_notification' != $tab_key && 'terns_and_conditions' != $tab_key ) {
+						unset( $settings[ $tab_key ] );
+					}
+
+				} else {
+
+					foreach ( $tab[1] as $other_tab_fields ) {
+
+						$settings['other']['sections']['other']['fields'][] = $other_tab_fields;
+					}
+
 				}
 			}
 		}
