@@ -137,9 +137,8 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 	if ( this.data === null ) {
 		return;
 	}
-
-	this.chart = new Chart( {
-		parent: this.container,
+	let chartId = document.getElementById('total_downloads_chart');
+	this.chart = new Chart( chartId, {
 		title: "",
 		data: this.data,
 		type: this.queryData.type,
@@ -148,14 +147,6 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 		x_axis_mode: "tick",
 		y_axis_mode: "span",
 		is_series: 1,
-		format_tooltip_x: function ( d ) {
-			return (
-				d + ""
-			).toUpperCase()
-		},
-		format_tooltip_y: function ( d ) {
-			return d + " downloads"
-		}
 	} );
 };
 

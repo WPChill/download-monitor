@@ -209,8 +209,8 @@ class DLM_Reports_Page {
 
 	        <?php do_action( 'dlm_reports_page_start' ); ?>
 
-            <div class="dlm-reports-block dlm-reports-block-chart"
-                 id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></div>
+            <canvas class="dlm-reports-block dlm-reports-block-chart"
+                 id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></canvas>
 
             <div class="dlm-reports-block dlm-reports-block-summary"
                  id="total_downloads_summary"<?php echo $this->generate_js_data(); ?>>
