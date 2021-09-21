@@ -86,7 +86,7 @@ class DLM_Reports_Chart {
 			$startDate->modify( "+1 " . $this->current_period );
 		}
 
-		return array( 'label' => esc_html__('Number of Downloads', 'download-monitor'), 'backgroundColor' => 'rgba(0, 181, 204, 1)', 'borderColor' => 'rgba(0, 181, 204, 1)', 'data' => $data_formatted );
+		return array( 'backgroundColor' => '#f05b4f', 'borderColor' => '#f05b4f', 'data' => $data_formatted );
 	}
 
 }

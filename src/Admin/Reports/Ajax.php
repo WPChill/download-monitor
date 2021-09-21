@@ -137,38 +137,108 @@ class DLM_Reports_Ajax {
 					$ua_parser = new UAParser();
 
 					// header row
-					$response[] = array( "Browser", "Downloaded", "%" );
+					$response['total_downloads_browser_table']['desktop'][] = array( "Browser", "Downloaded", "%" );
+					$response['total_downloads_browser_table']['mobile'][] = array( "Browser", "Downloaded", "%" );
+					$response['total_downloads_browser_table']['other'][] = array( "Browser", "Downloaded", "%" );
 
 					// we need to parse raw UA data
 					$formatted_data = array();
 
+					$desktop_systems = array(
+						'windows',
+						'mac',
+						'linux',
+						'ubuntu',
+						'chrome os',
+						'fedora'
+					);
+
+					$mobile_systems = array(
+						'android',
+						'ios',
+						'blackberry',
+						'phone'
+					);
+
 					if ( ! empty( $data ) ) {
 						foreach ( $data as $row ) {
 
-							$ua = $ua_parser->parse( $row->value );
+							$ua      = $ua_parser->parse( $row->value );
+							$desktop = false;
+							$mobile = false;
+							$other = false;
 
-							if ( ! isset( $formatted_data[ $ua->ua->family ] ) ) {
-								$formatted_data[ $ua->ua->family ] = 0;
+							foreach ( $desktop_systems as $system ) {
+
+								if ( false !== stripos( $ua->os->family, $system ) ) {
+									$desktop = true;
+								}
 							}
 
-							$formatted_data[ $ua->ua->family ] += $row->amount;
+							foreach ( $mobile_systems as $system ) {
 
+								if ( false !== stripos( $ua->os->family, $system ) ) {
+									$mobile = true;
+								}
+							}
+
+							if ( $desktop ) {
+
+								if ( ! isset( $formatted_data['total_downloads_browser_table']['desktop'][ $ua->ua->family ] ) ) {
+									$formatted_data['total_downloads_browser_table']['desktop'][ $ua->ua->family ] = 0;
+								}
+
+								$formatted_data['total_downloads_browser_table']['desktop'][ $ua->ua->family ] += $row->amount;
+							} else if ( $mobile ) {
+
+								if ( ! isset( $formatted_data['total_downloads_browser_table']['mobile'][ $ua->ua->family ] ) ) {
+									$formatted_data['total_downloads_browser_table']['mobile'][ $ua->ua->family ] = 0;
+								}
+
+								$formatted_data['total_downloads_browser_table']['mobile'][ $ua->ua->family ] += $row->amount;
+							} else {
+
+								if ( ! isset( $formatted_data['total_downloads_browser_table']['other'][ $ua->ua->family ] ) ) {
+									$formatted_data['total_downloads_browser_table']['other'][ $ua->ua->family ] = 0;
+								}
+
+								$formatted_data['total_downloads_browser_table']['other'][ $ua->ua->family ] += $row->amount;
+							}
 						}
 					}
 
-					if ( ! empty( $formatted_data ) ) {
+					if ( ! empty( $formatted_data['total_downloads_browser_table']['desktop'] ) ) {
 
-						foreach ( $formatted_data as $ua => $amount ) {
+						foreach ( $formatted_data['total_downloads_browser_table']['desktop'] as $ua => $amount ) {
 
 							$percentage = round( 100 * ( absint( $amount ) / absint( $total ) ), 2 );
 
-							$response[] = array( $ua, $amount, $percentage . "%" );
+							$response['total_downloads_browser_table']['desktop'][] = array( $ua, $amount, $percentage . "%" );
+						}
+					}
+
+					if ( ! empty( $formatted_data['total_downloads_browser_table']['mobile'] ) ) {
+
+						foreach ( $formatted_data['total_downloads_browser_table']['mobile'] as $ua => $amount ) {
+
+							$percentage = round( 100 * ( absint( $amount ) / absint( $total ) ), 2 );
+
+							$response['total_downloads_browser_table']['mobile'][] = array( $ua, $amount, $percentage . "%" );
+						}
+					}
+
+					if ( ! empty( $formatted_data['total_downloads_browser_table']['other'] ) ) {
+
+						foreach ( $formatted_data['total_downloads_browser_table']['other'] as $ua => $amount ) {
+
+							$percentage = round( 100 * ( absint( $amount ) / absint( $total ) ), 2 );
+
+							$response['total_downloads_browser_table']['other'][] = array( $ua, $amount, $percentage . "%" );
 						}
 					}
 					break;
 			}
 		}
-
 		wp_send_json( $response );
 		exit;
 	}
