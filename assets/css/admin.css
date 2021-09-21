@@ -1520,6 +1520,9 @@ table.wp-list-table .column-thumb img {
   padding: 5px 10px;
   font-size: 11px;
 }
+#total_downloads_browser_table a.nav-tab {
+  text-transform: capitalize;
+}
 .post-type-dlm_download .nav-tab-wrapper a.nav-tab {
   margin: 0 auto;
   border-right: 0;
