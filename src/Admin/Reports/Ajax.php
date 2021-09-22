@@ -98,7 +98,7 @@ class DLM_Reports_Ajax {
 						/** @var DLM_Download_Repository $download_repo */
 						$download_repo = download_monitor()->service( 'download_repository' );
 
-						$response[] = array( "Download Title", "ID", "Times Downloaded", "%" );
+						$response[] = array( "ID", "Download Title", "Times Downloaded", "%" );
 						foreach ( $data as $row ) {
 
 							$percentage = round( 100 * ( absint( $row->amount ) / absint( $total ) ), 2 );
@@ -107,8 +107,8 @@ class DLM_Reports_Ajax {
 
 								$download   = $download_repo->retrieve_single( $row->value );
 								$response[] = array(
-									sprintf( "%s", $download->get_title() ),
 									'<a href="' . esc_url( $download->get_the_download_link() ) . '" target="_blank">' . $download->get_id() . '</a>',
+									sprintf( "%s", $download->get_title() ),
 									$row->amount,
 									$percentage . "%"
 								);
