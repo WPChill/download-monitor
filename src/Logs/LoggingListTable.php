@@ -12,9 +12,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	private $filter_month = '';
 	private $filter_user = 0;
 
-	/** @var UAParser */
-	private $uaparser = null;
-
 	/** @var bool $display_delete_message */
 	private $display_delete_message = false;
 
@@ -31,8 +28,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			'plural'   => 'logs',
 			'ajax'     => false
 		) );
-
-		$this->uaparser = new UAParser();
 
 		$this->filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
 		$this->logs_per_page = ! empty( $_REQUEST['logs_per_page'] ) ? intval( $_REQUEST['logs_per_page'] ) : 25;
@@ -174,11 +169,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			case 'user_ip' :
 				return '<a href="http://whois.arin.net/rest/ip/' . $log->get_user_ip() . '" target="_blank">' . $log->get_user_ip() . '</a>';
 				break;
-			case 'user_ua' :
-				$ua = $this->uaparser->parse( $log->get_user_agent() );
-
-				return $ua->toFullString;
-				break;
 		}
 	}
 
@@ -196,7 +186,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			'file'     => __( 'File', 'download-monitor' ),
 			'user'     => __( 'User', 'download-monitor' ),
 			'user_ip'  => __( 'IP Address', 'download-monitor' ),
-			'user_ua'  => __( 'User Agent', 'download-monitor' ),
 			'date'     => __( 'Date', 'download-monitor' ),
 		);
 
@@ -214,7 +203,6 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			'file'     => array( 'version_id', false ),
 			'user'     => array( 'user_id', false ),
 			'user_ip'  => array( 'user_ip', false ),
-			'user_ua'  => array( 'user_agent', false ),
 			'date'     => array( 'download_date', false )
 		);
 	}

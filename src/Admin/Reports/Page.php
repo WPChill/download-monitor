@@ -216,17 +216,12 @@ class DLM_Reports_Page {
                     <li id="popular"><label>Most Popular Download</label><span>...</span></li>
                 </ul>
             </div>
-			<div>
+			<div class="total_downloads_chart-wrapper">
 				<canvas class="dlm-reports-block dlm-reports-block-chart" id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></canvas>
 			</div>
 
-            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half"
+            <div class="dlm-reports-block dlm-reports-block-table"
                  id="total_downloads_table"<?php echo $this->generate_js_data(); ?>>
-                <span class="dlm-reports-placeholder-no-data">NO DATA</span>
-            </div>
-
-            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half-right"
-                 id="total_downloads_browser_table"<?php echo $this->generate_js_data(); ?>>
                 <span class="dlm-reports-placeholder-no-data">NO DATA</span>
             </div>
 
