@@ -13,16 +13,6 @@ jQuery( function ( $ ) {
 		new DLM_Reports_Block_Table( v );
 	} );
 
-	$( '#total_downloads_browser_table' ).on( 'click', 'a', function ( e ) {
-		e.preventDefault();
-
-		var target = $( this ).attr( 'href' );
-		$( this ).addClass( 'nav-tab-active' );
-		$( '#total_downloads_browser_table' ).find( 'a' ).not( $( this ) ).removeClass( 'nav-tab-active' );
-		$( target ).removeClass( 'hidden' );
-		$( '#total_downloads_browser_table' ).find( 'table' ).not( $( target ) ).addClass( 'hidden' );
-	} );
-
 } );
 
 /**
@@ -144,10 +134,12 @@ DLM_Reports_Block_Chart.prototype.fetch = function () {
 };
 
 DLM_Reports_Block_Chart.prototype.render = function () {
+
 	if ( this.data === null ) {
 		return;
 	}
 	var chartId = document.getElementById('total_downloads_chart');
+
 	this.chart = new Chart( chartId, {
 		title: "",
 		data: this.data,
@@ -157,6 +149,14 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 		x_axis_mode: "tick",
 		y_axis_mode: "span",
 		is_series: 1,
+		options:{
+			scales:{
+				ticks:{
+					maxRotation:50,
+					minRotation:50
+				}
+			}
+		}
 	} );
 };
 
@@ -263,106 +263,45 @@ DLM_Reports_Block_Table.prototype.fetch = function () {
 };
 
 DLM_Reports_Block_Table.prototype.render = function () {
-	if ( this.data === null || (this.data.length < 2 && 'undefined' === typeof this.data['total_downloads_browser_table']) ) {
+	if ( this.data === null || (this.data.length < 2) ) {
 		return;
 	}
 
 	var instance = this;
 
-	if ( 'undefined' !== typeof this.data['total_downloads_browser_table'] ) {
+	// the table
+	var table = jQuery( document.createElement( 'table' ) );
 
-		var $data = this.data['total_downloads_browser_table'];
-		var navigation = '<h2 class="dlm-reports-tab-navigation nav-tab-wrapper">';
-		jQuery( this.container ).html( '' );
-		jQuery( this.container ).append('<div class="">');
+	table.attr( 'cellspacing', 0 ).attr( 'cellpadding', 0 ).attr( 'border', 0 );
 
-		Object.keys( $data ).forEach( key => {
+	// setup header row
+	var headerRow = document.createElement( 'tr' );
 
-			// the table
-			var table = jQuery( document.createElement( 'table' ) );
-			var table_class = 'hidden';
-			var link_class = '';
-
-			if ( 'desktop' == key ) {
-				table_class = '';
-				link_class = 'nav-tab-active';
-			}
-
-			navigation += '<a href="#' + key + '" class="nav-tab ' + link_class + '">' + key + '</a>';
-
-			table.attr( 'cellspacing', 0 ).attr( 'cellpadding', 0 ).attr( 'border', 0 ).attr( 'id', key ).attr( 'class', table_class );
-
-			// setup header row
-			var headerRow = document.createElement( 'tr' );
-
-			for ( var i = 0; i < $data[key][0].length; i++ ) {
-
-				var th = document.createElement( 'th' );
-				th.innerHTML = $data[key][0][i];
-				headerRow.appendChild( th );
-			}
-
-			// append header row
-			table.append( headerRow );
-
-			for ( var i = 1; i < $data[key].length; i++ ) {
-				// new row
-				var tr = document.createElement( 'tr' );
-
-				// loop
-				for ( var j = 0; j < $data[key][i].length; j++ ) {
-					var td = document.createElement( 'td' );
-					td.innerHTML = $data[key][i][j];
-					tr.appendChild( td );
-				}
-				// append row
-				table.append( tr );
-			}
-
-			// put table in container
-			jQuery( this.container ).append( table );
-		} );
-
-		navigation += '</div>';
-
-		jQuery( this.container ).prepend( navigation );
-
-	} else {
-
-		// the table
-		var table = jQuery( document.createElement( 'table' ) );
-
-		table.attr( 'cellspacing', 0 ).attr( 'cellpadding', 0 ).attr( 'border', 0 );
-
-		// setup header row
-		var headerRow = document.createElement( 'tr' );
-
-		for ( var i = 0; i < this.data[0].length; i++ ) {
-			var th = document.createElement( 'th' );
-			th.innerHTML = this.data[0][i];
-			headerRow.appendChild( th );
-		}
-
-		// append header row
-		table.append( headerRow );
-
-		for ( var i = 1; i < this.data.length; i++ ) {
-			// new row
-			var tr = document.createElement( 'tr' );
-
-			// loop
-			for ( var j = 0; j < this.data[i].length; j++ ) {
-				var td = document.createElement( 'td' );
-				td.innerHTML = this.data[i][j];
-				tr.appendChild( td );
-			}
-
-			// append row
-			table.append( tr );
-		}
-
-		// put table in container
-		jQuery( this.container ).html( '' ).append( table );
+	for ( var i = 0; i < instance.data[0].length; i++ ) {
+		var th = document.createElement( 'th' );
+		th.innerHTML = instance.data[0][i];
+		headerRow.appendChild( th );
 	}
+
+	// append header row
+	table.append( headerRow );
+
+	for ( var i = 1; i < instance.data.length; i++ ) {
+		// new row
+		var tr = document.createElement( 'tr' );
+
+		// loop
+		for ( var j = 0; j < instance.data[i].length; j++ ) {
+			var td = document.createElement( 'td' );
+			td.innerHTML = instance.data[i][j];
+			tr.appendChild( td );
+		}
+
+		// append row
+		table.append( tr );
+	}
+
+	// put table in container
+	jQuery( instance.container ).html( '' ).append( table );
 
 };

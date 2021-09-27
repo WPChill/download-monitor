@@ -57,9 +57,7 @@ class DLM_Reports_Ajax {
 						'from' => $from,
 						'to'   => $to
 					), $period );
-					$response['labels']   = $chart->generate_labels();
-					$response['datasets'] = array( $chart->generate_chart_data() );
-
+					$response   = $chart->generate_chart_data();
 					break;
 				case 'total_downloads_summary':
 
@@ -90,16 +88,19 @@ class DLM_Reports_Ajax {
 					$response['popular'] = $popular_download;
 					break;
 				case 'total_downloads_table':
-					$total = $repo->num_rows( $filters );
 
-					$data = $repo->retrieve_grouped_count( $filters, $period, "download_id", 0, 0, "amount", "DESC" );
+					$total = $repo->num_rows( $filters );
+					$offset = 0;
+					$limit = 15;
+					$data = $repo->retrieve_grouped_count( $filters, $period, "download_id", $limit, $offset, "amount", "DESC" );
+
 					if ( ! empty( $data ) ) {
 
 						/** @var DLM_Download_Repository $download_repo */
 						$download_repo = download_monitor()->service( 'download_repository' );
 
-						$response[] = array( "ID", "Download Title", "Times Downloaded", "%" );
-						foreach ( $data as $row ) {
+						$response[] = array( "#","ID", "Download Title", "Times Downloaded", "%" );
+						foreach ( $data as $key => $row ) {
 
 							$percentage = round( 100 * ( absint( $row->amount ) / absint( $total ) ), 2 );
 
@@ -107,6 +108,7 @@ class DLM_Reports_Ajax {
 
 								$download   = $download_repo->retrieve_single( $row->value );
 								$response[] = array(
+									absint( $key + 1 ) + absint( $offset * $limit ),
 									'<a href="' . esc_url( $download->get_the_download_link() ) . '" target="_blank">' . $download->get_id() . '</a>',
 									sprintf( "%s", $download->get_title() ),
 									$row->amount,
