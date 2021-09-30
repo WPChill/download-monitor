@@ -160,6 +160,9 @@ class WP_DLM {
 		$post_type_manager = new DLM_Post_Type_Manager();
 		$post_type_manager->setup();
 
+		// Set the REST API routes
+		$rest_api = DLM_Reports_REST_API::get_instance();
+
 		// Setup Log Filters
 		$log_filters = new DLM_Log_Filters();
 		$log_filters->setup();

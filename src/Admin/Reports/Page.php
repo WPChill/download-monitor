@@ -205,19 +205,30 @@ class DLM_Reports_Page {
 				?>
 			</h2>
 			*/
+			// getters
+
+			$dlm_rest_helper = DLM_REST_API_Helper::get_instance();
+			$summary = json_decode($dlm_rest_helper->rest_api_summary_downloads( $_GET ),true);
 			?>
 
 	        <?php do_action( 'dlm_reports_page_start' ); ?>
 			<div class="dlm-reports-block dlm-reports-block-summary"
-                 id="total_downloads_summary"<?php echo $this->generate_js_data(); ?>>
-                <ul>
-                    <li id="total"><label>Total Downloads</label><span>...</span></li>
-                    <li id="average"><label>Daily Average Downloads</label><span>...</span></li>
-                    <li id="popular"><label>Most Popular Download</label><span>...</span></li>
-                </ul>
-            </div>
+				 id="total_downloads_summary">
+				<ul>
+					<li id="total"><label>Total
+							Downloads</label><span><?php echo ( isset( $summary['total'] ) ) ? esc_html( $summary['total'] ) : '0'; ?></span>
+					</li>
+					<li id="average"><label>Daily Average
+							Downloads</label><span><?php echo ( isset( $summary['average'] ) ) ? esc_html( $summary['average'] ) : '0'; ?></span>
+					</li>
+					<li id="popular"><label>Most Popular
+							Download</label><span><?php echo ( isset( $summary['popular'] ) ) ? esc_html( $summary['popular'] ) : '0'; ?></span>
+					</li>
+				</ul>
+			</div>
 			<div class="total_downloads_chart-wrapper">
-				<canvas class="dlm-reports-block dlm-reports-block-chart" id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></canvas>
+				<canvas class="dlm-reports-block-chart"
+						id="total_downloads_chart" data-stats="<?php echo esc_attr( $dlm_rest_helper->rest_api_chart_source( $_GET ) ); ?> "></canvas>
 			</div>
 
             <div class="dlm-reports-block dlm-reports-block-table"

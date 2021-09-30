@@ -11,6 +11,7 @@ class DLM_Reports_Chart {
 		$this->data           = $data;
 		$this->date_range     = $date_range;
 		$this->current_period = $current_period;
+
 	}
 
 	/**
@@ -86,14 +87,18 @@ class DLM_Reports_Chart {
 					),
 					'elements'   => array(
 						'line'  => array(
-							'borderColor'     => 'rgb(255,0,206)',
-							'borderWidth'     => 2,
+							'borderColor' => 'rgb(255,0,206)',
+							'borderWidth' => 2,
 						),
 						'point' => array()
 					),
 					'normalized' => true,
 					'spanGaps'   => true,
-					'parsing'    => false,
+					//'parsing'    => false,
+					'parsing'    => array(
+						'xAxisKey' => 'x',
+						'yAxisKey' => 'y'
+					),
 					'animation'  => false
 				),
 			),

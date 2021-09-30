@@ -49,44 +49,6 @@ class DLM_Reports_Ajax {
 		$response = array();
 		if ( null != $id ) {
 			switch ( $id ) {
-				case 'total_downloads_chart':
-
-					$data = $repo->retrieve_grouped_count( $filters, $period );
-
-					$chart                = new DLM_Reports_Chart( $data, array(
-						'from' => $from,
-						'to'   => $to
-					), $period );
-					$response   = $chart->generate_chart_data();
-					break;
-				case 'total_downloads_summary':
-
-					// fetch totals
-					$total = $repo->num_rows( $filters );
-
-					// calculate how many days are in this range
-					$interval = $fromObj->diff( $toObj );
-					$days     = absint( $interval->format( "%a" ) ) + 1;
-
-					// fetch download stats grouped by downloads
-					$popular_download = "n/a";
-					$data             = $repo->retrieve_grouped_count( $filters, $period, "download_id", 1, 0, "amount", "DESC" );
-					if ( ! empty( $data ) ) {
-						$d           = array_shift( $data );
-						$download_id = $d->value;
-						try {
-							/** @var DLM_Download $download */
-							$download         = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
-							$popular_download = $download->get_title();
-						} catch ( Exception $e ) {
-
-						}
-					}
-
-					$response['total']   = $total;
-					$response['average'] = round( ( $total / $days ), 2 );
-					$response['popular'] = $popular_download;
-					break;
 				case 'total_downloads_table':
 
 					$total = $repo->num_rows( $filters );
