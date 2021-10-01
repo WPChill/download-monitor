@@ -47,13 +47,16 @@ class DLM_Reports_Ajax {
 		$repo = download_monitor()->service( 'log_item_repository' );
 
 		$response = array();
+		$downloads = array();
 		if ( null != $id ) {
 			switch ( $id ) {
 				case 'total_downloads_table':
 
-					$total = $repo->num_rows( $filters );
-					$offset = 0;
-					$limit = 15;
+					$total  = $repo->num_rows( $filters );
+					$offset = ( ! empty( $_GET['page'] ) ) ? absint( $_GET['page'] ) : 0;
+					$response['offset'] = $offset;
+					$limit  = 15;
+
 					$data = $repo->retrieve_grouped_count( $filters, $period, "download_id", $limit, $offset, "amount", "DESC" );
 
 					if ( ! empty( $data ) ) {
@@ -61,7 +64,7 @@ class DLM_Reports_Ajax {
 						/** @var DLM_Download_Repository $download_repo */
 						$download_repo = download_monitor()->service( 'download_repository' );
 
-						$response[] = array( "#","ID", "Download Title", "Times Downloaded", "%" );
+						$downloads[] = array( "#","ID", "Download Title", "Times Downloaded", "%" );
 						foreach ( $data as $key => $row ) {
 
 							$percentage = round( 100 * ( absint( $row->amount ) / absint( $total ) ), 2 );
@@ -69,7 +72,7 @@ class DLM_Reports_Ajax {
 							try {
 
 								$download   = $download_repo->retrieve_single( $row->value );
-								$response[] = array(
+								$downloads[] = array(
 									absint( $key + 1 ) + absint( $offset * $limit ),
 									'<a href="' . esc_url( $download->get_the_download_link() ) . '" target="_blank">' . $download->get_id() . '</a>',
 									sprintf( "%s", $download->get_title() ),
@@ -78,7 +81,7 @@ class DLM_Reports_Ajax {
 								);
 
 							} catch ( Exception $e ) {
-								$response[] = array(
+								$downloads[] = array(
 									sprintf( "Download no longer exists (#%d)", $row->value ),
 									$row->amount,
 									$percentage . "%"
@@ -91,6 +94,9 @@ class DLM_Reports_Ajax {
 					break;
 			}
 		}
+
+		$response['downloads'] = $downloads;
+
 		wp_send_json( $response );
 		exit;
 	}

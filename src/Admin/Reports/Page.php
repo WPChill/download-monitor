@@ -231,10 +231,17 @@ class DLM_Reports_Page {
 						id="total_downloads_chart" data-stats="<?php echo esc_attr( $dlm_rest_helper->rest_api_chart_source( $_GET ) ); ?> "></canvas>
 			</div>
 
-            <div class="dlm-reports-block dlm-reports-block-table"
-                 id="total_downloads_table"<?php echo $this->generate_js_data(); ?>>
-                <span class="dlm-reports-placeholder-no-data">NO DATA</span>
-            </div>
+			<div id="total_downloads_table_wrapper">
+				<div class="dlm-reports-block dlm-reports-block-table"
+					 id="total_downloads_table"<?php echo $this->generate_js_data(); ?> data-page="0">
+					<span class="dlm-reports-placeholder-no-data">NO DATA</span>
+				</div>
+				<div id="downloads-block-navigation">
+					<button class="button button-primary hidden"><?php esc_html_e( 'Prev 15', 'download-monitor' ); ?></button>
+					<button class="button button-primary hidden"
+							data-action="load-more"><?php esc_html_e( 'Next 15', 'download-monitor' ); ?></button>
+				</div>
+			</div>
 
             <?php do_action( 'dlm_reports_page_end' ); ?>
 

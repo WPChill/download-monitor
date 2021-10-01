@@ -5,31 +5,12 @@ jQuery( function ( $ ) {
 		new DLM_Reports_Block_Chart( v );
 	} );
 
-	/*$.each( $( '.dlm-reports-block-table' ), function ( k, v ) {
+	$.each( $( '.dlm-reports-block-table' ), function ( k, v ) {
 		new DLM_Reports_Block_Table( v );
-	} );*/
+	} );
 
+	new DLM_Table_Navigation();
 } );
-
-/**
- * Creates a loader obj used in report blocks
- *
- * @returns {Element}
- * @constructor
- */
-function DLM_createLoaderObj() {
-	var loaderObj = document.createElement( "div" );
-	loaderObj = jQuery( loaderObj );
-	loaderObj.addClass( 'dlm_reports_loader' );
-
-	var loaderImgObj = document.createElement( "img" );
-	loaderImgObj = jQuery( loaderImgObj );
-	loaderImgObj.attr( 'src', dlm_rs.img_path + 'ajax-loader.gif' );
-
-	loaderObj.append( loaderImgObj );
-
-	return loaderObj;
-}
 
 /**
  * DLM_Reports_Data
@@ -48,6 +29,7 @@ var DLM_Reports_Data = function ( el ) {
 		this.to = jQuery( el ).data( 'to' );
 		this.from = jQuery( el ).data( 'from' );
 		this.period = jQuery( el ).data( 'period' );
+		this.page = (jQuery( el ).find( 'table.active' ).length > 0) ? jQuery( el ).find( 'table.active' ).data( 'page' ) : 0;
 	};
 	this.init( el );
 };
@@ -68,19 +50,21 @@ var DLM_Reports_Data_Fetch = function ( id, data, cb ) {
 };
 
 DLM_Reports_Data_Fetch.prototype.fetch = function () {
-	var id = this.id;
-	var cb = this.cb;
-	var from = this.data.from;
-	var to = this.data.to;
-	var period = this.data.period;
+	var id     = this.id,
+	    cb     = this.cb,
+	    from   = this.data.from,
+	    to     = this.data.to,
+	    period = this.data.period,
+	    offset = this.data.page;
 
 	jQuery.get( ajaxurl, {
 		action: 'dlm_reports_data',
-		nonce: dlm_rs.ajax_nonce,
-		id: id,
-		from: from,
-		to: to,
-		period: period
+		nonce : dlm_rs.ajax_nonce,
+		id    : id,
+		from  : from,
+		to    : to,
+		period: period,
+		page  : offset
 	}, function ( response ) {
 		cb( response );
 	} );
@@ -105,42 +89,41 @@ var DLM_Reports_Block_Chart = function ( c ) {
 	this.setup = function () {
 		this.id = jQuery( this.container ).attr( 'id' );
 		this.queryData = new DLM_Reports_Data( this.container );
-		this.fetch();
+		this.render();
 	};
 
 	this.setup();
 
 };
 
-DLM_Reports_Block_Chart.prototype.fetch = function () {
-	this.render();
-};
-
 DLM_Reports_Block_Chart.prototype.render = function () {
 
-	var chartId = document.getElementById( 'total_downloads_chart' );
-	var data_test = JSON.parse( jQuery( '#total_downloads_chart' ).data( 'stats' ) );
+	var chartId   = document.getElementById( 'total_downloads_chart' ),
+	    stats     = jQuery( '#total_downloads_chart' ).data( 'stats' ),
+	    data_test = stats.length ? JSON.parse( stats ) : false;
 
+	if ( data_test ) {
 
-	this.chart = new Chart( chartId, {
-		title      : "",
-		data       : data_test,
-		type       : 'line',
-		height     : 250,
-		show_dots  : 0,
-		x_axis_mode: "tick",
-		y_axis_mode: "span",
-		is_series  : 1,
-		options    : {
-			scales : {
-				ticks: {
-					maxRotation: 50,
-					minRotation: 50
+		this.chart = new Chart( chartId, {
+			title      : "",
+			data       : data_test,
+			type       : 'line',
+			height     : 250,
+			show_dots  : 0,
+			x_axis_mode: "tick",
+			y_axis_mode: "span",
+			is_series  : 1,
+			options    : {
+				scales: {
+					ticks: {
+						maxRotation: 50,
+						minRotation: 50
+					},
 				},
-			},
-			//parsing: false
-		}
-	} );
+				//parsing: false
+			}
+		} );
+	}
 };
 
 /**
@@ -162,7 +145,6 @@ var DLM_Reports_Block_Table = function ( c ) {
 	this.setup = function () {
 		this.id = jQuery( this.container ).attr( 'id' );
 		this.data = new DLM_Reports_Data( this.container );
-		this.displayLoader();
 		this.fetch();
 	};
 
@@ -170,19 +152,10 @@ var DLM_Reports_Block_Table = function ( c ) {
 
 };
 
-DLM_Reports_Block_Table.prototype.displayLoader = function () {
-	jQuery( this.container ).append( DLM_createLoaderObj() );
-};
-
-DLM_Reports_Block_Table.prototype.hideLoader = function () {
-	jQuery( this.container ).find( '.dlm_reports_loader' ).remove();
-};
-
 DLM_Reports_Block_Table.prototype.fetch = function () {
 	var instance = this;
 	new DLM_Reports_Data_Fetch( this.id, this.data, function ( response ) {
 		instance.data = response;
-		instance.hideLoader();
 		instance.render();
 	} );
 };
@@ -202,23 +175,23 @@ DLM_Reports_Block_Table.prototype.render = function () {
 	// setup header row
 	var headerRow = document.createElement( 'tr' );
 
-	for ( var i = 0; i < instance.data[0].length; i++ ) {
+	for ( var i = 0; i < instance.data['downloads'][0].length; i++ ) {
 		var th = document.createElement( 'th' );
-		th.innerHTML = instance.data[0][i];
+		th.innerHTML = instance.data['downloads'][0][i];
 		headerRow.appendChild( th );
 	}
 
 	// append header row
 	table.append( headerRow );
 
-	for ( var i = 1; i < instance.data.length; i++ ) {
+	for ( var i = 1; i < instance.data['downloads'].length; i++ ) {
 		// new row
 		var tr = document.createElement( 'tr' );
 
 		// loop
-		for ( var j = 0; j < instance.data[i].length; j++ ) {
+		for ( var j = 0; j < instance.data['downloads'][i].length; j++ ) {
 			var td = document.createElement( 'td' );
-			td.innerHTML = instance.data[i][j];
+			td.innerHTML = instance.data['downloads'][i][j];
 			tr.appendChild( td );
 		}
 
@@ -226,7 +199,88 @@ DLM_Reports_Block_Table.prototype.render = function () {
 		table.append( tr );
 	}
 
+	table.attr( 'data-page', parseInt( instance.data['offset'] ) + 1 ).css( 'left', '999px' ).addClass( 'active' );
+
+	jQuery( instance.container ).find( 'table' ).not( table ).animate( {
+		left: -9999
+	}, 1200 );
+
+	jQuery( instance.container ).find( '.dlm-reports-placeholder-no-data' ).remove();
 	// put table in container
-	jQuery( instance.container ).html( '' ).append( table );
+	jQuery( instance.container ).append( table ).attr( 'data-page', instance.data['offset'] );
+
+	if ( 1 < (parseInt( instance.data['offset'] ) + 1) ) {
+		jQuery( '#downloads-block-navigation button.hidden' ).removeClass( 'hidden' );
+	} else {
+		jQuery( '#downloads-block-navigation button' ).not( '#downloads-block-navigation button[data-action="load-more"]' ).addClass( 'hidden' );
+	}
+
+	jQuery( instance.container ).find( 'table' ).not( table ).removeClass( 'active' );
+
+	table.animate( {
+		left: 0
+	}, 600 );
+
+	jQuery( instance.container ).next( '#downloads-block-navigation' ).find( 'button' ).removeAttr( 'disabled' );
+	jQuery( instance.container ).next( '#downloads-block-navigation' ).find( 'button[data-action="load-more"]' ).removeClass('hidden');
 
 };
+
+var DLM_Table_Navigation = function () {
+
+	jQuery( '#downloads-block-navigation' ).on( 'click', 'button', function () {
+
+		let main_parent   = jQuery( this ).parents( '#total_downloads_table_wrapper' ),
+		    current_table = main_parent.find( 'table.active' ),
+		    offset        = current_table.data( 'page' ),
+		    prev_table    = current_table.prev(),
+		    next_table    = current_table.next(),
+		    link          = jQuery( this );
+
+		link.attr( 'disabled', 'disabled' );
+
+		// Check if we click the next/load more button
+		if ( 'load-more' === jQuery( this ).data( 'action' ) ) {
+
+			// If there is a
+			if ( next_table.length ) {
+
+				current_table.animate( {
+					left: -999
+				}, 1200 ).removeClass( 'active' );
+
+				next_table.animate( {
+					left: 0
+				}, 1200 ).addClass( 'active' );
+
+				// Remove on all buttons, as it will be at least page 2
+				setTimeout( function () {
+					jQuery( '#downloads-block-navigation' ).find( 'button' ).removeAttr( 'disabled' );
+				}, 1200 );
+
+			} else {
+
+				//
+				new DLM_Reports_Block_Table( main_parent.find( '.dlm-reports-block-table' ) );
+			}
+
+		} else {
+			if ( 1 !== offset ) {
+
+				current_table.animate( {
+					left: -999
+				}, 1200 ).removeClass( 'active' );
+
+				prev_table.animate( {
+					left: 0
+				}, 1200 ).addClass( 'active' );
+
+				if ( 2 < offset ) {
+					setTimeout( function () {
+						link.removeAttr( 'disabled' );
+					}, 1200 );
+				}
+			}
+		}
+	} );
+}
