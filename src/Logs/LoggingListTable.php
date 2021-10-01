@@ -381,8 +381,8 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		}
 
 		// check for order
-		$order_by = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'download_date';
-		$order    = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'DESC';
+		$order_by = ( ! empty( $_GET['orderby'] ) ) ? sanitize_sql_orderby( $_GET['orderby'] ) : 'download_date';
+		$order    = ( ! empty( $_GET['order'] ) ) ? esc_sql( $_GET['order'] ) : 'DESC';
 
 		/** @var DLM_WordPress_Log_Item_Repository $log_item_repository */
 		$log_item_repository = download_monitor()->service( 'log_item_repository' );

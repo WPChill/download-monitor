@@ -120,8 +120,8 @@ class Checkout {
 	 */
 	private function get_order_from_url() {
 		// get order data
-		$order_id   = absint( ( isset( $_GET['order_id'] ) ) ? $_GET['order_id'] : 0 );
-		$order_hash = ( isset( $_GET['order_hash'] ) ? $_GET['order_hash'] : '' );
+		$order_id   = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : 0;
+		$order_hash = isset( $_GET['order_hash'] ) ? sanitize_text_field( $_GET['order_hash'] ) : '';
 		$order      = null;
 
 		if ( $order_id > 0 ) {

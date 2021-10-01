@@ -133,6 +133,7 @@ Fixed: Fatal error on URL with version param ( https://github.com/WPChill/downlo
 Changed: Notice display
 Changed: Tab reconstruction and settings structure
 Changed: TinyMCE interface for short description ( https://github.com/WPChill/download-monitor/issues/708 )
+Fixed : Added layer of security against certain SQL Injections
 
 = 4.4.4: October 19, 2020 =
 * Tweak: Fixed PHP 7.4 notices.
