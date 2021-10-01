@@ -71,16 +71,35 @@ if ( ! class_exists( 'DLM_REST_API_Helper' ) ) {
 				$period = 'day';
 			}
 
-			$response = wp_remote_get( esc_url(get_home_url() . '/wp-json/download-monitor/v1/chart_stats?start_date=' . $date_from . '&end_date=' . $date_to . '&period=' . $period ));
+			$response = wp_remote_get( get_home_url() . '/wp-json/download-monitor/v1/chart_stats' );
+
 			$data     = false;
 
 			if ( ! is_wp_error( $response ) ) {
 
 				// Decode the data that we got.
-				$data = wp_remote_retrieve_body( $response );
+				$data = json_decode(wp_remote_retrieve_body( $response ));
 			}
 
-			return $data;
+			$order_data = false;
+
+			if ( $data->datasets[0]->data ) {
+
+
+				foreach ( $data->datasets[0]->data as $log ) {
+
+					$log_date = strtotime( $log->x );
+
+					if ( strtotime( $date_from ) < $log_date && $log_date < strtotime( $date_to ) ) {
+
+						$order_data[] = $log;
+					}
+				}
+
+				$data->datasets[0]->data = $order_data;
+			}
+
+			return json_encode($data);
 
 		}
 

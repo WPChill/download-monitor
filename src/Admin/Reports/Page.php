@@ -209,6 +209,7 @@ class DLM_Reports_Page {
 
 			$dlm_rest_helper = DLM_REST_API_Helper::get_instance();
 			$summary = json_decode($dlm_rest_helper->rest_api_summary_downloads( $_GET ),true);
+			$dlm_rest_helper->rest_api_chart_source( $_GET );
 			?>
 
 	        <?php do_action( 'dlm_reports_page_start' ); ?>

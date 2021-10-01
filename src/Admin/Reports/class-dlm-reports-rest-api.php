@@ -56,9 +56,10 @@ if ( ! class_exists( 'DLM_Reports_REST_API' ) ) {
 				'download-monitor/v1',
 				'/chart_stats',
 				array(
-					'methods'  => 'GET',
-					'callback' => array( $this, 'chart_stats' ),
-					'args'     => array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'chart_stats' ),
+					'permission_callback' => '__return_true',
+					'args'                => array(
 						'start_date' => array(
 							'validate_callback' => array( $this, 'validate_date_param' ),
 						),
@@ -74,9 +75,10 @@ if ( ! class_exists( 'DLM_Reports_REST_API' ) ) {
 				'download-monitor/v1',
 				'/total_stats',
 				array(
-					'methods'  => 'GET',
-					'callback' => array( $this, 'total_stats' ),
-					'args'     => array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'total_stats' ),
+					'permission_callback' => '__return_true',
+					'args'                => array(
 						'start_date' => array(
 							'validate_callback' => array( $this, 'validate_date_param' ),
 						),
@@ -122,9 +124,14 @@ if ( ! class_exists( 'DLM_Reports_REST_API' ) ) {
 
 			$data = $repo->retrieve_grouped_count( $args['filters'], $args['period'] );
 
-			$chart = new DLM_Reports_Chart( $data, array(
+		/*	$chart = new DLM_Reports_Chart( $data, array(
 				'from' => $args['start_date'],
 				'to'   => $args['end_date']
+			), $args['period'] );*/
+
+			$chart = new DLM_Reports_Chart( $data, array(
+				'from' => '2010-01-01',
+				'to'   => date('Y-m-d')
 			), $args['period'] );
 
 			$response = $chart->generate_chart_data();
@@ -188,8 +195,14 @@ if ( ! class_exists( 'DLM_Reports_REST_API' ) ) {
 		 * @since 4.4.6
 		 */
 		private function respond( $data ) {
+
 			$result = new \WP_REST_Response( $data, 200 );
-			$result->set_headers( array( 'Cache-Control' => 'max-age=300' ) );
+			$result->set_headers(
+				array(
+					'Cache-Control' => 'max-age=3600, s-max-age=3600',
+					'Content-Type'  => 'application/json'
+				)
+			);
 
 			return $result;
 		}
