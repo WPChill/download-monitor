@@ -878,7 +878,6 @@ table.wp-list-table {
     background: #fff;
     border: 1px solid #e5e5e5;
     overflow: hidden;
-    float: left;
 
     &.dlm-reports-block-half {
       width: 49%;
@@ -924,6 +923,8 @@ table.wp-list-table {
 
     table {
       width: 100%;
+      float: left;
+      position: relative;
 
       th, td {
         text-align: center;
@@ -945,6 +946,24 @@ table.wp-list-table {
 .dlm-reports-block-summary {
   background: #333!important;
   color: white;
+}
+
+#total_downloads_table_wrapper,
+.total_downloads_chart-wrapper {
+  width: 100%;
+  float: left;
+}
+
+#total_downloads_table_wrapper {
+  .dlm-reports-block {
+    table {
+      position: absolute;
+
+      &.active {
+        position: relative;
+      }
+    }
+  }
 }
 
 /** Products overview page */
@@ -1162,6 +1181,15 @@ table.wp-list-table {
 }
 
 @media (min-width: 768px) {
+
+  .total_downloads_chart-wrapper {
+    width: 65%;
+  }
+
+  #total_downloads_table_wrapper {
+    width: 35%;
+  }
+
   .dlm-order-details {
 
     .dlm-order-details-main {
@@ -1584,4 +1612,11 @@ table.wp-list-table {
   .wpchill-upsell {
     margin-top: 0;
   }
+}
+
+.disabled-link {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
 }

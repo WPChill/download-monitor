@@ -1054,7 +1054,6 @@ table.wp-list-table .column-thumb img {
   background: #fff;
   border: 1px solid #e5e5e5;
   overflow: hidden;
-  float: left;
 }
 .dlm-reports .dlm-reports-block.dlm-reports-block-half {
   width: 49%;
@@ -1096,6 +1095,8 @@ table.wp-list-table .column-thumb img {
 }
 .dlm-reports .dlm-reports-block table {
   width: 100%;
+  float: left;
+  position: relative;
 }
 .dlm-reports .dlm-reports-block table th,
 .dlm-reports .dlm-reports-block table td {
@@ -1113,6 +1114,17 @@ table.wp-list-table .column-thumb img {
 .dlm-reports-block-summary {
   background: #333 !important;
   color: white;
+}
+#total_downloads_table_wrapper,
+.total_downloads_chart-wrapper {
+  width: 100%;
+  float: left;
+}
+#total_downloads_table_wrapper .dlm-reports-block table {
+  position: absolute;
+}
+#total_downloads_table_wrapper .dlm-reports-block table.active {
+  position: relative;
 }
 /** Products overview page */
 .post-type-dlm_product table.wp-list-table .column-title {
@@ -1282,6 +1294,12 @@ table.wp-list-table .column-thumb img {
   color: #46b450;
 }
 @media (min-width: 768px) {
+  .total_downloads_chart-wrapper {
+    width: 65%;
+  }
+  #total_downloads_table_wrapper {
+    width: 35%;
+  }
   .dlm-order-details .dlm-order-details-main {
     width: 62%;
     float: left;
@@ -1612,4 +1630,10 @@ table.wp-list-table .column-thumb img {
 }
 .upsells-columns .wpchill-upsell {
   margin-top: 0;
+}
+.disabled-link {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
 }
