@@ -185,11 +185,11 @@ class DLM_Reports_Page {
 
             <h1><?php
 				_e( 'Download Reports', 'download-monitor' );
-				echo '<div class="dlm-reports-actions">';
+				echo '<div class="wp-clearfix text-right"><div class="dlm-reports-actions">';
 				$this->chart_button();
 				$this->date_range_button();
 				$this->period_interval_buttons();
-				echo "</div>";
+				echo "</div></div>";
 				?></h1>
             <br/>
 			<?php

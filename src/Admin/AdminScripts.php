@@ -135,6 +135,23 @@ class DLM_Admin_Scripts {
 				true
 			);
 
+			wp_enqueue_script(
+				'dlm_reports_moment',
+				plugins_url( '/assets/js/reports/moment' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
+			);
+
+			wp_enqueue_script(
+				'dlm_reports_datepicker',
+				plugins_url( '/assets/js/reports/jquery.daterangepicker' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery', 'dlm_reports_moment' ),
+				DLM_VERSION,
+				true
+			);
+
+
 		}
 
 		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && ( 'download-monitor-settings' === $_GET['page'] || 'dlm-extensions' === $_GET['page'] ) ) {

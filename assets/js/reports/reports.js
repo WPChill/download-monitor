@@ -108,7 +108,7 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 			title      : "",
 			data       : data_test,
 			type       : 'line',
-			height     : 250,
+			height     : 450,
 			show_dots  : 0,
 			x_axis_mode: "tick",
 			y_axis_mode: "span",
