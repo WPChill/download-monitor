@@ -58,16 +58,7 @@ if ( ! class_exists( 'DLM_Reports_REST_API' ) ) {
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, 'chart_stats' ),
-					'permission_callback' => '__return_true',
-					'args'                => array(
-						'start_date' => array(
-							'validate_callback' => array( $this, 'validate_date_param' ),
-						),
-						'end_date'   => array(
-							'validate_callback' => array( $this, 'validate_date_param' ),
-						),
-						'period'     => array(),
-					),
+					'permission_callback' => '__return_true',				
 				)
 			);
 
@@ -122,17 +113,12 @@ if ( ! class_exists( 'DLM_Reports_REST_API' ) ) {
 			/** @var DLM_WordPress_Log_Item_Repository $repo */
 			$repo = download_monitor()->service( 'log_item_repository' );
 
-			$data = $repo->retrieve_grouped_count( $args['filters'], $args['period'] );
-
-		/*	$chart = new DLM_Reports_Chart( $data, array(
-				'from' => $args['start_date'],
-				'to'   => $args['end_date']
-			), $args['period'] );*/
+			$data = $repo->retrieve_grouped_count( $args['filters'], 'day' );
 
 			$chart = new DLM_Reports_Chart( $data, array(
 				'from' => '2010-01-01',
 				'to'   => date('Y-m-d')
-			), $args['period'] );
+			),'day' );
 
 			$response = $chart->generate_chart_data();
 

@@ -51,7 +51,7 @@ if ( ! class_exists( 'DLM_REST_API_Helper' ) ) {
 		 */
 		public function rest_api_chart_source( $args ) {
 
-			if ( isset( $args['date_from'] ) ) {
+			 if ( isset( $args['date_from'] ) ) {
 				$date_from = $args['date_from'];
 			} else {
 				$date_from = new DateTime( 'tomorrow' );
@@ -69,13 +69,15 @@ if ( ! class_exists( 'DLM_REST_API_Helper' ) ) {
 				$period = $args['period'];
 			} else {
 				$period = 'day';
-			}
-
+			} 
+			
 			$response = wp_remote_get( get_home_url() . '/wp-json/download-monitor/v1/chart_stats' );
 
 			$data     = false;
 
 			if ( ! is_wp_error( $response ) ) {
+
+				return wp_remote_retrieve_body( $response );
 
 				// Decode the data that we got.
 				$data = json_decode(wp_remote_retrieve_body( $response ));
@@ -99,7 +101,7 @@ if ( ! class_exists( 'DLM_REST_API_Helper' ) ) {
 				$data->datasets[0]->data = $order_data;
 			}
 
-			return json_encode($data);
+			return json_encode($data); 
 
 		}
 

@@ -5,9 +5,9 @@ jQuery( function ( $ ) {
 		new DLM_Reports_Block_Chart( v );
 	} );
 
-	$.each( $( '.dlm-reports-block-table' ), function ( k, v ) {
+	/*$.each( $( '.dlm-reports-block-table' ), function ( k, v ) {
 		new DLM_Reports_Block_Table( v );
-	} );
+	} );*/
 
 	new DLM_Table_Navigation();
 } );
@@ -103,6 +103,37 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 	    data_test = stats.length ? JSON.parse( stats ) : false;
 
 	if ( data_test ) {
+
+		const today = new Date();
+		const yesterday = new Date( today );
+		yesterday.setDate( yesterday.getDate());
+		const lastMonth = new Date( yesterday );
+		yesterday.setDate( lastMonth.getDate() - 30 );
+
+		const startDate = createDateElement( yesterday );
+		const endDate = createDateElement( lastMonth );
+
+		const start = data_test.datasets[0]['data'].findIndex( ( element ) => {
+
+			let element_date = new Date( element.x );
+			element_date = createDateElement( element_date );
+
+			return startDate === element_date;
+		} );
+
+		const end = data_test.datasets[0]['data'].findIndex( ( element ) => {
+
+			let element_date = new Date( element.x );
+			element_date = createDateElement( element_date );
+			return endDate === element_date;
+
+		} );
+
+		let new_data_sets = data_test.datasets[0]['data'].slice( start, end );
+		let new_labels = data_test.labels.slice( start, end );
+
+		data_test.datasets[0]['data'] = new_data_sets;
+		data_test.labels = new_labels
 
 		this.chart = new Chart( chartId, {
 			title      : "",

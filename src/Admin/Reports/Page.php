@@ -132,7 +132,7 @@ class DLM_Reports_Page {
 		$end        = new DateTime( $date_range['to'] );
 		?>
         <div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
-			<?php echo $start->format( "d M Y" ) . " - " . $end->format( "d M Y" ); ?>
+			<span class="date-range-info"><?php echo $start->format( 'M d, Y' ) . " to " . $end->format( 'M d, Y'); ?></span>
             <span class="dlm-arrow"></span>
         </div>
 		<?php
