@@ -2353,13 +2353,13 @@
 
             html += '<div class="footer">';
             if (opt.showShortcuts) {
-                html += '<div class="shortcuts"><b>' + translate('shortcuts') + '</b>';
+                html += '<div class="shortcuts">';
 
                 var data = opt.shortcuts;
                 if (data) {
                     var name;
                     if (data['prev-days'] && data['prev-days'].length > 0) {
-                        html += '&nbsp;<span class="prev-days">' + translate('past');
+                        html += '<span class="prev-days">' + translate('past');
                         for (var i = 0; i < data['prev-days'].length; i++) {
                             name = data['prev-days'][i];
                             name += (data['prev-days'][i] > 1) ? translate('days') : translate('day');
@@ -2369,7 +2369,7 @@
                     }
 
                     if (data['next-days'] && data['next-days'].length > 0) {
-                        html += '&nbsp;<span class="next-days">' + translate('following');
+                        html += '<span class="next-days">' + translate('following');
                         for (var i = 0; i < data['next-days'].length; i++) {
                             name = data['next-days'][i];
                             name += (data['next-days'][i] > 1) ? translate('days') : translate('day');
@@ -2379,7 +2379,7 @@
                     }
 
                     if (data.prev && data.prev.length > 0) {
-                        html += '&nbsp;<span class="prev-buttons">' + translate('previous');
+                        html += '<span class="prev-buttons">' + translate('previous');
                         for (var i = 0; i < data.prev.length; i++) {
                             name = translate('prev-' + data.prev[i]);
                             html += ' <a href="javascript:;" shortcut="prev,' + data.prev[i] + '">' + name + '</a>';
@@ -2388,7 +2388,7 @@
                     }
 
                     if (data.next && data.next.length > 0) {
-                        html += '&nbsp;<span class="next-buttons">' + translate('next');
+                        html += '<span class="next-buttons">' + translate('next');
                         for (var i = 0; i < data.next.length; i++) {
                             name = translate('next-' + data.next[i]);
                             html += ' <a href="javascript:;" shortcut="next,' + data.next[i] + '">' + name + '</a>';
@@ -2400,7 +2400,7 @@
                 if (opt.customShortcuts) {
                     for (var i = 0; i < opt.customShortcuts.length; i++) {
                         var sh = opt.customShortcuts[i];
-                        html += '&nbsp;<span class="custom-shortcut"><a href="javascript:;" shortcut="custom">' + sh.name + '</a></span>';
+                        html += '<a href="javascript:;" shortcut="custom">' + sh.name + '</a>';
                     }
                 }
                 html += '</div>';
@@ -2419,7 +2419,6 @@
             }
 
             html += '</div></div>';
-
 
             return $(html);
         }

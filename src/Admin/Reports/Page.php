@@ -115,14 +115,6 @@ class DLM_Reports_Page {
 	}
 
 	/**
-	 * Char button
-	 */
-	private function chart_button() {
-		$other_chart = ( "line" == $this->get_current_chart() ) ? "bar" : "line";
-		echo "<a title='" . sprintf( __( "Switch to %s", 'download-monitor' ), $other_chart ) . "' href='" . add_query_arg( array( 'chart' => $other_chart ), $this->get_url() ) . "' class='button dlm-reports-header-chart-switcher dlm-" . $other_chart . "'></a>";
-	}
-
-	/**
 	 * Date range filter element
 	 */
 	private function date_range_button() {
@@ -132,21 +124,11 @@ class DLM_Reports_Page {
 		$end        = new DateTime( $date_range['to'] );
 		?>
         <div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
+			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
 			<span class="date-range-info"><?php echo $start->format( 'M d, Y' ) . " to " . $end->format( 'M d, Y'); ?></span>
             <span class="dlm-arrow"></span>
         </div>
 		<?php
-	}
-
-	/**
-	 * Period interval buttons
-	 */
-	private function period_interval_buttons() {
-		$current = $this->get_current_period();
-		echo "<div class='dlm-reports-header-period'>";
-		echo "<a href='" . add_query_arg( array( 'period' => 'day' ), $this->get_url() ) . "' class='button" . ( ( 'day' === $current ) ? ' active' : '' ) . "'>" . __( 'Per Day', 'download-monitor' ) . "</a>";
-		echo "<a href='" . add_query_arg( array( 'period' => 'month' ), $this->get_url() ) . "' class='button" . ( ( 'month' === $current ) ? ' active' : '' ) . "'>" . __( 'Month', 'download-monitor' ) . "</a>";
-		echo "</div>";
 	}
 
 	private function generate_js_data() {
@@ -186,9 +168,7 @@ class DLM_Reports_Page {
             <h1><?php
 				_e( 'Download Reports', 'download-monitor' );
 				echo '<div class="wp-clearfix text-right"><div class="dlm-reports-actions">';
-				$this->chart_button();
 				$this->date_range_button();
-				$this->period_interval_buttons();
 				echo "</div></div>";
 				?></h1>
             <br/>

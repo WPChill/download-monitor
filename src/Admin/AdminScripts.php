@@ -116,24 +116,6 @@ class DLM_Admin_Scripts {
 				true
 			);
 
-			wp_enqueue_script(
-				'dlm_reports',
-				plugins_url( '/assets/js/reports/reports.js', $dlm->get_plugin_file() ),
-				array( 'jquery','dlm_reports_chartjs' ),
-				DLM_VERSION,
-				true
-			);
-
-			// Make JavaScript strings translatable
-			wp_localize_script( 'dlm_reports', 'dlm_rs', $this->get_strings( 'reports' ) );
-
-			wp_enqueue_script(
-				'dlm_reports_date_range_selector',
-				plugins_url( '/assets/js/reports/charts-date-range-selector' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery' ),
-				DLM_VERSION,
-				true
-			);
 
 			wp_enqueue_script(
 				'dlm_reports_moment',
@@ -151,6 +133,17 @@ class DLM_Admin_Scripts {
 				true
 			);
 
+
+			wp_enqueue_script(
+				'dlm_reports',
+				plugins_url( '/assets/js/reports/reports.js', $dlm->get_plugin_file() ),
+				array( 'jquery','dlm_reports_chartjs' ),
+				DLM_VERSION,
+				true
+			);
+
+			// Make JavaScript strings translatable
+			wp_localize_script( 'dlm_reports', 'dlm_rs', $this->get_strings( 'reports' ) );
 
 		}
 

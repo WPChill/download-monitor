@@ -71,7 +71,7 @@ if ( ! class_exists( 'DLM_REST_API_Helper' ) ) {
 				$period = 'day';
 			} 
 			
-			$response = wp_remote_get( get_home_url() . '/wp-json/download-monitor/v1/chart_stats' );
+			$response = wp_remote_get( get_home_url() . '/wp-json/download-monitor/v1/stats' );
 
 			$data     = false;
 
