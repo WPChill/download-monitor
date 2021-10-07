@@ -121,6 +121,9 @@ class WP_DLM {
 			$onboarding->setup();
 		}
 
+		// Set Reports. We set them here in order to also create the REST Api calls
+		$reports = DLM_Reports::get_instance();
+
 		// Setup AJAX handler if doing AJAX
 		if ( defined( 'DOING_AJAX' ) ) {
 			new DLM_Ajax_Handler();
@@ -159,9 +162,6 @@ class WP_DLM {
 		// Setup Post Types
 		$post_type_manager = new DLM_Post_Type_Manager();
 		$post_type_manager->setup();
-
-		// Set the REST API routes
-		$rest_api = DLM_Reports_REST_API::get_instance();
 
 		// Setup Log Filters
 		$log_filters = new DLM_Log_Filters();

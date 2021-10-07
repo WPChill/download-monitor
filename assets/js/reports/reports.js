@@ -5,70 +5,19 @@ jQuery( function ( $ ) {
 		new DLM_Reports_Block_Chart( v );
 	} );
 
-	$.each( $( '.dlm-reports-block-table' ), function ( k, v ) {
-		new DLM_Reports_Block_Table( v );
-	} );
+	/*$.each( $( '.dlm-reports-block-table' ), function ( k, v ) {
+	 new DLM_Reports_Block_Table( v );
+	 } );*/
 
 	new DLM_Table_Navigation();
 } );
 
-/**
- * DLM_Reports_Data
- *
- * @param el
- * @constructor
- */
-var DLM_Reports_Data = function ( el ) {
-	this.type = null;
-	this.from = null;
-	this.to = null;
-	this.period = null;
-
-	this.init = function ( el ) {
-		this.type = jQuery( el ).data( 'type' );
-		this.to = jQuery( el ).data( 'to' );
-		this.from = jQuery( el ).data( 'from' );
-		this.period = jQuery( el ).data( 'period' );
-		this.page = (jQuery( el ).find( 'table.active' ).length > 0) ? jQuery( el ).find( 'table.active' ).data( 'page' ) : 0;
-	};
-	this.init( el );
-};
-
-/**
- * DLM_Reports_Data_Fetch
- *
- * @param id
- * @param data
- * @param cb
- * @constructor
- */
-var DLM_Reports_Data_Fetch = function ( id, data, cb ) {
-	this.id = id;
-	this.data = data;
-	this.cb = cb;
-	this.fetch();
-};
-
-DLM_Reports_Data_Fetch.prototype.fetch = function () {
-	var id     = this.id,
-	    cb     = this.cb,
-	    from   = this.data.from,
-	    to     = this.data.to,
-	    period = this.data.period,
-	    offset = this.data.page;
-
-	jQuery.get( ajaxurl, {
-		action: 'dlm_reports_data',
-		nonce : dlm_rs.ajax_nonce,
-		id    : id,
-		from  : from,
-		to    : to,
-		period: period,
-		page  : offset
-	}, function ( response ) {
-		cb( response );
-	} );
-};
+jQuery.fn.extend( {
+	dlm_reports_date_range: function ( ) {
+		new DLM_Reports_Date_Range_Selector( this );
+		return this;
+	}
+} );
 
 /**
  * DLM_Reports_Block_Chart
@@ -76,7 +25,7 @@ DLM_Reports_Data_Fetch.prototype.fetch = function () {
  * @param c
  * @constructor
  */
-var DLM_Reports_Block_Chart = function ( c ) {
+const DLM_Reports_Block_Chart = function ( c ) {
 
 	this.container = c;
 	this.id = null;
@@ -86,75 +35,16 @@ var DLM_Reports_Block_Chart = function ( c ) {
 	this.data = null;
 	this.chart = null;
 
-	this.setup = function () {
-		this.id = jQuery( this.container ).attr( 'id' );
-		this.queryData = new DLM_Reports_Data( this.container );
-		this.render();
-	};
-
-	this.setup();
+	this.id = jQuery( this.container ).attr( 'id' );
+	this.render();
 
 };
 
 DLM_Reports_Block_Chart.prototype.render = function () {
 
-	var chartId   = document.getElementById( 'total_downloads_chart' ),
-	    stats     = jQuery( '#total_downloads_chart' ).data( 'stats' ),
-	    data_test = stats.length ? JSON.parse( stats ) : false;
+	const chartId = document.getElementById( 'total_downloads_chart' );
 
-	if ( data_test ) {
-
-		const today = new Date();
-		const yesterday = new Date( today );
-		yesterday.setDate( yesterday.getDate());
-		const lastMonth = new Date( yesterday );
-		lastMonth.setDate( lastMonth.getDate() - 30 );
-
-		const endDate = createDateElement( yesterday );
-		const startDate = createDateElement( lastMonth );
-
-		const start = data_test.datasets[0]['data'].findIndex( ( element ) => {
-
-			let element_date = new Date( element.x );
-			element_date = createDateElement( element_date );
-
-			return startDate === element_date;
-		} );
-
-		const end = data_test.datasets[0]['data'].findIndex( ( element ) => {
-
-			let element_date = new Date( element.x );
-			element_date = createDateElement( element_date );
-			return endDate === element_date;
-
-		} );
-
-		let new_data_sets = data_test.datasets[0]['data'].slice( start, end );
-		let new_labels = data_test.labels.slice( start, end );
-
-		data_test.datasets[0]['data'] = new_data_sets;
-		data_test.labels = new_labels;
-
-		this.chart = new Chart( chartId, {
-			title      : "",
-			data       : data_test,
-			type       : 'line',
-			height     : 450,
-			show_dots  : 0,
-			x_axis_mode: "tick",
-			y_axis_mode: "span",
-			is_series  : 1,
-			options    : {
-				scales: {
-					ticks: {
-						maxRotation: 50,
-						minRotation: 50
-					},
-				},
-				//parsing: false
-			}
-		} );
-	}
+	dlmCreateChart( createDataOnDate( false, false ), chartId );
 };
 
 /**
@@ -163,7 +53,7 @@ DLM_Reports_Block_Chart.prototype.render = function () {
  * @param c
  * @constructor
  */
-var DLM_Reports_Block_Table = function ( c ) {
+const DLM_Reports_Block_Table = function ( c ) {
 
 	this.container = c;
 	this.id = null;
@@ -175,20 +65,11 @@ var DLM_Reports_Block_Table = function ( c ) {
 
 	this.setup = function () {
 		this.id = jQuery( this.container ).attr( 'id' );
-		this.data = new DLM_Reports_Data( this.container );
-		this.fetch();
+		this.render();
 	};
 
 	this.setup();
 
-};
-
-DLM_Reports_Block_Table.prototype.fetch = function () {
-	var instance = this;
-	new DLM_Reports_Data_Fetch( this.id, this.data, function ( response ) {
-		instance.data = response;
-		instance.render();
-	} );
 };
 
 DLM_Reports_Block_Table.prototype.render = function () {
@@ -196,10 +77,10 @@ DLM_Reports_Block_Table.prototype.render = function () {
 		return;
 	}
 
-	var instance = this;
+	const instance = this;
 
 	// the table
-	var table = jQuery( document.createElement( 'table' ) );
+	const table = jQuery( document.createElement( 'table' ) );
 
 	table.attr( 'cellspacing', 0 ).attr( 'cellpadding', 0 ).attr( 'border', 0 );
 
@@ -215,12 +96,12 @@ DLM_Reports_Block_Table.prototype.render = function () {
 	// append header row
 	table.append( headerRow );
 
-	for ( var i = 1; i < instance.data['downloads'].length; i++ ) {
+	for ( let i = 1; i < instance.data['downloads'].length; i++ ) {
 		// new row
-		var tr = document.createElement( 'tr' );
+		const tr = document.createElement( 'tr' );
 
 		// loop
-		for ( var j = 0; j < instance.data['downloads'][i].length; j++ ) {
+		for ( let j = 0; j < instance.data['downloads'][i].length; j++ ) {
 			var td = document.createElement( 'td' );
 			td.innerHTML = instance.data['downloads'][i][j];
 			tr.appendChild( td );
@@ -253,20 +134,20 @@ DLM_Reports_Block_Table.prototype.render = function () {
 	}, 600 );
 
 	jQuery( instance.container ).next( '#downloads-block-navigation' ).find( 'button' ).removeAttr( 'disabled' );
-	jQuery( instance.container ).next( '#downloads-block-navigation' ).find( 'button[data-action="load-more"]' ).removeClass('hidden');
+	jQuery( instance.container ).next( '#downloads-block-navigation' ).find( 'button[data-action="load-more"]' ).removeClass( 'hidden' );
 
 };
 
-var DLM_Table_Navigation = function () {
+const DLM_Table_Navigation = function () {
 
 	jQuery( '#downloads-block-navigation' ).on( 'click', 'button', function () {
 
-		let main_parent   = jQuery( this ).parents( '#total_downloads_table_wrapper' ),
-		    current_table = main_parent.find( 'table.active' ),
-		    offset        = current_table.data( 'page' ),
-		    prev_table    = current_table.prev(),
-		    next_table    = current_table.next(),
-		    link          = jQuery( this );
+		const main_parent   = jQuery( this ).parents( '#total_downloads_table_wrapper' ),
+		      current_table = main_parent.find( 'table.active' ),
+		      offset        = current_table.data( 'page' ),
+		      prev_table    = current_table.prev(),
+		      next_table    = current_table.next(),
+		      link          = jQuery( this );
 
 		link.attr( 'disabled', 'disabled' );
 
@@ -286,7 +167,7 @@ var DLM_Table_Navigation = function () {
 
 				// Remove on all buttons, as it will be at least page 2
 				setTimeout( function () {
-					jQuery( '#downloads-block-navigation' ).find( 'button' ).removeAttr( 'disabled' );
+					link.find( 'button' ).removeAttr( 'disabled' );
 				}, 1200 );
 
 			} else {
@@ -316,30 +197,13 @@ var DLM_Table_Navigation = function () {
 	} );
 };
 
-jQuery.fn.extend( {
-	dlm_reports_date_range: function ( start_date, end_date, url ) {
-		new DLM_Reports_Date_Range_Selector( this, start_date, end_date, url );
-		return this;
-	}
-} );
-
-var DLM_Reports_Date_Range_Selector = function ( c, sd, ed, u ) {
+const DLM_Reports_Date_Range_Selector = function ( c ) {
 
 	this.container = c;
-	this.startDate = new Date( sd );
-	this.endDate = new Date( ed );
-	this.url = u;
 	this.el = null;
 	this.opened = false;
 
-	const chartData = jQuery( '#total_downloads_chart' ).data( 'stats' );
-
 	this.chartElement = document.getElementById( 'total_downloads_chart' );
-	this.chartData = chartData.length ? JSON.parse( chartData ) : false;
-
-	if ( this.chartData ) {
-		this.chartDataSets = this.chartData.datasets[0]['data'];
-	}
 
 	this.startDateInput = null;
 	this.endDateInput = null;
@@ -373,64 +237,59 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 	this.el = this.createElement();
 	this.container.append( this.el );
 	let element = this.el;
+	const calendar_start_date = new Date( dlmReportsStats.chart[0].x );
+	const currDate = new Date();
 
 	var configObject = {
-		separator      : ' to ',
-		autoClose      : true,
-		setValue       : function ( s, s1, s2 ) {
+		separator : ' to ',
+		autoClose : true,
+		setValue  : function ( s, s1, s2 ) {
 			element.find( '#dlm_start_date' ).val( s1 );
 			element.find( '#dlm_end_date' ).val( s2 );
 		},
-		inline         : true,
-		alwaysOpen     : true,
-		container      : '#dlm_date_range_picker',
-		endDate        : new Date(),
+		inline    : true,
+		alwaysOpen: true,
+		container : '#dlm_date_range_picker',
+		// End date should be current date
+		endDate: new Date(),
+		// Start date should be the first info we get about downloads
+		startDate      : calendar_start_date,
 		showShortcuts  : true,
 		shortcuts      : null,
 		customShortcuts: [
-			//if return an array of two dates, it will select the date range between the two dates
+
 			{
 				name : 'Last 7 Days',
 				dates: function () {
-					const start = new Date();
-					const end = new Date( start );
-					end.setDate( end.getDate() - 7 );
 
-					return [ start, end ];
+					return [ new Date( currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7 ), currDate ];
 				}
 			},
-			//if only return an array of one date, it will display the month which containing the date. and it will not select any date range
+
 			{
 				name : 'Last 30 Days',
 				dates: function () {
-					const start = new Date();
-					const end = new Date( start );
-					end.setDate( end.getDate() - 30 );
 
-					return [ start, end ];
+					return [ new Date( currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 30 ), currDate ];
 				}
 			},
 			{
 				name : 'This month',
 				dates: function () {
-					const start = new Date();
-					const end = new Date( start.getFullYear(), start.getMonth(), 1 );
 
-					return [ start, end ];
+					return [ new Date( currDate.getFullYear(), currDate.getMonth(), 1 ), currDate ];
 				},
 			},
 			{
 				name : 'Last month',
 				dates: function () {
 
-					const now = new Date();
+					let start = moment().month( currDate.getMonth() - 1 ).startOf( 'month' )._d;
+					let end = moment().month( currDate.getMonth() - 1 ).endOf( 'month' )._d;
 
-					let start = moment().month( now.getMonth() - 1 ).startOf( 'month' )._d;
-					let end = moment().month( now.getMonth() - 1 ).endOf( 'month' )._d;
-
-					if ( 0 === now.getMonth() ) {
-						start = moment().year( now.getFullYear() - 1 ).month( 11 ).startOf( 'month' )._d;
-						end = moment().year( now.getFullYear() - 1 ).month( 11 ).endOf( 'month' )._d;
+					if ( 0 === currDate.getMonth() ) {
+						start = moment().year( currDate.getFullYear() - 1 ).month( 11 ).startOf( 'month' )._d;
+						end = moment().year( currDate.getFullYear() - 1 ).month( 11 ).endOf( 'month' )._d;
 					}
 
 					return [ start, end ];
@@ -440,19 +299,17 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 				name : 'This Year',
 				dates: function () {
 
-					const end = new Date();
 					const start = moment().startOf( 'year' )._d;
 
-					return [ start, end ];
+					return [ start, currDate ];
 				}
 			},
 			{
 				name : 'Last Year',
 				dates: function () {
 
-					const now = new Date();
-					const start = moment().year( now.getFullYear() - 1 ).month( 0 ).startOf( 'month' )._d;
-					const end = moment().year( now.getFullYear() - 1 ).month( 11 ).endOf( 'month' )._d;
+					const start = moment().year( currDate.getFullYear() - 1 ).month( 0 ).startOf( 'month' )._d;
+					const end = moment().year( currDate.getFullYear() - 1 ).month( 11 ).endOf( 'month' )._d;
 
 
 					return [ start, end ];
@@ -462,11 +319,7 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 				name : 'All time',
 				dates: function () {
 
-					const start = moment().year( 2010 ).month( 0 ).startOf( 'month' )._d;
-					const end = new Date();
-
-
-					return [ start, end ];
+					return [ calendar_start_date, currDate ];
 				}
 			},
 		]
@@ -474,22 +327,15 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 
 	element.dateRangePicker( configObject ).bind( 'datepicker-change', ( event, obj ) => {
 
-		const startDate = createDateElement( obj.date1 );
-		const endDate = createDateElement( obj.date2 );
+		if ( obj.date1 && obj.date2 ) {
 
-		let chartData = this.chartData;
-
-		if ( startDate && endDate ) {
-
-			let date_s = new Date( startDate );
-			date_s = date_s.toLocaleDateString( undefined, {
+			const date_s = obj.date1.toLocaleDateString( undefined, {
 				year : 'numeric',
 				month: 'short',
 				day  : '2-digit'
 			} );
 
-			let date_e = new Date( endDate );
-			date_e = date_e.toLocaleDateString( undefined, {
+			const date_e = obj.date2.toLocaleDateString( undefined, {
 				year : 'numeric',
 				month: 'short',
 				day  : '2-digit'
@@ -498,57 +344,7 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 			element.parent().find( 'span.date-range-info' ).text( date_s + ' to ' + date_e );
 		}
 
-		if ( chartData ) {
-
-			const start = this.chartDataSets.findIndex( ( element ) => {
-
-				let element_date = new Date( element.x );
-				element_date = createDateElement( element_date );
-
-				return startDate === element_date;
-			} );
-
-			const end = this.chartDataSets.findIndex( ( element ) => {
-
-				let element_date = new Date( element.x );
-				element_date = createDateElement( element_date );
-
-				return endDate === element_date;
-
-			} );
-
-			let new_data_sets = this.chartDataSets.slice( start, end );
-			let new_labels = this.chartData.labels.slice( start, end );
-
-			chartData.datasets[0]['data'] = new_data_sets;
-			chartData.labels = new_labels;
-
-			const chart = Chart.getChart( "total_downloads_chart" );
-
-			if ( 'undefined' !== typeof chart ) {
-				chart.destroy();
-			}
-
-			let current_chart = new Chart( this.chartElement, {
-				title      : "",
-				data       : chartData,
-				type       : 'line',
-				height     : 450,
-				show_dots  : 0,
-				x_axis_mode: "tick",
-				y_axis_mode: "span",
-				is_series  : 1,
-				options    : {
-					scales: {
-						ticks: {
-							maxRotation: 50,
-							minRotation: 50
-						},
-					},
-					//parsing: false
-				}
-			} );
-		}
+		dlmCreateChart( createDataOnDate( obj.date1, obj.date2 ), this.chartElement );
 
 		element.data( 'dateRangePicker' ).close();
 	} );
@@ -559,15 +355,6 @@ DLM_Reports_Date_Range_Selector.prototype.hide = function () {
 	this.el.remove();
 };
 
-DLM_Reports_Date_Range_Selector.prototype.apply = function () {
-
-	var sd = new Date( this.startDateInput.val() + "T00:00:00" );
-	var ed = new Date( this.endDateInput.val() + "T00:00:00" );
-	var sds = sd.getFullYear() + "-" + (sd.getMonth() + 1) + "-" + sd.getDate();
-	var eds = ed.getFullYear() + "-" + (ed.getMonth() + 1) + "-" + ed.getDate();
-	this.hide();
-	window.location.replace( this.url + "&date_from=" + sds + "&date_to=" + eds );
-};
 
 DLM_Reports_Date_Range_Selector.prototype.createElement = function () {
 	var instance = this;
@@ -597,15 +384,7 @@ DLM_Reports_Date_Range_Selector.prototype.createElement = function () {
 	var startDate = jQuery( '<div>' ).attr( 'id', 'dlm_date_range_picker' );
 	this.startDateInput = jQuery( '<input>' ).attr( 'type', 'hidden' ).attr( 'id', 'dlm_start_date' ).attr( 'value', lastMonth );
 	this.endDateInput = jQuery( '<input>' ).attr( 'type', 'hidden' ).attr( 'id', 'dlm_end_date' ).attr( 'value', yesterday );
-	var actions = jQuery( '<div>' ).addClass( 'dlm_rdrs_actions' );
-	var applyButton = jQuery( '<a>' ).addClass( 'button' ).html( 'Apply' ).click( function () {
-		instance.apply();
-		return false;
-	} );
 
-	actions.append( applyButton );
-	//el.append(ul).append( startDate ).append( endDate ).append( actions ).append( this.startDateInput ).append( this.endDateInput );
-	// Don't append actions for now, for the purpose of the styling. Actions will be completly removed when going to React
 	el.append( startDate ).append( this.startDateInput ).append( this.endDateInput );
 
 	el.click( function () {
@@ -621,4 +400,110 @@ DLM_Reports_Date_Range_Selector.prototype.createElement = function () {
  */
 const createDateElement = ( date ) => {
 	return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-}
+};
+
+/**
+ * Filter data to send to chart based on user input start & end date
+ *
+ * @param startDateInput
+ * @param endDateInput
+ * @returns {*}
+ */
+const createDataOnDate = ( startDateInput, endDateInput ) => {
+
+
+	let startDate, endDate;
+
+	if ( 'undefined' !== typeof startDateInput && startDateInput ) {
+
+		startDate = createDateElement( new Date( startDateInput ) );
+	} else {
+
+		const lastMonth = new Date();
+		lastMonth.setDate( lastMonth.getDate() - 30 );
+		startDate = createDateElement( lastMonth );
+	}
+
+	if ( 'undefined' !== typeof endDateInput && endDateInput ) {
+
+		endDate = createDateElement( new Date( endDateInput ) );
+	} else {
+
+		const yesterday = new Date();
+		yesterday.setDate( yesterday.getDate() );
+		endDate = createDateElement( yesterday );
+	}
+
+	const start = dlmReportsStats.chart.findIndex( ( element ) => {
+
+		let element_date = new Date( element.x );
+		element_date = createDateElement( element_date );
+
+		return startDate === element_date;
+	} );
+
+	const end = dlmReportsStats.chart.findIndex( ( element ) => {
+
+		let element_date = new Date( element.x );
+		element_date = createDateElement( element_date );
+		return endDate === element_date;
+
+	} );
+
+	return dlmReportsStats.chart.slice( start, end );
+
+};
+
+const dlmCreateChart = ( data, chartId ) => {
+
+	if ( data && chartId ) {
+
+		const chart = Chart.getChart( "total_downloads_chart" );
+
+		if ( 'undefined' !== typeof chart ) {
+			chart.destroy();
+		}
+
+		this.chart = new Chart( chartId, {
+			title      : "",
+			data       : {
+				datasets: [ {
+					label: 'Downloads',
+					color: '#000fff',
+					data : data
+				} ]
+			},
+			type       : 'line',
+			height     : 450,
+			show_dots  : 0,
+			x_axis_mode: "tick",
+			y_axis_mode: "span",
+			is_series  : 1,
+			options    : {
+				scales    : {
+					ticks: {
+						maxRotation: 50,
+						minRotation: 50
+					},
+				},
+				animation : false,
+				elements  : {
+					line: {
+						borderColor: 'rgba(255,0,206)',
+						borderWidth: 2
+					},
+				},
+				fill      : {
+					target: 'origin',
+					above : 'rgba(255, 0, 206, 0.3)'
+				},
+				normalized: true,
+				parsing   : {
+					xAxisKey: 'x',
+					yAxisKey: 'y'
+				},
+				//parsing: false
+			}
+		} );
+	}
+};
