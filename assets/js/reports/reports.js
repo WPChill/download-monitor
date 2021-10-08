@@ -13,7 +13,7 @@ jQuery( function ( $ ) {
 } );
 
 jQuery.fn.extend( {
-	dlm_reports_date_range: function ( ) {
+	dlm_reports_date_range: function () {
 		new DLM_Reports_Date_Range_Selector( this );
 		return this;
 	}
@@ -45,6 +45,8 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 	const chartId = document.getElementById( 'total_downloads_chart' );
 
 	dlmCreateChart( createDataOnDate( false, false ), chartId );
+
+	dlmTotalDownloads( false, false );
 };
 
 /**
@@ -346,6 +348,8 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 
 		dlmCreateChart( createDataOnDate( obj.date1, obj.date2 ), this.chartElement );
 
+		dlmTotalDownloads( obj.date1, obj.date2 );
+
 		element.data( 'dateRangePicker' ).close();
 	} );
 };
@@ -507,3 +511,59 @@ const dlmCreateChart = ( data, chartId ) => {
 		} );
 	}
 };
+
+const dlmTotalDownloads = ( startDateInput, endDateInput ) => {
+
+	let startDate, endDate;
+
+	if ( 'undefined' !== typeof startDateInput && startDateInput ) {
+
+		startDate = createDateElement( new Date( startDateInput ) );
+	} else {
+
+		const lastMonth = new Date();
+		lastMonth.setDate( lastMonth.getDate() - 30 );
+		startDate = createDateElement( lastMonth );
+	}
+
+	if ( 'undefined' !== typeof endDateInput && endDateInput ) {
+
+		endDate = createDateElement( new Date( endDateInput ) );
+	} else {
+
+		const yesterday = new Date();
+		yesterday.setDate( yesterday.getDate() );
+		endDate = createDateElement( yesterday );
+	}
+
+	const download_info = JSON.parse( JSON.stringify( dlmReportsStats ) );
+	let stats = Object.entries( download_info.most_popular );
+
+	const start = stats.findIndex( ( element ) => {
+
+		return startDate === createDateElement( new Date( element[0] ) );
+	} );
+
+	const end = stats.findIndex( ( element ) => {
+
+		return endDate === createDateElement( new Date( element[0] ) );
+
+	} );
+
+	stats = stats.slice( start, end );
+	let s = [];
+	const log = stats.map( ( element ) => {
+
+		return Object.entries(element[1]).map( ( e ) => {
+
+			const el_t = e[1].title.toLowerCase().replace( /\ /g, "_" );
+
+			s[el_t] = ('undefined' != typeof s[el_t]) ? (s[el_t] + e[1].downloads) : e[1].downloads;
+		} );
+	} );
+
+	return;
+
+	jQuery( '.dlm-reports-block-summary li#total span' ).html();
+
+}

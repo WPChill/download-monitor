@@ -54,7 +54,6 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * Retrieve grouped counts. Useful for statistics
 	 *
 	 * @param array $filters
-	 * @param string $period
 	 * @param string $grouped_by
 	 * @param int $limit
 	 * @param int $offset
@@ -63,7 +62,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 *
 	 * @return array
 	 */
-	public function retrieve_grouped_count( $filters = array(), $period = "day", $grouped_by = "date", $limit = 0, $offset = 0, $order_by = 'value', $order = 'DESC' ) {
+	public function retrieve_grouped_count( $filters = array(), $grouped_by = "date", $limit = 0, $offset = 0, $order_by = 'value', $order = 'DESC' ) {
 		global $wpdb;
 
 		// escape grouped_by
@@ -71,10 +70,6 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		if ( "date" == $grouped_by ) {
 			$format = "%Y-%m-%d";
-			if ( 'month' === $period ) {
-				$format = "%Y-%m";
-			}
-
 			$grouped_by = "DATE_FORMAT(`download_date`, '" . $format . "')";
 		}
 
@@ -93,6 +88,38 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		}
 
 		return $wpdb->get_results( "SELECT COUNT(`ID`) AS `amount`, " . $grouped_by . " AS `value` FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . " GROUP BY " . $grouped_by . " ORDER BY `" . $order_by . "` " . $order . " " . $limit_str . ";" );
+	}
+
+	/**
+	 * @param array $filters
+	 * @param int $limit
+	 * @param int $offset
+	 * @param string $order_by
+	 * @param string $order
+	 *
+	 * @return array
+	 */
+	public function retrieve_downloads_info_per_day( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
+		global $wpdb;
+
+		$items = array();
+		$data  = $wpdb->get_results(
+			"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`  FROM wp_download_log WHERE 1=1 AND `download_status` IN ('completed','redirected');"
+			, ARRAY_A );
+
+		foreach ( $data as $row ) {
+
+			$items[ $row['date'] ][ $row['ID'] ]['downloads'] = isset( $items[ $row['date'] ][ $row['ID'] ] ) ? $items[ $row['date'] ][ $row['ID'] ]['downloads'] + 1 : 1;
+
+			// Let's check if the title is set
+			if ( ! isset( $items[ $row['date'] ][ $row['ID'] ]['title'] ) ) {
+				$items[ $row['date'] ][ $row['ID'] ]['title'] = download_monitor()->service( 'download_repository' )->retrieve_single( $row['ID'] )->get_title();
+			}
+
+		}
+
+		return $items;
+
 	}
 
 	/**

@@ -46,7 +46,7 @@ interface DLM_Log_Item_Repository {
 	 *
 	 * @return array
 	 */
-	public function retrieve_grouped_count( $filters = array(), $period = "day", $grouped_by = "date", $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' );
+	public function retrieve_grouped_count( $filters = array(), $grouped_by = "date", $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' );
 
 	/**
 	 * Persist item

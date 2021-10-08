@@ -137,10 +137,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			/** @var DLM_WordPress_Log_Item_Repository $repo */
 			$repo = download_monitor()->service( 'log_item_repository' );
 
-			$data         = $repo->retrieve_grouped_count( $filters );
-			$popular_data = $repo->retrieve_grouped_count( $filters, "download_id", 1, 0, "amount", "DESC" );
-
-
+			$data              = $repo->retrieve_grouped_count( $filters );
 			$response['chart'] = $this->generate_chart_data( $data, array(
 				// Get the date from the first download log, meaning it is the last element from the array
 				'from' => $data[ count( $data ) - 1 ]->value,
@@ -148,20 +145,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				'to'   => date( 'Y-m-d' )
 			) );
 
-			if ( ! empty( $popular_data ) ) {
-				$d           = array_shift( $popular_data );
-				$download_id = $d->value;
-				try{
-					/** @var DLM_Download $download */
-					$download         = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
-					$popular_download = $download->get_title();
-				}
-				catch ( Exception $e ){
 
-				}
-			}
-
-			$response['most_popular'] = $popular_download;
+			$response['most_popular'] = $repo->retrieve_downloads_info_per_day();
 
 			return $response;
 		}
