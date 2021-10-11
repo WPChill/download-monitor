@@ -688,31 +688,47 @@ table.wp-list-table {
 
   h1 {
     .dlm-reports-actions {
-      float: right;
+      display: inline-flex;
+
+      &:hover {
+        border-color: #2693D5;
+        box-shadow: 0 0 1px #2693D5;
+      }
+
+      &:focus {
+        border-color: #2693D5;
+        box-shadow: 0 0 3px #2693D5;
+      }
 
       a.dlm-reports-header-chart-switcher,
       .dlm-reports-header-date-selector,
       .dlm-reports-header-period {
-        margin: 0 5px;
-        float: left;
-      }
-
-      & > :last-child {
-        margin-right: 0;
+       margin:0;
       }
 
       .dlm-reports-header-date-selector {
 
+        display: flex;
+        align-items: center;
+        min-height: 32px;
         position: relative;
         font-size: 14px;
-        padding: 0 .5em 0 1em;
+        padding: 0 .5em 0 5px;
         background: #fff;
         border: 1px solid #cccccc;
-        border-radius: 3px;
-
         user-select: none;
-
         cursor: pointer;
+
+        #dlm_date_range_picker {
+          .date-picker-wrapper {
+            background: #fff;
+            border: 0;
+
+            .month-wrapper {
+              border:0;
+            }
+          }
+        }
 
         .dlm-arrow {
           &:before {
@@ -735,104 +751,122 @@ table.wp-list-table {
         }
 
         .dlm_rdrs_overlay {
-          display: block;
-          width: 466px;
-          //height: 198px;
-          padding: 10px;
+          display: flex;
+          width: auto;
           background: #fff;
-          border: 1px solid #cccccc;
+          border: 1px solid #2693D5;
           position: absolute;
           top: 30px;
           right: 0;
           z-index: 10;
           overflow: hidden;
+          border-radius:12px;
 
-          .dlm_rdrs_date {
-            font-size: 70%;
-            margin-right: 5px;
-            float: left;
-            z-index: 11;
+          .date-picker-wrapper {
 
-            .ui-datepicker-inline {
-              border: 0;
+            padding-left:175px;
 
-              .ui-state-highlight {
-                background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
-                color: #555555;
-                border: 1px solid #D3D3D3;
-              }
+            .dlm_rdrs_date {
+              font-size: 70%;
+              margin-right: 5px;
+              float: left;
+              z-index: 11;
+              padding:15px;
 
-              .ui-state-active {
-                border: 1px solid #aaaaaa;
-                background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
-              }
+              .ui-datepicker-inline {
+                border: 0;
 
-              td, th {
-                padding: 0;
-                margin: 0;
-                line-height: 2em;
-                a {
-                  text-align: center !important;
+                .ui-state-highlight {
+                  background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+                  color: #555555;
+                  border: 1px solid #D3D3D3;
                 }
 
+                .ui-state-active {
+                  border: 1px solid #aaaaaa;
+                  background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+                }
+
+                td, th {
+                  padding: 0;
+                  margin: 0;
+                  line-height: 2em;
+                  a {
+                    text-align: center !important;
+                  }
+
+                }
+              }
+            }
+
+            .dlm_rdrs_actions {
+              width: 70px;
+              padding-left: 10px;
+              text-align: center;
+              display: flex;
+            }
+
+            .footer {
+
+              position: absolute;
+              left: 0;
+              top: 0;
+              height: 100%;
+              padding-top:0;
+              padding-bottom:0;
+
+              .shortcuts {
+                border-right: 1px solid #2693D5;
+                margin-top: 0;
+                margin-bottom: 0;
+                display: flex;
+                flex-flow: column;
+                justify-content: center;
+                height: 100%;
+
+                a {
+                  text-align: left;
+                  padding: 5px 40px 5px 10px;
+                  min-width: 100px;
+                  color:#000;
+                  text-decoration:none;
+
+                  &:hover {
+                    color: #2693D5;
+                    background: rgba(204, 204, 204, 0.3);
+                  }
+                }
               }
             }
           }
-          .dlm_rdrs_actions {
-            width: 70px;
-            padding-left: 10px;
-            text-align: center;
-            float: left;
-          }
         }
 
       }
 
-      a.dlm-reports-header-chart-switcher {
+      .dlm-chart-icon {
         display: block;
-        margin-top: 1px;
-        padding-top: 4px;
+        padding-right: 15px;
         color: #23282d;
-        //border: 1px solid #23282d;
-        text-decoration: none;
-        &:before {
-          font-family: "dashicons" !important;
-          font-style: normal;
-          font-weight: normal;
-          speak: none;
-          display: inline-block;
-          text-decoration: inherit;
-          width: 1em;
-          text-align: center;
-          font-variant: normal;
-          text-transform: none;
-          line-height: 1em;
-          font-size: 1.4em;
-        }
-        &.dlm-line:before {
-          content: "\f238";
-        }
-        &.dlm-bar:before {
-          content: "\f185";
-        }
       }
 
       .dlm-reports-header-period {
-        a {
-          border-color: #cccccc !important;
-        }
-        a:first-child {
-          border-bottom-right-radius: 0;
-          border-top-right-radius: 0;
-          border-right: 0;
-        }
-        a:last-child {
-          border-bottom-left-radius: 0;
-          border-top-left-radius: 0;
-          border-left: 0;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        border: 1px solid #cccccc;
+        border-left: 0;
+
+        a, a:hover {
+          height: 100%;
+          border: 0;
+          background: #fff;
+          box-shadow: none;
+
+          &.active {
+            background:#cccccc;
+          }
         }
       }
-
     }
   }
 
@@ -1619,4 +1653,8 @@ table.wp-list-table {
   cursor: not-allowed;
   opacity: 0.5;
   text-decoration: none;
+}
+
+.text-right {
+  text-align: right;
 }

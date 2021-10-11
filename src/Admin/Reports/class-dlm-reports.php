@@ -146,7 +146,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			) );
 
 
-			$response['most_popular'] = $repo->retrieve_downloads_info_per_day();
+			$response['summary'] = $repo->retrieve_downloads_info_per_day();
 
 			return $response;
 		}

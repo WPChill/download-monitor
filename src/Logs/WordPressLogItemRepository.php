@@ -109,13 +109,12 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		foreach ( $data as $row ) {
 
-			$items[ $row['date'] ][ $row['ID'] ]['downloads'] = isset( $items[ $row['date'] ][ $row['ID'] ] ) ? $items[ $row['date'] ][ $row['ID'] ]['downloads'] + 1 : 1;
-
-			// Let's check if the title is set
-			if ( ! isset( $items[ $row['date'] ][ $row['ID'] ]['title'] ) ) {
-				$items[ $row['date'] ][ $row['ID'] ]['title'] = download_monitor()->service( 'download_repository' )->retrieve_single( $row['ID'] )->get_title();
-			}
-
+			$items[ $row['date'] ][ $row['ID'] ] = array(
+				'id'        => $row['ID'],
+				'downloads' => isset( $items[ $row['date'] ][ $row['ID'] ] ) ? absint( $items[ $row['date'] ][ $row['ID'] ] ) + 1 : 1,
+				'date'      => $row['date'],
+				//'title'     => download_monitor()->service( 'download_repository' )->retrieve_single( $row['ID'] )->get_title()
+			);
 		}
 
 		return $items;

@@ -537,30 +537,52 @@ const dlmTotalDownloads = ( startDateInput, endDateInput ) => {
 	}
 
 	const download_info = JSON.parse( JSON.stringify( dlmReportsStats ) );
-	let stats = Object.entries( download_info.most_popular );
+	let stats = Object.values( download_info.summary );
 
-	const start = stats.findIndex( ( element ) => {
+	let start = stats.findIndex( ( element ) => {
 
-		return startDate === createDateElement( new Date( element[0] ) );
+		return startDate === createDateElement( new Date( element['date'] ) );
 	} );
 
-	const end = stats.findIndex( ( element ) => {
+	let end = stats.findIndex( ( element ) => {
 
-		return endDate === createDateElement( new Date( element[0] ) );
-
+		return endDate === createDateElement( new Date( element['date'] ) );
 	} );
+
+	if ( -1 === start ) {
+		start = 0;
+	}
+
+	if ( -1 === end ) {
+		end = stats.length
+	}
 
 	stats = stats.slice( start, end );
-	let s = [];
-	const log = stats.map( ( element ) => {
+	let most_downloaded = {};
 
-		return Object.entries(element[1]).map( ( e ) => {
+	stats.forEach( ( itemSet, index ) => {
 
-			const el_t = e[1].title.toLowerCase().replace( /\ /g, "_" );
+		itemSet = Object.values( itemSet );
 
-			s[el_t] = ('undefined' != typeof s[el_t]) ? (s[el_t] + e[1].downloads) : e[1].downloads;
+		itemSet.forEach( ( item, index ) => {
+			most_downloaded[item.id] = ('undefined' !== typeof most_downloaded[item.id]) ? most_downloaded[item.id] + item.downloads : item.downloads + 0;
 		} );
+
 	} );
+
+	// max_obj will be the maximum value and index from most_downloaded array of the most downloaded Download
+	// What we need next is to get the title of the Download - from first tests adding the title to the array we get from PHP is not a good idea
+	const max_obj = Object.values( most_downloaded ).reduce( function ( previousValue, currentValue, currentIndex ) {
+
+		const prev = ('undefined' !== typeof previousValue.maximum) ? previousValue.maximum : 0;
+
+		if ( prev >= currentValue && 'undefined' !== typeof previousValue.index ) {
+
+			return {maximum: previousValue.maximum, index: previousValue.index};
+		} else {
+			return {maximum: currentValue, index: currentIndex};
+		}
+	}, 0 );
 
 	return;
 
