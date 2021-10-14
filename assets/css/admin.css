@@ -1585,23 +1585,17 @@ table.wp-list-table .column-thumb img {
   align-content: center;
   vertical-align: middle;
   margin: 0 15px;
-  float: left;
-  padding: 15px;
+  padding: 10px 0;
 }
 .upsells-columns .upsells-column > *.wpchill-upsell {
-  width: 100%;
   position: relative;
-  float: right;
+  float: none;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
 }
 .upsells-columns .upsells-column > *.wpchill-upsell .wpchill-upsell-description {
   margin: 0 auto;
-  max-width: calc(100% - 200px);
-}
-.upsells-columns .upsells-column > *.wpchill-upsell a {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 .upsells-columns .upsells-column h3 {
   line-height: 1.3em;
