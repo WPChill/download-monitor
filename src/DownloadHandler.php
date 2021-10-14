@@ -282,15 +282,18 @@ class DLM_Download_Handler {
 				try {
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 				} catch ( Exception $e ) {
-					// download not found
+					wp_die( __( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 				}
+			}
 
+			if ( ! $download ) {
+				wp_die( __( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 			}
 
 			// Handle version (if set)
 			$version_id = '';
 
-			if (  ! is_null($download) && ! empty( $_GET['version'] ) ) {
+			if ( ! empty( $_GET['version'] ) ) {
 				$version_id = $download->get_version_id_version_name( $_GET['version'] );
 			}
 
@@ -299,7 +302,7 @@ class DLM_Download_Handler {
 			}
 
 
-			if ( ! is_null($download) && $version_id ) {
+			if ( $version_id ) {
 				try {
 					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
 					$download->set_version( $version );
@@ -309,7 +312,7 @@ class DLM_Download_Handler {
 			}
 
 			// Action on found download
-			if ( ! is_null( $download ) && $download->exists() ) {
+			if ( $download->exists() ) {
 				if ( post_password_required( $download_id ) ) {
 					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download-monitor' ) );
 				}
