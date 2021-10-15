@@ -537,16 +537,19 @@ const dlmTotalDownloads = ( startDateInput, endDateInput ) => {
 	}
 
 	const download_info = JSON.parse( JSON.stringify( dlmReportsStats ) );
+	// Get the values representing objects of downloads
 	let stats = Object.values( download_info.summary );
+	// Get the keys, which are the dates of downloads
+	const dates = Object.keys( download_info.summary );
 
-	let start = stats.findIndex( ( element ) => {
-
-		return startDate === createDateElement( new Date( element['date'] ) );
+	let start = dates.findIndex( ( element ) => {
+		console.log( element.date );
+		return startDate === createDateElement( new Date( element ) );
 	} );
 
-	let end = stats.findIndex( ( element ) => {
+	let end = dates.findIndex( ( element ) => {
 
-		return endDate === createDateElement( new Date( element['date'] ) );
+		return endDate === createDateElement( new Date( element ) );
 	} );
 
 	if ( -1 === start ) {
@@ -565,27 +568,23 @@ const dlmTotalDownloads = ( startDateInput, endDateInput ) => {
 		itemSet = Object.values( itemSet );
 
 		itemSet.forEach( ( item, index ) => {
-			most_downloaded[item.id] = ('undefined' !== typeof most_downloaded[item.id]) ? most_downloaded[item.id] + item.downloads : item.downloads + 0;
+			most_downloaded[item.id] = ('undefined' === typeof most_downloaded[item.id]) ? {downloads: item.downloads,title:item.title} : {downloads: most_downloaded[item.id]['downloads'] + item.downloads,title:item.title};
 		} );
-
 	} );
 
 	// max_obj will be the maximum value and index from most_downloaded array of the most downloaded Download
-	// What we need next is to get the title of the Download - from first tests adding the title to the array we get from PHP is not a good idea
 	const max_obj = Object.values( most_downloaded ).reduce( function ( previousValue, currentValue, currentIndex ) {
 
 		const prev = ('undefined' !== typeof previousValue.maximum) ? previousValue.maximum : 0;
 
-		if ( prev >= currentValue && 'undefined' !== typeof previousValue.index ) {
+		if ( prev >= currentValue.downloads && 'undefined' !== typeof previousValue.index ) {
 
-			return {maximum: previousValue.maximum, index: previousValue.index};
+			return {maximum: previousValue.maximum, index: previousValue.index, title: previousValue.title};
 		} else {
-			return {maximum: currentValue, index: currentIndex};
+			return {maximum: currentValue.downloads, index: currentIndex, title: currentValue.title};
 		}
 	}, 0 );
 
-	return;
-
-	jQuery( '.dlm-reports-block-summary li#total span' ).html();
+	jQuery( '.dlm-reports-block-summary li#total span' ).html( max_obj.title );
 
 }

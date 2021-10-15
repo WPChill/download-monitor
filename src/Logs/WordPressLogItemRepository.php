@@ -104,7 +104,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		$items = array();
 		$data  = $wpdb->get_results(
-			"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`  FROM wp_download_log WHERE 1=1 AND `download_status` IN ('completed','redirected');"
+			"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log logs INNER JOIN {$wpdb->prefix}posts posts ON logs.download_id = posts.ID WHERE 1=1 AND logs.download_status IN ('completed','redirected');"
 			, ARRAY_A );
 
 		foreach ( $data as $row ) {
@@ -113,7 +113,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 				'id'        => $row['ID'],
 				'downloads' => isset( $items[ $row['date'] ][ $row['ID'] ] ) ? absint( $items[ $row['date'] ][ $row['ID'] ] ) + 1 : 1,
 				'date'      => $row['date'],
-				//'title'     => download_monitor()->service( 'download_repository' )->retrieve_single( $row['ID'] )->get_title()
+				'title'     => $row['title']
 			);
 		}
 
