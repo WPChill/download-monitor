@@ -216,7 +216,7 @@ class DLM_Shortcodes {
 				case 'title' :
 					return $download->get_title();
 				case 'short_description' :
-					return $download->get_excerpt();
+					return wpautop( wptexturize( do_shortcode( $download->get_excerpt() ) ) );
 				case 'download_link' :
 					return $download->get_the_download_link();
 				case 'download_count' :

@@ -201,7 +201,14 @@ class DLM_Download {
 	 * Prints the excerpt
 	 */
 	public function the_excerpt() {
-		echo $this->get_excerpt();
+		echo wpautop( do_shortcode( $this->get_excerpt() ) );
+	}
+
+	/**
+	 * Returns the excerpt with wpautop and do_shortcode
+	 */
+	public function get_the_excerpt() {
+		return wpautop( do_shortcode( $this->get_excerpt() ) );
 	}
 
 	/**

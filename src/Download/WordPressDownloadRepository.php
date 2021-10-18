@@ -114,7 +114,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_slug( $post->post_name );
 				$download->set_author( $post->post_author );
 				$download->set_description( $post->post_content );
-				$download->set_excerpt( wpautop( do_shortcode( $post->post_excerpt ) ) );
+				$download->set_excerpt( $post->post_excerpt );
 				$download->set_redirect_only( ( 'yes' == get_post_meta( $post->ID, '_redirect_only', true ) ) );
 				$download->set_featured( ( 'yes' == get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) ) );

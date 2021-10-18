@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <h1><?php echo $product->get_title(); ?></h1>
 
-		<p><?php echo $product->get_excerpt(); ?></p>
+		<p><?php echo $product->get_the_excerpt(); ?></p>
 
         <a class="download-button" title="<?php _e( 'Purchase Now', 'download-monitor' ); ?>" href="<?php echo $atc_url; ?>"
            rel="nofollow">

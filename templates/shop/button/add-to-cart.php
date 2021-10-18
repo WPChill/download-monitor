@@ -13,5 +13,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 <p><a class="aligncenter download-button" href="<?php echo $atc_url; ?>" rel="nofollow">
 		<?php printf( __( 'Purchase &ldquo;%s&rdquo;', 'download-monitor' ), $product->get_title() ); ?>
         <small><?php echo dlm_format_money( $product->get_price() ); ?>
-            - <?php echo esc_html( $product->get_excerpt() ); ?></small>
+            - <?php echo esc_html( $product->get_the_excerpt() ); ?></small>
     </a></p>
