@@ -72,28 +72,35 @@ class DLM_Gutenberg {
 		$template = dlm_get_default_download_template();
 
 		// try fetching the download from the attributes
-		if ( isset( $attributes['download_id'] ) ) {
+		if ( ! isset( $attributes['download_id'] ) ) {
 
-			try {
-				/** @var DLM_Download $download */
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $attributes['download_id'] ) );
+			if ( current_user_can( 'manage_options' ) ) {
 
+				return esc_html__( 'Please select a download id','download-monitor' );
+			} else {
 
-				if ( isset( $attributes['version_id'] ) ) {
-
-					try {
-						/** @var DLM_Download_Version $version */
-						$version = download_monitor()->service( 'version_repository' )->retrieve_single( absint( $attributes['version_id'] ) );
-						$download->set_version( $version );
-					} catch ( Exception $exception ) {
-						// no version found, don't do anything.
-					}
-				}
-
-
-			} catch ( Exception $exception ) {
-				// no download found, don't do anything.
+				return;
 			}
+		}
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $attributes['download_id'] ) );
+
+
+			if ( isset( $attributes['version_id'] ) ) {
+
+				try {
+					/** @var DLM_Download_Version $version */
+					$version = download_monitor()->service( 'version_repository' )->retrieve_single( absint( $attributes['version_id'] ) );
+					$download->set_version( $version );
+				} catch ( Exception $exception ) {
+						// no version found, don't do anything.
+				}
+			}
+
+
+		} catch ( Exception $exception ) {
+				// no download found, don't do anything.
 		}
 
 		if ( isset( $attributes['template'] ) ) {
