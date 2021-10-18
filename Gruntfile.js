@@ -2,6 +2,9 @@
 module.exports = function ( grunt ) {
 	'use strict';
 
+	// load all tasks
+	require( 'load-grunt-tasks' )( grunt, { scope: 'devDependencies' } );
+
 	grunt.initConfig( {
 		// setting folder templates
 		dirs: {
@@ -147,6 +150,57 @@ module.exports = function ( grunt ) {
 					'tx pull -a -f',
 				].join( '&&' )
 			}
+		},
+
+		copy: {
+			build: {
+				expand: true,
+				src: [
+					'**',
+					'!node_modules/**',
+					'!vendor/**',
+					'!build/**',
+					'!tests/**',
+					'!.git/**',
+					'!.tx/**',
+					'!readme.md',
+					'!README.md',
+					'!phpcs.ruleset.xml',
+					'!package-lock.json',
+					'!svn-ignore.txt',
+					'!Gruntfile.js',
+					'!package.json',
+					'!composer.json',
+					'!composer.lock',
+					'!phpunit.xml',
+					'!postcss.config.js',
+					'!webpack.config.js',
+					'!set_tags.sh',
+					'!download-monitor.zip',
+					'!old/**',
+					'!nbproject/**'
+				],
+				dest: 'build/'
+			}
+		},
+
+		compress: {
+			build: {
+				options: {
+					pretty: true,                           // Pretty print file sizes when logging.
+					archive: 'download-monitor.zip'
+				},
+				expand: true,
+				cwd: 'build/',
+				src: [ '**/*' ],
+				dest: 'download-monitor/'
+			}
+		},
+
+		clean: {
+			init: {
+				src: [ 'build/' ]
+			}
 		}
 
 	} );
@@ -159,6 +213,7 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks('grunt-wp-i18n');
 	grunt.loadNpmTasks('grunt-checktextdomain');
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks('@fltwk/grunt-po2mo');
 
 	// Register tasks
@@ -177,6 +232,14 @@ module.exports = function ( grunt ) {
 		'default',
 		'shell:txpull',
 		'makepot'
+	] );
+
+	// Build task
+	grunt.registerTask( 'build-archive', [
+		'clean',
+		'copy',
+		'compress:build',
+		'clean'
 	] );
 
 	grunt.registerTask('makemo', ['po2mo']);
