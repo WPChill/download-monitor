@@ -7,11 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var DLM_Download $dlm_download */
-
-if ( ! isset( $dlm_download ) || ! $dlm_download ) {
-	return esc_html__('No download found', 'download-monitor');
-}
 ?>
 <a class="download-link" title="<?php if ( $dlm_download->get_version()->has_version_number() ) {
 	printf( __( 'Version %s', 'download-monitor' ), $dlm_download->get_version()->get_version_number() );
