@@ -107,7 +107,7 @@ class DLM_Reports_Ajax {
 
 								$download   = $download_repo->retrieve_single( $row->value );
 								$response[] = array(
-									'<a href="' . esc_url( $download->get_the_download_link() ) . '" target="_blank">' . $download->get_id() . '</a>',
+									'<a href="' . esc_url( get_edit_post_link($download->get_id()) ) . '" target="_blank">' . $download->get_id() . '</a>',
 									sprintf( "%s", $download->get_title() ),
 									$row->amount,
 									$percentage . "%"
