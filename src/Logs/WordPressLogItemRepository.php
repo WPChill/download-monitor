@@ -104,17 +104,22 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		$items = array();
 		$data  = $wpdb->get_results(
-			"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log logs INNER JOIN {$wpdb->prefix}posts posts ON logs.download_id = posts.ID WHERE 1=1 AND logs.download_status IN ('completed','redirected');"
+			"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log dlm_log INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected');"
 			, ARRAY_A );
 
 		foreach ( $data as $row ) {
 
-			$items[ $row['date'] ][ $row['ID'] ] = array(
-				'id'        => $row['ID'],
-				'downloads' => isset( $items[ $row['date'] ][ $row['ID'] ] ) ? absint( $items[ $row['date'] ][ $row['ID'] ] ) + 1 : 1,
-				'date'      => $row['date'],
-				'title'     => $row['title']
-			);
+			if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
+				$items[ $row['date'] ][ $row['ID'] ] = array(
+					'id'        => $row['ID'],
+					'downloads' => 1,
+					'date'      => $row['date'],
+					'title'     => $row['title']
+				);
+			} else {
+				$items[ $row['date'] ][ $row['ID'] ]['downloads'] = absint( $items[ $row['date'] ][ $row['ID'] ]['downloads'] ) + 1;
+			}
+
 		}
 
 		return $items;

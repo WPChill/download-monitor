@@ -195,6 +195,9 @@ class DLM_Admin_Scripts {
 			wp_enqueue_style( 'dlm_legacy_upgrader_css', download_monitor()->get_plugin_url() . '/assets/js/legacy-upgrader/build/style.css' );
 		}
 
+		wp_enqueue_script( 'dlm-log-db-upgrade', download_monitor()->get_plugin_url() . '/assets/js/database-upgrader.js', array( 'jquery' ) );
+		wp_add_inline_script( 'dlm-log-db-upgrade', 'dlm_upgrader =' . json_encode( array( 'nonce' => wp_create_nonce( 'dlm_db_log_nonce' ) )), 'before' );
+
 		do_action( 'dlm_admin_scripts_after' );
 
 	}

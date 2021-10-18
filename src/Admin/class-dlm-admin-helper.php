@@ -19,6 +19,8 @@ class DLM_Admin_Helper {
 	 */
 	public function __construct() {
 
+		add_action( 'admin_init', array( $this, 'count_log_entries' ) );
+
 	}
 
 	/**
@@ -105,6 +107,47 @@ class DLM_Admin_Helper {
 		}
 
 		return $a['priority'] < $b['priority'] ? - 1 : 1;
+	}
+
+	public function update_log_table_db() {
+
+		global $wpdb;
+
+		$limit     = 10000;
+		$offset    = ( isset( $_GET['offset'] ) ) ? $limit * $_GET['offset'] : 0;
+		$sql_limit = "LIMIT {$offset},{$limit}";
+
+		$items = array();
+		$data  = $wpdb->get_results(
+			"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log dlm_log INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') {$sql_limit};"
+			, ARRAY_A );
+
+		foreach ( $data as $row ) {
+
+			if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
+				$items[ $row['date'] ][ $row['ID'] ] = array(
+					'id'        => $row['ID'],
+					'downloads' => 1,
+					'date'      => $row['date'],
+					'title'     => $row['title']
+				);
+			} else {
+				$items[ $row['date'] ][ $row['ID'] ]['downloads'] = absint( $items[ $row['date'] ][ $row['ID'] ]['downloads'] ) + 1;
+			}
+
+		}
+
+		return $items;
+	}
+
+	public function count_log_entries() {
+
+		global $wpdb;
+
+		return $wpdb->get_results(
+			"SELECT  COUNT(download_id) as `entries` FROM {$wpdb->prefix}download_log dlm_log INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID;"
+			, ARRAY_A );
+
 	}
 
 }

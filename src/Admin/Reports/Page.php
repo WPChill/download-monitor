@@ -78,7 +78,7 @@ class DLM_Reports_Page {
 							Downloads</label><span></span>
 					</li>
 					<li id="average"><label>Daily Average
-							Downloads</label></span>
+							Downloads</label><span></span>
 					</li>
 					<li id="popular"><label>Most Popular
 							Download</label><span></span>
