@@ -106,6 +106,14 @@ class DLM_Product_Manager {
 				// Setup new Product
 				$product = new DLM_Product( $extension['file'], $extension['version'], $extension['name'] );
 
+				// Remove this after migration.
+				if ( apply_filters( "dlm_disable_update_for_{$extension['file']}", true ) ) {
+					// Setup plugin actions and filters
+					add_action( 'pre_set_site_transient_update_plugins', array( $product, 'check_for_updates' ) );
+					add_filter( 'plugins_api', array( $product, 'plugins_api' ), 10, 3 );
+					add_action( 'after_plugin_row_' . $product->get_plugin_name(), array( $product, 'after_plugin_row' ), 10, 2 );
+				}
+
 				// Set action for each extension
 				do_action( 'dlm_extensions_action_' . $extension['file'], $extension, $product );
 
