@@ -542,15 +542,19 @@ const dlmTotalDownloads = ( startDateInput, endDateInput ) => {
 	// Get the keys, which are the dates of downloads
 	const dates = Object.keys( download_info.summary );
 
-	let start = dates.findIndex( ( element ) => {
-		console.log( element.date );
-		return startDate === createDateElement( new Date( element ) );
+	let start = dates.findIndex( ( date ) => {
+		return startDate === createDateElement( new Date( date ) );
 	} );
 
 	let end = dates.findIndex( ( element ) => {
 
 		return endDate === createDateElement( new Date( element ) );
 	} );
+
+	// If both are -1 means there was nothing found so there is no point in going further
+	if ( -1 === start && -1 === end ) {
+		return;
+	}
 
 	if ( -1 === start ) {
 		start = 0;
@@ -560,20 +564,27 @@ const dlmTotalDownloads = ( startDateInput, endDateInput ) => {
 		end = stats.length
 	}
 
+	// We slice stats based on the start and end discoveries from dates array because they are related/dependant
 	stats = stats.slice( start, end );
-	let most_downloaded = {};
+	let mostDownloaded = {};
+	let totalDownloads = 0;
 
+	// Lets prepare the items based on item id and not date so that we can get the most downloaded item
 	stats.forEach( ( itemSet, index ) => {
 
 		itemSet = Object.values( itemSet );
 
 		itemSet.forEach( ( item, index ) => {
-			most_downloaded[item.id] = ('undefined' === typeof most_downloaded[item.id]) ? {downloads: item.downloads,title:item.title} : {downloads: most_downloaded[item.id]['downloads'] + item.downloads,title:item.title};
+			totalDownloads += item.downloads;
+			mostDownloaded[item.id] = ('undefined' === typeof mostDownloaded[item.id]) ? {
+				downloads: item.downloads,
+				title    : item.title
+			} : {downloads: mostDownloaded[item.id]['downloads'] + item.downloads, title: item.title};
 		} );
 	} );
 
 	// max_obj will be the maximum value and index from most_downloaded array of the most downloaded Download
-	const max_obj = Object.values( most_downloaded ).reduce( function ( previousValue, currentValue, currentIndex ) {
+	const max_obj = Object.values( mostDownloaded ).reduce( function ( previousValue, currentValue, currentIndex ) {
 
 		const prev = ('undefined' !== typeof previousValue.maximum) ? previousValue.maximum : 0;
 
@@ -585,6 +596,12 @@ const dlmTotalDownloads = ( startDateInput, endDateInput ) => {
 		}
 	}, 0 );
 
-	jQuery( '.dlm-reports-block-summary li#total span' ).html( max_obj.title );
+	// We get the Average by dividing total downloads to the number of entries stats array has, seeing that it's keys are the selected days
+	const dailyAverageDownloads = parseInt( parseInt(totalDownloads) / parseInt(stats.length) );
+
+	jQuery( '.dlm-reports-block-summary li#popular span' ).html( max_obj.title );
+	jQuery( '.dlm-reports-block-summary li#total span' ).html( totalDownloads );
+	jQuery( '.dlm-reports-block-summary li#average span' ).html( dailyAverageDownloads );
+
 
 }

@@ -8,20 +8,18 @@
 	 * @type {{init: init, runAjaxs: runAjaxs, ajaxTimeout: null, counts: number, processAjax: processAjax, ajaxRequests: [], completed: number, updateImported: updateImported, ajaxStarted: number}}
 	 */
 	var dlmDBUpgrader = {
-		counts      : 0,
-		completed   : 0,
-		ajaxRequests: [],
-		ajaxStarted : 1,
-		ajaxTimeout : null,
-		ajax        : ajaxurl,
-		entries : 0,
-		requestsNumber : 0,
+		counts        : 0,
+		completed     : 0,
+		ajaxRequests  : [],
+		ajaxStarted   : 1,
+		ajaxTimeout   : null,
+		ajax          : ajaxurl,
+		entries       : 0,
+		requestsNumber: 0,
 
 		init: function () {
 
-			console.log(dlm_upgrader);
-
-			var opts = {
+			const opts = {
 				url     : dlmDBUpgrader.ajax,
 				type    : 'post',
 				async   : true,
@@ -32,13 +30,14 @@
 					nonce : dlm_upgrader.nonce,
 				},
 				success : function ( response ) {
-
 					dlmDBUpgrader.entries = response;
 
 				}
 			};
 
-			$( 'html,body' ).on( 'click', '#dlm-upgrade-db', function ( e ) {
+			$.ajax( opts );
+
+			$( 'html,body' ).on( 'click', 'button#dlm-upgrade-db', function ( e ) {
 				e.preventDefault();
 
 				dlmDBUpgrader.completed = 0;
@@ -51,43 +50,37 @@
 
 		processAjax: function () {
 
+
 			if ( dlmDBUpgrader.entries > 0 ) {
 				dlmDBUpgrader.requestsNumber = parseInt( Math.ceil( dlmDBUpgrader.entries / 10000 ) );
 			}
-			console.log(dlmDBUpgrader.requestsNumber);
-			return;
 
-			dlmDBUpgrader.counts += 1;
+			for ( let i = 0; i <= dlmDBUpgrader.requestsNumber; i++ ) {
 
-			var opts = {
-				url     : dlmDBUpgrader.ajax,
-				type    : 'post',
-				async   : true,
-				cache   : false,
-				dataType: 'json',
-				data    : {
-					action  : 'dlm_upgrade_db',
-					nonce   : dlmDBUpgrader.nonce,
-					offset  : dlmDBUpgrader.counts,
-					imported: true
-				},
-				success : function ( response ) {
+				var opts = {
+					url     : dlmDBUpgrader.ajax,
+					type    : 'post',
+					async   : true,
+					cache   : false,
+					dataType: 'json',
+					data    : {
+						action: 'dlm_upgrade_db',
+						nonce : dlm_upgrader.nonce,
+						offset: dlmDBUpgrader.counts,
+					},
+					success : function ( ) {
 
-					dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
-
-					if ( !response.success ) {
-						status.find( 'span' ).not( '.importing-status' ).text( response.message );
+						dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
 
 						dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
-						return;
+
 					}
+				};
 
-					dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
+				dlmDBUpgrader.counts += 1;
 
-				}
-			};
-
-			dlmDBUpgrader.ajaxRequests.push( opts );
+				dlmDBUpgrader.ajaxRequests.push( opts );
+			}
 
 			dlmDBUpgrader.runAjaxs();
 
@@ -99,6 +92,10 @@
 				dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted + 1;
 				currentAjax = dlmDBUpgrader.ajaxRequests.shift();
 				$.ajax( currentAjax );
+
+				$( '#progressbar').progressbar( {
+					value: 37
+				} );
 
 			}
 

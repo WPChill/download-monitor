@@ -121,6 +121,9 @@ class WP_DLM {
 			$onboarding->setup();
 		}
 
+		// Set the DB Upgrader class to see if we need to upgrade the table or not
+		$upgrader = DLM_DB_Upgrader::get_instance();
+
 		// Set Reports. We set them here in order to also create the REST Api calls
 		$reports = DLM_Reports::get_instance();
 
