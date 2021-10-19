@@ -452,7 +452,7 @@ class DLM_Product {
 		echo '<tr class="plugin-update-tr active">';
 		echo '<td colspan="3" class="plugin-update colspanchange">';
 		echo '<div style="padding: 6px 12px; margin: 0 10px 8px 31px; background: lightYellow;">';
-		printf( __( '<a href="%s">Register your copy</a> of the <strong>%s</strong> extension to receive access to automatic upgrades and support. Need a license key? <a href="%s" target="_blank">Purchase one now</a>.', 'download-monitor' ), admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions#installed-extensions' ), $this->get_product_name(), $this->get_tracking_url( 'plugins_page' ) );
+		printf( __( '<a href="%s">Register your copy</a> of the <strong>%s</strong> extension to receive access to automatic upgrades and support. Need a license key? <a href="%s" target="_blank">Purchase one now</a>.', 'download-monitor' ), admin_url( 'edit.php?post_type=dlm_download&page=dlm-installed-extensions' ), $this->get_product_name(), $this->get_tracking_url( 'plugins_page' ) );
 		echo '</div></td></tr>';
 
 		// Disable bottom border on parent row

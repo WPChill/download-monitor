@@ -350,24 +350,25 @@ class DLM_Admin_Extensions {
 			</a>
 		</h1>
 		<?php
+
+		$active_tab = 'dlm-installed-extensions';
+
+		if ( isset( $_GET['page'] ) && isset( $this->tabs[ $_GET['page'] ] ) ) {
+			$active_tab = $_GET['page'];
+		}
+
+		echo '<h2 class="nav-tab-wrapper">';
+
+		DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab );
+
+		echo '</h2>';
+
 		// Installed Extensions
 		if ( count( $this->installed_extensions ) > 0 ) {
 
 			echo '<div id="installed-extensions" class="settings_panel">';
 
 			echo '<div class="theme-browser dlm_extensions">';
-
-			$active_tab = 'dlm-installed-extensions';
-
-			if ( isset( $_GET['page'] ) && isset( $this->tabs[ $_GET['page'] ] ) ) {
-				$active_tab = $_GET['page'];
-			}
-
-			echo '<h2 class="nav-tab-wrapper">';
-
-			DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab );
-
-			echo '</h2>';
 
 			foreach ( $this->installed_extensions as $extension ) {
 
@@ -415,7 +416,7 @@ class DLM_Admin_Extensions {
 						'priority' => '1',
 				),
 				'dlm-extensions' => array(
-						'name'     => esc_html__( 'Available Extensions', 'download-monitor' ),
+						'name'     => esc_html__( 'Extensions', 'download-monitor' ),
 						'url'      => admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ),
 						'target'   => '',
 						'priority' => '10',

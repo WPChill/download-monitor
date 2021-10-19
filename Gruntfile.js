@@ -158,7 +158,6 @@ module.exports = function ( grunt ) {
 				src: [
 					'**',
 					'!node_modules/**',
-					'!vendor/**',
 					'!build/**',
 					'!tests/**',
 					'!.git/**',
