@@ -100,9 +100,27 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * @return array
 	 */
 	public function retrieve_downloads_info_per_day( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
+
 		global $wpdb;
 
-		/*$items = array();
+		return $wpdb->get_results( "SELECT  * FROM {$wpdb->prefix}dlm_reports_log;"
+			, ARRAY_A );
+
+	}
+
+	/**
+	 * @param array $filters
+	 * @param int $limit
+	 * @param int $offset
+	 * @param string $order_by
+	 * @param string $order
+	 *
+	 * @return array
+	 */
+	public function retrieve_downloads_info_per_day_legacy( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
+		global $wpdb;
+
+		$items = array();
 		$data  = $wpdb->get_results(
 			"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log dlm_log INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected');"
 			, ARRAY_A );
@@ -122,10 +140,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		}
 
-		return $items;*/
-
-		return $wpdb->get_results( "SELECT  * FROM {$wpdb->prefix}dlm_reports_log;"
-			, ARRAY_A );
+		return $items;
 
 	}
 

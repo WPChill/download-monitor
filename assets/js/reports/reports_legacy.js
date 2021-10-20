@@ -1,8 +1,15 @@
 jQuery( function ( $ ) {
 
+	// init chart blocks
 	$.each( $( '.dlm-reports-block-chart' ), function ( k, v ) {
 		new DLM_Reports_Block_Chart( v );
 	} );
+
+	/*$.each( $( '.dlm-reports-block-table' ), function ( k, v ) {
+	 new DLM_Reports_Block_Table( v );
+	 } );*/
+
+	new DLM_Table_Navigation();
 } );
 
 jQuery.fn.extend( {
@@ -39,7 +46,157 @@ DLM_Reports_Block_Chart.prototype.render = function () {
 
 	dlmCreateChart( createDataOnDate( false, false ), chartId );
 
-	dlmDownloadsSummary( false, false );
+	dlmTotalDownloads( false, false );
+};
+
+/**
+ * DLM_Reports_Block_Table
+ *
+ * @param c
+ * @constructor
+ */
+const DLM_Reports_Block_Table = function ( c ) {
+
+	this.container = c;
+	this.id = null;
+
+	this.data = null;
+
+	this.data = null;
+	this.chart = null;
+
+	this.setup = function () {
+		this.id = jQuery( this.container ).attr( 'id' );
+		this.render();
+	};
+
+	this.setup();
+
+};
+
+DLM_Reports_Block_Table.prototype.render = function () {
+	if ( this.data === null || (this.data.length < 2) ) {
+		return;
+	}
+
+	const instance = this;
+
+	// the table
+	const table = jQuery( document.createElement( 'table' ) );
+
+	table.attr( 'cellspacing', 0 ).attr( 'cellpadding', 0 ).attr( 'border', 0 );
+
+	// setup header row
+	var headerRow = document.createElement( 'tr' );
+
+	for ( var i = 0; i < instance.data['downloads'][0].length; i++ ) {
+		var th = document.createElement( 'th' );
+		th.innerHTML = instance.data['downloads'][0][i];
+		headerRow.appendChild( th );
+	}
+
+	// append header row
+	table.append( headerRow );
+
+	for ( let i = 1; i < instance.data['downloads'].length; i++ ) {
+		// new row
+		const tr = document.createElement( 'tr' );
+
+		// loop
+		for ( let j = 0; j < instance.data['downloads'][i].length; j++ ) {
+			var td = document.createElement( 'td' );
+			td.innerHTML = instance.data['downloads'][i][j];
+			tr.appendChild( td );
+		}
+
+		// append row
+		table.append( tr );
+	}
+
+	table.attr( 'data-page', parseInt( instance.data['offset'] ) + 1 ).css( 'left', '999px' ).addClass( 'active' );
+
+	jQuery( instance.container ).find( 'table' ).not( table ).animate( {
+		left: -9999
+	}, 1200 );
+
+	jQuery( instance.container ).find( '.dlm-reports-placeholder-no-data' ).remove();
+	// put table in container
+	jQuery( instance.container ).append( table ).attr( 'data-page', instance.data['offset'] );
+
+	if ( 1 < (parseInt( instance.data['offset'] ) + 1) ) {
+		jQuery( '#downloads-block-navigation button.hidden' ).removeClass( 'hidden' );
+	} else {
+		jQuery( '#downloads-block-navigation button' ).not( '#downloads-block-navigation button[data-action="load-more"]' ).addClass( 'hidden' );
+	}
+
+	jQuery( instance.container ).find( 'table' ).not( table ).removeClass( 'active' );
+
+	table.animate( {
+		left: 0
+	}, 600 );
+
+	jQuery( instance.container ).next( '#downloads-block-navigation' ).find( 'button' ).removeAttr( 'disabled' );
+	jQuery( instance.container ).next( '#downloads-block-navigation' ).find( 'button[data-action="load-more"]' ).removeClass( 'hidden' );
+
+};
+
+const DLM_Table_Navigation = function () {
+
+	jQuery( '#downloads-block-navigation' ).on( 'click', 'button', function () {
+
+		const main_parent   = jQuery( this ).parents( '#total_downloads_table_wrapper' ),
+		      current_table = main_parent.find( 'table.active' ),
+		      offset        = current_table.data( 'page' ),
+		      prev_table    = current_table.prev(),
+		      next_table    = current_table.next(),
+		      link          = jQuery( this );
+
+		link.attr( 'disabled', 'disabled' );
+
+		// Check if we click the next/load more button
+		if ( 'load-more' === jQuery( this ).data( 'action' ) ) {
+
+			// If there is a
+			if ( next_table.length ) {
+
+				current_table.animate( {
+					left: -999
+				}, 1200 ).removeClass( 'active' );
+
+				next_table.animate( {
+					left: 0
+				}, 1200 ).addClass( 'active' );
+
+				// Remove on all buttons, as it will be at least page 2
+				setTimeout( function () {
+					link.find( 'button' ).removeAttr( 'disabled' );
+				}, 1200 );
+
+			} else {
+
+				//
+				new DLM_Reports_Block_Table( main_parent.find( '.dlm-reports-block-table' ) );
+			}
+
+		} else {
+			if ( 1 !== offset ) {
+
+				current_table.animate( {
+					left: -999
+				}, 1200 ).removeClass( 'active' );
+
+				prev_table.animate( {
+					left: 0
+				}, 1200 ).addClass( 'active' );
+
+				if ( 2 < offset ) {
+					setTimeout( function () {
+						link.removeAttr( 'disabled' );
+					}, 1200 );
+				}
+			}
+		}
+	} );
 };
 
 const DLM_Reports_Date_Range_Selector = function ( c ) {
@@ -82,7 +239,7 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 	this.el = this.createElement();
 	this.container.append( this.el );
 	let element = this.el;
-	const calendar_start_date = new Date( dlmReportsStats[0].date );
+	const calendar_start_date = new Date( dlmReportsStats.chart[0].x );
 	const currDate = new Date();
 
 	var configObject = {
@@ -189,39 +346,9 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 			element.parent().find( 'span.date-range-info' ).text( date_s + ' to ' + date_e );
 		}
 
-		const chart_data = createDataOnDate( obj.date1, obj.date2 );
-		let dayDownloads = {};
+		dlmCreateChart( createDataOnDate( obj.date1, obj.date2 ), this.chartElement );
 
-		Object.values( chart_data ).forEach( ( day ) => {
-
-			const downloads = JSON.parse(day.download_ids);
-
-			Object.values( downloads ).forEach( ( item, index ) => {
-
-				let date = createDateElement(new Date(day.date));
-
-				if ( 'undefined' === typeof dayDownloads[date] ) {
-					dayDownloads[date] = item.downloads;
-				} else {
-					dayDownloads[date] = dayDownloads[date] + item.downloads;
-				}
-
-			} );
-		} );
-
-		let chart_start = obj.date1;
-		// Let's add the days when there were no downloads
-		/*while(chart_start <= obj.date2 ) {
-			console.log(chart_start);
-			if ( 'undefined' === typeof dayDownloads[chart_start] ) {
-				dayDownloads[chart_start] = 0;
-			}
-			/!*chart_start = new Date(chart_start.getDate() + 1);*!/
-		}*/
-
-		dlmCreateChart( dayDownloads, this.chartElement );
-
-		dlmDownloadsSummary( obj.date1, obj.date2 );
+		dlmTotalDownloads( obj.date1, obj.date2 );
 
 		element.data( 'dateRangePicker' ).close();
 	} );
@@ -311,35 +438,23 @@ const createDataOnDate = ( startDateInput, endDateInput ) => {
 		endDate = createDateElement( yesterday );
 	}
 
-	let start = Object.values(dlmReportsStats).findIndex( ( element ) => {
+	const start = dlmReportsStats.chart.findIndex( ( element ) => {
 
-		let element_date = new Date( element.date );
+		let element_date = new Date( element.x );
 		element_date = createDateElement( element_date );
 
 		return startDate === element_date;
 	} );
 
-	let end = Object.values(dlmReportsStats).findIndex( ( element ) => {
+	const end = dlmReportsStats.chart.findIndex( ( element ) => {
 
-		let element_date = new Date( element.date );
+		let element_date = new Date( element.x );
 		element_date = createDateElement( element_date );
 		return endDate === element_date;
 
 	} );
 
-	if ( -1 === start && -1 === end ) {
-		return false;
-	}
-
-	if ( -1 === start ) {
-		start = 0;
-	}
-
-	if ( -1 === end ) {
-		end = dlmReportsStats.length;
-	}
-
-	return dlmReportsStats.slice( start, end );
+	return dlmReportsStats.chart.slice( start, end );
 
 };
 
@@ -347,7 +462,7 @@ const dlmCreateChart = ( data, chartId ) => {
 
 	if ( data && chartId ) {
 
-		const chart = Chart.getChart( 'total_downloads_chart' );
+		const chart = Chart.getChart( "total_downloads_chart" );
 
 		if ( 'undefined' !== typeof chart ) {
 			chart.destroy();
@@ -397,22 +512,69 @@ const dlmCreateChart = ( data, chartId ) => {
 	}
 };
 
-const dlmDownloadsSummary = ( startDateInput, endDateInput ) => {
+const dlmTotalDownloads = ( startDateInput, endDateInput ) => {
 
-	const stats = createDataOnDate( startDateInput, endDateInput );
+	let startDate, endDate;
 
-	if ( !stats ) {
+	if ( 'undefined' !== typeof startDateInput && startDateInput ) {
+
+		startDate = createDateElement( new Date( startDateInput ) );
+	} else {
+
+		const lastMonth = new Date();
+		lastMonth.setDate( lastMonth.getDate() - 30 );
+		startDate = createDateElement( lastMonth );
+	}
+
+	if ( 'undefined' !== typeof endDateInput && endDateInput ) {
+
+		endDate = createDateElement( new Date( endDateInput ) );
+	} else {
+
+		const yesterday = new Date();
+		yesterday.setDate( yesterday.getDate() );
+		endDate = createDateElement( yesterday );
+	}
+
+	const download_info = JSON.parse( JSON.stringify( dlmReportsStats ) );
+	// Get the values representing objects of downloads
+	let stats = Object.values( download_info.summary );
+	// Get the keys, which are the dates of downloads
+	const dates = Object.keys( download_info.summary );
+
+	let start = dates.findIndex( ( date ) => {
+		return startDate === createDateElement( new Date( date ) );
+	} );
+
+	let end = dates.findIndex( ( element ) => {
+
+		return endDate === createDateElement( new Date( element ) );
+	} );
+
+	// If both are -1 means there was nothing found so there is no point in going further
+	if ( -1 === start && -1 === end ) {
 		return;
 	}
 
+	if ( -1 === start ) {
+		start = 0;
+	}
+
+	if ( -1 === end ) {
+		end = stats.length
+	}
+
+	// We slice stats based on the start and end discoveries from dates array because they are related/dependant
+	stats = stats.slice( start, end );
 	let mostDownloaded = {};
 	let totalDownloads = 0;
+
 	// Lets prepare the items based on item id and not date so that we can get the most downloaded item
 	stats.forEach( ( itemSet, index ) => {
 
-		itemSet = JSON.parse(itemSet.download_ids);
+		itemSet = Object.values( itemSet );
 
-		Object.values(itemSet).forEach( ( item, index ) => {
+		itemSet.forEach( ( item, index ) => {
 			totalDownloads += item.downloads;
 			mostDownloaded[item.id] = ('undefined' === typeof mostDownloaded[item.id]) ? {
 				downloads: item.downloads,
@@ -435,7 +597,7 @@ const dlmDownloadsSummary = ( startDateInput, endDateInput ) => {
 	}, 0 );
 
 	// We get the Average by dividing total downloads to the number of entries stats array has, seeing that it's keys are the selected days
-	const dailyAverageDownloads = parseInt( parseInt( totalDownloads ) / parseInt( stats.length ) );
+	const dailyAverageDownloads = parseInt( parseInt(totalDownloads) / parseInt(stats.length) );
 
 	jQuery( '.dlm-reports-block-summary li#popular span' ).html( max_obj.title );
 	jQuery( '.dlm-reports-block-summary li#total span' ).html( totalDownloads );

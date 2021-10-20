@@ -130,6 +130,22 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public function stats() {
 
+			/** @var DLM_WordPress_Log_Item_Repository $repo */
+			$repo = download_monitor()->service( 'log_item_repository' );
+
+			return $repo->retrieve_downloads_info_per_day();
+
+		}
+
+		/**
+		 * Return stats
+		 *
+		 * @return array
+		 * @throws Exception
+		 * @since 4.4.6
+		 */
+		public function stats_legacy() {
+
 			$filters = array(
 				array( "key" => "download_status", "value" => array( "completed", "redirected" ), "operator" => "IN" ),
 			);
@@ -146,7 +162,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			) );
 
 
-			$response['summary'] = $repo->retrieve_downloads_info_per_day();
+			$response['summary'] = $repo->retrieve_downloads_info_per_day_legacy();
 
 			return $response;
 		}

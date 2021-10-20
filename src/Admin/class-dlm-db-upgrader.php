@@ -24,10 +24,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			add_action( 'wp_ajax_dlm_db_log_entries', array( $this, 'count_log_entries' ) );
 			add_action( 'wp_ajax_dlm_upgrade_db', array( $this, 'update_log_table_db' ) );
 
-			//if ( $this->check_for_table( $wpdb->prefix . 'donwload_log' ) && ! $this->check_for_table( $wpdb->prefix . 'dlm_reports_log' ) ) {
-			add_action( 'admin_notices', array( $this, 'add_db_update_notice' ) );
+			//if ( $this->check_for_table( $wpdb->prefix . 'download_log' ) && ! $this->check_for_table( $wpdb->prefix . 'dlm_reports_log' ) ) {
+				add_action( 'admin_notices', array( $this, 'add_db_update_notice' ) );
 
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_db_upgrader_scripts' ) );
+				add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_db_upgrader_scripts' ) );
 			//}
 
 		}
@@ -66,9 +66,11 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				exit;
 			}
 
+			$this->create_new_table();
+
 			$results = $wpdb->get_results(
-				"SELECT  COUNT(download_id) as `entries` FROM {$log_table} dlm_log INNER JOIN {$posts_table} dlm_posts ON dlm_log.download_id = dlm_posts.ID;"
-				, ARRAY_A );
+					"SELECT  COUNT(download_id) as `entries` FROM {$log_table} dlm_log INNER JOIN {$posts_table} dlm_posts ON dlm_log.download_id = dlm_posts.ID;"
+					, ARRAY_A );
 
 			wp_send_json( $results[0]['entries'] );
 			exit;
@@ -132,16 +134,16 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			$items = array();
 			$data  = $wpdb->get_results(
-				"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log dlm_log INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') {$sql_limit};"
-				, ARRAY_A );
+					"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log dlm_log INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') {$sql_limit};"
+					, ARRAY_A );
 
 			foreach ( $data as $row ) {
 
 				if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
 					$items[ $row['date'] ][ $row['ID'] ] = array(
-						'id'        => $row['ID'],
-						'downloads' => 1,
-						'title'     => $row['title']
+							'id'        => $row['ID'],
+							'downloads' => 1,
+							'title'     => $row['title']
 					);
 				} else {
 					$items[ $row['date'] ][ $row['ID'] ]['downloads'] = absint( $items[ $row['date'] ][ $row['ID'] ]['downloads'] ) + 1;
@@ -157,7 +159,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				$check      = $wpdb->get_results( $wpdb->prepare( $sql_check, $key ), ARRAY_A );
 
 				if ( $check ) {
-					$downloads = unserialize( $check[0]['download_ids'], array( 'allowed_classes' => false ) );
+					$downloads = json_decode( $check[0]['download_ids'], array( 'allowed_classes' => false ) );
 
 					foreach ( $log as $item_key => $item ) {
 						if ( isset( $downloads[ $item_key ] ) ) {
@@ -165,17 +167,17 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 							unset( $downloads[ $item_key ]['date'] );
 						} else {
 							$downloads[ $item_key ] = array(
-								'id'        => $item_key,
-								'downloads' => $item['downloads'],
-								'title'     => $item['title']
+									'id'        => $item_key,
+									'downloads' => $item['downloads'],
+									'title'     => $item['title']
 							);
 						}
 					}
 
-					$wpdb->query( $wpdb->prepare( $sql_update, serialize( $downloads ), $key ) );
+					$wpdb->query( $wpdb->prepare( $sql_update, json_encode( $downloads ), $key ) );
 
 				} else {
-					$wpdb->query( $wpdb->prepare( $sql_insert, $key, serialize( $log ) ) );
+					$wpdb->query( $wpdb->prepare( $sql_insert, $key, json_encode( $log ) ) );
 				}
 
 			}
@@ -190,10 +192,15 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public function add_db_update_notice() {
 
 			?>
-			<div class="dlm-upgrade-db-notice">
-				Hello, there has been a change of plans! You need to upgrade/update the DB in order for our reports functionality to work OK.
-				<button id="dlm-upgrade-db">just do it! </button>
-				<span id="progressbar"></span>
+			<div class="dlm-upgrade-db-notice notice">
+				<div class="inside">
+					<div class="main">
+						<?php __('Hello there, we have changed the wa','download-monitor') ?>
+					</div>
+					<button id="dlm-upgrade-db" class="button button-primary">just do it!</button>
+					<button id="dlm-upgrade-db" class="button button-secondary">Remind me later</button>
+				</div>
+				<div id="dlm_progress-bar"><div class="dlm-progress-label"></div></div>
 			</div>
 			<?php
 		}
@@ -203,9 +210,13 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 */
 		public function enqueue_db_upgrader_scripts() {
 
-			wp_enqueue_script( 'jquery-ui');
+			wp_enqueue_script( 'jquery-ui' );
+			wp_enqueue_script( 'jquery-ui-progressbar' );
 			wp_enqueue_script( 'dlm-log-db-upgrade', download_monitor()->get_plugin_url() . '/assets/js/database-upgrader.js', array( 'jquery' ) );
 			wp_add_inline_script( 'dlm-log-db-upgrade', 'dlm_upgrader =' . json_encode( array( 'nonce' => wp_create_nonce( 'dlm_db_log_nonce' ) ) ), 'before' );
+
+			wp_enqueue_style( 'dlm-db-upgrade-style', download_monitor()->get_plugin_url() . '/assets/css/db-upgrader.css' );
+			wp_enqueue_style( 'jquery-ui-style', download_monitor()->get_plugin_url() . '/assets/css/jquery-ui.css', array(), DLM_VERSION );
 		}
 
 	}

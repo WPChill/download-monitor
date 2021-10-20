@@ -37,12 +37,12 @@
 
 			$.ajax( opts );
 
-			$( 'html,body' ).on( 'click', 'button#dlm-upgrade-db', function ( e ) {
+			$( document ).on( 'click', 'button#dlm-upgrade-db', function ( e ) {
 				e.preventDefault();
-
 				dlmDBUpgrader.completed = 0;
 
 				dlmDBUpgrader.processAjax();
+				ProgressBar.init();
 
 			} );
 
@@ -68,11 +68,13 @@
 						nonce : dlm_upgrader.nonce,
 						offset: dlmDBUpgrader.counts,
 					},
-					success : function ( ) {
+					success : function () {
 
 						dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
 
 						dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
+
+						ProgressBar.progressHandler( (dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber );
 
 					}
 				};
@@ -93,10 +95,6 @@
 				currentAjax = dlmDBUpgrader.ajaxRequests.shift();
 				$.ajax( currentAjax );
 
-				$( '#progressbar').progressbar( {
-					value: 37
-				} );
-
 			}
 
 			if ( dlmDBUpgrader.ajaxRequests.length > 0 ) {
@@ -110,9 +108,34 @@
 		},
 	};
 
+	const ProgressBar = {
+		el   : {},
+		label: {},
+
+		init: () => {
+
+			ProgressBar.el = jQuery( '#dlm_progress-bar' );
+			ProgressBar.label = jQuery( '#dlm_progress-bar .dlm-progress-label' );
+
+			ProgressBar.el.progressbar( {
+				value: 0,
+				change  : () => {
+					ProgressBar.label.text( ProgressBar.el.progressbar( 'value' ) + '%' );
+				},
+				complete: () => {
+					ProgressBar.label.text( 'Complete!' );
+				}
+			} );
+		},
+		progressHandler: ( newValue ) => {
+			ProgressBar.el.progressbar( 'value', Math.ceil( newValue ) );
+		}
+	};
+
 	$( document ).ready( function () {
 		// Init importer
 		dlmDBUpgrader.init();
 	} );
 
 })( jQuery );
+

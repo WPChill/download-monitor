@@ -1,0 +1,20 @@
+.dlm-upgrade-db-notice {
+	padding : 15px;
+}
+
+.dlm-upgrade-db-notice .main {
+	margin-bottom : 15px;
+}
+
+.dlm-upgrade-db-notice #dlm_progress-bar {
+	position : relative;
+	margin-top:35px;
+}
+
+.dlm-upgrade-db-notice #dlm_progress-bar .dlm-progress-label {
+	position    : absolute;
+	left        : 50%;
+	top         : 4px;
+	font-weight : bold;
+	text-shadow : 1px 1px 0 #fff;
+}
