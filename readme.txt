@@ -117,8 +117,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.4.5 - 27.07.2021 =
-
+= 4.4.5 - 20.10.2021 =
 Fixed: PHP 8 bug - slow query ( https://github.com/WPChill/download-monitor/issues/685 )
 Fixed: Deprecated PHP 8 notice (https://github.com/WPChill/download-monitor/issues/682 thanks to @ashleyfae )
 Fixed: PHP templates errors ( https://github.com/WPChill/download-monitor/issues/691 )
