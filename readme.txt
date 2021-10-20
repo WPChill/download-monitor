@@ -2,8 +2,8 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, files, versions, logging, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
-Tested up to: 5.7
-Stable tag: 4.4.5
+Tested up to: 5.8
+Stable tag: 4.4.6
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -116,6 +116,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.4.6 - 20.10.2021 =
+Fixed: Checking for modifications to the upload folder
 
 = 4.4.5 - 20.10.2021 =
 Fixed: PHP 8 bug - slow query ( https://github.com/WPChill/download-monitor/issues/685 )
