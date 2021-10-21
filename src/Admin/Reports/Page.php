@@ -103,12 +103,6 @@ class DLM_Reports_Page {
 			</div>
 
 			<?php do_action( 'dlm_reports_page_end' ); ?>
-
-			<script type="text/javascript">
-				jQuery( document ).ready( function ( $ ) {
-					$( '#dlm-date-range-picker' ).dlm_reports_date_range();
-				} );
-			</script>
 		</div>
 		<?php
 	}

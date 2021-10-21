@@ -3,13 +3,9 @@ jQuery( function ( $ ) {
 	$.each( $( '.dlm-reports-block-chart' ), function ( k, v ) {
 		new DLM_Reports_Block_Chart( v );
 	} );
-} );
 
-jQuery.fn.extend( {
-	dlm_reports_date_range: function () {
-		new DLM_Reports_Date_Range_Selector( this );
-		return this;
-	}
+	new DLM_Reports_Date_Range_Selector( $( '#dlm-date-range-picker' ) );
+
 } );
 
 /**
@@ -190,36 +186,8 @@ DLM_Reports_Date_Range_Selector.prototype.display = function () {
 		}
 
 		const chart_data = createDataOnDate( obj.date1, obj.date2 );
-		let dayDownloads = {};
 
-		Object.values( chart_data ).forEach( ( day ) => {
-
-			const downloads = JSON.parse(day.download_ids);
-
-			Object.values( downloads ).forEach( ( item, index ) => {
-
-				let date = createDateElement(new Date(day.date));
-
-				if ( 'undefined' === typeof dayDownloads[date] ) {
-					dayDownloads[date] = item.downloads;
-				} else {
-					dayDownloads[date] = dayDownloads[date] + item.downloads;
-				}
-
-			} );
-		} );
-
-		let chart_start = obj.date1;
-		// Let's add the days when there were no downloads
-		/*while(chart_start <= obj.date2 ) {
-			console.log(chart_start);
-			if ( 'undefined' === typeof dayDownloads[chart_start] ) {
-				dayDownloads[chart_start] = 0;
-			}
-			/!*chart_start = new Date(chart_start.getDate() + 1);*!/
-		}*/
-
-		dlmCreateChart( dayDownloads, this.chartElement );
+		dlmCreateChart( chart_data, this.chartElement );
 
 		dlmDownloadsSummary( obj.date1, obj.date2 );
 
@@ -284,10 +252,10 @@ const createDateElement = ( date ) => {
  *
  * @param startDateInput
  * @param endDateInput
+ * @param dataType
  * @returns {*}
  */
-const createDataOnDate = ( startDateInput, endDateInput ) => {
-
+const createDataOnDate = ( startDateInput, endDateInput, dataType = 'chart' ) => {
 
 	let startDate, endDate;
 
@@ -311,7 +279,9 @@ const createDataOnDate = ( startDateInput, endDateInput ) => {
 		endDate = createDateElement( yesterday );
 	}
 
-	let start = Object.values(dlmReportsStats).findIndex( ( element ) => {
+	let dayDownloads = getDates( new Date( startDate ), new Date( endDate ) );
+
+	let start = Object.values( dlmReportsStats ).findIndex( ( element ) => {
 
 		let element_date = new Date( element.date );
 		element_date = createDateElement( element_date );
@@ -319,7 +289,7 @@ const createDataOnDate = ( startDateInput, endDateInput ) => {
 		return startDate === element_date;
 	} );
 
-	let end = Object.values(dlmReportsStats).findIndex( ( element ) => {
+	let end = Object.values( dlmReportsStats ).findIndex( ( element ) => {
 
 		let element_date = new Date( element.date );
 		element_date = createDateElement( element_date );
@@ -328,7 +298,12 @@ const createDataOnDate = ( startDateInput, endDateInput ) => {
 	} );
 
 	if ( -1 === start && -1 === end ) {
-		return false;
+
+		if ( 'chart' !== dataType ) {
+			return false;
+		}
+
+		return Object.assign( {}, dayDownloads );
 	}
 
 	if ( -1 === start ) {
@@ -339,8 +314,34 @@ const createDataOnDate = ( startDateInput, endDateInput ) => {
 		end = dlmReportsStats.length;
 	}
 
-	return dlmReportsStats.slice( start, end );
+	const data = dlmReportsStats.slice( start, end );
 
+	if ( 'chart' !== dataType ) {
+		// Return both data and length of full date interval
+		return {stats: data, daysLength: Object.keys( dayDownloads ).length};
+	}
+
+	Object.values( data ).forEach( ( day ) => {
+
+		const downloads = JSON.parse( day.download_ids );
+
+		let dateTime = new Date( day.date );
+
+		const date = createDateElement( dateTime );
+
+		Object.values( downloads ).forEach( ( item, index ) => {
+
+			if ( 'undefined' === typeof dayDownloads[date] ) {
+				dayDownloads[date] = item.downloads;
+			} else {
+				dayDownloads[date] = dayDownloads[date] + item.downloads;
+			}
+
+		} );
+
+	} );
+
+	return Object.assign( {}, dayDownloads );
 };
 
 const dlmCreateChart = ( data, chartId ) => {
@@ -399,20 +400,20 @@ const dlmCreateChart = ( data, chartId ) => {
 
 const dlmDownloadsSummary = ( startDateInput, endDateInput ) => {
 
-	const stats = createDataOnDate( startDateInput, endDateInput );
+	const info = createDataOnDate( startDateInput, endDateInput, false );
 
-	if ( !stats ) {
+	if ( !info.stats ) {
 		return;
 	}
 
 	let mostDownloaded = {};
 	let totalDownloads = 0;
 	// Lets prepare the items based on item id and not date so that we can get the most downloaded item
-	stats.forEach( ( itemSet, index ) => {
+	info.stats.forEach( ( itemSet, index ) => {
 
-		itemSet = JSON.parse(itemSet.download_ids);
+		itemSet = JSON.parse( itemSet.download_ids );
 
-		Object.values(itemSet).forEach( ( item, index ) => {
+		Object.values( itemSet ).forEach( ( item, index ) => {
 			totalDownloads += item.downloads;
 			mostDownloaded[item.id] = ('undefined' === typeof mostDownloaded[item.id]) ? {
 				downloads: item.downloads,
@@ -435,11 +436,36 @@ const dlmDownloadsSummary = ( startDateInput, endDateInput ) => {
 	}, 0 );
 
 	// We get the Average by dividing total downloads to the number of entries stats array has, seeing that it's keys are the selected days
-	const dailyAverageDownloads = parseInt( parseInt( totalDownloads ) / parseInt( stats.length ) );
+	const dailyAverageDownloads = parseInt( parseInt( totalDownloads ) / parseInt( info.daysLength ) );
 
 	jQuery( '.dlm-reports-block-summary li#popular span' ).html( max_obj.title );
 	jQuery( '.dlm-reports-block-summary li#total span' ).html( totalDownloads );
 	jQuery( '.dlm-reports-block-summary li#average span' ).html( dailyAverageDownloads );
 
 
+}
+
+/**
+ * Get all dates in set intervals
+ * Used for chart data
+ *
+ * @param startDate
+ * @param endDate
+ * @returns {*[]}
+ */
+const getDates = ( startDate, endDate ) => {
+	const dates = [];
+	let currentDate = startDate;
+
+	const addDays = ( currentDate ) => {
+		const date = new Date( currentDate )
+		date.setDate( currentDate.getDate() + 1 )
+		return date
+	};
+	while ( currentDate <= endDate ) {
+
+		dates[createDateElement( currentDate )] = 0;
+		currentDate = addDays( currentDate );
+	}
+	return dates
 }
