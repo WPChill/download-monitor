@@ -132,7 +132,7 @@ class DLM_Shortcodes {
 				if( $download ) {
 					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
 				} else {
-					echo __( 'No download defined', 'download-monitor' );
+					echo esc_html__( 'No download defined', 'download-monitor' );
 				}
 
 				// get output
@@ -460,7 +460,7 @@ class DLM_Shortcodes {
 		if ( count( $downloads ) > 0 ) {
 
 			// loop start output
-			echo html_entity_decode( $loop_start );
+			echo wp_kses_post( html_entity_decode( $loop_start ) );
 
 			foreach ( $downloads as $download ) {
 
@@ -473,7 +473,7 @@ class DLM_Shortcodes {
 				}
 
 				// display the 'before'
-				echo html_entity_decode( $before );
+				echo wp_kses_post( html_entity_decode( $before ) );
 
 				// load the template
 				if ( $download->has_version() ) {
@@ -483,12 +483,12 @@ class DLM_Shortcodes {
 				}
 
 				// display the 'after'
-				echo html_entity_decode( $after );
+				echo wp_kses_post( html_entity_decode( $after ) );
 
 			} // end of the loop.
 
 			// end of loop html
-			echo html_entity_decode( $loop_end );
+			echo wp_kses_post( html_entity_decode( $loop_end ) );
 
 			if ( $paginate ) {
 				$template_handler->get_template_part( 'pagination', '', '', array(
@@ -539,7 +539,7 @@ class DLM_Shortcodes {
 			$version_id = '';
 
 			if ( ! empty( $_GET['version'] ) ) {
-				$version_id = $download->get_version_id_version_name( $_GET['version'] );
+				$version_id = $download->get_version_id_version_name( sanitize_text_field( wp_unslash( $_GET['version'] ) ) );
 			}
 
 			if ( ! empty( $_GET['v'] ) ) {

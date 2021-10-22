@@ -20,10 +20,10 @@ class DLM_Reports_Ajax {
 		}
 
 		// getters
-		$id     = ( ! empty( $_GET['id'] ) ) ? $_GET['id'] : null;
-		$from   = ( ! empty( $_GET['from'] ) ) ? $_GET['from'] : null;
-		$to     = ( ! empty( $_GET['to'] ) ) ? $_GET['to'] : null;
-		$period = ( ! empty( $_GET['period'] ) ) ? $_GET['period'] : 'day';
+		$id     = ( ! empty( $_GET['id'] ) ) ? sanitize_text_field( wp_unslash( $_GET['id'] ) ) : null;
+		$from   = ( ! empty( $_GET['from'] ) ) ? sanitize_text_field( $_GET['from'] ) : null;
+		$to     = ( ! empty( $_GET['to'] ) ) ? sanitize_text_field( $_GET['to'] ) : null;
+		$period = ( ! empty( $_GET['period'] ) ) ? sanitize_text_field( $_GET['period'] ) : 'day';
 
 		// setup date filter query
 		$filters   = array(

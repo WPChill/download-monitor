@@ -243,8 +243,8 @@ class DLM_Admin_Extensions {
 		<div class="wrap dlm_extensions_wrap">
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 			<h1>
-				<?php _e( 'Download Monitor Extensions', 'download-monitor' ); ?>
-				<a href="<?php echo add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ); ?>"
+				<?php echo esc_html__( 'Download Monitor Extensions', 'download-monitor' ); ?>
+				<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
 				   class="button dlm-reload-button">
 					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
 				</a>
@@ -260,12 +260,12 @@ class DLM_Admin_Extensions {
 
 				// Extensions
 
-				echo '<p>' . sprintf( __( 'Extend Download Monitor with its powerful free and paid extensions. %sClick here to browse all extensions%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=extensions-top" target="_blank">', '</a>' ) . '</p>';
+				echo '<p>' . sprintf( esc_html__( 'Extend Download Monitor with its powerful free and paid extensions. %sClick here to browse all extensions%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=extensions-top" target="_blank">', '</a>' ) . '</p>';
 
 				$active_tab = 'dlm-extensions';
 
 				if ( isset( $_GET['page'] ) && isset( $tabs[ $_GET['page'] ] ) ) {
-					$active_tab = $_GET['page'];
+					$active_tab = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 				}
 
 				?>
@@ -344,7 +344,7 @@ class DLM_Admin_Extensions {
 		<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 		<h1>
 			<?php _e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
-			<a href="<?php echo add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ); ?>"
+			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
 			   class="button dlm-reload-button">
 				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
 			</a>
@@ -354,7 +354,7 @@ class DLM_Admin_Extensions {
 		$active_tab = 'dlm-installed-extensions';
 
 		if ( isset( $_GET['page'] ) && isset( $this->tabs[ $_GET['page'] ] ) ) {
-			$active_tab = $_GET['page'];
+			$active_tab = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 		}
 
 		echo '<h2 class="nav-tab-wrapper">';

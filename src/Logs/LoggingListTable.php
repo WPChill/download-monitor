@@ -221,7 +221,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		if ( 'top' == $which && true === $this->display_delete_message ) {
 			?>
             <div id="message" class="updated notice notice-success">
-                <p><?php _e( 'Log entries deleted', 'download-monitor' ); ?></p>
+                <p><?php echo esc_html__( 'Log entries deleted', 'download-monitor' ); ?></p>
             </div>
 			<?php
 		}
@@ -238,13 +238,13 @@ class DLM_Logging_List_Table extends WP_List_Table {
                 <div class="alignleft actions">
 
                     <select name="filter_status">
-                        <option value=""><?php _e( 'Any status', 'download-monitor' ); ?></option>
+                        <option value=""><?php echo esc_html__( 'Any status', 'download-monitor' ); ?></option>
                         <option
-                                value="failed" <?php selected( $this->filter_status, 'failed' ); ?>><?php _e( 'Failed', 'download-monitor' ); ?></option>
+                                value="failed" <?php selected( $this->filter_status, 'failed' ); ?>><?php echo esc_html__( 'Failed', 'download-monitor' ); ?></option>
                         <option
-                                value="redirected" <?php selected( $this->filter_status, 'redirected' ); ?>><?php _e( 'Redirected', 'download-monitor' ); ?></option>
+                                value="redirected" <?php selected( $this->filter_status, 'redirected' ); ?>><?php echo esc_html__( 'Redirected', 'download-monitor' ); ?></option>
                         <option
-                                value="completed" <?php selected( $this->filter_status, 'completed' ); ?>><?php _e( 'Completed', 'download-monitor' ); ?></option>
+                                value="completed" <?php selected( $this->filter_status, 'completed' ); ?>><?php echo esc_html__( 'Completed', 'download-monitor' ); ?></option>
                     </select>
 					<?php
 					global $wpdb, $wp_locale;
@@ -259,10 +259,10 @@ class DLM_Logging_List_Table extends WP_List_Table {
 					$month_count = count( $months );
 
 					if ( $month_count && ! ( 1 == $month_count && 0 == $months[0]->month ) ) {
-						$m = isset( $_GET['filter_month'] ) ? $_GET['filter_month'] : 0;
+						$m = isset( $_GET['filter_month'] ) ? sanitize_text_field( $_GET['filter_month'] ) : 0;
 						?>
                         <select name="filter_month">
-                            <option <?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
+                            <option <?php selected( $m, 0 ); ?> value='0'><?php echo esc_html__( 'Show all dates' ); ?></option>
 							<?php
 							foreach ( $months as $arc_row ) {
 								if ( 0 == $arc_row->year ) {
@@ -283,7 +283,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
                         </select>
 					<?php } ?>
                     <select name="filter_user">
-                        <option value="0"><?php _e( 'Select a User', 'download-monitor' ); ?></option>
+                        <option value="0"><?php echo esc_html__( 'Select a User', 'download-monitor' ); ?></option>
 						<?php
 						$users = $wpdb->get_results( "
 							SELECT DISTINCT user_id
@@ -295,26 +295,26 @@ class DLM_Logging_List_Table extends WP_List_Table {
 							}
 							$the_user = get_userdata( $a_user->user_id );
 							?>
-                        <option value="<?php echo $a_user->user_id; ?>" <?php echo ( $this->filter_user == $a_user->user_id ) ? 'selected="selected"' : ''; ?>>
-							<?php echo $the_user->display_name; ?>
+                        <option value="<?php echo esc_attr( $a_user->user_id ); ?>" <?php echo ( $this->filter_user == $a_user->user_id ) ? 'selected="selected"' : ''; ?>>
+							<?php echo esc_html( $the_user->display_name ); ?>
                             </option><?php
 						}
 						?>
                     </select>
                     <select name="logs_per_page">
-                        <option value="25"><?php _e( '25 per page', 'download-monitor' ); ?></option>
+                        <option value="25"><?php echo esc_html__( '25 per page', 'download-monitor' ); ?></option>
                         <option
-                                value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php _e( '50 per page', 'download-monitor' ); ?></option>
+                                value="50" <?php selected( $this->logs_per_page, 50 ) ?>><?php echo esc_html__( '50 per page', 'download-monitor' ); ?></option>
                         <option
-                                value="100" <?php selected( $this->logs_per_page, 100 ) ?>><?php _e( '100 per page', 'download-monitor' ); ?></option>
+                                value="100" <?php selected( $this->logs_per_page, 100 ) ?>><?php echo esc_html__( '100 per page', 'download-monitor' ); ?></option>
                         <option
-                                value="200" <?php selected( $this->logs_per_page, 200 ) ?>><?php _e( '200 per page', 'download-monitor' ); ?></option>
+                                value="200" <?php selected( $this->logs_per_page, 200 ) ?>><?php echo esc_html__( '200 per page', 'download-monitor' ); ?></option>
                         <option
-                                value="-1" <?php selected( $this->logs_per_page, - 1 ) ?>><?php _e( 'Show All', 'download-monitor' ); ?></option>
+                                value="-1" <?php selected( $this->logs_per_page, - 1 ) ?>><?php echo esc_html__( 'Show All', 'download-monitor' ); ?></option>
                     </select>
                     <input type="hidden" name="post_type" value="dlm_download"/>
                     <input type="hidden" name="page" value="download-monitor-logs"/>
-                    <input type="submit" value="<?php _e( 'Filter', 'download-monitor' ); ?>" class="button"/>
+                    <input type="submit" value="<?php echo esc_html__( 'Filter', 'download-monitor' ); ?>" class="button"/>
                 </div>
 				<?php
 			}

@@ -86,11 +86,11 @@ class DLM_Log_Page {
         <div class="wrap">
             <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
-            <h1><?php _e( 'Download Logs', 'download-monitor' ); ?>
-                <a href="<?php echo add_query_arg( 'dlm_download_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ); ?>"
-                        class="add-new-h2"><?php _e( 'Export CSV', 'download-monitor' ); ?></a>
-                <a onclick="return confirm('<?php _e( "Are you sure you want to delete ALL log items?", "download-monitor" ); ?>');" href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ), 'delete_logs' ); ?>"
-                        class="add-new-h2 dlm-delete-logs"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h1><br/>
+            <h1><?php echo esc_html__( 'Download Logs', 'download-monitor' ); ?>
+                <a href="<?php echo esc_url( add_query_arg( 'dlm_download_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ) ); ?>"
+                        class="add-new-h2"><?php echo esc_html__( 'Export CSV', 'download-monitor' ); ?></a>
+                <a onclick="return confirm('<?php echo esc_html__( "Are you sure you want to delete ALL log items?", "download-monitor" ); ?>');" href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ), 'delete_logs' ); ?>"
+                        class="add-new-h2 dlm-delete-logs"><?php echo esc_html__( 'Delete Logs', 'download-monitor' ); ?></a></h1><br/>
 
             <form id="dlm_logs" method="post">
 				<?php $DLM_Logging_List_Table->display() ?>

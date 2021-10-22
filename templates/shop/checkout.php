@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			'error' => __( "Your browser does not support JavaScript which our checkout page requires to function properly.", 'download-monitor' )
 		) );
 		?></noscript>
-    <form method="post" action="<?php echo $url_checkout; ?>" id="dlm-form-checkout" <?php echo $form_data_str; ?>>
+    <form method="post" action="<?php echo esc_url( $url_checkout ); ?>" id="dlm-form-checkout" <?php echo esc_attr( $form_data_str ); ?>>
 		<?php
 		if ( ! empty( $errors ) ):
 			foreach ( $errors as $error ):
@@ -33,11 +33,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		endif;
 		?>
         <div class="dlm-checkout-billing">
-            <h2><?php _e( 'Billing details', 'download-monitor' ); ?></h2>
+            <h2><?php echo esc_html__( 'Billing details', 'download-monitor' ); ?></h2>
 			<?php dlm_checkout_fields( $field_values ); ?>
         </div>
         <div class="dlm-checkout-order-review">
-            <h2><?php _e( 'Your order', 'download-monitor' ); ?></h2>
+            <h2><?php echo esc_html__( 'Your order', 'download-monitor' ); ?></h2>
 			<?php
 			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/order-review', '', '', array(
 				'cart'         => $cart,

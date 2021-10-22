@@ -58,14 +58,14 @@ class ExecutePaymentListener {
 		/**
 		 * Get Payment by paymentId
 		 */
-		$paymentId = $_GET['paymentId'];
+		$paymentId = sanitize_text_field( $_GET['paymentId'] );
 		$payment   = PayPal\Api\Payment::get( $paymentId, $this->gateway->get_api_context() );
 
 		/**
 		 * Setup PaymentExecution object
 		 */
 		$execution = new PayPal\Api\PaymentExecution();
-		$execution->setPayerId( $_GET['PayerID'] );
+		$execution->setPayerId( sanitize_text_field( wp_unslash( $_GET['PayerID'] ) ) );
 
 
 		/**

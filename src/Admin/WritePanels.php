@@ -113,27 +113,27 @@ class DLM_Admin_Writepanels {
 			do_action( 'dlm_information_start', $download->get_id(), $download );
 			?>
             <p>
-                <label for="dlm-info-id"><?php _e( 'ID', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-id" value="<?php echo $download->get_id(); ?>" readonly
+                <label for="dlm-info-id"><?php echo esc_html__( 'ID', 'download-monitor' ); ?>
+                    <input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_id() ); ?>" readonly
                            onfocus="this.select()"/>
                 </label>
             </p>
             <p>
-                <label for="dlm-info-url"><?php _e( 'URL', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>"
+                <label for="dlm-info-url"><?php echo esc_html__( 'URL', 'download-monitor' ); ?>
+                    <input type="text" id="dlm-info-url" value="<?php echo esc_url( $download->get_the_download_link() ); ?>"
                            readonly onfocus="this.select()"/>
                 </label>
             </p>
             <p>
-                <label for="dlm-info-shortcode"><?php _e( 'Shortcode', 'download-monitor' ); ?>
+                <label for="dlm-info-shortcode"><?php echo esc_html__( 'Shortcode', 'download-monitor' ); ?>
                     <input type="text" id="dlm-info-shortcode"
-                           value='[download id="<?php echo $download->get_id(); ?>"]' readonly onfocus="this.select()"/>
+                           value='[download id="<?php echo esc_url( $download->get_id() ); ?>"]' readonly onfocus="this.select()"/>
                 </label>
             </p>
 			<?php
-			do_action( 'dlm_information_end', $download->get_id(), $download );
+			do_action( 'dlm_information_end', esc_url( $download->get_id() ), $download );
 		} catch ( Exception $e ) {
-			echo "<p>" . __( "No download information for new downloads.", 'download-monitor' ) . "</p>";
+			echo "<p>" . esc_html__( "No download information for new downloads.", 'download-monitor' ) . "</p>";
 		}
 
 		echo '</div>';
@@ -163,20 +163,20 @@ class DLM_Admin_Writepanels {
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_featured" id="_featured" ' . checked( true, $download->is_featured(), false ) . ' />
-			<label for="_featured">' . __( 'Featured download', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . __( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
+			<label for="_featured">' . esc_html__( 'Featured download', 'download-monitor' ) . '</label>
+			<span class="dlm-description">' . esc_html__( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_members_only" id="_members_only" ' . checked( true, $download->is_members_only(), false ) . ' />
-			<label for="_members_only">' . __( 'Members only', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . __( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
+			<label for="_members_only">' . esc_html__( 'Members only', 'download-monitor' ) . '</label>
+			<span class="dlm-description">' . esc_html__( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( true, $download->is_redirect_only(), false ) . ' />
-			<label for="_redirect_only">' . __( 'Redirect to file', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
+			<label for="_redirect_only">' . esc_html__( 'Redirect to file', 'download-monitor' ) . '</label>
+			<span class="dlm-description">' . esc_html__( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
 		</p>';
 
 		do_action( 'dlm_options_end', $download->get_id(), $download );
@@ -209,9 +209,9 @@ class DLM_Admin_Writepanels {
 		?>
         <div class="download_monitor_files dlm-metaboxes-wrapper">
 
-            <input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo $post->ID; ?>"/>
+            <input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo esc_attr( $post->ID ); ?>"/>
             <input type="hidden" name="dlm_post_id" id="dlm-plugin-url"
-                   value="<?php echo download_monitor()->get_plugin_url(); ?>"/>
+                   value="<?php echo esc_attr( download_monitor()->get_plugin_url() ); ?>"/>
             <input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-add-file"
                    value="<?php echo wp_create_nonce( "add-file" ); ?>"/>
             <input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file"
@@ -220,9 +220,9 @@ class DLM_Admin_Writepanels {
 			<?php do_action( 'dlm_download_monitor_files_writepanel_start', $download ); ?>
 
             <p class="toolbar">
-                <a href="#" class="button plus add_file"><?php _e( 'Add file', 'download-monitor' ); ?></a>
-                <a href="#" class="close_all"><?php _e( 'Close all', 'download-monitor' ); ?></a>
-                <a href="#" class="expand_all"><?php _e( 'Expand all', 'download-monitor' ); ?></a>
+                <a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
+                <a href="#" class="close_all"><?php echo esc_html__( 'Close all', 'download-monitor' ); ?></a>
+                <a href="#" class="expand_all"><?php echo esc_html__( 'Expand all', 'download-monitor' ); ?></a>
             </p>
 
             <div class="dlm-metaboxes downloadable_files">
@@ -364,14 +364,14 @@ class DLM_Admin_Writepanels {
 		if ( isset( $_POST['downloadable_file_id'] ) ) {
 
 			// gather post data
-			$downloadable_file_id             = $_POST['downloadable_file_id'];
-			$downloadable_file_menu_order     = $_POST['downloadable_file_menu_order'];
-			$downloadable_file_version        = $_POST['downloadable_file_version'];
-			$downloadable_file_urls           = $_POST['downloadable_file_urls'];
-			$downloadable_file_date           = $_POST['downloadable_file_date'];
-			$downloadable_file_date_hour      = $_POST['downloadable_file_date_hour'];
-			$downloadable_file_date_minute    = $_POST['downloadable_file_date_minute'];
-			$downloadable_file_download_count = $_POST['downloadable_file_download_count'];
+			$downloadable_file_id             = sanitize_text_field( $_POST['downloadable_file_id'] );
+			$downloadable_file_menu_order     = sanitize_text_field( $_POST['downloadable_file_menu_order'] );
+			$downloadable_file_version        = sanitize_text_field( $_POST['downloadable_file_version'] );
+			$downloadable_file_urls           = esc_url_raw( $_POST['downloadable_file_urls'] );
+			$downloadable_file_date           = sanitize_text_field( $_POST['downloadable_file_date'] );
+			$downloadable_file_date_hour      = sanitize_text_field( $_POST['downloadable_file_date_hour'] );
+			$downloadable_file_date_minute    = sanitize_text_field( $_POST['downloadable_file_date_minute'] );
+			$downloadable_file_download_count = sanitize_text_field( $_POST['downloadable_file_download_count'] );
 
 			// loop
 			for ( $i = 0; $i <= max( array_keys( $downloadable_file_id ) ); $i ++ ) {

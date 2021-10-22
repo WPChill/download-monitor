@@ -3,19 +3,19 @@
 	<?php do_action( 'dlm_mb_product_information_start', $product->get_id(), $product ); ?>
 
     <p class="dlm_shop_field_row">
-        <label class="dlm_shop_field_label"><?php printf( __( 'Price (%s)', 'download-monitor' ), \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
+        <label class="dlm_shop_field_label"><?php printf( esc_html__( 'Price (%s)', 'download-monitor' ), \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
         <span class="dlm_shop_field_input">
-        <input type="text" name="_dlm_price" value="<?php echo $price; ?>" class="dlm_shop_input" >
+        <input type="text" name="_dlm_price" value="<?php echo esc_attr( $price ); ?>" class="dlm_shop_input" >
         </span>
     </p>
 
     <p class="dlm_shop_field_row">
-        <label class="dlm_shop_field_label"><?php printf( __( 'Downloads', 'download-monitor' ), \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
+        <label class="dlm_shop_field_label"><?php printf( esc_html__( 'Downloads', 'download-monitor' ), \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
         <span class="dlm_shop_field_input">
 
             <select id="dlm_downloads" name="_dlm_downloads[]"
                     multiple="true"
-                    data-placeholder="<?php _e( 'Select Downloads&hellip;', 'download-monitor' ); ?>"
+                    data-placeholder="<?php echo esc_html__( 'Select Downloads&hellip;', 'download-monitor' ); ?>"
                     class="dlm-select-ext dlm_shop_input">
                 <?php if ( ! empty( $downloads ) ) : ?>
 	                <?php foreach ( $downloads as $download ) : ?>

@@ -8,8 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php if ( count( $items ) > 0 ) : ?>
 		<?php foreach ( $items as $item ) : ?>
             <tr>
-                <th><?php echo $item['key']; ?></th>
-                <td><?php echo $item['value']; ?></td>
+                <th><?php echo esc_html( $item['key'] ); ?></th>
+                <td><?php echo esc_html( $item['value'] ); ?></td>
             </tr>
 		<?php endforeach; ?>
 	<?php endif; ?>

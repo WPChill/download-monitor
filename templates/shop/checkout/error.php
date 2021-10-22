@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <div class="dlm-checkout-error">
-    <img src="<?php echo download_monitor()->get_plugin_url(); ?>/assets/images/shop/icon-error.svg"
-         alt="<?php _e( "Checkout error", 'download-monitor' ); ?>" class="dlm-checkout-error-icon">
-    <p><?php echo esc_html( $error ); ?></p>
+	<img src="<?php echo esc_url( download_monitor()->get_plugin_url() ); ?>/assets/images/shop/icon-error.svg"
+		 alt="<?php echo esc_html__( 'Checkout error', 'download-monitor' ); ?>" class="dlm-checkout-error-icon">
+	<p><?php echo esc_html( $error ); ?></p>
 </div>

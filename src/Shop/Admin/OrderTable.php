@@ -43,9 +43,9 @@ class OrderTable extends \WP_List_Table {
 			$this->empty_trash();
 		}
 
-		$this->filter_status   = isset( $_REQUEST['status'] ) ? sanitize_text_field( $_REQUEST['status'] ) : '';
+		$this->filter_status   = isset( $_REQUEST['status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['status'] ) ) : '';
 		$this->orders_per_page = ! empty( $_REQUEST['orders_per_page'] ) ? intval( $_REQUEST['orders_per_page'] ) : 25;
-		$this->filter_month    = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
+		$this->filter_month    = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['filter_month'] ) ) : '';
 
 		if ( $this->orders_per_page < 1 ) {
 			$this->orders_per_page = 9999999999999;
@@ -59,7 +59,7 @@ class OrderTable extends \WP_List_Table {
 		if ( Services::get()->service( 'order_repository' )->empty_trash() ) {
 			?>
             <div id="message" class="updated notice notice-success">
-                <p><?php _e( 'Trashed orders have been permanently deleted.', 'download-monitor' ); ?></p>
+                <p><?php echo esc_html__( 'Trashed orders have been permanently deleted.', 'download-monitor' ); ?></p>
             </div>
 			<?php
 		}
@@ -187,7 +187,7 @@ class OrderTable extends \WP_List_Table {
 		if ( 'top' == $which && true === $this->display_delete_message ) {
 			?>
             <div id="message" class="updated notice notice-success">
-                <p><?php _e( 'Orders deleted', 'download-monitor' ); ?></p>
+                <p><?php echo esc_html__( 'Orders deleted', 'download-monitor' ); ?></p>
             </div>
 			<?php
 		}
@@ -197,7 +197,7 @@ class OrderTable extends \WP_List_Table {
 			?>
             <ul class="subsubsub">
                 <li class="all"><a
-                            href="<?php echo $base_url; ?>" <?php echo ( '' === $this->filter_status ) ? ' class="current"' : ''; ?>><?php _e( 'All', 'download-monitor' ); ?></a>
+                            href="<?php echo esc_url( $base_url ); ?>" <?php echo ( '' === $this->filter_status ) ? ' class="current"' : ''; ?>><?php echo esc_html__( 'All', 'download-monitor' ); ?></a>
                 </li>
 				<?php
 
@@ -214,7 +214,7 @@ class OrderTable extends \WP_List_Table {
 						)
 					) );
 					if ( $count > 0 ) {
-						echo ' | <li class="' . $status->get_key() . '"><a ' . ( ( $status->get_key() === $this->filter_status ) ? ' class="current"' : '' ) . ' href="' . add_query_arg( 'status', $status->get_key(), $base_url ) . '">' . $status->get_label() . ' (' . $count . ')</a></li>' . PHP_EOL;
+						echo ' | <li class="' . esc_attr( $status->get_key() ) . '"><a ' . ( ( $status->get_key() === $this->filter_status ) ? ' class="current"' : '' ) . ' href="' . esc_url( add_query_arg( 'status', $status->get_key(), $base_url ) ) . '">' . esc_html( $status->get_label() ) . ' (' . esc_html( $count ) . ')</a></li>' . PHP_EOL;
 					}
 
 				}
@@ -247,7 +247,7 @@ class OrderTable extends \WP_List_Table {
 						$m = ! empty( $this->filter_month ) ? $this->filter_month : 0;
 						?>
                         <select name="filter_month">
-                            <option <?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
+                            <option <?php selected( $m, 0 ); ?> value='0'><?php echo esc_html__( 'Show all dates' ); ?></option>
 							<?php
 							foreach ( $months as $arc_row ) {
 								if ( 0 == $arc_row->year ) {
@@ -261,7 +261,7 @@ class OrderTable extends \WP_List_Table {
 									selected( $m, $year . '-' . $month, false ),
 									esc_attr( $year . '-' . $month ),
 
-									sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+									sprintf( esc_html__( '%1$s %2$d' ), esc_html( $wp_locale->get_month( $month ) ), $year )
 								);
 							}
 							?>
@@ -269,26 +269,26 @@ class OrderTable extends \WP_List_Table {
 					<?php } ?>
 
                     <select name="orders_per_page">
-                        <option value="25"><?php _e( '25 per page', 'download-monitor' ); ?></option>
+                        <option value="25"><?php echo esc_html__( '25 per page', 'download-monitor' ); ?></option>
                         <option
-                                value="50" <?php selected( $this->orders_per_page, 50 ) ?>><?php _e( '50 per page', 'download-monitor' ); ?></option>
+                                value="50" <?php selected( $this->orders_per_page, 50 ) ?>><?php echo esc_html__( '50 per page', 'download-monitor' ); ?></option>
                         <option
-                                value="100" <?php selected( $this->orders_per_page, 100 ) ?>><?php _e( '100 per page', 'download-monitor' ); ?></option>
+                                value="100" <?php selected( $this->orders_per_page, 100 ) ?>><?php echo esc_html__( '100 per page', 'download-monitor' ); ?></option>
                         <option
-                                value="200" <?php selected( $this->orders_per_page, 200 ) ?>><?php _e( '200 per page', 'download-monitor' ); ?></option>
+                                value="200" <?php selected( $this->orders_per_page, 200 ) ?>><?php echo esc_html__( '200 per page', 'download-monitor' ); ?></option>
                         <option
-                                value="-1" <?php selected( $this->orders_per_page, - 1 ) ?>><?php _e( 'Show All', 'download-monitor' ); ?></option>
+                                value="-1" <?php selected( $this->orders_per_page, - 1 ) ?>><?php echo esc_html__( 'Show All', 'download-monitor' ); ?></option>
                     </select>
 
-                    <input type="hidden" name="post_type" value="<?php echo PostType::KEY; ?>"/>
+                    <input type="hidden" name="post_type" value="<?php echo esc_attr( PostType::KEY ); ?>"/>
                     <input type="hidden" name="page" value="download-monitor-orders"/>
-                    <input type="submit" value="<?php _e( 'Filter', 'download-monitor' ); ?>" class="button"/>
+                    <input type="submit" value="<?php echo esc_html__( 'Filter', 'download-monitor' ); ?>" class="button"/>
 
 					<?php
 
 					if ( 'trash' === $this->filter_status ) {
 						?><input type="submit" name="dlm_empty_trash" id="dlm_empty_trash" class="button apply"
-                                 value="<?php _e( "Empty Trash", 'download-monitor' ); ?>"/>
+                                 value="<?php echo esc_html__( "Empty Trash", 'download-monitor' ); ?>"/>
 						<?php
 					}
 
@@ -399,7 +399,7 @@ class OrderTable extends \WP_List_Table {
 			}
 
 			// check
-			if ( count( $_POST['log'] ) > 0 ) {
+			if ( isset( $_POST['log'] ) && count( $_POST['log'] ) > 0 ) {
 
 				// @todo: implement delete
 

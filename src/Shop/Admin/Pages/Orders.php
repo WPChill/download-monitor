@@ -69,7 +69,7 @@ class Orders {
 					'processors' => $processors
 				) );
 			} catch ( \Exception $exception ) {
-				wp_die( __( "Order with that ID could not be found", 'download-monitor' ) );
+				wp_die( esc_html__( "Order with that ID could not be found", 'download-monitor' ) );
 			}
 
 		} else {

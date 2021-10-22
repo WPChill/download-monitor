@@ -45,7 +45,7 @@ class DLM_Custom_Labels {
 			2  => __( 'Custom field updated.', 'download-monitor' ),
 			3  => __( 'Custom field deleted.', 'download-monitor' ),
 			4  => __( 'Download updated.', 'download-monitor' ),
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Download restored to revision from %s', 'download-monitor' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			5  => isset( $_GET['revision'] ) ? sprintf( esc_html__( 'Download restored to revision from %s', 'download-monitor' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 			6  => __( 'Download published.', 'download-monitor' ),
 			7  => __( 'Download saved.', 'download-monitor' ),
 			8  => __( 'Download submitted.', 'download-monitor' ),

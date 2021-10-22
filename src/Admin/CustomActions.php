@@ -58,11 +58,11 @@ class DLM_Custom_Actions {
 		}
 
 		$output = "<select name='dlm_download_category' id='dropdown_dlm_download_category'>";
-		$output .= '<option value="" ' . selected( isset( $_GET['dlm_download_category'] ) ? $_GET['dlm_download_category'] : '', '', false ) . '>' . __( 'Select a category', 'download-monitor' ) . '</option>';
+		$output .= '<option value="" ' . selected( isset( $_GET['dlm_download_category'] ) ? sanitize_text_field( wp_unslash( $_GET['dlm_download_category'] ) ) : '', '', false ) . '>' . __( 'Select a category', 'download-monitor' ) . '</option>';
 		$output .= $this->walk_category_dropdown_tree( $terms, 0, $r );
 		$output .= "</select>";
 
-		echo $output;
+		echo wp_kses_post( $output );
 	}
 
 	/**
@@ -204,13 +204,13 @@ class DLM_Custom_Actions {
 		?>
 		<fieldset class="inline-edit-col-right inline-edit-col-dlm">
 			<div class="inline-edit-col inline-edit-col-dlm-inner">
-				<span class="title"><?php _e( 'Download Monitor Data', 'download-monitor' ); ?></span><br/>
+				<span class="title"><?php echo esc_html__( 'Download Monitor Data', 'download-monitor' ); ?></span><br/>
 				<label for="_featured"><input type="checkbox" name="_featured" id="_featured"
-				                              value="1"/><?php _e( 'Featured download', 'download-monitor' ); ?></label>
+				                              value="1"/><?php echo esc_html__( 'Featured download', 'download-monitor' ); ?></label>
 				<label for="_members_only"><input type="checkbox" name="_members_only" id="_members_only"
-				                                  value="1"/><?php _e( 'Members only', 'download-monitor' ); ?></label>
+				                                  value="1"/><?php echo esc_html__( 'Members only', 'download-monitor' ); ?></label>
 				<label for="_redirect_only"><input type="checkbox" name="_redirect_only" id="_redirect_only"
-				                                   value="1"/><?php _e( 'Redirect to file', 'download-monitor' ); ?>
+				                                   value="1"/><?php echo esc_html__( 'Redirect to file', 'download-monitor' ); ?>
 				</label>
 			</div>
 		</fieldset>

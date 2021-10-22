@@ -103,7 +103,7 @@ class DLM_Uninstall {
 						$after_input  = '</strong>';
 					}
 
-					echo ' <p><input type="checkbox" name="' . esc_attr( $key ) . ' " id="' . esc_attr( $key ) . '" value="' . esc_attr( $key ) . '"> <label for="' . esc_attr( $key ) . '">' . $before_input . esc_attr( $option['label'] ) . $after_input . '</label><p class="description">' . esc_html( $option['description'] ) . '</p><br>';
+					echo ' <p><input type="checkbox" name="' . esc_attr( $key ) . ' " id="' . esc_attr( $key ) . '" value="' . esc_attr( $key ) . '"> <label for="' . esc_attr( $key ) . '">' . wp_kses_post( $before_input ) . esc_attr( $option['label'] ) . wp_kses_post( $after_input ) . '</label><p class="description">' . esc_html( $option['description'] ) . '</p><br>';
 				}
 				?>
             </div><!-- .dlm-uninstall-options -->
@@ -169,7 +169,7 @@ class DLM_Uninstall {
 		global $wpdb;
 		check_ajax_referer( 'dlm_uninstall_plugin', 'security' );
 
-		$uninstall_option = isset( $_POST['options'] ) ? $_POST['options'] : false;
+		$uninstall_option = isset( $_POST['options'] ) ? array_map( 'sanitize_text_field', $_POST['options'] ) : false;
 
 		// Delete options
 		if ( '1' == $uninstall_option['delete_options'] ) {

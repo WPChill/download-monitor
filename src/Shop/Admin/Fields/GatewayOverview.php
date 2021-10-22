@@ -33,9 +33,9 @@ class GatewayOverview extends \DLM_Admin_Fields_Field {
 					$is_checked   = ( $gateway->is_enabled() ? ' checked="checked"' : '' );
 					?>
                     <li>
-                        <input type="checkbox" name="<?php echo $checkbox_name; ?>" id="<?php echo $checkbox_name; ?>"
-                               value="1"<?php echo $is_checked; ?>/>
-                        <label for="<?php echo $checkbox_name; ?>"><?php echo $gateway->get_title(); ?></label>
+                        <input type="checkbox" name="<?php echo esc_attr( $checkbox_name ); ?>" id="<?php echo esc_attr( $checkbox_name ); ?>"
+                               value="1"<?php echo esc_attr( $is_checked ); ?>/>
+                        <label for="<?php echo esc_attr( $checkbox_name ); ?>"><?php echo esc_html( $gateway->get_title() ); ?></label>
                     </li>
 				<?php endforeach; ?>
             </ul>

@@ -12,19 +12,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <aside class="download-box">
 
-	<?php echo $product->get_image(); ?>
+	<?php echo wp_kses_post( $product->get_image() ); ?>
 
-    <div class="download-count"><?php echo dlm_format_money( $product->get_price() ); ?></div>
+    <div class="download-count"><?php echo esc_html( dlm_format_money( $product->get_price() ) ); ?></div>
 
     <div class="download-box-content">
 
-        <h1><?php echo $product->get_title(); ?></h1>
+        <h1><?php echo esc_html( $product->get_title() ); ?></h1>
 
-		<p><?php echo $product->get_the_excerpt(); ?></p>
+		<p><?php echo esc_html( $product->get_the_excerpt() ); ?></p>
 
-        <a class="download-button" title="<?php _e( 'Purchase Now', 'download-monitor' ); ?>" href="<?php echo $atc_url; ?>"
+        <a class="download-button" title="<?php echo esc_html__( 'Purchase Now', 'download-monitor' ); ?>" href="<?php echo esc_url( $atc_url ); ?>"
            rel="nofollow">
-			<?php _e( 'Purchase Now', 'download-monitor' ); ?>
+			<?php echo esc_html__( 'Purchase Now', 'download-monitor' ); ?>
         </a>
 
     </div>

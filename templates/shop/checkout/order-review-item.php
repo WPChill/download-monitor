@@ -6,6 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var array $item */
 ?>
 <tr>
-	<td><?php echo $item['label']; ?></td>
-	<td><?php echo $item['subtotal']; ?></td>
+	<td><?php echo esc_html( $item['label'] ); ?></td>
+	<td><?php echo esc_html( $item['subtotal'] ); ?></td>
 </tr>

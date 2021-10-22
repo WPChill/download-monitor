@@ -353,12 +353,12 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-download-duplicator' ) ) {
 
-			echo $this->generate_upsell_box( 'Duplicate your downloads', 'You’re one click away from duplicating downloads, including their data, versions, and files.', 'general', 'download-duplicator' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Duplicate your downloads', 'You’re one click away from duplicating downloads, including their data, versions, and files.', 'general', 'download-duplicator' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-email-notification' ) ) {
 
-			echo $this->generate_upsell_box( 'Email notifications', 'Create an email alert to be notified each time one of your files has been downloaded.', 'general', 'email-notification' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Email notifications', 'Create an email alert to be notified each time one of your files has been downloaded.', 'general', 'email-notification' ) );
 		}
 
 	}
@@ -373,32 +373,32 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-advanced-access-manager' ) ) {
 
-			echo $this->generate_upsell_box( 'Advanced access manager', 'Limit access to your downloads by setting advanced access rules and restrictions with this extension.', 'access', 'advanced-access-manager' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Advanced access manager', 'Limit access to your downloads by setting advanced access rules and restrictions with this extension.', 'access', 'advanced-access-manager' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-twitter-lock' ) ) {
 
-			echo $this->generate_upsell_box( 'Twitter lock', 'Allow your users to tweet a pre-defined text before accessing a download.', 'access', 'twitter-lock' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Twitter lock', 'Allow your users to tweet a pre-defined text before accessing a download.', 'access', 'twitter-lock' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
 
-			echo $this->generate_upsell_box( 'Email lock', 'Require your users’ email addresses to send newsletters and create a list of your customers.', 'access', 'email-lock' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Email lock', 'Require your users’ email addresses to send newsletters and create a list of your customers.', 'access', 'email-lock' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-gravity-forms' ) ) {
 
-			echo $this->generate_upsell_box( 'Gravity forms extension', 'Ask users to fill in a form created on Gravity Forms before they start downloading your files.', 'access', 'gravity-forms' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Gravity forms extension', 'Ask users to fill in a form created on Gravity Forms before they start downloading your files.', 'access', 'gravity-forms' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
 
-			echo $this->generate_upsell_box( 'Ninja forms extension', 'Use the Ninja Forms extension to add forms easily to your download files.', 'access', 'ninja-forms' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Ninja forms extension', 'Use the Ninja Forms extension to add forms easily to your download files.', 'access', 'ninja-forms' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-mailchimp-lock' ) ) {
 
-			echo $this->generate_upsell_box( 'Mailchimp extension', 'Create a MailChimp list and ask users to subscribe to it before accessing a downloadable file.', 'access', 'mailchimp-lock' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Mailchimp extension', 'Create a MailChimp list and ask users to subscribe to it before accessing a downloadable file.', 'access', 'mailchimp-lock' ) );
 		}
 
 	}
@@ -413,7 +413,7 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-captcha' ) ) {
 
-			echo $this->generate_upsell_box( 'Captcha', 'Stop bots from spamming your downloads and ask users to complete Google reCAPTCHA.', 'logging', 'captcha' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Captcha', 'Stop bots from spamming your downloads and ask users to complete Google reCAPTCHA.', 'logging', 'captcha' ) );
 		}
 
 	}
@@ -428,7 +428,7 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-terms-and-conditions' ) ) {
 
-			echo $this->generate_upsell_box( 'Terms and conditions', 'Require your users to accept your terms and conditions before they can download your files.', 'terns_and_conditions', 'terms-and-conditions' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Terms and conditions', 'Require your users to accept your terms and conditions before they can download your files.', 'terns_and_conditions', 'terms-and-conditions' ) );
 		}
 
 	}
@@ -443,7 +443,7 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-email-notification' ) ) {
 
-			echo $this->generate_upsell_box( 'Email notifications', 'The Email Notification extension for Download Monitor sends you an email whenever one of your files is downloaded', 'email_notifications', 'email-notifications' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Email notifications', 'The Email Notification extension for Download Monitor sends you an email whenever one of your files is downloaded', 'email_notifications', 'email-notifications' ) );
 		}
 
 	}
@@ -458,12 +458,12 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-terms-conditions' ) ) {
 
-			echo $this->generate_upsell_box( 'Terms & Conditions', 'Easily require your visitors to agree to your terms and conditions before downloading files.', 'pages', 'terms-conditions' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Terms & Conditions', 'Easily require your visitors to agree to your terms and conditions before downloading files.', 'pages', 'terms-conditions' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
-			echo $this->generate_upsell_box( 'Page Addon', 'List all downloads, categories, tags, and showcase info pages of each resource with a self-contained [download_page] shortcode!', 'pages', 'page-addon' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Page Addon', 'List all downloads, categories, tags, and showcase info pages of each resource with a self-contained [download_page] shortcode!', 'pages', 'page-addon' ) );
 		}
 
 	}
@@ -478,7 +478,7 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-buttons' ) ) {
 
-			echo $this->generate_upsell_box( 'Buttons', 'The Buttons extension allows you to customize your download buttons as you please in order to improve the user experience. Create stunning buttons without needing any coding skills!', 'cpt', 'buttons' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Buttons', 'The Buttons extension allows you to customize your download buttons as you please in order to improve the user experience. Create stunning buttons without needing any coding skills!', 'cpt', 'buttons' ) );
 		}
 
 	}
@@ -493,13 +493,13 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-csv-impoter' ) ) {
 
-			echo $this->generate_upsell_box( 'Importer', 'Easily import your downloads, including their categories, tags, and files.
-', 'endpoint', 'csv-impoter' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Importer', 'Easily import your downloads, including their categories, tags, and files.
+', 'endpoint', 'csv-impoter' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-csv-exporter' ) ) {
 
-			echo $this->generate_upsell_box( 'Exporter', 'With a single click, you can quickly export your downloads and their tags, categories, and file versions to a CSV file.', 'endpoint', 'csv-exporter' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Exporter', 'With a single click, you can quickly export your downloads and their tags, categories, and file versions to a CSV file.', 'endpoint', 'csv-exporter' ) );
 		}
 
 	}
@@ -513,7 +513,7 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-downloading-page' ) ) {
 
-			echo $this->generate_upsell_box( '', esc_html__( 'Customize the downloading page by adding banners, ads, and anything you like.', 'download-monitor' ), 'downloading_page', 'downloading-page' );
+			echo wp_kses_post( $this->generate_upsell_box( '', esc_html__( 'Customize the downloading page by adding banners, ads, and anything you like.', 'download-monitor' ), 'downloading_page', 'downloading-page' ) );
 		}
 
 	}
@@ -527,17 +527,17 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
 
-			echo $this->generate_upsell_box( esc_html__( 'Ninja Forms extension', 'download-monitor' ), esc_html__( 'The Ninja Forms extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.', 'download-monitor' ), 'ninja_forms', 'ninja-forms' );
+			echo wp_kses_post( $this->generate_upsell_box( esc_html__( 'Ninja Forms extension', 'download-monitor' ), esc_html__( 'The Ninja Forms extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.', 'download-monitor' ), 'ninja_forms', 'ninja-forms' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
 
-			echo $this->generate_upsell_box( esc_html__( 'Email lock extension', 'download-monitor' ), esc_html__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ), 'email_lock', 'email-lock' );
+			echo wp_kses_post( $this->generate_upsell_box( esc_html__( 'Email lock extension', 'download-monitor' ), esc_html__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ), 'email_lock', 'email-lock' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-gravity-forms' ) ) {
 
-			echo $this->generate_upsell_box( esc_html__( 'Gravity Forms extension', 'download-monitor' ), esc_html__( 'The Gravity Forms extension for Download Monitor allows you to require users to fill out a Gravity Forms form before they gain access to a download.', 'download-monitor' ), 'gravity_forms', 'gravity-forms' );
+			echo wp_kses_post( $this->generate_upsell_box( esc_html__( 'Gravity Forms extension', 'download-monitor' ), esc_html__( 'The Gravity Forms extension for Download Monitor allows you to require users to fill out a Gravity Forms form before they gain access to a download.', 'download-monitor' ), 'gravity_forms', 'gravity-forms' ) );
 		}
 
 	}
@@ -551,14 +551,13 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
 
-			echo $this->generate_upsell_box( esc_html__( 'Amazon S3', 'download-monitor' ), esc_html__( 'Link to files hosted on Amazon s3 so that you can serve secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' );
+			echo wp_kses_post( $this->generate_upsell_box( esc_html__( 'Amazon S3', 'download-monitor' ), esc_html__( 'Link to files hosted on Amazon s3 so that you can serve secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
 
-			echo $this->generate_upsell_box( esc_html__( 'Google Drive', 'download-monitor' ), esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ), 'google_drive', 'google-drive' );
+			echo wp_kses_post( $this->generate_upsell_box( esc_html__( 'Google Drive', 'download-monitor' ), esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ), 'google_drive', 'google-drive' ) );
 		}
-
 
 	}
 
@@ -572,12 +571,12 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
-			echo $this->generate_upsell_box( esc_html__( 'Page addon extension', 'download-monitor' ), esc_html__( 'Add a self contained [download_page] shortcode to your site to list downloads, categories, tags, and show info pages about each of your resources.', 'download-monitor' ), 'page_addon', 'page-addon' );
+			echo wp_kses_post( $this->generate_upsell_box( esc_html__( 'Page addon extension', 'download-monitor' ), esc_html__( 'Add a self contained [download_page] shortcode to your site to list downloads, categories, tags, and show info pages about each of your resources.', 'download-monitor' ), 'page_addon', 'page-addon' ) );
 		}
 
 		if ( ! $this->check_extension( 'dlm-downloading-page' ) ) {
 
-			echo $this->generate_upsell_box( esc_html__( 'Downloading page extension', 'download-monitor' ), esc_html__( 'The Downloading Page extension for Download Monitor forces your downloads to be served from a separate page.', 'download-monitor' ), 'downloading_page', 'downloading-page' );
+			echo wp_kses_post( $this->generate_upsell_box( esc_html__( 'Downloading page extension', 'download-monitor' ), esc_html__( 'The Downloading Page extension for Download Monitor forces your downloads to be served from a separate page.', 'download-monitor' ), 'downloading_page', 'downloading-page' ) );
 		}
 
 
@@ -592,7 +591,7 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm=captcha' ) ) {
 
-			echo $this->generate_upsell_box( esc_html__( 'Captcha extension', 'download-monitor' ), esc_html__( 'The Captcha extension for Download Monitor allows you to require users to complete a Google reCAPTCHA before they gain access to a download.', 'download-monitor' ), 'captcha', 'captcha' );
+			echo wp_kses_post( $this->generate_upsell_box( esc_html__( 'Captcha extension', 'download-monitor' ), esc_html__( 'The Captcha extension for Download Monitor allows you to require users to complete a Google reCAPTCHA before they gain access to a download.', 'download-monitor' ), 'captcha', 'captcha' ) );
 		}
 
 
@@ -612,12 +611,12 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
 
-			echo '<div class="upsells-column"><span class="dashicons dashicons-amazon"></span><h3>' . esc_html__( 'Amazon S3', 'download-monitor' ) . '</h3>' . $this->generate_upsell_box( '', esc_html__( 'Use Amazon S3 links for Download Monitor files to run secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' ) . '</div>';
+			echo '<div class="upsells-column"><span class="dashicons dashicons-amazon"></span><h3>' . esc_html__( 'Amazon S3', 'download-monitor' ) . '</h3>' . wp_kses_post( $this->generate_upsell_box( '', esc_html__( 'Use Amazon S3 links for Download Monitor files to run secure, expiring download links.', 'download-monitor' ), 'amazon_s3', 'amazon-s3' ) ) . '</div>';
 		}
 
 		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
 
-			echo '<div class="upsells-column"><span class="dashicons dashicons-google"></span><h3>' . esc_html__( 'Google Drive', 'download-monitor' ) . '</h3>' . $this->generate_upsell_box( '', esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ), 'google_drive', 'google-drive' ) . '</div>';
+			echo '<div class="upsells-column"><span class="dashicons dashicons-google"></span><h3>' . esc_html__( 'Google Drive', 'download-monitor' ) . '</h3>' . wp_kses_post( $this->generate_upsell_box( '', esc_html__( 'With this extension, you can integrate your files from Google Drive into Download Monitor.', 'download-monitor' ) , 'google_drive', 'google-drive' ) ) . '</div>';
 		}
 
 		echo '</div>';
@@ -633,7 +632,7 @@ class DLM_Upsells {
 
 		if ( ! $this->check_extension( 'dlm-captcha' ) ) {
 
-			echo $this->generate_upsell_box( 'Captcha', 'Stop bots from spamming your downloads and ask users to complete Google reCAPTCHA.', 'logging', 'captcha' );
+			echo wp_kses_post( $this->generate_upsell_box( 'Captcha', 'Stop bots from spamming your downloads and ask users to complete Google reCAPTCHA.', 'logging', 'captcha' ) );
 		}
 
 	}

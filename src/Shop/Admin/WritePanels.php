@@ -95,10 +95,13 @@ class WritePanels {
 			// product not found, no point in continuing
 			return;
 		}
+		if( isset( $_POST['_dlm_price'] ) ) {
+			$product->set_price_from_user_input( sanitize_text_field( wp_unslash( $_POST['_dlm_price'] ) ) );
+		}
 
-		$product->set_price_from_user_input( $_POST['_dlm_price'] );
-		$product->set_download_ids( $_POST['_dlm_downloads'] );
-
+		if( isset( $_POST['_dlm_downloads'] ) ) {
+			$product->set_download_ids( sanitize_text_field( wp_unslash( $_POST['_dlm_downloads'] ) ) );
+		}
 		// persist download
 		Services::get()->service( 'product_repository' )->persist( $product );
 	}

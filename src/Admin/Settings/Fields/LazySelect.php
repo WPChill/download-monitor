@@ -38,7 +38,7 @@ class DLM_Admin_Fields_Field_Lazy_Select extends DLM_Admin_Fields_Field {
 		?>
 		<select id="setting-<?php esc_attr_e( $this->get_name() ); ?>" class="regular-text dlm-lazy-select"
 		        name="<?php esc_attr_e( $this->get_name() ); ?>" data-selected="<?php esc_attr_e( $this->get_value() ); ?>">
-            <option value="0"><?php _e( 'Loading', 'download-monitor'); ?>...</option>
+            <option value="0"><?php echo esc_html__( 'Loading', 'download-monitor'); ?>...</option>
         </select>
 		<?php
 	}

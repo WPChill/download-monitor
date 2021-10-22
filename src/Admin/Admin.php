@@ -215,7 +215,7 @@ class DLM_Admin {
 			$enqueue = true;
 		}
 
-		if ( $hook == 'edit-tags.php' && strstr( $_GET['taxonomy'], 'dlm_download' ) ) {
+		if ( $hook == 'edit-tags.php' && strstr( sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) ), 'dlm_download' ) ) {
 			$enqueue = true;
 		}
 

@@ -31,7 +31,7 @@ class DLM_Admin_Media_Browser {
 		// Files
 		$files = $file_manager->list_files( ABSPATH, 1 );
 
-		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Browse for a file', 'download-monitor' ) . '</title>';
+		echo '<!DOCTYPE html><html lang="en"><head><title>' . esc_html__( 'Browse for a file', 'download-monitor' ) . '</title>';
 
 		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		do_action( 'admin_print_styles' );
@@ -48,7 +48,7 @@ class DLM_Admin_Media_Browser {
 
 			if ( $found_file['type'] == 'folder' ) {
 
-				echo '<li><a href="#" class="folder" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
+				echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
 
 			} else {
 
@@ -62,7 +62,7 @@ class DLM_Admin_Media_Browser {
 					continue;
 				} // Ignored file types
 
-				echo '<li><a href="#" class="file filetype-' . sanitize_title( $extension ) . '" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
+				echo '<li><a href="#" class="file filetype-' . esc_attr( sanitize_title( $extension ) ) . '" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
 
 			}
 
@@ -98,14 +98,14 @@ class DLM_Admin_Media_Browser {
 							security: '<?php echo wp_create_nonce("list-files"); ?>'
 						};
 
-						jQuery.post( '<?php echo admin_url('admin-ajax.php'); ?>', data, function ( response ) {
+						jQuery.post( '<?php echo esc_url( admin_url('admin-ajax.php') ); ?>', data, function ( response ) {
 
 							$link.addClass( 'folder_open' );
 
 							if ( response ) {
 								$parent.find( '.load_tree' ).html( response );
 							} else {
-								$parent.find( '.load_tree' ).html( '<li class="nofiles"><?php _e('No files found', 'download-monitor'); ?></li>' );
+								$parent.find( '.load_tree' ).html( '<li class="nofiles"><?php echo esc_html__('No files found', 'download-monitor'); ?></li>' );
 							}
 							$parent.find( '.load_tree' ).removeClass( 'load_tree loading' );
 

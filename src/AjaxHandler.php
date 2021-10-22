@@ -49,7 +49,7 @@ class DLM_Ajax_Handler {
 			$attachment_url = wp_get_attachment_url( $attachment_id );
 
 			if ( false !== $attachment_url ) {
-				echo $attachment_url;
+				echo esc_url( $attachment_url );
 			}
 		}
 
@@ -163,7 +163,7 @@ class DLM_Ajax_Handler {
 
 				if ( $found_file['type'] == 'folder' ) {
 
-					echo '<li><a href="#" class="folder" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
+					echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
 
 				} else {
 
@@ -177,7 +177,7 @@ class DLM_Ajax_Handler {
 						continue;
 					} // Ignored file types
 
-					echo '<li><a href="#" class="file filetype-' . sanitize_title( $extension ) . '" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
+					echo '<li><a href="#" class="file filetype-' . esc_attr( sanitize_title( $extension ) ) . '" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
 
 				}
 
@@ -198,7 +198,7 @@ class DLM_Ajax_Handler {
 		}
 
 		// the notice
-		$notice = $_POST['notice'];
+		$notice = sanitize_text_field( $_POST['notice'] );
 
 		// check nonce
 		check_ajax_referer( 'dlm_hide_notice-' . $notice, 'nonce' );
