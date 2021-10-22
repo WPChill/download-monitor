@@ -1148,12 +1148,6 @@ table.wp-list-table .column-thumb img {
   width: 100%;
   float: left;
 }
-#total_downloads_table_wrapper .dlm-reports-block table {
-  position: absolute;
-}
-#total_downloads_table_wrapper .dlm-reports-block table.active {
-  position: relative;
-}
 /** Products overview page */
 .post-type-dlm_product table.wp-list-table .column-title {
   width: 65% !important;
