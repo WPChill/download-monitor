@@ -481,7 +481,8 @@ class DLM_Download_Handler {
 			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 			// Ensure we have a valid URL, not a file path
-			$file_path = str_replace( ABSPATH, site_url( '/', 'http' ), $file_path );
+			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+			$file_path = str_replace( ABSPATH, site_url( '/', $scheme ), $file_path );
 
 			header( 'Location: ' . $file_path );
 			exit;
