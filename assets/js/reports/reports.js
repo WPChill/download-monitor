@@ -4,17 +4,19 @@ jQuery( function ( $ ) {
 
 class DLM_Reports {
 
+	/**
+	 * The constructor for our class
+	 */
 	constructor() {
 
 		this.chartContainer = document.getElementById( 'total_downloads_chart' );
 		this.datePickerContainer = document.getElementById( 'dlm-date-range-picker' );
 		// We parse it so that we don't make any modifications to the actual data
-		this.reportsData = JSON.parse( JSON.stringify( dlmReportsStats ) );
-
+		// In case we will fetch data using js and the WP REST Api the this.reportsData will be an empty Object and we'll fetch data using fetchData() function
+		this.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse( JSON.stringify( dlmReportsStats ) ) : {};
 		this.mostDownloaded = false;
 		this.stats = false;
 		this.createDataOnDate( false, false );
-
 		this.datePicker = {
 			opened: false
 		};
@@ -73,7 +75,7 @@ class DLM_Reports {
 	 * @param dataType
 	 * @returns {*}
 	 */
-	createDataOnDate( startDateInput, endDateInput, dataType = 'chart' ) {
+	createDataOnDate( startDateInput, endDateInput ) {
 
 		let startDate, endDate;
 
@@ -85,6 +87,7 @@ class DLM_Reports {
 			const lastMonth = new Date();
 			lastMonth.setDate( lastMonth.getDate() - 30 );
 			startDate = this.createDateElement( lastMonth );
+
 		}
 
 		if ( 'undefined' !== typeof endDateInput && endDateInput ) {
@@ -96,19 +99,20 @@ class DLM_Reports {
 			yesterday.setDate( yesterday.getDate() );
 			endDate = this.createDateElement( yesterday );
 		}
-
+		// Get all dates from the startDate to the endDate
 		let dayDownloads = this.getDates( new Date( startDate ), new Date( endDate ) );
-		const objectValues = Object.values( this.reportsData );
-
-		let start = objectValues.findIndex( ( element ) => {
+		// Get number of days, used in summary for daily average downloads
+		const daysLength = Object.keys( dayDownloads ).length;
+		// Find the start of the donwloads object
+		let start = this.reportsData.findIndex( ( element ) => {
 
 			let element_date = new Date( element.date );
 			element_date = this.createDateElement( element_date );
 
 			return startDate === element_date;
 		} );
-
-		let end = objectValues.findIndex( ( element ) => {
+		// Find the end of the downloads object
+		let end = this.reportsData.findIndex( ( element ) => {
 
 			let element_date = new Date( element.date );
 			element_date = this.createDateElement( element_date );
@@ -121,7 +125,7 @@ class DLM_Reports {
 			this.stats = {
 				chartStats  : Object.assign( {}, dayDownloads ),
 				summaryStats: false,
-				daysLength  : Object.keys( dayDownloads ).length
+				daysLength  : daysLength
 			};
 			return;
 		}
@@ -140,9 +144,7 @@ class DLM_Reports {
 		Object.values( data ).forEach( ( day ) => {
 
 			const downloads = JSON.parse( day.download_ids );
-
 			let dateTime = new Date( day.date );
-
 			const date = this.createDateElement( dateTime );
 
 			Object.values( downloads ).forEach( ( item, index ) => {
@@ -160,7 +162,7 @@ class DLM_Reports {
 		this.stats = {
 			chartStats  : Object.assign( {}, dayDownloads ),
 			summaryStats: data,
-			daysLength  : Object.keys( dayDownloads ).length
+			daysLength  : daysLength
 		};
 
 	}
@@ -248,7 +250,7 @@ class DLM_Reports {
 		} ).reverse();
 
 		this.setTotalDownloads( totalDownloads );
-		this.setDailyAverage( parseInt( parseInt( totalDownloads ) / parseInt( this.stats.daysLength ) ) );
+		this.setDailyAverage( parseInt( totalDownloads / parseInt( this.stats.daysLength ) ) );
 		this.setMostDownloaded( this.mostDownloaded[0].title );
 		this.setTopDownloads();
 	}
@@ -286,6 +288,7 @@ class DLM_Reports {
 		el.click( function () {
 			return false;
 		} );
+		
 		return el;
 	}
 
@@ -577,5 +580,10 @@ class DLM_Reports {
 		this.datePickerContainer.addEventListener( 'click', this.toggleDatepicker.bind( this ) );
 	}
 
-
+	// fetch data from WP REST Api in case we want to change the direction from global js variable set by wp_add_inline_script
+	// need to get the fetch URL from 
+	async fetchData() {
+		const fetchedData = await fetch( 'http://localhost/dm/wp-json/download-monitor/v1/reports' );
+		this.reportsData = await fetchedData.json();
+	}
 }

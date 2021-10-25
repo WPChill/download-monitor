@@ -24,11 +24,11 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			add_action( 'wp_ajax_dlm_db_log_entries', array( $this, 'count_log_entries' ) );
 			add_action( 'wp_ajax_dlm_upgrade_db', array( $this, 'update_log_table_db' ) );
 
-			//if ( $this->check_for_table( $wpdb->prefix . 'download_log' ) && ! $this->check_for_table( $wpdb->prefix . 'dlm_reports_log' ) ) {
+			if ( $this->check_for_table( $wpdb->prefix . 'download_log' ) && ! $this->check_for_table( $wpdb->prefix . 'dlm_reports_log' ) ) {
 				add_action( 'admin_notices', array( $this, 'add_db_update_notice' ) );
 
 				add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_db_upgrader_scripts' ) );
-			//}
+			}
 
 		}
 
@@ -134,8 +134,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			$items = array();
 			$data  = $wpdb->get_results(
-					"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log dlm_log INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') {$sql_limit};"
+					"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log dlm_log 
+					INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') {$sql_limit};"
 					, ARRAY_A );
+		
 
 			foreach ( $data as $row ) {
 
@@ -151,6 +153,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			}
 
+
+
 			foreach ( $items as $key => $log ) {
 
 				$sql_check  = "SELECT * FROM {$wpdb->prefix}dlm_reports_log  WHERE date = %s;";
@@ -159,7 +163,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				$check      = $wpdb->get_results( $wpdb->prepare( $sql_check, $key ), ARRAY_A );
 
 				if ( $check ) {
-					$downloads = json_decode( $check[0]['download_ids'], array( 'allowed_classes' => false ) );
+
+					$downloads = json_decode( $check[0]['download_ids'],ARRAY_A);
 
 					foreach ( $log as $item_key => $item ) {
 						if ( isset( $downloads[ $item_key ] ) ) {
@@ -195,10 +200,11 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			<div class="dlm-upgrade-db-notice notice">
 				<div class="inside">
 					<div class="main">
-						<?php __('Hello there, we have changed the wa','download-monitor') ?>
+						<h3><?php _e('Attention needed!','download-monitor'); ?></h3>
+						<?php _e('Hello there, we have changed the way we show our reports, now being faster than ever. Please update your database in order for the new reports to work.','download-monitor') ?>
 					</div>
-					<button id="dlm-upgrade-db" class="button button-primary">just do it!</button>
-					<button id="dlm-upgrade-db" class="button button-secondary">Remind me later</button>
+					<button id="dlm-upgrade-db" class="button button-primary"><?php _e('Upgrade','download-monitor'); ?></button>
+					<button id="dlm-upgrade-db" class="button button-secondary"><?php _e('Remind me later','download-monitor'); ?></button>
 				</div>
 				<div id="dlm_progress-bar"><div class="dlm-progress-label"></div></div>
 			</div>
