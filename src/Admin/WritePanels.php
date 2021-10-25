@@ -364,14 +364,14 @@ class DLM_Admin_Writepanels {
 		if ( isset( $_POST['downloadable_file_id'] ) ) {
 
 			// gather post data
-			$downloadable_file_id             = sanitize_text_field( $_POST['downloadable_file_id'] );
-			$downloadable_file_menu_order     = sanitize_text_field( $_POST['downloadable_file_menu_order'] );
-			$downloadable_file_version        = sanitize_text_field( $_POST['downloadable_file_version'] );
-			$downloadable_file_urls           = esc_url_raw( $_POST['downloadable_file_urls'] );
-			$downloadable_file_date           = sanitize_text_field( $_POST['downloadable_file_date'] );
-			$downloadable_file_date_hour      = sanitize_text_field( $_POST['downloadable_file_date_hour'] );
-			$downloadable_file_date_minute    = sanitize_text_field( $_POST['downloadable_file_date_minute'] );
-			$downloadable_file_download_count = sanitize_text_field( $_POST['downloadable_file_download_count'] );
+			$downloadable_file_id             = $_POST['downloadable_file_id'];
+			$downloadable_file_menu_order     = $_POST['downloadable_file_menu_order'];
+			$downloadable_file_version        = $_POST['downloadable_file_version'];
+			$downloadable_file_urls           = $_POST['downloadable_file_urls'];
+			$downloadable_file_date           = $_POST['downloadable_file_date'];
+			$downloadable_file_date_hour      = $_POST['downloadable_file_date_hour'];
+			$downloadable_file_date_minute    = $_POST['downloadable_file_date_minute'];
+			$downloadable_file_download_count = $_POST['downloadable_file_download_count'];
 
 			// loop
 			for ( $i = 0; $i <= max( array_keys( $downloadable_file_id ) ); $i ++ ) {

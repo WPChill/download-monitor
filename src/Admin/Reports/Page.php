@@ -152,7 +152,7 @@ class DLM_Reports_Page {
 	private function generate_js_data() {
 		$range = $this->get_date_range();
 
-		return ' data-type="' . $this->get_current_chart() . '" data-period="' . $this->get_current_period() . '" data-from="' . $range['from'] . '" data-to="' . $range['to'] . '"';
+		echo ' data-type="' . esc_attr( $this->get_current_chart() ) . '" data-period="' . esc_attr( $this->get_current_period() ) . '" data-from="' . esc_attr( $range['from'] ) . '" data-to="' . esc_attr( $range['to'] ) . '"';
 	}
 
 	/**
@@ -209,7 +209,7 @@ class DLM_Reports_Page {
 
 	        <?php do_action( 'dlm_reports_page_start' ); ?>
 			<div class="dlm-reports-block dlm-reports-block-summary"
-                 id="total_downloads_summary"<?php echo wp_kses_post( $this->generate_js_data() ); ?>>
+                 id="total_downloads_summary"<?php $this->generate_js_data(); ?>>
                 <ul>
                     <li id="total"><label>Total Downloads</label><span>...</span></li>
                     <li id="average"><label>Daily Average Downloads</label><span>...</span></li>
@@ -217,11 +217,11 @@ class DLM_Reports_Page {
                 </ul>
             </div>
 			<div class="total_downloads_chart-wrapper">
-				<canvas class="dlm-reports-block dlm-reports-block-chart" id="total_downloads_chart"<?php echo wp_kses_post( $this->generate_js_data() ); ?>></canvas>
+				<canvas class="dlm-reports-block dlm-reports-block-chart" id="total_downloads_chart"<?php $this->generate_js_data(); ?>></canvas>
 			</div>
 
             <div class="dlm-reports-block dlm-reports-block-table"
-                 id="total_downloads_table"<?php echo wp_kses_post( $this->generate_js_data() ); ?>>
+                 id="total_downloads_table"<?php $this->generate_js_data(); ?>>
                 <span class="dlm-reports-placeholder-no-data">NO DATA</span>
             </div>
 
@@ -229,7 +229,7 @@ class DLM_Reports_Page {
 
             <script type="text/javascript">
 				jQuery( document ).ready( function ( $ ) {
-					$( '#dlm-date-range-picker' ).dlm_reports_date_range( '<?php echo esc_html( $date_range['from'] ); ?>', '<?php echo esc_html( $date_range['to'] ); ?>', '<?php echo $js_url; ?>' );
+					$( '#dlm-date-range-picker' ).dlm_reports_date_range( '<?php echo esc_html( $date_range['from'] ); ?>', '<?php echo esc_html( $date_range['to'] ); ?>', '<?php echo esc_url( $js_url ); ?>' );
 				} );
             </script>
         </div>
