@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="dlm-metabox closed downloadable_file" data-file="<?php echo esc_html( $file_id ); ?>">
 	<h3>
 		<button type="button" class="remove_file button"><?php echo esc_html__( 'Remove', 'download-monitor' ); ?></button>
-		<div class="handlediv" title="<?php echo esc_html__( 'Click to toggle', 'download-monitor' ); ?>"></div>
+		<div class="handlediv" title="<?php echo esc_attr__( 'Click to toggle', 'download-monitor' ); ?>"></div>
 		<strong>#<?php echo esc_html( $file_id ); ?> &mdash; <?php echo sprintf( wp_kses_post( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ) ), ( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ), esc_html( date_i18n( get_option( 'date_format' ) ), $file_post_date->format( 'U' ) ) ); ?> &mdash; <?php echo sprintf( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ), esc_html( $file_download_count ) ); ?></strong>
 		<input type="hidden" name="downloadable_file_id[<?php echo esc_attr( $version_increment ); ?>]" value="<?php echo esc_attr( $file_id ); ?>"/>
 		<input type="hidden" class="file_menu_order" name="downloadable_file_menu_order[<?php echo esc_attr( $version_increment ); ?>]"
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<td width="1%">
 				<label><?php echo esc_html__( 'Version', 'download-monitor' ); ?>:</label>
 				<input type="text" class="short" name="downloadable_file_version[<?php echo esc_attr( $version_increment ); ?>]"
-				       placeholder="<?php echo esc_html__( 'n/a', 'download-monitor' ); ?>" value="<?php echo esc_attr( $file_version ); ?>"/>
+				       placeholder="<?php echo esc_attr__( 'n/a', 'download-monitor' ); ?>" value="<?php echo esc_attr( $file_version ); ?>"/>
 			</td>
 			<td rowspan="3">
 
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<textarea name="downloadable_file_urls[<?php echo esc_attr( $version_increment ); ?>]" wrap="off" class="downloadable_file_urls"
 				          cols="5" rows="5"
-				          placeholder="<?php echo esc_html__( 'Enter one file path/URL per line - multiple files will be used as mirrors (chosen at random).', 'download-monitor' ); ?>"><?php echo esc_textarea( implode( "\n", $file_urls ) ); ?></textarea>
+				          placeholder="<?php echo esc_attr__( 'Enter one file path/URL per line - multiple files will be used as mirrors (chosen at random).', 'download-monitor' ); ?>"><?php echo esc_textarea( implode( "\n", $file_urls ) ); ?></textarea>
 
 				<p>
 					<?php
@@ -75,7 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					type="text" class="hour" placeholder="<?php echo esc_html__( 'h', 'download-monitor' ) ?>"
 					name="downloadable_file_date_hour[<?php echo esc_attr( $version_increment ); ?>]" maxlength="2" size="2"
 					value="<?php echo esc_attr( $file_post_date->format( 'H' ) ); ?>"/>:<input type="text" class="minute"
-				                                                                              placeholder="<?php echo esc_html__( 'm', 'download-monitor' ) ?>"
+				                                                                              placeholder="<?php echo esc_attr__( 'm', 'download-monitor' ) ?>"
 				                                                                              name="downloadable_file_date_minute[<?php echo esc_attr( $version_increment ); ?>]"
 				                                                                              maxlength="2" size="2"
 				                                                                              value="<?php echo esc_attr( $file_post_date->format('i') ); ?>"/>

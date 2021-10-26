@@ -116,7 +116,7 @@ $items = $order->get_items();
             <div class="dlm-order-details-block-inside">
 				<?php
 				if ( ! empty( $customer['email'] ) ) {
-					echo "<img src='https://www.gravatar.com/avatar/" . esc_html( md5( $customer['email'] ) ) . "?s=95&d=mp' alt='" . esc_attr( $customer['name'] ) . "' class='dlm-order-details-customer-image' />";
+					echo "<img src='https://www.gravatar.com/avatar/" . esc_attr( md5( $customer['email'] ) ) . "?s=95&d=mp' alt='" . esc_attr( $customer['name'] ) . "' class='dlm-order-details-customer-image' />";
 				}
 				?>
                 <ul>

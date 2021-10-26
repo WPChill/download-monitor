@@ -15,7 +15,7 @@
 
             <select id="dlm_downloads" name="_dlm_downloads[]"
                     multiple="true"
-                    data-placeholder="<?php echo esc_html__( 'Select Downloads&hellip;', 'download-monitor' ); ?>"
+                    data-placeholder="<?php echo esc_attr__( 'Select Downloads&hellip;', 'download-monitor' ); ?>"
                     class="dlm-select-ext dlm_shop_input">
                 <?php if ( ! empty( $downloads ) ) : ?>
 	                <?php foreach ( $downloads as $download ) : ?>
@@ -26,27 +26,6 @@
 
         </span>
     </p>
-
-	<?php /*
-    <p>
-        <label><?php _e( 'Taxable', 'download-monitor' ); ?></label>
-        <input type="checkbox" name="_dlm_taxable" value="1" <?php checked( true, $taxable ); ?>/>
-    </p>
-
-    <p>
-        <label><?php _e( 'Tax Class', 'download-monitor' ); ?></label>
-        <select name="_dlm_tax_class">
-			<?php
-			$classes = \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'tax_class_manager' )->get_tax_rates();
-			if ( count( $classes ) > 0 ) {
-				foreach ( $classes as $class ) {
-					echo "<option value='" . $class . "'" . selected( $tax_class, $class ) . ">" . $class . " " . __( 'rate', 'download-monitor' ) . "</option>";
-				}
-			}
-			?>
-        </select>
-    </p>
- */ ?>
 
 	<?php do_action( 'dlm_mb_product_information_end', $product->get_id(), $product ); ?>
 
