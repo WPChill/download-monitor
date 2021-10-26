@@ -161,7 +161,6 @@ module.exports = function ( grunt ) {
 				'!node_modules/**',
 				'!.github/**',
 				'!.git/**',
-				'!vendor/**',
 				'!build/**',
 				'!readme.md',
 				'!README.md',
