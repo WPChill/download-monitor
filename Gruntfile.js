@@ -147,7 +147,44 @@ module.exports = function ( grunt ) {
 					'tx pull -a -f',
 				].join( '&&' )
 			}
-		}
+		},
+		compress: {
+			build: {
+				options: {
+					pretty: true,                           // Pretty print file sizes when logging.
+					archive: 'download-monitor.zip'
+				},
+				expand: true,
+				cwd: '',
+				src: [ 
+				'**',
+				'!node_modules/**',
+				'!.github/**',
+				'!.git/**',
+				'!vendor/**',
+				'!build/**',
+				'!readme.md',
+				'!README.md',
+				'!phpcs.ruleset.xml',
+				'!package-lock.json',
+				'!svn-ignore.txt',
+				'!Gruntfile.js',
+				'!package.json',
+				'!composer.json',
+				'!composer.lock',
+				'!postcss.config.js',
+				'!webpack.config.js',
+				'!set_tags.sh',
+				'!download-monitor.zip',
+				'!old/**',
+				'!bin/**',
+				'!tests/**',
+				'!codeception.dist.yml',
+				'!regconfig.json',
+				'!nbproject/**' ],
+				dest: 'download-monitor/'
+			}
+		},
 
 	} );
 
@@ -160,6 +197,7 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks('grunt-wp-i18n');
 	grunt.loadNpmTasks('grunt-checktextdomain');
 	grunt.loadNpmTasks('@fltwk/grunt-po2mo');
+	grunt.loadNpmTasks('grunt-contrib-compress');
 
 	// Register tasks
 	grunt.registerTask( 'default', [
@@ -180,5 +218,10 @@ module.exports = function ( grunt ) {
 	] );
 
 	grunt.registerTask('makemo', ['po2mo']);
+
+	// Build task
+	grunt.registerTask( 'build-archive', [	
+		'compress:build',
+	] );
 
 };
