@@ -192,13 +192,7 @@ class DLM_Reports {
 				x_axis_mode: "tick",
 				y_axis_mode: "span",
 				is_series  : 1,
-				options    : {
-					scales    : {
-						ticks: {
-							maxRotation: 50,
-							minRotation: 50
-						},
-					},
+				options    : {			
 					animation : false,
 					elements  : {
 						line: {
