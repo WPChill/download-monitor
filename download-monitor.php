@@ -65,23 +65,3 @@ if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
 	}
 	download_monitor_start_plugin_tracking();
 }
-
-ini_set("xdebug.var_display_max_depth", -1);
-ini_set("xdebug.var_display_max_children", -1);
-ini_set("xdebug.var_display_max_data", -1);
-
-$active_plugins = get_option( 'active_plugins', array() );
-$licenses = array();
-			if ( ! empty( $active_plugins ) ) {
-				foreach ( $active_plugins as $plugin => $value ) {
-					if ( 0 === strpos( $value, 'dlm' ) ) {
-						$new_val                 = explode( '/', $value );
-						$licenses[ $new_val[0] ] = get_option( $new_val[0] . '-license' );
-						unset( $licenses[ $new_val[0] ][1] );
-						$licenses[ $new_val[0] ] = serialize( $licenses[ $new_val[0] ] );
-					}
-				}
-			}
-
-			// var_dump( $licenses );
-			// die();
