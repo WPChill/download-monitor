@@ -294,9 +294,6 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 							'user-agent'  => 'PUT/1.0.0; ' . home_url(),
 					)
 			);
-			ini_set( 'xdebug.var_display_max_depth', '100' );
-			ini_set( 'xdebug.var_display_max_children', '25006' );
-			ini_set( 'xdebug.var_display_max_data', '102004' );
 
 			$this->set_track_time();
 
