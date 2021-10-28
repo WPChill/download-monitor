@@ -80,12 +80,6 @@ class WritePanels {
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
 
-		// validate nonce
-		// phpcs:ignore
-		if ( empty( $_POST['dlm_product_nonce'] ) || ! wp_verify_nonce( $_POST['dlm_product_nonce'], 'save_meta_data' ) ) {
-			return;
-		}
-
 		/**
 		 * Fetch old download object
 		 * There are certain props we don't need to manually persist here because WP does this automatically for us.

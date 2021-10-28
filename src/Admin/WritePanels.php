@@ -325,12 +325,6 @@ class DLM_Admin_Writepanels {
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
 
-		// validate nonce.
-		// phpcs:ignore
-		if ( empty( $_POST['dlm_nonce'] ) || ! wp_verify_nonce( wp_unslash($_POST['dlm_nonce']), 'save_meta_data' ) ) {
-			return;
-		}
-
 		/**
 		 * Fetch old download object
 		 * There are certain props we don't need to manually persist here because WP does this automatically for us.
