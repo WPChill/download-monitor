@@ -343,7 +343,7 @@ class DLM_Admin_Extensions {
 		<div class="wrap dlm_extensions_wrap">
 		<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 		<h1>
-			<?php _e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
+			<?php esc+html_e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
 			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
 			   class="button dlm-reload-button">
 				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
@@ -382,7 +382,7 @@ class DLM_Admin_Extensions {
 
 				echo '<div class="extension_license">';
 				echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>';
-				echo '<input type="hidden" id="dlm-ajax-nonce" value="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '" />';
+				echo '<input type="hidden" id="dlm-ajax-nonce" value="' . esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ) . '" />';
 				echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />';
 				echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />';
 				echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';

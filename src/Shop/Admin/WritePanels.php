@@ -50,6 +50,8 @@ class WritePanels {
 		if ( is_int( wp_is_post_autosave( $post ) ) ) {
 			return;
 		}
+		// validate nonce
+		// phpcs:ignore
 		if ( empty( $_POST['dlm_product_nonce'] ) || ! wp_verify_nonce( $_POST['dlm_product_nonce'], 'save_meta_data' ) ) {
 			return;
 		}
@@ -77,6 +79,12 @@ class WritePanels {
 	 * @return void
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
+
+		// validate nonce
+		// phpcs:ignore
+		if ( empty( $_POST['dlm_product_nonce'] ) || ! wp_verify_nonce( $_POST['dlm_product_nonce'], 'save_meta_data' ) ) {
+			return;
+		}
 
 		/**
 		 * Fetch old download object

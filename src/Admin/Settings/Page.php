@@ -38,10 +38,10 @@ class DLM_Settings_Page {
 
 		if ( isset( $_GET['dlm_action'] ) && isset( $_GET['dlm_nonce'] ) ) {
 			$action = sanitize_text_field( wp_unslash( $_GET['dlm_action'] ) );
-			$nonce  = $_GET['dlm_nonce'];
 
 			// check nonce
-			if ( ! wp_verify_nonce( $nonce, $action ) ) {
+			// phpcs:ignore
+			if ( ! wp_verify_nonce( $_GET['dlm_nonce'], $action ) ) {
 				wp_die( esc_html__( "Download Monitor action nonce failed.", 'download-monitor' ) );
 			}
 
@@ -65,6 +65,11 @@ class DLM_Settings_Page {
 	 * Display the admin action success mesage
 	 */
 	public function display_admin_action_message() {
+
+		if ( ! isset( $_GET['dlm_action_done'] ) ) {
+			return;
+		}
+
 		?>
 		<div class="notice notice-success">
 			<?php
@@ -104,11 +109,11 @@ class DLM_Settings_Page {
 
 				if ( ! empty( $_GET['settings-updated'] ) ) {
 					$this->need_rewrite_flush = true;
-					echo '<div class="updated notice is-dismissible"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+					echo '<div class="updated notice is-dismissible"><p>' . esc_html__( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
 
 					$dlm_settings_tab_saved = get_option( 'dlm_settings_tab_saved', 'general' );
 
-					echo '<script type="text/javascript">var dlm_settings_tab_saved = "' . esc_html( $dlm_settings_tab_saved ) . '";</script>';
+					echo '<script type="text/javascript">var dlm_settings_tab_saved = "' . esc_js( $dlm_settings_tab_saved ) . '";</script>';
 				}
 
 				// loop fields for this tab
@@ -125,7 +130,7 @@ class DLM_Settings_Page {
 									<a href="<?php echo esc_url( add_query_arg( array(
 											'tab'     => $tab,
 											'section' => $section_key
-									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo $section['title']; ?></a></liM>
+									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?></a></liM>
 								<?php endforeach; ?>
 							</ul>
 							<h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
@@ -213,17 +218,20 @@ class DLM_Settings_Page {
 	function print_global_notices() {
 
 		// check for nginx
-		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ), 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
+		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) &&
+			stristr( sanitize_text_field( wp_unslash($_SERVER['SERVER_SOFTWARE']) ), 'nginx' ) !== false &&
+			1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
 
 			// get upload dir
 			$upload_dir = wp_upload_dir();
 
 			// replace document root because nginx uses path from document root
-			$upload_path = str_replace( sanitize_text_field( $_SERVER['DOCUMENT_ROOT'] ), '', $upload_dir['basedir'] );
+			// phpcs:ignore
+			$upload_path = str_replace( sanitize_text_field( wp_unslash($_SERVER['DOCUMENT_ROOT']) ), '', $upload_dir['basedir'] );
 
 			// form nginx rules
 			$nginx_rules = "location " . $upload_path . "/dlm_uploads {<br/>deny all;<br/>return 403;<br/>}";
-			echo '<div class="error notice is-dismissible dlm-notice" id="nginx_rules" data-nonce="' . wp_create_nonce( 'dlm_hide_notice-nginx_rules' ) . '">';
+			echo '<div class="error notice is-dismissible dlm-notice" id="nginx_rules" data-nonce="' . esc_attr( wp_create_nonce( 'dlm_hide_notice-nginx_rules' ) ) . '">';
 			echo '<p>' . esc_html__( "Because your server is running on nginx, our .htaccess file can't protect your downloads.", 'download-monitor' );
 			echo '<br/>' . sprintf( esc_html__( "Please add the following rules to your nginx config to disable direct file access: %s", 'download-monitor' ), '<br/><br/><code class="dlm-code-nginx-rules">' . wp_kses_post( $nginx_rules ) . '</code>' ) . '</p>';
 			echo '</div>';
@@ -274,7 +282,7 @@ class DLM_Settings_Page {
 	 */
 	private
 	function get_active_tab() {
-		return ( ! empty( $_GET['tab'] ) ? sanitize_title( $_GET['tab'] ) : 'general' );
+		return ( ! empty( $_GET['tab'] ) ? sanitize_title( wp_unslash($_GET['tab']) ) : 'general' );
 	}
 
 	/**
@@ -285,7 +293,7 @@ class DLM_Settings_Page {
 	 * @return string
 	 */
 	private function get_active_section( $sections) {
-		return ( ! empty( $_GET['section'] ) ? sanitize_title( $_GET['section'] ) : $this->array_first_key( $sections ) );
+		return ( ! empty( $_GET['section'] ) ? sanitize_title( wp_unslash($_GET['section']) ) : $this->array_first_key( $sections ) );
 	}
 
 

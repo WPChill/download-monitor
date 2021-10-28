@@ -72,11 +72,12 @@ class DLM_Admin_Media_Insert {
 		/**
 		 * TODO: Use new repository here
 		 */
-		if ( ! empty( $_POST['download_url'] ) && ! empty( $_POST['download_title'] ) && wp_verify_nonce( $_POST['quick-add-nonce'], 'quick-add' ) ) {
+		// phpcs:ignore
+		if ( ! empty( $_POST['download_url'] ) && ! empty( $_POST['download_title'] ) && isset( $_POST['quick-add-nonce'] ) && wp_verify_nonce( $_POST['quick-add-nonce'], 'quick-add' ) ) {
 
-			$url     = stripslashes( $_POST['download_url'] );
-			$title   = sanitize_text_field( stripslashes( $_POST['download_title'] ) );
-			$version = sanitize_text_field( stripslashes( $_POST['download_version'] ) );
+			$url     = esc_url_raw( wp_unslash( $_POST['download_url'] ) );
+			$title   = sanitize_text_field( wp_unslash( $_POST['download_title'] ) );
+			$version = isset( $_POST['download_version'] ) ? sanitize_text_field( wp_unslash( $_POST['download_version'] ) ) : '';
 
 			try {
 
@@ -176,7 +177,7 @@ class DLM_Admin_Media_Insert {
 
 				if ( $d_num_rows > $limit ) {
 
-					echo paginate_links( apply_filters( 'download_monitor_pagination_args', array(
+					echo wp_kses_post( paginate_links( apply_filters( 'download_monitor_pagination_args', array(
 						'base'      => str_replace( 999999999, '%#%', get_pagenum_link( 999999999, false ) ),
 						'format'    => '',
 						'current'   => $page,
@@ -186,7 +187,7 @@ class DLM_Admin_Media_Insert {
 						'type'      => 'list',
 						'end_size'  => 3,
 						'mid_size'  => 3
-					) ) );
+					) ) ) );
 				}
 				?>
 			</fieldset>
@@ -215,11 +216,11 @@ class DLM_Admin_Media_Insert {
 					<div class="drag-drop-inside">
 						<p class="drag-drop-info"><?php echo esc_html__( 'Drop file here', 'download-monitor' ); ?></p>
 
-						<p><?php echo _x( 'or', 'Drop file here *or* select file', 'download-monitor' ); ?></p>
+						<p><?php echo esc_html_x( 'or', 'Drop file here *or* select file', 'download-monitor' ); ?></p>
 
-						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button"
-						                                    value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>"
-						                                    class="button"/></p>
+						<p class="drag-drop-buttons">
+							<input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button"/>
+						</p>
 					</div>
 				</div>
 				<p><a href="#" class="add_manually"><?php echo esc_html__( 'Enter URL manually', 'download-monitor' ); ?> &rarr;</a>
@@ -228,25 +229,21 @@ class DLM_Admin_Media_Insert {
 			<div id="quick-add-details" style="display:none">
 				<p>
 					<label for="download_url"><?php echo esc_html__( 'Download URL', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_url" id="download_url" value="" class="download_url input"
-					       placeholder="<?php echo esc_html__( 'Required URL', 'download-monitor' ); ?>"/>
+					<input type="text" name="download_url" id="download_url" value="" class="download_url input" placeholder="<?php echo esc_html__( 'Required URL', 'download-monitor' ); ?>"/>
 				</p>
 
 				<p>
 					<label for="download_title"><?php echo esc_html__( 'Download Title', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_title" id="download_title" value="" class="download_title input"
-					       placeholder="<?php echo esc_html__( 'Required title', 'download-monitor' ); ?>"/>
+					<input type="text" name="download_title" id="download_title" value="" class="download_title input" placeholder="<?php echo esc_attr__( 'Required title', 'download-monitor' ); ?>"/>
 				</p>
 
 				<p>
 					<label for="download_version"><?php echo esc_html__( 'Version', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_version" id="download_version" value="" class="input"
-					       placeholder="<?php echo esc_html__( 'Optional version number', 'download-monitor' ); ?>"/>
+					<input type="text" name="download_version" id="download_version" value="" class="input" placeholder="<?php echo esc_attr__( 'Optional version number', 'download-monitor' ); ?>"/>
 				</p>
 
 				<p>
-					<input type="submit" class="button button-primary button-large"
-					       value="<?php echo esc_html__( 'Save Download', 'download-monitor' ); ?>"/>
+					<input type="submit" class="button button-primary button-large" value="<?php echo esc_attr__( 'Save Download', 'download-monitor' ); ?>"/>
 					<?php wp_nonce_field( 'quick-add', 'quick-add-nonce' ) ?>
 				</p>
 			</div>
@@ -319,7 +316,7 @@ class DLM_Admin_Media_Insert {
 				?>
 
 				// create the uploader and pass the config from above
-				var uploader = new plupload.Uploader( <?php echo json_encode( $plupload_init ); ?> );
+				var uploader = new plupload.Uploader( <?php echo esc_js(json_encode( $plupload_init )); ?> );
 
 				// checks if browser supports drag and drop upload, makes some css adjustments if necessary
 				uploader.bind( 'Init', function ( up ) {

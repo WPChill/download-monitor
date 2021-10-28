@@ -1,5 +1,5 @@
 <?php
-
+// phpcs:ignoreFile
 namespace Never5\DownloadMonitor\Dependencies\PayPal\Rest;
 
 use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConfigManager;

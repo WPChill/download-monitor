@@ -260,8 +260,7 @@ class OrderTable extends \WP_List_Table {
 								printf( "<option %s value='%s'>%s</option>\n",
 									selected( $m, $year . '-' . $month, false ),
 									esc_attr( $year . '-' . $month ),
-
-									sprintf( esc_html__( '%1$s %2$d' ), esc_html( $wp_locale->get_month( $month ) ), $year )
+									esc_html(sprintf( esc_html__( '%1$s %2$d' ), esc_html( $wp_locale->get_month( $month ) ), $year ))
 								);
 							}
 							?>
@@ -270,14 +269,10 @@ class OrderTable extends \WP_List_Table {
 
                     <select name="orders_per_page">
                         <option value="25"><?php echo esc_html__( '25 per page', 'download-monitor' ); ?></option>
-                        <option
-                                value="50" <?php selected( $this->orders_per_page, 50 ) ?>><?php echo esc_html__( '50 per page', 'download-monitor' ); ?></option>
-                        <option
-                                value="100" <?php selected( $this->orders_per_page, 100 ) ?>><?php echo esc_html__( '100 per page', 'download-monitor' ); ?></option>
-                        <option
-                                value="200" <?php selected( $this->orders_per_page, 200 ) ?>><?php echo esc_html__( '200 per page', 'download-monitor' ); ?></option>
-                        <option
-                                value="-1" <?php selected( $this->orders_per_page, - 1 ) ?>><?php echo esc_html__( 'Show All', 'download-monitor' ); ?></option>
+                        <option value="50" <?php selected( $this->orders_per_page, 50 ) ?>><?php echo esc_html__( '50 per page', 'download-monitor' ); ?></option>
+                        <option value="100" <?php selected( $this->orders_per_page, 100 ) ?>><?php echo esc_html__( '100 per page', 'download-monitor' ); ?></option>
+                        <option value="200" <?php selected( $this->orders_per_page, 200 ) ?>><?php echo esc_html__( '200 per page', 'download-monitor' ); ?></option>
+                        <option value="-1" <?php selected( $this->orders_per_page, - 1 ) ?>><?php echo esc_html__( 'Show All', 'download-monitor' ); ?></option>
                     </select>
 
                     <input type="hidden" name="post_type" value="<?php echo esc_attr( PostType::KEY ); ?>"/>
@@ -361,8 +356,12 @@ class OrderTable extends \WP_List_Table {
 		*/
 
 		// check for order
-		$order_by = ( ! empty( $_GET['orderby'] ) ) ? sanitize_sql_orderby( $_GET['orderby'] ) : 'id';
-		$order    = ( ! empty( $_GET['order'] ) ) ? esc_sql( $_GET['order'] ) : 'DESC';
+		$order_by = ( ! empty( $_GET['orderby'] ) ) ? sanitize_sql_orderby( wp_unslash($_GET['orderby']) ) : 'id';
+		$order    = 'DESC';
+		// phpcs:ignore
+		if ( isset( $_GET['order'] ) && 'ASC' == strtoupper( wp_unslash( $_GET['order'] ) ) ) {
+			$order = 'ASC';
+		}
 
 		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $order_repository */
 		$order_repository = Services::get()->service( 'order_repository' );
@@ -389,6 +388,7 @@ class OrderTable extends \WP_List_Table {
 		if ( 'delete' === $this->current_action() ) {
 
 			// check nonce
+			// phpcs:ignore
 			if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'bulk-' . $this->_args['plural'] ) ) {
 				wp_die( 'process_bulk_action() nonce check failed' );
 			}

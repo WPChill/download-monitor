@@ -35,7 +35,7 @@ class ExecutePaymentListener {
 		 */
 
 		$order_id   = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : 0;
-		$order_hash = isset( $_GET['order_hash'] ) ? sanitize_text_field( $_GET['order_hash'] ) : '';
+		$order_hash = isset( $_GET['order_hash'] ) ? sanitize_text_field( wp_unslash($_GET['order_hash']) ) : '';
 
 		if ( empty( $order_id ) || empty( $order_hash ) ) {
 			$this->execute_failed( $order_id, $order_hash );
@@ -58,14 +58,21 @@ class ExecutePaymentListener {
 		/**
 		 * Get Payment by paymentId
 		 */
-		$paymentId = sanitize_text_field( $_GET['paymentId'] );
+		$paymentId = 0;
+		if ( isset( $_GET['paymentId'] ) ) {
+			$paymentId = sanitize_text_field( wp_unslash( $_GET['paymentId'] ) );
+		}
 		$payment   = PayPal\Api\Payment::get( $paymentId, $this->gateway->get_api_context() );
 
 		/**
 		 * Setup PaymentExecution object
 		 */
 		$execution = new PayPal\Api\PaymentExecution();
-		$execution->setPayerId( sanitize_text_field( wp_unslash( $_GET['PayerID'] ) ) );
+		$payerID = 0;
+		if ( isset( $_GET['PayerID'] ) ) {
+			$payerID = sanitize_text_field( wp_unslash( $_GET['PayerID'] ) );
+		}
+		$execution->setPayerId( $payerID );
 
 
 		/**

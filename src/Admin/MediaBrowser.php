@@ -95,7 +95,7 @@ class DLM_Admin_Media_Browser {
 						var data = {
 							action: 'download_monitor_list_files',
 							path: jQuery( this ).attr( 'data-path' ),
-							security: '<?php echo wp_create_nonce("list-files"); ?>'
+							security: '<?php echo esc_js(wp_create_nonce("list-files")); ?>'
 						};
 
 						jQuery.post( '<?php echo esc_url( admin_url('admin-ajax.php') ); ?>', data, function ( response ) {

@@ -120,7 +120,7 @@ class Product {
 	 * Prints the excerpt
 	 */
 	public function the_excerpt() {
-		echo wpautop( do_shortcode( $this->get_excerpt() ) );
+		echo wp_kses_post( wpautop( do_shortcode( $this->get_excerpt() ) ) );
 	}
 
 	/**

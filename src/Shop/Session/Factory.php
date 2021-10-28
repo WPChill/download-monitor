@@ -23,7 +23,8 @@ class Factory {
 	private function generate_hash( $key ) {
 		$nonce = ( defined( 'NONCE_SALT' ) ? NONCE_SALT : 'nononce' );
 
-		return md5( uniqid( 'dlm_shop_session_hash', true ) . mt_rand( 0, 99 ) . sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) . $nonce . $key );
+		$remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		return md5( uniqid( 'dlm_shop_session_hash', true ) . mt_rand( 0, 99 ) . $remote_addr . $nonce . $key );
 	}
 
 	/**

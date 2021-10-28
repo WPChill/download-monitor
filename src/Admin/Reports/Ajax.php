@@ -21,9 +21,9 @@ class DLM_Reports_Ajax {
 
 		// getters
 		$id     = ( ! empty( $_GET['id'] ) ) ? sanitize_text_field( wp_unslash( $_GET['id'] ) ) : null;
-		$from   = ( ! empty( $_GET['from'] ) ) ? sanitize_text_field( $_GET['from'] ) : null;
-		$to     = ( ! empty( $_GET['to'] ) ) ? sanitize_text_field( $_GET['to'] ) : null;
-		$period = ( ! empty( $_GET['period'] ) ) ? sanitize_text_field( $_GET['period'] ) : 'day';
+		$from   = ( ! empty( $_GET['from'] ) ) ? sanitize_text_field( wp_unslash($_GET['from']) ) : null;
+		$to     = ( ! empty( $_GET['to'] ) ) ? sanitize_text_field( wp_unslash($_GET['to']) ) : null;
+		$period = ( ! empty( $_GET['period'] ) ) ? sanitize_text_field( wp_unslash($_GET['period']) ) : 'day';
 
 		// setup date filter query
 		$filters   = array(
@@ -53,7 +53,7 @@ class DLM_Reports_Ajax {
 
 					$data = $repo->retrieve_grouped_count( $filters, $period );
 
-					$chart                = new DLM_Reports_Chart( $data, array(
+					$chart = new DLM_Reports_Chart( $data, array(
 						'from' => $from,
 						'to'   => $to
 					), $period );

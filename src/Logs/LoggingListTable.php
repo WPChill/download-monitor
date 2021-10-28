@@ -29,9 +29,9 @@ class DLM_Logging_List_Table extends WP_List_Table {
 			'ajax'     => false
 		) );
 
-		$this->filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
+		$this->filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( wp_unslash($_REQUEST['filter_status']) ) : '';
 		$this->logs_per_page = ! empty( $_REQUEST['logs_per_page'] ) ? intval( $_REQUEST['logs_per_page'] ) : 25;
-		$this->filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
+		$this->filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( wp_unslash($_REQUEST['filter_month']) ) : '';
 		$this->filter_user   = ! empty( $_REQUEST['filter_user'] ) ? intval( $_REQUEST['filter_user'] ) : 0;
 
 		if ( $this->logs_per_page < 1 ) {
@@ -259,7 +259,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 					$month_count = count( $months );
 
 					if ( $month_count && ! ( 1 == $month_count && 0 == $months[0]->month ) ) {
-						$m = isset( $_GET['filter_month'] ) ? sanitize_text_field( $_GET['filter_month'] ) : 0;
+						$m = isset( $_GET['filter_month'] ) ? sanitize_text_field( wp_unslash($_GET['filter_month']) ) : 0;
 						?>
                         <select name="filter_month">
                             <option <?php selected( $m, 0 ); ?> value='0'><?php echo esc_html__( 'Show all dates' ); ?></option>
@@ -276,7 +276,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 									selected( $m, $year . '-' . $month, false ),
 									esc_attr( $year . '-' . $month ),
 
-									sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
+									sprintf( esc_html__( '%1$s %2$d' ), esc_html($wp_locale->get_month( $month )), esc_html($year) )
 								);
 							}
 							?>
@@ -381,8 +381,12 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		}
 
 		// check for order
-		$order_by = ( ! empty( $_GET['orderby'] ) ) ? sanitize_sql_orderby( $_GET['orderby'] ) : 'download_date';
-		$order    = ( ! empty( $_GET['order'] ) ) ? esc_sql( $_GET['order'] ) : 'DESC';
+		$order_by = ( ! empty( $_GET['orderby'] ) ) ? sanitize_sql_orderby( wp_unslash($_GET['orderby']) ) : 'download_date';
+		$order    = 'DESC';
+		// phpcs:ignore
+		if ( isset( $_GET['order'] ) && 'ASC' == strtoupper( $_GET['order'] ) ) {
+			$order = 'ASC';
+		}
 
 		/** @var DLM_WordPress_Log_Item_Repository $log_item_repository */
 		$log_item_repository = download_monitor()->service( 'log_item_repository' );
@@ -406,21 +410,27 @@ class DLM_Logging_List_Table extends WP_List_Table {
 		if ( 'delete' === $this->current_action() ) {
 
 			// check nonce
+			// phpcs:ignore
 			if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'bulk-' . $this->_args['plural'] ) ) {
-				wp_die( 'process_bulk_action() nonce check failed' );
+				wp_die( esc_html__( 'process_bulk_action() nonce check failed', 'download-monitor' ) );
 			}
 
 			// check capability
 			if ( ! current_user_can( 'dlm_manage_logs' ) ) {
-				wp_die( "You're not allowed to delete logs!" );
+				wp_die( esc_html__( "You're not allowed to delete logs!", 'download-monitor' ) );
+			}
+
+			if ( empty( $_POST['log'] ) ) {
+				wp_die( esc_html__( "We don't have logs to delete", 'download-monitor' ) );
 			}
 
 			// check
 			if ( count( $_POST['log'] ) > 0 ) {
 
 				// delete the posted logs
+				// phpcs:ignore
 				foreach ( $_POST['log'] as $log_id ) {
-					download_monitor()->service( 'log_item_repository' )->delete( $log_id );
+					download_monitor()->service( 'log_item_repository' )->delete( absint($log_id) );
 				}
 
 				// display delete message

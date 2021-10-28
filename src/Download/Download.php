@@ -201,7 +201,7 @@ class DLM_Download {
 	 * Prints the excerpt
 	 */
 	public function the_excerpt() {
-		echo wpautop( do_shortcode( $this->get_excerpt() ) );
+		echo wp_kses_post( wpautop( do_shortcode( $this->get_excerpt() ) ) );
 	}
 
 	/**
@@ -848,7 +848,7 @@ class DLM_Download {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::the_hash()' );
 
 		if ( method_exists( $this->get_version(), "get_" . $type ) ) {
-			echo call_user_func( array( $this->get_version(), "get_" . $type ) );
+			echo esc_html(call_user_func( array( $this->get_version(), "get_" . $type ) ));
 		}
 	}
 

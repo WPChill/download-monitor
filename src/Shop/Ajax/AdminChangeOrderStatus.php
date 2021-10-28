@@ -28,6 +28,10 @@ class AdminChangeOrderStatus extends Ajax {
 			$this->response( false, esc_html__( 'You are not allowed to do this.', 'download-monitor' ) );
 		}
 
+		if ( empty( $_POST['order_id'] ) || empty( $_POST['status'] ) ) {
+			$this->response( false, esc_html__( 'We need and order id and a status.', 'download-monitor' ) );
+		}
+
 		$order_id   = absint( $_POST['order_id'] );
 		$new_status = sanitize_text_field( wp_unslash( $_POST['status'] ) );
 
