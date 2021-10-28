@@ -157,7 +157,7 @@ class DLM_Ajax_Handler {
 			die();
 		}
 
-		$path = esc_url_raw( wp_unslash( $_POST['path'] ) );
+		$path = sanitize_text_field( wp_unslash( $_POST['path'] ) );
 
 		// List all files
 		$files = download_monitor()->service( 'file_manager' )->list_files( $path );
