@@ -185,12 +185,12 @@ class DLM_Widget_Downloads extends WP_Widget {
         </p>
         <p>
             <label
-                    for="<?php echo $this->get_field_id( 'format' ); ?>"><?php echo esc_html__( 'Output template', 'download-monitor' ); ?>
+                    for="<?php echo esc_attr($this->get_field_id( 'format' )); ?>"><?php echo esc_html__( 'Output template', 'download-monitor' ); ?>
                 :</label>
             <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'format' ) ); ?>"
                    name="<?php echo esc_attr( $this->get_field_name( 'format' ) ); ?>" type="text"
                    value="<?php echo esc_attr( $format ); ?>"
-                   placeholder="<?php echo esc_html__( 'Default template', 'download-monitor' ); ?>"/>
+                   placeholder="<?php echo esc_attr__( 'Default template', 'download-monitor' ); ?>"/>
         </p>
         <p>
             <label
@@ -198,30 +198,21 @@ class DLM_Widget_Downloads extends WP_Widget {
                 :</label>
             <select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'orderby' ) ); ?>"
                     name="<?php echo esc_attr( $this->get_field_name( 'orderby' ) ); ?>" type="text">
-                <option
-                        value="title" <?php selected( $orderby, 'title' ); ?>><?php echo esc_html__( 'Title', 'download-monitor' ); ?></option>
-                <option
-                        value="rand" <?php selected( $orderby, 'rand' ); ?>><?php echo esc_html__( 'Random', 'download-monitor' ); ?></option>
-                <option
-                        value="ID" <?php selected( $orderby, 'ID' ); ?>><?php _e( 'ID', 'download-monitor' ); ?></option>
-                <option
-                        value="date" <?php selected( $orderby, 'date' ); ?>><?php echo esc_html__( 'Date added', 'download-monitor' ); ?></option>
-                <option
-                        value="modified" <?php selected( $orderby, 'modified' ); ?>><?php echo esc_html__( 'Date modified', 'download-monitor' ); ?></option>
-                <option
-                        value="download_count" <?php selected( $orderby, 'download_count' ); ?>><?php echo esc_html__( 'Download count', 'download-monitor' ); ?></option>
+                <option value="title" <?php selected( $orderby, 'title' ); ?>><?php echo esc_html__( 'Title', 'download-monitor' ); ?></option>
+                <option value="rand" <?php selected( $orderby, 'rand' ); ?>><?php echo esc_html__( 'Random', 'download-monitor' ); ?></option>
+                <option value="ID" <?php selected( $orderby, 'ID' ); ?>><?php esc_html_e( 'ID', 'download-monitor' ); ?></option>
+                <option value="date" <?php selected( $orderby, 'date' ); ?>><?php echo esc_html__( 'Date added', 'download-monitor' ); ?></option>
+                <option value="modified" <?php selected( $orderby, 'modified' ); ?>><?php echo esc_html__( 'Date modified', 'download-monitor' ); ?></option>
+                <option value="download_count" <?php selected( $orderby, 'download_count' ); ?>><?php echo esc_html__( 'Download count', 'download-monitor' ); ?></option>
             </select>
         </p>
         <p>
             <label
                     for="<?php echo esc_attr( $this->get_field_id( 'order' ) ); ?>"><?php echo esc_html__( 'Order', 'download-monitor' ); ?>
                 :</label>
-            <select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'order' ) ); ?>"
-                    name="<?php echo esc_attr( $this->get_field_name( 'order' ) ); ?>" type="text">
-                <option
-                        value="ASC" <?php selected( $order, 'ASC' ); ?>><?php echo esc_html__( 'ASC', 'download-monitor' ); ?></option>
-                <option
-                        value="DESC" <?php selected( $order, 'DESC' ); ?>><?php echo esc_html__( 'DESC', 'download-monitor' ); ?></option>
+            <select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'order' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'order' ) ); ?>" type="text">
+                <option value="ASC" <?php selected( $order, 'ASC' ); ?>><?php echo esc_html__( 'ASC', 'download-monitor' ); ?></option>
+                <option value="DESC" <?php selected( $order, 'DESC' ); ?>><?php echo esc_html__( 'DESC', 'download-monitor' ); ?></option>
             </select>
         </p>
         <p>

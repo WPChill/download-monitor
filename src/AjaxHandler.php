@@ -249,9 +249,9 @@ class DLM_Ajax_Handler {
 		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
 
 		// Post vars
-		$product_id       = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash($_POST['product_id']) ) : 0;
-		$key              = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash($_POST['key']) ) : '';
-		$email            = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash($_POST['email']) ) : '';
+		$product_id       = isset( $_POST['product_id'] ) ? sanitize_text_field( wp_unslash($_POST['product_id']) ) : 0;
+		$key              = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash($_POST['key']) ) : '';
+		$email            = isset( $_POST['email'] ) ? sanitize_text_field( wp_unslash($_POST['email']) ) : '';
 		$extension_action = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash($_POST['extension_action']) ) : 'activate';
 
 		// Get products

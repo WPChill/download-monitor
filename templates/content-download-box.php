@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php $dlm_download->the_image(); ?>
 
 	<div
-		class="download-count"><?php printf( _n( '1 download', '%d downloads', $dlm_download->get_download_count(), 'download-monitor' ), esc_html( $dlm_download->get_download_count() ) ) ?></div>
+		class="download-count"><?php printf( esc_attr(_n( '1 download', '%d downloads', $dlm_download->get_download_count(), 'download-monitor' )), esc_html( $dlm_download->get_download_count() ) ) ?></div>
 
 	<div class="download-box-content">
 

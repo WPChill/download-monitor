@@ -57,7 +57,7 @@ class DLM_Ajax_Manager {
 
 		// set AJAX action if it's set in $_GET
 		if ( ! empty( $_GET[ self::ENDPOINT ] ) ) {
-			$wp_query->set( self::ENDPOINT, sanitize_text_field( $_GET[ self::ENDPOINT ] ) );
+			$wp_query->set( self::ENDPOINT, sanitize_text_field( wp_unslash($_GET[ self::ENDPOINT ]) ) );
 		}
 
 		// check if endpoint is not false or an empty string

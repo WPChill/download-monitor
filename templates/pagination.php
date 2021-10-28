@@ -13,7 +13,7 @@ if ( $pages <= 1 ) {
 ?>
 <nav class="download-monitor-pagination">
 	<?php
-	echo paginate_links(
+	echo wp_kses_post( paginate_links(
 		apply_filters(
 			'download_monitor_pagination_args',
 			array(
@@ -28,6 +28,6 @@ if ( $pages <= 1 ) {
 				'mid_size'  => 3,
 			)
 		)
-	);
+	) );
 	?>
 </nav>

@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <a class="download-link filetype-icon <?php echo 'filetype-' . esc_html( $dlm_download->get_version()->get_filetype() ); ?>"
    title="<?php if ( $dlm_download->get_version()->has_version_number() ) {
-	   printf( __( 'Version %s', 'download-monitor' ), esc_html( $dlm_download->get_version()->get_version_number() ) );
+	   printf( esc_html__( 'Version %s', 'download-monitor' ), esc_html( $dlm_download->get_version()->get_version_number() ) );
    } ?>" href="<?php $dlm_download->the_download_link(); ?>" rel="nofollow">
 	<?php echo esc_html( $dlm_download->get_version()->get_filename() ); ?>
-	(<?php printf( _n( '1 download', '%d downloads', $dlm_download->get_download_count(), 'download-monitor' ), esc_html( $dlm_download->get_download_count() ) ) ?>)
+	(<?php printf( esc_html( _n( '1 download', '%d downloads', $dlm_download->get_download_count(), 'download-monitor' ) ), esc_html( $dlm_download->get_download_count() ) ) ?>)
 </a>

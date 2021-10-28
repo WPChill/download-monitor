@@ -215,7 +215,7 @@ class DLM_Download_Handler {
 
 		// GET to query_var
 		if ( ! empty( $_GET[ $this->endpoint ] ) ) {
-			$wp->query_vars[ $this->endpoint ] = sanitize_text_field( $_GET[ $this->endpoint ] );
+			$wp->query_vars[ $this->endpoint ] = sanitize_text_field( wp_unslash($_GET[ $this->endpoint ]) );
 		}
 
 		// check if endpoint is set but is empty
@@ -250,7 +250,7 @@ class DLM_Download_Handler {
 			if ( '1' == get_option( 'dlm_hotlink_protection_enabled' ) ) {
 
 				// Get referer
-				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
+				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash($_SERVER['HTTP_REFERER'])) : '';
 
 				// Check if referer isn't empty or if referer is empty but empty referer isn't allowed
 				if ( ! empty( $referer ) || ( empty( $referer ) && apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) ) {
@@ -294,7 +294,7 @@ class DLM_Download_Handler {
 			$version_id = '';
 
 			if ( ! empty( $_GET['version'] ) ) {
-				$version_id = $download->get_version_id_version_name( sanitize_text_field( $_GET['version'] ) );
+				$version_id = $download->get_version_id_version_name( sanitize_text_field( wp_unslash($_GET['version']) ) );
 			}
 
 			if ( ! empty( $_GET['v'] ) ) {
@@ -314,7 +314,7 @@ class DLM_Download_Handler {
 			// Action on found download
 			if ( $download->exists() ) {
 				if ( post_password_required( $download_id ) ) {
-					wp_die( get_the_password_form( $download_id ), esc_html__( 'Password Required', 'download-monitor' ) );
+					wp_die( wp_kses_post( get_the_password_form( $download_id ) ), esc_html__( 'Password Required', 'download-monitor' ) );
 				}
 
 				$this->trigger( $download );
@@ -516,7 +516,11 @@ class DLM_Download_Handler {
 
 				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
-				$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
+				if ( isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
+					// phpcs:ignore
+					$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
+				}
+				
 				header( "X-Accel-Redirect: /$file_path" );
 				exit;
 			}
@@ -524,6 +528,7 @@ class DLM_Download_Handler {
 
 		// multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
 		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->get_filesize() ) {
+			// phpcs:ignore
 			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'], 2 );
 			list( $range ) = explode( ",", $range, 2 );
 			list( $range, $range_end ) = explode( "-", $range );
@@ -684,6 +689,7 @@ class DLM_Download_Handler {
 
 		while ( ! feof( $handle ) ) {
 			$buffer = fread( $handle, $chunksize );
+			// phpcs:ignore
 			echo $buffer;
 
 			if ( $retbytes ) {

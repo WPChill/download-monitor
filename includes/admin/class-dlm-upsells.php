@@ -143,7 +143,7 @@ class DLM_Upsells {
 
 		$buttons = '<a target="_blank" href="https://download-monitor.com/extensions/' . esc_attr( $extension ) . '/?utm_source=' . esc_attr( $utm_source ) . '&utm_medium=upsell&utm_campaign=w.org&utm_content=' . esc_attr( $tab ) . '" class="button-primary button">' . esc_html__( 'Get Extension!', 'download-monitor' ) . '</a>';
 
-		echo apply_filters( 'dlm_upsell_buttons', $buttons, $tab );
+		echo wp_kses_post( apply_filters( 'dlm_upsell_buttons', $buttons, $tab ) );
 
 		echo '</p>';
 		echo '</div>';

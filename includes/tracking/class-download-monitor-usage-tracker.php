@@ -334,7 +334,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			}
 			$body['marketing_method'] = $this->marketing;
 
-			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '';
+			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash($_SERVER['SERVER_SOFTWARE']) ) : '';
 
 			// Extra PHP fields.
 			$body['memory_limit']        = ini_get( 'memory_limit' );
@@ -802,7 +802,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			// Check for plugin args.
 			if ( isset( $_GET['plugin'] ) && $this->plugin_name === $_GET['plugin'] && isset( $_GET['plugin_action'] ) ) {
 
-				$action = sanitize_text_field( $_GET['plugin_action'] );
+				$action = sanitize_text_field( wp_unslash($_GET['plugin_action']) );
 				if ( $action === 'yes' ) {
 					$this->set_is_tracking_allowed( true, $this->plugin_name );
 					// Run this straightaway.
@@ -910,7 +910,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			// Check if user has opted in to marketing.
 			if ( isset( $_GET['marketing_optin'] ) ) {
 				// Set marketing optin.
-				$this->set_can_collect_email( sanitize_text_field( $_GET['marketing_optin'] ), $this->plugin_name );
+				$this->set_can_collect_email( sanitize_text_field( wp_unslash($_GET['marketing_optin']) ), $this->plugin_name );
 				// Do tracking.
 				$this->do_tracking();
 			} elseif ( isset( $_GET['marketing'] ) && $_GET['marketing'] == 'yes' ) {
@@ -1129,7 +1129,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 							'action'  : '<?php echo esc_attr($this->plugin_name); ?>_goodbye_form',
 							'values'  : values,
 							'details' : details,
-							'security': "<?php echo wp_create_nonce( 'wisdom_goodbye_form' ); ?>",
+							'security': "<?php echo esc_js(wp_create_nonce( 'wisdom_goodbye_form' )); ?>",
 							'dataType': "json"
 						}
 
@@ -1174,7 +1174,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			}
 
 			if ( isset( $_POST['details'] ) ) {
-				$details = sanitize_text_field( $_POST['details'] );
+				$details = sanitize_text_field( wp_unslash($_POST['details']) );
 				update_option( 'wisdom_deactivation_details_' . $this->plugin_name, $details );
 			}
 

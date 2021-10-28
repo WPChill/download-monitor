@@ -52,6 +52,10 @@ class DLM_LU_Ajax {
 			exit;
 		}
 
+		if ( ! isset( $_GET['download_id'] ) ) {
+			exit;
+		}
+
 		// get download id
 		$download_id = absint( $_GET['download_id'] );
 
@@ -104,6 +108,10 @@ class DLM_LU_Ajax {
 
 		// check cap access
 		if ( ! current_user_can( 'manage_downloads' ) ) {
+			exit;
+		}
+
+		if ( ! isset( $_GET['content_id'] ) ) {
 			exit;
 		}
 

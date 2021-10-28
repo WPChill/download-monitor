@@ -169,7 +169,8 @@ class DLM_Uninstall {
 		global $wpdb;
 		check_ajax_referer( 'dlm_uninstall_plugin', 'security' );
 
-		$uninstall_option = isset( $_POST['options'] ) ? array_map( 'sanitize_text_field', $_POST['options'] ) : false;
+		// we can't unslash an array
+		$uninstall_option = isset( $_POST['options'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['options'] ) ) : false;
 
 		// Delete options
 		if ( '1' == $uninstall_option['delete_options'] ) {
