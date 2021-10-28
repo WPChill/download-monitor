@@ -89,7 +89,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Product_Manager' => __DIR__ . '/../..' . '/src/Product/ProductManager.php',
         'DLM_DB_Upgrader' => __DIR__ . '/../..' . '/src/Admin/class-dlm-db-upgrader.php',
         'DLM_Reports' => __DIR__ . '/../..' . '/src/Admin/Reports/class-dlm-reports.php',
-        'DLM_Reports_Ajax' => __DIR__ . '/../..' . '/src/Admin/Reports/Ajax.php',
         'DLM_Reports_Page' => __DIR__ . '/../..' . '/src/Admin/Reports/Page.php',
         'DLM_Search' => __DIR__ . '/../..' . '/src/Search.php',
         'DLM_Services' => __DIR__ . '/../..' . '/src/Services.php',

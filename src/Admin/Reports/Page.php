@@ -7,12 +7,9 @@ class DLM_Reports_Page {
 	 */
 	public function setup() {
 
-		// menu item
+		// menu item.
 		add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
 
-		// setup Reports AJAX calls
-		$ajax = new DLM_Reports_Ajax();
-		$ajax->setup();
 	}
 
 	/**
@@ -20,14 +17,14 @@ class DLM_Reports_Page {
 	 */
 	public function add_admin_menu( $links ) {
 
-		// Reports page page
+		// Reports page page.
 		$links[] = array(
-				'page_title' => __( 'Reports', 'download-monitor' ),
-				'menu_title' => __( 'Reports', 'download-monitor' ),
-				'capability' => 'dlm_view_reports',
-				'menu_slug'  => 'download-monitor-reports',
-				'function'   => array( $this, 'view' ),
-				'priority'   => 50,
+			'page_title' => __( 'Reports', 'download-monitor' ),
+			'menu_title' => __( 'Reports', 'download-monitor' ),
+			'capability' => 'dlm_view_reports',
+			'menu_slug'  => 'download-monitor-reports',
+			'function'   => array( $this, 'view' ),
+			'priority'   => 50,
 		);
 
 		return $links;
@@ -38,17 +35,17 @@ class DLM_Reports_Page {
 	 */
 	private function date_range_button() {
 
-		$to_date = new DateTime( current_time( "mysql" ) );
+		$to_date = new DateTime( current_time( 'mysql' ) );
 		$to_date->setTime( 0, 0, 0 )->modify( '-1 day' );
 		$to   = $to_date->format( 'Y-m-d' );
 		$from = $to_date->modify( '-1 month' )->format( 'Y-m-d' );
 
-		$start      = new DateTime( $to );
-		$end        = new DateTime( $from );
+		$start = new DateTime( $to );
+		$end   = new DateTime( $from );
 		?>
 		<div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
 			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
-			<span class="date-range-info"><?php echo $start->format( 'M d, Y' ) . " to " . $end->format( 'M d, Y' ); ?></span>
+			<span class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' to ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
 			<span class="dlm-arrow"></span>
 		</div>
 		<?php
@@ -63,25 +60,24 @@ class DLM_Reports_Page {
 		<div class="wrap dlm-reports">
 			<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
-			<h1><?php
-				_e( 'Download Reports', 'download-monitor' );
+			<h1>
+			<?php
+				esc_html_e( 'Download Reports', 'download-monitor' );
 				echo '<div class="wp-clearfix text-right"><div class="dlm-reports-actions">';
 				$this->date_range_button();
-				echo "</div></div>";
-				?></h1>
+				echo '</div></div>';
+			?>
+				</h1>
 			<br/>
 			<?php do_action( 'dlm_reports_page_start' ); ?>
 			<div class="dlm-reports-block dlm-reports-block-summary"
 				 id="total_downloads_summary">
 				<ul>
-					<li id="total"><label>Total
-							Downloads</label><span></span>
+					<li id="total"><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?></label><span></span>
 					</li>
-					<li id="average"><label>Daily Average
-							Downloads</label><span></span>
+					<li id="average"><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?></label><span></span>
 					</li>
-					<li id="popular"><label>Most Popular
-							Download</label><span></span>
+					<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span></span>
 					</li>
 				</ul>
 			</div>

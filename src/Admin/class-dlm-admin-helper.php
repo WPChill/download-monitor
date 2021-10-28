@@ -1,12 +1,15 @@
 <?php
 
 
+/**
+ * DLM_Admin_Helper
+ */
 class DLM_Admin_Helper {
 
 	/**
 	 * Holds the class object.
 	 *
-	 * @since 1.0.0
+	 * @since 4.4.7
 	 *
 	 * @var object
 	 */
@@ -15,7 +18,7 @@ class DLM_Admin_Helper {
 	/**
 	 * Primary class constructor.
 	 *
-	 * @since 1.0.0
+	 * @since 4.4.7
 	 */
 	public function __construct() {
 
@@ -25,8 +28,7 @@ class DLM_Admin_Helper {
 	 * Returns the singleton instance of the class.
 	 *
 	 * @return object The DLM_Admin_Helper object.
-	 * @since 1.0.0
-	 *
+	 * @since 4.4.7
 	 */
 	public static function get_instance() {
 
@@ -41,8 +43,9 @@ class DLM_Admin_Helper {
 	/**
 	 * Tab navigation display
 	 *
-	 * @param $tabs
-	 * @param $active_tab
+	 * @param  mixed $tabs
+	 * @param  mixed $active_tab
+	 * @return void
 	 */
 	public static function dlm_tab_navigation( $tabs, $active_tab ) {
 
@@ -54,14 +57,14 @@ class DLM_Admin_Helper {
 			foreach ( $tabs as $tab_id => $tab ) {
 
 				$last_tab = ( $i == $j ) ? ' last_tab' : '';
-				$active   = ( $active_tab == $tab_id ? ' nav-tab-active' : '' );
+				$active   = $active_tab == $tab_id ? ' nav-tab-active' : '';
 				$j ++;
 
 				if ( isset( $tab['url'] ) ) {
-					// For Extensions and Gallery list tabs
+					// For Extensions and Gallery list tabs.
 					$url = $tab['url'];
 				} else {
-					// For Settings tabs
+					// For Settings tabs.
 					$url = admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=' . $tab_id );
 				}
 
@@ -71,12 +74,12 @@ class DLM_Admin_Helper {
 					echo '<span class="dashicons ' . esc_attr( $tab['icon'] ) . '"></span>';
 				}
 
-				// For Extensions and Gallery list tabs
+				// For Extensions and Gallery list tabs.
 				if ( isset( $tab['name'] ) ) {
 					echo esc_html( $tab['name'] );
 				}
 
-				// For Settings tabs
+				// For Settings tabs.
 				if ( isset( $tab['label'] ) ) {
 					echo esc_html( $tab['label'] );
 				}
@@ -94,13 +97,12 @@ class DLM_Admin_Helper {
 	 * Callback to sort tabs/fields on priority.
 	 *
 	 * @return bool
-	 *
 	 */
 	public static function sort_data_by_priority( $a, $b ) {
 		if ( ! isset( $a['priority'], $b['priority'] ) ) {
 			return - 1;
 		}
-		if ( $a['priority'] == $b['priority'] ) {
+		if ( $a['priority'] === $b['priority'] ) {
 			return 0;
 		}
 

@@ -1,20 +1,37 @@
 .dlm-upgrade-db-notice {
-	padding : 15px;
+	padding: 0 15px;
 }
 
 .dlm-upgrade-db-notice .main {
-	margin-bottom : 15px;
+	margin-bottom: 15px;
 }
 
 .dlm-upgrade-db-notice #dlm_progress-bar {
-	position : relative;
-	margin-top:35px;
+	position: relative;
+	margin-top: 35px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: -15px;
+	margin-right: -15px;
+	border-radius: 0;
+	border: 0;
+	border-top: 1px solid #0daf8f;
 }
 
 .dlm-upgrade-db-notice #dlm_progress-bar .dlm-progress-label {
-	position    : absolute;
-	left        : 50%;
-	top         : 4px;
-	font-weight : bold;
-	text-shadow : 1px 1px 0 #fff;
+	position: absolute;
+	left: 50%;
+	top: 4px;
+	color: #d97115;
+	font-weight: bold;
+}
+
+.dlm-upgrade-db-notice #dlm_progress-bar .ui-progressbar-value {
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: -15px;
+	margin-right: -13px;
+	background: rgba(46,204,113,0.5);
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }

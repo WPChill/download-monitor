@@ -74,7 +74,6 @@ return array(
     'DLM_Product_Manager' => $baseDir . '/src/Product/ProductManager.php',
     'DLM_DB_Upgrader' => $baseDir . '/src/Admin/class-dlm-db-upgrader.php',
     'DLM_Reports' => $baseDir . '/src/Admin/Reports/class-dlm-reports.php',
-    'DLM_Reports_Ajax' => $baseDir . '/src/Admin/Reports/Ajax.php',
     'DLM_Reports_Page' => $baseDir . '/src/Admin/Reports/Page.php',
     'DLM_Search' => $baseDir . '/src/Search.php',
     'DLM_Services' => $baseDir . '/src/Services.php',

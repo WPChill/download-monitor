@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'DLM_Reports' ) ) {
 
+	/**
+	 * DLM_Reports
+	 */
 	class DLM_Reports {
 
 		/**
@@ -51,7 +54,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * Set our global variable dlmReportsStats so we can manipulate given data
 		 */
 		public function create_global_variable() {
-			wp_add_inline_script( 'dlm_reports', 'dlmReportsStats = ' . json_encode( $this->stats() ), 'before' );
+			wp_add_inline_script( 'dlm_reports', 'dlmReportsStats = ' . wp_json_encode( $this->stats() ), 'before' );
 		}
 
 		/**
@@ -73,15 +76,14 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 		}
 
+
 		/**
 		 * Validate the date parameter
 		 *
-		 * @param $param
-		 * @param $one
-		 * @param $two
-		 *
-		 * @return bool
-		 * @since 4.4.6
+		 * @param  mixed $param
+		 * @param  mixed $one
+		 * @param  mixed $two
+		 * @return mixed
 		 */
 		private function validate_date_param( $param, $one, $two ) {
 			return strtotime( $param ) !== false;
@@ -97,7 +99,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 		public function rest_stats() {
 
-			return $this->respond( json_encode( $this->stats() ) );
+			return $this->respond( wp_json_encode( $this->stats() ) );
 		}
 
 		/**
@@ -114,7 +116,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$result->set_headers(
 				array(
 					'Cache-Control' => 'max-age=3600, s-max-age=3600',
-					'Content-Type'  => 'application/json'
+					'Content-Type'  => 'application/json',
 				)
 			);
 
@@ -147,20 +149,26 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function stats_legacy() {
 
 			$filters = array(
-				array( "key" => "download_status", "value" => array( "completed", "redirected" ), "operator" => "IN" ),
+				array(
+					'key'      => 'download_status',
+					'value'    => array( 'completed', 'redirected' ),
+					'operator' => 'IN',
+				),
 			);
 
 			/** @var DLM_WordPress_Log_Item_Repository $repo */
 			$repo = download_monitor()->service( 'log_item_repository' );
 
 			$data              = $repo->retrieve_grouped_count( $filters );
-			$response['chart'] = $this->generate_chart_data( $data, array(
-				// Get the date from the first download log, meaning it is the last element from the array
-				'from' => $data[ count( $data ) - 1 ]->value,
-				// To current date
-				'to'   => date( 'Y-m-d' )
-			) );
-
+			$response['chart'] = $this->generate_chart_data(
+				$data,
+				array(
+					// Get the date from the first download log, meaning it is the last element from the array.
+					'from' => $data[ count( $data ) - 1 ]->value,
+					// To current date.
+					'to'   => date( 'Y-m-d' ),
+				)
+			);
 
 			$response['summary'] = $repo->retrieve_downloads_info_per_day_legacy();
 
@@ -175,7 +183,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		private function generate_chart_data( $data, $range ) {
 
-			$format = "Y-m-d";
+			$format = 'Y-m-d';
 
 			$data_map = array();
 
@@ -185,25 +193,27 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			$data_formatted = array();
 
-			$startDate = new DateTime( $range['from'] );
-			$endDate   = new DateTime( $range['to'] );
+			$start_date = new DateTime( $range['from'] );
+			$end_date   = new DateTime( $range['to'] );
 
+			$format_label = 'j M Y';
 
-			$format_label = "j M Y";
+			while ( $start_date <= $end_date ) {
 
-			while ( $startDate <= $endDate ){
-
-				if ( isset( $data_map[ $startDate->format( $format ) ] ) ) {
+				if ( isset( $data_map[ $start_date->format( $format ) ] ) ) {
 
 					$data_formatted[] = array(
-						'x' => $startDate->format( $format_label ),
-						'y' => absint( $data_map[ $startDate->format( $format ) ] )
+						'x' => $start_date->format( $format_label ),
+						'y' => absint( $data_map[ $start_date->format( $format ) ] ),
 					);
 				} else {
-					$data_formatted[] = array( 'x' => $startDate->format( $format_label ), 'y' => 0 );
+					$data_formatted[] = array(
+						'x' => $start_date->format( $format_label ),
+						'y' => 0,
+					);
 				}
 
-				$startDate->modify( "+1  day" );
+				$start_date->modify( '+1  day' );
 
 			}
 
@@ -212,4 +222,3 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 	}
 }
-

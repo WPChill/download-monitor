@@ -19,30 +19,32 @@
 
 		init: function () {
 
-			const opts = {
-				url     : dlmDBUpgrader.ajax,
-				type    : 'post',
-				async   : true,
-				cache   : false,
-				dataType: 'json',
-				data    : {
-					action: 'dlm_db_log_entries',
-					nonce : dlm_upgrader.nonce,
-				},
-				success : function ( response ) {
-					dlmDBUpgrader.entries = response;
-
-				}
-			};
-
-			$.ajax( opts );
+	
 
 			$( document ).on( 'click', 'button#dlm-upgrade-db', function ( e ) {
 				e.preventDefault();
 				dlmDBUpgrader.completed = 0;
+				
 
-				dlmDBUpgrader.processAjax();
-				ProgressBar.init();
+				const opts = {
+					url     : dlmDBUpgrader.ajax,
+					type    : 'post',
+					async   : true,
+					cache   : false,
+					dataType: 'json',
+					data    : {
+						action: 'dlm_db_log_entries',
+						nonce : dlm_upgrader.nonce,
+					},
+					success : function ( response ) {
+						dlmDBUpgrader.entries = response;
+						dlmDBUpgrader.processAjax();
+						ProgressBar.init();
+	
+					}
+				};
+	
+				$.ajax( opts );
 
 			} );
 
