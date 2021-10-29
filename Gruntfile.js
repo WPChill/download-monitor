@@ -3,6 +3,7 @@ module.exports = function ( grunt ) {
 	'use strict';
 
 	grunt.initConfig( {
+		pkg: grunt.file.readJSON( 'package.json' ),
 		// setting folder templates
 		dirs: {
 			css: 'assets/css',
@@ -152,7 +153,7 @@ module.exports = function ( grunt ) {
 			build: {
 				options: {
 					pretty: true,                           // Pretty print file sizes when logging.
-					archive: 'download-monitor.zip'
+					archive: '<%= pkg.name %>.zip'
 				},
 				expand: true,
 				cwd: '',
@@ -181,7 +182,7 @@ module.exports = function ( grunt ) {
 				'!codeception.dist.yml',
 				'!regconfig.json',
 				'!nbproject/**' ],
-				dest: 'download-monitor/'
+				dest: '<%= pkg.name %>/'
 			}
 		},
 
