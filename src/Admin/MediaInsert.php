@@ -197,7 +197,7 @@ class DLM_Admin_Media_Insert {
 				<input type="text" id="template_name" value="" class="input"
 				       placeholder="<?php echo esc_html__( 'Template Name', 'download-monitor' ); ?>"/>
 				<span class="description">
-					<?php wp_kses( esc_html__( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ) ); ?>
+					<?php wp_kses( esc_html__( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ), [] ); ?>
 				</span>
 			</p>
 
