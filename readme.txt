@@ -8,7 +8,7 @@ License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
 
-Download Monitor is a plugin for uploading and managing downloads, tracking downloads, displaying links and selling downloads!
+Download Monitor is a plugin for selling, uploading and managing downloads, tracking downloads and displaying links.
 
 == Description ==
 
@@ -29,12 +29,17 @@ Download Monitor provides an interface for uploading and managing downloadable f
 * Member only downloads, requires users to be logged in to download your files.
 * Customisable endpoints for showing pretty download links.
 
-[Read more about Download Monitor](https://www.download-monitor.com/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-after-features).
 
 > #### Download Monitor Extensions
-> Extend the core Download Monitor plugin with it's powerful extensions. All extensions come with one year of updates and support.<br />
+> Extend the core Download Monitor plugin with it's powerful extensions.
 >
-> Some of our popular extensions include: [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-page-addon), [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-email-lock), [CSV Importer](https://www.download-monitor.com/extensions/csv-importer/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-csv-importer) and [Gravity Forms Lock](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-gravity-forms-lock).
+> Some of our popular extensions include: 
+-  [Gravity Forms Gated Content](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-gravity-forms-lock) - easily create a download gate with Gravity Forms. Require users to fill-in a form before accessing a PDF any other type of download.
+- [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-page-addon)
+- [MailChimp Download After Sign up](https://www.download-monitor.com/extensions/mailchimp-lock//?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-mailchimp-lock) - Allow access to file downloads only for people who already belong to a MailChimp mailing list. This extensions facilitates the download after sign up in a MailChimp list.
+- [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-email-lock)
+
+
 >
 > Want to see more? [Browse All Extensions](https://www.download-monitor.com/extensions/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-block-browse-all)
 
