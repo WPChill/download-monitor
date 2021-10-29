@@ -3,10 +3,10 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing and selling downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 4.4.4
-	Author: Never5
-	Author URI: https://www.never5.com
-	Requires at least: 3.8
+	Version: 4.4.7
+	Author: WPChill
+	Author URI: https://wpchill.com
+	Requires at least: 5.4
 	Tested up to: 5.7
 	Text Domain: download-monitor
 
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '4.4.4' );
+define( 'DLM_VERSION', '4.4.7' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
@@ -44,3 +44,24 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
 
+/**
+ * This function allows you to track usage of your plugin
+ * Place in your main plugin file
+ * Refer to https://wisdomplugin.com/support for help
+ */
+if( ! class_exists( 'Download_Monitor_Usage_Tracker') ) {
+	require_once dirname( __FILE__ ) . '/includes/tracking/class-download-monitor-usage-tracker.php';
+}
+if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
+	function download_monitor_start_plugin_tracking() {
+		$wisdom = new Download_Monitor_Usage_Tracker(
+			__FILE__,
+			'https://tracking.download-monitor.com/',
+			array(),
+			true,
+			true,
+			0
+		);
+	}
+	download_monitor_start_plugin_tracking();
+}

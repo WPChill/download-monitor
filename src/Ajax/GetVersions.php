@@ -18,6 +18,11 @@ class DLM_Ajax_GetVersions extends DLM_Ajax {
 		// check nonce
 		$this->check_nonce();
 
+		if ( ! isset( $_GET['download_id'] ) ) {
+			wp_send_json( array() );
+			exit;
+		}
+
 		$download_id = absint( $_GET['download_id'] );
 
 		try {

@@ -49,7 +49,7 @@ class DLM_Admin_Fields_Field_ActionButton extends DLM_Admin_Fields_Field {
 	 */
 	public function render() {
 		?>
-        <a class="button" href="<?php echo $this->get_url(); ?>"><?php echo $this->label; ?></a>
+        <a class="button" href="<?php echo esc_url( $this->get_url() ); ?>"><?php echo esc_html( $this->label ); ?></a>
 		<?php
 	}
 

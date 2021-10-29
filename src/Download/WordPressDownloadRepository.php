@@ -87,10 +87,16 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 */
 	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
 
+		// WPML gives original website language in AJAX Requests
+		// So we handle all the languages, as the download will be searched based on the post ID which will be unique
+		// First, let's check if WPML is installed and activated - check for it's class -
+		if ( class_exists( 'SitePress' ) ) {
+			global $sitepress;
+			$sitepress->switch_lang( 'all' );
+		}
+
 		$items = array();
-
 		$q     = new WP_Query();
-
 		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
 
 		if ( count( $posts ) > 0 ) {
@@ -108,7 +114,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_slug( $post->post_name );
 				$download->set_author( $post->post_author );
 				$download->set_description( $post->post_content );
-				$download->set_excerpt( wpautop( do_shortcode( $post->post_excerpt ) ) );
+				$download->set_excerpt( $post->post_excerpt );
 				$download->set_redirect_only( ( 'yes' == get_post_meta( $post->ID, '_redirect_only', true ) ) );
 				$download->set_featured( ( 'yes' == get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) ) );

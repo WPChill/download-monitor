@@ -8,8 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 <table cellspacing="0" cellpadding="0" border="0">
     <tbody>
     <tr>
-        <th><?php _e( 'Subtotal', 'download-monitor' ); ?></th>
-        <td><?php echo dlm_format_money( $cart->get_subtotal() ); ?></td>
+        <th><?php echo esc_html__( 'Subtotal', 'download-monitor' ); ?></th>
+        <td><?php echo esc_html( dlm_format_money( $cart->get_subtotal() ) ); ?></td>
     </tr>
 	<?php
 	/**
@@ -22,8 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 */
 	?>
     <tr class="dlm-totals-last-row">
-        <th><?php _e( 'Total', 'download-monitor' ); ?></th>
-        <td><?php echo dlm_format_money( $cart->get_total() ); ?></td>
+        <th><?php echo esc_html__( 'Total', 'download-monitor' ); ?></th>
+        <td><?php echo esc_html( dlm_format_money( $cart->get_total() ) ); ?></td>
     </tr>
     </tbody>
 </table>

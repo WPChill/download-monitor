@@ -15,7 +15,7 @@ class DLM_Admin_Writepanels {
 	 * @access public
 	 */
 	public function __construct() {
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 15 );
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
 		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_boxes' ), 1, 2 );
 	}
@@ -28,28 +28,55 @@ class DLM_Admin_Writepanels {
 	 */
 	public function add_meta_boxes() {
 
-		// Download Information
-		add_meta_box( 'download-monitor-information', __( 'Download Information', 'download-monitor' ), array(
-			$this,
-			'download_information'
-		), 'dlm_download', 'side', 'high' );
+		// We remove the Publish metabox and add to our queue
+		remove_meta_box( 'submitdiv', 'dlm_download', 'side' );
 
-		// Download Options
-		add_meta_box( 'download-monitor-options', __( 'Download Options', 'download-monitor' ), array(
-			$this,
-			'download_options'
-		), 'dlm_download', 'side', 'high' );
+		$meta_boxes = apply_filters( 'dlm_download_metaboxes', array(
+			array(
+				'id'       => 'submitdiv',
+				'title'    => esc_html__( 'Publish' ),
+				'callback' => 'post_submit_meta_box',
+				'screen'   => 'dlm_download',
+				'context'  => 'side',
+				'priority' => 1
+			),
+			array(
+				'id'       => 'download-monitor-information',
+				'title'    => esc_html__( 'Download Information', 'download-monitor' ),
+				'callback' => array( $this, 'download_information' ),
+				'screen'   => 'dlm_download',
+				'context'  => 'side',
+				'priority' => 5
+			),
+			array(
+				'id'       => 'download-monitor-options',
+				'title'    => esc_html__( 'Download Options', 'download-monitor' ),
+				'callback' => array( $this, 'download_options' ),
+				'screen'   => 'dlm_download',
+				'context'  => 'side',
+				'priority' => 10
+			),
+			array(
+				'id'       => 'download-monitor-file',
+				'title'    => esc_html__( 'Downloadable Files/Versions', 'download-monitor' ),
+				'callback' => array( $this, 'download_files' ),
+				'screen'   => 'dlm_download',
+				'context'  => 'normal',
+				'priority' => 20
+			),
+		) );
 
-		// Versions / Files
-		add_meta_box( 'download-monitor-file', __( 'Downloadable Files/Versions', 'download-monitor' ), array(
-			$this,
-			'download_files'
-		), 'dlm_download', 'normal', 'high' );
+		uasort( $meta_boxes, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+
+		foreach($meta_boxes as $metabox){
+			// Priority is left out as we prioritise based on our sorting function
+			add_meta_box( $metabox['id'], $metabox['title'], $metabox['callback'], $metabox['screen'], $metabox['context'],'high' );
+		}
 
 		// Excerpt
 		if ( function_exists( 'wp_editor' ) ) {
 			remove_meta_box( 'postexcerpt', 'dlm_download', 'normal' );
-			add_meta_box( 'postexcerpt', __( 'Short Description', 'download-monitor' ), array(
+			add_meta_box( 'postexcerpt', esc_html__( 'Short Description', 'download-monitor' ), array(
 				$this,
 				'short_description'
 			), 'dlm_download', 'normal', 'high' );
@@ -76,27 +103,27 @@ class DLM_Admin_Writepanels {
 			do_action( 'dlm_information_start', $download->get_id(), $download );
 			?>
             <p>
-                <label for="dlm-info-id"><?php _e( 'ID', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-id" value="<?php echo $download->get_id(); ?>" readonly
+                <label for="dlm-info-id"><?php echo esc_html__( 'ID', 'download-monitor' ); ?>
+                    <input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_id() ); ?>" readonly
                            onfocus="this.select()"/>
                 </label>
             </p>
             <p>
-                <label for="dlm-info-url"><?php _e( 'URL', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-url" value="<?php echo $download->get_the_download_link(); ?>"
+                <label for="dlm-info-url"><?php echo esc_html__( 'URL', 'download-monitor' ); ?>
+                    <input type="text" id="dlm-info-url" value="<?php echo esc_attr( $download->get_the_download_link() ); ?>"
                            readonly onfocus="this.select()"/>
                 </label>
             </p>
             <p>
-                <label for="dlm-info-shortcode"><?php _e( 'Shortcode', 'download-monitor' ); ?>
+                <label for="dlm-info-shortcode"><?php echo esc_html__( 'Shortcode', 'download-monitor' ); ?>
                     <input type="text" id="dlm-info-shortcode"
-                           value='[download id="<?php echo $download->get_id(); ?>"]' readonly onfocus="this.select()"/>
+                           value='[download id="<?php echo esc_attr( $download->get_id() ); ?>"]' readonly onfocus="this.select()"/>
                 </label>
             </p>
 			<?php
 			do_action( 'dlm_information_end', $download->get_id(), $download );
 		} catch ( Exception $e ) {
-			echo "<p>" . __( "No download information for new downloads.", 'download-monitor' ) . "</p>";
+			echo "<p>" . esc_html__( "No download information for new downloads.", 'download-monitor' ) . "</p>";
 		}
 
 		echo '</div>';
@@ -126,20 +153,20 @@ class DLM_Admin_Writepanels {
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_featured" id="_featured" ' . checked( true, $download->is_featured(), false ) . ' />
-			<label for="_featured">' . __( 'Featured download', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . __( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
+			<label for="_featured">' . esc_html__( 'Featured download', 'download-monitor' ) . '</label>
+			<span class="dlm-description">' . esc_html__( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_members_only" id="_members_only" ' . checked( true, $download->is_members_only(), false ) . ' />
-			<label for="_members_only">' . __( 'Members only', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . __( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
+			<label for="_members_only">' . esc_html__( 'Members only', 'download-monitor' ) . '</label>
+			<span class="dlm-description">' . esc_html__( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( true, $download->is_redirect_only(), false ) . ' />
-			<label for="_redirect_only">' . __( 'Redirect to file', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) . '</span>
+			<label for="_redirect_only">' . esc_html__( 'Redirect to file', 'download-monitor' ) . '</label>
+			<span class="dlm-description">' . wp_kses_post( __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) ) . '</span>
 		</p>';
 
 		do_action( 'dlm_options_end', $download->get_id(), $download );
@@ -172,20 +199,20 @@ class DLM_Admin_Writepanels {
 		?>
         <div class="download_monitor_files dlm-metaboxes-wrapper">
 
-            <input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo $post->ID; ?>"/>
+            <input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php echo esc_attr( $post->ID ); ?>"/>
             <input type="hidden" name="dlm_post_id" id="dlm-plugin-url"
-                   value="<?php echo download_monitor()->get_plugin_url(); ?>"/>
+                   value="<?php echo esc_attr( download_monitor()->get_plugin_url() ); ?>"/>
             <input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-add-file"
-                   value="<?php echo wp_create_nonce( "add-file" ); ?>"/>
+                   value="<?php echo esc_attr(wp_create_nonce( "add-file" )); ?>"/>
             <input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file"
-                   value="<?php echo wp_create_nonce( "remove-file" ); ?>"/>
+                   value="<?php echo esc_attr(wp_create_nonce( "remove-file" )); ?>"/>
 
 			<?php do_action( 'dlm_download_monitor_files_writepanel_start', $download ); ?>
 
             <p class="toolbar">
-                <a href="#" class="button plus add_file"><?php _e( 'Add file', 'download-monitor' ); ?></a>
-                <a href="#" class="close_all"><?php _e( 'Close all', 'download-monitor' ); ?></a>
-                <a href="#" class="expand_all"><?php _e( 'Expand all', 'download-monitor' ); ?></a>
+                <a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
+                <a href="#" class="close_all"><?php echo esc_html__( 'Close all', 'download-monitor' ); ?></a>
+                <a href="#" class="expand_all"><?php echo esc_html__( 'Expand all', 'download-monitor' ); ?></a>
             </p>
 
             <div class="dlm-metaboxes downloadable_files">
@@ -233,9 +260,13 @@ class DLM_Admin_Writepanels {
 	public function short_description( $post ) {
 		$settings = array(
 			'textarea_name' => 'excerpt',
-			'quicktags'     => true,
+			'editor_css'    => '<style>#wp-excerpt-editor-container .wp-editor-area{height:200px; width:100%;}</style>',
+			'teeny'         => true,
+			'dfw'           => false,
 			'tinymce'       => true,
-			'editor_css'    => '<style>#wp-excerpt-editor-container .wp-editor-area{height:200px; width:100%;}</style>'
+			'quicktags'     => false,
+			'wpautop'             => false,
+			'media_buttons'       => false,
 		);
 
 		wp_editor( htmlspecialchars_decode( $post->post_excerpt ), 'excerpt', $settings );
@@ -264,7 +295,9 @@ class DLM_Admin_Writepanels {
 		if ( is_int( wp_is_post_autosave( $post ) ) ) {
 			return;
 		}
-		if ( empty( $_POST['dlm_nonce'] ) || ! wp_verify_nonce( $_POST['dlm_nonce'], 'save_meta_data' ) ) {
+		// validate nonce.
+		// phpcs:ignore
+		if ( empty( $_POST['dlm_nonce'] ) || ! wp_verify_nonce( wp_unslash($_POST['dlm_nonce']), 'save_meta_data' ) ) {
 			return;
 		}
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
@@ -322,7 +355,8 @@ class DLM_Admin_Writepanels {
 		// Process files
 		if ( isset( $_POST['downloadable_file_id'] ) ) {
 
-			// gather post data
+			// gather post data we will sanitize in for becase each variable is an array.
+			// phpcs:disable
 			$downloadable_file_id             = $_POST['downloadable_file_id'];
 			$downloadable_file_menu_order     = $_POST['downloadable_file_menu_order'];
 			$downloadable_file_version        = $_POST['downloadable_file_version'];
@@ -331,6 +365,7 @@ class DLM_Admin_Writepanels {
 			$downloadable_file_date_hour      = $_POST['downloadable_file_date_hour'];
 			$downloadable_file_date_minute    = $_POST['downloadable_file_date_minute'];
 			$downloadable_file_download_count = $_POST['downloadable_file_download_count'];
+			// phpcs:enable
 
 			// loop
 			for ( $i = 0; $i <= max( array_keys( $downloadable_file_id ) ); $i ++ ) {

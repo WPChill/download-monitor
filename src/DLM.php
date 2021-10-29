@@ -199,6 +199,9 @@ class WP_DLM {
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 
+		// Get the correct download link in archive pages or when retrieving download permalink
+		add_filter( 'post_type_link', array( $this, 'archive_filter_download_link' ), 20, 2 );
+
 		// setup product manager
 		DLM_Product_Manager::get()->setup();
 	}
@@ -507,6 +510,34 @@ class WP_DLM {
 
 		// Return files
 		return $file_manager->json_unscaped_unicode_fallback( $matches );
+	}
+
+	/**
+	 * Filter the download link so that it retrieves the corresponding download link in archive pages
+	 *
+	 * @param $post_link
+	 * @param $post
+	 *
+	 * @return mixed|String
+	 *
+	 * @since 4.4.5
+	 */
+	public function archive_filter_download_link( $post_link, $post ) {
+
+		// We exclude the search because there is a specific option for this
+		if ( 'dlm_download' == $post->post_type && !is_search() ) {
+			// fetch download object
+			try{
+				/** @var DLM_Download $download */
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+
+				return $download->get_the_download_link();
+			}
+			catch ( Exception $e ){
+			}
+		}
+
+		return $post_link;
 	}
 
 }

@@ -198,7 +198,7 @@ class Field {
 
 		foreach ( $fields as $field ) {
 			$val = ( isset( $values[ $field['name'] ] ) ) ? $values[ $field['name'] ] : "";
-			echo $this->generate( $field, $val );
+			echo wp_kses_post( $this->generate( $field, $val ) );
 		}
 
 	}

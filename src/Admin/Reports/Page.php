@@ -8,7 +8,7 @@ class DLM_Reports_Page {
 	public function setup() {
 
 		// menu item
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 12 );
+		add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
 
 		// setup Reports AJAX calls
 		$ajax = new DLM_Reports_Ajax();
@@ -18,12 +18,19 @@ class DLM_Reports_Page {
 	/**
 	 * Add settings menu item
 	 */
-	public function add_admin_menu() {
-		// Settings page
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Reports', 'download-monitor' ), __( 'Reports', 'download-monitor' ), 'dlm_view_reports', 'download-monitor-reports', array(
-			$this,
-			'view'
-		) );
+	public function add_admin_menu( $links ) {
+
+		// Reports page page
+		$links[] = array(
+				'page_title' => __( 'Reports', 'download-monitor' ),
+				'menu_title' => __( 'Reports', 'download-monitor' ),
+				'capability' => 'dlm_view_reports',
+				'menu_slug'  => 'download-monitor-reports',
+				'function'   => array( $this, 'view' ),
+				'priority'   => 50,
+		);
+
+		return $links;
 	}
 
 	/**
@@ -50,8 +57,8 @@ class DLM_Reports_Page {
 	 */
 	private function get_date_range() {
 
-		$from = ( isset( $_GET['date_from'] ) ) ? $_GET['date_from'] : null;
-		$to   = ( isset( $_GET['date_to'] ) ) ? $_GET['date_to'] : null;
+		$from = ( isset( $_GET['date_from'] ) ) ? sanitize_text_field( wp_unslash( $_GET['date_from'] ) ) : null;
+		$to   = ( isset( $_GET['date_to'] ) ) ? sanitize_text_field( wp_unslash( $_GET['date_to'] ) ) : null;
 
 		if ( null === $to ) {
 			$to_date = new DateTime( current_time( "mysql" ) );
@@ -79,7 +86,7 @@ class DLM_Reports_Page {
 	 * @return string
 	 */
 	private function get_current_tab() {
-		return ( ! empty( $_GET['tab'] ) ) ? $_GET['tab'] : "totals";
+		return ( ! empty( $_GET['tab'] ) ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : "totals";
 	}
 
 	/**
@@ -88,7 +95,7 @@ class DLM_Reports_Page {
 	 * @return string
 	 */
 	private function get_current_chart() {
-		return ( ! empty( $_GET['chart'] ) ) ? $_GET['chart'] : "line";
+		return ( ! empty( $_GET['chart'] ) ) ? sanitize_text_field( wp_unslash( $_GET['chart'] ) ) : "line";
 	}
 
 	/**
@@ -97,7 +104,7 @@ class DLM_Reports_Page {
 	 * @return string
 	 */
 	private function get_current_period() {
-		$current_period = ( ! empty( $_GET['period'] ) ) ? $_GET['period'] : "day";
+		$current_period = ( ! empty( $_GET['period'] ) ) ? sanitize_text_field( wp_unslash( $_GET['period'] ) ) : "day";
 
 		// add check to prevent crazy period modifiers via get
 		if ( $current_period != 'month' ) {
@@ -112,7 +119,7 @@ class DLM_Reports_Page {
 	 */
 	private function chart_button() {
 		$other_chart = ( "line" == $this->get_current_chart() ) ? "bar" : "line";
-		echo "<a title='" . sprintf( __( "Switch to %s", 'download-monitor' ), $other_chart ) . "' href='" . add_query_arg( array( 'chart' => $other_chart ), $this->get_url() ) . "' class='button dlm-reports-header-chart-switcher dlm-" . $other_chart . "'></a>";
+		echo "<a title='" . sprintf( esc_html__( "Switch to %s", 'download-monitor' ), esc_html( $other_chart ) ) . "' href='" . esc_url( add_query_arg( array( 'chart' => $other_chart ), $this->get_url() ) ) . "' class='button dlm-reports-header-chart-switcher dlm-" . esc_attr( $other_chart ) . "'></a>";
 	}
 
 	/**
@@ -125,7 +132,7 @@ class DLM_Reports_Page {
 		$end        = new DateTime( $date_range['to'] );
 		?>
         <div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
-			<?php echo $start->format( "d M Y" ) . " - " . $end->format( "d M Y" ); ?>
+			<?php echo esc_html( $start->format( "d M Y" ) ) . " - " . esc_html( $end->format( "d M Y" ) ); ?>
             <span class="dlm-arrow"></span>
         </div>
 		<?php
@@ -137,15 +144,15 @@ class DLM_Reports_Page {
 	private function period_interval_buttons() {
 		$current = $this->get_current_period();
 		echo "<div class='dlm-reports-header-period'>";
-		echo "<a href='" . add_query_arg( array( 'period' => 'day' ), $this->get_url() ) . "' class='button" . ( ( 'day' === $current ) ? ' active' : '' ) . "'>" . __( 'Per Day', 'download-monitor' ) . "</a>";
-		echo "<a href='" . add_query_arg( array( 'period' => 'month' ), $this->get_url() ) . "' class='button" . ( ( 'month' === $current ) ? ' active' : '' ) . "'>" . __( 'Month', 'download-monitor' ) . "</a>";
+		echo "<a href='" . esc_url( add_query_arg( array( 'period' => 'day' ), $this->get_url() ) ) . "' class='button" . ( ( 'day' === $current ) ? ' active' : '' ) . "'>" . esc_html__( 'Per Day', 'download-monitor' ) . "</a>";
+		echo "<a href='" . esc_url( add_query_arg( array( 'period' => 'month' ), $this->get_url() ) ) . "' class='button" . ( ( 'month' === $current ) ? ' active' : '' ) . "'>" . esc_html__( 'Month', 'download-monitor' ) . "</a>";
 		echo "</div>";
 	}
 
 	private function generate_js_data() {
 		$range = $this->get_date_range();
 
-		return ' data-type="' . $this->get_current_chart() . '" data-period="' . $this->get_current_period() . '" data-from="' . $range['from'] . '" data-to="' . $range['to'] . '"';
+		echo ' data-type="' . esc_attr( $this->get_current_chart() ) . '" data-period="' . esc_attr( $this->get_current_period() ) . '" data-from="' . esc_attr( $range['from'] ) . '" data-to="' . esc_attr( $range['to'] ) . '"';
 	}
 
 	/**
@@ -177,7 +184,7 @@ class DLM_Reports_Page {
             <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
             <h1><?php
-				_e( 'Download Reports', 'download-monitor' );
+				echo esc_html__( 'Download Reports', 'download-monitor' );
 				echo '<div class="dlm-reports-actions">';
 				$this->chart_button();
 				$this->date_range_button();
@@ -201,26 +208,20 @@ class DLM_Reports_Page {
 			?>
 
 	        <?php do_action( 'dlm_reports_page_start' ); ?>
-
-            <div class="dlm-reports-block dlm-reports-block-chart"
-                 id="total_downloads_chart"<?php echo $this->generate_js_data(); ?>></div>
-
-            <div class="dlm-reports-block dlm-reports-block-summary"
-                 id="total_downloads_summary"<?php echo $this->generate_js_data(); ?>>
+			<div class="dlm-reports-block dlm-reports-block-summary"
+                 id="total_downloads_summary"<?php $this->generate_js_data(); ?>>
                 <ul>
                     <li id="total"><label>Total Downloads</label><span>...</span></li>
                     <li id="average"><label>Daily Average Downloads</label><span>...</span></li>
                     <li id="popular"><label>Most Popular Download</label><span>...</span></li>
                 </ul>
             </div>
+			<div class="total_downloads_chart-wrapper">
+				<canvas class="dlm-reports-block dlm-reports-block-chart" id="total_downloads_chart"<?php $this->generate_js_data(); ?>></canvas>
+			</div>
 
-            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half"
-                 id="total_downloads_table"<?php echo $this->generate_js_data(); ?>>
-                <span class="dlm-reports-placeholder-no-data">NO DATA</span>
-            </div>
-
-            <div class="dlm-reports-block dlm-reports-block-table dlm-reports-block-half-right"
-                 id="total_downloads_browser_table"<?php echo $this->generate_js_data(); ?>>
+            <div class="dlm-reports-block dlm-reports-block-table"
+                 id="total_downloads_table"<?php $this->generate_js_data(); ?>>
                 <span class="dlm-reports-placeholder-no-data">NO DATA</span>
             </div>
 
@@ -228,7 +229,7 @@ class DLM_Reports_Page {
 
             <script type="text/javascript">
 				jQuery( document ).ready( function ( $ ) {
-					$( '#dlm-date-range-picker' ).dlm_reports_date_range( '<?php echo $date_range['from']; ?>', '<?php echo $date_range['to']; ?>', '<?php echo $js_url; ?>' );
+					$( '#dlm-date-range-picker' ).dlm_reports_date_range( '<?php echo esc_html( $date_range['from'] ); ?>', '<?php echo esc_html( $date_range['to'] ); ?>', '<?php echo esc_url( $js_url ); ?>' );
 				} );
             </script>
         </div>

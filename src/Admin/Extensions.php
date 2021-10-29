@@ -15,104 +15,304 @@ use \Never5\DownloadMonitor\Util;
 class DLM_Admin_Extensions {
 
 	/**
-	 * Handles output of the reports page in admin.
+	 * Holds the class object.
+	 *
+	 * @since 4.4.5
+	 *
+	 * @var object
 	 */
-	public function output() {
+	public static $instance;
+
+	/**
+	 * Json response
+	 *
+	 * @var
+	 *
+	 * @since 4.4.5
+	 */
+	private $response;
+
+	/**
+	 * DLM's extensions
+	 *
+	 * @var array
+	 *
+	 * @since 4.4.5
+	 */
+	private $extensions = array();
+
+	/**
+	 * DLM's extensions tabs
+	 *
+	 * @var array
+	 *
+	 * @since 4.4.5
+	 */
+	private $tabs = array();
+
+	/**
+	 * DLM's installed extensions
+	 *
+	 * @var array
+	 *
+	 * @since 4.4.5
+	 */
+	private $installed_extensions = array();
+
+	/**
+	 * Json
+	 *
+	 * @var mixed|string
+	 *
+	 * @since 4.4.5
+	 */
+	private $json;
+
+	/**
+	 * Our Products
+	 *
+	 * @var
+	 *
+	 * @since 4.4.5
+	 */
+	private $products;
+
+
+	public function __construct() {
+
+		// Add the extensions menu links
+		add_filter( 'dlm_admin_menu_links', array( $this, 'extensions_pages' ), 30 );
+
+		// Remove not needed menu link from appearing in dashboard
+		add_filter( 'submenu_file', array( $this, 'remove_submenu_item' ) );
+
+		// Load our required data
+		add_action( 'admin_init', array( $this, 'load_data' ), 15 );
+
+		add_filter( 'dlm_add_edit_tabs', array( $this, 'dlm_cpt_tabs' ) );
+
+
+	}
+
+	/**
+	 * Add the installed extensions tab to DLM CPT
+	 *
+	 * @param $tabs
+	 *
+	 * @since 4.4.5
+	 */
+	public function dlm_cpt_tabs( $tabs ) {
+
+		if ( count( $this->installed_extensions ) > 0 ) {
+
+			$tabs['dlm-installed-extensions'] = array(
+					'name'     => esc_html__( 'Installed Extensions', 'download-monitor' ),
+					'url'      => admin_url( 'edit.php?post_type=dlm_download&page=dlm-installed-extensions' ),
+					'target'   => '',
+					'priority' => '20',
+			);
+		}
+
+		return $tabs;
+	}
+
+
+	/**
+	 * Loads required data and sets tabs
+	 *
+	 * @since 4.4.5
+	 */
+	public function load_data() {
+
+		$loader     = new Util\ExtensionLoader();
+		$this->json = $loader->fetch();
+
+		$this->products = DLM_Product_Manager::get()->get_products();
+
+		// Set the extensions
+		$this->set_response();
+
+		$this->set_tabs();
+
+	}
+
+	/**
+	 * Returns the singleton instance of the class.
+	 *
+	 * @return object The DLM_Admin_Extensions object.
+	 * @since 4.4.5
+	 *
+	 */
+	public static function get_instance() {
+
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Admin_Extensions ) ) {
+			self::$instance = new DLM_Admin_Extensions();
+		}
+
+		return self::$instance;
+
+	}
+
+	/**
+	 * Add extensions menu links
+	 *
+	 * @param $links
+	 *
+	 * @return mixed
+	 */
+	public function extensions_pages( $links ) {
+
+		$links[] = array(
+				'page_title' => __( 'Download Monitor Extensions', 'download-monitor' ),
+				'menu_title' => '<span style="color:#419CCB;font-weight:bold;">' . __( 'Extensions', 'download-monitor' ) . '</span>',
+				'capability' => 'manage_options',
+				'menu_slug'  => 'dlm-extensions',
+				'function'   => array( $this, 'available_extensions' ),
+				'priority'   => 50,
+		);
+
+		$links[] = array(
+				'page_title' => __( 'Download Monitor Installed Extensions', 'download-monitor' ),
+				'menu_title' => __( 'Installed Extensions', 'download-monitor' ),
+				'capability' => 'manage_options',
+				'menu_slug'  => 'dlm-installed-extensions',
+				'function'   => array( $this, 'installed_extensions_page' ),
+				'priority'   => 65,
+		);
+
+		return $links;
+	}
+
+	/**
+	 * Remove the submenus we don't want to show
+	 *
+	 * @param $submenu_file
+	 *
+	 * @return mixed
+	 *
+	 * @since 4.4.5
+	 */
+	public function remove_submenu_item( $submenu_file ) {
+
+		remove_submenu_page( 'edit.php?post_type=dlm_download', 'dlm-installed-extensions' );
+
+		return $submenu_file;
+	}
+
+
+	/**
+	 * Set DLM's extensions
+	 *
+	 * @since 4.4.5
+	 */
+	public function set_response() {
+
+		$this->response = json_decode( $this->json );
+
+		if ( ! isset( $this->response ) ) {
+			return;
+		}
+
+		// Get all extensions
+		$this->extensions = $this->response->extensions;
+
+		// Loop through extensions
+		foreach ( $this->extensions as $extension_key => $extension ) {
+			if ( isset( $this->products[ $extension->product_id ] ) ) {
+				$this->installed_extensions[] = $extension;
+				unset( $this->extensions[ $extension_key ] );
+			}
+		}
+
+	}
+
+
+	/**
+	 * Output DLM's extensions page
+	 *
+	 * @since 4.4.5
+	 */
+	public function available_extensions() {
 
 		// Allow user to reload extensions
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
 		}
 
-		// Load extension json
-		$extension_loader = new Util\ExtensionLoader();
-		$extension_json   = $extension_loader->fetch();
-
 		?>
-        <div class="wrap dlm_extensions_wrap">
-            <div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
-            <h1><?php _e( 'Download Monitor Extensions', 'download-monitor' ); ?> <a
-                        href="<?php echo add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ); ?>"
-                        class="button dlm-reload-button">Reload Extensions</a></h1>
+		<div class="wrap dlm_extensions_wrap">
+			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
+			<h1>
+				<?php echo esc_html__( 'Download Monitor Extensions', 'download-monitor' ); ?>
+				<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
+				   class="button dlm-reload-button">
+					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
+				</a>
+			</h1>
 			<?php
 
-			if ( false !== $extension_json ) {
-
-				// Get all extensions
-				$response = json_decode( $extension_json );
+			if ( false !== $this->json ) {
 
 				// Display message if it's there
-				if ( isset( $response->message ) && '' !== $response->message ) {
-					echo '<div id="message" class="updated">' . $response->message . '</div>' . PHP_EOL;
+				if ( isset( $this->response->message ) && '' !== $this->response->message ) {
+					echo '<div id="message" class="updated">' . esc_html( $this->response->message ) . '</div>';
 				}
 
-				if ( isset( $response ) > 0 && isset( $response->extensions ) && count( $response->extensions ) > 0 ) {
+				// Extensions
 
-					// Extensions
-					$extensions = $response->extensions;
+				echo '<p>' . sprintf( esc_html__( 'Extend Download Monitor with its powerful free and paid extensions. %sClick here to browse all extensions%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=extensions-top" target="_blank">', '</a>' ) . '</p>';
 
-					// Get products
-					$products = DLM_Product_Manager::get()->get_products();
+				$active_tab = 'dlm-extensions';
 
-					// Loop through extensions
-					$installed_extensions = array();
+				if ( isset( $_GET['page'] ) && isset( $tabs[ $_GET['page'] ] ) ) {
+					$active_tab = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+				}
 
-					foreach ( $extensions as $extension_key => $extension ) {
-						if ( isset( $products[ $extension->product_id ] ) ) {
-							$installed_extensions[] = $extension;
-							unset( $extensions[ $extension_key ] );
+				?>
+				<h2 class="nav-tab-wrapper">
+					<?php DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab ); ?>
+				</h2>
+				<?php
+
+				// Available Extensions
+				if ( count( $this->extensions ) > 0 ) {
+
+					echo '<div id="available-extensions" class="settings_panel">';
+					echo '<div class="theme-browser dlm_extensions">';
+
+					foreach ( $this->extensions as $extension ) {
+
+						$sale = false;
+
+						if ( $extension->price > 0 ) {
+
+							$price_display = '$' . $extension->price;
+
+							if ( '' != $extension->sale_price && $extension->sale_price > 0 ) {
+
+								$price_display = '<strike>$' . $extension->price . '</strike> $' . $extension->sale_price;
+								$sale          = true;
+							}
+						} else {
+
+							$price_display = __( 'FREE', 'download-monitor' );
 						}
+
+						echo '<div class="theme dlm_extension">';
+						echo '<a href="' . esc_url( $extension->url ) . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
+						echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
+						echo '<h3>' . esc_html( $extension->name ) . '</h3>';
+						echo '<p class="extension-desc">' . esc_html( $extension->desc ) . '</p>';
+						echo '<div class="product_footer">';
+						echo '<span class="loop_price' . ( ( $sale ) ? ' sale' : '' ) . '">' . esc_html( $price_display ) . ' / ' . esc_html__( 'year', 'download-monitor' ) . '</span>';
+						echo '<span class="loop_more">' . esc_html__( 'Get This Extension', 'download-monitor' ) . '</span>';
+						echo '</div>';
+						echo '</a>';
+						echo '</div>';
 					}
 
-					echo '<p>' . sprintf( __( 'Extend Download Monitor with its powerful free and paid extensions. %sClick here to browse all extensions%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=extensions-top" target="_blank">', '</a>' ) . '</p>' . PHP_EOL;
-					?>
-                    <h2 class="nav-tab-wrapper">
-                        <a href="#available-extensions" class="nav-tab nav-tab-active"
-                           id="dlm-tab-available-extensions">Available Extensions</a>
-						<?php if ( count( $installed_extensions ) > 0 ) { ?><a href="#installed-extensions"
-                                                                               class="nav-tab"
-                                                                               id="dlm-tab-installed-extensions">Installed
-                            Extensions</a><?php } ?>
-                    </h2>
-					<?php
-
-
-					// Available Extensions
-					if ( count( $extensions ) > 0 ) {
-
-						echo '<div id="available-extensions" class="settings_panel">' . PHP_EOL;
-						echo '<div class="theme-browser dlm_extensions">';
-
-						foreach ( $extensions as $extension ) {
-
-							$sale = false;
-							if ( $extension->price > 0 ) {
-								$price_display = '$' . $extension->price;
-								if ( '' != $extension->sale_price && $extension->sale_price > 0 ) {
-									$price_display = '<strike>$' . $extension->price . '</strike> $' . $extension->sale_price;
-									$sale          = true;
-								}
-							} else {
-								$price_display = 'FREE';
-							}
-
-							//$price_display = ( ( $extension->price > 0 ) ? '$' . $extension->price : 'FREE' );
-
-							echo '<div class="theme dlm_extension">';
-							echo '<a href="' . esc_attr( $extension->url ) . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
-							echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_attr( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>' . PHP_EOL;
-							echo '<h3>' . esc_html( $extension->name ) . '</h3>' . PHP_EOL;
-							echo '<p class="extension-desc">' . esc_html( $extension->desc ) . '</p>';
-							echo '<div class="product_footer">';
-							echo '<span class="loop_price' . ( ( $sale ) ? ' sale' : '' ) . '">' . esc_html( $price_display ) . ' / year</span>';
-							echo '<span class="loop_more">Get This Extension</span>';
-							echo '</div>';
-							echo '</a>';
-							echo '</div>';
-						}
-
-						echo '</div>';
-						echo '</div>';
+					echo '</div>';
+					echo '</div>';
 						?>
 						<div class="wrap dlm_extensions_wrap">
 						<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
@@ -124,51 +324,160 @@ class DLM_Admin_Extensions {
 							</a>
 						</h1>
 						<?php
-
-					} else if ( count( $installed_extensions ) > 0 ) {
-						echo '<p>Wow, looks like you installed all our extensions. Thanks, you rock!</p>';
-					}
-
-					// Installed Extensions
-					if ( count( $installed_extensions ) > 0 ) {
-
-						echo '<div id="installed-extensions" class="settings_panel">' . PHP_EOL;
-
-						echo '<div class="theme-browser dlm_extensions">';
-						foreach ( $installed_extensions as $extension ) {
-
-							// Get the product
-							$license = $products[ $extension->product_id ]->get_license();
-
-							echo '<div class="theme dlm_extension">';
-
-							echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_attr( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>' . PHP_EOL;
-							echo '<h3>' . esc_html( $extension->name ) . '</h3>' . PHP_EOL;
-
-							echo '<div class="extension_license">' . PHP_EOL;
-							echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>' . PHP_EOL;
-							echo '<input type="hidden" id="dlm-ajax-nonce" value="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '" />' . PHP_EOL;
-							echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />' . PHP_EOL;
-							echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />' . PHP_EOL;
-							echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />' . PHP_EOL;
-							echo '<input type="text" name="email" id="email" value="' . esc_attr( $license->get_email() ) . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />' . PHP_EOL;
-							echo '<a href="javascript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
-							echo '</div>' . PHP_EOL;
-
-							echo '</div>';
-						}
-						echo '</div>';
-						echo '</div>' . PHP_EOL;
-
-					}
-
+				} else if ( count( $this->installed_extensions ) > 0 ) {
+					echo '<p>' . esc_html__( 'Wow, looks like you installed all our extensions. Thanks, you rock!', 'download-monitor' ) . '</p>';
 				}
 
 			} else {
-				echo "<p>Couldn't load extensions, please try again later.</p>" . PHP_EOL;
+				echo '<p>' . esc_html__( 'Couldn\'t load extensions, please try again later.', 'download-monitor' ) . '</p>';
 			}
 			?>
-        </div>
+		</div>
 		<?php
+	}
+
+	/**
+	 * Output installed extensions page
+	 *
+	 * @since 4.4.5
+	 */
+	public function installed_extensions_page() {
+
+		// Allow user to reload extensions
+		if ( isset( $_GET['dlm-force-recheck'] ) ) {
+			delete_transient( 'dlm_extension_json' );
+		}
+
+		?>
+		<div class="wrap dlm_extensions_wrap">
+		<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
+		<h1>
+			<?php esc+html_e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
+			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
+			   class="button dlm-reload-button">
+				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
+			</a>
+		</h1>
+		<?php
+
+		$active_tab = 'dlm-installed-extensions';
+
+		if ( isset( $_GET['page'] ) && isset( $this->tabs[ $_GET['page'] ] ) ) {
+			$active_tab = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+		}
+
+		echo '<h2 class="nav-tab-wrapper">';
+
+		DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab );
+
+		echo '</h2>';
+
+		// Installed Extensions
+		if ( count( $this->installed_extensions ) > 0 ) {
+
+			echo '<div id="installed-extensions" class="settings_panel">';
+
+			echo '<div class="theme-browser dlm_extensions">';
+
+			foreach ( $this->installed_extensions as $extension ) {
+
+				// Get the product
+				$license = $this->products[ $extension->product_id ]->get_license();
+
+				echo '<div class="theme dlm_extension">';
+
+				echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
+				echo '<h3>' . esc_html( $extension->name ) . '</h3>';
+
+				echo '<div class="extension_license">';
+				echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>';
+				echo '<input type="hidden" id="dlm-ajax-nonce" value="' . esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ) . '" />';
+				echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />';
+				echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />';
+				echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
+				echo '<input type="text" name="email" id="email" value="' . esc_attr( $license->get_email() ) . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
+				echo '<a href="javascript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
+				echo '</div>';
+
+				echo '</div>';
+			}
+
+			echo '</div>';
+			echo '</div>';
+
+		}
+
+		echo '</div>';
+	}
+
+	/**
+	 * Set DLM's extensions tabs
+	 *
+	 * @since 4.4.5
+	 */
+	public function set_tabs() {
+
+		$tabs = array(
+				'dlm_downloads'   => array(
+						'name'     => esc_html__( 'Downloads', 'download-monitor' ),
+						'url'      => admin_url( 'edit.php?post_type=dlm_download' ),
+						'target'   => '',
+						'priority' => '1',
+				),
+				'dlm-extensions' => array(
+						'name'     => esc_html__( 'Extensions', 'download-monitor' ),
+						'url'      => admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ),
+						'target'   => '',
+						'priority' => '10',
+				),
+				'suggest_feature' => array(
+						'name'     => esc_html__( 'Suggest a feature', 'download-monitor' ),
+						'url'      => 'https://forms.gle/3igARBBzrbp6M8Fc7',
+						'icon'     => 'dashicons dashicons-external',
+						'target'   => '_blank',
+						'priority' => '90',
+				)
+		);
+
+		if ( count( $this->installed_extensions ) > 0 ) {
+
+			$tabs['dlm-installed-extensions'] = array(
+					'name'     => esc_html__( 'Installed Extensions', 'download-monitor' ),
+					'url'      => admin_url( 'edit.php?post_type=dlm_download&page=dlm-installed-extensions' ),
+					'target'   => '',
+					'priority' => '20',
+			);
+		}
+
+		/**
+		 * Hook for Extension tabs
+		 */
+		$this->tabs = apply_filters( 'dlm_settings_tabs', $tabs );
+
+		// Sort tabs based on priority.
+		uasort( $this->tabs, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+	}
+
+	/**
+	 * Get DLM's extensions tabs
+	 *
+	 * @return array
+	 *
+	 * @since 4.4.5
+	 */
+	public function get_tabs() {
+
+		return $this->tabs;
+	}
+
+	/**
+	 * Get extensions
+	 *
+	 * @return array
+	 *
+	 * @since 4.4.5
+	 */
+	public function get_extensions(){
+		return $this->installed_extensions;
 	}
 }

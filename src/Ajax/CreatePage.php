@@ -52,7 +52,7 @@ class DLM_Ajax_CreatePage extends DLM_Ajax {
 				) );
 			}
 		}
-		
+
 		wp_send_json( array( 'result' => 'failed', 'error' => __( "No page set", 'download-monitor' ) ) );
 
 		exit;

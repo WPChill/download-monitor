@@ -9,9 +9,10 @@ abstract class DLM_Utils {
 	 */
 	public static function get_visitor_ip() {
 
-		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
 
 		if (  ( '1' == get_option( 'dlm_allow_x_forwarded_for', 0 ) ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			// phpcs:ignore
 			$parts = explode( ",", $_SERVER['HTTP_X_FORWARDED_FOR'] );
 			$ip    = trim( array_shift( $parts ) );
 		}
@@ -25,7 +26,7 @@ abstract class DLM_Utils {
 	 * @return string
 	 */
 	public static function get_visitor_ua() {
-		$ua = sanitize_text_field( isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '' );
+		$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '' ;
 
 		if ( strlen( $ua ) > 200 ) {
 			$ua = substr( $ua, 0, 199 );

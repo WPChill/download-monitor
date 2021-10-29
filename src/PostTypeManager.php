@@ -7,6 +7,8 @@ class DLM_Post_Type_Manager {
 	 */
 	public function setup() {
 		add_action( 'init', array( $this, 'register' ), 10 );
+
+		add_filter( 'views_edit-dlm_download', array( $this, 'add_extensions_tab' ), 10, 1 );
 	}
 
 	/**
@@ -99,6 +101,54 @@ class DLM_Post_Type_Manager {
 		do_action( 'dlm_after_post_type_register' );
 
 
+	}
+
+	public function add_extensions_tab( $views ) {
+		$this->display_extension_tab();
+		return $views;
+	}
+
+	public function display_extension_tab() {
+		?>
+		<h2 class="nav-tab-wrapper">
+			<?php
+			$tabs = array(
+				'downloads'       => array(
+					'name'     => __('Downloads','download-monitor'),
+					'url'      => admin_url( 'edit.php?post_type=dlm_download' ),
+					'priority' => '1'
+				),
+				'suggest_feature' => array(
+					'name'     => esc_html__( 'Suggest a feature', 'download-monitor' ),
+					'icon'     => 'dashicons-external',
+					'url'      => 'https://forms.gle/3igARBBzrbp6M8Fc7',
+					'target'   => '_blank',
+					'priority' => '60'
+				),
+			);
+
+			if ( current_user_can( 'install_plugins' ) ) {
+				$tabs[ 'extensions' ] = array(
+					'name'     => esc_html__( 'Extensions', 'download-monitor' ),
+					'url'      => admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ),
+					'priority' => '5',
+				);
+			}
+
+			/**
+			 * Hook for DLM CPT table view tabs
+			 *
+			 * @hooked DLM_Admin_Extensions dlm_cpt_tabs()
+			 */
+			$tabs = apply_filters( 'dlm_add_edit_tabs', $tabs );
+
+			uasort( $tabs, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+
+			DLM_Admin_Helper::dlm_tab_navigation($tabs,'downloads');
+			?>
+		</h2>
+		<br/>
+		<?php
 	}
 
 }

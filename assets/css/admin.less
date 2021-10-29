@@ -942,6 +942,11 @@ table.wp-list-table {
 
 }
 
+.dlm-reports-block-summary {
+  background: #333!important;
+  color: white;
+}
+
 /** Products overview page */
 .post-type-dlm_product {
   table.wp-list-table {
@@ -1404,4 +1409,179 @@ table.wp-list-table {
 /* Fix Datepicker's UI bug */
 #ui-datepicker-div {
   display: none;
+}
+
+/* Upsells */
+.wpchill-upsell {
+  background: #fff;
+  border: 0;
+  padding: 15px;
+  margin-top: 30px;
+
+  .wpchill-upsell-features {
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 0;
+
+    li {
+      width: 33%;
+    }
+  }
+}
+
+.wpchill-upsells-wrapper {
+  width: 100%;
+}
+
+.wrap.dlm-admin-settings {
+  .form-table {
+    width: 65%;
+    float: left;
+
+    & + .wpchill-upsells-wrapper {
+      width: 30%;
+      float: right;
+    }
+  }
+
+  .nav-tab-wrapper {
+
+    a.nav-tab {
+      margin: 0 auto;
+      border-right: 0;
+
+      &:first-child {
+        border-top-left-radius: 5px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 5px;
+        border-right: 1px solid #c3c4c7;
+      }
+    }
+  }
+
+  .dlm-upsell-badge {
+    background:green;
+    color:#fff;
+    padding:5px 10px;
+    font-size:11px;
+  }
+}
+
+#total_downloads_browser_table {
+  a.nav-tab {
+    text-transform:capitalize;
+  }
+}
+
+.post-type-dlm_download {
+
+  .nav-tab-wrapper {
+
+    a.nav-tab {
+      margin: 0 auto;
+      border-right: 0;
+      border-bottom:0;
+
+      &:first-child {
+        border-top-left-radius: 5px;
+      }
+
+      &:last-child,
+      &.last_tab{
+        border-top-right-radius: 5px;
+        border-right: 1px solid #c3c4c7;
+      }
+    }
+  }
+}
+
+#dlm-download-page-upsell,
+#dlm-amazon-s3-upsell ,
+#dlm-google-drive-upsell,
+#dlm-buttons-upsell {
+  .inside {
+    display: flex;
+    flex-wrap: wrap;
+    background: #f1f1f1;
+
+    .wpchill-upsell {
+      background: transparent;
+      text-align:center;
+      width:100%;
+      margin-top:0;
+    }
+  }
+
+  .inside {
+    margin: 0;
+    padding: 0;
+  }
+
+}
+
+.upsells-columns {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+
+  .upsells-columns-2 {
+    width: 50%;
+    text-align: center;
+    display:flex;
+    align-items:center;
+    align-content:center;
+  }
+
+  .upsells-column {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    align-content: center;
+
+    > * {
+      display: inline-block;
+      align-content: center;
+      vertical-align: middle;
+      margin: 0 15px;
+      float: left;
+      padding: 15px;
+
+      &.wpchill-upsell {
+        width: 100%;
+        position: relative;
+        float: right;
+
+        .wpchill-upsell-description {
+          margin:0 auto;
+          max-width:calc(100% - 200px);
+        }
+
+        a {
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+
+    h3 {
+      line-height:1.3em;
+    }
+
+    &:last-child {
+      border-top: 1px solid #c3c4c7;
+      border-bottom: 1px solid #c3c4c7;
+    }
+
+  }
+
+  .wpchill-upsell {
+    margin-top: 0;
+  }
 }

@@ -53,6 +53,11 @@ class DLM_File_Manager {
 		$wp_uploads_dir = $wp_uploads['basedir'];
 		$wp_uploads_url = $wp_uploads['baseurl'];
 
+		// Fix for plugins that modify the uploads dir
+		if ( false === strpos( $wp_uploads_url,get_site_url() ) ) {
+			return array( $file_path, $remote_file );
+		}
+
 		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array(
 					'http',
 					'https',
@@ -69,6 +74,7 @@ class DLM_File_Manager {
 			$remote_file = false;
 			$file_path   = trim( str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path ) );
 			$file_path   = realpath( $file_path );
+
 
 		} elseif ( is_multisite() && ( ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false ) || ( strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) ) {
 

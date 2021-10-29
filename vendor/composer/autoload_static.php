@@ -110,8 +110,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_WordPress_Version_Repository' => __DIR__ . '/../..' . '/src/Version/WordPressVersionRepository.php',
         'DateTimeImmutable' => __DIR__ . '/../..' . '/src/Polyfill/DateTimeImmutable/DateTimeImmutable.php',
         'DateTimeInterface' => __DIR__ . '/../..' . '/src/Polyfill/DateTimeImmutable/DateTimeInterface.php',
-        'DumpTest' => __DIR__ . '/../..' . '/src/Libs/uaparser/lib/spyc-0.5/tests/DumpTest.php',
-        'IndentTest' => __DIR__ . '/../..' . '/src/Libs/uaparser/lib/spyc-0.5/tests/IndentTest.php',
         'Never5\\DownloadMonitor\\Dependencies\\PayPal\\Api\\Address' => __DIR__ . '/../..' . '/src/Dependencies/PayPal/Api/Address.php',
         'Never5\\DownloadMonitor\\Dependencies\\PayPal\\Api\\Agreement' => __DIR__ . '/../..' . '/src/Dependencies/PayPal/Api/Agreement.php',
         'Never5\\DownloadMonitor\\Dependencies\\PayPal\\Api\\AgreementDetails' => __DIR__ . '/../..' . '/src/Dependencies/PayPal/Api/AgreementDetails.php',
@@ -382,11 +380,9 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'Never5\\DownloadMonitor\\Util\\ExtensionLoader' => __DIR__ . '/../..' . '/src/Util/ExtensionLoader.php',
         'Never5\\DownloadMonitor\\Util\\Onboarding' => __DIR__ . '/../..' . '/src/Util/Onboarding.php',
         'Never5\\DownloadMonitor\\Util\\PageCreator' => __DIR__ . '/../..' . '/src/Util/PageCreator.php',
-        'ParseTest' => __DIR__ . '/../..' . '/src/Libs/uaparser/lib/spyc-0.5/tests/ParseTest.php',
-        'RoundTripTest' => __DIR__ . '/../..' . '/src/Libs/uaparser/lib/spyc-0.5/tests/RoundTripTest.php',
-        'Spyc' => __DIR__ . '/../..' . '/src/Libs/uaparser/lib/spyc-0.5/spyc.php',
-        'UAParser' => __DIR__ . '/../..' . '/src/Libs/uaparser/uaparser.php',
         'WP_DLM' => __DIR__ . '/../..' . '/src/DLM.php',
+        'DLM_Admin_Helper' => __DIR__ . '/../..' . '/src/Admin/class-dlm-admin-helper.php',
+        'DLM_Uninstall' => __DIR__ . '/../..' . '/includes/admin/uninstall/class-dlm-uninstall.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

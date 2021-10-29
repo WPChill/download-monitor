@@ -6,6 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if ( count( $items ) > 0 ) : ?>
 	<?php foreach ( $items as $item ) : ?>
-		<?php echo $item['key']; ?>: <?php echo $item['value'] . PHP_EOL; ?>
+		<?php echo esc_html( $item['key'] ); ?>: <?php echo esc_html( $item['value'] ) . PHP_EOL; ?>
 	<?php endforeach; ?>
 <?php endif; ?>

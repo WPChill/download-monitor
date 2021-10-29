@@ -66,51 +66,51 @@ class DLM_Custom_Columns {
 
 		switch ( $column ) {
 			case "thumb" :
-				echo $download->get_image();
+				echo wp_kses_post( $download->get_image() );
 				break;
 			case "download_id" :
-				echo $post->ID;
+				echo esc_html( $post->ID );
 				break;
 			case "download_cat" :
 				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_category', '', ', ', '' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					echo $terms;
+					echo esc_html( $terms );
 				}
 				break;
 			case "download_tag" :
 				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_tag', '', ', ', '' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					echo $terms;
+					echo esc_html( $terms );
 				}
 				break;
 			case "featured" :
 				if ( $download->is_featured() ) {
-					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
+					echo '<span class="yes">' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
 				break;
 			case "members_only" :
 				if ( $download->is_members_only() ) {
-					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
+					echo '<span class="yes">' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
 				break;
 			case "redirect_only" :
 				if ( $download->is_redirect_only() ) {
-					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
+					echo '<span class="yes">' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
 				break;
 			case "file" :
 				if ( $file ) {
-					echo '<a href="' . $download->get_the_download_link() . '"><code>' . $file->get_filename();
+					echo '<a href="' . esc_url( $download->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
 					if ( $size = $download->get_version()->get_filesize_formatted() ) {
-						echo ' &ndash; ' . $size;
+						echo ' &ndash; ' . esc_html( $size );
 					}
 					echo '</code></a>';
 				} else {
@@ -119,7 +119,7 @@ class DLM_Custom_Columns {
 				break;
 			case "version" :
 				if ( $file && $file->get_version() ) {
-					echo $file->get_version();
+					echo esc_html( $file->get_version() );
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
@@ -129,7 +129,7 @@ class DLM_Custom_Columns {
 				break;
 			case "featured" :
 				if ( $download->is_featured() ) {
-					echo '<img src="' . download_monitor()->get_plugin_url() . '/assets/images/on.png" alt="yes" />';
+					echo '<img src="' . esc_url( download_monitor()->get_plugin_url() ) . '/assets/images/on.png" alt="yes" />';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}

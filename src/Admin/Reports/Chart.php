@@ -86,7 +86,7 @@ class DLM_Reports_Chart {
 			$startDate->modify( "+1 " . $this->current_period );
 		}
 
-		return array( 'title' => '', 'color' => 'blue', 'values' => $data_formatted );
+		return array( 'backgroundColor' => '#f05b4f', 'borderColor' => '#f05b4f', 'data' => $data_formatted );
 	}
 
 }

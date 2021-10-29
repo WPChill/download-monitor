@@ -24,16 +24,20 @@ class DLM_Admin_Settings {
 
 		// register our options and settings
 		foreach ( $settings as $tab_key => $tab ) {
+
 			foreach ( $tab['sections'] as $section_key => $section ) {
 
 				$option_group = "dlm_" . $tab_key . "_" . $section_key;
 
-				foreach ( $section['fields'] as $field ) {
-					if ( ! empty( $field['name'] ) && ! in_array( $field['type'], apply_filters( 'dlm_settings_display_only_fields', array( 'action_button' ) ) ) ) {
-						if ( isset( $field['std'] ) ) {
-							add_option( $field['name'], $field['std'] );
+				// Check to see if $section['fields'] is set, we could be using it for upsells
+				if ( isset( $section['fields'] ) ) {
+					foreach ( $section['fields'] as $field ) {
+						if ( ! empty( $field['name'] ) && ! in_array( $field['type'], apply_filters( 'dlm_settings_display_only_fields', array( 'action_button' ) ) ) ) {
+							if ( isset( $field['std'] ) ) {
+								add_option( $field['name'], $field['std'] );
+							}
+							register_setting( $option_group, $field['name'] );
 						}
-						register_setting( $option_group, $field['name'] );
 					}
 				}
 
@@ -61,10 +65,11 @@ class DLM_Admin_Settings {
 	public function get_settings() {
 
 		$settings = array(
-			'general'   => array(
+			'general'              => array(
 				'title'    => __( 'General', 'download-monitor' ),
 				'sections' => array(
 					'general' => array(
+						'title'  => __( 'Download', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'    => 'dlm_default_template',
@@ -122,13 +127,14 @@ class DLM_Admin_Settings {
 								'type'     => 'checkbox'
 							),
 						)
-					)
+					),
 				)
 			),
-			'endpoints' => array(
-				'title'    => __( 'Endpoint', 'download-monitor' ),
+			'advanced'             => array(
+				'title'    => __( 'Advanced', 'download-monitor' ),
 				'sections' => array(
-					'endpoints' => array(
+					'page_setup' => array(
+						'title'  => __( 'Pages Setup', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'        => 'dlm_download_endpoint',
@@ -148,15 +154,48 @@ class DLM_Admin_Settings {
 									'ID'   => __( 'Download ID', 'download-monitor' ),
 									'slug' => __( 'Download slug', 'download-monitor' )
 								)
-							)
+							),
+							array(
+								'name'    => 'dlm_no_access_page',
+								'std'     => '',
+								'label'   => __( 'No Access Page', 'download-monitor' ),
+								'desc'    => __( "Choose what page is displayed when the user has no access to a file. Don't forget to add the <code>[dlm_no_access]</code> shortcode to the page.", 'download-monitor' ),
+								'type'    => 'lazy_select',
+								'options' => array()
+							),
+						),
+					),
+					'access'     => array(
+						'title'  => __( 'Access', 'download-monitor' ),
+						'fields' => array(
+							array(
+								'name'        => 'dlm_no_access_error',
+								'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
+								'placeholder' => '',
+								'label'       => __( 'No access message', 'download-monitor' ),
+								'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
+								'type'        => 'textarea'
+							),
+							array(
+								'name'        => 'dlm_ip_blacklist',
+								'std'         => '192.168.0.0/24',
+								'label'       => __( 'Blacklist IPs', 'download-monitor' ),
+								'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for ranges. IPv4 examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or <code>2001:db8::/32</code>.', 'download-monitor' ),
+								'placeholder' => '',
+								'type'        => 'textarea'
+							),
+							array(
+								'name'        => 'dlm_user_agent_blacklist',
+								'std'         => 'Googlebot',
+								'label'       => __( 'Blacklist user agents', 'download-monitor' ),
+								'desc'        => __( 'List browser user agents to blacklist, 1 per line.  Partial matches are sufficient. Regex matching is allowed by surrounding the pattern with forward slashes, e.g. <code>/^Mozilla.+Googlebot/</code>', 'download-monitor' ),
+								'placeholder' => '',
+								'type'        => 'textarea'
+							),
 						)
-					)
-				)
-			),
-			'hash'      => array(
-				'title'    => __( 'Hashes', 'download-monitor' ),
-				'sections' => array(
-					'hash' => array(
+					),
+					'hash'       => array(
+						'title'  => __( 'Hashes', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name' => 'dlm_hash_desc',
@@ -184,7 +223,6 @@ class DLM_Admin_Settings {
 								'std'      => '0',
 								'label'    => __( 'SHA256 hashes', 'download-monitor' ),
 								'cb_label' => __( 'Generate SHA256 hash for uploaded files', 'download-monitor' ),
-								'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
 								'type'     => 'checkbox'
 							),
 							array(
@@ -192,17 +230,12 @@ class DLM_Admin_Settings {
 								'std'      => '0',
 								'label'    => __( 'CRC32B hashes', 'download-monitor' ),
 								'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
-								'desc'     => __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files.', 'download-monitor' ),
 								'type'     => 'checkbox'
 							)
 						)
-					)
-				)
-			),
-			'logging'   => array(
-				'title'    => __( 'Logging', 'download-monitor' ),
-				'sections' => array(
-					'logging' => array(
+					),
+					'logging'    => array(
+						'title'  => __( 'Logging', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'     => 'dlm_enable_logging',
@@ -241,65 +274,91 @@ class DLM_Admin_Settings {
 								'type'     => 'checkbox'
 							),
 						)
-					)
+					),
 				)
 			),
-			'access'    => array(
-				'title'    => __( 'Access', 'download-monitor' ),
-				'sections' => array(
-					'access' => array(
-						'fields' => array(
-							array(
-								'name'        => 'dlm_no_access_error',
-								'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
-								'placeholder' => '',
-								'label'       => __( 'No access message', 'download-monitor' ),
-								'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
-								'type'        => 'textarea'
-							),
-							array(
-								'name'        => 'dlm_ip_blacklist',
-								'std'         => '192.168.0.0/24',
-								'label'       => __( 'Blacklist IPs', 'download-monitor' ),
-								'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for ranges. IPv4 examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or <code>2001:db8::/32</code>.', 'download-monitor' ),
-								'placeholder' => '',
-								'type'        => 'textarea'
-							),
-							array(
-								'name'        => 'dlm_user_agent_blacklist',
-								'std'         => 'Googlebot',
-								'label'       => __( 'Blacklist user agents', 'download-monitor' ),
-								'desc'        => __( 'List browser user agents to blacklist, 1 per line.  Partial matches are sufficient. Regex matching is allowed by surrounding the pattern with forward slashes, e.g. <code>/^Mozilla.+Googlebot/</code>', 'download-monitor' ),
-								'placeholder' => '',
-								'type'        => 'textarea'
-							),
-						)
-					)
-				)
+			'lead_generation'      => array(
+				'title'    => esc_html__( 'Lead Generation', 'download-monitor' ),
+				'sections' => array()
 			),
-			'pages'     => array(
-				'title'    => __( 'Pages', 'download-monitor' ),
-				'sections' => array(
-					'pages' => array(
-						'fields' => array(
-							array(
-								'name'    => 'dlm_no_access_page',
-								'std'     => '',
-								'label'   => __( 'No Access Page', 'download-monitor' ),
-								'desc'    => __( "Choose what page is displayed when the user has no access to a file. Don't forget to add the <code>[dlm_no_access]</code> shortcode to the page.", 'download-monitor' ),
-								'type'    => 'lazy_select',
-								'options' => array()
-							)
-						)
-					)
-				)
+			'external_hosting'     => array(
+				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
+				'sections' => array()
+			),
+			'integration'          => array(
+				'title'    => esc_html__( 'Integration', 'download-monitor' ),
+				'sections' => array()
+			),
+			'email_notification'   => array(
+				'title'    => esc_html__( 'Emails', 'download-monitor' ),
+				'sections' => array()
+			),
+			'terns_and_conditions' => array(
+				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+				'sections' => array()
 			)
-
 		);
 
 		if ( dlm_is_shop_enabled() ) {
 
-			$settings['pages']['sections']['pages']['fields'][] = array(
+			$settings['general']['sections']['shop'] = array(
+				'title'  => __( 'Shop', 'download-monitor' ),
+				'fields' => array(
+					array(
+						'name'    => 'dlm_base_country',
+						'std'     => 'US',
+						'label'   => __( 'Base Country', 'download-monitor' ),
+						'desc'    => __( 'Where is your store located?', 'download-monitor' ),
+						'type'    => 'select',
+						'options' => Services::get()->service( "country" )->get_countries()
+					),
+					array(
+						'name'    => 'dlm_currency',
+						'std'     => 'USD',
+						'label'   => __( 'Currency', 'download-monitor' ),
+						'desc'    => __( 'In what currency are you selling?', 'download-monitor' ),
+						'type'    => 'select',
+						'options' => $this->get_currency_list_with_symbols()
+					),
+					array(
+						'name'    => 'dlm_currency_pos',
+						'std'     => 'left',
+						'label'   => __( 'Currency Position', 'download-monitor' ),
+						'desc'    => __( 'The position of the currency symbol.', 'download-monitor' ),
+						'type'    => 'select',
+						'options' => array(
+							'left'        => sprintf( __( 'Left (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left' ) ) ),
+							'right'       => sprintf( __( 'Right (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right' ) ) ),
+							'left_space'  => sprintf( __( 'Left with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left_space' ) ) ),
+							'right_space' => sprintf( __( 'Right with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right_space' ) ) )
+						)
+					),
+					array(
+						'name'  => 'dlm_decimal_separator',
+						'type'  => 'text',
+						'std'   => '.',
+						'label' => __( 'Decimal Separator', 'download-monitor' ),
+						'desc'  => __( 'The decimal separator of displayed prices.', 'download-monitor' )
+					),
+					array(
+						'name'  => 'dlm_thousand_separator',
+						'type'  => 'text',
+						'std'   => ',',
+						'label' => __( 'Thousand Separator', 'download-monitor' ),
+						'desc'  => __( 'The thousand separator of displayed prices.', 'download-monitor' )
+					),
+					array(
+						'name'     => 'dlm_disable_cart',
+						'std'      => '',
+						'label'    => __( 'Disable Cart', 'download-monitor' ),
+						'cb_label' => __( 'Disable', 'download-monitor' ),
+						'desc'     => __( 'If checked, your customers will be send to your checkout page directly.', 'download-monitor' ),
+						'type'     => 'checkbox'
+					),
+				)
+			);
+
+			$settings['advanced']['sections']['page_setup']['fields'][] = array(
 				'name'    => 'dlm_page_cart',
 				'std'     => '',
 				'label'   => __( 'Cart page', 'download-monitor' ),
@@ -308,7 +367,7 @@ class DLM_Admin_Settings {
 				'options' => array()
 			);
 
-			$settings['pages']['sections']['pages']['fields'][] = array(
+			$settings['advanced']['sections']['page_setup']['fields'][] = array(
 				'name'    => 'dlm_page_checkout',
 				'std'     => '',
 				'label'   => __( 'Checkout page', 'download-monitor' ),
@@ -317,106 +376,20 @@ class DLM_Admin_Settings {
 				'options' => array()
 			);
 
-			$settings['shop'] = array(
-				'title'    => __( 'Shop', 'download-monitor' ),
-				'sections' => array(
-					'general' => array(
-						'title'  => __( 'General', 'download-monitor' ),
-						'fields' => array(
-							array(
-								'name'    => 'dlm_base_country',
-								'std'     => 'US',
-								'label'   => __( 'Base Country', 'download-monitor' ),
-								'desc'    => __( 'Where is your store located?', 'download-monitor' ),
-								'type'    => 'select',
-								'options' => Services::get()->service( "country" )->get_countries()
-							),
-							array(
-								'name'    => 'dlm_currency',
-								'std'     => 'USD',
-								'label'   => __( 'Currency', 'download-monitor' ),
-								'desc'    => __( 'In what currency are you selling?', 'download-monitor' ),
-								'type'    => 'select',
-								'options' => $this->get_currency_list_with_symbols()
-							),
-							array(
-								'name'    => 'dlm_currency_pos',
-								'std'     => 'left',
-								'label'   => __( 'Currency Position', 'download-monitor' ),
-								'desc'    => __( 'The position of the currency symbol.', 'download-monitor' ),
-								'type'    => 'select',
-								'options' => array(
-									'left'        => sprintf( __( 'Left (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left' ) ) ),
-									'right'       => sprintf( __( 'Right (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right' ) ) ),
-									'left_space'  => sprintf( __( 'Left with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left_space' ) ) ),
-									'right_space' => sprintf( __( 'Right with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right_space' ) ) )
-								)
-							),
-							array(
-								'name'  => 'dlm_decimal_separator',
-								'type'  => 'text',
-								'std'   => '.',
-								'label' => __( 'Decimal Separator', 'download-monitor' ),
-								'desc'  => __( 'The decimal separator of displayed prices.', 'download-monitor' )
-							),
-							array(
-								'name'  => 'dlm_thousand_separator',
-								'type'  => 'text',
-								'std'   => ',',
-								'label' => __( 'Thousand Separator', 'download-monitor' ),
-								'desc'  => __( 'The thousand separator of displayed prices.', 'download-monitor' )
-							),
-							array(
-								'name'     => 'dlm_disable_cart',
-								'std'      => '',
-								'label'    => __( 'Disable Cart', 'download-monitor' ),
-								'cb_label' => __( 'Disable', 'download-monitor' ),
-								'desc'     => __( 'If checked, your customers will be send to your checkout page directly.', 'download-monitor' ),
-								'type'     => 'checkbox'
-							),
-						)
-					)
-				)
-			);
-
 			$settings['payments'] = array(
 				'title'    => __( 'Payment Methods', 'download-monitor' ),
 				'sections' => $this->get_payment_methods_sections()
 			);
 		}
 
-
-		$settings['misc'] = array(
-			'title'    => __( 'Misc', 'download-monitor' ),
-			'sections' => array(
-				'misc' => array(
-					'fields' => array(
-						array(
-							'name'     => 'dlm_clean_on_uninstall',
-							'std'      => '0',
-							'label'    => __( 'Remove Data on Uninstall?', 'download-monitor' ),
-							'cb_label' => __( 'Enable', 'download-monitor' ),
-							'desc'     => __( 'Check this box if you would like to completely remove all Download Monitor data when the plugin is deleted.', 'download-monitor' ),
-							'type'     => 'checkbox'
-						),
-						array(
-							'name'  => 'dlm_clear_transients',
-							'std'   => '0',
-							'label' => __( 'Clear all transients', 'download-monitor' ),
-							'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
-							'type'  => 'action_button',
-							'link'  => self::get_url() . '#settings-misc'
-						),
-					)
-				)
-			)
-		);
-
 		// this is here to maintain backwards compatibility, use 'dlm_settings' instead
-		$settings = apply_filters( 'download_monitor_settings', $settings );
+		$old_settings = apply_filters( 'download_monitor_settings', array() );
 
 		// This is the correct filter
 		$settings = apply_filters( 'dlm_settings', $settings );
+
+		// Backwards compatibility for 4.3 and 4.4.4
+		$settings = $this->backwards_compatibility_settings( $old_settings, $settings );
 
 		return $settings;
 	}
@@ -442,36 +415,123 @@ class DLM_Admin_Settings {
 	}
 
 	/**
-	 * Settings format changed in 4.3
-	 * This method formats old settings added via filters to work with new format
-	 * This method is hooked into dlm_settings(priority:99) in Admin.php
+	 * Backwards compatibility for settings
 	 *
-	 * @param array $settings
+	 * @param $old_settings
+	 * @param $settings
 	 *
-	 * @return array
+	 * @return mixed
+	 * @since 4.4.5
 	 */
-	public function backwards_compatibility_settings( $settings ) {
+	public function backwards_compatibility_settings( $old_settings, $settings ) {
 
-		foreach ( $settings as $tab_key => $tab ) {
+		// First we check if there is info in $old_settings
+		if ( empty( $old_settings ) ) {
 
-			// if 'sections' is not set, it's most likely old format
-			if ( ! isset( $tab['sections'] ) ) {
+			return $settings;
+		}
 
-				$new_tab = array(
-					'title'    => $tab[0], // old format just had title as first key
-					'sections' => array(
-						$tab_key => array(
-							'fields' => $tab[1] // old format had fields on index 1
-						)
-					)
-				);
+		$compatibility_tabs = array(
+			'access',
+			'amazon_s3',
+			'captcha',
+			'downloading_page',
+			'email_lock',
+			'email_notification',
+			'gravity_forms',
+			'ninja_forms',
+			'terns_and_conditions',
+			'twitter_lock',
+			'page_addon'
+		);
 
-				$settings[ $tab_key ] = $new_tab;
+		foreach ( $old_settings as $tab_key => $tab ) {
+			// $tab[1] contains the fields inside the setting, not being set means it doesn't have any fields
+			if ( ! empty( $tab[1] ) ) {
+
+				if ( in_array( $tab_key, $compatibility_tabs ) ) {
+
+					$tab_title   = false;
+					$tab_section = $tab_key;
+
+					if ( 'access' == $tab_key ) {
+						$tab_parent = 'advanced';
+					}
+
+					if ( 'amazon_s3' == $tab_key ) {
+						$tab_parent = 'external_hosting';
+					}
+
+					if ( 'captcha' == $tab_key ) {
+						$tab_parent = 'integration';
+					}
+
+					if ( 'downloading_page' == $tab_key || 'page_addon' == $tab_key ) {
+						$tab_parent  = 'advanced';
+						$tab_section = 'page_setup';
+						$tab_title   = true;
+					}
+
+					if ( 'email_lock' == $tab_key || 'twitter_lock' == $tab_key || 'gravity_forms' == $tab_key || 'ninja_forms' == $tab_key ) {
+						$tab_parent = 'lead_generation';
+					}
+
+					if ( 'email_notification' == $tab_key ) {
+						$tab_parent = 'email_notification';
+						$tab_title  = true;
+
+						// Reassign the title because the extension overwrittens it
+						$settings['email_notification'] = array(
+							'title' => esc_html__( 'Emails', 'download-monitor' )
+						);
+
+					}
+
+					if ( 'terns_and_conditions' == $tab_key ) {
+						$tab_parent = 'terns_and_conditions';
+						$tab_title  = true;
+					}
+
+					if ( isset( $tab[0] ) && ! $tab_title ) {
+
+						$settings[ $tab_parent ]['sections'][ $tab_section ] = array(
+							'title'    => $tab[0],
+							'sections' => array()
+						);
+					}
+
+					// Let's check if there are sections or fields so we can add other fields and not overwrite them
+					if ( isset( $settings[ $tab_parent ]['sections'] ) && isset( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] ) ) {
+
+						$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = array_merge( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'], $tab[1] );
+					} else {
+						$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = $tab[1];
+					}
+
+					// Unset the previous used tab - new tabs are already provided thanks to upsells
+					if ( 'email_notification' != $tab_key && 'terns_and_conditions' != $tab_key ) {
+						unset( $settings[ $tab_key ] );
+					}
+
+				} else {
+
+					foreach ( $tab[1] as $other_tab_fields ) {
+
+						$settings['other']['sections']['other']['fields'][] = $other_tab_fields;
+					}
+
+				}
 			}
+		}
+
+		// Check to see if there is any info in Other tab
+		if ( isset( $settings['other'] ) ) {
+			$settings['other']['title'] = esc_html__( 'Other', 'download-monitor' );
 		}
 
 		return $settings;
 	}
+
 
 	/**
 	 * Return pages with ID => Page title format

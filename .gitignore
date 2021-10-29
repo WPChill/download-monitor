@@ -22,3 +22,5 @@ vendor/*
 # Ignore all log files except for .htaccess
 /logs/*
 !/logs/.htaccess
+
+download-monitor.zip

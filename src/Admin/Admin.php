@@ -29,13 +29,15 @@ class DLM_Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
+		add_action( 'init', array( $this, 'required_classes' ), 30 );
+
 		// Admin menus
-		add_action( 'admin_menu', array( $this, 'admin_menu_extensions' ), 20 );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ), 20 );
 
 		// setup settings
 		$settings = new DLM_Admin_Settings();
 		add_action( 'admin_init', array( $settings, 'register_settings' ) );
-		add_filter( 'dlm_settings', array( $settings, 'backwards_compatibility_settings' ), 99, 1 );
+
 		$settings->register_lazy_load_callbacks();
 
 		// setup settings page
@@ -108,7 +110,9 @@ class DLM_Admin {
 	 */
 	public function upload_dir( $pathdata ) {
 
-		if ( isset( $_POST['type'] ) && 'dlm_download' === $_POST['type'] ) {
+		// We don't process form we just modify the upload path for our custom post type.
+		// phpcs:ignore
+		if ( isset( $_POST['type'] ) && 'dlm_download' === $_POST['type'] ) { 
 			if ( empty( $pathdata['subdir'] ) ) {
 				$pathdata['path']   = $pathdata['path'] . '/dlm_uploads';
 				$pathdata['url']    = $pathdata['url'] . '/dlm_uploads';
@@ -213,7 +217,7 @@ class DLM_Admin {
 			$enqueue = true;
 		}
 
-		if ( $hook == 'edit-tags.php' && strstr( $_GET['taxonomy'], 'dlm_download' ) ) {
+		if ( 'edit-tags.php' == $hook && isset( $_GET['taxonomy'] ) && in_array( $_GET['taxonomy'], array( 'dlm_download_category', 'dlm_download_tag' ) ) ) {
 			$enqueue = true;
 		}
 
@@ -235,21 +239,51 @@ class DLM_Admin {
 	/**
 	 * Add the admin menu on later hook so extensions can be add before this menu item
 	 */
-	public function admin_menu_extensions() {
+	public function admin_menu() {
+
+		/**
+		 * Hook for menu link
+		 *
+		 * @hooked DLM_Settings_Page add_settings_page() - 30
+		 * @hooked DLM_Admin_Extensions extensions_pages() - 30
+		 * @hooked DLM_Reports_Page add_admin_menu() - 30
+		 * @hooked DLM_Log_Page add_logs_menu() - 30
+		 * @hooked Orders orders_menu() - 30
+		 *
+		 */
+		$links = apply_filters(
+			'dlm_admin_menu_links',
+			array()
+		);
+
+		uasort( $links, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
 		// Extensions page
-		add_submenu_page( 'edit.php?post_type=dlm_download', __( 'Download Monitor Extensions', 'download-monitor' ), '<span style="color:#419CCB;font-weight:bold;">' . __( 'Extensions', 'download-monitor' ) . '</span>', 'manage_options', 'dlm-extensions', array(
-			$this,
-			'extensions_page'
-		) );
+
+		if ( ! empty( $links ) ) {
+			foreach ( $links as $link ) {
+				add_submenu_page( 'edit.php?post_type=dlm_download', $link['page_title'], $link['menu_title'], $link['capability'], $link['menu_slug'], $link['function'], $link['priority'] );
+			}
+		}
+
 	}
 
 	/**
-	 * Output extensions page
+	 * Load our classes
 	 */
-	public function extensions_page() {
-		$admin_extensions = new DLM_Admin_Extensions();
-		$admin_extensions->output();
+	public function required_classes() {
+
+		// Loads the DLM Admin Extensions class
+		// Add Extensions pages
+		DLM_Admin_Extensions::get_instance();
+
+		// Load the DLM Admin Helper class
+		DLM_Admin_Helper::get_instance();
+
+		// Load the DLM Uninstall class
+		DLM_Uninstall::get_instance();
+
 	}
+
 
 	/**
 	 * admin_dashboard function.

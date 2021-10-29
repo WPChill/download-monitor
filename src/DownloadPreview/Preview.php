@@ -24,7 +24,7 @@ class DLM_DownloadPreview_Preview {
 		$config = new DLM_DownloadPreview_Config();
 
 		if ( isset( $_GET['download_id'] ) ) {
-			
+
 			try {
 				/** @var DLM_Download $download */
 				$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $_GET['download_id'] ) );
@@ -50,11 +50,11 @@ class DLM_DownloadPreview_Preview {
 		}
 
 		if ( isset( $_GET['template'] ) ) {
-			$config->set_template( $_GET['template'] );
+			$config->set_template( sanitize_text_field( wp_unslash( $_GET['template'] ) ));
 		}
 
 		if ( isset( $_GET['custom_template'] ) ) {
-			$config->set_template( $_GET['custom_template'] );
+			$config->set_template( sanitize_text_field( wp_unslash( $_GET['custom_template'] ) ) );
 		}
 
 		return $config;
@@ -81,7 +81,7 @@ class DLM_DownloadPreview_Preview {
 			$template_handler->get_template_part( 'content-download', $config->get_template(), '', array( 'dlm_download' => $config->get_download() ) );
 
 		} else {
-			echo "<p>" . __( "Select a download first", 'download-monitor' ) . "</p>";
+			echo "<p>" . esc_html__( "Select a download first", 'download-monitor' ) . "</p>";
 		}
 
 		echo '</div></td></tr></table></body>

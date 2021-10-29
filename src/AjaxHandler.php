@@ -49,7 +49,7 @@ class DLM_Ajax_Handler {
 			$attachment_url = wp_get_attachment_url( $attachment_id );
 
 			if ( false !== $attachment_url ) {
-				echo $attachment_url;
+				echo esc_url( $attachment_url );
 			}
 		}
 
@@ -68,6 +68,10 @@ class DLM_Ajax_Handler {
 
 		// Check user rights
 		if ( ! current_user_can( 'manage_downloads' ) ) {
+			die();
+		}
+
+		if ( ! isset( $_POST['file_id'] ) ) {
 			die();
 		}
 
@@ -100,8 +104,8 @@ class DLM_Ajax_Handler {
 		}
 
 		// get POST data
-		$download_id = absint( $_POST['post_id'] );
-		$size        = absint( $_POST['size'] );
+		$download_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
+		$size        = isset( $_POST['size'] ) ? absint( $_POST['size'] ) : 0;
 
 		/** @var DLM_Download_Version $new_version */
 		$new_version = new DLM_Download_Version();
@@ -149,39 +153,40 @@ class DLM_Ajax_Handler {
 			die();
 		}
 
-		$path = esc_attr( stripslashes( $_POST['path'] ) );
+		if ( ! isset( $_POST['path'] ) ) {
+			die();
+		}
 
-		if ( $path ) {
+		$path = sanitize_text_field( wp_unslash( $_POST['path'] ) );
 
-			// List all files
-			$files = download_monitor()->service( 'file_manager' )->list_files( $path );
+		// List all files
+		$files = download_monitor()->service( 'file_manager' )->list_files( $path );
 
-			foreach ( $files as $found_file ) {
+		foreach ( $files as $found_file ) {
 
-				// Multi-byte-safe pathinfo
-				$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
+			// Multi-byte-safe pathinfo
+			$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
 
-				if ( $found_file['type'] == 'folder' ) {
+			if ( $found_file['type'] == 'folder' ) {
 
-					echo '<li><a href="#" class="folder" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
+				echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
 
-				} else {
+			} else {
 
-					$filename  = $file['basename'];
-					$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
+				$filename  = $file['basename'];
+				$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
 
-					if ( substr( $filename, 0, 1 ) == '.' ) {
-						continue;
-					} // Ignore files starting with . like htaccess
-					if ( in_array( $extension, array( '', 'php', 'html', 'htm', 'tmp' ) ) ) {
-						continue;
-					} // Ignored file types
+				if ( substr( $filename, 0, 1 ) == '.' ) {
+					continue;
+				} // Ignore files starting with . like htaccess
+				if ( in_array( $extension, array( '', 'php', 'html', 'htm', 'tmp' ) ) ) {
+					continue;
+				} // Ignored file types
 
-					echo '<li><a href="#" class="file filetype-' . sanitize_title( $extension ) . '" data-path="' . trailingslashit( $file['dirname'] ) . $file['basename'] . '">' . $file['basename'] . '</a></li>';
-
-				}
+				echo '<li><a href="#" class="file filetype-' . esc_attr( sanitize_title( $extension ) ) . '" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
 
 			}
+
 		}
 
 		die();
@@ -198,7 +203,7 @@ class DLM_Ajax_Handler {
 		}
 
 		// the notice
-		$notice = $_POST['notice'];
+		$notice = sanitize_text_field( wp_unslash($_POST['notice']) );
 
 		// check nonce
 		check_ajax_referer( 'dlm_hide_notice-' . $notice, 'nonce' );
@@ -218,8 +223,13 @@ class DLM_Ajax_Handler {
 		// check nonce
 		check_ajax_referer( 'dlm-settings-lazy-select-nonce', 'nonce' );
 
+		if ( ! isset( $_POST['option'] ) ) {
+			wp_send_json_error();
+			exit;
+		}
+
 		// settings key
-		$option_key = sanitize_text_field( $_POST['option'] );
+		$option_key = sanitize_text_field( wp_unslash($_POST['option']) );
 
 		// get options
 		$options = apply_filters( 'dlm_settings_lazy_select_'.$option_key, array() );
@@ -239,10 +249,10 @@ class DLM_Ajax_Handler {
 		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
 
 		// Post vars
-		$product_id       = sanitize_text_field( $_POST['product_id'] );
-		$key              = sanitize_text_field( $_POST['key'] );
-		$email            = sanitize_text_field( $_POST['email'] );
-		$extension_action = $_POST['extension_action'];
+		$product_id       = isset( $_POST['product_id'] ) ? sanitize_text_field( wp_unslash($_POST['product_id']) ) : 0;
+		$key              = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash($_POST['key']) ) : '';
+		$email            = isset( $_POST['email'] ) ? sanitize_text_field( wp_unslash($_POST['email']) ) : '';
+		$extension_action = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash($_POST['extension_action']) ) : 'activate';
 
 		// Get products
 		$products = DLM_Product_Manager::get()->get_products();

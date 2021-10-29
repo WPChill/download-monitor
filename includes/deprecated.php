@@ -10,15 +10,15 @@
  *
  * @deprecated 1.6.0
  *
- * @param string $type (default: '')
- * @param string $status (default: '')
- * @param string $message (default: '')
+ * @param string $type
+ * @param string $status
+ * @param string $message
  * @param mixed $download
  * @param mixed $version
  *
  * @return void
  */
-function dlm_create_log( $type = '', $status = '', $message = '', $download, $version ) {
+function dlm_create_log( $type, $status, $message, $download, $version ) {
 
 	// Deprecated notice
 	_deprecated_function( __FUNCTION__, '1.6.0', 'DLM_Logging->create_log()' );
