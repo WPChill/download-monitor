@@ -197,13 +197,12 @@ class DLM_Admin_Media_Insert {
 				<input type="text" id="template_name" value="" class="input"
 				       placeholder="<?php echo esc_html__( 'Template Name', 'download-monitor' ); ?>"/>
 				<span class="description">
-					<?php wp_kses( esc_html__( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ) ); ?>
+					<?php wp_kses_post( __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ) ); ?>
 				</span>
 			</p>
 
 			<p>
-				<input type="button" class="button insert_download button-primary button-large"
-				       value="<?php echo esc_html__( 'Insert Shortcode', 'download-monitor' ); ?>"/>
+				<input type="button" class="button insert_download button-primary button-large" value="<?php echo esc_html__( 'Insert Shortcode', 'download-monitor' ); ?>"/>
 			</p>
 
 		</form>
@@ -215,21 +214,20 @@ class DLM_Admin_Media_Insert {
 				<div id="drag-drop-area" style="height:240px">
 					<div class="drag-drop-inside">
 						<p class="drag-drop-info"><?php echo esc_html__( 'Drop file here', 'download-monitor' ); ?></p>
-
 						<p><?php echo esc_html_x( 'or', 'Drop file here *or* select file', 'download-monitor' ); ?></p>
-
 						<p class="drag-drop-buttons">
 							<input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button"/>
 						</p>
 					</div>
 				</div>
-				<p><a href="#" class="add_manually"><?php echo esc_html__( 'Enter URL manually', 'download-monitor' ); ?> &rarr;</a>
+				<p>
+					<a href="#" class="add_manually"><?php echo esc_html__( 'Enter URL manually', 'download-monitor' ); ?> &rarr;</a>
 				</p>
 			</div>
 			<div id="quick-add-details" style="display:none">
 				<p>
 					<label for="download_url"><?php echo esc_html__( 'Download URL', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_url" id="download_url" value="" class="download_url input" placeholder="<?php echo esc_html__( 'Required URL', 'download-monitor' ); ?>"/>
+					<input type="text" name="download_url" id="download_url" value="" class="download_url input" placeholder="<?php echo esc_attr__( 'Required URL', 'download-monitor' ); ?>"/>
 				</p>
 
 				<p>
@@ -243,8 +241,8 @@ class DLM_Admin_Media_Insert {
 				</p>
 
 				<p>
-					<input type="submit" class="button button-primary button-large" value="<?php echo esc_attr__( 'Save Download', 'download-monitor' ); ?>"/>
 					<?php wp_nonce_field( 'quick-add', 'quick-add-nonce' ) ?>
+					<input type="submit" class="button button-primary button-large" value="<?php echo esc_attr__( 'Save Download', 'download-monitor' ); ?>"/>
 				</p>
 			</div>
 
@@ -312,11 +310,11 @@ class DLM_Admin_Media_Insert {
 					);
 
 					// we should probably not apply this filter, plugins may expect wp's media uploader...
-					$plupload_init = apply_filters('plupload_init', $plupload_init);
+					$plupload_init = apply_filters( 'plupload_init', $plupload_init );
 				?>
 
 				// create the uploader and pass the config from above
-				var uploader = new plupload.Uploader( <?php echo esc_js(json_encode( $plupload_init )); ?> );
+				var uploader = new plupload.Uploader( <?php echo wp_json_encode( $plupload_init ); ?> );
 
 				// checks if browser supports drag and drop upload, makes some css adjustments if necessary
 				uploader.bind( 'Init', function ( up ) {
