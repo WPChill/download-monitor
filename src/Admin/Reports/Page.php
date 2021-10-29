@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * DLM_Reports_Page class
+ */
 class DLM_Reports_Page {
 
 	/**
@@ -14,6 +17,9 @@ class DLM_Reports_Page {
 
 	/**
 	 * Add settings menu item
+	 *
+	 * @param  mixed $links The links for the menu.
+	 * @return array
 	 */
 	public function add_admin_menu( $links ) {
 
@@ -23,7 +29,7 @@ class DLM_Reports_Page {
 			'menu_title' => __( 'Reports', 'download-monitor' ),
 			'capability' => 'dlm_view_reports',
 			'menu_slug'  => 'download-monitor-reports',
-			'function'   => array( $this, 'view' ),
+			'function'   => ( DLM_DB_Upgrader::check_if_migrated() ) ? array( $this, 'view' ) : array( $this, 'upgrade_dv_view' ),
 			'priority'   => 50,
 		);
 
@@ -57,39 +63,40 @@ class DLM_Reports_Page {
 	public function view() {
 
 		?>
-		<div class="wrap dlm-reports">
+		<div class="wrap dlm-reports wp-clearfix">
 			<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
 			<h1>
-			<?php
-				esc_html_e( 'Download Reports', 'download-monitor' );
-				echo '<div class="wp-clearfix text-right"><div class="dlm-reports-actions">';
-				$this->date_range_button();
-				echo '</div></div>';
-			?>
-				</h1>
+				<?php
+					esc_html_e( 'Download Reports', 'download-monitor' );
+					echo '<div class="wp-clearfix text-right"><div class="dlm-reports-actions">';
+					$this->date_range_button();
+					echo '</div></div>';
+				?>
+			</h1>
 			<br/>
 			<?php do_action( 'dlm_reports_page_start' ); ?>
-			<div class="dlm-reports-block dlm-reports-block-summary"
-				 id="total_downloads_summary">
-				<ul>
-					<li id="total"><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?></label><span></span>
-					</li>
-					<li id="average"><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?></label><span></span>
-					</li>
-					<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span></span>
-					</li>
-				</ul>
-			</div>
+		
 			<div class="total_downloads_chart-wrapper">
 				<canvas class="dlm-reports-block-chart"
 						id="total_downloads_chart"></canvas>
 			</div>
 
+			<div class="dlm-reports-block dlm-reports-block-summary"
+				 id="total_downloads_summary">			
+				<ul>
+					<li><span><?php esc_html_e( 'General info', 'download-monitor' ); ?></span></li>
+					<li id="total"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?></label></li>
+					<li id="average"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?></label></li>
+					<li id="popular"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label></li>
+					<li id="today"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label></li>
+				</ul>
+			</div>
+
 			<div id="total_downloads_table_wrapper">
 				<div class="dlm-reports-block dlm-reports-block-table"
-					 id="total_downloads_table" data-page="0">
-					<span class="dlm-reports-placeholder-no-data">NO DATA</span>
+					 id="total_downloads_table" data-page="0">		
+					 <span class="dlm-reports-placeholder-no-data">NO DATA</span>
 				</div>
 				<div id="downloads-block-navigation">
 					<button class="button button-primary hidden"><?php esc_html_e( 'Prev 15', 'download-monitor' ); ?></button>
@@ -100,6 +107,23 @@ class DLM_Reports_Page {
 
 			<?php do_action( 'dlm_reports_page_end' ); ?>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Upgrade DB View
+	 *
+	 * @return void
+	 */
+	public function upgrade_dv_view() {
+
+		?>
+		<div class="wrap">
+			<hr class="wp-header-end">
+			<div class="main">
+				<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s reports page.', 'download-monitor' ); ?></h3>	
+			</div>
+			</div>
 		<?php
 	}
 }

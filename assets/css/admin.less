@@ -938,8 +938,6 @@ table.wp-list-table {
       padding: 0;
       margin: 0;
       li {
-        display: inline-block;
-        width: 33%;
         padding: 5px 0;
 
         label, span {
@@ -950,7 +948,7 @@ table.wp-list-table {
         span {
           font-size: 2.5em;
           font-weight: bold;
-          padding: .5em 0 0;
+          padding: 15px 0;
         }
       }
     }
@@ -978,14 +976,23 @@ table.wp-list-table {
 }
 
 .dlm-reports-block-summary {
-  background: #333!important;
-  color: white;
+  background: #fff!important;
+  color: #1d2327;
+
+  ul {
+    display: flex;
+    align-items:center;
+    flex-direction: row;
+
+    li {
+      flex-grow:1;
+    }
+  }
 }
 
 #total_downloads_table_wrapper,
 .total_downloads_chart-wrapper {
   width: 100%;
-  float: left;
 }
 
 
@@ -1204,14 +1211,6 @@ table.wp-list-table {
 }
 
 @media (min-width: 768px) {
-
-  .total_downloads_chart-wrapper {
-    width: 65%;
-  }
-
-  #total_downloads_table_wrapper {
-    width: 35%;
-  }
 
   .dlm-order-details {
 

@@ -125,7 +125,7 @@
 					ProgressBar.label.text( ProgressBar.el.progressbar( 'value' ) + '%' );
 				},
 				complete: () => {
-					ProgressBar.label.text( 'Complete!' );
+					setTimeout( function(){ProgressBar.label.text( 'Complete!' ); ProgressBar.el.addClass('completed')}, 3000 );
 				}
 			} );
 		},

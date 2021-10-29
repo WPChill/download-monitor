@@ -175,15 +175,15 @@ class DLM_Reports {
 
 			if ( 'undefined' !== typeof chart ) {
 				chart.destroy();
-			}
-
+			} 
+		
 			this.chart = new Chart( chartId, {
 				title      : "",
 				data       : {
 					datasets: [ {
 						label: 'Downloads',
 						color: '#000fff',
-						data : data
+						data : data,
 					} ]
 				},
 				type       : 'line',
@@ -192,7 +192,8 @@ class DLM_Reports {
 				x_axis_mode: "tick",
 				y_axis_mode: "span",
 				is_series  : 1,
-				options    : {			
+				options    : {		
+					aspectRatio : 3,	
 					animation : false,
 					elements  : {
 						line: {
@@ -218,6 +219,11 @@ class DLM_Reports {
 	dlmDownloadsSummary( startDateInput, endDateInput ) {
 
 		if ( false === this.stats || false === this.stats.summaryStats ) {
+			
+			this.setTotalDownloads( 0 );
+			this.setDailyAverage( 0 );
+			this.setMostDownloaded( '--' );
+			this.setTopDownloads();
 			return;
 		}
 
@@ -246,7 +252,8 @@ class DLM_Reports {
 		this.setTotalDownloads( totalDownloads );
 		this.setDailyAverage( parseInt( totalDownloads / parseInt( this.stats.daysLength ) ) );
 		this.setMostDownloaded( this.mostDownloaded[0].title );
-		this.setTopDownloads();
+		console.log(this.stats,this.stats.chartStats[this.createDateElement(new Date())]);
+		//this.setTopDownloads();
 	}
 
 	createDatepicker() {
@@ -442,14 +449,14 @@ class DLM_Reports {
 	}
 
 	setTopDownloads( offset = 0 ) {
+		// the table
+		const wrapper = jQuery( '#total_downloads_table' );
+		wrapper.empty();
 
 		if ( !this.mostDownloaded ) {
 			return;
 		}
 
-		// the table
-		const wrapper = jQuery( '#total_downloads_table' );
-		wrapper.empty();
 		var table = jQuery( document.createElement( 'table' ) );
 
 		table.attr( 'cellspacing', 0 ).attr( 'cellpadding', 0 ).attr( 'border', 0 );

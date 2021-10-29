@@ -38,13 +38,13 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				add_option( 'dlm_db_upgraded', '0' );
 			}
 
-			if ( ! $this->check_if_migrated() ) {
+			// if ( ! self::check_if_migrated() ) {
 
 				// Add notice for user to update the DB.
 				add_action( 'admin_notices', array( $this, 'add_db_update_notice' ) );
 				add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_db_upgrader_scripts' ) );
 
-			}
+			// }
 		}
 
 		/**
@@ -82,7 +82,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			$this->create_new_table();
 
-			$results = $wpdb->get_results( $wpdb->prepare( "SELECT  COUNT(ID) as `entries` FROM $log_table dlm_log INNER JOIN $posts_table dlm_posts ON dlm_log.download_id = dlm_posts.ID" ), ARRAY_A );
+			$results = $wpdb->get_results( $wpdb->prepare( "SELECT  COUNT(dlm_log.ID) as `entries` FROM $log_table dlm_log INNER JOIN $posts_table dlm_posts ON dlm_log.download_id = dlm_posts.ID" ), ARRAY_A );
 
 			wp_send_json( $results[0]['entries'] );
 			exit;
@@ -146,7 +146,15 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 *
 		 * @return bool
 		 */
-		public function check_if_migrated() {
+		public static function check_if_migrated() {
+
+			global $wpdb;
+
+			// First we need to check if table exists.
+			if ( null !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->prefix . 'dlm_reports_log' ) ) ) {
+
+				return true;
+			}
 
 			if ( '1' === get_option( 'dlm_db_upgraded' ) ) {
 				return true;
@@ -172,7 +180,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$table_1 = "{$wpdb->prefix}download_log";
 			$able_2  = "{$wpdb->prefix}posts";
 
-			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%%Y-%%m-%%d') AS `date`, post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') $sql_limit" ), ARRAY_A );
+			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') $sql_limit" ), ARRAY_A );
 
 			foreach ( $data as $row ) {
 
@@ -228,15 +236,20 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * Add the DB Upgrader notice
 		 */
 		public function add_db_update_notice() {
+			$current_screen = get_current_screen();
+
+			if ( 'dlm_download' !== $current_screen->post_type ) {
+				return;
+			}
 
 			?>
 			<div class="dlm-upgrade-db-notice notice">
 				<div class="inside">
 					<div class="main">
-						<h3><?php esc_html_e( 'Attention needed for Download Monitor!', 'download-monitor' ); ?></h3>
-						<?php esc_html_e( 'Hello there, we have changed the way we show our reports, now being faster than ever. Please update your database in order for the new reports to work.', 'download-monitor' ); ?>
-					</div>
-					<button id="dlm-upgrade-db" class="button button-primary"><?php esc_html_e( 'Upgrade', 'download-monitor' ); ?></button>
+						<h3><?php esc_html_e( 'Download Monitor!', 'download-monitor' ); ?></h3>
+						<h4><?php esc_html_e( 'Hello there, we have changed the way we show our reports, now being faster than ever. Please update your database in order for the new reports to work.', 'download-monitor' ); ?></h4>
+						<button id="dlm-upgrade-db" class="button button-primary"><?php esc_html_e( 'Upgrade', 'download-monitor' ); ?></button>
+					</div>			
 				</div>
 				<div id="dlm_progress-bar"><div class="dlm-progress-label"></div></div>
 			</div>

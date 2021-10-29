@@ -43,8 +43,8 @@ class DLM_Admin_Helper {
 	/**
 	 * Tab navigation display
 	 *
-	 * @param  mixed $tabs
-	 * @param  mixed $active_tab
+	 * @param  mixed $tabs Tabs used for settings navigation.
+	 * @param  mixed $active_tab The active tab.
 	 * @return void
 	 */
 	public static function dlm_tab_navigation( $tabs, $active_tab ) {
@@ -96,7 +96,9 @@ class DLM_Admin_Helper {
 	/**
 	 * Callback to sort tabs/fields on priority.
 	 *
-	 * @return bool
+	 * @param  mixed $a Current element from array.
+	 * @param  mixed $b Next element from array.
+	 * @return array
 	 */
 	public static function sort_data_by_priority( $a, $b ) {
 		if ( ! isset( $a['priority'], $b['priority'] ) ) {
