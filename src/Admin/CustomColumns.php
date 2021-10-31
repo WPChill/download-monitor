@@ -75,14 +75,14 @@ class DLM_Custom_Columns {
 				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_category', '', ', ', '' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					echo esc_html( $terms );
+					echo wp_kses_post( $terms );
 				}
 				break;
 			case "download_tag" :
 				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_tag', '', ', ', '' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					echo esc_html( $terms );
+					echo wp_kses_post( $terms );
 				}
 				break;
 			case "featured" :
