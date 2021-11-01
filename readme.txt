@@ -122,6 +122,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.4.10 - TBA=
+Fixed: Escaping in admin "All Downloads" page. ( https://github.com/WPChill/download-monitor/issues/753 )
+Added: Review request in dashboard.
+
 = 4.4.9 - 01.11.2021 =
 Fixed: Escaping in admin column, displaying HTLM instead of correct form
 Added: Clear transients button.
