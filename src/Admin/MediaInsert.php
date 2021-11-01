@@ -132,6 +132,9 @@ class DLM_Admin_Media_Insert {
 					update_post_meta( $file_id, '_sha256', $hashes['sha256'] );
 					update_post_meta( $file_id, '_crc32', $hashes['crc32b'] );
 
+					// clear transient
+					download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );
+
 					// Success message
 					echo '<div class="updated"><p>' . esc_html__( 'Download successfully created.', 'download-monitor' ) . '</p></div>';
 

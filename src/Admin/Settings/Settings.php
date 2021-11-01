@@ -275,6 +275,19 @@ class DLM_Admin_Settings {
 							),
 						)
 					),
+					'misc' => array(
+						'title' => __( 'Miscellaneous', 'download-monitor' ),
+						'fields' => array(
+							array(
+								'name'  => 'dlm_clear_transients',
+								'std'   => '0',
+								'label' => __( 'Clear all transients', 'download-monitor' ),
+								'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
+								'type'  => 'action_button',
+								'link'  => self::get_url() . '&tab=advanced&section=misc'
+							),
+						),
+					)
 				)
 			),
 			'lead_generation'      => array(

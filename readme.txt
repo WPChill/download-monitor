@@ -122,8 +122,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.4.9 - 31.10.2021 =
+= 4.4.9 - 01.11.2021 =
 Fixed: Escaping in admin column, displaying HTLM instead of correct form
+Added: Clear transients button.
 
 = 4.4.8 - 29.10.2021 =
 Fixed: Insert Download/Quick Download Button
