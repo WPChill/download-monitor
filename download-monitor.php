@@ -52,6 +52,11 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 if( ! class_exists( 'Download_Monitor_Usage_Tracker') ) {
 	require_once dirname( __FILE__ ) . '/includes/tracking/class-download-monitor-usage-tracker.php';
 }
+
+if( ! class_exists( 'DLM_Review') && is_admin() ) {
+	require_once dirname( __FILE__ ) . '/includes/admin/class-dlm-review.php';
+}
+
 if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
 	function download_monitor_start_plugin_tracking() {
 		$wisdom = new Download_Monitor_Usage_Tracker(
