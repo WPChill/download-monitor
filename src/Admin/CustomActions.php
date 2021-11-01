@@ -58,12 +58,11 @@ class DLM_Custom_Actions {
 		}
 
 		$dlm_download_category = isset( $_GET['dlm_download_category'] ) ? sanitize_text_field( wp_unslash( $_GET['dlm_download_category'] ) ) : '';
-		$output = "<select name='dlm_download_category' id='dropdown_dlm_download_category'>";
-		$output .= '<option value="" ' . selected( $dlm_download_category, '', false ) . '>' . __( 'Select a category', 'download-monitor' ) . '</option>';
-		$output .= $this->walk_category_dropdown_tree( $terms, 0, $r );
-		$output .= "</select>";
+		echo "<select name='dlm_download_category' id='dropdown_dlm_download_category'>";
+		echo '<option value="" ' . selected( $dlm_download_category, '', false ) . '>' . esc_html__( 'Select a category', 'download-monitor' ) . '</option>';
+		echo $this->walk_category_dropdown_tree( $terms, 0, $r ); //phpcs:ignore
+		echo '</select>';
 
-		echo $output;
 	}
 
 	/**
