@@ -63,7 +63,7 @@ class DLM_Custom_Actions {
 		$output .= $this->walk_category_dropdown_tree( $terms, 0, $r );
 		$output .= "</select>";
 
-		echo wp_kses_post( $output );
+		echo $output;
 	}
 
 	/**
