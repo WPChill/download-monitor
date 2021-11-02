@@ -1070,15 +1070,26 @@ table.wp-list-table .column-thumb img {
 .dlm-reports .dlm-reports-block-chart .chart-container h6 {
   display: none;
 }
-.dlm-reports .dlm-reports-block-summary #popular span {
-  line-height: 1em;
+.dlm-reports .dlm-reports-block-summary {
+  margin-top: 30px;
+}
+.dlm-reports .dlm-reports-block-summary #today {
+  border-left: 1px solid #ccc;
+}
+.dlm-reports #downloads-block-navigation {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dlm-reports #downloads-block-navigation button {
+  margin: 0 15px;
+  width: 50px;
 }
 .dlm-reports .dlm-reports-block {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  padding: 20px 10px;
-  margin-top: 20px;
   background: #fff;
   border: 1px solid #e5e5e5;
   overflow: hidden;
@@ -1106,7 +1117,12 @@ table.wp-list-table .column-thumb img {
   margin: 0;
 }
 .dlm-reports .dlm-reports-block ul li {
-  padding: 5px 0;
+  padding: 15px 0 60px 0;
+  position: relative;
+}
+.dlm-reports .dlm-reports-block ul li label {
+  position: absolute;
+  bottom: 15px;
 }
 .dlm-reports .dlm-reports-block ul li label,
 .dlm-reports .dlm-reports-block ul li span {
@@ -1123,6 +1139,7 @@ table.wp-list-table .column-thumb img {
   width: 100%;
   float: left;
   position: relative;
+  padding: 0 15px;
 }
 .dlm-reports .dlm-reports-block table th,
 .dlm-reports .dlm-reports-block table td {
@@ -1143,11 +1160,14 @@ table.wp-list-table .column-thumb img {
 }
 .dlm-reports-block-summary ul {
   display: flex;
-  align-items: center;
+  align-items: strecth;
   flex-direction: row;
 }
 .dlm-reports-block-summary ul li {
   flex-grow: 1;
+  flex: 1;
+  padding: 15px 0;
+  margin: 0 auto;
 }
 #total_downloads_table_wrapper,
 .total_downloads_chart-wrapper {

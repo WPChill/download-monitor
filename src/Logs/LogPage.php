@@ -17,10 +17,10 @@ class DLM_Log_Page {
 	 */
 	public function add_logs_menu($links) {
 
-		// Logging object
+		// Logging object.
 		$logging = new DLM_Logging();
 
-		// Logs page
+		// Logs page.
 		if ( $logging->is_logging_enabled() ) {
 
 			$links[] = array(

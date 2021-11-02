@@ -46,8 +46,8 @@ class DLM_Reports_Page {
 		$to   = $to_date->format( 'Y-m-d' );
 		$from = $to_date->modify( '-1 month' )->format( 'Y-m-d' );
 
-		$start = new DateTime( $to );
-		$end   = new DateTime( $from );
+		$end = new DateTime( $to );
+		$start   = new DateTime( $from );
 		?>
 		<div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
 			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
@@ -94,14 +94,13 @@ class DLM_Reports_Page {
 			</div>
 
 			<div id="total_downloads_table_wrapper">
+				<div id="downloads-block-navigation">
+					<button class="button button-primary hidden dashicons dashicons-arrow-left-alt2" disabled="disabled" title="<?php esc_html_e( 'Previous 15 downloads', 'download-monitor' ); ?>"></button>
+					<button class="button button-primary hidden dashicons dashicons-arrow-right-alt2" data-action="load-more" title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
+				</div>
 				<div class="dlm-reports-block dlm-reports-block-table"
 					 id="total_downloads_table" data-page="0">		
 					 <span class="dlm-reports-placeholder-no-data">NO DATA</span>
-				</div>
-				<div id="downloads-block-navigation">
-					<button class="button button-primary hidden"><?php esc_html_e( 'Prev 15', 'download-monitor' ); ?></button>
-					<button class="button button-primary hidden"
-							data-action="load-more"><?php esc_html_e( 'Next 15', 'download-monitor' ); ?></button>
 				</div>
 			</div>
 

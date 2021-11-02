@@ -38,13 +38,13 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				add_option( 'dlm_db_upgraded', '0' );
 			}
 
-			// if ( ! self::check_if_migrated() ) {
+			if ( ! self::check_if_migrated() ) {
 
 				// Add notice for user to update the DB.
 				add_action( 'admin_notices', array( $this, 'add_db_update_notice' ) );
 				add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_db_upgrader_scripts' ) );
 
-			// }
+			}
 		}
 
 		/**
@@ -80,6 +80,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				exit;
 			}
 
+			// Made it here, now let's create the table and start migrating.
 			$this->create_new_table();
 
 			$results = $wpdb->get_results( $wpdb->prepare( "SELECT  COUNT(dlm_log.ID) as `entries` FROM $log_table dlm_log INNER JOIN $posts_table dlm_posts ON dlm_log.download_id = dlm_posts.ID" ), ARRAY_A );

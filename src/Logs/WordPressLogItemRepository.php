@@ -99,48 +99,12 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 *
 	 * @return array
 	 */
-	public function retrieve_downloads_info_per_day( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
+	public function retrieve_downloads_info_per_day( ) {
 
 		global $wpdb;
 
 		return $wpdb->get_results( "SELECT  * FROM {$wpdb->prefix}dlm_reports_log;"
 			, ARRAY_A );
-
-	}
-
-	/**
-	 * @param array $filters
-	 * @param int $limit
-	 * @param int $offset
-	 * @param string $order_by
-	 * @param string $order
-	 *
-	 * @return array
-	 */
-	public function retrieve_downloads_info_per_day_legacy( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
-		global $wpdb;
-
-		$items = array();
-		$data  = $wpdb->get_results(
-			"SELECT  download_id as `ID`,  DATE_FORMAT(`download_date`, '%Y-%m-%d') AS `date`, post_title AS `title` FROM {$wpdb->prefix}download_log dlm_log INNER JOIN {$wpdb->prefix}posts dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected');"
-			, ARRAY_A );
-
-		foreach ( $data as $row ) {
-
-			if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
-				$items[ $row['date'] ][ $row['ID'] ] = array(
-					'id'        => $row['ID'],
-					'downloads' => 1,
-					'date'      => $row['date'],
-					'title'     => $row['title']
-				);
-			} else {
-				$items[ $row['date'] ][ $row['ID'] ]['downloads'] = absint( $items[ $row['date'] ][ $row['ID'] ]['downloads'] ) + 1;
-			}
-
-		}
-
-		return $items;
 
 	}
 
@@ -249,15 +213,35 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		if ( ! empty( $lmd ) ) {
 			$meta_data = json_encode( $lmd );
 		}
-
+		
 		// check if new download or existing
 		if ( 0 == $log_item->get_id() ) {
 
+			$new_table = "{$wpdb->prefix}reports_log";
+
+			/* $today =  $wpdb->get_results( "SELECT  * FROM {$wpdb->prefix}dlm_reports_log WHERE date = '2021-11-02 00:00:00';"
+			, ARRAY_A );
+
+			if ( null !== $today ) {
+
+			} */
+
+
 			// insert row
 			$result = $wpdb->insert(
-				$wpdb->download_log,
+				$new_table,
 				array(
-					'user_id'                 => absint( $log_item->get_user_id() ),
+					'date' => '2021-11-02 00:00:00',
+					'download_is' => json_encode(
+						array(
+							$log_item->get_download_id() => array(
+								'id' => $log_item->get_download_id(),
+								'downloads' => 1,
+								'title' => get_the_title( $log_item->get_download_id() ),
+							),
+						)
+					),
+					/* 'user_id'                 => absint( $log_item->get_user_id() ),
 					'user_ip'                 => $log_item->get_user_ip(),
 					'user_agent'              => $log_item->get_user_agent(),
 					'download_id'             => absint( $log_item->get_download_id() ),
@@ -266,19 +250,19 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 					'download_date'           => $log_item_date_string,
 					'download_status'         => $log_item->get_download_status(),
 					'download_status_message' => $log_item->get_download_status_message(),
-					'meta_data'               => $meta_data
+					'meta_data'               => $meta_data */
 				),
 				array(
+					'%s',
+					'%s',
+					/* '%s',
+					'%d',
 					'%d',
 					'%s',
 					'%s',
-					'%d',
-					'%d',
 					'%s',
 					'%s',
-					'%s',
-					'%s',
-					'%s'
+					'%s' */
 				)
 			);
 
