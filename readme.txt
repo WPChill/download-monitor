@@ -125,6 +125,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 4.4.11 - TBA =
 Fixed: Reports date changing ( https://github.com/WPChill/download-monitor/issues/755 )
 Fixed: Log page - Status Column width ( https://github.com/WPChill/download-monitor/issues/756 )
+Fixed: Password protection form, password field not being displayed ( https://github.com/WPChill/download-monitor/issues/757 )
 
 = 4.4.10 - 02.11.2021 =
 Fixed: Escaping in admin "All Downloads" page. ( https://github.com/WPChill/download-monitor/issues/753 )

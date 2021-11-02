@@ -314,7 +314,7 @@ class DLM_Download_Handler {
 			// Action on found download
 			if ( $download->exists() ) {
 				if ( post_password_required( $download_id ) ) {
-					wp_die( wp_kses_post( get_the_password_form( $download_id ) ), esc_html__( 'Password Required', 'download-monitor' ) );
+					wp_die( get_the_password_form( $download_id ) , esc_html__( 'Password Required', 'download-monitor' ) );
 				}
 
 				$this->trigger( $download );
