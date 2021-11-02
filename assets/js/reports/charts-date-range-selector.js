@@ -10,7 +10,9 @@ var DLM_Reports_Date_Range_Selector = function ( c, sd, ed, u ) {
 	this.container = c;
 	this.startDate = new Date( sd );
 	this.endDate = new Date( ed );
-	this.url = u;
+	this.url = u.replace(/&#(\d+);/g, function(match, dec) {
+		return String.fromCharCode(dec);
+	});
 	this.el = null;
 	this.opened = false;
 
