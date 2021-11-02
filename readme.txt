@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 5.8
-Stable tag: 4.4.10
+Stable tag: 4.4.11
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -122,11 +122,13 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.4.10 - TBA =
+= 4.4.11 - TBA =
+Fixed: Reports date changing ( https://github.com/WPChill/download-monitor/issues/755 )
 Fixed: Log page - Status Column width ( https://github.com/WPChill/download-monitor/issues/756 )
+
+= 4.4.10 - 02.11.2021 =
 Fixed: Escaping in admin "All Downloads" page. ( https://github.com/WPChill/download-monitor/issues/753 )
 Added: Review request in dashboard.
-Fixed: Reports date changing ( https://github.com/WPChill/download-monitor/issues/755 )
 
 = 4.4.9 - 01.11.2021 =
 Fixed: Escaping in admin column, displaying HTLM instead of correct form
