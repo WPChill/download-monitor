@@ -126,6 +126,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 Fixed: Reports date changing ( https://github.com/WPChill/download-monitor/issues/755 )
 Fixed: Log page - Status Column width ( https://github.com/WPChill/download-monitor/issues/756 )
 Fixed: Password protection form, password field not being displayed ( https://github.com/WPChill/download-monitor/issues/757 )
+Fixed: Escaping problem in the No-Access page ( https://github.com/WPChill/download-monitor/issues/758 )
 
 = 4.4.10 - 02.11.2021 =
 Fixed: Escaping in admin "All Downloads" page. ( https://github.com/WPChill/download-monitor/issues/753 )

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php do_action( 'dlm_no_access_before_message', $download ); ?>
 <?php if ( ! empty( $no_access_message ) ) : ?>
 
-	<p><?php echo esc_html( $no_access_message ); ?></p>
+	<p><?php echo wp_kses_post( $no_access_message ); ?></p>
 <?php endif; ?>
 
 <?php do_action( 'dlm_no_access_after_message', $download ); ?>
