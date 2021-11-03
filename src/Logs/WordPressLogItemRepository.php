@@ -193,126 +193,64 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	public function persist( $log_item ) {
 		global $wpdb;
 
-		// allow filtering of log item
+		// allow filtering of log item.
 		$log_item = apply_filters( 'dlm_log_item', $log_item, $log_item->get_download_id(), $log_item->get_version_id() );
 
-		// hide wpdb errors to prevent errors in download request
-		$wpdb->hide_errors();
+		// hide wpdb errors to prevent errors in download request.
+		 $wpdb->hide_errors();
 
-		// format log item date string
-		$log_item_date_string = "";
-		if ( null != $log_item->get_download_date() ) {
-			$log_item_date_string = $log_item->get_download_date()->format( 'Y-m-d H:i:s' );
+		 // Set the log date. Should be current date, as logs will be separated by dates.
+		$log_date   = date( 'Y-m-d' ) . ' 00:00:00';
+		// Our new table
+		$sql_update = "UPDATE $wpdb->dlm_reports dlm SET dlm.download_ids = %s WHERE dlm.date = %s";
+
+		$today =  $wpdb->get_results( $wpdb->prepare( "SELECT  * FROM {$new_table} WHERE date = %s;", $log_date ), ARRAY_A );
+
+		// check if entry exists.
+		if ( null !== $today && ! empty( $today ) ) {
+
+			$downloads = json_decode( $today[0]['download_ids'], ARRAY_A );
+
+			if ( isset( $downloads[ $log_item->get_download_id() ] ) ) {
+				$downloads[ $log_item->get_download_id() ]['downloads'] = $downloads[ $log_item->get_download_id() ]['downloads'] + 1;
+			} else {
+				$downloads[ $log_item->get_download_id() ] = array(
+					'id'        => $log_item->get_download_id(),
+					'downloads' => 1,
+					'title'     => get_the_title( $log_item->get_download_id() ),
+				);
+			}
+
+			$result = $wpdb->query( $wpdb->prepare( $sql_update, wp_json_encode( $downloads ), $log_date ) );
+
+			if ( false === $result ) {
+				throw new Exception( 'Unable to insert log item in WordPress database' );
+			}
 		} else {
-			$log_item_date_string = current_time( 'mysql' );
-		}
 
-		// format log item meta data
-		$meta_data = null;
-		$lmd       = $log_item->get_meta_data();
-		if ( ! empty( $lmd ) ) {
-			$meta_data = json_encode( $lmd );
-		}
-		
-		// check if new download or existing
-		if ( 0 == $log_item->get_id() ) {
-
-			$new_table = "{$wpdb->prefix}reports_log";
-
-			/* $today =  $wpdb->get_results( "SELECT  * FROM {$wpdb->prefix}dlm_reports_log WHERE date = '2021-11-02 00:00:00';"
-			, ARRAY_A );
-
-			if ( null !== $today ) {
-
-			} */
-
-
-			// insert row
+			// insert row.
 			$result = $wpdb->insert(
-				$new_table,
+				$$wpdb->dlm_reports,
 				array(
-					'date' => '2021-11-02 00:00:00',
-					'download_is' => json_encode(
+					'date'         => $log_date,
+					'download_ids' => wp_json_encode(
 						array(
 							$log_item->get_download_id() => array(
-								'id' => $log_item->get_download_id(),
+								'id'        => $log_item->get_download_id(),
 								'downloads' => 1,
-								'title' => get_the_title( $log_item->get_download_id() ),
+								'title'     => get_the_title( $log_item->get_download_id() ),
 							),
 						)
 					),
-					/* 'user_id'                 => absint( $log_item->get_user_id() ),
-					'user_ip'                 => $log_item->get_user_ip(),
-					'user_agent'              => $log_item->get_user_agent(),
-					'download_id'             => absint( $log_item->get_download_id() ),
-					'version_id'              => absint( $log_item->get_version_id() ),
-					'version'                 => $log_item->get_version(),
-					'download_date'           => $log_item_date_string,
-					'download_status'         => $log_item->get_download_status(),
-					'download_status_message' => $log_item->get_download_status_message(),
-					'meta_data'               => $meta_data */
-				),
-				array(
-					'%s',
-					'%s',
-					/* '%s',
-					'%d',
-					'%d',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%s' */
 				)
 			);
 
 			if ( false === $result ) {
 				throw new Exception( 'Unable to insert log item in WordPress database' );
 			}
-
-			// set new log id
-			$log_item->set_id( $wpdb->insert_id );
-
-		} else {
-
-			// insert row
-			$result = $wpdb->update(
-				$wpdb->download_log,
-				array(
-					'user_id'                 => absint( $log_item->get_user_id() ),
-					'user_ip'                 => $log_item->get_user_ip(),
-					'user_agent'              => $log_item->get_user_agent(),
-					'download_id'             => absint( $log_item->get_download_id() ),
-					'version_id'              => absint( $log_item->get_version_id() ),
-					'version'                 => $log_item->get_version(),
-					'download_date'           => $log_item_date_string,
-					'download_status'         => $log_item->get_download_status(),
-					'download_status_message' => $log_item->get_download_status_message(),
-					'meta_data'               => $meta_data
-				),
-				array( 'ID' => $log_item->get_id() ),
-				array(
-					'%d',
-					'%s',
-					'%s',
-					'%d',
-					'%d',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%s'
-				),
-				array( '%d' )
-			);
-
-			if ( false === $result ) {
-				throw new Exception( 'Unable to insert log item in WordPress database' );
-			}
-
 		}
 
-		// trigger action when new log item was added for a download request
+		// trigger action when new log item was added for a download request.
 		do_action( 'dlm_downloading_log_item_added', $log_item, $log_item->get_download_id(), $log_item->get_version_id() );
 
 		return true;

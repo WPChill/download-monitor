@@ -335,41 +335,38 @@ class DLM_Download_Handler {
 	 * @param DLM_Download_Version $version
 	 */
 	private function log( $type, $status, $message, $download, $version ) {
-
-		// Logging object
-		$logging = new DLM_Logging();
-
+		
 		// Check if logging is enabled and if unique ips is enabled
-		if ( $logging->is_logging_enabled() && false === DLM_Cookie_Manager::exists( $download ) ) {
+		//if ( $logging->is_logging_enabled() && false === DLM_Cookie_Manager::exists( $download ) ) {
 
 			// set create_log to true
 			$create_log = true;
 
 			// check if requester downloaded this version before
-			if ( $logging->is_count_unique_ips_only() && true === $logging->has_ip_downloaded_version( $version ) ) {
+			/* if ( $logging->is_count_unique_ips_only() && true === $logging->has_ip_downloaded_version( $version ) ) {
 				$create_log = false;
-			}
+			} */
 
 			// check if we need to create the log
-			if ( $create_log ) {
+			//if ( $create_log ) {
 
 				// setup new log item object
 				$log_item = new DLM_Log_Item();
 				$log_item->set_user_id( absint( get_current_user_id() ) );
-				$log_item->set_user_ip( DLM_Utils::get_visitor_ip() );
-				$log_item->set_user_agent( DLM_Utils::get_visitor_ua() );
+				/* $log_item->set_user_ip( DLM_Utils::get_visitor_ip() );
+				$log_item->set_user_agent( DLM_Utils::get_visitor_ua() ); */
 				$log_item->set_download_id( absint( $download->get_id() ) );
 				$log_item->set_version_id( absint( $version->get_id() ) );
 				$log_item->set_version( $version->get_version() );
-				$log_item->set_download_date( new DateTime( current_time( 'mysql' ) ) );
-				$log_item->set_download_status( $status );
-				$log_item->set_download_status_message( $message );
+				//$log_item->set_download_date( new DateTime( current_time( 'mysql' ) ) );
+				//$log_item->set_download_status( $status );
+				//$log_item->set_download_status_message( $message );
 
 				// persist log item
 				download_monitor()->service( 'log_item_repository' )->persist( $log_item );
-			}
+		//	}
 
-		}
+	//	}
 
 	}
 

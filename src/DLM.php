@@ -70,6 +70,8 @@ class WP_DLM {
 
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
+		// New Table for logs
+		$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
 
 		// Setup admin classes
 		if ( is_admin() ) {
@@ -199,6 +201,7 @@ class WP_DLM {
 	 * Setup actions
 	 */
 	private function setup_actions() {
+
 		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ), array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );

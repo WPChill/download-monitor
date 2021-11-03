@@ -91,30 +91,49 @@ class DLM_Reports {
 		}
 
 		if ('undefined' !== typeof endDateInput && endDateInput) {
-
 			endDate = this.createDateElement(new Date(endDateInput));
 		} else {
 
 			const yesterday = new Date();
-			yesterday.setDate(yesterday.getDate());
+			//yesterday.setDate(yesterday.getDate());
 			endDate = this.createDateElement(yesterday);
 		}
 		// Get all dates from the startDate to the endDate
 		let dayDownloads = this.getDates(new Date(startDate), new Date(endDate));
+
+		Object.values(this.reportsData).forEach((day) => {
+
+			const downloads = JSON.parse(day.download_ids);
+			let dateTime = new Date(day.date);
+			const date = this.createDateElement(dateTime);
+			
+			if( 'undefined' !== typeof dayDownloads[date] ){
+
+				Object.values(downloads).forEach((item, index) => {
+
+					dayDownloads[date] = dayDownloads[date] + item.downloads;
+	
+				});
+
+			}
+			
+		});
+
+		
 		// Get number of days, used in summary for daily average downloads
 		const daysLength = Object.keys(dayDownloads).length;
 		// Find the start of the donwloads object
-		let start = this.reportsData.findIndex((element) => {
+		let start = Object.keys(dayDownloads).findIndex((element) => {
 
-			let element_date = new Date(element.date);
+			let element_date = new Date(element);
 			element_date = this.createDateElement(element_date);
 
 			return startDate === element_date;
 		});
 		// Find the end of the downloads object
-		let end = this.reportsData.findIndex((element) => {
+		let end = Object.keys(dayDownloads).findIndex((element) => {
 
-			let element_date = new Date(element.date);
+			let element_date = new Date(element);
 			element_date = this.createDateElement(element_date);
 			return endDate === element_date;
 
@@ -130,35 +149,16 @@ class DLM_Reports {
 			return;
 		}
 
-
 		if (-1 === start) {
 			start = 0;
 		}
 
 		if (-1 === end) {
-			end = this.reportsData.length;
+			end = daysLength;
 		}
 
 		// We slice the end + 1 in order to retrieve the latest selected date
 		const data = this.reportsData.slice(start, end + 1);
-
-		Object.values(data).forEach((day) => {
-
-			const downloads = JSON.parse(day.download_ids);
-			let dateTime = new Date(day.date);
-			const date = this.createDateElement(dateTime);
-
-			Object.values(downloads).forEach((item, index) => {
-
-				if ('undefined' === typeof dayDownloads[date]) {
-					dayDownloads[date] = item.downloads;
-				} else {
-					dayDownloads[date] = dayDownloads[date] + item.downloads;
-				}
-
-			});
-
-		});
 
 		this.stats = {
 			chartStats: Object.assign({}, dayDownloads),
