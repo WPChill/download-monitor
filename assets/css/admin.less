@@ -36,13 +36,13 @@
     vertical-align: middle;
   }
   .check-column {
-    width: 1.5em;
+    width: 1%;
     padding: 0;
     vertical-align: middle;
   }
 
   .column-status {
-    width: 2em;
+    width: 2%;
   }
   td.column-status {
     font-size: 10px;
@@ -1548,24 +1548,17 @@ table.wp-list-table {
       align-content: center;
       vertical-align: middle;
       margin: 0 15px;
-      float: left;
-      padding: 15px;
+      padding: 10px 0;
 
       &.wpchill-upsell {
-        width: 100%;
         position: relative;
-        float: right;
+        float: none;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
 
         .wpchill-upsell-description {
           margin:0 auto;
-          max-width:calc(100% - 200px);
-        }
-
-        a {
-          position: absolute;
-          right: 0;
-          top: 50%;
-          transform: translateY(-50%);
         }
       }
     }
