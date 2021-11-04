@@ -54,7 +54,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * Set our global variable dlmReportsStats so we can manipulate given data
 		 */
 		public function create_global_variable() {
-			wp_add_inline_script( 'dlm_reports', 'dlmReportsStats = ' . wp_json_encode( $this->stats() ), 'before' );
+			wp_add_inline_script( 'dlm_reports', 'dlmReportsStats = ' . wp_json_encode( $this->report_stats() ), 'before' );
 		}
 
 		/**
@@ -76,19 +76,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 		}
 
-
-		/**
-		 * Validate the date parameter
-		 *
-		 * @param  mixed $param
-		 * @param  mixed $one
-		 * @param  mixed $two
-		 * @return mixed
-		 */
-		private function validate_date_param( $param, $one, $two ) {
-			return strtotime( $param ) !== false;
-		}
-
 		/**
 		 * Get our stats for the chart
 		 *
@@ -99,7 +86,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 		public function rest_stats() {
 
-			return $this->respond( wp_json_encode( $this->stats() ) );
+			return $this->respond( $this->report_stats() );
 		}
 
 		/**
@@ -130,94 +117,18 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @throws Exception
 		 * @since 4.4.6
 		 */
-		public function stats() {
+		public function report_stats() {
 
-			/** @var DLM_WordPress_Log_Item_Repository $repo */
-			$repo = download_monitor()->service( 'log_item_repository' );
+			global $wpdb;
+			$cache_key = 'dlm_reports';
+			$stats     = wp_cache_get( $cache_key, 'dlm_reports_page' );
 
-			return $repo->retrieve_downloads_info_per_day();
-
-		}
-
-		/**
-		 * Return stats
-		 *
-		 * @return array
-		 * @throws Exception
-		 * @since 4.4.6
-		 */
-		public function stats_legacy() {
-
-			$filters = array(
-				array(
-					'key'      => 'download_status',
-					'value'    => array( 'completed', 'redirected' ),
-					'operator' => 'IN',
-				),
-			);
-
-			/** @var DLM_WordPress_Log_Item_Repository $repo */
-			$repo = download_monitor()->service( 'log_item_repository' );
-
-			$data              = $repo->retrieve_grouped_count( $filters );
-			$response['chart'] = $this->generate_chart_data(
-				$data,
-				array(
-					// Get the date from the first download log, meaning it is the last element from the array.
-					'from' => $data[ count( $data ) - 1 ]->value,
-					// To current date.
-					'to'   => date( 'Y-m-d' ),
-				)
-			);
-
-			$response['summary'] = $repo->retrieve_downloads_info_per_day_legacy();
-
-			return $response;
-		}
-
-		/**
-		 * Generate data for our chart
-		 *
-		 * @return array
-		 * @throws Exception
-		 */
-		private function generate_chart_data( $data, $range ) {
-
-			$format = 'Y-m-d';
-
-			$data_map = array();
-
-			foreach ( $data as $data_row ) {
-				$data_map[ $data_row->value ] = $data_row->amount;
+			if ( ! $stats ) {
+				$stats = $wpdb->get_results( "SELECT  * FROM {$wpdb->dlm_reports};", ARRAY_A );
+				wp_cache_set( $cache_key, $stats, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
 			}
 
-			$data_formatted = array();
-
-			$start_date = new DateTime( $range['from'] );
-			$end_date   = new DateTime( $range['to'] );
-
-			$format_label = 'j M Y';
-
-			while ( $start_date <= $end_date ) {
-
-				if ( isset( $data_map[ $start_date->format( $format ) ] ) ) {
-
-					$data_formatted[] = array(
-						'x' => $start_date->format( $format_label ),
-						'y' => absint( $data_map[ $start_date->format( $format ) ] ),
-					);
-				} else {
-					$data_formatted[] = array(
-						'x' => $start_date->format( $format_label ),
-						'y' => 0,
-					);
-				}
-
-				$start_date->modify( '+1  day' );
-
-			}
-
-			return $data_formatted;
+			return $stats;
 		}
 
 	}

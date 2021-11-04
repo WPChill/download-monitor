@@ -44,10 +44,6 @@ class DLM_Admin {
 		$settings_page = new DLM_Settings_Page();
 		$settings_page->setup();
 
-		// setup logs
-		$log_page = new DLM_Log_Page();
-		$log_page->setup();
-
 		// setup report
 		$reports_page = new DLM_Reports_Page();
 		$reports_page->setup();
@@ -246,7 +242,6 @@ class DLM_Admin {
 		 * @hooked DLM_Settings_Page add_settings_page() - 30
 		 * @hooked DLM_Admin_Extensions extensions_pages() - 30
 		 * @hooked DLM_Reports_Page add_admin_menu() - 30
-		 * @hooked DLM_Log_Page add_logs_menu() - 30
 		 * @hooked Orders orders_menu() - 30
 		 *
 		 */

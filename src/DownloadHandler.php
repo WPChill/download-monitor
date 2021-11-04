@@ -73,6 +73,7 @@ class DLM_Download_Handler {
 	 *
 	 * @return boolean
 	 */
+	// @todo razvan: Let's see if we keep this or we let other plugin do the dirty work
 	public function check_blacklist( $can_download, $download ) {
 
 		// Check if IP is blacklisted
@@ -206,7 +207,7 @@ class DLM_Download_Handler {
 	 */
 	public function handler() {
 		global $wp, $wpdb;
-
+		
 		// check HTTP method
 		$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] ) ? $_SERVER['REQUEST_METHOD'] : 'GET' );
 		if ( ! in_array( $request_method, apply_filters( 'dlm_accepted_request_methods', array( 'GET', 'POST' ) ) ) ) {
@@ -335,12 +336,15 @@ class DLM_Download_Handler {
 	 * @param DLM_Download_Version $version
 	 */
 	private function log( $type, $status, $message, $download, $version ) {
-		
+		// @todo razvan : params type, status and message can be deleted
+
+		// @todo razvan : Depending on logging enabling/disabling this can be deleted
+		$logging = new DLM_Logging();
 		// Check if logging is enabled and if unique ips is enabled
-		//if ( $logging->is_logging_enabled() && false === DLM_Cookie_Manager::exists( $download ) ) {
+		if ( $logging->is_logging_enabled() && false === DLM_Cookie_Manager::exists( $download ) ) {
 
 			// set create_log to true
-			$create_log = true;
+			//$create_log = true;
 
 			// check if requester downloaded this version before
 			/* if ( $logging->is_count_unique_ips_only() && true === $logging->has_ip_downloaded_version( $version ) ) {
@@ -350,6 +354,7 @@ class DLM_Download_Handler {
 			// check if we need to create the log
 			//if ( $create_log ) {
 
+				// @todo: Setting user ip, user agent, download status and download message can be deleted
 				// setup new log item object
 				$log_item = new DLM_Log_Item();
 				$log_item->set_user_id( absint( get_current_user_id() ) );
@@ -358,13 +363,12 @@ class DLM_Download_Handler {
 				$log_item->set_download_id( absint( $download->get_id() ) );
 				$log_item->set_version_id( absint( $version->get_id() ) );
 				$log_item->set_version( $version->get_version() );
-				//$log_item->set_download_date( new DateTime( current_time( 'mysql' ) ) );
 				//$log_item->set_download_status( $status );
 				//$log_item->set_download_status_message( $message );
 
 				// persist log item
 				download_monitor()->service( 'log_item_repository' )->persist( $log_item );
-		//	}
+			}
 
 	//	}
 
@@ -470,12 +474,14 @@ class DLM_Download_Handler {
 			// Trigger Download Action
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 
+			// @todo razvan: Based on discussion, double logging will be allowed or not
 			// Set cookie to prevent double logging
 			DLM_Cookie_Manager::set_cookie( $download );
 		}
 
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
+			// @todo razvan : Only parameters $download and $version will most probably be set with the new log table
 			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 			// Ensure we have a valid URL, not a file path
@@ -493,21 +499,21 @@ class DLM_Download_Handler {
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
-
+				// @todo razvan : Only parameters $download and $version will most probably be set with the new log table
 				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 				header( "X-Sendfile: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
-
+				// @todo razvan : Only parameters $download and $version will most probably be set with the new log table
 				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 				header( "X-LIGHTTPD-send-file: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
-
+				// @todo razvan : Only parameters $download and $version will most probably be set with the new log table
 				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 				$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
@@ -542,16 +548,20 @@ class DLM_Download_Handler {
 		if ( $this->readfile_chunked( $file_path, $range ) ) {
 
 			// Complete!
+			// @todo razvan : Only parameters $download and $version will most probably be set with the new log table
 			$this->log( 'download', 'completed', '', $download, $version );
 
 		} elseif ( $remote_file ) {
 
-			// Redirect - we can't track if this completes or not
+			// Redirect - we can't track if this completes or not.
+			// @todo razvan : Only parameters $download and $version will most probably be set with the new log table
 			$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download-monitor' ), $download, $version );
 
 			header( 'Location: ' . $file_path );
 
 		} else {
+			// @todo razvan : Only parameters $download and $version will most probably be set with the new log table
+			// @todo razvan : Also we only log true downloads, so file not found should not be logged
 			$this->log( 'download', 'failed', __( 'File not found.', 'download-monitor' ), $download, $version );
 
 			wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );

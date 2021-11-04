@@ -42,7 +42,7 @@ class DLM_Reports_Page {
 	private function date_range_button() {
 
 		$to_date = new DateTime( current_time( 'mysql' ) );
-		$to_date->setTime( 0, 0, 0 )->modify( '-1 day' );
+		$to_date->setTime( 0, 0, 0 );
 		$to   = $to_date->format( 'Y-m-d' );
 		$from = $to_date->modify( '-1 month' )->format( 'Y-m-d' );
 

@@ -33,20 +33,7 @@ interface DLM_Log_Item_Repository {
 	 */
 	public function num_rows( $filters = array() );
 
-	/**
-	 * Retrieve grouped counts. Useful for statistics
-	 *
-	 * @param array $filters
-	 * @param string $period
-	 * @param string $grouped_by
-	 * @param int $limit
-	 * @param int $offset
-	 * @param string $order_by
-	 * @param string $order
-	 *
-	 * @return array
-	 */
-	public function retrieve_grouped_count( $filters = array(), $grouped_by = "date", $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' );
+
 
 	/**
 	 * Persist item
@@ -57,12 +44,4 @@ interface DLM_Log_Item_Repository {
 	 */
 	public function persist( $log_item );
 
-	/**
-	 * Delete log item
-	 *
-	 * @param int $id
-	 *
-	 * @return bool
-	 */
-	public function delete( $id );
 }

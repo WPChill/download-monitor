@@ -1,5 +1,6 @@
 <?php
-
+// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
+// Maybe do an export on reports ?
 class DLM_Log_Export_CSV {
 
 	/**

@@ -5,6 +5,7 @@
  *
  * @extends WP_List_Table
  */
+// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
 class DLM_Logging_List_Table extends WP_List_Table {
 
 	private $filter_status = '';

@@ -10,6 +10,31 @@ class DLM_Reports {
 	constructor() {
 
 		this.chartContainer = document.getElementById('total_downloads_chart');
+
+		this.chartContainer = document.getElementById('total_downloads_chart');
+		const ctx = this.chartContainer.getContext("2d");
+
+		/**
+		 * Gradient for the chart
+		 */
+		this.chartColors = {
+			purple: {
+				default: "rgba(149, 76, 233, 1)",
+				half: "rgba(149, 76, 233, 0.75)",
+				quarter: "rgba(149, 76, 233, 0.5)",
+				zero: "rgba(149, 76, 233, 0.05)"
+			},
+			indigo: {
+				default: "rgba(80, 102, 120, 1)",
+				quarter: "rgba(80, 102, 120, 0.5)"
+			}
+		};
+		this.chartGradient = ctx.createLinearGradient(0, 25, 0, 300);
+		this.chartGradient.addColorStop(0, this.chartColors.purple.half);
+		this.chartGradient.addColorStop(0.45, this.chartColors.purple.quarter);
+		this.chartGradient.addColorStop(1, this.chartColors.purple.zero);
+
+
 		this.datePickerContainer = document.getElementById('dlm-date-range-picker');
 		// We parse it so that we don't make any modifications to the actual data
 		// In case we will fetch data using js and the WP REST Api the this.reportsData will be an empty Object and we'll fetch data using fetchData() function
@@ -78,6 +103,7 @@ class DLM_Reports {
 	createDataOnDate(startDateInput, endDateInput) {
 
 		let startDate, endDate;
+		this.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsStats)) : {};
 
 		if ('undefined' !== typeof startDateInput && startDateInput) {
 
@@ -101,25 +127,26 @@ class DLM_Reports {
 		// Get all dates from the startDate to the endDate
 		let dayDownloads = this.getDates(new Date(startDate), new Date(endDate));
 
-		Object.values(this.reportsData).forEach((day) => {
+		Object.values(this.reportsData).forEach((day, index) => {
 
 			const downloads = JSON.parse(day.download_ids);
 			let dateTime = new Date(day.date);
 			const date = this.createDateElement(dateTime);
-			
-			if( 'undefined' !== typeof dayDownloads[date] ){
+
+			if ('undefined' !== typeof dayDownloads[date]) {
 
 				Object.values(downloads).forEach((item, index) => {
 
 					dayDownloads[date] = dayDownloads[date] + item.downloads;
-	
+
 				});
 
+			} else {
+				delete this.reportsData[index];
 			}
-			
+
 		});
 
-		
 		// Get number of days, used in summary for daily average downloads
 		const daysLength = Object.keys(dayDownloads).length;
 		// Find the start of the donwloads object
@@ -157,12 +184,9 @@ class DLM_Reports {
 			end = daysLength;
 		}
 
-		// We slice the end + 1 in order to retrieve the latest selected date
-		const data = this.reportsData.slice(start, end + 1);
-
 		this.stats = {
 			chartStats: Object.assign({}, dayDownloads),
-			summaryStats: data,
+			summaryStats: this.reportsData,
 			daysLength: daysLength
 		};
 
@@ -190,6 +214,13 @@ class DLM_Reports {
 					color: '#27ae60',
 					data: data,
 					type: 'line',
+					fill: true,
+					backgroundColor: this.chartGradient,
+					pointBackgroundColor: this.chartColors.purple.default,
+					borderColor: this.chartColors.purple.default,
+					lineTension: 0.2,
+					borderWidth: 2,
+					pointRadius: 3,							
 					elements: {
 						line: {
 							borderColor: '#2ecc71',
@@ -197,12 +228,12 @@ class DLM_Reports {
 						},
 					},
 				},
-				{
+				/* {
 					label: 'Downloads',
 					color: '#27ae60',
 					data: data,
 					type: 'bar',
-				}
+				} */
 			];
 
 			this.chart = new Chart(chartId, {
@@ -224,6 +255,13 @@ class DLM_Reports {
 							borderWidth: 2
 						},
 					}, */
+					scales: {
+						x: {
+							grid:{
+								display:false
+							}
+						},						
+					},
 					normalized: true,
 					parsing: {
 						xAxisKey: 'x',
@@ -247,7 +285,7 @@ class DLM_Reports {
 		let mostDownloaded = {};
 		let totalDownloads = 0;
 
-		if (false === this.stats || false === this.stats.summaryStats) {
+		if (false === this.stats || false === this.stats.summaryStats || Object.keys(this.stats.summaryStats).length <= 0) {
 
 			this.setTotalDownloads(0);
 			this.setDailyAverage(0);
@@ -260,6 +298,8 @@ class DLM_Reports {
 		this.stats.summaryStats.forEach((itemSet) => {
 
 			itemSet = JSON.parse(itemSet.download_ids);
+
+
 
 			Object.values(itemSet).forEach((item) => {
 				totalDownloads += item.downloads;
@@ -321,10 +361,6 @@ class DLM_Reports {
 
 		el.append(startDate).append(this.startDateInput).append(this.endDateInput);
 
-		jQuery(document).on('click', el, function () {
-			return false;
-		});
-
 		return el;
 	}
 
@@ -342,9 +378,8 @@ class DLM_Reports {
 
 		this.datePicker.opened = true;
 		let element = this.createDatepicker();
-		const calendar_start_date = new Date(this.reportsData[0].date);
+		const calendar_start_date = new Date(dlmReportsStats[0].date);
 		const currDate = new Date();
-
 		jQuery(this.datePickerContainer).append(element);
 
 		var configObject = {
@@ -432,7 +467,7 @@ class DLM_Reports {
 			]
 		};
 
-		element.dateRangePicker(configObject).bind('datepicker-change', (event, obj) => {
+		element.dateRangePicker(configObject).on('datepicker-change', (event, obj) => {
 
 			if (obj.date1 && obj.date2) {
 
@@ -515,6 +550,12 @@ class DLM_Reports {
 	 * Set today's downloads.
 	 */
 	setTodayDownloads() {
+
+		if (0 <= Object.keys(this.reportsData)) {
+
+			jQuery('.dlm-reports-block-summary li#today span').html('0');
+			return;
+		}
 
 		const lastDate = this.reportsData[this.reportsData.length - 1];
 		let todayDownloads = 0;

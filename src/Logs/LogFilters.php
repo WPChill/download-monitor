@@ -1,5 +1,5 @@
 <?php
-
+// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
 class DLM_Log_Filters {
 
 	/**
