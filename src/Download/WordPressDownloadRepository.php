@@ -118,6 +118,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_redirect_only( ( 'yes' == get_post_meta( $post->ID, '_redirect_only', true ) ) );
 				$download->set_featured( ( 'yes' == get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) ) );
+				// @todo razvan : download count should be set, for both downloads and reports, from a single source.
 				$download->set_download_count( absint( get_post_meta( $post->ID, '_download_count', true ) ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
@@ -183,6 +184,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		update_post_meta( $download_id, '_redirect_only', ( ( $download->is_redirect_only() ) ? 'yes' : 'no' ) );
 
 		// other download meta
+		// @todo razvan : Download count from a single 
 		update_post_meta( $download_id, '_download_count', $download->get_download_count() );
 
 		// clear versions transient

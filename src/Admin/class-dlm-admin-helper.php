@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * DLM_Admin_Helper
  */

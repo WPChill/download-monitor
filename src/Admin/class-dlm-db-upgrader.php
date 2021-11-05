@@ -81,7 +81,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			}
 
 			// Made it here, now let's create the table and start migrating.
-			$this->create_new_table();
+			$this->create_new_table( $wpdb->dlm_reports );
 
 			$results = $wpdb->get_results( $wpdb->prepare( "SELECT  COUNT(dlm_log.ID) as `entries` FROM $log_table dlm_log INNER JOIN $posts_table dlm_posts ON dlm_log.download_id = dlm_posts.ID" ), ARRAY_A );
 
@@ -95,21 +95,19 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * @return void
 		 * @since 4.4.7
 		 */
-		public function create_new_table() {
+		public function create_new_table( $table ) {
 
 			global $wpdb;
 
 			// Came here it means the user clicked the upgrade button, so we save it.
 			update_option( 'dlm_db_upgraded', '1' );
 
-			$new_log_table = $wpdb->prefix . 'dlm_reports_log';
-
 			// Let check if table does not exist.
-			if ( ! $this->check_for_table( $new_log_table ) ) {
+			if ( ! $this->check_for_table( $table ) ) {
 
 				$charset_collate = $wpdb->get_charset_collate();
 
-				$sql = "CREATE TABLE IF NOT EXISTS `$new_log_table` (
+				$sql = "CREATE TABLE IF NOT EXISTS `$table` (
 		  `date` DATETIME NOT NULL,
 		  `download_ids` longtext NULL,
 		  `revenue` longtext NULL,
@@ -122,7 +120,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			}
 
 		}
-
 
 		/**
 		 * Check for existing table
