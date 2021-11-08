@@ -1,22 +1,22 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
 
 /**
  * Class Incentive
  *
  * A resource representing a incentive.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string code
  * @property string name
  * @property string description
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency minimum_purchase_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency minimum_purchase_amount
  * @property string logo_image_url
  * @property string expiry_date
  * @property string type
@@ -119,7 +119,7 @@ class Incentive extends PayPalModel
     /**
      * Indicates incentive is applicable for this minimum purchase amount.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $minimum_purchase_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $minimum_purchase_amount
      * 
      * @return $this
      */
@@ -132,7 +132,7 @@ class Incentive extends PayPalModel
     /**
      * Indicates incentive is applicable for this minimum purchase amount.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getMinimumPurchaseAmount()
     {

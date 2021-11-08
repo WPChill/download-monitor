@@ -1,12 +1,12 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Common;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Common;
 
 /**
  * Class ArrayUtil
  * Util Class for Arrays
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Common
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Common
  */
 class ArrayUtil
 {

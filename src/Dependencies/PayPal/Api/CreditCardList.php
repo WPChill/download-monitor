@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
 
 /**
  * Class CreditCardList
  *
  * A list of Credit Card Resources
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[] items
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[] items
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  * @property int total_items
  * @property int total_pages
  */
@@ -21,7 +21,7 @@ class CreditCardList extends PayPalResourceModel
     /**
      * A list of credit card resources
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[] $items
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[] $items
      * 
      * @return $this
      */
@@ -34,7 +34,7 @@ class CreditCardList extends PayPalResourceModel
     /**
      * A list of credit card resources
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[]
      */
     public function getItems()
     {
@@ -44,7 +44,7 @@ class CreditCardList extends PayPalResourceModel
     /**
      * Append Items to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard $creditCard
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard $creditCard
      * @return $this
      */
     public function addItem($creditCard)
@@ -61,7 +61,7 @@ class CreditCardList extends PayPalResourceModel
     /**
      * Remove Items from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard $creditCard
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard $creditCard
      * @return $this
      */
     public function removeItem($creditCard)

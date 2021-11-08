@@ -2,137 +2,6 @@
 
 class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
-	/**
-	 * Prep where statement for WP DB SQL queries
-	 *
-	 * @param $filters
-	 *
-	 * @return string
-	 */
-	// @todo razvan : Method can be deleted after discussion if no logs page
-	private function prep_where_statement( $filters ) {
-		global $wpdb;
-
-		// setup where statements.
-		$where = array( 'WHERE 1=1' );
-
-		foreach ( $filters as $filter ) {
-			$operator = ( ! empty( $filter['operator'] ) ) ? esc_sql( $filter['operator'] ) : '=';
-
-			if ( 'IN' == $operator && is_array( $filter['value'] ) ) {
-				array_walk( $filter['value'], 'esc_sql' );
-				$value_str = implode( "','", $filter['value'] );
-				$where[]   = 'AND `' . esc_sql( $filter['key'] ) . '` ' . $operator . " ('" . $value_str . "')";
-			} else {
-				$where[] = $wpdb->prepare( 'AND `' . esc_sql( $filter['key'] ) . '` ' . $operator . " '%s'", $filter['value'] );
-			}
-		}
-
-		$where_str = '';
-		if ( count( $where ) > 1 ) {
-			$where_str = implode( ' ', $where );
-		}
-
-		return $where_str;
-	}
-
-	/**
-	 * Returns number of rows for given filters
-	 *
-	 * @param array $filters
-	 *
-	 * @return int
-	 */
-	public function num_rows( $filters = array() ) {
-		global $wpdb;
-
-		return $wpdb->get_var( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . ';' );
-	}
-
-	/**
-	 * Retrieve single item
-	 *
-	 * @param int $id
-	 *
-	 * @return DLM_Log_Item
-	 * @throws Exception
-	 */
-	
-	public function retrieve_single( $id ) {
-		$logs = $this->retrieve(
-			array(
-				array(
-					'key'   => 'ID',
-					'value' => absint( $id ),
-				),
-			)
-		);
-
-		if ( count( $logs ) != 1 ) {
-			throw new Exception( 'Log Item not found' );
-		}
-
-		return array_shift( $logs );
-	}
-
-	/**
-	 * @param array $filters
-	 * @param int $limit
-	 * @param int $offset
-	 * @param string $order_by
-	 * @param string $order
-	 *
-	 * @return array
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	// Also search in Google Drive and Amazon + others that log entries into the DB
-	public function retrieve( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
-		global $wpdb;
-
-		$items = array();
-
-		// prep where statement
-		$where_str = $this->prep_where_statement( $filters );
-
-		// setup limit & offset
-		$limit_str = '';
-		$limit     = absint( $limit );
-		$offset    = absint( $offset );
-		if ( $limit > 0 ) {
-			$limit_str = "LIMIT {$offset},{$limit}";
-		}
-
-		// escape order_by
-		$order_by = esc_sql( $order_by );
-
-		// order can only be ASC or DESC
-		$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
-
-		// query
-		$data = $wpdb->get_results(
-			"SELECT * FROM {$wpdb->download_log} {$where_str} ORDER BY `{$order_by}` {$order} {$limit_str};"
-		);
-
-		if ( count( $data ) > 0 ) {
-			foreach ( $data as $row ) {
-				$log_item = new DLM_Log_Item();
-				$log_item->set_id( $row->ID );
-				$log_item->set_user_id( $row->user_id );
-				$log_item->set_user_ip( $row->user_ip );
-				$log_item->set_user_agent( $row->user_agent );
-				$log_item->set_download_id( $row->download_id );
-				$log_item->set_version_id( $row->version_id );
-				$log_item->set_version( $row->version );
-				//$log_item->set_download_date( new DateTime( $row->download_date ) );
-				$log_item->set_download_status( $row->download_status );
-				$log_item->set_download_status_message( $row->download_status_message );
-				$log_item->set_meta_data( json_decode( $row->meta_data ) );
-				$items[] = $log_item;
-			}
-		}
-
-		return $items;
-	}
 
 	/**
 	 * Download logging
@@ -208,5 +77,67 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		do_action( 'dlm_downloading_log_item_added', $log_item, $download_id, $version_id );
 
 		return true;
+	}
+
+	/**
+	 * Update Download and Version download counts
+	 *
+	 * @param [int] $download_id The ID of the Download.
+	 * @param [int] $version_id The ID of the Version corresponding to the Download.
+	 * @return void
+	 * @since 4.5.0
+	 */
+	public function update_detailed_download_count( $download_id, $version_id ) {
+
+		$download_info = $this->retrieve_single_download( $download_id );
+
+		if ( false === $download_info ) {
+			return;
+		}
+
+	}
+
+	/**
+	 * Retrieve download info from custom table
+	 *
+	 * @param  mixed $download_id The ID of the Download.
+	 * @return void
+	 * @since 4.5.0
+	 */
+	public function retrieve_single_download( $download_id ) {
+
+		global $wpdb;
+
+		// Let's get the results that contain all the info we need from both tables.
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wbdb->dlm_single_download} dlm_download INNER JOIN {$wpdb->posts} dlm_post ON dlm_download.download_id = dlm_post.ID WHERE dlm_download.download_id = %s", $download_id ), ARRAY_A );
+
+		if ( null === $result || empty( $result ) ) {
+			return;
+		}
+
+		return $result;
+
+	}
+
+	/**
+	 * Retrieve download info from custom table
+	 *
+	 * @param  mixed $date The date for the desired report.
+	 * @return void
+	 * @since 4.5.0
+	 */
+	public function retrieve_single_day( $date ) {
+
+		global $wpdb;
+
+		// Let's get the results that contain all the info we need from both tables.
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wbdb->dlm_reports} dlm_download WHERE dlm_download.date = %s", $date ), ARRAY_A );
+
+		if ( null === $result || empty( $result ) ) {
+			return;
+		}
+
+		return $result;
+
 	}
 }

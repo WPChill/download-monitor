@@ -106,6 +106,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				$version->set_menu_order( $post->menu_order );
 				$version->set_date( new DateTime( $post->post_date ) );
 				$version->set_version( strtolower( get_post_meta( $version->get_id(), '_version', true ) ) );
+				// @todo razvan : Download count will be retrieved from custom wp table 
 				$version->set_download_count( absint( get_post_meta( $version->get_id(), '_download_count', true ) ) );
 				$version->set_filesize( get_post_meta( $version->get_id(), '_filesize', true ) );
 				$version->set_md5( get_post_meta( $version->get_id(), '_md5', true ) );
@@ -172,7 +173,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				'post_status'  => 'publish',
 				'post_parent'  => $version->get_download_id(),
 				'menu_order'   => $version->get_menu_order(),
-				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
+				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' ),
 			) );
 
 			if ( is_wp_error( $version_id ) ) {
@@ -191,7 +192,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				'post_status'  => 'publish',
 				'post_parent'  => $version->get_download_id(),
 				'menu_order'   => $version->get_menu_order(),
-				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
+				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' ),
 			) );
 
 			if ( is_wp_error( $version_id ) ) {
@@ -201,6 +202,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 		}
 
 		// store version download count if it's not NULL
+		// @todo razvan : Download count will be retreived and set from a custom wp table
 		if ( null !== $version->get_download_count() ) {
 			update_post_meta( $version_id, '_download_count', absint( $version->get_download_count() ) );
 		}

@@ -1,20 +1,20 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class InstallmentInfo
  *
  *  A resource representing installment information available for a transaction
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string installment_id
  * @property string network
  * @property string issuer
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption[] installment_options
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption[] installment_options
  */
 class InstallmentInfo extends PayPalModel
 {
@@ -91,7 +91,7 @@ class InstallmentInfo extends PayPalModel
     /**
      * List of available installment options and the cost associated with each one.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption[] $installment_options
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption[] $installment_options
      * 
      * @return $this
      */
@@ -104,7 +104,7 @@ class InstallmentInfo extends PayPalModel
     /**
      * List of available installment options and the cost associated with each one.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption[]
      */
     public function getInstallmentOptions()
     {
@@ -114,7 +114,7 @@ class InstallmentInfo extends PayPalModel
     /**
      * Append InstallmentOptions to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption $installmentOption
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption $installmentOption
      * @return $this
      */
     public function addInstallmentOption($installmentOption)
@@ -131,7 +131,7 @@ class InstallmentInfo extends PayPalModel
     /**
      * Remove InstallmentOptions from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption $installmentOption
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InstallmentOption $installmentOption
      * @return $this
      */
     public function removeInstallmentOption($installmentOption)

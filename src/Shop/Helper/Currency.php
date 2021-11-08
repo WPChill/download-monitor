@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Helper;
+namespace WPChill\DownloadMonitor\Shop\Helper;
 
 class Currency {
 

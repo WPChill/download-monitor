@@ -1,19 +1,19 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
 
 /**
  * Class Plan
  *
  * Billing plan resource that will be used to create a billing agreement.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string name
@@ -22,9 +22,9 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
  * @property string state
  * @property string create_time
  * @property string update_time
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition[] payment_definitions
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Terms[] terms
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences merchant_preferences
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition[] payment_definitions
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Terms[] terms
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences merchant_preferences
  */
 class Plan extends PayPalResourceModel
 {
@@ -192,7 +192,7 @@ class Plan extends PayPalResourceModel
     /**
      * Array of payment definitions for this billing plan.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition[] $payment_definitions
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition[] $payment_definitions
      * 
      * @return $this
      */
@@ -205,7 +205,7 @@ class Plan extends PayPalResourceModel
     /**
      * Array of payment definitions for this billing plan.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition[]
      */
     public function getPaymentDefinitions()
     {
@@ -215,7 +215,7 @@ class Plan extends PayPalResourceModel
     /**
      * Append PaymentDefinitions to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition $paymentDefinition
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition $paymentDefinition
      * @return $this
      */
     public function addPaymentDefinition($paymentDefinition)
@@ -232,7 +232,7 @@ class Plan extends PayPalResourceModel
     /**
      * Remove PaymentDefinitions from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition $paymentDefinition
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDefinition $paymentDefinition
      * @return $this
      */
     public function removePaymentDefinition($paymentDefinition)
@@ -245,7 +245,7 @@ class Plan extends PayPalResourceModel
     /**
      * Array of terms for this billing plan.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Terms[] $terms
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Terms[] $terms
      * 
      * @return $this
      */
@@ -258,7 +258,7 @@ class Plan extends PayPalResourceModel
     /**
      * Array of terms for this billing plan.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Terms[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Terms[]
      */
     public function getTerms()
     {
@@ -268,7 +268,7 @@ class Plan extends PayPalResourceModel
     /**
      * Append Terms to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Terms $terms
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Terms $terms
      * @return $this
      */
     public function addTerm($terms)
@@ -285,7 +285,7 @@ class Plan extends PayPalResourceModel
     /**
      * Remove Terms from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Terms $terms
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Terms $terms
      * @return $this
      */
     public function removeTerm($terms)
@@ -298,7 +298,7 @@ class Plan extends PayPalResourceModel
     /**
      * Specific preferences such as: set up fee, max fail attempts, autobill amount, and others that are configured for this billing plan.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences $merchant_preferences
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences $merchant_preferences
      * 
      * @return $this
      */
@@ -311,7 +311,7 @@ class Plan extends PayPalResourceModel
     /**
      * Specific preferences such as: set up fee, max fail attempts, autobill amount, and others that are configured for this billing plan.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences
      */
     public function getMerchantPreferences()
     {

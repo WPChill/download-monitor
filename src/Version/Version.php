@@ -352,7 +352,9 @@ class DLM_Download_Version {
 	 * @access public
 	 * @return void
 	 */
+	// @todo razvan: This will be modified to update the correct information from the correct table, not the meta table
 	public function increase_download_count() {
+		// @todo razvan : will be only 1 insert, found in DLM_Logging, that will update the version
 		// File download_count
 		$this->download_count = absint( get_post_meta( $this->id, '_download_count', true ) ) + 1;
 		update_post_meta( $this->id, '_download_count', $this->download_count );

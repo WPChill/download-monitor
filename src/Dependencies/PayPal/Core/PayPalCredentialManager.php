@@ -1,16 +1,16 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Core;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Core;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalInvalidCredentialException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalInvalidCredentialException;
 
 /**
  * Class PayPalCredentialManager
  *
  * PayPalCredentialManager holds all the credential information in one place.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Core
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Core
  */
 class PayPalCredentialManager
 {
@@ -118,7 +118,7 @@ class PayPalCredentialManager
     /**
      * Sets credential object for users
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential $credential
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential $credential
      * @param string|null   $userId  User Id associated with the account
      * @param bool $default If set, it would make it as a default credential for all requests
      *

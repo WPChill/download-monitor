@@ -1,20 +1,20 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\JsonValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\JsonValidator;
 
 /**
  * Class WebhookEvent
  *
  * A webhook event notification.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string create_time
@@ -22,7 +22,7 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Validation\JsonValidator;
  * @property string event_version
  * @property string event_type
  * @property string summary
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel resource
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel resource
  * @property string status
  * @property mixed[] transmissions
  */
@@ -169,7 +169,7 @@ class WebhookEvent extends PayPalResourceModel
     /**
      * The resource that triggered the webhook event notification.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel $resource
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel $resource
      * 
      * @return $this
      */
@@ -182,7 +182,7 @@ class WebhookEvent extends PayPalResourceModel
     /**
      * The resource that triggered the webhook event notification.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel
      */
     public function getResource()
     {

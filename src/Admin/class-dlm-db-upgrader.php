@@ -14,7 +14,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		/**
 		 * Holds the class object.
 		 *
-		 * @since 4.4.7
+		 * @since 4.5.0
 		 *
 		 * @var object
 		 */
@@ -24,7 +24,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * Class constructor
 		 *
 		 * @return void
-		 * @since 4.4.7
+		 * @since 4.5.0
 		 */
 		public function __construct() {
 
@@ -51,7 +51,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * Returns the singleton instance of the class.
 		 *
 		 * @return object The DLM_Admin_Helper object.
-		 * @since 4.4.7
+		 * @since 4.5.0
 		 */
 		public static function get_instance() {
 
@@ -65,6 +65,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 		/**
 		 * Check the old table entries
+		 * 
+		 * @since 4.5.0
 		 */
 		public function count_log_entries() {
 
@@ -93,7 +95,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * Create the new table
 		 *
 		 * @return void
-		 * @since 4.4.7
+		 * @since 4.5.0
 		 */
 		public function create_new_table( $table ) {
 
@@ -126,6 +128,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 *
 		 * @param  mixed $table
 		 * @return bool
+		 * @since 4.5.0
 		 */
 		public function check_for_table( $table ) {
 			global $wpdb;
@@ -143,6 +146,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * Check if DB migrated or not
 		 *
 		 * @return bool
+		 * @since 4.5.0
 		 */
 		public static function check_if_migrated() {
 
@@ -163,6 +167,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 		/**
 		 * The new table update functionality
+		 * 
+		 * @since 4.5.0
 		 */
 		public function update_log_table_db() {
 
@@ -232,6 +238,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 		/**
 		 * Add the DB Upgrader notice
+		 * 
+		 * @since 4.5.0
 		 */
 		public function add_db_update_notice() {
 			$current_screen = get_current_screen();
@@ -256,6 +264,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 		/**
 		 * Enqueue the DB Upgrader scripts
+		 * 
+		 * @since 4.5.0
 		 */
 		public function enqueue_db_upgrader_scripts() {
 

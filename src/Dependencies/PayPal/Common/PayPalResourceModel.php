@@ -1,17 +1,17 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Common;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Common;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\IResource;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\IResource;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
 
 /**
  * Class PayPalResourceModel
  * An Executable PayPalModel Class
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Common
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Common
  */
 class PayPalResourceModel extends PayPalModel implements IResource
 {
@@ -19,7 +19,7 @@ class PayPalResourceModel extends PayPalModel implements IResource
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      *
      * @return $this
      */
@@ -32,7 +32,7 @@ class PayPalResourceModel extends PayPalModel implements IResource
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -54,7 +54,7 @@ class PayPalResourceModel extends PayPalModel implements IResource
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -71,7 +71,7 @@ class PayPalResourceModel extends PayPalModel implements IResource
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)
@@ -94,7 +94,7 @@ class PayPalResourceModel extends PayPalModel implements IResource
      * @param array $handlers
      * @return string json response of the object
      */
-    protected static function executeCall($url, $method, $payLoad, $headers = array(), $apiContext = null, $restCall = null, $handlers = array('Never5\DownloadMonitor\Dependencies\PayPal\Handler\RestHandler'))
+    protected static function executeCall($url, $method, $payLoad, $headers = array(), $apiContext = null, $restCall = null, $handlers = array('WPChill\DownloadMonitor\Dependencies\PayPal\Handler\RestHandler'))
     {
         //Initialize the context and rest call object if not provided explicitly
         $apiContext = $apiContext ? $apiContext : new ApiContext(self::$credential);

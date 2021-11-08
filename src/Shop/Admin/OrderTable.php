@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Admin;
+namespace WPChill\DownloadMonitor\Shop\Admin;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Shop\Util\PostType;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Util\PostType;
 
 if ( ! class_exists( '\WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -77,7 +77,7 @@ class OrderTable extends \WP_List_Table {
 	/**
 	 * The checkbox column
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */
@@ -107,7 +107,7 @@ class OrderTable extends \WP_List_Table {
 	 *
 	 * @access public
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 * @param mixed $column_name
 	 *
 	 * @return string
@@ -201,10 +201,10 @@ class OrderTable extends \WP_List_Table {
                 </li>
 				<?php
 
-				/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $order_repo */
+				/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $order_repo */
 				$order_repo = Services::get()->service( 'order_repository' );
 				$statuses   = Services::get()->service( 'order_status' )->get_available_statuses();
-				/** @var \Never5\DownloadMonitor\Shop\Order\Status\OrderStatus $status */
+				/** @var \WPChill\DownloadMonitor\Shop\Order\Status\OrderStatus $status */
 				foreach ( $statuses as $status ) {
 
 					$count = $order_repo->num_rows( array(
@@ -364,7 +364,7 @@ class OrderTable extends \WP_List_Table {
 		$order_by = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'id';
 		$order    = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'DESC';
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $order_repository */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $order_repository */
 		$order_repository = Services::get()->service( 'order_repository' );
 
 		$total_items = $order_repository->num_rows( $filters );

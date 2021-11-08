@@ -1,6 +1,6 @@
 <?php
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class DLM_Admin_Settings {
 
@@ -174,25 +174,9 @@ class DLM_Admin_Settings {
 								'placeholder' => '',
 								'label'       => __( 'No access message', 'download-monitor' ),
 								'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
-								'type'        => 'textarea'
+								'type'        => 'textarea',
 							),
-							array(
-								'name'        => 'dlm_ip_blacklist',
-								'std'         => '192.168.0.0/24',
-								'label'       => __( 'Blacklist IPs', 'download-monitor' ),
-								'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for ranges. IPv4 examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or <code>2001:db8::/32</code>.', 'download-monitor' ),
-								'placeholder' => '',
-								'type'        => 'textarea'
-							),
-							array(
-								'name'        => 'dlm_user_agent_blacklist',
-								'std'         => 'Googlebot',
-								'label'       => __( 'Blacklist user agents', 'download-monitor' ),
-								'desc'        => __( 'List browser user agents to blacklist, 1 per line.  Partial matches are sufficient. Regex matching is allowed by surrounding the pattern with forward slashes, e.g. <code>/^Mozilla.+Googlebot/</code>', 'download-monitor' ),
-								'placeholder' => '',
-								'type'        => 'textarea'
-							),
-						)
+						),
 					),
 					'hash'       => array(
 						'title'  => __( 'Hashes', 'download-monitor' ),
@@ -200,7 +184,7 @@ class DLM_Admin_Settings {
 							array(
 								'name' => 'dlm_hash_desc',
 								'text' => sprintf( __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files. %sYou can read more about hashes here%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/download-hashes/" target="_blank">', '</a>' ),
-								'type' => 'desc'
+								'type' => 'desc',
 							),
 							array(
 								'name'     => 'dlm_generate_hash_md5',
@@ -208,7 +192,7 @@ class DLM_Admin_Settings {
 								'label'    => __( 'MD5 hashes', 'download-monitor' ),
 								'cb_label' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
 								'desc'     => '',
-								'type'     => 'checkbox'
+								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_generate_hash_sha1',
@@ -216,87 +200,59 @@ class DLM_Admin_Settings {
 								'label'    => __( 'SHA1 hashes', 'download-monitor' ),
 								'cb_label' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
 								'desc'     => '',
-								'type'     => 'checkbox'
+								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_generate_hash_sha256',
 								'std'      => '0',
 								'label'    => __( 'SHA256 hashes', 'download-monitor' ),
 								'cb_label' => __( 'Generate SHA256 hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox'
+								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_generate_hash_crc32b',
 								'std'      => '0',
 								'label'    => __( 'CRC32B hashes', 'download-monitor' ),
 								'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox'
-							)
-						)
+								'type'     => 'checkbox',
+							),
+						),
 					),
 					'logging'    => array(
-						'title'  => __( 'Logging', 'download-monitor' ),
+						'title'  => __( 'Insights', 'download-monitor' ),
 						'fields' => array(
 							array(
-								'name'     => 'dlm_enable_logging',
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'name'     => 'dlm_enable_window_logging',
+								'cb_label' => __( 'Prevent duplicate download in insights', 'download-monitor' ),
 								'std'      => '1',
-								'label'    => __( 'Download Log', 'download-monitor' ),
-								'desc'     => __( 'Log download attempts, IP addresses and more.', 'download-monitor' ),
-								'type'     => 'checkbox'
+								'label'    => __( 'Duplicate download', 'download-monitor' ),
+								'desc'     => __( 'Don\'t add download to insights if user downloads same file multiple times in a 60 seconds download window.', 'download-monitor' ),
+								'type'     => 'checkbox',
 							),
-							array(
-								'name'    => 'dlm_logging_ip_type',
-								'std'     => '',
-								'label'   => __( 'IP Address Logging', 'download-monitor' ),
-								'desc'    => __( 'Define if and how you like to store IP addresses of users that download your files in your logs.', 'download-monitor' ),
-								'type'    => 'select',
-								'options' => array(
-									'full'       => __( 'Store full IP address', 'download-monitor' ),
-									'anonymized' => __( 'Store anonymized IP address (remove last 3 digits)', 'download-monitor' ),
-									'none'       => __( 'Store no IP address', 'download-monitor' )
-								)
-							),
-							array(
-								'name'     => 'dlm_logging_ua',
-								'std'      => '1',
-								'label'    => __( 'User Agent Logging', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
-								'desc'     => __( 'If enabled, the user agent (browser) the user uses to download the file will be stored in your logs.', 'download-monitor' ),
-								'type'     => 'checkbox'
-							),
-							array(
-								'name'     => 'dlm_count_unique_ips',
-								'std'      => '',
-								'label'    => __( 'Count unique IPs only', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
-								'desc'     => sprintf( __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address. Note that this option only works if %s is set to %s.', 'download-monitor' ), '<strong>' . __( 'IP Address Logging', 'download-monitor' ) . '</strong>', '<strong>' . __( 'Store full IP address', 'download-monitor' ) . '</strong>' ),
-								'type'     => 'checkbox'
-							),
-						)
+						),
 					),
-				)
+				),
 			),
 			'lead_generation'      => array(
 				'title'    => esc_html__( 'Lead Generation', 'download-monitor' ),
-				'sections' => array()
+				'sections' => array(),
 			),
 			'external_hosting'     => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
-				'sections' => array()
+				'sections' => array(),
 			),
 			'integration'          => array(
 				'title'    => esc_html__( 'Integration', 'download-monitor' ),
-				'sections' => array()
+				'sections' => array(),
 			),
 			'email_notification'   => array(
 				'title'    => esc_html__( 'Emails', 'download-monitor' ),
-				'sections' => array()
+				'sections' => array(),
 			),
 			'terns_and_conditions' => array(
 				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
-				'sections' => array()
-			)
+				'sections' => array(),
+			),
 		);
 
 		if ( dlm_is_shop_enabled() ) {
@@ -564,7 +520,7 @@ class DLM_Admin_Settings {
 	 */
 	private function get_currency_list_with_symbols() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Helper\Currency $currency_helper */
+		/** @var \WPChill\DownloadMonitor\Shop\Helper\Currency $currency_helper */
 		$currency_helper = Services::get()->service( "currency" );
 
 		$currencies = $currency_helper->get_available_currencies();
@@ -624,7 +580,7 @@ class DLM_Admin_Settings {
 
 		/** Generate sections for all gateways */
 		if ( ! empty( $gateways ) ) {
-			/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
+			/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
 
 				// all gateways have an 'enabled' option by default

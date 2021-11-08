@@ -1,21 +1,21 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class CarrierAccount
  *
  * Payment instrument that enables carrier billing.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string phone_number
  * @property string external_customer_id
  * @property string phone_source
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\CountryCode country_code
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CountryCode country_code
  */
 class CarrierAccount extends PayPalModel
 {
@@ -115,7 +115,7 @@ class CarrierAccount extends PayPalModel
     /**
      * The ISO 3166-1 alpha-2 country code where the phone number is registered.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CountryCode $country_code
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CountryCode $country_code
      * 
      * @return $this
      */
@@ -128,7 +128,7 @@ class CarrierAccount extends PayPalModel
     /**
      * The ISO 3166-1 alpha-2 country code where the phone number is registered.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CountryCode
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CountryCode
      */
     public function getCountryCode()
     {

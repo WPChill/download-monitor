@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Util;
+namespace WPChill\DownloadMonitor\Shop\Util;
 
 class PostType {
 

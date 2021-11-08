@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Order;
+namespace WPChill\DownloadMonitor\Shop\Order;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Factory {
 
@@ -37,7 +37,7 @@ class Factory {
 	/**
 	 * Generate order hash
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */

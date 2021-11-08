@@ -1,29 +1,29 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
 
 /**
  * Class Payout
  *
  * This object represents a set of payouts that includes status data for the payouts. This object enables you to create a payout using a POST request.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader sender_batch_header
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem[] items
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader sender_batch_header
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem[] items
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class Payout extends PayPalResourceModel
 {
     /**
      * The original batch header as provided by the payment sender.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader $sender_batch_header
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader $sender_batch_header
      *
      * @return $this
      */
@@ -36,7 +36,7 @@ class Payout extends PayPalResourceModel
     /**
      * The original batch header as provided by the payment sender.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader
      */
     public function getSenderBatchHeader()
     {
@@ -46,7 +46,7 @@ class Payout extends PayPalResourceModel
     /**
      * An array of payout items (that is, a set of individual payouts).
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem[] $items
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem[] $items
      *
      * @return $this
      */
@@ -59,7 +59,7 @@ class Payout extends PayPalResourceModel
     /**
      * An array of payout items (that is, a set of individual payouts).
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem[]
      */
     public function getItems()
     {
@@ -69,7 +69,7 @@ class Payout extends PayPalResourceModel
     /**
      * Append Items to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem $payoutItem
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem $payoutItem
      * @return $this
      */
     public function addItem($payoutItem)
@@ -86,7 +86,7 @@ class Payout extends PayPalResourceModel
     /**
      * Remove Items from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem $payoutItem
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem $payoutItem
      * @return $this
      */
     public function removeItem($payoutItem)

@@ -1,32 +1,32 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Api\Template;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Api\Template;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class Templates
  *
  * List of templates belonging to merchant.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address[] addresses
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address[] addresses
  * @property string[] emails
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone[] phones
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Template[] templates
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone[] phones
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Template[] templates
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class Templates extends PayPalResourceModel
 {
     /**
      * List of addresses in merchant's profile.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address[] $addresses
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address[] $addresses
      * 
      * @return $this
      */
@@ -39,7 +39,7 @@ class Templates extends PayPalResourceModel
     /**
      * List of addresses in merchant's profile.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address[]
      */
     public function getAddresses()
     {
@@ -49,7 +49,7 @@ class Templates extends PayPalResourceModel
     /**
      * Append Addresses to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $address
      * @return $this
      */
     public function addAddress($address)
@@ -66,7 +66,7 @@ class Templates extends PayPalResourceModel
     /**
      * Remove Addresses from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $address
      * @return $this
      */
     public function removeAddress($address)
@@ -132,7 +132,7 @@ class Templates extends PayPalResourceModel
     /**
      * List of phone numbers in merchant's profile.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone[] $phones
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone[] $phones
      * 
      * @return $this
      */
@@ -145,7 +145,7 @@ class Templates extends PayPalResourceModel
     /**
      * List of phone numbers in merchant's profile.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone[]
      */
     public function getPhones()
     {
@@ -155,7 +155,7 @@ class Templates extends PayPalResourceModel
     /**
      * Append Phones to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
      * @return $this
      */
     public function addPhone($phone)
@@ -172,7 +172,7 @@ class Templates extends PayPalResourceModel
     /**
      * Remove Phones from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
      * @return $this
      */
     public function removePhone($phone)
@@ -185,7 +185,7 @@ class Templates extends PayPalResourceModel
     /**
      * Array of templates.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Template[] $templates
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Template[] $templates
      * 
      * @return $this
      */
@@ -198,7 +198,7 @@ class Templates extends PayPalResourceModel
     /**
      * Array of templates.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Template[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Template[]
      */
     public function getTemplates()
     {
@@ -208,7 +208,7 @@ class Templates extends PayPalResourceModel
     /**
      * Append Templates to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Template $template
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Template $template
      * @return $this
      */
     public function addTemplate($template)
@@ -225,7 +225,7 @@ class Templates extends PayPalResourceModel
     /**
      * Remove Templates from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Template $template
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Template $template
      * @return $this
      */
     public function removeTemplate($template)

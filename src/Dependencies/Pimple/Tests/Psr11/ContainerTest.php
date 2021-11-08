@@ -24,12 +24,12 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests\Psr11;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Psr11;
 
 use PHPUnit\Framework\TestCase;
-use Never5\DownloadMonitor\Dependencies\Pimple\Container;
-use Never5\DownloadMonitor\Dependencies\Pimple\Psr11\Container as PsrContainer;
-use Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Psr11\Container as PsrContainer;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service;
 
 class ContainerTest extends TestCase
 {
@@ -45,7 +45,7 @@ class ContainerTest extends TestCase
     }
 
     /**
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Psr\Container\NotFoundExceptionInterface
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Psr\Container\NotFoundExceptionInterface
      * @expectedExceptionMessage Identifier "service" is not defined.
      */
     public function testGetThrowsExceptionIfServiceIsNotFound()

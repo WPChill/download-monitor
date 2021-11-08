@@ -1,21 +1,21 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class Order
  *
  * An order transaction.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string reference_id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
  * @property string payment_mode
  * @property string state
  * @property string reason_code
@@ -23,10 +23,10 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
  * @property string protection_eligibility
  * @property string protection_eligibility_type
  * @property string parent_payment
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails fmf_details
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails fmf_details
  * @property string create_time
  * @property string update_time
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class Order extends PayPalResourceModel
 {
@@ -105,7 +105,7 @@ class Order extends PayPalResourceModel
     /**
      * Amount being collected.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
      * 
      * @return $this
      */
@@ -118,7 +118,7 @@ class Order extends PayPalResourceModel
     /**
      * Amount being collected.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount
      */
     public function getAmount()
     {
@@ -295,7 +295,7 @@ class Order extends PayPalResourceModel
     /**
      * Fraud Management Filter (FMF) details applied for the payment that could result in accept/deny/pending action.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails $fmf_details
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails $fmf_details
      * 
      * @return $this
      */
@@ -308,7 +308,7 @@ class Order extends PayPalResourceModel
     /**
      * Fraud Management Filter (FMF) details applied for the payment that could result in accept/deny/pending action.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails
      */
     public function getFmfDetails()
     {

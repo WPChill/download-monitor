@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PotentialPayerInfo
  *
  * A resource representing a information about a potential Payer.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  */
 class PotentialPayerInfo extends PayPalModel
@@ -86,7 +86,7 @@ class PotentialPayerInfo extends PayPalModel
     /**
      * Billing address of the potential payer.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
      * 
      * @return $this
      */
@@ -99,7 +99,7 @@ class PotentialPayerInfo extends PayPalModel
     /**
      * Billing address of the potential payer.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address
      */
     public function getBillingAddress()
     {

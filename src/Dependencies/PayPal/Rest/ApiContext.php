@@ -1,16 +1,16 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Rest;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Rest;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConfigManager;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalCredentialManager;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalConfigManager;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalCredentialManager;
 
 /**
  * Class ApiContext
  *
  * Call level parameters such as request id, credentials etc
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Rest
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Rest
  */
 class ApiContext
 {
@@ -26,9 +26,9 @@ class ApiContext
 
     /**
      * This is a placeholder for holding credential for the request
-     * If the value is not set, it would get the value from @\Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalCredentialManager
+     * If the value is not set, it would get the value from @\WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalCredentialManager
      *
-     * @var \Never5\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential
+     * @var \WPChill\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential
      */
     private $credential;
 
@@ -36,7 +36,7 @@ class ApiContext
     /**
      * Construct
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential $credential
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential $credential
      * @param string|null                       $requestId
      */
     public function __construct($credential = null, $requestId = null)
@@ -48,7 +48,7 @@ class ApiContext
     /**
      * Get Credential
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential
      */
     public function getCredential()
     {

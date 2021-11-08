@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var \Never5\DownloadMonitor\Shop\Order\Order $order */
+/** @var \WPChill\DownloadMonitor\Shop\Order\Order $order */
 /** @var array $customer */
 
 

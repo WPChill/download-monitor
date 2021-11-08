@@ -1,22 +1,22 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class FundingOption
  *
  * specifies the funding option details.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingSource[] funding_sources
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument backup_funding_instrument
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\CurrencyConversion currency_conversion
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\InstallmentInfo installment_info
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingSource[] funding_sources
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument backup_funding_instrument
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CurrencyConversion currency_conversion
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InstallmentInfo installment_info
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class FundingOption extends PayPalModel
 {
@@ -46,7 +46,7 @@ class FundingOption extends PayPalModel
     /**
      * List of funding sources that contributes to a payment.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingSource[] $funding_sources
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingSource[] $funding_sources
      * 
      * @return $this
      */
@@ -59,7 +59,7 @@ class FundingOption extends PayPalModel
     /**
      * List of funding sources that contributes to a payment.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingSource[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingSource[]
      */
     public function getFundingSources()
     {
@@ -69,7 +69,7 @@ class FundingOption extends PayPalModel
     /**
      * Append FundingSources to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingSource $fundingSource
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingSource $fundingSource
      * @return $this
      */
     public function addFundingSource($fundingSource)
@@ -86,7 +86,7 @@ class FundingOption extends PayPalModel
     /**
      * Remove FundingSources from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingSource $fundingSource
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingSource $fundingSource
      * @return $this
      */
     public function removeFundingSource($fundingSource)
@@ -99,7 +99,7 @@ class FundingOption extends PayPalModel
     /**
      * Backup funding instrument which will be used for payment if primary fails.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument $backup_funding_instrument
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument $backup_funding_instrument
      * 
      * @return $this
      */
@@ -112,7 +112,7 @@ class FundingOption extends PayPalModel
     /**
      * Backup funding instrument which will be used for payment if primary fails.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument
      */
     public function getBackupFundingInstrument()
     {
@@ -122,7 +122,7 @@ class FundingOption extends PayPalModel
     /**
      * Currency conversion applicable to this funding option.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CurrencyConversion $currency_conversion
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CurrencyConversion $currency_conversion
      * 
      * @return $this
      */
@@ -135,7 +135,7 @@ class FundingOption extends PayPalModel
     /**
      * Currency conversion applicable to this funding option.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CurrencyConversion
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CurrencyConversion
      */
     public function getCurrencyConversion()
     {
@@ -145,7 +145,7 @@ class FundingOption extends PayPalModel
     /**
      * Installment options available for a funding option.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InstallmentInfo $installment_info
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InstallmentInfo $installment_info
      * 
      * @return $this
      */
@@ -158,7 +158,7 @@ class FundingOption extends PayPalModel
     /**
      * Installment options available for a funding option.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\InstallmentInfo
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InstallmentInfo
      */
     public function getInstallmentInfo()
     {
@@ -168,7 +168,7 @@ class FundingOption extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      * 
      * @return $this
      */
@@ -181,7 +181,7 @@ class FundingOption extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -191,7 +191,7 @@ class FundingOption extends PayPalModel
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -208,7 +208,7 @@ class FundingOption extends PayPalModel
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

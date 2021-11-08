@@ -39,6 +39,7 @@ class DLM_Admin_Dashboard {
 			'orderby'       => array(
 				'orderby_meta' => 'DESC'
 			),
+			// @todo razvan : download count will be retrieved from custom wp table
 			'meta_query'    => array(
 				'orderby_meta' => array(
 					'key'  => '_download_count',

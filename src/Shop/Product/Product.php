@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Product;
+namespace WPChill\DownloadMonitor\Shop\Product;
 
 class Product {
 
@@ -219,7 +219,7 @@ class Product {
 	/**
 	 * Get a secure download link for this download linked to given order
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 * @param \DLM_Download $download
 	 *
 	 * @return string

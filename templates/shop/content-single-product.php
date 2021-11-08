@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var \Never5\DownloadMonitor\Shop\Product\Product $product */
+/** @var \WPChill\DownloadMonitor\Shop\Product\Product $product */
 
 /**
  * dlm_before_single_product hook

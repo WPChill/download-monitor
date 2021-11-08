@@ -1,19 +1,19 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Api\VerifyWebhookSignatureResponse;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Api\VerifyWebhookSignatureResponse;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
 
 /**
  * Class VerifyWebhookSignature
  *
  * Verify webhook signature.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string auth_algo
  * @property string cert_url
@@ -21,7 +21,7 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
  * @property string transmission_sig
  * @property string transmission_time
  * @property string webhook_id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent webhook_event
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent webhook_event
  */
 class VerifyWebhookSignature extends PayPalResourceModel
 {
@@ -167,7 +167,7 @@ class VerifyWebhookSignature extends PayPalResourceModel
     /**
      * The webhook notification, which is the content of the HTTP `POST` request body.
      * @deprecated Please use setRequestBody($request_body) instead.
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent $webhook_event
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent $webhook_event
      *
      * @return $this
      */
@@ -180,7 +180,7 @@ class VerifyWebhookSignature extends PayPalResourceModel
     /**
      * The webhook notification, which is the content of the HTTP `POST` request body.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent
      */
     public function getWebhookEvent()
     {

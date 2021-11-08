@@ -1,14 +1,14 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Core;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Core;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
 
 /**
  * Class PayPalHttpConfig
  * Http Configuration Class
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Core
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Core
  */
 class PayPalHttpConfig
 {

@@ -1,28 +1,28 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class RelatedResources
  *
  * Each one representing a financial transaction (Sale, Authorization, Capture, Refund) related to the payment.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Sale sale
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Authorization authorization
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Order order
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Capture capture
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Refund refund
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Sale sale
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Authorization authorization
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Order order
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Capture capture
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Refund refund
  */
 class RelatedResources extends PayPalModel
 {
     /**
      * Sale transaction
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Sale $sale
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Sale $sale
      * 
      * @return $this
      */
@@ -35,7 +35,7 @@ class RelatedResources extends PayPalModel
     /**
      * Sale transaction
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Sale
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Sale
      */
     public function getSale()
     {
@@ -45,7 +45,7 @@ class RelatedResources extends PayPalModel
     /**
      * Authorization transaction
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Authorization $authorization
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Authorization $authorization
      * 
      * @return $this
      */
@@ -58,7 +58,7 @@ class RelatedResources extends PayPalModel
     /**
      * Authorization transaction
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Authorization
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Authorization
      */
     public function getAuthorization()
     {
@@ -68,7 +68,7 @@ class RelatedResources extends PayPalModel
     /**
      * Order transaction
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Order $order
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Order $order
      * 
      * @return $this
      */
@@ -81,7 +81,7 @@ class RelatedResources extends PayPalModel
     /**
      * Order transaction
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Order
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Order
      */
     public function getOrder()
     {
@@ -91,7 +91,7 @@ class RelatedResources extends PayPalModel
     /**
      * Capture transaction
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Capture $capture
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Capture $capture
      * 
      * @return $this
      */
@@ -104,7 +104,7 @@ class RelatedResources extends PayPalModel
     /**
      * Capture transaction
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Capture
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Capture
      */
     public function getCapture()
     {
@@ -114,7 +114,7 @@ class RelatedResources extends PayPalModel
     /**
      * Refund transaction
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Refund $refund
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Refund $refund
      * 
      * @return $this
      */
@@ -127,7 +127,7 @@ class RelatedResources extends PayPalModel
     /**
      * Refund transaction
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Refund
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Refund
      */
     public function getRefund()
     {

@@ -1,17 +1,17 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PaymentHistory
  *
  * List of Payments made by the seller.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payment[] payments
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payment[] payments
  * @property int count
  * @property string next_id
  */
@@ -20,7 +20,7 @@ class PaymentHistory extends PayPalModel
     /**
      * A list of Payment resources
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payment[] $payments
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payment[] $payments
      * 
      * @return $this
      */
@@ -33,7 +33,7 @@ class PaymentHistory extends PayPalModel
     /**
      * A list of Payment resources
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payment[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payment[]
      */
     public function getPayments()
     {
@@ -43,7 +43,7 @@ class PaymentHistory extends PayPalModel
     /**
      * Append Payments to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payment $payment
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payment $payment
      * @return $this
      */
     public function addPayment($payment)
@@ -60,7 +60,7 @@ class PaymentHistory extends PayPalModel
     /**
      * Remove Payments from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payment $payment
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payment $payment
      * @return $this
      */
     public function removePayment($payment)

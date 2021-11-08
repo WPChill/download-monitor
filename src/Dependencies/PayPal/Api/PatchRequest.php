@@ -1,24 +1,24 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PatchRequest
  *
  * A JSON patch request.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Patch[] patches
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Patch[] patches
  */
 class PatchRequest extends PayPalModel
 {
     /**
      * Placeholder for holding array of patch objects
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Patch[] $patches
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Patch[] $patches
      * 
      * @return $this
      */
@@ -31,7 +31,7 @@ class PatchRequest extends PayPalModel
     /**
      * Placeholder for holding array of patch objects
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Patch[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Patch[]
      */
     public function getPatches()
     {
@@ -41,7 +41,7 @@ class PatchRequest extends PayPalModel
     /**
      * Append Patches to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Patch $patch
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Patch $patch
      * @return $this
      */
     public function addPatch($patch)
@@ -58,7 +58,7 @@ class PatchRequest extends PayPalModel
     /**
      * Remove Patches from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Patch $patch
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Patch $patch
      * @return $this
      */
     public function removePatch($patch)

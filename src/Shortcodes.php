@@ -324,6 +324,7 @@ class DLM_Shortcodes {
 				break;
 			case 'hits' :
 			case 'count' :
+				// @todo razvan : Change the download, as it will be retrieved from custom wp table
 			case 'download_count' :
 				$orderby  = 'meta_value_num';
 				$meta_key = '_download_count';

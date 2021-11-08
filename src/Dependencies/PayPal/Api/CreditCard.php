@@ -1,16 +1,16 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
 
 /**
  * Class CreditCard
  *
- * @package    Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package    WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string              number
  * @property string              type
@@ -19,11 +19,11 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
  * @property string              cvv2
  * @property string              first_name
  * @property string              last_name
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address billing_address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address billing_address
  * @property string              external_customer_id
  * @property string              state
  * @property string              valid_until
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class CreditCard extends PayPalResourceModel
 {
@@ -216,7 +216,7 @@ class CreditCard extends PayPalResourceModel
     /**
      * Billing Address associated with this card.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
      *
      * @return $this
      */
@@ -229,7 +229,7 @@ class CreditCard extends PayPalResourceModel
     /**
      * Billing Address associated with this card.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address
      */
     public function getBillingAddress()
     {

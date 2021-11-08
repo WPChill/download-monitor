@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
 /**
  * Class ExtendedBankAccount
  *
  * A resource representing a bank account that can be used to fund a payment including support for SEPA.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  */
 class ExtendedBankAccount extends BankAccount

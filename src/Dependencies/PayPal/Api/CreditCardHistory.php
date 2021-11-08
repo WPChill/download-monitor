@@ -1,17 +1,17 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class CreditCardHistory
  *
  * A list of Credit Card Resources
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[] credit_cards
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[] credit_cards
  * @property int count
  * @property string next_id
  */
@@ -21,7 +21,7 @@ class CreditCardHistory extends PayPalModel
      * A list of credit card resources
      *
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[] $credit_cards
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard[] $credit_cards
      * @return $this
      */
     public function setCreditCards($credit_cards)
@@ -33,7 +33,7 @@ class CreditCardHistory extends PayPalModel
     /**
      * A list of credit card resources
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard
      */
     public function getCreditCards()
     {

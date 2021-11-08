@@ -1,21 +1,21 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class Sale
  *
  * A sale transaction. This is the resource that is returned as a part related resources in Payment
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string purchase_unit_reference_id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
  * @property string payment_mode
  * @property string state
  * @property string reason_code
@@ -24,17 +24,17 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
  * @property string clearing_time
  * @property string payment_hold_status
  * @property string[] payment_hold_reasons
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency transaction_fee
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency receivable_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency transaction_fee
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency receivable_amount
  * @property string exchange_rate
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails fmf_details
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails fmf_details
  * @property string receipt_id
  * @property string parent_payment
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse processor_response
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse processor_response
  * @property string billing_agreement_id
  * @property string create_time
  * @property string update_time
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class Sale extends PayPalResourceModel
 {
@@ -87,7 +87,7 @@ class Sale extends PayPalResourceModel
     /**
      * Amount being collected.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
      * 
      * @return $this
      */
@@ -100,7 +100,7 @@ class Sale extends PayPalResourceModel
     /**
      * Amount being collected.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount
      */
     public function getAmount()
     {
@@ -330,7 +330,7 @@ class Sale extends PayPalResourceModel
     /**
      * Transaction fee applicable for this payment.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $transaction_fee
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $transaction_fee
      * 
      * @return $this
      */
@@ -343,7 +343,7 @@ class Sale extends PayPalResourceModel
     /**
      * Transaction fee applicable for this payment.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getTransactionFee()
     {
@@ -353,7 +353,7 @@ class Sale extends PayPalResourceModel
     /**
      * Net amount the merchant receives for this transaction in their receivable currency. Returned only in cross-currency use cases where a merchant bills a buyer in a non-primary currency for that buyer.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $receivable_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $receivable_amount
      * 
      * @return $this
      */
@@ -366,7 +366,7 @@ class Sale extends PayPalResourceModel
     /**
      * Net amount the merchant receives for this transaction in their receivable currency. Returned only in cross-currency use cases where a merchant bills a buyer in a non-primary currency for that buyer.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getReceivableAmount()
     {
@@ -399,7 +399,7 @@ class Sale extends PayPalResourceModel
     /**
      * Fraud Management Filter (FMF) details applied for the payment that could result in accept, deny, or pending action. Returned in a payment response only if the merchant has enabled FMF in the profile settings and one of the fraud filters was triggered based on those settings. See [Fraud Management Filters Summary](/docs/classic/fmf/integration-guide/FMFSummary/) for more information.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails $fmf_details
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails $fmf_details
      * 
      * @return $this
      */
@@ -412,7 +412,7 @@ class Sale extends PayPalResourceModel
     /**
      * Fraud Management Filter (FMF) details applied for the payment that could result in accept, deny, or pending action. Returned in a payment response only if the merchant has enabled FMF in the profile settings and one of the fraud filters was triggered based on those settings. See [Fraud Management Filters Summary](/docs/classic/fmf/integration-guide/FMFSummary/) for more information.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails
      */
     public function getFmfDetails()
     {
@@ -468,7 +468,7 @@ class Sale extends PayPalResourceModel
     /**
      * Response codes returned by the processor concerning the submitted payment. Only supported when the `payment_method` is set to `credit_card`.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse $processor_response
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse $processor_response
      * 
      * @return $this
      */
@@ -481,7 +481,7 @@ class Sale extends PayPalResourceModel
     /**
      * Response codes returned by the processor concerning the submitted payment. Only supported when the `payment_method` is set to `credit_card`.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse
      */
     public function getProcessorResponse()
     {

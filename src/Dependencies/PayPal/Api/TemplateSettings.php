@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class TemplateSettings
  *
  * Settings per template
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string field_name
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettingsMetadata display_preference
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettingsMetadata display_preference
  */
 class TemplateSettings extends PayPalModel
 {
@@ -42,7 +42,7 @@ class TemplateSettings extends PayPalModel
     /**
      * Settings metadata for each field.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettingsMetadata $display_preference
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettingsMetadata $display_preference
      * 
      * @return $this
      */
@@ -55,7 +55,7 @@ class TemplateSettings extends PayPalModel
     /**
      * Settings metadata for each field.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettingsMetadata
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettingsMetadata
      */
     public function getDisplayPreference()
     {

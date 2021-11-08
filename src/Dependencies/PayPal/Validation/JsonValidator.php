@@ -1,11 +1,11 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Validation;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Validation;
 
 /**
  * Class JsonValidator
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Validation
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Validation
  */
 class JsonValidator
 {

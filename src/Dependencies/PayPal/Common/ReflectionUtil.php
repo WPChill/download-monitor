@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Common;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Common;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
 
 /**
  * Class ReflectionUtil
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Common
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Common
  */
 class ReflectionUtil
 {

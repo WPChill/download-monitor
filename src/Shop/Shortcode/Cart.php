@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Shortcode;
+namespace WPChill\DownloadMonitor\Shop\Shortcode;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Cart {
 
@@ -22,7 +22,7 @@ class Cart {
 	 */
 	public function content( $atts ) {
 
-		/** @var \Never5\DownloadMonitor\Shop\Cart\Cart $cart */
+		/** @var \WPChill\DownloadMonitor\Shop\Cart\Cart $cart */
 		$cart = Services::get()->service( 'cart' )->get_cart();
 
 		ob_start();

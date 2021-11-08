@@ -184,7 +184,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		update_post_meta( $download_id, '_redirect_only', ( ( $download->is_redirect_only() ) ? 'yes' : 'no' ) );
 
 		// other download meta
-		// @todo razvan : Download count from a single 
+		// @todo razvan : Download count from a custm wp table
 		update_post_meta( $download_id, '_download_count', $download->get_download_count() );
 
 		// clear versions transient

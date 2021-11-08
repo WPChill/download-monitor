@@ -1,21 +1,21 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Terms
  *
  * Resource representing terms used by the plan.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string type
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency max_billing_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency max_billing_amount
  * @property string occurrences
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount_range
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount_range
  * @property string buyer_editable
  */
 class Terms extends PayPalModel
@@ -69,7 +69,7 @@ class Terms extends PayPalModel
     /**
      * Max Amount associated with this term.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $max_billing_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $max_billing_amount
      * 
      * @return $this
      */
@@ -82,7 +82,7 @@ class Terms extends PayPalModel
     /**
      * Max Amount associated with this term.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getMaxBillingAmount()
     {
@@ -115,7 +115,7 @@ class Terms extends PayPalModel
     /**
      * Amount_range associated with this term.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount_range
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount_range
      * 
      * @return $this
      */
@@ -128,7 +128,7 @@ class Terms extends PayPalModel
     /**
      * Amount_range associated with this term.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmountRange()
     {

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-use \Never5\DownloadMonitor\Util;
+use \WPChill\DownloadMonitor\Util;
 
 /**
  * WP_DLM class.
@@ -55,7 +55,7 @@ class WP_DLM {
 
 	/**
 	 * __construct function.
-	 *
+	 *z
 	 * @access public
 	 */
 	public function __construct() {
@@ -72,6 +72,7 @@ class WP_DLM {
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
 		// New Table for logs
 		$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
+		// @todo razvan : maybe new table for detailed Download info ?
 
 		// Setup admin classes
 		if ( is_admin() ) {
@@ -123,10 +124,11 @@ class WP_DLM {
 			$onboarding->setup();
 		}
 
-		// Set the DB Upgrader class to see if we need to upgrade the table or not
+		// Set the DB Upgrader class to see if we need to upgrade the table or not.
+		// This is mainly to move to version 4.5.x from 4.4.x and below.
 		$upgrader = DLM_DB_Upgrader::get_instance();
 
-		// Set Reports. We set them here in order to also create the REST Api calls
+		// Set Reports. We set them here in order to also create the REST Api calls.
 		$reports = DLM_Reports::get_instance();
 
 		// Setup AJAX handler if doing AJAX
@@ -167,10 +169,6 @@ class WP_DLM {
 		// Setup Post Types
 		$post_type_manager = new DLM_Post_Type_Manager();
 		$post_type_manager->setup();
-
-		// Setup Log Filters
-		$log_filters = new DLM_Log_Filters();
-		$log_filters->setup();
 
 		// Setup actions
 		$this->setup_actions();

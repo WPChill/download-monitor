@@ -1,25 +1,25 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class FundingSource
  *
  * specifies the funding source details.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string funding_mode
  * @property string funding_instrument_type
  * @property string soft_descriptor
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency negative_balance_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency negative_balance_amount
  * @property string legal_text
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingDetail funding_detail
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingDetail funding_detail
  * @property string additional_text
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class FundingSource extends FundingInstrument
 {
@@ -97,7 +97,7 @@ class FundingSource extends FundingInstrument
     /**
      * Total anticipated amount of money to be pulled from instrument.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -110,7 +110,7 @@ class FundingSource extends FundingInstrument
     /**
      * Total anticipated amount of money to be pulled from instrument.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {
@@ -120,7 +120,7 @@ class FundingSource extends FundingInstrument
     /**
      * Additional amount to be pulled from the instrument to recover a negative balance on the buyer's account that is owed to PayPal.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $negative_balance_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $negative_balance_amount
      * 
      * @return $this
      */
@@ -133,7 +133,7 @@ class FundingSource extends FundingInstrument
     /**
      * Additional amount to be pulled from the instrument to recover a negative balance on the buyer's account that is owed to PayPal.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getNegativeBalanceAmount()
     {
@@ -166,7 +166,7 @@ class FundingSource extends FundingInstrument
     /**
      * Additional detail of the funding.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingDetail $funding_detail
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingDetail $funding_detail
      * 
      * @return $this
      */
@@ -179,7 +179,7 @@ class FundingSource extends FundingInstrument
     /**
      * Additional detail of the funding.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingDetail
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingDetail
      */
     public function getFundingDetail()
     {
@@ -212,7 +212,7 @@ class FundingSource extends FundingInstrument
     /**
      * Sets Extends
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument $extends
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument $extends
      *
      * @deprecated Unused
      *
@@ -229,7 +229,7 @@ class FundingSource extends FundingInstrument
      *
      * @deprecated Unused
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument
      */
     public function getExtends()
     {
@@ -239,7 +239,7 @@ class FundingSource extends FundingInstrument
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      * 
      * @return $this
      */
@@ -252,7 +252,7 @@ class FundingSource extends FundingInstrument
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -262,7 +262,7 @@ class FundingSource extends FundingInstrument
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -279,7 +279,7 @@ class FundingSource extends FundingInstrument
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

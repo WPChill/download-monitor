@@ -3,16 +3,16 @@
  * API handler for all REST API calls
  */
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Handler;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Handler;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential;
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalUserAgent;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalCredentialManager;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConfig;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalInvalidCredentialException;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalMissingCredentialException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalUserAgent;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalCredentialManager;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConfig;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalInvalidCredentialException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalMissingCredentialException;
 
 /**
  * Class RestHandler
@@ -98,7 +98,7 @@ class RestHandler implements IPayPalHandler
      * @param array $config
      *
      * @return string
-     * @throws \Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException
+     * @throws \WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException
      */
     private function _getEndpoint($config)
     {

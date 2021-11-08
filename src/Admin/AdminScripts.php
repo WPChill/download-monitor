@@ -63,9 +63,9 @@ class DLM_Admin_Scripts {
 
 			// Enqueue Downloadable Files Metabox JS
 			if (
-				( $pagenow == 'post.php' && isset( $post ) && \Never5\DownloadMonitor\Shop\Util\PostType::KEY === $post->post_type )
+				( $pagenow == 'post.php' && isset( $post ) && \WPChill\DownloadMonitor\Shop\Util\PostType::KEY === $post->post_type )
 				||
-				( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && \Never5\DownloadMonitor\Shop\Util\PostType::KEY == $_GET['post_type'] )
+				( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && \WPChill\DownloadMonitor\Shop\Util\PostType::KEY == $_GET['post_type'] )
 			) {
 
 				// Enqueue Select2

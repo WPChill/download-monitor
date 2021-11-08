@@ -195,12 +195,12 @@ class DLM_Admin {
 			if (
 				( ! empty( $_GET['post_type'] ) && in_array( $_GET['post_type'], array(
 						'dlm_download',
-						\Never5\DownloadMonitor\Shop\Util\PostType::KEY
+						\WPChill\DownloadMonitor\Shop\Util\PostType::KEY
 					) ) )
 				||
 				( ! empty( $post->post_type ) && in_array( $post->post_type, array(
 						'dlm_download',
-						\Never5\DownloadMonitor\Shop\Util\PostType::KEY
+						\WPChill\DownloadMonitor\Shop\Util\PostType::KEY
 					) ) )
 			) {
 				$enqueue = true;

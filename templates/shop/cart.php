@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /**
- * @var Never5\DownloadMonitor\Shop\Cart\Cart $cart
+ * @var WPChill\DownloadMonitor\Shop\Cart\Cart $cart
  * @var string $url_cart
  * @var string $url_checkout
  */
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php
 			$items = $cart->get_items();
 			if ( ! empty( $items ) ) {
-				/** @var \Never5\DownloadMonitor\Shop\Cart\Item $item */
+				/** @var \WPChill\DownloadMonitor\Shop\Cart\Item $item */
 				foreach ( $items as $item ) {
 					download_monitor()->service( 'template_handler' )->get_template_part( 'shop/cart/item', '', '', array(
 						'item'     => $item,

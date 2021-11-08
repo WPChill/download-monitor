@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Shortcode;
+namespace WPChill\DownloadMonitor\Shop\Shortcode;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Checkout {
 
@@ -22,7 +22,7 @@ class Checkout {
 	 */
 	public function content( $atts ) {
 
-		/** @var \Never5\DownloadMonitor\Shop\Cart\Cart $cart */
+		/** @var \WPChill\DownloadMonitor\Shop\Cart\Cart $cart */
 		$cart = Services::get()->service( 'cart' )->get_cart();
 
 
@@ -116,7 +116,7 @@ class Checkout {
 	/**
 	 * Get order object based on data in GET
 	 *
-	 * @return \Never5\DownloadMonitor\Shop\Order\Order|null
+	 * @return \WPChill\DownloadMonitor\Shop\Order\Order|null
 	 */
 	private function get_order_from_url() {
 		// get order data
@@ -125,7 +125,7 @@ class Checkout {
 		$order      = null;
 
 		if ( $order_id > 0 ) {
-			/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $op */
+			/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $op */
 			try {
 				$op    = Services::get()->service( 'order_repository' );
 				$order = $op->retrieve_single( $order_id );
@@ -145,14 +145,14 @@ class Checkout {
 	/**
 	 * Get a simplified array of item data for template usage
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Cart\Item\Item[] | \Never5\DownloadMonitor\Shop\Order\OrderItem[] $items
+	 * @param \WPChill\DownloadMonitor\Shop\Cart\Item\Item[] | \WPChill\DownloadMonitor\Shop\Order\OrderItem[] $items
 	 *
 	 * @return array
 	 */
 	private function get_simplified_item_array( $items ) {
 		$simple_items = array();
 		if ( ! empty( $items ) ) {
-			/** @var \Never5\DownloadMonitor\Shop\Cart\Item\Item $item */
+			/** @var \WPChill\DownloadMonitor\Shop\Cart\Item\Item $item */
 			foreach ( $items as $item ) {
 				$simple_items[] = array(
 					'label'    => $item->get_label(),

@@ -1,22 +1,22 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Links
  *
  * 
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string href
  * @property string rel
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema targetSchema
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema targetSchema
  * @property string method
  * @property string enctype
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema schema
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema schema
  */
 class Links extends PayPalModel
 {
@@ -69,7 +69,7 @@ class Links extends PayPalModel
     /**
      * Sets TargetSchema
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema $targetSchema
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema $targetSchema
      * 
      * @return $this
      */
@@ -82,7 +82,7 @@ class Links extends PayPalModel
     /**
      * Gets TargetSchema
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema
      */
     public function getTargetSchema()
     {
@@ -138,7 +138,7 @@ class Links extends PayPalModel
     /**
      * Sets Schema
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema $schema
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema $schema
      * 
      * @return $this
      */
@@ -151,7 +151,7 @@ class Links extends PayPalModel
     /**
      * Gets Schema
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\HyperSchema
      */
     public function getSchema()
     {

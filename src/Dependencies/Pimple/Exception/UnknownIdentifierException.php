@@ -24,9 +24,9 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Exception;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Exception;
 
-use Never5\DownloadMonitor\Dependencies\Psr\Container\NotFoundExceptionInterface;
+use WPChill\DownloadMonitor\Dependencies\Psr\Container\NotFoundExceptionInterface;
 
 /**
  * The identifier of a valid service or parameter was expected.

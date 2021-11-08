@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PaymentDefinition
  *
  * Resource representing payment definition scheduling information.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string name
@@ -17,8 +17,8 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
  * @property string frequency_interval
  * @property string frequency
  * @property string cycles
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel[] charge_models
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel[] charge_models
  */
 class PaymentDefinition extends PayPalModel
 {
@@ -163,7 +163,7 @@ class PaymentDefinition extends PayPalModel
     /**
      * Amount that will be charged at the end of each cycle for this payment definition.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -176,7 +176,7 @@ class PaymentDefinition extends PayPalModel
     /**
      * Amount that will be charged at the end of each cycle for this payment definition.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {
@@ -186,7 +186,7 @@ class PaymentDefinition extends PayPalModel
     /**
      * Array of charge_models for this payment definition.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel[] $charge_models
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel[] $charge_models
      * 
      * @return $this
      */
@@ -199,7 +199,7 @@ class PaymentDefinition extends PayPalModel
     /**
      * Array of charge_models for this payment definition.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel[]
      */
     public function getChargeModels()
     {
@@ -209,7 +209,7 @@ class PaymentDefinition extends PayPalModel
     /**
      * Append ChargeModels to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel $chargeModel
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel $chargeModel
      * @return $this
      */
     public function addChargeModel($chargeModel)
@@ -226,7 +226,7 @@ class PaymentDefinition extends PayPalModel
     /**
      * Remove ChargeModels from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel $chargeModel
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ChargeModel $chargeModel
      * @return $this
      */
     public function removeChargeModel($chargeModel)

@@ -1,23 +1,23 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookList;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookList;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
 
 /**
  * Class Webhook
  *
  * One or more webhook objects.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string url
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[] event_types
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[] event_types
  */
 class Webhook extends PayPalResourceModel
 {
@@ -71,7 +71,7 @@ class Webhook extends PayPalResourceModel
     /**
      * A list of up to ten events to which to subscribe your webhook. To subscribe to all events including new events as they are added, specify the asterisk (`*`) wildcard. To replace the `event_types` array, specify the `*` wildcard. To see all supported events, [list available events](#available-event-type.list).
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[] $event_types
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[] $event_types
      * 
      * @return $this
      */
@@ -84,7 +84,7 @@ class Webhook extends PayPalResourceModel
     /**
      * A list of up to ten events to which to subscribe your webhook. To subscribe to all events including new events as they are added, specify the asterisk (`*`) wildcard. To replace the `event_types` array, specify the `*` wildcard. To see all supported events, [list available events](#available-event-type.list).
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[]
      */
     public function getEventTypes()
     {
@@ -94,7 +94,7 @@ class Webhook extends PayPalResourceModel
     /**
      * Append EventTypes to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType $webhookEventType
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType $webhookEventType
      * @return $this
      */
     public function addEventType($webhookEventType)
@@ -111,7 +111,7 @@ class Webhook extends PayPalResourceModel
     /**
      * Remove EventTypes from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType $webhookEventType
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType $webhookEventType
      * @return $this
      */
     public function removeEventType($webhookEventType)

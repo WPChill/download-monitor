@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PaymentDetail
  *
  * Invoicing payment information.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string type
  * @property string transaction_id
@@ -17,7 +17,7 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
  * @property string date
  * @property string method
  * @property string note
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
  */
 class PaymentDetail extends PayPalModel
 {
@@ -165,7 +165,7 @@ class PaymentDetail extends PayPalModel
     /**
      * The amount to record as payment against invoice. If you omit this parameter, the total invoice amount is recorded as payment.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -178,7 +178,7 @@ class PaymentDetail extends PayPalModel
     /**
      * The amount to record as payment against invoice. If you omit this parameter, the total invoice amount is recorded as payment.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {

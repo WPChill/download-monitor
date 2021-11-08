@@ -1,19 +1,19 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class InstallmentOption
  *
  *  A resource describing an installment
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property int term
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency monthly_payment
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency discount_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency monthly_payment
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency discount_amount
  * @property string discount_percentage
  */
 class InstallmentOption extends PayPalModel
@@ -44,7 +44,7 @@ class InstallmentOption extends PayPalModel
     /**
      * Monthly payment
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $monthly_payment
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $monthly_payment
      * 
      * @return $this
      */
@@ -57,7 +57,7 @@ class InstallmentOption extends PayPalModel
     /**
      * Monthly payment
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getMonthlyPayment()
     {
@@ -67,7 +67,7 @@ class InstallmentOption extends PayPalModel
     /**
      * Discount amount applied to the payment, if any
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $discount_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $discount_amount
      * 
      * @return $this
      */
@@ -80,7 +80,7 @@ class InstallmentOption extends PayPalModel
     /**
      * Discount amount applied to the payment, if any
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getDiscountAmount()
     {

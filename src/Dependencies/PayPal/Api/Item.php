@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
 
 /**
  * Class Item
  *
  * Item details.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string sku
  * @property string name
@@ -241,7 +241,7 @@ class Item extends PayPalModel
     /**
      * Weight of the item.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Measurement $weight
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Measurement $weight
      * 
      * @return $this
      */
@@ -254,7 +254,7 @@ class Item extends PayPalModel
     /**
      * Weight of the item.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Measurement
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Measurement
      */
     public function getWeight()
     {
@@ -264,7 +264,7 @@ class Item extends PayPalModel
     /**
      * Length of the item.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Measurement $length
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Measurement $length
      * 
      * @return $this
      */
@@ -277,7 +277,7 @@ class Item extends PayPalModel
     /**
      * Length of the item.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Measurement
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Measurement
      */
     public function getLength()
     {
@@ -287,7 +287,7 @@ class Item extends PayPalModel
     /**
      * Height of the item.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Measurement $height
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Measurement $height
      * 
      * @return $this
      */
@@ -300,7 +300,7 @@ class Item extends PayPalModel
     /**
      * Height of the item.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Measurement
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Measurement
      */
     public function getHeight()
     {
@@ -310,7 +310,7 @@ class Item extends PayPalModel
     /**
      * Width of the item.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Measurement $width
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Measurement $width
      * 
      * @return $this
      */
@@ -323,7 +323,7 @@ class Item extends PayPalModel
     /**
      * Width of the item.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Measurement
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Measurement
      */
     public function getWidth()
     {
@@ -333,7 +333,7 @@ class Item extends PayPalModel
     /**
      * Set of optional data used for PayPal risk determination.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair[] $supplementary_data
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair[] $supplementary_data
      * 
      * @return $this
      */
@@ -346,7 +346,7 @@ class Item extends PayPalModel
     /**
      * Set of optional data used for PayPal risk determination.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair[]
      */
     public function getSupplementaryData()
     {
@@ -356,7 +356,7 @@ class Item extends PayPalModel
     /**
      * Append SupplementaryData to the list.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair $nameValuePair
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair $nameValuePair
      * @return $this
      */
     public function addSupplementaryData($nameValuePair)
@@ -373,7 +373,7 @@ class Item extends PayPalModel
     /**
      * Remove SupplementaryData from the list.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair $nameValuePair
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair $nameValuePair
      * @return $this
      */
     public function removeSupplementaryData($nameValuePair)
@@ -386,7 +386,7 @@ class Item extends PayPalModel
     /**
      * Set of optional data used for PayPal post-transaction notifications.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair[] $postback_data
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair[] $postback_data
      * 
      * @return $this
      */
@@ -399,7 +399,7 @@ class Item extends PayPalModel
     /**
      * Set of optional data used for PayPal post-transaction notifications.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair[]
      */
     public function getPostbackData()
     {
@@ -409,7 +409,7 @@ class Item extends PayPalModel
     /**
      * Append PostbackData to the list.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair $nameValuePair
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair $nameValuePair
      * @return $this
      */
     public function addPostbackData($nameValuePair)
@@ -426,7 +426,7 @@ class Item extends PayPalModel
     /**
      * Remove PostbackData from the list.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair $nameValuePair
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\NameValuePair $nameValuePair
      * @return $this
      */
     public function removePostbackData($nameValuePair)

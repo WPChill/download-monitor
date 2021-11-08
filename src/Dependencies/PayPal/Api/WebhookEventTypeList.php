@@ -1,24 +1,24 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class WebhookEventTypeList
  *
  * List of webhook events.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[] event_types
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[] event_types
  */
 class WebhookEventTypeList extends PayPalModel
 {
     /**
      * A list of webhook events.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[] $event_types
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[] $event_types
      * 
      * @return $this
      */
@@ -31,7 +31,7 @@ class WebhookEventTypeList extends PayPalModel
     /**
      * A list of webhook events.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType[]
      */
     public function getEventTypes()
     {
@@ -41,7 +41,7 @@ class WebhookEventTypeList extends PayPalModel
     /**
      * Append EventTypes to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType $webhookEventType
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType $webhookEventType
      * @return $this
      */
     public function addEventType($webhookEventType)
@@ -58,7 +58,7 @@ class WebhookEventTypeList extends PayPalModel
     /**
      * Remove EventTypes from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType $webhookEventType
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventType $webhookEventType
      * @return $this
      */
     public function removeEventType($webhookEventType)

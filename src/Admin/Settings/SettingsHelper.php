@@ -17,17 +17,18 @@ class DLM_Settings_Helper {
 	 */
 	private function setup_defaults() {
 		$this->defaults = apply_filters( 'dlm_settings_defaults', array(
-			'dlm_shop_enabled'       => 0,
-			'no_access_page'         => 0,
-			'page_cart'              => 0,
-			'page_checkout'          => 0,
-			'currency'               => 'USD',
-			'currency_pos'           => 'left',
-			'decimal_separator'      => '.',
-			'thousand_separator'     => ',',
-			'default_gateway'        => 'paypal',
-			'disable_cart'           => '0',
-			'gateway_paypal_enabled' => '1',
+			'dlm_shop_enabled'          => 0,
+			'no_access_page'            => 0,
+			'page_cart'                 => 0,
+			'page_checkout'             => 0,
+			'currency'                  => 'USD',
+			'currency_pos'              => 'left',
+			'decimal_separator'         => '.',
+			'thousand_separator'        => ',',
+			'default_gateway'           => 'paypal',
+			'disable_cart'              => '0',
+			'gateway_paypal_enabled'    => '1',
+			'dlm_enable_window_logging' => 0,
 		) );
 	}
 

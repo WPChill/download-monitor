@@ -175,14 +175,14 @@ module.exports = function ( grunt ) {
 				'!postcss.config.js',
 				'!webpack.config.js',
 				'!set_tags.sh',
-				'!download-monitor.zip',
+				'!dlm-email-notification.zip',
 				'!old/**',
 				'!bin/**',
 				'!tests/**',
 				'!codeception.dist.yml',
 				'!regconfig.json',
 				'!nbproject/**' ],
-				dest: '<%= pkg.name %>/'
+				dest: '<%= pkg.name %>'
 			}
 		},
 

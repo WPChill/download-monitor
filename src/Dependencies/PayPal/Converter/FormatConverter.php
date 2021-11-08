@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Converter;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Converter;
 
 class FormatConverter
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
 
-use Never5\DownloadMonitor\Dependencies\PayPal;
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Dependencies\PayPal;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 use PHPUnit\Runner\Exception;
 
 class ExecutePaymentListener {
@@ -41,7 +41,7 @@ class ExecutePaymentListener {
 			$this->execute_failed( $order_id, $order_hash );
 		}
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Repository $order_repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Repository $order_repo */
 		$order_repo = Services::get()->service( 'order_repository' );
 		try {
 			$order = $order_repo->retrieve_single( $order_id );

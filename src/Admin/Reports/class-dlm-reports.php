@@ -8,13 +8,15 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 	/**
 	 * DLM_Reports
+	 * 
+	 * @since 4.5.0
 	 */
 	class DLM_Reports {
 
 		/**
 		 * Holds the class object.
 		 *
-		 * @since 4.4.6
+		 * @since 4.5.0
 		 *
 		 * @var object
 		 */
@@ -23,7 +25,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		/**
 		 * DLM_Reports constructor.
 		 *
-		 * @since 4.4.6
+		 * @since 4.5.0
 		 */
 		public function __construct() {
 
@@ -38,7 +40,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 *
 		 * @return object The DLM_Reports object.
 		 *
-		 * @since 4.4.6
+		 * @since 4.5.0
 		 */
 		public static function get_instance() {
 
@@ -52,6 +54,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 		/**
 		 * Set our global variable dlmReportsStats so we can manipulate given data
+		 * 
+		 * @since 4.5.0
 		 */
 		public function create_global_variable() {
 			wp_add_inline_script( 'dlm_reports', 'dlmReportsStats = ' . wp_json_encode( $this->report_stats() ), 'before' );
@@ -60,7 +64,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		/**
 		 * Register DLM Logs Routes
 		 *
-		 * @since 4.4.6
+		 * @since 4.5.0
 		 */
 		public function register_routes() {
 
@@ -81,7 +85,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 *
 		 * @return WP_REST_Response
 		 * @throws Exception
-		 * @since 4.4.6
+		 * @since 4.5.0
 		 */
 
 		public function rest_stats() {
@@ -95,7 +99,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @param $data
 		 *
 		 * @return WP_REST_Response
-		 * @since 4.4.6
+		 * @since 4.5.0
 		 */
 		public function respond( $data ) {
 
@@ -115,7 +119,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 *
 		 * @return array
 		 * @throws Exception
-		 * @since 4.4.6
+		 * @since 4.5.0
 		 */
 		public function report_stats() {
 

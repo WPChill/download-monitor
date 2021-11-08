@@ -64,7 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<td>
 				<label><?php _e( 'Download count', 'download-monitor' ); ?>:</label>
 				<input type="text" class="short" name="downloadable_file_download_count[<?php echo $version_increment; ?>]"
-				       placeholder="<?php echo $file_download_count; ?>"/>
+				       placeholder="<?php echo $file_download_count; ?>" readonly />
 			</td>
 		</tr>
 		<tr>

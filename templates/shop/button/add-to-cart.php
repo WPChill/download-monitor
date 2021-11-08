@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var \Never5\DownloadMonitor\Shop\Product\Product $product */
+/** @var \WPChill\DownloadMonitor\Shop\Product\Product $product */
 /** @var string $atc_url */
 ?>
 <p><a class="aligncenter download-button" href="<?php echo $atc_url; ?>" rel="nofollow">

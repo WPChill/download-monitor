@@ -7,12 +7,6 @@ class DLM_Log_Item {
 
 	/** @var int */
 	private $user_id;
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	/** @var string */
-	private $user_ip;
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	/** @var string */
-	private $user_agent;
 
 	/** @var int */
 	private $download_id;
@@ -22,13 +16,7 @@ class DLM_Log_Item {
 
 	/** @var string */
 	private $version;
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	/** @var string */
-	private $download_status;
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	/** @var string */
-	private $download_status_message;
-	// @todo razvan : See what this involves 
+
 	/** @var array */
 	private $meta_data = array();
 
@@ -58,38 +46,6 @@ class DLM_Log_Item {
 	 */
 	public function set_user_id( $user_id ) {
 		$this->user_id = $user_id;
-	}
-
-	/**
-	 * @return string
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	public function get_user_ip() {
-		return $this->user_ip;
-	}
-
-	/**
-	 * @param string $user_ip
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	public function set_user_ip( $user_ip ) {
-		$this->user_ip = $user_ip;
-	}
-
-	/**
-	 * @return string
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	public function get_user_agent() {
-		return $this->user_agent;
-	}
-
-	/**
-	 * @param string $user_agent
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	public function set_user_agent( $user_agent ) {
-		$this->user_agent = $user_agent;
 	}
 
 	/**
@@ -132,38 +88,6 @@ class DLM_Log_Item {
 	 */
 	public function set_version( $version ) {
 		$this->version = $version;
-	}
-
-	/**
-	 * @return string
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	public function get_download_status() {
-		return $this->download_status;
-	}
-
-	/**
-	 * @param string $download_status
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	public function set_download_status( $download_status ) {
-		$this->download_status = $download_status;
-	}
-
-	/**
-	 * @return string
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	public function get_download_status_message() {
-		return $this->download_status_message;
-	}
-
-	/**
-	 * @param string $download_status_message
-	 */
-	// @todo razvan : This will be deleted as logs page will not be visible to users and will be merged into reports
-	public function set_download_status_message( $download_status_message ) {
-		$this->download_status_message = $download_status_message;
 	}
 
 	/**

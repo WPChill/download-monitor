@@ -25,7 +25,8 @@
                 "league/flysystem": "^1.0",
                 "php": ">=5.5.0",
                 "symfony/console": "^3.2",
-                "symfony/finder": "^3.2"
+                "symfony/finder": "^3.2",
+                "google/apiclient" :"^2.11"
             },
             "require-dev": {
                 "coenjacobs/php-composter-phpcs": "^0.1.0",

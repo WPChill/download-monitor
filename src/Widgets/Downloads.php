@@ -70,6 +70,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 			'tax_query'      => array()
 		);
 
+		// @todo razvan : Download count will be retrieved/set from a custom wp table
 		if ( $orderby == 'download_count' ) {
 			$args['orderby']  = 'meta_value_num';
 			$args['meta_key'] = '_download_count';

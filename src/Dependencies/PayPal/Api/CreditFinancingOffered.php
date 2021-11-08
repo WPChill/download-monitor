@@ -1,20 +1,20 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class CreditFinancingOffered
  *
  * Credit financing offered to customer on PayPal side with opt-in/opt-out status
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency total_cost
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\number term
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency monthly_payment
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency total_interest
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency total_cost
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number term
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency monthly_payment
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency total_interest
  * @property bool payer_acceptance
  * @property bool cart_amount_immutable
  */
@@ -23,7 +23,7 @@ class CreditFinancingOffered extends PayPalModel
     /**
      * This is the estimated total payment amount including interest and fees the user will pay during the lifetime of the loan.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $total_cost
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $total_cost
      * 
      * @return $this
      */
@@ -36,7 +36,7 @@ class CreditFinancingOffered extends PayPalModel
     /**
      * This is the estimated total payment amount including interest and fees the user will pay during the lifetime of the loan.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getTotalCost()
     {
@@ -46,7 +46,7 @@ class CreditFinancingOffered extends PayPalModel
     /**
      * Length of financing terms in month
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\number $term
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number $term
      * 
      * @return $this
      */
@@ -59,7 +59,7 @@ class CreditFinancingOffered extends PayPalModel
     /**
      * Length of financing terms in month
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\number
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number
      */
     public function getTerm()
     {
@@ -69,7 +69,7 @@ class CreditFinancingOffered extends PayPalModel
     /**
      * This is the estimated amount per month that the customer will need to pay including fees and interest.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $monthly_payment
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $monthly_payment
      * 
      * @return $this
      */
@@ -82,7 +82,7 @@ class CreditFinancingOffered extends PayPalModel
     /**
      * This is the estimated amount per month that the customer will need to pay including fees and interest.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getMonthlyPayment()
     {
@@ -92,7 +92,7 @@ class CreditFinancingOffered extends PayPalModel
     /**
      * Estimated interest or fees amount the payer will have to pay during the lifetime of the loan.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $total_interest
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $total_interest
      * 
      * @return $this
      */
@@ -105,7 +105,7 @@ class CreditFinancingOffered extends PayPalModel
     /**
      * Estimated interest or fees amount the payer will have to pay during the lifetime of the loan.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getTotalInterest()
     {

@@ -11,7 +11,9 @@ class DLM_Reports_Page {
 	public function setup() {
 
 		// menu item.
-		add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
+		if ( DLM_Logging::is_logging_enabled() ) {
+			add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
+		}
 
 	}
 
@@ -25,8 +27,8 @@ class DLM_Reports_Page {
 
 		// Reports page page.
 		$links[] = array(
-			'page_title' => __( 'Reports', 'download-monitor' ),
-			'menu_title' => __( 'Reports', 'download-monitor' ),
+			'page_title' => __( 'Insights', 'download-monitor' ),
+			'menu_title' => __( 'Insights', 'download-monitor' ),
 			'capability' => 'dlm_view_reports',
 			'menu_slug'  => 'download-monitor-reports',
 			'function'   => ( DLM_DB_Upgrader::check_if_migrated() ) ? array( $this, 'view' ) : array( $this, 'upgrade_dv_view' ),
@@ -46,8 +48,8 @@ class DLM_Reports_Page {
 		$to   = $to_date->format( 'Y-m-d' );
 		$from = $to_date->modify( '-1 month' )->format( 'Y-m-d' );
 
-		$end = new DateTime( $to );
-		$start   = new DateTime( $from );
+		$end   = new DateTime( $to );
+		$start = new DateTime( $from );
 		?>
 		<div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
 			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
@@ -100,7 +102,7 @@ class DLM_Reports_Page {
 				</div>
 				<div class="dlm-reports-block dlm-reports-block-table"
 					 id="total_downloads_table" data-page="0">		
-					 <span class="dlm-reports-placeholder-no-data">NO DATA</span>
+					 <span class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
 				</div>
 			</div>
 

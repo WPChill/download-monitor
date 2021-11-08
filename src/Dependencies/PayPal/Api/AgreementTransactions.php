@@ -1,24 +1,24 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class AgreementTransactions
  *
  * A resource representing agreement_transactions that is returned during a transaction search.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction[] agreement_transaction_list
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction[] agreement_transaction_list
  */
 class AgreementTransactions extends PayPalModel
 {
     /**
      * Array of agreement_transaction object.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction[] $agreement_transaction_list
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction[] $agreement_transaction_list
      * 
      * @return $this
      */
@@ -31,7 +31,7 @@ class AgreementTransactions extends PayPalModel
     /**
      * Array of agreement_transaction object.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction[]
      */
     public function getAgreementTransactionList()
     {
@@ -41,7 +41,7 @@ class AgreementTransactions extends PayPalModel
     /**
      * Append AgreementTransactionList to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction $agreementTransaction
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction $agreementTransaction
      * @return $this
      */
     public function addAgreementTransactionList($agreementTransaction)
@@ -58,7 +58,7 @@ class AgreementTransactions extends PayPalModel
     /**
      * Remove AgreementTransactionList from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction $agreementTransaction
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AgreementTransaction $agreementTransaction
      * @return $this
      */
     public function removeAgreementTransactionList($agreementTransaction)

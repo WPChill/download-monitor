@@ -1,25 +1,25 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class BillingInfo
  *
  * Billing information for the invoice recipient.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string email
  * @property string first_name
  * @property string last_name
  * @property string business_name
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress address
  * @property string language
  * @property string additional_info
  * @property string notification_channel
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone phone
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone phone
  */
 class BillingInfo extends PayPalModel
 {
@@ -118,7 +118,7 @@ class BillingInfo extends PayPalModel
     /**
      * The invoice recipient address.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress $address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress $address
      * 
      * @return $this
      */
@@ -131,7 +131,7 @@ class BillingInfo extends PayPalModel
     /**
      * The invoice recipient address.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress
      */
     public function getAddress()
     {
@@ -212,7 +212,7 @@ class BillingInfo extends PayPalModel
     /**
      * Mobile Phone number of the recipient to which SMS will be sent if notification_channel is SMS.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
      * 
      * @return $this
      */
@@ -225,7 +225,7 @@ class BillingInfo extends PayPalModel
     /**
      * Mobile Phone number of the recipient to which SMS will be sent if notification_channel is SMS.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone
      */
     public function getPhone()
     {
