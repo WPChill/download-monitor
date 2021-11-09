@@ -498,7 +498,7 @@ class DLM_Download_Handler {
 
 		$this->download_headers( $file_path, $download, $version );
 		
-        do_action('dlm_after_download_headers');
+        do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
