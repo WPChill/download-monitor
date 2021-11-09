@@ -316,15 +316,7 @@ class DLM_Download_Handler {
 		// check if user downloaded this version in the past minute.
 		if ( DLM_Logging::is_download_window_enabled( $download ) ) {
 
-			
-			// bool if we need to increment download count
-			$increment_download_count = true;
-
-			// check if we need to increment the download count
-			if ( true === $increment_download_count ) {
-				// Increase download count
-				$version->increase_download_count();
-			}
+			$version->increase_download_count();
 
 			// Trigger Download Action
 			do_action( 'dlm_downloading', $download, $version, $file_path );

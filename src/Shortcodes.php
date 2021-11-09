@@ -35,6 +35,7 @@ class DLM_Shortcodes {
 	public function total_downloads() {
 		global $wpdb;
 
+		// @todo razvan : The total downloads sum will be derived from the download_log table
 		$total = $wpdb->get_var( "
 			SELECT SUM( meta_value ) FROM $wpdb->postmeta
 			LEFT JOIN $wpdb->posts on $wpdb->postmeta.post_id = $wpdb->posts.ID

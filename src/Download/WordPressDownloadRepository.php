@@ -77,6 +77,18 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	}
 
 	/**
+	 * Retreieve the version download count
+	 *
+	 * @param  mixed $version_id
+	 * @return array
+	 */
+	public function retrieve_download_count( $download_id ) {
+		global $wpdb;
+
+		return  $wpdb->query( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s", $download_id ) );
+	}
+
+	/**
 	 * Retrieve downloads
 	 *
 	 * @param array $filters
@@ -119,7 +131,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_featured( ( 'yes' == get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) ) );
 				// @todo razvan : download count should be set, for both downloads and reports, from a single source.
-				$download->set_download_count( absint( get_post_meta( $post->ID, '_download_count', true ) ) );
+				$download->set_download_count( absint( $this->retrieve_download_count( $post->ID ) ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
 				$download->post = $post;
@@ -182,10 +194,6 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		update_post_meta( $download_id, '_featured', ( ( $download->is_featured() ) ? 'yes' : 'no' ) );
 		update_post_meta( $download_id, '_members_only', ( ( $download->is_members_only() ) ? 'yes' : 'no' ) );
 		update_post_meta( $download_id, '_redirect_only', ( ( $download->is_redirect_only() ) ? 'yes' : 'no' ) );
-
-		// other download meta
-		// @todo razvan : Download count from a custm wp table
-		update_post_meta( $download_id, '_download_count', $download->get_download_count() );
 
 		// clear versions transient
 		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );

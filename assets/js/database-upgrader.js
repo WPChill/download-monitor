@@ -86,6 +86,31 @@
 				dlmDBUpgrader.ajaxRequests.push( opts );
 			}
 
+			var alter_table_opts = {
+				url     : dlmDBUpgrader.ajax,
+				type    : 'post',
+				async   : true,
+				cache   : false,
+				dataType: 'json',
+				data    : {
+					action: 'dlm_alter_download_log',
+					nonce : dlm_upgrader.nonce,
+				},
+				success : function () {
+
+					dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
+
+					dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
+
+					ProgressBar.progressHandler( (dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber );
+
+				}
+			};
+
+			dlmDBUpgrader.counts += 1;
+
+			dlmDBUpgrader.ajaxRequests.push( alter_table_opts );
+
 			dlmDBUpgrader.runAjaxs();
 
 		},

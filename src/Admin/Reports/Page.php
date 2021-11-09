@@ -70,7 +70,7 @@ class DLM_Reports_Page {
 
 			<h1>
 				<?php
-					esc_html_e( 'Download Reports', 'download-monitor' );
+					esc_html_e( 'Insights', 'download-monitor' );
 					echo '<div class="wp-clearfix text-right"><div class="dlm-reports-actions">';
 					$this->date_range_button();
 					echo '</div></div>';

@@ -64,17 +64,16 @@ class WP_DLM {
 		// Setup Services
 		$this->services = new DLM_Services();
 
-		// Load plugin text domain
+		// Load plugin text domain.
 		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
 		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( DLM_PLUGIN_FILE ) ) . '/languages' );
 
-		// Table for logs
-		$wpdb->download_log = $wpdb->prefix . 'download_log';
-		// New Table for logs
+		// Table for Download Infos.
+		$wpdb->download_log = "{$wpdb->prefix}download_log";
+		// New Table for logs.
 		$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
-		// @todo razvan : maybe new table for detailed Download info ?
 
-		// Setup admin classes
+		// Setup admin classes.
 		if ( is_admin() ) {
 
 			// check if multisite and needs to create DB table

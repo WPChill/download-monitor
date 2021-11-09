@@ -396,6 +396,7 @@ class DLM_Admin_Writepanels {
 					continue;
 				}
 
+				
 				// format correct file date
 				if ( empty( $file_date ) ) {
 					$file_date_obj = new DateTime( current_time( 'mysql' ) );
@@ -419,7 +420,7 @@ class DLM_Admin_Writepanels {
 					if ( '' !== $file_download_count ) {
 						$version->set_download_count( $file_download_count );
 					}
-
+					
 					// persist version
 					download_monitor()->service( 'version_repository' )->persist( $version );
 

@@ -101,7 +101,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * Retrieve download info from custom table
 	 *
 	 * @param  mixed $download_id The ID of the Download.
-	 * @return void
+	 * @return mixed
 	 * @since 4.5.0
 	 */
 	public function retrieve_single_download( $download_id ) {
@@ -112,7 +112,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wbdb->dlm_single_download} dlm_download INNER JOIN {$wpdb->posts} dlm_post ON dlm_download.download_id = dlm_post.ID WHERE dlm_download.download_id = %s", $download_id ), ARRAY_A );
 
 		if ( null === $result || empty( $result ) ) {
-			return;
+			return false;
 		}
 
 		return $result;
@@ -123,7 +123,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * Retrieve download info from custom table
 	 *
 	 * @param  mixed $date The date for the desired report.
-	 * @return void
+	 * @return mixed
 	 * @since 4.5.0
 	 */
 	public function retrieve_single_day( $date ) {
@@ -134,7 +134,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wbdb->dlm_reports} dlm_download WHERE dlm_download.date = %s", $date ), ARRAY_A );
 
 		if ( null === $result || empty( $result ) ) {
-			return;
+			return false;
 		}
 
 		return $result;

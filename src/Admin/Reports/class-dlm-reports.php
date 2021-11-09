@@ -8,7 +8,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 	/**
 	 * DLM_Reports
-	 * 
+	 *
 	 * @since 4.5.0
 	 */
 	class DLM_Reports {
@@ -28,10 +28,13 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.5.0
 		 */
 		public function __construct() {
+			global $wpdb;
 
-			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+			if ( DLM_Logging::is_logging_enabled() && $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->dlm_reports ) ) ) {
+				add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 
-			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
+				add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
+			}
 
 		}
 
@@ -54,7 +57,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 		/**
 		 * Set our global variable dlmReportsStats so we can manipulate given data
-		 * 
+		 *
 		 * @since 4.5.0
 		 */
 		public function create_global_variable() {

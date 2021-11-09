@@ -32,6 +32,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			add_action( 'wp_ajax_dlm_db_log_entries', array( $this, 'count_log_entries' ) );
 			add_action( 'wp_ajax_dlm_upgrade_db', array( $this, 'update_log_table_db' ) );
+			add_Action( 'wp_ajax_dlm_alter_download_log', array( $this, 'alter_download_log_table' ) );
 
 			if ( false === get_option( 'dlm_db_upgraded' ) ) {
 				// Also add the new option to the DB and set it to 0.
@@ -65,7 +66,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 		/**
 		 * Check the old table entries
-		 * 
+		 *
 		 * @since 4.5.0
 		 */
 		public function count_log_entries() {
@@ -73,10 +74,9 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
 
 			global $wpdb;
-			$log_table   = "{$wpdb->prefix}download_log";
 			$posts_table = "{$wpdb->prefix}posts";
 
-			if ( ! $this->check_for_table( $log_table ) ) {
+			if ( ! $this->check_for_table( $wpdb->download_log ) ) {
 
 				wp_send_json( false );
 				exit;
@@ -85,10 +85,29 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Made it here, now let's create the table and start migrating.
 			$this->create_new_table( $wpdb->dlm_reports );
 
-			$results = $wpdb->get_results( $wpdb->prepare( "SELECT  COUNT(dlm_log.ID) as `entries` FROM $log_table dlm_log INNER JOIN $posts_table dlm_posts ON dlm_log.download_id = dlm_posts.ID" ), ARRAY_A );
+			$results = $wpdb->get_results( $wpdb->prepare( "SELECT  COUNT(dlm_log.ID) as `entries` FROM {$wpdb->download_log} dlm_log INNER JOIN $posts_table dlm_posts ON dlm_log.download_id = dlm_posts.ID" ), ARRAY_A );
 
 			wp_send_json( $results[0]['entries'] );
 			exit;
+		}
+
+
+		/**
+		 * Alter the download_log table after the migration has taken place
+		 *
+		 * @return void
+		 */
+		public function alter_download_log_table() {
+
+			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
+
+			global $wpdb;
+
+			// Drop not needed columns in table.
+			$wpdb->query( "ALTER TABLE {$wpdb->download_log} DROP COLUMN user_agent, DROP COLUMN download_status, DROP COLUMN download_status_message;" );
+
+			wp_die();
+
 		}
 
 		/**
@@ -155,7 +174,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// First we need to check if table exists.
 			if ( null !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->prefix . 'dlm_reports_log' ) ) ) {
 
-				return true;
+				// return true;
 			}
 
 			if ( '1' === get_option( 'dlm_db_upgraded' ) ) {
@@ -167,7 +186,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 		/**
 		 * The new table update functionality
-		 * 
+		 *
 		 * @since 4.5.0
 		 */
 		public function update_log_table_db() {
@@ -238,7 +257,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 		/**
 		 * Add the DB Upgrader notice
-		 * 
+		 *
 		 * @since 4.5.0
 		 */
 		public function add_db_update_notice() {
@@ -264,7 +283,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 		/**
 		 * Enqueue the DB Upgrader scripts
-		 * 
+		 *
 		 * @since 4.5.0
 		 */
 		public function enqueue_db_upgrader_scripts() {

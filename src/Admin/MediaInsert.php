@@ -96,9 +96,7 @@ class DLM_Admin_Media_Insert {
 					update_post_meta( $download_id, '_featured', 'no' );
 					update_post_meta( $download_id, '_members_only', 'no' );
 					update_post_meta( $download_id, '_redirect_only', 'no' );
-					// @todo razvan: Download count will be set and retrieved from a custom wp table
-					update_post_meta( $download_id, '_download_count', 0 );
-
+					
 					// File
 					$file = array(
 						'post_title'   => 'Download #' . $download_id . ' File Version',
