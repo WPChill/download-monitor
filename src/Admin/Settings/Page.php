@@ -124,7 +124,8 @@ class DLM_Settings_Page {
 						if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
 
 							?>
-							<ul class="nav-section-wrapper">
+							<div class="wp-clearfix">
+							<ul class="subsubsub dlm-settings-sub-nav">
 								<?php foreach ( $settings[ $tab ]['sections'] as $section_key => $section ) : ?>
 									<?php echo "<li" . ( ( $active_section == $section_key ) ? " class='active-section'" : "" ) . ">"; ?>
 									<a href="<?php echo esc_url( add_query_arg( array(
@@ -133,6 +134,7 @@ class DLM_Settings_Page {
 									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?></a></liM>
 								<?php endforeach; ?>
 							</ul>
+								</div><!--.wp-clearfix-->
 							<h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
 							<?php
 						}
@@ -254,7 +256,7 @@ class DLM_Settings_Page {
 				echo '<a href="' . esc_url( add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . ( isset( $section['badge'] ) ? ' <span class="dlm-upsell-badge">PRO</span>' : '' ) . '</a>';
 			}
 			?>
-		</h2><br/>
+		</h2>
 		<?php
 	}
 
