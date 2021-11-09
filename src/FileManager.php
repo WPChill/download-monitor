@@ -54,7 +54,8 @@ class DLM_File_Manager {
 		$wp_uploads_url = $wp_uploads['baseurl'];
 
 		// Fix for plugins that modify the uploads dir
-		if ( false === strpos( $wp_uploads_url,get_site_url() ) ) {
+		// add filter in order to return files
+		if ( apply_filters( 'dlm_check_file_paths', false, $file_path, $remote_file ) ) {
 			return array( $file_path, $remote_file );
 		}
 
