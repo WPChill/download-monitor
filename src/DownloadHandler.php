@@ -221,14 +221,14 @@ class DLM_Download_Handler {
 	private function log( $download, $version ) {
 
 		// Check if logging is enabled.
-		if ( DLM_Logging::is_logging_enabled() && DLM_Logging::is_download_window_enabled( $download ) ) {
-
+		if ( DLM_Logging::is_logging_enabled() ) {
 			// setup new log item object
 			$log_item = new DLM_Log_Item();
 			$log_item->set_user_id( absint( get_current_user_id() ) );
 			$log_item->set_download_id( absint( $download->get_id() ) );
 			$log_item->set_version_id( absint( $version->get_id() ) );
 			$log_item->set_version( $version->get_version() );
+			$version->increase_download_count();
 
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
@@ -316,17 +316,16 @@ class DLM_Download_Handler {
 		// check if user downloaded this version in the past minute.
 		if ( DLM_Logging::is_download_window_enabled( $download ) ) {
 
-			$version->increase_download_count();
-
-			// Trigger Download Action
+			// Trigger Download Action.
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 
-			// Set cookie to prevent double logging
+			// Set cookie to prevent double logging.
 			DLM_Cookie_Manager::set_cookie( $download );
 		}
 
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
+
 			$this->log( $download, $version );
 
 			// Ensure we have a valid URL, not a file path
@@ -344,18 +343,21 @@ class DLM_Download_Handler {
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
+
 				$this->log( $download, $version );
 
 				header( "X-Sendfile: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
+
 				$this->log( $download, $version );
 
 				header( "X-LIGHTTPD-send-file: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
+
 				$this->log( $download, $version );
 
 				$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );

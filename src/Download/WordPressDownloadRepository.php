@@ -85,7 +85,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	public function retrieve_download_count( $download_id ) {
 		global $wpdb;
 
-		return  $wpdb->query( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s", $download_id ) );
+		return  $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s", $download_id ) );
 	}
 
 	/**
@@ -130,7 +130,6 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_redirect_only( ( 'yes' == get_post_meta( $post->ID, '_redirect_only', true ) ) );
 				$download->set_featured( ( 'yes' == get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' == get_post_meta( $post->ID, '_members_only', true ) ) );
-				// @todo razvan : download count should be set, for both downloads and reports, from a single source.
 				$download->set_download_count( absint( $this->retrieve_download_count( $post->ID ) ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
@@ -200,5 +199,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 
 		return true;
 	}
+
+	public function 
 
 }

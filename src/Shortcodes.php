@@ -27,22 +27,22 @@ class DLM_Shortcodes {
 	}
 
 	/**
-	 * total_downloads function.
+	 * Total downloads function
+	 * Will be based on the download_log table and not meta.
 	 *
 	 * @access public
 	 * @return int
 	 */
 	public function total_downloads() {
+
 		global $wpdb;
 
-		// @todo razvan : The total downloads sum will be derived from the download_log table
-		$total = $wpdb->get_var( "
-			SELECT SUM( meta_value ) FROM $wpdb->postmeta
-			LEFT JOIN $wpdb->posts on $wpdb->postmeta.post_id = $wpdb->posts.ID
-			WHERE meta_key = '_download_count'
-			AND post_type = 'dlm_download'
-			AND post_status = 'publish'
-		" );
+		$total = false;
+
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+
+			$total = $wpdb->get_var( "SELECT COUNT('ID') FROM $wpdb->download_log" );
+		}
 
 		return apply_filters( 'dlm_shortcode_total_downloads', $total );
 	}
@@ -325,7 +325,7 @@ class DLM_Shortcodes {
 				break;
 			case 'hits' :
 			case 'count' :
-				// @todo razvan : Change the download, as it will be retrieved from custom wp table
+				// @todo razvan : -- see orderby_backwards_compatibility
 			case 'download_count' :
 				$orderby  = 'meta_value_num';
 				$meta_key = '_download_count';

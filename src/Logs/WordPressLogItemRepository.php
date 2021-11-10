@@ -4,6 +4,69 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 
 	/**
+	 * Returns number of rows for given filters
+	 *
+	 * @param array $filters
+	 *
+	 * @return int
+	 */
+	public function num_rows( $filters = array() ) {
+		global $wpdb;
+
+		return $wpdb->get_var( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} ;" );
+	}
+
+	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @param string $order_by
+	 * @param string $order
+	 *
+	 * @return array
+	 */
+	public function retrieve( $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
+		global $wpdb;
+
+		$items = array();
+
+		// setup limit & offset.
+		$limit_str = "";
+		$limit     = absint( $limit );
+		$offset    = absint( $offset );
+		if ( $limit > 0 ) {
+			$limit_str = "LIMIT {$offset},{$limit}";
+		}
+
+		// escape order_by
+		$order_by = esc_sql( $order_by );
+
+		// order can only be ASC or DESC
+		$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
+
+		// query
+		$data = $wpdb->get_results(
+			"SELECT * FROM {$wpdb->download_log} ORDER BY `{$order_by}` {$order} {$limit_str};"
+		);
+
+		if ( count( $data ) > 0 ) {
+			foreach ( $data as $row ) {
+				$log_item = new DLM_Log_Item();
+				$log_item->set_id( $row->ID );
+				$log_item->set_user_id( $row->user_id );
+				$log_item->set_download_id( $row->download_id );
+				$log_item->set_version_id( $row->version_id );
+				$log_item->set_version( $row->version );
+				$log_item->set_download_date( new DateTime( $row->download_date ) );
+				$log_item->set_meta_data( json_decode( $row->meta_data ) );
+				$items[] = $log_item;
+			}
+		}
+
+		return $items;
+	}
+
+
+	/**
 	 * Download logging
 	 *
 	 * @param DLM_Log_Item $log_item
@@ -24,10 +87,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		// Set the log date. Should be current date, as logs will be separated by dates.
 		$log_date = date( 'Y-m-d' ) . ' 00:00:00';
-		// Our new table.
-		$sql_update = "UPDATE {$wpdb->dlm_reports} dlm SET dlm.download_ids = %s WHERE dlm.date = %s";
-
-		$today = $wpdb->get_results( $wpdb->prepare( "SELECT  * FROM {$wpdb->dlm_reports} WHERE date = %s;", $log_date ), ARRAY_A );
+		$today    = $wpdb->get_results( $wpdb->prepare( "SELECT  * FROM {$wpdb->dlm_reports} WHERE date = %s;", $log_date ), ARRAY_A );
 
 		// check if entry exists.
 		if ( null !== $today && ! empty( $today ) ) {
@@ -44,7 +104,15 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 				);
 			}
 
-			$result = $wpdb->query( $wpdb->prepare( $sql_update, wp_json_encode( $downloads ), $log_date ) );
+			$result = $wpdb->update(
+				$wpdb->dlm_reports,
+				array(
+					'download_ids' => wp_json_encode( $downloads ),
+				),
+				array(
+					'date' => $log_date,
+				),
+			);
 
 			if ( false === $result ) {
 				throw new Exception( 'Unable to insert log item in WordPress database' );
@@ -104,7 +172,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 * @return mixed
 	 * @since 4.5.0
 	 */
-	public function retrieve_single_download( $download_id ) {
+	public function retrieve_single( $download_id ) {
 
 		global $wpdb;
 

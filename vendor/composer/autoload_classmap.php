@@ -365,4 +365,5 @@ return array(
     'WP_DLM' => $baseDir . '/src/DLM.php',
     'DLM_Admin_Helper' => $baseDir . '/src/Admin/class-dlm-admin-helper.php',
     'DLM_Uninstall' => $baseDir . '/includes/admin/uninstall/class-dlm-uninstall.php',
+    'DLM_Backwards_Compatibility' => $baseDir .'/includes/backwards-compatibility/class-dlm-backwards-compatibility.php',
 );

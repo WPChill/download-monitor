@@ -551,15 +551,16 @@ class DLM_Reports {
 	 */
 	setTodayDownloads() {
 
-		if (0 <= Object.keys(this.reportsData)) {
+
+		if (0 <= Object.keys(dlmReportsStats)) {
 
 			jQuery('.dlm-reports-block-summary li#today span').html('0');
 			return;
 		}
 
-		const lastDate = this.reportsData[this.reportsData.length - 1];
+		const lastDate = dlmReportsStats[dlmReportsStats.length - 1];
 		let todayDownloads = 0;
-
+		
 		if (this.createDateElement(new Date(lastDate.date)) === this.createDateElement(new Date())) {
 
 			Object.values(JSON.parse(lastDate.download_ids)).map(element => {
@@ -628,7 +629,7 @@ class DLM_Reports {
 				} else if (j === 1) {
 					td.innerHTML = table_data[i].id;
 				} else if (j === 2) {
-					td.innerHTML = table_data[i].title;
+					td.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + table_data[i].id + '&action=edit" target="_blank">' + table_data[i].title + '</a>';
 				} else {
 					td.innerHTML = table_data[i].downloads;
 				}

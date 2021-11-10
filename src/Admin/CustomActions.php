@@ -131,7 +131,7 @@ class DLM_Custom_Actions {
 			if ( 'download_id' == $vars['orderby'] ) {
 				$vars['orderby'] = 'ID';
 			} elseif ( 'download_count' == $vars['orderby'] ) {
-				// @todo razvan : download count will be retrieved from custom wp table
+				// @todo razvan :-- see orderby_backwards_compatibility
 				$vars = array_merge( $vars, array(
 					'meta_key' => '_download_count',
 					'orderby'  => 'meta_value_num'

@@ -31,10 +31,10 @@ class DLM_Logging {
 	public static function is_download_window_enabled( $download ) {
 
 		if ( '1' === get_option( 'dlm_enable_window_logging', '' ) && false !== DLM_Cookie_Manager::exists( $download ) ) {
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 
 	}
 

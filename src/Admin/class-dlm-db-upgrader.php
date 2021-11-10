@@ -76,7 +76,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			global $wpdb;
 			$posts_table = "{$wpdb->prefix}posts";
 
-			if ( ! $this->check_for_table( $wpdb->download_log ) ) {
+			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
 
 				wp_send_json( false );
 				exit;
@@ -124,7 +124,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			update_option( 'dlm_db_upgraded', '1' );
 
 			// Let check if table does not exist.
-			if ( ! $this->check_for_table( $table ) ) {
+			if ( ! DLM_Utils::table_checker( $table ) ) {
 
 				$charset_collate = $wpdb->get_charset_collate();
 
@@ -140,25 +140,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				dbDelta( $sql );
 			}
 
-		}
-
-		/**
-		 * Check for existing table
-		 *
-		 * @param  mixed $table
-		 * @return bool
-		 * @since 4.5.0
-		 */
-		public function check_for_table( $table ) {
-			global $wpdb;
-
-			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) ) {
-
-				return true;
-
-			}
-
-			return false;
 		}
 
 		/**
