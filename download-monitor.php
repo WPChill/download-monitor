@@ -37,6 +37,7 @@ define( 'DLM_VERSION', '4.4.12' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
+define( 'DLM_URL' , plugin_dir_url( __FILE__ ) );
 
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
@@ -47,7 +48,6 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 /**
  * This function allows you to track usage of your plugin
  * Place in your main plugin file
- * Refer to https://wisdomplugin.com/support for help
  */
 if( ! class_exists( 'Download_Monitor_Usage_Tracker') ) {
 	require_once dirname( __FILE__ ) . '/includes/tracking/class-download-monitor-usage-tracker.php';

@@ -68,7 +68,53 @@
 .post-type-dlm_download .inline-edit-row .inline-edit-col-dlm .inline-edit-col-dlm-inner {
   margin-top: 10px;
 }
+
+/* Branding bar */
+body.post-type-dlm_download:not(.post-new-php):not(.post-php) #wpcontent {
+  padding-left: 0;
+}
+
+body.post-type-dlm_download .wrap.dlm-admin-settings,
+body.post-type-dlm_download #available-extensions,
+body.post-type-dlm_download #posts-filter,
+body.post-type-dlm_download #wpbody-content .wrap > ul.subsubsub {
+  padding-left: 20px;
+}
+
+body.post-type-dlm_download.post-new-php .dlm-page-header, 
+body.post-type-dlm_download.post-php .dlm-page-header {
+  margin-left: -20px;
+padding-right: 20px;
+margin-right: -20px;
+}
+
+body.post-type-dlm_download .dlm-page-header {
+	border-bottom : 1px solid #ccc;
+  padding         : 15px 20px;
+  display         : flex;
+	justify-content : space-between;
+	background      : #fff;
+	width           : 100%;
+}
+
+body.post-type-dlm_download .dlm-page-header .dlm-header-links {
+  margin-right: 30px;
+}
+
+body.post-type-dlm_download .dlm-page-header .dlm-header-links a span{vertical-align: middle;}
+
+body.post-type-dlm_download .dlm-page-header .dlm-header-logo img {
+	max-height : 35px;
+}
+
+
+.dlm-header-links .dashicons { font-size: 16px; }
+
+
 /* Settings */
+
+
+
 .dlm-settings-sub-nav {
 margin: 0 0 10px 0;
 width: 100%;
@@ -629,7 +675,6 @@ table.wp-list-table .column-thumb img {
   float: right;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 strong {
-  font-weight: normal;
   line-height: 24px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 select {
@@ -720,15 +765,8 @@ table.wp-list-table .column-thumb img {
   /* main file */
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox:first-child h3 {
-  background: #EAF2FA;
-  background-image: linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -o-linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -moz-linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -webkit-linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -ms-linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #dae6f2), color-stop(1, #eaf2fa));
-  border-color: #d3deea;
-  color: #21759B;
+  background-color: #FAFAFA;
+  border-bottom: 1px solid #dcdcde;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .plus:before {
   font-family: dashicons !important;
@@ -1438,6 +1476,7 @@ table.wp-list-table .column-thumb img {
   }
 }
 /* Extensions */
+.dlm_download_page_dlm-extensions .theme.dlm_extension {background-color: #FFF;}
 .dlm_extensions_wrap h1 a.dlm-reload-button {
   float: right;
 }
@@ -1445,9 +1484,7 @@ table.wp-list-table .column-thumb img {
   padding: 15px 0;
   overflow: hidden;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension {
-  cursor: auto !important;
-}
+
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension a {
   color: #444;
   text-decoration: none;
@@ -1469,8 +1506,16 @@ table.wp-list-table .column-thumb img {
   padding: 0 20px;
 }
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer {
-  padding: 0 20px 15px;
+  padding: 15px 15px 15px 0;
+  text-align: right;
+  background-color: #FAFAFA;
+  border-top: 1px solid #dcdcde;
 }
+.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .button .dashicons {
+  vertical-align: middle;
+  font-size: 16px;
+}
+
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_price {
   font-weight: bold;
 }
@@ -1480,12 +1525,7 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_price.sale strike {
   color: #444;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_more {
-  color: #459ac9;
-  text-decoration: none;
-  font-weight: bold;
-  float: right;
-}
+
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license {
   padding: 0 20px 20px;
   -webkit-box-sizing: border-box;

@@ -304,8 +304,8 @@ class DLM_Admin_Extensions {
 						echo '<h3>' . esc_html( $extension->name ) . '</h3>';
 						echo '<p class="extension-desc">' . esc_html( $extension->desc ) . '</p>';
 						echo '<div class="product_footer">';
-						echo '<span class="loop_price' . ( ( $sale ) ? ' sale' : '' ) . '">' . esc_html( $price_display ) . ' / ' . esc_html__( 'year', 'download-monitor' ) . '</span>';
-						echo '<span class="loop_more">' . esc_html__( 'Get This Extension', 'download-monitor' ) . '</span>';
+						//echo '<span class="loop_price' . ( ( $sale ) ? ' sale' : '' ) . '">' . esc_html( $price_display ) . ' / ' . esc_html__( 'year', 'download-monitor' ) . '</span>';
+						echo '<div class="button button-secondary loop_more">' . esc_html__( 'Get This Extension', 'download-monitor' ) . '<span class="dashicons dashicons-external"></span></div>';
 						echo '</div>';
 						echo '</a>';
 						echo '</div>';
