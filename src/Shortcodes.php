@@ -445,7 +445,7 @@ class DLM_Shortcodes {
 		}
 
 		// fetch downloads
-		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $args, $per_page, $offset );
+		$downloads   = download_monitor()->service( 'download_repository' )->retrieve( $args, $per_page, $offset );
 
 		// make all downloads filterable
 		$downloads = apply_filters( 'dlm_shortcode_downloads_downloads', $downloads );

@@ -34,28 +34,7 @@ class DLM_Admin_Dashboard {
 	 */
 	public function popular_downloads() {
 
-		$filters   = apply_filters( 'dlm_admin_dashboard_popular_downloads_filters', array(
-			'no_found_rows' => 1,
-			'orderby'       => array(
-				'orderby_meta' => 'DESC'
-			),
-			// @todo razvan : -- see orderby_backwards_compatibility
-			'meta_query'    => array(
-				'orderby_meta' => array(
-					'key'  => '_download_count',
-					'type' => 'NUMERIC'
-				),
-				array(
-					'key'     => '_download_count',
-					'value'   => '0',
-					'compare' => '>',
-					'type'    => 'NUMERIC'
-				)
-			),
-		) );
-
-
-		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
+		$downloads = apply_filters( 'dlm_dashboard_popular_downloads', download_monitor()->service( 'download_repository' )->get_orderly_downloads( 'DESC', '10' ) );
 
 		if ( empty( $downloads ) ) {
 			echo '<p>' . __( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
