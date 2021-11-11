@@ -19,12 +19,14 @@ class DLM_Gutenberg {
 			return;
 		}
 
+		$asset_file = include plugin_dir_path( DLM_PLUGIN_FILE ) . 'assets/blocks/dist/blocks.asset.php';
+
 		// register Gutenberg JS
 		wp_register_script(
 			'dlm_gutenberg_blocks',
-			plugins_url( '/assets/blocks/dist/blocks.build.js', download_monitor()->get_plugin_file() ),
-			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
-			DLM_VERSION
+			plugins_url( '/assets/blocks/dist/blocks.js', download_monitor()->get_plugin_file() ),
+			$asset_file['dependencies'],
+			$asset_file['version'],
 		);
 
 		wp_register_style(

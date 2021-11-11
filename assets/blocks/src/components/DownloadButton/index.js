@@ -1,66 +1,67 @@
+import { useState } from '@wordpress/element';
 
-//import { Component } from '@wordpress/element';
-const { Component } = wp.element;
+const DownloadButton = ( {
+	download_id,
+	version_id,
+	template,
+	custom_template,
+} ) => {
+	const [ calculatedHeight, setCalculatedHeight ] = useState( {
+		cacheKey: '',
+		height: 100,
+	} );
 
-export default class DownloadButton extends Component {
+	const getIframeUrl = () => {
+		let iframeURL = window.dlmBlocks.urlButtonPreview;
 
-	constructor(props) {
-		super(props);
-
-		this.updateHeight = this.updateHeight.bind(this);
-		this.getIframeUrl = this.getIframeUrl.bind(this);
-
-		this.state = { calculatedHeight: {
-			cacheKey: "",
-			height: 100,
-		}};
-	}
-
-	getIframeUrl() {
-		let iframeURL = dlmBlocks.urlButtonPreview;
-
-		if(this.props.download_id != 0) {
-			iframeURL += "&download_id=" + this.props.download_id;
+		if ( download_id !== 0 ) {
+			iframeURL += '&download_id=' + download_id;
 		}
 
-		if(this.props.version_id != 0) {
-			iframeURL += "&version_id=" + this.props.version_id;
+		if ( version_id !== 0 ) {
+			iframeURL += '&version_id=' + version_id;
 		}
 
-		if(this.props.template != "") {
-			iframeURL += "&template=" + this.props.template;
+		if ( template !== '' ) {
+			iframeURL += '&template=' + template;
 		}
 
-		if(this.props.custom_template != "") {
-			iframeURL += "&custom_template=" + this.props.custom_template;
+		if ( custom_template !== '' ) {
+			iframeURL += '&custom_template=' + custom_template;
 		}
 
 		return iframeURL;
-	}
+	};
 
-	updateHeight(target) {
-
-		let cacheKey = encodeURI(this.getIframeUrl());
+	const updateHeight = ( target ) => {
+		const cacheKey = encodeURI( getIframeUrl() );
 
 		// check if we need to reset height to new URL
-		if(this.state.chacheKey != cacheKey) {
-			this.setState({calculatedHeight: {
-				cacheKey: cacheKey,
-				height: target.contentDocument.getElementById("dlmPreviewContainer").scrollHeight,
-			}});
+		if ( calculatedHeight.chacheKey !== cacheKey ) {
+			setCalculatedHeight( {
+				cacheKey,
+				height: target.contentDocument.getElementById(
+					'dlmPreviewContainer'
+				).scrollHeight,
+			} );
 		}
-	}
+	};
 
-	render() {
+	const iframeURL = getIframeUrl();
+	const frameHeight = calculatedHeight.height + 'px';
 
-		let iframeURL = this.getIframeUrl();
-		let frameHeight = this.state.calculatedHeight.height + "px";
+	return (
+		<div className="dlmPreviewButton">
+			<iframe
+				src={ iframeURL }
+				width="100%"
+				height={ frameHeight }
+				onLoad={ ( e ) => {
+					updateHeight( e.target );
+				} }
+			></iframe>
+		</div>
+	);
+};
 
-		return(
-			<div className="dlmPreviewButton">
-				<iframe src={iframeURL} width="100%" height={frameHeight} onLoad={(e)=>{this.updateHeight(e.target)}}></iframe>
-			</div>
-		);
-	}
-
-}
+export default DownloadButton;
