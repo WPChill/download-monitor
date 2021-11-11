@@ -68,31 +68,129 @@
 .post-type-dlm_download .inline-edit-row .inline-edit-col-dlm .inline-edit-col-dlm-inner {
   margin-top: 10px;
 }
+
+/* Branding bar */
+body.post-type-dlm_download:not(.post-new-php):not(.post-php) #wpcontent {
+  padding-left: 0;
+}
+
+body.post-type-dlm_download .wrap.dlm-admin-settings,
+body.post-type-dlm_download #available-extensions,
+body.post-type-dlm_download #posts-filter,
+body.post-type-dlm_download #wpbody-content .wrap > ul.subsubsub {
+  padding-left: 20px;
+}
+
+body.post-type-dlm_download.post-new-php .dlm-page-header, 
+body.post-type-dlm_download.post-php .dlm-page-header {
+  margin-left: -20px;
+padding-right: 20px;
+margin-right: -20px;
+}
+
+body.post-type-dlm_download .dlm-page-header {
+	border-bottom : 1px solid #ccc;
+  padding         : 15px 20px;
+  display         : flex;
+	justify-content : space-between;
+	background      : #fff;
+	width           : 100%;
+}
+
+body.post-type-dlm_download .dlm-page-header .dlm-header-links {
+  margin-right: 30px;
+}
+
+body.post-type-dlm_download .dlm-page-header .dlm-header-links a span{vertical-align: middle;}
+
+body.post-type-dlm_download .dlm-page-header .dlm-header-logo img {
+	max-height : 35px;
+}
+
+
+.dlm-header-links .dashicons { font-size: 16px; }
+
+
 /* Settings */
-.nav-section-wrapper {
-  padding: 0;
-  margin: 0;
+
+
+
+.dlm-settings-sub-nav {
+margin: 0 0 10px 0;
+width: 100%;
+border-bottom: 1px solid #ccc;
+box-shadow: 0 1px 1px rgba(0,0,0,.04);
 }
-.nav-section-wrapper li {
-  display: inline-block;
-  padding: 0 0 0 2px;
-  margin: 0 2px;
+
+.dlm-settings-sub-nav li {
+  margin-right: 10px;
+  margin-bottom: -2px;
 }
-.nav-section-wrapper li a {
-  text-decoration: none;
+
+.dlm-settings-sub-nav a {
+  padding: 13px;
+  display: block;
 }
-.nav-section-wrapper li.active-section a {
-  font-weight: bold;
-  color: #000;
+.dlm-settings-sub-nav .active-section {margin-bottom: -2px;}
+.dlm-settings-sub-nav .active-section a {
+border-bottom: 4px solid #000;
+padding-bottom: 9px;
+margin-bottom: -2px;
+font-weight: 600;
 }
-.nav-section-wrapper li:after {
-  content: "|";
-  padding-left: 7px;
+
+/* Blue */
+.admin-color-blue .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #096484;
 }
-.nav-section-wrapper li:last-child:after {
-  content: "";
-  padding: 0;
+
+/* Coffee */
+.admin-color-coffee .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #c7a589;
 }
+
+/* Ectoplasm */
+.admin-color-ectoplasm .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #a3b745;
+}
+
+/* Midnight */
+.admin-color-midnight .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #e14d43;
+}
+
+/* Ocean */
+.admin-color-ocean .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #627c83;
+}
+
+/* Sunrise */
+.admin-color-sunrise .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #be3631;
+}
+
+/* Light */
+.admin-color-light .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #888;
+}
+
+/* bbPress Color Schemes */
+
+/* Evergreen */
+.admin-color-evergreen .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #36533f;
+}
+
+/* Mint */
+.admin-color-mint .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #4f6d59;
+}
+
+/* Modern */
+.admin-color-modern .dlm-settings-sub-nav .active-section a {
+	border-bottom-color: #3858e9;
+}
+
 /** Settings */
 .dlm-admin-settings #setting-dlm_decimal_separator,
 .dlm-admin-settings #setting-dlm_thousand_separator {
@@ -577,7 +675,6 @@ table.wp-list-table .column-thumb img {
   float: right;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 strong {
-  font-weight: normal;
   line-height: 24px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 select {
@@ -668,15 +765,8 @@ table.wp-list-table .column-thumb img {
   /* main file */
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox:first-child h3 {
-  background: #EAF2FA;
-  background-image: linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -o-linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -moz-linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -webkit-linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -ms-linear-gradient(bottom, #dae6f2 0%, #eaf2fa 100%);
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #dae6f2), color-stop(1, #eaf2fa));
-  border-color: #d3deea;
-  color: #21759B;
+  background-color: #FAFAFA;
+  border-bottom: 1px solid #dcdcde;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .plus:before {
   font-family: dashicons !important;
@@ -1386,6 +1476,7 @@ table.wp-list-table .column-thumb img {
   }
 }
 /* Extensions */
+.dlm_download_page_dlm-extensions .theme.dlm_extension {background-color: #FFF;}
 .dlm_extensions_wrap h1 a.dlm-reload-button {
   float: right;
 }
@@ -1393,9 +1484,7 @@ table.wp-list-table .column-thumb img {
   padding: 15px 0;
   overflow: hidden;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension {
-  cursor: auto !important;
-}
+
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension a {
   color: #444;
   text-decoration: none;
@@ -1417,8 +1506,16 @@ table.wp-list-table .column-thumb img {
   padding: 0 20px;
 }
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer {
-  padding: 0 20px 15px;
+  padding: 15px 15px 15px 0;
+  text-align: right;
+  background-color: #FAFAFA;
+  border-top: 1px solid #dcdcde;
 }
+.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .button .dashicons {
+  vertical-align: middle;
+  font-size: 16px;
+}
+
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_price {
   font-weight: bold;
 }
@@ -1428,12 +1525,7 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_price.sale strike {
   color: #444;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_more {
-  color: #459ac9;
-  text-decoration: none;
-  font-weight: bold;
-  float: right;
-}
+
 .dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license {
   padding: 0 20px 20px;
   -webkit-box-sizing: border-box;
@@ -1503,17 +1595,7 @@ table.wp-list-table .column-thumb img {
   width: 30%;
   float: right;
 }
-.wrap.dlm-admin-settings .nav-tab-wrapper a.nav-tab {
-  margin: 0 auto;
-  border-right: 0;
-}
-.wrap.dlm-admin-settings .nav-tab-wrapper a.nav-tab:first-child {
-  border-top-left-radius: 5px;
-}
-.wrap.dlm-admin-settings .nav-tab-wrapper a.nav-tab:last-child {
-  border-top-right-radius: 5px;
-  border-right: 1px solid #c3c4c7;
-}
+
 .wrap.dlm-admin-settings .dlm-upsell-badge {
   background: green;
   color: #fff;
@@ -1523,19 +1605,8 @@ table.wp-list-table .column-thumb img {
 #total_downloads_browser_table a.nav-tab {
   text-transform: capitalize;
 }
-.post-type-dlm_download .nav-tab-wrapper a.nav-tab {
-  margin: 0 auto;
-  border-right: 0;
-  border-bottom: 0;
-}
-.post-type-dlm_download .nav-tab-wrapper a.nav-tab:first-child {
-  border-top-left-radius: 5px;
-}
-.post-type-dlm_download .nav-tab-wrapper a.nav-tab:last-child,
-.post-type-dlm_download .nav-tab-wrapper a.nav-tab.last_tab {
-  border-top-right-radius: 5px;
-  border-right: 1px solid #c3c4c7;
-}
+
+
 #dlm-download-page-upsell .inside,
 #dlm-amazon-s3-upsell .inside,
 #dlm-google-drive-upsell .inside,

@@ -12,6 +12,12 @@ class DLM_Settings_Page {
 
 		// catch setting actions
 		add_action( 'admin_init', array( $this, 'catch_admin_actions' ) );
+
+		//$this->load_hooks();
+
+		if ( is_admin() ) {
+			$this->load_admin_hooks();
+		}
 	}
 
 	/**
@@ -124,7 +130,8 @@ class DLM_Settings_Page {
 						if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
 
 							?>
-							<ul class="nav-section-wrapper">
+							<div class="wp-clearfix">
+							<ul class="subsubsub dlm-settings-sub-nav">
 								<?php foreach ( $settings[ $tab ]['sections'] as $section_key => $section ) : ?>
 									<?php echo "<li" . ( ( $active_section == $section_key ) ? " class='active-section'" : "" ) . ">"; ?>
 									<a href="<?php echo esc_url( add_query_arg( array(
@@ -133,6 +140,7 @@ class DLM_Settings_Page {
 									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?></a></liM>
 								<?php endforeach; ?>
 							</ul>
+								</div><!--.wp-clearfix-->
 							<h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
 							<?php
 						}
@@ -239,10 +247,72 @@ class DLM_Settings_Page {
 	}
 
 	/**
+	 * Load our admin hooks
+	 */
+	public function load_admin_hooks() {
+
+		add_action( 'in_admin_header', array( $this, 'dlm_page_header' ) );
+
+		add_filter( 'dlm_page_header', array( $this, 'page_header_locations' ) );
+	}
+
+	/**
+	 * Display the Download Monitor Admin Page Header
+	 *
+	 * @param bool $extra_class
+	 */
+	public static function dlm_page_header($extra_class = '') {
+
+		// Only display the header on pages that belong to dlm
+		if ( ! apply_filters( 'dlm_page_header', false ) ) {
+			return;
+		}
+		?>
+		<div class="dlm-page-header <?php echo ( $extra_class ) ? esc_attr( $extra_class ) : ''; ?>">
+			<div class="dlm-header-logo">
+				
+				<img src="<?php echo esc_url( DLM_URL . 'assets/images/logo.png' ); ?>" class="dlm-logo" />
+			</div>
+			<div class="dlm-header-links">
+				<a href="https://www.download-monitor.com/kb/" target="_blank" rel="noreferrer nofollow" id="get-help"
+				   class="button button-secondary"><span
+							class="dashicons dashicons-external"></span><?php esc_html_e( 'Documentation', 'download-monitor' ); ?>
+				</a>
+				<a class="button button-secondary"
+				   href="https://www.download-monitor.com/contact/" target="_blank" rel="noreferrer nofollow"><span
+							class="dashicons dashicons-email-alt"></span><?php echo esc_html__( 'Contact us for support!', 'download-monitor' ); ?>
+				</a>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Set the dlm header locations
+	 *
+	 * @param $return
+	 *
+	 * @return bool|mixed
+	 * @since 2.5.3
+	 */
+	public function page_header_locations( $return ) {
+
+		$current_screen = get_current_screen();
+
+		if ( 'dlm_download' === $current_screen->post_type ) {
+			return true;
+		}
+
+		return $return;
+	}
+
+	/**
 	 * @param array $settings
 	 */
 	private
 	function generate_tabs( $settings ) {
+
+		
 		?>
 		<h2 class="nav-tab-wrapper">
 			<?php
@@ -254,7 +324,7 @@ class DLM_Settings_Page {
 				echo '<a href="' . esc_url( add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . ( isset( $section['badge'] ) ? ' <span class="dlm-upsell-badge">PRO</span>' : '' ) . '</a>';
 			}
 			?>
-		</h2><br/>
+		</h2>
 		<?php
 	}
 
