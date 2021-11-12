@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.4.12 - 08.11.2021 =
+Fixed: Product not saving in downloads select ( https://github.com/WPChill/download-monitor/issues/770 )
 Fixed: Typo in file URLs
 Fixed: Widget options update - https://github.com/WPChill/download-monitor/issues/768
 Fixed: Downloads not working with shop enabled - https://github.com/WPChill/download-monitor/issues/769

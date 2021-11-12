@@ -102,7 +102,8 @@ class WritePanels {
 		}
 
 		if( isset( $_POST['_dlm_downloads'] ) ) {
-			$product->set_download_ids( sanitize_text_field( wp_unslash( $_POST['_dlm_downloads'] ) ) );
+
+			$product->set_download_ids( array_map( 'sanitize_text_field', $_POST['_dlm_downloads'] ) );
 		}
 		// persist download
 		Services::get()->service( 'product_repository' )->persist( $product );
