@@ -25,7 +25,7 @@ class DownloadOption {
 	 */
 	public function add_download_option( $post_id ) {
 
-		wp_nonce_field( 'dlm-paid-only' );
+		wp_nonce_field( 'saving_dlm_paid_only', 'dlm-paid-only' );
 
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="' . esc_attr( self::OPTION_KEY ) . '" id="' . esc_attr( self::OPTION_KEY ) . '" ' . checked( get_post_meta( $post_id, self::OPTION_KEY, true ), '1', false ) . ' />
@@ -41,13 +41,13 @@ class DownloadOption {
 	 */
 	public function save_download_option( $post_id ) {
 
-		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+		if ( ! isset( $_REQUEST['saving_dlm_paid_only'] ) ) {
 			return;
 		}
 
 		// check nonce
 		// phpcs:ignore
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'dlm-paid-only' ) ) {
+		if ( ! wp_verify_nonce( $_REQUEST['saving_dlm_paid_only'], 'dlm-paid-only' ) ) {
 			return;
 		}
 

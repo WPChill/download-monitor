@@ -125,6 +125,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 4.4.12 - 08.11.2021 =
 Fixed: Typo in file URLs
 Fixed: Widget options update - https://github.com/WPChill/download-monitor/issues/768
+Fixed: Downloads not working with shop enabled - https://github.com/WPChill/download-monitor/issues/769
 
 = 4.4.11 - 03.11.2021 =
 Fixed: Reports date changing ( https://github.com/WPChill/download-monitor/issues/755 )
