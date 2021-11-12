@@ -142,8 +142,8 @@ class DLM_Widget_Downloads extends WP_Widget {
 		$instance['format']         = sanitize_title( $new_instance['format'] );
 		$instance['orderby']        = sanitize_text_field( $new_instance['orderby'] );
 		$instance['order']          = sanitize_text_field( $new_instance['order'] );
-		$instance['featured']       = isset( $new_instance['featured'] ) ? 'yes' : 'no';
-		$instance['members_only']   = isset( $new_instance['members_only'] ) ? 'yes' : 'no';
+		$instance['featured']       = isset( $new_instance['featured'] ) ? $new_instance['featured'] : 'no';
+		$instance['members_only']   = isset( $new_instance['members_only'] ) ? $new_instance['members_only'] : 'no';
 
 		return $instance;
 	}
