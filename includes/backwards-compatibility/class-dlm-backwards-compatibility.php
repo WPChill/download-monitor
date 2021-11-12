@@ -21,6 +21,15 @@ class DLM_Backwards_Compatibility {
 	public static $instance;
 
 	/**
+	 * The filters for the query.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @var object
+	 */
+	private $filters;
+
+	/**
 	 * Class constructor
 	 *
 	 * @return void
@@ -28,8 +37,7 @@ class DLM_Backwards_Compatibility {
 	public function __construct() {
 
 		add_filter( 'dlm_shortcode_total_downloads', array( $this, 'total_downloads_shortcode' ) );
-		add_filter( 'dlm_dashboard_popular_downloads', array( $this, 'admin_dashboard_backwards_compatibility' ), 15 );
-		add_filter( 'posts_join', array( $this, 'orderby_download_count_compatibility' ) );
+		add_action( 'dlm_orderby_backwards_compatibility', array( $this, 'orderby_compatibility' ), 15, 1 );
 
 	}
 
@@ -78,50 +86,85 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
-	 * Admin dashboard backwards compatibility
+	 * Order by post meta download_count compatibility
 	 *
-	 * @param [type] $downloads Array of Downloads object.
-	 * @return array
+	 * @param  mixed $filters Filters for the query.
+	 * @return void
 	 */
-	public function admin_dashboard_backwards_compatibility( $downloads ) {
+	public function orderby_compatibility( $filters ) {
 
-		$filters = apply_filters(
-			'dlm_admin_dashboard_popular_downloads_filters',
-			array(
-				'no_found_rows' => 1,
-				'orderby'       => array(
-					'orderby_meta' => 'DESC',
-				),
-				'meta_query'    => array(
-					'orderby_meta' => array(
-						'key'  => '_download_count',
-						'type' => 'NUMERIC',
-					),
-					array(
-						'key'     => '_download_count',
-						'value'   => '0',
-						'compare' => '>',
-						'type'    => 'NUMERIC',
-					),
-				),
-			),
-		);
+		global $wpdb;
 
-		if ( false === $downloads ) {
-			return download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
+		if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			return;
 		}
 
-		return $downloads;
+		$download_count_order = false;
+
+		if ( isset( $filters['meta_query'] ) && isset( $filters['meta_query']['orderby_meta'] ) && '_download_count' === $filters['meta_query']['orderby_meta']['key'] ) {
+			$download_count_order = true;
+		}
+
+		if ( ! empty( $filters ) && isset( $filters['orderby'] ) && isset( $filters['meta_key'] ) && 'meta_value_num' === $filters['orderby'] && '_download_count' === $filters['meta_key'] ) {
+			$download_count_order = true;
+		}
+
+		if ( ! $download_count_order ) {
+			return;
+		}
+
+		$this->filters = $filters;
+
+		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
+		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
+		add_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
 	}
 
-	public function orderby_download_count_compatibility( $join ) {
+	/**
+	 * Add custom table to query JOIN
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param  mixed $join The join query part.
+	 * @return string
+	 */
+	public function join_download_count_compatibility( $join ) {
 		global $wpdb;
 
 		$join .= " INNER JOIN {$wpdb->download_log} ON ({$wpdb->posts}.ID = {$wpdb->download_log}.download_id) ";
 
 		return $join;
 
-	/* 	SELECT posts.*, COUNT(dlm_logs.ID) as counts FROM wp_posts posts INNER JOIN wp_postmeta meta ON ( posts.ID = meta.post_id ) INNER JOIN wp_download_log dlm_logs ON (posts.ID = dlm_logs.download_id) WHERE 1=1 AND ( meta.meta_key = '_download_count' ) AND posts.post_type = 'dlm_download' AND ((posts.post_status = 'publish')) GROUP BY posts.ID ORDER BY counts DESC; */
+	}
+
+	/**
+	 * Add select from custom table to the query fields part
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param  mixed $fields The fields query part.
+	 * @return string
+	 */
+	public function select_download_count_compatibility( $fields ) {
+
+		global $wpdb;
+
+		$fields .= ", COUNT({$wpdb->download_log}.ID) as counts ";
+
+		return $fields;
+	}
+
+	/**
+	 * Add orderby custom table count value
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param  mixed $orderby The orderby string which we overwrite.
+	 * @return string
+	 */
+	public function orderby_download_count_compatibility( $orderby ) {
+
+		return ' counts DESC';
 
 	}
 

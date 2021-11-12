@@ -325,7 +325,6 @@ class DLM_Shortcodes {
 				break;
 			case 'hits' :
 			case 'count' :
-				// @todo razvan : -- see orderby_backwards_compatibility
 			case 'download_count' :
 				$orderby  = 'meta_value_num';
 				$meta_key = '_download_count';

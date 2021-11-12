@@ -107,7 +107,10 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 			$sitepress->switch_lang( 'all' );
 		}
 
-		$q     = new WP_Query();
+		$q = new WP_Query();
+		
+		do_action( 'dlm_orderby_backwards_compatibility', $filters );
+
 		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
 		$items = $this->create_downloads_from_array( $posts );
 

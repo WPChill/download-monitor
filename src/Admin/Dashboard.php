@@ -20,10 +20,14 @@ class DLM_Admin_Dashboard {
 			return;
 		}
 
-		wp_add_dashboard_widget( 'dlm_popular_downloads', __( 'Popular Downloads', 'download-monitor' ), array(
-			$this,
-			'popular_downloads'
-		) );
+		wp_add_dashboard_widget(
+			'dlm_popular_downloads',
+			__( 'Popular Downloads', 'download-monitor' ),
+			array(
+				$this,
+				'popular_downloads',
+			)
+		);
 	}
 
 	/**
@@ -34,7 +38,29 @@ class DLM_Admin_Dashboard {
 	 */
 	public function popular_downloads() {
 
-		$downloads = apply_filters( 'dlm_dashboard_popular_downloads', download_monitor()->service( 'download_repository' )->get_orderly_downloads( 'DESC', '10' ) );
+		$filters = apply_filters(
+			'dlm_admin_dashboard_popular_downloads_filters',
+			array(
+				'no_found_rows' => 1,
+				'orderby'       => array(
+					'orderby_meta' => 'DESC',
+				),
+				'meta_query'    => array(
+					'orderby_meta' => array(
+						'key'  => '_download_count',
+						'type' => 'NUMERIC',
+					),
+					array(
+						'key'     => '_download_count',
+						'value'   => '0',
+						'compare' => '>',
+						'type'    => 'NUMERIC',
+					),
+				),
+			),
+		);
+
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
 
 		if ( empty( $downloads ) ) {
 			echo '<p>' . __( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
@@ -47,14 +73,14 @@ class DLM_Admin_Dashboard {
 			$max_count = 1;
 		}
 		?>
-        <table class="download_chart" cellpadding="0" cellspacing="0">
-            <thead>
-            <tr>
-                <th scope="col"><?php _e( 'Download', "download_monitor" ); ?></th>
-                <th scope="col"><?php _e( 'Download count', "download_monitor" ); ?></th>
-            </tr>
-            </thead>
-            <tbody>
+		<table class="download_chart" cellpadding="0" cellspacing="0">
+			<thead>
+			<tr>
+				<th scope="col"><?php _e( 'Download', 'download_monitor' ); ?></th>
+				<th scope="col"><?php _e( 'Download count', 'download_monitor' ); ?></th>
+			</tr>
+			</thead>
+			<tbody>
 			<?php
 			if ( $downloads ) {
 				/** @var DLM_Download $download */
@@ -69,8 +95,8 @@ class DLM_Admin_Dashboard {
 				}
 			}
 			?>
-            </tbody>
-        </table>
+			</tbody>
+		</table>
 		<?php
 	}
 
