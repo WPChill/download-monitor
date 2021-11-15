@@ -7,7 +7,7 @@ class DLM_Admin_Fields_Field_Desc extends DLM_Admin_Fields_Field {
 	 */
 	public function render() {
 		?>
-		<p class="dlm-setting-field-description"><?php echo esc_html( $this->get_value() ); ?></p>
+		<p class="dlm-setting-field-description"><?php echo wp_kses_post( $this->get_value() ); ?></p>
 		<?php
 	}
 
