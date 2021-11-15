@@ -218,14 +218,14 @@ class DLM_Widget_Downloads extends WP_Widget {
         <p>
             <input id="<?php echo esc_attr( $this->get_field_id( 'featured' ) ); ?>"
                    name="<?php echo esc_attr( $this->get_field_name( 'featured' ) ); ?>"
-                   type="checkbox" <?php checked( $featured, 'yes' ); ?> />
+                   type="checkbox" <?php checked( $featured, 'yes' ); ?>  value="yes" />
             <label
                     for="<?php echo esc_attr( $this->get_field_id( 'featured' ) ); ?>"><?php echo esc_html__( 'Show only featured downloads', 'download-monitor' ); ?></label>
         </p>
         <p>
             <input id="<?php echo esc_attr( $this->get_field_id( 'members_only' ) ); ?>"
                    name="<?php echo esc_attr( $this->get_field_name( 'members_only' ) ); ?>"
-                   type="checkbox" <?php checked( $members_only, 'yes' ); ?> />
+                   type="checkbox" <?php checked( $members_only, 'yes' ); ?> value="yes" />
             <label
                     for="<?php echo esc_attr( $this->get_field_id( 'members_only' ) ); ?>"><?php echo esc_html__( 'Show only members only downloads', 'download-monitor' ); ?></label>
         </p>
