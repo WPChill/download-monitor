@@ -26,7 +26,7 @@ class DLM_Gutenberg {
 			'dlm_gutenberg_blocks',
 			plugins_url( '/assets/blocks/dist/blocks.js', download_monitor()->get_plugin_file() ),
 			$asset_file['dependencies'],
-			$asset_file['version'],
+			$asset_file['version']
 		);
 
 		wp_register_style(
