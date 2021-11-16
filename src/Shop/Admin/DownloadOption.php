@@ -41,13 +41,13 @@ class DownloadOption {
 	 */
 	public function save_download_option( $post_id ) {
 
-		if ( ! isset( $_REQUEST['saving_dlm_paid_only'] ) ) {
+		if ( ! isset( $_REQUEST['dlm-paid-only'] ) ) {
 			return;
 		}
 
 		// check nonce
 		// phpcs:ignore
-		if ( ! wp_verify_nonce( $_REQUEST['saving_dlm_paid_only'], 'dlm-paid-only' ) ) {
+		if ( ! wp_verify_nonce( $_REQUEST['dlm-paid-only'], 'saving_dlm_paid_only' ) ) {
 			return;
 		}
 
