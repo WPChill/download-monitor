@@ -123,6 +123,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.4.12 - 08.11.2021 =
+Fixed: Dependencies in widgets screen cc @HardeepAsrani
+Removed: Custom webpack build and replaced with @wordpress/scripts cc @HardeepAsrani
+Fixed: Optimized block with React Hooks for readibility purposes cc @HardeepAsrani
 Fixed: Product not saving in downloads select ( https://github.com/WPChill/download-monitor/issues/770 )
 Fixed: Typo in file URLs
 Fixed: Widget options update - https://github.com/WPChill/download-monitor/issues/768
