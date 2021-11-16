@@ -1,35 +1,33 @@
-const {Component} = wp.element;
-
-import apiFetch from '@wordpress/api-fetch';
-import React from 'react';
 import Select from 'react-select';
 
-export default class DownloadInput extends Component {
+import { useEffect, useState } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 
-	constructor( props ) {
-		super( props );
-		this.state = { downloads: [] };
-	}
+const DownloadInput = ( { selectedDownloadId, onChange } ) => {
+	const [ downloads, setDownloads ] = useState( [] );
 
-	componentDidMount() {
-		apiFetch( { url: dlmBlocks.ajax_getDownloads } ).then( results => {
-			this.setState({downloads: results });
-		} );
-	}
-
-	render() {
-		const valueFromId = (opts, id) => opts.find(o => o.value === id);
-
-		return (
-			<div>
-				<Select
-					value={valueFromId( this.state.downloads, this.props.selectedDownloadId )}
-					onChange={(selectedOption) =>  this.props.onChange(selectedOption.value)}
-					options={this.state.downloads}
-					isSearchable="true"
-				 />
-			</div>
+	useEffect( () => {
+		apiFetch( { url: window.dlmBlocks.ajax_getDownloads } ).then(
+			( results ) => {
+				setDownloads( results );
+			}
 		);
-	}
+	}, [] );
 
-}
+	const valueFromId = ( opts, id ) => opts.find( ( o ) => o.value === id );
+
+	return (
+		<div>
+			<Select
+				value={ valueFromId( downloads, selectedDownloadId ) }
+				onChange={ ( selectedOption ) =>
+					onChange( selectedOption.value )
+				}
+				options={ downloads }
+				isSearchable="true"
+			/>
+		</div>
+	);
+};
+
+export default DownloadInput;
