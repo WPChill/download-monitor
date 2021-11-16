@@ -95,6 +95,7 @@ body.post-type-dlm_download .dlm-page-header {
 	justify-content : space-between;
 	background      : #fff;
 	width           : 100%;
+  box-sizing: border-box;
 }
 
 body.post-type-dlm_download .dlm-page-header .dlm-header-links {
