@@ -63,6 +63,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<tr>
 			<td>
 				<label><?php _e( 'Download count', 'download-monitor' ); ?>:</label>
+				<!-- @todo razvan: Depending on the talk with George, this will either remain as is or will be replaced by a placeholder  -->
 				<input type="text" class="short" name="downloadable_file_download_count[<?php echo $version_increment; ?>]"
 				       placeholder="<?php echo $file_download_count; ?>" readonly />
 			</td>

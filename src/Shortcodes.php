@@ -39,9 +39,18 @@ class DLM_Shortcodes {
 
 		$total = false;
 
-		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) && DLM_Logging::is_logging_enabled() ) {
 
 			$total = $wpdb->get_var( "SELECT COUNT('ID') FROM $wpdb->download_log" );
+		} else {
+
+			if ( ! DLM_Logging::is_logging_enabled() ) {
+
+				return esc_html__( 'Logging is not enabled.', 'download-monitor' );
+			}
+
+			return esc_html__( 'Log table not present.', 'download-monitor' );
+
 		}
 
 		return apply_filters( 'dlm_shortcode_total_downloads', $total );

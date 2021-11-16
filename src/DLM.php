@@ -184,7 +184,7 @@ class WP_DLM {
 		$gb_download_preview = new DLM_DownloadPreview_Preview();
 		$gb_download_preview->setup();
 
-		// Upgrade Manager
+		// Backwards Compatibility.
 		$dlm_backwards_compatibility = DLM_Backwards_Compatibility::get_instance();
 
 		// Setup integrations

@@ -131,7 +131,6 @@ class DLM_Custom_Actions {
 			if ( 'download_id' == $vars['orderby'] ) {
 				$vars['orderby'] = 'ID';
 			} elseif ( 'download_count' == $vars['orderby'] ) {
-				// @todo razvan :-- see orderby_backwards_compatibility
 				$vars = array_merge( $vars, array(
 					'meta_key' => '_download_count',
 					'orderby'  => 'meta_value_num'
@@ -156,6 +155,8 @@ class DLM_Custom_Actions {
 				) );
 			}
 		}
+
+		do_action( 'dlm_backwards_compatibility', $vars );
 
 		return $vars;
 	}

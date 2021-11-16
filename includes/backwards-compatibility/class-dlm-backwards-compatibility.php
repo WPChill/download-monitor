@@ -37,7 +37,8 @@ class DLM_Backwards_Compatibility {
 	public function __construct() {
 
 		add_filter( 'dlm_shortcode_total_downloads', array( $this, 'total_downloads_shortcode' ) );
-		add_action( 'dlm_orderby_backwards_compatibility', array( $this, 'orderby_compatibility' ), 15, 1 );
+		add_action( 'dlm_backwards_compatibility', array( $this, 'orderby_compatibility' ), 15, 1 );
+		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
 
 	}
 
@@ -56,8 +57,6 @@ class DLM_Backwards_Compatibility {
 		return self::$instance;
 
 	}
-
-
 
 	/**
 	 * Backwards compatibility function for the total_downloads shortcode.
@@ -95,7 +94,7 @@ class DLM_Backwards_Compatibility {
 
 		global $wpdb;
 
-		if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+		if ( ! DLM_Utils::table_checker( $wpdb->download_log ) || ! DLM_Logging::is_logging_enabled() ) {
 			return;
 		}
 
@@ -118,6 +117,7 @@ class DLM_Backwards_Compatibility {
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
 		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		add_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
+
 	}
 
 	/**
@@ -164,8 +164,29 @@ class DLM_Backwards_Compatibility {
 	 */
 	public function orderby_download_count_compatibility( $orderby ) {
 
-		return ' counts DESC';
+		$order = 'DESC';
 
+		if ( isset( $this->filters['order'] ) ) {
+
+			$order = $this->filters['order'];
+		}
+
+		return ' counts ' . $order;
+
+	}
+
+	/**
+	 * Let's reset the query if we have completed our display of downloads, removing our added filters.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @return void
+	 */
+	public function reset_postdata() {
+
+		remove_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
+		remove_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
+		remove_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
 	}
 
 }
