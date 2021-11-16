@@ -122,7 +122,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.4.12 - 08.11.2021 =
+= 4.4.12 - 16.11.2021 =
 Fixed: Dependencies in widgets screen cc @HardeepAsrani
 Removed: Custom webpack build and replaced with @wordpress/scripts cc @HardeepAsrani
 Fixed: Optimized block with React Hooks for readibility purposes cc @HardeepAsrani
