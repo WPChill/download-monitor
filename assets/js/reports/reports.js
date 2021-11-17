@@ -220,7 +220,7 @@ class DLM_Reports {
 					borderColor: this.chartColors.purple.default,
 					lineTension: 0.2,
 					borderWidth: 2,
-					pointRadius: 3,							
+					pointRadius: 3,
 					elements: {
 						line: {
 							borderColor: '#2ecc71',
@@ -257,10 +257,10 @@ class DLM_Reports {
 					}, */
 					scales: {
 						x: {
-							grid:{
-								display:false
+							grid: {
+								display: false
 							}
-						},						
+						},
 					},
 					normalized: true,
 					parsing: {
@@ -560,7 +560,7 @@ class DLM_Reports {
 
 		const lastDate = dlmReportsStats[dlmReportsStats.length - 1];
 		let todayDownloads = 0;
-		
+
 		if (this.createDateElement(new Date(lastDate.date)) === this.createDateElement(new Date())) {
 
 			Object.values(JSON.parse(lastDate.download_ids)).map(element => {
@@ -645,7 +645,11 @@ class DLM_Reports {
 
 		wrapper.find('.dlm-reports-placeholder-no-data').remove();
 
-		wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
+		if (this.mostDownloaded.length > 15) {
+			wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
+		} else {
+			wrapper.parent().find('#downloads-block-navigation button').addClass('hidden');
+		}
 
 	}
 
@@ -653,9 +657,8 @@ class DLM_Reports {
 	 * Let's create the top downloads slider. Will be based on offset
 	 * 
 	 * 
-	 * @param {*} data 
 	 */
-	handleTopDownloads(data) {
+	handleTopDownloads() {
 
 		const instance = this;
 
@@ -697,6 +700,24 @@ class DLM_Reports {
 		});
 	}
 
+	tabNagivation() {
+		jQuery(document).on('click', '.dlm-reports .dlm-insights-tab-navigation > li', function () {
+			const listClicked = jQuery(this),
+				navLists = jQuery('.dlm-reports .dlm-insights-tab-navigation > li').not(listClicked),
+				contentTarget = jQuery('div.dlm-insights-tab-navigation__content[data-id="' + listClicked.attr('id') + '"]'),
+				contentWrappers = jQuery('div.dlm-insights-tab-navigation__content').not(contentTarget);
+
+
+			if (!listClicked.hasClass('active')) {
+				listClicked.addClass('active');
+				navLists.removeClass('active');
+				contentTarget.addClass('active');
+				contentWrappers.removeClass('active');
+			}
+		});
+	}
+
+
 	/**
 	 * Init our methods
 	 */
@@ -711,6 +732,8 @@ class DLM_Reports {
 		this.setTodayDownloads();
 
 		this.handleTopDownloads();
+
+		this.tabNagivation();
 	}
 
 	// fetch data from WP REST Api in case we want to change the direction from global js variable set by wp_add_inline_script

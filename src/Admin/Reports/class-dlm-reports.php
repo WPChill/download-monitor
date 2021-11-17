@@ -127,7 +127,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function report_stats() {
 
 			global $wpdb;
-			$cache_key = 'dlm_reports';
+			$cache_key = 'dlm_insights';
 			$stats     = wp_cache_get( $cache_key, 'dlm_reports_page' );
 
 			if ( ! $stats ) {
@@ -139,4 +139,5 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		}
 
 	}
+
 }

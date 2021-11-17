@@ -898,23 +898,61 @@ table.wp-list-table .column-thumb img {
   margin-top: 1px;
 }
 /* Reports */
-.dlm-reports h1 .dlm-reports-actions {
+.dlm-reports .dlm-insights-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+.dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border-bottom: 1px solid #ccc;
+  margin: 0;
+}
+.dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element {
+  border-bottom: 1px solid transparent;
+  margin: 0 1px;
+  display: block;
+  background-color: #fff;
+  padding: 15px 5px;
+  text-align: center;
+  word-break: break-all;
+  cursor: pointer;
+}
+.dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
+  box-shadow: 0px 2px 0px red;
+}
+.dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element .dlm-insights-tab-navigation__label {
+  display: block;
+  width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+}
+.dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element .dlm-insights-tab-navigation__description {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  font-style: italic;
+  color: #646161;
+}
+.dlm-reports .dlm-insights-header .dlm-reports-actions {
   display: inline-flex;
 }
-.dlm-reports h1 .dlm-reports-actions:hover {
+.dlm-reports .dlm-insights-header .dlm-reports-actions:hover {
   border-color: #2693D5;
   box-shadow: 0 0 1px #2693D5;
 }
-.dlm-reports h1 .dlm-reports-actions:focus {
+.dlm-reports .dlm-insights-header .dlm-reports-actions:focus {
   border-color: #2693D5;
   box-shadow: 0 0 3px #2693D5;
 }
-.dlm-reports h1 .dlm-reports-actions a.dlm-reports-header-chart-switcher,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period {
+.dlm-reports .dlm-insights-header .dlm-reports-actions a.dlm-reports-header-chart-switcher,
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector,
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period {
   margin: 0;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector {
   display: flex;
   align-items: center;
   min-height: 32px;
@@ -926,14 +964,14 @@ table.wp-list-table .column-thumb img {
   user-select: none;
   cursor: pointer;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector #dlm_date_range_picker .date-picker-wrapper {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector #dlm_date_range_picker .date-picker-wrapper {
   background: #fff;
   border: 0;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector #dlm_date_range_picker .date-picker-wrapper .month-wrapper {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector #dlm_date_range_picker .date-picker-wrapper .month-wrapper {
   border: 0;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm-arrow:before {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-arrow:before {
   font-family: "dashicons" !important;
   content: "\f140";
   font-style: normal;
@@ -950,7 +988,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: middle;
   margin-top: -2px;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay {
   display: flex;
   width: auto;
   background: #fff;
@@ -962,45 +1000,45 @@ table.wp-list-table .column-thumb img {
   overflow: hidden;
   border-radius: 12px;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper {
   padding-left: 175px;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date {
   font-size: 70%;
   margin-right: 5px;
   float: left;
   z-index: 11;
   padding: 15px;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline {
   border: 0;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-highlight {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-highlight {
   background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
   color: #555555;
   border: 1px solid #D3D3D3;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-active {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-active {
   border: 1px solid #aaaaaa;
   background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td,
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th {
   padding: 0;
   margin: 0;
   line-height: 2em;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td a,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th a {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td a,
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th a {
   text-align: center !important;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_actions {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_actions {
   width: 70px;
   padding-left: 10px;
   text-align: center;
   display: flex;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer {
   position: absolute;
   left: 0;
   top: 0;
@@ -1008,7 +1046,7 @@ table.wp-list-table .column-thumb img {
   padding-top: 0;
   padding-bottom: 0;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts {
   border-right: 1px solid #2693D5;
   margin-top: 0;
   margin-bottom: 0;
@@ -1017,39 +1055,45 @@ table.wp-list-table .column-thumb img {
   justify-content: center;
   height: 100%;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a {
   text-align: left;
   padding: 5px 40px 5px 10px;
   min-width: 100px;
   color: #000;
   text-decoration: none;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a:hover {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a:hover {
   color: #2693D5;
   background: rgba(204, 204, 204, 0.3);
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-chart-icon {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-chart-icon {
   display: block;
   padding-right: 15px;
   color: #23282d;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period {
   display: flex;
   align-content: center;
   align-items: center;
   border: 1px solid #cccccc;
   border-left: 0;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period a,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period a:hover {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period a,
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period a:hover {
   height: 100%;
   border: 0;
   background: #fff;
   box-shadow: none;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period a.active,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period a:hover.active {
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period a.active,
+.dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period a:hover.active {
   background: #cccccc;
+}
+.dlm-reports .dlm-insights-tab-navigation__content {
+  display: none;
+}
+.dlm-reports .dlm-insights-tab-navigation__content.active {
+  display: block;
 }
 .dlm-reports .dlm_reports_loader {
   position: absolute;

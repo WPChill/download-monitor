@@ -4,6 +4,13 @@
  * DLM_Reports_Page class
  */
 class DLM_Reports_Page {
+	
+	/**
+	 * Navigation tabs
+	 *
+	 * @var mixed
+	 */
+	public $tabs;
 
 	/**
 	 * Setup hooks
@@ -15,6 +22,39 @@ class DLM_Reports_Page {
 			add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
 		}
 
+		// Set this action on order for other plugins/themes to tap into our tabs.
+		add_action( 'admin_init', array( $this, 'set_tabs' ) );
+
+	}
+
+	/**
+	 * Set our insights page navigation tabs
+	 * 
+	 * @since 4.5.0
+	 *
+	 * @return void
+	 */
+	public function set_tabs() {
+
+		$this->tabs = apply_filters(
+			'dlm_insights_navigation',
+			array(
+				'general_info'  => array(
+					'tab_label'   => esc_html__( 'General Info', 'download-monitor' ), // Label to be displayed on tab nav.
+					'description' => esc_html__( 'General information about your downloads', 'download-monitor' ), // Description to be displayed on tab nav.
+					'callback'    => array( $this, 'general_info' ), // The callback to display the content.
+					'priority'    => 10, // Tab priority.
+				),
+				'top_downloads' => array(
+					'tab_label'   => esc_html__( 'Top Downloads', 'download-monitor' ), // Label to be displayed on tab nav.
+					'description' => esc_html__( 'View the most downloaded files', 'download-monitor' ), // Description to be displayed on tab nav.
+					'callback'    => array( $this, 'top_downloads' ), // The callback to display the content.
+					'priority'    => 20,
+				),
+			)
+		);
+
+		uasort( $this->tabs, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
 	}
 
 	/**
@@ -60,6 +100,128 @@ class DLM_Reports_Page {
 	}
 
 	/**
+	 * Insights page header
+	 *
+	 * @return void
+	 */
+	public function insights_header() {
+		?>
+		<div class="dlm-insights-header">
+			<div class="dlm-insights-navigation">
+				<?php
+				$this->insights_navigation();
+				?>
+			</div>
+			<div class="dlm-insights-datepicker dlm-reports-actions">
+				<?php
+					$this->date_range_button();
+				?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Insights page navigation
+	 *
+	 * @return void
+	 */
+	public function insights_navigation() {
+
+		echo '<ul class="dlm-insights-tab-navigation">';
+
+		foreach ( $this->tabs as $key => $tab ) {
+
+			$active = '';
+
+			if ( 'general_info' === $key ) {
+				$active = 'active';
+			}
+
+			?>
+			<li id="<?php echo esc_attr( $key ); ?>" class="dlm-insights-tab-navigation__element <?php echo esc_attr( $active ); ?>">
+				<label class="dlm-insights-tab-navigation__label"><?php echo esc_html( $tab['tab_label'] ); ?></label>
+				<span class="dlm-insights-tab-navigation__description"><?php echo esc_html( $tab['description'] ); ?></span>
+			</li>
+			<?php
+		}
+
+		echo '</ul>';
+	}
+
+	/**
+	 * Insights page general info content
+	 *
+	 * @return void
+	 */
+	public function general_info() {
+		?>
+		<div class="total_downloads_chart-wrapper">
+			<canvas class="dlm-reports-block-chart"	id="total_downloads_chart"></canvas>
+		</div>
+
+		<div class="dlm-reports-block dlm-reports-block-summary" id="total_downloads_summary">			
+			<ul>
+				<li><span><?php esc_html_e( 'General info', 'download-monitor' ); ?></span></li>
+				<li id="total"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?></label></li>
+				<li id="average"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?></label></li>
+				<li id="popular"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label></li>
+				<li id="today"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label></li>
+			</ul>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Insights page top downloads content
+	 *
+	 * @return void
+	 */
+	public function top_downloads() {
+		?>
+		<div id="total_downloads_table_wrapper">
+			<div id="downloads-block-navigation">
+				<button class="button button-primary hidden dashicons dashicons-arrow-left-alt2" disabled="disabled" title="<?php esc_html_e( 'Previous 15 downloads', 'download-monitor' ); ?>"></button>
+				<button class="button button-primary hidden dashicons dashicons-arrow-right-alt2" data-action="load-more" title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
+			</div>
+			<div class="dlm-reports-block dlm-reports-block-table" id="total_downloads_table" data-page="0">		
+				<span class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Insights page tab content
+	 *
+	 * @return void
+	 */
+	public function insights_content() {
+
+		foreach ( $this->tabs as $key => $tab ) {
+
+			if ( ! isset( $tab['callback'] ) ) {
+				continue;
+			}
+
+			$active = '';
+
+			if ( 'general_info' === $key ) {
+				$active = 'active';
+			}
+
+			ob_start();
+			call_user_func( $tab['callback'] );
+			$response = ob_get_clean();
+
+			// $response should be escaped in callback function.
+			echo '<div class="dlm-insights-tab-navigation__content ' . esc_attr( $active ) . '" data-id="' . esc_attr( $key ) . '">' . $response . '</div>';
+
+		}
+
+	}
+
+	/**
 	 * Display page
 	 */
 	public function view() {
@@ -71,41 +233,12 @@ class DLM_Reports_Page {
 			<h1>
 				<?php
 					esc_html_e( 'Insights', 'download-monitor' );
-					echo '<div class="wp-clearfix text-right"><div class="dlm-reports-actions">';
-					$this->date_range_button();
-					echo '</div></div>';
 				?>
 			</h1>
+			<?php $this->insights_header(); ?>
 			<br/>
 			<?php do_action( 'dlm_reports_page_start' ); ?>
-		
-			<div class="total_downloads_chart-wrapper">
-				<canvas class="dlm-reports-block-chart"
-						id="total_downloads_chart"></canvas>
-			</div>
-
-			<div class="dlm-reports-block dlm-reports-block-summary"
-				 id="total_downloads_summary">			
-				<ul>
-					<li><span><?php esc_html_e( 'General info', 'download-monitor' ); ?></span></li>
-					<li id="total"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?></label></li>
-					<li id="average"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?></label></li>
-					<li id="popular"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label></li>
-					<li id="today"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label></li>
-				</ul>
-			</div>
-
-			<div id="total_downloads_table_wrapper">
-				<div id="downloads-block-navigation">
-					<button class="button button-primary hidden dashicons dashicons-arrow-left-alt2" disabled="disabled" title="<?php esc_html_e( 'Previous 15 downloads', 'download-monitor' ); ?>"></button>
-					<button class="button button-primary hidden dashicons dashicons-arrow-right-alt2" data-action="load-more" title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
-				</div>
-				<div class="dlm-reports-block dlm-reports-block-table"
-					 id="total_downloads_table" data-page="0">		
-					 <span class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
-				</div>
-			</div>
-
+			<?php $this->insights_content(); ?>
 			<?php do_action( 'dlm_reports_page_end' ); ?>
 		</div>
 		<?php
