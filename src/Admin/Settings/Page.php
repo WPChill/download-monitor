@@ -11,7 +11,7 @@ class DLM_Settings_Page {
 		add_filter( 'dlm_admin_menu_links', array( $this, 'add_settings_page' ), 30 );
 
 		// catch setting actions
-		add_action( 'admin_init', array( $this, 'catch_admin_actions' ) );
+		add_action( 'current_screen', array( $this, 'catch_admin_actions' ) );
 
 		//$this->load_hooks();
 
@@ -65,6 +65,19 @@ class DLM_Settings_Page {
 		if ( isset( $_GET['dlm_action_done'] ) ) {
 			add_action( 'admin_notices', array( $this, 'display_admin_action_message' ) );
 		}
+
+		$screen = get_current_screen();
+
+		if( $screen->base ==  'dlm_download_page_download-monitor-settings' ) {
+			$ep_value = get_option( 'dlm_download_endpoint' );
+			$page_check = get_page_by_path( $ep_value );
+			$cpt_check  = post_type_exists( $ep_value );
+
+			if( $page_check || $cpt_check ) {
+				add_action( 'admin_notices', array( $this, 'display_admin_invalid_ep' ) );
+			}
+		}
+
 	}
 
 	/**
@@ -88,6 +101,15 @@ class DLM_Settings_Page {
 		</div>
 		<?php
 	}
+
+	public function display_admin_invalid_ep() {
+		?>
+		<div class="notice notice-error">
+			<p><?php echo esc_html__( 'The Download Monitor endpoint is already in use by a page or post. Please change the endpoint to something else.', 'download-monitor' ); ?></p>
+		</div>
+		<?php
+	}
+
 
 
 	/**
@@ -270,7 +292,7 @@ class DLM_Settings_Page {
 		?>
 		<div class="dlm-page-header <?php echo ( $extra_class ) ? esc_attr( $extra_class ) : ''; ?>">
 			<div class="dlm-header-logo">
-				
+
 				<img src="<?php echo esc_url( DLM_URL . 'assets/images/logo.png' ); ?>" class="dlm-logo" />
 			</div>
 			<div class="dlm-header-links">
@@ -312,7 +334,7 @@ class DLM_Settings_Page {
 	private
 	function generate_tabs( $settings ) {
 
-		
+
 		?>
 		<h2 class="nav-tab-wrapper">
 			<?php
@@ -364,6 +386,5 @@ class DLM_Settings_Page {
 	private function get_active_section( $sections) {
 		return ( ! empty( $_GET['section'] ) ? sanitize_title( wp_unslash($_GET['section']) ) : $this->array_first_key( $sections ) );
 	}
-
 
 }
