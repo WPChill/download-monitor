@@ -4,7 +4,7 @@
  * DLM_Reports_Page class
  */
 class DLM_Reports_Page {
-	
+
 	/**
 	 * Navigation tabs
 	 *
@@ -29,7 +29,7 @@ class DLM_Reports_Page {
 
 	/**
 	 * Set our insights page navigation tabs
-	 * 
+	 *
 	 * @since 4.5.0
 	 *
 	 * @return void
@@ -39,17 +39,11 @@ class DLM_Reports_Page {
 		$this->tabs = apply_filters(
 			'dlm_insights_navigation',
 			array(
-				'general_info'  => array(
+				'general_info' => array(
 					'tab_label'   => esc_html__( 'General Info', 'download-monitor' ), // Label to be displayed on tab nav.
 					'description' => esc_html__( 'General information about your downloads', 'download-monitor' ), // Description to be displayed on tab nav.
 					'callback'    => array( $this, 'general_info' ), // The callback to display the content.
 					'priority'    => 10, // Tab priority.
-				),
-				'top_downloads' => array(
-					'tab_label'   => esc_html__( 'Top Downloads', 'download-monitor' ), // Label to be displayed on tab nav.
-					'description' => esc_html__( 'View the most downloaded files', 'download-monitor' ), // Description to be displayed on tab nav.
-					'callback'    => array( $this, 'top_downloads' ), // The callback to display the content.
-					'priority'    => 20,
 				),
 			)
 		);
@@ -128,6 +122,10 @@ class DLM_Reports_Page {
 	 */
 	public function insights_navigation() {
 
+		if ( empty( $this->tabs ) || count( $this->tabs ) <= 1 ) {
+			return;
+		}
+
 		echo '<ul class="dlm-insights-tab-navigation">';
 
 		foreach ( $this->tabs as $key => $tab ) {
@@ -169,16 +167,7 @@ class DLM_Reports_Page {
 				<li id="today"><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span><label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label></li>
 			</ul>
 		</div>
-		<?php
-	}
 
-	/**
-	 * Insights page top downloads content
-	 *
-	 * @return void
-	 */
-	public function top_downloads() {
-		?>
 		<div id="total_downloads_table_wrapper">
 			<div id="downloads-block-navigation">
 				<button class="button button-primary hidden dashicons dashicons-arrow-left-alt2" disabled="disabled" title="<?php esc_html_e( 'Previous 15 downloads', 'download-monitor' ); ?>"></button>
