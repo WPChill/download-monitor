@@ -125,6 +125,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 4.4.14 - TBA =
 Added: Filter 'dlm_filemanager_get_file_name' to filter the displayed file name.
 Fixed: Check if there are pages/posts/cpt with the same slug as the endpoint ( https://github.com/WPChill/download-monitor/issues/774 )
+Added: Filter 'dlm_completed_order_download' to filter download button in checkout page.
 
 = 4.4.13 - 16.11.2021 =
 Fixed: Fatal error because an extra semicolon

@@ -86,14 +86,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 									if ( $download->exists() ) {
 										$download_title       = $download->get_title();
 										$version_label        = $download->get_version()->get_version();
-										$download_button_html = "<a href='" . $product->get_secure_download_link( $order, $download ) . "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
+										$download_button_html = "<a href='" . esc_url( $product->get_secure_download_link( $order, $download ) ). "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
+										$download_button_html = apply_filters( 'dlm_completed_order_download', $download_button_html,  $download );
 									}
 
 									?>
                                     <tr>
                                         <td><?php echo esc_html( $download_title ); ?></td>
                                         <td><?php echo esc_html( $version_label ); ?></td>
-                                        <td><?php echo esc_html( $download_button_html ); ?></td>
+                                        <td><?php echo $download_button_html; ?></td>
                                     </tr>
 								<?php endforeach; ?>
                                 </tbody>
