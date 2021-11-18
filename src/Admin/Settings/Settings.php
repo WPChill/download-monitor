@@ -291,7 +291,7 @@ class DLM_Admin_Settings {
 				)
 			),
 			'lead_generation'      => array(
-				'title'    => esc_html__( 'Lead Generation', 'download-monitor' ),
+				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
 				'sections' => array()
 			),
 			'external_hosting'     => array(
