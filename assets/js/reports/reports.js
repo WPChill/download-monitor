@@ -434,6 +434,11 @@ class DLM_Reports {
 							end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
 						}
 
+						
+						if ( start.getTime() < calendar_start_date.getTime() && end.getTime() > calendar_start_date.getTime() ) {
+							return [calendar_start_date, end];
+						}
+
 						return [start, end];
 					}
 				},
@@ -442,6 +447,10 @@ class DLM_Reports {
 					dates: function () {
 
 						const start = moment().startOf('year')._d;
+
+						if ( start.getTime() < calendar_start_date.getTime() ) {
+							return [calendar_start_date, currDate];
+						}
 
 						return [start, currDate];
 					}
@@ -509,8 +518,9 @@ class DLM_Reports {
 	/**
 	 * Toggle the date picker on/off.
 	 */
-	toggleDatepicker() {
+	toggleDatepicker(event) {
 
+		event.stopPropagation();
 		if (this.datePicker.opened) {
 			this.hideDatepicker();
 		} else {
@@ -723,17 +733,28 @@ class DLM_Reports {
 	 */
 	init() {
 
-		this.dlmCreateChart(this.stats.chartStats, this.chartContainer);
+		const instance = this;
+		instance.dlmCreateChart(this.stats.chartStats, this.chartContainer);
 
-		this.dlmDownloadsSummary(false, false);
+		instance.dlmDownloadsSummary(false, false);
 
-		this.datePickerContainer.addEventListener('click', this.toggleDatepicker.bind(this));
+		instance.datePickerContainer.addEventListener('click', instance.toggleDatepicker.bind(this));
 
-		this.setTodayDownloads();
+		instance.setTodayDownloads();
 
-		this.handleTopDownloads();
+		instance.handleTopDownloads();
 
-		this.tabNagivation();
+		instance.tabNagivation();
+
+		jQuery(document).on('click', 'body', function (event) {
+
+			event.stopPropagation();
+
+			if (jQuery(instance.datePickerContainer).find('#dlm_date_range_picker').length > 0) {
+				instance.hideDatepicker();
+			}
+
+		});
 	}
 
 	// fetch data from WP REST Api in case we want to change the direction from global js variable set by wp_add_inline_script
