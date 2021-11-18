@@ -212,7 +212,7 @@ class DLM_File_Manager {
 	 * @return string
 	 */
 	public function get_file_name( $file_path ) {
-		return current( explode( '?', DLM_Utils::basename( $file_path ) ) );
+		return apply_filters( 'dlm_filemanager_get_file_name', current( explode( '?', DLM_Utils::basename( $file_path ) ) ) );
 	}
 
 	/**

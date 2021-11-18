@@ -122,6 +122,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.4.14 - TBA =
+Added: Filter 'dlm_filemanager_get_file_name' to filter the displayed file name.
+
 = 4.4.13 - 16.11.2021 =
 Fixed: Fatal error because an extra semicolon
 
