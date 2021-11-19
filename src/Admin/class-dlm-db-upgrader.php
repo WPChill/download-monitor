@@ -155,9 +155,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// First we need to check if table exists.
 			if ( null !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->prefix . 'dlm_reports_log' ) ) ) {
 
-				// return true;
+				 return true;
 			}
 
+			// Now check the option.
 			if ( '1' === get_option( 'dlm_db_upgraded' ) ) {
 				return true;
 			}
@@ -190,7 +191,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 				if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
 					$items[ $row['date'] ][ $row['ID'] ] = array(
-						'id'        => $row['ID'],
 						'downloads' => 1,
 						'title'     => $row['title'],
 					);
@@ -218,7 +218,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 							unset( $downloads[ $item_key ]['date'] );
 						} else {
 							$downloads[ $item_key ] = array(
-								'id'        => $item_key,
 								'downloads' => $item['downloads'],
 								'title'     => $item['title'],
 							);

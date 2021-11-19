@@ -10,8 +10,6 @@ class DLM_Reports {
 	constructor() {
 
 		this.chartContainer = document.getElementById('total_downloads_chart');
-
-		this.chartContainer = document.getElementById('total_downloads_chart');
 		const ctx = this.chartContainer.getContext("2d");
 
 		/**
@@ -109,7 +107,7 @@ class DLM_Reports {
 
 			startDate = this.createDateElement(new Date(startDateInput));
 		} else {
-
+			// If there are no startDateInput it means it is the first load, so get last 30 days.
 			const lastMonth = new Date();
 			lastMonth.setDate(lastMonth.getDate() - 30);
 			startDate = this.createDateElement(lastMonth);
@@ -120,10 +118,13 @@ class DLM_Reports {
 			endDate = this.createDateElement(new Date(endDateInput));
 		} else {
 
-			const yesterday = new Date();
-			//yesterday.setDate(yesterday.getDate());
-			endDate = this.createDateElement(yesterday);
+			// If there is no endDateInput we'll set the endDate to tomorrow so that we can include today in our reports also.
+			// Seems like this is how the datepicker works.
+			const tomorrow = new Date();
+			tomorrow.setDate(tomorrow.getDate() + 1);
+			endDate = this.createDateElement(tomorrow);
 		}
+
 		// Get all dates from the startDate to the endDate
 		let dayDownloads = this.getDates(new Date(startDate), new Date(endDate));
 
@@ -299,18 +300,16 @@ class DLM_Reports {
 
 			itemSet = JSON.parse(itemSet.download_ids);
 
-
-
-			Object.values(itemSet).forEach((item) => {
+			Object.entries(itemSet).forEach( ([ key, item ] ) => {
 				totalDownloads += item.downloads;
-				mostDownloaded[item.id] = ('undefined' === typeof mostDownloaded[item.id]) ? {
+				mostDownloaded[key] = ('undefined' === typeof mostDownloaded[key]) ? {
 					downloads: item.downloads,
 					title: item.title,
-					id: item.id
+					id: key
 				} : {
-					downloads: mostDownloaded[item.id]['downloads'] + item.downloads,
+					downloads: mostDownloaded[key]['downloads'] + item.downloads,
 					title: item.title,
-					id: item.id
+					id: key
 				};
 			});
 		});
@@ -320,7 +319,7 @@ class DLM_Reports {
 		}).reverse();
 
 		this.setTotalDownloads(totalDownloads);
-		this.setDailyAverage(parseInt(totalDownloads / parseInt(this.stats.daysLength)));
+		this.setDailyAverage((totalDownloads / parseInt(this.stats.daysLength)).toFixed(2));
 		this.setMostDownloaded(this.mostDownloaded[0].title);
 		this.setTopDownloads();
 	}
@@ -380,7 +379,106 @@ class DLM_Reports {
 		let element = this.createDatepicker();
 		const calendar_start_date = new Date(dlmReportsStats[0].date);
 		const currDate = new Date();
+
 		jQuery(this.datePickerContainer).append(element);
+
+		const datepickerShortcuts = [
+
+			{
+				name: 'Last 7 Days',
+				dates: function () {
+
+					return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7), new Date(currDate.getDate() + 1)];
+				}
+			},
+
+			{
+				name: 'Last 30 Days',
+				dates: function () {
+
+					return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 30), currDate];
+				}
+			},
+			{
+				name: 'This month',
+				dates: function () {
+
+					return [new Date(currDate.getFullYear(), currDate.getMonth(), 1), currDate];
+				},
+			},
+			{
+				name: 'Last month',
+				dates: function () {
+
+					let start = moment().month(currDate.getMonth() - 1).startOf('month')._d;
+					let end = moment().month(currDate.getMonth() - 1).endOf('month')._d;
+
+					if (0 === currDate.getMonth()) {
+						start = moment().year(currDate.getFullYear() - 1).month(11).startOf('month')._d;
+						end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
+					}
+
+					
+					if ( start.getTime() < calendar_start_date.getTime() && end.getTime() > calendar_start_date.getTime() ) {
+						return [calendar_start_date, end];
+					}
+
+					return [start, end];
+				}
+			},
+			{
+				name: 'This Year',
+				dates: function () {
+
+					const start = moment().startOf('year')._d;
+
+					if ( start.getTime() < calendar_start_date.getTime() ) {
+						return [calendar_start_date, currDate];
+					}
+
+					return [start, currDate];
+				}
+			},
+			{
+				name: 'Last Year',
+				dates: function () {
+
+					const start = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
+					const end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
+
+
+					return [start, end];
+				}
+			},
+		];
+
+
+		// @todo razvan: Don't add all the shortcuts to the datepicker unless they are usable
+		/* if ( calendar_start_date.getTime() !== currDate.getTime() ) {
+
+			let sevenDays = new Date();
+
+			sevenDays = sevenDays.setDate(sevenDays.getDate() - 6 );
+			console.log(sevenDays.getTime());
+
+			if ( calendar_start_date.getTime() < sevenDays.getTime() ) {
+					datepickerShortcuts.push({
+						name: 'Last 7 Days',
+						dates: function () {	
+							return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7), new Date(currDate.getDate() + 1)];
+						}
+					});
+			}
+		}
+
+		
+		datepickerShortcuts.push({
+			name: 'All time',
+			dates: function () {
+
+				return [calendar_start_date, currDate];
+			}
+		}); */
 
 		var configObject = {
 			separator: ' to ',
@@ -398,82 +496,7 @@ class DLM_Reports {
 			startDate: calendar_start_date,
 			showShortcuts: true,
 			shortcuts: null,
-			customShortcuts: [
-
-				{
-					name: 'Last 7 Days',
-					dates: function () {
-
-						return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7), currDate];
-					}
-				},
-
-				{
-					name: 'Last 30 Days',
-					dates: function () {
-
-						return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 30), currDate];
-					}
-				},
-				{
-					name: 'This month',
-					dates: function () {
-
-						return [new Date(currDate.getFullYear(), currDate.getMonth(), 1), currDate];
-					},
-				},
-				{
-					name: 'Last month',
-					dates: function () {
-
-						let start = moment().month(currDate.getMonth() - 1).startOf('month')._d;
-						let end = moment().month(currDate.getMonth() - 1).endOf('month')._d;
-
-						if (0 === currDate.getMonth()) {
-							start = moment().year(currDate.getFullYear() - 1).month(11).startOf('month')._d;
-							end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
-						}
-
-						
-						if ( start.getTime() < calendar_start_date.getTime() && end.getTime() > calendar_start_date.getTime() ) {
-							return [calendar_start_date, end];
-						}
-
-						return [start, end];
-					}
-				},
-				{
-					name: 'This Year',
-					dates: function () {
-
-						const start = moment().startOf('year')._d;
-
-						if ( start.getTime() < calendar_start_date.getTime() ) {
-							return [calendar_start_date, currDate];
-						}
-
-						return [start, currDate];
-					}
-				},
-				{
-					name: 'Last Year',
-					dates: function () {
-
-						const start = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
-						const end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
-
-
-						return [start, end];
-					}
-				},
-				{
-					name: 'All time',
-					dates: function () {
-
-						return [calendar_start_date, currDate];
-					}
-				},
-			]
+			customShortcuts: datepickerShortcuts,
 		};
 
 		element.dateRangePicker(configObject).on('datepicker-change', (event, obj) => {
@@ -561,8 +584,7 @@ class DLM_Reports {
 	 */
 	setTodayDownloads() {
 
-
-		if (0 <= Object.keys(dlmReportsStats)) {
+		if (0 >= Object.keys(dlmReportsStats).length) {
 
 			jQuery('.dlm-reports-block-summary li#today span').html('0');
 			return;
@@ -572,10 +594,11 @@ class DLM_Reports {
 		let todayDownloads = 0;
 
 		if (this.createDateElement(new Date(lastDate.date)) === this.createDateElement(new Date())) {
+			let ms = Date.now();
 
-			Object.values(JSON.parse(lastDate.download_ids)).map(element => {
+			Object.values(JSON.parse(lastDate.download_ids)).reduce( ( prevValue, element ) => {
 
-				todayDownloads += element.downloads;
+				todayDownloads = prevValue +  element.downloads;
 
 				return todayDownloads;
 			});

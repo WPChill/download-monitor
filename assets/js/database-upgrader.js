@@ -154,8 +154,8 @@
 				}
 			} );
 		},
-		progressHandler: ( newValue ) => {
-			ProgressBar.el.progressbar( 'value', Math.ceil( newValue ) );
+		progressHandler: ( newValue ) => {			
+			ProgressBar.el.progressbar( 'value', ( newValue ).toFixed(2) );
 		}
 	};
 

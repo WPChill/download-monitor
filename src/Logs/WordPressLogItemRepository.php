@@ -98,7 +98,6 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 				$downloads[ $download_id ]['downloads'] = $downloads[ $download_id ]['downloads'] + 1;
 			} else {
 				$downloads[ $download_id ] = array(
-					'id'        => $download_id,
 					'downloads' => 1,
 					'title'     => get_the_title( $download_id ),
 				);
@@ -127,7 +126,6 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 					'download_ids' => wp_json_encode(
 						array(
 							$download_id => array(
-								'id'        => $download_id,
 								'downloads' => 1,
 								'title'     => get_the_title( $download_id ),
 							),
