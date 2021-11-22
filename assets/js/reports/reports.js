@@ -229,12 +229,6 @@ class DLM_Reports {
 						},
 					},
 				},
-				/* {
-					label: 'Downloads',
-					color: '#27ae60',
-					data: data,
-					type: 'bar',
-				} */
 			];
 
 			this.chart = new Chart(chartId, {
@@ -250,12 +244,6 @@ class DLM_Reports {
 				options: {
 					aspectRatio: 3,
 					animation: false,
-					/* elements: {
-						line: {
-							borderColor: '#2ecc71',
-							borderWidth: 2
-						},
-					}, */
 					scales: {
 						x: {
 							grid: {
@@ -277,11 +265,9 @@ class DLM_Reports {
 	 * Our download summary based on the selected date range.
 	 * 
 	 * 
-	 * @param {*} startDateInput 
-	 * @param {*} endDateInput 
 	 * @returns 
 	 */
-	dlmDownloadsSummary(startDateInput, endDateInput) {
+	dlmDownloadsSummary() {
 
 		let mostDownloaded = {};
 		let totalDownloads = 0;
@@ -300,7 +286,7 @@ class DLM_Reports {
 
 			itemSet = JSON.parse(itemSet.download_ids);
 
-			Object.entries(itemSet).forEach( ([ key, item ] ) => {
+			Object.entries(itemSet).forEach(([key, item]) => {
 				totalDownloads += item.downloads;
 				mostDownloaded[key] = ('undefined' === typeof mostDownloaded[key]) ? {
 					downloads: item.downloads,
@@ -382,103 +368,96 @@ class DLM_Reports {
 
 		jQuery(this.datePickerContainer).append(element);
 
-		const datepickerShortcuts = [
+		const datepickerShortcuts = [];
 
-			{
-				name: 'Last 7 Days',
-				dates: function () {
+		// Let's add shortcuts to our datepicker only if they can be managed/downloads can be viewed based on them.
+		if (calendar_start_date.getTime() !== currDate.getTime()) {
 
-					return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7), new Date(currDate.getDate() + 1)];
-				}
-			},
+			let sevenDays = new Date(),
+				lastMonth = moment().month(currDate.getMonth() - 1).startOf('month')._d,
+				thisMonth = new Date(currDate.getFullYear(), currDate.getMonth(), 1),
+				thisYear = moment().startOf('year')._d,
+				lastYear = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
 
-			{
-				name: 'Last 30 Days',
-				dates: function () {
+			sevenDays = sevenDays.setDate(sevenDays.getDate() - 6);
 
-					return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 30), currDate];
-				}
-			},
-			{
-				name: 'This month',
-				dates: function () {
-
-					return [new Date(currDate.getFullYear(), currDate.getMonth(), 1), currDate];
-				},
-			},
-			{
-				name: 'Last month',
-				dates: function () {
-
-					let start = moment().month(currDate.getMonth() - 1).startOf('month')._d;
-					let end = moment().month(currDate.getMonth() - 1).endOf('month')._d;
-
-					if (0 === currDate.getMonth()) {
-						start = moment().year(currDate.getFullYear() - 1).month(11).startOf('month')._d;
-						end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
+			if (calendar_start_date.getTime() < sevenDays) {
+				datepickerShortcuts.push({
+					name: 'Last 7 Days',
+					dates: function () {
+						return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7), new Date(currDate.getDate() + 1)];
 					}
+				});
+			}
 
-					
-					if ( start.getTime() < calendar_start_date.getTime() && end.getTime() > calendar_start_date.getTime() ) {
-						return [calendar_start_date, end];
-					}
+			if (calendar_start_date.getTime() < thisMonth) {
 
-					return [start, end];
-				}
-			},
-			{
-				name: 'This Year',
-				dates: function () {
+				datepickerShortcuts.push({
+					name: 'This month',
+					dates: function () {
 
-					const start = moment().startOf('year')._d;
+						return [new Date(currDate.getFullYear(), currDate.getMonth(), 1), currDate];
+					},
+				});
+			}
 
-					if ( start.getTime() < calendar_start_date.getTime() ) {
-						return [calendar_start_date, currDate];
-					}
+			if (calendar_start_date.getTime() < lastMonth.getTime()) {
+				datepickerShortcuts.push({
+					name: 'Last month',
+					dates: function () {
 
-					return [start, currDate];
-				}
-			},
-			{
-				name: 'Last Year',
-				dates: function () {
+						let start = lastMonth;
+						let end = moment().month(currDate.getMonth() - 1).endOf('month')._d;
 
-					const start = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
-					const end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
-
-
-					return [start, end];
-				}
-			},
-		];
-
-
-		// @todo razvan: Don't add all the shortcuts to the datepicker unless they are usable
-		/* if ( calendar_start_date.getTime() !== currDate.getTime() ) {
-
-			let sevenDays = new Date();
-
-			sevenDays = sevenDays.setDate(sevenDays.getDate() - 6 );
-			console.log(sevenDays.getTime());
-
-			if ( calendar_start_date.getTime() < sevenDays.getTime() ) {
-					datepickerShortcuts.push({
-						name: 'Last 7 Days',
-						dates: function () {	
-							return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7), new Date(currDate.getDate() + 1)];
+						if (0 === currDate.getMonth()) {
+							start = moment().year(currDate.getFullYear() - 1).month(11).startOf('month')._d;
+							end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
 						}
-					});
+
+						return [start, end];
+					}
+				});
+			}
+
+			if (calendar_start_date.getTime() < thisYear.getTime()) {
+				datepickerShortcuts.push({
+					name: 'This Year',
+					dates: function () {
+
+						const start = moment().startOf('year')._d;
+
+						if (start.getTime() < calendar_start_date.getTime()) {
+							return [calendar_start_date, currDate];
+						}
+
+						return [start, currDate];
+					}
+				});
+			}
+
+			if (calendar_start_date.getTime() < lastYear.getTime()) {
+				datepickerShortcuts.push({
+					name: 'Last Year',
+					dates: function () {
+
+						const start = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
+						const end = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
+
+
+						return [start, end];
+					}
+				});
 			}
 		}
 
-		
+
 		datepickerShortcuts.push({
 			name: 'All time',
 			dates: function () {
 
 				return [calendar_start_date, currDate];
 			}
-		}); */
+		});
 
 		var configObject = {
 			separator: ' to ',
@@ -523,7 +502,7 @@ class DLM_Reports {
 
 			this.dlmCreateChart(this.stats.chartStats, this.chartContainer);
 
-			this.dlmDownloadsSummary(obj.date1, obj.date2);
+			this.dlmDownloadsSummary();
 
 			element.data('dateRangePicker').close();
 		});
@@ -584,27 +563,26 @@ class DLM_Reports {
 	 */
 	setTodayDownloads() {
 
+		let todayDownloads = 0;
+
 		if (0 >= Object.keys(dlmReportsStats).length) {
 
-			jQuery('.dlm-reports-block-summary li#today span').html('0');
+			jQuery('.dlm-reports-block-summary li#today span').html(todayDownloads);
 			return;
 		}
 
+		// We only need the last date from dlmReportsStats, as it will be the last entry from the DB in crhonological order.
 		const lastDate = dlmReportsStats[dlmReportsStats.length - 1];
-		let todayDownloads = 0;
-
+		
 		if (this.createDateElement(new Date(lastDate.date)) === this.createDateElement(new Date())) {
-			let ms = Date.now();
 
-			Object.values(JSON.parse(lastDate.download_ids)).reduce( ( prevValue, element ) => {
+			todayDownloads = Object.values(JSON.parse(lastDate.download_ids)).reduce((prevValue, element) => {
 
-				todayDownloads = prevValue +  element.downloads;
-
-				return todayDownloads;
+				return prevValue.downloads + element.downloads;
 			});
 
 		}
-
+		
 		jQuery('.dlm-reports-block-summary li#today span').html(todayDownloads);
 
 	}
@@ -759,7 +737,7 @@ class DLM_Reports {
 		const instance = this;
 		instance.dlmCreateChart(this.stats.chartStats, this.chartContainer);
 
-		instance.dlmDownloadsSummary(false, false);
+		instance.dlmDownloadsSummary();
 
 		instance.datePickerContainer.addEventListener('click', instance.toggleDatepicker.bind(this));
 
@@ -781,9 +759,8 @@ class DLM_Reports {
 	}
 
 	// fetch data from WP REST Api in case we want to change the direction from global js variable set by wp_add_inline_script
-	// need to get the fetch URL from 
 	async fetchData() {
-		const fetchedData = await fetch('http://localhost/dm/wp-json/download-monitor/v1/reports');
+		const fetchedData = await fetch(dlmReportsAPI);
 		this.reportsData = await fetchedData.json();
 	}
 }

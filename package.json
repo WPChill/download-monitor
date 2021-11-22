@@ -18,7 +18,7 @@
     "grunt-contrib-cssmin": "~3.0.0",
     "grunt-contrib-less": "~2.0.0",
     "grunt-contrib-rename": "^0.2.0",
-    "grunt-contrib-uglify": "~4.0.0",
+    "grunt-contrib-uglify": "~5.0.0",
     "grunt-contrib-watch": "~1.1.0",
     "grunt-po2json": "^0.3.0",
     "grunt-shell": "~2.1.0",

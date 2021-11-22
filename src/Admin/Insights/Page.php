@@ -65,7 +65,7 @@ class DLM_Reports_Page {
 			'menu_title' => __( 'Insights', 'download-monitor' ),
 			'capability' => 'dlm_view_reports',
 			'menu_slug'  => 'download-monitor-reports',
-			'function'   => ( DLM_DB_Upgrader::check_if_migrated() ) ? array( $this, 'view' ) : array( $this, 'upgrade_dv_view' ),
+			'function'   => ( DLM_DB_Upgrader::check_if_migrated() ) ? array( $this, 'view' ) : array( $this, 'upgrade_db_view' ),
 			'priority'   => 50,
 		);
 
@@ -238,13 +238,13 @@ class DLM_Reports_Page {
 	 *
 	 * @return void
 	 */
-	public function upgrade_dv_view() {
+	public function upgrade_db_view() {
 
 		?>
 		<div class="wrap">
 			<hr class="wp-header-end">
 			<div class="main">
-				<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s reports page.', 'download-monitor' ); ?></h3>	
+				<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s insights page.', 'download-monitor' ); ?></h3>	
 			</div>
 			</div>
 		<?php

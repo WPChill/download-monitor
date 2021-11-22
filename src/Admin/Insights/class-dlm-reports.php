@@ -61,7 +61,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.5.0
 		 */
 		public function create_global_variable() {
-			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; dlmReportsStats = ' . wp_json_encode( $this->report_stats() ), 'before' );
+			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; dlmReportsAPI ="' . get_option( 'siteurl' ) . '/wp-json/download-monitor/v1/reports"; dlmReportsStats = ' . wp_json_encode( $this->report_stats() ), 'before' );
 		}
 
 		/**
@@ -90,7 +90,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @throws Exception
 		 * @since 4.5.0
 		 */
-
 		public function rest_stats() {
 
 			return $this->respond( $this->report_stats() );
@@ -99,7 +98,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		/**
 		 * Send our data
 		 *
-		 * @param $data
+		 * @param $data JSON data received from report_stats.
 		 *
 		 * @return WP_REST_Response
 		 * @since 4.5.0
