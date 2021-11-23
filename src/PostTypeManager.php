@@ -6,6 +6,7 @@ class DLM_Post_Type_Manager {
 	 * Setup hooks
 	 */
 	public function setup() {
+		add_action( 'rest_api_init', array( $this, 'register_dlm_download_post_meta_rest' ) );
 		add_action( 'init', array( $this, 'register' ), 10 );
 
 		add_filter( 'views_edit-dlm_download', array( $this, 'add_extensions_tab' ), 10, 1 );
@@ -64,7 +65,8 @@ class DLM_Post_Type_Manager {
 				) ),
 				'has_archive'         => false,
 				'show_in_nav_menus'   => false,
-				'menu_position'       => 35
+				'menu_position'       => 35,
+				'show_in_rest'        => true,
 			) )
 		);
 
@@ -100,6 +102,27 @@ class DLM_Post_Type_Manager {
 
 		do_action( 'dlm_after_post_type_register' );
 
+
+	}
+
+	public function register_dlm_download_post_meta_rest() {
+		register_rest_field( 'dlm_download', 'featured', array(
+			'get_callback' => function( $post_arr ) {
+				return get_post_meta( $post_arr['id'], '_featured', true );
+
+			},
+		));
+		register_rest_field( 'dlm_download', 'download_count', array(
+			'get_callback' => function( $post_arr ) {
+				return get_post_meta( $post_arr['id'], '_download_count', true );
+
+			},
+		));
+		register_rest_field( 'dlm_download', 'author', array(
+			'get_callback' => function( $post_arr ) {
+				return get_the_author_meta( 'nickname', $post_arr['post_author'] );
+			},
+		));
 
 	}
 
