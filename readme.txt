@@ -29,6 +29,7 @@ Download Monitor provides an interface for uploading and managing downloadable f
 * Member only downloads, requires users to be logged in to download your files.
 * Customisable endpoints for showing pretty download links.
 
+Download Monitor has been featured on the websites of some of the most popular and leading businesses in the WordPress ecosystem, such as WPBeginner, Pagely, Jilt, WP Fusion & Kinsta.
 
 > #### Download Monitor Extensions
 > Extend the core Download Monitor plugin with it's powerful extensions.
