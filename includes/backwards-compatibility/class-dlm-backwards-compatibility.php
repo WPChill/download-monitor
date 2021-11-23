@@ -30,6 +30,15 @@ class DLM_Backwards_Compatibility {
 	private $filters;
 
 	/**
+	 * The upgrade option.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @var mixed
+	 */
+	private $upgrade_option;
+
+	/**
 	 * Class constructor
 	 *
 	 * @return void
@@ -39,6 +48,9 @@ class DLM_Backwards_Compatibility {
 		add_filter( 'dlm_shortcode_total_downloads', array( $this, 'total_downloads_shortcode' ) );
 		add_action( 'dlm_backwards_compatibility', array( $this, 'orderby_compatibility' ), 15, 1 );
 		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
+		add_filter( 'dlm_meta_download_count', array( $this, 'meta_download_counts' ), 15, 2 );
+
+		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
 
 	}
 
@@ -187,6 +199,32 @@ class DLM_Backwards_Compatibility {
 		remove_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
 		remove_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		remove_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
+	}
+
+	/**
+	 * Backwards compaitbility for users who did not use the logs
+	 *
+	 * @since 4.5.0
+	 * @param  mixed $counts
+	 * @param  mixed $version_id
+	 * @return void
+	 */
+	public function meta_download_counts( $counts, $id ) {
+
+		if ( '0' === $this->upgrade_option['using_logs'] ) {
+
+			if ( 'dlm_download_version' === get_post_type( $id ) ) {
+				$meta_counts = get_post_meta( get_post_parent( $id )->ID, '_download_count', true );
+			} else {
+				$meta_counts = get_post_meta( $id, '_download_count', true );
+			}
+
+			if ( isset( $meta_counts ) && '' !== $meta_counts ) {
+				return ( (int) $counts + (int) $meta_counts );
+			}
+		}
+
+		return $counts;
 	}
 
 }

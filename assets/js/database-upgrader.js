@@ -1,4 +1,4 @@
-(function ( $ ) {
+(function ($) {
 	"use strict";
 
 
@@ -8,108 +8,110 @@
 	 * @type {{init: init, runAjaxs: runAjaxs, ajaxTimeout: null, counts: number, processAjax: processAjax, ajaxRequests: [], completed: number, updateImported: updateImported, ajaxStarted: number}}
 	 */
 	var dlmDBUpgrader = {
-		counts        : 0,
-		completed     : 0,
-		ajaxRequests  : [],
-		ajaxStarted   : 1,
-		ajaxTimeout   : null,
-		ajax          : ajaxurl,
-		entries       : 0,
+		counts: 0,
+		completed: 0,
+		ajaxRequests: [],
+		ajaxStarted: 1,
+		ajaxTimeout: null,
+		ajax: ajaxurl,
+		entries: 0,
 		requestsNumber: 0,
 
 		init: function () {
 
-	
 
-			$( document ).on( 'click', 'button#dlm-upgrade-db', function ( e ) {
+
+			$(document).on('click', 'button#dlm-upgrade-db', function (e) {
 				e.preventDefault();
+				$(this).prop('disabled',true);
+				$(this).parents('.dlm-upgrade-db-notice').addClass('started');
 				dlmDBUpgrader.completed = 0;
-				
+
 
 				const opts = {
-					url     : dlmDBUpgrader.ajax,
-					type    : 'post',
-					async   : true,
-					cache   : false,
+					url: dlmDBUpgrader.ajax,
+					type: 'post',
+					async: true,
+					cache: false,
 					dataType: 'json',
-					data    : {
+					data: {
 						action: 'dlm_db_log_entries',
-						nonce : dlm_upgrader.nonce,
+						nonce: dlm_upgrader.nonce,
 					},
-					success : function ( response ) {
+					success: function (response) {
 						dlmDBUpgrader.entries = response;
 						dlmDBUpgrader.processAjax();
 						ProgressBar.init();
-	
+
 					}
 				};
-	
-				$.ajax( opts );
 
-			} );
+				$.ajax(opts);
+
+			});
 
 		},
 
 		processAjax: function () {
 
 
-			if ( dlmDBUpgrader.entries > 0 ) {
-				dlmDBUpgrader.requestsNumber = parseInt( Math.ceil( dlmDBUpgrader.entries / 10000 ) );
+			if (dlmDBUpgrader.entries > 0) {
+				dlmDBUpgrader.requestsNumber = parseInt(Math.ceil(dlmDBUpgrader.entries / 10000));
 			}
 
-			for ( let i = 0; i <= dlmDBUpgrader.requestsNumber; i++ ) {
+			for (let i = 0; i <= dlmDBUpgrader.requestsNumber; i++) {
 
 				var opts = {
-					url     : dlmDBUpgrader.ajax,
-					type    : 'post',
-					async   : true,
-					cache   : false,
+					url: dlmDBUpgrader.ajax,
+					type: 'post',
+					async: true,
+					cache: false,
 					dataType: 'json',
-					data    : {
+					data: {
 						action: 'dlm_upgrade_db',
-						nonce : dlm_upgrader.nonce,
+						nonce: dlm_upgrader.nonce,
 						offset: dlmDBUpgrader.counts,
 					},
-					success : function () {
+					success: function () {
 
 						dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
 
 						dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
 
-						ProgressBar.progressHandler( (dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber );
+						ProgressBar.progressHandler((dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber);
 
 					}
 				};
 
 				dlmDBUpgrader.counts += 1;
 
-				dlmDBUpgrader.ajaxRequests.push( opts );
+				dlmDBUpgrader.ajaxRequests.push(opts);
 			}
 
 			var alter_table_opts = {
-				url     : dlmDBUpgrader.ajax,
-				type    : 'post',
-				async   : true,
-				cache   : false,
+				url: dlmDBUpgrader.ajax,
+				type: 'post',
+				async: true,
+				cache: false,
 				dataType: 'json',
-				data    : {
+				data: {
 					action: 'dlm_alter_download_log',
-					nonce : dlm_upgrader.nonce,
+					nonce: dlm_upgrader.nonce,
 				},
-				success : function () {
+				success: function () {
 
 					dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
 
 					dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
 
-					ProgressBar.progressHandler( (dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber );
+					ProgressBar.progressHandler((dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber);
 
 				}
 			};
 
 			dlmDBUpgrader.counts += 1;
 
-			dlmDBUpgrader.ajaxRequests.push( alter_table_opts );
+			dlmDBUpgrader.ajaxRequests.push(alter_table_opts);
 
 			dlmDBUpgrader.runAjaxs();
 
@@ -117,52 +119,57 @@
 
 		runAjaxs: function () {
 			var currentAjax;
-			while ( dlmDBUpgrader.ajaxStarted < 2 && dlmDBUpgrader.ajaxRequests.length > 0 ) {
+			while (dlmDBUpgrader.ajaxStarted < 2 && dlmDBUpgrader.ajaxRequests.length > 0) {
 				dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted + 1;
 				currentAjax = dlmDBUpgrader.ajaxRequests.shift();
-				$.ajax( currentAjax );
+				$.ajax(currentAjax);
 
 			}
 
-			if ( dlmDBUpgrader.ajaxRequests.length > 0 ) {
+			if (dlmDBUpgrader.ajaxRequests.length > 0) {
 
-				dlmDBUpgrader.ajaxTimeout = setTimeout( function () {
-					console.log( 'Delayed 1s' );
+				dlmDBUpgrader.ajaxTimeout = setTimeout(function () {
+					console.log('Delayed 1s');
 					dlmDBUpgrader.runAjaxs();
-				}, 1000 );
+				}, 1000);
 			}
 
 		},
 	};
 
 	const ProgressBar = {
-		el   : {},
+		el: {},
 		label: {},
 
 		init: () => {
 
-			ProgressBar.el = jQuery( '#dlm_progress-bar' );
-			ProgressBar.label = jQuery( '#dlm_progress-bar .dlm-progress-label' );
+			ProgressBar.el = jQuery('#dlm_progress-bar');
+			ProgressBar.label = jQuery('#dlm_progress-bar').parent().find('.dlm-progress-label');
 
-			ProgressBar.el.progressbar( {
+			ProgressBar.el.progressbar({
 				value: 0,
-				change  : () => {
-					ProgressBar.label.text( ProgressBar.el.progressbar( 'value' ) + '%' );
+				change: () => {
+					ProgressBar.label.text(ProgressBar.el.progressbar('value') + '%');
 				},
 				complete: () => {
-					setTimeout( function(){ProgressBar.label.text( 'Complete!' ); ProgressBar.el.addClass('completed')}, 3000 );
+					setTimeout( function () {
+						ProgressBar.label.text('Complete! Page will be reloaded in 5 seconds.');
+						ProgressBar.el.addClass('completed');
+						setTimeout(function () {window.location.reload(false);},5000);
+					}, 3000 );				
 				}
-			} );
+			});
 		},
-		progressHandler: ( newValue ) => {			
-			ProgressBar.el.progressbar( 'value', ( newValue ).toFixed(2) );
+		progressHandler: (newValue) => {
+
+			ProgressBar.el.progressbar('value', Math.ceil( newValue ) );
+		
 		}
 	};
 
-	$( document ).ready( function () {
+	$(document).ready(function () {
 		// Init importer
 		dlmDBUpgrader.init();
-	} );
+	});
 
-})( jQuery );
-
+})(jQuery);

@@ -591,6 +591,9 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox:hover h3 .handlediv {
   display: block;
 }
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-download-count-button {
+  width: 100%;
+}
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table {
   width: 100%;
   position: relative;

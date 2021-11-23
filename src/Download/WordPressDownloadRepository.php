@@ -85,7 +85,9 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	public function retrieve_download_count( $download_id ) {
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s", $download_id ) );
+		$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s", $download_id ) );
+
+		return apply_filters( 'dlm_meta_download_count', $download_count, $download_id );
 	}
 
 	/**

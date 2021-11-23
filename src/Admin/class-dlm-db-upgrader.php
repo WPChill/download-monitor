@@ -36,7 +36,14 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			if ( false === get_option( 'dlm_db_upgraded' ) ) {
 				// Also add the new option to the DB and set it to 0.
-				add_option( 'dlm_db_upgraded', '0' );
+				add_option(
+					'dlm_db_upgraded',
+					array(
+						'db_upgraded'   => '0',
+						'using_logs'    => DLM_Utils::table_checker( $wpdb->download_log ) ? '1' : '0',
+						'upgraded_date' => date( 'Y-m-d' ) . ' 00:00:00',
+					)
+				);
 			}
 
 			if ( ! self::check_if_migrated() ) {
@@ -105,6 +112,12 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			// Drop not needed columns in table.
 			$wpdb->query( "ALTER TABLE {$wpdb->download_log} DROP COLUMN user_agent, DROP COLUMN download_status, DROP COLUMN download_status_message;" );
+			// Final step has been made, upgrade is complete.
+			$dlm_db_upgrade                  = get_option( 'dlm_db_upgraded' );
+			$dlm_db_upgrade['db_upgraded']   = '1';
+			$dlm_db_upgrade['upgraded_date'] = date( 'Y-m-d' ) . ' 00:00:00';
+
+			update_option( 'dlm_db_upgraded', $dlm_db_upgrade );
 
 			wp_die();
 
@@ -119,9 +132,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public function create_new_table( $table ) {
 
 			global $wpdb;
-
-			// Came here it means the user clicked the upgrade button, so we save it.
-			update_option( 'dlm_db_upgraded', '1' );
 
 			// Let check if table does not exist.
 			if ( ! DLM_Utils::table_checker( $table ) ) {
@@ -181,11 +191,18 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$offset    = ( isset( $_POST['offset'] ) ) ? $limit * absint( $_POST['offset'] ) : 0;
 			$sql_limit = "LIMIT {$offset},{$limit}";
 
-			$items   = array();
-			$table_1 = "{$wpdb->prefix}download_log";
-			$able_2  = "{$wpdb->prefix}posts";
+			$items        = array();
+			$table_1      = "{$wpdb->download_log}";
+			$able_2       = "{$wpdb->prefix}posts";
+			$column_check = $wpdb->get_results( "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = {$able_2} AND column_name = 'download_status'" );
 
-			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') $sql_limit" ), ARRAY_A );
+			if ( null !== $column_check && ! empty( $column_check ) ) {
+
+				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') $sql_limit" ), ARRAY_A );
+			} else {
+
+				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 $sql_limit" ), ARRAY_A );
+			}
 
 			foreach ( $data as $row ) {
 
@@ -201,14 +218,14 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			foreach ( $items as $key => $log ) {
 
-				$table = "{$wpdb->prefix}dlm_reports_log";
+				$table = "{$wpdb->dlm_reports}";
 
 				$sql_check  = "SELECT * FROM $table  WHERE date = %s;";
 				$sql_insert = "INSERT INTO $table (date,download_ids) VALUES ( %s , %s );";
 				$sql_update = "UPDATE $table dlm SET dlm.download_ids = %s WHERE dlm.date = %s";
 				$check      = $wpdb->get_results( $wpdb->prepare( $sql_check, $key ), ARRAY_A );
 
-				if ( $check ) {
+				if ( null !== $check && ! empty( $check ) ) {
 
 					$downloads = json_decode( $check[0]['download_ids'], ARRAY_A );
 
@@ -254,9 +271,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 						<h3><?php esc_html_e( 'Download Monitor!', 'download-monitor' ); ?></h3>
 						<h4><?php esc_html_e( 'Hello there, we have changed the way we show our reports, now being faster than ever. Please update your database in order for the new reports to work.', 'download-monitor' ); ?></h4>
 						<button id="dlm-upgrade-db" class="button button-primary"><?php esc_html_e( 'Upgrade', 'download-monitor' ); ?></button>
-					</div>			
+					</div>	
+					<div class="dlm-progress-label">0%</div>		
 				</div>
-				<div id="dlm_progress-bar"><div class="dlm-progress-label"></div></div>
+				<div id="dlm_progress-bar"></div>
 			</div>
 			<?php
 		}
