@@ -10,6 +10,8 @@ class DLM_Post_Type_Manager {
 		add_action( 'init', array( $this, 'register' ), 10 );
 
 		add_filter( 'views_edit-dlm_download', array( $this, 'add_extensions_tab' ), 10, 1 );
+
+		add_action( 'current_screen', array( $this, 'disable_geditor'));
 	}
 
 	/**
@@ -174,4 +176,18 @@ class DLM_Post_Type_Manager {
 		<?php
 	}
 
+	/**
+	 * Explicitely disable the gutenberg editor for downloads
+	 * This is needed because the download edit page is not compatible with the gutenberg editor
+	 */
+	public function disable_geditor() {
+
+		$screen = get_current_screen();
+		if( $screen->post_type == 'dlm_download' ) {
+			add_filter( 'use_block_editor_for_post_type', '__return_false', 100 );
+		}
+
+		}
+
 }
+
