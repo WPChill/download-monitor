@@ -105,7 +105,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_title() {
-		echo esc_html( $this->get_title() );
+		echo wp_kses_post( $this->get_title() );
 	}
 
 	/**
