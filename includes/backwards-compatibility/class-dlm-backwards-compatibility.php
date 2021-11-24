@@ -50,6 +50,7 @@ class DLM_Backwards_Compatibility {
 		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
 		add_filter( 'dlm_meta_download_count', array( $this, 'meta_download_counts' ), 15, 2 );
 
+		// If the DB upgrade functionality did not take place we won't have the option stored.
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
 
 	}
@@ -211,7 +212,7 @@ class DLM_Backwards_Compatibility {
 	 */
 	public function meta_download_counts( $counts, $id ) {
 
-		if ( '0' === $this->upgrade_option['using_logs'] ) {
+		if ( $this->upgrade_option && '0' === $this->upgrade_option['using_logs'] ) {
 
 			if ( 'dlm_download_version' === get_post_type( $id ) ) {
 				$meta_counts = get_post_meta( get_post_parent( $id )->ID, '_download_count', true );

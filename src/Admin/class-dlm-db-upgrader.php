@@ -27,32 +27,32 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * @since 4.5.0
 		 */
 		public function __construct() {
+				
+			// Don't do anything if we don't need to or if upgrader already done.
+			if ( ! $this->version_checker() || self::check_if_migrated() ) {
 
-			global $wpdb;
+				return;
+			}
 
+			// Add notice for user to update the DB.
+			add_action( 'admin_notices', array( $this, 'add_db_update_notice' ) );
+			// Enqueue our upgrader scripts.
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_db_upgrader_scripts' ) );
+			// Add our AJAX actions.
 			add_action( 'wp_ajax_dlm_db_log_entries', array( $this, 'count_log_entries' ) );
 			add_action( 'wp_ajax_dlm_upgrade_db', array( $this, 'update_log_table_db' ) );
-			add_Action( 'wp_ajax_dlm_alter_download_log', array( $this, 'alter_download_log_table' ) );
+			add_action( 'wp_ajax_dlm_alter_download_log', array( $this, 'alter_download_log_table' ) );
 
-			if ( false === get_option( 'dlm_db_upgraded' ) ) {
-				// Also add the new option to the DB and set it to 0.
-				add_option(
-					'dlm_db_upgraded',
-					array(
-						'db_upgraded'   => '0',
-						'using_logs'    => DLM_Utils::table_checker( $wpdb->download_log ) ? '1' : '0',
-						'upgraded_date' => date( 'Y-m-d' ) . ' 00:00:00',
-					)
-				);
-			}
-
-			if ( ! self::check_if_migrated() ) {
-
-				// Add notice for user to update the DB.
-				add_action( 'admin_notices', array( $this, 'add_db_update_notice' ) );
-				add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_db_upgrader_scripts' ) );
-
-			}
+			$dlm_logging = get_option( 'dlm_enable_logging' );
+			// Also add the new option to the DB and set it to default.
+			add_option(
+				'dlm_db_upgraded',
+				array(
+					'db_upgraded'   => '0',
+					'using_logs'    => ( isset( $dlm_logging ) && '1' === $dlm_logging ) ? '1' : '0',
+					'upgraded_date' => date( 'Y-m-d' ) . ' 00:00:00',
+				)
+			);
 		}
 
 		/**
@@ -72,6 +72,24 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		}
 
 		/**
+		 * Check for version
+		 *
+		 * @return bool
+		 */
+		private function version_checker() {
+
+			$installed_version = get_option( 'dlm_current_version' );
+			$version = ( is_array( $installed_version ) ) ? $installed_version['prev_version'] : $installed_version;
+
+			if ( version_compare( $version, '4.5.0', '<' ) ) {
+				return true;
+			}
+
+			return false;
+
+		}
+
+		/**
 		 * Check the old table entries
 		 *
 		 * @since 4.5.0
@@ -85,7 +103,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
 
-				wp_send_json( false );
+				wp_send_json( '0' );
 				exit;
 			}
 
@@ -110,16 +128,41 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			global $wpdb;
 
-			// Drop not needed columns in table.
-			$wpdb->query( "ALTER TABLE {$wpdb->download_log} DROP COLUMN user_agent, DROP COLUMN download_status, DROP COLUMN download_status_message;" );
+			$check_status = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = %s', $wpdb->download_log, 'download_status' ) );
+
+			$check_agent = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = %s', $wpdb->download_log, 'user_agent' ) );
+
+			$check_message = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = %s', $wpdb->download_log, 'download_status_message' ) );
+
+			$drop_statement = '';
+
+			if ( null !== $check_status && ! empty( $check_status ) ) {
+				$drop_statement .= 'DROP COLUMN user_agent';
+			}
+
+			if ( null !== $check_agent && ! empty( $check_agent ) ) {
+				$drop_statement .= ', DROP COLUMN download_status';
+			}
+
+			if ( null !== $check_message && ! empty( $check_message ) ) {
+				$drop_statement .= ', DROP COLUMN download_status_message';
+			}
+
+			// Check if we indeed have those columns.
+			// IF not, don't alter the table.
+			if ( '' !== $drop_statement ) {
+				// Drop not needed columns in table.
+				$wpdb->query( "ALTER TABLE {$wpdb->download_log} {$drop_statement};" );
+			}
+
 			// Final step has been made, upgrade is complete.
 			$dlm_db_upgrade                  = get_option( 'dlm_db_upgraded' );
 			$dlm_db_upgrade['db_upgraded']   = '1';
 			$dlm_db_upgrade['upgraded_date'] = date( 'Y-m-d' ) . ' 00:00:00';
 
 			update_option( 'dlm_db_upgraded', $dlm_db_upgrade );
-
-			wp_die();
+			wp_send_json( array( 'success' => true ) );
+			exit;
 
 		}
 
@@ -161,15 +204,11 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public static function check_if_migrated() {
 
 			global $wpdb;
+			$upgrade_option = get_option( 'dlm_db_upgraded' );
 
-			// First we need to check if table exists.
-			if ( null !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->prefix . 'dlm_reports_log' ) ) ) {
+			// Check if table exists and if option is valid.
+			if ( null !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->dlm_reports ) ) && isset( $upgrade_option['db_upgraded'] ) && '1' === $upgrade_option['db_upgraded'] ) {
 
-				 return true;
-			}
-
-			// Now check the option.
-			if ( '1' === get_option( 'dlm_db_upgraded' ) ) {
 				return true;
 			}
 
@@ -194,7 +233,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$items        = array();
 			$table_1      = "{$wpdb->download_log}";
 			$able_2       = "{$wpdb->prefix}posts";
-			$column_check = $wpdb->get_results( "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = {$able_2} AND column_name = 'download_status'" );
+
+			$column_check = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = %s', $wpdb->download_log, 'download_status' ) );
 
 			if ( null !== $column_check && ! empty( $column_check ) ) {
 
@@ -269,7 +309,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				<div class="inside">
 					<div class="main">
 						<h3><?php esc_html_e( 'Download Monitor!', 'download-monitor' ); ?></h3>
-						<h4><?php esc_html_e( 'Hello there, we have changed the way we show our reports, now being faster than ever. Please update your database in order for the new reports to work.', 'download-monitor' ); ?></h4>
+						<h4><?php esc_html_e( 'Hello there, we have changed the way we show our reports, now being faster than ever + many more. Please update your database.', 'download-monitor' ); ?></h4>
 						<button id="dlm-upgrade-db" class="button button-primary"><?php esc_html_e( 'Upgrade', 'download-monitor' ); ?></button>
 					</div>	
 					<div class="dlm-progress-label">0%</div>		

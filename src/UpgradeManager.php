@@ -21,11 +21,13 @@ class DLM_Upgrade_Manager {
 		// Get current version
 		$current_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION, 0 );
 
+		$version = is_array( $current_version ) ? $current_version['current_version'] : $current_version;
+
 		// Check if update is required
-		if ( version_compare( DLM_VERSION, $current_version, '>' ) ) {
+		if ( version_compare( DLM_VERSION, $version, '>' ) ) {
 
 			// Do update
-			$this->do_upgrade( $current_version );
+			$this->do_upgrade( $version );
 
 			// Update version code
 			$this->update_current_version_code();
@@ -107,7 +109,15 @@ class DLM_Upgrade_Manager {
 	 * Update the current version code
 	 */
 	private function update_current_version_code() {
-		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
+
+		$prev_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION );
+		
+		$dlm_version = array(
+			'prev_version' => ( is_array( $prev_version ) ) ? $prev_version['current_version'] : $prev_version,
+			'current_version' => DLM_VERSION,
+		);
+
+		update_option( DLM_Constants::OPTION_CURRENT_VERSION, $dlm_version );
 	}
 
 }

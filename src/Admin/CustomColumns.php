@@ -9,6 +9,27 @@ class DLM_Custom_Columns {
 	}
 
 	/**
+	 * Get the download based on post ID, used for setting columns info
+	 *
+	 * @param  mixed $post_id
+	 * @return void
+	 */
+	private function get_download( $post_id ) {
+
+		/** @var DLM_Download $download */
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve( array(
+			'p'           => absint( $post_id ),
+			'post_status' => array( 'any', 'trash' ),
+		), 1 );
+
+		if ( 0 == count( $downloads ) ) {
+			return;
+		}
+
+		return $downloads[0];
+	}
+
+	/**
 	 * columns function.
 	 *
 	 * @access public
@@ -49,29 +70,19 @@ class DLM_Custom_Columns {
 	public function column_data( $column ) {
 		global $post;
 
-		/** @var DLM_Download $download */
-		$downloads = download_monitor()->service( 'download_repository' )->retrieve( array(
-			'p'           => absint( $post->ID ),
-			'post_status' => array( 'any', 'trash' )
-		), 1 );
-
-		if ( 0 == count( $downloads ) ) {
-			return;
-		}
-
-		$download = $downloads[0];
-
-		/** @var DLM_Download_Version $file */
-		$file = $download->get_version();
-
 		switch ( $column ) {
 			case "thumb" :
+
+				$download = $this->get_download( $post->ID );
+
 				echo $download->get_image();
 				break;
 			case "download_id" :
+
 				echo $post->ID;
 				break;
 			case "download_cat" :
+
 				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_category', '', ', ', '' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
@@ -79,6 +90,7 @@ class DLM_Custom_Columns {
 				}
 				break;
 			case "download_tag" :
+
 				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_tag', '', ', ', '' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
@@ -86,6 +98,9 @@ class DLM_Custom_Columns {
 				}
 				break;
 			case "featured" :
+
+				$download = $this->get_download( $post->ID );
+
 				if ( $download->is_featured() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
@@ -93,6 +108,9 @@ class DLM_Custom_Columns {
 				}
 				break;
 			case "members_only" :
+
+				$download = $this->get_download( $post->ID );
+
 				if ( $download->is_members_only() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
@@ -100,13 +118,22 @@ class DLM_Custom_Columns {
 				}
 				break;
 			case "redirect_only" :
+
+				$download = $this->get_download( $post->ID );
+
 				if ( $download->is_redirect_only() ) {
 					echo '<span class="yes">' . __( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
 				break;
-			case "file" :
+			 case "file" :
+
+				$download = $this->get_download( $post->ID );
+
+				/** @var DLM_Download_Version $file */
+				$file = $download->get_version();
+
 				if ( $file ) {
 					echo '<a href="' . $download->get_the_download_link() . '"><code>' . $file->get_filename();
 					if ( $size = $download->get_version()->get_filesize_formatted() ) {
@@ -116,18 +143,30 @@ class DLM_Custom_Columns {
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
-				break;
-			case "version" :
+				break; 
+			 case "version" :
+
+				$download = $this->get_download( $post->ID );
+
+				/** @var DLM_Download_Version $file */
+				$file = $download->get_version();
+
 				if ( $file && $file->get_version() ) {
 					echo $file->get_version();
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
-				break;
+				break; 
 			case "download_count" :
+
+				$download = $this->get_download( $post->ID );
+
 				echo number_format( $download->get_download_count(), 0, '.', ',' );
 				break;
 			case "featured" :
+
+				$download = $this->get_download( $post->ID );
+
 				if ( $download->is_featured() ) {
 					echo '<img src="' . download_monitor()->get_plugin_url() . '/assets/images/on.png" alt="yes" />';
 				} else {

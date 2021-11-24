@@ -23,10 +23,8 @@
 
 			$(document).on('click', 'button#dlm-upgrade-db', function (e) {
 				e.preventDefault();
-				$(this).prop('disabled',true);
+				$(this).prop('disabled', true);
 				$(this).parents('.dlm-upgrade-db-notice').addClass('started');
-				dlmDBUpgrader.completed = 0;
-
 
 				const opts = {
 					url: dlmDBUpgrader.ajax,
@@ -39,7 +37,13 @@
 						nonce: dlm_upgrader.nonce,
 					},
 					success: function (response) {
-						dlmDBUpgrader.entries = response;
+
+						if ('0' !== response) {
+							dlmDBUpgrader.entries = response;
+						} else {
+							dlmDBUpgrader.entries = 0;
+						}
+
 						dlmDBUpgrader.processAjax();
 						ProgressBar.init();
 
@@ -56,36 +60,39 @@
 
 
 			if (dlmDBUpgrader.entries > 0) {
-				dlmDBUpgrader.requestsNumber = parseInt(Math.ceil(dlmDBUpgrader.entries / 10000));
-			}
 
-			for (let i = 0; i <= dlmDBUpgrader.requestsNumber; i++) {
+				// If there are fewer entries than the set limit, 10000, we should at least make 1 AJAX request
+				// So set it up to 1.
+				dlmDBUpgrader.requestsNumber = (dlmDBUpgrader.entries >= 10000) ? parseInt(Math.ceil(dlmDBUpgrader.entries / 10000)) : 1;
 
-				var opts = {
-					url: dlmDBUpgrader.ajax,
-					type: 'post',
-					async: true,
-					cache: false,
-					dataType: 'json',
-					data: {
-						action: 'dlm_upgrade_db',
-						nonce: dlm_upgrader.nonce,
-						offset: dlmDBUpgrader.counts,
-					},
-					success: function () {
+				for (let i = 0; i <= dlmDBUpgrader.requestsNumber; i++) {
 
-						dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
+					var opts = {
+						url: dlmDBUpgrader.ajax,
+						type: 'post',
+						async: true,
+						cache: false,
+						dataType: 'json',
+						data: {
+							action: 'dlm_upgrade_db',
+							nonce: dlm_upgrader.nonce,
+							offset: dlmDBUpgrader.counts,
+						},
+						success: function () {
 
-						dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
+							dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
 
-						ProgressBar.progressHandler((dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber);
+							dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
 
-					}
-				};
+							ProgressBar.progressHandler((dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber);
 
-				dlmDBUpgrader.counts += 1;
+						}
+					};
 
-				dlmDBUpgrader.ajaxRequests.push(opts);
+					dlmDBUpgrader.counts += 1;
+
+					dlmDBUpgrader.ajaxRequests.push(opts);
+				}
 			}
 
 			var alter_table_opts = {
@@ -104,7 +111,12 @@
 
 					dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
 
-					ProgressBar.progressHandler((dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber);
+					if (dlmDBUpgrader.entries > 0) {
+						ProgressBar.progressHandler((dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber);
+					} else {
+						ProgressBar.progressHandler(dlmDBUpgrader.completed * 100);
+					}
+
 
 				}
 			};
@@ -152,18 +164,20 @@
 					ProgressBar.label.text(ProgressBar.el.progressbar('value') + '%');
 				},
 				complete: () => {
-					setTimeout( function () {
+					setTimeout(function () {
 						ProgressBar.label.text('Complete! Page will be reloaded in 5 seconds.');
 						ProgressBar.el.addClass('completed');
-						setTimeout(function () {window.location.reload(false);},5000);
-					}, 3000 );				
+						setTimeout(function () {
+							window.location.reload(false);
+						}, 5000);
+					}, 3000);
 				}
 			});
 		},
 		progressHandler: (newValue) => {
 
-			ProgressBar.el.progressbar('value', Math.ceil( newValue ) );
-		
+			ProgressBar.el.progressbar('value', Math.ceil(newValue));
+
 		}
 	};
 

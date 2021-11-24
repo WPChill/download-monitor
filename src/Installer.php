@@ -42,8 +42,19 @@ class DLM_Installer {
 		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
 		$no_access_page_endpoint->setup();
 
-		// Set the current version
-		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
+
+		// Set the current version and preserve the last version
+		$prev_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION );
+		$version = ( is_array( $prev_version ) ) ? $prev_version['current_version'] : $prev_version;
+
+		if ( version_compare( DLM_VERSION, $version, '>' ) ) {
+			$dlm_version = array(
+				'prev_version'    => $version,
+				'current_version' => DLM_VERSION,
+			);
+
+			update_option( DLM_Constants::OPTION_CURRENT_VERSION, $dlm_version );
+		}
 
 		// add rewrite rules
 		add_rewrite_endpoint( 'download-id', EP_ALL );
