@@ -219,14 +219,14 @@ class DLM_Admin_Settings {
 						),
 					),
 					'logging'    => array(
-						'title'  => __( 'Insights', 'download-monitor' ),
+						'title'  => __( 'Reports', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'     => 'dlm_enable_window_logging',
-								'cb_label' => __( 'Prevent duplicate download in insights', 'download-monitor' ),
+								'cb_label' => __( 'Prevent duplicate download in Reports', 'download-monitor' ),
 								'std'      => '1',
 								'label'    => __( 'Duplicate download', 'download-monitor' ),
-								'desc'     => __( 'Don\'t add download to insights if user downloads same file multiple times in a 60 seconds download window.', 'download-monitor' ),
+								'desc'     => __( 'Don\'t add download to reports if user downloads same file multiple times in a 60 seconds download window.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 						),

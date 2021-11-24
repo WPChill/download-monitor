@@ -61,8 +61,8 @@ class DLM_Reports_Page {
 
 		// Reports page page.
 		$links[] = array(
-			'page_title' => __( 'Insights', 'download-monitor' ),
-			'menu_title' => __( 'Insights', 'download-monitor' ),
+			'page_title' => __( 'Reports', 'download-monitor' ),
+			'menu_title' => __( 'Reports', 'download-monitor' ),
 			'capability' => 'dlm_view_reports',
 			'menu_slug'  => 'download-monitor-reports',
 			'function'   => ( DLM_DB_Upgrader::check_if_migrated() ) ? array( $this, 'view' ) : array( $this, 'upgrade_db_view' ),
