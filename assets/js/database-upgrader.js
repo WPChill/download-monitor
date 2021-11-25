@@ -8,7 +8,10 @@
 	 * @type {{init: init, runAjaxs: runAjaxs, ajaxTimeout: null, counts: number, processAjax: processAjax, ajaxRequests: [], completed: number, updateImported: updateImported, ajaxStarted: number}}
 	 */
 	var dlmDBUpgrader = {
+		// used to set the offset of the upgrader
 		counts: 0,
+		// offset used in case the upgrader has been ended without completion
+		upgraderResumeOffset: 0,
 		completed: 0,
 		ajaxRequests: [],
 		ajaxStarted: 1,
@@ -39,33 +42,42 @@
 					success: function (response) {
 
 						if ('0' !== response) {
-							dlmDBUpgrader.entries = response;
+
+							// Set our number of entries.
+							dlmDBUpgrader.entries = response.entries;
+
+							// If there is an offset, set it.
+							if (undefined !== typeof response.offset) {
+								dlmDBUpgrader.upgraderResumeOffset = parseInt(response.offset);
+							}
+
 						} else {
 							dlmDBUpgrader.entries = 0;
 						}
 
 						dlmDBUpgrader.processAjax();
-						ProgressBar.init();
-
+						// Initiate the progress bar with a default value, which is > 0 if there was an offset.
+						// We multiply the offset by 1000000 because 10000 is the number for entries / AJAX and 100 si the % number.
+						ProgressBar.init(Math.ceil((dlmDBUpgrader.upgraderResumeOffset * 1000000) / dlmDBUpgrader.entries));
 					}
 				};
 
 				$.ajax(opts);
-
 			});
 
 		},
 
 		processAjax: function () {
 
-
-			if (dlmDBUpgrader.entries > 0) {
+			// Make sure that we have entries
+			if (dlmDBUpgrader.entries - (dlmDBUpgrader.upgraderResumeOffset * 10000) > 0) {
 
 				// If there are fewer entries than the set limit, 10000, we should at least make 1 AJAX request
 				// So set it up to 1.
 				dlmDBUpgrader.requestsNumber = (dlmDBUpgrader.entries >= 10000) ? parseInt(Math.ceil(dlmDBUpgrader.entries / 10000)) : 1;
 
-				for (let i = 0; i <= dlmDBUpgrader.requestsNumber; i++) {
+				// If offset is present then the number of AJAX requests should be the diff between all the requests and the offset
+				for (let i = 0; i <= dlmDBUpgrader.requestsNumber - dlmDBUpgrader.upgraderResumeOffset; i++) {
 
 					var opts = {
 						url: dlmDBUpgrader.ajax,
@@ -76,16 +88,14 @@
 						data: {
 							action: 'dlm_upgrade_db',
 							nonce: dlm_upgrader.nonce,
-							offset: dlmDBUpgrader.counts,
+							// The offset should be the count + the offset got by the transient in the case of a upgrade resume.
+							offset: dlmDBUpgrader.counts + dlmDBUpgrader.upgraderResumeOffset,
 						},
 						success: function () {
 
 							dlmDBUpgrader.ajaxStarted = dlmDBUpgrader.ajaxStarted - 1;
-
 							dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
-
-							ProgressBar.progressHandler((dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber);
-
+							ProgressBar.progressHandler(((dlmDBUpgrader.completed + dlmDBUpgrader.upgraderResumeOffset) * 100) / dlmDBUpgrader.requestsNumber);
 						}
 					};
 
@@ -112,16 +122,13 @@
 					dlmDBUpgrader.completed = dlmDBUpgrader.completed + 1;
 
 					if (dlmDBUpgrader.entries > 0) {
-						ProgressBar.progressHandler((dlmDBUpgrader.completed * 100) / dlmDBUpgrader.requestsNumber);
+						ProgressBar.progressHandler(((dlmDBUpgrader.completed + dlmDBUpgrader.upgraderResumeOffset) * 100) / dlmDBUpgrader.requestsNumber);
 					} else {
-						ProgressBar.progressHandler(dlmDBUpgrader.completed * 100);
+						ProgressBar.progressHandler((dlmDBUpgrader.completed + dlmDBUpgrader.upgraderResumeOffset) * 100);
 					}
-
 
 				}
 			};
-
-			dlmDBUpgrader.counts += 1;
 
 			dlmDBUpgrader.ajaxRequests.push(alter_table_opts);
 
@@ -153,13 +160,14 @@
 		el: {},
 		label: {},
 
-		init: () => {
+		init: (defaultValue = 0) => {
 
 			ProgressBar.el = jQuery('#dlm_progress-bar');
 			ProgressBar.label = jQuery('#dlm_progress-bar').parent().find('.dlm-progress-label');
+			ProgressBar.label.text(Math.ceil(defaultValue) + '%');
 
 			ProgressBar.el.progressbar({
-				value: 0,
+				value: defaultValue,
 				change: () => {
 					ProgressBar.label.text(ProgressBar.el.progressbar('value') + '%');
 				},

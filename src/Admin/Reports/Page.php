@@ -65,7 +65,7 @@ class DLM_Reports_Page {
 			'menu_title' => __( 'Reports', 'download-monitor' ),
 			'capability' => 'dlm_view_reports',
 			'menu_slug'  => 'download-monitor-reports',
-			'function'   => ( DLM_DB_Upgrader::check_if_migrated() ) ? array( $this, 'view' ) : array( $this, 'upgrade_db_view' ),
+			'function'   => ( ! DLM_DB_Upgrader::do_upgrade() ) ? array( $this, 'view' ) : array( $this, 'upgrade_db_view' ),
 			'priority'   => 50,
 		);
 

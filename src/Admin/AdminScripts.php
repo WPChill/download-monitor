@@ -105,7 +105,7 @@ class DLM_Admin_Scripts {
 
 		}
 
-		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-reports' === $_GET['page'] && DLM_DB_Upgrader::check_if_migrated() ) {
+		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-reports' === $_GET['page'] && ! DLM_DB_Upgrader::do_upgrade() ) {
 
 			// Enqueue Reports JS
 			wp_enqueue_script(

@@ -27,9 +27,9 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * @since 4.5.0
 		 */
 		public function __construct() {
-				
+
 			// Don't do anything if we don't need to or if upgrader already done.
-			if ( ! $this->version_checker() || self::check_if_migrated() ) {
+			if ( ! self::do_upgrade() ) {
 
 				return;
 			}
@@ -72,16 +72,40 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		}
 
 		/**
+		 * Check to see if we need to upgrade
+		 *
+		 * @since 4.5.0
+		 *
+		 * @return bool
+		 */
+		public static function do_upgrade() {
+
+			if ( false !== get_transient( 'dlm_db_upgrade_offset' ) ) {
+				return true;
+			}
+
+			if ( ! self::version_checker() ) {
+				return false;
+			}
+
+			if ( self::check_if_migrated() ) {
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
 		 * Check for version
 		 *
 		 * @return bool
 		 */
-		private function version_checker() {
+		public static function version_checker() {
 
 			$installed_version = get_option( 'dlm_current_version' );
-			$version = ( is_array( $installed_version ) ) ? $installed_version['prev_version'] : $installed_version;
+			$version           = ( is_array( $installed_version ) ) ? $installed_version['prev_version'] : $installed_version;
 
-			if ( version_compare( $version, '4.5.0', '<' ) ) {
+			if ( $version && version_compare( $version, '4.5.0', '<' ) ) {
 				return true;
 			}
 
@@ -112,7 +136,26 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			$results = $wpdb->get_results( $wpdb->prepare( "SELECT  COUNT(dlm_log.ID) as `entries` FROM {$wpdb->download_log} dlm_log INNER JOIN $posts_table dlm_posts ON dlm_log.download_id = dlm_posts.ID" ), ARRAY_A );
 
-			wp_send_json( $results[0]['entries'] );
+			// If there is a transient it means that the import has taken place but did not complete.
+			// Let's start from that offset.
+			$upgrader_offset = get_transient( 'dlm_db_upgrade_offset' );
+			if ( false !== $upgrader_offset ) {
+				
+				wp_send_json(
+					array(
+						'entries' => $results[0]['entries'],
+						'offset'  => absint( $upgrader_offset ),
+					)
+				);
+				exit;
+			}
+
+			wp_send_json(
+				array(
+					'entries' => $results[0]['entries'],
+					'offset'  => 0,
+				)
+			);
 			exit;
 		}
 
@@ -126,13 +169,16 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
 
+			// Managed this far, means migration of data is finalized so we can delete our set transient with the offset.
+			delete_transient( 'dlm_db_upgrade_offset' );
+
 			global $wpdb;
 
-			$check_status = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = %s', $wpdb->download_log, 'download_status' ) );
+			$check_status = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status' ) );
 
-			$check_agent = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = %s', $wpdb->download_log, 'user_agent' ) );
+			$check_agent = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'user_agent' ) );
 
-			$check_message = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = %s', $wpdb->download_log, 'download_status_message' ) );
+			$check_message = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status_message' ) );
 
 			$drop_statement = '';
 
@@ -226,15 +272,17 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			global $wpdb;
 
-			$limit     = 10000;
-			$offset    = ( isset( $_POST['offset'] ) ) ? $limit * absint( $_POST['offset'] ) : 0;
+			$limit = 10000;
+
+			$offset = ( isset( $_POST['offset'] ) ) ? $limit * absint( $_POST['offset'] ) : 0;
+
 			$sql_limit = "LIMIT {$offset},{$limit}";
 
-			$items        = array();
-			$table_1      = "{$wpdb->download_log}";
-			$able_2       = "{$wpdb->prefix}posts";
+			$items   = array();
+			$table_1 = "{$wpdb->download_log}";
+			$able_2  = "{$wpdb->prefix}posts";
 
-			$column_check = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = %s AND COLUMN_NAME = %s', $wpdb->download_log, 'download_status' ) );
+			$column_check = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status' ) );
 
 			if ( null !== $column_check && ! empty( $column_check ) ) {
 
@@ -288,6 +336,9 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				}
 			}
 
+			set_transient( 'dlm_db_upgrade_offset', absint( $_POST['offset'] ) );
+
+			// We save the previous so that we make sure all the entries from that range will be saved.
 			wp_send_json( $offset );
 			exit;
 		}

@@ -211,25 +211,24 @@ class DLM_Reports {
 
 			// Set here the dataSets
 			const dataSets = [{
-					label: 'Downloads',
-					color: '#27ae60',
-					data: data,
-					type: 'line',
-					fill: true,
-					backgroundColor: this.chartGradient,
-					pointBackgroundColor: this.chartColors.purple.default,
-					borderColor: this.chartColors.purple.default,
-					lineTension: 0.2,
-					borderWidth: 2,
-					pointRadius: 3,
-					elements: {
-						line: {
-							borderColor: '#2ecc71',
-							borderWidth: 2
-						},
+				label: 'Downloads',
+				color: '#27ae60',
+				data: data,
+				type: 'line',
+				fill: true,
+				backgroundColor: this.chartGradient,
+				pointBackgroundColor: this.chartColors.purple.default,
+				borderColor: this.chartColors.purple.default,
+				lineTension: 0.2,
+				borderWidth: 2,
+				pointRadius: 3,
+				elements: {
+					line: {
+						borderColor: '#2ecc71',
+						borderWidth: 2
 					},
 				},
-			];
+			}, ];
 
 			this.chart = new Chart(chartId, {
 				title: "",
@@ -363,7 +362,8 @@ class DLM_Reports {
 
 		this.datePicker.opened = true;
 		let element = this.createDatepicker();
-		const calendar_start_date = new Date(dlmReportsStats[0].date);
+
+		const calendar_start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date( dlmReportsStats[0].date ) : new Date();
 		const currDate = new Date();
 
 		jQuery(this.datePickerContainer).append(element);
@@ -573,7 +573,7 @@ class DLM_Reports {
 
 		// We only need the last date from dlmReportsStats, as it will be the last entry from the DB in crhonological order.
 		const lastDate = dlmReportsStats[dlmReportsStats.length - 1];
-		
+
 		if (this.createDateElement(new Date(lastDate.date)) === this.createDateElement(new Date())) {
 
 			todayDownloads = Object.values(JSON.parse(lastDate.download_ids)).reduce((prevValue, element) => {
@@ -582,7 +582,7 @@ class DLM_Reports {
 			});
 
 		}
-		
+
 		jQuery('.dlm-reports-block-summary li#today span').html(todayDownloads);
 
 	}
