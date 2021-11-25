@@ -140,7 +140,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Let's start from that offset.
 			$upgrader_offset = get_transient( 'dlm_db_upgrade_offset' );
 			if ( false !== $upgrader_offset ) {
-				
+
 				wp_send_json(
 					array(
 						'entries' => $results[0]['entries'],
@@ -361,7 +361,15 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 					<div class="main">
 						<h3><?php esc_html_e( 'Download Monitor!', 'download-monitor' ); ?></h3>
 						<h4><?php esc_html_e( 'Hello there, we have changed the way we show our reports, now being faster than ever + many more. Please update your database.', 'download-monitor' ); ?></h4>
-						<button id="dlm-upgrade-db" class="button button-primary"><?php esc_html_e( 'Upgrade', 'download-monitor' ); ?></button>
+						<button id="dlm-upgrade-db" class="button button-primary">
+							<?php
+							if ( get_transient( 'dlm_db_upgrade_offset' ) ) {
+								esc_html_e( 'Resume Upgrade', 'download-monitor' );
+							} else {
+								esc_html_e( 'Upgrade', 'download-monitor' );
+							}
+							?>
+						</button>
 					</div>	
 					<div class="dlm-progress-label">0%</div>		
 				</div>

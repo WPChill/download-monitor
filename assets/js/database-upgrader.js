@@ -5,7 +5,7 @@
 	/**
 	 * Modula Importer
 	 *
-	 * @type {{init: init, runAjaxs: runAjaxs, ajaxTimeout: null, counts: number, processAjax: processAjax, ajaxRequests: [], completed: number, updateImported: updateImported, ajaxStarted: number}}
+	 * @type {{init: init, runAjaxs: runAjaxs, ajaxTimeout: null, counts: number, upgraderResumeOffset: number, processAjax: processAjax, ajaxRequests: [], completed: number, updateImported: updateImported, ajaxStarted: number}}
 	 */
 	var dlmDBUpgrader = {
 		// used to set the offset of the upgrader
