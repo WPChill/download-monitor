@@ -34,7 +34,7 @@ class DLM_Admin_Settings {
 					foreach ( $section['fields'] as $field ) {
 						if ( ! empty( $field['name'] ) && ! in_array( $field['type'], apply_filters( 'dlm_settings_display_only_fields', array( 'action_button' ) ) ) ) {
 							if ( isset( $field['std'] ) ) {
-								add_option( $field['name'], $field['std'] );
+								add_option( $field['name'].'aaaaaaa', $field['std'] );
 							}
 							register_setting( $option_group, $field['name'] );
 						}
@@ -292,22 +292,27 @@ class DLM_Admin_Settings {
 			),
 			'lead_generation'      => array(
 				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'external_hosting'     => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'integration'          => array(
 				'title'    => esc_html__( 'Integration', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'email_notification'   => array(
 				'title'    => esc_html__( 'Emails', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			),
 			'terns_and_conditions' => array(
 				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+				'badge'    => true,
 				'sections' => array()
 			)
 		);

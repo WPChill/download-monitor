@@ -5,6 +5,7 @@ Added: Filter 'dlm_completed_order_download' to filter download button in checko
 Added: DLM Rest Routes for dlm_download, dlm_download_category & dlm_download_tag
 Fixed: Changed the escaping method to allow some html tags to be inserted in the title ( https://github.com/WPChill/download-monitor/issues/783 )
 Changed: The "View" category button in Downloads > Categories should not exist ( https://github.com/WPChill/download-monitor/issues/775 )
+Added: Upsells in admin download page options metabox ( https://github.com/WPChill/download-monitor/issues/780 )
 
 = 4.4.13 - 16.11.2021 =
 Fixed: Fatal error because an extra semicolon

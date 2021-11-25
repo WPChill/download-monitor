@@ -40,6 +40,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Admin_Scripts' => __DIR__ . '/../..' . '/src/Admin/AdminScripts.php',
         'DLM_Admin_Settings' => __DIR__ . '/../..' . '/src/Admin/Settings/Settings.php',
         'DLM_Admin_Writepanels' => __DIR__ . '/../..' . '/src/Admin/WritePanels.php',
+        'DLM_Admin_OptionsUpsells' => __DIR__ . '/../..' . '/src/Admin/OptionsUpsells.php',
         'DLM_Ajax' => __DIR__ . '/../..' . '/src/Ajax/Ajax.php',
         'DLM_Ajax_CreatePage' => __DIR__ . '/../..' . '/src/Ajax/CreatePage.php',
         'DLM_Ajax_GetDownloads' => __DIR__ . '/../..' . '/src/Ajax/GetDownloads.php',

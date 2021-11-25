@@ -91,6 +91,8 @@ class DLM_Admin_Extensions {
 
 		add_filter( 'dlm_add_edit_tabs', array( $this, 'dlm_cpt_tabs' ) );
 
+		add_filter( 'dlm_settings', array( $this, 'remove_pro_badge' ), 99 );
+
 
 	}
 
@@ -479,5 +481,22 @@ class DLM_Admin_Extensions {
 	 */
 	public function get_extensions(){
 		return $this->installed_extensions;
+	}
+
+	/**
+	 * Removes pro badge if the section has any extension installed
+	 *
+	 * @return array
+	 *
+	 * @since 4.4.14
+	 */
+	public function remove_pro_badge( $settings ){
+
+		foreach($settings as $key => $setting){
+			if( !empty( $setting['sections'] ) && isset( $setting['badge'] ) ){
+				$settings[$key]['badge'] = false;
+			}
+		}
+		return $settings;
 	}
 }

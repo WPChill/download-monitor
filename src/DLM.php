@@ -119,6 +119,9 @@ class WP_DLM {
 			// Onboarding
 			$onboarding = new Util\Onboarding();
 			$onboarding->setup();
+
+			// Admin Download Page Options Upsells
+			new DLM_Admin_OptionsUpsells();
 		}
 
 		// Setup AJAX handler if doing AJAX
