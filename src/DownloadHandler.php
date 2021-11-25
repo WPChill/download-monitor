@@ -430,9 +430,17 @@ class DLM_Download_Handler {
 					// check if we can find a permalink
 					if ( false !== $no_access_permalink ) {
 
-						// append download id to no access URL
-						$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
+						//get wordpress permalink structure so we can build the url
+						$structure = get_option('permalink_structure', 0 );
 
+						// append download id to no access URL
+
+						if( '' == $structure || 0 == $structure ){
+							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '&download-id=' . $download->get_id();
+						}else{
+							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
+						}
+						
 						if ( ! $download->get_version()->is_latest() ) {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
