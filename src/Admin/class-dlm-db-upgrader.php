@@ -204,7 +204,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Final step has been made, upgrade is complete.
 			$dlm_db_upgrade                  = get_option( 'dlm_db_upgraded' );
 			$dlm_db_upgrade['db_upgraded']   = '1';
-			$dlm_db_upgrade['upgraded_date'] = date( 'Y-m-d' ) . ' 00:00:00';
+			$dlm_db_upgrade['upgraded_date'] = date( 'Y-m-d' );
 
 			update_option( 'dlm_db_upgraded', $dlm_db_upgrade );
 			wp_send_json( array( 'success' => true ) );
@@ -228,7 +228,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				$charset_collate = $wpdb->get_charset_collate();
 
 				$sql = "CREATE TABLE IF NOT EXISTS `$table` (
-		  `date` DATETIME NOT NULL,
+		  `date` DATE NOT NULL,
 		  `download_ids` longtext NULL,
 		  `revenue` longtext NULL,
 		  `refunds` longtext NULL,
@@ -363,6 +363,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 						<h4><?php esc_html_e( 'Hello there, we have changed the way we show our reports, now being faster than ever + many more. Please update your database.', 'download-monitor' ); ?></h4>
 						<button id="dlm-upgrade-db" class="button button-primary">
 							<?php
+							// If the transient is present it means that this is a Resume Upgrade request
 							if ( get_transient( 'dlm_db_upgrade_offset' ) ) {
 								esc_html_e( 'Resume Upgrade', 'download-monitor' );
 							} else {

@@ -39,6 +39,7 @@ class DLM_Reports {
 		this.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsStats)) : {};
 		this.mostDownloaded = false;
 		this.stats = false;
+		this.chartType = 'day';
 		this.createDataOnDate(false, false);
 		this.datePicker = {
 			opened: false
@@ -69,6 +70,59 @@ class DLM_Reports {
 	}
 
 	/**
+	 * Get all dates in set intervals
+	 * Used for chart data
+	 *
+	 * @param startDate
+	 * @param endDate
+	 * @returns {*[]}
+	 */
+	getMonths(days) {
+
+		const dates = [];
+
+		Object.keys(days).map(element => {
+
+			let subString = element.substring(0, 7);
+
+			if ('undefined' === typeof dates[subString]) {
+				dates[subString] = 0;
+			}
+		});
+
+		return dates;
+	}
+
+	/**
+	 * Get all dates in set intervals
+	 * Used for chart data
+	 *
+	 * @param startDate
+	 * @param endDate
+	 * @returns {*[]}
+	 */
+	getWeeks(days) {
+
+		const dates = [];
+
+		Object.keys(days).map(element => {
+			let week;
+
+			if (moment(element).date() > 15) {
+				week = element.substring(0, 7) + '-15';
+			} else {
+				week = element.substring(0, 7) + '-1';
+			}
+
+			if ('undefined' === typeof dates[week]) {
+				dates[week] = 0;
+			}
+		});
+
+		return dates;
+	}
+
+	/**
 	 * Get the next day
 	 *
 	 * @param currentDate
@@ -87,7 +141,10 @@ class DLM_Reports {
 	 * @returns {string}
 	 */
 	createDateElement(date) {
-		return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+		var MM = ((date.getMonth() + 1) < 10 ? '0' : '') +
+			(date.getMonth() + 1);
+
+		return date.getFullYear() + '-' + MM + '-' + date.getDate();
 	}
 
 	/**
@@ -100,77 +157,129 @@ class DLM_Reports {
 	 */
 	createDataOnDate(startDateInput, endDateInput) {
 
-		let startDate, endDate;
-		this.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsStats)) : {};
+		const instance = this;
+
+		let startDate,
+			endDate,
+			monthDiff,
+			chartDate,
+			dlmDownloads;
+		instance.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsStats)) : {};
 
 		if ('undefined' !== typeof startDateInput && startDateInput) {
 
-			startDate = this.createDateElement(new Date(startDateInput));
+			startDate = instance.createDateElement(new Date(startDateInput));
 		} else {
 			// If there are no startDateInput it means it is the first load, so get last 30 days.
 			const lastMonth = new Date();
 			lastMonth.setDate(lastMonth.getDate() - 30);
-			startDate = this.createDateElement(lastMonth);
+			startDate = instance.createDateElement(lastMonth);
 
 		}
 
 		if ('undefined' !== typeof endDateInput && endDateInput) {
-			endDate = this.createDateElement(new Date(endDateInput));
+			endDate = instance.createDateElement(new Date(endDateInput));
 		} else {
 
 			// If there is no endDateInput we'll set the endDate to tomorrow so that we can include today in our reports also.
 			// Seems like this is how the datepicker works.
 			const tomorrow = new Date();
 			tomorrow.setDate(tomorrow.getDate() + 1);
-			endDate = this.createDateElement(tomorrow);
+			endDate = instance.createDateElement(tomorrow);
+		}
+
+		monthDiff = moment(endDate, 'YYYY-MM-DD').month() - moment(startDate, 'YYYY-MM-DD').month();
+		console.log(monthDiff);
+
+		if (moment(endDate, 'YYYY-MM-DD').year() !== moment(startDate, 'YYYY-MM-DD').year() || monthDiff > 6) {
+			instance.chartType = 'month';
+		} else if (monthDiff >= 1) {
+
+			instance.chartType = 'weeks';
+
+			if (1 === monthDiff && moment(endDate, 'YYYY-MM-DD').date() <= moment(startDate, 'YYYY-MM-DD').date()) {
+				instance.chartType = 'day';
+			}
+
+		} else {
+			instance.chartType = 'day';
 		}
 
 		// Get all dates from the startDate to the endDate
-		let dayDownloads = this.getDates(new Date(startDate), new Date(endDate));
+		let dayDownloads = instance.getDates(new Date(startDate), new Date(endDate));
+		// Get selected months
+		let monthDownloads = instance.getMonths(dayDownloads);
+		// Get selected dates in 2 weeks grouping
+		let weeksDownloads = instance.getWeeks(dayDownloads);
 
-		Object.values(this.reportsData).forEach((day, index) => {
+		Object.values(instance.reportsData).forEach((day, index) => {
 
 			const downloads = JSON.parse(day.download_ids);
-			let dateTime = new Date(day.date);
-			const date = this.createDateElement(dateTime);
 
-			if ('undefined' !== typeof dayDownloads[date]) {
+			if ('undefined' !== typeof dayDownloads[day.date]) {
 
-				Object.values(downloads).forEach((item, index) => {
+				switch (instance.chartType) {
+					case 'month':
 
-					dayDownloads[date] = dayDownloads[date] + item.downloads;
+						chartDate = day.date.substring(0, 7);
+						Object.values(downloads).forEach((item, index) => {
 
-				});
+							monthDownloads[chartDate] = ('undefined' !== typeof monthDownloads[chartDate]) ? monthDownloads[chartDate] + item.downloads : item.downloads;
+
+						});
+
+						dlmDownloads = monthDownloads;
+						break;
+					case 'weeks':
+
+						if (moment(day.date).date() > 15) {
+							chartDate = day.date.substring(0, 7) + '-15';
+						} else {
+							chartDate = day.date.substring(0, 7) + '-1';
+						}
+
+						Object.values(downloads).forEach((item, index) => {
+
+							weeksDownloads[chartDate] = ('undefined' !== typeof weeksDownloads[chartDate]) ? weeksDownloads[chartDate] + item.downloads : item.downloads;
+
+						});
+
+						dlmDownloads = weeksDownloads;
+						break;
+					case 'day':
+						Object.values(downloads).forEach((item, index) => {
+
+							dayDownloads[day.date] = dayDownloads[day.date] + item.downloads;
+
+						});
+
+						dlmDownloads = dayDownloads;
+						break;
+				}
 
 			} else {
-				delete this.reportsData[index];
+				delete instance.reportsData[index];
 			}
 
 		});
 
 		// Get number of days, used in summary for daily average downloads
 		const daysLength = Object.keys(dayDownloads).length;
+
 		// Find the start of the donwloads object
 		let start = Object.keys(dayDownloads).findIndex((element) => {
-
-			let element_date = new Date(element);
-			element_date = this.createDateElement(element_date);
-
-			return startDate === element_date;
+			return startDate === element;
 		});
+
 		// Find the end of the downloads object
 		let end = Object.keys(dayDownloads).findIndex((element) => {
-
-			let element_date = new Date(element);
-			element_date = this.createDateElement(element_date);
-			return endDate === element_date;
-
+			return endDate === element;
 		});
 
 		if (-1 === start && -1 === end) {
 
-			this.stats = {
-				chartStats: Object.assign({}, dayDownloads),
+			instance.stats = {
+				chartStats: Object.assign({}, dlmDownloads),
 				summaryStats: false,
 				daysLength: daysLength
 			};
@@ -185,9 +294,9 @@ class DLM_Reports {
 			end = daysLength;
 		}
 
-		this.stats = {
-			chartStats: Object.assign({}, dayDownloads),
-			summaryStats: this.reportsData,
+		instance.stats = {
+			chartStats: Object.assign({}, dlmDownloads),
+			summaryStats: instance.reportsData,
 			daysLength: daysLength
 		};
 
@@ -203,6 +312,8 @@ class DLM_Reports {
 
 		if (data && chartId) {
 
+			const instance = this;
+
 			const chart = Chart.getChart('total_downloads_chart');
 
 			if ('undefined' !== typeof chart) {
@@ -216,9 +327,9 @@ class DLM_Reports {
 				data: data,
 				type: 'line',
 				fill: true,
-				backgroundColor: this.chartGradient,
-				pointBackgroundColor: this.chartColors.purple.default,
-				borderColor: this.chartColors.purple.default,
+				backgroundColor: instance.chartGradient,
+				pointBackgroundColor: instance.chartColors.purple.default,
+				borderColor: instance.chartColors.purple.default,
 				lineTension: 0.2,
 				borderWidth: 2,
 				pointRadius: 3,
@@ -230,7 +341,7 @@ class DLM_Reports {
 				},
 			}, ];
 
-			this.chart = new Chart(chartId, {
+			instance.chart = new Chart(chartId, {
 				title: "",
 				data: {
 					datasets: dataSets
@@ -247,6 +358,11 @@ class DLM_Reports {
 						x: {
 							grid: {
 								display: false
+							},
+							ticks: {
+								callback : (val) => {
+									return ('undefined' !== typeof instance.chartType && 'month' === instance.chartType ) ? moment(Object.keys(data)[val]).format("D MMM YY") : moment(Object.keys(data)[val]).format("D MMM") ;
+								}
 							}
 						},
 					},
@@ -255,7 +371,36 @@ class DLM_Reports {
 						xAxisKey: 'x',
 						yAxisKey: 'y'
 					},
-				}
+					plugins: {
+						tooltip: {
+							backgroundColor: '#fff',
+							titleColor: instance.chartColors.purple.default,
+							titleAlign: 'center',
+							titleFont: {
+								weight: 'bold',
+								size: 18
+							},
+							padding: {
+								left: 15,
+								right: 15,
+								top: 30,
+								bottom: 30,
+							},
+							cornerRadius: 8,
+							borderColor: instance.chartColors.purple.default,
+							borderWidth: 1,
+							displayColors: false,
+							bodyColor: '#000',
+							callbacks: {
+								title: context => context[0].formattedValue ,
+								label: context => '',
+								beforeLabel: context => 'Downloads',
+								afterLabel: context =>  ('undefined' !== instance.chartType && 'month' === instance.chartType) ? moment(context.label).format("MMMM, YYYY") : moment(context.label).format("dddd, MMMM Do YYYY"),
+								labelTextColor: context => instance.chartColors.purple.half,
+							}
+						}
+					}
+				},
 			});
 		}
 	}
@@ -363,7 +508,7 @@ class DLM_Reports {
 		this.datePicker.opened = true;
 		let element = this.createDatepicker();
 
-		const calendar_start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date( dlmReportsStats[0].date ) : new Date();
+		const calendar_start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
 		const currDate = new Date();
 
 		jQuery(this.datePickerContainer).append(element);
@@ -385,7 +530,7 @@ class DLM_Reports {
 				datepickerShortcuts.push({
 					name: 'Last 7 Days',
 					dates: function () {
-						return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7), new Date(currDate.getDate() + 1)];
+						return [new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7), new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate())];
 					}
 				});
 			}
@@ -395,7 +540,6 @@ class DLM_Reports {
 				datepickerShortcuts.push({
 					name: 'This month',
 					dates: function () {
-
 						return [new Date(currDate.getFullYear(), currDate.getMonth(), 1), currDate];
 					},
 				});
@@ -572,14 +716,12 @@ class DLM_Reports {
 		}
 
 		// We only need the last date from dlmReportsStats, as it will be the last entry from the DB in crhonological order.
-		const lastDate = dlmReportsStats[dlmReportsStats.length - 1];
+		if (dlmReportsStats[dlmReportsStats.length - 1].date === this.createDateElement(new Date())) {
 
-		if (this.createDateElement(new Date(lastDate.date)) === this.createDateElement(new Date())) {
+			todayDownloads = Object.values(JSON.parse(dlmReportsStats[dlmReportsStats.length - 1].download_ids)).reduce((prevValue, element) => {
 
-			todayDownloads = Object.values(JSON.parse(lastDate.download_ids)).reduce((prevValue, element) => {
-
-				return prevValue.downloads + element.downloads;
-			});
+				return prevValue + element.downloads;
+			}, 0);
 
 		}
 

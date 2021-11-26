@@ -241,7 +241,7 @@ class DLM_Installer {
 		";
 		
 		$sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_reports_log` (
-			`date` DATETIME NOT NULL,
+			`date` DATE NOT NULL,
 			`download_ids` longtext NULL,
 			`revenue` longtext NULL,
 			`refunds` longtext NULL,

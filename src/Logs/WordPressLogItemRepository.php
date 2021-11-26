@@ -86,7 +86,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		$wpdb->hide_errors();
 
 		// Set the log date. Should be current date, as logs will be separated by dates.
-		$log_date = date( 'Y-m-d' ) . ' 00:00:00';
+		$log_date = date( 'Y-m-d' );
 		$today    = $wpdb->get_results( $wpdb->prepare( "SELECT  * FROM {$wpdb->dlm_reports} WHERE date = %s;", $log_date ), ARRAY_A );
 
 		// check if entry exists.

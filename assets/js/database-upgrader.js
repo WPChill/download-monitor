@@ -41,7 +41,7 @@
 					},
 					success: function (response) {
 
-						if ('0' !== response) {
+						if ('0' !== response && '0' !== response.entries) {
 
 							// Set our number of entries.
 							dlmDBUpgrader.entries = response.entries;

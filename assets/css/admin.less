@@ -486,7 +486,7 @@ table.wp-list-table {
       background: #ececec;
       border: 1px solid #ececec;
       margin: 9px 0 !important;
-      
+
 
       h3 {
         margin: 0 !important;
@@ -521,7 +521,7 @@ table.wp-list-table {
       }
 
       .dlm-download-count-button {
-        width:100%;
+        width: 100%;
       }
 
       table {
@@ -846,399 +846,461 @@ table.wp-list-table {
 }
 
 /* Reports */
-.dlm-reports {
+.dlm_download_page_download-monitor-reports {
 
-  .dlm-insights-header {
+  #wpcontent {
 
-    display:flex;
-    justify-content: space-between;
-    margin-top:25px;
+    background-color: #fff;
 
-    .dlm-insights-navigation {
-     
-      .dlm-insights-tab-navigation {
+    .dlm-reports {
 
-        display:flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        border-bottom:1px solid #ccc;
-        margin:0;
+      .dlm-insights-header {
 
-        .dlm-insights-tab-navigation__element {
-
-          &.active {
-           box-shadow:0px 2px 0px red;
-          }
-
-          border-bottom:1px solid transparent;
-          margin:0 1px;
-          display:block;
-          background-color:#fff;
-          padding:15px 5px;
-          text-align:center;
-          word-break: break-all;
-          cursor: pointer;
-
-          .dlm-insights-tab-navigation__label {
-            display:block;
-            width:100%;
-            font-size:18px;
-            font-weight:bold;
-          }
-          .dlm-insights-tab-navigation__description {
-            display:block;
-            width:100%;
-            font-size:12px;
-            font-style:italic;
-            color:rgb(100, 97, 97);
-          }
-        }
-      }
-
-    }
-
-    .dlm-reports-actions {
-      display: inline-flex;
-  
-      &:hover {
-        border-color: #2693D5;
-        box-shadow: 0 0 1px #2693D5;
-      }
-  
-      &:focus {
-        border-color: #2693D5;
-        box-shadow: 0 0 3px #2693D5;
-      }
-  
-      a.dlm-reports-header-chart-switcher,
-      .dlm-reports-header-date-selector,
-      .dlm-reports-header-period {
-        margin: 0;
-      }
-  
-      .dlm-reports-header-date-selector {
-  
         display: flex;
-        align-items: center;
-        min-height: 32px;
-        position: relative;
-        font-size: 14px;
-        padding: 0 .5em 0 5px;
-        background: #fff;
-        border: 1px solid #cccccc;
-        user-select: none;
-        cursor: pointer;
-  
-        #dlm_date_range_picker {
-          .date-picker-wrapper {
+        justify-content: space-between;
+        margin-top: 25px;
+
+        .dlm-insights-navigation {
+
+          .dlm-insights-tab-navigation {
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            border-bottom: 1px solid #ccc;
+            margin: 0;
+
+            .dlm-insights-tab-navigation__element {
+
+              &.active {
+                box-shadow: 0px 2px 0px red;
+              }
+
+              border-bottom:1px solid transparent;
+              margin:0 1px;
+              display:block;
+              background-color:#fff;
+              padding:15px 5px;
+              text-align:center;
+              word-break: break-all;
+              cursor: pointer;
+
+              .dlm-insights-tab-navigation__label {
+                display: block;
+                width: 100%;
+                font-size: 18px;
+                font-weight: bold;
+              }
+
+              .dlm-insights-tab-navigation__description {
+                display: block;
+                width: 100%;
+                font-size: 12px;
+                font-style: italic;
+                color: rgb(100, 97, 97);
+              }
+            }
+          }
+
+        }
+
+        .dlm-reports-actions {
+          display: inline-flex;
+
+          &:hover {
+            border-color: #2693D5;
+            box-shadow: 0 0 1px #2693D5;
+          }
+
+          &:focus {
+            border-color: #2693D5;
+            box-shadow: 0 0 3px #2693D5;
+          }
+
+          a.dlm-reports-header-chart-switcher,
+          .dlm-reports-header-date-selector,
+          .dlm-reports-header-period {
+            margin: 0;
+          }
+
+          .dlm-reports-header-date-selector {
+
+            display: flex;
+            align-items: center;
+            min-height: 32px;
+            position: relative;
+            font-size: 14px;
+            padding: 0 .5em 0 5px;
             background: #fff;
-            border: 0;
-  
-            .month-wrapper {
-              border: 0;
-            }
-          }
-        }
-  
-        .dlm-arrow {
-          &:before {
-            font-family: "dashicons" !important;
-            content: "\f140";
-            font-style: normal;
-            font-weight: normal;
-            speak: none;
-            display: inline-block;
-            text-decoration: inherit;
-            width: 1em;
-            text-align: center;
-            font-variant: normal;
-            text-transform: none;
-            line-height: 1em;
-            font-size: 1.6em;
-            vertical-align: middle;
-            margin-top: -2px;
-          }
-        }
-  
-        .dlm_rdrs_overlay {
-          display: flex;
-          width: auto;
-          background: #fff;
-          border: 1px solid #2693D5;
-          position: absolute;
-          top: 30px;
-          right: 0;
-          z-index: 10;
-          overflow: hidden;
-          border-radius: 12px;
-  
-          .date-picker-wrapper {
-  
-            padding-left: 175px;
-  
-            .dlm_rdrs_date {
-              font-size: 70%;
-              margin-right: 5px;
-              float: left;
-              z-index: 11;
-              padding: 15px;
-  
-              .ui-datepicker-inline {
+            border: 1px solid #cccccc;
+            user-select: none;
+            cursor: pointer;
+
+            #dlm_date_range_picker {
+              .date-picker-wrapper {
+                background: #fff;
                 border: 0;
-  
-                .ui-state-highlight {
-                  background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
-                  color: #555555;
-                  border: 1px solid #D3D3D3;
-                }
-  
-                .ui-state-active {
-                  border: 1px solid #aaaaaa;
-                  background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
-                }
-  
-                td,
-                th {
-                  padding: 0;
-                  margin: 0;
-                  line-height: 2em;
-  
-                  a {
-                    text-align: center !important;
-                  }
-  
+
+                .month-wrapper {
+                  border: 0;
                 }
               }
             }
-  
-            .dlm_rdrs_actions {
-              width: 70px;
-              padding-left: 10px;
-              text-align: center;
+
+            .dlm-arrow {
+              &:before {
+                font-family: "dashicons" !important;
+                content: "\f140";
+                font-style: normal;
+                font-weight: normal;
+                speak: none;
+                display: inline-block;
+                text-decoration: inherit;
+                width: 1em;
+                text-align: center;
+                font-variant: normal;
+                text-transform: none;
+                line-height: 1em;
+                font-size: 1.6em;
+                vertical-align: middle;
+                margin-top: -2px;
+              }
+            }
+
+            .dlm_rdrs_overlay {
               display: flex;
-            }
-  
-            .footer {
-  
+              width: auto;
+              background: #fff;
+              border: 1px solid #2693D5;
               position: absolute;
-              left: 0;
-              top: 0;
-              height: 100%;
-              padding-top: 0;
-              padding-bottom: 0;
-  
-              .shortcuts {
-                border-right: 1px solid #2693D5;
-                margin-top: 0;
-                margin-bottom: 0;
-                display: flex;
-                flex-flow: column;
-                justify-content: center;
-                height: 100%;
-  
-                a {
-                  text-align: left;
-                  padding: 5px 40px 5px 10px;
-                  min-width: 100px;
-                  color: #000;
-                  text-decoration: none;
-  
-                  &:hover {
-                    color: #2693D5;
-                    background: rgba(204, 204, 204, 0.3);
+              top: 30px;
+              right: 0;
+              z-index: 10;
+              overflow: hidden;
+              border-radius: 12px;
+
+              .date-picker-wrapper {
+
+                padding-left: 175px;
+
+                .dlm_rdrs_date {
+                  font-size: 70%;
+                  margin-right: 5px;
+                  float: left;
+                  z-index: 11;
+                  padding: 15px;
+
+                  .ui-datepicker-inline {
+                    border: 0;
+
+                    .ui-state-highlight {
+                      background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+                      color: #555555;
+                      border: 1px solid #D3D3D3;
+                    }
+
+                    .ui-state-active {
+                      border: 1px solid #aaaaaa;
+                      background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+                    }
+
+                    td,
+                    th {
+                      padding: 0;
+                      margin: 0;
+                      line-height: 2em;
+
+                      a {
+                        text-align: center !important;
+                      }
+
+                    }
+                  }
+                }
+
+                .dlm_rdrs_actions {
+                  width: 70px;
+                  padding-left: 10px;
+                  text-align: center;
+                  display: flex;
+                }
+
+                .footer {
+
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  height: 100%;
+                  padding-top: 0;
+                  padding-bottom: 0;
+
+                  .shortcuts {
+                    border-right: 1px solid #2693D5;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    display: flex;
+                    flex-flow: column;
+                    justify-content: center;
+                    height: 100%;
+
+                    a {
+                      text-align: left;
+                      padding: 5px 40px 5px 10px;
+                      min-width: 100px;
+                      color: #000;
+                      text-decoration: none;
+
+                      &:hover {
+                        color: #2693D5;
+                        background: rgba(204, 204, 204, 0.3);
+                      }
+                    }
                   }
                 }
               }
             }
+
+          }
+
+          .dlm-chart-icon {
+            display: block;
+            padding-right: 15px;
+            color: #23282d;
+          }
+
+          .dlm-reports-header-period {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            border: 1px solid #cccccc;
+            border-left: 0;
+
+            a,
+            a:hover {
+              height: 100%;
+              border: 0;
+              background: #fff;
+              box-shadow: none;
+
+              &.active {
+                background: #cccccc;
+              }
+            }
           }
         }
-  
       }
-  
-      .dlm-chart-icon {
-        display: block;
-        padding-right: 15px;
-        color: #23282d;
-      }
-  
-      .dlm-reports-header-period {
-        display: flex;
-        align-content: center;
-        align-items: center;
-        border: 1px solid #cccccc;
-        border-left: 0;
-  
-        a,
-        a:hover {
-          height: 100%;
-          border: 0;
-          background: #fff;
-          box-shadow: none;
-  
-          &.active {
-            background: #cccccc;
-          }
-        }
-      }
-    }
-  }
 
-  .dlm-insights-tab-navigation__content {
-    display:none;
-
-    &.active {
-      display:block;
-    }
-  }
-
-  .dlm_reports_loader {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 50%;
-    left: 50%;
-    margin: -16px 0 0 -16px;
-  }
-
-  .dlm-reports-block-chart {
-    width: 100%;
-    height: 300px;
-    margin-top: 20px;
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    overflow: hidden;
-
-    .chart-container {
-      h6 {
+      .dlm-insights-tab-navigation__content {
         display: none;
+
+        &.active {
+          display: block;
+        }
       }
-    }
-  }
 
-  .dlm-reports-block-summary {
+      .dlm_reports_loader {
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        top: 50%;
+        left: 50%;
+        margin: -16px 0 0 -16px;
+      }
 
-    margin-top: 30px;
+      .dlm-reports-block-chart {
+        width: 100%;
+        height: 300px;
+        margin-top: 20px;
+        background: #fff;
+        overflow: hidden;
 
-    #today {
-      border-left: 1px solid #ccc;
-    }
-  }
+        .chart-container {
+          h6 {
+            display: none;
+          }
+        }
+      }
 
-  #downloads-block-navigation {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+      .dlm-reports-block-summary {
 
-    button {
-      margin: 0 15px;
-      width: 50px;
-    }
-  }
+        margin-top: 30px;
 
-  .dlm-reports-block {
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    overflow: hidden;
+        #today {
+          border-left: 1px solid #ccc;
 
-    &.dlm-reports-block-half {
-      width: 49%;
-      margin-right: 1%;
-    }
+          span {
+            border:none;
+          }
+        }
+      }
 
-    &.dlm-reports-block-half-right {
-      width: 49%;
-      margin-left: 1%;
-    }
+      #downloads-block-navigation {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
 
-    .dlm-reports-placeholder-no-data {
-      display: inline-block;
-      width: 100%;
-      font-size: 1.5em;
-      color: #b4b9be;
-      font-style: italic;
-      text-align: center;
-    }
+        button {
+          margin: 0 15px;
+          width: 50px;
+        }
+      }
 
-    ul {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 0;
-      margin: 0;
-
-      li {
-        padding: 15px 0 60px 0;
+      .dlm-reports-block {
         position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        overflow: hidden;
 
-        label {
-          position: absolute;
-          bottom: 15px;
+        &#total_downloads_summary {
+          background-color: #f0f0f1;
+          color: purple;
+          border-radius: 20px;
         }
 
-        label,
-        span {
-          display: block;
+        &.dlm-reports-block-half {
+          width: 49%;
+          margin-right: 1%;
+        }
+
+        &.dlm-reports-block-half-right {
+          width: 49%;
+          margin-left: 1%;
+        }
+
+        .dlm-reports-placeholder-no-data {
+          display: inline-block;
           width: 100%;
+          font-size: 1.5em;
+          color: #b4b9be;
+          font-style: italic;
           text-align: center;
         }
 
-        span {
-          font-size: 2.5em;
-          font-weight: bold;
+        ul {
+          box-sizing: border-box;
+          width: 100%;
+          padding: 0;
+          margin: 0;
+
+          li {
+            padding: 15px 0 60px 0;
+            position: relative;
+
+            &:not(:first-child) {
+
+              span {
+                border-left: 1px solid #ccc;
+              }
+            }
+      
+            label {
+              position: absolute;
+              bottom: 15px;
+            }
+
+            label,
+            span {
+              display: block;
+              width: 100%;
+              text-align: center;
+            }
+
+            span {
+              font-size: 2.5em;
+              font-weight: bold;
+              padding: 15px 0;
+            }
+          }
+        }
+
+        table {
+          width: 100%;
+          float: left;
+          position: relative;
+          padding: 0 15px;
+
+          th,
+          td {
+            text-align: center;
+            padding: 10px 0;
+
+            &:first-child {
+              text-align: left;
+            }
+          }
+
+          th {
+            padding-bottom: 20px;
+          }
+        }
+      }
+
+    }
+
+    .dlm-reports-block-summary {
+      color: #1d2327;
+
+      ul {
+        display: flex;
+        align-items: strecth;
+        flex-direction: row;
+
+        li {
+          flex-grow: 1;
+          flex: 1;
           padding: 15px 0;
+          margin: 0 auto;
         }
       }
     }
 
-    table {
+    .total_downloads_chart-wrapper {
       width: 100%;
-      float: left;
-      position: relative;
-      padding: 0 15px;
+    }
 
-      th,
-      td {
-        text-align: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #e5e5e5;
+    #total_downloads_table_wrapper {
+      width:50%;
 
-        &:first-child {
-          text-align: left;
+      table {
+
+        border-collapse: collapse;
+
+        tr {
+          border:0;
+
+          th,td {
+
+            text-align: right;
+            padding: 10px 15px;
+
+            &:not(:last-child) {
+              width:30px;
+              text-align: left;
+            }
+          }
+
+          &:nth-child(even) {
+
+            td {
+              background-color: #f0f0f1;
+
+              &:first-child{
+                border-top-left-radius:10px;
+                border-bottom-left-radius:10px;
+              }
+              &:last-child{
+                border-top-right-radius:10px;
+                border-bottom-right-radius:10px;
+              }
+            
+            }           
+          }
         }
-      }
 
-      th {
-        padding-bottom: 20px;
       }
     }
   }
-
-}
-
-.dlm-reports-block-summary {
-  background: #fff !important;
-  color: #1d2327;
-
-  ul {
-    display: flex;
-    align-items: strecth;
-    flex-direction: row;
-
-    li {
-      flex-grow: 1;
-      flex: 1;
-      padding: 15px 0;
-      margin: 0 auto;
-    }
-  }
-}
-
-#total_downloads_table_wrapper,
-.total_downloads_chart-wrapper {
-  width: 100%;
 }
 
 
