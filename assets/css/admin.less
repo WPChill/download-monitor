@@ -860,6 +860,11 @@ table.wp-list-table {
         justify-content: space-between;
         margin-top: 25px;
 
+        .dlm-reports-heading {
+          color:rgba(0,0,0,0.6);
+          font-weight: bold;
+        }
+
         .dlm-insights-navigation {
 
           .dlm-insights-tab-navigation {
@@ -1093,6 +1098,11 @@ table.wp-list-table {
       .dlm-insights-tab-navigation__content {
         display: none;
 
+        > div {        
+          margin-bottom:15px;
+          border-bottom:1px solid #ccc;
+        }
+
         &.active {
           display: block;
         }
@@ -1124,14 +1134,6 @@ table.wp-list-table {
       .dlm-reports-block-summary {
 
         margin-top: 30px;
-
-        #today {
-          border-left: 1px solid #ccc;
-
-          span {
-            border:none;
-          }
-        }
       }
 
       #downloads-block-navigation {
@@ -1153,9 +1155,17 @@ table.wp-list-table {
         overflow: hidden;
 
         &#total_downloads_summary {
-          background-color: #f0f0f1;
-          color: purple;
-          border-radius: 20px;
+          background-color: rgba(240, 240, 241, 0.4);
+          border-radius: 10px;
+
+          span {
+            color: #0D217A;
+          } 
+
+          label {
+            color:rgba(0,0,0,0.6);
+            font-weight: 700;
+          }
         }
 
         &.dlm-reports-block-half {
@@ -1186,14 +1196,7 @@ table.wp-list-table {
           li {
             padding: 15px 0 60px 0;
             position: relative;
-
-            &:not(:first-child) {
-
-              span {
-                border-left: 1px solid #ccc;
-              }
-            }
-      
+  
             label {
               position: absolute;
               bottom: 15px;
@@ -1210,6 +1213,13 @@ table.wp-list-table {
               font-size: 2.5em;
               font-weight: bold;
               padding: 15px 0;
+              border-left: 1px solid #ccc;
+            }
+
+            &:first-child {
+              span {
+                border:none;
+              }
             }
           }
         }
@@ -1262,6 +1272,11 @@ table.wp-list-table {
     #total_downloads_table_wrapper {
       width:50%;
 
+      .dashicons {
+        font-size:12px;
+        line-height: 18px;
+      }
+
       table {
 
         border-collapse: collapse;
@@ -1274,16 +1289,27 @@ table.wp-list-table {
             text-align: right;
             padding: 10px 15px;
 
-            &:not(:last-child) {
+            &:first-child,
+            &:nth-child(2) {
               width:30px;
+            }
+
+            &:not(:last-child) {            
               text-align: left;
+            }
+
+            a {
+              text-decoration: none;
+              color:#0D217A;
+              font-size:14px;
+              font-weight: 600;
             }
           }
 
           &:nth-child(even) {
 
             td {
-              background-color: #f0f0f1;
+              background-color:rgba(240, 240, 241, 0.4);
 
               &:first-child{
                 border-top-left-radius:10px;
@@ -1295,6 +1321,11 @@ table.wp-list-table {
               }
             
             }           
+          }
+
+          td:last-child {
+            font-weight: bold;
+            color:#0D217A;
           }
         }
 
@@ -1993,4 +2024,54 @@ table.wp-list-table {
 
 .text-right {
   text-align: right;
+}
+
+/**
+WPCHill Tooltips
+*/
+
+/* Tabs tooltips */
+.wpchill-tooltip {
+	position: relative;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.wpchill-tooltip > i {
+  cursor: pointer;
+  color:rgba(0,0,0,0.6);
+  margin-left: 5px;
+  font-style:normal;
+}
+
+.wpchill-tooltip .wpchill-tooltip-content {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translate( 100% ,-50% );
+  width: 300px;
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 99;
+}
+
+.wpchill-tooltip .wpchill-tooltip-content:before {
+  content: '';
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 8px 8px 8px 0;
+  border-color: transparent #000 transparent transparent;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  transform: translateY( -50% );
+}
+
+.wpchill-tooltip:hover .wpchill-tooltip-content {
+  display: block;
 }

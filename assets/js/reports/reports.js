@@ -22,15 +22,21 @@ class DLM_Reports {
 				quarter: "rgba(149, 76, 233, 0.5)",
 				zero: "rgba(149, 76, 233, 0.05)"
 			},
+			blue: {
+				default: "rgba(56, 88, 233, 1)",
+				half: "rgba(56, 88, 233, 0.75)",
+				quarter: "rgba(56, 88, 233, 0.5)",
+				zero: "rgba(56, 88, 233, 0.05)"
+			},
 			indigo: {
 				default: "rgba(80, 102, 120, 1)",
 				quarter: "rgba(80, 102, 120, 0.5)"
 			}
 		};
 		this.chartGradient = ctx.createLinearGradient(0, 25, 0, 300);
-		this.chartGradient.addColorStop(0, this.chartColors.purple.half);
-		this.chartGradient.addColorStop(0.45, this.chartColors.purple.quarter);
-		this.chartGradient.addColorStop(1, this.chartColors.purple.zero);
+		this.chartGradient.addColorStop(0, this.chartColors.blue.half);
+		this.chartGradient.addColorStop(0.45, this.chartColors.blue.quarter);
+		this.chartGradient.addColorStop(1, this.chartColors.blue.zero);
 
 
 		this.datePickerContainer = document.getElementById('dlm-date-range-picker');
@@ -189,7 +195,6 @@ class DLM_Reports {
 		}
 
 		monthDiff = moment(endDate, 'YYYY-MM-DD').month() - moment(startDate, 'YYYY-MM-DD').month();
-		console.log(monthDiff);
 
 		if (moment(endDate, 'YYYY-MM-DD').year() !== moment(startDate, 'YYYY-MM-DD').year() || monthDiff > 6) {
 			instance.chartType = 'month';
@@ -328,16 +333,23 @@ class DLM_Reports {
 				type: 'line',
 				fill: true,
 				backgroundColor: instance.chartGradient,
-				pointBackgroundColor: instance.chartColors.purple.default,
-				borderColor: instance.chartColors.purple.default,
+				pointBackgroundColor: instance.chartColors.blue.default,
+				pointHoverBackgroundColor: '#fff',
+				borderColor: instance.chartColors.blue.default,
+				pointBorderWidth: 6,
 				lineTension: 0.2,
 				borderWidth: 2,
 				pointRadius: 3,
 				elements: {
 					line: {
 						borderColor: '#2ecc71',
-						borderWidth: 2
+						borderWidth: 2,
 					},
+					point: {
+						radius: 4,
+						hoverRadius: 8,
+						pointStyle: 'circle'
+					}
 				},
 			}, ];
 
@@ -347,23 +359,20 @@ class DLM_Reports {
 					datasets: dataSets
 				},
 				height: 450,
-				show_dots: 0,
-				x_axis_mode: "tick",
-				y_axis_mode: "span",
 				is_series: 1,
 				options: {
-					aspectRatio: 3,
+					aspectRatio: 5,
 					animation: false,
 					scales: {
 						x: {
 							grid: {
-								display: false
+								display: false,
 							},
 							ticks: {
-								callback : (val) => {
-									return ('undefined' !== typeof instance.chartType && 'month' === instance.chartType ) ? moment(Object.keys(data)[val]).format("D MMM YY") : moment(Object.keys(data)[val]).format("D MMM") ;
+								callback: (val) => {
+									return ('undefined' !== typeof instance.chartType && 'month' === instance.chartType) ? moment(Object.keys(data)[val]).format("D MMM YY") : moment(Object.keys(data)[val]).format("D MMM");
 								}
-							}
+							},
 						},
 					},
 					normalized: true,
@@ -373,8 +382,11 @@ class DLM_Reports {
 					},
 					plugins: {
 						tooltip: {
-							backgroundColor: '#fff',
-							titleColor: instance.chartColors.purple.default,
+							// Should be deleted if we remain on external tooltip
+							/* backgroundColor: '#fff',
+							titleColor: instance.chartColors.blue.default,
+							yAlign: "bottom",
+							xAlign: "bottom",
 							titleAlign: 'center',
 							titleFont: {
 								weight: 'bold',
@@ -387,19 +399,21 @@ class DLM_Reports {
 								bottom: 30,
 							},
 							cornerRadius: 8,
-							borderColor: instance.chartColors.purple.default,
+							borderColor: instance.chartColors.blue.default,
 							borderWidth: 1,
 							displayColors: false,
 							bodyColor: '#000',
 							callbacks: {
-								title: context => context[0].formattedValue ,
+								title: context => context[0].formattedValue,
 								label: context => '',
 								beforeLabel: context => 'Downloads',
-								afterLabel: context =>  ('undefined' !== instance.chartType && 'month' === instance.chartType) ? moment(context.label).format("MMMM, YYYY") : moment(context.label).format("dddd, MMMM Do YYYY"),
-								labelTextColor: context => instance.chartColors.purple.half,
-							}
-						}
-					}
+								afterLabel: context => ('undefined' !== instance.chartType && 'month' === instance.chartType) ? moment(context.label).format("MMMM, YYYY") : moment(context.label).format("dddd, MMMM Do YYYY"),
+								labelTextColor: context => instance.chartColors.blue.half,
+							}, */
+							enabled: false,
+							external: instance.externalTooltipHandler.bind(instance,this),
+						},
+					},
 				},
 			});
 		}
@@ -752,7 +766,7 @@ class DLM_Reports {
 		// setup header row
 		var headerRow = document.createElement('tr');
 		const th0 = document.createElement('th');
-		th0.innerHTML = "#number";
+		th0.innerHTML = "#position";
 		headerRow.appendChild(th0);
 		const th1 = document.createElement('th');
 		th1.innerHTML = "ID";
@@ -778,11 +792,11 @@ class DLM_Reports {
 				let td = document.createElement('td');
 
 				if (j === 0) {
-					td.innerHTML = parseInt(15 * offset) + i + 1;
+					td.innerHTML = '<span class="dlm-listing-position">' + (parseInt(15 * offset) + i + 1) + '.</span>';
 				} else if (j === 1) {
 					td.innerHTML = table_data[i].id;
 				} else if (j === 2) {
-					td.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + table_data[i].id + '&action=edit" target="_blank">' + table_data[i].title + '</a>';
+					td.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + table_data[i].id + '&action=edit" target="_blank">' + table_data[i].title + ' <span class="dashicons dashicons-admin-generic"></span></a>';
 				} else {
 					td.innerHTML = table_data[i].downloads;
 				}
@@ -904,5 +918,149 @@ class DLM_Reports {
 	async fetchData() {
 		const fetchedData = await fetch(dlmReportsAPI);
 		this.reportsData = await fetchedData.json();
+	}
+
+	// The external tooltip of the Chart
+	getOrCreateTooltip(chart) {
+
+		let tooltipEl = chart.canvas.parentNode.querySelector('div');
+
+		if (!tooltipEl) {
+			tooltipEl = document.createElement('div');
+			tooltipEl.style.background = '#fff';
+			tooltipEl.style.borderRadius = '3px';
+			tooltipEl.style.border = 'solid 1px #0D217A';
+			tooltipEl.style.color = '#0D217A';
+			tooltipEl.style.opacity = 1;
+			tooltipEl.style.pointerEvents = 'none';
+			tooltipEl.style.position = 'absolute';
+			tooltipEl.style.transform = 'translate(-50%, 0)';
+			tooltipEl.style.transition = 'all .1s ease';
+			tooltipEl.style.padding = '5px 15px';
+
+			const table = document.createElement('table');
+			table.style.margin = '0px';
+
+			tooltipEl.appendChild(table);
+			chart.canvas.parentNode.appendChild(tooltipEl);
+		}
+
+		return tooltipEl;
+	}
+
+	externalTooltipHandler(plugin, context) {
+		
+		// Tooltip Element
+		const {
+			chart,
+			tooltip
+		} = context;
+
+		const tooltipEl = plugin.getOrCreateTooltip(chart);
+
+		// Hide if no tooltip
+		if (tooltip.opacity === 0) {
+			tooltipEl.style.opacity = 0;
+			return;
+		}
+
+		// Set Text
+		if (tooltip.body) {
+			const titleLines = tooltip.title || [];
+			const bodyLines = tooltip.body.map(b => b.lines);
+
+			const tableHead = document.createElement('thead');
+
+			titleLines.forEach(title => {
+				const tr = document.createElement('tr');
+				tr.style.borderWidth = 0;
+
+				const th = document.createElement('th');
+				th.style.borderWidth = 0;
+
+				// Let us create our tooltip content.
+				// The main wrapper for content
+				const textContent = document.createElement('div');
+				textContent.style.color = 'red';
+
+				// The title
+				const downloads = document.createElement('p');
+				downloads.style.color = '#0D217A';
+				downloads.style.fontSize = '18px';
+				downloads.style.margin = '0 auto';
+				downloads.appendChild(document.createTextNode(title));
+
+				// Info
+				const downloadsInfo = document.createElement('p');
+				downloadsInfo.style.color = 'rgba(0,0,0,0.6)';
+				downloadsInfo.style.fontSize = '12px';
+				downloadsInfo.style.margin = '0 auto';
+				downloadsInfo.appendChild(document.createTextNode('Downloads'));
+
+				// Date
+				const downloadDate = document.createElement('p');
+				downloadDate.style.color = '#0D217A';	
+				downloadDate.style.fontSize = '13px';
+				downloadDate.style.margin = '0 auto';
+				const date = ('undefined' !== plugin.chartType && 'month' === plugin.chartType) ? moment(tooltip.dataPoints[0].label).format("MMMM, YYYY") : moment(tooltip.dataPoints[0].label).format("MMMM Do, YY");
+				downloadDate.appendChild(document.createTextNode(date));
+
+				// Create the whole content and append it
+				textContent.appendChild(downloads).appendChild(downloadsInfo).appendChild(downloadDate);
+				th.appendChild(textContent);
+				tr.appendChild(th);
+				tableHead.appendChild(tr);
+			});
+
+			const tableBody = document.createElement('tbody');
+			bodyLines.forEach((body, i) => {
+				const colors = tooltip.labelColors[i];
+
+				const span = document.createElement('span');
+				span.style.background = colors.backgroundColor;
+				span.style.borderColor = colors.borderColor;
+				span.style.borderWidth = '2px';
+				span.style.marginRight = '10px';
+				span.style.height = '10px';
+				span.style.width = '10px';
+				span.style.display = 'inline-block';
+
+				const tr = document.createElement('tr');
+				tr.style.backgroundColor = 'inherit';
+				tr.style.borderWidth = 0;
+
+				const td = document.createElement('td');
+				td.style.borderWidth = 0;
+
+				const text = document.createTextNode(body);
+
+				td.appendChild(span);
+				td.appendChild(text);
+				tableBody.appendChild(tr);
+			});
+
+			const tableRoot = tooltipEl.querySelector('table');
+
+			// Remove old children
+			while (tableRoot.firstChild) {
+				tableRoot.firstChild.remove();
+			}
+
+			// Add new children
+			tableRoot.appendChild(tableHead);
+			tableRoot.appendChild(tableBody);
+		}
+
+		const {
+			offsetLeft: positionX,
+			offsetTop: positionY
+		} = chart.canvas;
+
+		// Display, position, and set styles for font
+		tooltipEl.style.opacity = 1;
+		tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+		tooltipEl.style.top = (positionY + tooltip.caretY - tooltipEl.offsetHeight - 10) + 'px';
+		tooltipEl.style.font = tooltip.options.bodyFont.string;
+		tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
 	}
 }
