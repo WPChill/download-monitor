@@ -102,24 +102,21 @@ class DLM_Admin_Writepanels {
 
 			do_action( 'dlm_information_start', $download->get_id(), $download );
 			?>
-            <p>
-                <label for="dlm-info-id"><?php echo esc_html__( 'ID', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_id() ); ?>" readonly
-                           onfocus="this.select()"/>
-                </label>
-            </p>
-            <p>
-                <label for="dlm-info-url"><?php echo esc_html__( 'URL', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-url" value="<?php echo esc_attr( $download->get_the_download_link() ); ?>"
-                           readonly onfocus="this.select()"/>
-                </label>
-            </p>
-            <p>
-                <label for="dlm-info-shortcode"><?php echo esc_html__( 'Shortcode', 'download-monitor' ); ?>
-                    <input type="text" id="dlm-info-shortcode"
-                           value='[download id="<?php echo esc_attr( $download->get_id() ); ?>"]' readonly onfocus="this.select()"/>
-                </label>
-            </p>
+            <div>
+                <p><?php echo esc_html__( 'ID', 'download-monitor' ); ?> </p>
+				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_id() ); ?>" readonly onfocus="this.select()"/>
+				<a href="#" title="<?php esc_attr_e( 'Copy ID', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Id" style="width:40px;"></a><span></span>
+			</div>
+            <div>
+                <p><?php echo esc_html__( 'URL', 'download-monitor' ); ?></p>
+				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_the_download_link() ); ?><?php echo esc_attr( $download->get_id() ); ?>" readonly onfocus="this.select()"/>
+				<a href="#" title="<?php esc_attr_e( 'Copy URL', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Url" style="width:40px;"></a><span></span>
+			</div>
+            <div>
+                <p><?php echo esc_html__( 'Shortcode', 'download-monitor' ); ?> </p>
+				<input type="text" id="dlm-info-id" value='[download id="<?php echo esc_attr( $download->get_id() ); ?>"]' readonly onfocus="this.select()"/>
+				<a href="#" title="<?php esc_attr_e( 'Copy shortcode', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Shortcode" style="width:40px;"></a><span></span>
+			</div>
 			<?php
 			do_action( 'dlm_information_end', $download->get_id(), $download );
 		} catch ( Exception $e ) {
