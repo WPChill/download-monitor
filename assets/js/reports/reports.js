@@ -381,6 +381,8 @@ class DLM_Reports {
 						yAxisKey: 'y'
 					},
 					plugins: {
+						legend: {
+							display: false,
 						tooltip: {
 							// Should be deleted if we remain on external tooltip
 							/* backgroundColor: '#fff',

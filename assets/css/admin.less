@@ -1098,10 +1098,6 @@ table.wp-list-table {
       .dlm-insights-tab-navigation__content {
         display: none;
 
-        > div {        
-          margin-bottom:15px;
-          border-bottom:1px solid #ccc;
-        }
 
         &.active {
           display: block;
@@ -1131,10 +1127,6 @@ table.wp-list-table {
         }
       }
 
-      .dlm-reports-block-summary {
-
-        margin-top: 30px;
-      }
 
       #downloads-block-navigation {
         margin-top: 20px;
@@ -1153,18 +1145,24 @@ table.wp-list-table {
         box-sizing: border-box;
         width: 100%;
         overflow: hidden;
+		color: #FFF;
+
+		.wpchill-tooltip {
+			i {
+				color: inherit;
+				opacity: 0.6;
+			}
+		}
 
         &#total_downloads_summary {
-          background-color: rgba(240, 240, 241, 0.4);
-          border-radius: 10px;
 
           span {
-            color: #0D217A;
+            color: inherit;
           } 
 
           label {
-            color:rgba(0,0,0,0.6);
-            font-weight: 700;
+            color: inherit;
+			opacity: 0.7;
           }
         }
 
@@ -1194,8 +1192,17 @@ table.wp-list-table {
           margin: 0;
 
           li {
-            padding: 15px 0 60px 0;
+            padding: 15px 30px;
             position: relative;
+			border-radius: 5px;
+			background-color: #333740;
+			margin-right: 15px;
+			height: 70px;
+			color: #FFF;
+
+			&:last-of-type {
+				margin-right: 0;
+			}
   
             label {
               position: absolute;
@@ -1206,14 +1213,11 @@ table.wp-list-table {
             span {
               display: block;
               width: 100%;
-              text-align: center;
             }
 
             span {
-              font-size: 2.5em;
-              font-weight: bold;
-              padding: 15px 0;
-              border-left: 1px solid #ccc;
+              font-size: 45px;
+			  line-height: 30px;
             }
 
             &:first-child {
