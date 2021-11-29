@@ -71,7 +71,7 @@ class OrderTable extends \WP_List_Table {
 	 * @return string
 	 */
 	private function get_base_url() {
-		return admin_url( sprintf( "edit.php?post_type=%s&page=download-monitor-orders", PostType::KEY ) );
+		return admin_url( "edit.php?post_type=dlm_download&page=download-monitor-orders" );
 	}
 
 	/**
