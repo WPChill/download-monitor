@@ -72,6 +72,9 @@ class DLM_Custom_Columns {
 
 		switch ( $column ) {
 			case "thumb" :
+				
+				$download = $this->get_download( $post->ID );
+
 				echo wp_kses_post( $download->get_image() );
 				break;
 			case "download_id" :
