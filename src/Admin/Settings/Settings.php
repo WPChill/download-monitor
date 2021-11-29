@@ -370,7 +370,7 @@ class DLM_Admin_Settings {
 						'std'      => '',
 						'label'    => __( 'Disable Cart', 'download-monitor' ),
 						'cb_label' => __( 'Disable', 'download-monitor' ),
-						'desc'     => __( 'If checked, your customers will be send to your checkout page directly.', 'download-monitor' ),
+						'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
 						'type'     => 'checkbox'
 					),
 				)
