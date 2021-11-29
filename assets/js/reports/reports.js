@@ -383,40 +383,41 @@ class DLM_Reports {
 					plugins: {
 						legend: {
 							display: false,
-						tooltip: {
-							// Should be deleted if we remain on external tooltip
-							/* backgroundColor: '#fff',
-							titleColor: instance.chartColors.blue.default,
-							yAlign: "bottom",
-							xAlign: "bottom",
-							titleAlign: 'center',
-							titleFont: {
-								weight: 'bold',
-								size: 18
+							tooltip: {
+								// Should be deleted if we remain on external tooltip
+								/* backgroundColor: '#fff',
+								titleColor: instance.chartColors.blue.default,
+								yAlign: "bottom",
+								xAlign: "bottom",
+								titleAlign: 'center',
+								titleFont: {
+									weight: 'bold',
+									size: 18
+								},
+								padding: {
+									left: 15,
+									right: 15,
+									top: 30,
+									bottom: 30,
+								},
+								cornerRadius: 8,
+								borderColor: instance.chartColors.blue.default,
+								borderWidth: 1,
+								displayColors: false,
+								bodyColor: '#000',
+								callbacks: {
+									title: context => context[0].formattedValue,
+									label: context => '',
+									beforeLabel: context => 'Downloads',
+									afterLabel: context => ('undefined' !== instance.chartType && 'month' === instance.chartType) ? moment(context.label).format("MMMM, YYYY") : moment(context.label).format("dddd, MMMM Do YYYY"),
+									labelTextColor: context => instance.chartColors.blue.half,
+								}, */
+								enabled: false,
+								external: instance.externalTooltipHandler.bind(instance, this),
 							},
-							padding: {
-								left: 15,
-								right: 15,
-								top: 30,
-								bottom: 30,
-							},
-							cornerRadius: 8,
-							borderColor: instance.chartColors.blue.default,
-							borderWidth: 1,
-							displayColors: false,
-							bodyColor: '#000',
-							callbacks: {
-								title: context => context[0].formattedValue,
-								label: context => '',
-								beforeLabel: context => 'Downloads',
-								afterLabel: context => ('undefined' !== instance.chartType && 'month' === instance.chartType) ? moment(context.label).format("MMMM, YYYY") : moment(context.label).format("dddd, MMMM Do YYYY"),
-								labelTextColor: context => instance.chartColors.blue.half,
-							}, */
-							enabled: false,
-							external: instance.externalTooltipHandler.bind(instance,this),
 						},
 					},
-				},
+				}
 			});
 		}
 	}
@@ -951,7 +952,7 @@ class DLM_Reports {
 	}
 
 	externalTooltipHandler(plugin, context) {
-		
+
 		// Tooltip Element
 		const {
 			chart,
@@ -1001,7 +1002,7 @@ class DLM_Reports {
 
 				// Date
 				const downloadDate = document.createElement('p');
-				downloadDate.style.color = '#0D217A';	
+				downloadDate.style.color = '#0D217A';
 				downloadDate.style.fontSize = '13px';
 				downloadDate.style.margin = '0 auto';
 				const date = ('undefined' !== plugin.chartType && 'month' === plugin.chartType) ? moment(tooltip.dataPoints[0].label).format("MMMM, YYYY") : moment(tooltip.dataPoints[0].label).format("MMMM Do, YY");
