@@ -34,7 +34,7 @@ class DLM_Admin_Settings {
 					foreach ( $section['fields'] as $field ) {
 						if ( ! empty( $field['name'] ) && ! in_array( $field['type'], apply_filters( 'dlm_settings_display_only_fields', array( 'action_button' ) ) ) ) {
 							if ( isset( $field['std'] ) ) {
-								add_option( $field['name'].'aaaaaaa', $field['std'] );
+								add_option( $field['name'], $field['std'] );
 							}
 							register_setting( $option_group, $field['name'] );
 						}
