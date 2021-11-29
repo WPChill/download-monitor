@@ -684,11 +684,40 @@ table.wp-list-table {
 }
 
 /* Reports */
+<<<<<<< Updated upstream
 .dlm-reports {
 
   h1 {
     .dlm-reports-actions {
       float: right;
+=======
+.dlm_download_page_download-monitor-reports {
+
+  #wpcontent {
+
+    .dlm-reports {
+
+      .dlm-insights-header {
+
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+
+        .dlm-reports-heading {
+          color:rgba(0,0,0,0.6);
+          font-weight: bold;
+        }
+
+        .dlm-insights-navigation {
+
+          .dlm-insights-tab-navigation {
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            border-bottom: 1px solid #ccc;
+            margin: 0;
+>>>>>>> Stashed changes
 
       a.dlm-reports-header-chart-switcher,
       .dlm-reports-header-date-selector,
@@ -809,8 +838,36 @@ table.wp-list-table {
           line-height: 1em;
           font-size: 1.4em;
         }
+<<<<<<< Updated upstream
         &.dlm-line:before {
           content: "\f238";
+=======
+      }
+
+      .dlm-reports-block {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        overflow: hidden;
+
+		.wpchill-tooltip {
+			i {
+				color: inherit;
+				opacity: 0.6;
+			}
+		}
+
+        &#total_downloads_summary {
+
+          span {
+            color: inherit;
+          } 
+
+          label {
+            color: inherit;
+			opacity: 0.7;
+          }
+>>>>>>> Stashed changes
         }
         &.dlm-bar:before {
           content: "\f185";
@@ -890,6 +947,7 @@ table.wp-list-table {
       margin-left: 1%;
     }
 
+<<<<<<< Updated upstream
     .dlm-reports-placeholder-no-data {
       display: inline-block;
       width: 100%;
@@ -897,6 +955,14 @@ table.wp-list-table {
       color: #b4b9be;
       font-style: italic;
       text-align: center;
+=======
+    .total_downloads_chart-wrapper {
+      max-width: 100%;
+	  background-color: #FFF;
+	  padding: 20px 30px;
+	  margin-top: 20px;
+	  border-radius: 5px;
+>>>>>>> Stashed changes
     }
 
     ul {
