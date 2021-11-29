@@ -23,7 +23,7 @@ class Cookie {
 		$session = null;
 
 		if ( isset( $_COOKIE[ self::COOKIE_NAME ] ) ) {
-			$cookie_data = json_decode( base64_decode( $_COOKIE[ self::COOKIE_NAME ] ), true );
+			$cookie_data = json_decode( base64_decode( sanitize_text_field( wp_unslash( $_COOKIE[ self::COOKIE_NAME ] ) ) ), true );
 
 			if ( is_array( $cookie_data ) && ! empty( $cookie_data['key'] ) && ! empty( $cookie_data['hash'] ) ) {
 

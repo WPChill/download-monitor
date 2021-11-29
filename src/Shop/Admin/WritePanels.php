@@ -50,6 +50,8 @@ class WritePanels {
 		if ( is_int( wp_is_post_autosave( $post ) ) ) {
 			return;
 		}
+		// validate nonce
+		// phpcs:ignore
 		if ( empty( $_POST['dlm_product_nonce'] ) || ! wp_verify_nonce( $_POST['dlm_product_nonce'], 'save_meta_data' ) ) {
 			return;
 		}
@@ -95,10 +97,14 @@ class WritePanels {
 			// product not found, no point in continuing
 			return;
 		}
+		if( isset( $_POST['_dlm_price'] ) ) {
+			$product->set_price_from_user_input( sanitize_text_field( wp_unslash( $_POST['_dlm_price'] ) ) );
+		}
 
-		$product->set_price_from_user_input( $_POST['_dlm_price'] );
-		$product->set_download_ids( $_POST['_dlm_downloads'] );
+		if( isset( $_POST['_dlm_downloads'] ) ) {
 
+			$product->set_download_ids( array_map( 'sanitize_text_field', $_POST['_dlm_downloads'] ) );
+		}
 		// persist download
 		Services::get()->service( 'product_repository' )->persist( $product );
 	}

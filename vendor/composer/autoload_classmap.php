@@ -25,6 +25,7 @@ return array(
     'DLM_Admin_Scripts' => $baseDir . '/src/Admin/AdminScripts.php',
     'DLM_Admin_Settings' => $baseDir . '/src/Admin/Settings/Settings.php',
     'DLM_Admin_Writepanels' => $baseDir . '/src/Admin/WritePanels.php',
+    'DLM_Admin_OptionsUpsells' => $baseDir . '/src/Admin/OptionsUpsells.php',
     'DLM_Ajax' => $baseDir . '/src/Ajax/Ajax.php',
     'DLM_Ajax_CreatePage' => $baseDir . '/src/Ajax/CreatePage.php',
     'DLM_Ajax_GetDownloads' => $baseDir . '/src/Ajax/GetDownloads.php',

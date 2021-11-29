@@ -63,7 +63,7 @@ class DLM_Admin_Dashboard {
 		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
 
 		if ( empty( $downloads ) ) {
-			echo '<p>' . __( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
+			echo '<p>' . esc_html__( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
 
 			return;
 		}
@@ -73,14 +73,14 @@ class DLM_Admin_Dashboard {
 			$max_count = 1;
 		}
 		?>
-		<table class="download_chart" cellpadding="0" cellspacing="0">
-			<thead>
-			<tr>
-				<th scope="col"><?php _e( 'Download', 'download_monitor' ); ?></th>
-				<th scope="col"><?php _e( 'Download count', 'download_monitor' ); ?></th>
-			</tr>
-			</thead>
-			<tbody>
+        <table class="download_chart" cellpadding="0" cellspacing="0">
+            <thead>
+            <tr>
+                <th scope="col"><?php echo esc_html__( 'Download', "download_monitor" ); ?></th>
+                <th scope="col"><?php echo esc_html__( 'Download count', "download_monitor" ); ?></th>
+            </tr>
+            </thead>
+            <tbody>
 			<?php
 			if ( $downloads ) {
 				/** @var DLM_Download $download */
@@ -89,8 +89,8 @@ class DLM_Admin_Dashboard {
 					$width = ( $download->get_download_count() / $max_count ) * 80;
 
 					echo '<tr>
-							<th scope="row" style="width:25%;"><a href="' . admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) . '">' . $download->get_title() . '</a></th>
-							<td><span class="bar" style="width:' . $width . '%;"></span>' . number_format( $download->get_download_count(), 0, '.', ',' ) . '</td>
+							<th scope="row" style="width:25%;"><a href="' . esc_url( admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) ) . '">' . esc_html( $download->get_title() ) . '</a></th>
+							<td><span class="bar" style="width:' . esc_attr( $width ) . '%;"></span>' . number_format( $download->get_download_count(), 0, '.', ',' ) . '</td>
 						</tr>';
 				}
 			}

@@ -25,11 +25,15 @@ class AdminChangeOrderStatus extends Ajax {
 		$this->check_nonce();
 
 		if ( ! current_user_can( 'manage_downloads' ) ) {
-			$this->response( false, _( 'You are not allowed to do this.', 'download-monitor' ) );
+			$this->response( false, esc_html__( 'You are not allowed to do this.', 'download-monitor' ) );
+		}
+
+		if ( empty( $_POST['order_id'] ) || empty( $_POST['status'] ) ) {
+			$this->response( false, esc_html__( 'We need and order id and a status.', 'download-monitor' ) );
 		}
 
 		$order_id   = absint( $_POST['order_id'] );
-		$new_status = $_POST['status'];
+		$new_status = sanitize_text_field( wp_unslash( $_POST['status'] ) );
 
 		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $order_repo */
 		$order_repo = Services::get()->service( 'order_repository' );

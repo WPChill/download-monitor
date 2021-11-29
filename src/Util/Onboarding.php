@@ -79,7 +79,7 @@ class Onboarding {
 	public function add_notice() {
 		?>
         <div class="notice notice-warning is-dismissible dlm-notice dlm-onboarding-notice" data-id="onboarding" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm_hide_notice-onboarding' ) ); ?>" id="onboarding">
-            <p><?php printf( __( 'Download Monitor is almost ready for use, %sclick here%s to finish the installation process.', 'download-monitor' ), '<a href="' . admin_url( 'edit.php?post_type=dlm_download&page=dlm_onboarding' ) . '">', '</a>' ); ?></p>
+            <p><?php printf( esc_html__( 'Download Monitor is almost ready for use, %sclick here%s to finish the installation process.', 'download-monitor' ), '<a href="' . esc_url( admin_url( 'edit.php?post_type=dlm_download&page=dlm_onboarding' ) ) . '">', '</a>' ); ?></p>
         </div>
 		<?php
 	}
@@ -100,30 +100,30 @@ class Onboarding {
         <div class="wrap dlm-onboarding">
 
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
-                <h2><?php _e( "Welcome to ", 'download-monitor' ); ?> Download Monitor</h2>
+                <h2><?php echo esc_html__( "Welcome to ", 'download-monitor' ); ?> Download Monitor</h2>
                 <p>
-					<?php _e( "Thank you for installing Download Monitor! We'd like to help you setup the plugin correctly so you can start sharing your files as quickly as possible.", 'download-monitor' ); ?>
-					<?php _e( "With Download Monitor you can manage, track and offer downloads to your users using your WordPress website.", 'download-monitor' ); ?>
-					<?php _e( "On top of that, Download Monitor allows you to sell your downloads, turning your WordPress website into fully featured e-commerce website out of the box.", 'download-monitor' ); ?>
+					<?php echo esc_html__( "Thank you for installing Download Monitor! We'd like to help you setup the plugin correctly so you can start sharing your files as quickly as possible.", 'download-monitor' ); ?>
+					<?php echo esc_html__( "With Download Monitor you can manage, track and offer downloads to your users using your WordPress website.", 'download-monitor' ); ?>
+					<?php echo esc_html__( "On top of that, Download Monitor allows you to sell your downloads, turning your WordPress website into fully featured e-commerce website out of the box.", 'download-monitor' ); ?>
                 </p>
                 <p>
-					<?php _e( "You decide if you want to offer you downloads for free or want to start selling them (or both!). Whatever you decide, you chose the right plugin for the job!", 'download-monitor' ); ?>
+					<?php echo esc_html__( "You decide if you want to offer you downloads for free or want to start selling them (or both!). Whatever you decide, you chose the right plugin for the job!", 'download-monitor' ); ?>
                 </p>
             </div>
 
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
-                <h2><?php _e( "Let's Create Your Pages", 'download-monitor' ); ?></h2>
+                <h2><?php echo esc_html__( "Let's Create Your Pages", 'download-monitor' ); ?></h2>
                 <p>
-					<?php _e( 'In order to function properly, Download Monitor needs to create some pages in your WordPress website.', 'download-monitor' ); ?>
-					<?php _e( "We can create these pages for you here. If you click the 'Create Page' button we will create that page and add the required shortcode to it. We'll also make sure the newly created page is set in your settings page.", 'download-monitor' ); ?>
+					<?php echo esc_html__( 'In order to function properly, Download Monitor needs to create some pages in your WordPress website.', 'download-monitor' ); ?>
+					<?php echo esc_html__( "We can create these pages for you here. If you click the 'Create Page' button we will create that page and add the required shortcode to it. We'll also make sure the newly created page is set in your settings page.", 'download-monitor' ); ?>
                 </p>
                 <p>
-					<?php _e( "If you don't plan on selling downloads, you do not have to create the cart and checkout page. We recommend always creating the No Access page.", 'download-monitor' ); ?>
+					<?php echo esc_html__( "If you don't plan on selling downloads, you do not have to create the cart and checkout page. We recommend always creating the No Access page.", 'download-monitor' ); ?>
                 </p>
                 <table cellpadding="0" cellspacing="0" border="0" class="dlm-onboarding-pages">
                     <tr>
-                        <th><?php _e( 'No Access', 'download-monitor' ); ?></th>
-                        <td><?php _e( "The page your visitors see when they are not allowed to download a file.", 'download-monitor' ); ?></td>
+                        <th><?php echo esc_html__( 'No Access', 'download-monitor' ); ?></th>
+                        <td><?php echo esc_html__( "The page your visitors see when they are not allowed to download a file.", 'download-monitor' ); ?></td>
                         <td>
 							<?php
 							/**
@@ -134,13 +134,13 @@ class Onboarding {
 							if ( $page_no_access != 0 ) :
 								?>
                                 <a href="javascript:;"
-                                   class="button button-primary button-hero dlm-page-exists"><?php _e( 'Page Created', 'download-monitor' ); ?></a>
+                                   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
 								<?php
 							else:
 								?>
                                 <a href="javascript:;"
                                    class="button button-primary button-hero dlm-create-page"
-                                   data-page="no-access"><?php _e( 'Create Page', 'download-monitor' ); ?></a>
+                                   data-page="no-access"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
 								<?php
 							endif;
 							?>
@@ -148,8 +148,8 @@ class Onboarding {
                         </td>
                     </tr>
                     <tr>
-                        <th><?php _e( 'Cart', 'download-monitor' ); ?></th>
-                        <td><?php _e( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></td>
+                        <th><?php echo esc_html__( 'Cart', 'download-monitor' ); ?></th>
+                        <td><?php echo esc_html__( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></td>
                         <td>
 							<?php
 							/**
@@ -160,21 +160,21 @@ class Onboarding {
 							if ( $page_cart != 0 ) :
 								?>
                                 <a href="javascript:;"
-                                   class="button button-primary button-hero dlm-page-exists"><?php _e( 'Page Created', 'download-monitor' ); ?></a>
+                                   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
 								<?php
 							else:
 								?>
                                 <a href="javascript:;"
                                    class="button button-primary button-hero dlm-create-page"
-                                   data-page="cart"><?php _e( 'Create Page', 'download-monitor' ); ?></a>
+                                   data-page="cart"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
 								<?php
 							endif;
 							?>
                         </td>
                     </tr>
                     <tr>
-                        <th><?php _e( 'Checkout', 'download-monitor' ); ?></th>
-                        <td><?php _e( 'Your shop checkout page if you decide to sell downloads.', 'download-monitor' ); ?></td>
+                        <th><?php echo esc_html__( 'Checkout', 'download-monitor' ); ?></th>
+                        <td><?php echo esc_html__( 'Your shop checkout page if you decide to sell downloads.', 'download-monitor' ); ?></td>
                         <td>
 		                    <?php
 		                    /**
@@ -185,13 +185,13 @@ class Onboarding {
 		                    if ( $page_checkout != 0 ) :
 			                    ?>
                                 <a href="javascript:;"
-                                   class="button button-primary button-hero dlm-page-exists"><?php _e( 'Page Created', 'download-monitor' ); ?></a>
+                                   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
 			                    <?php
 		                    else:
 			                    ?>
                                 <a href="javascript:;"
                                    class="button button-primary button-hero dlm-create-page"
-                                   data-page="checkout"><?php _e( 'Create Page', 'download-monitor' ); ?></a>
+                                   data-page="checkout"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
 			                    <?php
 		                    endif;
 		                    ?>
@@ -202,10 +202,10 @@ class Onboarding {
             </div>
 
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
-                <h2><?php _e( 'Extensions', 'download-monitor' ); ?></h2>
+                <h2><?php echo esc_html__( 'Extensions', 'download-monitor' ); ?></h2>
                 <p>
-					<?php _e( 'Power up your Download Monitor website with our official extensions. Our extensions allow you to add specific functionality to your Download Monitor powered website and come with our premium support and updates.', 'download-monitor' ); ?>
-					<?php _e( "Here's a quick sample of what we offer.", 'download-monitor' ); ?>
+					<?php echo esc_html__( 'Power up your Download Monitor website with our official extensions. Our extensions allow you to add specific functionality to your Download Monitor powered website and come with our premium support and updates.', 'download-monitor' ); ?>
+					<?php echo esc_html__( "Here's a quick sample of what we offer.", 'download-monitor' ); ?>
                 </p>
             </div>
 
@@ -237,25 +237,25 @@ class Onboarding {
                 <p>
                     <a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=onboarding"
                        class="button button-primary button-hero"
-                       target="_blank"><?php _e( 'View More Extensions', 'download-monitor' ); ?></a>
+                       target="_blank"><?php echo esc_html__( 'View More Extensions', 'download-monitor' ); ?></a>
                 </p>
             </div>
 
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
-                <h2><?php _e( "What's Next?", 'download-monitor' ); ?></h2>
+                <h2><?php echo esc_html__( "What's Next?", 'download-monitor' ); ?></h2>
 
                 <p>
-					<?php printf( __( "Now that your Download Monitor installation is done, it's time to setup your downloads. You can %sread more about creating your first Download here%s.", 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/creating-your-first-download/?utm_source=plugin&utm_medium=link&utm_campaign=onboarding" target="_blank">', '</a>' ); ?>
-					<?php _e( "If you need any help in setting up your downloads or having any other question about Download Monitor, we'd be happy to help you via our support forums.", 'download-monitor' ); ?>
+					<?php printf( esc_html__( "Now that your Download Monitor installation is done, it's time to setup your downloads. You can %sread more about creating your first Download here%s.", 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/creating-your-first-download/?utm_source=plugin&utm_medium=link&utm_campaign=onboarding" target="_blank">', '</a>' ); ?>
+					<?php echo esc_html__( "If you need any help in setting up your downloads or having any other question about Download Monitor, we'd be happy to help you via our support forums.", 'download-monitor' ); ?>
                     <a href="https://wordpress.org/support/plugin/download-monitor/"
-                       target="_blank"><?php _e( "Click here to visit our Support Forum.", 'download-monitor' ); ?></a>
+                       target="_blank"><?php echo esc_html__( "Click here to visit our Support Forum.", 'download-monitor' ); ?></a>
                 </p>
             </div>
 
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col dlm-onboarding-section-cta">
                 <p>
-                    <a href="<?php echo admin_url( 'post-new.php?post_type=dlm_download' ); ?>"
-                       class="button button-primary button-hero"><?php _e( 'Create Your First Download', 'download-monitor' ); ?></a>
+                    <a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ); ?>"
+                       class="button button-primary button-hero"><?php echo esc_html__( 'Create Your First Download', 'download-monitor' ); ?></a>
                 </p>
             </div>
 

@@ -106,7 +106,9 @@ class DLM_Admin {
 	 */
 	public function upload_dir( $pathdata ) {
 
-		if ( isset( $_POST['type'] ) && 'dlm_download' === $_POST['type'] ) {
+		// We don't process form we just modify the upload path for our custom post type.
+		// phpcs:ignore
+		if ( isset( $_POST['type'] ) && 'dlm_download' === $_POST['type'] ) { 
 			if ( empty( $pathdata['subdir'] ) ) {
 				$pathdata['path']   = $pathdata['path'] . '/dlm_uploads';
 				$pathdata['url']    = $pathdata['url'] . '/dlm_uploads';
@@ -211,7 +213,7 @@ class DLM_Admin {
 			$enqueue = true;
 		}
 
-		if ( $hook == 'edit-tags.php' && strstr( $_GET['taxonomy'], 'dlm_download' ) ) {
+		if ( 'edit-tags.php' == $hook && isset( $_GET['taxonomy'] ) && in_array( $_GET['taxonomy'], array( 'dlm_download_category', 'dlm_download_tag' ) ) ) {
 			$enqueue = true;
 		}
 

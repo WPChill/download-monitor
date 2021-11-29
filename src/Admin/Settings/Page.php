@@ -11,7 +11,13 @@ class DLM_Settings_Page {
 		add_filter( 'dlm_admin_menu_links', array( $this, 'add_settings_page' ), 30 );
 
 		// catch setting actions
-		add_action( 'admin_init', array( $this, 'catch_admin_actions' ) );
+		add_action( 'current_screen', array( $this, 'catch_admin_actions' ) );
+
+		//$this->load_hooks();
+
+		if ( is_admin() ) {
+			$this->load_admin_hooks();
+		}
 	}
 
 	/**
@@ -37,12 +43,12 @@ class DLM_Settings_Page {
 	public function catch_admin_actions() {
 
 		if ( isset( $_GET['dlm_action'] ) && isset( $_GET['dlm_nonce'] ) ) {
-			$action = $_GET['dlm_action'];
-			$nonce  = $_GET['dlm_nonce'];
+			$action = sanitize_text_field( wp_unslash( $_GET['dlm_action'] ) );
 
 			// check nonce
-			if ( ! wp_verify_nonce( $nonce, $action ) ) {
-				wp_die( "Download Monitor action nonce failed." );
+			// phpcs:ignore
+			if ( ! wp_verify_nonce( $_GET['dlm_nonce'], $action ) ) {
+				wp_die( esc_html__( "Download Monitor action nonce failed.", 'download-monitor' ) );
 			}
 
 			switch ( $action ) {
@@ -59,24 +65,51 @@ class DLM_Settings_Page {
 		if ( isset( $_GET['dlm_action_done'] ) ) {
 			add_action( 'admin_notices', array( $this, 'display_admin_action_message' ) );
 		}
+
+		$screen = get_current_screen();
+
+		if( $screen->base ==  'dlm_download_page_download-monitor-settings' ) {
+			$ep_value = get_option( 'dlm_download_endpoint' );
+			$page_check = get_page_by_path( $ep_value );
+			$cpt_check  = post_type_exists( $ep_value );
+
+			if( $page_check || $cpt_check ) {
+				add_action( 'admin_notices', array( $this, 'display_admin_invalid_ep' ) );
+			}
+		}
+
 	}
 
 	/**
 	 * Display the admin action success mesage
 	 */
 	public function display_admin_action_message() {
+
+		if ( ! isset( $_GET['dlm_action_done'] ) ) {
+			return;
+		}
+
 		?>
 		<div class="notice notice-success">
 			<?php
 			switch ( $_GET['dlm_action_done'] ) {
 				case 'dlm_clear_transients':
-					echo "<p>" . __( 'Download Monitor Transients successfully cleared!', 'download-monitor' ) . "</p>";
+					echo "<p>" . esc_html__( 'Download Monitor Transients successfully cleared!', 'download-monitor' ) . "</p>";
 					break;
 			}
 			?>
 		</div>
 		<?php
 	}
+
+	public function display_admin_invalid_ep() {
+		?>
+		<div class="notice notice-error">
+			<p><?php echo esc_html__( 'The Download Monitor endpoint is already in use by a page or post. Please change the endpoint to something else.', 'download-monitor' ); ?></p>
+		</div>
+		<?php
+	}
+
 
 
 	/**
@@ -104,11 +137,11 @@ class DLM_Settings_Page {
 
 				if ( ! empty( $_GET['settings-updated'] ) ) {
 					$this->need_rewrite_flush = true;
-					echo '<div class="updated notice is-dismissible"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+					echo '<div class="updated notice is-dismissible"><p>' . esc_html__( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
 
 					$dlm_settings_tab_saved = get_option( 'dlm_settings_tab_saved', 'general' );
 
-					echo '<script type="text/javascript">var dlm_settings_tab_saved = "' . $dlm_settings_tab_saved . '";</script>';
+					echo '<script type="text/javascript">var dlm_settings_tab_saved = "' . esc_js( $dlm_settings_tab_saved ) . '";</script>';
 				}
 
 				// loop fields for this tab
@@ -119,15 +152,17 @@ class DLM_Settings_Page {
 						if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
 
 							?>
-							<ul class="nav-section-wrapper">
+							<div class="wp-clearfix">
+							<ul class="subsubsub dlm-settings-sub-nav">
 								<?php foreach ( $settings[ $tab ]['sections'] as $section_key => $section ) : ?>
 									<?php echo "<li" . ( ( $active_section == $section_key ) ? " class='active-section'" : "" ) . ">"; ?>
-									<a href="<?php echo add_query_arg( array(
+									<a href="<?php echo esc_url( add_query_arg( array(
 											'tab'     => $tab,
 											'section' => $section_key
-									), DLM_Admin_Settings::get_url() ); ?>"><?php echo $section['title']; ?></a></liM>
+									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?></a></liM>
 								<?php endforeach; ?>
 							</ul>
+								</div><!--.wp-clearfix-->
 							<h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
 							<?php
 						}
@@ -149,13 +184,13 @@ class DLM_Settings_Page {
 
 								echo '<tr valign="top">';
 								if ( isset( $option['label'] ) && '' !== $option['label'] ) {
-									echo '<th scope="row"><label for="setting-' . $option['name'] . '">' . $option['label'] . '</a></th>';
+									echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
 								} else {
 									$cs ++;
 								}
 
 
-								echo '<td colspan="' . $cs . '">';
+								echo '<td colspan="' . esc_attr( $cs ) . '">';
 
 								if ( ! isset( $option['type'] ) ) {
 									$option['type'] = '';
@@ -170,7 +205,7 @@ class DLM_Settings_Page {
 									$field->render();
 
 									if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
-										echo ' <p class="dlm-description description">' . $option['desc'] . '</p>';
+										echo ' <p class="dlm-description description">' . wp_kses_post( $option['desc'] ) . '</p>';
 									}
 								}
 
@@ -197,9 +232,8 @@ class DLM_Settings_Page {
 					?>
 					<p class="submit">
 						<input type="submit" class="button-primary"
-							   value="<?php _e( 'Save Changes', 'download-monitor' ); ?>"/>
+							   value="<?php echo esc_html__( 'Save Changes', 'download-monitor' ); ?>"/>
 					</p>
-
 				<?php } ?>
 			</form>
 		</div>
@@ -213,22 +247,85 @@ class DLM_Settings_Page {
 	function print_global_notices() {
 
 		// check for nginx
-		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
+		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) &&
+			stristr( sanitize_text_field( wp_unslash($_SERVER['SERVER_SOFTWARE']) ), 'nginx' ) !== false &&
+			1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
 
 			// get upload dir
 			$upload_dir = wp_upload_dir();
 
 			// replace document root because nginx uses path from document root
-			$upload_path = str_replace( $_SERVER['DOCUMENT_ROOT'], '', $upload_dir['basedir'] );
+			// phpcs:ignore
+			$upload_path = str_replace( sanitize_text_field( wp_unslash($_SERVER['DOCUMENT_ROOT']) ), '', $upload_dir['basedir'] );
 
 			// form nginx rules
 			$nginx_rules = "location " . $upload_path . "/dlm_uploads {<br/>deny all;<br/>return 403;<br/>}";
-			echo '<div class="error notice is-dismissible dlm-notice" id="nginx_rules" data-nonce="' . wp_create_nonce( 'dlm_hide_notice-nginx_rules' ) . '">';
-			echo '<p>' . __( "Because your server is running on nginx, our .htaccess file can't protect your downloads.", 'download-monitor' );
-			echo '<br/>' . sprintf( __( "Please add the following rules to your nginx config to disable direct file access: %s", 'download-monitor' ), '<br/><br/><code class="dlm-code-nginx-rules">' . $nginx_rules . '</code>' ) . '</p>';
+			echo '<div class="error notice is-dismissible dlm-notice" id="nginx_rules" data-nonce="' . esc_attr( wp_create_nonce( 'dlm_hide_notice-nginx_rules' ) ) . '">';
+			echo '<p>' . esc_html__( "Because your server is running on nginx, our .htaccess file can't protect your downloads.", 'download-monitor' );
+			echo '<br/>' . sprintf( esc_html__( "Please add the following rules to your nginx config to disable direct file access: %s", 'download-monitor' ), '<br/><br/><code class="dlm-code-nginx-rules">' . wp_kses_post( $nginx_rules ) . '</code>' ) . '</p>';
 			echo '</div>';
 		}
 
+	}
+
+	/**
+	 * Load our admin hooks
+	 */
+	public function load_admin_hooks() {
+
+		add_action( 'in_admin_header', array( $this, 'dlm_page_header' ) );
+
+		add_filter( 'dlm_page_header', array( $this, 'page_header_locations' ) );
+	}
+
+	/**
+	 * Display the Download Monitor Admin Page Header
+	 *
+	 * @param bool $extra_class
+	 */
+	public static function dlm_page_header($extra_class = '') {
+
+		// Only display the header on pages that belong to dlm
+		if ( ! apply_filters( 'dlm_page_header', false ) ) {
+			return;
+		}
+		?>
+		<div class="dlm-page-header <?php echo ( $extra_class ) ? esc_attr( $extra_class ) : ''; ?>">
+			<div class="dlm-header-logo">
+
+				<img src="<?php echo esc_url( DLM_URL . 'assets/images/logo.png' ); ?>" class="dlm-logo" />
+			</div>
+			<div class="dlm-header-links">
+				<a href="https://www.download-monitor.com/kb/" target="_blank" rel="noreferrer nofollow" id="get-help"
+				   class="button button-secondary"><span
+							class="dashicons dashicons-external"></span><?php esc_html_e( 'Documentation', 'download-monitor' ); ?>
+				</a>
+				<a class="button button-secondary"
+				   href="https://www.download-monitor.com/contact/" target="_blank" rel="noreferrer nofollow"><span
+							class="dashicons dashicons-email-alt"></span><?php echo esc_html__( 'Contact us for support!', 'download-monitor' ); ?>
+				</a>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Set the dlm header locations
+	 *
+	 * @param $return
+	 *
+	 * @return bool|mixed
+	 * @since 2.5.3
+	 */
+	public function page_header_locations( $return ) {
+
+		$current_screen = get_current_screen();
+
+		if ( 'dlm_download' === $current_screen->post_type ) {
+			return true;
+		}
+
+		return $return;
 	}
 
 	/**
@@ -236,6 +333,8 @@ class DLM_Settings_Page {
 	 */
 	private
 	function generate_tabs( $settings ) {
+
+
 		?>
 		<h2 class="nav-tab-wrapper">
 			<?php
@@ -244,10 +343,10 @@ class DLM_Settings_Page {
 				// backwards compatibility for when $section did not have 'title' index yet (it simply had the title set at 0)
 				$title = ( isset( $section['title'] ) ? $section['title'] : $section[0] );
 
-				echo '<a href="' . add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . ( isset( $section['badge'] ) ? ' <span class="dlm-upsell-badge">PRO</span>' : '' ) . '</a>';
+				echo '<a href="' . esc_url( add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . ( ( isset( $section['badge'] ) && true === $section['badge'] ) ? ' <span class="dlm-upsell-badge">PRO</span>' : '' ) . '</a>';
 			}
 			?>
-		</h2><br/>
+		</h2>
 		<?php
 	}
 
@@ -274,7 +373,7 @@ class DLM_Settings_Page {
 	 */
 	private
 	function get_active_tab() {
-		return ( ! empty( $_GET['tab'] ) ? sanitize_title( $_GET['tab'] ) : 'general' );
+		return ( ! empty( $_GET['tab'] ) ? sanitize_title( wp_unslash($_GET['tab']) ) : 'general' );
 	}
 
 	/**
@@ -284,12 +383,8 @@ class DLM_Settings_Page {
 	 *
 	 * @return string
 	 */
-	private
-	function get_active_section(
-			$sections
-	) {
-		return ( ! empty( $_GET['section'] ) ? sanitize_title( $_GET['section'] ) : $this->array_first_key( $sections ) );
+	private function get_active_section( $sections) {
+		return ( ! empty( $_GET['section'] ) ? sanitize_title( wp_unslash($_GET['section']) ) : $this->array_first_key( $sections ) );
 	}
-
 
 }

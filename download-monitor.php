@@ -7,7 +7,7 @@
 	Author: WPChill
 	Author URI: https://wpchill.com
 	Requires at least: 5.4
-	Tested up to: 5.7
+	Tested up to: 5.8
 	Text Domain: download-monitor
 
 	License: GPL v3
@@ -37,6 +37,7 @@ define( 'DLM_VERSION', '4.5.0' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
+define( 'DLM_URL' , plugin_dir_url( __FILE__ ) );
 
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
@@ -47,11 +48,15 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 /**
  * This function allows you to track usage of your plugin
  * Place in your main plugin file
- * Refer to https://wisdomplugin.com/support for help
  */
 if( ! class_exists( 'Download_Monitor_Usage_Tracker') ) {
 	require_once dirname( __FILE__ ) . '/includes/tracking/class-download-monitor-usage-tracker.php';
 }
+
+if( ! class_exists( 'DLM_Review') && is_admin() ) {
+	require_once dirname( __FILE__ ) . '/includes/admin/class-dlm-review.php';
+}
+
 if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
 	function download_monitor_start_plugin_tracking() {
 		$wisdom = new Download_Monitor_Usage_Tracker(
@@ -65,23 +70,3 @@ if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
 	}
 	download_monitor_start_plugin_tracking();
 }
-
-ini_set("xdebug.var_display_max_depth", -1);
-ini_set("xdebug.var_display_max_children", -1);
-ini_set("xdebug.var_display_max_data", -1);
-
-$active_plugins = get_option( 'active_plugins', array() );
-$licenses = array();
-			if ( ! empty( $active_plugins ) ) {
-				foreach ( $active_plugins as $plugin => $value ) {
-					if ( 0 === strpos( $value, 'dlm' ) ) {
-						$new_val                 = explode( '/', $value );
-						$licenses[ $new_val[0] ] = get_option( $new_val[0] . '-license' );
-						unset( $licenses[ $new_val[0] ][1] );
-						$licenses[ $new_val[0] ] = serialize( $licenses[ $new_val[0] ] );
-					}
-				}
-			}
-
-			// var_dump( $licenses );
-			// die();

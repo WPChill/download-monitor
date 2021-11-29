@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var \WPChill\DownloadMonitor\Shop\Order\Order $order */
 ?>
 <div class="dlm-checkout dlm-checkout-complete">
-    <p><?php _e( 'Thank you for your order. Please find your order details below.', 'download-monitor' ); ?></p>
+    <p><?php echo esc_html__( 'Thank you for your order. Please find your order details below.', 'download-monitor' ); ?></p>
 
 	<?php
 	if ( $order != null ) :
@@ -18,20 +18,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 		 */
 		?>
         <div class="dlm-checkout-complete-order-details">
-            <h2><?php _e( "Order Details", 'download-monitor' ); ?></h2>
+            <h2><?php echo esc_html__( "Order Details", 'download-monitor' ); ?></h2>
             <table cellpadding="0" cellspacing="0" border="0">
                 <tbody>
                 <tr>
-                    <th><?php _e( "Order ID", 'download-monitor' ); ?></th>
-                    <td><?php echo $order->get_id(); ?></td>
+                    <th><?php echo esc_html__( "Order ID", 'download-monitor' ); ?></th>
+                    <td><?php echo esc_html( $order->get_id() ); ?></td>
                 </tr>
                 <tr>
-                    <th><?php _e( "Order Status", 'download-monitor' ); ?></th>
-                    <td><?php echo $order->get_status()->get_label(); ?></td>
+                    <th><?php echo esc_html__( "Order Status", 'download-monitor' ); ?></th>
+                    <td><?php echo esc_html( $order->get_status()->get_label() ); ?></td>
                 </tr>
                 <tr>
-                    <th><?php _e( "Order Date", 'download-monitor' ); ?></th>
-                    <td><?php echo $order->get_date_created()->format( 'Y-h-d H:i:s' ); ?></td>
+                    <th><?php echo esc_html__( "Order Date", 'download-monitor' ); ?></th>
+                    <td><?php echo esc_html( $order->get_date_created()->format( 'Y-h-d H:i:s' ) ); ?></td>
                 </tr>
                 </tbody>
             </table>
@@ -71,8 +71,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                             <table cellpadding="0" cellspacing="0" border="0">
                                 <thead>
                                 <tr>
-                                    <th><?php _e( "Download name", 'download-monitor' ); ?></th>
-                                    <th><?php _e( "Download version", 'download-monitor' ); ?></th>
+                                    <th><?php echo esc_html__( "Download name", 'download-monitor' ); ?></th>
+                                    <th><?php echo esc_html__( "Download version", 'download-monitor' ); ?></th>
                                     <th>&nbsp;</th>
                                 </tr>
                                 </thead>
@@ -81,18 +81,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<?php
 									$download_title       = "-";
 									$version_label        = "-";
-									$download_button_html = __( 'Download is no longer available', 'download-monitor' );
+									$download_button_html = esc_html__( 'Download is no longer available', 'download-monitor' );
 
 									if ( $download->exists() ) {
 										$download_title       = $download->get_title();
 										$version_label        = $download->get_version()->get_version();
-										$download_button_html = "<a href='" . $product->get_secure_download_link( $order, $download ) . "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
+										$download_button_html = "<a href='" . esc_url( $product->get_secure_download_link( $order, $download ) ). "' class='dlm-checkout-download-button'>" . __( 'Download File', 'download-monitor' ) . "</a>";
+										$download_button_html = apply_filters( 'dlm_completed_order_download', $download_button_html,  $download );
 									}
 
 									?>
                                     <tr>
-                                        <td><?php echo $download_title; ?></td>
-                                        <td><?php echo $version_label; ?></td>
+                                        <td><?php echo esc_html( $download_title ); ?></td>
+                                        <td><?php echo esc_html( $version_label ); ?></td>
                                         <td><?php echo $download_button_html; ?></td>
                                     </tr>
 								<?php endforeach; ?>
@@ -103,7 +104,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 				<?php else: ?>
-                    <p>No items found.</p>
+                    <p> <?php echo esc_html__( 'No items found.', 'download-monitor' ); ?></p>
 				<?php endif; ?>
             </div>
 

@@ -294,9 +294,6 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 							'user-agent'  => 'PUT/1.0.0; ' . home_url(),
 					)
 			);
-			ini_set( 'xdebug.var_display_max_depth', '100' );
-			ini_set( 'xdebug.var_display_max_children', '25006' );
-			ini_set( 'xdebug.var_display_max_data', '102004' );
 
 			$this->set_track_time();
 
@@ -337,7 +334,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			}
 			$body['marketing_method'] = $this->marketing;
 
-			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : '';
+			$body['server'] = isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash($_SERVER['SERVER_SOFTWARE']) ) : '';
 
 			// Extra PHP fields.
 			$body['memory_limit']        = ini_get( 'memory_limit' );
@@ -805,7 +802,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			// Check for plugin args.
 			if ( isset( $_GET['plugin'] ) && $this->plugin_name === $_GET['plugin'] && isset( $_GET['plugin_action'] ) ) {
 
-				$action = sanitize_text_field( $_GET['plugin_action'] );
+				$action = sanitize_text_field( wp_unslash($_GET['plugin_action']) );
 				if ( $action === 'yes' ) {
 					$this->set_is_tracking_allowed( true, $this->plugin_name );
 					// Run this straightaway.
@@ -894,8 +891,8 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 					<p><?php echo '<strong>' . esc_html( $plugin_name ) . '</strong>'; ?></p>
 					<p><?php echo esc_html( $notice_text ); ?></p>
 					<p>
-						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-secondary"><?php _e( 'Allow', 'download-monitor' ); ?></a>
-						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php _e( 'Do Not Allow', 'download-monitor' ); ?></a>
+						<a href="<?php echo esc_url( $url_yes ); ?>" class="button-secondary"><?php echo esc_html__( 'Allow', 'download-monitor' ); ?></a>
+						<a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php echo esc_html__( 'Do Not Allow', 'download-monitor' ); ?></a>
 					</p>
 				</div>
 				<?php
@@ -913,7 +910,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			// Check if user has opted in to marketing.
 			if ( isset( $_GET['marketing_optin'] ) ) {
 				// Set marketing optin.
-				$this->set_can_collect_email( sanitize_text_field( $_GET['marketing_optin'] ), $this->plugin_name );
+				$this->set_can_collect_email( sanitize_text_field( wp_unslash($_GET['marketing_optin']) ), $this->plugin_name );
 				// Do tracking.
 				$this->do_tracking();
 			} elseif ( isset( $_GET['marketing'] ) && $_GET['marketing'] == 'yes' ) {
@@ -946,8 +943,8 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 					<p><?php echo '<strong>' . esc_html( $plugin_name ) . '</strong>'; ?></p>
 					<p><?php echo esc_html( $marketing_text ); ?></p>
 					<p>
-						<a href="<?php echo esc_url( $url_yes ); ?>" data-putnotice="yes" class="button-secondary"><?php _e( 'Yes Please', 'download-monitor' ); ?></a>
-						<a href="<?php echo esc_url( $url_no ); ?>" data-putnotice="no" class="button-secondary"><?php _e( 'No Thank You', 'download-monitor' ); ?></a>
+						<a href="<?php echo esc_url( $url_yes ); ?>" data-putnotice="yes" class="button-secondary"><?php echo esc_html__( 'Yes Please', 'download-monitor' ); ?></a>
+						<a href="<?php echo esc_url( $url_no ); ?>" data-putnotice="no" class="button-secondary"><?php echo esc_html__( 'No Thank You', 'download-monitor' ); ?></a>
 					</p>
 				</div>
 				<?php
@@ -1110,7 +1107,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 						// We'll send the user to this deactivation link when they've completed or dismissed the form.
 						$( 'body' ).toggleClass( '<?php echo esc_attr($this->plugin_name); ?>-put-form-active' );
 						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).fadeIn();
-						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).html( '<?php echo $html; ?>' + '<div class="<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer"><p><a id="<?php echo esc_attr($this->plugin_name); ?>-put-submit-form" class="button primary" href="#"><?php _e( 'Submit and Deactivate', 'download-monitor' ); ?></a>&nbsp;<a class="secondary button" href="' + url + '"><?php _e( 'Just Deactivate', 'download-monitor' ); ?></a></p></div>' );
+						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).html( '<?php echo wp_kses_post( $html ); ?>' + '<div class="<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer"><p><a id="<?php echo esc_attr($this->plugin_name); ?>-put-submit-form" class="button primary" href="#"><?php echo esc_html__( 'Submit and Deactivate', 'download-monitor' ); ?></a>&nbsp;<a class="secondary button" href="' + url + '"><?php echo esc_html__( 'Just Deactivate', 'download-monitor' ); ?></a></p></div>' );
 					} );
 
 					$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form"  ).on( "click", "#<?php echo esc_attr( $this->plugin_name ); ?>-put-submit-form", function ( e ) {
@@ -1132,7 +1129,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 							'action'  : '<?php echo esc_attr($this->plugin_name); ?>_goodbye_form',
 							'values'  : values,
 							'details' : details,
-							'security': "<?php echo wp_create_nonce( 'wisdom_goodbye_form' ); ?>",
+							'security': "<?php echo esc_js(wp_create_nonce( 'wisdom_goodbye_form' )); ?>",
 							'dataType': "json"
 						}
 
@@ -1170,12 +1167,14 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			check_ajax_referer( 'wisdom_goodbye_form', 'security' );
 
 			if ( isset( $_POST['values'] ) ) {
-				$values = json_encode( wp_unslash( $_POST['values'] ) );
+				$values = wp_unslash( $_POST['values'] );
+				$values = array_map( 'sanitize_text_field', $values );
+				$values = json_encode( $values );
 				update_option( 'wisdom_deactivation_reason_' . $this->plugin_name, $values );
 			}
 
 			if ( isset( $_POST['details'] ) ) {
-				$details = sanitize_text_field( $_POST['details'] );
+				$details = sanitize_text_field( wp_unslash($_POST['details']) );
 				update_option( 'wisdom_deactivation_details_' . $this->plugin_name, $details );
 			}
 

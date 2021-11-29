@@ -246,7 +246,7 @@ class Container implements \ArrayAccess
         }
 
         if (isset($this->protected[$this->values[$id]])) {
-            @\trigger_error(\sprintf('How Pimple behaves when extending protected closures will be fixed in Pimple 4. Are you sure "%s" should be protected?', $id), \E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('How Pimple behaves when extending protected closures will be fixed in Pimple 4. Are you sure "%s" should be protected?', esc_html($id)), \E_USER_DEPRECATED);
         }
 
         if (!\is_object($callable) || !\method_exists($callable, '__invoke')) {

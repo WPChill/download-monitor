@@ -6,11 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var WPChill\DownloadMonitor\Shop\Cart\Item\Item $item */
 ?>
 <tr>
-    <td><a href="<?php echo add_query_arg( array( 'dlm-remove-from-cart' => $item->get_product_id() ), $url_cart ); ?>"
-           class="dlm-cart-remove-item"
-           aria-label="<?php _e( 'Remove this item from your cart', 'download-monitor' ); ?>">x</a></td>
-    <td><?php echo $item->get_label(); ?></td>
-    <td><?php echo dlm_format_money( $item->get_subtotal() ); ?></td>
-    <td><?php echo $item->get_qty(); ?></td>
-    <td><?php echo dlm_format_money( $item->get_total() ); ?></td>
+	<td><a href="<?php echo esc_url( add_query_arg( array( 'dlm-remove-from-cart' => $item->get_product_id() ), $url_cart ) ); ?>"
+		   class="dlm-cart-remove-item"
+		   aria-label="<?php echo esc_attr__( 'Remove this item from your cart', 'download-monitor' ); ?>">x</a></td>
+	<td><?php echo esc_html__( $item->get_label() ); ?></td>
+	<td><?php echo esc_html__( dlm_format_money( $item->get_subtotal() ) ); ?></td>
+	<td><?php echo esc_html__( $item->get_qty() ); ?></td>
+	<td><?php echo esc_html__( dlm_format_money( $item->get_total() ) ); ?></td>
 </tr>

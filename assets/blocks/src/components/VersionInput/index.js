@@ -1,50 +1,53 @@
-const {Component} = wp.element;
-const {__, setLocaleData} = wp.i18n;
-
-import apiFetch from '@wordpress/api-fetch';
-import React from 'react';
 import Select from 'react-select';
 
-export default class VersionInput extends Component {
+import { __ } from '@wordpress/i18n';
+import { useEffect, useState } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 
-	constructor( props ) {
-		super( props );
-		this.state = { versions: [], currentDownloadId: props.download_id };
-	}
+const VersionInput = ( { downloadId, selectedVersionId, onChange } ) => {
+	const [ versions, setVersions ] = useState( [] );
+	const [ currentDownloadId, setCurrentDownloadId ] = useState( downloadId );
 
-	componentDidMount() {
-		this.fetchVersions(this.props.downloadId);
-	}
+	useEffect( () => fetchVersions( downloadId ), [] );
 
-	componentDidUpdate() {
-		this.fetchVersions(this.props.downloadId);
-	}
+	useEffect( () => fetchVersions( downloadId ), [ downloadId ] );
 
-	fetchVersions( downloadId) {
-		if( typeof downloadId !== 'undefined' && downloadId != this.state.currentDownloadId ) {
-			apiFetch( { url: dlmBlocks.ajax_getVersions + "&download_id=" + downloadId } ).then( results => {
-				results.unshift({value: 0, label: __('Latest version', 'download-monitor')});
-				this.setState({versions: results,  currentDownloadId: downloadId});
+	const fetchVersions = ( downloadId ) => {
+		if (
+			typeof downloadId !== 'undefined' &&
+			downloadId !== currentDownloadId
+		) {
+			apiFetch( {
+				url:
+					window.dlmBlocks.ajax_getVersions +
+					'&download_id=' +
+					downloadId,
+			} ).then( ( results ) => {
+				results.unshift( {
+					value: 0,
+					label: __( 'Latest version', 'download-monitor' ),
+				} );
+				setVersions( results );
+				setCurrentDownloadId( downloadId );
 			} );
 		}
+	};
 
-	}
+	const valueFromId = ( opts, id ) => opts.find( ( o ) => o.value === id );
 
-	render() {
+	return (
+		<div>
+			<Select
+				value={ valueFromId( versions, selectedVersionId ) }
+				onChange={ ( selectedOption ) =>
+					onChange( selectedOption.value )
+				}
+				options={ versions }
+				isSearchable="true"
+				isDisabled={ typeof downloadId === 'undefined' }
+			/>
+		</div>
+	);
+};
 
-		const valueFromId = (opts, id) => opts.find(o => o.value === id);
-
-		return (
-			<div>
-				<Select
-					value={valueFromId( this.state.versions, this.props.selectedVersionId )}
-					onChange={(selectedOption) =>  this.props.onChange(selectedOption.value)}
-					options={this.state.versions}
-					isSearchable="true"
-					isDisabled={(typeof this.props.downloadId === 'undefined')}
-				 />
-			</div>
-		);
-	}
-
-}
+export default VersionInput;

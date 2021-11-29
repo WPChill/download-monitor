@@ -32,8 +32,8 @@ class DLM_Log_Export_CSV {
 		}
 
 		// catch and sanitize filter values
-		$filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( $_REQUEST['filter_status'] ) : '';
-		$filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( $_REQUEST['filter_month'] ) : '';
+		$filter_status = isset( $_REQUEST['filter_status'] ) ? sanitize_text_field( wp_unslash($_REQUEST['filter_status']) ) : '';
+		$filter_month  = ! empty( $_REQUEST['filter_month'] ) ? sanitize_text_field( wp_unslash($_REQUEST['filter_month']) ) : '';
 
 		// setup filters
 		$filters = array();
@@ -144,7 +144,7 @@ class DLM_Log_Export_CSV {
 		header( "Content-Disposition: attachment; filename=download_log.csv" );
 		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
 		header( "Content-Length: " . strlen( $log ) );
-		echo $log;
+		echo wp_kses_post( $log );
 		exit;
 	}
 }

@@ -1,97 +1,165 @@
 //import 'whatwg-fetch';
+import Select from 'react-select';
 
-const {__, setLocaleData} = wp.i18n;
-const {registerBlockType} = wp.blocks;
-const {Fragment} = wp.element;
-const {PanelBody, Autocomplete} = wp.components;
-const {InspectorControls, AlignmentToolbar} = wp.editor;
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
 
 import DownloadButton from './components/DownloadButton';
 import DownloadInput from './components/DownloadInput';
 import VersionInput from './components/VersionInput';
 import TemplateInput from './components/TemplateInput';
 
-import React from 'react';
-import Select from 'react-select';
-
 //setLocaleData( window.gutenberg_dlm_blocks.localeData, 'download-monitor' );
 
 registerBlockType( 'download-monitor/download-button', {
 	title: __( 'Download Button', 'download-monitor' ),
 	icon: 'download',
-	keywords: [__( 'download', 'download-monitor' ), 'download monitor', __( 'file', 'download-monitor' )],
+	keywords: [
+		__( 'download', 'download-monitor' ),
+		'download monitor',
+		__( 'file', 'download-monitor' ),
+	],
 	category: 'common',
 	attributes: {
 		download_id: {
 			type: 'number',
-			default: 0
+			default: 0,
 		},
 		version_id: {
 			type: 'number',
-			default: 0
+			default: 0,
 		},
 		template: {
 			type: 'string',
-			default: 'settings'
+			default: 'settings',
 		},
 		custom_template: {
 			type: 'string',
-			default: ''
+			default: '',
 		},
 		autop: {
 			type: 'number',
-			default: 0
+			default: 0,
 		},
-	}
-	,
+	},
 	edit: ( props ) => {
-		const {attributes: { download_id, version_id, template, custom_template, autop}, setAttributes, className} = props;
+		const {
+			attributes: {
+				download_id,
+				version_id,
+				template,
+				custom_template,
+				autop,
+			},
+			setAttributes,
+		} = props;
 
-		const valueFromId = (opts, id) => opts.find(o => o.value === id);
-		let autoPOptions = [{ value: 0, label: 'No'},{ value: 1, label: 'Yes'}];
+		const valueFromId = ( opts, id ) =>
+			opts.find( ( o ) => o.value === id );
+		const autoPOptions = [
+			{ value: 0, label: 'No' },
+			{ value: 1, label: 'Yes' },
+		];
 
 		return (
 			<Fragment>
 				<InspectorControls>
-					<PanelBody title={__( 'Download Information', 'download-monitor' )}>
+					<PanelBody
+						title={ __(
+							'Download Information',
+							'download-monitor'
+						) }
+					>
 						<div className="components-base-control">
-							<span className="components-base-control__label">{__( 'Download', 'download-monitor' )}</span>
-							<DownloadInput onChange={(v)=> setAttributes( {download_id: v} )} selectedDownloadId={download_id} />
+							<span className="components-base-control__label">
+								{ __( 'Download', 'download-monitor' ) }
+							</span>
+							<DownloadInput
+								onChange={ ( v ) =>
+									setAttributes( { download_id: v } )
+								}
+								selectedDownloadId={ download_id }
+							/>
 						</div>
 
 						<div className="components-base-control">
-							<span className="components-base-control__label">{__( 'Version', 'download-monitor' )}</span>
-							<VersionInput onChange={(v)=> setAttributes( {version_id: v} )} selectedVersionId={version_id} downloadId={download_id} />
+							<span className="components-base-control__label">
+								{ __( 'Version', 'download-monitor' ) }
+							</span>
+							<VersionInput
+								onChange={ ( v ) =>
+									setAttributes( { version_id: v } )
+								}
+								selectedVersionId={ version_id }
+								downloadId={ download_id }
+							/>
 						</div>
 					</PanelBody>
 
-					<PanelBody title={__( 'Template', 'download-monitor' )}>
+					<PanelBody title={ __( 'Template', 'download-monitor' ) }>
 						<div className="components-base-control dlmGbEditorTemplateWrapper">
-							<span className="components-base-control__label">{__( 'Template', 'download-monitor' )}</span>
-							<TemplateInput onChange={( v ) => setAttributes( {template: v} )} selectedTemplate={template} templatesStr={dlmBlocks.templates} />
+							<span className="components-base-control__label">
+								{ __( 'Template', 'download-monitor' ) }
+							</span>
+							<TemplateInput
+								onChange={ ( v ) =>
+									setAttributes( { template: v } )
+								}
+								selectedTemplate={ template }
+								templatesStr={ window.dlmBlocks.templates }
+							/>
 						</div>
-						{ template === "custom" &&
-						<div className="components-base-control">
-							<span className="components-base-control__label">{__( 'Custom Template', 'download-monitor' )}</span>
-							<input className="components-text-control__input" onChange={( e ) => setAttributes( {custom_template: e.target.value} ) } value={custom_template} />
-						</div>
-						}
+						{ template === 'custom' && (
+							<div className="components-base-control">
+								<span className="components-base-control__label">
+									{ __(
+										'Custom Template',
+										'download-monitor'
+									) }
+								</span>
+								<input
+									className="components-text-control__input"
+									onChange={ ( e ) =>
+										setAttributes( {
+											custom_template: e.target.value,
+										} )
+									}
+									value={ custom_template }
+								/>
+							</div>
+						) }
 						<div className="components-base-control dlmGbEditorTemplateWrapper">
-							<span className="components-base-control__label">{__( 'Wrap in paragraph tag (<p>)?', 'download-monitor' )}</span>
+							<span className="components-base-control__label">
+								{ __(
+									'Wrap in paragraph tag (<p>)?',
+									'download-monitor'
+								) }
+							</span>
 							<Select
-								value={valueFromId( autoPOptions, autop )}
-								onChange={(selectedOption) => { setAttributes({autop: selectedOption.value}) }}
-								options={autoPOptions}
+								value={ valueFromId( autoPOptions, autop ) }
+								onChange={ ( selectedOption ) => {
+									setAttributes( {
+										autop: selectedOption.value,
+									} );
+								} }
+								options={ autoPOptions }
 								isSearchable="false"
-							 />
+							/>
 						</div>
 					</PanelBody>
 				</InspectorControls>
-				<DownloadButton download_id={download_id} version_id={version_id} template={template} custom_template={custom_template} />
+
+				<DownloadButton
+					download_id={ download_id }
+					version_id={ version_id }
+					template={ template }
+					custom_template={ custom_template }
+				/>
 			</Fragment>
 		);
 	},
-	save: ( props ) => {
-		return null;
-	},
+	save: () => null,
 } );

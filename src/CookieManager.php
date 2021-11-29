@@ -38,7 +38,7 @@ class DLM_Cookie_Manager {
 	public static function get_cookie_data() {
 		$cdata = null;
 		if ( ! empty( $_COOKIE[ self::KEY ] ) ) {
-			$cdata = json_decode( base64_decode( $_COOKIE[ self::KEY ] ), true );
+			$cdata = json_decode( base64_decode( sanitize_text_field( wp_unslash( $_COOKIE[ self::KEY ] ) ) ), true );
 		}
 
 		return $cdata;

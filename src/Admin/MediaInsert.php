@@ -33,7 +33,7 @@ class DLM_Admin_Media_Insert {
 			return;
 		}
 
-		echo '<a href="#" class="button insert-download dlm_insert_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '">' . __( 'Insert Download', 'download-monitor' ) . '</a>';
+		echo '<a href="#" class="button insert-download dlm_insert_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download-monitor' ) . '">' . esc_html__( 'Insert Download', 'download-monitor' ) . '</a>';
 	}
 
 	/**
@@ -52,7 +52,7 @@ class DLM_Admin_Media_Insert {
 		wp_enqueue_style( 'colors' );
 		wp_enqueue_script( 'plupload-all' );
 
-		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Insert Download', 'download-monitor' ) . '</title><meta charset="utf-8" />';
+		echo '<!DOCTYPE html><html lang="en"><head><title>' . esc_html__( 'Insert Download', 'download-monitor' ) . '</title><meta charset="utf-8" />';
 
 		do_action( 'admin_print_styles' );
 		do_action( 'admin_print_scripts' );
@@ -63,8 +63,8 @@ class DLM_Admin_Media_Insert {
 		?>
 		<h2 class="nav-tab-wrapper">
 			<a href="#insert-shortcode"
-			   class="nav-tab nav-tab-active"><?php _e( 'Insert Shortcode', 'download-monitor' ); ?></a><a
-				href="#quick-add" class="nav-tab"><?php _e( 'Quick-add download', 'download-monitor' ); ?></a>
+			   class="nav-tab nav-tab-active"><?php echo esc_html__( 'Insert Shortcode', 'download-monitor' ); ?></a><a
+				href="#quick-add" class="nav-tab"><?php echo esc_html__( 'Quick-add download', 'download-monitor' ); ?></a>
 		</h2>
 		<?php
 
@@ -72,11 +72,12 @@ class DLM_Admin_Media_Insert {
 		/**
 		 * TODO: Use new repository here
 		 */
-		if ( ! empty( $_POST['download_url'] ) && ! empty( $_POST['download_title'] ) && wp_verify_nonce( $_POST['quick-add-nonce'], 'quick-add' ) ) {
+		// phpcs:ignore
+		if ( ! empty( $_POST['download_url'] ) && ! empty( $_POST['download_title'] ) && isset( $_POST['quick-add-nonce'] ) && wp_verify_nonce( $_POST['quick-add-nonce'], 'quick-add' ) ) {
 
-			$url     = stripslashes( $_POST['download_url'] );
-			$title   = sanitize_text_field( stripslashes( $_POST['download_title'] ) );
-			$version = sanitize_text_field( stripslashes( $_POST['download_version'] ) );
+			$url     = esc_url_raw( wp_unslash( $_POST['download_url'] ) );
+			$title   = sanitize_text_field( wp_unslash( $_POST['download_title'] ) );
+			$version = isset( $_POST['download_version'] ) ? sanitize_text_field( wp_unslash( $_POST['download_version'] ) ) : '';
 
 			try {
 
@@ -130,15 +131,18 @@ class DLM_Admin_Media_Insert {
 					update_post_meta( $file_id, '_sha256', $hashes['sha256'] );
 					update_post_meta( $file_id, '_crc32', $hashes['crc32b'] );
 
+					// clear transient
+					download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );
+
 					// Success message
-					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download-monitor' ) . '</p></div>';
+					echo '<div class="updated"><p>' . esc_html__( 'Download successfully created.', 'download-monitor' ) . '</p></div>';
 
 				} else {
-					throw new Exception( __( 'Error: Download was not created.', 'download-monitor' ) );
+					throw new Exception( esc_html__( 'Error: Download was not created.', 'download-monitor' ) );
 				}
 
 			} catch ( Exception $e ) {
-				echo '<div class="error"><p>' . $e->getMessage() . "</p></div>";
+				echo '<div class="error"><p>' . esc_html( $e->getMessage() ) . "</p></div>";
 			}
 
 		}
@@ -147,7 +151,7 @@ class DLM_Admin_Media_Insert {
 		<form id="insert-shortcode" method="post">
 
             <?php
-            $search_query = ( ! empty( $_POST['dlm_search'] ) ? $_POST['dlm_search'] : '' );
+            $search_query = ( ! empty( $_POST['dlm_search'] ) ? sanitize_text_field( wp_unslash( $_POST['dlm_search'] ) ) : '' );
             $limit      = 10;
             $page       = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
             $filters    = array( 'post_status' => 'publish' );
@@ -158,24 +162,24 @@ class DLM_Admin_Media_Insert {
             $downloads  = download_monitor()->service( 'download_repository' )->retrieve( $filters, $limit, ( ( $page - 1 ) * $limit ) );
             ?>
             <fieldset>
-                <legend><?php _e( 'Search download', 'download-monitor' ); ?>:</legend>
+                <legend><?php echo esc_html__( 'Search download', 'download-monitor' ); ?>:</legend>
                 <label>
-                    <input type="text" name="dlm_search" value='<?php echo str_replace( "'", "", stripslashes( ( $search_query ) ) ); ?>'/>
+                    <input type="text" name="dlm_search" value='<?php echo esc_html( str_replace( "'", "", stripslashes( ( $search_query ) ) ) ); ?>'/>
                     <input type="submit" name="dlm_search_submit" value="Search" class="button button-primary" />
                 </label>
             </fieldset>
 
 			<fieldset>
-				<legend><?php _e( 'Choose a download', 'download-monitor' ); ?>:</legend>
+				<legend><?php echo esc_html__( 'Choose a download', 'download-monitor' ); ?>:</legend>
 				<?php
 
 				foreach ( $downloads as $download ) {
-					echo '<label><input name="download_id" class="radio" type="radio" value="' . absint( $download->get_id() ) . '" /> #' . $download->get_id() . ' &ndash; ' . $download->get_title() . ' &ndash; ' . $download->get_version()->get_filename() . '</label>';
+					echo '<label><input name="download_id" class="radio" type="radio" value="' . esc_attr( absint( $download->get_id() ) ) . '" /> #' . esc_html( $download->get_id() ) . ' &ndash; ' . esc_html( $download->get_title() ) . ' &ndash; ' . esc_html( $download->get_version()->get_filename() ) . '</label>';
 				}
 
 				if ( $d_num_rows > $limit ) {
 
-					echo paginate_links( apply_filters( 'download_monitor_pagination_args', array(
+					echo wp_kses_post( paginate_links( apply_filters( 'download_monitor_pagination_args', array(
 						'base'      => str_replace( 999999999, '%#%', get_pagenum_link( 999999999, false ) ),
 						'format'    => '',
 						'current'   => $page,
@@ -185,23 +189,22 @@ class DLM_Admin_Media_Insert {
 						'type'      => 'list',
 						'end_size'  => 3,
 						'mid_size'  => 3
-					) ) );
+					) ) ) );
 				}
 				?>
 			</fieldset>
 
 			<p>
-				<label for="template_name"><?php _e( 'Template', 'download-monitor' ); ?>:</label>
+				<label for="template_name"><?php echo esc_html__( 'Template', 'download-monitor' ); ?>:</label>
 				<input type="text" id="template_name" value="" class="input"
-				       placeholder="<?php _e( 'Template Name', 'download-monitor' ); ?>"/>
+				       placeholder="<?php echo esc_html__( 'Template Name', 'download-monitor' ); ?>"/>
 				<span class="description">
-					<?php _e( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ); ?>
+					<?php wp_kses_post( __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ) ); ?>
 				</span>
 			</p>
 
 			<p>
-				<input type="button" class="button insert_download button-primary button-large"
-				       value="<?php _e( 'Insert Shortcode', 'download-monitor' ); ?>"/>
+				<input type="button" class="button insert_download button-primary button-large" value="<?php echo esc_html__( 'Insert Shortcode', 'download-monitor' ); ?>"/>
 			</p>
 
 		</form>
@@ -212,41 +215,36 @@ class DLM_Admin_Media_Insert {
 			<div id="plupload-upload-ui" class="hide-if-no-js">
 				<div id="drag-drop-area" style="height:240px">
 					<div class="drag-drop-inside">
-						<p class="drag-drop-info"><?php _e( 'Drop file here', 'download-monitor' ); ?></p>
-
-						<p><?php echo _x( 'or', 'Drop file here *or* select file', 'download-monitor' ); ?></p>
-
-						<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button"
-						                                    value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>"
-						                                    class="button"/></p>
+						<p class="drag-drop-info"><?php echo esc_html__( 'Drop file here', 'download-monitor' ); ?></p>
+						<p><?php echo esc_html_x( 'or', 'Drop file here *or* select file', 'download-monitor' ); ?></p>
+						<p class="drag-drop-buttons">
+							<input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button"/>
+						</p>
 					</div>
 				</div>
-				<p><a href="#" class="add_manually"><?php _e( 'Enter URL manually', 'download-monitor' ); ?> &rarr;</a>
+				<p>
+					<a href="#" class="add_manually"><?php echo esc_html__( 'Enter URL manually', 'download-monitor' ); ?> &rarr;</a>
 				</p>
 			</div>
 			<div id="quick-add-details" style="display:none">
 				<p>
-					<label for="download_url"><?php _e( 'Download URL', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_url" id="download_url" value="" class="download_url input"
-					       placeholder="<?php _e( 'Required URL', 'download-monitor' ); ?>"/>
+					<label for="download_url"><?php echo esc_html__( 'Download URL', 'download-monitor' ); ?>:</label>
+					<input type="text" name="download_url" id="download_url" value="" class="download_url input" placeholder="<?php echo esc_attr__( 'Required URL', 'download-monitor' ); ?>"/>
 				</p>
 
 				<p>
-					<label for="download_title"><?php _e( 'Download Title', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_title" id="download_title" value="" class="download_title input"
-					       placeholder="<?php _e( 'Required title', 'download-monitor' ); ?>"/>
+					<label for="download_title"><?php echo esc_html__( 'Download Title', 'download-monitor' ); ?>:</label>
+					<input type="text" name="download_title" id="download_title" value="" class="download_title input" placeholder="<?php echo esc_attr__( 'Required title', 'download-monitor' ); ?>"/>
 				</p>
 
 				<p>
-					<label for="download_version"><?php _e( 'Version', 'download-monitor' ); ?>:</label>
-					<input type="text" name="download_version" id="download_version" value="" class="input"
-					       placeholder="<?php _e( 'Optional version number', 'download-monitor' ); ?>"/>
+					<label for="download_version"><?php echo esc_html__( 'Version', 'download-monitor' ); ?>:</label>
+					<input type="text" name="download_version" id="download_version" value="" class="input" placeholder="<?php echo esc_attr__( 'Optional version number', 'download-monitor' ); ?>"/>
 				</p>
 
 				<p>
-					<input type="submit" class="button button-primary button-large"
-					       value="<?php _e( 'Save Download', 'download-monitor' ); ?>"/>
 					<?php wp_nonce_field( 'quick-add', 'quick-add-nonce' ) ?>
+					<input type="submit" class="button button-primary button-large" value="<?php echo esc_attr__( 'Save Download', 'download-monitor' ); ?>"/>
 				</p>
 			</div>
 
@@ -314,11 +312,11 @@ class DLM_Admin_Media_Insert {
 					);
 
 					// we should probably not apply this filter, plugins may expect wp's media uploader...
-					$plupload_init = apply_filters('plupload_init', $plupload_init);
+					$plupload_init = apply_filters( 'plupload_init', $plupload_init );
 				?>
 
 				// create the uploader and pass the config from above
-				var uploader = new plupload.Uploader( <?php echo json_encode( $plupload_init ); ?> );
+				var uploader = new plupload.Uploader( <?php echo wp_json_encode( $plupload_init ); ?> );
 
 				// checks if browser supports drag and drop upload, makes some css adjustments if necessary
 				uploader.bind( 'Init', function ( up ) {
@@ -351,7 +349,7 @@ class DLM_Admin_Media_Insert {
 						if ( max > hundredmb && file.size > hundredmb && up.runtime != 'html5' ) {
 							// file size error?
 						} else {
-							jQuery( '.drag-drop-inside' ).html( '<p><?php _e( 'Please wait...', 'download-monitor' ); ?></p>' );
+							jQuery( '.drag-drop-inside' ).html( '<p><?php echo esc_html__( 'Please wait...', 'download-monitor' ); ?></p>' );
 						}
 					} );
 

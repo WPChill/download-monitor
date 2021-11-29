@@ -58,10 +58,10 @@ class ProductTableColumns {
 
 		switch ( $column ) {
 			case "thumb" :
-				echo $product->get_image();
+				echo wp_kses_post( $product->get_image() );
 				break;
 			case "price" :
-				echo dlm_format_money( $product->get_price() );
+				echo esc_html( dlm_format_money( $product->get_price() ) );
 				break;
 		}
 	}

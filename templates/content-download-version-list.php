@@ -7,12 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var DLM_Download $dlm_download */
-
-if ( ! isset( $dlm_download ) || ! $dlm_download ) {
-	return esc_html__('No download found', 'download-monitor');
-}
-
 $versions = $dlm_download->get_versions();
 
 if ( $versions ) : ?>
@@ -25,10 +19,10 @@ if ( $versions ) : ?>
 			$dlm_download->set_version( $version );
 			?>
 			<li><a class="download-link"
-			       title="<?php printf( _n( 'Downloaded 1 time', 'Downloaded %d times', $dlm_download->get_download_count(), 'download-monitor' ), $dlm_download->get_download_count() ) ?>"
+			       title="<?php printf( esc_attr(_n( 'Downloaded 1 time', 'Downloaded %d times', $dlm_download->get_download_count(), 'download-monitor' )), esc_html( $dlm_download->get_download_count() ) ) ?>"
 			       href="<?php $dlm_download->the_download_link(); ?>" rel="nofollow">
-					<?php echo $version->get_filename(); ?> <?php if ( $version->has_version_number() ) {
-						echo '- ' . $version->get_version_number();
+					<?php echo esc_html( $version->get_filename() ); ?> <?php if ( $version->has_version_number() ) {
+						echo '- ' . esc_html( $version->get_version_number() );
 					} ?>
 				</a></li>
 		<?php

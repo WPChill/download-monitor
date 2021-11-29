@@ -92,14 +92,14 @@ class DLM_Download_Handler {
 		global $wp, $wpdb;
 		
 		// check HTTP method
-		$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] ) ? $_SERVER['REQUEST_METHOD'] : 'GET' );
+		$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : 'GET' );
 		if ( ! in_array( $request_method, apply_filters( 'dlm_accepted_request_methods', array( 'GET', 'POST' ) ) ) ) {
 			return;
 		}
 
 		// GET to query_var
 		if ( ! empty( $_GET[ $this->endpoint ] ) ) {
-			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
+			$wp->query_vars[ $this->endpoint ] = sanitize_text_field( wp_unslash($_GET[ $this->endpoint ]) );
 		}
 
 		// check if endpoint is set but is empty
@@ -134,7 +134,7 @@ class DLM_Download_Handler {
 			if ( '1' == get_option( 'dlm_hotlink_protection_enabled' ) ) {
 
 				// Get referer
-				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
+				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash($_SERVER['HTTP_REFERER'])) : '';
 
 				// Check if referer isn't empty or if referer is empty but empty referer isn't allowed
 				if ( ! empty( $referer ) || ( empty( $referer ) && apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) ) {
@@ -166,16 +166,19 @@ class DLM_Download_Handler {
 				try {
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 				} catch ( Exception $e ) {
-					// download not found
+					wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 				}
+			}
 
+			if ( ! $download ) {
+				wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 			}
 
 			// Handle version (if set)
 			$version_id = '';
 
-			if (  ! is_null($download) && ! empty( $_GET['version'] ) ) {
-				$version_id = $download->get_version_id_version_name( $_GET['version'] );
+			if ( ! empty( $_GET['version'] ) ) {
+				$version_id = $download->get_version_id_version_name( sanitize_text_field( wp_unslash($_GET['version']) ) );
 			}
 
 			if ( ! empty( $_GET['v'] ) ) {
@@ -183,7 +186,7 @@ class DLM_Download_Handler {
 			}
 
 
-			if ( ! is_null($download) && $version_id ) {
+			if ( $version_id ) {
 				try {
 					$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
 					$download->set_version( $version );
@@ -193,16 +196,16 @@ class DLM_Download_Handler {
 			}
 
 			// Action on found download
-			if ( ! is_null( $download ) && $download->exists() ) {
+			if ( $download->exists() ) {
 				if ( post_password_required( $download_id ) ) {
-					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download-monitor' ) );
+					wp_die( get_the_password_form( $download_id ) , esc_html__( 'Password Required', 'download-monitor' ) );
 				}
 
 				$this->trigger( $download );
 			} elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
 				wp_redirect( $redirect );
 			} else {
-				wp_die( __( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+				wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 			}
 
 			die( '1' );
@@ -258,7 +261,7 @@ class DLM_Download_Handler {
 
 		// Check if we got files in this version
 		if ( empty( $file_paths ) ) {
-			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
+			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
 		// Get a random file (mirror)
@@ -266,7 +269,7 @@ class DLM_Download_Handler {
 
 		// Check if we actually got a path
 		if ( ! $file_path ) {
-			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
+			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
 		// Check Access
@@ -290,9 +293,17 @@ class DLM_Download_Handler {
 					// check if we can find a permalink
 					if ( false !== $no_access_permalink ) {
 
-						// append download id to no access URL
-						$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
+						//get wordpress permalink structure so we can build the url
+						$structure = get_option('permalink_structure', 0 );
 
+						// append download id to no access URL
+
+						if( '' == $structure || 0 == $structure ){
+							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '&download-id=' . $download->get_id();
+						}else{
+							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
+						}
+						
 						if ( ! $download->get_version()->is_latest() ) {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
@@ -306,7 +317,7 @@ class DLM_Download_Handler {
 				}
 
 				// if we get to this point, we have no proper 'no access' page. Fallback to default wp_die
-				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
+				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 
 			}
 
@@ -329,7 +340,8 @@ class DLM_Download_Handler {
 			$this->log( $download, $version );
 
 			// Ensure we have a valid URL, not a file path
-			$file_path = str_replace( ABSPATH, site_url( '/', 'http' ), $file_path );
+			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+			$file_path = str_replace( ABSPATH, site_url( '/', $scheme ), $file_path );
 
 			header( 'Location: ' . $file_path );
 			exit;
@@ -340,6 +352,8 @@ class DLM_Download_Handler {
 		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
 
 		$this->download_headers( $file_path, $download, $version );
+		
+        do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
@@ -360,7 +374,11 @@ class DLM_Download_Handler {
 
 				$this->log( $download, $version );
 
-				$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
+				if ( isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
+					// phpcs:ignore
+					$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
+				}
+				
 				header( "X-Accel-Redirect: /$file_path" );
 				exit;
 			}
@@ -368,6 +386,7 @@ class DLM_Download_Handler {
 
 		// multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
 		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->get_filesize() ) {
+			// phpcs:ignore
 			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'], 2 );
 			list( $range ) = explode( ",", $range, 2 );
 			list( $range, $range_end ) = explode( "-", $range );
@@ -402,7 +421,9 @@ class DLM_Download_Handler {
 			header( 'Location: ' . $file_path );
 
 		} else {
-			wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+			$this->log( 'download', 'failed', __( 'File not found.', 'download-monitor' ), $download, $version );
+
+			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
 
 		exit;
@@ -526,6 +547,7 @@ class DLM_Download_Handler {
 
 		while ( ! feof( $handle ) ) {
 			$buffer = fread( $handle, $chunksize );
+			// phpcs:ignore
 			echo $buffer;
 
 			if ( $retbytes ) {

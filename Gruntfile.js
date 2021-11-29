@@ -2,6 +2,9 @@
 module.exports = function ( grunt ) {
 	'use strict';
 
+	// load all tasks
+	require( 'load-grunt-tasks' )( grunt, { scope: 'devDependencies' } );
+
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		// setting folder templates
@@ -196,6 +199,7 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 	grunt.loadNpmTasks('grunt-wp-i18n');
 	grunt.loadNpmTasks('grunt-checktextdomain');
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks('@fltwk/grunt-po2mo');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 
@@ -215,6 +219,14 @@ module.exports = function ( grunt ) {
 		'default',
 		'shell:txpull',
 		'makepot'
+	] );
+
+	// Build task
+	grunt.registerTask( 'build-archive', [
+		'clean',
+		'copy',
+		'compress:build',
+		'clean'
 	] );
 
 	grunt.registerTask('makemo', ['po2mo']);

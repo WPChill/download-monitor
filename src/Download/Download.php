@@ -105,7 +105,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_title() {
-		echo $this->get_title();
+		echo wp_kses_post( $this->get_title() );
 	}
 
 	/**
@@ -173,7 +173,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_author() {
-		echo $this->get_the_author();
+		echo esc_html( $this->get_the_author() );
 	}
 
 	/**
@@ -201,7 +201,14 @@ class DLM_Download {
 	 * Prints the excerpt
 	 */
 	public function the_excerpt() {
-		echo $this->get_excerpt();
+		echo wp_kses_post( wpautop( do_shortcode( $this->get_excerpt() ) ) );
+	}
+
+	/**
+	 * Returns the excerpt with wpautop and do_shortcode
+	 */
+	public function get_the_excerpt() {
+		return wpautop( do_shortcode( $this->get_excerpt() ) );
 	}
 
 	/**
@@ -310,7 +317,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_image( $size = 'full' ) {
-		echo $this->get_image( $size );
+		echo wp_kses_post( $this->get_image( $size ) );
 	}
 
 	/**
@@ -320,7 +327,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_download_link() {
-		echo $this->get_the_download_link();
+		echo esc_url( $this->get_the_download_link() );
 	}
 
 	/**
@@ -624,7 +631,7 @@ class DLM_Download {
 	public function the_download_count() {
 		DLM_Debug_Logger::deprecated( "DLM_Download::the_download_count()" );
 
-		echo $this->get_download_count();
+		echo esc_html( $this->get_download_count() );
 	}
 
 	/**
@@ -723,7 +730,7 @@ class DLM_Download {
 	public function the_version_number() {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::the_version_number()' );
 
-		echo $this->get_version()->get_version_number();
+		echo esc_html( $this->get_version()->get_version_number() );
 	}
 
 	/**
@@ -765,7 +772,7 @@ class DLM_Download {
 	public function the_filename() {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_filename()' );
 
-		echo $this->get_version()->get_filename();
+		echo esc_html( $this->get_version()->get_filename() );
 	}
 
 	/**
@@ -807,7 +814,7 @@ class DLM_Download {
 	public function the_filesize() {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::the_filesize()' );
 
-		echo $this->get_version()->get_filesize_formatted();
+		echo esc_html( $this->get_version()->get_filesize_formatted() );
 	}
 
 	/**
@@ -842,7 +849,7 @@ class DLM_Download {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::the_hash()' );
 
 		if ( method_exists( $this->get_version(), "get_" . $type ) ) {
-			echo call_user_func( array( $this->get_version(), "get_" . $type ) );
+			echo esc_html(call_user_func( array( $this->get_version(), "get_" . $type ) ));
 		}
 	}
 
@@ -871,6 +878,6 @@ class DLM_Download {
 	public function the_filetype() {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::the_filetype()' );
 
-		echo $this->get_version()->get_filetype();
+		echo esc_html( $this->get_version()->get_filetype() );
 	}
 }

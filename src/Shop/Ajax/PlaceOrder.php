@@ -31,18 +31,18 @@ class PlaceOrder extends Ajax {
 	 */
 	private function parse_customer_post_data() {
 		return array(
-			'first_name' => isset( $_POST['customer']['first_name'] ) ? $_POST['customer']['first_name'] : '',
-			'last_name'  => isset( $_POST['customer']['last_name'] ) ? $_POST['customer']['last_name'] : '',
-			'company'    => isset( $_POST['customer']['company'] ) ? $_POST['customer']['company'] : '',
-			'email'      => isset( $_POST['customer']['email'] ) ? $_POST['customer']['email'] : '',
-			'address_1'  => isset( $_POST['customer']['address_1'] ) ? $_POST['customer']['address_1'] : '',
-			'address_2'  => isset( $_POST['customer']['address_2'] ) ? $_POST['customer']['address_2'] : '',
-			'postcode'   => isset( $_POST['customer']['postcode'] ) ? $_POST['customer']['postcode'] : '',
-			'city'       => isset( $_POST['customer']['city'] ) ? $_POST['customer']['city'] : '',
-			'state'      => isset( $_POST['customer']['state'] ) ? $_POST['customer']['state'] : '',
-			'country'    => isset( $_POST['customer']['country'] ) ? $_POST['customer']['country'] : '',
-			'phone'      => isset( $_POST['customer']['phone'] ) ? $_POST['customer']['phone'] : '',
-			'ip_address' => isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : ''
+			'first_name' => isset( $_POST['customer']['first_name'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['first_name'] ) )  : '',
+			'last_name'  => isset( $_POST['customer']['last_name'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['last_name'] ) ) : '',
+			'company'    => isset( $_POST['customer']['company'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['company'] ) ) : '',
+			'email'      => isset( $_POST['customer']['email'] ) ? sanitize_email( wp_unslash( $_POST['customer']['email'] ) ) : '',
+			'address_1'  => isset( $_POST['customer']['address_1'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['address_1'] ) )  : '',
+			'address_2'  => isset( $_POST['customer']['address_2'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['address_2'] ) ) : '',
+			'postcode'   => isset( $_POST['customer']['postcode'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['postcode'] ) ) : '',
+			'city'       => isset( $_POST['customer']['city'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['city'] ) ) : '',
+			'state'      => isset( $_POST['customer']['state'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['state'] ) ) : '',
+			'country'    => isset( $_POST['customer']['country'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['country'] ) ) : '',
+			'phone'      => isset( $_POST['customer']['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['customer']['phone'] ) ) : '',
+			'ip_address' => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : ''
 		);
 	}
 
@@ -72,8 +72,8 @@ class PlaceOrder extends Ajax {
 		// get gateway
 		$enabled_gateways = Services::get()->service( 'payment_gateway' )->get_enabled_gateways();
 
-		/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
-		$gateway = ( isset( $_POST['payment_gateway'] ) && isset( $enabled_gateways[ $_POST['payment_gateway'] ] ) ? $enabled_gateways[ $_POST['payment_gateway'] ] : null );
+		/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
+		$gateway = ( isset( $_POST['payment_gateway'] ) && isset( $enabled_gateways[ $_POST['payment_gateway'] ] ) ? $enabled_gateways[ sanitize_text_field( wp_unslash( $_POST['payment_gateway'] ) ) ] : null );
 
 		/**
 		 * Check if all required fields are set
@@ -92,7 +92,7 @@ class PlaceOrder extends Ajax {
 
 		// check if we need to create an order or fetch one based on id and hash
 		$order_id     = absint( ( isset( $_POST['order_id'] ) ) ? $_POST['order_id'] : 0 );
-		$order_hash   = ( isset( $_POST['order_hash'] ) ? $_POST['order_hash'] : '' );
+		$order_hash   = ( isset( $_POST['order_hash'] ) ? sanitize_text_field( wp_unslash( $_POST['order_hash'] ) ) : '' );
 		$order        = null;
 		$is_new_order = true;
 

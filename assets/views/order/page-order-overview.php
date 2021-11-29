@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 
-    <h1><?php _e( 'Orders', 'download-monitor' ); ?></h1>
+    <h1><?php echo esc_html__( 'Orders', 'download-monitor' ); ?></h1>
 
     <form method="post">
 		<?php $table->display() ?>
