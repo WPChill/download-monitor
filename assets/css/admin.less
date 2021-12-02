@@ -28,6 +28,29 @@
       }
     }
   }
+  
+  .dlm-page-header {
+    border-bottom: 1px solid #ccc;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    width: calc( 100% + 20px );
+    box-sizing: border-box;
+    margin-left: -20px;
+
+    .dlm-header-links {
+      margin-left: -20px;
+      a {
+        span {
+          vertical-align: middle;
+        }
+      }
+    }
+    .dlm-header-logo img {
+      max-height : 35px;
+    }
+  }
 }
 
 #dlm_logs {
@@ -516,26 +539,23 @@ table.wp-list-table {
 
 /* Writepanel forms */
 #download-monitor-information {
-  p {
-    overflow: hidden;
-    label {
-      width: 100%;
-      //      font-size: 11px;
-      font-weight: bold;
-      box-sizing: border-box;
-      line-height: 28px;
-      float: left;
-      input {
-        width: 65%;
-        padding: 5px;
-        font-size: 11px;
-        font-weight: normal;
-        background: #eaeaea;
-        border: 0;
-        box-shadow: none;
+  .dlm_information_panel {
+    div {
+      p {
+        overflow: hidden;
+        width: 100%;
+        font-weight: bold;
         box-sizing: border-box;
-        float: right;
+        line-height: 28px;
+        margin-bottom: 5px;
       }
+    }
+    input {
+      margin: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      flex-grow: 1;
+      width: calc(100% - 45px);
     }
   }
 }
@@ -588,6 +608,23 @@ table.wp-list-table {
     padding: 7px 12px !important;
     overflow: hidden;
     zoom: 1;
+
+    &.not-active {
+      opacity: 0.7;
+    }
+  }
+  .options_upsell_link {
+    color: unset;
+    text-decoration: none;
+  }
+  
+  .dlm-upsell-badge {
+    font-size: 10px;
+    background: #f4daa4;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-left: 5px;
+    border-radius: 10px;
   }
 }
 
@@ -1463,10 +1500,12 @@ table.wp-list-table {
   }
 
   .dlm-upsell-badge {
-    background:green;
-    color:#fff;
-    padding:5px 10px;
-    font-size:11px;
+    font-size: 10px;
+    background: #f4daa4;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-left: 10px;
+    border-radius: 10px;
   }
 }
 
