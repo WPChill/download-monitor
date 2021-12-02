@@ -275,7 +275,7 @@ class WP_DLM {
 	 */
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_enqueue_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
+			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
 		}
 
 		// only enqueue preview stylesheet when we're in the preview
