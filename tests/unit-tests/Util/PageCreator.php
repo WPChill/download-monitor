@@ -1,6 +1,6 @@
 <?php
 
-use \Never5\DownloadMonitor\Util;
+use \WPChill\DownloadMonitor\Util;
 
 class DLM_Test_PageCreator extends DLM_Unit_Test_Case {
 

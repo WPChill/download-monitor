@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Tests\Order;
+namespace WPChill\DownloadMonitor\Tests\Order;
 
-use Never5\DownloadMonitor\Shop\Order;
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Order;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 /**
  * Class TestOrder
- * @package Never5\DownloadMonitor\Tests\Order
+ * @package WPChill\DownloadMonitor\Tests\Order
  *
  * An order object with fake data, used for testing. Note that object when creating only exists in memory (not in DB).
  */
@@ -20,7 +20,7 @@ class TestOrder {
 	 */
 	public static function make() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Order $order */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Order $order */
 		$order = Services::get()->service( "order_factory" )->make();
 
 		/** Set customer */
@@ -51,7 +51,7 @@ class TestOrder {
 
 		/** Add a fake transaction */
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
 		$dlm_transaction = Services::get()->service( 'order_transaction_factory' )->make();
 		$dlm_transaction->set_amount( $order->get_total() );
 		$dlm_transaction->set_processor( "UnitTest" );

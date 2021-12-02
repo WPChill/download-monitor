@@ -381,41 +381,14 @@ class DLM_Reports {
 						yAxisKey: 'y'
 					},
 					plugins: {
-						legend: {
-							display: false,
-							tooltip: {
-								// Should be deleted if we remain on external tooltip
-								/* backgroundColor: '#fff',
-								titleColor: instance.chartColors.blue.default,
-								yAlign: "bottom",
-								xAlign: "bottom",
-								titleAlign: 'center',
-								titleFont: {
-									weight: 'bold',
-									size: 18
-								},
-								padding: {
-									left: 15,
-									right: 15,
-									top: 30,
-									bottom: 30,
-								},
-								cornerRadius: 8,
-								borderColor: instance.chartColors.blue.default,
-								borderWidth: 1,
-								displayColors: false,
-								bodyColor: '#000',
-								callbacks: {
-									title: context => context[0].formattedValue,
-									label: context => '',
-									beforeLabel: context => 'Downloads',
-									afterLabel: context => ('undefined' !== instance.chartType && 'month' === instance.chartType) ? moment(context.label).format("MMMM, YYYY") : moment(context.label).format("dddd, MMMM Do YYYY"),
-									labelTextColor: context => instance.chartColors.blue.half,
-								}, */
-								enabled: false,
-								external: instance.externalTooltipHandler.bind(instance, this),
-							},
+						tooltip: {
+							enabled: false,
+							external: instance.externalTooltipHandler.bind(instance, this),
 						},
+						// When we'll add more datasets we'll display the legend
+						legend: {
+							display: false
+						}
 					},
 				}
 			});
@@ -757,63 +730,72 @@ class DLM_Reports {
 		// the table
 		const wrapper = jQuery('#total_downloads_table');
 		wrapper.empty();
+		wrapper.parent().addClass('empty');
 
 		if (!this.mostDownloaded || true === reset) {
 			return;
 		}
 
-		var table = jQuery(document.createElement('table'));
+		let dataWrapper = document.createElement('div');
+		dataWrapper.className = "dlm-reports-top-downloads";
 
-		table.attr('cellspacing', 0).attr('cellpadding', 0).attr('border', 0);
+		// Setup header row
+		let headerRow = document.createElement('div');
+		headerRow.className = "dlm-reports-top-downloads__header";
 
-		// setup header row
-		var headerRow = document.createElement('tr');
-		const th0 = document.createElement('th');
-		th0.innerHTML = "#position";
-		headerRow.appendChild(th0);
-		const th1 = document.createElement('th');
-		th1.innerHTML = "ID";
-		headerRow.appendChild(th1);
-		const th2 = document.createElement('th');
-		th2.innerHTML = "Title"
-		headerRow.appendChild(th2);
-		const th3 = document.createElement('th');
-		th3.innerHTML = "Downloads";
-		headerRow.appendChild(th3);
+		// Create position row
+		const posRow = document.createElement('div');
+		const posRowLabel = document.createElement('label');
+		posRowLabel.appendChild(document.createTextNode("#position"));
+		posRow.appendChild(posRowLabel);
+		headerRow.appendChild(posRow);
 
-		// append header row
-		table.append(headerRow);
+		// Create title row
+		const titleRow = document.createElement('div');
+		const titleRowLabel = document.createElement('label');
+		titleRowLabel.appendChild(document.createTextNode("Title"));
+		titleRow.appendChild(titleRowLabel);
+		headerRow.appendChild(titleRow);
 
-		const table_data = JSON.parse(JSON.stringify(this.mostDownloaded)).slice(15 * parseInt(offset), 15 * (parseInt(offset + 1)));
+		// Create downloads row
+		const downloadsRow = document.createElement('div');
+		const downloadsRowLabel = document.createElement('label');
+		downloadsRowLabel.appendChild(document.createTextNode("Downloads"));
+		downloadsRow.appendChild(downloadsRowLabel);
+		headerRow.appendChild(downloadsRow);
 
-		for (let i = 0; i < table_data.length; i++) {
+		// Append header row
+		dataWrapper.append(headerRow);
 
-			var tr = document.createElement('tr');
+		const dataResponse = JSON.parse(JSON.stringify(this.mostDownloaded)).slice(15 * parseInt(offset), 15 * (parseInt(offset + 1)));
 
-			for (let j = 0; j < 4; j++) {
+		for (let i = 0; i < dataResponse.length; i++) {
 
-				let td = document.createElement('td');
+			const line = document.createElement('div');
+			line.className = "dlm-reports-top-downloads__line";
+
+			for (let j = 0; j < 3; j++) {
+
+				let lineSection = document.createElement('div');
 
 				if (j === 0) {
-					td.innerHTML = '<span class="dlm-listing-position">' + (parseInt(15 * offset) + i + 1) + '.</span>';
+					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(15 * offset) + i + 1) + '.</span>';
 				} else if (j === 1) {
-					td.innerHTML = table_data[i].id;
-				} else if (j === 2) {
-					td.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + table_data[i].id + '&action=edit" target="_blank">' + table_data[i].title + ' <span class="dashicons dashicons-admin-generic"></span></a>';
+					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" target="_blank">' + dataResponse[i].title + ' <span class="dashicons dashicons-admin-generic"></span></a>';
 				} else {
-					td.innerHTML = table_data[i].downloads;
+					lineSection.innerHTML = dataResponse[i].downloads;
 				}
 
-				tr.appendChild(td);
+				line.appendChild(lineSection);
 			}
 
 			// append row
-			table.append(tr);
+			dataWrapper.append(line);
 		}
 
-		wrapper.append(table);
-
-		wrapper.find('.dlm-reports-placeholder-no-data').remove();
+		const htmlTarget = wrapper.parent().find('.dlm-reports-placeholder-no-data');
+		wrapper.parent().removeClass('empty');
+		wrapper.remove(htmlTarget).append(dataWrapper);
 
 		if (this.mostDownloaded.length > 15) {
 			wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
@@ -841,7 +823,6 @@ class DLM_Reports {
 				nextPage = parseInt(offset) + 1,
 				prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0;
 
-			main_parent.find('#total_downloads_table').css('height', table.height() + 30);
 			link.attr('disabled', 'disabled');
 
 			// Check if we click the next/load more button
@@ -930,21 +911,12 @@ class DLM_Reports {
 
 		if (!tooltipEl) {
 			tooltipEl = document.createElement('div');
-			tooltipEl.style.background = '#fff';
-			tooltipEl.style.borderRadius = '3px';
-			tooltipEl.style.border = 'solid 1px #0D217A';
-			tooltipEl.style.color = '#0D217A';
-			tooltipEl.style.opacity = 1;
-			tooltipEl.style.pointerEvents = 'none';
-			tooltipEl.style.position = 'absolute';
-			tooltipEl.style.transform = 'translate(-50%, 0)';
-			tooltipEl.style.transition = 'all .1s ease';
-			tooltipEl.style.padding = '5px 15px';
+			tooltipEl.className = "dlm-canvas-tooltip";
 
-			const table = document.createElement('table');
-			table.style.margin = '0px';
+			const tooltipWrapper = document.createElement('div');
+			tooltipWrapper.className = "dlm-reports-tooltip";
 
-			tooltipEl.appendChild(table);
+			tooltipEl.appendChild(tooltipWrapper);
 			chart.canvas.parentNode.appendChild(tooltipEl);
 		}
 
@@ -960,6 +932,7 @@ class DLM_Reports {
 		} = context;
 
 		const tooltipEl = plugin.getOrCreateTooltip(chart);
+		const tooltipWidth = jQuery(tooltipEl).parent().width();
 
 		// Hide if no tooltip
 		if (tooltip.opacity === 0) {
@@ -970,88 +943,46 @@ class DLM_Reports {
 		// Set Text
 		if (tooltip.body) {
 			const titleLines = tooltip.title || [];
-			const bodyLines = tooltip.body.map(b => b.lines);
 
-			const tableHead = document.createElement('thead');
+			const tooltipContent = document.createElement('div');
+			tooltipContent.className = "dlm-reports-tooltip__header";
 
 			titleLines.forEach(title => {
-				const tr = document.createElement('tr');
-				tr.style.borderWidth = 0;
-
-				const th = document.createElement('th');
-				th.style.borderWidth = 0;
-
-				// Let us create our tooltip content.
-				// The main wrapper for content
-				const textContent = document.createElement('div');
-				textContent.style.color = 'red';
+				const tooltipRow = document.createElement('div');
+				tooltipRow.className = "dlm-reports-tooltip__row";
 
 				// The title
 				const downloads = document.createElement('p');
-				downloads.style.color = '#0D217A';
-				downloads.style.fontSize = '18px';
-				downloads.style.margin = '0 auto';
-				downloads.appendChild(document.createTextNode(title));
+				downloads.className = "dlm-reports-tooltip__downloads";
+				downloads.appendChild(document.createTextNode(tooltip.dataPoints[0].formattedValue));
+				tooltipRow.appendChild(downloads);
 
 				// Info
 				const downloadsInfo = document.createElement('p');
-				downloadsInfo.style.color = 'rgba(0,0,0,0.6)';
-				downloadsInfo.style.fontSize = '12px';
-				downloadsInfo.style.margin = '0 auto';
+				downloadsInfo.className = "dlm-reports-tooltip__info";
 				downloadsInfo.appendChild(document.createTextNode('Downloads'));
+				tooltipRow.appendChild(downloadsInfo);
 
 				// Date
 				const downloadDate = document.createElement('p');
-				downloadDate.style.color = '#0D217A';
-				downloadDate.style.fontSize = '13px';
-				downloadDate.style.margin = '0 auto';
+				downloadDate.className = "dlm-reports-tooltip__date";
 				const date = ('undefined' !== plugin.chartType && 'month' === plugin.chartType) ? moment(tooltip.dataPoints[0].label).format("MMMM, YYYY") : moment(tooltip.dataPoints[0].label).format("MMMM Do, YY");
 				downloadDate.appendChild(document.createTextNode(date));
+				tooltipRow.appendChild(downloadDate);
 
 				// Create the whole content and append it
-				textContent.appendChild(downloads).appendChild(downloadsInfo).appendChild(downloadDate);
-				th.appendChild(textContent);
-				tr.appendChild(th);
-				tableHead.appendChild(tr);
+				tooltipContent.appendChild(tooltipRow);
 			});
 
-			const tableBody = document.createElement('tbody');
-			bodyLines.forEach((body, i) => {
-				const colors = tooltip.labelColors[i];
-
-				const span = document.createElement('span');
-				span.style.background = colors.backgroundColor;
-				span.style.borderColor = colors.borderColor;
-				span.style.borderWidth = '2px';
-				span.style.marginRight = '10px';
-				span.style.height = '10px';
-				span.style.width = '10px';
-				span.style.display = 'inline-block';
-
-				const tr = document.createElement('tr');
-				tr.style.backgroundColor = 'inherit';
-				tr.style.borderWidth = 0;
-
-				const td = document.createElement('td');
-				td.style.borderWidth = 0;
-
-				const text = document.createTextNode(body);
-
-				td.appendChild(span);
-				td.appendChild(text);
-				tableBody.appendChild(tr);
-			});
-
-			const tableRoot = tooltipEl.querySelector('table');
+			const tooltipWRapper = tooltipEl.querySelector('div.dlm-reports-tooltip');
 
 			// Remove old children
-			while (tableRoot.firstChild) {
-				tableRoot.firstChild.remove();
+			while (tooltipWRapper.firstChild) {
+				tooltipWRapper.firstChild.remove();
 			}
 
 			// Add new children
-			tableRoot.appendChild(tableHead);
-			tableRoot.appendChild(tableBody);
+			tooltipWRapper.appendChild(tooltipContent);
 		}
 
 		const {
@@ -1061,9 +992,31 @@ class DLM_Reports {
 
 		// Display, position, and set styles for font
 		tooltipEl.style.opacity = 1;
-		tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+		let margin = {
+			isMargin: false,
+			left: false
+		};
+
+		if (tooltip.caretX - tooltip.width < 0) {
+			margin.isMargin = true;
+			margin.left = true;
+		}
+
+		if (positionX + tooltip.caretX + tooltip.width > tooltipWidth) {
+			margin.isMargin = true;
+			margin.left = false;
+		}
+
+		if (!margin.isMargin) {
+			tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+		} else {
+			if (!margin.left) {
+				tooltipEl.style.left = tooltipWidth - tooltip.width + 'px';
+			} else {
+				tooltipEl.style.left = positionX + tooltip.width + 'px';
+			}
+		}
+
 		tooltipEl.style.top = (positionY + tooltip.caretY - tooltipEl.offsetHeight - 10) + 'px';
-		tooltipEl.style.font = tooltip.options.bodyFont.string;
-		tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
 	}
 }

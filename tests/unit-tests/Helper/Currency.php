@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Tests\Helper;
+namespace WPChill\DownloadMonitor\Tests\Helper;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Currency extends \DLM_Unit_Test_Case {
 

@@ -1,5 +1,5 @@
 /*!
- * Chart.js v3.5.1
+ * Chart.js v3.6.1
  * https://www.chartjs.org
  * (c) 2021 Chart.js Contributors
  * Released under the MIT License
@@ -1166,6 +1166,9 @@ function _limitValue(value, min, max) {
 function _int16Range(value) {
   return _limitValue(value, -32768, 32767);
 }
+function _isBetween(value, start, end, epsilon = 1e-6) {
+  return value >= Math.min(start, end) - epsilon && value <= Math.max(start, end) + epsilon;
+}
 
 function toFontString(font) {
   if (!font || isNullOrUndef(font.size) || isNullOrUndef(font.family)) {
@@ -1881,12 +1884,10 @@ var Interaction = {
       return getNearestItems(chart, position, axis, options.intersect, useFinalPosition);
     },
     x(chart, e, options, useFinalPosition) {
-      options.axis = 'x';
-      return getAxisItems(chart, e, options, useFinalPosition);
+      return getAxisItems(chart, e, {axis: 'x', intersect: options.intersect}, useFinalPosition);
     },
     y(chart, e, options, useFinalPosition) {
-      options.axis = 'y';
-      return getAxisItems(chart, e, options, useFinalPosition);
+      return getAxisItems(chart, e, {axis: 'y', intersect: options.intersect}, useFinalPosition);
     }
   }
 };
@@ -1982,12 +1983,17 @@ function resolve(inputs, context, index, info) {
     }
   }
 }
-function _addGrace(minmax, grace) {
+function _addGrace(minmax, grace, beginAtZero) {
   const {min, max} = minmax;
+  const change = toDimension(grace, (max - min) / 2);
+  const keepZero = (value, add) => beginAtZero && value === 0 ? 0 : value + add;
   return {
-    min: min - Math.abs(toDimension(grace, min)),
-    max: max + toDimension(grace, max)
+    min: keepZero(min, -Math.abs(change)),
+    max: keepZero(max, change)
   };
+}
+function createContext(parentContext, context) {
+  return Object.assign(Object.create(parentContext), context);
 }
 
 const STATIC_POSITIONS = ['left', 'top', 'right', 'bottom'];
@@ -2202,6 +2208,7 @@ function placeBoxes(boxes, chartArea, params, stacks) {
   chartArea.y = y;
 }
 defaults.set('layout', {
+  autoPadding: true,
   padding: {
     top: 0,
     right: 0,
@@ -2295,7 +2302,7 @@ var layouts = {
     each(boxes.chartArea, (layout) => {
       const box = layout.box;
       Object.assign(box, chart.chartArea);
-      box.update(chartArea.w, chartArea.h);
+      box.update(chartArea.w, chartArea.h, {left: 0, top: 0, right: 0, bottom: 0});
     });
   }
 };
@@ -2338,8 +2345,7 @@ function _createResolver(scopes, prefixes = [''], rootScopes = scopes, fallback,
     },
     set(target, prop, value) {
       const storage = target._storage || (target._storage = getTarget());
-      storage[prop] = value;
-      delete target[prop];
+      target[prop] = storage[prop] = value;
       delete target._keys;
       return true;
     }
@@ -2398,16 +2404,14 @@ function _descriptors(proxy, defaults = {scriptable: true, indexable: true}) {
   };
 }
 const readKey = (prefix, name) => prefix ? prefix + _capitalize(name) : name;
-const needsSubResolver = (prop, value) => isObject(value) && prop !== 'adapters';
+const needsSubResolver = (prop, value) => isObject(value) && prop !== 'adapters' &&
+  (Object.getPrototypeOf(value) === null || value.constructor === Object);
 function _cached(target, prop, resolve) {
-  let value = target[prop];
-  if (defined(value)) {
-    return value;
+  if (Object.prototype.hasOwnProperty.call(target, prop)) {
+    return target[prop];
   }
-  value = resolve();
-  if (defined(value)) {
-    target[prop] = value;
-  }
+  const value = resolve();
+  target[prop] = value;
   return value;
 }
 function _resolveWithContext(target, prop, receiver) {
@@ -2432,7 +2436,7 @@ function _resolveScriptable(prop, value, target, receiver) {
   _stack.add(prop);
   value = value(_context, _subProxy || receiver);
   _stack.delete(prop);
-  if (isObject(value)) {
+  if (needsSubResolver(prop, value)) {
     value = createSubResolver(_proxy._scopes, _proxy, prop, value);
   }
   return value;
@@ -2897,7 +2901,7 @@ function propertyFn(property) {
     };
   }
   return {
-    between: (n, s, e) => n >= Math.min(s, e) && n <= Math.max(e, s),
+    between: _isBetween,
     compare: (a, b) => a - b,
     normalize: x => x
   };
@@ -3057,6 +3061,7 @@ function splitByStyles(line, segments, points, segmentOptions) {
   return doSplitByStyles(line, segments, points, segmentOptions);
 }
 function doSplitByStyles(line, segments, points, segmentOptions) {
+  const chartContext = line._chart.getContext();
   const baseStyle = readStyle(line.options);
   const {_datasetIndex: datasetIndex, options: {spanGaps}} = line;
   const count = points.length;
@@ -3088,14 +3093,14 @@ function doSplitByStyles(line, segments, points, segmentOptions) {
     let style;
     for (i = start + 1; i <= segment.end; i++) {
       const pt = points[i % count];
-      style = readStyle(segmentOptions.setContext({
+      style = readStyle(segmentOptions.setContext(createContext(chartContext, {
         type: 'segment',
         p0: prev,
         p1: pt,
         p0DataIndex: (i - 1) % count,
         p1DataIndex: i % count,
         datasetIndex
-      }));
+      })));
       if (styleChanged(style, prevStyle)) {
         addStyle(start, i - 1, segment.loop, prevStyle);
       }
@@ -3205,6 +3210,7 @@ toPadding: toPadding,
 toFont: toFont,
 resolve: resolve,
 _addGrace: _addGrace,
+createContext: createContext,
 PI: PI,
 TAU: TAU,
 PITAU: PITAU,
@@ -3231,6 +3237,7 @@ _normalizeAngle: _normalizeAngle,
 _angleBetween: _angleBetween,
 _limitValue: _limitValue,
 _int16Range: _int16Range,
+_isBetween: _isBetween,
 getRtlAdapter: getRtlAdapter,
 overrideTextDirection: overrideTextDirection,
 restoreTextDirection: restoreTextDirection,
@@ -3260,11 +3267,16 @@ class BasePlatform {
   isAttached(canvas) {
     return true;
   }
+  updateConfig(config) {
+  }
 }
 
 class BasicPlatform extends BasePlatform {
   acquireContext(item) {
     return item && item.getContext && item.getContext('2d') || null;
+  }
+  updateConfig(config) {
+    config.options.animation = false;
   }
 }
 
@@ -3334,15 +3346,23 @@ function fromNativeEvent(event, chart) {
     y: y !== undefined ? y : null,
   };
 }
+function nodeListContains(nodeList, canvas) {
+  for (const node of nodeList) {
+    if (node === canvas || node.contains(canvas)) {
+      return true;
+    }
+  }
+}
 function createAttachObserver(chart, type, listener) {
   const canvas = chart.canvas;
   const observer = new MutationObserver(entries => {
+    let trigger = false;
     for (const entry of entries) {
-      for (const node of entry.addedNodes) {
-        if (node === canvas || node.contains(canvas)) {
-          return listener();
-        }
-      }
+      trigger = trigger || nodeListContains(entry.addedNodes, canvas);
+      trigger = trigger && !nodeListContains(entry.removedNodes, canvas);
+    }
+    if (trigger) {
+      listener();
     }
   });
   observer.observe(document, {childList: true, subtree: true});
@@ -3351,12 +3371,13 @@ function createAttachObserver(chart, type, listener) {
 function createDetachObserver(chart, type, listener) {
   const canvas = chart.canvas;
   const observer = new MutationObserver(entries => {
+    let trigger = false;
     for (const entry of entries) {
-      for (const node of entry.removedNodes) {
-        if (node === canvas || node.contains(canvas)) {
-          return listener();
-        }
-      }
+      trigger = trigger || nodeListContains(entry.removedNodes, canvas);
+      trigger = trigger && !nodeListContains(entry.addedNodes, canvas);
+    }
+    if (trigger) {
+      listener();
     }
   });
   observer.observe(document, {childList: true, subtree: true});
@@ -3846,7 +3867,7 @@ function getSortedDatasetIndices(chart, filterVisible) {
   }
   return keys;
 }
-function applyStack(stack, value, dsIndex, options) {
+function applyStack(stack, value, dsIndex, options = {}) {
   const keys = stack.keys;
   const singleMode = options.mode === 'single';
   let i, ilen, datasetIndex, otherValue;
@@ -3932,7 +3953,7 @@ function getFirstScaleId(chart, axis) {
   return Object.keys(scales).filter(key => scales[key].axis === axis).shift();
 }
 function createDatasetContext(parent, index) {
-  return Object.assign(Object.create(parent),
+  return createContext(parent,
     {
       active: false,
       dataset: undefined,
@@ -3944,7 +3965,7 @@ function createDatasetContext(parent, index) {
   );
 }
 function createDataContext(parent, index, element) {
-  return Object.assign(Object.create(parent), {
+  return createContext(parent, {
     active: false,
     dataIndex: index,
     parsed: undefined,
@@ -3972,6 +3993,8 @@ function clearStacks(meta, items) {
 }
 const isDirectUpdateMode = (mode) => mode === 'reset' || mode === 'none';
 const cloneIfNotShared = (cached, shared) => shared ? cached : Object.assign({}, cached);
+const createStack = (canStack, meta, chart) => canStack && !meta.hidden && meta._stacked
+  && {keys: getSortedDatasetIndices(chart, true), values: null};
 class DatasetController {
   constructor(chart, datasetIndex) {
     this.chart = chart;
@@ -4099,6 +4122,7 @@ class DatasetController {
     const scopes = config.getOptionScopes(this.getDataset(), scopeKeys, true);
     this.options = config.createResolver(scopes, this.getContext());
     this._parsing = this.options.parsing;
+    this._cachedDataOpts = {};
   }
   parse(start, count) {
     const {_cachedMeta: meta, _data: data} = this;
@@ -4203,9 +4227,7 @@ class DatasetController {
     const values = stack && parsed._stacks[scale.axis];
     if (stack && values) {
       stack.values = values;
-      range.min = Math.min(range.min, value);
-      range.max = Math.max(range.max, value);
-      value = applyStack(stack, parsedValue, this._cachedMeta.index, {all: true});
+      value = applyStack(stack, parsedValue, this._cachedMeta.index);
     }
     range.min = Math.min(range.min, value);
     range.max = Math.max(range.max, value);
@@ -4216,15 +4238,14 @@ class DatasetController {
     const sorted = meta._sorted && scale === meta.iScale;
     const ilen = _parsed.length;
     const otherScale = this._getOtherScale(scale);
-    const stack = canStack && meta._stacked && {keys: getSortedDatasetIndices(this.chart, true), values: null};
+    const stack = createStack(canStack, meta, this.chart);
     const range = {min: Number.POSITIVE_INFINITY, max: Number.NEGATIVE_INFINITY};
     const {min: otherMin, max: otherMax} = getUserBounds(otherScale);
-    let i, value, parsed, otherValue;
+    let i, parsed;
     function _skip() {
       parsed = _parsed[i];
-      value = parsed[scale.axis];
-      otherValue = parsed[otherScale.axis];
-      return !isNumberFinite(value) || otherMin > otherValue || otherMax < otherValue;
+      const otherValue = parsed[otherScale.axis];
+      return !isNumberFinite(parsed[scale.axis]) || otherMin > otherValue || otherMax < otherValue;
     }
     for (i = 0; i < ilen; ++i) {
       if (_skip()) {
@@ -4273,8 +4294,6 @@ class DatasetController {
   }
   _update(mode) {
     const meta = this._cachedMeta;
-    this.configure();
-    this._cachedDataOpts = {};
     this.update(mode || 'default');
     meta._clip = toClip(valueOrDefault(this.options.clip, defaultClip(meta.xScale, meta.yScale, this.getMaxOverflow())));
   }
@@ -4488,6 +4507,7 @@ class DatasetController {
       const [method, arg1, arg2] = args;
       this[method](arg1, arg2);
     }
+    this.chart._dataChanges.push([this.index, ...args]);
   }
   _onDataPush() {
     const count = arguments.length;
@@ -4500,8 +4520,13 @@ class DatasetController {
     this._sync(['_removeElements', 0, 1]);
   }
   _onDataSplice(start, count) {
-    this._sync(['_removeElements', start, count]);
-    this._sync(['_insertElements', start, arguments.length - 2]);
+    if (count) {
+      this._sync(['_removeElements', start, count]);
+    }
+    const newCount = arguments.length - 2;
+    if (newCount) {
+      this._sync(['_insertElements', start, newCount]);
+    }
   }
   _onDataUnshift() {
     this._sync(['_insertElements', 0, arguments.length]);
@@ -4821,13 +4846,13 @@ function getTitleHeight(options, fallback) {
   return (lines * font.lineHeight) + padding.height;
 }
 function createScaleContext(parent, scale) {
-  return Object.assign(Object.create(parent), {
+  return createContext(parent, {
     scale,
     type: 'scale'
   });
 }
 function createTickContext(parent, index, tick) {
-  return Object.assign(Object.create(parent), {
+  return createContext(parent, {
     tick,
     index,
     type: 'tick'
@@ -4965,6 +4990,8 @@ class Scale extends Element {
         max = Math.max(max, range.max);
       }
     }
+    min = maxDefined && min > max ? max : min;
+    max = minDefined && min > max ? min : max;
     return {
       min: finiteOrDefault(min, finiteOrDefault(max, min)),
       max: finiteOrDefault(max, finiteOrDefault(min, max))
@@ -4993,7 +5020,7 @@ class Scale extends Element {
     callback(this.options.beforeUpdate, [this]);
   }
   update(maxWidth, maxHeight, margins) {
-    const tickOpts = this.options.ticks;
+    const {beginAtZero, grace, ticks: tickOpts} = this.options;
     const sampleSize = tickOpts.sampleSize;
     this.beforeUpdate();
     this.maxWidth = maxWidth;
@@ -5018,7 +5045,7 @@ class Scale extends Element {
       this.beforeDataLimits();
       this.determineDataLimits();
       this.afterDataLimits();
-      this._range = _addGrace(this, this.options.grace);
+      this._range = _addGrace(this, grace, beginAtZero);
       this._dataLimitsCached = true;
     }
     this.beforeBuildTicks();
@@ -6480,18 +6507,23 @@ function getResolver(resolverCache, scopes, prefixes) {
   }
   return cached;
 }
+const hasFunction = value => isObject(value)
+  && Object.getOwnPropertyNames(value).reduce((acc, key) => acc || isFunction(value[key]), false);
 function needContext(proxy, names) {
   const {isScriptable, isIndexable} = _descriptors(proxy);
   for (const prop of names) {
-    if ((isScriptable(prop) && isFunction(proxy[prop]))
-      || (isIndexable(prop) && isArray(proxy[prop]))) {
+    const scriptable = isScriptable(prop);
+    const indexable = isIndexable(prop);
+    const value = (indexable || scriptable) && proxy[prop];
+    if ((scriptable && (isFunction(value) || hasFunction(value)))
+      || (indexable && isArray(value))) {
       return true;
     }
   }
   return false;
 }
 
-var version = "3.5.1";
+var version = "3.6.1";
 
 const KNOWN_POSITIONS = ['top', 'bottom', 'left', 'right', 'chartArea'];
 function positionIsHorizontal(position, axis) {
@@ -6531,6 +6563,19 @@ const getChart = (key) => {
   const canvas = getCanvas(key);
   return Object.values(instances).filter((c) => c.canvas === canvas).pop();
 };
+function moveNumericKeys(obj, start, move) {
+  const keys = Object.keys(obj);
+  for (const key of keys) {
+    const intKey = +key;
+    if (intKey >= start) {
+      const value = obj[key];
+      delete obj[key];
+      if (move > 0 || intKey > start) {
+        obj[intKey + move] = value;
+      }
+    }
+  }
+}
 class Chart {
   constructor(item, userConfig) {
     const config = this.config = new Config(userConfig);
@@ -6544,6 +6589,7 @@ class Chart {
     }
     const options = config.createResolver(config.chartOptionScopes(), this.getContext());
     this.platform = new (config.platform || _detectPlatform(initialCanvas))();
+    this.platform.updateConfig(config);
     const context = this.platform.acquireContext(initialCanvas, options.aspectRatio);
     const canvas = context && context.canvas;
     const height = canvas && canvas.height;
@@ -6574,6 +6620,7 @@ class Chart {
     this._animationsDisabled = undefined;
     this.$context = undefined;
     this._doResize = debounce(mode => this.update(mode), options.resizeDelay || 0);
+    this._dataChanges = [];
     instances[this.id] = this;
     if (!context || !canvas) {
       console.error("Failed to create chart: can't acquire context from the given item");
@@ -6792,19 +6839,11 @@ class Chart {
   update(mode) {
     const config = this.config;
     config.update();
-    this._options = config.createResolver(config.chartOptionScopes(), this.getContext());
-    each(this.scales, (scale) => {
-      layouts.removeBox(this, scale);
-    });
-    const animsDisabled = this._animationsDisabled = !this.options.animation;
-    this.ensureScalesHaveIDs();
-    this.buildOrUpdateScales();
-    const existingEvents = new Set(Object.keys(this._listeners));
-    const newEvents = new Set(this.options.events);
-    if (!setsEqual(existingEvents, newEvents) || !!this._responsiveListeners !== this.options.responsive) {
-      this.unbindEvents();
-      this.bindEvents();
-    }
+    const options = this._options = config.createResolver(config.chartOptionScopes(), this.getContext());
+    const animsDisabled = this._animationsDisabled = !options.animation;
+    this._updateScales();
+    this._checkEventBindings();
+    this._updateHiddenIndices();
     this._plugins.invalidate();
     if (this.notifyPlugins('beforeUpdate', {mode, cancelable: true}) === false) {
       return;
@@ -6818,7 +6857,7 @@ class Chart {
       controller.buildOrUpdateElements(reset);
       minPadding = Math.max(+controller.getMaxOverflow(), minPadding);
     }
-    this._minPadding = minPadding;
+    minPadding = this._minPadding = options.layout.autoPadding ? minPadding : 0;
     this._updateLayout(minPadding);
     if (!animsDisabled) {
       each(newControllers, (controller) => {
@@ -6832,6 +6871,52 @@ class Chart {
       this._eventHandler(this._lastEvent, true);
     }
     this.render();
+  }
+  _updateScales() {
+    each(this.scales, (scale) => {
+      layouts.removeBox(this, scale);
+    });
+    this.ensureScalesHaveIDs();
+    this.buildOrUpdateScales();
+  }
+  _checkEventBindings() {
+    const options = this.options;
+    const existingEvents = new Set(Object.keys(this._listeners));
+    const newEvents = new Set(options.events);
+    if (!setsEqual(existingEvents, newEvents) || !!this._responsiveListeners !== options.responsive) {
+      this.unbindEvents();
+      this.bindEvents();
+    }
+  }
+  _updateHiddenIndices() {
+    const {_hiddenIndices} = this;
+    const changes = this._getUniformDataChanges() || [];
+    for (const {method, start, count} of changes) {
+      const move = method === '_removeElements' ? -count : count;
+      moveNumericKeys(_hiddenIndices, start, move);
+    }
+  }
+  _getUniformDataChanges() {
+    const _dataChanges = this._dataChanges;
+    if (!_dataChanges || !_dataChanges.length) {
+      return;
+    }
+    this._dataChanges = [];
+    const datasetCount = this.data.datasets.length;
+    const makeSet = (idx) => new Set(
+      _dataChanges
+        .filter(c => c[0] === idx)
+        .map((c, i) => i + ',' + c.splice(1).join(','))
+    );
+    const changeSet = makeSet(0);
+    for (let i = 1; i < datasetCount; i++) {
+      if (!setsEqual(changeSet, makeSet(i))) {
+        return;
+      }
+    }
+    return Array.from(changeSet)
+      .map(c => c.split(','))
+      .map(a => ({method: a[1], start: +a[2], count: +a[3]}));
   }
   _updateLayout(minPadding) {
     if (this.notifyPlugins('beforeLayout', {cancelable: true}) === false) {
@@ -6856,12 +6941,14 @@ class Chart {
     this.notifyPlugins('afterLayout');
   }
   _updateDatasets(mode) {
-    const isFunction = typeof mode === 'function';
     if (this.notifyPlugins('beforeDatasetsUpdate', {mode, cancelable: true}) === false) {
       return;
     }
     for (let i = 0, ilen = this.data.datasets.length; i < ilen; ++i) {
-      this._updateDataset(i, isFunction ? mode({datasetIndex: i}) : mode);
+      this.getDatasetMeta(i).controller.configure();
+    }
+    for (let i = 0, ilen = this.data.datasets.length; i < ilen; ++i) {
+      this._updateDataset(i, isFunction(mode) ? mode({datasetIndex: i}) : mode);
     }
     this.notifyPlugins('afterDatasetsUpdate', {mode});
   }
@@ -6996,7 +7083,7 @@ class Chart {
     return meta;
   }
   getContext() {
-    return this.$context || (this.$context = {chart: this, type: 'chart'});
+    return this.$context || (this.$context = createContext(null, {chart: this, type: 'chart'}));
   }
   getVisibleDatasetCount() {
     return this.getSortedVisibleDatasetMetas().length;
@@ -7039,11 +7126,11 @@ class Chart {
     this._updateVisibility(datasetIndex, dataIndex, true);
   }
   _destroyDatasetMeta(datasetIndex) {
-    const meta = this._metasets && this._metasets[datasetIndex];
+    const meta = this._metasets[datasetIndex];
     if (meta && meta.controller) {
       meta.controller._destroy();
-      delete this._metasets[datasetIndex];
     }
+    delete this._metasets[datasetIndex];
   }
   _stop() {
     let i, ilen;
@@ -7782,26 +7869,34 @@ class BubbleController extends DatasetController {
     this.enableOptionSharing = true;
     super.initialize();
   }
+  parsePrimitiveData(meta, data, start, count) {
+    const parsed = super.parsePrimitiveData(meta, data, start, count);
+    for (let i = 0; i < parsed.length; i++) {
+      parsed[i]._custom = this.resolveDataElementOptions(i + start).radius;
+    }
+    return parsed;
+  }
+  parseArrayData(meta, data, start, count) {
+    const parsed = super.parseArrayData(meta, data, start, count);
+    for (let i = 0; i < parsed.length; i++) {
+      const item = data[start + i];
+      parsed[i]._custom = valueOrDefault(item[2], this.resolveDataElementOptions(i + start).radius);
+    }
+    return parsed;
+  }
   parseObjectData(meta, data, start, count) {
-    const {xScale, yScale} = meta;
-    const {xAxisKey = 'x', yAxisKey = 'y'} = this._parsing;
-    const parsed = [];
-    let i, ilen, item;
-    for (i = start, ilen = start + count; i < ilen; ++i) {
-      item = data[i];
-      parsed.push({
-        x: xScale.parse(resolveObjectKey(item, xAxisKey), i),
-        y: yScale.parse(resolveObjectKey(item, yAxisKey), i),
-        _custom: item && item.r && +item.r
-      });
+    const parsed = super.parseObjectData(meta, data, start, count);
+    for (let i = 0; i < parsed.length; i++) {
+      const item = data[start + i];
+      parsed[i]._custom = valueOrDefault(item && item.r && +item.r, this.resolveDataElementOptions(i + start).radius);
     }
     return parsed;
   }
   getMaxOverflow() {
-    const {data, _parsed} = this._cachedMeta;
+    const data = this._cachedMeta.data;
     let max = 0;
     for (let i = data.length - 1; i >= 0; --i) {
-      max = Math.max(max, data[i].size() / 2, _parsed[i]._custom);
+      max = Math.max(max, data[i].size(this.resolveDataElementOptions(i)) / 2);
     }
     return max > 0 && max;
   }
@@ -8078,9 +8173,6 @@ class DoughnutController extends DatasetController {
           meta = chart.getDatasetMeta(i);
           arcs = meta.data;
           controller = meta.controller;
-          if (controller !== this) {
-            controller.configure();
-          }
           break;
         }
       }
@@ -8213,6 +8305,7 @@ class LineController extends DatasetController {
       start = 0;
       count = points.length;
     }
+    line._chart = this.chart;
     line._datasetIndex = this.index;
     line._decimated = !!_dataset._decimated;
     line.points = points;
@@ -8229,13 +8322,13 @@ class LineController extends DatasetController {
   }
   updateElements(points, start, count, mode) {
     const reset = mode === 'reset';
-    const {iScale, vScale, _stacked} = this._cachedMeta;
+    const {iScale, vScale, _stacked, _dataset} = this._cachedMeta;
     const firstOpts = this.resolveDataElementOptions(start, mode);
     const sharedOptions = this.getSharedOptions(firstOpts);
     const includeOptions = this.includeOptions(mode, sharedOptions);
     const iAxis = iScale.axis;
     const vAxis = vScale.axis;
-    const spanGaps = this.options.spanGaps;
+    const {spanGaps, segment} = this.options;
     const maxGapLength = isNumber(spanGaps) ? spanGaps : Number.POSITIVE_INFINITY;
     const directUpdate = this.chart._animationsDisabled || reset || mode === 'none';
     let prevParsed = start > 0 && this.getParsed(start - 1);
@@ -8248,7 +8341,10 @@ class LineController extends DatasetController {
       const vPixel = properties[vAxis] = reset || nullData ? vScale.getBasePixel() : vScale.getPixelForValue(_stacked ? this.applyStack(vScale, parsed, _stacked) : parsed[vAxis], i);
       properties.skip = isNaN(iPixel) || isNaN(vPixel) || nullData;
       properties.stop = i > 0 && (parsed[iAxis] - prevParsed[iAxis]) > maxGapLength;
-      properties.parsed = parsed;
+      if (segment) {
+        properties.parsed = parsed;
+        properties.raw = _dataset.data[i];
+      }
       if (includeOptions) {
         properties.options = sharedOptions || this.resolveDataElementOptions(i, point.active ? 'active' : mode);
       }
@@ -8807,8 +8903,9 @@ class ArcElement extends Element {
       'circumference'
     ], useFinalPosition);
     const rAdjust = this.options.spacing / 2;
-    const betweenAngles = circumference >= TAU || _angleBetween(angle, startAngle, endAngle);
-    const withinRadius = (distance >= innerRadius + rAdjust && distance <= outerRadius + rAdjust);
+    const _circumference = valueOrDefault(circumference, endAngle - startAngle);
+    const betweenAngles = _circumference >= TAU || _angleBetween(angle, startAngle, endAngle);
+    const withinRadius = _isBetween(distance, innerRadius + rAdjust, outerRadius + rAdjust);
     return (betweenAngles && withinRadius);
   }
   getCenterPoint(useFinalPosition) {
@@ -9026,6 +9123,7 @@ class LineElement extends Element {
     super();
     this.animated = true;
     this.options = undefined;
+    this._chart = undefined;
     this._loop = undefined;
     this._fullLoop = undefined;
     this._path = undefined;
@@ -9295,8 +9393,8 @@ function inRange(bar, x, y, useFinalPosition) {
   const skipBoth = skipX && skipY;
   const bounds = bar && !skipBoth && getBarBounds(bar, useFinalPosition);
   return bounds
-		&& (skipX || x >= bounds.left && x <= bounds.right)
-		&& (skipY || y >= bounds.top && y <= bounds.bottom);
+		&& (skipX || _isBetween(x, bounds.left, bounds.right))
+		&& (skipY || _isBetween(y, bounds.top, bounds.bottom));
 }
 function hasRadius(radius) {
   return radius.topLeft || radius.topRight || radius.bottomLeft || radius.bottomRight;
@@ -9732,11 +9830,11 @@ function pointsFromSegments(boundary, line) {
   return points;
 }
 function buildStackLine(source) {
-  const {chart, scale, index, line} = source;
+  const {scale, index, line} = source;
   const points = [];
   const segments = line.segments;
   const sourcePoints = line.points;
-  const linesBelow = getLinesBelow(chart, index);
+  const linesBelow = getLinesBelow(scale, index);
   linesBelow.push(createBoundaryLine({x: null, y: scale.bottom}, line));
   for (let i = 0; i < segments.length; i++) {
     const segment = segments[i];
@@ -9746,16 +9844,15 @@ function buildStackLine(source) {
   }
   return new LineElement({points, options: {}});
 }
-const isLineAndNotInHideAnimation = (meta) => meta.type === 'line' && !meta.hidden;
-function getLinesBelow(chart, index) {
+function getLinesBelow(scale, index) {
   const below = [];
-  const metas = chart.getSortedVisibleDatasetMetas();
+  const metas = scale.getMatchingVisibleMetas('line');
   for (let i = 0; i < metas.length; i++) {
     const meta = metas[i];
     if (meta.index === index) {
       break;
     }
-    if (isLineAndNotInHideAnimation(meta)) {
+    if (!meta.hidden) {
       below.unshift(meta.dataset);
     }
   }
@@ -9794,7 +9891,7 @@ function findPoint(line, sourcePoint, property) {
     const segment = segments[i];
     const firstValue = linePoints[segment.start][property];
     const lastValue = linePoints[segment.end][property];
-    if (pointValue >= firstValue && pointValue <= lastValue) {
+    if (_isBetween(pointValue, firstValue, lastValue)) {
       first = pointValue === firstValue;
       last = pointValue === lastValue;
       break;
@@ -10413,11 +10510,13 @@ class Legend extends Element {
   }
   _getLegendItemAt(x, y) {
     let i, hitBox, lh;
-    if (x >= this.left && x <= this.right && y >= this.top && y <= this.bottom) {
+    if (_isBetween(x, this.left, this.right)
+      && _isBetween(y, this.top, this.bottom)) {
       lh = this.legendHitBoxes;
       for (i = 0; i < lh.length; ++i) {
         hitBox = lh[i];
-        if (x >= hitBox.left && x <= hitBox.left + hitBox.width && y >= hitBox.top && y <= hitBox.top + hitBox.height) {
+        if (_isBetween(x, hitBox.left, hitBox.left + hitBox.width)
+          && _isBetween(y, hitBox.top, hitBox.top + hitBox.height)) {
           return this.legendItems[i];
         }
       }
@@ -10933,9 +11032,9 @@ function getBackgroundPoint(options, size, alignment, chart) {
       x -= paddingAndSize;
     }
   } else if (xAlign === 'left') {
-    x -= Math.max(topLeft, bottomLeft) + caretPadding;
+    x -= Math.max(topLeft, bottomLeft) + caretSize;
   } else if (xAlign === 'right') {
-    x += Math.max(topRight, bottomRight) + caretPadding;
+    x += Math.max(topRight, bottomRight) + caretSize;
   }
   return {
     x: _limitValue(x, 0, chart.width - size.width),
@@ -10954,7 +11053,7 @@ function getBeforeAfterBodyLines(callback) {
   return pushOrConcat([], splitNewlines(callback));
 }
 function createTooltipContext(parent, tooltip, tooltipItems) {
-  return Object.assign(Object.create(parent), {
+  return createContext(parent, {
     tooltip,
     tooltipItems,
     type: 'tooltip'
@@ -11667,13 +11766,19 @@ Title: plugin_title,
 Tooltip: plugin_tooltip
 });
 
-const addIfString = (labels, raw, index) => typeof raw === 'string'
-  ? labels.push(raw) - 1
-  : isNaN(raw) ? null : index;
-function findOrAddLabel(labels, raw, index) {
+const addIfString = (labels, raw, index, addedLabels) => {
+  if (typeof raw === 'string') {
+    index = labels.push(raw) - 1;
+    addedLabels.unshift({index, label: raw});
+  } else if (isNaN(raw)) {
+    index = null;
+  }
+  return index;
+};
+function findOrAddLabel(labels, raw, index, addedLabels) {
   const first = labels.indexOf(raw);
   if (first === -1) {
-    return addIfString(labels, raw, index);
+    return addIfString(labels, raw, index, addedLabels);
   }
   const last = labels.lastIndexOf(raw);
   return first !== last ? index : first;
@@ -11684,6 +11789,20 @@ class CategoryScale extends Scale {
     super(cfg);
     this._startValue = undefined;
     this._valueRange = 0;
+    this._addedLabels = [];
+  }
+  init(scaleOptions) {
+    const added = this._addedLabels;
+    if (added.length) {
+      const labels = this.getLabels();
+      for (const {index, label} of added) {
+        if (labels[index] === label) {
+          labels.splice(index, 1);
+        }
+      }
+      this._addedLabels = [];
+    }
+    super.init(scaleOptions);
   }
   parse(raw, index) {
     if (isNullOrUndef(raw)) {
@@ -11691,7 +11810,7 @@ class CategoryScale extends Scale {
     }
     const labels = this.getLabels();
     index = isFinite(index) && labels[index] === raw ? index
-      : findOrAddLabel(labels, raw, valueOrDefault(index, raw));
+      : findOrAddLabel(labels, raw, valueOrDefault(index, raw), this._addedLabels);
     return validIndex(index, labels.length - 1);
   }
   determineDataLimits() {
@@ -11836,7 +11955,7 @@ function generateTicks$1(generationOptions, dataRange) {
     ticks.push({value: Math.round((niceMin + j * spacing) * factor) / factor});
   }
   if (maxDefined && includeBounds && niceMax !== max) {
-    if (almostEquals(ticks[ticks.length - 1].value, max, relativeLabelSize(max, minSpacing, generationOptions))) {
+    if (ticks.length && almostEquals(ticks[ticks.length - 1].value, max, relativeLabelSize(max, minSpacing, generationOptions))) {
       ticks[ticks.length - 1].value = max;
     } else {
       ticks.push({value: max});
@@ -11968,7 +12087,7 @@ class LinearScaleBase extends Scale {
     this._valueRange = end - start;
   }
   getLabelForValue(value) {
-    return formatNumber(value, this.chart.options.locale);
+    return formatNumber(value, this.chart.options.locale, this.options.ticks.format);
   }
 }
 
@@ -12101,7 +12220,9 @@ class LogarithmicScale extends Scale {
     return ticks;
   }
   getLabelForValue(value) {
-    return value === undefined ? '0' : formatNumber(value, this.chart.options.locale);
+    return value === undefined
+      ? '0'
+      : formatNumber(value, this.chart.options.locale, this.options.ticks.format);
   }
   configure() {
     const start = this.min;
@@ -12320,7 +12441,7 @@ function numberOrZero(param) {
   return isNumber(param) ? param : 0;
 }
 function createPointLabelContext(parent, index, label) {
-  return Object.assign(Object.create(parent), {
+  return createContext(parent, {
     label,
     index,
     type: 'pointLabel'

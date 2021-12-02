@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Tests\Product;
+namespace WPChill\DownloadMonitor\Tests\Product;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
-use \Never5\DownloadMonitor\Shop\Product;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use \WPChill\DownloadMonitor\Shop\Product;
 
 class DLM_Test_DownloadProduct extends \DLM_Unit_Test_Case {
 

@@ -37,11 +37,11 @@ define( 'DLM_VERSION', '4.5.0' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
-define( 'DLM_URL' , plugin_dir_url( __FILE__ ) );
+define( 'DLM_URL', plugin_dir_url( __FILE__ ) );
 
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
-}else {
+} else {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
 
@@ -49,15 +49,15 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
  * This function allows you to track usage of your plugin
  * Place in your main plugin file
  */
-if( ! class_exists( 'Download_Monitor_Usage_Tracker') ) {
+if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 	require_once dirname( __FILE__ ) . '/includes/tracking/class-download-monitor-usage-tracker.php';
 }
 
-if( ! class_exists( 'DLM_Review') && is_admin() ) {
+if ( ! class_exists( 'DLM_Review' ) && is_admin() ) {
 	require_once dirname( __FILE__ ) . '/includes/admin/class-dlm-review.php';
 }
 
-if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
+if ( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
 	function download_monitor_start_plugin_tracking() {
 		$wisdom = new Download_Monitor_Usage_Tracker(
 			__FILE__,
