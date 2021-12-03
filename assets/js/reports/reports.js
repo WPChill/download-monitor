@@ -150,7 +150,7 @@ class DLM_Reports {
 		var MM = ((date.getMonth() + 1) < 10 ? '0' : '') +
 			(date.getMonth() + 1);
 
-		return date.getFullYear() + '-' + MM + '-' + date.getDate();
+		return date.getFullYear() + '-' + MM + '-' + ("0" + date.getDate()).slice(-2);
 	}
 
 	/**
@@ -225,10 +225,11 @@ class DLM_Reports {
 
 				switch (instance.chartType) {
 					case 'month':
-
+						
 						chartDate = day.date.substring(0, 7);
-						Object.values(downloads).forEach((item, index) => {
 
+						Object.values(downloads).forEach((item, index) => {
+							
 							monthDownloads[chartDate] = ('undefined' !== typeof monthDownloads[chartDate]) ? monthDownloads[chartDate] + item.downloads : item.downloads;
 
 						});
@@ -298,6 +299,8 @@ class DLM_Reports {
 		if (-1 === end) {
 			end = daysLength;
 		}
+
+		console.log(dlmDownloads);
 
 		instance.stats = {
 			chartStats: Object.assign({}, dlmDownloads),

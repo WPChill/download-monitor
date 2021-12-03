@@ -183,11 +183,20 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$drop_statement = '';
 
 			if ( null !== $check_status && ! empty( $check_status ) ) {
-				$drop_statement .= 'DROP COLUMN user_agent';
+				$drop_statement .= 'DROP COLUMN download_status';
+
+				// We need to remove data that is was not imported in order to give propper stats.
+				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.ID as `ID` FROM {$wpdb->download_log} dlm_log WHERE 1=1 AND ( dlm_log.download_status NOT IN ('completed','redirected') OR dlm_log.download_status IS NULL )" ), ARRAY_A );
+
+				if ( null !== $data && ! empty( $data ) ) {
+					foreach ( $data as $log ) {
+						$wpdb->delete( $wpdb->download_log, array( 'ID' => $log['id'] ) );
+					}
+				}
 			}
 
 			if ( null !== $check_agent && ! empty( $check_agent ) ) {
-				$drop_statement .= ', DROP COLUMN download_status';
+				$drop_statement .= ', DROP COLUMN user_agent';
 			}
 
 			if ( null !== $check_message && ! empty( $check_message ) ) {
@@ -318,6 +327,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 					$downloads = json_decode( $check[0]['download_ids'], ARRAY_A );
 
 					foreach ( $log as $item_key => $item ) {
+
 						if ( isset( $downloads[ $item_key ] ) ) {
 							$downloads[ $item_key ]['downloads'] = $downloads[ $item_key ]['downloads'] + $item['downloads'];
 							unset( $downloads[ $item_key ]['date'] );
@@ -332,6 +342,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 					$wpdb->query( $wpdb->prepare( $sql_update, wp_json_encode( $downloads ), $key ) );
 
 				} else {
+
 					$wpdb->query( $wpdb->prepare( $sql_insert, $key, wp_json_encode( $log ) ) );
 				}
 			}
