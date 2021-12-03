@@ -1168,7 +1168,7 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #downloads-block-navigation {
 min-height: 24px;
 text-align: center;
-padding: 14px 0;
+padding: 14px 0 0 0;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #downloads-block-navigation button {
   margin: 0 15px;
