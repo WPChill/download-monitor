@@ -4620,7 +4620,7 @@ defaults.set('scale', {
   grid: {
     display: true,
     lineWidth: 1,
-    drawBorder: true,
+    drawBorder: false,
     drawOnChartArea: true,
     drawTicks: true,
     tickLength: 8,

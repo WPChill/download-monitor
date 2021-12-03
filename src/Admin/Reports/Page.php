@@ -155,11 +155,14 @@ class DLM_Reports_Page {
 	 */
 	public function general_info() {
 		?>
-		<div class="dlm-reports-block dlm-reports-block-summary" id="total_downloads_summary">			
+		<div class="dlm-reports-wrapper">		
+			<div class="dlm-reports-block dlm-reports-block-summary" id="total_downloads_summary">			
 			<ul>
 				<li id="total"><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'Number of downloads between the selected date range.', 'download-monitor' ); ?></div></div></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>				
 				<li id="average"><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'Average number of downloads between the selected date range.', 'download-monitor' ); ?></div></div></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-				<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+				<!-- 
+					<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+				-->
 				<li id="today"><label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
 			</ul>
 		</div>
@@ -167,6 +170,8 @@ class DLM_Reports_Page {
 		<div class="total_downloads_chart-wrapper">
 			<canvas class="dlm-reports-block-chart"	id="total_downloads_chart"></canvas>
 		</div>
+		</div>
+
 
 		<div id="total_downloads_table_wrapper" class="empty">			
 			<h3><?php esc_html_e( 'Top downloads', 'donwload-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div></div></h3>		

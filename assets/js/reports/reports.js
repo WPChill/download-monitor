@@ -23,10 +23,10 @@ class DLM_Reports {
 				zero: "rgba(149, 76, 233, 0.05)"
 			},
 			blue: {
-				default: "rgba(56, 88, 233, 1)",
-				half: "rgba(56, 88, 233, 0.75)",
-				quarter: "rgba(56, 88, 233, 0.5)",
-				zero: "rgba(56, 88, 233, 0.05)"
+				default: "rgba(67, 56, 202, 1)",
+				half: "rgba(67, 56, 202, 0.75)",
+				quarter: "rgba(67, 56, 202, 0.5)",
+				zero: "rgba(67, 56, 202, 0.05)"
 			},
 			indigo: {
 				default: "rgba(80, 102, 120, 1)",
@@ -300,7 +300,8 @@ class DLM_Reports {
 			end = daysLength;
 		}
 
-		console.log(dlmDownloads);
+		// @todo: remove console.log
+		//console.log(dlmDownloads);
 
 		instance.stats = {
 			chartStats: Object.assign({}, dlmDownloads),
@@ -339,18 +340,18 @@ class DLM_Reports {
 				pointBackgroundColor: instance.chartColors.blue.default,
 				pointHoverBackgroundColor: '#fff',
 				borderColor: instance.chartColors.blue.default,
-				pointBorderWidth: 6,
-				lineTension: 0.2,
-				borderWidth: 2,
+				pointBorderWidth: 1,
+				lineTension: 0.3,
+				borderWidth: 1,
 				pointRadius: 3,
 				elements: {
 					line: {
 						borderColor: '#2ecc71',
-						borderWidth: 2,
+						borderWidth: 1,
 					},
 					point: {
 						radius: 4,
-						hoverRadius: 8,
+						hoverRadius: 4,
 						pointStyle: 'circle'
 					}
 				},
@@ -442,7 +443,7 @@ class DLM_Reports {
 		}).reverse();
 
 		this.setTotalDownloads(totalDownloads);
-		this.setDailyAverage((totalDownloads / parseInt(this.stats.daysLength)).toFixed(2));
+		this.setDailyAverage((totalDownloads / parseInt(this.stats.daysLength)).toFixed(0));
 		this.setMostDownloaded(this.mostDownloaded[0].title);
 		this.setTopDownloads();
 	}
@@ -674,7 +675,7 @@ class DLM_Reports {
 	 * @param {*} totalDownloads 
 	 */
 	setTotalDownloads(totalDownloads) {
-		jQuery('.dlm-reports-block-summary li#total span').html(totalDownloads);
+		jQuery('.dlm-reports-block-summary li#total span').html(totalDownloads.toLocaleString());
 	}
 
 	/**
@@ -683,7 +684,7 @@ class DLM_Reports {
 	 * @param {*} dailyAverage 
 	 */
 	setDailyAverage(dailyAverage) {
-		jQuery('.dlm-reports-block-summary li#average span').html(dailyAverage);
+		jQuery('.dlm-reports-block-summary li#average span').html(dailyAverage.toLocaleString());
 	}
 
 	/**
@@ -692,7 +693,7 @@ class DLM_Reports {
 	 * @param {*} mostDownloaded 
 	 */
 	setMostDownloaded(mostDownloaded) {
-		jQuery('.dlm-reports-block-summary li#popular span').html(mostDownloaded);
+		jQuery('.dlm-reports-block-summary li#popular span').html(mostDownloaded); // this is a string
 	}
 
 	/**
@@ -704,7 +705,7 @@ class DLM_Reports {
 
 		if (0 >= Object.keys(dlmReportsStats).length) {
 
-			jQuery('.dlm-reports-block-summary li#today span').html(todayDownloads);
+			jQuery('.dlm-reports-block-summary li#today span').html(todayDownloads.toLocaleString());
 			return;
 		}
 
@@ -747,11 +748,13 @@ class DLM_Reports {
 		headerRow.className = "dlm-reports-top-downloads__header";
 
 		// Create position row
+		/*
 		const posRow = document.createElement('div');
 		const posRowLabel = document.createElement('label');
 		posRowLabel.appendChild(document.createTextNode("#position"));
 		posRow.appendChild(posRowLabel);
 		headerRow.appendChild(posRow);
+		*/
 
 		// Create title row
 		const titleRow = document.createElement('div');
@@ -780,13 +783,14 @@ class DLM_Reports {
 			for (let j = 0; j < 3; j++) {
 
 				let lineSection = document.createElement('div');
+				lineSection.setAttribute('data-id', j); // we will need this to style each div based on its position in the "table"
 
 				if (j === 0) {
 					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(15 * offset) + i + 1) + '.</span>';
 				} else if (j === 1) {
-					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" target="_blank">' + dataResponse[i].title + ' <span class="dashicons dashicons-admin-generic"></span></a>';
+					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" target="_blank">' + dataResponse[i].title +'</a>';
 				} else {
-					lineSection.innerHTML = dataResponse[i].downloads;
+					lineSection.innerHTML = dataResponse[i].downloads.toLocaleString();
 				}
 
 				line.appendChild(lineSection);
@@ -800,6 +804,7 @@ class DLM_Reports {
 		wrapper.parent().removeClass('empty');
 		wrapper.remove(htmlTarget).append(dataWrapper);
 
+		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
 		if (this.mostDownloaded.length > 15) {
 			wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
 		} else {
