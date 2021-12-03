@@ -120,37 +120,122 @@
   }
 }
 
-/* Settings */
-.nav-section-wrapper {
-  padding: 0;
-  margin: 0;
+/** Settings */
+.dlm-settings-sub-nav {
+  margin: 0 0 10px 0;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
   li {
-    display: inline-block;
-    padding: 0 0 0 2px;
-    margin: 0 2px;
-
+    margin-right: 10px;
+    margin-bottom: -2px;
+  }
+  a {
+    padding: 13px;
+    display: block;
+  }
+  .active-section {
+    margin-bottom: -2px;
     a {
-      text-decoration: none;
-    }
-
-    &.active-section {
-      a {
-        font-weight: bold;
-        color: #000;
-      }
-    }
-    &:after {
-      content: "|";
-      padding-left: 7px;
-    }
-    &:last-child:after {
-      content: "";
-      padding: 0;
+      border-bottom: 4px solid #000;
+      padding-bottom: 9px;
+      margin-bottom: -2px;
+      font-weight: 600;
     }
   }
 }
 
-/** Settings */
+.admin-color-blue {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #096484;
+      }
+    }
+  }
+}
+.admin-color-coffee {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #c7a589;
+      }
+    }
+  }
+}
+.admin-color-ectoplasm {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #a3b745;
+      }
+    }
+  }
+}
+.admin-color-midnight {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #e14d43;
+      }
+    }
+  }
+}
+.admin-color-ocean {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #627c83;
+      }
+    }
+  }
+}
+.admin-color-sunrise  {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #be3631;
+      }
+    }
+  }
+}
+.admin-color-light  {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #888;
+      }
+    }
+  }
+}
+.admin-color-evergreen {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #36533f;
+      }
+    }
+  }
+}
+.admin-color-mint {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #4f6d59;
+      }
+    }
+  }
+}
+.admin-color-modern  {
+  .dlm-settings-sub-nav {
+    .active-section {
+      a {
+        border-bottom-color: #3858e9;
+      }
+    }
+  }
+}
+
 .dlm-admin-settings {
 
   #setting-dlm_decimal_separator, #setting-dlm_thousand_separator {
@@ -415,7 +500,6 @@ table.wp-list-table {
           float: right;
         }
         strong {
-          font-weight: normal;
           line-height: 24px;
         }
         select {
@@ -503,22 +587,8 @@ table.wp-list-table {
       &:first-child {
         /* main file */
         h3 {
-          background: #EAF2FA;
-          background-image: linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-          background-image: -o-linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-          background-image: -moz-linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-          background-image: -webkit-linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-          background-image: -ms-linear-gradient(bottom, rgb(218, 230, 242) 0%, rgb(234, 242, 250) 100%);
-
-          background-image: -webkit-gradient(
-                  linear,
-                  left bottom,
-                  left top,
-                  color-stop(0, rgb(218, 230, 242)),
-                  color-stop(1, rgb(234, 242, 250))
-          );
-          border-color: #d3deea;
-          color: #21759B;
+          background-color: #FAFAFA;
+          border-bottom: 1px solid #dcdcde;
         }
       }
     }
@@ -1356,7 +1426,6 @@ table.wp-list-table {
     padding: 15px 0;
     overflow: hidden;
     div.dlm_extension {
-      cursor: auto !important;
       a {
         color: #444;
         text-decoration: none;
@@ -1379,7 +1448,10 @@ table.wp-list-table {
         padding: 0 20px;
       }
       .product_footer {
-        padding: 0 20px 15px;
+        padding: 15px 15px 15px 0;
+        text-align: right;
+        background-color: #FAFAFA;
+        border-top: 1px solid #dcdcde;
         .loop_price {
           font-weight: bold;
           &.sale {
@@ -1389,11 +1461,11 @@ table.wp-list-table {
             }
           }
         }
-        .loop_more {
-          color: #459ac9;
-          text-decoration: none;
-          font-weight: bold;
-          float: right;
+        .button {
+          .dashicons {
+            vertical-align: middle;
+            font-size: 16px;
+          }
         }
       }
       .extension_license {
@@ -1482,23 +1554,6 @@ table.wp-list-table {
     }
   }
 
-  .nav-tab-wrapper {
-
-    a.nav-tab {
-      margin: 0 auto;
-      border-right: 0;
-
-      &:first-child {
-        border-top-left-radius: 5px;
-      }
-
-      &:last-child {
-        border-top-right-radius: 5px;
-        border-right: 1px solid #c3c4c7;
-      }
-    }
-  }
-
   .dlm-upsell-badge {
     font-size: 10px;
     background: #f4daa4;
@@ -1512,28 +1567,6 @@ table.wp-list-table {
 #total_downloads_browser_table {
   a.nav-tab {
     text-transform:capitalize;
-  }
-}
-
-.post-type-dlm_download {
-
-  .nav-tab-wrapper {
-
-    a.nav-tab {
-      margin: 0 auto;
-      border-right: 0;
-      border-bottom:0;
-
-      &:first-child {
-        border-top-left-radius: 5px;
-      }
-
-      &:last-child,
-      &.last_tab{
-        border-top-right-radius: 5px;
-        border-right: 1px solid #c3c4c7;
-      }
-    }
   }
 }
 
@@ -1615,5 +1648,10 @@ table.wp-list-table {
 
   .wpchill-upsell {
     margin-top: 0;
+  }
+}
+.dlm_download_page_dlm-extensions{
+  .theme.dlm_extension {
+    background-color: #FFF;
   }
 }
