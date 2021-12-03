@@ -109,7 +109,7 @@ class DLM_Admin_Writepanels {
 			</div>
             <div>
                 <p><?php echo esc_html__( 'URL', 'download-monitor' ); ?></p>
-				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_the_download_link() ); ?><?php echo esc_attr( $download->get_id() ); ?>" readonly onfocus="this.select()"/>
+				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_the_download_link() ); ?>" readonly onfocus="this.select()"/>
 				<a href="#" title="<?php esc_attr_e( 'Copy URL', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Url" style="width:40px;"></a><span></span>
 			</div>
             <div>

@@ -79,6 +79,8 @@ class DLM_Shortcodes {
 	 * @return string
 	 */
 	public function download( $atts, $content = '' ) {
+		// enqueue style only on shortcode use
+		wp_enqueue_style( 'dlm-frontend' );
 
 		// extract shortcode atts
 		extract( shortcode_atts( array(

@@ -6,6 +6,10 @@ Added: DLM Rest Routes for dlm_download, dlm_download_category & dlm_download_ta
 Fixed: Changed the escaping method to allow some html tags to be inserted in the title ( https://github.com/WPChill/download-monitor/issues/783 )
 Changed: The "View" category button in Downloads > Categories should not exist ( https://github.com/WPChill/download-monitor/issues/775 )
 Added: Upsells in admin download page options metabox ( https://github.com/WPChill/download-monitor/issues/780 )
+Fixed: Fixed a typo in settings. ( https://github.com/WPChill/download-monitor/issues/663 )
+Added: Quick copy button in download page. ( https://github.com/WPChill/download-monitor/issues/717 )
+Fixed: Wrong post_type in url. Coud not see order details. ( https://github.com/WPChill/download-monitor/issues/788 )
+Changed: The plugin's css will only load when the shortcode is present. ( https://github.com/WPChill/download-monitor/issues/782 )
 
 = 4.4.13 - 16.11.2021 =
 Fixed: Fatal error because an extra semicolon
