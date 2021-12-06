@@ -959,9 +959,6 @@ table.wp-list-table .column-thumb img {
   margin-top: 1px;
 }
 /* Reports */
-.dlm_download_page_download-monitor-reports #wpcontent {
-  background-color: #fff;
-}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header {
   display: flex;
   justify-content: space-between;
