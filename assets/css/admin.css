@@ -959,7 +959,9 @@ table.wp-list-table .column-thumb img {
   margin-top: 1px;
 }
 /* Reports */
-
+.dlm_download_page_download-monitor-reports #wpcontent {
+  background-color: #fff;
+}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header {
   display: flex;
   justify-content: space-between;
@@ -1145,6 +1147,7 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period a:hover {
   height: 100%;
   border: 0;
+  background: #fff;
   box-shadow: none;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period a.active,
@@ -1166,9 +1169,9 @@ table.wp-list-table .column-thumb img {
   margin: -16px 0 0 -16px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #downloads-block-navigation {
-min-height: 24px;
-text-align: center;
-padding: 14px 0 0 0;
+  min-height: 24px;
+  text-align: center;
+  padding: 14px 0 0 0;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #downloads-block-navigation button {
   margin: 0 15px;
@@ -1179,11 +1182,10 @@ padding: 14px 0 0 0;
   font-size: 1rem;
   cursor: pointer;
   margin: 0;
-  box-shadow:  rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   background-color: #FFF;
   width: 24px;
 }
-
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #downloads-block-navigation button[disabled] {
   opacity: 0.5;
   cursor: default;
@@ -1198,17 +1200,15 @@ padding: 14px 0 0 0;
   color: inherit;
   opacity: 0.6;
 }
-
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block#total_downloads_summary span {
   font-weight: 600;
 }
-
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block#total_downloads_summary label {
- font-size: 12px;
-text-transform: uppercase;
-color: #6B7280;
-font-weight: 600;
-letter-spacing: -0.25;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #6B7280;
+  font-weight: 600;
+  letter-spacing: -0.25;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block.dlm-reports-block-half {
   width: 49%;
@@ -1271,13 +1271,11 @@ letter-spacing: -0.25;
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block table th {
   padding-bottom: 20px;
 }
-
-.dlm-reports-wrapper {
-	background-color: #FFF;
-	box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-	border: 1px solid #dedede;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-wrapper {
+  background-color: #FFF;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  border: 1px solid #dedede;
 }
-
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-block-summary ul {
   display: flex;
   align-items: strecth;
@@ -1298,6 +1296,7 @@ letter-spacing: -0.25;
 .dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-reports-block-chart {
   width: 100%;
   height: 300px;
+  margin-top: 20px;
   background: #fff;
   overflow: hidden;
 }
@@ -1339,41 +1338,49 @@ letter-spacing: -0.25;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
   border: 1px solid #DEDEDE;
 }
-
-.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper h3 {margin-top: 0;}
-
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper h3 {
+  margin-top: 0;
+}
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper.empty h3 {
   display: none;
 }
-
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header {
   font-weight: bold;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div {
+  margin-bottom: 15px;
+  font-size: 12px;
+  color: #6B7280;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header,
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  margin: 2px 0;
+  position: relative;
 }
-
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header .dlm-reports-top-downloads__overflower,
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line .dlm-reports-top-downloads__overflower {
+  position: absolute;
+  height: 100%;
+  background: #008000;
+  z-index: 1;
+  opacity: 0.3;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header a,
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line a {
-	color: #4338ca;
+  color: #4338ca;
 }
-
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header:nth-child(even),
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line:nth-child(even) {
   background-color: rgba(245, 244, 247, 0.5);
 }
-
-.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div {
-	margin-bottom: 15px;
-	font-size: 12px;
-	color: #6B7280;
-}
-
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div,
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div {
   text-align: left;
   padding: 10px 15px;
+  z-index: 5;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div:not(:first-child),
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:not(:first-child) {
@@ -1383,12 +1390,11 @@ letter-spacing: -0.25;
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:first-child {
   min-width: 15px;
 }
-.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div:last-child,
-.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:last-child {
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div:last-of-type,
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:last-of-type {
   text-align: right;
   font-weight: bold;
 }
-
 /** Products overview page */
 .post-type-dlm_product table.wp-list-table .column-title {
   width: 65% !important;

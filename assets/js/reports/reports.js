@@ -107,6 +107,42 @@ class DLM_Reports {
 	 * @param endDate
 	 * @returns {*[]}
 	 */
+	getDoubleMonths(days) {
+
+		const dates = [],
+			firstDay = Object.keys(days)[0],
+			lastDay = Object.keys(days)[Object.keys(days).length - 1];
+
+		let i = 0,
+			month = firstDay.substring(0, 7),
+			lastMonth = lastDay.substring(0, 7);
+
+		Object.keys(days).map(element => {
+
+			let subString = element.substring(0, 7);
+
+			if (month !== subString && lastMonth !== subString) {
+				month = subString;
+				i++;
+			}
+
+			if ('undefined' === typeof dates[subString] && 0 === i % 2) {
+				dates[subString] = 0;
+			}
+
+		});
+
+		return dates;
+	}
+
+	/**
+	 * Get all dates in set intervals
+	 * Used for chart data
+	 *
+	 * @param startDate
+	 * @param endDate
+	 * @returns {*[]}
+	 */
 	getWeeks(days) {
 
 		const dates = [];
@@ -168,6 +204,7 @@ class DLM_Reports {
 		let startDate,
 			endDate,
 			monthDiff,
+			yearDiff,
 			chartDate,
 			dlmDownloads;
 		instance.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsStats)) : {};
@@ -195,25 +232,30 @@ class DLM_Reports {
 		}
 
 		monthDiff = moment(endDate, 'YYYY-MM-DD').month() - moment(startDate, 'YYYY-MM-DD').month();
+		yearDiff = moment(endDate, 'YYYY-MM-DD').year() - moment(startDate, 'YYYY-MM-DD').year();
 
-		if (moment(endDate, 'YYYY-MM-DD').year() !== moment(startDate, 'YYYY-MM-DD').year() || monthDiff > 6) {
-			instance.chartType = 'month';
-		} else if (monthDiff >= 1) {
+		if (yearDiff == 0 && monthDiff > -6 && monthDiff < 6) {
 
-			instance.chartType = 'weeks';
-
-			if (1 === monthDiff && moment(endDate, 'YYYY-MM-DD').date() <= moment(startDate, 'YYYY-MM-DD').date()) {
+			if (monthDiff > 1 || monthDiff < -1) {
+				instance.chartType = 'weeks';
+			} else {
 				instance.chartType = 'day';
 			}
 
 		} else {
-			instance.chartType = 'day';
+			if (yearDiff = 1 && monthDiff <= 0) {
+				instance.chartType = 'month';
+			} else {
+				instance.chartType = 'months';
+			}
 		}
 
 		// Get all dates from the startDate to the endDate
 		let dayDownloads = instance.getDates(new Date(startDate), new Date(endDate));
 		// Get selected months
 		let monthDownloads = instance.getMonths(dayDownloads);
+		// Get double selected months
+		let doubleMonthDownloads = instance.getDoubleMonths(dayDownloads);
 		// Get selected dates in 2 weeks grouping
 		let weeksDownloads = instance.getWeeks(dayDownloads);
 
@@ -224,12 +266,37 @@ class DLM_Reports {
 			if ('undefined' !== typeof dayDownloads[day.date]) {
 
 				switch (instance.chartType) {
+					case 'months':
+						chartDate = day.date.substring(0, 7);
+						const chartMonth = parseInt(day.date.substring(5, 7)),
+							chartYear = day.date.substring(0, 5),
+							prevDate = (chartMonth - 1).length > 6 ? chartYear + (chartMonth - 1) : chartYear + '0' + (chartMonth - 1);
+
+						Object.values(downloads).forEach((item, index) => {
+
+							// If it does not exist we attach the downloads to the previous month
+							if ('undefined' === typeof doubleMonthDownloads[chartDate]) {
+
+								if ('undefined' !== typeof doubleMonthDownloads[prevDate]) {
+									doubleMonthDownloads[prevDate] = doubleMonthDownloads[prevDate] + item.downloads;
+								}
+
+							} else {
+
+								doubleMonthDownloads[chartDate] = doubleMonthDownloads[chartDate] + item.downloads;
+							}
+
+
+						});
+
+						dlmDownloads = doubleMonthDownloads;
+						break;
 					case 'month':
-						
+
 						chartDate = day.date.substring(0, 7);
 
 						Object.values(downloads).forEach((item, index) => {
-							
+
 							monthDownloads[chartDate] = ('undefined' !== typeof monthDownloads[chartDate]) ? monthDownloads[chartDate] + item.downloads : item.downloads;
 
 						});
@@ -299,9 +366,6 @@ class DLM_Reports {
 		if (-1 === end) {
 			end = daysLength;
 		}
-
-		// @todo: remove console.log
-		//console.log(dlmDownloads);
 
 		instance.stats = {
 			chartStats: Object.assign({}, dlmDownloads),
@@ -374,10 +438,36 @@ class DLM_Reports {
 							},
 							ticks: {
 								callback: (val) => {
-									return ('undefined' !== typeof instance.chartType && 'month' === instance.chartType) ? moment(Object.keys(data)[val]).format("D MMM YY") : moment(Object.keys(data)[val]).format("D MMM");
+									let date = '';
+									const dateString = Object.keys(data)[val];
+
+									if ('undefined' !== instance.chartType && 'months' === instance.chartType) {
+
+										const month = moment(Object.keys(data)[val]).month();
+
+										if (11 > month) {
+											date = moment(dateString).format("MMM") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).format(", YYYY");
+										} else {
+											date = moment(dateString).format("MMM") + moment(dateString).format(" YYYY") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).month(month + 1).format(", YYYY");
+										}
+
+									} else if ('undefined' !== instance.chartType && 'months' === instance.chartType) {
+
+										date = moment(dateString).format("MMMM, YYYY");
+									} else {
+
+										date = moment(dateString).format("D MMM");
+									}
+
+									return date;
 								}
 							},
 						},
+						y: {
+							grid: {
+								drawBorder: false,
+							}
+						}
 					},
 					normalized: true,
 					parsing: {
@@ -409,6 +499,7 @@ class DLM_Reports {
 
 		let mostDownloaded = {};
 		let totalDownloads = 0;
+		const instance = this;
 
 		if (false === this.stats || false === this.stats.summaryStats || Object.keys(this.stats.summaryStats).length <= 0) {
 
@@ -732,6 +823,7 @@ class DLM_Reports {
 	 */
 	setTopDownloads(offset = 0, reset = false) {
 		// the table
+		const instance = this;
 		const wrapper = jQuery('#total_downloads_table');
 		wrapper.empty();
 		wrapper.parent().addClass('empty');
@@ -779,8 +871,13 @@ class DLM_Reports {
 
 			const line = document.createElement('div');
 			line.className = "dlm-reports-top-downloads__line";
+			const size = dataResponse[i].downloads * 100 / dataResponse[0].downloads;
+			let overFlower  = document.createElement('span');
+			overFlower.className = 'dlm-reports-top-downloads__overflower';
+			overFlower.style.width = parseInt(size)+'%';	
 
 			for (let j = 0; j < 3; j++) {
+				
 
 				let lineSection = document.createElement('div');
 				lineSection.setAttribute('data-id', j); // we will need this to style each div based on its position in the "table"
@@ -788,13 +885,16 @@ class DLM_Reports {
 				if (j === 0) {
 					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(15 * offset) + i + 1) + '.</span>';
 				} else if (j === 1) {
-					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" target="_blank">' + dataResponse[i].title +'</a>';
+					
+					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" target="_blank">' + dataResponse[i].title + '</a>';
 				} else {
 					lineSection.innerHTML = dataResponse[i].downloads.toLocaleString();
 				}
 
 				line.appendChild(lineSection);
 			}
+			
+			line.appendChild(overFlower);
 
 			// append row
 			dataWrapper.append(line);
@@ -974,7 +1074,28 @@ class DLM_Reports {
 				// Date
 				const downloadDate = document.createElement('p');
 				downloadDate.className = "dlm-reports-tooltip__date";
-				const date = ('undefined' !== plugin.chartType && 'month' === plugin.chartType) ? moment(tooltip.dataPoints[0].label).format("MMMM, YYYY") : moment(tooltip.dataPoints[0].label).format("MMMM Do, YY");
+
+				let date = '';
+
+				if ('undefined' !== plugin.chartType && 'months' === plugin.chartType) {
+
+					const year = moment(tooltip.dataPoints[0].label).year();
+					const month = moment(tooltip.dataPoints[0].label).month();
+
+					if (11 > month) {
+						date = moment(tooltip.dataPoints[0].label).format("MMMM") + ' - ' + moment(tooltip.dataPoints[0].label).month(month + 1).format("MMMM") + moment(tooltip.dataPoints[0].label).format(", YYYY");
+					} else {
+						date = moment(tooltip.dataPoints[0].label).format("MMMM") + moment(tooltip.dataPoints[0].label).format(" YYYY") + ' - ' + moment(tooltip.dataPoints[0].label).month(month + 1).format("MMMM") + moment(tooltip.dataPoints[0].label).month(month + 1).format(", YYYY");
+					}
+
+				} else if ('undefined' !== plugin.chartType && 'months' === plugin.chartType) {
+
+					date = moment(tooltip.dataPoints[0].label).format("MMMM, YYYY");
+				} else {
+
+					date = moment(tooltip.dataPoints[0].label).format("MMMM Do, YY");
+				}
+
 				downloadDate.appendChild(document.createTextNode(date));
 				tooltipRow.appendChild(downloadDate);
 
