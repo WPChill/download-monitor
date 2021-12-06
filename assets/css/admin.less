@@ -1483,31 +1483,33 @@ table.wp-list-table {
           flex-wrap: wrap;
           flex-direction: row;
           margin: 2px 0;
-          position: relative;
+         
+		  
 
           .dlm-reports-top-downloads__overflower {
             position: absolute;
             height:100%;
-            background:#008000;
-            z-index: 1;
-            opacity: 0.3;
+            background:#f5f5fc;
+			z-index: -1;
+           
           }
 
           a {
             color: #4338ca;
+			padding: 10px 15px;
+			display: block;
           }
 
-          &:nth-child(even) {
-            background-color: rgba(245, 244, 247, 0.5);
-          }
 
           &>div {
             text-align: left;
-            padding: 10px 15px;
-            z-index:5;
+
+            
 
             &:not(:first-child) {
               flex-grow: 1;
+			  position: relative;
+			  z-index: 5;
             }
 
             &:first-child {

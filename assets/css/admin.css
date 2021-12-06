@@ -1355,33 +1355,29 @@ table.wp-list-table .column-thumb img {
   flex-wrap: wrap;
   flex-direction: row;
   margin: 2px 0;
-  position: relative;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header .dlm-reports-top-downloads__overflower,
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line .dlm-reports-top-downloads__overflower {
   position: absolute;
   height: 100%;
-  background: #008000;
-  z-index: 1;
-  opacity: 0.3;
+  background: #f5f5fc;
+  z-index: -1;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header a,
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line a {
   color: #4338ca;
-}
-.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header:nth-child(even),
-.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line:nth-child(even) {
-  background-color: rgba(245, 244, 247, 0.5);
+  padding: 10px 15px;
+  display: block;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div,
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div {
   text-align: left;
-  padding: 10px 15px;
-  z-index: 5;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div:not(:first-child),
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:not(:first-child) {
   flex-grow: 1;
+  position: relative;
+  z-index: 5;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header > div:first-child,
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:first-child {

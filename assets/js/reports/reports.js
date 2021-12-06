@@ -887,6 +887,8 @@ class DLM_Reports {
 				} else if (j === 1) {
 					
 					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" target="_blank">' + dataResponse[i].title + '</a>';
+					lineSection.prepend(overFlower);
+					
 				} else {
 					lineSection.innerHTML = dataResponse[i].downloads.toLocaleString();
 				}
@@ -894,7 +896,7 @@ class DLM_Reports {
 				line.appendChild(lineSection);
 			}
 			
-			line.appendChild(overFlower);
+			
 
 			// append row
 			dataWrapper.append(line);
