@@ -1354,7 +1354,8 @@ table.wp-list-table .column-thumb img {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  margin: 2px 0;
+  margin: 5px 0;
+  align-items: center;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header .dlm-reports-top-downloads__overflower,
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__line .dlm-reports-top-downloads__overflower {
