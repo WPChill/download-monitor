@@ -850,6 +850,7 @@ class DLM_Reports {
 
 		// Create title row
 		const titleRow = document.createElement('div');
+		titleRow.className = 'dlm-reports-header-left';
 		const titleRowLabel = document.createElement('label');
 		titleRowLabel.appendChild(document.createTextNode("Title"));
 		titleRow.appendChild(titleRowLabel);
@@ -857,6 +858,7 @@ class DLM_Reports {
 
 		// Create downloads row
 		const downloadsRow = document.createElement('div');
+		downloadsRow.className = 'dlm-reports-header-right';
 		const downloadsRowLabel = document.createElement('label');
 		downloadsRowLabel.appendChild(document.createTextNode("Downloads"));
 		downloadsRow.appendChild(downloadsRowLabel);
@@ -886,7 +888,7 @@ class DLM_Reports {
 					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(15 * offset) + i + 1) + '.</span>';
 				} else if (j === 1) {
 					
-					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" target="_blank">' + dataResponse[i].title + '</a>';
+					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" title="Click to edit download: ' + dataResponse[i].title  + '" target="_blank">' + dataResponse[i].title + '</a>';
 					lineSection.prepend(overFlower);
 					
 				} else {
