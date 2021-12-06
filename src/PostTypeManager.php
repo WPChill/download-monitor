@@ -122,7 +122,7 @@ class DLM_Post_Type_Manager {
 		));
 		register_rest_field( 'dlm_download', 'author', array(
 			'get_callback' => function( $post_arr ) {
-				return get_the_author_meta( 'nickname', $post_arr['post_author'] );
+				return get_the_author_meta( 'nickname', $post_arr['author'] );
 			},
 		));
 
