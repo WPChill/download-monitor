@@ -62,6 +62,47 @@ function add_dlm_dummy_data() {
 
 }
 
+function add_dlm_dummy_logs() {
+
+	global $wpdb;
+
+	$dlms  = get_posts(
+		array(
+			'post_type'      => 'dlm_download',
+			'posts_per_page' => -1,
+		)
+	);
+	$dates = displayDates( '2019-05-10', '2021-12-06' );
+
+	foreach ( $dates as $date ) {
+
+		$structured_dlm = array();
+		foreach ( $dlms as $dlm ) {
+			$structured_dlm[] = $dlm->ID;
+		}
+
+		$table = "{$wpdb->download_log}";
+
+		foreach ( $dlms as $dlm ) {
+
+			$id = $structured_dlm[ $dlms[ ARRAY_RAND( $dlms ) ] ];
+
+			$wpdb->insert(
+				$table,
+				array(
+					'user_id'         => '1',
+					'user_agent'      => 'Edge',
+					'download_id'     => $id,
+					'version_id'      => $id,
+					'download_date'   => $date,
+					'download_status' => 'completed',
+
+				)
+			);
+		}
+	}
+}
+
 function displayDates( $date1, $date2, $format = 'Y-m-d' ) {
 	$dates   = array();
 	$current = strtotime( $date1 );
