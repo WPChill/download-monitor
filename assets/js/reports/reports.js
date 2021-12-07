@@ -41,8 +41,12 @@ class DLM_Reports {
 
 		this.datePickerContainer = document.getElementById('dlm-date-range-picker');
 		// We parse it so that we don't make any modifications to the actual data
-		// In case we will fetch data using js and the WP REST Api the this.reportsData will be an empty Object and we'll fetch data using fetchData() function
-		this.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsStats)) : {};
+		// In case we will fetch data using js and the WP REST Api the this.reportsData will be an empty Object and we'll fetch data using fetchData() function		
+
+		dlmReportsStats = this.fetchData();
+
+		// Seems like the fetch method is faster
+		/* this.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsStats)) : {};
 		this.mostDownloaded = false;
 		this.stats = false;
 		this.chartType = 'day';
@@ -50,7 +54,9 @@ class DLM_Reports {
 		this.datePicker = {
 			opened: false
 		};
-		this.init();
+		this.init(); */
+
+
 	}
 
 	/**
@@ -743,7 +749,7 @@ class DLM_Reports {
 	 */
 	hideDatepicker() {
 		this.datePicker.opened = false;
-		jQuery(this.datePickerContainer).find('#dlm_date_range_picker').remove();
+		jQuery(this.datePickerContainer).find('.dlm_rdrs_overlay').remove();
 	}
 
 	/**
@@ -874,12 +880,12 @@ class DLM_Reports {
 			const line = document.createElement('div');
 			line.className = "dlm-reports-top-downloads__line";
 			const size = dataResponse[i].downloads * 100 / dataResponse[0].downloads;
-			let overFlower  = document.createElement('span');
+			let overFlower = document.createElement('span');
 			overFlower.className = 'dlm-reports-top-downloads__overflower';
-			overFlower.style.width = parseInt(size)+'%';	
+			overFlower.style.width = parseInt(size) + '%';
 
 			for (let j = 0; j < 3; j++) {
-				
+
 
 				let lineSection = document.createElement('div');
 				lineSection.setAttribute('data-id', j); // we will need this to style each div based on its position in the "table"
@@ -887,18 +893,18 @@ class DLM_Reports {
 				if (j === 0) {
 					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(15 * offset) + i + 1) + '.</span>';
 				} else if (j === 1) {
-					
-					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" title="Click to edit download: ' + dataResponse[i].title  + '" target="_blank">' + dataResponse[i].title + '</a>';
+
+					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" title="Click to edit download: ' + dataResponse[i].title + '" target="_blank">' + dataResponse[i].title + '</a>';
 					lineSection.prepend(overFlower);
-					
+
 				} else {
 					lineSection.innerHTML = dataResponse[i].downloads.toLocaleString();
 				}
 
 				line.appendChild(lineSection);
 			}
-			
-			
+
+
 
 			// append row
 			dataWrapper.append(line);
@@ -1010,10 +1016,58 @@ class DLM_Reports {
 		});
 	}
 
-	// fetch data from WP REST Api in case we want to change the direction from global js variable set by wp_add_inline_script
+	/**
+	 * Fetch our needed data from REST API
+	 */
 	async fetchData() {
-		const fetchedData = await fetch(dlmReportsAPI);
-		this.reportsData = await fetchedData.json();
+
+		const loadingChart = document.querySelector('.dlm-loading-data'),
+			pageWrapper = document.querySelector('#wpbody-content .dlm-reports');
+
+		try {
+
+			const fetchedData = await fetch(dlmReportsAPI);
+
+			if (!fetchedData.ok) {
+				const errorText = document.createElement('div');
+				errorText.className = "dlm-loading-data";
+
+				const t1 = document.createTextNode('Seems like we bumped into an error! '),
+					t2 = document.createTextNode('Data fetching returned a status text of : ' + fetchedData.statusText),
+					p1 = document.createElement('h1'),
+					p2 = document.createElement('h3');
+				p1.appendChild(t1);
+				p2.appendChild(t2);
+				errorText.appendChild(p1);
+				errorText.appendChild(p2);
+				pageWrapper.removeChild(loadingChart);
+				pageWrapper.append(errorText);
+				throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedData.statusText);
+			}
+
+			dlmReportsStats = await fetchedData.json();
+
+			this.reportsData = ('undefined' !== typeof dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsStats)) : {};
+			this.mostDownloaded = false;
+			this.stats = false;
+			this.chartType = 'day';
+			this.createDataOnDate(false, false);
+			this.datePicker = {
+				opened: false
+			};
+
+			pageWrapper.removeChild(loadingChart);
+			this.init();
+
+		} catch (error) {
+			const errorChart = document.createElement('div');
+			errorChart.className = 'dlm-loading-data';
+			errorChart.appendChild(document.createTextNode('Something went wrong! ' + error.message));
+			pageWrapper.removeChild(loadingChart);
+			pageWrapper.appendChild(errorChart);
+
+		}
+
 	}
 
 	// The external tooltip of the Chart

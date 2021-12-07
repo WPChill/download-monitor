@@ -224,13 +224,14 @@ class DLM_Reports_Page {
 
 		?>
 		<div class="wrap dlm-reports wp-clearfix">
-			<hr class="wp-header-end">
+			<hr class="wp-header-end">			
 			<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>		
 			<?php $this->insights_header(); ?>
 			<br/>
 			<?php do_action( 'dlm_reports_page_start' ); ?>
 			<?php $this->insights_content(); ?>
-			<?php do_action( 'dlm_reports_page_end' ); ?>
+			<?php do_action( 'dlm_reports_page_end' ); ?>			
+			<div class="dlm-loading-data"><h1><?php esc_html_e( 'Loading data...', 'download-monitor' ); ?></div>
 		</div>
 		<?php
 	}
@@ -246,7 +247,7 @@ class DLM_Reports_Page {
 		<div class="wrap">
 			<hr class="wp-header-end">
 			<div class="main">
-				<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s insights page.', 'download-monitor' ); ?></h3>	
+				<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s Reports page.', 'download-monitor' ); ?></h3>	
 			</div>
 			</div>
 		<?php

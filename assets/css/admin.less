@@ -981,9 +981,30 @@ table.wp-list-table {
 /* Reports */
 .dlm_download_page_download-monitor-reports {
 
+  position: relative;
+
   #wpcontent {
 
     .dlm-reports {
+
+      position: relative;
+
+      .dlm-loading-data {
+        display:flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        position: absolute;
+        top:0;
+        text-align: center;
+        width:100%;
+        height:100%;
+        background: #fff;
+        max-width:100%;
+        margin:0 auto;
+        font-size:36px;
+      }
 
       .dlm-insights-header {
 
@@ -1400,6 +1421,7 @@ table.wp-list-table {
       max-width: 100%;
       background-color: #FFF;
       padding: 15px 30px;
+      position: relative;    
 
       .dlm-reports-block-chart {
         width: 100%;
