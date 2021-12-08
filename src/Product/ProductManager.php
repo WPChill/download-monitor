@@ -164,7 +164,7 @@ class DLM_Product_Manager {
 
 		$addons = $this->get_products();
 
-		if ( empty( $addons ) ) {
+		if ( empty( $addons ) || empty( $this->addons_requirements ) ) {
 			return;
 		}
 
