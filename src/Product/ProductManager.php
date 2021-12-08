@@ -22,11 +22,29 @@ class DLM_Product_Manager {
 	 */
 	private $error_handler;
 
+	private $addons_requirements;
+
 	/**
 	 * Private constructor
 	 */
 	private function __construct() {
 		$this->error_handler = DLM_Product_Error_Handler::get();
+
+		add_action( 'after_plugin_row_download-monitor/download-monitor.php', array( $this, 'update_addons_notice' ), 999, 2 );
+
+		$this->addons_requirements = apply_filters(
+			'dlm_addons_requirements',
+			array(
+				'dlm-email-lock'         => array(
+					'version' => '4.2.2',
+					'php'     => '7.4',
+				),
+				'dlm-email-notification' => array(
+					'version' => '4.2.2',
+					'php'     => '7.4',
+				),
+			)
+		);
 	}
 
 	/**
@@ -62,6 +80,7 @@ class DLM_Product_Manager {
 
 	/**
 	 * Load extensions
+	 *
 	 * @hooked admin_init
 	 */
 	public function load_extensions() {
@@ -99,7 +118,7 @@ class DLM_Product_Manager {
 					$extension = array(
 						'file'    => $extension,
 						'version' => false,
-						'name'    => "",
+						'name'    => '',
 					);
 				}
 
@@ -120,7 +139,6 @@ class DLM_Product_Manager {
 				// Add product to products property
 				$this->products[ $extension['file'] ] = $product;
 			}
-
 		}
 
 	}
@@ -132,5 +150,47 @@ class DLM_Product_Manager {
 	 */
 	public function get_products() {
 		return $this->products;
+	}
+
+	/**
+	 * Display update addons notice
+	 *
+	 * @param [type] $file
+	 * @param [type] $plugin_data
+	 * @return void
+	 */
+	public function update_addons_notice( $file, $plugin_data ) {
+
+		$addons = $this->get_products();
+
+		if ( empty( $addons ) ) {
+			return;
+		}
+
+		$html  = '<tr class="plugin-update-tr active"><td colspan="4" class="plugin-update colspanchange">';
+		$html .= '<div class="dlm-plugin-inline-notice"><ol>';
+
+		foreach ( $addons as $slug => $addon ) {
+
+			if ( version_compare( $addon->get_version(), $this->addons_requirements[ $slug ]['version'], '<' ) ) {
+				$html .= '<li class="dlm-plugin-inline-notice__row"> ' . esc_html__( 'Download monitor requires', 'download-monitor' ) . ' <span class="dlm-plugin-inline-notice__addon">' . $addon->get_product_name() . '</span> ' . esc_html__( 'version', 'download-monitor' ) . ' <span class="dlm-plugin-inline-notice__version">' . $this->addons_requirements[ $slug ]['version'] . '</span> ' . esc_html__( 'or higher to work correctly.', 'download-monitor' );
+
+				if ( ! $addon->get_license()->is_active() ) {
+					$html .= ' <a href="' . esc_url( admin_url( 'edit.php?post_type=dlm_download&page=dlm-installed-extensions' ) ) . '" target="_blank">Register</a> your license or <a href="' . esc_url( $addon->get_tracking_url( 'plugins_page' ) ) . '" target="_blank">purchase one now</a>.';
+				} else {
+
+					$update_link = wp_nonce_url( admin_url('update.php?action=upgrade-plugin&amp;plugin=' . urlencode( $addon->get_plugin_name() ) ), 'upgrade-plugin_' . $addon->get_plugin_name() );
+					
+					$html .= ' <a href="' . esc_url( $update_link ) . '" target="_blank" class="update-link">Update ' . $addon->get_product_name() . ' now</a>.';
+				}
+
+				$html .= '</li>';
+			}
+		}
+
+		$html .= '</ol></div>';
+		$html .= '</td></tr>';
+
+		echo wp_kses_post( $html );
 	}
 }
