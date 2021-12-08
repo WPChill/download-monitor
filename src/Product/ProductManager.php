@@ -35,14 +35,15 @@ class DLM_Product_Manager {
 		$this->addons_requirements = apply_filters(
 			'dlm_addons_requirements',
 			array(
-				'dlm-email-lock'         => array(
+				// Dummy data. After we populate should be removed.
+				/* 'dlm-email-lock'         => array(
 					'version' => '4.2.2',
 					'php'     => '7.4',
 				),
 				'dlm-email-notification' => array(
 					'version' => '4.2.2',
 					'php'     => '7.4',
-				),
+				), */
 			)
 		);
 	}
