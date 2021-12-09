@@ -36,14 +36,78 @@ class DLM_Product_Manager {
 			'dlm_addons_requirements',
 			array(
 				// Dummy data. After we populate should be removed.
-				 'dlm-email-lock'        => array(
-					 'version' => '4.2.2',
-					 'php'     => '5.4',
-				 ),
-				'dlm-email-notification' => array(
+				/* 'dlm-advanced-access-manager' => array(
+					'version' => '4.2.2',
+					'php'     => '5.4',
+				),
+				'dlm-email-lock'              => array(
+					'version' => '4.2.2',
+					'php'     => '5.4',
+				),
+				'dlm-email-notification'      => array(
 					'version' => '4.2.2',
 					'php'     => '10.4',
 				),
+				'dlm-captcha'                 => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-buttons'                 => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-csv-exporter'            => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-csv-importer'            => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-download-duplicator'     => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-downloading-page'        => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-email-notification'      => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-google-drive'            => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-amazon-s3'               => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-mailchimp-lock'          => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-ninja-forms'             => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-gravity-forms'           => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-terms-and-conditions'    => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-twitter-lock'            => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				),
+				'dlm-page-addon'              => array(
+					'version' => '4.2.2',
+					'php'     => '10.4',
+				), */
 			)
 		);
 	}
@@ -210,9 +274,9 @@ class DLM_Product_Manager {
 						$update_url = apply_filters( 'dlm_extension_inline_action_' . $plugin_slug, '', $addon );
 
 						if ( ! empty( $update_url ) ) {
-							$actions .= '<a href="' . esc_url( $update_url ) . '" target="_blank" class="update-link">' . esc_html__( 'Update', 'download-monitor' ) . esc_html( $plugin_name ) . '</a>';
+							$actions .= '<a href="' . esc_url( $update_url ) . '" target="_blank" class="update-link">' . esc_html__( 'Update', 'download-monitor' ) . ' ' . esc_html( $plugin_name ) . '</a>';
 						} else {
-							$actions .= '<a href="https://www.download-monitor.com/my-account/" target="_blank">' . esc_html__( 'Please update extension', 'download-monitor' ) . '>';
+							$actions .= '<a href="https://www.download-monitor.com/my-account/" target="_blank">' . esc_html__( 'Please update extension', 'download-monitor' ) . '</a>';
 						}
 
 						$actions .= '</div>';
