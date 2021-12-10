@@ -102,10 +102,15 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 */
 		public static function version_checker() {
 
-			$installed_version = get_option( 'dlm_current_version' );
-			$version           = ( is_array( $installed_version ) ) ? $installed_version['prev_version'] : $installed_version;
+			if ( get_transient( 'dlm_needs_upgrade' ) && '1' === get_transient( 'dlm_needs_upgrade' ) ) {
+				return true;
+			}
 
-			if ( $version && version_compare( $version, '4.5.0', '<' ) ) {
+			$installed_version = get_option( 'dlm_current_version' );
+
+			if ( $installed_version && version_compare( $installed_version, '4.5.0', '<' ) ) {
+
+				set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
 				return true;
 			}
 
@@ -171,6 +176,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			// Managed this far, means migration of data is finalized so we can delete our set transient with the offset.
 			delete_transient( 'dlm_db_upgrade_offset' );
+			delete_transient( 'dlm_needs_upgrade' );
 
 			global $wpdb;
 

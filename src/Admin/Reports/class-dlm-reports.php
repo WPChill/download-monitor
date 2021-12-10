@@ -61,7 +61,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.5.0
 		 */
 		public function create_global_variable() {
-			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; dlmReportsAPI ="' . get_option( 'siteurl' ) . '/wp-json/download-monitor/v1/reports"; dlmReportsStats = ""; ', 'before' );
+			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; dlmReportsAPI ="' . get_option( 'siteurl' ) . '/wp-json/download-monitor/v1/reports"; ', 'before' );
 		}
 
 		/**

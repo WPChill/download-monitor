@@ -1,4 +1,7 @@
 jQuery(function ($) {
+	// Variable that will hold the stats
+	dlmReportsStats = '';
+
 	new DLM_Reports();
 });
 
@@ -82,7 +85,7 @@ class DLM_Reports {
 	}
 
 	/**
-	 * Get all dates in set intervals
+	 * Get all months in set intervals
 	 * Used for chart data
 	 *
 	 * @param startDate
@@ -106,7 +109,7 @@ class DLM_Reports {
 	}
 
 	/**
-	 * Get all dates in set intervals
+	 * Get all 2 months in set intervals
 	 * Used for chart data
 	 *
 	 * @param startDate
@@ -142,7 +145,7 @@ class DLM_Reports {
 	}
 
 	/**
-	 * Get all dates in set intervals
+	 * Get all 2 weeks in set intervals
 	 * Used for chart data
 	 *
 	 * @param startDate
@@ -291,7 +294,6 @@ class DLM_Reports {
 
 								doubleMonthDownloads[chartDate] = doubleMonthDownloads[chartDate] + item.downloads;
 							}
-
 
 						});
 
@@ -446,15 +448,27 @@ class DLM_Reports {
 								callback: (val) => {
 									let date = '';
 									const dateString = Object.keys(data)[val];
+									const lastDate = Object.keys(data)[Object.keys(data).length - 1];
+									const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-M");
 
 									if ('undefined' !== instance.chartType && 'months' === instance.chartType) {
 
 										const month = moment(Object.keys(data)[val]).month();
 
 										if (11 > month) {
-											date = moment(dateString).format("MMM") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).format(", YYYY");
+											if (dateString === prevLastDate) {
+												date = moment(dateString).format("MMM, YYYY");
+											} else {
+												date = moment(dateString).format("MMM") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).format(", YYYY");
+											}
+
 										} else {
-											date = moment(dateString).format("MMM") + moment(dateString).format(" YYYY") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).month(month + 1).format(", YYYY");
+											if (dateString === prevLastDate || dateString === lastDate) {
+												date = moment(dateString).format("MMM, YYYY");
+											} else {
+												date = moment(dateString).format("MMM") + moment(dateString).format(" YYYY") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).month(month + 1).format(", YYYY");
+											}
+
 										}
 
 									} else if ('undefined' !== instance.chartType && 'months' === instance.chartType) {

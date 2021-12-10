@@ -17,11 +17,9 @@
   box-sizing: border-box;
   margin-left: -20px;
 }
-.post-type-dlm_download .dlm-page-header .dlm-header-links {
-  margin-left: -20px;
-}
 .post-type-dlm_download .dlm-page-header .dlm-header-links a span {
   vertical-align: middle;
+  font-size: 16px;
 }
 .post-type-dlm_download .dlm-page-header .dlm-header-logo img {
   max-height: 35px;
@@ -1378,7 +1376,7 @@ table.wp-list-table .column-thumb img {
   color: #6B7280;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header .dlm-reports-header-left {
-  padding-left: 24px;
+  padding-left: 36px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header .dlm-reports-header-right {
   text-align: right;

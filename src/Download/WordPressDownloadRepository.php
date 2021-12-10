@@ -110,10 +110,11 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		}
 
 		$q = new WP_Query();
-		
+
 		do_action( 'dlm_backwards_compatibility', $filters );
 
 		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
+
 		$items = $this->create_downloads_from_array( $posts );
 
 		do_action( 'dlm_reset_postdata', $filters );
@@ -211,7 +212,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 			$order = 'DESC';
 		}
 
-		$results = $wpdb->get_results( "SELECT posts.ID, posts.post_title, posts.post_status, posts.post_name, posts.post_author, posts.post_content, posts.post_excerpt, COUNT(dlm_logs.ID) as counts FROM {$wpdb->posts} posts INNER JOIN {$wpdb->download_log} dlm_logs ON posts.ID = dlm_logs.download_id WHERE posts.post_type = 'dlm_download' GROUP BY posts.ID ORDER BY counts {$order} {$sql_limit};" );
+		$results = $wpdb->get_results( "SELECT posts.ID, posts.post_title, posts.post_status, posts.post_name, posts.post_author, posts.post_content, posts.post_excerpt, COUNT(dlm_logs.ID) as counts FROM {$wpdb->posts} posts LEFT JOIN {$wpdb->download_log} dlm_logs ON posts.ID = dlm_logs.download_id WHERE posts.post_type = 'dlm_download' GROUP BY posts.ID ORDER BY counts {$order} {$sql_limit};" );
 
 		$items = $this->create_downloads_from_array( $results );
 

@@ -144,7 +144,7 @@ class DLM_Backwards_Compatibility {
 	public function join_download_count_compatibility( $join ) {
 		global $wpdb;
 
-		$join .= " INNER JOIN {$wpdb->download_log} ON ({$wpdb->posts}.ID = {$wpdb->download_log}.download_id) ";
+		$join .= " LEFT JOIN {$wpdb->download_log} ON ({$wpdb->posts}.ID = {$wpdb->download_log}.download_id) ";
 
 		return $join;
 
