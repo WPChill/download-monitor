@@ -893,7 +893,7 @@ class DLM_Reports {
 
 			const line = document.createElement('div');
 			line.className = "dlm-reports-top-downloads__line";
-			const size = dataResponse[i].downloads * 100 / dataResponse[0].downloads;
+			const size = dataResponse[i].downloads * 100 / this.mostDownloaded[0].downloads;
 			let overFlower = document.createElement('span');
 			overFlower.className = 'dlm-reports-top-downloads__overflower';
 			overFlower.style.width = parseInt(size) + '%';
