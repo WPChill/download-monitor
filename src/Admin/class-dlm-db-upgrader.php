@@ -178,6 +178,9 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			delete_transient( 'dlm_db_upgrade_offset' );
 			delete_transient( 'dlm_needs_upgrade' );
 
+			// Flush the permalinks.
+			flush_rewrite_rules();
+
 			global $wpdb;
 
 			$check_status = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status' ) );

@@ -962,8 +962,12 @@ class DLM_Reports {
 
 				main_parent.find('#total_downloads_table').attr('data-page', nextPage);
 				instance.setTopDownloads(nextPage);
-				jQuery('#downloads-block-navigation').find('button').removeAttr('disabled');
 
+				// We remove the disable attribute only when there are pages to be shown
+				if (Math.ceil(instance.mostDownloaded.length / 15) > nextPage + 1) {
+					jQuery('#downloads-block-navigation').find('button').removeAttr('disabled');
+
+				}
 
 			} else {
 
