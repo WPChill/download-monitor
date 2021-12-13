@@ -208,6 +208,7 @@ class DLM_Custom_Actions {
 				<label for="_featured"><input type="checkbox" name="_featured" id="_featured" value="1"/><?php echo esc_html__( 'Featured download', 'download-monitor' ); ?></label>
 				<label for="_members_only"><input type="checkbox" name="_members_only" id="_members_only" value="1"/><?php echo esc_html__( 'Members only', 'download-monitor' ); ?></label>
 				<label for="_redirect_only"><input type="checkbox" name="_redirect_only" id="_redirect_only" value="1"/><?php echo esc_html__( 'Redirect to file', 'download-monitor' ); ?></label>
+				<?php do_action( 'dlm_extra_quick_bulk_fields' ); ?>
 			</div>
 		</fieldset>
 		<?php
