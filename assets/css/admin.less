@@ -45,7 +45,7 @@
       a {
         span {
           vertical-align: middle;
-          font-size:16px;
+          font-size: 16px;
         }
       }
     }
@@ -990,20 +990,20 @@ table.wp-list-table {
       position: relative;
 
       .dlm-loading-data {
-        display:flex;
+        display: flex;
         flex-flow: column;
         align-items: center;
         justify-content: center;
         align-content: center;
         position: absolute;
-        top:0;
+        top: 0;
         text-align: center;
-        width:100%;
-        height:100%;
+        width: 100%;
+        height: 100%;
         background: #fff;
-        max-width:100%;
-        margin:0 auto;
-        font-size:36px;
+        max-width: 100%;
+        margin: 0 auto;
+        font-size: 36px;
       }
 
       .dlm-insights-header {
@@ -1421,7 +1421,7 @@ table.wp-list-table {
       max-width: 100%;
       background-color: #FFF;
       padding: 15px 30px;
-      position: relative;    
+      position: relative;
 
       .dlm-reports-block-chart {
         width: 100%;
@@ -1482,30 +1482,34 @@ table.wp-list-table {
       }
 
       &.empty {
-        h3 {
-          display: none;
-        }
+        display: none;
       }
 
       .dlm-reports-top-downloads {
 
         .dlm-reports-top-downloads__header {
           font-weight: bold;
-		  display: table;
-		  width: 100%;
-		  margin-bottom: 17px; // it's 17px because that's the margin bottom of the h3 heading used as the "box" header
+          display: table;
+          width: 100%;
+          margin-bottom: 17px; // it's 17px because that's the margin bottom of the h3 heading used as the "box" header
 
-		  .dlm-reports-header-left,
-		  .dlm-reports-header-right {
-			display: table-cell;
-			margin-bottom: 15px;
+          .dlm-reports-header-left,
+          .dlm-reports-header-right {
+            display: table-cell;
+            margin-bottom: 15px;
             font-size: 12px;
             color: #6B7280;
-		  }
+          }
 
-		  .dlm-reports-header-left {padding-left: 36px;} // we use the same padding-left as the min-width of the numbers, so we can align the label with the download names
-		  .dlm-reports-header-right {text-align: right;}
-         
+          .dlm-reports-header-left {
+            padding-left: 36px;
+          }
+
+          // we use the same padding-left as the min-width of the numbers, so we can align the label with the download names
+          .dlm-reports-header-right {
+            text-align: right;
+          }
+
         }
 
         .dlm-reports-top-downloads__line {
@@ -1514,33 +1518,33 @@ table.wp-list-table {
           flex-direction: row;
           margin: 6px 0;
           align-items: center;
-		  
+
 
           .dlm-reports-top-downloads__overflower {
             position: absolute;
-            height:100%;
-            background:#f5f5fc;
-			z-index: -1;
-           
+            height: 100%;
+            background: #f5f5fc;
+            z-index: -1;
+
           }
 
           a {
             color: #4338ca;
-			padding: 8px;
-			display: block;
-			font-weight: 500;
+            padding: 8px;
+            display: block;
+            font-weight: 500;
           }
 
 
-          & > div {
+          &>div {
             text-align: left;
 
-            
+
 
             &:not(:first-child) {
               flex-grow: 1;
-			  position: relative;
-			  z-index: 5;
+              position: relative;
+              z-index: 5;
             }
 
             &:first-child {
@@ -1550,7 +1554,7 @@ table.wp-list-table {
             &:last-of-type {
               text-align: right;
               font-weight: 500;
-			  max-width: 20%;
+              max-width: 20%;
             }
           }
         }

@@ -1359,7 +1359,7 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper h3 {
   margin-top: 0;
 }
-.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper.empty h3 {
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper.empty {
   display: none;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper .dlm-reports-top-downloads .dlm-reports-top-downloads__header {

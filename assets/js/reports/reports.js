@@ -1157,11 +1157,29 @@ class DLM_Reports {
 
 					const year = moment(tooltip.dataPoints[0].label).year();
 					const month = moment(tooltip.dataPoints[0].label).month();
+					const lastDate = Object.keys(plugin.stats.chartStats)[Object.keys(plugin.stats.chartStats).length - 1];
+					const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-M");
+					const dateString = moment(tooltip.dataPoints[0].label).format("YYYY-M");
 
 					if (11 > month) {
-						date = moment(tooltip.dataPoints[0].label).format("MMMM") + ' - ' + moment(tooltip.dataPoints[0].label).month(month + 1).format("MMMM") + moment(tooltip.dataPoints[0].label).format(", YYYY");
+						if (dateString === prevLastDate) {
+
+							date = moment(dateString).format("MMMM, YYYY");
+						} else {
+
+							date = moment(tooltip.dataPoints[0].label).format("MMM") + ' - ' + moment(tooltip.dataPoints[0].label).month(month + 1).format("MMM") + moment(tooltip.dataPoints[0].label).format(", YYYY");
+						}
+
 					} else {
-						date = moment(tooltip.dataPoints[0].label).format("MMMM") + moment(tooltip.dataPoints[0].label).format(" YYYY") + ' - ' + moment(tooltip.dataPoints[0].label).month(month + 1).format("MMMM") + moment(tooltip.dataPoints[0].label).month(month + 1).format(", YYYY");
+
+						if (dateString === prevLastDate || dateString === lastDate) {
+
+							date = moment(dateString).format("MMMM, YYYY");
+						} else {
+
+							date = moment(tooltip.dataPoints[0].label).format("MMM") + moment(tooltip.dataPoints[0].label).format(" YYYY") + ' - ' + moment(tooltip.dataPoints[0].label).month(month + 1).format("MMM") + moment(tooltip.dataPoints[0].label).month(month + 1).format(", YYYY");
+						}
+
 					}
 
 				} else if ('undefined' !== plugin.chartType && 'months' === plugin.chartType) {
