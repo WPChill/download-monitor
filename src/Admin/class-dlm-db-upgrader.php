@@ -42,6 +42,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			add_action( 'wp_ajax_dlm_db_log_entries', array( $this, 'count_log_entries' ) );
 			add_action( 'wp_ajax_dlm_upgrade_db', array( $this, 'update_log_table_db' ) );
 			add_action( 'wp_ajax_dlm_alter_download_log', array( $this, 'alter_download_log_table' ) );
+			add_action( 'wp_ajax_dlm_upgrade_db_clear_offset', array( $this, 'clear_offset' ) );
 
 			$dlm_logging = get_option( 'dlm_enable_logging' );
 			// Also add the new option to the DB and set it to default.
@@ -360,6 +361,81 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			// We save the previous so that we make sure all the entries from that range will be saved.
 			wp_send_json( $offset );
+			exit;
+		}
+
+		/**
+		 * Clear the previous set offset
+		 *
+		 * @return void
+		 */
+		public function clear_offset() {
+
+			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
+
+			if ( ! isset( $_POST['offset'] ) ) {
+
+				// We need the previous set offset
+				wp_send_json_error();
+				exit;
+			}
+
+			global $wpdb;
+
+			$limit     = 10000;
+			$offset    = $_POST['offset'];
+			$sql_limit = "LIMIT {$offset},{$limit}";
+			$items     = array();
+			$table_1   = "{$wpdb->download_log}";
+			$able_2    = "{$wpdb->prefix}posts";
+
+			$column_check = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status' ) );
+
+			if ( null !== $column_check && ! empty( $column_check ) ) {
+
+				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') $sql_limit" ), ARRAY_A );
+			} else {
+
+				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 $sql_limit" ), ARRAY_A );
+			}
+
+			foreach ( $data as $row ) {
+
+				if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
+					$items[ $row['date'] ][ $row['ID'] ] = array(
+						'downloads' => 1,
+						'title'     => $row['title'],
+					);
+				} else {
+					$items[ $row['date'] ][ $row['ID'] ]['downloads'] = absint( $items[ $row['date'] ][ $row['ID'] ]['downloads'] ) + 1;
+				}
+			}
+
+			foreach ( $items as $key => $log ) {
+
+				$table = "{$wpdb->dlm_reports}";
+
+				$sql_check  = "SELECT * FROM $table  WHERE date = %s;";
+				$sql_update = "UPDATE $table dlm SET dlm.download_ids = %s WHERE dlm.date = %s";
+				$check      = $wpdb->get_results( $wpdb->prepare( $sql_check, $key ), ARRAY_A );
+
+				if ( null !== $check && ! empty( $check ) ) {
+
+					$downloads = json_decode( $check[0]['download_ids'], ARRAY_A );
+
+					foreach ( $log as $item_key => $item ) {
+
+						if ( isset( $downloads[ $item_key ] ) ) {
+							$downloads[ $item_key ]['downloads'] = $downloads[ $item_key ]['downloads'] - $item['downloads'];
+						}
+					}
+
+					$wpdb->query( $wpdb->prepare( $sql_update, wp_json_encode( $downloads ), $key ) );
+
+				}
+			}
+
+			wp_send_json_success();
 			exit;
 		}
 

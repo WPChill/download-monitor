@@ -47,8 +47,29 @@
 							dlmDBUpgrader.entries = response.entries;
 
 							// If there is an offset, set it.
-							if (undefined !== typeof response.offset) {
+							if (undefined !== typeof response.offset && 0 !== parseInt(response.offset) ) {
+
 								dlmDBUpgrader.upgraderResumeOffset = parseInt(response.offset);
+
+								var opts = {
+									url: dlmDBUpgrader.ajax,
+									type: 'post',
+									async: true,
+									cache: false,
+									dataType: 'json',
+									data: {
+										action: 'dlm_upgrade_db_clear_offset',
+										nonce: dlm_upgrader.nonce,
+										// We need to clear the previous upgrade offset
+										offset: parseInt(response.offset),
+									},
+									success: function () {
+										console.log('previous offset cleared');									
+									}
+								};
+
+								$.ajax(opts);
+			
 							}
 
 						} else {
