@@ -436,7 +436,7 @@ class DLM_Download_Handler {
 						// append download id to no access URL
 
 						if( '' == $structure || 0 == $structure ){
-							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '&download-id=' . $download->get_id();
+							$no_access_permalink = add_query_arg( 'download-id', $download->get_id(), untrailingslashit( $no_access_permalink ) );
 						}else{
 							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
 						}
