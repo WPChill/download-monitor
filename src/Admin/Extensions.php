@@ -314,17 +314,7 @@ class DLM_Admin_Extensions {
 
 					echo '</div>';
 					echo '</div>';
-						?>
-						<div class="wrap dlm_extensions_wrap">
-						<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
-						<h1>
-							<?php esc_html_e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
-							<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
-							   class="button dlm-reload-button">
-								<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
-							</a>
-						</h1>
-						<?php
+
 				} else if ( count( $this->installed_extensions ) > 0 ) {
 					echo '<p>' . esc_html__( 'Wow, looks like you installed all our extensions. Thanks, you rock!', 'download-monitor' ) . '</p>';
 				}
