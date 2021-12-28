@@ -120,3 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 2. The main admin screen lists your downloads using familiar WordPress UI.
 3. Easily add file information and multiple versions.
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
+
+== Changelog ==
+
+See <a href="https://github.com/WPChill/download-monitor/blob/master/changelog.txt" target="_blank">changelog</a>
