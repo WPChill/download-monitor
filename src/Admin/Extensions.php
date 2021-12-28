@@ -304,10 +304,9 @@ class DLM_Admin_Extensions {
 						echo '<a href="' . esc_url( $extension->url ) . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
 						echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
 						echo '<h3>' . esc_html( $extension->name ) . '</h3>';
-						echo '<p class="extension-desc">' . esc_html( $extension->desc ) . '</p>';
+						echo '<div class="extension-desc">' . wp_kses_post( $extension->desc ) . '</div>';
 						echo '<div class="product_footer">';
-						//echo '<span class="loop_price' . ( ( $sale ) ? ' sale' : '' ) . '">' . esc_html( $price_display ) . ' / ' . esc_html__( 'year', 'download-monitor' ) . '</span>';
-						echo '<div class="button button-secondary loop_more">' . esc_html__( 'Get This Extension', 'download-monitor' ) . '<span class="dashicons dashicons-external"></span></div>';
+						echo '<div class="button button-secondary loop_more">' . esc_html__( 'View Extension', 'download-monitor' ) . '<span class="dashicons dashicons-external"></span></div>';
 						echo '</div>';
 						echo '</a>';
 						echo '</div>';
