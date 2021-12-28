@@ -36,78 +36,60 @@ class DLM_Product_Manager {
 			'dlm_addons_requirements',
 			array(
 				// Dummy data. After we populate should be removed.
-				/* 'dlm-advanced-access-manager' => array(
-					'version' => '4.2.2',
-					'php'     => '5.4',
-				),
-				'dlm-email-lock'              => array(
-					'version' => '4.2.2',
-					'php'     => '5.4',
-				),
-				'dlm-email-notification'      => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
+				'dlm-buttons'                 => array(
+					'version' => '4.0.3',
 				),
 				'dlm-captcha'                 => array(
 					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-buttons'                 => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-csv-exporter'            => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-csv-importer'            => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-download-duplicator'     => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
 				),
 				'dlm-downloading-page'        => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-email-notification'      => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
+					'version' => '4.0.2',
 				),
 				'dlm-google-drive'            => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-amazon-s3'               => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-mailchimp-lock'          => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-ninja-forms'             => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				),
-				'dlm-gravity-forms'           => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
+					'version' => '4.0.1',
 				),
 				'dlm-terms-and-conditions'    => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
+					'version' => '4.0.2',
 				),
 				'dlm-twitter-lock'            => array(
+					'version' => '4.0.2',
+				),
+				'dlm-advanced-access-manager' => array(
+					'version' => '4.0.2',
+				),
+				'dlm-email-notification'      => array(
+					'version' => '4.1.7',
+				),
+				'dlm-csv-exporter'            => array(
+					'version' => '4.1.3',
+				),
+				'dlm-gravity-forms'           => array(
+					'version' => '4.0.3',
+				),
+				'dlm-ninja-forms'             => array(
+					'version' => '4.1.0',
+				),
+				'dlm-email-lock'              => array(
 					'version' => '4.2.2',
-					'php'     => '10.4',
+				),
+				'dlm-download-duplicator'     => array(
+					'version' => '4.0.3',
+				),
+				'dlm-csv-importer'            => array(
+					'version' => '4.1.3',
+				),
+				'dlm-email-notification'      => array(
+					'version' => '4.1.7',
+				),
+				'dlm-amazon-s3'               => array(
+					'version' => '4.0.3',
+				),
+				'dlm-mailchimp-lock'          => array(
+					'version' => '4.0.2',
 				),
 				'dlm-page-addon'              => array(
-					'version' => '4.2.2',
-					'php'     => '10.4',
-				), */
+					'version' => '4.1.4',
+				), 
 			)
 		);
 	}
