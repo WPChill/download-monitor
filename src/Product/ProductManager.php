@@ -82,14 +82,14 @@ class DLM_Product_Manager {
 					'version' => '4.1.7',
 				),
 				'dlm-amazon-s3'               => array(
-					'version' => '4.0.3',
+					'version' => '4.1.0',
 				),
 				'dlm-mailchimp-lock'          => array(
 					'version' => '4.0.2',
 				),
 				'dlm-page-addon'              => array(
 					'version' => '4.1.4',
-				), 
+				),
 			)
 		);
 	}
@@ -214,37 +214,42 @@ class DLM_Product_Manager {
 			return;
 		}
 
-		$php_version = phpversion();
+		$php_version    = phpversion();
+		$table_header   = ''; // The table header of our markup.
+		$table_end      = '</div></td></tr>'; // The ending of the table
+		$addons_content = ''; // The inline/row content containing info about each addon specified in the requirements.
+		$html           = ''; // General HTML to be shown in plugin inline notification.
 
-		$html  = '<tr class="plugin-update-tr active"><td colspan="4" class="plugin-update colspanchange">';
-		$html .= '<div class="dlm-plugin-inline-notice">';
-		$html .= '<div class="dlm-plugin-inline-notice__header">';
-		$html .= '<div class="dlm-plugin-inline-notice__line"><span class="dlm-plugin-inline-notice__strong">' . esc_html__( 'Extension', 'download-monitor' ) . '<span></div>';
-		$html .= '<div class="dlm-plugin-inline-notice__line"><span class="dlm-plugin-inline-notice__strong">' . esc_html__( 'Requirements', 'download-monitor' ) . '</span></div>';
-		$html .= '<div class="dlm-plugin-inline-notice__line"><span class="dlm-plugin-inline-notice__strong">' . esc_html__( 'Current', 'download-monitor' ) . '</span></div>';
-		$html .= '<div class="dlm-plugin-inline-notice__line"><span class="dlm-plugin-inline-notice__strong">' . esc_html__( 'Actions', 'download-monitor' ) . '</span></div>';
-		$html .= '</div>';
+		// Create the table header HTML markup.
+		$table_header .= '<tr class="plugin-update-tr active"><td colspan="4" class="plugin-update colspanchange">';
+		$table_header .= '<div class="dlm-plugin-inline-notice">';
+		$table_header .= '<div class="dlm-plugin-inline-notice__header">';
+		$table_header .= '<div class="dlm-plugin-inline-notice__line"><span class="dlm-plugin-inline-notice__strong">' . esc_html__( 'Extension', 'download-monitor' ) . '<span></div>';
+		$table_header .= '<div class="dlm-plugin-inline-notice__line"><span class="dlm-plugin-inline-notice__strong">' . esc_html__( 'Requirements', 'download-monitor' ) . '</span></div>';
+		$table_header .= '<div class="dlm-plugin-inline-notice__line"><span class="dlm-plugin-inline-notice__strong">' . esc_html__( 'Current', 'download-monitor' ) . '</span></div>';
+		$table_header .= '<div class="dlm-plugin-inline-notice__line"><span class="dlm-plugin-inline-notice__strong">' . esc_html__( 'Actions', 'download-monitor' ) . '</span></div>';
+		$table_header .= '</div>';
 
 		foreach ( $addons as $slug => $addon ) {
 
 			if ( isset( $this->addons_requirements[ $slug ] ) ) {
 
-				$plugin_slug  = $addon->get_plugin_name();
-				$plugin_name  = $addon->get_product_name();
-				$requirements = '<div class="dlm-plugin-inline-notice__line">';
-				$current      = '<div class="dlm-plugin-inline-notice__line">';
-				$actions      = '';
+				$addon_present  = false; // Verify if the addon doesn't meet one or multiple requirements.
+				$addon_row_req  = ''; // The addon row HTML markup for requirements info.
+				$addon_row_curr = ''; // The addon row HTML markup for current info.
+				$actions        = ''; // The actions content for each addon.
 
-				$html .= '<div class="dlm-plugin-inline-notice__row">';
-				$html .= '<div class="dlm-plugin-inline-notice__line">' . $plugin_name . '</div>';
+				$plugin_slug = $addon->get_plugin_name();
+				$plugin_name = $addon->get_product_name();
 
 				if ( version_compare( $addon->get_version(), $this->addons_requirements[ $slug ]['version'], '<' ) ) {
 
+					$addon_present    = true;
 					$required_version = $this->addons_requirements[ $slug ]['version'];
 					$current_version  = $addon->get_version();
 
-					$requirements .= '<p>' . esc_html__( 'Extension version:', 'download-monitor' ) . '<span class="dlm-plugin-inline-notice__required-version"> ' . esc_html( $required_version ) . '</span> ' . esc_html__( ' or higher', 'download-monitor' ) . '</p>';
-					$current      .= '<p>' . esc_html__( 'Extension version:', 'download-monitor' ) . '<span class="dlm-plugin-inline-notice__current-version"> ' . esc_html( $current_version ) . '</span></p>';
+					$addon_row_req .= '<p>' . esc_html__( 'Extension version:', 'download-monitor' ) . '<span class="dlm-plugin-inline-notice__required-version"> ' . esc_html( $required_version ) . '</span> ' . esc_html__( ' or higher', 'download-monitor' ) . '</p>';
+					$addon_row_curr      .= '<p>' . esc_html__( 'Extension version:', 'download-monitor' ) . '<span class="dlm-plugin-inline-notice__current-version"> ' . esc_html( $current_version ) . '</span></p>';
 
 					if ( ! $addon->get_license()->is_active() ) {
 
@@ -268,22 +273,32 @@ class DLM_Product_Manager {
 
 				if ( isset( $this->addons_requirements[ $slug ]['php'] ) && version_compare( $php_version, $this->addons_requirements[ $slug ]['php'], '<' ) ) {
 
+					$addon_present = true;
+
 					$required_php_version = $this->addons_requirements[ $slug ]['php'];
 
-					$requirements .= '<p>' . esc_html__( 'PHP version:', 'download-monitor' ) . '<span class="dlm-plugin-inline-notice__required-version"> ' . esc_html( $required_php_version ) . '</span> ' . esc_html__( ' or higher', 'download-monitor' ) . '</p>';
-					$current      .= '<p>' . esc_html__( 'PHP version:', 'download-monitor' ) . '<span class="dlm-plugin-inline-notice__current-version"> ' . esc_html( $php_version ) . '</span></p>';
+					$addon_row_req .= '<p>' . esc_html__( 'PHP version:', 'download-monitor' ) . '<span class="dlm-plugin-inline-notice__required-version"> ' . esc_html( $required_php_version ) . '</span> ' . esc_html__( ' or higher', 'download-monitor' ) . '</p>';
+					$addon_row_curr .= '<p>' . esc_html__( 'PHP version:', 'download-monitor' ) . '<span class="dlm-plugin-inline-notice__current-version"> ' . esc_html( $php_version ) . '</span></p>';
 
 				}
+			}
 
-				$requirements .= '</div>';
-				$current      .= '</div>';
+			// Now, let's create the addon row info content only if the addon doesn't meet the requirements.
+			if ( $addon_present ) {
 
-				$html .= $requirements . $current . $actions . '</div>';
+				$addons_content .= '<div class="dlm-plugin-inline-notice__row">';
+				$addons_content .= '<div class="dlm-plugin-inline-notice__line">' . $plugin_name . '</div>';
+				$addons_content .= '<div class="dlm-plugin-inline-notice__line">' . $addon_row_req . '</div>';
+				$addons_content .= '<div class="dlm-plugin-inline-notice__line">' . $addon_row_curr . '</div>';
+				$addons_content .= $actions;
+				$addons_content .= '</div>';
 			}
 		}
 
-		$html .= '</div>';
-		$html .= '</td></tr>';
+		// If there is content in the addons_content variable it means there is something to be displayed, so display it.
+		if ( ! empty( $addons_content ) ) {
+			$html .= $table_header . $addons_content . $table_end;
+		}
 
 		echo wp_kses_post( $html );
 	}
