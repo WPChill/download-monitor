@@ -266,7 +266,7 @@ class DLM_Product_Manager {
 					}
 				}
 
-				if ( version_compare( $php_version, $this->addons_requirements[ $slug ]['php'], '<' ) ) {
+				if ( isset( $this->addons_requirements[ $slug ]['php'] ) && version_compare( $php_version, $this->addons_requirements[ $slug ]['php'], '<' ) ) {
 
 					$required_php_version = $this->addons_requirements[ $slug ]['php'];
 
