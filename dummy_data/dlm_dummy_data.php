@@ -1,5 +1,14 @@
 <?php
 
+/**
+ These are the dummy data populating functions.  
+ 
+ add_dlm_dummy_data() adds dummy data to the report_log table ( so data used inside the Reports page of the plugin ) in order to test the Reports page. To use this you can add it to functions.php of your theme file and attach an action to it, for example wp_head, and visit the website. This way it will populate with data, and when you'll exit the website the function will terminate.
+
+ add_dlm_dummy_logs() adds dummy data to the download_log table used to test the database tables upgrading process. To use this you can add it to functions.php of your theme file and attach an action to it, for example wp_head, and visit the website. This way it will populate with data, and when you'll exit the website the function will terminate.
+
+ displayDates() is a function, used by the above two functions, that manipulates the dates that we need to set into the tables of our database. This function does not need a calling.
+ */
 function add_dlm_dummy_data() {
 	global $wpdb;
 	$dlms  = get_posts(
