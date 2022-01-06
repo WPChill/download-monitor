@@ -61,9 +61,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.5.0
 		 */
 		public function create_global_variable() {
-			// If the permalink structure is using non-pretty permalinks we should pass the REST API route as a query string parameter.
+			
 			$rest_route = rest_url() . 'download-monitor/v1/reports';
-
 			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; dlmReportsAPI ="' . $rest_route . '"', 'before' );
 		}
 

@@ -73,30 +73,43 @@ class DLM_Admin_Dashboard {
 			$max_count = 1;
 		}
 		?>
-        <table class="download_chart" cellpadding="0" cellspacing="0">
-            <thead>
-            <tr>
-                <th scope="col"><?php echo esc_html__( 'Download', "download_monitor" ); ?></th>
-                <th scope="col"><?php echo esc_html__( 'Download count', "download_monitor" ); ?></th>
-            </tr>
-            </thead>
-            <tbody>
+
+        <div class="dlm-reports-top-downloads">
+			<div class="dlm-reports-top-downloads__header">
+				<div class="dlm-reports-header-left">
+					<label><?php esc_html_e( 'Title', 'download-monitor' ); ?></label>
+				</div>
+				<div class="dlm-reports-header-right">
+					<label><?php esc_html_e( 'Downloads', 'download-monitor' ); ?></label>
+				</div>
+			</div>
 			<?php
 			if ( $downloads ) {
+				$i = 1;
 				/** @var DLM_Download $download */
 				foreach ( $downloads as $download ) {
 
-					$width = ( $download->get_download_count() / $max_count ) * 80;
+					$width = ( $download->get_download_count() * 100 ) / $max_count;
 
-					echo '<tr>
-							<th scope="row" style="width:25%;"><a href="' . esc_url( admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) ) . '">' . esc_html( $download->get_title() ) . '</a></th>
-							<td><span class="bar" style="width:' . esc_attr( $width ) . '%;"></span>' . number_format( $download->get_download_count(), 0, '.', ',' ) . '</td>
-						</tr>';
+					?>
+					<div class="dlm-reports-top-downloads__line">
+						<div>
+							<span class="dlm-listing-position"><?php echo absint( $i ); ?>.</span>
+						</div>
+						<div>
+							<span class="dlm-reports-top-downloads__overflower" style="width: <?php echo absint( $width ); ?>%;"></span>
+							<a href="http://localhost/dev/wp-admin/post.php?post=<?php echo absint(  $download->get_id() ); ?>&amp;action=edit" title="<?php echo sprintf( esc_html__('Click to edit download: %s', 'download-monitor' ), $download->get_title() ); ?>" target="_blank"><?php echo esc_html( $download->get_title() ); ?></a>
+						</div>
+						<div>
+							<?php echo esc_html( $download->get_download_count() ); ?>
+						</div>
+					</div>
+					<?php
+					$i++;
 				}
 			}
 			?>
-			</tbody>
-		</table>
+		</div>
 		<?php
 	}
 
