@@ -22,7 +22,7 @@ class DLM_Admin_Dashboard {
 
 		wp_add_dashboard_widget(
 			'dlm_popular_downloads',
-			__( 'Popular Downloads', 'download-monitor' ),
+			__( 'Top Downloads', 'download-monitor' ),
 			array(
 				$this,
 				'popular_downloads',
@@ -109,6 +109,9 @@ class DLM_Admin_Dashboard {
 				}
 			}
 			?>
+			<!-- @todo: Add a See more link that will link to the Reports page displaying the `All Time` option/shortcut of the reports
+						Currently we need to open the datepicker in order to get access to the shortcuts, but we could access the dlmReportsStats and get first and last dates and send them to the datepicker api somehow
+			-->
 		</div>
 		<?php
 	}
