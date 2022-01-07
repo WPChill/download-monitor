@@ -301,7 +301,7 @@ class DLM_Product {
 		$tracking_vars = urlencode_deep( $tracking_vars );
 		$query_string  = build_query( $tracking_vars );
 
-		return 'https://www.download-monitor.com/extensions/' . str_ireplace( 'dlm-', '', $this->get_product_id() ) . '?' . $query_string;
+		return 'https://www.download-monitor.com/pricing?' . $query_string;
 	}
 
 

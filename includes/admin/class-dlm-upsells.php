@@ -141,7 +141,7 @@ class DLM_Upsells {
 		echo '<p class="wpchill-upsell-description">' . esc_html( $description ) . '</p>';
 		echo '<p>';
 
-		$buttons = '<a target="_blank" href="https://download-monitor.com/extensions/' . esc_attr( $extension ) . '/?utm_source=' . esc_attr( $utm_source ) . '&utm_medium=upsell&utm_campaign=w.org&utm_content=' . esc_attr( $tab ) . '" class="button-primary button">' . esc_html__( 'Get Extension!', 'download-monitor' ) . '</a>';
+		$buttons = '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . esc_attr( $utm_source ) . '&utm_medium=upsell&utm_campaign=w.org&utm_content=' . esc_attr( $tab ) . '" class="button-primary button">' . esc_html__( 'Get Extension!', 'download-monitor' ) . '</a>';
 
 		echo wp_kses_post( apply_filters( 'dlm_upsell_buttons', $buttons, $tab ) );
 
