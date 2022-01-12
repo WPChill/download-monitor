@@ -1,3 +1,6 @@
+= 4.5.0 - TBA=
+Fixed: If endpoint was changed to a different value the download was not working. ( https://github.com/WPChill/download-monitor/issues/801 ) 
+
 = 4.4.14 - 12.01.2022 =
 Added: Filter 'dlm_filemanager_get_file_name' to filter the displayed file name.
 Fixed: Check if there are pages/posts/cpt with the same slug as the endpoint ( https://github.com/WPChill/download-monitor/issues/774 )
