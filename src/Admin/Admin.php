@@ -71,7 +71,12 @@ class DLM_Admin {
 			$lu_message = new DLM_LU_Message();
 			$lu_message->display();
 		}
+			
+		// Sets the rewrite rule option if dlm_download_endpoint option is changed.
+		add_filter( 'pre_update_option_dlm_download_endpoint', array( $this, 'set_rewrite_rules_flag_on_endpoint_change'), 11 );
 
+		// Checks and flushes rewrite rule if rewrite flag option is set.
+		add_action( 'init', array( $this, 'check_rewrite_rules') );
 	}
 
 	/**
@@ -334,5 +339,18 @@ class DLM_Admin {
 		if ( true == $this->need_rewrite_flush ) {
 			flush_rewrite_rules();
 		}
+	}
+
+	public function check_rewrite_rules(){
+		$settings = get_option( 'dlm_download_endpoints_rewrite', false );
+		if ( $settings ) {
+			flush_rewrite_rules();
+			delete_option( 'dlm_download_endpoints_rewrite' );
+		}
+	}
+
+	public function set_rewrite_rules_flag_on_endpoint_change( $new_values ) {
+		update_option( 'dlm_download_endpoints_rewrite', true );
+		return $new_values;
 	}
 }
