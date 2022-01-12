@@ -35,7 +35,6 @@ class DLM_Product_Manager {
 		$this->addons_requirements = apply_filters(
 			'dlm_addons_requirements',
 			array(
-				// Dummy data. After we populate should be removed.
 				'dlm-buttons'                 => array(
 					'version' => '4.0.3',
 				),
@@ -55,13 +54,13 @@ class DLM_Product_Manager {
 					'version' => '4.0.2',
 				),
 				'dlm-advanced-access-manager' => array(
-					'version' => '4.0.2',
+					'version' => '4.0.4',
 				),
 				'dlm-email-notification'      => array(
 					'version' => '4.1.7',
 				),
 				'dlm-csv-exporter'            => array(
-					'version' => '4.1.3',
+					'version' => '4.0.1',
 				),
 				'dlm-gravity-forms'           => array(
 					'version' => '4.0.3',
@@ -82,7 +81,7 @@ class DLM_Product_Manager {
 					'version' => '4.1.7',
 				),
 				'dlm-amazon-s3'               => array(
-					'version' => '4.1.0',
+					'version' => '4.0.3',
 				),
 				'dlm-mailchimp-lock'          => array(
 					'version' => '4.0.2',
