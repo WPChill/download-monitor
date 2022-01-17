@@ -282,6 +282,9 @@ class DLM_Shortcodes {
 	public function downloads( $atts ) {
 		global $dlm_max_num_pages;
 
+		// enqueue style only on shortcode use
+		wp_enqueue_style( 'dlm-frontend' );
+
 		extract( shortcode_atts( array(
 			// Query args
 			'per_page'                  => '-1', // -1 = no limit
