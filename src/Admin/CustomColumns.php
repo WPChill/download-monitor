@@ -75,8 +75,8 @@ class DLM_Custom_Columns {
 				if ( ! $terms = get_the_terms( $post->ID, 'dlm_download_category' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					foreach ( $terms as $term ) {
-						echo '<a href=' . esc_url( admin_url( 'term.php?taxonomy=dlm_download_category&tag_ID=' . absint( $term->term_id ) . '&post_type=dlm_download&wp_http_referer=' . admin_url( 'edit.php?post_type=dlm_download' ) ) ) . '>' . esc_html( $term->name ) . '</a>';
+					foreach ( $terms as $term ) {						
+						echo '<a href=' . esc_url( admin_url( 'edit.php?post_type=dlm_download&dlm_download_category=' . esc_attr( $term->slug ) ) ) . '>' . esc_html( $term->name ) . '</a>';
 					}
 				}
 				break;
