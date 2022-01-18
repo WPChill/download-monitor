@@ -72,10 +72,12 @@ class DLM_Custom_Columns {
 				echo esc_html( $post->ID );
 				break;
 			case "download_cat" :
-				if ( ! $terms = get_the_term_list( $post->ID, 'dlm_download_category', '', ', ', '' ) ) {
+				if ( ! $terms = get_the_terms( $post->ID, 'dlm_download_category' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					echo wp_kses_post( $terms );
+					foreach ( $terms as $term ) {
+						echo '<a href=' . esc_url( admin_url( 'term.php?taxonomy=dlm_download_category&tag_ID=' . absint( $term->term_id ) . '&post_type=dlm_download&wp_http_referer=' . admin_url( 'edit.php?post_type=dlm_download' ) ) ) . '>' . esc_html( $term->name ) . '</a>';
+					}
 				}
 				break;
 			case "download_tag" :

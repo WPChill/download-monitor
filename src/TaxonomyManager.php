@@ -42,7 +42,7 @@ class DLM_Taxonomy_Manager {
 						'new_item_name'     => __( 'New Download Category Name', 'download-monitor' ),
 					),
 					'show_ui'               => true,
-					'query_var'             => false,
+					'query_var'             => true,
 					'public'                => false,
 					'capabilities'          => array(
 						'manage_terms' => 'manage_downloads',

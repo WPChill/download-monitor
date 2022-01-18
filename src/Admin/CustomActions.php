@@ -37,13 +37,13 @@ class DLM_Custom_Actions {
 		}
 
 		$r                 = array();
+		$r['taxonomy']     = 'dlm_download_category';
 		$r['pad_counts']   = 1;
 		$r['hierarchical'] = $hierarchical;
 		$r['hide_empty']   = 1;
 		$r['show_count']   = $show_counts;
 		$r['selected']     = ( isset( $wp_query->query['dlm_download_category'] ) ) ? $wp_query->query['dlm_download_category'] : '';
-
-		$r['menu_order'] = false;
+		$r['menu_order']   = false;
 
 		if ( $orderby == 'order' ) {
 			$r['menu_order'] = 'asc';
@@ -51,7 +51,7 @@ class DLM_Custom_Actions {
 			$r['orderby'] = $orderby;
 		}
 
-		$terms = get_terms( 'dlm_download_category', $r );
+		$terms = get_terms( $r );
 
 		if ( ! $terms ) {
 			return;
