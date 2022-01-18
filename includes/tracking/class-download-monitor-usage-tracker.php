@@ -1167,8 +1167,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			check_ajax_referer( 'wisdom_goodbye_form', 'security' );
 
 			if ( isset( $_POST['values'] ) ) {
-				$values = wp_unslash( $_POST['values'] );
-				$values = array_map( 'sanitize_text_field', $values );
+				$values = array_map( 'sanitize_text_field', wp_unslash( $_POST['values'] ) );
 				$values = json_encode( $values );
 				update_option( 'wisdom_deactivation_reason_' . $this->plugin_name, $values );
 			}

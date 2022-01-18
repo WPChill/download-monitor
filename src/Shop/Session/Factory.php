@@ -10,7 +10,7 @@ class Factory {
 	 * @return string
 	 */
 	private function generate_key() {
-		return md5( uniqid( 'dlm_shop_session_key', true ) . sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) );
+		return md5( uniqid( 'dlm_shop_session_key', true ) . isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '' );
 	}
 
 	/**
