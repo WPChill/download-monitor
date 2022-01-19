@@ -35,6 +35,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Admin_Fields_Field_Text' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/Text.php',
         'DLM_Admin_Fields_Field_Textarea' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/Textarea.php',
         'DLM_Admin_Fields_Field_Title' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/Title.php',
+        'DLM_Admin_Fields_Field_HtaccessStatus' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/HtaccessStatus.php',
         'DLM_Admin_Media_Browser' => __DIR__ . '/../..' . '/src/Admin/MediaBrowser.php',
         'DLM_Admin_Media_Insert' => __DIR__ . '/../..' . '/src/Admin/MediaInsert.php',
         'DLM_Admin_Scripts' => __DIR__ . '/../..' . '/src/Admin/AdminScripts.php',

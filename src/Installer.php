@@ -244,7 +244,7 @@ class DLM_Installer {
 	 * @access public
 	 * @return void
 	 */
-	private function directory_protection() {
+	public function directory_protection() {
 
 		// Install files and folders for uploading files and prevent hotlinking
 		$upload_dir = wp_upload_dir();

@@ -20,6 +20,7 @@ return array(
     'DLM_Admin_Fields_Field_Text' => $baseDir . '/src/Admin/Settings/Fields/Text.php',
     'DLM_Admin_Fields_Field_Textarea' => $baseDir . '/src/Admin/Settings/Fields/Textarea.php',
     'DLM_Admin_Fields_Field_Title' => $baseDir . '/src/Admin/Settings/Fields/Title.php',
+    'DLM_Admin_Fields_Field_HtaccessStatus' => $baseDir . '/src/Admin/Settings/Fields/HtaccessStatus.php',
     'DLM_Admin_Media_Browser' => $baseDir . '/src/Admin/MediaBrowser.php',
     'DLM_Admin_Media_Insert' => $baseDir . '/src/Admin/MediaInsert.php',
     'DLM_Admin_Scripts' => $baseDir . '/src/Admin/AdminScripts.php',

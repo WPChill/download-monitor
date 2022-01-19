@@ -17,6 +17,7 @@ class DLM_Settings_Page {
 
 		if ( is_admin() ) {
 			$this->load_admin_hooks();
+			add_filter( 'dlm_settings', array( $this, 'access_files_checker_field' ) );
 		}
 	}
 
@@ -59,6 +60,14 @@ class DLM_Settings_Page {
 						exit;
 					}
 					break;
+					
+				case 'dlm_regenerate_protection':
+
+					if ( $this->regenerate_protection() ) {
+						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), DLM_Admin_Settings::get_url() ) );
+						exit;
+					}
+					break;
 			}
 		}
 
@@ -96,6 +105,11 @@ class DLM_Settings_Page {
 				case 'dlm_clear_transients':
 					echo "<p>" . esc_html__( 'Download Monitor Transients successfully cleared!', 'download-monitor' ) . "</p>";
 					break;
+
+				case 'dlm_regenerate_protection':
+					echo "<p>" . esc_html__( '.htaccess file successfully regenerated!', 'download-monitor' ) . "</p>";
+					break;
+					
 			}
 			?>
 		</div>
@@ -385,6 +399,61 @@ class DLM_Settings_Page {
 	 */
 	private function get_active_section( $sections) {
 		return ( ! empty( $_GET['section'] ) ? sanitize_title( wp_unslash($_GET['section']) ) : $this->array_first_key( $sections ) );
+	}
+
+	private function regenerate_protection(){
+		$upload_dir = wp_upload_dir();
+
+		$htaccess_path = $upload_dir['basedir'] . '/dlm_uploads/.htaccess';
+		$index_path = $upload_dir['basedir'] . '/dlm_uploads/index.html';
+
+		//remove old htaccess and index files 
+		if ( file_exists( $htaccess_path ) ) {
+			unlink( $htaccess_path );
+		}
+		if ( file_exists( $index_path ) ) {
+			unlink( $index_path );
+		}
+
+		//generate new htaccess and index files
+		$dlm_installer = new DLM_Installer();
+		$dlm_installer->directory_protection();
+		
+		//check if the files were created.
+		if ( file_exists( $htaccess_path ) && file_exists( $index_path ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function access_files_checker_field( $settings ){
+		$upload_dir = wp_upload_dir();
+		$htaccess_path = $upload_dir['basedir'] . '/dlm_uploads/.htaccess';
+
+		$icon = 'dashicons-dismiss';
+		$icon_color = '#f00';
+		$icon_text = __( 'Htaccess is missing.', 'download-monitor' );
+
+		if ( file_exists( $htaccess_path ) ) {
+			$icon = 'dashicons-yes-alt';
+			$icon_color = '#00A32A';
+			$icon_text = __( 'You are protected by htaccess.', 'download-monitor' );
+		}
+
+		$settings['advanced']['sections']['misc']['fields'][] = array(
+			'name' => 'dlm_regenerate_protection',
+			'label' => __( 'Regenerate protection for uploads folder', 'download-monitor' ),
+			'desc'  => __( 'Regenerates the .htaccess file.', 'download-monitor' ),
+			'type'  => 'action_button',
+			'link'  => admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '&tab=advanced&section=misc',
+			'icon'  => $icon,
+			'icon-color'  => $icon_color,
+			'icon-text' => $icon_text,
+			'type'  => 'htaccess_status',
+		);
+
+		return $settings;
 	}
 
 }
