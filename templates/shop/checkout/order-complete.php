@@ -94,7 +94,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <tr>
                                         <td><?php echo esc_html( $download_title ); ?></td>
                                         <td><?php echo esc_html( $version_label ); ?></td>
-                                        <td><?php echo $download_button_html; ?></td>
+                                        <td><?php echo wp_kses_post( $download_button_html ); ?></td>
                                     </tr>
 								<?php endforeach; ?>
                                 </tbody>

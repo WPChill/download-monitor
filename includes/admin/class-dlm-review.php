@@ -139,7 +139,7 @@ class DLM_Review {
 					}
 
 					$.post( '<?php echo admin_url( 'admin-ajax.php' ) ?>', data, function( response ) {
-						$( '#<?php echo $this->slug ?>-download-monitor-review-notice' ).slideUp( 'fast', function() {
+						$( '#<?php echo esc_attr( $this->slug ) ?>-download-monitor-review-notice' ).slideUp( 'fast', function() {
 							$( this ).remove();
 						} );
 					});
