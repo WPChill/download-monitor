@@ -76,7 +76,7 @@ class DLM_Custom_Columns {
 					echo '<span class="na">&ndash;</span>';
 				} else {
 					foreach ( $terms as $term ) {						
-						echo '<a href=' . esc_url( admin_url( 'edit.php?post_type=dlm_download&dlm_download_category=' . esc_attr( $term->slug ) ) ) . '>' . esc_html( $term->name ) . '</a>';
+						echo '<a href=' . esc_url( add_query_arg( 'dlm_download_category', esc_attr( $term->slug ) ) ) . '>' . esc_html( $term->name ) . '</a> ';
 					}
 				}
 				break;
