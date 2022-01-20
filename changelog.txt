@@ -1,8 +1,8 @@
-= 4.4.15 - TBA =
+= 4.5.0 - TBA =
 Fixed: Style missing in `[downloads]` shortcode - ( https://wordpress.org/support/topic/box-template-styling-stopped-displaying/ )
 Fixed:  Downloads not being filtered by categories - https://github.com/WPChill/download-monitor/issues/815
 Fixed: Missing admin.css file for Download Monitor admin header in category edit page - https://github.com/WPChill/download-monitor/issues/817
-Changed: Category link in Downloads view table will now work similar to Posts - https://github.com/WPChill/download-monitor/issues/818
+Changed: Category link in Downloads view table will now work similar to Posts and keep already set filters - https://github.com/WPChill/download-monitor/issues/818
 
 = 4.4.14 - 12.01.2022 =
 Added: Filter 'dlm_filemanager_get_file_name' to filter the displayed file name.
