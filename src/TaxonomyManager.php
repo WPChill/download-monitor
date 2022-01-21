@@ -43,7 +43,7 @@ class DLM_Taxonomy_Manager {
 					),
 					'show_ui'               => true,
 					'query_var'             => true,
-					'public'                => false,
+					'public'                => true,
 					'capabilities'          => array(
 						'manage_terms' => 'manage_downloads',
 						'edit_terms'   => 'manage_downloads',
