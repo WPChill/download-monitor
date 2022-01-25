@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Patch
  *
  * A JSON patch object that you can use to apply partial updates to resources.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string op
  * @property string path

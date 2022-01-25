@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Core;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Core;
 
 /**
  * Class PayPalConfigManager
@@ -8,7 +8,7 @@ namespace Never5\DownloadMonitor\Dependencies\PayPal\Core;
  * PayPalConfigManager loads the SDK configuration file and
  * hands out appropriate config params to other classes
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Core
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Core
  */
 class PayPalConfigManager
 {

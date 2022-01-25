@@ -1,35 +1,35 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class Authorization
  *
  * An authorization transaction.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
  * @property string payment_mode
  * @property string state
  * @property string reason_code
  * @property string pending_reason
  * @property string protection_eligibility
  * @property string protection_eligibility_type
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails fmf_details
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails fmf_details
  * @property string parent_payment
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse processor_response
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse processor_response
  * @property string valid_until
  * @property string create_time
  * @property string update_time
  * @property string reference_id
  * @property string receipt_id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class Authorization extends PayPalResourceModel
 {
@@ -59,7 +59,7 @@ class Authorization extends PayPalResourceModel
     /**
      * Amount being authorized.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
      * 
      * @return $this
      */
@@ -72,7 +72,7 @@ class Authorization extends PayPalResourceModel
     /**
      * Amount being authorized.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount
      */
     public function getAmount()
     {
@@ -226,7 +226,7 @@ class Authorization extends PayPalResourceModel
     /**
      * Fraud Management Filter (FMF) details applied for the payment that could result in accept, deny, or pending action. Returned in a payment response only if the merchant has enabled FMF in the profile settings and one of the fraud filters was triggered based on those settings. See [Fraud Management Filters Summary](https://developer.paypal.com/docs/classic/fmf/integration-guide/FMFSummary/) for more information.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails $fmf_details
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails $fmf_details
      * 
      * @return $this
      */
@@ -239,7 +239,7 @@ class Authorization extends PayPalResourceModel
     /**
      * Fraud Management Filter (FMF) details applied for the payment that could result in accept, deny, or pending action. Returned in a payment response only if the merchant has enabled FMF in the profile settings and one of the fraud filters was triggered based on those settings. See [Fraud Management Filters Summary](https://developer.paypal.com/docs/classic/fmf/integration-guide/FMFSummary/) for more information.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails
      */
     public function getFmfDetails()
     {
@@ -272,7 +272,7 @@ class Authorization extends PayPalResourceModel
     /**
      * Response codes returned by the processor concerning the submitted payment. Only supported when the `payment_method` is set to `credit_card`.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse $processor_response
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse $processor_response
      *
      * @return $this
      */
@@ -285,7 +285,7 @@ class Authorization extends PayPalResourceModel
     /**
      * Response codes returned by the processor concerning the submitted payment. Only supported when the `payment_method` is set to `credit_card`.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse
      */
     public function getProcessorResponse()
     {

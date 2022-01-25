@@ -1,24 +1,24 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
 
 /**
  * Class Template
  *
  * Invoicing Template
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string template_id
  * @property string name
  * @property bool default
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateData template_data
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings[] settings
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateData template_data
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings[] settings
  * @property string unit_of_measure
  * @property bool custom
  */
@@ -96,7 +96,7 @@ class Template extends PayPalResourceModel
     /**
      * Customized invoice data which is saved as template
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateData $template_data
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateData $template_data
      * 
      * @return $this
      */
@@ -109,7 +109,7 @@ class Template extends PayPalResourceModel
     /**
      * Customized invoice data which is saved as template
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateData
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateData
      */
     public function getTemplateData()
     {
@@ -119,7 +119,7 @@ class Template extends PayPalResourceModel
     /**
      * Settings for each template
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings[] $settings
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings[] $settings
      * 
      * @return $this
      */
@@ -132,7 +132,7 @@ class Template extends PayPalResourceModel
     /**
      * Settings for each template
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings[]
      */
     public function getSettings()
     {
@@ -142,7 +142,7 @@ class Template extends PayPalResourceModel
     /**
      * Append Settings to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings $templateSettings
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings $templateSettings
      * @return $this
      */
     public function addSetting($templateSettings)
@@ -159,7 +159,7 @@ class Template extends PayPalResourceModel
     /**
      * Remove Settings from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings $templateSettings
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\TemplateSettings $templateSettings
      * @return $this
      */
     public function removeSetting($templateSettings)

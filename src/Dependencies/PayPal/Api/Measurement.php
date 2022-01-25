@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Measurement
  *
  * Measurement to represent item dimensions like length, width, height and weight etc.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string value
  * @property string unit

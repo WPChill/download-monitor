@@ -1,5 +1,5 @@
 <?php
-
+// @todo razvan : Probably will export from table download_logs, but only the remaining data
 class DLM_Log_Export_CSV {
 
 	/**
@@ -38,11 +38,6 @@ class DLM_Log_Export_CSV {
 		// setup filters
 		$filters = array();
 
-		// setup status filter
-		if ( ! empty( $filter_status ) ) {
-			$filters[] = array( "key" => "download_status", "value" => $filter_status );
-		}
-
 		// setup month filter
 		if ( ! empty( $filter_month ) ) {
 			$filters[] = array(
@@ -71,10 +66,7 @@ class DLM_Log_Export_CSV {
 		$row[]  = __( 'User ID', 'download-monitor' );
 		$row[]  = __( 'User Login', 'download-monitor' );
 		$row[]  = __( 'User Email', 'download-monitor' );
-		$row[]  = __( 'User IP', 'download-monitor' );
-		$row[]  = __( 'User Agent', 'download-monitor' );
 		$row[]  = __( 'Date', 'download-monitor' );
-		$row[]  = __( 'Status', 'download-monitor' );
 		$row[]  = __( 'Meta Data', 'download-monitor' );
 		$rows[] = '"' . implode( '","', $row ) . '"';
 
@@ -130,10 +122,7 @@ class DLM_Log_Export_CSV {
 
 				unset( $user );
 
-				$row[] = $item->get_user_ip();
-				$row[] = $item->get_user_agent();
 				$row[] = $item->get_download_date()->format( 'Y-m-d H:i:s' );
-				$row[] = $item->get_download_status() . ( $item->get_download_status_message() ? ' - ' : '' ) . $item->get_download_status_message();
 
 				// setup meta data string
 				$meta     = $item->get_meta_data();

@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Security;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Security;
 
 /**
  * Class Cipher
  *
  * Helper class to encrypt/decrypt data with secret key
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Security
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Security
  */
 class Cipher
 {

@@ -1,25 +1,25 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PayoutBatchHeader
  *
  * Batch header resource.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string payout_batch_id
  * @property string batch_status
  * @property string time_created
  * @property string time_completed
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader sender_batch_header
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency fees
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error errors
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader sender_batch_header
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency fees
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error errors
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class PayoutBatchHeader extends PayPalModel
 {
@@ -118,7 +118,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * The original batch header as provided by the payment sender.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader $sender_batch_header
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader $sender_batch_header
      * 
      * @return $this
      */
@@ -131,7 +131,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * The sender-provided batch payout header.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutSenderBatchHeader
      */
     public function getSenderBatchHeader()
     {
@@ -141,7 +141,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Total amount, in U.S. dollars, requested for the applicable payouts.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      *
      * @return $this
      */
@@ -154,7 +154,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Total amount, in U.S. dollars, requested for the applicable payouts.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {
@@ -164,7 +164,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Total estimate in U.S. dollars for the applicable payouts fees.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $fees
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $fees
      *
      * @return $this
      */
@@ -177,7 +177,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Total estimate in U.S. dollars for the applicable payouts fees.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getFees()
     {
@@ -187,7 +187,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Sets Errors
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error $errors
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error $errors
      *
      * @return $this
      */
@@ -200,7 +200,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Gets Errors
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error
      */
     public function getErrors()
     {
@@ -210,7 +210,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      * 
      * @return $this
      */
@@ -223,7 +223,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -233,7 +233,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -250,7 +250,7 @@ class PayoutBatchHeader extends PayPalModel
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

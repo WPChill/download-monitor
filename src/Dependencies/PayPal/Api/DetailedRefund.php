@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
 
 /**
@@ -8,14 +8,14 @@ namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
  *
  * A refund transaction. This is the resource that is returned on GET /refund
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string custom
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency refund_to_payer
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[] refund_to_external_funding
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency refund_from_transaction_fee
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency refund_from_received_amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency total_refunded_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency refund_to_payer
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[] refund_to_external_funding
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency refund_from_transaction_fee
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency refund_from_received_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency total_refunded_amount
  */
 class DetailedRefund extends Refund
 {
@@ -45,7 +45,7 @@ class DetailedRefund extends Refund
     /**
      * Amount refunded to payer of the original transaction, in the current Refund call
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $refund_to_payer
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $refund_to_payer
      * 
      * @return $this
      */
@@ -58,7 +58,7 @@ class DetailedRefund extends Refund
     /**
      * Amount refunded to payer of the original transaction, in the current Refund call
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getRefundToPayer()
     {
@@ -68,7 +68,7 @@ class DetailedRefund extends Refund
     /**
      * List of external funding that were refunded by the Refund call. Each external_funding unit should have a unique reference_id
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[] $refund_to_external_funding
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[] $refund_to_external_funding
      * 
      * @return $this
      */
@@ -81,7 +81,7 @@ class DetailedRefund extends Refund
     /**
      * List of external funding that were refunded by the Refund call. Each external_funding unit should have a unique reference_id
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[]
      */
     public function getRefundToExternalFunding()
     {
@@ -91,7 +91,7 @@ class DetailedRefund extends Refund
     /**
      * Transaction fee refunded to original recipient of payment.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $refund_from_transaction_fee
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $refund_from_transaction_fee
      * 
      * @return $this
      */
@@ -104,7 +104,7 @@ class DetailedRefund extends Refund
     /**
      * Transaction fee refunded to original recipient of payment.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getRefundFromTransactionFee()
     {
@@ -114,7 +114,7 @@ class DetailedRefund extends Refund
     /**
      * Amount subtracted from PayPal balance of the original recipient of payment, to make this refund.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $refund_from_received_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $refund_from_received_amount
      * 
      * @return $this
      */
@@ -127,7 +127,7 @@ class DetailedRefund extends Refund
     /**
      * Amount subtracted from PayPal balance of the original recipient of payment, to make this refund.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getRefundFromReceivedAmount()
     {
@@ -137,7 +137,7 @@ class DetailedRefund extends Refund
     /**
      * Total amount refunded so far from the original purchase. Say, for example, a buyer makes $100 purchase, the buyer was refunded $20 a week ago and is refunded $30 in this transaction. The gross refund amount is $30 (in this transaction). The total refunded amount is $50.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $total_refunded_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $total_refunded_amount
      * 
      * @return $this
      */
@@ -150,7 +150,7 @@ class DetailedRefund extends Refund
     /**
      * Total amount refunded so far from the original purchase. Say, for example, a buyer makes $100 purchase, the buyer was refunded $20 a week ago and is refunded $30 in this transaction. The gross refund amount is $30 (in this transaction). The total refunded amount is $50.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getTotalRefundedAmount()
     {

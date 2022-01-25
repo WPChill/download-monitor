@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class CarrierAccountToken
  *
  * A resource representing a carrier account that can be used to fund a payment.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string carrier_account_id
  * @property string external_customer_id

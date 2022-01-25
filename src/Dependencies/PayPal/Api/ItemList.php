@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class ItemList
  *
  * List of items being paid for.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item[] items
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress shipping_address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item[] items
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress shipping_address
  * @property string shipping_method
  * @property string shipping_phone_number
  */
@@ -21,7 +21,7 @@ class ItemList extends PayPalModel
     /**
      * List of items.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item[] $items
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item[] $items
      * 
      * @return $this
      */
@@ -34,7 +34,7 @@ class ItemList extends PayPalModel
     /**
      * List of items.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item[]
      */
     public function getItems()
     {
@@ -44,7 +44,7 @@ class ItemList extends PayPalModel
     /**
      * Append Items to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item $item
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item $item
      * @return $this
      */
     public function addItem($item)
@@ -61,7 +61,7 @@ class ItemList extends PayPalModel
     /**
      * Remove Items from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item $item
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item $item
      * @return $this
      */
     public function removeItem($item)
@@ -74,7 +74,7 @@ class ItemList extends PayPalModel
     /**
      * Shipping address.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress $shipping_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress $shipping_address
      * 
      * @return $this
      */
@@ -87,7 +87,7 @@ class ItemList extends PayPalModel
     /**
      * Shipping address.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress
      */
     public function getShippingAddress()
     {

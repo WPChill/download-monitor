@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Common;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Common;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\JsonValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\JsonValidator;
 
 /**
  * Generic Model class that all API domain classes extend
@@ -17,7 +17,7 @@ class PayPalModel
     /**
      * OAuth Credentials to use for this call
      *
-     * @var \Never5\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential $credential
+     * @var \WPChill\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential $credential
      */
     protected static $credential;
 
@@ -25,7 +25,7 @@ class PayPalModel
      * Sets Credential
      *
      * @deprecated Pass ApiContext to create/get methods instead
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential $credential
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Auth\OAuthTokenCredential $credential
      */
     public static function setCredential($credential)
     {

@@ -1,17 +1,17 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Auth;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Auth;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Cache\AuthorizationCache;
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConfig;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConnection;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalLoggingManager;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException;
-use Never5\DownloadMonitor\Dependencies\PayPal\Handler\IPayPalHandler;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Security\Cipher;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Cache\AuthorizationCache;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConfig;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConnection;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalLoggingManager;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Handler\IPayPalHandler;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Security\Cipher;
 
 /**
  * Class OAuthTokenCredential
@@ -24,7 +24,7 @@ class OAuthTokenCredential extends PayPalResourceModel
     /**
      * @var string Default Auth Handler
      */
-    public static $AUTH_HANDLER = 'Never5\DownloadMonitor\Dependencies\PayPal\Handler\OauthHandler';
+    public static $AUTH_HANDLER = 'WPChill\DownloadMonitor\Dependencies\PayPal\Handler\OauthHandler';
 
     /**
      * Private Variable
@@ -226,7 +226,7 @@ class OAuthTokenCredential extends PayPalResourceModel
      * @param string $payload
      * @return mixed
      * @throws PayPalConfigurationException
-     * @throws \Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException
+     * @throws \WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException
      */
     protected function getToken($config, $clientId, $clientSecret, $payload)
     {

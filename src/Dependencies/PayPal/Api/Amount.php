@@ -1,21 +1,21 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
 
 /**
  * Class Amount
  *
  * payment amount with break-ups.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string currency
  * @property string total
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Details details
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Details details
  */
 class Amount extends PayPalModel
 {
@@ -70,7 +70,7 @@ class Amount extends PayPalModel
     /**
      * Additional details of the payment amount.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Details $details
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Details $details
      * 
      * @return $this
      */
@@ -83,7 +83,7 @@ class Amount extends PayPalModel
     /**
      * Additional details of the payment amount.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Details
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Details
      */
     public function getDetails()
     {

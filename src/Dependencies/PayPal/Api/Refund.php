@@ -1,20 +1,20 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class Refund
  *
  * A refund transaction.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
  * @property string state
  * @property string reason
  * @property string invoice_number
@@ -25,7 +25,7 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
  * @property string create_time
  * @property string update_time
  * @property string reason_code
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class Refund extends PayPalResourceModel
 {
@@ -55,7 +55,7 @@ class Refund extends PayPalResourceModel
     /**
      * Details including both refunded amount (to payer) and refunded fee (to payee). 10 characters max.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
      * 
      * @return $this
      */
@@ -68,7 +68,7 @@ class Refund extends PayPalResourceModel
     /**
      * Details including both refunded amount (to payer) and refunded fee (to payee). 10 characters max.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount
      */
     public function getAmount()
     {

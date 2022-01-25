@@ -13,7 +13,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 	 */
 	private function filter_query_args( $args = array(), $limit = 0, $offset = 0 ) {
 
-		// most be absint
+		// must be absint
 		$limit  = absint( $limit );
 		$offset = absint( $offset );
 
@@ -76,6 +76,20 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 	}
 
 	/**
+	 * Retreieve the version download count
+	 *
+	 * @param  mixed $version_id
+	 * @return array
+	 */
+	public function retrieve_version_download_count( $version_id ) {
+		global $wpdb;
+
+		$download_counts =  $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE version_id = %s", $version_id ) );
+
+		return  apply_filters( 'dlm_meta_download_count', $download_counts, $version_id );
+	}
+
+	/**
 	 * Retrieve downloads
 	 *
 	 * @param array $filters
@@ -98,7 +112,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 
 			foreach ( $posts as $post ) {
 
-				// create download object
+				// create download object.
 				$version = new DLM_Download_Version();
 				$version->set_id( $post->ID );
 				$version->set_author( $post->post_author );
@@ -106,7 +120,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				$version->set_menu_order( $post->menu_order );
 				$version->set_date( new DateTime( $post->post_date ) );
 				$version->set_version( strtolower( get_post_meta( $version->get_id(), '_version', true ) ) );
-				$version->set_download_count( absint( get_post_meta( $version->get_id(), '_download_count', true ) ) );
+				$version->set_download_count( absint( $this->retrieve_version_download_count( $version->get_id() ) ) );
 				$version->set_filesize( get_post_meta( $version->get_id(), '_filesize', true ) );
 				$version->set_md5( get_post_meta( $version->get_id(), '_md5', true ) );
 				$version->set_sha1( get_post_meta( $version->get_id(), '_sha1', true ) );
@@ -172,7 +186,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				'post_status'  => 'publish',
 				'post_parent'  => $version->get_download_id(),
 				'menu_order'   => $version->get_menu_order(),
-				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
+				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' ),
 			) );
 
 			if ( is_wp_error( $version_id ) ) {
@@ -191,18 +205,12 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				'post_status'  => 'publish',
 				'post_parent'  => $version->get_download_id(),
 				'menu_order'   => $version->get_menu_order(),
-				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' )
+				'post_date'    => $version->get_date()->format( 'Y-m-d H:i:s' ),
 			) );
 
 			if ( is_wp_error( $version_id ) ) {
 				throw new \Exception( 'Unable to update version in WordPress database' );
 			}
-
-		}
-
-		// store version download count if it's not NULL
-		if ( null !== $version->get_download_count() ) {
-			update_post_meta( $version_id, '_download_count', absint( $version->get_download_count() ) );
 		}
 
 		// store version

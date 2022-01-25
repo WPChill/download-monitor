@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\Psr\Log;
+namespace WPChill\DownloadMonitor\Dependencies\Psr\Log;
 
 /**
  * Describes a logger-aware instance.

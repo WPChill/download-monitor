@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventTypeList;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEventTypeList;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class WebhookEventType
  *
  * A list of events.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string name
  * @property string description

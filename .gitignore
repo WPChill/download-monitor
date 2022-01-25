@@ -13,6 +13,7 @@ sftp-config.json
 /deploy/
 .idea
 /tmp/
+download-monitor.zip
 
 # Exclude everything in /vendor except our autoload stuff
 vendor/*

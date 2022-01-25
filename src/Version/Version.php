@@ -126,7 +126,7 @@ class DLM_Download_Version {
 	/**
 	 * @param bool $latest
 	 */
-	public function set_latest($latest) {
+	public function set_latest( $latest ) {
 		$this->latest = $latest;
 	}
 
@@ -353,19 +353,32 @@ class DLM_Download_Version {
 	 * @return void
 	 */
 	public function increase_download_count() {
-		// File download_count
-		$this->download_count = absint( get_post_meta( $this->id, '_download_count', true ) ) + 1;
-		update_post_meta( $this->id, '_download_count', $this->download_count );
+		global $wpdb;
 
-		// Parent download download_count
-		$parent_download_count = absint( get_post_meta( $this->download_id, '_download_count', true ) ) + 1;
-		update_post_meta( $this->download_id, '_download_count', $parent_download_count );
+		$user_id       = 0;
+		$download_date = '';
+
+		if ( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
+		}
+
+		$download_date = current_time( 'mysql' );
+
+		$wpdb->insert(
+			$wpdb->download_log,
+			array(
+				'user_id'       => absint( $user_id ),
+				'download_id'   => absint( $this->download_id ),
+				'version_id'    => absint( $this->id ),
+				'download_date' => sanitize_text_field( $download_date ),
+			)
+		);
+
 	}
 
 	/**
 	 *
 	 * Deprecated methods below.
-	 *
 	 */
 
 	/**

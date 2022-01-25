@@ -1,19 +1,19 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class ChargeModel
  *
  * A resource representing a charge model for a payment definition.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string type
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
  */
 class ChargeModel extends PayPalModel
 {
@@ -66,7 +66,7 @@ class ChargeModel extends PayPalModel
     /**
      * Specific amount for this charge model.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -79,7 +79,7 @@ class ChargeModel extends PayPalModel
     /**
      * Specific amount for this charge model.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
 
 /**
  * Class FileAttachment
  *
  * File attached to an invoice or template
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string name
  * @property string url

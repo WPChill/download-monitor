@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Cache;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Cache;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConfigManager;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\JsonValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalConfigManager;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\JsonValidator;
 
 abstract class AuthorizationCache
 {

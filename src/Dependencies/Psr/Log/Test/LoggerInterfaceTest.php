@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\Psr\Log\Test;
+namespace WPChill\DownloadMonitor\Dependencies\Psr\Log\Test;
 
-use Never5\DownloadMonitor\Dependencies\Psr\Log\LoggerInterface;
-use Never5\DownloadMonitor\Dependencies\Psr\Log\LogLevel;
+use WPChill\DownloadMonitor\Dependencies\Psr\Log\LoggerInterface;
+use WPChill\DownloadMonitor\Dependencies\Psr\Log\LogLevel;
 
 /**
  * Provides a base test class for ensuring compliance with the LoggerInterface.
@@ -31,7 +31,7 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
 
     public function testImplements()
     {
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Psr\Log\LoggerInterface', $this->getLogger());
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Psr\Log\LoggerInterface', $this->getLogger());
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Psr\Log\InvalidArgumentException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Psr\Log\InvalidArgumentException
      */
     public function testThrowsOnInvalidLevel()
     {
@@ -85,9 +85,9 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
     public function testObjectCastToString()
     {
         if (method_exists($this, 'createPartialMock')) {
-            $dummy = $this->createPartialMock('Never5\DownloadMonitor\Dependencies\Psr\Log\Test\DummyTest', array('__toString'));
+            $dummy = $this->createPartialMock('WPChill\DownloadMonitor\Dependencies\Psr\Log\Test\DummyTest', array('__toString'));
         } else {
-            $dummy = $this->getMock('Never5\DownloadMonitor\Dependencies\Psr\Log\Test\DummyTest', array('__toString'));
+            $dummy = $this->getMock('WPChill\DownloadMonitor\Dependencies\Psr\Log\Test\DummyTest', array('__toString'));
         }
         $dummy->expects($this->once())
             ->method('__toString')

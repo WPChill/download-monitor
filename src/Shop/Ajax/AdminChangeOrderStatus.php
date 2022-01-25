@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Ajax;
+namespace WPChill\DownloadMonitor\Shop\Ajax;
 
-use Never5\DownloadMonitor\Shop\Order;
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Order;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class AdminChangeOrderStatus extends Ajax {
 
@@ -35,11 +35,11 @@ class AdminChangeOrderStatus extends Ajax {
 		$order_id   = absint( $_POST['order_id'] );
 		$new_status = sanitize_text_field( wp_unslash( $_POST['status'] ) );
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $order_repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $order_repo */
 		$order_repo = Services::get()->service( 'order_repository' );
 
 		try {
-			/** @var \Never5\DownloadMonitor\Shop\Order\Order $order */
+			/** @var \WPChill\DownloadMonitor\Shop\Order\Order $order */
 			$order = $order_repo->retrieve_single( $order_id );
 		} catch ( \Exception $exception ) {
 			$this->response( false, $exception->getMessage() );

@@ -1,11 +1,11 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Exception;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Exception;
 
 /**
  * Class PayPalMissingCredentialException
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Exception
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Exception
  */
 class PayPalMissingCredentialException extends \Exception
 {

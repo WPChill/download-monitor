@@ -27,21 +27,31 @@ class DLM_Shortcodes {
 	}
 
 	/**
-	 * total_downloads function.
+	 * Total downloads function
+	 * Will be based on the download_log table and not meta.
 	 *
 	 * @access public
 	 * @return int
 	 */
 	public function total_downloads() {
+
 		global $wpdb;
 
-		$total = $wpdb->get_var( "
-			SELECT SUM( meta_value ) FROM $wpdb->postmeta
-			LEFT JOIN $wpdb->posts on $wpdb->postmeta.post_id = $wpdb->posts.ID
-			WHERE meta_key = '_download_count'
-			AND post_type = 'dlm_download'
-			AND post_status = 'publish'
-		" );
+		$total = false;
+
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) && DLM_Logging::is_logging_enabled() ) {
+
+			$total = $wpdb->get_var( "SELECT COUNT('ID') FROM $wpdb->download_log" );
+		} else {
+
+			if ( ! DLM_Logging::is_logging_enabled() ) {
+
+				return esc_html__( 'Logging is not enabled.', 'download-monitor' );
+			}
+
+			return esc_html__( 'Log table not present.', 'download-monitor' );
+
+		}
 
 		return apply_filters( 'dlm_shortcode_total_downloads', $total );
 	}
@@ -448,7 +458,7 @@ class DLM_Shortcodes {
 		}
 
 		// fetch downloads
-		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $args, $per_page, $offset );
+		$downloads   = download_monitor()->service( 'download_repository' )->retrieve( $args, $per_page, $offset );
 
 		// make all downloads filterable
 		$downloads = apply_filters( 'dlm_shortcode_downloads_downloads', $downloads );

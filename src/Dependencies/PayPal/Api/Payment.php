@@ -1,32 +1,32 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class Payment
  *
  * Lets you create, process and manage payments.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string intent
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payer payer
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction[] transactions
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payer payer
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction[] transactions
  * @property string state
  * @property string experience_profile_id
  * @property string note_to_payer
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payee $payee
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\RedirectUrls redirect_urls
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payee $payee
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RedirectUrls redirect_urls
  * @property string failure_reason
  * @property string create_time
  * @property string update_time
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class Payment extends PayPalResourceModel
 {
@@ -80,7 +80,7 @@ class Payment extends PayPalResourceModel
     /**
      * Source of the funds for this payment represented by a PayPal account or a direct credit card.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payer $payer
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payer $payer
      * 
      * @return $this
      */
@@ -93,7 +93,7 @@ class Payment extends PayPalResourceModel
     /**
      * Source of the funds for this payment represented by a PayPal account or a direct credit card.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payer
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payer
      */
     public function getPayer()
     {
@@ -103,7 +103,7 @@ class Payment extends PayPalResourceModel
     /**
      * Information that the merchant knows about the payer.  This information is not definitive and only serves as a hint to the UI or any pre-processing logic.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PotentialPayerInfo $potential_payer_info
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PotentialPayerInfo $potential_payer_info
      * 
      * @return $this
      */
@@ -116,7 +116,7 @@ class Payment extends PayPalResourceModel
     /**
      * Information that the merchant knows about the payer.  This information is not definitive and only serves as a hint to the UI or any pre-processing logic.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PotentialPayerInfo
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PotentialPayerInfo
      */
     public function getPotentialPayerInfo()
     {
@@ -125,7 +125,7 @@ class Payment extends PayPalResourceModel
 
     /**
      * Receiver of funds for this payment.
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payee $payee
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payee $payee
      * 
      * @return $this
      */
@@ -137,7 +137,7 @@ class Payment extends PayPalResourceModel
 
     /**
      * Receiver of funds for this payment.
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payee
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payee
      */
     public function getPayee()
     {
@@ -170,7 +170,7 @@ class Payment extends PayPalResourceModel
     /**
      * Transactional details including the amount and item details.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction[] $transactions
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction[] $transactions
      * 
      * @return $this
      */
@@ -183,7 +183,7 @@ class Payment extends PayPalResourceModel
     /**
      * Transactional details including the amount and item details.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction[]
      */
     public function getTransactions()
     {
@@ -193,7 +193,7 @@ class Payment extends PayPalResourceModel
     /**
      * Append Transactions to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction $transaction
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction $transaction
      * @return $this
      */
     public function addTransaction($transaction)
@@ -210,7 +210,7 @@ class Payment extends PayPalResourceModel
     /**
      * Remove Transactions from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction $transaction
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction $transaction
      * @return $this
      */
     public function removeTransaction($transaction)
@@ -223,7 +223,7 @@ class Payment extends PayPalResourceModel
     /**
      * Applicable for advanced payments like multi seller payment (MSP) to support partial failures
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error[] $failed_transactions
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error[] $failed_transactions
      * 
      * @return $this
      */
@@ -236,7 +236,7 @@ class Payment extends PayPalResourceModel
     /**
      * Applicable for advanced payments like multi seller payment (MSP) to support partial failures
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error[]
      */
     public function getFailedTransactions()
     {
@@ -246,7 +246,7 @@ class Payment extends PayPalResourceModel
     /**
      * Append FailedTransactions to the list.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error $error
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error $error
      * @return $this
      */
     public function addFailedTransaction($error)
@@ -263,7 +263,7 @@ class Payment extends PayPalResourceModel
     /**
      * Remove FailedTransactions from the list.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error $error
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error $error
      * @return $this
      */
     public function removeFailedTransaction($error)
@@ -329,7 +329,7 @@ class Payment extends PayPalResourceModel
     /**
      * Credit financing offered to payer on PayPal side. Returned in payment after payer opts-in
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditFinancingOffered $credit_financing_offered
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditFinancingOffered $credit_financing_offered
      * 
      * @return $this
      */
@@ -342,7 +342,7 @@ class Payment extends PayPalResourceModel
     /**
      * Credit financing offered to payer on PayPal side. Returned in payment after payer opts-in
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditFinancingOffered
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditFinancingOffered
      */
     public function getCreditFinancingOffered()
     {
@@ -352,7 +352,7 @@ class Payment extends PayPalResourceModel
     /**
      * Instructions for the payer to complete this payment.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentInstruction $payment_instruction
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentInstruction $payment_instruction
      * 
      * @return $this
      */
@@ -365,7 +365,7 @@ class Payment extends PayPalResourceModel
     /**
      * Instructions for the payer to complete this payment.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentInstruction
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentInstruction
      */
     public function getPaymentInstruction()
     {
@@ -445,7 +445,7 @@ class Payment extends PayPalResourceModel
     /**
      * Set of redirect URLs you provide only for PayPal-based payments.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\RedirectUrls $redirect_urls
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RedirectUrls $redirect_urls
      * 
      * @return $this
      */
@@ -458,7 +458,7 @@ class Payment extends PayPalResourceModel
     /**
      * Set of redirect URLs you provide only for PayPal-based payments.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\RedirectUrls
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RedirectUrls
      */
     public function getRedirectUrls()
     {

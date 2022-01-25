@@ -1,8 +1,8 @@
 <?php
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class OpenIdUserinfo
@@ -389,7 +389,7 @@ class OpenIdUserinfo extends PayPalResourceModel
     /**
      * End-User's preferred address.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\OpenIdAddress $address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\OpenIdAddress $address
      * @return self
      */
     public function setAddress($address)
@@ -401,7 +401,7 @@ class OpenIdUserinfo extends PayPalResourceModel
     /**
      * End-User's preferred address.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\OpenIdAddress
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\OpenIdAddress
      */
     public function getAddress()
     {

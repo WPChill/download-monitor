@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Util;
+namespace WPChill\DownloadMonitor\Shop\Util;
 
-use Never5\DownloadMonitor\Shop\Ajax;
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Ajax;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Assets {
 

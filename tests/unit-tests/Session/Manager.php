@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Tests\Session;
+namespace WPChill\DownloadMonitor\Tests\Session;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Manager extends \DLM_Unit_Test_Case {
 
@@ -21,7 +21,7 @@ class Manager extends \DLM_Unit_Test_Case {
 	 */
 	public function test_set_session() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 		Services::get()->service( 'session' )->set_session( $session );
@@ -34,7 +34,7 @@ class Manager extends \DLM_Unit_Test_Case {
 	 */
 	public function test_persist_session() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 		Services::get()->service( 'session' )->persist_session( $session );
@@ -48,10 +48,10 @@ class Manager extends \DLM_Unit_Test_Case {
 	public function test_destroy_session() {
 
 		// make session
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Manager $session_manager */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Manager $session_manager */
 		$session_manager = Services::get()->service( 'session' );
 
 		// set session
@@ -69,10 +69,10 @@ class Manager extends \DLM_Unit_Test_Case {
 	 */
 	public function test_destroy_current_session() {
 		// make session
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Manager $session_manager */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Manager $session_manager */
 		$session_manager = Services::get()->service( 'session' );
 
 		// set session

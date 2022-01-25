@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Core;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Core;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException;
 
 /**
  * A wrapper class based on the curl extension.

@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Cart\Item;
+namespace WPChill\DownloadMonitor\Shop\Cart\Item;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Factory {
 
@@ -20,7 +20,7 @@ class Factory {
 		/**
 		 * Fetch the download
 		 *
-		 * @var \Never5\DownloadMonitor\Shop\Product\Product $product
+		 * @var \WPChill\DownloadMonitor\Shop\Product\Product $product
 		 */
 		$product = Services::get()->service( 'product_repository' )->retrieve_single( $product_id );
 

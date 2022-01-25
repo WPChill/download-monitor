@@ -1,22 +1,22 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Error
  *
  * Details of an Error
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string                     name
  * @property string                     message
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails[] details
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails[] details
  * @property string                     information_link
  * @property string                     debug_id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]        links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]        links
  */
 class Error extends PayPalModel
 {
@@ -165,7 +165,7 @@ class Error extends PayPalModel
     /**
      * Additional details of the error
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails[] $details
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails[] $details
      *
      * @return $this
      */
@@ -178,7 +178,7 @@ class Error extends PayPalModel
     /**
      * Additional details of the error
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails[]
      */
     public function getDetails()
     {
@@ -188,7 +188,7 @@ class Error extends PayPalModel
     /**
      * Append Details to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails $errorDetails
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails $errorDetails
      * @return $this
      */
     public function addDetail($errorDetails)
@@ -205,7 +205,7 @@ class Error extends PayPalModel
     /**
      * Remove Details from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails $errorDetails
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ErrorDetails $errorDetails
      * @return $this
      */
     public function removeDetail($errorDetails)
@@ -219,7 +219,7 @@ class Error extends PayPalModel
      * response codes returned from a payment processor such as avs, cvv, etc. Only supported when the `payment_method` is set to `credit_card`.
      *
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse $processor_response
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse $processor_response
      *
      * @return $this
      */
@@ -233,7 +233,7 @@ class Error extends PayPalModel
      * response codes returned from a payment processor such as avs, cvv, etc. Only supported when the `payment_method` is set to `credit_card`.
      *
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ProcessorResponse
      */
     public function getProcessorResponse()
     {
@@ -244,7 +244,7 @@ class Error extends PayPalModel
      * Fraud filter details.  Only supported when the `payment_method` is set to `credit_card`
      *
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails $fmf_details
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails $fmf_details
      *
      * @return $this
      */
@@ -258,7 +258,7 @@ class Error extends PayPalModel
      * Fraud filter details.  Only supported when the `payment_method` is set to `credit_card`
      *
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FmfDetails
      */
     public function getFmfDetails()
     {
@@ -268,7 +268,7 @@ class Error extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      *
      * @return $this
      */
@@ -281,7 +281,7 @@ class Error extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -291,7 +291,7 @@ class Error extends PayPalModel
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -308,7 +308,7 @@ class Error extends PayPalModel
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

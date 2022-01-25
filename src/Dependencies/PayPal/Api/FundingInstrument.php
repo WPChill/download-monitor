@@ -1,26 +1,26 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class FundingInstrument
  *
  * A resource representing a Payer's funding instrument. An instance of this schema is valid if and only if it is valid against exactly one of these supported properties
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard credit_card
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCardToken credit_card_token
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Billing billing
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard credit_card
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCardToken credit_card_token
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Billing billing
  */
 class FundingInstrument extends PayPalModel
 {
     /**
      * Credit Card instrument.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard $credit_card
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard $credit_card
      *
      * @return $this
      */
@@ -33,7 +33,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Credit Card instrument.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCard
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCard
      */
     public function getCreditCard()
     {
@@ -43,7 +43,7 @@ class FundingInstrument extends PayPalModel
     /**
      * PayPal vaulted credit Card instrument.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCardToken $credit_card_token
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCardToken $credit_card_token
      *
      * @return $this
      */
@@ -56,7 +56,7 @@ class FundingInstrument extends PayPalModel
     /**
      * PayPal vaulted credit Card instrument.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CreditCardToken
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CreditCardToken
      */
     public function getCreditCardToken()
     {
@@ -66,7 +66,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Payment Card information.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentCard $payment_card
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentCard $payment_card
      *
      * @return $this
      */
@@ -79,7 +79,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Payment Card information.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentCard
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentCard
      */
     public function getPaymentCard()
     {
@@ -89,7 +89,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Bank Account information.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExtendedBankAccount $bank_account
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExtendedBankAccount $bank_account
      *
      * @return $this
      */
@@ -102,7 +102,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Bank Account information.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExtendedBankAccount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExtendedBankAccount
      */
     public function getBankAccount()
     {
@@ -112,7 +112,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Vaulted bank account instrument.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\BankToken $bank_account_token
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BankToken $bank_account_token
      *
      * @return $this
      */
@@ -125,7 +125,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Vaulted bank account instrument.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\BankToken
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BankToken
      */
     public function getBankAccountToken()
     {
@@ -135,7 +135,7 @@ class FundingInstrument extends PayPalModel
     /**
      * PayPal credit funding instrument.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Credit $credit
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Credit $credit
      *
      * @return $this
      */
@@ -148,7 +148,7 @@ class FundingInstrument extends PayPalModel
     /**
      * PayPal credit funding instrument.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Credit
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Credit
      */
     public function getCredit()
     {
@@ -158,7 +158,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Incentive funding instrument.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Incentive $incentive
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Incentive $incentive
      *
      * @return $this
      */
@@ -171,7 +171,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Incentive funding instrument.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Incentive
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Incentive
      */
     public function getIncentive()
     {
@@ -181,7 +181,7 @@ class FundingInstrument extends PayPalModel
     /**
      * External funding instrument.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding $external_funding
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding $external_funding
      *
      * @return $this
      */
@@ -194,7 +194,7 @@ class FundingInstrument extends PayPalModel
     /**
      * External funding instrument.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding
      */
     public function getExternalFunding()
     {
@@ -204,7 +204,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Carrier account token instrument.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CarrierAccountToken $carrier_account_token
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CarrierAccountToken $carrier_account_token
      *
      * @return $this
      */
@@ -217,7 +217,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Carrier account token instrument.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CarrierAccountToken
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CarrierAccountToken
      */
     public function getCarrierAccountToken()
     {
@@ -227,7 +227,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Carrier account instrument
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CarrierAccount $carrier_account
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CarrierAccount $carrier_account
      *
      * @return $this
      */
@@ -240,7 +240,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Carrier account instrument
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CarrierAccount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CarrierAccount
      */
     public function getCarrierAccount()
     {
@@ -250,7 +250,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Private Label Card funding instrument. These are store cards provided by merchants to drive business with value to customer with convenience and rewards.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PrivateLabelCard $private_label_card
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PrivateLabelCard $private_label_card
      *
      * @return $this
      */
@@ -263,7 +263,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Private Label Card funding instrument. These are store cards provided by merchants to drive business with value to customer with convenience and rewards.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PrivateLabelCard
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PrivateLabelCard
      */
     public function getPrivateLabelCard()
     {
@@ -273,7 +273,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Billing instrument that references pre-approval information for the payment
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Billing $billing
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Billing $billing
      *
      * @return $this
      */
@@ -286,7 +286,7 @@ class FundingInstrument extends PayPalModel
     /**
      * Billing instrument that references pre-approval information for the payment
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Billing
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Billing
      */
     public function getBilling()
     {
@@ -297,7 +297,7 @@ class FundingInstrument extends PayPalModel
      * Alternate Payment  information - Mostly regional payment providers. For e.g iDEAL in Netherlands
      *
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\AlternatePayment $alternate_payment
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AlternatePayment $alternate_payment
      *
      * @return $this
      */
@@ -311,7 +311,7 @@ class FundingInstrument extends PayPalModel
      * Alternate Payment  information - Mostly regional payment providers. For e.g iDEAL in Netherlands
      *
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\AlternatePayment
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AlternatePayment
      */
     public function getAlternatePayment()
     {

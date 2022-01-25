@@ -24,9 +24,9 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests;
 
-use Never5\DownloadMonitor\Dependencies\Pimple\Container;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container;
 
 /**
  * @author Igor Wiedler <igor@wiedler.ch>
@@ -48,7 +48,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
             return new Fixtures\Service();
         };
 
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $pimple['service']);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $pimple['service']);
     }
 
     public function testServicesShouldBeDifferent()
@@ -59,10 +59,10 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
         });
 
         $serviceOne = $pimple['service'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
 
         $serviceTwo = $pimple['service'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
 
         $this->assertNotSame($serviceOne, $serviceTwo);
     }
@@ -106,7 +106,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException
      * @expectedExceptionMessage Identifier "foo" is not defined.
      */
     public function testOffsetGetValidatesKeyIsPresent()
@@ -155,10 +155,10 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
         $pimple['shared_service'] = $service;
 
         $serviceOne = $pimple['shared_service'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
 
         $serviceTwo = $pimple['shared_service'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
 
         $this->assertSame($serviceOne, $serviceTwo);
     }
@@ -198,11 +198,11 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
     public function testFluentRegister()
     {
         $pimple = new Container();
-        $this->assertSame($pimple, $pimple->register($this->getMockBuilder('Never5\DownloadMonitor\Dependencies\Pimple\ServiceProviderInterface')->getMock()));
+        $this->assertSame($pimple, $pimple->register($this->getMockBuilder('WPChill\DownloadMonitor\Dependencies\Pimple\ServiceProviderInterface')->getMock()));
     }
 
     /**
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException
      * @expectedExceptionMessage Identifier "foo" is not defined.
      */
     public function testRawValidatesKeyIsPresent()
@@ -237,17 +237,17 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
 
         $pimple->extend('shared_service', $service);
         $serviceOne = $pimple['shared_service'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
         $serviceTwo = $pimple['shared_service'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
         $this->assertSame($serviceOne, $serviceTwo);
         $this->assertSame($serviceOne->value, $serviceTwo->value);
 
         $pimple->extend('factory_service', $service);
         $serviceOne = $pimple['factory_service'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
         $serviceTwo = $pimple['factory_service'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
         $this->assertNotSame($serviceOne, $serviceTwo);
         $this->assertNotSame($serviceOne->value, $serviceTwo->value);
     }
@@ -273,7 +273,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException
      * @expectedExceptionMessage Identifier "foo" is not defined.
      */
     public function testExtendValidatesKeyIsPresent()
@@ -308,7 +308,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
         $pimple = new Container();
         $pimple['invokable'] = new Fixtures\Invokable();
 
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $pimple['invokable']);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $pimple['invokable']);
     }
 
     /** @test */
@@ -317,12 +317,12 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
         $pimple = new Container();
         $pimple['non_invokable'] = new Fixtures\NonInvokable();
 
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\NonInvokable', $pimple['non_invokable']);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\NonInvokable', $pimple['non_invokable']);
     }
 
     /**
      * @dataProvider badServiceDefinitionProvider
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\ExpectedInvokableException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\ExpectedInvokableException
      * @expectedExceptionMessage Service definition is not a Closure or invokable object.
      */
     public function testFactoryFailsForInvalidServiceDefinitions($service)
@@ -345,7 +345,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badServiceDefinitionProvider
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\ExpectedInvokableException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\ExpectedInvokableException
      * @expectedExceptionMessage Callable is not a Closure or invokable object.
      */
     public function testProtectFailsForInvalidServiceDefinitions($service)
@@ -368,7 +368,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badServiceDefinitionProvider
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\InvalidServiceIdentifierException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\InvalidServiceIdentifierException
      * @expectedExceptionMessage Identifier "foo" does not contain an object definition.
      */
     public function testExtendFailsForKeysNotContainingServiceDefinitions($service)
@@ -411,7 +411,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider badServiceDefinitionProvider
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\ExpectedInvokableException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\ExpectedInvokableException
      * @expectedExceptionMessage Extension service definition is not a Closure or invokable object.
      */
     public function testExtendFailsForInvalidServiceDefinitions($service)
@@ -435,7 +435,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\FrozenServiceException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\FrozenServiceException
      * @expectedExceptionMessage Cannot override frozen service "foo".
      */
     public function testExtendFailsIfFrozenServiceIsNonInvokable()
@@ -450,7 +450,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\FrozenServiceException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\FrozenServiceException
      * @expectedExceptionMessage Cannot override frozen service "foo".
      */
     public function testExtendFailsIfFrozenServiceIsInvokable()
@@ -506,7 +506,7 @@ class PimpleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Never5\DownloadMonitor\Dependencies\Pimple\Exception\FrozenServiceException
+     * @expectedException \WPChill\DownloadMonitor\Dependencies\Pimple\Exception\FrozenServiceException
      * @expectedExceptionMessage Cannot override frozen service "foo".
      */
     public function testOverridingServiceAfterFreeze()

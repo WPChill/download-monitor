@@ -1,17 +1,17 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class BankAccountsList
  *
  * A list of Bank Account Resources
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\BankAccount[] bank_accounts
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BankAccount[] bank_accounts
  * @property int count
  * @property string next_id
  */
@@ -20,7 +20,7 @@ class BankAccountsList extends PayPalModel
     /**
      * A list of bank account resources
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\BankAccount[] $bank_accounts
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BankAccount[] $bank_accounts
      * 
      * @return $this
      */
@@ -33,7 +33,7 @@ class BankAccountsList extends PayPalModel
     /**
      * A list of bank account resources
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\BankAccount[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BankAccount[]
      */
     public function getBankAccounts()
     {
@@ -43,7 +43,7 @@ class BankAccountsList extends PayPalModel
     /**
      * Append BankAccounts to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\BankAccount $bankAccount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BankAccount $bankAccount
      * @return $this
      */
     public function addBankAccount($bankAccount)
@@ -60,7 +60,7 @@ class BankAccountsList extends PayPalModel
     /**
      * Remove BankAccounts from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\BankAccount $bankAccount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BankAccount $bankAccount
      * @return $this
      */
     public function removeBankAccount($bankAccount)

@@ -24,12 +24,12 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Never5\DownloadMonitor\Dependencies\Pimple\Container;
-use Never5\DownloadMonitor\Dependencies\Pimple\ServiceIterator;
-use Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container;
+use WPChill\DownloadMonitor\Dependencies\Pimple\ServiceIterator;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service;
 
 class ServiceIteratorTest extends TestCase
 {

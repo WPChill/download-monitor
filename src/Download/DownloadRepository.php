@@ -6,12 +6,20 @@ interface DLM_Download_Repository {
 	 * Retrieve items
 	 *
 	 * @param array $filters
-	 * @param int $limit
-	 * @param int $offset
+	 * @param int   $limit
+	 * @param int   $offset
 	 *
 	 * @return array<DLM_Download>
 	 */
-	public function retrieve( $filters=array(), $limit=0, $offset=0 );
+	public function retrieve( $filters = array(), $limit = 0, $offset = 0 );
+
+	/**
+	 * Retreieve the version download count
+	 *
+	 * @param  mixed $version_id
+	 * @return array
+	 */
+	public function retrieve_download_count( $download_id );
 
 	/**
 	 * Retrieve single item
@@ -29,7 +37,7 @@ interface DLM_Download_Repository {
 	 *
 	 * @return int
 	 */
-	public function num_rows( $filters=array() );
+	public function num_rows( $filters = array() );
 
 	/**
 	 * @param DLM_Download $download
@@ -37,4 +45,23 @@ interface DLM_Download_Repository {
 	 * @return bool
 	 */
 	public function persist( $download );
+
+	/**
+	 * Get ordered by download count Downloads
+	 *
+	 * @param  mixed $order The order of the downloads, can take values DESC or ASC.
+	 * @param  mixed $limit How many rows should we get.
+	 * @param  mixed $offset From what entry should the retriever begin.
+	 * @return mixed
+	 */
+	public function get_orderly_downloads( $order = 'DESC', $limit = 15, $offset = 0 );
+
+
+	/**
+	 * Create an array of Downloads objects from an array containing DB info about Downloads CPT
+	 *
+	 * @param  mixed $downloads Array, usually the result of WP_Query or get_posts.
+	 * @return array
+	 */
+	public function create_downloads_from_array( $downloads );
 }

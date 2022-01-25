@@ -1,22 +1,22 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class AgreementDetails
  *
  * A resource representing the agreement details.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency outstanding_balance
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency outstanding_balance
  * @property string cycles_remaining
  * @property string cycles_completed
  * @property string next_billing_date
  * @property string last_payment_date
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency last_payment_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency last_payment_amount
  * @property string final_payment_date
  * @property string failed_payment_count
  */
@@ -25,7 +25,7 @@ class AgreementDetails extends PayPalModel
     /**
      * The outstanding balance for this agreement.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $outstanding_balance
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $outstanding_balance
      * 
      * @return $this
      */
@@ -38,7 +38,7 @@ class AgreementDetails extends PayPalModel
     /**
      * The outstanding balance for this agreement.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getOutstandingBalance()
     {
@@ -140,7 +140,7 @@ class AgreementDetails extends PayPalModel
     /**
      * Last payment amount for this agreement.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $last_payment_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $last_payment_amount
      * 
      * @return $this
      */
@@ -153,7 +153,7 @@ class AgreementDetails extends PayPalModel
     /**
      * Last payment amount for this agreement.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getLastPaymentAmount()
     {

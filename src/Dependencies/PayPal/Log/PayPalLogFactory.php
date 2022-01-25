@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Log;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Log;
 
-use Never5\DownloadMonitor\Dependencies\Psr\Log\LoggerInterface;
+use WPChill\DownloadMonitor\Dependencies\Psr\Log\LoggerInterface;
 
 interface PayPalLogFactory
 {

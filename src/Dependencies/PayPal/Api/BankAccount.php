@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class BankAccount
@@ -10,7 +10,7 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
  * A resource representing a bank account that can be used to fund a payment.
  * @deprecated Deprecated. It is for internal use only. It may be removed in next major revision.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string account_number
  * @property string account_number_type
@@ -25,7 +25,7 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
  * @property string first_name
  * @property string last_name
  * @property string birth_date
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address billing_address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address billing_address
  * @property string state
  * @property string confirmation_status
  * @property string payer_id
@@ -34,7 +34,7 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
  * @property string create_time
  * @property string update_time
  * @property string valid_until
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class BankAccount extends PayPalModel
 {
@@ -367,7 +367,7 @@ class BankAccount extends PayPalModel
     /**
      * Billing address.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
      * 
      * @return $this
      */
@@ -380,7 +380,7 @@ class BankAccount extends PayPalModel
     /**
      * Billing address.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address
      */
     public function getBillingAddress()
     {
@@ -576,7 +576,7 @@ class BankAccount extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      * 
      * @return $this
      */
@@ -589,7 +589,7 @@ class BankAccount extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -599,7 +599,7 @@ class BankAccount extends PayPalModel
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -616,7 +616,7 @@ class BankAccount extends PayPalModel
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

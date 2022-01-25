@@ -1,17 +1,17 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class RefundRequest
  *
  * A refund transaction.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
  * @property string description
  * @property string refund_source
  * @property string reason
@@ -23,7 +23,7 @@ class RefundRequest extends PayPalModel
     /**
      * Details including both refunded amount (to payer) and refunded fee (to payee).
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
      * 
      * @return $this
      */
@@ -36,7 +36,7 @@ class RefundRequest extends PayPalModel
     /**
      * Details including both refunded amount (to payer) and refunded fee (to payee).
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount
      */
     public function getAmount()
     {

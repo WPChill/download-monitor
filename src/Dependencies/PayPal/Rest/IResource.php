@@ -1,11 +1,11 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Rest;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Rest;
 
 /**
  * Interface IResource
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Rest
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Rest
  */
 interface IResource
 {

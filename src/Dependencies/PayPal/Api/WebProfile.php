@@ -1,25 +1,25 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
 
 /**
  * Class WebProfile
  *
  * Payment web experience profile resource
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string name
  * @property bool temporary
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FlowConfig flow_config
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\InputFields input_fields
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Presentation presentation
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FlowConfig flow_config
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InputFields input_fields
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Presentation presentation
  */
 class WebProfile extends PayPalResourceModel
 {
@@ -95,7 +95,7 @@ class WebProfile extends PayPalResourceModel
     /**
      * Parameters for flow configuration.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FlowConfig $flow_config
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FlowConfig $flow_config
      * 
      * @return $this
      */
@@ -108,7 +108,7 @@ class WebProfile extends PayPalResourceModel
     /**
      * Parameters for flow configuration.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FlowConfig
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FlowConfig
      */
     public function getFlowConfig()
     {
@@ -118,7 +118,7 @@ class WebProfile extends PayPalResourceModel
     /**
      * Parameters for input fields customization.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InputFields $input_fields
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InputFields $input_fields
      * 
      * @return $this
      */
@@ -131,7 +131,7 @@ class WebProfile extends PayPalResourceModel
     /**
      * Parameters for input fields customization.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\InputFields
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InputFields
      */
     public function getInputFields()
     {
@@ -141,7 +141,7 @@ class WebProfile extends PayPalResourceModel
     /**
      * Parameters for style and presentation.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Presentation $presentation
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Presentation $presentation
      * 
      * @return $this
      */
@@ -154,7 +154,7 @@ class WebProfile extends PayPalResourceModel
     /**
      * Parameters for style and presentation.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Presentation
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Presentation
      */
     public function getPresentation()
     {

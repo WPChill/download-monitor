@@ -1,26 +1,26 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class WebhookEventList
  *
  * List of webhooks events.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent[] events
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent[] events
  * @property int count
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class WebhookEventList extends PayPalModel
 {
     /**
      * A list of webhooks events.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent[] $events
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent[] $events
      * 
      * @return $this
      */
@@ -33,7 +33,7 @@ class WebhookEventList extends PayPalModel
     /**
      * A list of webhooks events.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent[]
      */
     public function getEvents()
     {
@@ -43,7 +43,7 @@ class WebhookEventList extends PayPalModel
     /**
      * Append Events to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent $webhookEvent
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent $webhookEvent
      * @return $this
      */
     public function addEvent($webhookEvent)
@@ -60,7 +60,7 @@ class WebhookEventList extends PayPalModel
     /**
      * Remove Events from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent $webhookEvent
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\WebhookEvent $webhookEvent
      * @return $this
      */
     public function removeEvent($webhookEvent)
@@ -96,7 +96,7 @@ class WebhookEventList extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      * 
      * @return $this
      */
@@ -109,7 +109,7 @@ class WebhookEventList extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -119,7 +119,7 @@ class WebhookEventList extends PayPalModel
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -136,7 +136,7 @@ class WebhookEventList extends PayPalModel
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

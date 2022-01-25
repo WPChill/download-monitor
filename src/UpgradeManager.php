@@ -107,6 +107,7 @@ class DLM_Upgrade_Manager {
 	 * Update the current version code
 	 */
 	private function update_current_version_code() {
+
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 	}
 

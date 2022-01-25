@@ -156,6 +156,8 @@ class DLM_Custom_Actions {
 			}
 		}
 
+		do_action( 'dlm_backwards_compatibility', $vars );
+
 		return $vars;
 	}
 

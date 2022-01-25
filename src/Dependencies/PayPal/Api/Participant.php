@@ -1,25 +1,25 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Participant
  *
  * Participant information.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string email
  * @property string first_name
  * @property string last_name
  * @property string business_name
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone phone
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone fax
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone phone
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone fax
  * @property string website
  * @property string additional_info
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address address
  */
 class Participant extends PayPalModel
 {
@@ -118,7 +118,7 @@ class Participant extends PayPalModel
     /**
      * The participant phone number.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
      * 
      * @return $this
      */
@@ -131,7 +131,7 @@ class Participant extends PayPalModel
     /**
      * The participant phone number.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone
      */
     public function getPhone()
     {
@@ -141,7 +141,7 @@ class Participant extends PayPalModel
     /**
      * The participant fax number.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone $fax
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone $fax
      * 
      * @return $this
      */
@@ -154,7 +154,7 @@ class Participant extends PayPalModel
     /**
      * The participant fax number.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone
      */
     public function getFax()
     {
@@ -210,7 +210,7 @@ class Participant extends PayPalModel
     /**
      * The participant address.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $address
      * 
      * @return $this
      */
@@ -223,7 +223,7 @@ class Participant extends PayPalModel
     /**
      * The participant address.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address
      */
     public function getAddress()
     {

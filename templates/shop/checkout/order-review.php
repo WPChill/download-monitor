@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /**
- * @var Never5\DownloadMonitor\Shop\Cart\Cart $cart
+ * @var WPChill\DownloadMonitor\Shop\Cart\Cart $cart
  * @var array $items
  * @var string $subtotal
  * @var string $total
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <tbody>
 	<?php
 	if ( ! empty( $items ) ) {
-		/** @var \Never5\DownloadMonitor\Shop\Cart\Item $item */
+		/** @var \WPChill\DownloadMonitor\Shop\Cart\Item $item */
 		foreach ( $items as $item ) {
 			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/order-review-item', '', '', array(
 				'item' => $item

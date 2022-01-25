@@ -1,25 +1,25 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
 
 /**
  * Class PaymentInstruction
  *
  * Contain details of how and when the payment should be made to PayPal in cases of manual bank transfer.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string                                  reference_number
  * @property string                                  instruction_type
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\RecipientBankingInstruction recipient_banking_instruction
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency                    amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RecipientBankingInstruction recipient_banking_instruction
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency                    amount
  * @property string                                  payment_due_date
  * @property string                                  note
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]                     links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]                     links
  */
 class PaymentInstruction extends PayPalResourceModel
 {
@@ -73,7 +73,7 @@ class PaymentInstruction extends PayPalResourceModel
     /**
      * Recipient bank Details.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\RecipientBankingInstruction $recipient_banking_instruction
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RecipientBankingInstruction $recipient_banking_instruction
      *
      * @return $this
      */
@@ -86,7 +86,7 @@ class PaymentInstruction extends PayPalResourceModel
     /**
      * Recipient bank Details.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\RecipientBankingInstruction
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RecipientBankingInstruction
      */
     public function getRecipientBankingInstruction()
     {
@@ -96,7 +96,7 @@ class PaymentInstruction extends PayPalResourceModel
     /**
      * Amount to be transferred
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      *
      * @return $this
      */
@@ -109,7 +109,7 @@ class PaymentInstruction extends PayPalResourceModel
     /**
      * Amount to be transferred
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {

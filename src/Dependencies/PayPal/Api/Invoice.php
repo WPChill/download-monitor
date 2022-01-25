@@ -1,51 +1,51 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
 
 /**
  * Class Invoice
  *
  * Detailed invoice information.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string number
  * @property string template_id
  * @property string uri
  * @property string status
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantInfo merchant_info
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo[] billing_info
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Participant[] cc_info
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingInfo shipping_info
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem[] items
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantInfo merchant_info
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo[] billing_info
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Participant[] cc_info
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingInfo shipping_info
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem[] items
  * @property string invoice_date
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentTerm payment_term
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentTerm payment_term
  * @property string reference
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Cost discount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingCost shipping_cost
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\CustomAmount custom
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Cost discount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingCost shipping_cost
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CustomAmount custom
  * @property bool allow_partial_payment
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency minimum_amount_due
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency minimum_amount_due
  * @property bool tax_calculated_after_discount
  * @property bool tax_inclusive
  * @property string terms
  * @property string note
  * @property string merchant_memo
  * @property string logo_url
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency total_amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail[] payments
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail[] refunds
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Metadata metadata
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary paid_amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary refunded_amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment[] attachments
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency total_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail[] payments
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail[] refunds
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Metadata metadata
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary paid_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary refunded_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment[] attachments
  */
 class Invoice extends PayPalResourceModel
 {
@@ -168,7 +168,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Information about the merchant who is sending the invoice.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantInfo $merchant_info
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantInfo $merchant_info
      * 
      * @return $this
      */
@@ -181,7 +181,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Information about the merchant who is sending the invoice.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantInfo
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantInfo
      */
     public function getMerchantInfo()
     {
@@ -191,7 +191,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The required invoice recipient email address and any optional billing information. One recipient is supported.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo[] $billing_info
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo[] $billing_info
      * 
      * @return $this
      */
@@ -204,7 +204,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The required invoice recipient email address and any optional billing information. One recipient is supported.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo[]
      */
     public function getBillingInfo()
     {
@@ -214,7 +214,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Append BillingInfo to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo $billingInfo
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo $billingInfo
      * @return $this
      */
     public function addBillingInfo($billingInfo)
@@ -231,7 +231,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Remove BillingInfo from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo $billingInfo
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\BillingInfo $billingInfo
      * @return $this
      */
     public function removeBillingInfo($billingInfo)
@@ -244,7 +244,7 @@ class Invoice extends PayPalResourceModel
     /**
      * For invoices sent by email, one or more email addresses to which to send a Cc: copy of the notification. Supports only email addresses under participant.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Participant[] $cc_info
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Participant[] $cc_info
      * 
      * @return $this
      */
@@ -257,7 +257,7 @@ class Invoice extends PayPalResourceModel
     /**
      * For invoices sent by email, one or more email addresses to which to send a Cc: copy of the notification. Supports only email addresses under participant.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Participant[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Participant[]
      */
     public function getCcInfo()
     {
@@ -267,7 +267,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Append CcInfo to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Participant $participant
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Participant $participant
      * @return $this
      */
     public function addCcInfo($participant)
@@ -284,7 +284,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Remove CcInfo from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Participant $participant
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Participant $participant
      * @return $this
      */
     public function removeCcInfo($participant)
@@ -297,7 +297,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The shipping information for entities to whom items are being shipped.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingInfo $shipping_info
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingInfo $shipping_info
      * 
      * @return $this
      */
@@ -310,7 +310,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The shipping information for entities to whom items are being shipped.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingInfo
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingInfo
      */
     public function getShippingInfo()
     {
@@ -320,7 +320,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The list of items to include in the invoice. Maximum value is 100 items per invoice.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem[] $items
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem[] $items
      * 
      * @return $this
      */
@@ -333,7 +333,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The list of items to include in the invoice. Maximum value is 100 items per invoice.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem[]
      */
     public function getItems()
     {
@@ -343,7 +343,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Append Items to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem $invoiceItem
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem $invoiceItem
      * @return $this
      */
     public function addItem($invoiceItem)
@@ -360,7 +360,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Remove Items from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem $invoiceItem
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceItem $invoiceItem
      * @return $this
      */
     public function removeItem($invoiceItem)
@@ -396,7 +396,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Optional. The payment deadline for the invoice. Value is either `term_type` or `due_date` but not both.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentTerm $payment_term
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentTerm $payment_term
      * 
      * @return $this
      */
@@ -409,7 +409,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Optional. The payment deadline for the invoice. Value is either `term_type` or `due_date` but not both.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentTerm
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentTerm
      */
     public function getPaymentTerm()
     {
@@ -442,7 +442,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The invoice level discount, as a percent or an amount value.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Cost $discount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Cost $discount
      * 
      * @return $this
      */
@@ -455,7 +455,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The invoice level discount, as a percent or an amount value.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Cost
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Cost
      */
     public function getDiscount()
     {
@@ -465,7 +465,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The shipping cost, as a percent or an amount value.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingCost $shipping_cost
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingCost $shipping_cost
      * 
      * @return $this
      */
@@ -478,7 +478,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The shipping cost, as a percent or an amount value.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingCost
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingCost
      */
     public function getShippingCost()
     {
@@ -488,7 +488,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The custom amount to apply on an invoice. If you include a label, the amount cannot be empty.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\CustomAmount $custom
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CustomAmount $custom
      * 
      * @return $this
      */
@@ -501,7 +501,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The custom amount to apply on an invoice. If you include a label, the amount cannot be empty.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\CustomAmount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\CustomAmount
      */
     public function getCustom()
     {
@@ -534,7 +534,7 @@ class Invoice extends PayPalResourceModel
     /**
      * If `allow_partial_payment` is set to `true`, the minimum amount allowed for a partial payment.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $minimum_amount_due
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $minimum_amount_due
      * 
      * @return $this
      */
@@ -547,7 +547,7 @@ class Invoice extends PayPalResourceModel
     /**
      * If `allow_partial_payment` is set to `true`, the minimum amount allowed for a partial payment.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getMinimumAmountDue()
     {
@@ -696,7 +696,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The total amount of the invoice.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $total_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $total_amount
      * 
      * @return $this
      */
@@ -709,7 +709,7 @@ class Invoice extends PayPalResourceModel
     /**
      * The total amount of the invoice.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getTotalAmount()
     {
@@ -719,7 +719,7 @@ class Invoice extends PayPalResourceModel
     /**
      * List of payment details for the invoice.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail[] $payments
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail[] $payments
      * 
      * @return $this
      */
@@ -732,7 +732,7 @@ class Invoice extends PayPalResourceModel
     /**
      * List of payment details for the invoice.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail[]
      */
     public function getPayments()
     {
@@ -742,7 +742,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Append Payments to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail $paymentDetail
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail $paymentDetail
      * @return $this
      */
     public function addPayment($paymentDetail)
@@ -759,7 +759,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Remove Payments from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail $paymentDetail
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentDetail $paymentDetail
      * @return $this
      */
     public function removePayment($paymentDetail)
@@ -772,7 +772,7 @@ class Invoice extends PayPalResourceModel
     /**
      * List of refund details for the invoice.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail[] $refunds
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail[] $refunds
      * 
      * @return $this
      */
@@ -785,7 +785,7 @@ class Invoice extends PayPalResourceModel
     /**
      * List of refund details for the invoice.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail[]
      */
     public function getRefunds()
     {
@@ -795,7 +795,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Append Refunds to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail $refundDetail
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail $refundDetail
      * @return $this
      */
     public function addRefund($refundDetail)
@@ -812,7 +812,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Remove Refunds from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail $refundDetail
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RefundDetail $refundDetail
      * @return $this
      */
     public function removeRefund($refundDetail)
@@ -825,7 +825,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Audit information for the invoice.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Metadata $metadata
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Metadata $metadata
      * 
      * @return $this
      */
@@ -838,7 +838,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Audit information for the invoice.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Metadata
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Metadata
      */
     public function getMetadata()
     {
@@ -871,7 +871,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Payment summary of the invoice including amount paid through PayPal and other sources.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary $paid_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary $paid_amount
      * 
      * @return $this
      */
@@ -884,7 +884,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Payment summary of the invoice including amount paid through PayPal and other sources.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary
      */
     public function getPaidAmount()
     {
@@ -894,7 +894,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Payment summary of the invoice including amount refunded through PayPal and other sources.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary $refunded_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary $refunded_amount
      * 
      * @return $this
      */
@@ -907,7 +907,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Payment summary of the invoice including amount refunded through PayPal and other sources.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentSummary
      */
     public function getRefundedAmount()
     {
@@ -917,7 +917,7 @@ class Invoice extends PayPalResourceModel
     /**
      * List of files attached to the invoice.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment[] $attachments
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment[] $attachments
      * 
      * @return $this
      */
@@ -930,7 +930,7 @@ class Invoice extends PayPalResourceModel
     /**
      * List of files attached to the invoice.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment[]
      */
     public function getAttachments()
     {
@@ -940,7 +940,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Append Attachments to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment $fileAttachment
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment $fileAttachment
      * @return $this
      */
     public function addAttachment($fileAttachment)
@@ -957,7 +957,7 @@ class Invoice extends PayPalResourceModel
     /**
      * Remove Attachments from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment $fileAttachment
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FileAttachment $fileAttachment
      * @return $this
      */
     public function removeAttachment($fileAttachment)

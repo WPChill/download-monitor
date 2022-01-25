@@ -1,30 +1,30 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class Capture
  *
  * A capture transaction.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
  * @property bool is_final_capture
  * @property string state
  * @property string reason_code
  * @property string parent_payment
  * @property string invoice_number
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency transaction_fee
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency transaction_fee
  * @property string create_time
  * @property string update_time
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class Capture extends PayPalResourceModel
 {
@@ -54,7 +54,7 @@ class Capture extends PayPalResourceModel
     /**
      * The amount to capture. If the amount matches the orginally authorized amount, the state of the authorization changes to `captured`. If not, the state of the authorization changes to `partially_captured`.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
      * 
      * @return $this
      */
@@ -67,7 +67,7 @@ class Capture extends PayPalResourceModel
     /**
      * The amount to capture. If the amount matches the orginally authorized amount, the state of the authorization changes to `captured`. If not, the state of the authorization changes to `partially_captured`.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount
      */
     public function getAmount()
     {
@@ -194,7 +194,7 @@ class Capture extends PayPalResourceModel
     /**
      * The transaction fee for this payment.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $transaction_fee
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $transaction_fee
      * 
      * @return $this
      */
@@ -207,7 +207,7 @@ class Capture extends PayPalResourceModel
     /**
      * The transaction fee for this payment.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getTransactionFee()
     {

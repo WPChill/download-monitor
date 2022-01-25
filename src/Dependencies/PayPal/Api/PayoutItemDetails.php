@@ -1,26 +1,26 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PayoutItemDetails
  *
  * The payout item status and other details.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string payout_item_id
  * @property string transaction_id
  * @property string transaction_status
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency payout_item_fee
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency payout_item_fee
  * @property string payout_batch_id
  * @property string sender_batch_id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem payout_item
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem payout_item
  * @property string time_processed
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error errors
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error errors
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class PayoutItemDetails extends PayPalModel
 {
@@ -96,7 +96,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * The amount of money, in U.S. dollars, for fees.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $payout_item_fee
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $payout_item_fee
      * 
      * @return $this
      */
@@ -109,7 +109,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * The amount of money, in U.S. dollars, for fees.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getPayoutItemFee()
     {
@@ -165,7 +165,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * The sender-provided information for the payout item.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem $payout_item
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem $payout_item
      * 
      * @return $this
      */
@@ -178,7 +178,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * The sender-provided information for the payout item.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItem
      */
     public function getPayoutItem()
     {
@@ -211,7 +211,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * Sets Errors
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error $errors
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error $errors
      * 
      * @return $this
      */
@@ -224,7 +224,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * Gets Errors
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Error
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Error
      */
     public function getErrors()
     {
@@ -234,7 +234,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      * 
      * @return $this
      */
@@ -247,7 +247,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -257,7 +257,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -274,7 +274,7 @@ class PayoutItemDetails extends PayPalModel
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

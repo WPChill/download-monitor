@@ -3,14 +3,14 @@
  * API handler for OAuth Token Request REST API calls
  */
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Handler;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Handler;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalUserAgent;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConfig;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalInvalidCredentialException;
-use Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalMissingCredentialException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalUserAgent;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConfig;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalInvalidCredentialException;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalMissingCredentialException;
 
 /**
  * Class OauthHandler
@@ -72,7 +72,7 @@ class OauthHandler implements IPayPalHandler
      * @param array $config
      *
      * @return PayPalHttpConfig
-     * @throws \Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException
+     * @throws \WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConfigurationException
      */
     private static function _getEndpoint($config)
     {

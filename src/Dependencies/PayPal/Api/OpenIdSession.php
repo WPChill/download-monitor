@@ -1,9 +1,9 @@
 <?php
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 class OpenIdSession
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\Psr\Log;
+namespace WPChill\DownloadMonitor\Dependencies\Psr\Log;
 
 /**
  * This Logger can be used to avoid conditional log calls.

@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class CustomAmount
  *
  * The custom amount applied on an invoice. If you include a label, the amount cannot be empty.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string label
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
  */
 class CustomAmount extends PayPalModel
 {
@@ -42,7 +42,7 @@ class CustomAmount extends PayPalModel
     /**
      * The custom amount value. Valid range is from -999999.99 to 999999.99.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -55,7 +55,7 @@ class CustomAmount extends PayPalModel
     /**
      * The custom amount value. Valid range is from -999999.99 to 999999.99.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {

@@ -1,21 +1,21 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Payer
  *
  * A resource representing a Payer that funds a payment.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string payment_method
  * @property string status
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument[] funding_instruments
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument[] funding_instruments
  * @property string external_selected_funding_instrument_type
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayerInfo payer_info
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayerInfo payer_info
  */
 class Payer extends PayPalModel
 {
@@ -119,7 +119,7 @@ class Payer extends PayPalModel
     /**
      * List of funding instruments to fund the payment. 'OneOf' funding_instruments,funding_option_id to be used to identify the specifics of payment method passed.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument[] $funding_instruments
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument[] $funding_instruments
      * 
      * @return $this
      */
@@ -132,7 +132,7 @@ class Payer extends PayPalModel
     /**
      * List of funding instruments to fund the payment. 'OneOf' funding_instruments,funding_option_id to be used to identify the specifics of payment method passed.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument[]
      */
     public function getFundingInstruments()
     {
@@ -142,7 +142,7 @@ class Payer extends PayPalModel
     /**
      * Append FundingInstruments to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument $fundingInstrument
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument $fundingInstrument
      * @return $this
      */
     public function addFundingInstrument($fundingInstrument)
@@ -159,7 +159,7 @@ class Payer extends PayPalModel
     /**
      * Remove FundingInstruments from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument $fundingInstrument
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingInstrument $fundingInstrument
      * @return $this
      */
     public function removeFundingInstrument($fundingInstrument)
@@ -195,7 +195,7 @@ class Payer extends PayPalModel
     /**
      * Default funding option available for the payment 
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingOption $funding_option
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingOption $funding_option
      * 
      * @return $this
      */
@@ -208,7 +208,7 @@ class Payer extends PayPalModel
     /**
      * Default funding option available for the payment 
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingOption
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingOption
      */
     public function getFundingOption()
     {
@@ -242,7 +242,7 @@ class Payer extends PayPalModel
     /**
      * Funding option related to default funding option.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingOption $related_funding_option
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingOption $related_funding_option
      * 
      * @return $this
      */
@@ -255,7 +255,7 @@ class Payer extends PayPalModel
     /**
      * Funding option related to default funding option.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\FundingOption
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\FundingOption
      */
     public function getRelatedFundingOption()
     {
@@ -265,7 +265,7 @@ class Payer extends PayPalModel
     /**
      * Information related to the Payer. 
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayerInfo $payer_info
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayerInfo $payer_info
      * 
      * @return $this
      */
@@ -278,7 +278,7 @@ class Payer extends PayPalModel
     /**
      * Information related to the Payer. 
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayerInfo
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayerInfo
      */
     public function getPayerInfo()
     {

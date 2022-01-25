@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Email;
+namespace WPChill\DownloadMonitor\Shop\Email;
 
 class Message {
 
@@ -13,7 +13,7 @@ class Message {
 	/** @var string */
 	private $template;
 
-	/** @var \Never5\DownloadMonitor\Shop\Order\Order */
+	/** @var \WPChill\DownloadMonitor\Shop\Order\Order */
 	private $order;
 
 	/**
@@ -22,7 +22,7 @@ class Message {
 	 * @param string $to
 	 * @param string $subject
 	 * @param string $template
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 */
 	public function __construct( $to, $subject, $template, $order ) {
 		$this->to       = $to;

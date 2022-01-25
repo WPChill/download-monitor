@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Order\Status;
+namespace WPChill\DownloadMonitor\Shop\Order\Status;
 
 class OrderStatus {
 	/** @var string */

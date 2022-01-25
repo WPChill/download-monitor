@@ -1,27 +1,27 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PlanList
  *
  * Resource representing a list of billing plans with basic information and get link.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Plan[] plans
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Plan[] plans
  * @property string total_items
  * @property string total_pages
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class PlanList extends PayPalModel
 {
     /**
      * Array of billing plans.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Plan[] $plans
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Plan[] $plans
      * 
      * @return $this
      */
@@ -34,7 +34,7 @@ class PlanList extends PayPalModel
     /**
      * Array of billing plans.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Plan[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Plan[]
      */
     public function getPlans()
     {
@@ -44,7 +44,7 @@ class PlanList extends PayPalModel
     /**
      * Append Plans to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Plan $plan
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Plan $plan
      * @return $this
      */
     public function addPlan($plan)
@@ -61,7 +61,7 @@ class PlanList extends PayPalModel
     /**
      * Remove Plans from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Plan $plan
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Plan $plan
      * @return $this
      */
     public function removePlan($plan)
@@ -120,7 +120,7 @@ class PlanList extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      * 
      * @return $this
      */
@@ -133,7 +133,7 @@ class PlanList extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -143,7 +143,7 @@ class PlanList extends PayPalModel
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -160,7 +160,7 @@ class PlanList extends PayPalModel
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

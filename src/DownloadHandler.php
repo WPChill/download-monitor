@@ -28,7 +28,6 @@ class DLM_Download_Handler {
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
 		add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
-		add_filter( 'dlm_can_download', array( $this, 'check_blacklist' ), 10, 2 );
 	}
 
 	/**
@@ -55,121 +54,6 @@ class DLM_Download_Handler {
 			else if ( is_multisite() && ! is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) ) {
 				$can_download = false;
 			}
-
-		}
-
-		return $can_download;
-	}
-
-	/**
-	 * Check blacklist (hooked into dlm_can_download) checks if the download request comes from blacklisted IP address or user agent
-	 *
-	 * Other plugins can use the 'dlm_can_download' filter directly to change access rights.
-	 *
-	 * @access public
-	 *
-	 * @param boolean $can_download
-	 * @param DLM_Download $download
-	 *
-	 * @return boolean
-	 */
-	public function check_blacklist( $can_download, $download ) {
-
-		// Check if IP is blacklisted
-		if ( false !== $can_download ) {
-
-			$visitor_ip = DLM_Utils::get_visitor_ip();
-			$ip_type    = 0;
-
-			if ( filter_var( $visitor_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
-				$ip_type = 4;
-			} elseif ( filter_var( $visitor_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
-				$ip_type = 6;
-			}
-
-			$blacklisted_ips = preg_split( "/\r?\n/", trim( get_option( 'dlm_ip_blacklist', "" ) ) );
-
-			/**
-			 * Until IPs are validated at time of save, we need to ensure entries
-			 * are legitimate before using them. Allow formats:
-			 *   IPv4, e.g. 198.51.100.1
-			 *   IPv4/CIDR netmask, e.g. 198.51.100.0/24
-			 *   IPv6, e.g. 2001:db8::1
-			 *   IPv6/CIDR netmask, e.g. 2001:db8::/32
-			 */
-
-			// IP/CIDR netmask regexes
-			// http://blog.markhatton.co.uk/2011/03/15/regular-expressions-for-ip-addresses-cidr-ranges-and-hostnames/
-			// http://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
-			$ip4_with_mask_pattern = '/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$/';
-			$ip6_with_mask_pattern = '/^((([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(\/[0-9][0-9]?|1([01][0-9]|2[0-8])))$/';
-
-			if ( 4 === $ip_type ) {
-				foreach ( $blacklisted_ips as $blacklisted_ip ) {
-
-					// Detect unique IPv4 address and ranges of IPv4 addresses in IP/CIDR netmask format
-					if ( filter_var( $blacklisted_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) || preg_match( $ip4_with_mask_pattern, $blacklisted_ip ) ) {
-						if ( DLM_Utils::ipv4_in_range( $visitor_ip, $blacklisted_ip ) ) {
-							$can_download = false;
-							break;
-						}
-					}
-				}
-			} elseif ( 6 === $ip_type ) {
-				foreach ( $blacklisted_ips as $blacklisted_ip ) {
-
-					// Detect unique IPv6 address and ranges of IPv6 addresses in IP/CIDR netmask format
-					if ( filter_var( $blacklisted_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) || preg_match( $ip6_with_mask_pattern, $blacklisted_ip ) ) {
-						if ( DLM_Utils::ipv6_in_range( $visitor_ip, $blacklisted_ip ) ) {
-							$can_download = false;
-							break;
-						}
-					}
-				}
-			}
-
-		}
-
-		// Check if user agent is blacklisted
-		if ( false !== $can_download ) {
-
-			// get request user agent
-			$visitor_ua = DLM_Utils::get_visitor_ua();
-
-			// check if $visitor_ua isn't empty
-			if ( ! empty( $visitor_ua ) ) {
-
-				// get blacklisted user agents
-				$blacklisted_uas = preg_split( "/\r?\n/", trim( get_option( 'dlm_user_agent_blacklist', "" ) ) );
-
-				if ( ! empty( $blacklisted_uas ) ) {
-
-					// loop through blacklisted user agents
-					foreach ( $blacklisted_uas as $blacklisted_ua ) {
-
-						if ( ! empty( $blacklisted_ua ) ) {
-
-							// check if blacklisted user agent is found in request user agent
-							if ( '/' == $blacklisted_ua[0] && '/' == substr( $blacklisted_ua, - 1 ) ) { // /regex/ pattern
-								if ( preg_match( $blacklisted_ua, $visitor_ua ) ) {
-									$can_download = false;
-									break;
-								}
-							} else { // string matching
-								if ( false !== stristr( $visitor_ua, $blacklisted_ua ) ) {
-									$can_download = false;
-									break;
-								}
-							}
-
-						}
-
-					}
-
-				}
-
-			}
-
 
 		}
 
@@ -206,7 +90,7 @@ class DLM_Download_Handler {
 	 */
 	public function handler() {
 		global $wp, $wpdb;
-
+		
 		// check HTTP method
 		$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : 'GET' );
 		if ( ! in_array( $request_method, apply_filters( 'dlm_accepted_request_methods', array( 'GET', 'POST' ) ) ) ) {
@@ -337,41 +221,20 @@ class DLM_Download_Handler {
 	 * @param DLM_Download $download
 	 * @param DLM_Download_Version $version
 	 */
-	private function log( $type, $status, $message, $download, $version ) {
+	private function log( $download, $version ) {
 
-		// Logging object
-		$logging = new DLM_Logging();
+		// Check if logging is enabled.
+		if ( DLM_Logging::is_logging_enabled() ) {
+			// setup new log item object
+			$log_item = new DLM_Log_Item();
+			$log_item->set_user_id( absint( get_current_user_id() ) );
+			$log_item->set_download_id( absint( $download->get_id() ) );
+			$log_item->set_version_id( absint( $version->get_id() ) );
+			$log_item->set_version( $version->get_version() );
+			$version->increase_download_count();
 
-		// Check if logging is enabled and if unique ips is enabled
-		if ( $logging->is_logging_enabled() && false === DLM_Cookie_Manager::exists( $download ) ) {
-
-			// set create_log to true
-			$create_log = true;
-
-			// check if requester downloaded this version before
-			if ( $logging->is_count_unique_ips_only() && true === $logging->has_ip_downloaded_version( $version ) ) {
-				$create_log = false;
-			}
-
-			// check if we need to create the log
-			if ( $create_log ) {
-
-				// setup new log item object
-				$log_item = new DLM_Log_Item();
-				$log_item->set_user_id( absint( get_current_user_id() ) );
-				$log_item->set_user_ip( DLM_Utils::get_visitor_ip() );
-				$log_item->set_user_agent( DLM_Utils::get_visitor_ua() );
-				$log_item->set_download_id( absint( $download->get_id() ) );
-				$log_item->set_version_id( absint( $version->get_id() ) );
-				$log_item->set_version( $version->get_version() );
-				$log_item->set_download_date( new DateTime( current_time( 'mysql' ) ) );
-				$log_item->set_download_status( $status );
-				$log_item->set_download_status_message( $message );
-
-				// persist log item
-				download_monitor()->service( 'log_item_repository' )->persist( $log_item );
-			}
-
+			// persist log item.
+			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 		}
 
 	}
@@ -461,36 +324,20 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		// check if user downloaded this version in the past minute
-		if ( false == DLM_Cookie_Manager::exists( $download ) ) {
+		// check if user downloaded this version in the past minute.
+		if ( DLM_Logging::is_download_window_enabled( $download ) ) {
 
-			// DLM Logging object
-			$logger = new DLM_Logging();
-
-			// bool if we need to increment download count
-			$increment_download_count = true;
-
-			// check if unique ips option is enabled and if so, if visitor already downloaded this file version
-			if ( $logger->is_logging_enabled() && $logger->is_count_unique_ips_only() && true === $logger->has_ip_downloaded_version( $version ) ) {
-				$increment_download_count = false;
-			}
-
-			// check if we need to increment the download count
-			if ( true === $increment_download_count ) {
-				// Increase download count
-				$version->increase_download_count();
-			}
-
-			// Trigger Download Action
+			// Trigger Download Action.
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 
-			// Set cookie to prevent double logging
+			// Set cookie to prevent double logging.
 			DLM_Cookie_Manager::set_cookie( $download );
 		}
 
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
-			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
+
+			$this->log( $download, $version );
 
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
@@ -511,21 +358,21 @@ class DLM_Download_Handler {
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
-				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
+				$this->log( $download, $version );
 
 				header( "X-Sendfile: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
+				$this->log( $download, $version );
 
 				header( "X-LIGHTTPD-send-file: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-				$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
+				$this->log( $download, $version );
 
 				if ( isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
 					// phpcs:ignore
@@ -564,12 +411,12 @@ class DLM_Download_Handler {
 		if ( $this->readfile_chunked( $file_path, $range ) ) {
 
 			// Complete!
-			$this->log( 'download', 'completed', '', $download, $version );
+			$this->log( $download, $version );
 
 		} elseif ( $remote_file ) {
 
-			// Redirect - we can't track if this completes or not
-			$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download-monitor' ), $download, $version );
+			// Redirect - we can't track if this completes or not.
+			$this->log( $download, $version );
 
 			header( 'Location: ' . $file_path );
 

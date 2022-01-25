@@ -1,20 +1,20 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
 
 /**
  * Class Cost
  *
  * Cost as a percent or an amount. For example, to specify 10%, enter `10`. Alternatively, to specify an amount of 5, enter `5`.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string percent
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
  */
 class Cost extends PayPalModel
 {
@@ -46,7 +46,7 @@ class Cost extends PayPalModel
     /**
      * The cost, as an amount. Valid range is from 0 to 1,000,000.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -59,7 +59,7 @@ class Cost extends PayPalModel
     /**
      * The cost, as an amount. Valid range is from 0 to 1,000,000.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {

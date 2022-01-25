@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class AgreementStateDescriptor
  *
  * Description of the current state of the agreement.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string note
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
  */
 class AgreementStateDescriptor extends PayPalModel
 {
@@ -42,7 +42,7 @@ class AgreementStateDescriptor extends PayPalModel
     /**
      * The amount and currency of the agreement.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -55,7 +55,7 @@ class AgreementStateDescriptor extends PayPalModel
     /**
      * The amount and currency of the agreement.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {

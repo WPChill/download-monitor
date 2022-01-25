@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Payee
  *
  * A resource representing a Payee who receives the funds and fulfills the order.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string email
  * @property string merchant_id
@@ -134,7 +134,7 @@ class Payee extends PayPalModel
     /**
      * Information related to the Payee.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
      * 
      * @return $this
      */
@@ -147,7 +147,7 @@ class Payee extends PayPalModel
     /**
      * Information related to the Payee.
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone
      */
     public function getPhone()
     {

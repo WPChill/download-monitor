@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Core;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Core;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Log\PayPalLogFactory;
-use Never5\DownloadMonitor\Dependencies\Psr\Log\LoggerInterface;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Log\PayPalLogFactory;
+use WPChill\DownloadMonitor\Dependencies\Psr\Log\LoggerInterface;
 
 /**
  * Simple Logging Manager.
@@ -56,7 +56,7 @@ class PayPalLoggingManager
     {
         $config = PayPalConfigManager::getInstance()->getConfigHashmap();
         // Checks if custom factory defined, and is it an implementation of @PayPalLogFactory
-        $factory = array_key_exists('log.AdapterFactory', $config) && in_array('Never5\DownloadMonitor\Dependencies\PayPal\Log\PayPalLogFactory', class_implements($config['log.AdapterFactory'])) ? $config['log.AdapterFactory'] : '\Never5\DownloadMonitor\Dependencies\PayPal\Log\PayPalDefaultLogFactory';
+        $factory = array_key_exists('log.AdapterFactory', $config) && in_array('WPChill\DownloadMonitor\Dependencies\PayPal\Log\PayPalLogFactory', class_implements($config['log.AdapterFactory'])) ? $config['log.AdapterFactory'] : '\WPChill\DownloadMonitor\Dependencies\PayPal\Log\PayPalDefaultLogFactory';
         /** @var PayPalLogFactory $factoryInstance */
         $factoryInstance = new $factory();
         $this->logger = $factoryInstance->getLogger($loggerName);

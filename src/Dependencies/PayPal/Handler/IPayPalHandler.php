@@ -1,11 +1,11 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Handler;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Handler;
 
 /**
  * Interface IPayPalHandler
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Handler
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Handler
  */
 interface IPayPalHandler
 {

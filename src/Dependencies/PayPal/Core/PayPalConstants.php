@@ -1,12 +1,12 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Core;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Core;
 
 /**
  * Class PayPalConstants
  * Placeholder for Paypal Constants
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Core
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Core
  */
 class PayPalConstants
 {

@@ -1,7 +1,7 @@
 {
   "name": "download-monitor",
   "title": "Download Monitor",
-  "version": "4.2.1",
+  "version": "4.5.0",
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
@@ -16,7 +16,7 @@
     "grunt-contrib-cssmin": "~3.0.0",
     "grunt-contrib-less": "~2.0.0",
     "grunt-contrib-rename": "^0.2.0",
-    "grunt-contrib-uglify": "~4.0.0",
+    "grunt-contrib-uglify": "~5.0.0",
     "grunt-contrib-watch": "~1.1.0",
     "grunt-po2json": "^0.3.0",
     "grunt-shell": "~2.1.0",

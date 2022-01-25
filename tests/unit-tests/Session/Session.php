@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Tests\Session;
+namespace WPChill\DownloadMonitor\Tests\Session;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Session extends \DLM_Unit_Test_Case {
 
@@ -11,7 +11,7 @@ class Session extends \DLM_Unit_Test_Case {
 	 */
 	public function test_key() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 		$new_key = "testing";
@@ -26,7 +26,7 @@ class Session extends \DLM_Unit_Test_Case {
 	 */
 	public function test_hash() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 		$new_hash = "testing";
@@ -41,7 +41,7 @@ class Session extends \DLM_Unit_Test_Case {
 	 */
 	public function test_expiry() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 		$new_expiry = new \DateTimeImmutable();
@@ -56,7 +56,7 @@ class Session extends \DLM_Unit_Test_Case {
 	 * Test add_coupon()
 	 */
 	public function test_add_coupon() {
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 
@@ -71,7 +71,7 @@ class Session extends \DLM_Unit_Test_Case {
 	 * Test remove_coupon()
 	 */
 	public function test_remove_coupon() {
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 		$this->assertCount( 0, $session->get_coupons() );
@@ -90,7 +90,7 @@ class Session extends \DLM_Unit_Test_Case {
 	 */
 	public function test_add_item() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 		$this->assertCount( 0, $session->get_items() );
@@ -106,12 +106,12 @@ class Session extends \DLM_Unit_Test_Case {
 	 */
 	public function test_remove_item() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session_factory' )->make();
 
 		$this->assertCount( 0, $session->get_items() );
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Item\Item $item */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Item\Item $item */
 		$item = Services::get()->service( 'session_item_factory' )->make( 1, 1 );
 		$session->add_item( $item );
 

@@ -1,19 +1,19 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
 
 /**
  * Class MerchantPreferences
  *
  * Resource representing merchant preferences like max failed attempts, set up fee  and others for a plan.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency setup_fee
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency setup_fee
  * @property string cancel_url
  * @property string return_url
  * @property string notify_url
@@ -51,7 +51,7 @@ class MerchantPreferences extends PayPalModel
     /**
      * Setup fee amount. Default is 0.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $setup_fee
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $setup_fee
      * 
      * @return $this
      */
@@ -64,7 +64,7 @@ class MerchantPreferences extends PayPalModel
     /**
      * Setup fee amount. Default is 0.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getSetupFee()
     {

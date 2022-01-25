@@ -1,26 +1,26 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PayoutBatch
  *
  * The PayPal-generated batch status.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutBatchHeader batch_header
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails[] items
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutBatchHeader batch_header
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails[] items
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class PayoutBatch extends PayPalModel
 {
     /**
      * A batch header. Includes the generated batch status.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutBatchHeader $batch_header
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutBatchHeader $batch_header
      * 
      * @return $this
      */
@@ -33,7 +33,7 @@ class PayoutBatch extends PayPalModel
     /**
      * A batch header. Includes the generated batch status.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutBatchHeader
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutBatchHeader
      */
     public function getBatchHeader()
     {
@@ -43,7 +43,7 @@ class PayoutBatch extends PayPalModel
     /**
      * An array of items in a batch payout.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails[] $items
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails[] $items
      * 
      * @return $this
      */
@@ -56,7 +56,7 @@ class PayoutBatch extends PayPalModel
     /**
      * An array of items in a batch payout.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails[]
      */
     public function getItems()
     {
@@ -66,7 +66,7 @@ class PayoutBatch extends PayPalModel
     /**
      * Append Items to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails $payoutItemDetails
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails $payoutItemDetails
      * @return $this
      */
     public function addItem($payoutItemDetails)
@@ -83,7 +83,7 @@ class PayoutBatch extends PayPalModel
     /**
      * Remove Items from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails $payoutItemDetails
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PayoutItemDetails $payoutItemDetails
      * @return $this
      */
     public function removeItem($payoutItemDetails)
@@ -97,7 +97,7 @@ class PayoutBatch extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      *
      * @return $this
      */
@@ -110,7 +110,7 @@ class PayoutBatch extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {

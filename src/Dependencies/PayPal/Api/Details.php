@@ -1,17 +1,17 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
 
 /**
  * Class Details
  *
  * Additional details of the payment amount.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string subtotal
  * @property string shipping

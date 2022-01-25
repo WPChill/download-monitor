@@ -1,22 +1,22 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
 
 /**
  * Class Tax
  *
  * Tax information.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string name
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\number percent
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number percent
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
  */
 class Tax extends PayPalModel
 {
@@ -94,7 +94,7 @@ class Tax extends PayPalModel
     /**
      * The tax as a monetary amount. Cannot be specified in a request.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -107,7 +107,7 @@ class Tax extends PayPalModel
     /**
      * The tax as a monetary amount. Cannot be specified in a request.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {

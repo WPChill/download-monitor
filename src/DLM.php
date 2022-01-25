@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-use \Never5\DownloadMonitor\Util;
+use \WPChill\DownloadMonitor\Util;
 
 /**
  * WP_DLM class.
@@ -55,7 +55,7 @@ class WP_DLM {
 
 	/**
 	 * __construct function.
-	 *
+	 *z
 	 * @access public
 	 */
 	public function __construct() {
@@ -64,14 +64,16 @@ class WP_DLM {
 		// Setup Services
 		$this->services = new DLM_Services();
 
-		// Load plugin text domain
+		// Load plugin text domain.
 		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
 		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( DLM_PLUGIN_FILE ) ) . '/languages' );
 
-		// Table for logs
-		$wpdb->download_log = $wpdb->prefix . 'download_log';
+		// Table for Download Infos.
+		$wpdb->download_log = "{$wpdb->prefix}download_log";
+		// New Table for logs.
+		$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
 
-		// Setup admin classes
+		// Setup admin classes.
 		if ( is_admin() ) {
 
 			// check if multisite and needs to create DB table
@@ -124,6 +126,13 @@ class WP_DLM {
 			new DLM_Admin_OptionsUpsells();
 		}
 
+		// Set the DB Upgrader class to see if we need to upgrade the table or not.
+		// This is mainly to move to version 4.5.x from 4.4.x and below.
+		$upgrader = DLM_DB_Upgrader::get_instance();
+
+		// Set Reports. We set them here in order to also create the REST Api calls.
+		$reports = DLM_Reports::get_instance();
+
 		// Setup AJAX handler if doing AJAX
 		if ( defined( 'DOING_AJAX' ) ) {
 			new DLM_Ajax_Handler();
@@ -163,10 +172,6 @@ class WP_DLM {
 		$post_type_manager = new DLM_Post_Type_Manager();
 		$post_type_manager->setup();
 
-		// Setup Log Filters
-		$log_filters = new DLM_Log_Filters();
-		$log_filters->setup();
-
 		// Setup actions
 		$this->setup_actions();
 
@@ -182,6 +187,9 @@ class WP_DLM {
 		$gb_download_preview = new DLM_DownloadPreview_Preview();
 		$gb_download_preview->setup();
 
+		// Backwards Compatibility.
+		$dlm_backwards_compatibility = DLM_Backwards_Compatibility::get_instance();
+
 		// Setup integrations
 		$this->setup_integrations();
 
@@ -196,6 +204,7 @@ class WP_DLM {
 	 * Setup actions
 	 */
 	private function setup_actions() {
+
 		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ), array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );

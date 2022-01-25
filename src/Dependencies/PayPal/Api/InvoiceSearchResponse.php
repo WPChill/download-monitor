@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class InvoiceSearchResponse
  *
  * 
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property int total_count
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Invoice[] invoices
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Invoice[] invoices
  */
 class InvoiceSearchResponse extends PayPalModel
 {
@@ -42,7 +42,7 @@ class InvoiceSearchResponse extends PayPalModel
     /**
      * List of invoices belonging to a merchant.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Invoice[] $invoices
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Invoice[] $invoices
      * 
      * @return $this
      */
@@ -55,7 +55,7 @@ class InvoiceSearchResponse extends PayPalModel
     /**
      * List of invoices belonging to a merchant.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Invoice[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Invoice[]
      */
     public function getInvoices()
     {
@@ -65,7 +65,7 @@ class InvoiceSearchResponse extends PayPalModel
     /**
      * Append Invoices to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Invoice $invoice
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Invoice $invoice
      * @return $this
      */
     public function addInvoice($invoice)
@@ -82,7 +82,7 @@ class InvoiceSearchResponse extends PayPalModel
     /**
      * Remove Invoices from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Invoice $invoice
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Invoice $invoice
      * @return $this
      */
     public function removeInvoice($invoice)

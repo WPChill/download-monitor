@@ -1,25 +1,25 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PaymentSummary
  *
  * Payment/Refund break up
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency paypal
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency other
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency paypal
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency other
  */
 class PaymentSummary extends PayPalModel
 {
     /**
      * Total Amount paid/refunded via PayPal.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $paypal
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $paypal
      * 
      * @return $this
      */
@@ -32,7 +32,7 @@ class PaymentSummary extends PayPalModel
     /**
      * Total Amount paid/refunded via PayPal.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getPaypal()
     {
@@ -42,7 +42,7 @@ class PaymentSummary extends PayPalModel
     /**
      * Total Amount paid/refunded via other sources.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $other
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $other
      * 
      * @return $this
      */
@@ -55,7 +55,7 @@ class PaymentSummary extends PayPalModel
     /**
      * Total Amount paid/refunded via other sources.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getOther()
     {

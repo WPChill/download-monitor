@@ -1,21 +1,21 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class RefundDetail
  *
  * Invoicing refund information.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string type
  * @property string transaction_id
  * @property string date
  * @property string note
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
  */
 class RefundDetail extends PayPalModel
 {
@@ -115,7 +115,7 @@ class RefundDetail extends PayPalModel
     /**
      * Amount to be recorded as refund against invoice. If this field is not passed, the total invoice paid amount is recorded as refund.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -128,7 +128,7 @@ class RefundDetail extends PayPalModel
     /**
      * Amount to be recorded as refund against invoice. If this field is not passed, the total invoice paid amount is recorded as refund.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {

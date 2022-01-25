@@ -34,7 +34,7 @@ if ( ! dlm_is_shop_enabled() ) {
 /**
  * Setup product post type
  */
-$post_type = new \Never5\DownloadMonitor\Shop\Util\PostType();
+$post_type = new \WPChill\DownloadMonitor\Shop\Util\PostType();
 $post_type->setup();
 
 /**
@@ -43,19 +43,19 @@ $post_type->setup();
 if ( is_admin() ) {
 
 	// Setup the write panels (meta boxes)
-	$write_panels = new \Never5\DownloadMonitor\Shop\Admin\WritePanels();
+	$write_panels = new \WPChill\DownloadMonitor\Shop\Admin\WritePanels();
 	$write_panels->setup();
 
 	// Admin pages
-	$order_page = new \Never5\DownloadMonitor\Shop\Admin\Pages\Orders();
+	$order_page = new \WPChill\DownloadMonitor\Shop\Admin\Pages\Orders();
 	$order_page->setup();
 
 	// Product table columns
-	$columns = new \Never5\DownloadMonitor\Shop\Admin\ProductTableColumns();
+	$columns = new \WPChill\DownloadMonitor\Shop\Admin\ProductTableColumns();
 	$columns->setup();
 
 	// Download Option
-	$download_option = new \Never5\DownloadMonitor\Shop\Admin\DownloadOption();
+	$download_option = new \WPChill\DownloadMonitor\Shop\Admin\DownloadOption();
 	$download_option->setup();
 
 }
@@ -63,50 +63,50 @@ if ( is_admin() ) {
 /**
  * Setup Template Inejctor
  */
-$template_injector = new \Never5\DownloadMonitor\Shop\Util\TemplateInjector();
+$template_injector = new \WPChill\DownloadMonitor\Shop\Util\TemplateInjector();
 $template_injector->init();
 
 
 /**
  * Setup Access manager
  */
-$access_manager = new \Never5\DownloadMonitor\Shop\Access\Manager();
+$access_manager = new \WPChill\DownloadMonitor\Shop\Access\Manager();
 $access_manager->setup();
 
 /**
  * Setup Cart hooks
  */
-$cart_hooks = new \Never5\DownloadMonitor\Shop\Cart\Hooks();
+$cart_hooks = new \WPChill\DownloadMonitor\Shop\Cart\Hooks();
 $cart_hooks->setup();
 
 /**
  * Setup shortcodes
  */
-$shortcode_cart = new \Never5\DownloadMonitor\Shop\Shortcode\Cart();
+$shortcode_cart = new \WPChill\DownloadMonitor\Shop\Shortcode\Cart();
 $shortcode_cart->register();
 
-$shortcode_checkout = new \Never5\DownloadMonitor\Shop\Shortcode\Checkout();
+$shortcode_checkout = new \WPChill\DownloadMonitor\Shop\Shortcode\Checkout();
 $shortcode_checkout->register();
 
 
-$shortcode_buy = new \Never5\DownloadMonitor\Shop\Shortcode\Buy();
+$shortcode_buy = new \WPChill\DownloadMonitor\Shop\Shortcode\Buy();
 $shortcode_buy->register();
 
 /**
  * Setup assets
  */
-$assets = new \Never5\DownloadMonitor\Shop\Util\Assets();
+$assets = new \WPChill\DownloadMonitor\Shop\Util\Assets();
 $assets->setup();
 
 /**
  * Setup AJAX
  */
-$ajax = new \Never5\DownloadMonitor\Shop\Ajax\Manager();
+$ajax = new \WPChill\DownloadMonitor\Shop\Ajax\Manager();
 $ajax->setup();
 
 /**
  * Run setup for every enabled payment gateway
  */
 add_action( 'init', function () {
-	\Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'payment_gateway' )->setup_gateways();
+	\WPChill\DownloadMonitor\Shop\Services\Services::get()->service( 'payment_gateway' )->setup_gateways();
 } );

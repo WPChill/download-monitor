@@ -1,26 +1,26 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Converter\FormatConverter;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\NumericValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\UrlValidator;
 
 /**
  * Class InvoiceItem
  *
  * Information about a single line item.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string name
  * @property string description
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\number quantity
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency unit_price
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Tax tax
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number quantity
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency unit_price
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Tax tax
  * @property string date
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Cost discount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Cost discount
  * @property string unit_of_measure
  */
 class InvoiceItem extends PayPalModel
@@ -99,7 +99,7 @@ class InvoiceItem extends PayPalModel
     /**
      * Unit price of the item. Range of -1,000,000 to 1,000,000.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $unit_price
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $unit_price
      * 
      * @return $this
      */
@@ -112,7 +112,7 @@ class InvoiceItem extends PayPalModel
     /**
      * Unit price of the item. Range of -1,000,000 to 1,000,000.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getUnitPrice()
     {
@@ -122,7 +122,7 @@ class InvoiceItem extends PayPalModel
     /**
      * Tax associated with the item.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Tax $tax
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Tax $tax
      * 
      * @return $this
      */
@@ -135,7 +135,7 @@ class InvoiceItem extends PayPalModel
     /**
      * Tax associated with the item.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Tax
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Tax
      */
     public function getTax()
     {
@@ -168,7 +168,7 @@ class InvoiceItem extends PayPalModel
     /**
      * The item discount, as a percent or an amount value.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Cost $discount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Cost $discount
      * 
      * @return $this
      */
@@ -181,7 +181,7 @@ class InvoiceItem extends PayPalModel
     /**
      * The item discount, as a percent or an amount value.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Cost
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Cost
      */
     public function getDiscount()
     {

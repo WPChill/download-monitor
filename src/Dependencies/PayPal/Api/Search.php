@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Search
  *
  * Invoice search parameters.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string email
  * @property string recipient_first_name
@@ -17,8 +17,8 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
  * @property string recipient_business_name
  * @property string number
  * @property string status
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency lower_total_amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency upper_total_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency lower_total_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency upper_total_amount
  * @property string start_invoice_date
  * @property string end_invoice_date
  * @property string start_due_date
@@ -27,8 +27,8 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
  * @property string end_payment_date
  * @property string start_creation_date
  * @property string end_creation_date
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\number page
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\number page_size
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number page
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number page_size
  * @property bool total_count_required
  * @property bool archived
  */
@@ -176,7 +176,7 @@ class Search extends PayPalModel
     /**
      * The lower limit of the total amount.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $lower_total_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $lower_total_amount
      * 
      * @return $this
      */
@@ -189,7 +189,7 @@ class Search extends PayPalModel
     /**
      * The lower limit of the total amount.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getLowerTotalAmount()
     {
@@ -199,7 +199,7 @@ class Search extends PayPalModel
     /**
      * The upper limit of total amount.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $upper_total_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $upper_total_amount
      * 
      * @return $this
      */
@@ -212,7 +212,7 @@ class Search extends PayPalModel
     /**
      * The upper limit of total amount.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getUpperTotalAmount()
     {
@@ -406,7 +406,7 @@ class Search extends PayPalModel
     /**
      * The offset for the search results.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\number $page
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number $page
      * 
      * @return $this
      */
@@ -419,7 +419,7 @@ class Search extends PayPalModel
     /**
      * The offset for the search results.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\number
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number
      */
     public function getPage()
     {
@@ -429,7 +429,7 @@ class Search extends PayPalModel
     /**
      * The page size for the search results.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\number $page_size
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number $page_size
      * 
      * @return $this
      */
@@ -442,7 +442,7 @@ class Search extends PayPalModel
     /**
      * The page size for the search results.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\number
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\number
      */
     public function getPageSize()
     {

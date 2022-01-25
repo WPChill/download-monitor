@@ -1,33 +1,33 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
-use Never5\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
-use Never5\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalResourceModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalConstants;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Transport\PayPalRestCall;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Validation\ArgumentValidator;
 
 /**
  * Class Agreement
  *
  * A resource representing an agreement.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string state
  * @property string name
  * @property string description
  * @property string start_date
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payer payer
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address shipping_address
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences override_merchant_preferences
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel[] override_charge_models
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Plan plan
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payer payer
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address shipping_address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences override_merchant_preferences
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel[] override_charge_models
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Plan plan
  * @property string create_time
  * @property string update_time
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\AgreementDetails agreement_details
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AgreementDetails agreement_details
  */
 class Agreement extends PayPalResourceModel
 {
@@ -149,7 +149,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Details of the buyer who is enrolling in this agreement. This information is gathered from execution of the approval URL.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payer $payer
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payer $payer
      * 
      * @return $this
      */
@@ -162,7 +162,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Details of the buyer who is enrolling in this agreement. This information is gathered from execution of the approval URL.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payer
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payer
      */
     public function getPayer()
     {
@@ -172,7 +172,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Shipping address object of the agreement, which should be provided if it is different from the default address.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $shipping_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $shipping_address
      * 
      * @return $this
      */
@@ -185,7 +185,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Shipping address object of the agreement, which should be provided if it is different from the default address.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address
      */
     public function getShippingAddress()
     {
@@ -195,7 +195,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Default merchant preferences from the billing plan are used, unless override preferences are provided here.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences $override_merchant_preferences
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences $override_merchant_preferences
      * 
      * @return $this
      */
@@ -208,7 +208,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Default merchant preferences from the billing plan are used, unless override preferences are provided here.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\MerchantPreferences
      */
     public function getOverrideMerchantPreferences()
     {
@@ -218,7 +218,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Array of override_charge_model for this agreement if needed to change the default models from the billing plan.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel[] $override_charge_models
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel[] $override_charge_models
      * 
      * @return $this
      */
@@ -231,7 +231,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Array of override_charge_model for this agreement if needed to change the default models from the billing plan.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel[]
      */
     public function getOverrideChargeModels()
     {
@@ -241,7 +241,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Append OverrideChargeModels to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel $overrideChargeModel
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel $overrideChargeModel
      * @return $this
      */
     public function addOverrideChargeModel($overrideChargeModel)
@@ -258,7 +258,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Remove OverrideChargeModels from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel $overrideChargeModel
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\OverrideChargeModel $overrideChargeModel
      * @return $this
      */
     public function removeOverrideChargeModel($overrideChargeModel)
@@ -271,7 +271,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Plan details for this agreement.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Plan $plan
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Plan $plan
      * 
      * @return $this
      */
@@ -284,7 +284,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Plan details for this agreement.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Plan
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Plan
      */
     public function getPlan()
     {
@@ -340,7 +340,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Agreement Details
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\AgreementDetails $agreement_details
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AgreementDetails $agreement_details
      * 
      * @return $this
      */
@@ -353,7 +353,7 @@ class Agreement extends PayPalResourceModel
     /**
      * Agreement Details
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\AgreementDetails
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\AgreementDetails
      */
     public function getAgreementDetails()
     {

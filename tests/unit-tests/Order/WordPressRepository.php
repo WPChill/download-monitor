@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Tests\Order;
+namespace NevWPChiller5\DownloadMonitor\Tests\Order;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 require_once 'TestOrder.php';
 
@@ -12,7 +12,7 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 * Test retrieve()
 	 */
 	public function test_retrieve() {
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
 		// create dummy order
@@ -33,10 +33,10 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 * Test retrieve() with filters
 	 */
 	public function test_retrieve_filtered() {
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Status\Factory $osf */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Status\Factory $osf */
 		$osf = Services::get()->service( 'order_status_factory' );
 
 		// store first dummy order (status pending-payment)
@@ -62,10 +62,10 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 * Test retrieve() with a limit and an offset
 	 */
 	public function test_retrieve_offset() {
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Status\Factory $osf */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Status\Factory $osf */
 		$osf = Services::get()->service( 'order_status_factory' );
 
 		// store first dummy order (status pending-payment)
@@ -89,10 +89,10 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 * Test retrieve() with an offset and no limit
 	 */
 	public function test_retrieve_offset_no_limit() {
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Status\Factory $osf */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Status\Factory $osf */
 		$osf = Services::get()->service( 'order_status_factory' );
 
 		// store first dummy order (status pending-payment)
@@ -116,7 +116,7 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 * Test retrieve() on order that has a modified date
 	 */
 	public function test_retrieve_with_date_modified() {
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
 		// create dummy order
@@ -141,7 +141,7 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 * Test retrieve_single()
 	 */
 	public function test_retrieve_single() {
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
 		// create dummy order
@@ -161,7 +161,7 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 * Test retrieve_single() on order id that doesn't exist
 	 */
 	public function test_retrieve_single_not_found() {
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 		$this->setExpectedException( '\Exception' );
 		$repo->retrieve_single( 1 );
@@ -172,7 +172,7 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 */
 	public function test_persist() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
 		// check if we're starting clean
@@ -193,7 +193,7 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 */
 	public function test_persist_update() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
 		// create dummy order
@@ -229,7 +229,7 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 */
 	public function test_delete() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
 		// check if we're starting clean
@@ -253,10 +253,10 @@ class WordPressRepository extends \DLM_Unit_Test_Case {
 	 */
 	public function test_empty_trash() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Status\Factory $osf */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Status\Factory $osf */
 		$osf = Services::get()->service( 'order_status_factory' );
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $repo */
 		$repo = Services::get()->service( "order_repository" );
 
 		// check if we're starting clean

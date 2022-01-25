@@ -2,40 +2,6 @@
 
 class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
-	/**
-	 * Prep where statement for WP DB SQL queries
-	 *
-	 * @param $filters
-	 *
-	 * @return string
-	 */
-	private function prep_where_statement( $filters ) {
-		global $wpdb;
-
-		// setup where statements
-		$where = array( "WHERE 1=1" );
-
-		foreach ( $filters as $filter ) {
-			$operator = ( ! empty( $filter['operator'] ) ) ? esc_sql( $filter['operator'] ) : "=";
-
-			if ( 'IN' == $operator && is_array( $filter['value'] ) ) {
-				array_walk( $filter['value'], 'esc_sql' );
-				$value_str = implode( "','", $filter['value'] );
-				$where[]   = "AND `" . esc_sql( $filter['key'] ) . "` " . $operator . " ('" . $value_str . "')";
-			} else {
-				$where[] = $wpdb->prepare( "AND `" . esc_sql( $filter['key'] ) . "` " . $operator . " '%s'", $filter['value'] );
-			}
-
-
-		}
-
-		$where_str = "";
-		if ( count( $where ) > 1 ) {
-			$where_str = implode( " ", $where );
-		}
-
-		return $where_str;
-	}
 
 	/**
 	 * Returns number of rows for given filters
@@ -47,15 +13,10 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	public function num_rows( $filters = array() ) {
 		global $wpdb;
 
-		return $wpdb->get_var( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . ";" );
+		return $wpdb->get_var( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} ;" );
 	}
 
 	/**
-	 * Retrieve grouped counts. Useful for statistics
-	 *
-	 * @param array $filters
-	 * @param string $period
-	 * @param string $grouped_by
 	 * @param int $limit
 	 * @param int $offset
 	 * @param string $order_by
@@ -63,74 +24,12 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 *
 	 * @return array
 	 */
-	public function retrieve_grouped_count( $filters = array(), $period = "day", $grouped_by = "date", $limit = 0, $offset = 0, $order_by = 'value', $order = 'DESC' ) {
-		global $wpdb;
-
-		// escape grouped_by
-		$grouped_by = esc_sql( $grouped_by );
-
-		if ( "date" == $grouped_by ) {
-			$format = "%Y-%m-%d";
-			if ( 'month' === $period ) {
-				$format = "%Y-%m";
-			}
-
-			$grouped_by = "DATE_FORMAT(`download_date`, '" . $format . "')";
-		}
-
-		// escape order_by
-		$order_by = esc_sql( $order_by );
-
-		// order can only be ASC or DESC
-		$order = ( 'ASC' === strtoupper( $order ) ) ? 'ASC' : 'DESC';
-
-		// setup limit & offset
-		$limit_str = "";
-		$limit     = absint( $limit );
-		$offset    = absint( $offset );
-		if ( $limit > 0 ) {
-			$limit_str = "LIMIT {$offset},{$limit}";
-		}
-
-		return $wpdb->get_results( "SELECT COUNT(`ID`) AS `amount`, " . $grouped_by . " AS `value` FROM {$wpdb->download_log} " . $this->prep_where_statement( $filters ) . " GROUP BY " . $grouped_by . " ORDER BY `" . $order_by . "` " . $order . " " . $limit_str . ";" );
-	}
-
-	/**
-	 * Retrieve single item
-	 *
-	 * @param int $id
-	 *
-	 * @return DLM_Log_Item
-	 * @throws Exception
-	 */
-	public function retrieve_single( $id ) {
-		$logs = $this->retrieve( array( array( 'key' => 'ID', 'value' => absint( $id ) ) ) );
-
-		if ( count( $logs ) != 1 ) {
-			throw new Exception( "Log Item not found" );
-		}
-
-		return array_shift( $logs );
-	}
-
-	/**
-	 * @param array $filters
-	 * @param int $limit
-	 * @param int $offset
-	 * @param string $order_by
-	 * @param string $order
-	 *
-	 * @return array
-	 */
-	public function retrieve( $filters = array(), $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
+	public function retrieve( $limit = 0, $offset = 0, $order_by = 'download_date', $order = 'DESC' ) {
 		global $wpdb;
 
 		$items = array();
 
-		// prep where statement
-		$where_str = $this->prep_where_statement( $filters );
-
-		// setup limit & offset
+		// setup limit & offset.
 		$limit_str = "";
 		$limit     = absint( $limit );
 		$offset    = absint( $offset );
@@ -146,7 +45,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		// query
 		$data = $wpdb->get_results(
-			"SELECT * FROM {$wpdb->download_log} {$where_str} ORDER BY `{$order_by}` {$order} {$limit_str};"
+			"SELECT * FROM {$wpdb->download_log} ORDER BY `{$order_by}` {$order} {$limit_str};"
 		);
 
 		if ( count( $data ) > 0 ) {
@@ -154,14 +53,10 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 				$log_item = new DLM_Log_Item();
 				$log_item->set_id( $row->ID );
 				$log_item->set_user_id( $row->user_id );
-				$log_item->set_user_ip( $row->user_ip );
-				$log_item->set_user_agent( $row->user_agent );
 				$log_item->set_download_id( $row->download_id );
 				$log_item->set_version_id( $row->version_id );
 				$log_item->set_version( $row->version );
 				$log_item->set_download_date( new DateTime( $row->download_date ) );
-				$log_item->set_download_status( $row->download_status );
-				$log_item->set_download_status_message( $row->download_status_message );
 				$log_item->set_meta_data( json_decode( $row->meta_data ) );
 				$items[] = $log_item;
 			}
@@ -170,7 +65,10 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		return $items;
 	}
 
+
 	/**
+	 * Download logging
+	 *
 	 * @param DLM_Log_Item $log_item
 	 *
 	 * @throws Exception
@@ -179,124 +77,133 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 	 */
 	public function persist( $log_item ) {
 		global $wpdb;
+		$download_id = $log_item->get_download_id();
+		$version_id  = $log_item->get_version_id();
+		// allow filtering of log item.
+		$log_item = apply_filters( 'dlm_log_item', $log_item, $download_id, $version_id );
 
-		// allow filtering of log item
-		$log_item = apply_filters( 'dlm_log_item', $log_item, $log_item->get_download_id(), $log_item->get_version_id() );
-
-		// hide wpdb errors to prevent errors in download request
+		// hide wpdb errors to prevent errors in download request.
 		$wpdb->hide_errors();
 
-		// format log item date string
-		$log_item_date_string = "";
-		if ( null != $log_item->get_download_date() ) {
-			$log_item_date_string = $log_item->get_download_date()->format( 'Y-m-d H:i:s' );
-		} else {
-			$log_item_date_string = current_time( 'mysql' );
-		}
+		// Set the log date. Should be current date, as logs will be separated by dates.
+		$log_date = date( 'Y-m-d' );
+		$today    = $wpdb->get_results( $wpdb->prepare( "SELECT  * FROM {$wpdb->dlm_reports} WHERE date = %s;", $log_date ), ARRAY_A );
 
-		// format log item meta data
-		$meta_data = null;
-		$lmd       = $log_item->get_meta_data();
-		if ( ! empty( $lmd ) ) {
-			$meta_data = json_encode( $lmd );
-		}
+		// check if entry exists.
+		if ( null !== $today && ! empty( $today ) ) {
 
-		// check if new download or existing
-		if ( 0 == $log_item->get_id() ) {
+			$downloads = json_decode( $today[0]['download_ids'], ARRAY_A );
 
-			// insert row
-			$result = $wpdb->insert(
-				$wpdb->download_log,
+			if ( isset( $downloads[ $download_id ] ) ) {
+				$downloads[ $download_id ]['downloads'] = $downloads[ $download_id ]['downloads'] + 1;
+			} else {
+				$downloads[ $download_id ] = array(
+					'downloads' => 1,
+					'title'     => get_the_title( $download_id ),
+				);
+			}
+
+			$result = $wpdb->update(
+				$wpdb->dlm_reports,
 				array(
-					'user_id'                 => absint( $log_item->get_user_id() ),
-					'user_ip'                 => $log_item->get_user_ip(),
-					'user_agent'              => $log_item->get_user_agent(),
-					'download_id'             => absint( $log_item->get_download_id() ),
-					'version_id'              => absint( $log_item->get_version_id() ),
-					'version'                 => $log_item->get_version(),
-					'download_date'           => $log_item_date_string,
-					'download_status'         => $log_item->get_download_status(),
-					'download_status_message' => $log_item->get_download_status_message(),
-					'meta_data'               => $meta_data
+					'download_ids' => wp_json_encode( $downloads ),
 				),
 				array(
-					'%d',
-					'%s',
-					'%s',
-					'%d',
-					'%d',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%s'
+					'date' => $log_date,
+				),
+			);
+
+			if ( false === $result ) {
+				throw new Exception( 'Unable to insert log item in WordPress database' );
+			}
+		} else {
+
+			// insert row.
+			$result = $wpdb->insert(
+				$wpdb->dlm_reports,
+				array(
+					'date'         => $log_date,
+					'download_ids' => wp_json_encode(
+						array(
+							$download_id => array(
+								'downloads' => 1,
+								'title'     => get_the_title( $download_id ),
+							),
+						)
+					),
 				)
 			);
 
 			if ( false === $result ) {
 				throw new Exception( 'Unable to insert log item in WordPress database' );
 			}
-
-			// set new log id
-			$log_item->set_id( $wpdb->insert_id );
-
-		} else {
-
-			// insert row
-			$result = $wpdb->update(
-				$wpdb->download_log,
-				array(
-					'user_id'                 => absint( $log_item->get_user_id() ),
-					'user_ip'                 => $log_item->get_user_ip(),
-					'user_agent'              => $log_item->get_user_agent(),
-					'download_id'             => absint( $log_item->get_download_id() ),
-					'version_id'              => absint( $log_item->get_version_id() ),
-					'version'                 => $log_item->get_version(),
-					'download_date'           => $log_item_date_string,
-					'download_status'         => $log_item->get_download_status(),
-					'download_status_message' => $log_item->get_download_status_message(),
-					'meta_data'               => $meta_data
-				),
-				array( 'ID' => $log_item->get_id() ),
-				array(
-					'%d',
-					'%s',
-					'%s',
-					'%d',
-					'%d',
-					'%s',
-					'%s',
-					'%s',
-					'%s',
-					'%s'
-				),
-				array( '%d' )
-			);
-
-			if ( false === $result ) {
-				throw new Exception( 'Unable to insert log item in WordPress database' );
-			}
-
 		}
 
-		// trigger action when new log item was added for a download request
-		do_action( 'dlm_downloading_log_item_added', $log_item, $log_item->get_download_id(), $log_item->get_version_id() );
+		// trigger action when new log item was added for a download request.
+		do_action( 'dlm_downloading_log_item_added', $log_item, $download_id, $version_id );
 
 		return true;
 	}
 
 	/**
-	 * Delete log item
+	 * Update Download and Version download counts
 	 *
-	 * @param int $id
-	 *
-	 * @return bool
+	 * @param [int] $download_id The ID of the Download.
+	 * @param [int] $version_id The ID of the Version corresponding to the Download.
+	 * @return void
+	 * @since 4.5.0
 	 */
-	public function delete( $id ) {
+	public function update_detailed_download_count( $download_id, $version_id ) {
+
+		$download_info = $this->retrieve_single_download( $download_id );
+
+		if ( false === $download_info ) {
+			return;
+		}
+
+	}
+
+	/**
+	 * Retrieve download info from custom table
+	 *
+	 * @param  mixed $download_id The ID of the Download.
+	 * @return mixed
+	 * @since 4.5.0
+	 */
+	public function retrieve_single( $download_id ) {
+
 		global $wpdb;
 
-		$id = absint( $id );
+		// Let's get the results that contain all the info we need from both tables.
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wbdb->dlm_single_download} dlm_download INNER JOIN {$wpdb->posts} dlm_post ON dlm_download.download_id = dlm_post.ID WHERE dlm_download.download_id = %s", $download_id ), ARRAY_A );
 
-		return ( false !== $wpdb->delete( $wpdb->download_log, array( 'ID' => $id ), array( '%d' ) ) );
+		if ( null === $result || empty( $result ) ) {
+			return false;
+		}
+
+		return $result;
+
+	}
+
+	/**
+	 * Retrieve download info from custom table
+	 *
+	 * @param  mixed $date The date for the desired report.
+	 * @return mixed
+	 * @since 4.5.0
+	 */
+	public function retrieve_single_day( $date ) {
+
+		global $wpdb;
+
+		// Let's get the results that contain all the info we need from both tables.
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wbdb->dlm_reports} dlm_download WHERE dlm_download.date = %s", $date ), ARRAY_A );
+
+		if ( null === $result || empty( $result ) ) {
+			return false;
+		}
+
+		return $result;
+
 	}
 }

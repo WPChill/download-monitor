@@ -1,15 +1,15 @@
 <?php
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Transport;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Transport;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConfig;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConnection;
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalLoggingManager;
-use Never5\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConfig;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalHttpConnection;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalLoggingManager;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Rest\ApiContext;
 
 /**
  * Class PayPalRestCall
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Transport
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Transport
  */
 class PayPalRestCall
 {
@@ -48,7 +48,7 @@ class PayPalRestCall
      * @param string $data     Request payload
      * @param array  $headers  HTTP headers
      * @return mixed
-     * @throws \Never5\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException
+     * @throws \WPChill\DownloadMonitor\Dependencies\PayPal\Exception\PayPalConnectionException
      */
     public function execute($handlers = array(), $path, $method, $data = '', $headers = array())
     {

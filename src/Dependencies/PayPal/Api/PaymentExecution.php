@@ -1,18 +1,18 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PaymentExecution
  *
  * Let's you execute a PayPal Account based Payment resource with the payer_id obtained from web approval url.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string payer_id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction[] transactions
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction[] transactions
  */
 class PaymentExecution extends PayPalModel
 {
@@ -65,7 +65,7 @@ class PaymentExecution extends PayPalModel
     /**
      * Transactional details including the amount and item details.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction[] $transactions
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction[] $transactions
      * 
      * @return $this
      */
@@ -78,7 +78,7 @@ class PaymentExecution extends PayPalModel
     /**
      * Transactional details including the amount and item details.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction[]
      */
     public function getTransactions()
     {
@@ -88,7 +88,7 @@ class PaymentExecution extends PayPalModel
     /**
      * Append Transactions to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction $transaction
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction $transaction
      * @return $this
      */
     public function addTransaction($transaction)
@@ -105,7 +105,7 @@ class PaymentExecution extends PayPalModel
     /**
      * Remove Transactions from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Transaction $transaction
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Transaction $transaction
      * @return $this
      */
     public function removeTransaction($transaction)

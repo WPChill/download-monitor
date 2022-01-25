@@ -1,17 +1,17 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class Transactions
  *
  * 
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
  */
 class Transactions extends PayPalModel
 {
@@ -19,7 +19,7 @@ class Transactions extends PayPalModel
      * Amount being collected.
      * 
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
      * 
      * @return $this
      */
@@ -32,7 +32,7 @@ class Transactions extends PayPalModel
     /**
      * Amount being collected.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount
      */
     public function getAmount()
     {

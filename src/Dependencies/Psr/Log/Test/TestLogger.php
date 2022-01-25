@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\Psr\Log\Test;
+namespace WPChill\DownloadMonitor\Dependencies\Psr\Log\Test;
 
-use Never5\DownloadMonitor\Dependencies\Psr\Log\AbstractLogger;
+use WPChill\DownloadMonitor\Dependencies\Psr\Log\AbstractLogger;
 
 /**
  * Used for testing purposes.

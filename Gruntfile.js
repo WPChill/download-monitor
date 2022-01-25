@@ -6,6 +6,7 @@ module.exports = function ( grunt ) {
 	require( 'load-grunt-tasks' )( grunt, { scope: 'devDependencies' } );
 
 	grunt.initConfig( {
+		pkg: grunt.file.readJSON( 'package.json' ),
 		// setting folder templates
 		dirs: {
 			css: 'assets/css',
@@ -151,56 +152,43 @@ module.exports = function ( grunt ) {
 				].join( '&&' )
 			}
 		},
-
-		copy: {
-			build: {
-				expand: true,
-				src: [
-					'**',
-					'!node_modules/**',
-					'!build/**',
-					'!tests/**',
-					'!.git/**',
-					'!.tx/**',
-					'!readme.md',
-					'!README.md',
-					'!phpcs.ruleset.xml',
-					'!package-lock.json',
-					'!svn-ignore.txt',
-					'!Gruntfile.js',
-					'!package.json',
-					'!composer.json',
-					'!composer.lock',
-					'!phpunit.xml',
-					'!postcss.config.js',
-					'!webpack.config.js',
-					'!set_tags.sh',
-					'!download-monitor.zip',
-					'!old/**',
-					'!nbproject/**'
-				],
-				dest: 'build/'
-			}
-		},
-
 		compress: {
 			build: {
 				options: {
 					pretty: true,                           // Pretty print file sizes when logging.
-					archive: 'download-monitor.zip'
+					archive: '<%= pkg.name %>.zip'
 				},
 				expand: true,
-				cwd: 'build/',
-				src: [ '**/*' ],
-				dest: 'download-monitor/'
+				cwd: '',
+				src: [ 
+				'**',
+				'!node_modules/**',
+				'!dummy_data/**',
+				'!.github/**',
+				'!.git/**',
+				'!build/**',
+				'!readme.md',
+				'!README.md',
+				'!phpcs.ruleset.xml',
+				'!package-lock.json',
+				'!svn-ignore.txt',
+				'!Gruntfile.js',
+				'!package.json',
+				'!composer.json',
+				'!composer.lock',
+				'!postcss.config.js',
+				'!webpack.config.js',
+				'!set_tags.sh',
+				'!dlm-email-notification.zip',
+				'!old/**',
+				'!bin/**',
+				'!tests/**',
+				'!codeception.dist.yml',
+				'!regconfig.json',
+				'!nbproject/**' ],
+				dest: '<%= pkg.name %>'
 			}
 		},
-
-		clean: {
-			init: {
-				src: [ 'build/' ]
-			}
-		}
 
 	} );
 
@@ -214,6 +202,7 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks('grunt-checktextdomain');
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks('@fltwk/grunt-po2mo');
+	grunt.loadNpmTasks('grunt-contrib-compress');
 
 	// Register tasks
 	grunt.registerTask( 'default', [
@@ -242,5 +231,10 @@ module.exports = function ( grunt ) {
 	] );
 
 	grunt.registerTask('makemo', ['po2mo']);
+
+	// Build task
+	grunt.registerTask( 'build-archive', [	
+		'compress:build',
+	] );
 
 };

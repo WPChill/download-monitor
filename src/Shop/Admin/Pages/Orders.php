@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Admin\Pages;
+namespace WPChill\DownloadMonitor\Shop\Admin\Pages;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Shop\Util\PostType;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Util\PostType;
 
 class Orders {
 
@@ -39,7 +39,7 @@ class Orders {
 		if ( isset( $_GET['details'] ) && ! empty( $_GET['details'] ) ) {
 			$order_id = absint( $_GET['details'] );
 			try {
-				/** @var \Never5\DownloadMonitor\Shop\Order\Order $order */
+				/** @var \WPChill\DownloadMonitor\Shop\Order\Order $order */
 				$order = Services::get()->service( 'order_repository' )->retrieve_single( $order_id );
 
 				$customer = array(

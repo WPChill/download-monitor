@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class PaymentCard
  *
  * A payment card that can fund a payment.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string id
  * @property string number
@@ -22,13 +22,13 @@ use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
  * @property string first_name
  * @property string last_name
  * @property string billing_country
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address billing_address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address billing_address
  * @property string external_customer_id
  * @property string status
  * @property string card_product_class
  * @property string valid_until
  * @property string issue_number
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] links
  */
 class PaymentCard extends PayPalModel
 {
@@ -289,7 +289,7 @@ class PaymentCard extends PayPalModel
     /**
      * The billing address for the card.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
      * 
      * @return $this
      */
@@ -302,7 +302,7 @@ class PaymentCard extends PayPalModel
     /**
      * The billing address for the card.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address
      */
     public function getBillingAddress()
     {
@@ -429,7 +429,7 @@ class PaymentCard extends PayPalModel
     /**
      * Sets Links
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[] $links
      * 
      * @return $this
      */
@@ -442,7 +442,7 @@ class PaymentCard extends PayPalModel
     /**
      * Gets Links
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links[]
      */
     public function getLinks()
     {
@@ -452,7 +452,7 @@ class PaymentCard extends PayPalModel
     /**
      * Append Links to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function addLink($links)
@@ -469,7 +469,7 @@ class PaymentCard extends PayPalModel
     /**
      * Remove Links from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Links $links
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Links $links
      * @return $this
      */
     public function removeLink($links)

@@ -1,10 +1,10 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Log;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Log;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Core\PayPalConfigManager;
-use Never5\DownloadMonitor\Dependencies\Psr\Log\AbstractLogger;
-use Never5\DownloadMonitor\Dependencies\Psr\Log\LogLevel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Core\PayPalConfigManager;
+use WPChill\DownloadMonitor\Dependencies\Psr\Log\AbstractLogger;
+use WPChill\DownloadMonitor\Dependencies\Psr\Log\LogLevel;
 
 class PayPalLogger extends AbstractLogger
 {
@@ -65,8 +65,8 @@ class PayPalLogger extends AbstractLogger
             if ($this->isLoggingEnabled) {
                 $this->loggerFile = ($config['log.FileName']) ? $config['log.FileName'] : ini_get('error_log');
                 $loggingLevel = strtoupper($config['log.LogLevel']);
-                $this->loggingLevel = (isset($loggingLevel) && defined("\\Never5\\DownloadMonitor\\Dependencies\\Psr\\Log::$loggingLevel")) ?
-                    constant("\\Never5\\DownloadMonitor\\Dependencies\\Psr\\Log::$loggingLevel") :
+                $this->loggingLevel = (isset($loggingLevel) && defined("\\WPChill\\DownloadMonitor\\Dependencies\\Psr\\Log::$loggingLevel")) ?
+                    constant("\\WPChill\\DownloadMonitor\\Dependencies\\Psr\\Log::$loggingLevel") :
                     LogLevel::INFO;
             }
         }

@@ -1,21 +1,21 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class ShippingInfo
  *
  * Shipping information for the invoice recipient.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string first_name
  * @property string last_name
  * @property string business_name
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone phone
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone phone
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress address
  */
 class ShippingInfo extends PayPalModel
 {
@@ -91,7 +91,7 @@ class ShippingInfo extends PayPalModel
     /**
      *
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone $phone
      * @return $this
      */
     public function setPhone($phone)
@@ -103,7 +103,7 @@ class ShippingInfo extends PayPalModel
     /**
      *
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Phone
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Phone
      */
     public function getPhone()
     {
@@ -135,7 +135,7 @@ class ShippingInfo extends PayPalModel
     /**
      * Address of the invoice recipient.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress $address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress $address
      * 
      * @return $this
      */
@@ -148,7 +148,7 @@ class ShippingInfo extends PayPalModel
     /**
      * The invoice recipient address.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\InvoiceAddress
      */
     public function getAddress()
     {

@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Never5
+# Copyright (C) 2019 WPChill
 # This file is distributed under the GPL v3.
 # Translators:
 msgid ""
@@ -3269,11 +3269,11 @@ msgid ""
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Never5"
+msgid "WPChill"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://www.never5.com"
+msgid "https://www.WPChill.com"
 msgstr ""
 
 #: src/Admin/MediaInsert.php:217

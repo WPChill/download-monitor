@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\Test;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\Test;
 
-use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway;
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class TestGateway extends PaymentGateway\PaymentGateway {
 
@@ -23,7 +23,7 @@ class TestGateway extends PaymentGateway\PaymentGateway {
 	/**
 	 * Process the payment
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return PaymentGateway\Result
 	 */
@@ -33,11 +33,11 @@ class TestGateway extends PaymentGateway\PaymentGateway {
 
 		try {
 
-			/** @var \Never5\DownloadMonitor\Shop\Order\Repository $order_repo */
+			/** @var \WPChill\DownloadMonitor\Shop\Order\Repository $order_repo */
 			$order_repo = Services::get()->service( 'order_repository' );
 
 			// add a test transaction as well
-			/** @var \Never5\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
+			/** @var \WPChill\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
 			$dlm_transaction = Services::get()->service( 'order_transaction_factory' )->make();
 			$dlm_transaction->set_amount( $order->get_total() );
 			$dlm_transaction->set_processor( $this->get_id() );

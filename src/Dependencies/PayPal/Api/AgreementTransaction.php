@@ -1,22 +1,22 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPal\Api;
+namespace WPChill\DownloadMonitor\Dependencies\PayPal\Api;
 
-use Never5\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
+use WPChill\DownloadMonitor\Dependencies\PayPal\Common\PayPalModel;
 
 /**
  * Class AgreementTransaction
  *
  * A resource representing an agreement_transaction that is returned during a transaction search.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string transaction_id
  * @property string status
  * @property string transaction_type
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency fee_amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency net_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency fee_amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency net_amount
  * @property string payer_email
  * @property string payer_name
  * @property string time_stamp
@@ -96,7 +96,7 @@ class AgreementTransaction extends PayPalModel
     /**
      * Amount for this transaction.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $amount
      * 
      * @return $this
      */
@@ -109,7 +109,7 @@ class AgreementTransaction extends PayPalModel
     /**
      * Amount for this transaction.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getAmount()
     {
@@ -119,7 +119,7 @@ class AgreementTransaction extends PayPalModel
     /**
      * Fee amount for this transaction.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $fee_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $fee_amount
      * 
      * @return $this
      */
@@ -132,7 +132,7 @@ class AgreementTransaction extends PayPalModel
     /**
      * Fee amount for this transaction.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getFeeAmount()
     {
@@ -142,7 +142,7 @@ class AgreementTransaction extends PayPalModel
     /**
      * Net amount for this transaction.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency $net_amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency $net_amount
      * 
      * @return $this
      */
@@ -155,7 +155,7 @@ class AgreementTransaction extends PayPalModel
     /**
      * Net amount for this transaction.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Currency
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Currency
      */
     public function getNetAmount()
     {
