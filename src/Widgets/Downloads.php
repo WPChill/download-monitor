@@ -70,9 +70,16 @@ class DLM_Widget_Downloads extends WP_Widget {
 			'tax_query'      => array()
 		);
 
-		if ( $orderby == 'download_count' ) {
-			$args['orderby']  = 'meta_value_num';
-			$args['meta_key'] = '_download_count';
+		if ( $orderby == 'download_count' ) {  
+			$args['meta_query']['relation'] = 'OR';
+			$args['meta_query'][] = array(
+				'key'   => '_download_count',
+				'compare' => 'EXISTS'
+			);
+			$args['meta_query'][] = array(
+				'key'   => '_download_count',
+				'compare' => 'NOT EXISTS'
+			);
 		}
 
 		if ( $featured == 'yes' ) {
@@ -88,7 +95,6 @@ class DLM_Widget_Downloads extends WP_Widget {
 				'value' => 'yes'
 			);
 		}
-
 		// fetch downloads
 		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $args, $posts_per_page );
 
