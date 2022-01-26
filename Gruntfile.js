@@ -152,6 +152,42 @@ module.exports = function ( grunt ) {
 				].join( '&&' )
 			}
 		},
+		clean: {
+			init: {
+				src: [ 'build/' ]
+			},
+		},
+		copy: {
+			build: {
+				expand: true,
+				src: [
+					'**',
+					'!node_modules/**',
+					'!vendor/**',
+					'!build/**',
+					'!readme.md',
+					'!README.md',
+					'!phpcs.ruleset.xml',
+					'!package-lock.json',
+					'!svn-ignore.txt',
+					'!Gruntfile.js',
+					'!package.json',
+					'!composer.json',
+					'!composer.lock',
+					'!postcss.config.js',
+					'!webpack.config.js',
+					'!set_tags.sh',
+					'!download-monitor.zip',
+					'!old/**',
+					'!bin/**',
+					'!tests/**',
+					'!codeception.dist.yml',
+					'!regconfig.json',
+					'!nbproject/**'
+				],
+				dest: 'build/'
+			}
+		},
 		compress: {
 			build: {
 				options: {
@@ -231,10 +267,5 @@ module.exports = function ( grunt ) {
 	] );
 
 	grunt.registerTask('makemo', ['po2mo']);
-
-	// Build task
-	grunt.registerTask( 'build-archive', [	
-		'compress:build',
-	] );
 
 };
