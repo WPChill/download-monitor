@@ -90,7 +90,7 @@ class DLM_Download_Handler {
 	 */
 	public function handler() {
 		global $wp, $wpdb;
-		
+
 		// check HTTP method
 		$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : 'GET' );
 		if ( ! in_array( $request_method, apply_filters( 'dlm_accepted_request_methods', array( 'GET', 'POST' ) ) ) ) {
@@ -194,7 +194,7 @@ class DLM_Download_Handler {
 
 				}
 			}
-			
+
 			// Do not allow the download of certain file types.
 			if ( in_array( $download->get_version()->get_filetype(), array( '', 'php', 'html', 'htm', 'tmp' ) ) ) {
 				wp_die( esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
@@ -229,8 +229,9 @@ class DLM_Download_Handler {
 	private function log( $download, $version ) {
 
 		// Check if logging is enabled.
-		if ( DLM_Logging::is_logging_enabled() ) {
-			// setup new log item object
+		if ( ! DLM_Logging::is_logging_enabled() ) return;
+		// setup new log item object
+		if( ! DLM_Cookie_Manager::exists( $download ) ) {
 			$log_item = new DLM_Log_Item();
 			$log_item->set_user_id( absint( get_current_user_id() ) );
 			$log_item->set_download_id( absint( $download->get_id() ) );
@@ -241,7 +242,6 @@ class DLM_Download_Handler {
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 		}
-
 	}
 
 	/**
@@ -308,7 +308,7 @@ class DLM_Download_Handler {
 						}else{
 							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
 						}
-						
+
 						if ( ! $download->get_version()->is_latest() ) {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
@@ -328,7 +328,6 @@ class DLM_Download_Handler {
 
 			exit;
 		}
-
 		// check if user downloaded this version in the past minute.
 		if ( DLM_Logging::is_download_window_enabled( $download ) ) {
 
@@ -357,7 +356,7 @@ class DLM_Download_Handler {
 		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
 
 		$this->download_headers( $file_path, $download, $version );
-		
+
         do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
@@ -383,7 +382,7 @@ class DLM_Download_Handler {
 					// phpcs:ignore
 					$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
 				}
-				
+
 				header( "X-Accel-Redirect: /$file_path" );
 				exit;
 			}
