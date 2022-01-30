@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 5.8
-Stable tag: 4.4.13
+Stable tag: 4.5.0
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -49,9 +49,9 @@ We have a large Knowledge Base on our [Download Monitor website](https://www.dow
 
 Are you a new Download Monitor user? Read these articles on how to get your files ready for download with Download Monitor:
 
-1. [How to install Download Monitor](https://www.download-monitor.com/kb/installation/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
-2. [How to add your first download in Download Monitor](https://www.download-monitor.com/kb/adding-downloads/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
-3. [How to list your first download on your website with the download shortcode](https://www.download-monitor.com/kb/shortcode-download/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
+1. [How to install Download Monitor](https://www.download-monitor.com/kb/install-and-activate-download-monitor//?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
+2. [How to add your first download in Download Monitor](https://www.download-monitor.com/kb/adding-downloads-to-your-website/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
+3. [How to list your first download on your website with the download shortcode](https://www.download-monitor.com/kb/shortcode-downloads/?utm_source=wp-plugin-repo&utm_medium=link&utm_campaign=description-documentation)
 
 More advanced topics that a lot of people find interesting:
 
@@ -61,15 +61,14 @@ More advanced topics that a lot of people find interesting:
 
 = Contributing and reporting bugs =
 
-You can contribute code to this plugin via GitHub: [https://github.com/download-monitor/download-monitor](https://github.com/download-monitor/download-monitor)
+You can contribute code to this plugin via GitHub: [https://github.com/WPChill/download-monitor](https://github.com/WPChill/download-monitor)
 
 You can contribute localizations via Transifex [https://www.transifex.com/projects/p/download-monitor/](https://www.transifex.com/projects/p/download-monitor/)
 
 = Support =
 
-Use the WordPress.org forums for community support. If you spot a bug, you can of course log it on [Github](https://github.com/download-monitor/download-monitor) instead where we can act upon it more efficiently.
+Use the WordPress.org forums for community support. If you spot a bug, you can of course log it on [Github](https://github.com/WPChill/download-monitor/issues/new/choose) instead where we can act upon it more efficiently.
 
-Unfortunately we can't offer you help with a customisation. Please consider hiring a developer for your website's customizations.
 
 == Installation ==
 
@@ -120,3 +119,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 2. The main admin screen lists your downloads using familiar WordPress UI.
 3. Easily add file information and multiple versions.
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
+
+== Changelog ==
+
+See <a href="https://github.com/WPChill/download-monitor/blob/master/changelog.txt" target="_blank">changelog</a>
