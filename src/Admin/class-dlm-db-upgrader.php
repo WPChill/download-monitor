@@ -51,7 +51,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				array(
 					'db_upgraded'   => '0',
 					'using_logs'    => ( isset( $dlm_logging ) && '1' === $dlm_logging ) ? '1' : '0',
-					'upgraded_date' => date( 'Y-m-d' ) . ' 00:00:00',
+					'upgraded_date' => wp_date( 'Y-m-d' ) . ' 00:00:00',
 				)
 			);
 		}
@@ -109,7 +109,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			$installed_version = get_option( 'dlm_current_version' );
 
-			if ( $installed_version && version_compare( $installed_version, '4.5.0', '<' ) ) {
+			if ( $installed_version && version_compare( $installed_version, '5.0.0', '<' ) ) {
 
 				set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
 				return true;
@@ -223,7 +223,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Final step has been made, upgrade is complete.
 			$dlm_db_upgrade                  = get_option( 'dlm_db_upgraded' );
 			$dlm_db_upgrade['db_upgraded']   = '1';
-			$dlm_db_upgrade['upgraded_date'] = date( 'Y-m-d' );
+			$dlm_db_upgrade['upgraded_date'] = wp_date( 'Y-m-d' );
 
 			update_option( 'dlm_db_upgraded', $dlm_db_upgrade );
 			wp_send_json( array( 'success' => true ) );

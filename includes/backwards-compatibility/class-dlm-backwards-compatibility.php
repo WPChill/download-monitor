@@ -113,11 +113,16 @@ class DLM_Backwards_Compatibility {
 
 		$download_count_order = false;
 
+		// We should keep this if custom functionality using our retrieve function was made by users / other developers
 		if ( isset( $filters['meta_query'] ) && isset( $filters['meta_query']['orderby_meta'] ) && '_download_count' === $filters['meta_query']['orderby_meta']['key'] ) {
 			$download_count_order = true;
 		}
 
 		if ( ! empty( $filters ) && isset( $filters['orderby'] ) && isset( $filters['meta_key'] ) && 'meta_value_num' === $filters['orderby'] && '_download_count' === $filters['meta_key'] ) {
+			$download_count_order = true;
+		}
+
+		if ( ! empty( $filters ) && isset( $filters['order_by_count'] ) && '1' === $filters['order_by_count'] ) {
 			$download_count_order = true;
 		}
 
@@ -127,7 +132,9 @@ class DLM_Backwards_Compatibility {
 
 		$this->filters = $filters;
 
+		add_filter( 'dlm_backwards_compatibility_query_args', array( $this, 'query_args_download_count_compatibility' ) );
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
+		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		add_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
 
@@ -168,6 +175,20 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
+	 * Group by download_id from download_log in order to properly return our downloads
+	 *
+	 * @param [type] $group_by
+	 * @return void
+	 */
+	public function groupby_download_count_compatibility( $group_by ) {
+
+		global $wpdb;
+
+		return " {$wpdb->download_log}.download_id ";
+
+	}
+
+	/**
 	 * Add orderby custom table count value
 	 *
 	 * @since 4.5.0
@@ -198,6 +219,7 @@ class DLM_Backwards_Compatibility {
 	public function reset_postdata() {
 
 		remove_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
+		remove_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		remove_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		remove_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
 	}
@@ -226,6 +248,27 @@ class DLM_Backwards_Compatibility {
 		}
 
 		return $counts;
+	}
+
+	/**
+	 * Backwards compatiblity for query args if using custom functionality
+	 *
+	 * @param [type] $query_args
+	 * @return void
+	 */
+	public function query_args_download_count_compatibility( $query_args ) {
+
+		if ( isset( $filters['meta_query'] ) && isset( $filters['meta_query']['orderby_meta'] ) && '_download_count' === $filters['meta_query']['orderby_meta']['key'] ) {
+
+			unset( $query_args['meta_query'] );
+			unset( $query_args['orderby_meta'] );
+		}
+
+		if ( ! empty( $filters ) && isset( $filters['orderby'] ) && isset( $filters['meta_key'] ) && 'meta_value_num' === $filters['orderby'] && '_download_count' === $filters['meta_key'] ) {
+
+			unset( $query_args['meta_key'] );
+			unset( $query_args['orderby'] );
+		}
 	}
 
 }

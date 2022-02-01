@@ -323,6 +323,7 @@ class DLM_Shortcodes {
 		$post__not_in = ! empty( $exclude ) ? explode( ',', $exclude ) : '';
 		$order        = strtoupper( $order );
 		$meta_key     = '';
+		$order_by_count = '';
 
 		switch ( $orderby ) {
 			case 'title' :
@@ -340,8 +341,7 @@ class DLM_Shortcodes {
 			case 'hits' :
 			case 'count' :
 			case 'download_count' :
-				$orderby  = 'meta_value_num';
-				$meta_key = '_download_count';
+				$order_by_count = '1';
 				break;
 			default :
 				$orderby = 'title';
@@ -349,14 +349,15 @@ class DLM_Shortcodes {
 		}
 
 		$args = array(
-			'post_type'    => 'dlm_download',
-			'post_status'  => 'publish',
-			'orderby'      => $orderby,
-			'order'        => $order,
-			'meta_key'     => $meta_key,
-			'post__in'     => $post__in,
-			'post__not_in' => $post__not_in,
-			'meta_query'   => array()
+			'post_type'      => 'dlm_download',
+			'post_status'    => 'publish',
+			'orderby'        => $orderby,
+			'order'          => $order,
+			'meta_key'       => $meta_key,
+			'post__in'       => $post__in,
+			'post__not_in'   => $post__not_in,
+			'meta_query'     => array(),
+			'order_by_count' => $order_by_count,
 		);
 
 		if ( $category || $tag || $exclude_tag ) {

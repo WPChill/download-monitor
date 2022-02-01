@@ -42,6 +42,12 @@ class DLM_Installer {
 		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
 		$no_access_page_endpoint->setup();
 
+		$installed_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION );
+
+		if ( $installed_version && version_compare( $installed_version, DLM_UPGRADER_VERSION, '<' ) ) {
+			set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
+		}
+
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 
 		// add rewrite rules

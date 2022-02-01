@@ -127,7 +127,7 @@ class WP_DLM {
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.
-		// This is mainly to move to version 4.5.x from 4.4.x and below.
+		// This is mainly to move to version 5.x.x from 4.5.x and below.
 		$upgrader = DLM_DB_Upgrader::get_instance();
 
 		// Set Reports. We set them here in order to also create the REST Api calls.

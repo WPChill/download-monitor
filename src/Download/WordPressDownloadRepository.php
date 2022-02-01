@@ -40,7 +40,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 			$args['offset'] = $offset;
 		}
 
-		return $args;
+		return apply_filters( 'dlm_backwards_compatibility_query_args', $args );
 	}
 
 	/**

@@ -41,22 +41,8 @@ class DLM_Admin_Dashboard {
 		$filters = apply_filters(
 			'dlm_admin_dashboard_popular_downloads_filters',
 			array(
-				'no_found_rows' => 1,
-				'orderby'       => array(
-					'orderby_meta' => 'DESC',
-				),
-				'meta_query'    => array(
-					'orderby_meta' => array(
-						'key'  => '_download_count',
-						'type' => 'NUMERIC',
-					),
-					array(
-						'key'     => '_download_count',
-						'value'   => '0',
-						'compare' => '>',
-						'type'    => 'NUMERIC',
-					),
-				),
+				'no_found_rows'  => 1,
+				'order_by_count' => '1',
 			),
 		);
 
