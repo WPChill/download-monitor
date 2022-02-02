@@ -109,7 +109,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			$installed_version = get_option( 'dlm_current_version' );
 
-			if ( $installed_version && version_compare( $installed_version, '5.0.0', '<' ) ) {
+			if ( $installed_version && version_compare( $installed_version, DLM_UPGRADER_VERSION, '<' ) ) {
 
 				set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
 				return true;
@@ -272,7 +272,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$upgrade_option = get_option( 'dlm_db_upgraded' );
 
 			// Check if table exists and if option is valid.
-			if ( null !== $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->dlm_reports ) ) && isset( $upgrade_option['db_upgraded'] ) && '1' === $upgrade_option['db_upgraded'] ) {
+			if ( null !== DLM_Utils::table_checker( $wpdb->dlm_reports ) && isset( $upgrade_option['db_upgraded'] ) && '1' === $upgrade_option['db_upgraded'] ) {
 
 				return true;
 			}

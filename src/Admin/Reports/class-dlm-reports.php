@@ -30,7 +30,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function __construct() {
 			global $wpdb;
 
-			if ( DLM_Logging::is_logging_enabled() && $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->dlm_reports ) ) ) {
+			if ( DLM_Logging::is_logging_enabled() && DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 				add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 
 				add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );

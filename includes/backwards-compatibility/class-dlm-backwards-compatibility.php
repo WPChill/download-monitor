@@ -48,7 +48,8 @@ class DLM_Backwards_Compatibility {
 		add_filter( 'dlm_shortcode_total_downloads', array( $this, 'total_downloads_shortcode' ) );
 		add_action( 'dlm_backwards_compatibility', array( $this, 'orderby_compatibility' ), 15, 1 );
 		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
-		add_filter( 'dlm_meta_download_count', array( $this, 'meta_download_counts' ), 15, 2 );
+		add_filter( 'dlm_add_version_meta_download_count', array( $this, 'meta_download_counts' ), 15, 2 );
+		add_filter( 'dlm_add_meta_download_count', array( $this, 'add_meta_download_count' ), 30, 2 );
 
 		// If the DB upgrade functionality did not take place we won't have the option stored.
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
@@ -107,7 +108,10 @@ class DLM_Backwards_Compatibility {
 
 		global $wpdb;
 
-		if ( ! DLM_Utils::table_checker( $wpdb->download_log ) || ! DLM_Logging::is_logging_enabled() ) {
+		// If there is no download_log table or is empty or the user has opted to not use the logging we should revert
+		// to ordering by _download_count post meta.
+		if ( $this->check_if_table_empty( $wpdb->download_log ) || ! DLM_Logging::is_logging_enabled() ) {
+			add_filter( 'dlm_backwards_compatibility_query_args', array( $this, 'no_log_query_args_compatibility' ) );
 			return;
 		}
 
@@ -132,7 +136,7 @@ class DLM_Backwards_Compatibility {
 
 		$this->filters = $filters;
 
-		add_filter( 'dlm_backwards_compatibility_query_args', array( $this, 'query_args_download_count_compatibility' ) );
+		add_filter( 'dlm_backwards_compatibility_query_args', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
@@ -184,7 +188,7 @@ class DLM_Backwards_Compatibility {
 
 		global $wpdb;
 
-		return " {$wpdb->download_log}.download_id ";
+		return " {$wpdb->posts}.ID ";
 
 	}
 
@@ -256,19 +260,85 @@ class DLM_Backwards_Compatibility {
 	 * @param [type] $query_args
 	 * @return void
 	 */
-	public function query_args_download_count_compatibility( $query_args ) {
+	public function query_args_download_count_compatibility( $filters ) {
 
 		if ( isset( $filters['meta_query'] ) && isset( $filters['meta_query']['orderby_meta'] ) && '_download_count' === $filters['meta_query']['orderby_meta']['key'] ) {
 
-			unset( $query_args['meta_query'] );
-			unset( $query_args['orderby_meta'] );
+			unset( $filters['meta_query'] );
+			unset( $filters['orderby_meta'] );
 		}
 
 		if ( ! empty( $filters ) && isset( $filters['orderby'] ) && isset( $filters['meta_key'] ) && 'meta_value_num' === $filters['orderby'] && '_download_count' === $filters['meta_key'] ) {
 
-			unset( $query_args['meta_key'] );
-			unset( $query_args['orderby'] );
+			unset( $filters['meta_key'] );
+			unset( $filters['orderby'] );
 		}
+
+		if ( isset( $filters['orderby'] ) && 'download_count' == $filters['orderby'] ) {
+			unset( $filters['orderby'] );
+		}
+
+		return $filters;
+	}
+
+	/**
+	 * Backwards compatiblity for query args if user was not using logs before
+	 *
+	 * @param [type] $query_args
+	 * @return void
+	 */
+	public function no_log_query_args_compatibility( $filters ) {
+
+		if ( isset( $filters['order_by_count'] ) ) {
+
+			$filters['meta_key'] = '_download_count';
+			$filters['orderby']  = 'meta_value_num';
+		}
+
+		return $filters;
+	}
+
+	/**
+	 * Backwards compatibility to take meta count into consideration for Donwloads
+	 *
+	 * @param [type] $count
+	 * @param [type] $download_id
+	 * @return void
+	 */
+	public function add_meta_download_count( $counts, $download_id ) {
+
+		if ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) {
+
+			if ( 'dlm_download' !== get_post_type( $download_id ) ) {
+
+				return $counts;
+			}
+
+			$meta_counts = get_post_meta( $download_id, '_download_count', true );
+
+			if ( isset( $meta_counts ) && '' !== $meta_counts ) {
+				return ( (int) $counts + (int) $meta_counts );
+			}
+		}
+
+		return $counts;
+	}
+
+	/**
+	 * Check for empty tables
+	 *
+	 * @return void
+	 */
+	private function check_if_table_empty( $table ) {
+
+		global $wpdb;
+		$sql_check  = "SELECT COUNT(`ID`) FROM {$table}";
+
+		if ( DLM_Utils::table_checker( $wpdb->dlm_reports ) && '0' !== $wpdb->get_var( $sql_check) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 }

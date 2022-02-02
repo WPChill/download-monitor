@@ -2,8 +2,8 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
-Tested up to: 5.8
-Stable tag: 5.0.0
+Tested up to: 5.9
+Stable tag: 4.6.0
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
