@@ -7,14 +7,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Backwards Compatibility class
  *
- * @since 4.5.0
+ * @since 4.6.0
  */
 class DLM_Backwards_Compatibility {
 
 	/**
 	 * Holds the class object.
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
 	 *
 	 * @var object
 	 */
@@ -23,7 +23,7 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * The filters for the query.
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
 	 *
 	 * @var object
 	 */
@@ -32,7 +32,7 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * The upgrade option.
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
 	 *
 	 * @var mixed
 	 */
@@ -60,7 +60,8 @@ class DLM_Backwards_Compatibility {
 	 * Returns the singleton instance of the class.
 	 *
 	 * @return object The DLM_Backwards_Compatibility object.
-	 * @since 4.5.0
+	 *
+	 * @since 4.6.0
 	 */
 	public static function get_instance() {
 
@@ -77,6 +78,8 @@ class DLM_Backwards_Compatibility {
 	 *
 	 * @param  mixed $total Total downloads to be displayed.
 	 * @return mixed
+	 *
+	 * @since 4.6.0
 	 */
 	public function total_downloads_shortcode( $total ) {
 
@@ -103,15 +106,19 @@ class DLM_Backwards_Compatibility {
 	 *
 	 * @param  mixed $filters Filters for the query.
 	 * @return void
+	 *
+	 * @since 4.6.0
 	 */
 	public function orderby_compatibility( $filters ) {
 
 		global $wpdb;
 
-		// If there is no download_log table or is empty or the user has opted to not use the logging we should revert
-		// to ordering by _download_count post meta.
-		if ( $this->check_if_table_empty( $wpdb->download_log ) || ! DLM_Logging::is_logging_enabled() ) {
+		if ( apply_filters( 'dlm_backwards_compatibility_orderby_meta', false ) ) {
 			add_filter( 'dlm_backwards_compatibility_query_args', array( $this, 'no_log_query_args_compatibility' ) );
+			return;
+		}
+
+		if ( ! DLM_Utils::table_checker( $wpdb->download_log ) || ! DLM_Logging::is_logging_enabled() ) {
 			return;
 		}
 
@@ -147,7 +154,7 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Add custom table to query JOIN
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
 	 *
 	 * @param  mixed $join The join query part.
 	 * @return string
@@ -164,7 +171,7 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Add select from custom table to the query fields part
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
 	 *
 	 * @param  mixed $fields The fields query part.
 	 * @return string
@@ -183,6 +190,8 @@ class DLM_Backwards_Compatibility {
 	 *
 	 * @param [type] $group_by
 	 * @return void
+	 *
+	 * @since 4.6.0
 	 */
 	public function groupby_download_count_compatibility( $group_by ) {
 
@@ -195,7 +204,7 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Add orderby custom table count value
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
 	 *
 	 * @param  mixed $orderby The orderby string which we overwrite.
 	 * @return string
@@ -216,7 +225,7 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Let's reset the query if we have completed our display of downloads, removing our added filters.
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
 	 *
 	 * @return void
 	 */
@@ -231,7 +240,8 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Backwards compaitbility for users who did not use the logs
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
+	 *
 	 * @param  mixed $counts
 	 * @param  mixed $version_id
 	 * @return void
@@ -259,6 +269,8 @@ class DLM_Backwards_Compatibility {
 	 *
 	 * @param [type] $query_args
 	 * @return void
+	 *
+	 * @since 4.6.0
 	 */
 	public function query_args_download_count_compatibility( $filters ) {
 
@@ -282,10 +294,12 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
-	 * Backwards compatiblity for query args if user was not using logs before
+	 * Backwards compatiblity for query args if user wants to still order by post meta
 	 *
 	 * @param [type] $query_args
 	 * @return void
+	 *
+	 * @since 4.6.0
 	 */
 	public function no_log_query_args_compatibility( $filters ) {
 
@@ -304,6 +318,8 @@ class DLM_Backwards_Compatibility {
 	 * @param [type] $count
 	 * @param [type] $download_id
 	 * @return void
+	 *
+	 * @since 4.6.0
 	 */
 	public function add_meta_download_count( $counts, $download_id ) {
 
@@ -322,23 +338,6 @@ class DLM_Backwards_Compatibility {
 		}
 
 		return $counts;
-	}
-
-	/**
-	 * Check for empty tables
-	 *
-	 * @return void
-	 */
-	private function check_if_table_empty( $table ) {
-
-		global $wpdb;
-		$sql_check  = "SELECT COUNT(`ID`) FROM {$table}";
-
-		if ( DLM_Utils::table_checker( $wpdb->dlm_reports ) && '0' !== $wpdb->get_var( $sql_check) ) {
-			return false;
-		}
-
-		return true;
 	}
 
 }

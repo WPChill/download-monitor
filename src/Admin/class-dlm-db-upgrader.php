@@ -85,11 +85,11 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				return true;
 			}
 
-			if ( ! self::version_checker() ) {
+			if ( self::check_if_migrated() ) {
 				return false;
 			}
 
-			if ( self::check_if_migrated() ) {
+			if ( ! self::version_checker() ) {
 				return false;
 			}
 
@@ -180,8 +180,25 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			delete_transient( 'dlm_needs_upgrade' );
 
 			// Flush the permalinks.
-			flush_rewrite_rules();
+			flush_rewrite_rules( false );
 
+			// @todo: For the moment maybe it is best not to alter the download_log table in case someone wants 
+			// to revert back to the before-reports version of the plugin. So update option and send json success here
+			// Also, will keep the code and in the future delete said columns from table
+
+			// Final step has been made, upgrade is complete.
+			$dlm_db_upgrade                  = get_option( 'dlm_db_upgraded' );
+			$dlm_db_upgrade['db_upgraded']   = '1';
+			$dlm_db_upgrade['upgraded_date'] = wp_date( 'Y-m-d' );
+
+			update_option( 'dlm_db_upgraded', $dlm_db_upgrade );
+
+			// Now lets clear all transients.
+			download_monitor()->service( 'transient_manager' )->clear_all_version_transients();
+
+			wp_send_json( array( 'success' => true ) );
+			exit;
+			/*
 			global $wpdb;
 
 			$check_status = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status' ) );
@@ -227,7 +244,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			update_option( 'dlm_db_upgraded', $dlm_db_upgrade );
 			wp_send_json( array( 'success' => true ) );
-			exit;
+			exit; */
 
 		}
 
@@ -299,16 +316,16 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			$items   = array();
 			$table_1 = "{$wpdb->download_log}";
-			$able_2  = "{$wpdb->prefix}posts";
+			$able_2  = "{$wpdb->posts}";
 
-			$column_check = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status' ) );
+			$column_check = $wpdb->get_var( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status' ) );
 
 			if ( null !== $column_check && ! empty( $column_check ) ) {
 
-				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') $sql_limit" ), ARRAY_A );
+				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log LEFT JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 AND dlm_log.download_status IN ('completed','redirected') $sql_limit" ), ARRAY_A );
 			} else {
 
-				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 $sql_limit" ), ARRAY_A );
+				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log LEFT JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 $sql_limit" ), ARRAY_A );
 			}
 
 			foreach ( $data as $row ) {
