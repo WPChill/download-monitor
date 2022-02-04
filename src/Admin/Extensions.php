@@ -126,6 +126,10 @@ class DLM_Admin_Extensions {
 	 */
 	public function load_data() {
 
+		if ( $this->no_request_pages() ) {
+			return;
+		}
+
 		$loader     = new Util\ExtensionLoader();
 		$this->json = $loader->fetch();
 
@@ -487,5 +491,35 @@ class DLM_Admin_Extensions {
 			}
 		}
 		return $settings;
+	}
+
+	/**
+	 * Check if we don't need a request for extensions from download-monitor.com
+	 *
+	 * @return void
+	 */
+	public function no_request_pages() {
+
+		global $pagenow;
+
+		$pages = array(
+			'dlm-extensions',
+			'dlm-installed-extensions',
+			'download-monitor-settings',
+		);
+
+		if ( ! isset( $_GET['post_type'] ) || 'dlm_download' !== sanitize_title( wp_unslash( $_GET['post_type'] ) ) ) {
+			return true;
+		}
+
+		if ( isset( $_GET['page'] ) && ! in_array( sanitize_title( wp_unslash( $_GET['page'] ) ), $pages ) ) {
+			return true;
+		}
+
+		if ( 'post-new.php' === $pagenow || 'edit-tags.php' === $pagenow || 'term.php' === $pagenow ) {
+			return true;
+		}
+
+		return apply_filters( 'dlm_where_to_fetch', false );
 	}
 }
