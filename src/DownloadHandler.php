@@ -28,6 +28,8 @@ class DLM_Download_Handler {
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
 		add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
+		add_action('wp_ajax_log_download', array( $this, 'log_download' ));
+		add_action('wp_ajax_nopriv_log_download', array( $this, 'log_download' ));
 	}
 
 	/**
@@ -232,13 +234,14 @@ class DLM_Download_Handler {
 		if ( ! DLM_Logging::is_logging_enabled() ) return;
 		// setup new log item object
 		if( ! DLM_Cookie_Manager::exists( $download ) ) {
+
 			$log_item = new DLM_Log_Item();
 			$log_item->set_user_id( absint( get_current_user_id() ) );
 			$log_item->set_download_id( absint( $download->get_id() ) );
 			$log_item->set_version_id( absint( $version->get_id() ) );
 			$log_item->set_version( $version->get_version() );
 			$version->increase_download_count();
-
+			DLM_Cookie_Manager::set_cookie( $download );
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 		}
@@ -266,7 +269,9 @@ class DLM_Download_Handler {
 
 		// Check if we got files in this version
 		if ( empty( $file_paths ) ) {
-			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
+			header( 'Status: 404' . esc_html__('No file paths defined.', 'download-monitor') );
+			die();
+			// wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
 		// Get a random file (mirror)
@@ -274,7 +279,9 @@ class DLM_Download_Handler {
 
 		// Check if we actually got a path
 		if ( ! $file_path ) {
-			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
+			header( 'Status: 404 NoFilePaths, No file paths defined.' );
+			die();
+			// wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
 		// Check Access
@@ -282,8 +289,10 @@ class DLM_Download_Handler {
 
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
-				wp_redirect( $redirect );
-				exit;
+				header( "Status: 401 redirect,$redirect" );
+				die();
+				// wp_redirect( $redirect );
+				// exit;
 			} else {
 
 				// get 'no access' page id
@@ -314,7 +323,9 @@ class DLM_Download_Handler {
 						}
 
 						// redirect to no access page
-						wp_redirect( $no_access_permalink );
+						header( "Status: 401 redirect,$redirect" );
+						die();
+						// wp_redirect( $no_access_permalink );
 
 						exit; // out
 					}
@@ -322,7 +333,9 @@ class DLM_Download_Handler {
 				}
 
 				// if we get to this point, we have no proper 'no access' page. Fallback to default wp_die
-				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
+				header( "Status: 403 AccessDenied, You do not have permission to download this file." );
+				die();
+				// wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 
 			}
 
@@ -330,12 +343,8 @@ class DLM_Download_Handler {
 		}
 		// check if user downloaded this version in the past minute.
 		if ( DLM_Logging::is_download_window_enabled( $download ) ) {
-
 			// Trigger Download Action.
 			do_action( 'dlm_downloading', $download, $version, $file_path );
-
-			// Set cookie to prevent double logging.
-			DLM_Cookie_Manager::set_cookie( $download );
 		}
 
 		// Redirect to the file...
@@ -354,7 +363,6 @@ class DLM_Download_Handler {
 		// Parse file path
 		list( $file_path, $remote_file ) = download_monitor()->service( 'file_manager' )->parse_file_path( $file_path );
 		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
-
 		$this->download_headers( $file_path, $download, $version );
 
         do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
@@ -412,20 +420,23 @@ class DLM_Download_Handler {
 			$range = false;
 		}
 
-		if ( $this->readfile_chunked( $file_path, $range ) ) {
+		if ( $remote_file ) {
 
 			// Complete!
-			$this->log( $download, $version );
-
-		} elseif ( $remote_file ) {
-
-			// Redirect - we can't track if this completes or not.
-			$this->log( $download, $version );
+			header( 'log_status : redirected');
 
 			header( 'Location: ' . $file_path );
+			// $this->log( $download, $version );
+
+		} elseif (  $this->readfile_chunked( $file_path, $range ) ) {
+
+			// Redirect - we can't track if this completes or not.
+			// $this->log( $download, $version );
+			header( 'log_status: complete' );
+
 
 		} else {
-			$this->log( 'download', 'failed', __( 'File not found.', 'download-monitor' ), $download, $version );
+			header( 'log_status : failed');
 
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
@@ -566,6 +577,32 @@ class DLM_Download_Handler {
 		}
 
 		return $status;
+	}
+
+	public function log_download() {
+		if( ! isset( $_POST['download_id'] ) ) return;
+
+		$download_id = $_POST['download_id'];
+
+		$download = null;
+		if ( $download_id > 0 ) {
+			try {
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+			} catch ( Exception $e ) {
+				wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+			}
+		}
+
+		if ( ! $download ) {
+			wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+		}
+
+		$version = $download->get_version();
+		$file_name = $version->get_filename();
+		$this->log( $download, $version );
+
+		// Send json response
+		wp_send_json_success($file_name);
 	}
 
 }

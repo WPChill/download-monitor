@@ -148,8 +148,7 @@ class DLM_Shortcodes {
 				}
 
 				// get output
-				$output = ob_get_clean();
-
+				$output .= ob_get_clean();
 				// check if we need to wpautop()
 				if ( 'true' === $autop || true === $autop ) {
 					$output = wpautop( $output );

@@ -298,6 +298,22 @@ class WP_DLM {
 			);
 		}
 
+		wp_enqueue_style(
+			'dlm_progress_bar',
+			plugins_url( '/assets/css/dlm_progress_bar.css', $this->get_plugin_file() ),
+			array(),
+			DLM_VERSION
+		);
+
+		wp_enqueue_script(
+			'dlm_progress_bar',
+			plugins_url( '/assets/js/dlm-progress.js', $this->get_plugin_file() ),
+			array('jquery'),
+			DLM_VERSION, true
+		);
+
+		wp_localize_script( 'dlm_progress_bar', 'dlmProgressVar', array('ajaxUrl'=> admin_url( 'admin-ajax.php' )) );
+
 		do_action( 'dlm_frontend_scripts_after' );
 
 	}
