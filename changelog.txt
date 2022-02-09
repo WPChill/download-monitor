@@ -1,5 +1,6 @@
 = 4.5.1 - 31.01.2022 =
 Removed: Removed plugin updater from lite.
+Added: Async download + progress bar
 
 = 4.5.0 - 26.01.2022 =
 Fixed: Style missing in `[downloads]` shortcode - ( https://wordpress.org/support/topic/box-template-styling-stopped-displaying/ )
