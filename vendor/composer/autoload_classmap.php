@@ -22,6 +22,7 @@ return array(
     'DLM_Admin_Fields_Field_Password' => $baseDir . '/src/Admin/Settings/Fields/Password.php',
     'DLM_Admin_Fields_Field_Select' => $baseDir . '/src/Admin/Settings/Fields/Select.php',
     'DLM_Admin_Fields_Field_Text' => $baseDir . '/src/Admin/Settings/Fields/Text.php',
+    'DLM_Admin_Fields_Field_Editor' => $baseDir . '/src/Admin/Settings/Fields/Editor.php',
     'DLM_Admin_Fields_Field_Textarea' => $baseDir . '/src/Admin/Settings/Fields/Textarea.php',
     'DLM_Admin_Fields_Field_Title' => $baseDir . '/src/Admin/Settings/Fields/Title.php',
     'DLM_Admin_Helper' => $baseDir . '/src/Admin/class-dlm-admin-helper.php',

@@ -27,6 +27,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'textarea':
 				$field = new DLM_Admin_Fields_Field_Textarea( $option['name'], $value, $placeholder );
 				break;
+			case 'editor':
+				$field = new DLM_Admin_Fields_Field_Editor( $option['name'], $value, $placeholder );
+				break;
 			case 'checkbox':
 				$field = new DLM_Admin_Fields_Field_Checkbox( $option['name'], $value, $option['cb_label'] );
 				break;
