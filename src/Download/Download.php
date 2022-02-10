@@ -353,7 +353,7 @@ class DLM_Download {
 		if ( get_option( 'permalink_structure' ) ) {
 			$link = home_url( '/' . $endpoint . '/' . $value . '/', $scheme );
 		} else {
-			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
+			$link = add_query_arg( $endpoint, $value, home_url( '/', $scheme ) );
 		}
 
 		// only add version argument when current version isn't latest version
