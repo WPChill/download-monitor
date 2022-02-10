@@ -355,7 +355,7 @@ class DLM_Download {
 			$link = get_home_url( null, '', $scheme );
 			$link = $link . '/' . $endpoint . '/' . $value . '/';
 		} else {
-			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
+			$link = add_query_arg( $endpoint, $value, home_url( '/', $scheme ) );
 		}
 
 		// only add version argument when current version isn't latest version
