@@ -11,11 +11,10 @@ class DLM_Admin_Fields_Field_Editor extends DLM_Admin_Fields_Field {
 			'textarea_name' => $this->get_name(),
 			'wpautop'       => true,
 			'media_buttons' => false,
-			'media_buttons' => true,
 			'teeny'         => true,
-			'dfw'           => false,
 			'tinymce'       => true,
 			'quicktags'     => false,
+			'textarea_rows' => 10,
 		);
 		ob_start();
 		wp_editor( $this->get_value(), $this->get_name(), $settings );
