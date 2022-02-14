@@ -182,19 +182,18 @@ class DLM_Settings_Page {
 
 								$cs = 1;
 
+								if ( ! isset( $option['type'] ) ) {
+									$option['type'] = '';
+								}
+
 								echo '<tr valign="top">';
 								if ( isset( $option['label'] ) && '' !== $option['label'] ) {
-									echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
+									echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_html( $option['label'] ) . '</label></th>';
 								} else {
 									$cs ++;
 								}
 
-
 								echo '<td colspan="' . esc_attr( $cs ) . '">';
-
-								if ( ! isset( $option['type'] ) ) {
-									$option['type'] = '';
-								}
 
 								// make new field object
 								$field = DLM_Admin_Fields_Field_Factory::make( $option );
