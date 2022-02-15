@@ -202,7 +202,11 @@ class DLM_Settings_Page {
 
 								$cs = 1;
 
-								echo '<tr valign="top">';
+								if ( ! isset( $option['type'] ) ) {
+									$option['type'] = '';
+								}
+
+								echo '<tr valign="top" data-setting="' . ( isset( $option['name'] ) ? esc_attr( $option['name'] ) : '' ) . '">';
 								if ( isset( $option['label'] ) && '' !== $option['label'] ) {
 									echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
 								} else {
