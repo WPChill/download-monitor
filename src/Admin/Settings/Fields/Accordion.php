@@ -27,10 +27,10 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 	public function render() {
 
 		$html = '<div id="poststuff" class="meta-box-sortables dlm-accordeon-group">';
-		$html  .= '<div class="postbox">';
+		$html  .= '<div class="postbox closed">';
 		$html .= '<div class="postbox-header">';
 		$html .= '<h2 class="hndle">' . esc_html( $this->title ) . '</h2>';
-		 $html .= '<div class="handle-actions"><button type="button" class="handlediv" aria-expanded="true"><span class="toggle-indicator" aria-hidden="true"></span></button></div>';
+		 $html .= '<div class="handle-actions"><button type="button" class="handlediv" aria-expanded="false"><span class="toggle-indicator" aria-hidden="false"></span></button></div>';
 		$html .= '</div>';
 		$html .= '<div class="inside dlm-accordeon-group__content">';
 

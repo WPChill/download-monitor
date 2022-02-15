@@ -58,22 +58,6 @@ jQuery( function ( $ ) {
 
 		} );
 
-		// Accordeon setting functionality
-		$( '.dlm-accordeon-group .dlm-accordeon-group__header' ).on( 'click', (e) => {
-			const header = $( e.currentTarget );
-			const target = header.next('.dlm-accordeon-group__content');
-			const icon = header.find( 'span.dashicons' );
-			
-			if ( header.hasClass( 'clicked' ) ) {
-				target.hide();
-				icon.removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-arrow-down' );				
-			} else {
-				target.show();
-				icon.removeClass( 'dashicons-arrow-down' ).addClass( 'dashicons-arrow-up' );	
-			}
-			header.toggleClass( 'clicked' );
-		});
-
 	} );
 
 } );
