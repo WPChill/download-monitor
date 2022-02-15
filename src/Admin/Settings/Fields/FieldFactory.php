@@ -33,6 +33,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'checkbox':
 				$field = new DLM_Admin_Fields_Field_Checkbox( $option['name'], $value, $option['cb_label'] );
 				break;
+			case 'radio':
+				$field = new DLM_Admin_Fields_Field_Radio( $option['name'], $value, $option['options'] );
+				break;
 			case 'select':
 				$field = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
 				break;
