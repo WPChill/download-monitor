@@ -194,38 +194,19 @@
 .dlm-admin-settings .form-table label.dlm-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area + span {
   color: #fff;
 }
-.dlm-admin-settings .dlm-accordeon-group {
+.dlm-admin-settings #poststuff.dlm-accordeon-group {
   position: relative;
   background: #fff;
   border-radius: 3px;
+  padding-top: 0px;
 }
-.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__header {
-  display: flex;
-  justify-content: space-between;
-  background: #fff;
-  border: 1px solid #DDD;
-  border-radius: 3px;
-  padding: 10px 15px;
-}
-.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__header h3 {
-  margin: 0;
-}
-.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__header > span.dashicons {
-  cursor: pointer;
-}
-.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content {
-  padding: 10px 15px;
-  border: 1px solid #DDD;
-  border-top: 0;
-  display: none;
-}
-.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting {
+.dlm-admin-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting {
   margin-top: 25px;
   position: relative;
   display: flex;
   align-items: center;
 }
-.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting:not(:last-child):after {
+.dlm-admin-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting:not(:last-child):after {
   position: absolute;
   bottom: -15px;
   content: "";
@@ -237,13 +218,13 @@
   left: 0;
   right: 0;
 }
-.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
+.dlm-admin-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
   float: left;
   width: 30%;
   min-width: 300px;
   font-weight: 600;
 }
-.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-content {
+.dlm-admin-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-content {
   float: right;
   width: 65%;
   min-width: 300px;

@@ -26,12 +26,13 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 	 */
 	public function render() {
 
-		$html  = '<div class="dlm-accordeon-group">';
-		$html .= '<div class="dlm-accordeon-group__header">';
-		$html .= '<h3>' . esc_html( $this->title ) . '</h3>';
-		$html .= '<span class="dashicons dashicons-arrow-down"></span>';
-		$html .= '</div>';// .accordeon-group__header
-		$html .= '<div class="dlm-accordeon-group__content">';
+		$html = '<div id="poststuff" class="meta-box-sortables dlm-accordeon-group">';
+		$html  .= '<div class="postbox">';
+		$html .= '<div class="postbox-header">';
+		$html .= '<h2 class="hndle">' . esc_html( $this->title ) . '</h2>';
+		 $html .= '<div class="handle-actions"><button type="button" class="handlediv" aria-expanded="true"><span class="toggle-indicator" aria-hidden="true"></span></button></div>';
+		$html .= '</div>';
+		$html .= '<div class="inside dlm-accordeon-group__content">';
 
 		foreach ( $this->options as $option ) {
 
@@ -207,9 +208,9 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					break;
 			}
 		}
-
-		$html .= '</div>'; // .dlm-accordeon-group__content
-		$html .= '</div>'; // .dlm-accordeon-group
+		$html .= '</div>'; // .inside .dlm-accordeon-group__content
+		$html .= '</div>'; // .postbox
+		$html .= '</div>'; // #poststuff
 
 		echo wp_kses_post( $html );
 
