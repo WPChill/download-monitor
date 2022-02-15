@@ -22,6 +22,7 @@ return array(
     'DLM_Admin_Fields_Field_Editor' => $baseDir . '/src/Admin/Settings/Fields/Editor.php',
     'DLM_Admin_Fields_Field_Textarea' => $baseDir . '/src/Admin/Settings/Fields/Textarea.php',
     'DLM_Admin_Fields_Field_Title' => $baseDir . '/src/Admin/Settings/Fields/Title.php',
+    'DLM_Admin_Fields_Field_Accordion' => $baseDir . '/src/Admin/Settings/Fields/Accordion.php',
     'DLM_Admin_Media_Browser' => $baseDir . '/src/Admin/MediaBrowser.php',
     'DLM_Admin_Media_Insert' => $baseDir . '/src/Admin/MediaInsert.php',
     'DLM_Admin_Scripts' => $baseDir . '/src/Admin/AdminScripts.php',

@@ -51,6 +51,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'title':
 				$field = new DLM_Admin_Fields_Field_Title( $option['title'] );
 				break;
+			case 'group':
+				$field = new DLM_Admin_Fields_Field_Accordion( $option['name'], $option['options'], $option['title'] );
+				break;
 			case 'gateway_overview':
 				$field = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
 				break;

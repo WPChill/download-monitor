@@ -141,6 +141,9 @@
 .admin-color-modern .dlm-settings-sub-nav .active-section a {
   border-bottom-color: #3858e9;
 }
+.dlm-admin-settings {
+  /* Accordeon group CSS */
+}
 .dlm-admin-settings #setting-dlm_decimal_separator,
 .dlm-admin-settings #setting-dlm_thousand_separator {
   width: 50px;
@@ -190,6 +193,60 @@
 }
 .dlm-admin-settings .form-table label.dlm-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area + span {
   color: #fff;
+}
+.dlm-admin-settings .dlm-accordeon-group {
+  position: relative;
+  background: #fff;
+  border-radius: 3px;
+}
+.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__header {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  padding: 10px 15px;
+}
+.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__header h3 {
+  margin: 0;
+}
+.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__header > span.dashicons {
+  cursor: pointer;
+}
+.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content {
+  padding: 10px 15px;
+  border: 1px solid #DDD;
+  border-top: 0;
+  display: none;
+}
+.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting {
+  margin-top: 25px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting:not(:last-child):after {
+  position: absolute;
+  bottom: -15px;
+  content: "";
+  height: 1px;
+  background-color: #ddd;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
+  float: left;
+  width: 30%;
+  min-width: 300px;
+  font-weight: 600;
+}
+.dlm-admin-settings .dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-content {
+  float: right;
+  width: 65%;
+  min-width: 300px;
 }
 /* File lists */
 ul.download_monitor_file_browser {
