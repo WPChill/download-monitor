@@ -2,8 +2,8 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
-Tested up to: 5.8
-Stable tag: 4.5.0
+Tested up to: 5.9
+Stable tag: 4.5.1
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -68,7 +68,6 @@ You can contribute localizations via Transifex [https://www.transifex.com/projec
 = Support =
 
 Use the WordPress.org forums for community support. If you spot a bug, you can of course log it on [Github](https://github.com/WPChill/download-monitor/issues/new/choose) instead where we can act upon it more efficiently.
-
 
 == Installation ==
 

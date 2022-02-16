@@ -27,14 +27,8 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'textarea':
 				$field = new DLM_Admin_Fields_Field_Textarea( $option['name'], $value, $placeholder );
 				break;
-			case 'editor':
-				$field = new DLM_Admin_Fields_Field_Editor( $option['name'], $value, $placeholder );
-				break;
 			case 'checkbox':
 				$field = new DLM_Admin_Fields_Field_Checkbox( $option['name'], $value, $option['cb_label'] );
-				break;
-			case 'radio':
-				$field = new DLM_Admin_Fields_Field_Radio( $option['name'], $value, $option['options'] );
 				break;
 			case 'select':
 				$field = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
@@ -50,9 +44,6 @@ class DLM_Admin_Fields_Field_Factory {
 				break;
 			case 'title':
 				$field = new DLM_Admin_Fields_Field_Title( $option['title'] );
-				break;
-			case 'group':
-				$field = new DLM_Admin_Fields_Field_Accordion( $option['name'], $option['options'], $option['title'] );
 				break;
 			case 'gateway_overview':
 				$field = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );

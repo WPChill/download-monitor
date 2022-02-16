@@ -221,7 +221,7 @@ class Onboarding {
                             <img src="<?php echo esc_attr( $extension->image ); ?>"
                                  alt="<?php echo esc_attr( $extension->name ); ?>"/>
                             <h3><?php echo esc_html( $extension->name ); ?></h3>
-                            <p><?php echo wp_kses_post( $extension->desc ); ?></p>
+                            <p><?php echo esc_html( $extension->desc ); ?></p>
                         </div>
 						<?php
 						$i ++;

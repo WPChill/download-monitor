@@ -214,26 +214,13 @@ class DLM_Uninstall {
 
 			$dlm_cpts = get_posts( array( 'post_type' => $post_types, 'posts_per_page' => - 1, 'fields' => 'ids' ) );
 
+
 			if ( is_array( $dlm_cpts ) && ! empty( $dlm_cpts ) ) {
-				$where = $wpdb->prepare(
-					sprintf(
-						"{$wpdb->posts}.ID IN (%s)",
-						implode( ', ', array_fill( 0, count( $dlm_cpts ), '%d' ) )
-					),
-					$dlm_cpts
-				);
 
-				$sql = $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE {$where}" );
+				$id_in = implode( ',', $dlm_cpts );
 
-				$where_meta = $wpdb->prepare(
-					sprintf(
-						"{$wpdb->postmeta}.post_id IN (%s)",
-						implode( ', ', array_fill( 0, count( $dlm_cpts ), '%d' ) )
-					),
-					$dlm_cpts
-				);
-				$sql_meta = $wpdb->prepare( "DELETE FROM {$wpdb->postmeta} WHERE {$where_meta}" );
-
+				$sql      = $wpdb->prepare( "DELETE FROM  $wpdb->posts WHERE ID IN ( $id_in )" );
+				$sql_meta = $wpdb->prepare( "DELETE FROM  $wpdb->postmeta WHERE post_id IN ( $id_in )" );
 				$wpdb->query( $sql );
 				$wpdb->query( $sql_meta );
 			}

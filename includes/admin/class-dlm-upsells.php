@@ -37,9 +37,6 @@ class DLM_Upsells {
 
 		$this->set_upsell_actions();
 
-		// Add Lite VS Pro page
-		add_filter( 'dlm_admin_menu_links', array( $this, 'add_lite_vs_pro_page' ), 120 );
-
 	}
 
 	/**
@@ -126,7 +123,7 @@ class DLM_Upsells {
 					echo '<div class="wpchill-tooltip"><span>[?]</span>';
 					echo '<div class="wpchill-tooltip-content">' . esc_html( $feature['tooltip'] ) . '</div>';
 					echo '</div>';
-					echo '<p>' . esc_html( $feature['feature'] ) . '</p>';
+					echo "<p>" . esc_html( $feature['feature'] ) . "</p>";
 				} else {
 					echo '<span class="wpchill-check dashicons dashicons-yes"></span>' . esc_html( $feature['feature'] );
 				}
@@ -137,10 +134,14 @@ class DLM_Upsells {
 			echo '</ul>';
 		}
 
+		if ( ! $utm_source ) {
+			$utm_source = 'settings_panel';
+		}
+
 		echo '<p class="wpchill-upsell-description">' . esc_html( $description ) . '</p>';
 		echo '<p>';
 
-		$buttons = '<a target="_blank" href="' . admin_url( 'edit.php?post_type=dlm_download&page=dlm-lite-vs-pro' ) . '" class="button-primary button">' . esc_html__( 'Get PRO!', 'download-monitor' ) . '</a>';
+		$buttons = '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . esc_attr( $utm_source ) . '&utm_medium=upsell&utm_campaign=w.org&utm_content=' . esc_attr( $tab ) . '" class="button-primary button">' . esc_html__( 'Get Extension!', 'download-monitor' ) . '</a>';
 
 		echo wp_kses_post( apply_filters( 'dlm_upsell_buttons', $buttons, $tab ) );
 
@@ -778,37 +779,6 @@ class DLM_Upsells {
 			);
 		}
 
-	}
-
-	/**
-	 * Add lite vs pro page in menu
-	 *
-	 * @param [type] $links
-	 * @return void
-	 */
-	public function add_lite_vs_pro_page( $links ) {
-
-		// Settings page
-		$links[] = array(
-			'page_title' => __( 'LITE vs PRO', 'download-monitor' ),
-			'menu_title' => __( 'LITE vs PRO', 'download-monitor' ),
-			'capability' => 'manage_options',
-			'menu_slug'  => 'dlm-lite-vs-pro',
-			'function'   => array( $this, 'lits_vs_pro_page' ),
-			'priority'   => 160,
-		);
-
-		return $links;
-	}
-
-	/**
-	 * The LITE vs PRO page
-	 *
-	 * @return void
-	 */
-	public function lits_vs_pro_page() {
-
-		require_once __DIR__.'/lite-vs-pro-page.php';
 	}
 }
 
