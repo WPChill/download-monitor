@@ -370,6 +370,7 @@ class DLM_Download_Version {
 				'user_id'       => absint( $user_id ),
 				'download_id'   => absint( $this->download_id ),
 				'version_id'    => absint( $this->id ),
+				'version'       => $this->get_version(),
 				'download_date' => sanitize_text_field( $download_date ),
 			)
 		);
