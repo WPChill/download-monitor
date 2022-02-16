@@ -329,45 +329,57 @@
     }
   }
 
-  /* Accordeon group CSS */
-  #poststuff.dlm-accordeon-group {
-    position: relative;
-    background:#fff;
-    border-radius:3px;
-    padding-top:0px;
+  .dlm-groupped-settings {
 
-    .dlm-accordeon-group__content {
-  
-      .dlm-accordeon-group__setting {
-        margin-top: 25px;
-        position:relative;
-        display: flex;
-        align-items: center;   
-        
-        &:not(:last-child):after {
-          position: absolute;
-          bottom: -15px;
-          content: "";
-          height: 1px;
-          background-color: #ddd;
-          width: 100%;
-          display: block;
-          margin: 0 auto;
-          left: 0;
-          right: 0;
-        }
-        
-        .dlm-accordeon-group__setting-title {
-          float:left;
-          width:30%;
-          min-width:300px;
-          font-weight: 600;
-        }
-  
-        .dlm-accordeon-group__setting-content {
-          float:right;
-          width:65%;
-          min-width:300px;
+    & > td {
+      padding:0;
+    }
+    
+    /* Accordeon group CSS */
+    #poststuff.dlm-accordeon-group {
+      position: relative;
+      background:#fff;
+      border-radius:3px;
+      padding-top:0px;
+      margin:10px 0;
+
+      .postbox {
+        margin:0;
+      }
+
+      .dlm-accordeon-group__content {
+    
+        .dlm-accordeon-group__setting {
+          margin-top: 25px;
+          position:relative;
+          display: flex;
+          align-items: center;   
+          
+          &:not(:last-child):after {
+            position: absolute;
+            bottom: -15px;
+            content: "";
+            height: 1px;
+            background-color: #ddd;
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+          }
+          
+          .dlm-accordeon-group__setting-title {
+            float:left;
+            width:30%;
+            min-width:300px;
+            font-weight: 600;
+          }
+    
+          .dlm-accordeon-group__setting-content {
+            float:right;
+            width:65%;
+            min-width:300px;
+          }
         }
       }
     }

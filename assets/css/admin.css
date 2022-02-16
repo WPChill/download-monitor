@@ -141,9 +141,6 @@
 .admin-color-modern .dlm-settings-sub-nav .active-section a {
   border-bottom-color: #3858e9;
 }
-.dlm-admin-settings {
-  /* Accordeon group CSS */
-}
 .dlm-admin-settings #setting-dlm_decimal_separator,
 .dlm-admin-settings #setting-dlm_thousand_separator {
   width: 50px;
@@ -194,19 +191,29 @@
 .dlm-admin-settings .form-table label.dlm-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area + span {
   color: #fff;
 }
-.dlm-admin-settings #poststuff.dlm-accordeon-group {
+.dlm-admin-settings .dlm-groupped-settings {
+  /* Accordeon group CSS */
+}
+.dlm-admin-settings .dlm-groupped-settings > td {
+  padding: 0;
+}
+.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group {
   position: relative;
   background: #fff;
   border-radius: 3px;
   padding-top: 0px;
+  margin: 10px 0;
 }
-.dlm-admin-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting {
+.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .postbox {
+  margin: 0;
+}
+.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting {
   margin-top: 25px;
   position: relative;
   display: flex;
   align-items: center;
 }
-.dlm-admin-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting:not(:last-child):after {
+.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting:not(:last-child):after {
   position: absolute;
   bottom: -15px;
   content: "";
@@ -218,13 +225,13 @@
   left: 0;
   right: 0;
 }
-.dlm-admin-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
+.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
   float: left;
   width: 30%;
   min-width: 300px;
   font-weight: 600;
 }
-.dlm-admin-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-content {
+.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-content {
   float: right;
   width: 65%;
   min-width: 300px;
