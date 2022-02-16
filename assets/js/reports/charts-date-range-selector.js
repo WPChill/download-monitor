@@ -55,12 +55,17 @@ DLM_Reports_Date_Range_Selector.prototype.hide = function () {
 
 DLM_Reports_Date_Range_Selector.prototype.apply = function () {
 
-	var sd = new Date( this.startDateInput.val() + "T00:00:00" );
-	var ed = new Date( this.endDateInput.val() + "T00:00:00" );
-	var sds = sd.getFullYear()+ "-"+(sd.getMonth()+1)+"-"+sd.getDate();
-	var eds = ed.getFullYear()+ "-"+(ed.getMonth()+1)+"-"+ed.getDate();
+	var sd = ( this.startDateInput.val().length ) ? new Date( this.startDateInput.val() + "T00:00:00" ) : false ;
+	var ed = ( this.endDateInput.val().length ) ? new Date( this.endDateInput.val() + "T00:00:00" ) : false;	
+	var url = this.url;
+	if (sd) {
+		url += "&date_from=" + sd.getFullYear()+ "-"+(sd.getMonth()+1)+"-"+sd.getDate();
+	}
+	if (ed) {
+		url += "&date_to=" + ed.getFullYear()+ "-"+(ed.getMonth()+1)+"-"+ed.getDate();		
+	}
 	this.hide();
-	window.location.replace( this.url + "&date_from=" + sds + "&date_to=" + eds );
+	window.location.replace( url );
 };
 
 DLM_Reports_Date_Range_Selector.prototype.createElement = function () {
