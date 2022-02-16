@@ -1961,11 +1961,20 @@ table.wp-list-table {
   .dlm_extensions {
     padding: 15px 0;
     overflow: hidden;
-    display:flex;
-    flex-flow: wrap;
 
-    div.dlm_extension {
-      a {
+
+    .dlm_extension {
+		background-color: #FFF;
+		width: calc( 20% - 15px); 
+		margin: 0 15px 15px 0;
+		display: inline-block;
+		vertical-align: top;
+
+		p {
+			margin: 0;
+		}
+      
+		a {
         color: #444;
         text-decoration: none;
       }
