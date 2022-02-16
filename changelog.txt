@@ -1,6 +1,10 @@
-= 4.5.01 - TBA =
-Fixed: Empty date picker, when applying and no date selected, gives error - ( https://github.com/WPChill/download-monitor/issues/823 )
-Added: Lite vs PRO page - ( https://github.com/WPChill/download-monitor/issues/825 )
+= 4.5.2 - 16.02.2022 =
+Fixed: Reports date selection bug - ( https://github.com/WPChill/download-monitor/issues/823 )
+Fixed: Extensions page view on Safari
+
+= 4.5.1 - 31.01.2022 =
+Removed: Removed plugin updater from lite.
+
 
 = 4.5.0 - 27.01.2022 =
 Fixed: Style missing in `[downloads]` shortcode - ( https://wordpress.org/support/topic/box-template-styling-stopped-displaying/ )
