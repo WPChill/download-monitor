@@ -280,7 +280,7 @@ class DLM_Admin_Extensions {
 				if ( count( $this->extensions ) > 0 ) {
 
 					echo '<div id="available-extensions" class="settings_panel">';
-					echo '<div class="theme-browser dlm_extensions">';
+					echo '<div class="dlm_extensions">';
 
 					foreach ( $this->extensions as $extension ) {
 
@@ -300,7 +300,7 @@ class DLM_Admin_Extensions {
 							$price_display = __( 'FREE', 'download-monitor' );
 						}
 
-						echo '<div class="theme dlm_extension">';
+						echo '<div class="dlm_extension">';
 						echo '<a href="' . esc_url( $extension->url ) . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
 						echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
 						echo '<h3>' . esc_html( $extension->name ) . '</h3>';
@@ -368,14 +368,14 @@ class DLM_Admin_Extensions {
 
 			echo '<div id="installed-extensions" class="settings_panel">';
 
-			echo '<div class="theme-browser dlm_extensions">';
+			echo '<div class="dlm_extensions">';
 
 			foreach ( $this->installed_extensions as $extension ) {
 
 				// Get the product
 				$license = $this->products[ $extension->product_id ]->get_license();
 
-				echo '<div class="theme dlm_extension">';
+				echo '<div class="dlm_extension">';
 
 				echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
 				echo '<h3>' . esc_html( $extension->name ) . '</h3>';
