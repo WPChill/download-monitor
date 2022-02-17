@@ -11,6 +11,7 @@ return array(
     'DLM_Admin_Extensions' => $baseDir . '/src/Admin/Extensions.php',
     'DLM_Admin_Fields_Field' => $baseDir . '/src/Admin/Settings/Fields/Field.php',
     'DLM_Admin_Fields_Field_ActionButton' => $baseDir . '/src/Admin/Settings/Fields/ActionButton.php',
+    'DLM_Admin_Fields_Field_InstallPlugin' => $baseDir . '/src/Admin/Settings/Fields/InstallPlugin.php',
     'DLM_Admin_Fields_Field_Checkbox' => $baseDir . '/src/Admin/Settings/Fields/Checkbox.php',
     'DLM_Admin_Fields_Field_Radio' => $baseDir . '/src/Admin/Settings/Fields/Radio.php',
     'DLM_Admin_Fields_Field_Desc' => $baseDir . '/src/Admin/Settings/Fields/Desc.php',

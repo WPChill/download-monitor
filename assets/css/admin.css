@@ -1642,6 +1642,12 @@ table.wp-list-table .column-thumb img {
   margin-left: 10px;
   border-radius: 10px;
 }
+.wrap.dlm-admin-settings .dlm-install-plugin-actions {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px auto;
+  margin-left: 15px;
+}
 #total_downloads_browser_table a.nav-tab {
   text-transform: capitalize;
 }

@@ -153,6 +153,18 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
 					break;
+				case 'action_button':
+					ob_start();
+					echo '<div class="dlm-accordeon-group__setting wp-clearfix">';
+					echo '<div class="dlm-accordeon-group__setting-title">' . esc_html( $option['label'] ) . '</div>';
+					echo '<div class="dlm-accordeon-group__setting-content">';
+					$field   = new DLM_Admin_Fields_Field_InstallPlugin( $option['name'], $option['link'], $option['label'] );
+					$content = $field->render();
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo '</div>'; // .dlm-accordeon-group__setting-content
+					echo '</div>'; // .dlm-accordeon-group__setting
+					$html .= ob_get_clean();
+					break;
 				case 'desc':
 					ob_start();
 					echo '<div class="dlm-accordeon-group__setting wp-clearfix">';

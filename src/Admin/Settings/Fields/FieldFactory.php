@@ -45,6 +45,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'action_button':
 				$field = new DLM_Admin_Fields_Field_ActionButton( $option['name'], $option['link'], $option['label'] );
 				break;
+			case 'install_plugin':
+				$field = new DLM_Admin_Fields_Field_InstallPlugin( $option['name'], $option['link'], $option['label'] );
+				break;
 			case 'desc':
 				$field = new DLM_Admin_Fields_Field_Desc( $option['name'], $option['text'], $placeholder );
 				break;
