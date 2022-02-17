@@ -301,12 +301,12 @@ class DLM_Admin_Extensions {
 						}
 
 						echo '<div class="dlm_extension">';
-						echo '<a href="' . esc_url( $extension->url ) . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
+						echo '<a href="https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
 						echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
 						echo '<h3>' . esc_html( $extension->name ) . '</h3>';
 						echo '<div class="extension-desc">' . wp_kses_post( $extension->desc ) . '</div>';
 						echo '<div class="product_footer">';
-						echo '<div class="button button-secondary loop_more">' . esc_html__( 'View Extension', 'download-monitor' ) . '<span class="dashicons dashicons-external"></span></div>';
+						echo '<div class="button button-secondary loop_more">' . esc_html__( 'Upgrade to Unlock', 'download-monitor' ) . '<span class="dashicons dashicons-external"></span></div>';
 						echo '</div>';
 						echo '</a>';
 						echo '</div>';
