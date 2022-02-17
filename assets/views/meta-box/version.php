@@ -33,28 +33,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<p>
 					<?php
-					$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', array(
-						'upload_file'     => array(
-							'text' => __( 'Upload file', 'download-monitor' ),
-							'data' => array(
-								'choose' => __( 'Choose a file', 'download-monitor' ),
-								'update' => __( 'Insert file URL', 'download-monitor' ),
+						$buttons = array(
+							'upload_file'     => array(
+								'text' => __( 'Upload file', 'download-monitor' ),
+								'data' => array(
+									'choose' => __( 'Choose a file', 'download-monitor' ),
+									'update' => __( 'Insert file URL', 'download-monitor' ),
+								)
 							)
-						),
-						'browse_for_file' => array(
-							'text' => __( 'Browse for file', 'download-monitor' )
-						)
-					) );
+						);
 
-					foreach ( $buttons as $key => $button ) {
-						echo '<a href="#" class="button dlm_' . esc_attr( $key ) . '" ';
-						if ( ! empty( $button['data'] ) ) {
-							foreach ( $button['data'] as $data_key => $data_value ) {
-								echo 'data-' . esc_attr( $data_key ) . '="' . esc_attr( $data_value ) . '" ';
-							}
+						if( !get_option( 'dlm_turn_off_file_browser', true ) ){
+							$buttons['browse_for_file'] = array( 'text' => __( 'Browse for file', 'download-monitor' ) );
 						}
-						echo '>' . esc_html( $button['text'] ) . '</a> ';
-					}
+
+						$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', $buttons );
+
+						foreach ( $buttons as $key => $button ) {
+							echo '<a href="#" class="button dlm_' . esc_attr( $key ) . '" ';
+							if ( ! empty( $button['data'] ) ) {
+								foreach ( $button['data'] as $data_key => $data_value ) {
+									echo 'data-' . esc_attr( $data_key ) . '="' . esc_attr( $data_value ) . '" ';
+								}
+							}
+							echo '>' . esc_html( $button['text'] ) . '</a> ';
+						}
 					?>
 				</p>
 

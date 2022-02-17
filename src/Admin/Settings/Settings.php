@@ -126,6 +126,14 @@ class DLM_Admin_Settings {
 								'desc'     => __( "If enabled, downloads will be included in the site's internal search results.", 'download-monitor' ),
 								'type'     => 'checkbox'
 							),
+							array(
+								'name'     => 'dlm_turn_off_file_browser',
+								'std'      => '',
+								'label'    => __( 'File browser', 'download-monitor' ),
+								'cb_label' => __( 'Turn Off', 'download-monitor' ),
+								'desc'     => __( "Disables the downloads directory file browser.", 'download-monitor' ),
+								'type'     => 'checkbox'
+							),
 						)
 					),
 				)
