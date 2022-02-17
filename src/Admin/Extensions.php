@@ -246,10 +246,6 @@ class DLM_Admin_Extensions {
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 			<h1>
 				<?php echo esc_html__( 'Download Monitor Extensions', 'download-monitor' ); ?>
-				<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
-				   class="button dlm-reload-button">
-					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
-				</a>
 			</h1>
 			<?php
 
@@ -274,13 +270,17 @@ class DLM_Admin_Extensions {
 				<h2 class="nav-tab-wrapper">
 					<?php DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab ); ?>
 				</h2>
+				<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
+				   class="button dlm-reload-button">
+					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
+				</a>
 				<?php
 
 				// Available Extensions
 				if ( count( $this->extensions ) > 0 ) {
 
 					echo '<div id="available-extensions" class="settings_panel">';
-					echo '<div class="dlm_extensions">';
+					echo '<div class="theme-browser dlm_extensions">';
 
 					foreach ( $this->extensions as $extension ) {
 
@@ -300,7 +300,7 @@ class DLM_Admin_Extensions {
 							$price_display = __( 'FREE', 'download-monitor' );
 						}
 
-						echo '<div class="dlm_extension">';
+						echo '<div class="theme dlm_extension">';
 						echo '<a href="' . esc_url( $extension->url ) . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
 						echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
 						echo '<h3>' . esc_html( $extension->name ) . '</h3>';
@@ -344,10 +344,7 @@ class DLM_Admin_Extensions {
 		<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 		<h1>
 			<?php esc_html_e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
-			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
-			   class="button dlm-reload-button">
-				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
-			</a>
+
 		</h1>
 		<?php
 
@@ -362,20 +359,25 @@ class DLM_Admin_Extensions {
 		DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab );
 
 		echo '</h2>';
-
+		?>
+			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
+				class="button dlm-reload-button">
+				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
+			</a>
+		<?php
 		// Installed Extensions
 		if ( count( $this->installed_extensions ) > 0 ) {
 
 			echo '<div id="installed-extensions" class="settings_panel">';
 
-			echo '<div class="dlm_extensions">';
+			echo '<div class="theme-browser dlm_extensions">';
 
 			foreach ( $this->installed_extensions as $extension ) {
 
 				// Get the product
 				$license = $this->products[ $extension->product_id ]->get_license();
 
-				echo '<div class="dlm_extension">';
+				echo '<div class="theme dlm_extension">';
 
 				echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
 				echo '<h3>' . esc_html( $extension->name ) . '</h3>';
