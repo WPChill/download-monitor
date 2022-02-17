@@ -131,7 +131,7 @@ class DLM_Admin_Settings {
 								'std'      => '',
 								'label'    => __( 'File browser', 'download-monitor' ),
 								'cb_label' => __( 'Turn Off', 'download-monitor' ),
-								'desc'     => __( "Disables the downloads directory file browser.", 'download-monitor' ),
+								'desc'     => __( "Disables the directory file browser.", 'download-monitor' ),
 								'type'     => 'checkbox'
 							),
 						)
