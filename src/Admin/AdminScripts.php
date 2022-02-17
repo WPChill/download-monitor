@@ -203,8 +203,22 @@ class DLM_Admin_Scripts {
 			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array(
 				'img_path'          => download_monitor()->get_plugin_url() . '/assets/images/',
 				'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ),
-				'settings_url'      => DLM_Admin_Settings::get_url()
+				'settings_url'      => DLM_Admin_Settings::get_url(),
 			) );
+
+			// Script used to install plugins
+			wp_enqueue_script( 'dlm_install_plugins', plugins_url( '/assets/js/install-plugins' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ), array( 'jquery', 'updates' ), null, true );
+			wp_localize_script(
+				'dlm_install_plugins',
+				'dlm_install_plugins_vars',
+				array(
+					'install_plugin'   => esc_html__( 'Installing plugin...', 'dlm-email-lock' ),
+					'activate_plugin'  => esc_html__( 'Activating plugin...', 'dlm-email-lock' ),
+					'no_install'       => esc_html__( 'Plugin could not be installed.', 'dlm-email-lock' ),
+					'no_activated'     => esc_html__( 'Something went wrong, plugin could not be activated.', 'dlm-email-lock' ),
+					'activated_plugin' => esc_html__( 'Plugin activated successfully.', 'dlm-email-lock' ),
+				)
+			);
 
 		}
 
