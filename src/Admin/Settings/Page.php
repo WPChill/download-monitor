@@ -149,7 +149,7 @@ class DLM_Settings_Page {
 
 						$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
 
-						if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
+						if ( count( $settings[ $tab ]['sections'] ) >= 1 ) {
 
 							?>
 							<div class="wp-clearfix">
