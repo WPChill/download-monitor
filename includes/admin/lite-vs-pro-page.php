@@ -126,7 +126,7 @@ $pro_arguments = array(
 			</div>
 			<div class="wpchill-pricing-package wpchill-title wpchill-modula-grid-gallery-business">
 
-				<a href="https://chl.so/dlm-lite-vs-pro" target="_blank"
+				<a href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=lite-vs-pro&utm_campaign=upsell" target="_blank"
 					class="button button-primary button-hero "><span class="dashicons dashicons-cart"></span>
 					<?php esc_html_e( 'Upgrade now!', 'rsvp' ); ?> </a>
 
