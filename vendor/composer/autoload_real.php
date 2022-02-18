@@ -13,6 +13,9 @@ class ComposerAutoloaderInit80ce4473100edd20fd6c17775a76ce9a
         }
     }
 
+    /**
+     * @return \Composer\Autoload\ClassLoader
+     */
     public static function getLoader()
     {
         if (null !== self::$loader) {
@@ -20,12 +23,12 @@ class ComposerAutoloaderInit80ce4473100edd20fd6c17775a76ce9a
         }
 
         spl_autoload_register(array('ComposerAutoloaderInit80ce4473100edd20fd6c17775a76ce9a', 'loadClassLoader'), true, true);
-        self::$loader = $loader = new \Composer\Autoload\ClassLoader();
+        self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(\dirname(__FILE__)));
         spl_autoload_unregister(array('ComposerAutoloaderInit80ce4473100edd20fd6c17775a76ce9a', 'loadClassLoader'));
 
         $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
         if ($useStaticLoader) {
-            require_once __DIR__ . '/autoload_static.php';
+            require __DIR__ . '/autoload_static.php';
 
             call_user_func(\Composer\Autoload\ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a::getInitializer($loader));
         } else {
@@ -47,6 +50,29 @@ class ComposerAutoloaderInit80ce4473100edd20fd6c17775a76ce9a
 
         $loader->register(true);
 
+        if ($useStaticLoader) {
+            $includeFiles = Composer\Autoload\ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a::$files;
+        } else {
+            $includeFiles = require __DIR__ . '/autoload_files.php';
+        }
+        foreach ($includeFiles as $fileIdentifier => $file) {
+            composerRequire80ce4473100edd20fd6c17775a76ce9a($fileIdentifier, $file);
+        }
+
         return $loader;
+    }
+}
+
+/**
+ * @param string $fileIdentifier
+ * @param string $file
+ * @return void
+ */
+function composerRequire80ce4473100edd20fd6c17775a76ce9a($fileIdentifier, $file)
+{
+    if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
+        $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;
+
+        require $file;
     }
 }
