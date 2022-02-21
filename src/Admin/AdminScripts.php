@@ -103,6 +103,15 @@ class DLM_Admin_Scripts {
 				true
 			);
 
+			// Enqueue Download Duplicator JS
+			wp_enqueue_script(
+				'dlm_download_duplicator',
+				plugins_url( '/assets/js/download-duplicator' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file()),
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
+			);			
+
 		}
 
 		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-reports' === $_GET['page'] ) {
