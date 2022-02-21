@@ -155,7 +155,7 @@ $items = $order->get_items();
 							?>
                         </select>
                         <button class="button button-primary button-large"
-                                id="dlm-order-details-button-change-state"><?php echo esc_html__( "Change", 'download-montior' ); ?></button>
+                                id="dlm-order-details-button-change-state"><?php echo esc_html__( "Change", 'download-monitor' ); ?></button>
                     </li>
                     <li>
                         <label><?php echo esc_html__( "Date created", 'download-monitor' ); ?>:</label>

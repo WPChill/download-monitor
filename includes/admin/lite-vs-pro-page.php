@@ -14,7 +14,7 @@ $pro_arguments = array(
 		'description' => esc_html__( 'Create beautiful, fully customizable download buttons with our Buttons extension. No coding or file editing required!', 'download-monitor' ),
 	),
 	'terms_and_conditions'    => array(
-		'title'       => esc_html__( 'Terms and conditions', 'donwload-monitor' ),
+		'title'       => esc_html__( 'Terms and conditions', 'download-monitor' ),
 		'description' => esc_html__( 'Require your users to accept your terms and conditions before they can download your files.', 'download-monitor' ),
 	),
 	'download_duplicator'     => array(
@@ -128,7 +128,7 @@ $pro_arguments = array(
 
 				<a href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=lite-vs-pro&utm_campaign=upsell" target="_blank"
 					class="button button-primary button-hero "><span class="dashicons dashicons-cart"></span>
-					<?php esc_html_e( 'Upgrade now!', 'rsvp' ); ?> </a>
+					<?php esc_html_e( 'Upgrade now!', 'download-monitor' ); ?> </a>
 
 			</div>
 			<div class="wpchill-pricing-package wpchill-title wpchill-modula-lite">

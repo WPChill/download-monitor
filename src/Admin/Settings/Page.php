@@ -159,7 +159,7 @@ class DLM_Settings_Page {
 									<a href="<?php echo esc_url( add_query_arg( array(
 											'tab'     => $tab,
 											'section' => $section_key
-									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?></a></liM>
+									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?><?php echo isset( $section['badge'] ) ?  '<span class="dlm-upsell-badge">PRO</span>' : ''; ?></a></li>
 								<?php endforeach; ?>
 							</ul>
 								</div><!--.wp-clearfix-->
@@ -168,6 +168,7 @@ class DLM_Settings_Page {
 						}
 
 						//echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
+						do_action( 'dlm_tab_section_content_' . $active_section,  $settings );
 
 						if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 

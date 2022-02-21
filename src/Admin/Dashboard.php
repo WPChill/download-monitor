@@ -70,8 +70,8 @@ class DLM_Admin_Dashboard {
         <table class="download_chart" cellpadding="0" cellspacing="0">
             <thead>
             <tr>
-                <th scope="col"><?php echo esc_html__( 'Download', "download_monitor" ); ?></th>
-                <th scope="col"><?php echo esc_html__( 'Download count', "download_monitor" ); ?></th>
+                <th scope="col"><?php echo esc_html__( 'Download', "download-monitor" ); ?></th>
+                <th scope="col"><?php echo esc_html__( 'Download count', "download-monitor" ); ?></th>
             </tr>
             </thead>
             <tbody>

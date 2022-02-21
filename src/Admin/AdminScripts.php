@@ -205,8 +205,8 @@ class DLM_Admin_Scripts {
 				break;
 			case 'edit-download':
 				$strings = array(
-					'confirm_delete' => __( 'Are you sure you want to delete this file ? ', 'download - monitor' ),
-					'browse_file'    => __( 'Browse for a file', 'download - monitor' ),
+					'confirm_delete' => __( 'Are you sure you want to delete this file ? ', 'download-monitor' ),
+					'browse_file'    => __( 'Browse for a file', 'download-monitor' ),
 				);
 				break;
 			case 'reports':

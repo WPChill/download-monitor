@@ -301,7 +301,32 @@ class DLM_Admin_Settings {
 			'lead_generation'      => array(
 				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
 				'badge'    => true,
-				'sections' => array()
+				'sections' => array(
+					'email_lock'    => array(
+						'title' => esc_html__( 'Email Lock', 'download-monitor' ),
+						'fields' => array(),
+						'sections' => array(),
+						'badge' => true,
+					), 
+					'ninja_forms'   => array(
+						'title' =>  esc_html__( 'Ninja Forms', 'download-monitor' ),
+						'fields' => array(),
+						'sections' => array(),
+						'badge' => true,
+					),					
+					'gravity_forms' => array(
+						'title' => esc_html__( 'Gravity Forms', 'download-monitor' ),
+						'fields' => array(),
+						'sections' => array(),
+						'badge' => true,
+					),
+					'twitter_lock'    => array(
+						'title' => esc_html__( 'Twitter Lock', 'download-monitor' ),
+						'fields' => array(),
+						'sections' => array(),
+						'badge' => true,
+					), 
+				)
 			),
 			'external_hosting'     => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),

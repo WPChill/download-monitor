@@ -245,6 +245,10 @@ class DLM_Upsells {
 							'title'    => __( 'Email lock', 'download-monitor' ),
 							'sections' => array(), // Need to put sections here for backwards compatibility
 						),
+						'twitter_lock' => array(
+							'title'    => __( 'Twitter lock', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
 					),
 				),
 				'external_hosting' => array(
@@ -336,6 +340,12 @@ class DLM_Upsells {
 
 			if ( method_exists( 'DLM_Upsells', 'upsell_tab_content_' . $key ) ) {
 				add_action( 'dlm_tab_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
+			}
+
+			foreach ( $tab['sections'] as $sub_key => $section ) {
+				if ( method_exists( 'DLM_Upsells', 'upsell_tab_section_content_' . $sub_key ) ) {
+					add_action( 'dlm_tab_section_content_' . $sub_key, array( $this, 'upsell_tab_section_content_' . $sub_key ), 30, 1 );
+				}
 			}
 
 		}
@@ -601,31 +611,11 @@ class DLM_Upsells {
 	}
 
 	/**
-	 * Upsell for Locking tab
+	 * Upsell for Gravity Forms sub-tab
 	 *
-	 * @since 4.4.5
+	 * @since 4.5.3
 	 */
-	public function upsell_tab_content_lead_generation() {
-
-		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Ninja Forms Lock', 'download-monitor' ),
-				__( 'The Ninja Forms - content locking extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.','download-monitor' ),
-				'ninja_forms',
-				'ninja-forms'
-			);
-		}
-
-		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Email Lock', 'download-monitor' ),
-				__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ),
-				'email_lock',
-				'email-lock'
-			);
-		}
+	public function upsell_tab_section_content_gravity_forms() {
 
 		if ( ! $this->check_extension( 'dlm-gravity-forms' ) ) {
 
@@ -636,7 +626,60 @@ class DLM_Upsells {
 				'gravity-forms'
 			);
 		}
+	}
 
+	/**
+	 * Upsell for Ninja Forms sub-tab
+	 *
+	 * @since 4.5.3
+	 */
+	public function upsell_tab_section_content_ninja_forms() {
+
+		if ( ! $this->check_extension( 'dlm-ninja-forms' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'Ninja Forms Lock', 'download-monitor' ),
+				__( 'The Ninja Forms - content locking extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.','download-monitor' ),
+				'ninja_forms',
+				'ninja-forms'
+			);
+		}
+	}
+
+	/**
+	 * Upsell for Twitter Lock sub-tab
+	 *
+	 * @since 4.5.3
+	 */
+	public function upsell_tab_section_content_twitter_lock() {
+
+		if ( ! $this->check_extension( 'dlm-twitter-lock' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'Twitter Lock', 'download-monitor' ),
+				__( 'The Twitter Lock extension for Download Monitor allows you to require users to tweet your pre-defined text before they gain access to a download.', 'download-monitor' ),
+				'gravity_forms',
+				'gravity-forms'
+			);
+		}
+	}
+
+	/**
+	 * Upsell for Email Lock sub-tab
+	 *
+	 * @since 4.5.3
+	 */
+	public function upsell_tab_section_content_email_lock() {
+
+		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'Email Lock', 'download-monitor' ),
+				__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ),
+				'email_lock',
+				'email-lock'
+			);
+		}
 	}
 
 	/**
