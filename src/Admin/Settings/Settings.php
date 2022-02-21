@@ -325,13 +325,26 @@ class DLM_Admin_Settings {
 						'fields' => array(),
 						'sections' => array(),
 						'badge' => true,
-					), 
+					),
 				)
 			),
 			'external_hosting'     => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
 				'badge'    => true,
-				'sections' => array()
+				'sections' => array(
+					'amazon_s3'    => array(
+						'title' => esc_html__( 'Amazon S3', 'download-monitor' ),
+						'fields' => array(),
+						'sections' => array(),
+						'badge' => true,
+					), 
+					'google_drive'   => array(
+						'title' =>  esc_html__( 'Google Drive', 'download-monitor' ),
+						'fields' => array(),
+						'sections' => array(),
+						'badge' => true,
+					),		
+				)
 			),
 			'integration'          => array(
 				'title'    => esc_html__( 'Integration', 'download-monitor' ),

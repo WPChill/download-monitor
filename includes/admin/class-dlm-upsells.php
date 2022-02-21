@@ -683,11 +683,11 @@ class DLM_Upsells {
 	}
 
 	/**
-	 * Upsell for Amazon S3 setting tab
+	 * Upsell for Amazon S3 setting sub-tab
 	 *
-	 * @since 4.4.5
+	 * @since 4.5.3	 
 	 */
-	public function upsell_tab_content_external_hosting() {
+	public function upsell_tab_section_content_amazon_s3() {
 
 		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
 
@@ -698,6 +698,15 @@ class DLM_Upsells {
 				'amazon-s3'
 			);
 		}
+
+	}
+
+	/**
+	 * Upsell for Google Drive setting sub-tab
+	 *
+	 * @since 4.5.3
+	 */
+	public function upsell_tab_section_content_google_drive() {
 
 		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
 
