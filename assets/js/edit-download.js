@@ -185,7 +185,7 @@ jQuery( function ( $ ) {
                 multiple: true,
                 title: $el.data( 'choose' ),
                 priority: 20,
-                filterable: 'uploaded',
+                filterable: 'all',
             } )
         ];
 
