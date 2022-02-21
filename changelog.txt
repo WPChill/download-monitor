@@ -1,3 +1,7 @@
+
+= 4.5.4 - TBA =
+Added: Included DLM Download Duplicator as core Download Monitor function ( https://github.com/WPChill/download-monitor/issues/848 )
+
 = 4.5.3 - 21.02.2022 =
 Added: LITE vs PRO page - https://github.com/WPChill/download-monitor/issues/851
 Changed: Extensions UI/texts update ( -https://github.com/WPChill/download-monitor/issues/846, https://github.com/WPChill/download-monitor/issues/849, https://github.com/WPChill/download-monitor/issues/838 )
