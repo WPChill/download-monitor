@@ -1,3 +1,11 @@
+= 4.5.3 - 21.02.2022 =
+Added: LITE vs PRO page - https://github.com/WPChill/download-monitor/issues/851
+Changed: Extensions UI/texts update ( -https://github.com/WPChill/download-monitor/issues/846, https://github.com/WPChill/download-monitor/issues/849, https://github.com/WPChill/download-monitor/issues/838 )
+Fixed: Escaping the excerpt - https://github.com/WPChill/download-monitor/issues/790
+Fixed: Error in logs `select user` filter if user was deleted - https://github.com/WPChill/download-monitor/issues/828
+Added: Setting to disable file browser - https://github.com/WPChill/download-monitor/issues/469
+Fixed: Translation & escaping fixes
+
 = 4.5.2 - 16.02.2022 =
 Fixed: Reports date selection bug - ( https://github.com/WPChill/download-monitor/issues/823 )
 Fixed: Extensions page view on Safari
