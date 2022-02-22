@@ -167,6 +167,8 @@ class DLM_Admin_Scripts {
 				)
 			);
 
+			wp_enqueue_style( 'common');
+
 		}
 
 		// This should handle all extensions activation and deactivation single-handed

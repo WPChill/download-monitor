@@ -54,8 +54,12 @@ jQuery(function ($) {
 				lazy_select_el.parent().find('.dlm-lazy-select-loader').remove();
 
 			});
-
-
 		});
+
+		$('tr.dlm-groupped-settings').on( 'click', '.postbox-header', (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+			$(event.currentTarget).parent().toggleClass('closed');
+		} );
 	});
 });

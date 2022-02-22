@@ -30,7 +30,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 		$html  .= '<div class="postbox closed">';
 		$html .= '<div class="postbox-header">';
 		$html .= '<h2 class="hndle">' . esc_html( $this->title ) . '</h2>';
-		 $html .= '<div class="handle-actions"><button type="button" class="handlediv" aria-expanded="false"><span class="toggle-indicator" aria-hidden="false"></span></button></div>';
+		$html .= '<div class="handle-actions"><button type="button" class="handlediv" aria-expanded="false"><span class="toggle-indicator" aria-hidden="false"></span></button></div>';
 		$html .= '</div>';
 		$html .= '<div class="inside dlm-accordeon-group__content">';
 
@@ -50,7 +50,8 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Text( $option['name'], $value, $placeholder );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo $content;
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -62,7 +63,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Password( $option['name'], $value, $placeholder );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -74,7 +75,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Textarea( $option['name'], $value, $placeholder );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -86,7 +87,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Editor( $option['name'], $value, $placeholder );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' .wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -98,7 +99,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Checkbox( $option['name'], $value, $option['cb_label'] );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -110,7 +111,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Radio( $option['name'], $value, $option['options'] );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -122,7 +123,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -136,7 +137,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					$content .= '<div class="dlm-accordeon-group__setting-content">';
 					$field    = new DLM_Admin_Fields_Field_Lazy_Select( $option['name'], $value, $option['options'] );
 					$content .= $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -148,7 +149,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_ActionButton( $option['name'], $option['link'], $option['label'] );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -160,7 +161,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_InstallPlugin( $option['name'], $option['link'], $option['label'] );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -172,7 +173,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Desc( $option['name'], $option['text'], $placeholder );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -184,7 +185,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new DLM_Admin_Fields_Field_Title( $option['title'] );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -196,7 +197,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$field   = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ). '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -212,7 +213,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					$field   = null;
 					$field   = apply_filters( 'dlm_setting_field_' . $option['type'], $field, $option, $value, $placeholder );
 					$content = $field->render();
-					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . $option['desc'] . '</p>' : '';
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
 					echo '</div>'; // .dlm-accordeon-group__setting-content
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
@@ -224,7 +225,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 		$html .= '</div>'; // .postbox
 		$html .= '</div>'; // #poststuff
 
-		echo wp_kses_post( $html );
+		echo $html;
 
 	}
 

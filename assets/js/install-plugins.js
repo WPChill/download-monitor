@@ -24,13 +24,16 @@
 		const plugin_slug = current.data('slug');
 		const plugin_action = current.data('action');
 		const element = current.parents('tr[data-setting]').attr('data-setting');
+		const activate_url = current.data('activation_url');
 
-		// Now let's disable the button and show the loading icon
+		// Now let's disable the button and show the action text
 		current.attr('disabled', true);
-		current.after('<span class="dlm-install-plugin-actions">' + dlm_install_plugins_vars.install_plugin + '</span>');
+
 
 		if ( 'install' === plugin_action ) {
-			
+
+			current.after('<span class="dlm-install-plugin-actions">' + dlm_install_plugins_vars.install_plugin + '</span>');
+
 			const args = {
 				slug: plugin_slug,
 				success: (response) => {
@@ -46,7 +49,8 @@
 
 			wp.updates.installPlugin(args);
 		} else if ( 'activate' === plugin_action ) {
-			//activatePlugin( url );
+			current.after('<span class="dlm-install-plugin-actions">' + dlm_install_plugins_vars.activate_plugin + '</span>');
+			activatePlugin( activate_url );
 		}
 
 	});

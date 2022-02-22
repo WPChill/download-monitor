@@ -116,8 +116,19 @@ class DLM_Admin_Fields_Field_InstallPlugin extends DLM_Admin_Fields_Field {
 	public function render() {
 
 		list( 'disabled' => $disabled, 'action' => $action, 'slug' => $slug ) = $this->get_attributes();
+
+		$activate_url = add_query_arg(
+			array(
+				'action'        => 'activate',
+				'plugin'        => rawurlencode( $this->plugin_path ),
+				'plugin_status' => 'all',
+				'paged'         => '1',
+				'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $this->plugin_path ),
+			),
+			admin_url( 'plugins.php' )
+		);
 		?>
-		<a class="button button-primary dlm-install-plugin-link" <?php echo ( 'disabled' === $disabled ) ? 'disabled' : ''; ?> data-action="<?php echo esc_attr( $action ); ?>" href="#" data-slug="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $this->label ); ?></a><span class="dlm-install-plugin-actions"><?php echo ( '' === $action ) ? esc_html__( 'Plugin already installed and activated', 'download-monitor' ) : ''; ?></span>
+		<a class="button button-primary dlm-install-plugin-link" <?php echo ( 'disabled' === $disabled ) ? 'disabled' : ''; ?> data-action="<?php echo esc_attr( $action ); ?>" data-activation_url="<?php echo esc_url( $activate_url ); ?>" href="#" data-slug="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $this->label ); ?></a><span class="dlm-install-plugin-actions"><?php echo ( '' === $action ) ? esc_html__( 'Plugin already installed and activated', 'download-monitor' ) : ''; ?></span>
 		<?php
 	}
 }
