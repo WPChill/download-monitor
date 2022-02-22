@@ -18,6 +18,7 @@ class DLM_Admin_Writepanels {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 15 );
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
 		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_boxes' ), 1, 2 );
+		add_action( 'wp_ajax_dlm_upload_file', array( $this, 'upload_file' ) );
 	}
 
 	/**
@@ -433,5 +434,50 @@ class DLM_Admin_Writepanels {
 
 		// do dlm_save_metabox action
 		do_action( 'dlm_save_metabox', $post_id, $post, $download );
+	}
+	
+	public function upload_file(){
+
+        $uploadedfile = $_FILES['file'];
+
+        $image_url = $uploadedfile['tmp_name'];
+
+        $upload_dir = wp_upload_dir();
+        
+        $image_data = file_get_contents( $image_url );
+        
+        $filename =  $uploadedfile['name'];
+         
+        $file = $upload_dir['basedir'] . '/dlm_uploads/' . date('Y/m/') . $filename;
+
+        
+        if( !file_put_contents( $file, $image_data ) ){
+			wp_send_json_error( array( 'errorMessage' => esc_html__( 'Failed to write the file at: ', 'download-monitor') . $file ) );
+			die();	
+		}
+        
+        $wp_filetype = wp_check_filetype( $filename, null );
+        
+        $attachment = array(
+        'post_mime_type' => $wp_filetype['type'],
+        'post_title' => sanitize_file_name( $filename ),
+        'post_content' => '',
+        'post_status' => 'inherit'
+        );
+        
+        $attach_id = wp_insert_attachment( $attachment, $file );
+
+		if ( ! is_wp_error( $attach_id ) ) {
+       		$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+		}else{
+			wp_send_json_error( array( 'errorMessage' => $attach_id->get_error_message() ) );
+			die();
+		}
+
+        wp_update_attachment_metadata( $attach_id, $attach_data );
+
+		wp_send_json_success( array( 'file_url' => wp_get_attachment_url( $attach_id ) ) );
+        die();
+
 	}
 }

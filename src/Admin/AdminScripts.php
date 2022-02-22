@@ -59,6 +59,7 @@ class DLM_Admin_Scripts {
 
 				// Make JavaScript strings translatable
 				wp_localize_script( 'dlm_edit_download', 'dlm_ed_strings', $this->get_strings( 'edit-download' ) );
+				wp_localize_script( 'dlm_edit_download', 'dlm_ajaxurl', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 			}
 
 			// Enqueue Downloadable Files Metabox JS

@@ -35,7 +35,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 						$buttons = array(
 							'upload_file'     => array(
-								'text' => __( 'Upload file', 'download-monitor' ),
+								'text' => __( 'Upload file', 'download-monitor' )
+							),
+							'media_library'     => array(
+								'text' => __( 'Media Library', 'download-monitor' ),
 								'data' => array(
 									'choose' => __( 'Choose a file', 'download-monitor' ),
 									'update' => __( 'Insert file URL', 'download-monitor' ),

@@ -163,9 +163,9 @@ jQuery( function ( $ ) {
     }
 
     // Uploading files
-    var dlm_upload_file_frame;
+    var dlm_media_library_frame;
 
-    jQuery( document ).on( 'click', '.dlm_upload_file', function ( event ) {
+    jQuery( document ).on( 'click', '.dlm_media_library', function ( event ) {
 
         var $el = $( this );
         var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
@@ -174,8 +174,8 @@ jQuery( function ( $ ) {
         event.preventDefault();
 
         // If the media frame already exists, reopen it.
-        if ( dlm_upload_file_frame ) {
-            dlm_upload_file_frame.close();
+        if ( dlm_media_library_frame ) {
+            dlm_media_library_frame.close();
         }
 
         var downloadable_file_states = [
@@ -190,7 +190,7 @@ jQuery( function ( $ ) {
         ];
 
         // Create the media frame.
-        dlm_upload_file_frame = wp.media.frames.downloadable_file = wp.media( {
+        dlm_media_library_frame = wp.media.frames.downloadable_file = wp.media( {
             // Set the title of the modal.
             title: $el.data( 'choose' ),
             library: {
@@ -204,9 +204,9 @@ jQuery( function ( $ ) {
         } );
 
         // When an image is selected, run a callback.
-        dlm_upload_file_frame.on( 'select', function () {
+        dlm_media_library_frame.on( 'select', function () {
 
-            var selection = dlm_upload_file_frame.state().get( 'selection' );
+            var selection = dlm_media_library_frame.state().get( 'selection' );
 
             selection.map( function ( attachment ) {
 
@@ -221,14 +221,14 @@ jQuery( function ( $ ) {
         } );
 
         // Set post to 0 and set our custom type
-        dlm_upload_file_frame.on( 'ready', function () {
-            dlm_upload_file_frame.uploader.options.uploader.params = {
+        dlm_media_library_frame.on( 'ready', function () {
+            dlm_media_library_frame.uploader.options.uploader.params = {
                 type: 'dlm_download'
             };
         } );
 
         // Finally, open the modal.
-        dlm_upload_file_frame.open();
+        dlm_media_library_frame.open();
     } );
 
 		// Copy button functionality
@@ -242,4 +242,64 @@ jQuery( function ( $ ) {
 			$('.copy-dlm-button').not($(this)).parent().find('span').text('');
 		});
 
+		// Copy button functionality
+		$('.dlm_upload_file').click(function(e) {
+			e.preventDefault();
+            button_elem = this;
+            openFileDialog(selected_callback);
+		});
+        
+        function openFileDialog(callback) { 
+
+            // Create an input element
+            var inputElement = document.createElement("input");
+
+            // Set its type to file
+            inputElement.type = "file";
+
+            // Include both the file extension and the mime type
+            //inputElement.accept = accept;
+
+            // set onchange event to call callback when user has selected file
+            inputElement.addEventListener("change", callback)
+
+            // dispatch a click event to open the file dialog
+            inputElement.dispatchEvent(new MouseEvent("click")); 
+        }
+
+        var selected_callback = function selectedFileAction( event ){
+            
+            [...this.files].forEach(file => {
+            var formData = new FormData();
+
+            // add assoc key values, this will be posts values
+            formData.append("file", file, file.name);
+            formData.append('action', 'dlm_upload_file');
+                //console.log(formData);
+            $.ajax({
+                type: "POST",
+                url: dlm_ajaxurl.ajax_url,
+                success: function (data) {
+
+                    var $el = $( button_elem );
+                    var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
+                    var file_paths = $file_path_field.val();
+                    file_paths = file_paths ? file_paths + "\n" + data.data.file_url : data.data.file_url;
+                    $file_path_field.val( file_paths );
+                    
+                },
+                error: function (error) {
+                    var $el = $( button_elem );
+                    var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
+                    $file_path_field.parent().append('<div class="notice notice-error"><p>' + error.data.errorMessage + '</p></div>');
+                },
+                async: true,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                timeout: 60000
+            });
+        });
+        }
 } );
