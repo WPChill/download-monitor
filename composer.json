@@ -13,16 +13,17 @@
       "WPChill\\DownloadMonitor\\": "src/"
     },
     "classmap": [
-      "src/"
+      "src/",
+      "includes/"
     ]
   },
   "require": {
   },
   "require-dev": {
     "pimple/pimple": "*",
-    "paypal/rest-api-sdk-php": "*",
+    "paypal/paypalhttp": "*",
     "phpunit/phpunit": "^6.4",
-    "coenjacobs/mozart": "^0.3.0"
+    "coenjacobs/mozart": "^0.7.1"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -33,7 +34,7 @@
       "classmap_directory": "/tmp/mozart",
       "classmap_prefix": "NOTUSED_",
       "packages": [
-        "paypal/rest-api-sdk-php",
+        "paypal/paypalhttp",
         "pimple/pimple"
       ]
     }

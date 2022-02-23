@@ -44,12 +44,11 @@ class ContainerTest extends TestCase
         $this->assertSame($pimple['service'], $psr->get('service'));
     }
 
-    /**
-     * @expectedException \WPChill\DownloadMonitor\Dependencies\Psr\Container\NotFoundExceptionInterface
-     * @expectedExceptionMessage Identifier "service" is not defined.
-     */
     public function testGetThrowsExceptionIfServiceIsNotFound()
     {
+        $this->expectException(\WPChill\DownloadMonitor\Dependencies\Psr\Container\NotFoundExceptionInterface::class);
+        $this->expectExceptionMessage('Identifier "service" is not defined.');
+
         $pimple = new Container();
         $psr = new PsrContainer($pimple);
 
