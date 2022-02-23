@@ -37,6 +37,15 @@ class DLM_Admin_Scripts {
 			DLM_VERSION
 		);
 
+		// Upload file JS
+		wp_enqueue_script(
+			'dlm_upload_file_js',
+			plugins_url( '/assets/js/upload-file' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+			array( 'jquery' ),
+			DLM_VERSION
+		);
+		wp_localize_script( 'dlm_upload_file_js', 'dlm_ajaxurl', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+		
 		// Make JavaScript strings translatable
 		wp_localize_script( 'dlm_insert_download', 'dlm_id_strings', $this->get_strings( 'edit-post' ) );
 
@@ -59,7 +68,7 @@ class DLM_Admin_Scripts {
 
 				// Make JavaScript strings translatable
 				wp_localize_script( 'dlm_edit_download', 'dlm_ed_strings', $this->get_strings( 'edit-download' ) );
-				wp_localize_script( 'dlm_edit_download', 'dlm_ajaxurl', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
 			}
 
 			// Enqueue Downloadable Files Metabox JS
