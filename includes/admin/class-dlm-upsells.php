@@ -139,8 +139,8 @@ class DLM_Upsells {
 
 		echo '<p class="wpchill-upsell-description">' . esc_html( $description ) . '</p>';
 		echo '<p>';
-
-		$buttons = '<a target="_blank" href="' . admin_url( 'edit.php?post_type=dlm_download&page=dlm-lite-vs-pro' ) . '" class="button-primary button">' . esc_html__( 'Get PRO!', 'download-monitor' ) . '</a>';
+		$buttons = '<a target="_blank" href="' . admin_url( 'edit.php?post_type=dlm_download&page=dlm-lite-vs-pro' ) . '" class="button">' . esc_html__( 'LITE vs PRO', 'download-monitor' ) . '</a>';
+		$buttons .= '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html__( 'Get PRO!', 'download-monitor' ) . '</a>';
 
 		echo wp_kses_post( apply_filters( 'dlm_upsell_buttons', $buttons, $tab ) );
 
