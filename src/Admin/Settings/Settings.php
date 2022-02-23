@@ -365,62 +365,68 @@ class DLM_Admin_Settings {
 
 		if ( dlm_is_shop_enabled() ) {
 
-			$settings['general']['sections']['shop'] = array(
+			$settings['shop'] = array(
 				'title'  => __( 'Shop', 'download-monitor' ),
-				'fields' => array(
-					array(
-						'name'    => 'dlm_base_country',
-						'std'     => 'US',
-						'label'   => __( 'Base Country', 'download-monitor' ),
-						'desc'    => __( 'Where is your store located?', 'download-monitor' ),
-						'type'    => 'select',
-						'options' => Services::get()->service( "country" )->get_countries()
-					),
-					array(
-						'name'    => 'dlm_currency',
-						'std'     => 'USD',
-						'label'   => __( 'Currency', 'download-monitor' ),
-						'desc'    => __( 'In what currency are you selling?', 'download-monitor' ),
-						'type'    => 'select',
-						'options' => $this->get_currency_list_with_symbols()
-					),
-					array(
-						'name'    => 'dlm_currency_pos',
-						'std'     => 'left',
-						'label'   => __( 'Currency Position', 'download-monitor' ),
-						'desc'    => __( 'The position of the currency symbol.', 'download-monitor' ),
-						'type'    => 'select',
-						'options' => array(
-							'left'        => sprintf( __( 'Left (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left' ) ) ),
-							'right'       => sprintf( __( 'Right (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right' ) ) ),
-							'left_space'  => sprintf( __( 'Left with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left_space' ) ) ),
-							'right_space' => sprintf( __( 'Right with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right_space' ) ) )
+				'sections' => array(
+					'shop' => array(
+						'title'  => __( 'Settings', 'download-monitor' ),
+						'fields' => array(
+							array(
+								'name'    => 'dlm_base_country',
+								'std'     => 'US',
+								'label'   => __( 'Base Country', 'download-monitor' ),
+								'desc'    => __( 'Where is your store located?', 'download-monitor' ),
+								'type'    => 'select',
+								'options' => Services::get()->service( "country" )->get_countries()
+							),
+							array(
+								'name'    => 'dlm_currency',
+								'std'     => 'USD',
+								'label'   => __( 'Currency', 'download-monitor' ),
+								'desc'    => __( 'In what currency are you selling?', 'download-monitor' ),
+								'type'    => 'select',
+								'options' => $this->get_currency_list_with_symbols()
+							),
+							array(
+								'name'    => 'dlm_currency_pos',
+								'std'     => 'left',
+								'label'   => __( 'Currency Position', 'download-monitor' ),
+								'desc'    => __( 'The position of the currency symbol.', 'download-monitor' ),
+								'type'    => 'select',
+								'options' => array(
+									'left'        => sprintf( __( 'Left (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left' ) ) ),
+									'right'       => sprintf( __( 'Right (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right' ) ) ),
+									'left_space'  => sprintf( __( 'Left with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left_space' ) ) ),
+									'right_space' => sprintf( __( 'Right with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right_space' ) ) )
+								)
+							),
+							array(
+								'name'  => 'dlm_decimal_separator',
+								'type'  => 'text',
+								'std'   => '.',
+								'label' => __( 'Decimal Separator', 'download-monitor' ),
+								'desc'  => __( 'The decimal separator of displayed prices.', 'download-monitor' )
+							),
+							array(
+								'name'  => 'dlm_thousand_separator',
+								'type'  => 'text',
+								'std'   => ',',
+								'label' => __( 'Thousand Separator', 'download-monitor' ),
+								'desc'  => __( 'The thousand separator of displayed prices.', 'download-monitor' )
+							),
+							array(
+								'name'     => 'dlm_disable_cart',
+								'std'      => '',
+								'label'    => __( 'Disable Cart', 'download-monitor' ),
+								'cb_label' => __( 'Disable', 'download-monitor' ),
+								'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
+								'type'     => 'checkbox'
+							),
 						)
-					),
-					array(
-						'name'  => 'dlm_decimal_separator',
-						'type'  => 'text',
-						'std'   => '.',
-						'label' => __( 'Decimal Separator', 'download-monitor' ),
-						'desc'  => __( 'The decimal separator of displayed prices.', 'download-monitor' )
-					),
-					array(
-						'name'  => 'dlm_thousand_separator',
-						'type'  => 'text',
-						'std'   => ',',
-						'label' => __( 'Thousand Separator', 'download-monitor' ),
-						'desc'  => __( 'The thousand separator of displayed prices.', 'download-monitor' )
-					),
-					array(
-						'name'     => 'dlm_disable_cart',
-						'std'      => '',
-						'label'    => __( 'Disable Cart', 'download-monitor' ),
-						'cb_label' => __( 'Disable', 'download-monitor' ),
-						'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
-						'type'     => 'checkbox'
 					),
 				)
 			);
+			$settings['shop']['sections'] = array_merge( $settings['shop']['sections'], $this->get_gateways() );
 
 			$settings['advanced']['sections']['page_setup']['fields'][] = array(
 				'name'    => 'dlm_page_cart',
@@ -438,11 +444,6 @@ class DLM_Admin_Settings {
 				'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
 				'type'    => 'lazy_select',
 				'options' => array()
-			);
-
-			$settings['payments'] = array(
-				'title'    => __( 'Payment Methods', 'download-monitor' ),
-				'sections' => $this->get_payment_methods_sections()
 			);
 		}
 
@@ -649,44 +650,10 @@ class DLM_Admin_Settings {
 	 *
 	 * @return array
 	 */
-	private function get_payment_methods_sections() {
 
+	private function get_gateways(){
 		$gateways = Services::get()->service( 'payment_gateway' )->get_all_gateways();
-
-		// formatted array of gateways with id=>title map (used in select fields)
-		$gateways_formatted = array();
-		if ( ! empty( $gateways ) ) {
-			foreach ( $gateways as $gateway ) {
-				$gateways_formatted[ $gateway->get_id() ] = $gateway->get_title();
-			}
-		}
-
-		/** Generate the overview sections */
-		$sections = array(
-			'overview' => array(
-				'title'  => __( 'Overview', 'download-monitor' ),
-				'fields' => array(
-					array(
-						'name'     => '',
-						'std'      => 'USD',
-						'label'    => __( 'Enabled Gateways', 'download-monitor' ),
-						'desc'     => __( 'Check all payment methods you want to enable on your webshop.', 'download-monitor' ),
-						'type'     => 'gateway_overview',
-						'gateways' => $gateways
-					),
-					array(
-						'name'    => 'dlm_default_gateway',
-						'std'     => 'paypal',
-						'label'   => __( 'Default Gateway', 'download-monitor' ),
-						'desc'    => __( 'This payment method will be pre-selected on your checkout page.', 'download-monitor' ),
-						'type'    => 'select',
-						'options' => $gateways_formatted
-					),
-				)
-			)
-		);
-
-		/** Generate sections for all gateways */
+		$sections = array();
 		if ( ! empty( $gateways ) ) {
 			/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
@@ -724,7 +691,6 @@ class DLM_Admin_Settings {
 				);
 			}
 		}
-
 		return $sections;
 	}
 
