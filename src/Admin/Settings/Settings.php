@@ -432,7 +432,7 @@ class DLM_Admin_Settings {
 						)
 					),
 				),
-				'priority' => 5
+				'priority' => 15
 			);
 			$settings['shop']['sections'] = array_merge( $settings['shop']['sections'], $this->get_gateways() );
 
