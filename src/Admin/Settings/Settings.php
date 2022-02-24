@@ -434,7 +434,9 @@ class DLM_Admin_Settings {
 				),
 				'priority' => 15
 			);
-			$settings['shop']['sections'] = array_merge( $settings['shop']['sections'], $this->get_gateways() );
+
+			$settings['shop']['sections'] = array_merge( $settings['shop']['sections'], $this->get_payment_methods_sections() );
+
 
 			$settings['advanced']['sections']['page_setup']['fields'][] = array(
 				'name'    => 'dlm_page_cart',
@@ -660,10 +662,44 @@ class DLM_Admin_Settings {
 	 *
 	 * @return array
 	 */
+	private function get_payment_methods_sections() {
 
-	private function get_gateways(){
 		$gateways = Services::get()->service( 'payment_gateway' )->get_all_gateways();
-		$sections = array();
+
+		// formatted array of gateways with id=>title map (used in select fields)
+		$gateways_formatted = array();
+		if ( ! empty( $gateways ) ) {
+			foreach ( $gateways as $gateway ) {
+				$gateways_formatted[ $gateway->get_id() ] = $gateway->get_title();
+			}
+		}
+
+		/** Generate the overview sections */
+		$sections = array(
+			'overview' => array(
+				'title'  => __( 'Payment overview', 'download-monitor' ),
+				'fields' => array(
+					array(
+						'name'     => '',
+						'std'      => 'USD',
+						'label'    => __( 'Enabled Gateways', 'download-monitor' ),
+						'desc'     => __( 'Check all payment methods you want to enable on your webshop.', 'download-monitor' ),
+						'type'     => 'gateway_overview',
+						'gateways' => $gateways
+					),
+					array(
+						'name'    => 'dlm_default_gateway',
+						'std'     => 'paypal',
+						'label'   => __( 'Default Gateway', 'download-monitor' ),
+						'desc'    => __( 'This payment method will be pre-selected on your checkout page.', 'download-monitor' ),
+						'type'    => 'select',
+						'options' => $gateways_formatted
+					),
+				)
+			)
+		);
+
+		/** Generate sections for all gateways */
 		if ( ! empty( $gateways ) ) {
 			/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
@@ -701,6 +737,7 @@ class DLM_Admin_Settings {
 				);
 			}
 		}
+
 		return $sections;
 	}
 
