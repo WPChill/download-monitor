@@ -136,7 +136,8 @@ class DLM_Admin_Settings {
 							),
 						)
 					),
-				)
+				),
+				'priority' => 10
 			),
 			'advanced'             => array(
 				'title'    => __( 'Advanced', 'download-monitor' ),
@@ -296,7 +297,8 @@ class DLM_Admin_Settings {
 							),
 						),
 					)
-				)
+				),
+				'priority' => 20
 			),
 			'lead_generation'      => array(
 				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
@@ -326,7 +328,8 @@ class DLM_Admin_Settings {
 						'sections' => array(),
 						'badge' => true,
 					),
-				)
+				),
+				'priority' => 30
 			),
 			'external_hosting'     => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
@@ -344,22 +347,26 @@ class DLM_Admin_Settings {
 						'sections' => array(),
 						'badge' => true,
 					),		
-				)
+				),
+				'priority' => 40
 			),
 			'integration'          => array(
 				'title'    => esc_html__( 'Integration', 'download-monitor' ),
 				'badge'    => true,
-				'sections' => array()
+				'sections' => array(),
+				'priority' => 50
 			),
 			'email_notification'   => array(
 				'title'    => esc_html__( 'Emails', 'download-monitor' ),
 				'badge'    => true,
-				'sections' => array()
+				'sections' => array(),
+				'priority' => 60
 			),
 			'terns_and_conditions' => array(
 				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
 				'badge'    => true,
-				'sections' => array()
+				'sections' => array(),
+				'priority' => 70
 			)
 		);
 
@@ -424,7 +431,8 @@ class DLM_Admin_Settings {
 							),
 						)
 					),
-				)
+				),
+				'priority' => 5
 			);
 			$settings['shop']['sections'] = array_merge( $settings['shop']['sections'], $this->get_gateways() );
 
@@ -455,6 +463,8 @@ class DLM_Admin_Settings {
 
 		// Backwards compatibility for 4.3 and 4.4.4
 		$settings = $this->backwards_compatibility_settings( $old_settings, $settings );
+
+		uasort( $settings, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
 
 		return $settings;
 	}
