@@ -110,7 +110,9 @@ class DLM_Admin_Helper {
 	/**
 	 * Checks if this is one of Download Monitor's page or not
 	 *
-	 * @return void
+	 * @return bool
+	 * 
+	 * @since 4.5.4
 	 */
 	public static function check_if_dlm_page() {
 
