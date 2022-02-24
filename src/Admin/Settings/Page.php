@@ -129,6 +129,7 @@ class DLM_Settings_Page {
 		$this->print_global_notices();
 		?>
 		<div class="wrap dlm-admin-settings">
+			<hr class="wp-header-end">
 			<form method="post" action="options.php">
 
 				<?php $this->generate_tabs( $settings ); ?>
