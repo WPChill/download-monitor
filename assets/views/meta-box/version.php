@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<h3>
 		<button type="button" class="remove_file button"><?php echo esc_html__( 'Remove', 'download-monitor' ); ?></button>
 		<div class="handlediv" title="<?php echo esc_attr__( 'Click to toggle', 'download-monitor' ); ?>"></div>
-		<strong>#<?php echo esc_html( $file_id ); ?> &mdash; <?php echo sprintf( wp_kses_post( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ) ),  ( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ), esc_html( date_i18n( get_option( 'date_format' ), $file_post_date->format( 'U' ) ) ) ); ?> &mdash; <?php echo sprintf( esc_html( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ) ), esc_html( $file_download_count ) ); ?></strong>
+		<strong>#<?php echo esc_html( $file_id ); ?> &mdash; <?php echo sprintf( wp_kses_post( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ) ),  ( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ), esc_html( date_i18n( get_option( 'date_format' ), $file_post_date->format( 'U' ) ) ) ); ?> &mdash; <?php echo sprintf( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ), esc_html( $file_download_count ) ); ?></strong>
 		<input type="hidden" name="downloadable_file_id[<?php echo esc_attr( $version_increment ); ?>]" value="<?php echo esc_attr( $file_id ); ?>"/>
 		<input type="hidden" class="file_menu_order" name="downloadable_file_menu_order[<?php echo esc_attr( $version_increment ); ?>]"
 		       value="<?php echo esc_attr( $version_increment ); ?>"/>
