@@ -31,7 +31,7 @@ jQuery( function ( $ ) {
 
             $.ajax({
                 type: "POST",
-                url: dlm_ajaxurl.ajax_url,
+                url: ajaxurl,
                 success: function (data) {
 
                     var $el = $( button_elem );

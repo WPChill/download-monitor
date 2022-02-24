@@ -451,6 +451,13 @@ class DLM_Admin_Writepanels {
 		do_action( 'dlm_save_metabox', $post_id, $post, $download );
 	}
 
+	/**
+	 * Directly upload file
+	 *
+	 * @return void
+	 * 
+	 * @since 4.5.4
+	 */
 	public function upload_file() {
 
 		$uploadedfile = $_FILES['file'];
@@ -467,7 +474,6 @@ class DLM_Admin_Writepanels {
 
 		if ( ! file_put_contents( $file, $image_data ) ) {
 			wp_send_json_error( array( 'errorMessage' => esc_html__( 'Failed to write the file at: ', 'download-monitor' ) . $file ) );
-			die();
 		}
 
 		$wp_filetype = wp_check_filetype( $filename, null );
@@ -485,13 +491,11 @@ class DLM_Admin_Writepanels {
 			$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
 		} else {
 			wp_send_json_error( array( 'errorMessage' => $attach_id->get_error_message() ) );
-			die();
 		}
 
 		wp_update_attachment_metadata( $attach_id, $attach_data );
 
 		wp_send_json_success( array( 'file_url' => wp_get_attachment_url( $attach_id ) ) );
-		die();
 
 	}
 }

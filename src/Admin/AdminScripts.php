@@ -71,7 +71,6 @@ class DLM_Admin_Scripts {
 			array( 'jquery' ),
 			DLM_VERSION
 		);
-		wp_localize_script( 'dlm_upload_file_js', 'dlm_ajaxurl', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 		
 		// Make JavaScript strings translatable
 		wp_localize_script( 'dlm_insert_download', 'dlm_id_strings', $this->get_strings( 'edit-post' ) );
