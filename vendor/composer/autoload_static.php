@@ -311,6 +311,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'Never5\\DownloadMonitor\\Dependencies\\Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/../..' . '/src/Dependencies/Psr/Log/Test/LoggerInterfaceTest.php',
         'Never5\\DownloadMonitor\\Dependencies\\Psr\\Log\\Test\\TestLogger' => __DIR__ . '/../..' . '/src/Dependencies/Psr/Log/Test/TestLogger.php',
         'Never5\\DownloadMonitor\\Shop\\Access\\Manager' => __DIR__ . '/../..' . '/src/Shop/Access/Manager.php',
+        'Never5\\DownloadMonitor\\Shop\\Admin\\ShopAdminHelper' => __DIR__ . '/../..' . '/src/Shop/Admin/ShopAdminHelper.php',
         'Never5\\DownloadMonitor\\Shop\\Admin\\DownloadOption' => __DIR__ . '/../..' . '/src/Shop/Admin/DownloadOption.php',
         'Never5\\DownloadMonitor\\Shop\\Admin\\Fields\\GatewayOverview' => __DIR__ . '/../..' . '/src/Shop/Admin/Fields/GatewayOverview.php',
         'Never5\\DownloadMonitor\\Shop\\Admin\\OrderTable' => __DIR__ . '/../..' . '/src/Shop/Admin/OrderTable.php',

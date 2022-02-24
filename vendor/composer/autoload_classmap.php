@@ -296,6 +296,7 @@ return array(
     'Never5\\DownloadMonitor\\Dependencies\\Psr\\Log\\Test\\LoggerInterfaceTest' => $baseDir . '/src/Dependencies/Psr/Log/Test/LoggerInterfaceTest.php',
     'Never5\\DownloadMonitor\\Dependencies\\Psr\\Log\\Test\\TestLogger' => $baseDir . '/src/Dependencies/Psr/Log/Test/TestLogger.php',
     'Never5\\DownloadMonitor\\Shop\\Access\\Manager' => $baseDir . '/src/Shop/Access/Manager.php',
+    'Never5\\DownloadMonitor\\Shop\\Admin\\ShopAdmninHelper' => $baseDir . '/src/Shop/Admin/ShopAdminHelper.php',
     'Never5\\DownloadMonitor\\Shop\\Admin\\DownloadOption' => $baseDir . '/src/Shop/Admin/DownloadOption.php',
     'Never5\\DownloadMonitor\\Shop\\Admin\\Fields\\GatewayOverview' => $baseDir . '/src/Shop/Admin/Fields/GatewayOverview.php',
     'Never5\\DownloadMonitor\\Shop\\Admin\\OrderTable' => $baseDir . '/src/Shop/Admin/OrderTable.php',

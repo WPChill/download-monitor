@@ -11,24 +11,24 @@ class Orders {
 	 * Setup admin order page
 	 */
 	public function setup() {
-		add_action( 'admin_menu', array( $this, 'orders_menu' ), 30 ); 
+		add_filter( 'dlm_shop_admin_menu_links', array( $this, 'orders_menu' ), 50, 1 );
 	}
 
 	/**
 	 * Add settings menu item
 	 */
-	public function orders_menu() {
+	public function orders_menu( $links ) {
 
-		// Orders page
-		add_submenu_page(
-			'edit.php?post_type=dlm_product', 
-			__( 'Orders', 'download-monitor' ), 
-			__( 'Orders', 'download-monitor' ), 
-			'manage_options', 
-			'download-monitor-orders', 
-			array( $this, 'view' ), 
-			30
+		$links[] = array(
+			'page_title' => __( 'Orders', 'download-monitor' ),
+			'menu_title' => 'Orders',
+			'capability' => 'manage_options',
+			'menu_slug'  => 'download-monitor-orders',
+			'function'   => array( $this, 'view' ),
+			'priority'   => 50,
 		);
+
+		return $links;
 	}
 
 	/**

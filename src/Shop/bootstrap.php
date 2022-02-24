@@ -42,6 +42,9 @@ $post_type->setup();
  */
 if ( is_admin() ) {
 
+	// Setup Shop Admin Helper
+	$shop_admin_helper = \Never5\DownloadMonitor\Shop\Admin\ShopAdminHelper::get_instance();
+
 	// Setup the write panels (meta boxes)
 	$write_panels = new \Never5\DownloadMonitor\Shop\Admin\WritePanels();
 	$write_panels->setup();
