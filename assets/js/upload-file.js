@@ -29,30 +29,45 @@ jQuery( function ( $ ) {
             formData.append("file", file, file.name);
             formData.append('action', 'dlm_upload_file');
 
-            $.ajax({
-                type: "POST",
-                url: ajaxurl,
-                success: function (data) {
+            if ( max_file_size > file.size ){
+                $.ajax({
+                    type: "POST",
+                    url: ajaxurl,
+                    success: function (data) {
 
-                    var $el = $( button_elem );
-                    var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
-                    var file_paths = $file_path_field.val();
-                    file_paths = file_paths ? file_paths + "\n" + data.data.file_url : data.data.file_url;
-                    $file_path_field.val( file_paths );
-                    
-                },
-                error: function (error) {
-                    var $el = $( button_elem );
-                    var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
-                    $file_path_field.parent().append('<div class="notice notice-error"><p>' + error.data.errorMessage + '</p></div>');
-                },
-                async: true,
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                timeout: 60000
-            });
+                        if( data.success == true ){
+
+                            var $el = $( button_elem );
+                            var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
+                            var file_paths = $file_path_field.val();
+                            file_paths = file_paths ? file_paths + "\n" + data.data.file_url : data.data.file_url;
+                            $file_path_field.val( file_paths );
+                        }else if( data.success == false ){
+
+                            var $el = $( button_elem );
+                            var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
+                            $file_path_field.parent().append('<div class="notice notice-error dlm-upload-notices"><p>' + data.data.errorMessage + '</p></div>');
+                        }
+                        
+                    },
+                    error: function () {
+                        var $el = $( button_elem );
+                        var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
+                        $file_path_field.parent().append('<div class="notice notice-error dlm-upload-notices"><p>An error occurred while uploading the file. Please try again.</p></div>');
+                    },
+                    async: true,
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    timeout: 60000
+                });
+            }else{
+                $( ".dlm-upload-notices" ).remove();
+                var $el = $( button_elem );
+                var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
+                $file_path_field.parent().append('<div class="notice notice-error dlm-upload-notices"><p>The file size exceeds the max_upload_file_size limit. Max: '+max_file_size+'</p></div>'); 
+            }
         });
         }
 } );

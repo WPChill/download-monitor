@@ -63,6 +63,7 @@ class DLM_Admin_Scripts {
 			array( 'jquery' ),
 			DLM_VERSION
 		);
+		wp_add_inline_script( 'dlm_upload_file_js', 'const max_file_size = '.wp_max_upload_size(), 'before' );
 
 		// Make JavaScript strings translatable
 		wp_localize_script( 'dlm_insert_download', 'dlm_id_strings', $this->get_strings( 'edit-post' ) );
