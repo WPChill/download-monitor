@@ -70,7 +70,7 @@ class DLM_Settings_Page {
 
 		if( $screen->base ==  'dlm_download_page_download-monitor-settings' ) {
 			$ep_value = get_option( 'dlm_download_endpoint' );
-			$page_check = get_page_by_path( $ep_value );
+			$page_check = get_page_by_path( $ep_value, 'ARRAY_A', array( 'page', 'post' ) );
 			$cpt_check  = post_type_exists( $ep_value );
 
 			if( $page_check || $cpt_check ) {
