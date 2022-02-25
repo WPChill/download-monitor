@@ -83,6 +83,15 @@ class DLM_Template_Handler {
 			// Extract args if there are any
 			if ( is_array( $args ) && count( $args ) > 0 ) {
 				extract( $args );
+
+				// Compatibility between extensions and templates.
+				if ( ! isset( $download ) ) {
+					$download = $dlm_download;
+				}
+
+				if ( ! isset( $dlm_download ) ) {
+					$dlm_download = $download;
+				}
 			}
 
 			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );
