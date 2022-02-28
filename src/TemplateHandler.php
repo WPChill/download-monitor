@@ -85,11 +85,11 @@ class DLM_Template_Handler {
 				extract( $args );
 
 				// Compatibility between extensions and templates.
-				if ( ! isset( $download ) ) {
+				if ( ! isset( $download ) && isset( $dlm_download ) ) {
 					$download = $dlm_download;
 				}
 
-				if ( ! isset( $dlm_download ) ) {
+				if ( ! isset( $dlm_download ) && isset( $download ) ) {
 					$dlm_download = $download;
 				}
 			}
