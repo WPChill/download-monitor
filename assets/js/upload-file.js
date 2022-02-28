@@ -2,11 +2,11 @@ jQuery( function ( $ ) {
     $('.dlm-metaboxes.downloadable_files').on('click', '.dlm_upload_file', function(e){
         e.preventDefault();
         button_elem = this;
-        openFileDialog(selected_callback);
+        DLMopenFileDialog(dlm_selected_file);
 
      });
         
-        function openFileDialog(callback) { 
+        function DLMopenFileDialog(callback) { 
 
             // Create an input element
             var inputElement = document.createElement("input");
@@ -21,7 +21,7 @@ jQuery( function ( $ ) {
             inputElement.dispatchEvent(new MouseEvent("click")); 
         }
 
-        var selected_callback = function selectedFileAction( event ){
+        var dlm_selected_file = function DLMselectedFileAction( event ){
             
             [...this.files].forEach(file => {
             var formData = new FormData();
