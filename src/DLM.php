@@ -190,6 +190,9 @@ class WP_DLM {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
 		}
 
+		if( class_exists('DLM_Download_Duplicator') ) {
+			deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
+		}
 	}
 
 	/**
