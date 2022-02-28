@@ -1,3 +1,16 @@
+= 4.5.4 - 28.02.2022 =
+Added: Included DLM Download Duplicator as core Download Monitor function ( https://github.com/WPChill/download-monitor/issues/848 )
+Fixed: Insert downloads button ( https://github.com/WPChill/download-monitor/issues/811 )
+Fixed: File/Version date error ( https://github.com/WPChill/download-monitor/issues/812 )
+Fixed: Download Monitor endpoint already in use by a page/post ( https://github.com/WPChill/download-monitor/issues/826 )
+Added: Secure attribute on wp_dlm_downloading cookie ( https://github.com/WPChill/download-monitor/issues/592 )
+Fixed: DLM_Admin_Fields esc_attr insead of esc_attr ( https://github.com/WPChill/download-monitor/issues/656 )
+Fixed: Dismissable warnings ( https://github.com/WPChill/download-monitor/issues/680 )
+Fixed: Browse for file should use Wordpress Media Manager ( https://github.com/WPChill/download-monitor/issues/670 )
+Added: Shop enabled - create a new tab ( https://github.com/WPChill/download-monitor/issues/858 )
+Added: Lite vs Pro button in upsells ( https://github.com/WPChill/download-monitor/issues/857 )
+Fixed: Orders submenu entry under the Shop Menu entry ( https://github.com/WPChill/download-monitor/issues/859 )
+
 = 4.5.3 - 21.02.2022 =
 Added: LITE vs PRO page - https://github.com/WPChill/download-monitor/issues/851
 Changed: Extensions UI/texts update ( -https://github.com/WPChill/download-monitor/issues/846, https://github.com/WPChill/download-monitor/issues/849, https://github.com/WPChill/download-monitor/issues/838 )
