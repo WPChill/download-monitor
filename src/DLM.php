@@ -122,6 +122,10 @@ class WP_DLM {
 
 			// Admin Download Page Options Upsells
 			new DLM_Admin_OptionsUpsells();
+
+			if( class_exists('DLM_Download_Duplicator') ) {
+				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
+			}
 		}
 
 		// Setup AJAX handler if doing AJAX
@@ -188,10 +192,6 @@ class WP_DLM {
 		// check if we need to bootstrap E-Commerce
 		if ( apply_filters( 'dlm_shop_load_bootstrap', true ) ) {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
-		}
-
-		if( class_exists('DLM_Download_Duplicator') ) {
-			deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
 		}
 	}
 
