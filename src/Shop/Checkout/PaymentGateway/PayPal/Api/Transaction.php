@@ -1,13 +1,13 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class Transaction
  *
  * A transaction defines the contract of a payment - what is the payment for and who is fulfilling it.
  *
- * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
+ * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
  *
  */
 class Transaction extends TransactionBase

@@ -1,8 +1,8 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
 
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Environment;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Environment;
 
 abstract class PayPalEnvironment implements Environment
 {

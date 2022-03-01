@@ -1,13 +1,13 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class Details
  *
  * Additional details of the payment amount.
  *
- * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
+ * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string subtotal
  * @property string shipping

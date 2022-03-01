@@ -1,13 +1,13 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class Address
  *
  * Base Address object used as billing address in a payment or extended for Shipping Address.
  *
- * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
+ * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string phone
  * @property string type

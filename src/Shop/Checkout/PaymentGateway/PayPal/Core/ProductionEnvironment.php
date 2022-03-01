@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
 
 class ProductionEnvironment extends PayPalEnvironment
 {

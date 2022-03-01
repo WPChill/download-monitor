@@ -1,17 +1,17 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class Amount
  *
  * payment amount with break-ups.
  *
- * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
+ * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string currency_code
  * @property string amount
- * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Details details
+ * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Details details
  */
 class Amount
 {
@@ -99,7 +99,7 @@ class Amount
     /**
      * Additional details of the payment amount.
      *
-     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Details $details
+     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Details $details
      * 
      * @return $this
      */
@@ -112,7 +112,7 @@ class Amount
     /**
      * Additional details of the payment amount.
      *
-     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Details
+     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Details
      */
     public function getDetails()
     {

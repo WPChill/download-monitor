@@ -1,10 +1,10 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
 
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Injector;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\HttpClient;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Injector;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\HttpClient;
 
 class AuthorizationInjector implements Injector
 {

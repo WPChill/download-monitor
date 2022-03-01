@@ -1,15 +1,15 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class TransactionBase
  *
  * A transaction defines the contract of a payment - what is the payment for and who is fulfilling it.
  *
- * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
+ * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RelatedResources related_resources
+ * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\RelatedResources related_resources
  */
 class TransactionBase extends CartBase 
 {
@@ -17,7 +17,7 @@ class TransactionBase extends CartBase
      * List of financial transactions (Sale, Authorization, Capture, Refund) related to the payment.
      * 
      *
-     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RelatedResources[] $related_resources
+     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\RelatedResources[] $related_resources
      * 
      * @return $this
      */
@@ -30,7 +30,7 @@ class TransactionBase extends CartBase
     /**
      * List of financial transactions (Sale, Authorization, Capture, Refund) related to the payment.
      *
-     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\RelatedResources[]
+     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\RelatedResources[]
      */
     public function getRelatedResources()
     {
