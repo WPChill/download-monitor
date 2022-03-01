@@ -214,6 +214,17 @@ class DLM_Uninstall {
 
 			$dlm_cpts = get_posts( array( 'post_type' => $post_types, 'posts_per_page' => - 1, 'fields' => 'ids' ) );
 
+			$terms = get_terms( 'dlm_download_category', array( 'hide_empty' => false, 'fields' => 'ids' ) );
+
+			if ( ! empty( $terms ) ) {
+				$terms= implode( ',', $terms );
+
+				$taxonomy_query = "DELETE FROM $wpdb->terms WHERE term_id IN ( $terms )";
+				$taxonomy_query = "DELETE FROM $wpdb->term_taxonomy WHERE term_id IN ( $terms )";
+
+				$wpdb->query( $taxonomy_query );
+			}
+
 			if ( is_array( $dlm_cpts ) && ! empty( $dlm_cpts ) ) {
 
 				$id_in = implode( ',', $dlm_cpts );
