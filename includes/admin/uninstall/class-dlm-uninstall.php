@@ -210,19 +210,19 @@ class DLM_Uninstall {
 		// Delete custom post type
 		if ( '1' == $uninstall_option['delete_cpt'] ) {
 
-			$post_types = apply_filters( 'dlm_uninstall_post_types', array( 'dlm_download' ) );
+			$post_types = apply_filters( 'dlm_uninstall_post_types', array( 'dlm_download', 'dlm_download_version' ) );
 
 			$dlm_cpts = get_posts( array( 'post_type' => $post_types, 'posts_per_page' => - 1, 'fields' => 'ids' ) );
-
 
 			if ( is_array( $dlm_cpts ) && ! empty( $dlm_cpts ) ) {
 
 				$id_in = implode( ',', $dlm_cpts );
 
-				$sql      = $wpdb->prepare( "DELETE FROM  $wpdb->posts WHERE ID IN ( $id_in )" );
-				$sql_meta = $wpdb->prepare( "DELETE FROM  $wpdb->postmeta WHERE post_id IN ( $id_in )" );
-				$wpdb->query( $sql );
-				$wpdb->query( $sql_meta );
+				$post_query = "DELETE FROM $wpdb->posts WHERE ID IN ($id_in)";
+				$meta_query = "DELETE FROM $wpdb->postmeta WHERE post_id IN ($id_in)";
+
+				$wpdb->query( $post_query );
+				$wpdb->query( $meta_query );
 			}
 		}
 
