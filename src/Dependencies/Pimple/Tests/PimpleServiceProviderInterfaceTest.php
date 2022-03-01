@@ -24,14 +24,15 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests;
 
-use Never5\DownloadMonitor\Dependencies\Pimple\Container;
+use PHPUnit\Framework\TestCase;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container;
 
 /**
- * @author  Dominik Zogg <dominik.zogg@gmail.com>
+ * @author Dominik Zogg <dominik.zogg@gmail.com>
  */
-class PimpleServiceProviderInterfaceTest extends \PHPUnit_Framework_TestCase
+class PimpleServiceProviderInterfaceTest extends TestCase
 {
     public function testProvider()
     {
@@ -41,13 +42,13 @@ class PimpleServiceProviderInterfaceTest extends \PHPUnit_Framework_TestCase
         $pimpleServiceProvider->register($pimple);
 
         $this->assertEquals('value', $pimple['param']);
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $pimple['service']);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $pimple['service']);
 
         $serviceOne = $pimple['factory'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
 
         $serviceTwo = $pimple['factory'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
 
         $this->assertNotSame($serviceOne, $serviceTwo);
     }
@@ -56,20 +57,20 @@ class PimpleServiceProviderInterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $pimple = new Container();
 
-        $pimple->register(new Fixtures\PimpleServiceProvider(), array(
+        $pimple->register(new Fixtures\PimpleServiceProvider(), [
             'anotherParameter' => 'anotherValue',
-        ));
+        ]);
 
         $this->assertEquals('value', $pimple['param']);
         $this->assertEquals('anotherValue', $pimple['anotherParameter']);
 
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $pimple['service']);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $pimple['service']);
 
         $serviceOne = $pimple['factory'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceOne);
 
         $serviceTwo = $pimple['factory'];
-        $this->assertInstanceOf('Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
+        $this->assertInstanceOf('WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service', $serviceTwo);
 
         $this->assertNotSame($serviceOne, $serviceTwo);
     }
