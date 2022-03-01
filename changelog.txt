@@ -1,6 +1,7 @@
 = 4.5.5 - 07.03.2022 =
-* Fixed: Uninstall now completelly removes everything based on selection
-* Added: New option to display featured downloads for the [downloads] shortcode
+* Fixed: Uninstall now completelly removes everything based on selection ( #761 )
+* Added: New option to display featured downloads for the [downloads] shortcode ( #624 )
+* Added: Shortcode visible on all downloads page ( #821 )
 
 = 4.5.4 - 28.02.2022 =
 Added: Included DLM Download Duplicator as core Download Monitor function ( https://github.com/WPChill/download-monitor/issues/848 )

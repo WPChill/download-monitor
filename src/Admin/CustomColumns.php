@@ -26,7 +26,8 @@ class DLM_Custom_Columns {
 		$columns["download_id"]    = __( "ID", 'download-monitor' );
 		$columns["file"]           = __( "File", 'download-monitor' );
 		$columns["version"]        = __( "Version", 'download-monitor' );
-		$columns["download_cat"]   = __( "Categories", 'download-monitor' );
+		$columns["version"]        = __( "Version", 'download-monitor' );
+		$columns["shortcode"]      = __( "Shortcode", 'download-monitor' );
 		$columns["download_tag"]   = __( "Tags", 'download-monitor' );
 		$columns["download_count"] = __( "Download count", 'download-monitor' );
 		$columns["featured"]       = __( "Featured", 'download-monitor' );
@@ -75,7 +76,7 @@ class DLM_Custom_Columns {
 				if ( ! $terms = get_the_terms( $post->ID, 'dlm_download_category' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					foreach ( $terms as $term ) {						
+					foreach ( $terms as $term ) {
 						echo '<a href=' . esc_url( add_query_arg( 'dlm_download_category', esc_attr( $term->slug ) ) ) . '>' . esc_html( $term->name ) . '</a> ';
 					}
 				}
@@ -125,6 +126,10 @@ class DLM_Custom_Columns {
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
+				break;
+
+			case "shortcode" :
+				echo '<code>[download id="' . esc_html( $post->ID ) . '"]</code>';
 				break;
 			case "download_count" :
 				echo number_format( $download->get_download_count(), 0, '.', ',' );
