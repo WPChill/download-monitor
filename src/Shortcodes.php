@@ -284,7 +284,6 @@ class DLM_Shortcodes {
 
 		// enqueue style only on shortcode use
 		wp_enqueue_style( 'dlm-frontend' );
-
 		extract( shortcode_atts( array(
 			// Query args
 			'per_page'                  => '-1', // -1 = no limit
@@ -425,6 +424,11 @@ class DLM_Shortcodes {
 			$args['meta_query'][] = array(
 				'key'   => '_featured',
 				'value' => 'yes'
+			);
+		} else if ( $featured === 'no_featured' ) {
+			$args['meta_query'][] = array(
+				'key'   => '_featured',
+				'value' => 'no'
 			);
 		}
 
