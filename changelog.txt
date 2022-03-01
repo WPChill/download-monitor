@@ -1,3 +1,4 @@
+= 4.5.5 - 07.03.2022 =
 
 = 4.5.4 - 28.02.2022 =
 Added: Included DLM Download Duplicator as core Download Monitor function ( https://github.com/WPChill/download-monitor/issues/848 )
