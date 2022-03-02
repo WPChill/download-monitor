@@ -48,6 +48,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'gateway_overview':
 				$field = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
 				break;
+			case 'htaccess_status':
+				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option['icon'], $option['icon-color'], $option['icon-text'], $option['name'], $option['link'], $option['label'] );
+				break;
 			default:
 				/**
 				 * do_filter: dlm_setting_field_$type: (null) $field, (array) $option, (String) $value, (String) $placeholder

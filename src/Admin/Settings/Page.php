@@ -55,7 +55,14 @@ class DLM_Settings_Page {
 				case 'dlm_clear_transients':
 					$result = download_monitor()->service( 'transient_manager' )->clear_all_version_transients();
 					if ( $result ) {
-						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), DLM_Admin_Settings::get_url() ) );
+						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
+						exit;
+					}
+					break;
+				case 'dlm_regenerate_protection':
+
+					if ( $this->regenerate_protection() ) {
+						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
 						exit;
 					}
 					break;
@@ -95,6 +102,9 @@ class DLM_Settings_Page {
 			switch ( $_GET['dlm_action_done'] ) {
 				case 'dlm_clear_transients':
 					echo "<p>" . esc_html__( 'Download Monitor Transients successfully cleared!', 'download-monitor' ) . "</p>";
+					break;
+				case 'dlm_regenerate_protection':
+					echo "<p>" . esc_html__( '.htaccess file successfully regenerated!', 'download-monitor' ) . "</p>";
 					break;
 			}
 			?>
@@ -278,6 +288,8 @@ class DLM_Settings_Page {
 		add_action( 'in_admin_header', array( $this, 'dlm_page_header' ) );
 
 		add_filter( 'dlm_page_header', array( $this, 'page_header_locations' ) );
+
+		add_filter( 'dlm_settings', array( $this, 'access_files_checker_field' ) );
 	}
 
 	/**
@@ -387,6 +399,133 @@ class DLM_Settings_Page {
 	 */
 	private function get_active_section( $sections) {
 		return ( ! empty( $_GET['section'] ) ? sanitize_title( wp_unslash($_GET['section']) ) : $this->array_first_key( $sections ) );
+	}
+
+	/**
+	 * Function used to regenerate the .htaccess for the dlm_uploads folder
+	 *
+	 * @return void
+	 * 
+	 * @since 4.5.5
+	 */
+	private function regenerate_protection(){
+		$upload_dir = wp_upload_dir();
+
+		$htaccess_path = $upload_dir['basedir'] . '/dlm_uploads/.htaccess';
+		$index_path = $upload_dir['basedir'] . '/dlm_uploads/index.html';
+
+		//remove old htaccess and index files 
+		if ( file_exists( $htaccess_path ) ) {
+			unlink( $htaccess_path );
+		}
+		if ( file_exists( $index_path ) ) {
+			unlink( $index_path );
+		}
+
+		//generate new htaccess and index files
+		$this->directory_protection();
+
+		//check if the files were created.
+		if ( file_exists( $htaccess_path ) && file_exists( $index_path ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Add setting to check if the .htaccess file is there
+	 *
+	 * @param Array $settings
+	 * @return void
+	 * 
+	 * @since 4.5.5
+	 */
+	public function access_files_checker_field( $settings ){
+
+		$upload_dir    = wp_upload_dir();
+		$htaccess_path = $upload_dir['basedir'] . '/dlm_uploads/.htaccess';
+		$icon          = 'dashicons-dismiss';
+		$icon_color    = '#f00';
+		$icon_text     = __( 'Htaccess is missing.', 'download-monitor' );
+
+		if ( file_exists( $htaccess_path ) ) {
+			$icon       = 'dashicons-yes-alt';
+			$icon_color = '#00A32A';
+			$icon_text  = __( 'You are protected by htaccess.', 'download-monitor' );
+		}
+
+		if ( stristr( sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ), 'nginx' ) == false ) {
+
+			$upload_path = str_replace( sanitize_text_field( wp_unslash( $_SERVER['DOCUMENT_ROOT'] ) ), '', $upload_dir['basedir'] );
+			$nginx_rules = "<code class='dlm-code-nginx-rules'>location " . $upload_path . "/dlm_uploads {<br />deny all;<br />return 403;<br />}</code>";
+
+			$nginx_text =  sprintf( __( 'Please add the following rules to your nginx config to disable direct file access: %s', 'download-monitor'), wp_kses_post( $nginx_rules ) );
+
+			$icon       = 'dashicons-dismiss';
+			$icon_color = '#f00';
+			$icon_text  = sprintf( __( 'Because your server is running on nginx, our .htaccess file can\'t protect your downloads. %s', 'download-monitor' ), $nginx_text );
+		}
+
+		$settings['advanced']['sections']['misc']['fields'][] = array(
+			'name'       => 'dlm_regenerate_protection',
+			'label'      => __( 'Regenerate protection for uploads folder', 'download-monitor' ),
+			'desc'       => __( 'Regenerates the .htaccess file.', 'download-monitor' ),
+			'link'       => admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '&tab=advanced&section=misc',
+			'icon'       => $icon,
+			'icon-color' => $icon_color,
+			'icon-text'  => $icon_text,
+			'type'       => 'htaccess_status',
+		);
+
+		return $settings;
+	}
+
+	/**
+	 * Protect the upload dir on activation.
+	 *
+	 * @access public
+	 * @return void
+	 * 
+	 * @since 4.5.5 // Copied from Installer.php
+	 */
+	private function directory_protection() {
+
+		// Install files and folders for uploading files and prevent hotlinking
+		$upload_dir = wp_upload_dir();
+
+		$htaccess_content = "# Apache 2.4 and up
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+
+# Apache 2.3 and down
+<IfModule !mod_authz_core.c>
+Order Allow,Deny
+Deny from all
+</IfModule>";
+
+		$files = array(
+			array(
+				'base'    => $upload_dir['basedir'] . '/dlm_uploads',
+				'file'    => '.htaccess',
+				'content' => $htaccess_content
+			),
+			array(
+				'base'    => $upload_dir['basedir'] . '/dlm_uploads',
+				'file'    => 'index.html',
+				'content' => ''
+			)
+		);
+
+		foreach ( $files as $file ) {
+			if ( wp_mkdir_p( $file['base'] ) && ! file_exists( trailingslashit( $file['base'] ) . $file['file'] ) ) {
+				if ( $file_handle = @fopen( trailingslashit( $file['base'] ) . $file['file'], 'w' ) ) {
+					fwrite( $file_handle, $file['content'] );
+					fclose( $file_handle );
+				}
+			}
+		}
 	}
 
 }
