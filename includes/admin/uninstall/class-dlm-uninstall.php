@@ -213,7 +213,7 @@ class DLM_Uninstall {
 		// Delete custom post type
 		if ( '1' == $uninstall_option['delete_cpt'] ) {
 
-			$post_types = apply_filters( 'dlm_uninstall_post_types', array( 'dlm_download', 'dlm_download_version' ) );
+			$post_types = apply_filters( 'dlm_uninstall_post_types', array( 'dlm_download', 'dlm_download_version', 'dlm_product' ) );
 
 			$dlm_cpts = get_posts( array( 'post_type' => $post_types, 'posts_per_page' => - 1, 'fields' => 'ids' ) );
 
