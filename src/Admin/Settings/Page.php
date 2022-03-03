@@ -455,7 +455,7 @@ class DLM_Settings_Page {
 			$icon_text  = __( 'You are protected by htaccess.', 'download-monitor' );
 		}
 
-		if ( stristr( sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ), 'nginx' ) == false ) {
+		if ( stristr( sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ), 'nginx' ) !== false ) {
 
 			$upload_path = str_replace( sanitize_text_field( wp_unslash( $_SERVER['DOCUMENT_ROOT'] ) ), '', $upload_dir['basedir'] );
 			$nginx_rules = "<code class='dlm-code-nginx-rules'>location " . $upload_path . "/dlm_uploads {<br />deny all;<br />return 403;<br />}</code>";
@@ -465,6 +465,7 @@ class DLM_Settings_Page {
 			$icon       = 'dashicons-dismiss';
 			$icon_color = '#f00';
 			$icon_text  = sprintf( __( 'Because your server is running on nginx, our .htaccess file can\'t protect your downloads. %s', 'download-monitor' ), $nginx_text );
+			$disabled   = true;
 		}
 
 		$settings['advanced']['sections']['misc']['fields'][] = array(
@@ -475,6 +476,7 @@ class DLM_Settings_Page {
 			'icon'       => $icon,
 			'icon-color' => $icon_color,
 			'icon-text'  => $icon_text,
+			'disabled'   => isset( $disabled ) ? 'true' : 'false',
 			'type'       => 'htaccess_status',
 		);
 

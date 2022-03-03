@@ -49,7 +49,7 @@ class DLM_Admin_Fields_Field_Factory {
 				$field = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
 				break;
 			case 'htaccess_status':
-				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option['icon'], $option['icon-color'], $option['icon-text'], $option['name'], $option['link'], $option['label'] );
+				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option );
 				break;
 			default:
 				/**

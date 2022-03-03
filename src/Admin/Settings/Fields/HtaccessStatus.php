@@ -33,21 +33,26 @@ class DLM_Admin_Fields_Field_HtaccessStatus extends DLM_Admin_Fields_Field {
 	private $label;
 
 	/**
+	 *
+	 * @var String
+	 */
+	private $disabled;
+
+	/**
 	 * DLM_Admin_Fields_Field_HtaccessStatus constructor
 	 *
-	 * @param [type] $icon The icon of the button
-	 * @param [type] $icon_color The color of the button
-	 * @param [type] $icon_text The text of the button
-	 * @param [type] $name The name of the option
-	 * @param [type] $link The link of the button
-	 * @param [type] $label The label of the setting
+	 * @param Array $option Array containing all options of the button
 	 */
-	public function __construct( $icon, $icon_color, $icon_text, $name, $link, $label ) {
-		$this->icon       = $icon;
-		$this->icon_text  = $icon_text;
-		$this->icon_color = $icon_color;
-		$this->link       = $link;
-		$this->label      = $label;
+	public function __construct( $option ) {
+
+		$this->icon       = isset( $option['icon'] ) ? $option['icon'] : '';
+		$this->icon_text  = isset( $option['icon-text'] ) ? $option['icon-text'] : '';
+		$this->icon_color = isset( $option['icon-color'] ) ? $option['icon-color'] : '';
+		$this->link       = isset( $option['link'] ) ? $option['link'] : '';
+		$this->label      = isset( $option['label'] ) ? $option['label'] : '';
+		$this->disabled   = ( isset( $option['disabled'] ) && 'true' === $option['disabled'] ) ? true : false;
+		$name             = isset( $option['name'] ) ? $option['name'] : '';
+
 		parent::__construct( $name, '', '' );
 	}
 
@@ -80,7 +85,7 @@ class DLM_Admin_Fields_Field_HtaccessStatus extends DLM_Admin_Fields_Field {
 	public function render() {
 		?>
 		<p class="dlm_htaccess_notice"><span style="color:<?php echo esc_attr( $this->icon_color ); ?>" class="dashicons <?php echo esc_attr( $this->icon ); ?>"></span> <?php echo wp_kses_post( $this->icon_text ); ?></p>
-		<a class="button" href="<?php echo esc_url( $this->get_url() ); ?>"><?php echo wp_kses_post( $this->label ); ?></a>
+		<a class="button" <?php echo ( $this->disabled ) ? 'disabled="disabled"' : ''; ?> href="<?php echo esc_url( $this->get_url() ); ?>"><?php echo wp_kses_post( $this->label ); ?></a>
 		<?php
 	}
 
