@@ -425,7 +425,7 @@ class DLM_Shortcodes {
 				'key'   => '_featured',
 				'value' => 'yes'
 			);
-		} else if ( $featured === 'no_featured' ) {
+		} else if ( $featured === 'exclude_featured' ) {
 			$args['meta_query'][] = array(
 				'key'   => '_featured',
 				'value' => 'no'
