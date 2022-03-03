@@ -109,10 +109,12 @@ class DLM_Admin_Dashboard {
 	/**
 	 * This is a fix for Custom Posts ordering plugins
 	 *
-	 * @param [type] $query
+	 * @param Object $query
 	 * @return void
+	 * 
+	 * @since 4.5.5
 	 */
-	public function orderby_fix( $query ) {
+	private function orderby_fix( $query ) {
 
 		if ( ! is_admin() ) {
 			return;
@@ -127,6 +129,5 @@ class DLM_Admin_Dashboard {
 
 		do_action( 'dlm_orderby_dashboard_fix', $query );
 
-		return;
 	}
 }
