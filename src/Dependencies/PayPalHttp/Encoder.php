@@ -1,15 +1,15 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp;
+namespace Never5\DownloadMonitor\Dependencies\PayPalHttp;
 
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer\Form;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer\Json;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer\Multipart;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer\Text;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer\Form;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer\Json;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer\Multipart;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer\Text;
 
 /**
  * Class Encoder
- * @package WPChill\DownloadMonitor\Dependencies\PayPalHttp
+ * @package Never5\DownloadMonitor\Dependencies\PayPalHttp
  *
  * Encoding class for serializing and deserializing request/response.
  */

@@ -1,10 +1,10 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp;
+namespace Never5\DownloadMonitor\Dependencies\PayPalHttp;
 
 /**
  * Class HttpRequest
- * @package WPChill\DownloadMonitor\Dependencies\PayPalHttp
+ * @package Never5\DownloadMonitor\Dependencies\PayPalHttp
  *
  * Request object that holds all the necessary information required by HTTPClient
  *

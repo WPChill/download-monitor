@@ -1,16 +1,16 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
+namespace Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
 
 use finfo;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Encoder;
-use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer\FormPart;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Encoder;
+use Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer\FormPart;
 
 /**
  * Class Multipart
- * @package WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer
+ * @package Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer
  *
  * Serializer for multipart.
  */

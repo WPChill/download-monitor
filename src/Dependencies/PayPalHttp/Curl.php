@@ -1,10 +1,10 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp;
+namespace Never5\DownloadMonitor\Dependencies\PayPalHttp;
 
 /**
  * Class Curl
- * @package WPChill\DownloadMonitor\Dependencies\PayPalHttp
+ * @package Never5\DownloadMonitor\Dependencies\PayPalHttp
  *
  * Curl wrapper used by HttpClient to make curl requests.
  * @see HttpClient

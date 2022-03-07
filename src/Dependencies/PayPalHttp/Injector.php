@@ -1,10 +1,10 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp;
+namespace Never5\DownloadMonitor\Dependencies\PayPalHttp;
 
 /**
  * Interface Injector
- * @package WPChill\DownloadMonitor\Dependencies\PayPalHttp
+ * @package Never5\DownloadMonitor\Dependencies\PayPalHttp
  *
  * Interface that can be implemented to apply injectors to Http client.
  *
