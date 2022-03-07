@@ -283,7 +283,7 @@ class DLM_Uninstall {
 					$wpdb->prefix . 'dlm_order_item',
 					$wpdb->prefix . 'dlm_order_transaction',
 					$wpdb->prefix . 'dlm_order',
-				),
+				)
 			);
 
 			if ( ! empty( $dlm_tables ) ) {
