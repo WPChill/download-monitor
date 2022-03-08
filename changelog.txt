@@ -1,9 +1,12 @@
-= 4.5.5 - 07.03.2022 =
+= 4.5.5 - 08.03.2022 =
 * Fixed: Uninstall now completely removes everything based on selection ( https://github.com/WPChill/download-monitor/issues/761 )
 * Added: New option to display featured downloads for the [downloads] shortcode ( https://github.com/WPChill/download-monitor/issues/624)
 * Added: Shortcode visible on all downloads page ( #821 )
 * Fixed: Set our own orderby param on Admin Dashboard ( https://github.com/WPChill/download-monitor/issues/809 )
 * Fixed: PayPal - new API ( https://github.com/WPChill/download-monitor/issues/861, https://github.com/WPChill/download-monitor/issues/796, https://github.com/WPChill/download-monitor/issues/665, https://github.com/WPChill/download-monitor/issues/636 )
+* Fixed: Direct upload button ( https://github.com/WPChill/download-monitor/issues/863 )
+* Fixed: Escaping on shop e-mail templates
+* Fixed: Issue preventing a product to be added to cart. ( https://github.com/WPChill/download-monitor/issues/865 )
 
 = 4.5.4 - 28.02.2022 =
 Added: Included DLM Download Duplicator as core Download Monitor function ( https://github.com/WPChill/download-monitor/issues/848 )
