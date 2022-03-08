@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <tr>
                         <td class="dlm-td-name"><?php echo esc_html( $item['label'] ); ?></td>
                         <td class="dlm-td-version"><?php echo esc_html( $item['version'] ); ?></td>
-                        <td class="dlm-td-download-button"><?php echo esc_html( $item['button'] ); ?></td>
+                        <td class="dlm-td-download-button"><?php echo wp_kses_post( $item['button'] ); ?></td>
                     </tr>
 				<?php endforeach; ?>
 			<?php endif; ?>

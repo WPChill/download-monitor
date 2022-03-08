@@ -53,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', $buttons );
 
 						foreach ( $buttons as $key => $button ) {
-							echo '<a href="#" class="button dlm_' . esc_attr( $key ) . '" ';
+							echo '<a href="#" ' . ( 'upload_file' === $key ? 'id="dlm_upload_file_' . absint( $version_increment ) . '"' : '' ) . ' class="button dlm_' . esc_attr( $key ) . '" ';
 							if ( ! empty( $button['data'] ) ) {
 								foreach ( $button['data'] as $data_key => $data_value ) {
 									echo 'data-' . esc_attr( $data_key ) . '="' . esc_attr( $data_value ) . '" ';
