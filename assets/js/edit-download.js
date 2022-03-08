@@ -92,6 +92,8 @@ jQuery( function ( $ ) {
                 numberOfMonths: 1,
                 showButtonPanel: true
             } );
+
+            jQuery(document).trigger( 'dlm_new_file_added', [this, response] );
         } );
 
         return false;
