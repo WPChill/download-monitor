@@ -4,6 +4,7 @@
 * Added: Shortcode visible on all downloads page ( #821 )
 * Fixed: Set our own orderby param on Admin Dashboard ( https://github.com/WPChill/download-monitor/issues/809 )
 * Fixed: PayPal - new API ( https://github.com/WPChill/download-monitor/issues/861, https://github.com/WPChill/download-monitor/issues/796, https://github.com/WPChill/download-monitor/issues/665, https://github.com/WPChill/download-monitor/issues/636 )
+* Fixed: Issue preventing a product to be added to cart. ( https://github.com/WPChill/download-monitor/issues/865 )
 
 = 4.5.4 - 28.02.2022 =
 Added: Included DLM Download Duplicator as core Download Monitor function ( https://github.com/WPChill/download-monitor/issues/848 )
