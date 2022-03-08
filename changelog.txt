@@ -1,4 +1,4 @@
-= 4.5.5 - 07.03.2022 =
+= 4.5.5 - 08.03.2022 =
 * Fixed: Uninstall now completely removes everything based on selection ( https://github.com/WPChill/download-monitor/issues/761 )
 * Added: New option to display featured downloads for the [downloads] shortcode ( https://github.com/WPChill/download-monitor/issues/624)
 * Added: Shortcode visible on all downloads page ( #821 )

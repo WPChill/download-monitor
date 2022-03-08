@@ -114,7 +114,7 @@ class DLM_Admin_Dashboard {
 	 * 
 	 * @since 4.5.5
 	 */
-	private function orderby_fix( $query ) {
+	public function orderby_fix( $query ) {
 
 		if ( ! is_admin() ) {
 			return;
