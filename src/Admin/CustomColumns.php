@@ -25,7 +25,7 @@ class DLM_Custom_Columns {
 		$columns["title"]          = __( "Title", 'download-monitor' );
 		$columns["download_id"]    = __( "ID", 'download-monitor' );
 		$columns["file"]           = __( "File", 'download-monitor' );
-		$columns["version"]        = __( "Version", 'download-monitor' );
+		$columns["download_cat"]   = __( "Categories", 'download-monitor' );
 		$columns["version"]        = __( "Version", 'download-monitor' );
 		$columns["shortcode"]      = __( "Shortcode", 'download-monitor' );
 		$columns["download_tag"]   = __( "Tags", 'download-monitor' );
@@ -129,7 +129,7 @@ class DLM_Custom_Columns {
 				break;
 
 			case "shortcode" :
-				echo '<code>[download id="' . esc_html( $post->ID ) . '"]</code>';
+				echo '<code>[download id="' . absint( $post->ID ) . '"]</code>';
 				break;
 			case "download_count" :
 				echo number_format( $download->get_download_count(), 0, '.', ',' );
