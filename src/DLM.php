@@ -193,6 +193,9 @@ class WP_DLM {
 		if ( apply_filters( 'dlm_shop_load_bootstrap', true ) ) {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
 		}
+
+		// Fix to whitelist our function for PolyLang
+		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
 	}
 
 	/**
@@ -542,6 +545,18 @@ class WP_DLM {
 		}
 
 		return $post_link;
+	}
+
+	/**
+	 * Whitelist  class DLM_Download's method get_the_download_link
+	 */
+	public function whitelist_polylang( $list ) {
+
+		$download = new DLM_Download();
+		// We add our download link to polylang's whitelist functions, to be able to retrieve the language in the link
+		$list[] = array('function' => 'get_the_download_link' );
+
+		return $list;
 	}
 
 }
