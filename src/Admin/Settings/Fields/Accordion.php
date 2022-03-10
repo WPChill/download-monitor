@@ -129,8 +129,15 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					$html .= ob_get_clean();
 					break;
 				case 'lazy_select':
+
+					if ( isset( $option['name'] ) ) {
+						$tr_id = 'id="' . $option['name'] . '_wrapp"';
+					}else{
+						$tr_id = '';
+					}
+
 					ob_start();
-					echo '<div class="dlm-accordeon-group__setting wp-clearfix">';
+					echo '<div class="dlm-accordeon-group__setting wp-clearfix" ' . $tr_id . '>';
 					echo '<div class="dlm-accordeon-group__setting-title">' . esc_html( $option['label'] ) . '</div>';
 					echo '<div class="dlm-accordeon-group__setting-content">';
 					$content  = '<div class="dlm-accordeon-group__setting-title">' . esc_html( $option['title'] ) . '</div>';
