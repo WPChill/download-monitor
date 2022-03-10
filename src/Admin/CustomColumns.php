@@ -21,7 +21,7 @@ class DLM_Custom_Columns {
 		$columns = array();
 
 		$columns["cb"]             = "<input type=\"checkbox\" />";
-		$columns["thumb"]          = '<span>' . __( "Image", 'download-monitor' ) . '</span>';
+		//$columns["thumb"]          = '<span>' . __( "Image", 'download-monitor' ) . '</span>';
 		$columns["title"]          = __( "Title", 'download-monitor' );
 		$columns["download_id"]    = __( "ID", 'download-monitor' );
 		$columns["file"]           = __( "File", 'download-monitor' );
@@ -61,14 +61,10 @@ class DLM_Custom_Columns {
 		}
 
 		$download = $downloads[0];
-
-		/** @var DLM_Download_Version $file */
-		$file = $download->get_version();
-
 		switch ( $column ) {
-			case "thumb" :
+			/* case "thumb" :
 				echo wp_kses_post( $download->get_image() );
-				break;
+				break; */
 			case "download_id" :
 				echo esc_html( $post->ID );
 				break;
@@ -110,6 +106,8 @@ class DLM_Custom_Columns {
 				}
 				break;
 			case "file" :
+				/** @var DLM_Download_Version $file */
+				$file = $download->get_version();
 				if ( $file ) {
 					echo '<a href="' . esc_url( $download->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
 					if ( $size = $download->get_version()->get_filesize_formatted() ) {
@@ -121,6 +119,8 @@ class DLM_Custom_Columns {
 				}
 				break;
 			case "version" :
+				/** @var DLM_Download_Version $file */
+				$file = $download->get_version();
 				if ( $file && $file->get_version() ) {
 					echo esc_html( $file->get_version() );
 				} else {
@@ -129,7 +129,7 @@ class DLM_Custom_Columns {
 				break;
 
 			case "shortcode" :
-				echo '<code>[download id="' . absint( $post->ID ) . '"]</code>';
+				echo '<button class="wpchill-tooltip-button copy-dlm-shortcode button button-primary dashicons dashicons-shortcode" style="width:40px;"><div class="wpchill-tooltip-content"><span class="dlm-copy-text">' . esc_html__( 'Copy shortcode', 'download-monitor' ) . '</span><div class="dl-shortcode-copy"><code>[download id="' . absint( $post->ID ) . '"]</code><input type="text" value="[download id=\'' . absint( $post->ID ) . '\']" class="hidden"></div></div></button>';
 				break;
 			case "download_count" :
 				echo number_format( $download->get_download_count(), 0, '.', ',' );
