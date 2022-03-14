@@ -20,6 +20,7 @@ jQuery(function ($) {
             },
             dlmUploader = new wp.Uploader(dlmUploaderOptions);
 
+        dlmUploader.uploader.bind('FilesAdded', dlmFileAdded);
         dlmUploader.uploader.bind('FileUploaded', dlmAddFileToPath);
     });
 
@@ -44,7 +45,7 @@ jQuery(function ($) {
                     }
                 },
                 dlmUploader = new wp.Uploader(dlmUploaderOptions);
-
+            dlmUploader.uploader.bind('FilesAdded', dlmFileAdded);
             dlmUploader.uploader.bind('FileUploaded', dlmAddFileToPath);
         });
 
@@ -59,8 +60,20 @@ jQuery(function ($) {
 
         const fileUrl = file.attachment.attributes.url;
         const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
+        fileURLs.parent().removeClass('dlm-blury');
         let filePaths = fileURLs.val();
         filePaths = filePaths ? filePaths + "\n" + fileUrl : fileUrl;
         fileURLs.val(filePaths);
+    }
+
+    /**
+     * Blur the textarea so the user knows it is loading
+     * @param {*} up 
+     * @param {*} file 
+     */
+    function dlmFileAdded(up, file) {
+
+        const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
+        fileURLs.parent().addClass('dlm-blury');
     }
 });
