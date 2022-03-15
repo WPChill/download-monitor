@@ -1,3 +1,7 @@
+= 4.5.7 - 21.03.2022 =
+Changed: Removed Download Duplicator from LITE vs PRO page ( https://github.com/WPChill/download-monitor/issues/872 )
+Changed: Versions from Gutenberg block now mention `n/a #id` as title if they are non-versioned ( https://github.com/WPChill/download-monitor/issues/873 )
+
 = 4.5.6 - 14.03.2022 =
 Fixed: Endpoint changing value notice and flushing permalinks on endpoint change ( https://github.com/WPChill/download-monitor/issues/801 )
 Fixed: Place back the categories column in admin list view and change the copy shortcode functionality ( https://github.com/WPChill/download-monitor/issues/821 )

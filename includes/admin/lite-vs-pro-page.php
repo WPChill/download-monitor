@@ -17,10 +17,6 @@ $pro_arguments = array(
 		'title'       => esc_html__( 'Terms and conditions', 'download-monitor' ),
 		'description' => esc_html__( 'Require your users to accept your terms and conditions before they can download your files.', 'download-monitor' ),
 	),
-	'download_duplicator'     => array(
-		'title'       => esc_html__( 'Download Duplicator', 'download-monitor' ),
-		'description' => esc_html__( 'Easily duplicate downloads including their data, versions and files with a single click.', 'download-monitor' ),
-	),
 	'email_ notification'     => array(
 		'title'       => esc_html__( 'Email Notification', 'download-monitor' ),
 		'description' => esc_html__( 'The Email Notification extension for Download Monitor sends you an email whenever one of your files is downloaded.', 'download-monitor' ),
