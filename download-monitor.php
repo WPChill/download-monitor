@@ -38,6 +38,7 @@ define( 'DLM_VERSION', '4.5.6' );
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
 define( 'DLM_URL' , plugin_dir_url( __FILE__ ) );
+define( 'DLM_FILE' , plugin_basename( __FILE__ ) );
 
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';

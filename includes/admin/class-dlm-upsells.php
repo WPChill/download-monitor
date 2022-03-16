@@ -40,6 +40,8 @@ class DLM_Upsells {
 		// Add Lite VS Pro page
 		add_filter( 'dlm_admin_menu_links', array( $this, 'add_lite_vs_pro_page' ), 120 );
 
+		// Upgrade to PRO plugin action link
+		add_filter( 'plugin_action_links_' . DLM_FILE, array( $this, 'filter_action_links' ), 60 );
 	}
 
 	/**
@@ -861,6 +863,22 @@ class DLM_Upsells {
 	public function lits_vs_pro_page() {
 
 		require_once __DIR__.'/lite-vs-pro-page.php';
+	}
+
+	/**
+	 * Add the Upgrade to PRO plugin action link
+	 *
+	 * @param $links
+	 *
+	 * @return array
+	 *
+	 * @since 4.5.7
+	 */
+	public function filter_action_links( $links ) {
+
+		$upgrade = array( '<a style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade to PRO!', 'download-monitor' ) . '</a>' );
+
+		return array_merge( $upgrade, $links );
 	}
 }
 
