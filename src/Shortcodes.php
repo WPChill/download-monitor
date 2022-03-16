@@ -72,6 +72,9 @@ class DLM_Shortcodes {
 		// enqueue style only on shortcode use
 		wp_enqueue_style( 'dlm-frontend' );
 
+		// Action to allow the adition of extra scripts and code related to the shortcode
+		do_action( 'dlm_download_shortcode_before' );
+
 		// extract shortcode atts
 		extract( shortcode_atts( array(
 			'id'         => '',
@@ -281,6 +284,9 @@ class DLM_Shortcodes {
 	 */
 	public function downloads( $atts ) {
 		global $dlm_max_num_pages;
+
+		// Action to allow the adition of extra scripts and code related to the shortcode
+		do_action( 'dlm_downloads_shortcode_before' );
 
 		// enqueue style only on shortcode use
 		wp_enqueue_style( 'dlm-frontend' );
