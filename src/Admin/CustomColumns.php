@@ -6,8 +6,8 @@ class DLM_Custom_Columns {
 		add_filter( 'manage_edit-dlm_download_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_dlm_download_posts_custom_column', array( $this, 'column_data' ), 2 );
 		add_filter( 'manage_edit-dlm_download_sortable_columns', array( $this, 'sortable_columns' ) );
-		add_filter( 'the_title' , array( $this, 'prepend_id_to_title' ), 10, 2);
-		add_filter( 'list_table_primary_column', array( $this, 'set_primary_column_name' ) );
+		add_filter( 'the_title' , array( $this, 'prepend_id_to_title' ), 10, 2 );
+		add_filter( 'list_table_primary_column', array( $this, 'set_primary_column_name' ), 10, 2 );
 	}
 
 	/**
@@ -178,7 +178,9 @@ class DLM_Custom_Columns {
 	 * @return string
 	 */
 	public function prepend_id_to_title( $title, $id){
-        $title = '#' . $id . ' - ' . $title;
+		if( 'dlm_download' === get_post_type( $id ) ){
+			return '#' . $id . ' - ' . $title;
+		}
 
         return $title;
     }
@@ -192,8 +194,12 @@ class DLM_Custom_Columns {
 	 *
 	 * @return string
 	 */
-	public function set_primary_column_name( $column_name ){
+	public function set_primary_column_name( $column_name, $context ){
+		if( 'edit-dlm_download' === $context ){
 
-        return 'download_title';
+			return 'download_title';
+		}
+        
+		return $column_name;
     }
 }
