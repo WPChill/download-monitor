@@ -6,6 +6,7 @@ class DLM_Custom_Columns {
 		add_filter( 'manage_edit-dlm_download_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_dlm_download_posts_custom_column', array( $this, 'column_data' ), 2 );
 		add_filter( 'manage_edit-dlm_download_sortable_columns', array( $this, 'sortable_columns' ) );
+		add_filter( 'the_title' , array($this, 'append_id_to_title'), 99, 2);
 	}
 
 	/**
@@ -22,7 +23,7 @@ class DLM_Custom_Columns {
 
 		$columns["cb"]             = "<input type=\"checkbox\" />";
 		//$columns["thumb"]          = '<span>' . __( "Image", 'download-monitor' ) . '</span>';
-		$columns["title"]          = __( "Title", 'download-monitor' );
+		$columns["download_title"]          = __( "Download Title", 'download-monitor' );
 		$columns["download_id"]    = __( "ID", 'download-monitor' );
 		$columns["file"]           = __( "File", 'download-monitor' );
 		$columns["download_cat"]   = __( "Categories", 'download-monitor' );
@@ -59,7 +60,7 @@ class DLM_Custom_Columns {
 		if ( 0 == count( $downloads ) ) {
 			return;
 		}
-
+		
 		$download = $downloads[0];
 		switch ( $column ) {
 			/* case "thumb" :
@@ -67,6 +68,14 @@ class DLM_Custom_Columns {
 				break; */
 			case "download_id" :
 				echo esc_html( $post->ID );
+				break;
+			case "download_title" :
+
+				global $wp_list_table;
+				$wp_list_table->column_title( $post );
+
+				//$wp_list_table->handle_row_actions( $post, 'title', 'title' );
+
 				break;
 			case "download_cat" :
 				if ( ! $terms = get_the_terms( $post->ID, 'dlm_download_category' ) ) {
@@ -164,5 +173,10 @@ class DLM_Custom_Columns {
 
 		return wp_parse_args( $custom, $columns );
 	}
+
+	public function append_id_to_title( $title, $id){
+        $title = $id . ' - ' . $title;
+        return $title;
+    }
 
 }
