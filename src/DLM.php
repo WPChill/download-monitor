@@ -67,9 +67,7 @@ class WP_DLM {
 		// Load plugin text domain
 		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
 		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( DLM_PLUGIN_FILE ) ) . '/languages' );
-		
-		add_action( 'current_screen', array( $this, 'setup_screen' ), 999 );
-		add_action( 'check_ajax_referer', array( $this, 'setup_screen' ), 999 );
+
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
 
@@ -93,8 +91,6 @@ class WP_DLM {
 			// setup custom columns
 			$custom_columns = new DLM_Custom_Columns();
 			$custom_columns->setup();
-
-			
 
 			// setup custom actions
 			$custom_actions = new DLM_Custom_Actions();
@@ -130,7 +126,6 @@ class WP_DLM {
 			if( class_exists('DLM_Download_Duplicator') ) {
 				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
 			}
-			
 		}
 
 		// Setup AJAX handler if doing AJAX
@@ -201,37 +196,6 @@ class WP_DLM {
 
 		// Fix to whitelist our function for PolyLang
 		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
-	}
-
-	public function setup_screen() {
-		global $wc_list_table;
-
-		$request_data = $_REQUEST;
-
-		$screen_id = false;
-
-		if ( function_exists( 'get_current_screen' ) ) {
-			$screen    = get_current_screen();
-			$screen_id = isset( $screen, $screen->id ) ? $screen->id : '';
-		}
-
-		if ( ! empty( $request_data['screen'] ) ) {
-			$screen_id = wc_clean( wp_unslash( $request_data['screen'] ) );
-		}
-		echo $screen_id;
-       // wp_die( $screen_id );
-		switch ( $screen_id ) {
-			
-			case 'edit-dlm_download':
-				//include_once __DIR__ . '/list-tables/class-wc-admin-list-table-orders.php';
-				$wc_list_table = new DLM_Custom_Test();
-
-				break;
-		}
-
-		// Ensure the table handler is only loaded once. Prevents multiple loads if a plugin calls check_ajax_referer many times.
-		remove_action( 'current_screen', array( $this, 'setup_screen' ) );
-		remove_action( 'check_ajax_referer', array( $this, 'setup_screen' ) );
 	}
 
 	/**

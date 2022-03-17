@@ -40,7 +40,6 @@ return array(
     'DLM_Cookie_Manager' => $baseDir . '/src/CookieManager.php',
     'DLM_Custom_Actions' => $baseDir . '/src/Admin/CustomActions.php',
     'DLM_Custom_Columns' => $baseDir . '/src/Admin/CustomColumns.php',
-    'DLM_Custom_Test' => $baseDir . '/src/Admin/CustomTest.php',
     'DLM_Custom_Labels' => $baseDir . '/src/Admin/CustomLabels.php',
     'DLM_Debug_Logger' => $baseDir . '/src/DebugLogger.php',
     'DLM_Download' => $baseDir . '/src/Download/Download.php',

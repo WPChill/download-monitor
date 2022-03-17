@@ -6,7 +6,8 @@ class DLM_Custom_Columns {
 		add_filter( 'manage_edit-dlm_download_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_dlm_download_posts_custom_column', array( $this, 'column_data' ), 2 );
 		add_filter( 'manage_edit-dlm_download_sortable_columns', array( $this, 'sortable_columns' ) );
-		add_filter( 'the_title' , array($this, 'append_id_to_title'), 99, 2);
+		add_filter( 'the_title' , array( $this, 'prepend_id_to_title' ), 10, 2);
+		add_filter( 'list_table_primary_column', array( $this, 'set_primary_column_name' ) );
 	}
 
 	/**
@@ -24,8 +25,6 @@ class DLM_Custom_Columns {
 		$columns["cb"]             = "<input type=\"checkbox\" />";
 		//$columns["thumb"]          = '<span>' . __( "Image", 'download-monitor' ) . '</span>';
 		$columns["download_title"]          = __( "Download Title", 'download-monitor' );
-		$columns["download_id"]    = __( "ID", 'download-monitor' );
-		$columns["file"]           = __( "File", 'download-monitor' );
 		$columns["download_cat"]   = __( "Categories", 'download-monitor' );
 		$columns["version"]        = __( "Version", 'download-monitor' );
 		$columns["shortcode"]      = __( "Shortcode", 'download-monitor' );
@@ -63,18 +62,24 @@ class DLM_Custom_Columns {
 		
 		$download = $downloads[0];
 		switch ( $column ) {
-			/* case "thumb" :
-				echo wp_kses_post( $download->get_image() );
-				break; */
-			case "download_id" :
-				echo esc_html( $post->ID );
-				break;
-			case "download_title" :
 
+			case "download_title" :
 				global $wp_list_table;
+
+				/** @var DLM_Download_Version $file */
+				$file = $download->get_version();
+
 				$wp_list_table->column_title( $post );
 
-				//$wp_list_table->handle_row_actions( $post, 'title', 'title' );
+				if ( $file ) {
+					echo '<a class="dlm-file-link" href="' . esc_url( $download->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
+					if ( $size = $download->get_version()->get_filesize_formatted() ) {
+						echo ' &ndash; ' . esc_html( $size );
+					}
+					echo '</code></a>';
+				} else {
+					echo '<span class="na">&ndash;</span>';
+				}
 
 				break;
 			case "download_cat" :
@@ -110,19 +115,6 @@ class DLM_Custom_Columns {
 			case "redirect_only" :
 				if ( $download->is_redirect_only() ) {
 					echo '<span class="yes">' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
-				} else {
-					echo '<span class="na">&ndash;</span>';
-				}
-				break;
-			case "file" :
-				/** @var DLM_Download_Version $file */
-				$file = $download->get_version();
-				if ( $file ) {
-					echo '<a href="' . esc_url( $download->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
-					if ( $size = $download->get_version()->get_filesize_formatted() ) {
-						echo ' &ndash; ' . esc_html( $size );
-					}
-					echo '</code></a>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
@@ -174,9 +166,34 @@ class DLM_Custom_Columns {
 		return wp_parse_args( $custom, $columns );
 	}
 
-	public function append_id_to_title( $title, $id){
-        $title = $id . ' - ' . $title;
+	/**
+	 * Prepends the id to the title.
+	 *
+	 * @access public
+	 *
+	 * @param string $title
+	 *
+	 * @param int $id
+	 *
+	 * @return string
+	 */
+	public function prepend_id_to_title( $title, $id){
+        $title = '#' . $id . ' - ' . $title;
+
         return $title;
     }
 
+	/**
+	 * Defaults the primary column name to 'download_title'
+	 *
+	 * @access public
+	 *
+	 * @param string $column_name
+	 *
+	 * @return string
+	 */
+	public function set_primary_column_name( $column_name ){
+
+        return 'download_title';
+    }
 }

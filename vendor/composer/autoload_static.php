@@ -55,7 +55,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Cookie_Manager' => __DIR__ . '/../..' . '/src/CookieManager.php',
         'DLM_Custom_Actions' => __DIR__ . '/../..' . '/src/Admin/CustomActions.php',
         'DLM_Custom_Columns' => __DIR__ . '/../..' . '/src/Admin/CustomColumns.php',
-        'DLM_Custom_Test' => __DIR__ . '/../..' . '/src/Admin/CustomTest.php',
         'DLM_Custom_Labels' => __DIR__ . '/../..' . '/src/Admin/CustomLabels.php',
         'DLM_Debug_Logger' => __DIR__ . '/../..' . '/src/DebugLogger.php',
         'DLM_Download' => __DIR__ . '/../..' . '/src/Download/Download.php',
