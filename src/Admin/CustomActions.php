@@ -171,12 +171,6 @@ class DLM_Custom_Actions {
 					'orderby'  => 'meta_value'
 				) );
 
-			} elseif ( 'locked_download' == $vars['orderby'] ) {
-				$vars = array_merge( $vars, array(
-					'meta_key' => '_members_only',
-					'orderby'  => 'meta_value'
-				) );
-
 			} elseif ( 'redirect_only' == $vars['orderby'] ) {
 				$vars = array_merge( $vars, array(
 					'meta_key' => '_redirect_only',
