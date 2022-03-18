@@ -6,7 +6,7 @@ class DLM_Custom_Columns {
 		add_filter( 'manage_edit-dlm_download_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_dlm_download_posts_custom_column', array( $this, 'column_data' ), 2 );
 		add_filter( 'manage_edit-dlm_download_sortable_columns', array( $this, 'sortable_columns' ) );
-		add_filter( 'the_title' , array( $this, 'prepend_id_to_title' ), 10, 2 );
+		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ), 10, 2 );
 		add_filter( 'list_table_primary_column', array( $this, 'set_primary_column_name' ), 10, 2 );
 	}
 
@@ -22,18 +22,17 @@ class DLM_Custom_Columns {
 	public function add_columns( $columns ) {
 		$columns = array();
 
-		$columns["cb"]             = "<input type=\"checkbox\" />";
-		//$columns["thumb"]          = '<span>' . __( "Image", 'download-monitor' ) . '</span>';
-		$columns["download_title"]          = __( "Download Title", 'download-monitor' );
-		$columns["download_cat"]   = __( "Categories", 'download-monitor' );
-		$columns["version"]        = __( "Version", 'download-monitor' );
-		$columns["shortcode"]      = __( "Shortcode", 'download-monitor' );
-		$columns["download_tag"]   = __( "Tags", 'download-monitor' );
-		$columns["download_count"] = __( "Download count", 'download-monitor' );
-		$columns["featured"]       = __( "Featured", 'download-monitor' );
-		$columns["locked_download"]   = __( "Locked", 'download-monitor' );
-		$columns["redirect_only"]  = __( "Redirect only", 'download-monitor' );
-		$columns["date"]           = __( "Date posted", 'download-monitor' );
+		$columns["cb"]              = "<input type=\"checkbox\" />";
+		$columns["download_title"]  = __( "Download Title", 'download-monitor' );
+		$columns["download_cat"]    = __( "Categories", 'download-monitor' );
+		$columns["version"]         = __( "Version", 'download-monitor' );
+		$columns["shortcode"]       = __( "Shortcode", 'download-monitor' );
+		$columns["download_tag"]    = __( "Tags", 'download-monitor' );
+		$columns["download_count"]  = __( "Download count", 'download-monitor' );
+		$columns["featured"]        = __( "Featured", 'download-monitor' );
+		$columns["locked_download"] = __( "Locked", 'download-monitor' );
+		$columns["redirect_only"]   = __( "Redirect only", 'download-monitor' );
+		$columns["date"]            = __( "Date posted", 'download-monitor' );
 
 		return $columns;
 	}
@@ -59,11 +58,10 @@ class DLM_Custom_Columns {
 		if ( 0 == count( $downloads ) ) {
 			return;
 		}
-		
+
 		$download = $downloads[0];
 		switch ( $column ) {
-
-			case "download_title" :
+			case "download_title":
 				global $wp_list_table;
 
 				/** @var DLM_Download_Version $file */
@@ -179,7 +177,7 @@ class DLM_Custom_Columns {
 	 * @return string
 	 */
 	public function prepend_id_to_title( $title, $id){
-		if( 'dlm_download' === get_post_type( $id ) ){
+		if( is_admin() && 'dlm_download' === get_post_type( $id ) ) {
 			return '#' . $id . ' - ' . $title;
 		}
 
@@ -200,7 +198,7 @@ class DLM_Custom_Columns {
 
 			return 'download_title';
 		}
-        
+
 		return $column_name;
     }
 }
