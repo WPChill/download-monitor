@@ -3,6 +3,7 @@ Changed: Removed Download Duplicator from LITE vs PRO page ( https://github.com/
 Changed: Versions from Gutenberg block now mention `n/a #id` as title if they are non-versioned ( https://github.com/WPChill/download-monitor/issues/873 )
 Added: Upgrade to pro link in plugins page ( https://github.com/WPChill/download-monitor/issues/870 ) 
 Added: do_action in shortcodes so we can add scripts only if shortcode is present ( https://github.com/WPChill/download-monitor/issues/868 )
+Change: members_only column to locked_downloads in admin listing table and added filters so we can override from extensions ( https://github.com/WPChill/download-monitor/issues/867 )
 
 = 4.5.6 - 14.03.2022 =
 Fixed: Endpoint changing value notice and flushing permalinks on endpoint change ( https://github.com/WPChill/download-monitor/issues/801 )

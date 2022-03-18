@@ -434,7 +434,7 @@ table.wp-list-table {
 
   th.column-thumb,
   th.column-download_count,
-  th.column-members_only,
+  th.column-locked_download,
   th.column-redirect_only,
   th.column-featured {
     span:first-child {
@@ -473,12 +473,12 @@ table.wp-list-table {
     }
   }
 
-  th.column-members_only {
+  th.column-locked_download {
     width: 3.5em;
 
     span:first-child {
       &:before {
-        .iconbefore("\f338");
+        .iconbefore("\f160");
       }
     }
   }
@@ -504,7 +504,7 @@ table.wp-list-table {
   }
 
   td.column-download_count,
-  td.column-members_only,
+  td.column-locked_download,
   td.column-redirect_only,
   td.column-featured {
     text-align: left;

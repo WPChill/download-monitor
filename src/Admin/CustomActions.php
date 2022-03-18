@@ -160,7 +160,18 @@ class DLM_Custom_Actions {
 					'orderby'  => 'meta_value'
 				) );
 
-			} elseif ( 'members_only' == $vars['orderby'] ) {
+			} elseif ( 'locked_download' == $vars['orderby'] ) {
+				$vars = array_merge( $vars, array(
+					'meta_query' => array(
+						'relation' => 'OR',
+						array(
+							'key' => '_members_only',
+						),
+					),
+					'orderby'  => 'meta_value'
+				) );
+
+			} elseif ( 'locked_download' == $vars['orderby'] ) {
 				$vars = array_merge( $vars, array(
 					'meta_key' => '_members_only',
 					'orderby'  => 'meta_value'
@@ -174,7 +185,7 @@ class DLM_Custom_Actions {
 			}
 		}
 
-		return $vars;
+		return apply_filters( 'dlm_admin_sort_columns', $vars);
 	}
 
 	/**

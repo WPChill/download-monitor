@@ -31,7 +31,7 @@ class DLM_Custom_Columns {
 		$columns["download_tag"]   = __( "Tags", 'download-monitor' );
 		$columns["download_count"] = __( "Download count", 'download-monitor' );
 		$columns["featured"]       = __( "Featured", 'download-monitor' );
-		$columns["members_only"]   = __( "Members only", 'download-monitor' );
+		$columns["locked_download"]   = __( "Locked", 'download-monitor' );
 		$columns["redirect_only"]  = __( "Redirect only", 'download-monitor' );
 		$columns["date"]           = __( "Date posted", 'download-monitor' );
 
@@ -105,8 +105,9 @@ class DLM_Custom_Columns {
 					echo '<span class="na">&ndash;</span>';
 				}
 				break;
-			case "members_only" :
-				if ( $download->is_members_only() ) {
+			case "locked_download" :
+				$is_locked = apply_filters( 'dlm_download_is_locked', $download->is_members_only(), $download );
+				if ( $is_locked ) {
 					echo '<span class="yes">' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
@@ -156,11 +157,11 @@ class DLM_Custom_Columns {
 	 */
 	public function sortable_columns( $columns ) {
 		$custom = array(
-			'download_id'    => 'download_id',
-			'download_count' => 'download_count',
-			'featured'       => 'featured',
-			'members_only'   => 'members_only',
-			'redirect_only'  => 'redirect_only',
+			'download_id'       => 'download_id',
+			'download_count'    => 'download_count',
+			'featured'          => 'featured',
+			'locked_download'   => 'locked_download',
+			'redirect_only'     => 'redirect_only',
 		);
 
 		return wp_parse_args( $custom, $columns );
