@@ -73,7 +73,7 @@ class DLM_Shortcodes {
 		wp_enqueue_style( 'dlm-frontend' );
 
 		// Action to allow the adition of extra scripts and code related to the shortcode
-		do_action( 'dlm_download_shortcode_before' );
+		do_action( 'dlm_download_shortcode_scripts' );
 
 		// extract shortcode atts
 		extract( shortcode_atts( array(
@@ -165,6 +165,9 @@ class DLM_Shortcodes {
 	 * @return string
 	 */
 	public function download_data( $atts ) {
+
+		// Action to allow the adition of extra scripts and code related to the shortcode
+		do_action( 'dlm_download_data_shortcode_scripts' );
 
 		extract( shortcode_atts( array(
 			'id'         => '',
@@ -286,7 +289,7 @@ class DLM_Shortcodes {
 		global $dlm_max_num_pages;
 
 		// Action to allow the adition of extra scripts and code related to the shortcode
-		do_action( 'dlm_downloads_shortcode_before' );
+		do_action( 'dlm_downloads_shortcode_scripts' );
 
 		// enqueue style only on shortcode use
 		wp_enqueue_style( 'dlm-frontend' );
@@ -527,6 +530,9 @@ class DLM_Shortcodes {
 	 */
 	public function no_access_page( $atts ) {
 		global $wp;
+
+		// Action to allow the adition of extra scripts and code related to the shortcode
+		do_action( 'dlm_dlm_no_access_shortcode_scripts' );
 
 		// atts
 		$atts = shortcode_atts( array(
