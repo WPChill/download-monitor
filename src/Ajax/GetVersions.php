@@ -40,7 +40,7 @@ class DLM_Ajax_GetVersions extends DLM_Ajax {
 			/** @var DLM_Download_Version $version */
 			foreach ( $versions as $version ) {
 				if( $version->get_version() === '' ) {
-					$label = 'N/A - ' . $version->get_id();
+					$label = 'n/a - ' . $version->get_id();
 				} else {
 					$label = $version->get_version();
 				}
