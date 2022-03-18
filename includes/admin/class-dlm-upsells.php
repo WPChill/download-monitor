@@ -862,7 +862,7 @@ class DLM_Upsells {
 	 */
 	public function lits_vs_pro_page() {
 
-		require_once __DIR__.'/lite-vs-pro-page.php';
+		require_once __DIR__ . '/lite-vs-pro-page.php';
 	}
 
 	/**
@@ -876,7 +876,7 @@ class DLM_Upsells {
 	 */
 	public function filter_action_links( $links ) {
 
-		$upgrade = array( '<a style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade to PRO!', 'download-monitor' ) . '</a>' );
+		$upgrade = array( '<a target="_blank" style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade to PRO!', 'download-monitor' ) . '</a>' );
 
 		return array_merge( $upgrade, $links );
 	}
