@@ -1,3 +1,5 @@
+= 4.5.8 - 28.03.2022 =
+
 = 4.5.7 - 21.03.2022 =
 Changed: Removed Download Duplicator from LITE vs PRO page ( https://github.com/WPChill/download-monitor/issues/872 )
 Changed: Versions from Gutenberg block now mention `n/a #id` as title if they are non-versioned ( https://github.com/WPChill/download-monitor/issues/873 )
