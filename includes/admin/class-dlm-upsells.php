@@ -876,9 +876,16 @@ class DLM_Upsells {
 	 */
 	public function filter_action_links( $links ) {
 
-		$upgrade = array( '<a target="_blank" style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade to PRO!', 'download-monitor' ) . '</a>' );
+		$dlm_extensions = DLM_Admin_Extensions::get_instance();
+		$extensions     = $dlm_extensions->get_available_extensions();
 
-		return array_merge( $upgrade, $links );
+		if ( count( $extensions ) > 0 ) {
+			$upgrade = array( '<a target="_blank" style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade to PRO!', 'download-monitor' ) . '</a>' );
+			return array_merge( $upgrade, $links );
+		}
+
+		return $links;
+
 	}
 }
 

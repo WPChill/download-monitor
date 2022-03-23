@@ -475,6 +475,15 @@ class DLM_Admin_Extensions {
 	}
 
 	/**
+	 * Get the available extensions
+	 * 
+	 * @since 4.5.8
+	 */
+	public function get_available_extensions() {
+		return $this->extensions;
+	}
+
+	/**
 	 * Removes pro badge if the section has any extension installed
 	 *
 	 * @return array
