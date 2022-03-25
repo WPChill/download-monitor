@@ -177,7 +177,7 @@ class DLM_Custom_Columns {
 	 * @return string
 	 */
 	public function prepend_id_to_title( $title, $id){
-		if( is_admin() && 'dlm_download' === get_post_type( $id ) ) {
+		if( 'dlm_download' === get_post_type( $id ) ) {
 			return '#' . $id . ' - ' . $title;
 		}
 
