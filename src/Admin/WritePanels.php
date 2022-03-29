@@ -373,7 +373,7 @@ class DLM_Admin_Writepanels {
 			$downloadable_file_id             = $_POST['downloadable_file_id'];
 			$downloadable_file_menu_order     = $_POST['downloadable_file_menu_order'];
 			$downloadable_file_version        = $_POST['downloadable_file_version'];
-			$downloadable_file_urls           = $_POST['downloadable_file_urls'];
+			$downloadable_file_urls           = wp_unslash( $_POST['downloadable_file_urls'] );
 			$downloadable_file_date           = $_POST['downloadable_file_date'];
 			$downloadable_file_date_hour      = $_POST['downloadable_file_date_hour'];
 			$downloadable_file_date_minute    = $_POST['downloadable_file_date_minute'];
@@ -397,6 +397,12 @@ class DLM_Admin_Writepanels {
 				$file_date           = sanitize_text_field( $downloadable_file_date[ $i ] );
 				$file_download_count = sanitize_text_field( $downloadable_file_download_count[ $i ] );
 				$files               = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
+				$secured_files       = array();
+				$file_manager        = new DLM_File_Manager();
+
+				foreach ( $files as $file ) {
+					$secured_files[] = $file_manager->get_secure_path( $file );
+				}
 
 				// only continue if there's a file_id
 				if ( ! $file_id ) {
@@ -420,7 +426,7 @@ class DLM_Admin_Writepanels {
 					$version->set_menu_order( $file_menu_order );
 					$version->set_version( $file_version );
 					$version->set_date( $file_date_obj );
-					$version->set_mirrors( $files );
+					$version->set_mirrors( $secured_files );
 
 					// only set download count if is posted
 					if ( '' !== $file_download_count ) {
@@ -498,4 +504,5 @@ class DLM_Admin_Writepanels {
 		wp_send_json_success( array( 'file_url' => wp_get_attachment_url( $attach_id ) ) );
 
 	}
+
 }

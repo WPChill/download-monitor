@@ -76,7 +76,6 @@ class DLM_File_Manager {
 			$file_path   = trim( str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path ) );
 			$file_path   = realpath( $file_path );
 
-
 		} elseif ( is_multisite() && ( ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false ) || ( strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) ) {
 
 			/** This is a local file outside of wp-content so figure out the path */
@@ -237,6 +236,60 @@ class DLM_File_Manager {
 	 */
 	public function get_file_hashes( $file_path ) {
 		return download_monitor()->service( 'hasher' )->get_file_hashes( $file_path );
+	}
+
+	/**
+	 * Return the secured file path or url of the downloadable file
+	 *
+	 * @param string $file The file path/url
+	 * 
+	 * @return string The secured file path/url
+	 * @since 4.5.9
+	 */
+	public function get_secure_path( $file ) {
+
+		// ABSPATH needs to be defined
+		if ( ! defined( 'ABSPATH' ) ) {
+			die;
+		}
+
+		list( $file_path, $remote_file ) = $this->parse_file_path( $file );
+
+		if ( $remote_file ) {
+			return $file_path;
+		}
+
+		$restricted_files = array(
+			'wp-config.php',
+			'.htaccess',
+		);
+
+		// Specify the files that should be restricted from the download process.
+		$restricted_files = array_merge( $restricted_files, apply_filters( 'dlm_file_urls_security_paths', array() ) );
+
+		// Loop through the restricted files and return empty string if found.
+		foreach ( $restricted_files as $restricted_file ) {
+
+			if ( false !== strpos( $file_path, $restricted_file ) ) {
+				// If the file is restricted, return empty string.
+				return '';
+			}
+		}
+
+		$abspath_sub = substr( ABSPATH, 0, strlen( ABSPATH ) - 1 );
+
+		// If ABSPATH is not completly in the file path it means that the file is not in the root of the site, so return empty string.
+		if ( false === strpos( $file_path, $abspath_sub ) ) {
+
+			return '';
+		} elseif ( false !== strpos( $file_path,  ABSPATH ) ) {
+			// If we get here it means the file is not restricted so we can get put the relative path.
+			return str_replace( ABSPATH, '/', $file_path );
+		}
+
+		// If we get here it means the file is not restricted so we can get put the relative path.
+		return str_replace( $abspath_sub, '', $file_path );
+
 	}
 
 }
