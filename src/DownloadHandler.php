@@ -409,6 +409,17 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
+		$redirect_path = $file_path;
+		// Parse file path
+		list( $file_path, $remote_file ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
+		$file_path                       = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
+
+		// The return of the get_secure_path function is an array that consists of the path ( string or false ) and the remote file ( bool ).
+		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
+		if ( ! $file_path ) {
+			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
+		}
+
 		// Check Access
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version ) ) {
 
@@ -440,7 +451,7 @@ class DLM_Download_Handler {
 						}else{
 							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
 						}
-						
+
 						if ( ! $download->get_version()->is_latest() ) {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
@@ -494,18 +505,14 @@ class DLM_Download_Handler {
 
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-			$file_path = str_replace( ABSPATH, site_url( '/', $scheme ), $file_path );
+			$redirect_path = str_replace( ABSPATH, site_url( '/', $scheme ), $redirect_path );
 
-			header( 'Location: ' . $file_path );
+			header( 'Location: ' . $redirect_path );
 			exit;
 		}
 
-		// Parse file path
-		list( $file_path, $remote_file ) = download_monitor()->service( 'file_manager' )->parse_file_path( $file_path );
-		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
-
 		$this->download_headers( $file_path, $download, $version );
-		
+
         do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
@@ -531,7 +538,7 @@ class DLM_Download_Handler {
 					// phpcs:ignore
 					$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
 				}
-				
+
 				header( "X-Accel-Redirect: /$file_path" );
 				exit;
 			}

@@ -401,7 +401,8 @@ class DLM_Admin_Writepanels {
 				$file_manager        = new DLM_File_Manager();
 
 				foreach ( $files as $file ) {
-					$secured_files[] = $file_manager->get_secure_path( $file );
+					list( $file_path ) = $file_manager->get_secure_path( $file, true );
+					$secured_files[] = addslashes( $file_path );
 				}
 
 				// only continue if there's a file_id

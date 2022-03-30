@@ -239,14 +239,15 @@ class DLM_File_Manager {
 	}
 
 	/**
-	 * Return the secured file path or url of the downloadable file
+	 * Return the secured file path or url of the downloadable file. Should not let restricted files or out of root files to be downloaded.
 	 *
 	 * @param string $file The file path/url
+	 * @param bool $relative Wheter or not to return a relative path. Default is false 
 	 * 
 	 * @return string The secured file path/url
 	 * @since 4.5.9
 	 */
-	public function get_secure_path( $file ) {
+	public function get_secure_path( $file, $relative = false ) {
 
 		// ABSPATH needs to be defined
 		if ( ! defined( 'ABSPATH' ) ) {
@@ -255,24 +256,36 @@ class DLM_File_Manager {
 
 		list( $file_path, $remote_file ) = $this->parse_file_path( $file );
 
+		// If the file is remote, return the file path. If the file is not located on local server, return the file path.
+		// This is available even if the file is one of the restricted files below. The plugin will let the user download the file,
+		// but the file will be empty, with a 404 error or an error message.
 		if ( $remote_file ) {
-			return $file_path;
+			return array( $file_path, $remote_file );
 		}
 
+		// The list of predefined restricted files.
 		$restricted_files = array(
 			'wp-config.php',
 			'.htaccess',
+			'php.ini',
 		);
 
 		// Specify the files that should be restricted from the download process.
-		$restricted_files = array_merge( $restricted_files, apply_filters( 'dlm_file_urls_security_paths', array() ) );
+		$restricted_files = array_merge(
+			$restricted_files,
+			apply_filters(
+				'dlm_file_urls_security_files',
+				array()
+			)
+		);
 
 		// Loop through the restricted files and return empty string if found.
 		foreach ( $restricted_files as $restricted_file ) {
 
 			if ( false !== strpos( $file_path, $restricted_file ) ) {
 				// If the file is restricted, return empty string.
-				return '';
+				$file_path = false;
+				return array( $file_path, $remote_file );
 			}
 		}
 
@@ -280,15 +293,24 @@ class DLM_File_Manager {
 
 		// If ABSPATH is not completly in the file path it means that the file is not in the root of the site, so return empty string.
 		if ( false === strpos( $file_path, $abspath_sub ) ) {
+			$file_path = false;
+			return array( $file_path, $remote_file );
+		} elseif ( false !== strpos( $file_path, ABSPATH ) ) {
+			if ( $relative ) {
+				// If we get here it means the file is not restricted so we can get put the relative path.
+				$file_path = str_replace( ABSPATH, '/', $file_path );
+			}
 
-			return '';
-		} elseif ( false !== strpos( $file_path,  ABSPATH ) ) {
-			// If we get here it means the file is not restricted so we can get put the relative path.
-			return str_replace( ABSPATH, '/', $file_path );
+			return array( $file_path, $remote_file );
 		}
 
-		// If we get here it means the file is not restricted so we can get put the relative path.
-		return str_replace( $abspath_sub, '', $file_path );
+		if ( $relative ) {
+			// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH because on some systems
+			// the ABSPATH ends on \ and on others it ends on /
+			$file_path = str_replace( $abspath_sub, '', $file_path );
+		}
+
+		return array( $file_path, $remote_file );
 
 	}
 
