@@ -295,19 +295,12 @@ class DLM_File_Manager {
 		if ( false === strpos( $file_path, $abspath_sub ) ) {
 			$file_path = false;
 			return array( $file_path, $remote_file );
-		} elseif ( false !== strpos( $file_path, ABSPATH ) ) {
-			if ( $relative ) {
-				// If we get here it means the file is not restricted so we can get put the relative path.
-				$file_path = str_replace( ABSPATH, '/', $file_path );
-			}
-
-			return array( $file_path, $remote_file );
 		}
 
 		if ( $relative ) {
 			// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH because on some systems
 			// the ABSPATH ends on \ and on others it ends on /
-			$file_path = str_replace( $abspath_sub, '', $file_path );
+			$file_path = str_replace( ABSPATH, '/', $file_path );
 		}
 
 		return array( $file_path, $remote_file );
