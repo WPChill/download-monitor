@@ -506,7 +506,8 @@ class DLM_Download_Handler {
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 			$redirect_path = str_replace( ABSPATH, site_url( '/', $scheme ), $redirect_path );
-
+			
+			header("X-Robots-Tag: noindex, nofollow", true);
 			header( 'Location: ' . $redirect_path );
 			exit;
 		}
