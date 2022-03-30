@@ -15,16 +15,53 @@ class WritePanels {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
 		add_action( 'dlm_product_save', array( $this, 'save_meta_boxes' ), 1, 2 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'product_edit_js' ) );
 	}
 
 	/**
 	 * Add the meta boxes
 	 */
 	public function add_meta_box() {
-		add_meta_box( 'download-monitor-product-info', __( 'Product Information', 'download-monitor' ), array(
-			$this,
-			'display_product_information'
-		), PostType::KEY, 'normal', 'high' );
+
+		// We remove the Publish metabox and add to our queue
+		remove_meta_box( 'submitdiv', 'dlm_download', 'side' );
+
+		$meta_boxes = apply_filters(
+			'dlm_product_metaboxes',
+			array(
+				array(
+					'id'       => 'submitdiv',
+					'title'    => esc_html__( 'Publish' ),
+					'callback' => 'post_submit_meta_box',
+					'screen'   => 'dlm_product',
+					'context'  => 'side',
+					'priority' => 1,
+				),
+				array(
+					'id'       => 'download-monitor-product-information',
+					'title'    => esc_html__( 'Product Information', 'download-monitor' ),
+					'callback' => array( $this, 'download_product_information' ),
+					'screen'   => 'dlm_product',
+					'context'  => 'side',
+					'priority' => 5,
+				),
+				array(
+					'id'       => 'download-monitor-product-info',
+					'title'    => esc_html__( 'Product Information', 'download-monitor' ),
+					'callback' => array( $this, 'display_product_information' ),
+					'screen'   => PostType::KEY,
+					'context'  => 'normal',
+					'priority' => 20,
+				),
+			)
+		);
+
+		uasort( $meta_boxes, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+
+		foreach ( $meta_boxes as $metabox ) {
+			// Priority is left out as we prioritise based on our sorting function
+			add_meta_box( $metabox['id'], $metabox['title'], $metabox['callback'], $metabox['screen'], $metabox['context'], 'high' );
+		}
 	}
 
 	/**
@@ -149,5 +186,50 @@ class WritePanels {
 		);
 	}
 
+	/**
+	 * download_product_information function.
+	 *
+	 * @access public
+	 *
+	 * @param WP_Post $post
+	 *
+	 * @return void
+	 */
+	public function download_product_information( $post ) {
+
+		echo '<div class="dlm_information_panel">';
+
+		if( $post->ID ) {
+			do_action( 'dlm_product_information_start', $post->ID, $post );
+			?>
+			<div>
+				<p><?php echo esc_html__( 'ID', 'download-monitor' ); ?> </p>
+				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $post->ID ); ?>" readonly onfocus="this.select()"/>
+				<a href="#" title="<?php esc_attr_e( 'Copy ID', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Id" style="width:40px;"></a><span></span>
+			</div>
+			<div>
+				<p><?php echo esc_html__( 'Shortcode', 'download-monitor' ); ?> </p>
+				<input type="text" id="dlm-info-id" value='[dlm_buy id="<?php echo esc_attr( $post->ID ); ?>"]' readonly onfocus="this.select()"/>
+				<a href="#" title="<?php esc_attr_e( 'Copy shortcode', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Shortcode" style="width:40px;"></a><span></span>
+			</div>
+			<?php
+			do_action( 'dlm_product_information_end', $post->ID, $post );
+		} else {
+			echo '<p>' . esc_html__( 'No information for new products.', 'download-monitor' ) . '</p>';
+		}
+
+		echo '</div>';
+	}
+
+	public function product_edit_js(){
+
+		// Enqueue Edit Download JS
+		wp_enqueue_script(
+			'dlm_edit_product',
+			plugins_url( '/assets/js/edit-product' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', download_monitor()->get_plugin_file() ),
+			array( 'jquery' ),
+			DLM_VERSION
+		);
+	}
 
 }
