@@ -109,8 +109,8 @@ class DLM_Logging_List_Table extends WP_List_Table {
 					}
 
 
-					$download_string = '<a href="' . admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) . '">';
-					$download_string .= '#' . $download->get_id() . ' &ndash; ' . $download->get_title();
+					$download_string = '<a href="' . admin_url( 'post.php?post=' . absint( $download->get_id() ) . '&action=edit' ) . '">';
+					$download_string .= '#' . $download->get_id() . ' &ndash; ' . esc_html( $download->get_title() );
 					$download_string .= '</a>';
 
 					if ( $log->get_version() ) {
