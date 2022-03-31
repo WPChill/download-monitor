@@ -281,6 +281,14 @@ class DLM_Admin_Settings {
 								'desc'     => sprintf( __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address. Note that this option only works if %1$s is set to %2$s.', 'download-monitor' ), '<strong>' . __( 'IP Address Logging', 'download-monitor' ) . '</strong>', '<strong>' . __( 'Store full IP address', 'download-monitor' ) . '</strong>' ),
 								'type'     => 'checkbox',
 							),
+							array(
+								'name'     => 'dlm_log_admin_download_count',
+								'std'      => '',
+								'label'    => __( 'Administrator download count', 'download-monitor' ),
+								'cb_label' => __( 'Disable', 'download-monitor' ),
+								'desc'     => __( 'If disabled, the counter for each download will not increment when an administrator downloads a file.', 'download-monitor' ),
+								'type'     => 'checkbox',
+							),
 						),
 					),
 					'misc'       => array(
