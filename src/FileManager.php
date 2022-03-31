@@ -289,7 +289,9 @@ class DLM_File_Manager {
 			}
 		}
 
-		$abspath_sub = substr( ABSPATH, 0, strlen( ABSPATH ) - 1 );
+		// If we get here it means the file is not restricted so we can get put the relative path. Use a untrailingslashit on ABSPATH because on some systems
+		// we have `\` and on others we have `/` for paths.
+		$abspath_sub = untrailingslashit( ABSPATH );
 
 		// If ABSPATH is not completly in the file path it means that the file is not in the root of the site, so return empty string.
 		if ( false === strpos( $file_path, $abspath_sub ) ) {
@@ -300,7 +302,7 @@ class DLM_File_Manager {
 		if ( $relative ) {
 			// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH because on some systems
 			// the ABSPATH ends on \ and on others it ends on /
-			$file_path = str_replace( ABSPATH, '/', $file_path );
+			$file_path = str_replace( $abspath_sub, '', $file_path );
 		}
 
 		return array( $file_path, $remote_file );
