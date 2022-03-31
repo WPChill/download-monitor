@@ -1,4 +1,5 @@
-= 4.5.9 - TBA =
+= 4.5.9 - 04.04.2022 =
+Fixed: Security issues regarding file downloads and download titles
 
 = 4.5.8 - 28.03.2022 =
 Fixed: Upgrade to PRO now disappears when all extensions installed ( https://github.com/WPChill/download-monitor/issues/875 )
