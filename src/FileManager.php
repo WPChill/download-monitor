@@ -282,7 +282,7 @@ class DLM_File_Manager {
 		// Loop through the restricted files and return empty string if found.
 		foreach ( $restricted_files as $restricted_file ) {
 
-			if ( false !== strpos( $file_path, $restricted_file ) ) {
+			if ( basename( $file_path ) === $restricted_file ) {
 				// If the file is restricted, return empty string.
 				$file_path = false;
 				return array( $file_path, $remote_file );
