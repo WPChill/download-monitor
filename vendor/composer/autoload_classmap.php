@@ -101,6 +101,7 @@ return array(
     'DLM_WordPress_Download_Repository' => $baseDir . '/src/Download/WordPressDownloadRepository.php',
     'DLM_WordPress_Log_Item_Repository' => $baseDir . '/src/Logs/WordPressLogItemRepository.php',
     'DLM_WordPress_Version_Repository' => $baseDir . '/src/Version/WordPressVersionRepository.php',
+    'DLM_welcome_page' => $baseDir . '/includes/admin/class-dlm-welcome.php',
     'DateTimeImmutable' => $baseDir . '/src/Polyfill/DateTimeImmutable/DateTimeImmutable.php',
     'DateTimeInterface' => $baseDir . '/src/Polyfill/DateTimeImmutable/DateTimeInterface.php',
     'Download_Monitor_Usage_Tracker' => $baseDir . '/includes/tracking/class-download-monitor-usage-tracker.php',
@@ -256,5 +257,6 @@ return array(
     'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\PimpleTest' => $baseDir . '/src/Dependencies/Pimple/Tests/PimpleTest.php',
     'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\Psr11\\ContainerTest' => $baseDir . '/src/Dependencies/Pimple/Tests/Psr11/ContainerTest.php',
     'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\Psr11\\ServiceLocatorTest' => $baseDir . '/src/Dependencies/Pimple/Tests/Psr11/ServiceLocatorTest.php',
+    'WPChill_Welcome' => $baseDir . '/includes/admin/about/class-wpchill-welcome.php',
     'WP_DLM' => $baseDir . '/src/DLM.php',
 );

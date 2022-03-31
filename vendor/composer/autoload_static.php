@@ -116,6 +116,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_WordPress_Download_Repository' => __DIR__ . '/../..' . '/src/Download/WordPressDownloadRepository.php',
         'DLM_WordPress_Log_Item_Repository' => __DIR__ . '/../..' . '/src/Logs/WordPressLogItemRepository.php',
         'DLM_WordPress_Version_Repository' => __DIR__ . '/../..' . '/src/Version/WordPressVersionRepository.php',
+        'DLM_welcome_page' => __DIR__ . '/../..' . '/includes/admin/class-dlm-welcome.php',
         'DateTimeImmutable' => __DIR__ . '/../..' . '/src/Polyfill/DateTimeImmutable/DateTimeImmutable.php',
         'DateTimeInterface' => __DIR__ . '/../..' . '/src/Polyfill/DateTimeImmutable/DateTimeInterface.php',
         'Download_Monitor_Usage_Tracker' => __DIR__ . '/../..' . '/includes/tracking/class-download-monitor-usage-tracker.php',
@@ -271,6 +272,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\PimpleTest' => __DIR__ . '/../..' . '/src/Dependencies/Pimple/Tests/PimpleTest.php',
         'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\Psr11\\ContainerTest' => __DIR__ . '/../..' . '/src/Dependencies/Pimple/Tests/Psr11/ContainerTest.php',
         'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\Psr11\\ServiceLocatorTest' => __DIR__ . '/../..' . '/src/Dependencies/Pimple/Tests/Psr11/ServiceLocatorTest.php',
+        'WPChill_Welcome' => __DIR__ . '/../..' . '/includes/admin/about/class-wpchill-welcome.php',
         'WP_DLM' => __DIR__ . '/../..' . '/src/DLM.php',
     );
 

@@ -353,11 +353,12 @@ class DLM_Download_Version {
 	 * @return void
 	 */
 	public function increase_download_count() {
-
-		// Don't increment download if the user is admin and option is checked.
-		if( current_user_can('administrator') && get_option( 'dlm_log_admin_download_count', false ) ){
+		
+		$user = wp_get_current_user();
+		if( in_array( 'administrator', $user->roles ) && get_option( 'dlm_log_admin_download_count', false )) {
+		   
 			return;
-		}
+		} 
 
 		// File download_count
 		$this->download_count = absint( get_post_meta( $this->id, '_download_count', true ) ) + 1;
