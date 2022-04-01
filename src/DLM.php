@@ -109,6 +109,9 @@ class WP_DLM {
 			$upgrade_manager = new DLM_Upgrade_Manager();
 			$upgrade_manager->setup();
 
+			// DLM Welcome page
+			DLM_Welcome_Page::get_instance();
+
 			// Legacy Upgrader
 			$lu_page = new DLM_LU_Page();
 			$lu_page->setup();
