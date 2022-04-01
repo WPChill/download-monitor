@@ -283,7 +283,7 @@ class DLM_Admin_Settings {
 							),
 							array(
 								'name'     => 'dlm_log_admin_download_count',
-								'std'      => '',
+								'std'      => '1',
 								'label'    => __( 'Admin count', 'download-monitor' ),
 								'cb_label' => __( 'Disable', 'download-monitor' ),
 								'desc'     => __( 'If disabled, the counter for each download will not increment when an administrator downloads a file.', 'download-monitor' ),

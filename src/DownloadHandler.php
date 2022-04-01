@@ -667,8 +667,13 @@ class DLM_Download_Handler {
 		$headers['Content-Disposition']       = "attachment; filename=\"{$file_name}\";";
 		$headers['Content-Transfer-Encoding'] = 'binary';
 
-		if ( $version->get_filesize() ) {
-			$headers['Content-Length'] = $version->get_filesize();
+		$file_manager = new DLM_File_Manager();
+		$file_size    = $file_manager->get_file_size( $file_path );
+
+		if ( $file_size ) {
+			// Replace the old way ( getting the filesize from the DB ) in case the user has replaced the file directly using cPanel,
+			// FTP or other File Manager, or sometimes using  an optimization service it may cause unwanted results.
+			$headers['Content-Length'] = $file_size;
 			$headers['Accept-Ranges']  = 'bytes';
 		}
 
