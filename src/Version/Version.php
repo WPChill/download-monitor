@@ -353,12 +353,16 @@ class DLM_Download_Version {
 	 * @return void
 	 */
 	public function increase_download_count() {
-		
-		$user = wp_get_current_user();
-		if( in_array( 'administrator', $user->roles ) && get_option( 'dlm_log_admin_download_count', false )) {
-		   
-			return;
-		} 
+
+		// Let's check if the user wants skip count if admin
+		if ( get_option( 'dlm_log_admin_download_count', false ) ) {
+
+			// If user really is admin we return
+			$user = wp_get_current_user();
+			if ( in_array( 'administrator', $user->roles, true ) ) {
+				return;
+			}
+		}
 
 		// File download_count
 		$this->download_count = absint( get_post_meta( $this->id, '_download_count', true ) ) + 1;
@@ -367,7 +371,7 @@ class DLM_Download_Version {
 		// Parent download download_count
 		$parent_download_count = absint( get_post_meta( $this->download_id, '_download_count', true ) ) + 1;
 		update_post_meta( $this->download_id, '_download_count', $parent_download_count );
-		
+
 	}
 
 	/**
