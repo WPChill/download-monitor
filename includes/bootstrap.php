@@ -45,5 +45,4 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 	// Multisite blog delete
 	add_filter( 'wpmu_drop_tables', '_download_monitor_mu_delete_blog' );
 
-	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '_download_monitor_welcome' );
 }

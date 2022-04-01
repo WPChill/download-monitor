@@ -90,8 +90,3 @@ function _download_monitor_mu_delete_blog( $tables ) {
 
 	return $tables;
 }
-
-function _download_monitor_welcome(){
-	$welcome = DLM_welcome_page::get_instance();
-	$welcome->dlm_on_activation();
-}

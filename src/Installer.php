@@ -42,6 +42,7 @@ class DLM_Installer {
 		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
 		$no_access_page_endpoint->setup();
 
+		$first_install = !get_option( DLM_Constants::OPTION_CURRENT_VERSION ) ? true : false;
 		// Set the current version
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 
@@ -50,6 +51,11 @@ class DLM_Installer {
 
 		// flush rewrite rules
 		flush_rewrite_rules();
+
+		// DLM Welcome page
+		DLM_welcome_page::get_instance();
+
+		do_action( 'dlm_after_install_setup', $first_install );
 	}
 
 
