@@ -15,7 +15,6 @@ class WritePanels {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
 		add_action( 'dlm_product_save', array( $this, 'save_meta_boxes' ), 1, 2 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'product_edit_js' ) );
 	}
 
 	/**
@@ -33,7 +32,7 @@ class WritePanels {
 					'id'       => 'submitdiv',
 					'title'    => esc_html__( 'Publish' ),
 					'callback' => 'post_submit_meta_box',
-					'screen'   => 'dlm_product',
+					'screen'   => PostType::KEY,
 					'context'  => 'side',
 					'priority' => 1,
 				),
@@ -41,7 +40,7 @@ class WritePanels {
 					'id'       => 'download-monitor-product-information',
 					'title'    => esc_html__( 'Product Information', 'download-monitor' ),
 					'callback' => array( $this, 'download_product_information' ),
-					'screen'   => 'dlm_product',
+					'screen'   => PostType::KEY,
 					'context'  => 'side',
 					'priority' => 5,
 				),
@@ -199,7 +198,7 @@ class WritePanels {
 
 		echo '<div class="dlm_information_panel">';
 
-		if( $post->ID ) {
+		if ( $post->ID ) {
 			do_action( 'dlm_product_information_start', $post->ID, $post );
 			?>
 			<div>
@@ -219,17 +218,6 @@ class WritePanels {
 		}
 
 		echo '</div>';
-	}
-
-	public function product_edit_js(){
-
-		// Enqueue Edit Download JS
-		wp_enqueue_script(
-			'dlm_edit_product',
-			plugins_url( '/assets/js/edit-product' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', download_monitor()->get_plugin_file() ),
-			array( 'jquery' ),
-			DLM_VERSION
-		);
 	}
 
 }

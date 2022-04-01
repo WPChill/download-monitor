@@ -230,7 +230,7 @@ class DLM_Admin {
 			$enqueue = true;
 		}
 
-		if( 'dlm_product' == get_current_screen()->id ){
+		if ( 'dlm_product' === get_current_screen()->id ) {
 			$enqueue = true;
 		}
 
