@@ -141,6 +141,8 @@ class DLM_Welcome_Page {
 						<div class="button-wrap-single">
 						<?php $welcome->display_button( esc_html__( 'Read our step-by-step guide to get started', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, '#7364ff' ); ?>
 						</div>
+						<?php $welcome->display_empty_space(); ?>
+						<img src="<?php echo esc_url( DLM_URL ); ?>assets/images/banner-dlm.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>" class="video-thumbnail">
 						<div class="block">
 						<?php $welcome->layout_start( 2, 'feature-list clear' ); ?>
 						<?php $welcome->display_extension( esc_html__( 'Gated content', 'download-monitor' ), esc_html__( 'Make use of forms or lock downloads behind emails to gather leads or require a Twitter share to get the word about your products out into the world.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/gated-content.png', true, '#7364ff' ); ?>
@@ -158,28 +160,34 @@ class DLM_Welcome_Page {
 						<?php $welcome->display_extension( esc_html__( 'Enforce download limits', 'download-monitor' ), esc_html__( 'Create advanced access rules and IP restrictions to control who can access downloads, how many times can files be downloaded by each user or when do files expire.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/enforce-download-limits.png', true, '#7364ff' ); ?>
 						<?php $welcome->layout_end(); ?>
 
-							<div class="testimonials">
-								<div class="block clear">
-								<?php $welcome->display_heading( esc_html__( 'Happy users of Download Monitor', 'download-monitor' ) ); ?>
-								
-								<?php $welcome->display_testimonial( esc_html__( 'Do not spend any time considering other plugins that may offer the same bells and whistles. Not only is this full of fantastic functionality, the support behind the plugin is superior to anything you will get from any other developer.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/carlos-espinosa.jpeg', 'Carlos Espinosa' ); ?>
-								<?php $welcome->display_testimonial( esc_html__( 'Download Monitor rocks! It lets me easily implement customized/themed lists of downloads and offers useful statistics and access logs for my downloads.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/Sebastian-Herrmann.jpeg', 'Sebastian Herrmann' ); ?>
-								</div>
-							</div><!-- testimonials -->
-
-							<div class="button-wrap clear">
-								<div class="left">
-								<?php $welcome->display_button( esc_html__( 'Start Adding Downloads', 'download-monitor' ), esc_url( admin_url( 'edit.php?post_type=dlm_download' ) ), true, '#7364ff' ); ?>
-								</div>
+						<div class="button-wrap-single clear">
 								<div class="right">
-								<?php $welcome->display_button( esc_html__( 'Upgrade Now', 'download-monitor' ), 'https://www.download-monitor.com/pricing/?utm_source=welcome_banner&utm_medium=upgradenow&utm_campaign=welcome_banner', true, '#E76F51' ); ?>
+								<?php $welcome->display_button( esc_html__( 'Upgrade to pro', 'download-monitor' ), 'https://www.download-monitor.com/pricing/?utm_source=welcome_banner&utm_medium=upgradenow&utm_campaign=welcome_banner', true, '#E76F51' ); ?>
 								</div>
+						</div>
+
+						<div class="testimonials">
+							<div class="block clear">
+							<?php $welcome->display_heading( esc_html__( 'Happy users of Download Monitor', 'download-monitor' ) ); ?>
+							
+							<?php $welcome->display_testimonial( esc_html__( 'Do not spend any time considering other plugins that may offer the same bells and whistles. Not only is this full of fantastic functionality, the support behind the plugin is superior to anything you will get from any other developer.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/carlos-espinosa.jpeg', 'Carlos Espinosa' ); ?>
+							<?php $welcome->display_testimonial( esc_html__( 'Download Monitor rocks! It lets me easily implement customized/themed lists of downloads and offers useful statistics and access logs for my downloads.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/Sebastian-Herrmann.jpeg', 'Sebastian Herrmann' ); ?>
+							</div>
+						</div><!-- testimonials -->
+
+						<div class="button-wrap clear">
+							<div class="left">
+							<?php $welcome->display_button( esc_html__( 'Start Adding Downloads', 'download-monitor' ), esc_url( admin_url( 'edit.php?post_type=dlm_download' ) ), true, '#7364ff' ); ?>
+							</div>
+							<div class="right">
+							<?php $welcome->display_button( esc_html__( 'Upgrade Now', 'download-monitor' ), 'https://www.download-monitor.com/pricing/?utm_source=welcome_banner&utm_medium=upgradenow&utm_campaign=welcome_banner', true, '#E76F51' ); ?>
 							</div>
 						</div>
-					</div><!-- hero -->
-				</div><!-- container -->
-			</div><!-- wpchill welcome -->
-			<?php
+					</div>
+				</div><!-- hero -->
+			</div><!-- container -->
+		</div><!-- wpchill welcome -->
+		<?php
 	}
 
 }
