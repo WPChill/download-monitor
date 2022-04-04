@@ -28,6 +28,17 @@
     a[href$="dlm-lite-vs-pro"] {
       color: gold;
     }
+
+    a[href$="edit-tags.php?taxonomy=dlm_download_tag&post_type=dlm_download"]::after,
+    a[href$="edit.php?post_type=dlm_download&page=download-monitor-settings"]::after,
+    a[href$="edit.php?post_type=dlm_download&page=download-monitor-reports"]::after{
+      border-bottom: 1px solid hsla(0,0%,100%,.2);
+      display: block;
+      float: left;
+      margin: 13px -15px 8px;
+      content: "";
+      width: calc(100% + 30px);
+    }
   }
 }
 
