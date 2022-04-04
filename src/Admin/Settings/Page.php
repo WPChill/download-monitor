@@ -60,14 +60,12 @@ class DLM_Settings_Page {
 					}
 					break;
 				case 'dlm_regenerate_protection':
-
 					if ( $this->regenerate_protection() ) {
 						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
 						exit;
 					}
 					break;
 				case 'dlm_regenerate_robots':
-
 					if ( $this->regenerate_robots() ) {
 						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
 						exit;
@@ -554,19 +552,19 @@ Deny from all
 
 
 		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
-		if( !file_exists( $robots_file ) ){
+		if ( ! file_exists( $robots_file ) ){
 			$icon       = 'dashicons-dismiss';
 			$icon_color = '#f00';
 			$icon_text  = __( 'Robots.txt is missing.', 'download-monitor' );
 
-        }else{
+		} else {
 
 			$content = file_get_contents( $robots_file );
-			if( stristr( $content, 'dlm_uploads' ) ){
+			if ( stristr( $content, 'dlm_uploads' ) ) {
 				$icon       = 'dashicons-yes-alt';
 				$icon_color = '#00A32A';
 				$icon_text  = __( 'You are protected by robots.txt.', 'download-monitor' );
-			}else{
+			} else {
 				$icon       = 'dashicons-dismiss';
 				$icon_color = '#f00';
 				$icon_text  = __( 'Robots.txt file exists but dlm_uploads folder is not protected.', 'download-monitor' );
@@ -599,33 +597,29 @@ Deny from all
 	private function regenerate_robots(){
 
 		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
-		if( !file_exists( $robots_file ) ){
-			$txt = 'User-agent: *
-Disallow: /dlm_uploads/';
- 			$myfile = fopen( $robots_file, "w" );
-			fwrite( $myfile, $txt );
+		if( ! file_exists( $robots_file ) ) {
+			$txt        = 'User-agent: *' . "\n" . 'Disallow: /dlm_uploads/';
+			$dlm_robots = fopen( $robots_file, "w" );
+			fwrite( $dlm_robots, $txt );
 
 			return true;
 
-		}else{
+		} else {
 
 			$content = file_get_contents( $robots_file );
-			if( !stristr( $content, 'dlm_uploads' ) ){
+			if ( ! stristr( $content, 'dlm_uploads' ) ) {
 
-				$myfile = fopen( $robots_file, "w" );
-				$txt = 'User-agent: *
-Disallow: /dlm_uploads/
-' . $content;
-	
-				fwrite( $myfile, $txt );
+				$dlm_robots = fopen( $robots_file, "w" );
+				$txt        = 'User-agent: *' . "\n" . 'Disallow: /dlm_uploads/' . "\n\n" . $content;
+
+				fwrite( $dlm_robots, $txt );
 
 				return true;
 			}
-
 		}
 
 		return false;
-	}	
+	}
 }
 
 
