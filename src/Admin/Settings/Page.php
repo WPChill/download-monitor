@@ -66,6 +66,13 @@ class DLM_Settings_Page {
 						exit;
 					}
 					break;
+				case 'dlm_regenerate_robots':
+
+					if ( $this->regenerate_robots() ) {
+						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
+						exit;
+					}
+					break;
 			}
 		}
 
@@ -105,6 +112,9 @@ class DLM_Settings_Page {
 					break;
 				case 'dlm_regenerate_protection':
 					echo "<p>" . esc_html__( '.htaccess file successfully regenerated!', 'download-monitor' ) . "</p>";
+					break;
+				case 'dlm_regenerate_robots':
+					echo "<p>" . esc_html__( 'Robots.txt file successfully regenerated!', 'download-monitor' ) . "</p>";
 					break;
 			}
 			?>
@@ -290,6 +300,8 @@ class DLM_Settings_Page {
 		add_filter( 'dlm_page_header', array( $this, 'page_header_locations' ) );
 
 		add_filter( 'dlm_settings', array( $this, 'access_files_checker_field' ) );
+
+		add_filter( 'dlm_settings', array( $this, 'robots_files_checker_field' ) );
 	}
 
 	/**
@@ -530,4 +542,91 @@ Deny from all
 		}
 	}
 
+	/**
+	 * Add setting to check if the robots.txt file is there
+	 *
+	 * @param Array $settings
+	 * @return void
+	 * 
+	 * @since 4.5.9
+	 */
+	public function robots_files_checker_field( $settings ){
+
+
+		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
+		if( !file_exists( $robots_file ) ){
+			$icon       = 'dashicons-dismiss';
+			$icon_color = '#f00';
+			$icon_text  = __( 'Robots.txt is missing.', 'download-monitor' );
+
+        }else{
+
+			$content = file_get_contents( $robots_file );
+			if( stristr( $content, 'dlm_uploads' ) ){
+				$icon       = 'dashicons-yes-alt';
+				$icon_color = '#00A32A';
+				$icon_text  = __( 'You are protected by robots.txt.', 'download-monitor' );
+			}else{
+				$icon       = 'dashicons-dismiss';
+				$icon_color = '#f00';
+				$icon_text  = __( 'Robots.txt file exists but dlm_uploads folder is not protected.', 'download-monitor' );
+			}
+		}
+
+		$settings['advanced']['sections']['misc']['fields'][] = array(
+			'name'       => 'dlm_regenerate_robots',
+			'label'      => __( 'Regenerate crawler protection for uploads folder', 'download-monitor' ),
+			'desc'       => __( 'Regenerates the robots.txt file.', 'download-monitor' ),
+			'link'       => admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '&tab=advanced&section=misc',
+			'icon'       => $icon,
+			'icon-color' => $icon_color,
+			'icon-text'  => $icon_text,
+			'disabled'   => isset( $disabled ) ? 'true' : 'false',
+			'type'       => 'htaccess_status',
+		);
+
+		return $settings;
+	}
+
+
+	/**
+	 * Function used to regenerate the robots.txt for the dlm_uploads folder
+	 *
+	 * @return void
+	 * 
+	 * @since 4.5.9
+	 */
+	private function regenerate_robots(){
+
+		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
+		if( !file_exists( $robots_file ) ){
+			$txt = 'User-agent: *
+Disallow: /dlm_uploads/';
+ 			$myfile = fopen( $robots_file, "w" );
+			fwrite( $myfile, $txt );
+
+			return true;
+
+		}else{
+
+			$content = file_get_contents( $robots_file );
+			if( !stristr( $content, 'dlm_uploads' ) ){
+
+				$myfile = fopen( $robots_file, "w" );
+				$txt = 'User-agent: *
+Disallow: /dlm_uploads/
+' . $content;
+	
+				fwrite( $myfile, $txt );
+
+				return true;
+			}
+
+		}
+
+		return false;
+	}	
 }
+
+
+
