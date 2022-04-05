@@ -544,19 +544,24 @@ Deny from all
 	 * Add setting to check if the robots.txt file is there
 	 *
 	 * @param Array $settings
-	 * @return void
-	 * 
+	 * @return array
+	 *
 	 * @since 4.5.9
 	 */
-	public function robots_files_checker_field( $settings ){
-
+	public function robots_files_checker_field( $settings ) {
 
 		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
-		if ( ! file_exists( $robots_file ) ){
+		$page = wp_remote_get( get_home_url() . '/robots.txt');
+		$has_virtual_robots = false !== strpos( $page['headers']['content-type'], 'text/plain' );
+
+		if ( ! file_exists( $robots_file ) ) {
 			$icon       = 'dashicons-dismiss';
 			$icon_color = '#f00';
 			$icon_text  = __( 'Robots.txt is missing.', 'download-monitor' );
 
+			if ( $has_virtual_robots ) {
+				$icon_text  = __( 'Robots.txt file is missing but site has virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
+			}
 		} else {
 
 			$content = file_get_contents( $robots_file );
@@ -585,7 +590,6 @@ Deny from all
 
 		return $settings;
 	}
-
 
 	/**
 	 * Function used to regenerate the robots.txt for the dlm_uploads folder
