@@ -1,9 +1,15 @@
-= 4.5.9 - 04.04.2022 =
+= 4.5.91 - 05.04.2022 =
+Fixed: Error when checking for robots.txt file ( https://github.com/WPChill/download-monitor/issues/883 )
+
+= 4.5.9 - 05.04.2022 =
 Fixed: Security issues regarding file downloads and download titles
 Added: Option to not count admin downloads. ( https://github.com/WPChill/download-monitor/issues/854 )
 Added: No-index/no-follow header for redirect to file option ( https://github.com/WPChill/download-monitor/issues/879 )
 Added: Welcome banner on activation ( https://github.com/WPChill/download-monitor/issues/874 )
 Added: Robots.txt generation/protection setting ( https://github.com/WPChill/download-monitor/issues/878 )
+Added: Metabox and shortcode column for products ( https://github.com/WPChill/download-monitor/issues/866 )
+Fixed: Error downloading files if the files have been modified directly using a File Manager and the Download has not been updated ( https://github.com/WPChill/download-monitor/issues/860 )
+Fixed: Polyfill DateTimeImmutable __set_state array initialization
 
 = 4.5.8 - 28.03.2022 =
 Fixed: Upgrade to PRO now disappears when all extensions installed ( https://github.com/WPChill/download-monitor/issues/875 )
