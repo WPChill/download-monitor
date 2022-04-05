@@ -1,3 +1,13 @@
+= 4.5.9 - 04.04.2022 =
+Fixed: Security issues regarding file downloads and download titles
+Added: Option to not count admin downloads. ( https://github.com/WPChill/download-monitor/issues/854 )
+Added: No-index/no-follow header for redirect to file option ( https://github.com/WPChill/download-monitor/issues/879 )
+Added: Welcome banner on activation ( https://github.com/WPChill/download-monitor/issues/874 )
+Added: Robots.txt generation/protection setting ( https://github.com/WPChill/download-monitor/issues/878 )
+
+= 4.5.8 - 28.03.2022 =
+Fixed: Upgrade to PRO now disappears when all extensions installed ( https://github.com/WPChill/download-monitor/issues/875 )
+
 = 4.5.7 - 21.03.2022 =
 Changed: Removed Download Duplicator from LITE vs PRO page ( https://github.com/WPChill/download-monitor/issues/872 )
 Changed: Versions from Gutenberg block now mention `n/a #id` as title if they are non-versioned ( https://github.com/WPChill/download-monitor/issues/873 )
