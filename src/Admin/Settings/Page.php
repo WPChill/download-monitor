@@ -552,15 +552,23 @@ Deny from all
 
 		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
 		$page = wp_remote_get( get_home_url() . '/robots.txt');
-		$has_virtual_robots = false !== strpos( $page['headers']['content-type'], 'text/plain' );
+		$has_virtual_robots = 'undetermined';
+
+		if ( is_array( $page ) && ! is_wp_error( $page ) ) {
+			$has_virtual_robots = false !== strpos( $page['headers']['content-type'], 'text/plain' );
+		}
 
 		if ( ! file_exists( $robots_file ) ) {
 			$icon       = 'dashicons-dismiss';
 			$icon_color = '#f00';
 			$icon_text  = __( 'Robots.txt is missing.', 'download-monitor' );
 
-			if ( $has_virtual_robots ) {
+			if ( $has_virtual_robots && 'undetermined' !== $has_virtual_robots ) {
 				$icon_text  = __( 'Robots.txt file is missing but site has virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
+			}
+
+			if ( $has_virtual_robots && 'undetermined' === $has_virtual_robots ) {
+				$icon_text  = __( 'Robots.txt file is missing but site may have virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
 			}
 		} else {
 
