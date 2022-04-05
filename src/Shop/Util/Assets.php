@@ -54,6 +54,25 @@ class Assets {
 	public function enqueue_admin_assets() {
 		global $pagenow;
 
+		if( 'edit.php' == $pagenow && isset( $_GET['post_type'] ) && PostType::KEY === $_GET['post_type'] ) {
+			wp_enqueue_script(
+				'product_script',
+				plugins_url( '/assets/js/shop/product-script' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', download_monitor()->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION
+			);
+
+			// Make JavaScript strings translatable
+			wp_localize_script(
+				'product_script',
+				'dlm_product_overview',
+				array(
+					'copy_shortcode'    => esc_html__( 'Copy shortcode', 'download-monitor' ),
+					'shortcode_copied' => esc_html__( 'Shortcode copied', 'download-monitor' ),
+				)
+			);
+		}
+
 		if (
 			'edit.php' == $pagenow
 			&& isset( $_GET['post_type'] )
