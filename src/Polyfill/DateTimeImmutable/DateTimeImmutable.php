@@ -14,7 +14,7 @@ if ( ! class_exists( "DateTimeImmutable" ) ) {
 
 
 	class DateTimeImmutable implements DateTimeInterface {
-		public static function __set_state() {
+		public static function __set_state( array() ) {
 		}
 
 		public static function createFromFormat( $format, $time, $object = null ) {
