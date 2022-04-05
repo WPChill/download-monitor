@@ -554,7 +554,7 @@ Deny from all
 		$page = wp_remote_get( get_home_url() . '/robots.txt');
 		$has_virtual_robots = 'undetermined';
 
-		if ( is_array( $page ) && ! is_wp_error( $page ) ) {
+		if ( ! is_wp_error( $page ) && is_array( $page ) ) {
 			$has_virtual_robots = false !== strpos( $page['headers']['content-type'], 'text/plain' );
 		}
 
