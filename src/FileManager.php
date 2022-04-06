@@ -289,20 +289,39 @@ class DLM_File_Manager {
 			}
 		}
 
-		// If we get here it means the file is not restricted so we can get put the relative path. Use a untrailingslashit on ABSPATH because on some systems
+		// If we get here it means the file is not restricted so we can get put the relative path. Use a untrailingslashit on ABSPATH/WP_CONTENT_DIR because on some systems
 		// we have `\` and on others we have `/` for paths.
 		$abspath_sub = untrailingslashit( ABSPATH );
+		$content_dir = ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) ? untrailingslashit( WP_CONTENT_DIR ) : false;
 
-		// If ABSPATH is not completly in the file path it means that the file is not in the root of the site, so return empty string.
-		if ( false === strpos( $file_path, $abspath_sub ) ) {
-			$file_path = false;
-			return array( $file_path, $remote_file );
-		}
+		if ( $content_dir ) {
+			// If ABSPATH is not completly in the file path it means that the file is not in the root of the site nor in the wp-content, so return empty string.
+			if ( false === strpos( $file_path, $abspath_sub ) && false === strpos( $file_path, $content_dir ) ) {
+				$file_path = false;
+				return array( $file_path, $remote_file );
+			}
 
-		if ( $relative ) {
-			// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH because on some systems
-			// the ABSPATH ends on \ and on others it ends on /
-			$file_path = str_replace( $abspath_sub, '', $file_path );
+			if ( $relative ) {
+				// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH/WP_CONTENT_DIR because on some systems
+				// the ABSPATH/WP_CONTENT_DIR ends on \ and on others it ends on /
+				if ( false !== strpos( $file_path, $content_dir ) ) {
+					$file_path = str_replace( $content_dir, '', $file_path );
+				} else {
+					$file_path = str_replace( $abspath_sub, '', $file_path );
+				}
+			}
+		} else {
+			// If ABSPATH is not completly in the file path it means that the file is not in the root of the site, so return empty string.
+			if ( false === strpos( $file_path, $abspath_sub ) ) {
+				$file_path = false;
+				return array( $file_path, $remote_file );
+			}
+
+			if ( $relative ) {
+				// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH because on some systems
+				// the ABSPATH/WP_CONTENT_DIR ends on \ and on others it ends on /
+				$file_path = str_replace( $abspath_sub, '', $file_path );
+			}
 		}
 
 		return array( $file_path, $remote_file );
