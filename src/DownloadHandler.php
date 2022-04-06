@@ -554,7 +554,7 @@ class DLM_Download_Handler {
 			$range = intval( $range );
 
 			if ( ! $range_end ) {
-				$range_end = $version->get_filesize() - 1;
+				$range_end = $version->get_filesize() ;
 			} else {
 				$range_end = intval( $range_end );
 			}
