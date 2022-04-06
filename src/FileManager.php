@@ -295,7 +295,7 @@ class DLM_File_Manager {
 		$content_dir = ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) ? untrailingslashit( WP_CONTENT_DIR ) : false;
 
 		if ( $content_dir ) {
-			// If ABSPATH is not completly in the file path it means that the file is not in the root of the site nor in the wp-content, so return empty string.
+			// If ABSPATH/v is not completly in the file path it means that the file is not in the root of the site nor in the wp-content, so return empty string.
 			if ( false === strpos( $file_path, $abspath_sub ) && false === strpos( $file_path, $content_dir ) ) {
 				$file_path = false;
 				return array( $file_path, $remote_file );
