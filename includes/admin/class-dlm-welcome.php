@@ -138,11 +138,6 @@ class DLM_Welcome_Page {
 							<?php $welcome->display_heading( esc_html__( 'Thank you for installing Download Monitor', 'download-monitor' ) ); ?>
 							<?php $welcome->display_subheading( esc_html__( 'You\'re just a few steps away from adding, displaying and tracking your first download on your website with the easiest to use WordPress download plugin.', 'download-monitor' ) ); ?>
 						</div>
-						<div class="button-wrap-single">
-							<?php $welcome->display_button( esc_html__( 'Read our step-by-step guide to get started', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, '#7364ff' ); ?>
-						</div>
-						<?php $welcome->display_empty_space(); ?>
-						<img src="<?php echo esc_url( DLM_URL ); ?>assets/images/banner-dlm.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>" class="video-thumbnail">
 						<?php $welcome->horizontal_delimiter(); ?>
 						<div class="block">
 							<?php $welcome->display_heading( esc_html__( 'Features&Add-ons', 'download-monitor' ) ); ?>
