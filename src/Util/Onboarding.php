@@ -99,7 +99,7 @@ class Onboarding {
 		?>
         <div class="wrap dlm-onboarding">
 
-            <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
+            <!-- <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
                 <h2><?php echo esc_html__( "Welcome to ", 'download-monitor' ); ?> Download Monitor</h2>
                 <p>
 					<?php echo esc_html__( "Thank you for installing Download Monitor! We'd like to help you setup the plugin correctly so you can start sharing your files as quickly as possible.", 'download-monitor' ); ?>
@@ -109,7 +109,7 @@ class Onboarding {
                 <p>
 					<?php echo esc_html__( "You decide if you want to offer you downloads for free or want to start selling them (or both!). Whatever you decide, you chose the right plugin for the job!", 'download-monitor' ); ?>
                 </p>
-            </div>
+            </div> -->
 
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
                 <h2><?php echo esc_html__( "Let's Create Your Pages", 'download-monitor' ); ?></h2>
@@ -221,7 +221,7 @@ class Onboarding {
                             <img src="<?php echo esc_attr( $extension->image ); ?>"
                                  alt="<?php echo esc_attr( $extension->name ); ?>"/>
                             <h3><?php echo esc_html( $extension->name ); ?></h3>
-                            <p><?php echo esc_html( $extension->desc ); ?></p>
+                            <p><?php echo wp_kses_post( $extension->desc ); ?></p>
                         </div>
 						<?php
 						$i ++;
