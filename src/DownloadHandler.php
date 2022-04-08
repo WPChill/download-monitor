@@ -409,16 +409,18 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
-		$redirect_path = $file_path;
 		// Parse file path
 		list( $file_path, $remote_file ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
-		$file_path                       = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
 
+		$file_path                       = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
 		// The return of the get_secure_path function is an array that consists of the path ( string or false ) and the remote file ( bool ).
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( ! $file_path ) {
 			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
+
+		$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
+		$common_path   = DLM_Utils::longest_common_path( $allowed_paths );
 
 		// Check Access
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version ) ) {
@@ -505,10 +507,11 @@ class DLM_Download_Handler {
 
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-			$redirect_path = str_replace( ABSPATH, site_url( '/', $scheme ), $redirect_path );
-			
+
+			$file_path = str_replace( $common_path, site_url( '/', $scheme ), $file_path );
+
 			header("X-Robots-Tag: noindex, nofollow", true);
-			header( 'Location: ' . $redirect_path );
+			header( 'Location: ' . $file_path );
 			exit;
 		}
 

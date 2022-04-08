@@ -304,6 +304,24 @@ class DLM_Admin_Settings {
 							),
 						),
 					),
+					'advanced' => array(
+						'title' => __( 'Advanced', 'download-monitor' ),
+						'fields' => array(
+							array(
+								'name'  => 'dlm_advanced_advanced_title',
+								'title' => __( 'Advanced', 'download-monitor' ),
+								'desc'  => __( 'Only access this section if you know what you are doing!', 'download-monitor' ),
+								'type'  => 'title'
+							),
+							array(
+								'name'  => 'dlm_downloads_path',
+								'std'   => '',
+								'label' => __( 'Other downloads paths', 'download-monitor' ),
+								'desc'  => __( 'By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download from other parts of your directory please specify them here with full paths to the required directory, each on a separate line.', 'download-monitor' ),
+								'type'  => 'text',
+							),
+						)
+					),
 				),
 				'priority' => 20,
 			),

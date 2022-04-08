@@ -291,41 +291,66 @@ class DLM_File_Manager {
 
 		// If we get here it means the file is not restricted so we can get put the relative path. Use a untrailingslashit on ABSPATH/WP_CONTENT_DIR because on some systems
 		// we have `\` and on others we have `/` for paths.
-		$abspath_sub = untrailingslashit( ABSPATH );
-		$content_dir = ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) ? untrailingslashit( WP_CONTENT_DIR ) : false;
+		$abspath_sub   = untrailingslashit( ABSPATH );
+		$allowed_paths = $this->get_allowed_paths();
 
-		if ( $content_dir ) {
-			// If ABSPATH/v is not completly in the file path it means that the file is not in the root of the site nor in the wp-content, so return empty string.
-			if ( false === strpos( $file_path, $abspath_sub ) && false === strpos( $file_path, $content_dir ) ) {
-				$file_path = false;
-				return array( $file_path, $remote_file );
-			}
+		// We start trusting the file is in the correct path, and the allowed path is the normal ABSPATH
+		$file_in_path = array(
+			'file_path'    => $file_path,
+			'allowed_path' => $abspath_sub,
+		);
 
-			if ( $relative ) {
-				// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH/WP_CONTENT_DIR because on some systems
-				// the ABSPATH/WP_CONTENT_DIR ends on \ and on others it ends on /
-				if ( false !== strpos( $file_path, $content_dir ) ) {
-					$file_path = str_replace( $content_dir, '', $file_path );
-				} else {
-					$file_path = str_replace( $abspath_sub, '', $file_path );
-				}
+		foreach ( $allowed_paths as $allowed_path ) {
+			// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
+			if ( false !== strpos( $file_path, $allowed_path ) ) {
+				$file_in_path = array(
+					'file_path'    => $file_path,
+					'allowed_path' => $allowed_path,
+				);
+				break;
+			} else {
+				$file_in_path = false;
 			}
-		} else {
-			// If ABSPATH is not completly in the file path it means that the file is not in the root of the site, so return empty string.
-			if ( false === strpos( $file_path, $abspath_sub ) ) {
-				$file_path = false;
-				return array( $file_path, $remote_file );
-			}
+		}
 
-			if ( $relative ) {
-				// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH because on some systems
-				// the ABSPATH/WP_CONTENT_DIR ends on \ and on others it ends on /
-				$file_path = str_replace( $abspath_sub, '', $file_path );
-			}
+		// If the file is not in one of the allowed paths, return empty string.
+		if ( ! $file_in_path || ! is_array( $file_in_path ) ) {
+			$file_path = false;
+			return array( $file_path, $remote_file );
+		}
+
+		if ( $relative ) {
+			// Now we should get longest substring in allowed paths.
+			$common_path = DLM_Utils::longest_common_path( $allowed_paths );
+			$file_path   = str_replace( $common_path, '', $file_in_path['file_path'] );
 		}
 
 		return array( $file_path, $remote_file );
 
+	}
+
+	/**
+	 * Get file allowed paths
+	 *
+	 * @return mixed
+	 */
+	public function get_allowed_paths() {
+
+		$abspath_sub         = untrailingslashit( ABSPATH );
+		$user_defined_path   = get_option( 'dlm_downloads_path' );
+		$allowed_paths       = array();
+
+		if ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) {
+			$content_dir   = str_replace( 'wp-content', '', untrailingslashit( WP_CONTENT_DIR ) );
+			$allowed_paths = array( $abspath_sub, $content_dir );
+		} else {
+			$allowed_paths = array( $abspath_sub );
+		}
+
+		if ( $user_defined_path ) {
+			$allowed_paths[] = $user_defined_path;
+		}
+		return $allowed_paths;
 	}
 
 }

@@ -114,4 +114,54 @@ abstract class DLM_Utils {
 		return preg_replace('/^.+[\\\\\\/]/', '', $filepath);
 	}
 
+	/**
+	 * Retrieves the longes common substring from a list of strings
+	 *
+	 * @param array $file_paths
+	 * 
+	 * @return string Longest common substring
+	 * @since 4.5.92
+	 */
+	public static function longest_common_path( $file_paths ) {
+
+		$paths     = array();
+		$real_path = '';
+
+		for ( $i = 0; $i < count( $file_paths ); $i++ ) {
+			$file_paths[ $i ] = str_replace( DIRECTORY_SEPARATOR, '/', $file_paths[ $i ] );
+			$paths[ $i ]      = explode( '/', $file_paths[ $i ] );
+		}
+
+		array_multisort( array_map( 'count', $paths ), SORT_ASC, $paths );
+
+		$count  = min( array_map( 'count', $paths ) );
+		$passed = 0;
+		$n      = count( $paths );
+		var_dump($file_paths,WP_CONTENT_DIR);die();
+		while ( $count > $passed ) {
+
+			for ( $i = 0; $i < $n ; $i++ ) {
+				if ( $n > 2 ) {
+					if ( isset( $paths[ $i + 1 ] ) && isset( $paths[ $i + 2 ] ) && $paths[ $i ][ $passed ] === $paths[ $i + 1 ][ $passed ] && $paths[ $i ][ $passed ] === $paths[ $i + 2 ][ $passed ] ) {
+						$real_path .= $paths[ $i ][ $passed ] . DIRECTORY_SEPARATOR;
+						break;
+					}
+				} else if ( $n === 2 ) {
+					if ( isset( $paths[ $i + 1 ] ) && $paths[ $i ][ $passed ] === $paths[ $i + 1 ][ $passed ] ) {
+						$real_path .= $paths[$i ][ $passed ] . DIRECTORY_SEPARATOR;
+						break;
+					}
+				} else {
+					$real_path .= $paths[ $i ][ $passed ] . DIRECTORY_SEPARATOR;
+					break;
+				}
+			}
+			$passed++;
+			$count--;
+		}
+
+		return $real_path;
+
+	}
+
 }
