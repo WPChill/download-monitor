@@ -128,8 +128,7 @@ abstract class DLM_Utils {
 		$real_path = '';
 
 		for ( $i = 0; $i < count( $file_paths ); $i++ ) {
-			$file_paths[ $i ] = str_replace( DIRECTORY_SEPARATOR, '/', $file_paths[ $i ] );
-			$paths[ $i ]      = explode( '/', $file_paths[ $i ] );
+			$paths[ $i ] = explode( DIRECTORY_SEPARATOR, $file_paths[ $i ] );
 		}
 
 		array_multisort( array_map( 'count', $paths ), SORT_ASC, $paths );
@@ -137,23 +136,25 @@ abstract class DLM_Utils {
 		$count  = min( array_map( 'count', $paths ) );
 		$passed = 0;
 		$n      = count( $paths );
-		var_dump($file_paths,WP_CONTENT_DIR);die();
-		while ( $count > $passed ) {
+		// If there is only 1 path it means it is a standard WordPress installation, so return standard ABSPATH path
+		if ( 1 === count( $file_paths ) ) {
+			return $file_paths[0];
+		}
 
+		// The other 2 scenarios we have are with 2 or 3 paths, where the WP_CONTENT_DIR and ABPSPATH have different paths
+		// Plus the scenario where the user has included another path for the downloads
+		while ( $count > $passed ) {
 			for ( $i = 0; $i < $n ; $i++ ) {
 				if ( $n > 2 ) {
 					if ( isset( $paths[ $i + 1 ] ) && isset( $paths[ $i + 2 ] ) && $paths[ $i ][ $passed ] === $paths[ $i + 1 ][ $passed ] && $paths[ $i ][ $passed ] === $paths[ $i + 2 ][ $passed ] ) {
 						$real_path .= $paths[ $i ][ $passed ] . DIRECTORY_SEPARATOR;
 						break;
 					}
-				} else if ( $n === 2 ) {
+				} else {
 					if ( isset( $paths[ $i + 1 ] ) && $paths[ $i ][ $passed ] === $paths[ $i + 1 ][ $passed ] ) {
 						$real_path .= $paths[$i ][ $passed ] . DIRECTORY_SEPARATOR;
 						break;
 					}
-				} else {
-					$real_path .= $paths[ $i ][ $passed ] . DIRECTORY_SEPARATOR;
-					break;
 				}
 			}
 			$passed++;

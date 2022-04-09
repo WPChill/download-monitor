@@ -260,7 +260,8 @@ class DLM_File_Manager {
 		// This is available even if the file is one of the restricted files below. The plugin will let the user download the file,
 		// but the file will be empty, with a 404 error or an error message.
 		if ( $remote_file ) {
-			return array( $file_path, $remote_file );
+			$restriction = false;
+			return array( $file_path, $remote_file, $restriction );
 		}
 
 		// The list of predefined restricted files.
@@ -283,40 +284,34 @@ class DLM_File_Manager {
 		foreach ( $restricted_files as $restricted_file ) {
 
 			if ( basename( $file_path ) === $restricted_file ) {
-				// If the file is restricted, return empty string.
-				$file_path = false;
-				return array( $file_path, $remote_file );
+				// If the file is restricted.
+				$restriction = true;
+				return array( $file_path, $remote_file, $restriction );
 			}
 		}
 
-		// If we get here it means the file is not restricted so we can get put the relative path. Use a untrailingslashit on ABSPATH/WP_CONTENT_DIR because on some systems
-		// we have `\` and on others we have `/` for paths.
-		$abspath_sub   = untrailingslashit( ABSPATH );
 		$allowed_paths = $this->get_allowed_paths();
+		$file_in_path  = array();
 
-		// We start trusting the file is in the correct path, and the allowed path is the normal ABSPATH
-		$file_in_path = array(
-			'file_path'    => $file_path,
-			'allowed_path' => $abspath_sub,
-		);
+		if ( ! empty( $allowed_paths ) ) {
+			foreach ( $allowed_paths as $allowed_path ) {
 
-		foreach ( $allowed_paths as $allowed_path ) {
-			// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
-			if ( false !== strpos( $file_path, $allowed_path ) ) {
-				$file_in_path = array(
-					'file_path'    => $file_path,
-					'allowed_path' => $allowed_path,
-				);
-				break;
-			} else {
-				$file_in_path = false;
+				// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
+				if ( false !== strpos( $file_path, $allowed_path ) ) {
+					$file_in_path = array(
+						'file_path'    => $file_path,
+						'allowed_path' => $allowed_path,
+					);
+					break;
+				}
 			}
 		}
 
 		// If the file is not in one of the allowed paths, return empty string.
 		if ( ! $file_in_path || ! is_array( $file_in_path ) ) {
-			$file_path = false;
-			return array( $file_path, $remote_file );
+			// If the file is restricted.
+			$restriction = true;
+			return array( $file_path, $remote_file, $restriction );
 		}
 
 		if ( $relative ) {
@@ -325,7 +320,8 @@ class DLM_File_Manager {
 			$file_path   = str_replace( $common_path, '', $file_in_path['file_path'] );
 		}
 
-		return array( $file_path, $remote_file );
+		$restriction = false;
+		return array( $file_path, $remote_file, $restriction );
 
 	}
 

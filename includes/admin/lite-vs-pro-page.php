@@ -69,7 +69,6 @@ $pro_arguments = array(
 ?>
 <div class="wrap rsvp-lite-vs-premium">
 	<hr class="wp-header-end" />
-	<h1><?php echo esc_html__( 'LITE vs PRO', 'download-monitor' ); ?> </h1>	
 	<div class="free-vs-premium">
 		<!--  Table header -->
 		<div class="wpchill-plans-table table-header">
