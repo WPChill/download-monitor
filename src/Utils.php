@@ -143,7 +143,7 @@ abstract class DLM_Utils {
 
 		// The other 2 scenarios we have are with 2 or 3 paths, where the WP_CONTENT_DIR and ABPSPATH have different paths
 		// Plus the scenario where the user has included another path for the downloads
-		while ( $count > $passed ) {
+		while ( $count >= $passed ) {
 			for ( $i = 0; $i < $n ; $i++ ) {
 				if ( $n > 2 ) {
 					if ( isset( $paths[ $i + 1 ] ) && isset( $paths[ $i + 2 ] ) && $paths[ $i ][ $passed ] === $paths[ $i + 1 ][ $passed ] && $paths[ $i ][ $passed ] === $paths[ $i + 2 ][ $passed ] ) {

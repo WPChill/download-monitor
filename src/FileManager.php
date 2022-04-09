@@ -52,6 +52,8 @@ class DLM_File_Manager {
 		$wp_uploads     = wp_upload_dir();
 		$wp_uploads_dir = $wp_uploads['basedir'];
 		$wp_uploads_url = $wp_uploads['baseurl'];
+		$allowed_paths  = $this->get_allowed_paths();
+		$common_path    = DLM_Utils::longest_common_path( $allowed_paths );
 
 		// Fix for plugins that modify the uploads dir
 		// add filter in order to return files
@@ -96,10 +98,14 @@ class DLM_File_Manager {
 			$file_path   = realpath( $file_path );
 
 		} elseif ( file_exists( ABSPATH . $file_path ) ) {
-
 			/** Path needs an abspath to work */
 			$remote_file = false;
 			$file_path   = ABSPATH . $file_path;
+			$file_path   = realpath( $file_path );
+		} elseif ( file_exists( $common_path . $file_path ) ) {
+			/** Path needs an $common_path to work */
+			$remote_file = false;
+			$file_path   = $common_path . $file_path;
 			$file_path   = realpath( $file_path );
 		}
 
