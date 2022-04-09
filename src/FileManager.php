@@ -102,11 +102,20 @@ class DLM_File_Manager {
 			$remote_file = false;
 			$file_path   = ABSPATH . $file_path;
 			$file_path   = realpath( $file_path );
-		} elseif ( file_exists( $common_path . $file_path ) ) {
+		} elseif ( strlen( $common_path ) > 1 && file_exists( $common_path . $file_path ) ) {
 			/** Path needs an $common_path to work */
 			$remote_file = false;
 			$file_path   = $common_path . $file_path;
 			$file_path   = realpath( $file_path );
+		} elseif ( '' === $common_path || strlen( $common_path ) === 1 ) {
+			foreach ( $allowed_paths as $path ){
+				if ( file_exists( $path . $file_path ) ) {
+					$remote_file = false;
+					$file_path   = $path . $file_path;
+					$file_path   = realpath( $file_path );
+					break;
+				}
+			}
 		}
 
 		return array( $file_path, $remote_file );
@@ -323,6 +332,12 @@ class DLM_File_Manager {
 		if ( $relative ) {
 			// Now we should get longest substring in allowed paths.
 			$common_path = DLM_Utils::longest_common_path( $allowed_paths );
+			// If there is no common path, or is emtpy or is just a slash, return the file path, else do the replacement.
+			if ( strlen( $common_path ) > 1 ) {
+				$file_path   = str_replace( $common_path, '', $file_in_path['file_path'] );
+			} else {
+				$file_path   = $file_in_path['file_path'];
+			}
 			$file_path   = str_replace( $common_path, '', $file_in_path['file_path'] );
 		}
 
