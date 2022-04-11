@@ -505,8 +505,11 @@ class DLM_Download_Handler {
 			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 			// Ensure we have a valid URL, not a file path
-			$scheme    = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-			$file_path = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', ABSPATH ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
+			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+			// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
+			// we get the secure file path.
+			$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
+			$file_path    = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', $correct_path ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
 
 			header("X-Robots-Tag: noindex, nofollow", true);
 			header( 'Location: ' . $file_path );

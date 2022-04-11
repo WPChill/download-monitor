@@ -102,13 +102,13 @@ class DLM_File_Manager {
 			$remote_file = false;
 			$file_path   = ABSPATH . $file_path;
 			$file_path   = realpath( $file_path );
-		} elseif ( strlen( $common_path ) > 1 && file_exists( $common_path . $file_path ) ) {
+		} elseif ( $common_path && strlen( $common_path ) > 1 && file_exists( $common_path . $file_path ) ) {
 			/** Path needs an $common_path to work */
 			$remote_file = false;
 			$file_path   = $common_path . $file_path;
 			$file_path   = realpath( $file_path );
 		} elseif ( '' === $common_path || strlen( $common_path ) === 1 ) {
-			foreach ( $allowed_paths as $path ){
+			foreach ( $allowed_paths as $path ) {
 				if ( file_exists( $path . $file_path ) ) {
 					$remote_file = false;
 					$file_path   = $path . $file_path;
@@ -306,24 +306,10 @@ class DLM_File_Manager {
 		}
 
 		$allowed_paths = $this->get_allowed_paths();
-		$file_in_path  = array();
-
-		if ( ! empty( $allowed_paths ) ) {
-			foreach ( $allowed_paths as $allowed_path ) {
-
-				// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
-				if ( false !== strpos( $file_path, $allowed_path ) ) {
-					$file_in_path = array(
-						'file_path'    => $file_path,
-						'allowed_path' => $allowed_path,
-					);
-					break;
-				}
-			}
-		}
+		$correct_path  = $this->get_correct_path( $file_path, $allowed_paths );
 
 		// If the file is not in one of the allowed paths, return empty string.
-		if ( ! $file_in_path || ! is_array( $file_in_path ) ) {
+		if ( ! $correct_path || empty( $correct_path ) ) {
 			// If the file is restricted.
 			$restriction = true;
 			return array( $file_path, $remote_file, $restriction );
@@ -338,7 +324,6 @@ class DLM_File_Manager {
 			} else {
 				$file_path   = $file_in_path['file_path'];
 			}
-			$file_path   = str_replace( $common_path, '', $file_in_path['file_path'] );
 		}
 
 		$restriction = false;
@@ -368,6 +353,36 @@ class DLM_File_Manager {
 			$allowed_paths[] = $user_defined_path;
 		}
 		return $allowed_paths;
+	}
+
+	/**
+	 * Return the correct path for the file by comparing the file path string with the allowed paths.
+	 *
+	 * @param string $file_path The current path of the file
+	 * @param array $allowed_paths The allowed paths of the files
+	 * 
+	 * @return string The correct path of the file
+	 * @since 4.5.92
+	 */
+	public function get_correct_path( $file_path, $allowed_paths ) {
+
+		/* We assume first assume that the path is false, as the ABSPATH is always allowed asnd should always be in the
+		 * allowed paths.
+		 */
+		$correct_path = false;
+
+		if ( ! empty( $allowed_paths ) ) {
+			foreach ( $allowed_paths as $allowed_path ) {
+
+				// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
+				if ( false !== strpos( $file_path, $allowed_path ) ) {
+					$correct_path = $allowed_path;
+					break;
+				}
+			}
+		}
+
+		return $correct_path;
 	}
 
 }
