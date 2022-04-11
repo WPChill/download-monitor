@@ -1854,12 +1854,6 @@ table.wp-list-table {
 }
 
 .wrap.dlm-admin-settings {
-  &.advanced {
-    h3,
-    h3 + p.dlm-description{
-      color:red;
-    }
-  }
   .form-table {
     width: 65%;
     float: left;
@@ -1881,6 +1875,13 @@ table.wp-list-table {
     display: inline-block;
     margin-left: 10px;
     border-radius: 10px;
+  }
+  #setting-dlm_downloads_path {
+    & + p {
+      strong {
+        color:red;
+      }
+    }
   }
 }
 

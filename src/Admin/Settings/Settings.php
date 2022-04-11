@@ -301,26 +301,17 @@ class DLM_Admin_Settings {
 								'desc'  => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
 								'type'  => 'action_button',
 								'link'  => self::get_url() . '&tab=advanced&section=misc',
+								'priority' => 10
+							),
+							array(
+								'name'     => 'dlm_downloads_path',
+								'std'      => '',
+								'label'    => __( 'Other downloads path', 'download-monitor' ),
+								'desc'     => __( '<strong>!!ATTENTION!! ONLY</strong> modify this setting if you know and are certain of what you are doing. This can cause problems on the download/saving Downloads process if not specified correctly. Prior to modifying this it is advised to <strong>BACKUP YOU DATABASE</strong> in case something goes wrong.<br><br> By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify the path or a more higher path.', 'download-monitor' ),
+								'type'     => 'text',
+								'priority' => 60
 							),
 						),
-					),
-					'advanced' => array(
-						'title' => __( 'Advanced', 'download-monitor' ),
-						'fields' => array(
-							array(
-								'name'  => 'dlm_advanced_advanced_title',
-								'title' => __( '!!ATTENTION!!', 'download-monitor' ),
-								'desc'  => __( '<strong>ONLY</strong> modify this setting if you know and are certain of what you are doing. This can cause problems on the download/saving Downloads process if not specified correctly. Prior to modifying this it is advised to <strong>BACKUP YOU DATABASE</strong> in case something goes wrong.', 'download-monitor' ),
-								'type'  => 'title'
-							),
-							array(
-								'name'  => 'dlm_downloads_path',
-								'std'   => '',
-								'label' => __( 'Other downloads path', 'download-monitor' ),
-								'desc'  => __( 'By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify a higher path. Example: root: <code>home/dir/www/wordpres</code> and you want to download files from <code>home/dir/www/downloads</code> please enter <code>home/dir/www/downloads/</code> in files are in a <code>downloads</code> folder or <code>home/dir/www/</code> if files are in the <code>www</code> folder.', 'download-monitor' ),
-								'type'  => 'text',
-							),
-						)
 					),
 				),
 				'priority' => 20,
@@ -496,7 +487,7 @@ class DLM_Admin_Settings {
 		$settings = $this->backwards_compatibility_settings( $old_settings, $settings );
 
 		uasort( $settings, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
-
+		uasort( $settings['advanced']['sections']['misc']['fields'], array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
 		return $settings;
 	}
 
