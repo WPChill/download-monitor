@@ -146,7 +146,7 @@ class DLM_Settings_Page {
 		// print global notices
 		$this->print_global_notices();
 		?>
-		<div class="wrap dlm-admin-settings">
+		<div class="wrap dlm-admin-settings <?php echo esc_attr( $tab ); ?>">
 			<hr class="wp-header-end">
 			<form method="post" action="options.php">
 

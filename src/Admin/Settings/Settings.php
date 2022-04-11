@@ -310,14 +310,14 @@ class DLM_Admin_Settings {
 							array(
 								'name'  => 'dlm_advanced_advanced_title',
 								'title' => __( '!!ATTENTION!!', 'download-monitor' ),
-								'desc'  => __( 'ONLY MODIFY THIS SETTINGS IF YOU KNOW AND ARE CERTAIN OF WHAT YOU ARE DOING. THIS CAN CAUSE PROBLEMS FOR DOWNLOAD PATHS IF NOT SPECIFIED CORRECTLY', 'download-monitor' ),
+								'desc'  => __( '<strong>ONLY</strong> modify this setting if you know and are certain of what you are doing. This can cause problems on the download/saving Downloads process if not specified correctly. Prior to modifying this it is advised to <strong>BACKUP YOU DATABASE</strong> in case something goes wrong.', 'download-monitor' ),
 								'type'  => 'title'
 							),
 							array(
 								'name'  => 'dlm_downloads_path',
 								'std'   => '',
-								'label' => __( 'Other downloads paths', 'download-monitor' ),
-								'desc'  => __( 'By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify a higher path. Example: root: <code>home/dir/www/wordpres</code> and you want to download files from <code>home/dir/www/downloads</code> please enter <code>home/dir/www/</code>.', 'download-monitor' ),
+								'label' => __( 'Other downloads path', 'download-monitor' ),
+								'desc'  => __( 'By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify a higher path. Example: root: <code>home/dir/www/wordpres</code> and you want to download files from <code>home/dir/www/downloads</code> please enter <code>home/dir/www/downloads/</code> in files are in a <code>downloads</code> folder or <code>home/dir/www/</code> if files are in the <code>www</code> folder.', 'download-monitor' ),
 								'type'  => 'text',
 							),
 						)

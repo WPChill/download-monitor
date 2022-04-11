@@ -308,21 +308,18 @@ class DLM_File_Manager {
 		$allowed_paths = $this->get_allowed_paths();
 		$correct_path  = $this->get_correct_path( $file_path, $allowed_paths );
 
-		// If the file is not in one of the allowed paths, return empty string.
+		// If the file is not in one of the allowed paths, return restriction
 		if ( ! $correct_path || empty( $correct_path ) ) {
-			// If the file is restricted.
 			$restriction = true;
 			return array( $file_path, $remote_file, $restriction );
 		}
 
 		if ( $relative ) {
-			// Now we should get longest substring in allowed paths.
+			// Now we should get longest commont path from the allowed paths.
 			$common_path = DLM_Utils::longest_common_path( $allowed_paths );
 			// If there is no common path, or is emtpy or is just a slash, return the file path, else do the replacement.
 			if ( strlen( $common_path ) > 1 ) {
-				$file_path   = str_replace( $common_path, '', $file_in_path['file_path'] );
-			} else {
-				$file_path   = $file_in_path['file_path'];
+				$file_path = str_replace( $common_path, '', $file_path );
 			}
 		}
 
@@ -334,13 +331,14 @@ class DLM_File_Manager {
 	/**
 	 * Get file allowed paths
 	 *
-	 * @return mixed
+	 * @return array
+	 * @since 4.5.92
 	 */
 	public function get_allowed_paths() {
 
-		$abspath_sub         = untrailingslashit( ABSPATH );
-		$user_defined_path   = get_option( 'dlm_downloads_path' );
-		$allowed_paths       = array();
+		$abspath_sub       = untrailingslashit( ABSPATH );
+		$user_defined_path = get_option( 'dlm_downloads_path' );
+		$allowed_paths     = array();
 
 		if ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) {
 			$content_dir   = str_replace( 'wp-content', '', untrailingslashit( WP_CONTENT_DIR ) );
