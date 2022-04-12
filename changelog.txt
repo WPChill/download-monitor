@@ -1,5 +1,6 @@
 = 4.5.92 - 11.04.2022 =
 Fixed: Missing Files/Access denied for users with out of root wp-content ( https://github.com/WPChill/download-monitor/issues/888 )
+Added: New setting for out of root/uploads directory for files to be downloaded
 
 = 4.5.91 - 05.04.2022 =
 Fixed: Error when checking for robots.txt file ( https://github.com/WPChill/download-monitor/issues/883 )
