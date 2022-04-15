@@ -409,14 +409,13 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
-		$redirect_path = $file_path;
 		// Parse file path
-		list( $file_path, $remote_file ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
-		$file_path                       = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
+		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
 
-		// The return of the get_secure_path function is an array that consists of the path ( string or false ) and the remote file ( bool ).
+		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
+		// The return of the get_secure_path function is an array that consists of the path ( string ), remote file ( bool ) and restriction ( bool ).
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
-		if ( ! $file_path ) {
+		if ( $restriction ) {
 			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
@@ -502,13 +501,17 @@ class DLM_Download_Handler {
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
+			$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
 
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-			$redirect_path = str_replace( ABSPATH, site_url( '/', $scheme ), $redirect_path );
-			
+			// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
+			// we get the secure file path.
+			$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
+			$file_path    = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', $correct_path ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
+
 			header("X-Robots-Tag: noindex, nofollow", true);
-			header( 'Location: ' . $redirect_path );
+			header( 'Location: ' . $file_path );
 			exit;
 		}
 

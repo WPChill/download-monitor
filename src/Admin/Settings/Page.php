@@ -146,7 +146,7 @@ class DLM_Settings_Page {
 		// print global notices
 		$this->print_global_notices();
 		?>
-		<div class="wrap dlm-admin-settings">
+		<div class="wrap dlm-admin-settings <?php echo esc_attr( $tab ); ?>">
 			<hr class="wp-header-end">
 			<form method="post" action="options.php">
 
@@ -488,6 +488,7 @@ class DLM_Settings_Page {
 			'icon-text'  => $icon_text,
 			'disabled'   => isset( $disabled ) ? 'true' : 'false',
 			'type'       => 'htaccess_status',
+			'priority'   => 30
 		);
 
 		return $settings;
@@ -594,6 +595,7 @@ Deny from all
 			'icon-text'  => $icon_text,
 			'disabled'   => isset( $disabled ) ? 'true' : 'false',
 			'type'       => 'htaccess_status',
+			'priority'   => 40
 		);
 
 		return $settings;

@@ -52,6 +52,8 @@ class DLM_File_Manager {
 		$wp_uploads     = wp_upload_dir();
 		$wp_uploads_dir = $wp_uploads['basedir'];
 		$wp_uploads_url = $wp_uploads['baseurl'];
+		$allowed_paths  = $this->get_allowed_paths();
+		$common_path    = DLM_Utils::longest_common_path( $allowed_paths );
 
 		// Fix for plugins that modify the uploads dir
 		// add filter in order to return files
@@ -96,11 +98,24 @@ class DLM_File_Manager {
 			$file_path   = realpath( $file_path );
 
 		} elseif ( file_exists( ABSPATH . $file_path ) ) {
-
 			/** Path needs an abspath to work */
 			$remote_file = false;
 			$file_path   = ABSPATH . $file_path;
 			$file_path   = realpath( $file_path );
+		} elseif ( $common_path && strlen( $common_path ) > 1 && file_exists( $common_path . $file_path ) ) {
+			/** Path needs an $common_path to work */
+			$remote_file = false;
+			$file_path   = $common_path . $file_path;
+			$file_path   = realpath( $file_path );
+		} elseif ( '' === $common_path || strlen( $common_path ) === 1 ) {
+			foreach ( $allowed_paths as $path ) {
+				if ( file_exists( $path . $file_path ) ) {
+					$remote_file = false;
+					$file_path   = $path . $file_path;
+					$file_path   = realpath( $file_path );
+					break;
+				}
+			}
 		}
 
 		return array( $file_path, $remote_file );
@@ -260,7 +275,8 @@ class DLM_File_Manager {
 		// This is available even if the file is one of the restricted files below. The plugin will let the user download the file,
 		// but the file will be empty, with a 404 error or an error message.
 		if ( $remote_file ) {
-			return array( $file_path, $remote_file );
+			$restriction = false;
+			return array( $file_path, $remote_file, $restriction );
 		}
 
 		// The list of predefined restricted files.
@@ -283,30 +299,88 @@ class DLM_File_Manager {
 		foreach ( $restricted_files as $restricted_file ) {
 
 			if ( basename( $file_path ) === $restricted_file ) {
-				// If the file is restricted, return empty string.
-				$file_path = false;
-				return array( $file_path, $remote_file );
+				// If the file is restricted.
+				$restriction = true;
+				return array( $file_path, $remote_file, $restriction );
 			}
 		}
 
-		// If we get here it means the file is not restricted so we can get put the relative path. Use a untrailingslashit on ABSPATH because on some systems
-		// we have `\` and on others we have `/` for paths.
-		$abspath_sub = untrailingslashit( ABSPATH );
+		$allowed_paths = $this->get_allowed_paths();
+		$correct_path  = $this->get_correct_path( $file_path, $allowed_paths );
 
-		// If ABSPATH is not completly in the file path it means that the file is not in the root of the site, so return empty string.
-		if ( false === strpos( $file_path, $abspath_sub ) ) {
-			$file_path = false;
-			return array( $file_path, $remote_file );
+		// If the file is not in one of the allowed paths, return restriction
+		if ( ! $correct_path || empty( $correct_path ) ) {
+			$restriction = true;
+			return array( $file_path, $remote_file, $restriction );
 		}
 
 		if ( $relative ) {
-			// If we get here it means the file is not restricted so we can get put the relative path. Use a substract of ABSPATH because on some systems
-			// the ABSPATH ends on \ and on others it ends on /
-			$file_path = str_replace( $abspath_sub, '', $file_path );
+			// Now we should get longest commont path from the allowed paths.
+			$common_path = DLM_Utils::longest_common_path( $allowed_paths );
+			// If there is no common path, or is emtpy or is just a slash, return the file path, else do the replacement.
+			if ( strlen( $common_path ) > 1 ) {
+				$file_path = str_replace( $common_path, '', $file_path );
+			}
 		}
 
-		return array( $file_path, $remote_file );
+		$restriction = false;
+		return array( $file_path, $remote_file, $restriction );
 
+	}
+
+	/**
+	 * Get file allowed paths
+	 *
+	 * @return array
+	 * @since 4.5.92
+	 */
+	public function get_allowed_paths() {
+
+		$abspath_sub       = untrailingslashit( ABSPATH );
+		$user_defined_path = get_option( 'dlm_downloads_path' );
+		$allowed_paths     = array();
+
+		if ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) {
+			$content_dir   = str_replace( 'wp-content', '', untrailingslashit( WP_CONTENT_DIR ) );
+			$allowed_paths = array( $abspath_sub, $content_dir );
+		} else {
+			$allowed_paths = array( $abspath_sub );
+		}
+
+		if ( $user_defined_path ) {
+			$allowed_paths[] = $user_defined_path;
+		}
+		return $allowed_paths;
+	}
+
+	/**
+	 * Return the correct path for the file by comparing the file path string with the allowed paths.
+	 *
+	 * @param string $file_path The current path of the file
+	 * @param array $allowed_paths The allowed paths of the files
+	 * 
+	 * @return string The correct path of the file
+	 * @since 4.5.92
+	 */
+	public function get_correct_path( $file_path, $allowed_paths ) {
+
+		/* We assume first assume that the path is false, as the ABSPATH is always allowed asnd should always be in the
+		 * allowed paths.
+		 */
+		$correct_path = false;
+
+		if ( ! empty( $allowed_paths ) ) {
+			foreach ( $allowed_paths as $allowed_path ) {
+
+				// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
+				if ( false !== strpos( $file_path, $allowed_path ) ) {
+					$correct_path = $allowed_path;
+					break;
+				}
+			}
+		}
+
+		return $correct_path;
 	}
 
 }
