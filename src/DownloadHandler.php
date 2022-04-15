@@ -557,13 +557,13 @@ class DLM_Download_Handler {
 			$range = intval( $range );
 
 			if ( ! $range_end ) {
-				$range_end = $version->get_filesize() - 1;
+				$range_end = $version->get_filesize() ;
 			} else {
 				$range_end = intval( $range_end );
 			}
 
-			$new_length = $range_end - $range;
-
+			//$new_length = $range_end - $range;
+			$new_length = ($range_end - $range) + 1;
 			header( "HTTP/1.1 206 Partial Content" );
 			header( "Content-Length: $new_length" );
 			header( "Content-Range: bytes {$range}-{$range_end}/{$version->get_filesize()}" );
@@ -572,7 +572,8 @@ class DLM_Download_Handler {
 			$range = false;
 		}
 
-		if ( $this->readfile_chunked( $file_path, $range ) ) {
+		if ( $this->readfile_chunked( $file_path, false, $range ) ) {
+		//if ( $this->readfile_chunked( $file_path, $range ) ) {
 
 			// Complete!
 			$this->log( 'download', 'completed', '', $download, $version );

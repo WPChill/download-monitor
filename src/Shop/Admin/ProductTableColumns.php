@@ -14,6 +14,7 @@ class ProductTableColumns {
 		add_filter( 'manage_edit-' . PostType::KEY . '_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_' . PostType::KEY . '_posts_custom_column', array( $this, 'column_data' ), 10, 2 );
 		add_filter( 'manage_edit-' . PostType::KEY . '_sortable_columns', array( $this, 'sortable_columns' ) );
+		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ), 10, 2 );
 	}
 
 	/**
@@ -30,7 +31,7 @@ class ProductTableColumns {
 
 		$columns["cb"]        = "<input type=\"checkbox\" />";
 		$columns["thumb"]     = '<span>' . __( "Image", 'download-monitor' ) . '</span>';
-		$columns["title"]     = __( "Title", 'download-monitor' );
+		$columns["product_title"]     = __( "Title", 'download-monitor' );
 		$columns["shortcode"] = __( "Shortcode", 'download-monitor' );
 		$columns["price"]     = __( "Price", 'download-monitor' );
 		$columns["date"]      = __( "Date", 'download-monitor' );
@@ -48,8 +49,8 @@ class ProductTableColumns {
 	 *
 	 * @return void
 	 */
-	public function column_data( $column, $post_id ) {
-
+	public function column_data( $column, $post_id ) { 
+		
 		/** @var \Never5\DownloadMonitor\Shop\Product\Product $product */
 		try {
 			$product = Services::get()->service( 'product_repository' )->retrieve_single( $post_id );
@@ -58,6 +59,13 @@ class ProductTableColumns {
 		}
 
 		switch ( $column ) {
+			case "product_title" :
+				if ( ! class_exists( 'WP_List_Table' ) ) {
+					require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+				}
+				global $wp_list_table, $post;
+				$wp_list_table->column_title( $post );
+				break;
 			case "thumb" :
 				echo wp_kses_post( $product->get_image() );
 				break;
@@ -86,4 +94,24 @@ class ProductTableColumns {
 
 		return wp_parse_args( $custom, $columns );
 	}
+
+	/**
+	 * Prepends the id to the title.
+	 *
+	 * @access public
+	 *
+	 * @param string $title
+	 *
+	 * @param int $id
+	 *
+	 * @return string
+	 */
+	public function prepend_id_to_title( $title, $id){
+		
+		if( 'dlm_product' === get_post_type( $id ) ) {
+			return '#' . $id . ' - ' . $title;
+		}
+
+        return $title;
+    }
 }

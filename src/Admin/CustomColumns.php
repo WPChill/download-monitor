@@ -69,14 +69,14 @@ class DLM_Custom_Columns {
 
 				$wp_list_table->column_title( $post );
 
-				if ( $file ) {
+				if ( $file->get_filename() ) {
 					echo '<a class="dlm-file-link" href="' . esc_url( $download->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
 					if ( $size = $download->get_version()->get_filesize_formatted() ) {
 						echo ' &ndash; ' . esc_html( $size );
 					}
 					echo '</code></a>';
 				} else {
-					echo '<span class="na">&ndash;</span>';
+					echo '<div class="dlm-listing-no-file"><code>No file provided</code></div>';
 				}
 
 				break;
