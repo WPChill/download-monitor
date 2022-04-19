@@ -28,14 +28,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.5.0
 		 */
 		public function __construct() {
-			global $wpdb;
-
-			if ( DLM_Logging::is_logging_enabled() && DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
-				add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-
-				add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
-			}
-
+			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 		}
 
 		/**
@@ -128,6 +122,12 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function report_stats() {
 
 			global $wpdb;
+
+			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
+				return array();
+			}
+
+
 			$cache_key = 'dlm_insights';
 			$stats     = wp_cache_get( $cache_key, 'dlm_reports_page' );
 

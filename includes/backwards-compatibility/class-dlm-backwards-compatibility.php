@@ -113,6 +113,14 @@ class DLM_Backwards_Compatibility {
 
 		global $wpdb;
 
+		if ( ! isset( $filters['post_type'] ) ) {
+			return;
+		}
+
+		if ( 'dlm_download' != $filters['post_type'] ) {
+			return;
+		}
+
 		if ( apply_filters( 'dlm_backwards_compatibility_orderby_meta', false ) ) {
 			add_filter( 'dlm_backwards_compatibility_query_args', array( $this, 'no_log_query_args_compatibility' ) );
 			return;
