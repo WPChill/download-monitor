@@ -64,6 +64,11 @@ class ProductTableColumns {
 					require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 				}
 				global $wp_list_table, $post;
+
+				if ( ! $wp_list_table ) {
+					$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
+				}
+
 				$wp_list_table->column_title( $post );
 				break;
 			case "thumb" :
