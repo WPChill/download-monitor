@@ -122,7 +122,7 @@ class DLM_Backwards_Compatibility {
 		}
 
 		if ( apply_filters( 'dlm_backwards_compatibility_orderby_meta', false ) ) {
-			add_filter( 'dlm_backwards_compatibility_query_args', array( $this, 'no_log_query_args_compatibility' ) );
+			add_filter( 'dlm_admin_sort_columns', array( $this, 'no_log_query_args_compatibility' ) );
 			return;
 		}
 
@@ -151,7 +151,7 @@ class DLM_Backwards_Compatibility {
 
 		$this->filters = $filters;
 
-		add_filter( 'dlm_backwards_compatibility_query_args', array( $this, 'query_args_download_count_compatibility' ), 60 );
+		add_filter( 'dlm_admin_sort_columns', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
