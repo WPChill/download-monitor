@@ -52,6 +52,8 @@ class DLM_File_Manager {
 		$wp_uploads     = wp_upload_dir();
 		$wp_uploads_dir = $wp_uploads['basedir'];
 		$wp_uploads_url = $wp_uploads['baseurl'];
+		$allowed_paths  = $this->get_allowed_paths();
+		$common_path    = DLM_Utils::longest_common_path( $allowed_paths );
 
 		// Fix for plugins that modify the uploads dir
 		// add filter in order to return files
@@ -76,7 +78,6 @@ class DLM_File_Manager {
 			$file_path   = trim( str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path ) );
 			$file_path   = realpath( $file_path );
 
-
 		} elseif ( is_multisite() && ( ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false ) || ( strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) ) {
 
 			/** This is a local file outside of wp-content so figure out the path */
@@ -97,11 +98,24 @@ class DLM_File_Manager {
 			$file_path   = realpath( $file_path );
 
 		} elseif ( file_exists( ABSPATH . $file_path ) ) {
-
 			/** Path needs an abspath to work */
 			$remote_file = false;
 			$file_path   = ABSPATH . $file_path;
 			$file_path   = realpath( $file_path );
+		} elseif ( $common_path && strlen( $common_path ) > 1 && file_exists( $common_path . $file_path ) ) {
+			/** Path needs an $common_path to work */
+			$remote_file = false;
+			$file_path   = $common_path . $file_path;
+			$file_path   = realpath( $file_path );
+		} elseif ( '' === $common_path || strlen( $common_path ) === 1 ) {
+			foreach ( $allowed_paths as $path ) {
+				if ( file_exists( $path . $file_path ) ) {
+					$remote_file = false;
+					$file_path   = $path . $file_path;
+					$file_path   = realpath( $file_path );
+					break;
+				}
+			}
 		}
 
 		return array( $file_path, $remote_file );
@@ -237,6 +251,136 @@ class DLM_File_Manager {
 	 */
 	public function get_file_hashes( $file_path ) {
 		return download_monitor()->service( 'hasher' )->get_file_hashes( $file_path );
+	}
+
+	/**
+	 * Return the secured file path or url of the downloadable file. Should not let restricted files or out of root files to be downloaded.
+	 *
+	 * @param string $file The file path/url
+	 * @param bool $relative Wheter or not to return a relative path. Default is false 
+	 * 
+	 * @return string The secured file path/url
+	 * @since 4.5.9
+	 */
+	public function get_secure_path( $file, $relative = false ) {
+
+		// ABSPATH needs to be defined
+		if ( ! defined( 'ABSPATH' ) ) {
+			die;
+		}
+
+		list( $file_path, $remote_file ) = $this->parse_file_path( $file );
+
+		// If the file is remote, return the file path. If the file is not located on local server, return the file path.
+		// This is available even if the file is one of the restricted files below. The plugin will let the user download the file,
+		// but the file will be empty, with a 404 error or an error message.
+		if ( $remote_file ) {
+			$restriction = false;
+			return array( $file_path, $remote_file, $restriction );
+		}
+
+		// The list of predefined restricted files.
+		$restricted_files = array(
+			'wp-config.php',
+			'.htaccess',
+			'php.ini',
+		);
+
+		// Specify the files that should be restricted from the download process.
+		$restricted_files = array_merge(
+			$restricted_files,
+			apply_filters(
+				'dlm_file_urls_security_files',
+				array()
+			)
+		);
+
+		// Loop through the restricted files and return empty string if found.
+		foreach ( $restricted_files as $restricted_file ) {
+
+			if ( basename( $file_path ) === $restricted_file ) {
+				// If the file is restricted.
+				$restriction = true;
+				return array( $file_path, $remote_file, $restriction );
+			}
+		}
+
+		$allowed_paths = $this->get_allowed_paths();
+		$correct_path  = $this->get_correct_path( $file_path, $allowed_paths );
+
+		// If the file is not in one of the allowed paths, return restriction
+		if ( ! $correct_path || empty( $correct_path ) ) {
+			$restriction = true;
+			return array( $file_path, $remote_file, $restriction );
+		}
+
+		if ( $relative ) {
+			// Now we should get longest commont path from the allowed paths.
+			$common_path = DLM_Utils::longest_common_path( $allowed_paths );
+			// If there is no common path, or is emtpy or is just a slash, return the file path, else do the replacement.
+			if ( strlen( $common_path ) > 1 ) {
+				$file_path = str_replace( $common_path, '', $file_path );
+			}
+		}
+
+		$restriction = false;
+		return array( $file_path, $remote_file, $restriction );
+
+	}
+
+	/**
+	 * Get file allowed paths
+	 *
+	 * @return array
+	 * @since 4.5.92
+	 */
+	public function get_allowed_paths() {
+
+		$abspath_sub       = untrailingslashit( ABSPATH );
+		$user_defined_path = get_option( 'dlm_downloads_path' );
+		$allowed_paths     = array();
+
+		if ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) {
+			$content_dir   = str_replace( 'wp-content', '', untrailingslashit( WP_CONTENT_DIR ) );
+			$allowed_paths = array( $abspath_sub, $content_dir );
+		} else {
+			$allowed_paths = array( $abspath_sub );
+		}
+
+		if ( $user_defined_path ) {
+			$allowed_paths[] = $user_defined_path;
+		}
+		return $allowed_paths;
+	}
+
+	/**
+	 * Return the correct path for the file by comparing the file path string with the allowed paths.
+	 *
+	 * @param string $file_path The current path of the file
+	 * @param array $allowed_paths The allowed paths of the files
+	 * 
+	 * @return string The correct path of the file
+	 * @since 4.5.92
+	 */
+	public function get_correct_path( $file_path, $allowed_paths ) {
+
+		/* We assume first assume that the path is false, as the ABSPATH is always allowed asnd should always be in the
+		 * allowed paths.
+		 */
+		$correct_path = false;
+
+		if ( ! empty( $allowed_paths ) ) {
+			foreach ( $allowed_paths as $allowed_path ) {
+
+				// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
+				if ( false !== strpos( $file_path, $allowed_path ) ) {
+					$correct_path = $allowed_path;
+					break;
+				}
+			}
+		}
+
+		return $correct_path;
 	}
 
 }

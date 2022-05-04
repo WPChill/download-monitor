@@ -2,6 +2,7 @@
 
 class DLM_Custom_Actions {
 
+	private $ignored_meta = array( '_edit_last', '_edit_lock', '_download_count' );	
 	/**
 	 * Setup custom actions
 	 */
@@ -15,6 +16,23 @@ class DLM_Custom_Actions {
 		add_action( 'bulk_edit_custom_box', array( $this, 'bulk_edit' ), 10, 2 );
 		add_action( 'quick_edit_custom_box',  array( $this, 'quick_edit' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'bulk_and_quick_edit_save_post' ), 10, 2 );
+
+		// duplicate download
+		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
+		add_action( 'wp_ajax_dlm_download_duplicator_duplicate', array( $this, 'ajax_duplicate_download' ) );
+
+		// duplicate Admin Notice
+		if ( isset( $_GET['dlm-download-duplicator-success'] ) ) {
+			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+		}
+
+		// duplicate AAM access
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		if ( is_plugin_active( 'dlm-advanced-access-manager/dlm-advanced-access-manager.php' ) ) {
+			require_once( 'Duplicate/DownloadDuplicatorAAM.php' );
+			$aam_compat = new DLM_Download_Duplicator_AAM();
+			$aam_compat->setup();
+		}
 	}
 
 	/**
@@ -37,13 +55,13 @@ class DLM_Custom_Actions {
 		}
 
 		$r                 = array();
+		$r['taxonomy']     = 'dlm_download_category';
 		$r['pad_counts']   = 1;
 		$r['hierarchical'] = $hierarchical;
 		$r['hide_empty']   = 1;
 		$r['show_count']   = $show_counts;
 		$r['selected']     = ( isset( $wp_query->query['dlm_download_category'] ) ) ? $wp_query->query['dlm_download_category'] : '';
-
-		$r['menu_order'] = false;
+		$r['menu_order']   = false;
 
 		if ( $orderby == 'order' ) {
 			$r['menu_order'] = 'asc';
@@ -51,7 +69,7 @@ class DLM_Custom_Actions {
 			$r['orderby'] = $orderby;
 		}
 
-		$terms = get_terms( 'dlm_download_category', $r );
+		$terms = get_terms( $r );
 
 		if ( ! $terms ) {
 			return;
@@ -143,9 +161,14 @@ class DLM_Custom_Actions {
 					'orderby'  => 'meta_value'
 				) );
 
-			} elseif ( 'members_only' == $vars['orderby'] ) {
+			} elseif ( 'locked_download' == $vars['orderby'] ) {
 				$vars = array_merge( $vars, array(
-					'meta_key' => '_members_only',
+					'meta_query' => array(
+						'relation' => 'OR',
+						array(
+							'key' => '_members_only',
+						),
+					),
 					'orderby'  => 'meta_value'
 				) );
 
@@ -159,7 +182,7 @@ class DLM_Custom_Actions {
 
 		do_action( 'dlm_backwards_compatibility', $vars );
 
-		return apply_filters( 'dlm_backwards_compatibility_query_args', $vars );
+		return apply_filters( 'dlm_admin_sort_columns', $vars);
 	}
 
 	/**
@@ -308,4 +331,127 @@ class DLM_Custom_Actions {
 		return $post_id;
 	}
 
+	/**
+	 * Add 'Duplicate Download' to row actions
+	 *
+	 * @param $actions
+	 * @param $post
+	 *
+	 * @return array
+	 */
+	public function row_actions( $actions, $post ) {
+
+		// Only for downloads
+		if ( 'dlm_download' === $post->post_type && 'trash' !== $post->post_status ) {
+			$actions['dlm_duplicate_download'] = '<a href="javascript:;" class="dlm-duplicate-download" rel="' . $post->ID . '" data-value="' . wp_create_nonce( 'dlm_duplicate_download_nonce' ) . '">' . __( 'Duplicate Download', 'dlm-download-duplicator' ) . '</a>';
+		}
+
+		return $actions;
+	}
+
+
+	/**
+	 * AJAX callback, duplicate download
+	 */
+	public function ajax_duplicate_download() {
+
+		// Check AJAX nonce
+		check_ajax_referer( 'dlm_duplicate_download_nonce', 'nonce' );
+
+		// Download ID
+		$download_id = absint( $_POST['download_id'] );
+
+		try {
+
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+
+			// get file version now because they're reset after the persist
+			$file_versions = $download->get_versions();
+
+			// set id to 0 and save it, this will create a new download
+			$download->set_id( 0 );
+			download_monitor()->service( 'download_repository' )->persist( $download );
+
+			// Set Meta's
+			$old_metas = get_post_meta( $download_id );
+			if ( count( $old_metas ) > 0 ) {
+				foreach ( $old_metas as $om_key => $om_vals ) {
+					if ( ! in_array( $om_key, $this->ignored_meta ) ) {
+						foreach ( $om_vals as $om_val ) {
+							add_post_meta( $download->get_id(), $om_key, $om_val );
+						}
+					}
+				}
+			}
+
+			// Set Tags
+			$old_tags = wp_get_post_terms( $download_id, 'dlm_download_tag' );
+			if ( is_array( $old_tags ) && count( $old_tags ) > 0 ) {
+				$tag_ids = array();
+				foreach ( $old_tags as $old_tag ) {
+					$tag_ids[] = $old_tag->name;
+				}
+				wp_set_post_terms( $download->get_id(), $tag_ids, 'dlm_download_tag', false );
+			}
+
+			// Set Categories
+			$old_cats = wp_get_post_terms( $download_id, 'dlm_download_category' );
+			if ( is_array( $old_cats ) && count( $old_cats ) > 0 ) {
+				$cat_ids = array();
+				foreach ( $old_cats as $old_cat ) {
+					$cat_ids[] = $old_cat->term_id;
+				}
+				wp_set_post_terms( $download->get_id(), $cat_ids, 'dlm_download_category', false );
+			}
+
+			// loop versions
+			$vr = download_monitor()->service( 'version_repository' );
+			if ( count( $file_versions ) > 0 ) {
+				/** @var DLM_Download_Version $file_version */
+				foreach ( $file_versions as $file_version ) {
+
+					// set new data
+					$file_version->set_id( 0 );
+					$file_version->set_download_id( $download->get_id() );
+					$vr->persist( $file_version );
+
+					// Set meta values for this Version
+					$old_file_metas = get_post_meta( $file_version );
+					if ( is_array( $old_file_metas ) && count( $old_file_metas ) > 0 ) {
+						foreach ( $old_file_metas as $omf_key => $omf_vals ) {
+							if ( ! in_array( $omf_key, $this->ignored_meta ) ) {
+								foreach ( $omf_vals as $omf_val ) {
+									add_post_meta( $file_version->get_id(), $omf_key, $omf_val );
+								}
+
+							}
+						}
+					}
+				}
+			}
+
+			// firing 'dlm_download_duplicator_download_duplicated' with new and old download id
+			do_action( 'dlm_download_duplicator_download_duplicated', $download->get_id(), $download_id );
+
+			// Done
+			wp_send_json( array(
+				'result'      => 'success',
+				'success_url' => admin_url( 'edit.php?post_type=dlm_download&dlm-download-duplicator-success=1' )
+			) );
+
+		} catch ( Exception $exception ) {
+			wp_send_json( array( 'result' => 'false' ) );
+		}
+
+		exit;
+
+	}
+
+	/**
+	 * Display admin notice
+	 */
+	public function admin_notice() {
+		echo '<div class="updated"><p>' . __( 'Download succesfully duplicated!', 'dlm-download-duplicator' ) . '</p></div>' . PHP_EOL;
+	}
 }

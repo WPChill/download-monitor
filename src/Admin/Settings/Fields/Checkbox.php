@@ -38,8 +38,8 @@ class DLM_Admin_Fields_Field_Checkbox extends DLM_Admin_Fields_Field {
 	 */
 	public function render() {
 		?>
-		<label><input id="setting-<?php esc_attr_e( $this->get_name() ); ?>"
-		              name="<?php esc_attr_e( $this->get_name() ); ?>" type="checkbox"
+		<label><input id="setting-<?php echo esc_attr( $this->get_name() ); ?>"
+		              name="<?php echo esc_attr( $this->get_name() ); ?>" type="checkbox"
 		              value="1" <?php checked( '1', $this->get_value() ); ?> /> <?php echo esc_html( $this->get_cb_label() ); ?>
 		</label>
 		<?php

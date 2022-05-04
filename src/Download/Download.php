@@ -351,7 +351,9 @@ class DLM_Download {
 		}
 
 		if ( get_option( 'permalink_structure' ) ) {
-			$link = home_url( '/' . $endpoint . '/' . $value . '/', $scheme );
+			// Fix for translation plugins that modify the home_url
+			$link = get_home_url( null, '', $scheme );
+			$link = $link . '/' . $endpoint . '/' . $value . '/';
 		} else {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
 		}

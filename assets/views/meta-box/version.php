@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<h3>
 		<button type="button" class="remove_file button"><?php echo esc_html__( 'Remove', 'download-monitor' ); ?></button>
 		<div class="handlediv" title="<?php echo esc_attr__( 'Click to toggle', 'download-monitor' ); ?>"></div>
-		<strong>#<?php echo esc_html( $file_id ); ?> &mdash; <?php echo sprintf( wp_kses_post( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ) ), esc_html( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ), esc_html( date_i18n( get_option( 'date_format' ), $file_post_date->format( 'U' ) ) ) ); ?> &mdash; <?php echo sprintf( esc_html( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ) ), esc_html( $file_download_count ) ); ?></strong>
+		<strong>#<?php echo esc_html( $file_id ); ?> &mdash; <?php echo sprintf( wp_kses_post( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ) ),  ( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ), esc_html( date_i18n( get_option( 'date_format' ), $file_post_date->format( 'U' ) ) ) ); ?> &mdash; <?php echo sprintf( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ), esc_html( $file_download_count ) ); ?></strong>
 		<input type="hidden" name="downloadable_file_id[<?php echo esc_attr( $version_increment ); ?>]" value="<?php echo esc_attr( $file_id ); ?>"/>
 		<input type="hidden" class="file_menu_order" name="downloadable_file_menu_order[<?php echo esc_attr( $version_increment ); ?>]"
 		       value="<?php echo esc_attr( $version_increment ); ?>"/>
@@ -33,28 +33,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<p>
 					<?php
-					$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', array(
-						'upload_file'     => array(
-							'text' => __( 'Upload file', 'download-monitor' ),
-							'data' => array(
-								'choose' => __( 'Choose a file', 'download-monitor' ),
-								'update' => __( 'Insert file URL', 'download-monitor' ),
+						$buttons = array(
+							'upload_file'     => array(
+								'text' => __( 'Upload file', 'download-monitor' )
+							),
+							'media_library'     => array(
+								'text' => __( 'Media Library', 'download-monitor' ),
+								'data' => array(
+									'choose' => __( 'Choose a file', 'download-monitor' ),
+									'update' => __( 'Insert file URL', 'download-monitor' ),
+								)
 							)
-						),
-						'browse_for_file' => array(
-							'text' => __( 'Browse for file', 'download-monitor' )
-						)
-					) );
+						);
 
-					foreach ( $buttons as $key => $button ) {
-						echo '<a href="#" class="button dlm_' . esc_attr( $key ) . '" ';
-						if ( ! empty( $button['data'] ) ) {
-							foreach ( $button['data'] as $data_key => $data_value ) {
-								echo 'data-' . esc_attr( $data_key ) . '="' . esc_attr( $data_value ) . '" ';
-							}
+						if( !get_option( 'dlm_turn_off_file_browser', true ) ){
+							$buttons['browse_for_file'] = array( 'text' => __( 'Browse for file', 'download-monitor' ) );
 						}
-						echo '>' . esc_html( $button['text'] ) . '</a> ';
-					}
+
+						$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', $buttons );
+
+						foreach ( $buttons as $key => $button ) {
+							echo '<a href="#" ' . ( 'upload_file' === $key ? 'id="dlm_upload_file_' . absint( $version_increment ) . '"' : '' ) . ' class="button dlm_' . esc_attr( $key ) . '" ';
+							if ( ! empty( $button['data'] ) ) {
+								foreach ( $button['data'] as $data_key => $data_value ) {
+									echo 'data-' . esc_attr( $data_key ) . '="' . esc_attr( $data_value ) . '" ';
+								}
+							}
+							echo '>' . esc_html( $button['text'] ) . '</a> ';
+						}
 					?>
 				</p>
 

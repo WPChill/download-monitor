@@ -11,22 +11,21 @@ class Orders {
 	 * Setup admin order page
 	 */
 	public function setup() {
-		add_filter( 'dlm_admin_menu_links', array( $this, 'orders_menu' ), 30 );
+		add_filter( 'dlm_shop_admin_menu_links', array( $this, 'orders_menu' ), 50, 1 );
 	}
 
 	/**
 	 * Add settings menu item
 	 */
-	public function orders_menu($links) {
+	public function orders_menu( $links ) {
 
-		// Orders page
 		$links[] = array(
 			'page_title' => __( 'Orders', 'download-monitor' ),
-			'menu_title' => __( 'Orders', 'download-monitor' ),
+			'menu_title' => 'Orders',
 			'capability' => 'manage_options',
 			'menu_slug'  => 'download-monitor-orders',
 			'function'   => array( $this, 'view' ),
-			'priority'   => 30,
+			'priority'   => 50,
 		);
 
 		return $links;

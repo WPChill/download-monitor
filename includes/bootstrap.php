@@ -15,6 +15,7 @@ function download_monitor() {
 function _load_download_monitor() {
 	// fetch instance and store in global
 	$GLOBALS['download_monitor'] = download_monitor();
+
 }
 
 // require autoloader
@@ -42,4 +43,5 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 
 	// Multisite blog delete
 	add_filter( 'wpmu_drop_tables', '_download_monitor_mu_delete_blog' );
+
 }

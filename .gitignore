@@ -13,7 +13,10 @@ sftp-config.json
 /deploy/
 .idea
 /tmp/
+cypress
+cypress.json
 download-monitor.zip
+
 
 # Exclude everything in /vendor except our autoload stuff
 vendor/*

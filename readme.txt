@@ -69,7 +69,6 @@ You can contribute localizations via Transifex [https://www.transifex.com/projec
 
 Use the WordPress.org forums for community support. If you spot a bug, you can of course log it on [Github](https://github.com/WPChill/download-monitor/issues/new/choose) instead where we can act upon it more efficiently.
 
-
 == Installation ==
 
 = Automatic installation =

@@ -92,6 +92,8 @@ jQuery( function ( $ ) {
                 numberOfMonths: 1,
                 showButtonPanel: true
             } );
+
+            jQuery(document).trigger( 'dlm_new_file_added', [this, response] );
         } );
 
         return false;
@@ -163,9 +165,9 @@ jQuery( function ( $ ) {
     }
 
     // Uploading files
-    var dlm_upload_file_frame;
+    var dlm_media_library_frame;
 
-    jQuery( document ).on( 'click', '.dlm_upload_file', function ( event ) {
+    jQuery( document ).on( 'click', '.dlm_media_library', function ( event ) {
 
         var $el = $( this );
         var $file_path_field = $el.parent().parent().find( '.downloadable_file_urls' );
@@ -174,8 +176,8 @@ jQuery( function ( $ ) {
         event.preventDefault();
 
         // If the media frame already exists, reopen it.
-        if ( dlm_upload_file_frame ) {
-            dlm_upload_file_frame.close();
+        if ( dlm_media_library_frame ) {
+            dlm_media_library_frame.close();
         }
 
         var downloadable_file_states = [
@@ -185,12 +187,12 @@ jQuery( function ( $ ) {
                 multiple: true,
                 title: $el.data( 'choose' ),
                 priority: 20,
-                filterable: 'uploaded',
+                filterable: 'all',
             } )
         ];
 
         // Create the media frame.
-        dlm_upload_file_frame = wp.media.frames.downloadable_file = wp.media( {
+        dlm_media_library_frame = wp.media.frames.downloadable_file = wp.media( {
             // Set the title of the modal.
             title: $el.data( 'choose' ),
             library: {
@@ -204,9 +206,9 @@ jQuery( function ( $ ) {
         } );
 
         // When an image is selected, run a callback.
-        dlm_upload_file_frame.on( 'select', function () {
+        dlm_media_library_frame.on( 'select', function () {
 
-            var selection = dlm_upload_file_frame.state().get( 'selection' );
+            var selection = dlm_media_library_frame.state().get( 'selection' );
 
             selection.map( function ( attachment ) {
 
@@ -221,14 +223,14 @@ jQuery( function ( $ ) {
         } );
 
         // Set post to 0 and set our custom type
-        dlm_upload_file_frame.on( 'ready', function () {
-            dlm_upload_file_frame.uploader.options.uploader.params = {
+        dlm_media_library_frame.on( 'ready', function () {
+            dlm_media_library_frame.uploader.options.uploader.params = {
                 type: 'dlm_download'
             };
         } );
 
         // Finally, open the modal.
-        dlm_upload_file_frame.open();
+        dlm_media_library_frame.open();
     } );
 
 		// Copy button functionality

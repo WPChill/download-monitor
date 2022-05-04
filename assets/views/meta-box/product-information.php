@@ -3,14 +3,14 @@
 	<?php do_action( 'dlm_mb_product_information_start', $product->get_id(), $product ); ?>
 
     <p class="dlm_shop_field_row">
-        <label class="dlm_shop_field_label"><?php printf( esc_html__( 'Price (%s)', 'download-monitor' ), \WPChill\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
+        <label class="dlm_shop_field_label"><?php printf( esc_html__( 'Price (%s)', 'download-monitor' ), esc_html( \WPChill\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ) ); ?></label>
         <span class="dlm_shop_field_input">
         <input type="text" name="_dlm_price" value="<?php echo esc_attr( $price ); ?>" class="dlm_shop_input" >
         </span>
     </p>
 
     <p class="dlm_shop_field_row">
-        <label class="dlm_shop_field_label"><?php printf( esc_html__( 'Downloads', 'download-monitor' ), \WPChill\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ); ?></label>
+        <label class="dlm_shop_field_label"><?php printf( esc_html__( 'Downloads', 'download-monitor' ), esc_html( \WPChill\DownloadMonitor\Shop\Services\Services::get()->service( 'currency' )->get_currency_symbol() ) ); ?></label>
         <span class="dlm_shop_field_input">
 
             <select id="dlm_downloads" name="_dlm_downloads[]"

@@ -51,6 +51,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'htaccess_status':
 				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option['icon'], $option['icon-color'], $option['icon-text'], $option['name'], $option['link'], $option['label'] ); 
 				break;
+			case 'htaccess_status':
+				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option );
+				break;
 			default:
 				/**
 				 * do_filter: dlm_setting_field_$type: (null) $field, (array) $option, (String) $value, (String) $placeholder

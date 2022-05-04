@@ -248,10 +248,6 @@ class DLM_Admin_Extensions {
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 			<h1>
 				<?php echo esc_html__( 'Download Monitor Extensions', 'download-monitor' ); ?>
-				<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
-				   class="button dlm-reload-button">
-					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
-				</a>
 			</h1>
 			<?php
 
@@ -276,6 +272,10 @@ class DLM_Admin_Extensions {
 				<h2 class="nav-tab-wrapper">
 					<?php DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab ); ?>
 				</h2>
+				<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
+				   class="button dlm-reload-button">
+					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
+				</a>
 				<?php
 
 				// Available Extensions
@@ -303,12 +303,12 @@ class DLM_Admin_Extensions {
 						}
 
 						echo '<div class="dlm_extension">';
-						echo '<a href="' . esc_url( $extension->url ) . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
+						echo '<a href="https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
 						echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
 						echo '<h3>' . esc_html( $extension->name ) . '</h3>';
 						echo '<div class="extension-desc">' . wp_kses_post( $extension->desc ) . '</div>';
 						echo '<div class="product_footer">';
-						echo '<div class="button button-secondary loop_more">' . esc_html__( 'View Extension', 'download-monitor' ) . '<span class="dashicons dashicons-external"></span></div>';
+						echo '<div class="button button-secondary loop_more">' . esc_html__( 'Upgrade to Unlock', 'download-monitor' ) . '<span class="dashicons dashicons-external"></span></div>';
 						echo '</div>';
 						echo '</a>';
 						echo '</div>';
@@ -348,10 +348,7 @@ class DLM_Admin_Extensions {
 		<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 		<h1>
 			<?php esc_html_e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
-			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
-			   class="button dlm-reload-button">
-				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
-			</a>
+
 		</h1>
 		<?php
 
@@ -366,7 +363,12 @@ class DLM_Admin_Extensions {
 		DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab );
 
 		echo '</h2>';
-
+		?>
+			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
+				class="button dlm-reload-button">
+				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
+			</a>
+		<?php
 		// Installed Extensions
 		if ( count( $this->installed_extensions ) > 0 ) {
 
@@ -474,6 +476,15 @@ class DLM_Admin_Extensions {
 	 */
 	public function get_extensions(){
 		return $this->installed_extensions;
+	}
+
+	/**
+	 * Get the available extensions
+	 * 
+	 * @since 4.5.8
+	 */
+	public function get_available_extensions() {
+		return $this->extensions;
 	}
 
 	/**

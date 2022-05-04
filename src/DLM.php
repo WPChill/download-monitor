@@ -111,6 +111,9 @@ class WP_DLM {
 			$upgrade_manager = new DLM_Upgrade_Manager();
 			$upgrade_manager->setup();
 
+			// DLM Welcome page
+			DLM_Welcome_Page::get_instance();
+
 			// Legacy Upgrader
 			$lu_page = new DLM_LU_Page();
 			$lu_page->setup();
@@ -124,6 +127,10 @@ class WP_DLM {
 
 			// Admin Download Page Options Upsells
 			new DLM_Admin_OptionsUpsells();
+
+			if( class_exists('DLM_Download_Duplicator') ) {
+				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
+			}
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.
@@ -198,6 +205,8 @@ class WP_DLM {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
 		}
 
+		// Fix to whitelist our function for PolyLang
+		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
 	}
 
 	/**
@@ -564,6 +573,18 @@ class WP_DLM {
 		}
 
 		return $post_link;
+	}
+
+	/**
+	 * Whitelist  class DLM_Download's method get_the_download_link
+	 */
+	public function whitelist_polylang( $list ) {
+
+		$download = new DLM_Download();
+		// We add our download link to polylang's whitelist functions, to be able to retrieve the language in the link
+		$list[] = array('function' => 'get_the_download_link' );
+
+		return $list;
 	}
 
 }

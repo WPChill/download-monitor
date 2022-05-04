@@ -28,6 +28,24 @@ class DLM_Admin_Scripts {
 			DLM_VERSION
 		);
 
+		// Make JavaScript strings translatable
+		wp_localize_script( 'dlm_insert_download', 'dlm_id_strings', $this->get_strings( 'edit-post' ) );
+	}
+
+	/**
+	 * Enqueue only elementor admin specific scripts
+	 */
+	public function elementor_enqueue_scripts(){
+		$dlm = download_monitor();
+
+		// Enqueue Edit Post JS
+		wp_enqueue_script(
+			'dlm_insert_download',
+			plugins_url( '/assets/js/insert-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+			array( 'jquery' ),
+			DLM_VERSION
+		);
+
 		// Notices JS
 		wp_enqueue_script(
 			'dlm_notices',
@@ -75,6 +93,21 @@ class DLM_Admin_Scripts {
 				( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] )
 			) {
 
+				wp_enqueue_media(
+					array(
+						'post' => $post->ID,
+					)
+				);
+
+				// Upload file JS
+				wp_enqueue_script(
+					'dlm_upload_file_js',
+					plugins_url( '/assets/js/upload-file' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+					array( 'jquery' ),
+					DLM_VERSION
+				);
+				wp_add_inline_script( 'dlm_upload_file_js', 'const max_file_size = ' . wp_max_upload_size() . ';', 'before' );
+
 				// Enqueue Edit Download JS
 				wp_enqueue_script(
 					'dlm_edit_download',
@@ -85,6 +118,7 @@ class DLM_Admin_Scripts {
 
 				// Make JavaScript strings translatable
 				wp_localize_script( 'dlm_edit_download', 'dlm_ed_strings', $this->get_strings( 'edit-download' ) );
+
 			}
 
 			// Enqueue Downloadable Files Metabox JS
@@ -128,6 +162,24 @@ class DLM_Admin_Scripts {
 				DLM_VERSION,
 				true
 			);
+			// Make JavaScript strings translatable
+			wp_localize_script(
+				'dlm_download_overview',
+				'dlm_download_overview',
+				array(
+					'copy_shortcode'    => esc_html__( 'Copy shortcode', 'download-monitor' ),
+					'shortcode_copied' => esc_html__( 'Shortcode copied', 'download-monitor' ),
+				)
+			);
+
+			// Enqueue Download Duplicator JS
+			wp_enqueue_script(
+				'dlm_download_duplicator',
+				plugins_url( '/assets/js/download-duplicator' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file()),
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
+			);			
 
 		}
 
@@ -241,8 +293,8 @@ class DLM_Admin_Scripts {
 				break;
 			case 'edit-download':
 				$strings = array(
-					'confirm_delete' => __( 'Are you sure you want to delete this file ? ', 'download - monitor' ),
-					'browse_file'    => __( 'Browse for a file', 'download - monitor' ),
+					'confirm_delete' => __( 'Are you sure you want to delete this file ? ', 'download-monitor' ),
+					'browse_file'    => __( 'Browse for a file', 'download-monitor' ),
 				);
 				break;
 			case 'reports':

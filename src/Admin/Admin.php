@@ -198,7 +198,7 @@ class DLM_Admin {
 
 		$enqueue = false;
 
-		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' ) {
+		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' || 'term.php' == $hook ) {
 			if (
 				( ! empty( $_GET['post_type'] ) && in_array( $_GET['post_type'], array(
 						'dlm_download',
@@ -223,6 +223,10 @@ class DLM_Admin {
 		}
 
 		if ( isset( $_GET['page'] ) && 'download-monitor-orders' === $_GET['page'] ) {
+			$enqueue = true;
+		}
+
+		if ( 'dlm_product' === get_current_screen()->id ) {
 			$enqueue = true;
 		}
 
