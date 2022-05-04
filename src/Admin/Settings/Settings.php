@@ -1,6 +1,6 @@
 <?php
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class DLM_Admin_Settings {
 
@@ -243,14 +243,14 @@ class DLM_Admin_Settings {
 						),
 					),
 					'logging'    => array(
-						'title'  => __( 'Logging', 'download-monitor' ),
+						'title'  => __( 'Reports', 'download-monitor' ),
 						'fields' => array(
 							array(
-								'name'     => 'dlm_enable_logging',
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'name'     => 'dlm_enable_window_logging',
+								'cb_label' => __( 'Prevent duplicate download in Reports', 'download-monitor' ),
 								'std'      => '1',
-								'label'    => __( 'Download Log', 'download-monitor' ),
-								'desc'     => __( 'Log download attempts, IP addresses and more.', 'download-monitor' ),
+								'label'    => __( 'Duplicate download', 'download-monitor' ),
+								'desc'     => __( 'Don\'t add download to reports if user downloads same file multiple times in a 60 seconds download window.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 							array(
@@ -667,8 +667,8 @@ class DLM_Admin_Settings {
 	 */
 	private function get_currency_list_with_symbols() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Helper\Currency $currency_helper */
-		$currency_helper = Services::get()->service( 'currency' );
+		/** @var \WPChill\DownloadMonitor\Shop\Helper\Currency $currency_helper */
+		$currency_helper = Services::get()->service( "currency" );
 
 		$currencies = $currency_helper->get_available_currencies();
 
@@ -727,7 +727,7 @@ class DLM_Admin_Settings {
 
 		/** Generate sections for all gateways */
 		if ( ! empty( $gateways ) ) {
-			/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
+			/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
 
 				// all gateways have an 'enabled' option by default

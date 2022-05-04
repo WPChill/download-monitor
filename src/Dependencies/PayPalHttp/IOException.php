@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPalHttp;
+namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp;
 
 use Throwable;
 

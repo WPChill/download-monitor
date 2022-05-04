@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
+namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
 
-use Never5\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
-use Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
+use WPChill\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
+use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
 
 /**
  * Class Text
- * @package Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer
+ * @package WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer
  *
  * Serializer for Text content types.
  */

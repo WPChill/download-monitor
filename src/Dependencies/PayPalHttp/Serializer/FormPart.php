@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
+namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
 
 class FormPart
 {

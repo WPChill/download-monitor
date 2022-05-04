@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
 
-use Never5\DownloadMonitor\Dependencies\PayPalHttp\Injector;
+use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Injector;
 
 class FPTIInstrumentationInjector implements Injector
 {

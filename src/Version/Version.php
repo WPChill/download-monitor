@@ -126,7 +126,7 @@ class DLM_Download_Version {
 	/**
 	 * @param bool $latest
 	 */
-	public function set_latest($latest) {
+	public function set_latest( $latest ) {
 		$this->latest = $latest;
 	}
 
@@ -353,31 +353,33 @@ class DLM_Download_Version {
 	 * @return void
 	 */
 	public function increase_download_count() {
+		global $wpdb;
 
-		// Let's check if the user wants skip count if admin
-		if ( get_option( 'dlm_log_admin_download_count', false ) ) {
+		$user_id       = 0;
+		$download_date = '';
 
-			// If user really is admin we return
-			$user = wp_get_current_user();
-			if ( in_array( 'administrator', $user->roles, true ) ) {
-				return;
-			}
+		if ( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
 		}
 
-		// File download_count
-		$this->download_count = absint( get_post_meta( $this->id, '_download_count', true ) ) + 1;
-		update_post_meta( $this->id, '_download_count', $this->download_count );
+		$download_date = current_time( 'mysql' );
 
-		// Parent download download_count
-		$parent_download_count = absint( get_post_meta( $this->download_id, '_download_count', true ) ) + 1;
-		update_post_meta( $this->download_id, '_download_count', $parent_download_count );
+		$wpdb->insert(
+			$wpdb->download_log,
+			array(
+				'user_id'       => absint( $user_id ),
+				'download_id'   => absint( $this->download_id ),
+				'version_id'    => absint( $this->id ),
+				'version'       => $this->get_version(),
+				'download_date' => sanitize_text_field( $download_date ),
+			)
+		);
 
 	}
 
 	/**
 	 *
 	 * Deprecated methods below.
-	 *
 	 */
 
 	/**

@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Orders;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Orders;
 
-use Never5\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
+use WPChill\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
 
 class OrdersPatchRequest extends HttpRequest
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
 
-use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway;
-use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api as PayPalApi;
-use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\PayPalHttpClient;
-use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\ProductionEnvironment;
-use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\SandboxEnvironment;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api as PayPalApi;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\PayPalHttpClient;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\ProductionEnvironment;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\SandboxEnvironment;
 
 class PayPalGateway extends PaymentGateway\PaymentGateway {
 
@@ -161,7 +161,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	}
 
 	/**
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return PaymentGateway\Result
 	 */
@@ -193,7 +193,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		}
 
 		// create local transaction
-		/** @var \Never5\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
 		$dlm_transaction = Services::get()->service( 'order_transaction_factory' )->make();
 		$dlm_transaction->set_amount( $order->get_total() );
 		$dlm_transaction->set_processor( $this->get_id() );
@@ -220,7 +220,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	/**
 	 * Get the URL for executing a payment
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */
@@ -233,7 +233,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	}
 
 	/**
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return PayPal\Api\Payer
 	 */
@@ -279,7 +279,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	}
 
 	/**
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return PayPal\Api\Transaction
 	 */

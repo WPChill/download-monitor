@@ -363,8 +363,6 @@ class DLM_Admin_Writepanels {
 		$download->set_members_only( ( isset( $_POST['_members_only'] ) ) );
 		$download->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
 
-		$total_download_count = 0;
-
 		// Process files
 		if ( isset( $_POST['downloadable_file_id'] ) ) {
 
@@ -377,8 +375,6 @@ class DLM_Admin_Writepanels {
 			$downloadable_file_date           = $_POST['downloadable_file_date'];
 			$downloadable_file_date_hour      = $_POST['downloadable_file_date_hour'];
 			$downloadable_file_date_minute    = $_POST['downloadable_file_date_minute'];
-			$downloadable_file_download_count = $_POST['downloadable_file_download_count'];
-			// phpcs:enable
 
 			// loop
 			for ( $i = 0; $i <= max( array_keys( $downloadable_file_id ) ); $i ++ ) {
@@ -395,7 +391,6 @@ class DLM_Admin_Writepanels {
 				$file_date_hour      = absint( $downloadable_file_date_hour[ $i ] );
 				$file_date_minute    = absint( $downloadable_file_date_minute[ $i ] );
 				$file_date           = sanitize_text_field( $downloadable_file_date[ $i ] );
-				$file_download_count = sanitize_text_field( $downloadable_file_download_count[ $i ] );
 				$files               = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
 				$secured_files       = array();
 				$file_manager        = new DLM_File_Manager();
@@ -410,6 +405,7 @@ class DLM_Admin_Writepanels {
 					continue;
 				}
 
+				
 				// format correct file date
 				if ( empty( $file_date ) ) {
 					$file_date_obj = new DateTime( current_time( 'mysql' ) );
@@ -429,16 +425,9 @@ class DLM_Admin_Writepanels {
 					$version->set_date( $file_date_obj );
 					$version->set_mirrors( $secured_files );
 
-					// only set download count if is posted
-					if ( '' !== $file_download_count ) {
-						$version->set_download_count( $file_download_count );
-					}
-
 					// persist version
 					download_monitor()->service( 'version_repository' )->persist( $version );
 
-					// add version download count to total download count
-					$total_download_count += absint( $version->get_download_count() );
 				} catch ( Exception $e ) {
 
 				}
@@ -447,9 +436,6 @@ class DLM_Admin_Writepanels {
 				do_action( 'dlm_save_downloadable_file', $file_id, $i );
 			}
 		}
-
-		// sync download_count
-		$download->set_download_count( $total_download_count );
 
 		// persist download
 		download_monitor()->service( 'download_repository' )->persist( $download );

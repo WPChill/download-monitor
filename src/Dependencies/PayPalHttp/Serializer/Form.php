@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
+namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
 
-use Never5\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
-use Never5\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
+use WPChill\DownloadMonitor\Dependencies\PayPalHttp\HttpRequest;
+use WPChill\DownloadMonitor\Dependencies\PayPalHttp\Serializer;
 
 class Form implements Serializer
 {

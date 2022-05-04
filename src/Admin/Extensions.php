@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-use \Never5\DownloadMonitor\Util;
+use \WPChill\DownloadMonitor\Util;
 
 /**
  * DLM_Admin_Extensions Class
@@ -87,7 +87,7 @@ class DLM_Admin_Extensions {
 		add_filter( 'submenu_file', array( $this, 'remove_submenu_item' ) );
 
 		// Load our required data
-		add_action( 'admin_init', array( $this, 'load_data' ), 15 );
+		add_action( 'dlm_extensions_actions', array( $this, 'load_data' ), 15 );
 
 		add_filter( 'dlm_add_edit_tabs', array( $this, 'dlm_cpt_tabs' ) );
 
@@ -241,6 +241,8 @@ class DLM_Admin_Extensions {
 			delete_transient( 'dlm_extension_json' );
 		}
 
+		DLM_Admin_Helper::do_dlm_admin_page_actions();
+
 		?>
 		<div class="wrap dlm_extensions_wrap">
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
@@ -338,6 +340,8 @@ class DLM_Admin_Extensions {
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
 		}
+
+		DLM_Admin_Helper::do_dlm_admin_page_actions();
 
 		?>
 		<div class="wrap dlm_extensions_wrap">

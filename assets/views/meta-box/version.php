@@ -68,9 +68,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</tr>
 		<tr>
 			<td>
-				<label><?php echo esc_html__( 'Download count', 'download-monitor' ); ?>:</label>
-				<input type="text" class="short" name="downloadable_file_download_count[<?php echo esc_attr( $version_increment ); ?>]"
-				       placeholder="<?php echo esc_attr( $file_download_count ); ?>"/>
+				<label><?php _e( 'Download count', 'download-monitor' ); ?>:</label>
+				<span class="button button-secondary dlm-download-count-button"><?php echo esc_html( $file_download_count ); ?></span>		
 			</td>
 		</tr>
 		<tr>

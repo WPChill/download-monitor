@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway;
 
 class Result {
 

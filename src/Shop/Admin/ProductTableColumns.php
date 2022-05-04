@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Admin;
+namespace WPChill\DownloadMonitor\Shop\Admin;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Shop\Util\PostType;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Util\PostType;
 
 class ProductTableColumns {
 
@@ -49,9 +49,9 @@ class ProductTableColumns {
 	 *
 	 * @return void
 	 */
-	public function column_data( $column, $post_id ) { 
-		
-		/** @var \Never5\DownloadMonitor\Shop\Product\Product $product */
+	public function column_data( $column, $post_id ) {
+
+		/** @var \WPChill\DownloadMonitor\Shop\Product\Product $product */
 		try {
 			$product = Services::get()->service( 'product_repository' )->retrieve_single( $post_id );
 		} catch ( \Exception $exception ) {

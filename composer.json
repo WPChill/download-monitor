@@ -1,5 +1,5 @@
 {
-  "name": "never5/download-monitor",
+  "name": "wpchill/download-monitor",
   "description": "Download Monitor",
   "keywords": [
     "wordpress",
@@ -7,10 +7,10 @@
   ],
   "homepage": "https://www.download-monitor.com/",
   "license": "GPL-2.0+",
-  "author": "Never5",
+  "author": "WPChill",
   "autoload": {
     "psr-4": {
-      "Never5\\DownloadMonitor\\": "src/"
+      "WPChill\\DownloadMonitor\\": "src/"
     },
     "classmap": [
       "src/",
@@ -29,7 +29,7 @@
   "prefer-stable": true,
   "extra": {
     "mozart": {
-      "dep_namespace": "Never5\\DownloadMonitor\\Dependencies\\",
+      "dep_namespace": "WPChill\\DownloadMonitor\\Dependencies\\",
       "dep_directory": "/src/Dependencies/",
       "classmap_directory": "/tmp/mozart",
       "classmap_prefix": "NOTUSED_",

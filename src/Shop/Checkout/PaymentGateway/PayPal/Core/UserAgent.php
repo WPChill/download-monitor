@@ -1,5 +1,5 @@
 <?php
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core;
 
 /**
  * Class PayPalUserAgent

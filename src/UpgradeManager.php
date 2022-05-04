@@ -18,6 +18,11 @@ class DLM_Upgrade_Manager {
 	 */
 	public function check() {
 
+		// check only on admin
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		// Get current version
 		$current_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION, 0 );
 
@@ -107,6 +112,7 @@ class DLM_Upgrade_Manager {
 	 * Update the current version code
 	 */
 	private function update_current_version_code() {
+
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 	}
 

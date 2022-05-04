@@ -133,4 +133,13 @@ class DLM_Services {
 	private function cb_settings() {
 		return new DLM_Settings_Helper();
 	}
+
+	/**
+	 * Dynamically called via get()
+	 *
+	 * @return DLM_Backwards_Compatibility
+	 */
+	private function cb_backwards_compatibility() {
+		return new DLM_Backwards_Compatibility();
+	}
 }

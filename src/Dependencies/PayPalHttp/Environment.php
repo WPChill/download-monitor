@@ -1,10 +1,10 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPalHttp;
+namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp;
 
 /**
  * Interface Environment
- * @package Never5\DownloadMonitor\Dependencies\PayPalHttp
+ * @package WPChill\DownloadMonitor\Dependencies\PayPalHttp
  *
  * Describes a domain that hosts a REST API, against which an HttpClient will make requests.
  * @see HttpClient

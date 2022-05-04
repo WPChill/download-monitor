@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Product;
+namespace WPChill\DownloadMonitor\Shop\Product;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Shop\Util\PostType;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Util\PostType;
 
 class WordPressRepository implements Repository {
 

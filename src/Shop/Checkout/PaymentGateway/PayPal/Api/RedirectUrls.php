@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class RedirectUrls
  *
  * Set of redirect URLs you provide only for PayPal-based payments.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string return_url
  * @property string cancel_url

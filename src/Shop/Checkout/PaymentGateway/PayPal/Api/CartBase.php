@@ -1,25 +1,25 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class CartBase
  *
  * Base properties of a cart resource
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string reference_id
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payee payee
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount amount
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payee payee
  * @property string description
  * @property string note_to_payee
  * @property string custom
  * @property string invoice_number
  * @property string purchase_order
  * @property string soft_descriptor
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentOptions payment_options
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ItemList item_list
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentOptions payment_options
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ItemList item_list
  * @property string notify_url
  * @property string order_url
  */
@@ -51,7 +51,7 @@ class CartBase
     /**
      * Amount being collected.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount $amount
      * 
      * @return $this
      */
@@ -64,7 +64,7 @@ class CartBase
     /**
      * Amount being collected.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Amount
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Amount
      */
     public function getAmount()
     {
@@ -74,7 +74,7 @@ class CartBase
     /**
      * Recipient of the funds in this transaction.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payee $payee
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payee $payee
      * 
      * @return $this
      */
@@ -87,7 +87,7 @@ class CartBase
     /**
      * Recipient of the funds in this transaction.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Payee
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Payee
      */
     public function getPayee()
     {
@@ -258,7 +258,7 @@ class CartBase
     /**
      * Payment options requested for this purchase unit
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentOptions $payment_options
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentOptions $payment_options
      * 
      * @return $this
      */
@@ -271,7 +271,7 @@ class CartBase
     /**
      * Payment options requested for this purchase unit
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\PaymentOptions
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\PaymentOptions
      */
     public function getPaymentOptions()
     {
@@ -281,7 +281,7 @@ class CartBase
     /**
      * List of items being paid for.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ItemList $item_list
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ItemList $item_list
      * 
      * @return $this
      */
@@ -295,7 +295,7 @@ class CartBase
     /**
      * List of items being paid for.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ItemList
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ItemList
      */
     public function getItemList()
     {
@@ -354,7 +354,7 @@ class CartBase
     /**
      * List of external funding being applied to the purchase unit. Each external_funding unit should have a unique reference_id
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[] $external_funding
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[] $external_funding
      *
      * @return $this
      */
@@ -367,7 +367,7 @@ class CartBase
     /**
      * List of external funding being applied to the purchase unit. Each external_funding unit should have a unique reference_id
      * @deprecated Not publicly available
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding[]
      */
     public function getExternalFunding()
     {
@@ -377,7 +377,7 @@ class CartBase
     /**
      * Append ExternalFunding to the list.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding $externalFunding
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding $externalFunding
      * @return $this
      */
     public function addExternalFunding($externalFunding)
@@ -394,7 +394,7 @@ class CartBase
     /**
      * Remove ExternalFunding from the list.
      * @deprecated Not publicly available
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding $externalFunding
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ExternalFunding $externalFunding
      * @return $this
      */
     public function removeExternalFunding($externalFunding)

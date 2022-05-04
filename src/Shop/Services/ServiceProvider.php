@@ -1,10 +1,10 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Services;
+namespace WPChill\DownloadMonitor\Shop\Services;
 
-use Never5\DownloadMonitor\Dependencies\Pimple;
-use Never5\DownloadMonitor\Dependencies\Pimple\Container;
-use Never5\DownloadMonitor\Shop;
+use WPChill\DownloadMonitor\Dependencies\Pimple;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container;
+use WPChill\DownloadMonitor\Shop;
 
 class ServiceProvider implements Pimple\ServiceProviderInterface {
 

@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * @var string $form_data_str
- * @var Never5\DownloadMonitor\Shop\Cart\Cart $cart
+ * @var WPChill\DownloadMonitor\Shop\Cart\Cart $cart
  * @var string $url_cart
  * @var string $url_checkout
  * @var array $field_values

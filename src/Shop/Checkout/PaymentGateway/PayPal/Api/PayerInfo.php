@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class PayerInfo
  *
  * A resource representing a information about Payer.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
  * @property string email_address
  * @property string external_remember_me_id
@@ -25,7 +25,7 @@ namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  * @property string tax_id
  * @property string tax_id_type
  * @property string country_code
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address billing_address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address billing_address
  */
 class PayerInfo
 {
@@ -416,7 +416,7 @@ class PayerInfo
     /**
      * Billing address of the Payer.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address $billing_address
      * 
      * @return $this
      */
@@ -429,7 +429,7 @@ class PayerInfo
     /**
      * Billing address of the Payer.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Address
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Address
      */
     public function getBillingAddress()
     {
@@ -439,7 +439,7 @@ class PayerInfo
     /**
      * @deprecated [DEPRECATED] Use shipping address present in purchase unit or at root level of checkout Session.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress $shipping_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress $shipping_address
      * 
      * @return $this
      */
@@ -452,7 +452,7 @@ class PayerInfo
     /**
      * @deprecated  [DEPRECATED] Use shipping address present in purchase unit or at root level of checkout Session.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress
      */
     public function getShippingAddress()
     {

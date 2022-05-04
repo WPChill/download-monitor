@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple;
 
 /**
  * WPChill\DownloadMonitor\Dependencies\Pimple service provider interface.

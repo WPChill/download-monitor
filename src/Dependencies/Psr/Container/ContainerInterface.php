@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Never5\DownloadMonitor\Dependencies\Psr\Container;
+namespace WPChill\DownloadMonitor\Dependencies\Psr\Container;
 
 /**
  * Describes the interface of a container that exposes methods to read its entries.

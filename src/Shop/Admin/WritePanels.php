@@ -1,10 +1,10 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Admin;
+namespace WPChill\DownloadMonitor\Shop\Admin;
 
-use Never5\DownloadMonitor\Shop\Product\Product;
-use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Shop\Util\PostType;
+use WPChill\DownloadMonitor\Shop\Product\Product;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Util\PostType;
 
 class WritePanels {
 

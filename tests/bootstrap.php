@@ -1,6 +1,6 @@
 <?php
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class DLM_Unit_Tests_Bootstrap {
 
@@ -102,7 +102,7 @@ class DLM_Unit_Tests_Bootstrap {
 
 		Services::get()->replace( 'session_cookie', function () {
 			$testCase = new \WP_UnitTestCase();
-			$mock     = $testCase->getMockBuilder( '\Never5\DownloadMonitor\Shop\Session\Cookie' )
+			$mock     = $testCase->getMockBuilder( '\WPChill\DownloadMonitor\Shop\Session\Cookie' )
 			                     ->getMock();
 
 			$mock->expects( $testCase->any() )

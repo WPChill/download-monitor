@@ -44,10 +44,6 @@ class DLM_Admin {
 		$settings_page = new DLM_Settings_Page();
 		$settings_page->setup();
 
-		// setup logs
-		$log_page = new DLM_Log_Page();
-		$log_page->setup();
-
 		// setup report
 		$reports_page = new DLM_Reports_Page();
 		$reports_page->setup();
@@ -206,12 +202,12 @@ class DLM_Admin {
 			if (
 				( ! empty( $_GET['post_type'] ) && in_array( $_GET['post_type'], array(
 						'dlm_download',
-						\Never5\DownloadMonitor\Shop\Util\PostType::KEY
+						\WPChill\DownloadMonitor\Shop\Util\PostType::KEY
 					) ) )
 				||
 				( ! empty( $post->post_type ) && in_array( $post->post_type, array(
 						'dlm_download',
-						\Never5\DownloadMonitor\Shop\Util\PostType::KEY
+						\WPChill\DownloadMonitor\Shop\Util\PostType::KEY
 					) ) )
 			) {
 				$enqueue = true;
@@ -243,6 +239,7 @@ class DLM_Admin {
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_style( 'jquery-ui-style', download_monitor()->get_plugin_url() . '/assets/css/jquery-ui.css', array(), DLM_VERSION );
 		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ), DLM_VERSION );
+		wp_enqueue_style( 'download_monitor_range_picker', download_monitor()->get_plugin_url() . '/assets/css/daterangepicker.css', array( 'dashicons' ), DLM_VERSION );
 	}
 
 	/**
@@ -256,7 +253,6 @@ class DLM_Admin {
 		 * @hooked DLM_Settings_Page add_settings_page() - 30
 		 * @hooked DLM_Admin_Extensions extensions_pages() - 30
 		 * @hooked DLM_Reports_Page add_admin_menu() - 30
-		 * @hooked DLM_Log_Page add_logs_menu() - 30
 		 * @hooked Orders orders_menu() - 30
 		 *
 		 */

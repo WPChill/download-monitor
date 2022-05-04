@@ -8,14 +8,6 @@ jQuery( function ( $ ) {
 		}
 	} ).change();
 
-	$( '#setting-dlm_enable_logging' ).change( function () {
-		if ( $( this ).is( ":checked" ) === true ) {
-			$( '#setting-dlm_count_unique_ips' ).closest( 'tr' ).show();
-		} else {
-			$( '#setting-dlm_count_unique_ips' ).closest( 'tr' ).hide();
-		}
-	} ).change();
-
 	$( document ).ready( function () {
 
 		// load lazy-select elements

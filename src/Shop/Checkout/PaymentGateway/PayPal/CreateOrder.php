@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
 
-use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Orders\OrdersCreateRequest;
-use Never5\DownloadMonitor\Dependencies\PayPalHttp;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Orders\OrdersCreateRequest;
+use WPChill\DownloadMonitor\Dependencies\PayPalHttp;
 
 class CreateOrder
 {

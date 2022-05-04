@@ -24,11 +24,11 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Psr11;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Psr11;
 
-use Never5\DownloadMonitor\Dependencies\Pimple\Container as PimpleContainer;
-use Never5\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException;
-use Never5\DownloadMonitor\Dependencies\Psr\Container\ContainerInterface;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container as PimpleContainer;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException;
+use WPChill\DownloadMonitor\Dependencies\Psr\Container\ContainerInterface;
 
 /**
  * WPChill\DownloadMonitor\Dependencies\Pimple PSR-11 service locator.

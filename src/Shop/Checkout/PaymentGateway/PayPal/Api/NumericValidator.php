@@ -1,11 +1,11 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class NumericValidator
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Validation
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Validation
  */
 class NumericValidator
 {

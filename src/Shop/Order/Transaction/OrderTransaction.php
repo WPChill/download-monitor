@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Order\Transaction;
+namespace WPChill\DownloadMonitor\Shop\Order\Transaction;
 
 class OrderTransaction {
 

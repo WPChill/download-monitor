@@ -1,10 +1,10 @@
 <?php
 
-namespace Never5\DownloadMonitor\Dependencies\PayPalHttp;
+namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp;
 
 /**
  * Class HttpResponse
- * @package Never5\DownloadMonitor\Dependencies\PayPalHttp
+ * @package WPChill\DownloadMonitor\Dependencies\PayPalHttp
  *
  * Object that holds your response details
  */

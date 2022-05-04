@@ -17,6 +17,7 @@ class DLM_Settings_Page {
 
 		if ( is_admin() ) {
 			$this->load_admin_hooks();
+			add_filter( 'dlm_settings', array( $this, 'access_files_checker_field' ) );
 		}
 	}
 
@@ -68,6 +69,14 @@ class DLM_Settings_Page {
 				case 'dlm_regenerate_robots':
 					if ( $this->regenerate_robots() ) {
 						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
+						exit;
+					}
+					break;
+					
+				case 'dlm_regenerate_protection':
+
+					if ( $this->regenerate_protection() ) {
+						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), DLM_Admin_Settings::get_url() ) );
 						exit;
 					}
 					break;

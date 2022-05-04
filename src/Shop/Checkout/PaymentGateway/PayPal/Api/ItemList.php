@@ -1,16 +1,16 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
 
 /**
  * Class ItemList
  *
  * List of items being paid for.
  *
- * @package Never5\DownloadMonitor\Dependencies\PayPal\Api
+ * @package WPChill\DownloadMonitor\Dependencies\PayPal\Api
  *
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item[] items
- * @property \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress shipping_address
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item[] items
+ * @property \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress shipping_address
  * @property string shipping_method
  * @property string shipping_phone_number
  */
@@ -19,7 +19,7 @@ class ItemList
     /**
      * List of items.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item[] $items
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item[] $items
      * 
      * @return $this
      */
@@ -32,7 +32,7 @@ class ItemList
     /**
      * List of items.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item[]
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item[]
      */
     public function getItems()
     {
@@ -42,7 +42,7 @@ class ItemList
     /**
      * Append Items to the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item $item
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item $item
      * @return $this
      */
     public function addItem($item)
@@ -59,7 +59,7 @@ class ItemList
     /**
      * Remove Items from the list.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\Item $item
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\Item $item
      * @return $this
      */
     public function removeItem($item)
@@ -72,7 +72,7 @@ class ItemList
     /**
      * Shipping address.
      *
-     * @param \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress $shipping_address
+     * @param \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress $shipping_address
      * 
      * @return $this
      */
@@ -85,7 +85,7 @@ class ItemList
     /**
      * Shipping address.
      *
-     * @return \Never5\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress
+     * @return \WPChill\DownloadMonitor\Dependencies\PayPal\Api\ShippingAddress
      */
     public function getShippingAddress()
     {

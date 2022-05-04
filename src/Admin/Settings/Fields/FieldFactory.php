@@ -43,10 +43,13 @@ class DLM_Admin_Fields_Field_Factory {
 				$field = new DLM_Admin_Fields_Field_Desc( $option['name'], $option['text'], $placeholder );
 				break;
 			case 'title':
-				$field = new DLM_Admin_Fields_Field_Title( $option['title'] );
+				$field = new DLM_Admin_Fields_Field_Title( $option['title'] ); 
 				break;
 			case 'gateway_overview':
-				$field = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
+				$field = new \WPChill\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
+				break;
+			case 'htaccess_status':
+				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option['icon'], $option['icon-color'], $option['icon-text'], $option['name'], $option['link'], $option['label'] ); 
 				break;
 			case 'htaccess_status':
 				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option );

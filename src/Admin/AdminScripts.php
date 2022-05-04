@@ -33,6 +33,31 @@ class DLM_Admin_Scripts {
 	}
 
 	/**
+	 * Enqueue only elementor admin specific scripts
+	 */
+	public function elementor_enqueue_scripts(){
+		$dlm = download_monitor();
+
+		// Enqueue Edit Post JS
+		wp_enqueue_script(
+			'dlm_insert_download',
+			plugins_url( '/assets/js/insert-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+			array( 'jquery' ),
+			DLM_VERSION
+		);
+
+		// Notices JS
+		wp_enqueue_script(
+			'dlm_notices',
+			plugins_url( '/assets/js/notices' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+			array( 'jquery' ),
+			DLM_VERSION
+		);
+
+		// Make JavaScript strings translatable
+		wp_localize_script( 'dlm_insert_download', 'dlm_id_strings', $this->get_strings( 'edit-post' ) );
+	}
+	/**
 	 * Enqueue admin scripts
 	 */
 	public function enqueue_scripts() {
@@ -98,9 +123,9 @@ class DLM_Admin_Scripts {
 
 			// Enqueue Downloadable Files Metabox JS
 			if (
-				( $pagenow == 'post.php' && isset( $post ) && \Never5\DownloadMonitor\Shop\Util\PostType::KEY === $post->post_type )
+				( $pagenow == 'post.php' && isset( $post ) && \WPChill\DownloadMonitor\Shop\Util\PostType::KEY === $post->post_type )
 				||
-				( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && \Never5\DownloadMonitor\Shop\Util\PostType::KEY == $_GET['post_type'] )
+				( $pagenow == 'post-new.php' && isset( $_GET['post_type'] ) && \WPChill\DownloadMonitor\Shop\Util\PostType::KEY == $_GET['post_type'] )
 			) {
 
 				// Enqueue Select2
@@ -158,35 +183,45 @@ class DLM_Admin_Scripts {
 
 		}
 
-		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-reports' === $_GET['page'] ) {
+		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-reports' === $_GET['page'] && ! DLM_DB_Upgrader::do_upgrade() ) {
 
 			// Enqueue Reports JS
 			wp_enqueue_script(
 				'dlm_reports_chartjs',
-				plugins_url( '/assets/js/reports/charts.min.js', $dlm->get_plugin_file() ),
+				plugins_url( '/assets/js/reports/chart' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
+			);
+
+
+			wp_enqueue_script(
+				'dlm_reports_moment',
+				plugins_url( '/assets/js/reports/moment' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION,
 				true
 			);
 
 			wp_enqueue_script(
+				'dlm_reports_datepicker',
+				plugins_url( '/assets/js/reports/jquery.daterangepicker' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery', 'dlm_reports_moment' ),
+				DLM_VERSION,
+				true
+			);
+
+
+			wp_enqueue_script(
 				'dlm_reports',
-				plugins_url( '/assets/js/reports/reports.js', $dlm->get_plugin_file() ),
-				array( 'jquery' ),
+				plugins_url( '/assets/js/reports/reports' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery','dlm_reports_chartjs' ),
 				DLM_VERSION,
 				true
 			);
 
 			// Make JavaScript strings translatable
 			wp_localize_script( 'dlm_reports', 'dlm_rs', $this->get_strings( 'reports' ) );
-
-			wp_enqueue_script(
-				'dlm_reports_date_range_selector',
-				plugins_url( '/assets/js/reports/charts-date-range-selector' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery' ),
-				DLM_VERSION,
-				true
-			);
 
 		}
 
