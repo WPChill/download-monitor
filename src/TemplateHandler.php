@@ -98,6 +98,8 @@ class DLM_Template_Handler {
 
 			include( $template );
 
+			echo '<div id="dlm-' . esc_attr( $download->get_id() ) . '-download__info" data-action="' . ( $download->is_redirect_only() ? 'redirect' : 'download' ) . '" data-id="' . esc_attr( $download->get_id() ) . '" data-slug="' . esc_attr( $download->get_slug() ) . '" data-url="' . esc_url( $download->get_the_download_link() ) . '" class="dlm-hidden-info"> <span class="progress"><span class="progress-inner"></span></span></div>';
+
 			do_action( 'dlm_after_template_part', $template, $slug, $name, $custom_dir, $args );
 			//load_template( $template, false );
 		}

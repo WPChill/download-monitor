@@ -81,13 +81,12 @@ class DLM_Custom_Columns {
 			$this->column_download = $this->get_download( $post->ID );
 		}
 
-		$download = $downloads[0];
 		switch ( $column ) {
 			case "download_title":
 				global $wp_list_table;
 
 				/** @var DLM_Download_Version $file */
-				$file = $download->get_version();
+				$file = $this->column_download->get_version();
 
 				if ( ! $wp_list_table ) {
 					$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
@@ -96,8 +95,8 @@ class DLM_Custom_Columns {
 				$wp_list_table->column_title( $post );
 
 				if ( $file->get_filename() ) {
-					echo '<a class="dlm-file-link" href="' . esc_url( $download->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
-					if ( $size = $download->get_version()->get_filesize_formatted() ) {
+					echo '<a class="dlm-file-link" href="' . esc_url( $this->column_download->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
+					if ( $size = $this->column_download->get_version()->get_filesize_formatted() ) {
 						echo ' &ndash; ' . esc_html( $size );
 					}
 					echo '</code></a>';
@@ -131,7 +130,7 @@ class DLM_Custom_Columns {
 				}
 				break;
 			case "locked_download" :
-				$is_locked = apply_filters( 'dlm_download_is_locked', $download->is_members_only(), $download );
+				$is_locked = apply_filters( 'dlm_download_is_locked', $this->column_download->is_members_only(), $this->column_download );
 				if ( $is_locked ) {
 					echo '<span class="yes">' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
@@ -147,7 +146,7 @@ class DLM_Custom_Columns {
 				break;
 			case "version" :
 				/** @var DLM_Download_Version $file */
-				$file = $download->get_version();
+				$file = $this->column_download->get_version();
 				if ( $file && $file->get_version() ) {
 					echo esc_html( $file->get_version() );
 				} else {
@@ -159,14 +158,7 @@ class DLM_Custom_Columns {
 				echo '<button class="wpchill-tooltip-button copy-dlm-shortcode button button-primary dashicons dashicons-shortcode" style="width:40px;"><div class="wpchill-tooltip-content"><span class="dlm-copy-text">' . esc_html__( 'Copy shortcode', 'download-monitor' ) . '</span><div class="dl-shortcode-copy"><code>[download id="' . absint( $post->ID ) . '"]</code><input type="text" value="[download id=\'' . absint( $post->ID ) . '\']" class="hidden"></div></div></button>';
 				break;
 			case "download_count" :
-				echo number_format( $download->get_download_count(), 0, '.', ',' );
-				break;
-			case 'featured':
-				if ( $this->column_download->is_featured() ) {
-					echo '<img src="' . esc_url( download_monitor()->get_plugin_url() ) . '/assets/images/on.png" alt="yes" />';
-				} else {
-					echo '<span class="na">&ndash;</span>';
-				}
+				echo number_format( $this->column_download->get_download_count(), 0, '.', ',' );
 				break;
 		}
 	}

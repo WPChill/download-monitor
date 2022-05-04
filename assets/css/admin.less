@@ -16,10 +16,9 @@
   vertical-align: top;
 }
 
-/* Logs */
 .post-type-dlm_download {
   h1 {
-    a.dlm-delete-logs {
+    /* a.dlm-delete-logs {
       color: #a00;
 
       &:hover {
@@ -27,7 +26,7 @@
         background: #a00;
         border-color: #7C0900;
       }
-    }
+    } */
   }
 
   .dlm-page-header {
@@ -61,12 +60,13 @@
 
   td.column-shortcode {
     .hidden {
-      display:none;
+      display: none;
     }
   }
 }
-
-#dlm_logs {
+/* Logs have been removed in 4.6.0 */
+/* Logs */
+/* #dlm_logs {
   td {
     padding: 7px 7px;
     vertical-align: middle;
@@ -136,7 +136,7 @@
   .column-date {
     width: 6% !important;
   }
-}
+} */
 
 .post-type-dlm_download {
   .inline-edit-row {
@@ -622,31 +622,31 @@ table.wp-list-table {
       border: 1px solid #ececec;
       margin: 9px 0 !important;
 
-      & .dlm-blury{
+      & .dlm-blury {
         &:before {
-          content:url('../images/ajax-loader.gif');
-          display:block;
+          content: url('../images/ajax-loader.gif');
+          display: block;
           position: absolute;
-          top:50%;
-          transform:translateY(-50%);
-          width:100%;
-          left:0;
-          margin:0 auto;
-          color:#cecece;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 100%;
+          left: 0;
+          margin: 0 auto;
+          color: #cecece;
           text-align: center;
           z-index: 11;
           font-size: 16px;
-         // background-image:url('../images/ajax-loader.gif') center center no-repeat;
+          // background-image:url('../images/ajax-loader.gif') center center no-repeat;
         }
 
         &:after {
-          content:"";
-          display:block;
-          background:rgba(0,0,0,0.5);
-          width:100%;
-          top:0;
-          left:0;
-          margin:0 auto;
+          content: "";
+          display: block;
+          background: rgba(0, 0, 0, 0.5);
+          width: 100%;
+          top: 0;
+          left: 0;
+          margin: 0 auto;
           height: 100%;
           z-index: 10;
           position: absolute;
@@ -804,12 +804,14 @@ table.wp-list-table {
 
     .dlm_browse_for_file {
       float: right;
+
       &:before {
         .iconbefore("\f322");
       }
 
-    .dlm_browse_for_file:before {
-      .iconbefore("\f322");
+      .dlm_browse_for_file:before {
+        .iconbefore("\f322");
+      }
     }
   }
 }
@@ -837,6 +839,7 @@ table.wp-list-table {
     }
   }
 }
+
 #download-monitor-product-information {
   .dlm_information_panel {
     div {
@@ -1062,7 +1065,6 @@ table.wp-list-table {
 
     .dlm-reports {
 
-
       position: relative;
 
       .dlm-loading-data {
@@ -1134,11 +1136,6 @@ table.wp-list-table {
             }
           }
 
-          .dlm_rdrs_actions {
-            width: 70px;
-            padding-left: 10px;
-            text-align: center;
-            float: left;
         }
 
         .dlm-reports-actions {
@@ -1415,15 +1412,6 @@ table.wp-list-table {
           text-align: center;
         }
 
-        &.dlm-line:before {
-          content: "\f238";
-        }
-
-        &.dlm-bar:before {
-          content: "\f185";
-        }
-      }
-
         ul {
           box-sizing: border-box;
           width: 100%;
@@ -1458,18 +1446,6 @@ table.wp-list-table {
               }
             }
           }
-        }
-
-        a:first-child {
-          border-bottom-right-radius: 0;
-          border-top-right-radius: 0;
-          border-right: 0;
-        }
-
-        a:last-child {
-          border-bottom-left-radius: 0;
-          border-top-left-radius: 0;
-          border-left: 0;
         }
 
         table {
@@ -1620,6 +1596,7 @@ table.wp-list-table {
           flex-direction: row;
           margin: 6px 0;
           align-items: center;
+
 
           .dlm-reports-top-downloads__overflower {
             position: absolute;
@@ -2052,14 +2029,15 @@ table.wp-list-table {
 
 /* Extensions */
 .dlm_extensions_wrap {
-  
+
   a.dlm-reload-button {
     float: right;
     position: relative;
     top: -40px;
   }
-  #available-extensions{
-    clear:both;
+
+  #available-extensions {
+    clear: both;
   }
 
   .dlm_extensions {
@@ -2069,7 +2047,7 @@ table.wp-list-table {
     .dlm_extension {
 
       background-color: #FFF;
-      width: calc( 20% - 15px); 
+      width: calc(20% - 15px);
       margin: 0 15px 15px 0;
       display: inline-block;
       vertical-align: top;
@@ -2203,7 +2181,8 @@ table.wp-list-table {
       width: 33%;
     }
   }
-  a:first-child{
+
+  a:first-child {
     margin-right: 10px;
   }
 }
@@ -2221,8 +2200,9 @@ table.wp-list-table {
       width: 30%;
       float: right;
     }
-    .dlm_htaccess_notice{
-      margin-bottom:5px;
+
+    .dlm_htaccess_notice {
+      margin-bottom: 5px;
     }
   }
 
@@ -2234,10 +2214,11 @@ table.wp-list-table {
     margin-left: 10px;
     border-radius: 10px;
   }
+
   #setting-dlm_downloads_path {
-    & + p {
+    &+p {
       strong {
-        color:red;
+        color: red;
       }
     }
   }
@@ -2595,12 +2576,12 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
 */
 
 .wpchill-tooltip {
-	position: relative;
-	display: inline-block;
-	float: left;
-	margin-right: 10px;
+  position: relative;
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
 
-  & > span {
+  &>span {
     cursor: pointer;
     color: #0073aa;
     text-decoration: underline;
@@ -2612,7 +2593,7 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
     position: absolute;
     top: 50%;
     right: -10px;
-    transform: translate( 100% ,-50% );
+    transform: translate(100%, -50%);
     width: 300px;
     background: #000;
     color: #fff;
@@ -2625,7 +2606,7 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
     display: block;
   }
 
-  .wpchill-tooltip-content{
+  .wpchill-tooltip-content {
     &:before {
       content: '';
       width: 0px;
@@ -2637,7 +2618,7 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
       position: absolute;
       top: 50%;
       left: -8px;
-      transform: translateY( -50% );
+      transform: translateY(-50%);
     }
   }
 }
@@ -2665,7 +2646,7 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
     display: block;
   }
 
-  .wpchill-tooltip-content{
+  .wpchill-tooltip-content {
     &:before {
       content: '';
       width: 0px;
@@ -2682,12 +2663,12 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
   }
 }
 
-.dlm-file-link{
-  display:block;
-  margin-top:3px;
+.dlm-file-link {
+  display: block;
+  margin-top: 3px;
 }
 
-.dlm-listing-no-file{
+.dlm-listing-no-file {
   code {
     color: #b32d2e;
   }

@@ -28,24 +28,6 @@ class DLM_Admin_Scripts {
 			DLM_VERSION
 		);
 
-		// Make JavaScript strings translatable
-		wp_localize_script( 'dlm_insert_download', 'dlm_id_strings', $this->get_strings( 'edit-post' ) );
-	}
-
-	/**
-	 * Enqueue only elementor admin specific scripts
-	 */
-	public function elementor_enqueue_scripts(){
-		$dlm = download_monitor();
-
-		// Enqueue Edit Post JS
-		wp_enqueue_script(
-			'dlm_insert_download',
-			plugins_url( '/assets/js/insert-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-			array( 'jquery' ),
-			DLM_VERSION
-		);
-
 		// Notices JS
 		wp_enqueue_script(
 			'dlm_notices',

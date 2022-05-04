@@ -43,14 +43,11 @@ class DLM_Admin_Fields_Field_Factory {
 				$field = new DLM_Admin_Fields_Field_Desc( $option['name'], $option['text'], $placeholder );
 				break;
 			case 'title':
-				$field = new DLM_Admin_Fields_Field_Title( $option['title'] ); 
+				$field = new DLM_Admin_Fields_Field_Title( $option['title'] );
 				break;
 			case 'gateway_overview':
 				$field = new \WPChill\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
-				break;
-			case 'htaccess_status':
-				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option['icon'], $option['icon-color'], $option['icon-text'], $option['name'], $option['link'], $option['label'] ); 
-				break;
+				break;			
 			case 'htaccess_status':
 				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option );
 				break;
@@ -59,7 +56,6 @@ class DLM_Admin_Fields_Field_Factory {
 				 * do_filter: dlm_setting_field_$type: (null) $field, (array) $option, (String) $value, (String) $placeholder
 				 */
 				$field = apply_filters( 'dlm_setting_field_' . $option['type'], $field, $option, $value, $placeholder );
-				
 				break;
 		}
 

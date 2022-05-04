@@ -118,7 +118,6 @@ class DLM_Download_Handler {
 				define( 'DONOTCACHEPAGE', true );
 			}
 
-
 			// Get ID of download
 			$raw_id = sanitize_title( stripslashes( $wp->query_vars[ $this->endpoint ] ) );
 
@@ -373,7 +372,7 @@ class DLM_Download_Handler {
 			header( 'Location: ' . $file_path );
 			exit;
 		}
-
+		
 		$this->download_headers( $file_path, $download, $version );
 
         do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );

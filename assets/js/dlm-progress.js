@@ -3,15 +3,35 @@ let _OBJECT_URL;
 
 function handleDownloadLinkClick(e) {
 	let href = this.getAttribute('href');
+	const hiddenInfo = jQuery('div.dlm-hidden-info[data-url="'+ href +'"]');
+	const action = hiddenInfo.data('action');
+
+	if ( 0 === hiddenInfo.length ) {		
+		p.innerHTML = 'No info <span>&#x2713;</span>';
+		this.parentNode.appendChild(p);
+		return;
+	}
+
+	// If this is a redirect we should bail
+	if ( 'download' !== action ) {
+		return;
+	}
+
+	let span = document.createElement('span');
+	span.innerHTML = ' - download started';
+	hiddenInfo.appendChild(p);
 
 	// Regex to get the id
-	let id = this.parentNode.className.match(/[0-9]/g).join('');
+	const id = hiddenInfo.data('id');
+	const slug = hiddenInfo.data('slug');
 
 	e.preventDefault();
 
-	let request = new XMLHttpRequest();
+	const request = new XMLHttpRequest();
 	// Bind this
-	let button = this;
+	const button = this;
+	let text = button.innerHTML;
+
 	button.setAttribute('href', '#');
 	button.removeAttribute('download');
 	button.setAttribute('disabled', 'disabled');
@@ -53,24 +73,21 @@ function handleDownloadLinkClick(e) {
 				// Trigger click on a.download-complete
 				button.click();
 			});
-			button.style.display = 'none';
-			document.querySelector(
-				`.download-container-${id} .spinner`
-			).style.display = 'none';
 
 			// Append a paragraph to display message
-			let p = document.createElement('p');
-			p.innerHTML = 'Download complete <span>&#x2713;</span>';
+			let span = document.createElement('span');
+			span.innerHTML =  ' - download complete <span>&#x2713;</span>';
 			// Append the paragraph to the download-contaner
-			document.querySelector(`.download-container-${id}`).appendChild(p);
+			hiddenInfo.find('span:not(".spinner")').remove();
+			hiddenInfo.appendChild(span);
 		}
 	};
 	request.addEventListener('progress', function (e) {
 		// Show spinner
-		document.querySelector(
-			`.download-container-${id} .spinner`
-		).style.display = 'block';
+		hiddenInfo.css('visibility','visible');
+		hiddenInfo.find('.spinner').show();
 	});
+
 	request.onerror = function () {
 		console.log('** An error occurred during the transaction');
 	};
