@@ -70,6 +70,19 @@ class ProductTableColumns {
 				}
 
 				$wp_list_table->column_title( $post );
+				$downloads = $product->get_download_ids();
+
+				if ( $downloads && !empty( $downloads ) ) {
+					echo '<div class="product-download__links">';
+					foreach ( $downloads as $download_id ) {
+						$download = $this->get_download( $download_id );
+						echo '<a class="product-download__download-link" target="_blank" href="' . esc_url( get_edit_post_link( $download->get_id() ) ) . '"><code>' . esc_html( $download->get_title() ) . '</code></a>';
+					}
+					echo '</div>';
+
+				} else {
+					echo '<div class="dlm-listing-no-file"><code>' . esc_html__( 'No Downloads provided', 'download-monitor' ) . '</code></div>';
+				}
 				break;
 			case "thumb" :
 				echo wp_kses_post( $product->get_image() );
@@ -122,4 +135,28 @@ class ProductTableColumns {
 
         return $title;
     }
+
+	/**
+	 * Get the download based on post ID, used for setting columns info
+	 *
+	 * @param  mixed $post_id
+	 * @return void
+	 */
+	private function get_download( $post_id ) {
+
+		/** @var DLM_Download $download */
+		$downloads = download_monitor()->service( 'download_repository' )->retrieve(
+			array(
+				'p'           => absint( $post_id ),
+				'post_status' => array( 'any', 'trash' ),
+			),
+			1
+		);
+
+		if ( 0 == count( $downloads ) ) {
+			return;
+		}
+
+		return $downloads[0];
+	}
 }

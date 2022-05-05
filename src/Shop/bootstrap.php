@@ -43,7 +43,7 @@ $post_type->setup();
 if ( is_admin() ) {
 
 	// Setup Shop Admin Helper
-	$shop_admin_helper = \Never5\DownloadMonitor\Shop\Admin\ShopAdminHelper::get_instance();
+	$shop_admin_helper = \WPChill\DownloadMonitor\Shop\Admin\ShopAdminHelper::get_instance();
 
 	// Setup the write panels (meta boxes)
 	$write_panels = new \WPChill\DownloadMonitor\Shop\Admin\WritePanels();
