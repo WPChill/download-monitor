@@ -321,7 +321,16 @@ class WP_DLM {
 			DLM_VERSION, true
 		);
 
-		wp_localize_script( 'dlm_progress_bar', 'dlmProgressVar', array('ajaxUrl'=> admin_url( 'admin-ajax.php' )) );
+		wp_localize_script(
+			'dlm_progress_bar',
+			'dlmProgressVar',
+			array(
+				'ajaxUrl'              => admin_url( 'admin-ajax.php' ),
+				'no_info'              => esc_html( 'No info', 'download-monitor' ),
+				'download_start'       => esc_html( 'preparing download file', 'download-monitor' ),
+				'download_complete'    => esc_html( 'download file prepared', 'download-monitor' ),
+			)
+		);
 
 		do_action( 'dlm_frontend_scripts_after' );
 
