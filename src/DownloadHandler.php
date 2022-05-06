@@ -268,9 +268,13 @@ class DLM_Download_Handler {
 
 		// Check if we got files in this version
 		if ( empty( $file_paths ) ) {
-			header( 'Status: 404' . esc_html__('No file paths defined.', 'download-monitor') );
-			die();
-			// wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
+
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				header( 'Status: 404' . esc_html__('No file paths defined.', 'download-monitor') );
+				die();
+			}
+
+			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
 		// Get a random file (mirror)
@@ -278,9 +282,13 @@ class DLM_Download_Handler {
 
 		// Check if we actually got a path
 		if ( ! $file_path ) {
-			header( 'Status: 404 NoFilePaths, No file paths defined.' );
-			die();
-			// wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
+
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				header( 'Status: 404 NoFilePaths, No file paths defined.' );
+				die();
+			}
+
+			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
 		// Parse file path
@@ -290,6 +298,11 @@ class DLM_Download_Handler {
 		// The return of the get_secure_path function is an array that consists of the path ( string ), remote file ( bool ) and restriction ( bool ).
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( $restriction ) {
+
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				header( 'Status: 403 Access denied, file not in allowed paths.' );
+				die();
+			}
 			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
@@ -298,10 +311,13 @@ class DLM_Download_Handler {
 
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
-				header( "Status: 401 redirect,$redirect" );
-				die();
-				// wp_redirect( $redirect );
-				// exit;
+				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+					header( "Status: 401 redirect,$redirect" );
+					die();
+				}
+
+				wp_redirect( $redirect );
+				exit;
 			} else {
 
 				// get 'no access' page id
@@ -332,19 +348,23 @@ class DLM_Download_Handler {
 						}
 
 						// redirect to no access page
-						header( "Status: 401 redirect,$redirect" );
-						die();
-						// wp_redirect( $no_access_permalink );
+						if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+							header( "Status: 401 redirect,$redirect" );
+							die();
+						}
 
+						wp_redirect( $no_access_permalink );
 						exit; // out
 					}
 
 				}
 
-				// if we get to this point, we have no proper 'no access' page. Fallback to default wp_die
-				header( "Status: 403 AccessDenied, You do not have permission to download this file." );
-				die();
-				// wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
+				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+					// if we get to this point, we have no proper 'no access' page. Fallback to default wp_die
+					header( "Status: 403 AccessDenied, You do not have permission to download this file." );
+					die();
+				}
+				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 
 			}
 
@@ -372,10 +392,10 @@ class DLM_Download_Handler {
 			header( 'Location: ' . $file_path );
 			exit;
 		}
-		
+
 		$this->download_headers( $file_path, $download, $version );
 
-        do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
+		do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
@@ -415,13 +435,13 @@ class DLM_Download_Handler {
 			$range = intval( $range );
 
 			if ( ! $range_end ) {
-				$range_end = $version->get_filesize() ;
+				$range_end = $version->get_filesize();
 			} else {
 				$range_end = intval( $range_end );
 			}
 
 			//$new_length = $range_end - $range;
-			$new_length = ($range_end - $range) + 1;
+			$new_length = ( $range_end - $range ) + 1;
 			header( "HTTP/1.1 206 Partial Content" );
 			header( "Content-Length: $new_length" );
 			header( "Content-Range: bytes {$range}-{$range_end}/{$version->get_filesize()}" );
@@ -430,24 +450,26 @@ class DLM_Download_Handler {
 			$range = false;
 		}
 
-		if ( $this->readfile_chunked( $file_path, false, $range ) ) {
-		//if ( $this->readfile_chunked( $file_path, $range ) ) {
+		if ( $remote_file ) {
+			// Redirect - we can't track if this completes or not
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				header( 'log_status : redirected' );
 
-			// Complete!
-			header( 'log_status : redirected');
+				header( 'Location: ' . $file_path );
+			}
+			$this->log( $download, $version );
 
-			header( 'Location: ' . $file_path );
-			// $this->log( $download, $version );
+		} elseif ( $this->readfile_chunked( $file_path, false, $range ) ) {
 
-		} elseif (  $this->readfile_chunked( $file_path, $range ) ) {
-
-			// Redirect - we can't track if this completes or not.
-			// $this->log( $download, $version );
-			header( 'log_status: complete' );
-
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				header( 'log_status: complete' );
+			}
+			$this->log( $download, $version );
 
 		} else {
-			header( 'log_status : failed');
+			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+				header( 'log_status : failed' );
+			}
 
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
