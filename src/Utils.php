@@ -94,4 +94,43 @@ abstract class DLM_Utils {
 		return false;
 	}
 
+	/*
+	*
+	* Generate html attributes based on array
+	*
+	* @param array atributes
+	*
+	* @return string
+	* @since 4.6.0
+	*
+	*/
+	public static function generate_attributes( $attributes ) {
+		$return = '';
+
+		// Let's unset the inner_html attribute so that it doesn't end up in our attributes
+		if ( isset( $attributes['inner_html'] ) ) {
+			unset( $attributes['inner_html'] );
+		}
+
+		foreach ( $attributes as $name => $value ) {
+
+			if ( is_array( $value ) && 'class' == $name ) {
+				$value = implode( ' ', $value );
+			}elseif ( is_array( $value ) ) {
+				$value = json_encode( $value );
+			}
+
+			if ( in_array( $name, array( 'alt', 'rel', 'title' ) ) ) {
+				$value = str_replace( '<script', '&lt;script', $value );
+				$value = strip_tags( htmlspecialchars( $value ) );
+				$value = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $value );
+			}
+
+			$return .= ' ' . esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
+		}
+
+		return $return;
+
+	}
+
 }

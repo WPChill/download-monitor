@@ -103,7 +103,23 @@ class DLM_Template_Handler {
 				$progress = '<span class="progress box"><span class="progress-inner"></span></span>';
 			}
 
-			echo '<data id="dlm-' . esc_attr( $download->get_id() ) . '-download__info" data-action="' . ( $download->is_redirect_only() ? 'redirect' : 'download' ) . '" data-id="' . esc_attr( $download->get_id() ) . '" data-slug="' . esc_attr( $download->get_slug() ) . '" data-url="' . esc_url( $download->get_the_download_link() ) . '" class="dlm-hidden-info">' . wp_kses_post( $progress ) . '</data>';
+			if ( apply_filters( 'dlm_do_xhr', true, $download ) ) {
+				$xhr_data = apply_filters(
+					'dlm_download_xhr_data',
+					array(
+						'id'          => 'dlm-' . $download->get_id() . '-download__info',
+						'data-id'     => $download->get_id(),
+						'data-slug'   => $download->get_slug(),
+						'data-url'    => $download->get_the_download_link(),
+						'class'       => 'dlm-hidden-info',
+						'data-action' => $download->is_redirect_only() ? 'redirect' : 'download',
+						'inner_html'  => $progress
+					)
+				);
+
+				echo '<data ' . DLM_Utils::generate_attributes( $xhr_data ) . '> ' . wp_kses_post( $xhr_data['inner_html'] ) . '</data';
+
+			}
 
 			do_action( 'dlm_after_template_part', $template, $slug, $name, $custom_dir, $args );
 			//load_template( $template, false );

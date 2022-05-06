@@ -40,7 +40,7 @@ class DLM_Reports_Page {
 			'dlm_insights_navigation',
 			array(
 				'general_info' => array(
-					'tab_label'   => esc_html__( 'General Info', 'download-monitor' ), // Label to be displayed on tab nav.
+					'tab_label'   => esc_html__( 'Overview', 'download-monitor' ), // Label to be displayed on tab nav.
 					'description' => esc_html__( 'General information about your downloads', 'download-monitor' ), // Description to be displayed on tab nav.
 					'callback'    => array( $this, 'general_info' ), // The callback to display the content.
 					'priority'    => 10, // Tab priority.
@@ -101,7 +101,7 @@ class DLM_Reports_Page {
 	public function insights_header() {
 		?>
 		<div class="dlm-insights-header">
-			<h1 class="dlm-reports-heading"><?php esc_html_e( 'Reports overview', 'download-monitor' ) ?></h1>
+			<h1 class="dlm-reports-heading"><?php esc_html_e( 'Overview', 'download-monitor' ) ?></h1>
 			<div class="dlm-insights-navigation">
 				<?php
 				$this->insights_navigation();
