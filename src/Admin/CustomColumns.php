@@ -195,11 +195,11 @@ class DLM_Custom_Columns {
 	 *
 	 * @return string
 	 */
-	public function prepend_id_to_title( $title, $id = null ){
-		if( 'dlm_download' === get_post_type( $id ) ) {
-			if( null !== $id ){
+	public function prepend_id_to_title( $title, $id = null ) {
+		if ( 'dlm_download' === get_post_type( $id ) ) {
+			if ( null !== $id ) {
 				return '#' . $id . ' - ' . $title;
-			}else{
+			} else {
 				return '#' . get_the_ID() . ' - ' . $title;
 			}
 		}

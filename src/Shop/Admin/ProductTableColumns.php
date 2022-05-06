@@ -15,6 +15,7 @@ class ProductTableColumns {
 		add_action( 'manage_' . PostType::KEY . '_posts_custom_column', array( $this, 'column_data' ), 10, 2 );
 		add_filter( 'manage_edit-' . PostType::KEY . '_sortable_columns', array( $this, 'sortable_columns' ) );
 		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ) );
+		add_filter( 'list_table_primary_column', array( $this, 'set_primary_column_name' ), 10, 2 );
 	}
 
 	/**
@@ -72,7 +73,7 @@ class ProductTableColumns {
 				$wp_list_table->column_title( $post );
 				$downloads = $product->get_download_ids();
 
-				if ( $downloads && !empty( $downloads ) ) {
+				if ( $downloads && ! empty( $downloads ) ) {
 					echo '<div class="product-download__links">';
 					foreach ( $downloads as $download_id ) {
 						$download = $this->get_download( $download_id );
@@ -124,23 +125,26 @@ class ProductTableColumns {
 	 *
 	 * @return string
 	 */
-	public function prepend_id_to_title( $title, $id = null ){
-		if( 'dlm_product' === get_post_type( $id ) ) {
-			if( null !== $id ){
+	public function prepend_id_to_title( $title, $id = null ) {
+
+		if ( 'dlm_product' === get_post_type( $id ) ) {
+			if ( null !== $id ) {
 				return '#' . $id . ' - ' . $title;
-			}else{
+			} else {
 				return '#' . get_the_ID() . ' - ' . $title;
 			}
 		}
 
-        return $title;
-    }
+		return $title;
+	}
 
 	/**
 	 * Get the download based on post ID, used for setting columns info
 	 *
 	 * @param  mixed $post_id
+	 * 
 	 * @return void
+	 * @since 4.6.0
 	 */
 	private function get_download( $post_id ) {
 
@@ -153,10 +157,31 @@ class ProductTableColumns {
 			1
 		);
 
-		if ( 0 == count( $downloads ) ) {
+		if ( 0 === count( $downloads ) ) {
 			return;
 		}
 
 		return $downloads[0];
+	}
+
+
+	/**
+	 * Defaults the primary column name to 'download_title'
+	 *
+	 * @access public
+	 *
+	 * @param string $column_name
+	 *
+	 * @return string
+	 * @since 4.6.0
+	 */
+	public function set_primary_column_name( $column_name, $context ){
+
+		if ( 'edit-dlm_product' === $context ) {
+
+			return 'product_title';
+		}
+
+		return $column_name;
 	}
 }
