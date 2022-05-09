@@ -887,7 +887,7 @@ class DLM_Reports {
 		// Append header row
 		dataWrapper.append(headerRow);
 
-		const dataResponse = JSON.parse(JSON.stringify(this.mostDownloaded)).slice(15 * parseInt(offset), 15 * (parseInt(offset + 1)));
+		const dataResponse = JSON.parse(JSON.stringify(this.mostDownloaded)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
 
 		for (let i = 0; i < dataResponse.length; i++) {
 
@@ -905,7 +905,7 @@ class DLM_Reports {
 				lineSection.setAttribute('data-id', j); // we will need this to style each div based on its position in the "table"
 
 				if (j === 0) {
-					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(15 * offset) + i + 1) + '.</span>';
+					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(10 * offset) + i + 1) + '.</span>';
 				} else if (j === 1) {
 
 					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" title="Click to edit download: ' + dataResponse[i].title + '" target="_blank">' + dataResponse[i].title + '</a>';
@@ -929,7 +929,7 @@ class DLM_Reports {
 		wrapper.remove(htmlTarget).append(dataWrapper);
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
-		if (this.mostDownloaded.length > 15) {
+		if (this.mostDownloaded.length > 10) {
 			wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
 		} else {
 			wrapper.parent().find('#downloads-block-navigation button').addClass('hidden');
@@ -964,7 +964,7 @@ class DLM_Reports {
 				instance.setTopDownloads(nextPage);
 
 				// We remove the disable attribute only when there are pages to be shown
-				if (Math.ceil(instance.mostDownloaded.length / 15) > nextPage + 1) {
+				if (Math.ceil(instance.mostDownloaded.length / 10) > nextPage + 1) {
 					jQuery('#downloads-block-navigation').find('button').removeAttr('disabled');
 
 				}
