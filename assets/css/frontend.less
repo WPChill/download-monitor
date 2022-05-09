@@ -201,3 +201,144 @@ nav.download-monitor-pagination, #content nav.download-monitor-pagination {
 .dlm-hidden-info {
   visibility:hidden;
 }
+
+/**
+* Progress bar
+*/
+
+@keyframes infinite-spinning {
+  from {
+      transform: rotate(0)
+  }
+
+  to {
+      transform: rotate(360deg)
+  }
+}
+
+data.dlm-hidden-info {
+  position: relative;
+  span {
+    font-weight: 700;
+    color: green
+  }
+}
+
+.dlm-hidden-info {
+  .progress {
+
+      &.dlm-visible-spinner {
+        display: inline-block;
+        visibility: visible;
+      }
+
+      &.box {
+        width: 100%;
+        span.download-done {
+          &::after {
+            content: '✓'
+          }
+        }
+
+        .progress-inner {
+          height: 6px;
+          top: 0;
+          width: 0%;
+          -webkit-transition: width .3s, opacity .3s;
+          transition: width .3s, opacity .3s;
+          position: absolute;
+          left: 0;
+          background: #006080;
+          animation: none;
+        }
+
+      }
+
+      .progress-inner {
+      display: none;
+      width: 75px;
+      position: relative;
+      margin-left: 15px;
+      .dlm-visible-spinner {
+        display: inline-block;
+        visibility: visible;
+      }
+    }
+  } 
+}
+
+a.download-button,
+a.download-link {
+  position: relative;
+
+  &.download-started {
+    color:#fff;
+  }
+
+  &.dlm-download-complete {
+    &::after {
+      content: '✓';
+      width:20px;
+      right:-30px;
+      position: absolute;
+      height: 100%;
+      z-index:3;
+      background:transparent;
+      color:green;
+      bottom:0;
+      left:auto;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    z-index:-1;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    background: red;
+    transition: width .5s;
+  }
+
+  &.download-10:before {
+    width: 10%;
+  }
+
+  &.download-20:before {
+    width: 20%;
+  }
+
+  &.download-30:before {
+    width: 30%;
+  }
+
+  &.download-40:before {
+    width: 40%;
+  }
+
+  &.download-50:before {
+    width: 50%;
+  }
+
+  &.download-60:before {
+    width: 60%;
+  }
+
+  &.download-70:before {
+    width: 70%;
+  }
+
+  &.download-80:before {
+    width: 80%;
+  }
+
+  &.download-90:before {
+    width: 90%;
+  }
+
+  &.download-100:before {
+    width: 100%;
+  }
+}

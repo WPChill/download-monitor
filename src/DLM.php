@@ -307,13 +307,6 @@ class WP_DLM {
 			);
 		}
 
-		wp_enqueue_style(
-			'dlm_progress_bar',
-			plugins_url( '/assets/css/dlm_progress_bar.css', $this->get_plugin_file() ),
-			array(),
-			DLM_VERSION
-		);
-
 		wp_enqueue_script(
 			'dlm_progress_bar',
 			plugins_url( '/assets/js/dlm-progress.js', $this->get_plugin_file() ),
@@ -325,10 +318,8 @@ class WP_DLM {
 			'dlm_progress_bar',
 			'dlmProgressVar',
 			array(
-				'ajaxUrl'              => admin_url( 'admin-ajax.php' ),
-				'no_info'              => esc_html( 'No info', 'download-monitor' ),
-				'download_start'       => esc_html( 'preparing download file', 'download-monitor' ),
-				'download_complete'    => esc_html( 'download file prepared', 'download-monitor' ),
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( 'dlm_ajax_nonce' ),
 			)
 		);
 

@@ -28,8 +28,10 @@ class DLM_Download_Handler {
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
 		add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
-		add_action('wp_ajax_log_download', array( $this, 'log_download' ));
-		add_action('wp_ajax_nopriv_log_download', array( $this, 'log_download' ));
+		add_action( 'wp_ajax_log_download', array( $this, 'log_download' ) );
+		add_action( 'wp_ajax_nopriv_log_download', array( $this, 'log_download' ) );
+		add_action( 'wp_ajax_dlm_check_permission', array( $this, 'dlm_check_permission' ) );
+		add_action( 'wp_ajax_nopriv_dlm_check_permission', array( $this, 'dlm_check_permission' ) );
 	}
 
 	/**
@@ -227,7 +229,7 @@ class DLM_Download_Handler {
 	 * @param DLM_Download $download
 	 * @param DLM_Download_Version $version
 	 */
-	private function log( $download, $version ) {
+	private function log( $download, $version, $status = 'completed' ) {
 
 		// Check if logging is enabled.
 		if ( ! DLM_Logging::is_logging_enabled() ) return;
@@ -237,9 +239,12 @@ class DLM_Download_Handler {
 			$log_item = new DLM_Log_Item();
 			$log_item->set_user_id( absint( get_current_user_id() ) );
 			$log_item->set_download_id( absint( $download->get_id() ) );
+			$log_item->set_user_ip( DLM_Utils::get_visitor_ip() );
+			$log_item->set_user_agent( DLM_Utils::get_visitor_ua() );
 			$log_item->set_version_id( absint( $version->get_id() ) );
 			$log_item->set_version( $version->get_version() );
-			$version->increase_download_count();
+			$log_item->set_download_status( $status );
+			$log_item->increase_download_count();
 			DLM_Cookie_Manager::set_cookie( $download );
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
@@ -379,7 +384,7 @@ class DLM_Download_Handler {
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 
-			$this->log( $download, $version );
+			$this->log( $download, $version, 'redirect' );
 
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
@@ -388,7 +393,7 @@ class DLM_Download_Handler {
 			$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
 			$file_path    = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', $correct_path ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
 
-			header("X-Robots-Tag: noindex, nofollow", true);
+			header( "X-Robots-Tag: noindex, nofollow", true );
 			header( 'Location: ' . $file_path );
 			exit;
 		}
@@ -400,21 +405,21 @@ class DLM_Download_Handler {
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
-				$this->log( $download, $version );
+				$this->log( $download, $version, 'completed' );
 
 				header( "X-Sendfile: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-				$this->log( $download, $version );
+				$this->log( $download, $version, 'completed' );
 
 				header( "X-LIGHTTPD-send-file: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-				$this->log( $download, $version );
+				$this->log( $download, $version, 'completed' );
 
 				if ( isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
 					// phpcs:ignore
@@ -457,19 +462,21 @@ class DLM_Download_Handler {
 
 				header( 'Location: ' . $file_path );
 			}
-			$this->log( $download, $version );
+			$this->log( $download, $version, 'redirect' );
 
 		} elseif ( $this->readfile_chunked( $file_path, false, $range ) ) {
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				header( 'log_status: complete' );
+				header( 'log_status: downloaded' );
 			}
-			$this->log( $download, $version );
+			$this->log( $download, $version, 'completed' );
 
 		} else {
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 				header( 'log_status : failed' );
 			}
+
+			$this->log( $download, $version, 'failed' );
 
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
@@ -617,12 +624,21 @@ class DLM_Download_Handler {
 		return $status;
 	}
 
+	/**
+	 * AJAX log download
+	 *
+	 * @return void
+	 * @since 4.6.0
+	 */
 	public function log_download() {
-		if( ! isset( $_POST['download_id'] ) ) return;
 
-		$download_id = $_POST['download_id'];
+		check_ajax_referer( 'dlm_ajax_nonce', '_nonce' );
 
-		$download = null;
+		if( ! isset( $_POST['download_id'] ) ) wp_send_json_error( 'No download ID' );
+
+		$download_id = absint( $_POST['download_id'] );
+		$download    = null;
+
 		if ( $download_id > 0 ) {
 			try {
 				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
@@ -635,12 +651,47 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
 
-		$version = $download->get_version();
+		$version   = $download->get_version();
 		$file_name = $version->get_filename();
-		$this->log( $download, $version );
+		$this->log( $download, $version, 'completed' );
 
 		// Send json response
-		wp_send_json_success($file_name);
+		wp_send_json_success( $file_name );
+	}
+
+	/**
+	 * Check for permissions before downloading
+	 *
+	 * @return mixed
+	 * @since 4.6.0
+	 */
+	public function dlm_check_permission() {
+		check_ajax_referer( 'dlm_ajax_nonce', '_nonce' );
+
+		if( ! isset( $_POST['download_id'] ) ) wp_send_json_error( 'No download ID' );
+
+		$download_id = absint( $_POST['download_id'] );
+		$download    = null;
+		if ( $download_id > 0 ) {
+			try {
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+			} catch ( Exception $e ) {
+				wp_send_json_error( 'Download doesn\'t exist.' );
+			}
+		}
+
+		if ( ! $download ) {
+			wp_send_json_error( 'Download doesn\'t exist.' );
+		}
+
+		$version  = $download->get_version();
+		$response = array(
+			'permission'  => apply_filters( 'dlm_can_download', true, $download, $version ),
+			'download_id' => $download_id,
+			'version'     => $version
+		);
+
+		wp_send_json_success( $response );
 	}
 
 }

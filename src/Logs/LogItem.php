@@ -8,6 +8,12 @@ class DLM_Log_Item {
 	/** @var int */
 	private $user_id;
 
+	/** @var string */
+	private $user_ip;
+
+	/** @var string */
+	private $user_agent;
+
 	/** @var int */
 	private $download_id;
 
@@ -16,6 +22,15 @@ class DLM_Log_Item {
 
 	/** @var string */
 	private $version;
+
+	/** @var \DateTime */
+	private $download_date;
+
+	/** @var string */
+	private $download_status;
+
+	/** @var string */
+	private $download_status_message;
 
 	/** @var array */
 	private $meta_data = array();
@@ -46,6 +61,34 @@ class DLM_Log_Item {
 	 */
 	public function set_user_id( $user_id ) {
 		$this->user_id = $user_id;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_user_ip() {
+		return $this->user_ip;
+	}
+
+	/**
+	 * @param string $user_ip
+	 */
+	public function set_user_ip( $user_ip ) {
+		$this->user_ip = $user_ip;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_user_agent() {
+		return $this->user_agent;
+	}
+
+	/**
+	 * @param string $user_agent
+	 */
+	public function set_user_agent( $user_agent ) {
+		$this->user_agent = $user_agent;
 	}
 
 	/**
@@ -88,6 +131,48 @@ class DLM_Log_Item {
 	 */
 	public function set_version( $version ) {
 		$this->version = $version;
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function get_download_date() {
+		return $this->download_date;
+	}
+
+	/**
+	 * @param DateTime $download_date
+	 */
+	public function set_download_date( $download_date ) {
+		$this->download_date = $download_date;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_download_status() {
+		return $this->download_status;
+	}
+
+	/**
+	 * @param string $download_status
+	 */
+	public function set_download_status( $download_status ) {
+		$this->download_status = $download_status;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_download_status_message() {
+		return $this->download_status_message;
+	}
+
+	/**
+	 * @param string $download_status_message
+	 */
+	public function set_download_status_message( $download_status_message ) {
+		$this->download_status_message = $download_status_message;
 	}
 
 	/**
@@ -136,6 +221,52 @@ class DLM_Log_Item {
 		$meta = $this->get_meta_data();
 
 		return ( is_array( $meta ) && isset( $meta[ $key ] ) );
+	}
+
+	/**
+	 * Increase the version and total download count
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function increase_download_count() {
+		global $wpdb;
+
+		$user_id       = 0;
+		$download_date = '';
+
+		if ( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
+		}
+
+		$download_date = current_time( 'mysql' );
+
+		$result = $wpdb->insert(
+			$wpdb->download_log,
+			array(
+				'user_id'                 => absint( $this->get_user_id() ),
+				'user_ip'                 => $this->get_user_ip(),
+				'user_agent'              => $this->get_user_agent(),
+				'download_id'             => absint( $this->get_download_id() ),
+				'version_id'              => absint( $this->get_version_id() ),
+				'version'                 => $this->get_version(),
+				'download_date'           => sanitize_text_field( $download_date ),
+				'download_status'         => $this->get_download_status(),
+				'download_status_message' => $this->get_download_status_message(),
+			),
+			array(
+				'%d',
+				'%s',
+				'%s',
+				'%d',
+				'%d',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s'
+			)
+		);
 	}
 
 }

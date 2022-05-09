@@ -346,36 +346,6 @@ class DLM_Download_Version {
 		return sanitize_title_with_dashes( $this->version );
 	}
 
-	/**
-	 * Increase the version and total download count
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function increase_download_count() {
-		global $wpdb;
-
-		$user_id       = 0;
-		$download_date = '';
-
-		if ( is_user_logged_in() ) {
-			$user_id = get_current_user_id();
-		}
-
-		$download_date = current_time( 'mysql' );
-
-		$wpdb->insert(
-			$wpdb->download_log,
-			array(
-				'user_id'       => absint( $user_id ),
-				'download_id'   => absint( $this->download_id ),
-				'version_id'    => absint( $this->id ),
-				'version'       => $this->get_version(),
-				'download_date' => sanitize_text_field( $download_date ),
-			)
-		);
-
-	}
 
 	/**
 	 *
