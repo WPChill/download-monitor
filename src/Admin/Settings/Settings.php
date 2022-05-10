@@ -304,6 +304,15 @@ class DLM_Admin_Settings {
 								'priority' => 10
 							),
 							array(
+								'name'  => 'dlm_redo_upgrade',
+								'std'   => '0',
+								'label' => __( 'Recreate upgrade environment', 'download-monitor' ),
+								'desc'  => __( 'Delete the new "dlm_reports_log" table and set the environment for database upgrade. This will not redo the upgrade process but recreate the environment requirements for the upgrade process so you can do the upgrade yourself when you consider.', 'download-monitor' ),
+								'type'  => 'action_button',
+								'link'  => self::get_url() . '&tab=advanced&section=misc',
+								'priority' => 15,
+							),
+							array(
 								'name'     => 'dlm_downloads_path',
 								'std'      => '',
 								'label'    => __( 'Other downloads path', 'download-monitor' ),

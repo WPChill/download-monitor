@@ -72,11 +72,9 @@ class DLM_Settings_Page {
 						exit;
 					}
 					break;
-					
-				case 'dlm_regenerate_protection':
-
-					if ( $this->regenerate_protection() ) {
-						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), DLM_Admin_Settings::get_url() ) );
+				case 'dlm_redo_upgrade':
+					if ( $this->redo_upgrade() ) {
+						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
 						exit;
 					}
 					break;
@@ -122,6 +120,12 @@ class DLM_Settings_Page {
 					break;
 				case 'dlm_regenerate_robots':
 					echo "<p>" . esc_html__( 'Robots.txt file successfully regenerated!', 'download-monitor' ) . "</p>";
+					break;
+				case 'dlm_redo_upgrade':
+					echo "<p>" . esc_html__( 'Environment set for Download Monitor database upgrade!', 'download-monitor' ) . "</p>";
+					break;
+				default:
+					echo "<p>" . esc_html__( 'Download Monitor action completed!', 'download-monitor' ) . "</p>";
 					break;
 			}
 			?>
@@ -642,6 +646,30 @@ Deny from all
 		}
 
 		return false;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	public function redo_upgrade() {
+
+		global $wp, $wpdb, $pagenow;
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+
+		// Drop the dlm_reports_log
+		$drop_statement = "DROP TABLE IF EXISTS {$wpdb->prefix}dlm_reports_log";
+		$wpdb->query( $drop_statement );
+
+		// Delete upgrade history and set the need DB pgrade
+		delete_option( 'dlm_db_upgraded' );
+		set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
+
+		return true;
 	}
 }
 
