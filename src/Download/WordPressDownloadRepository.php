@@ -40,7 +40,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 			$args['offset'] = $offset;
 		}
 
-		return apply_filters( 'dlm_backwards_compatibility_query_args', $args );
+		return apply_filters( 'dlm_query_args_filter', $args );
 	}
 
 	/**
@@ -109,16 +109,18 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 			$sitepress->switch_lang( 'all' );
 		}
 
-		// In order for the query to properly work when ordering by count we need to add the post_type to the filters
-		if ( ! isset( $filters['post_type'] ) ) {
-			$filters['post_type'] = 'dlm_download';
-		}
-
 		$q = new WP_Query();
 
-		do_action( 'dlm_backwards_compatibility', $filters );
+		$filters = $this->filter_query_args( $filters, $limit, $offset );
+		/**
+		 * Add arguments to query before querying
+		 * @hooked ( DLM_Backwards_Compatibility, orderby_compatibility )
+		 * 
+		 * @since 4.6.0
+		 */
+		do_action( 'dlm_query_args', $filters );
 
-		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
+		$posts = $q->query( $filters );
 
 		$items = $this->create_downloads_from_array( $posts );
 

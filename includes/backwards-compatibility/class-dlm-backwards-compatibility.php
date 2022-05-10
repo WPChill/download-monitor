@@ -46,7 +46,7 @@ class DLM_Backwards_Compatibility {
 	public function __construct() {
 
 		add_filter( 'dlm_shortcode_total_downloads', array( $this, 'total_downloads_shortcode' ) );
-		add_action( 'dlm_backwards_compatibility', array( $this, 'orderby_compatibility' ), 15, 1 );
+		add_action( 'dlm_query_args', array( $this, 'orderby_compatibility' ), 15, 1 );
 		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
 		add_filter( 'dlm_add_version_meta_download_count', array( $this, 'meta_download_counts' ), 15, 2 );
 		add_filter( 'dlm_add_meta_download_count', array( $this, 'add_meta_download_count' ), 30, 2 );

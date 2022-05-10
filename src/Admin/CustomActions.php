@@ -180,7 +180,13 @@ class DLM_Custom_Actions {
 			}
 		}
 
-		do_action( 'dlm_backwards_compatibility', $vars );
+		/**
+		 * Add arguments to query before querying
+		 * @hooked ( DLM_Backwards_Compatibility, orderby_compatibility )
+		 * 
+		 * @since 4.6.0
+		 */
+		do_action( 'dlm_query_args', $vars );
 
 		return apply_filters( 'dlm_admin_sort_columns', $vars);
 	}
