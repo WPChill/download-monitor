@@ -11,6 +11,7 @@ class DLM_Download_Handler {
 
 	private $endpoint;
 	private $ep_value;
+	public $dlm_logging;
 
 	/**
 	 * Constructor
@@ -18,6 +19,7 @@ class DLM_Download_Handler {
 	public function __construct() {
 		$this->endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
 		$this->ep_value = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
+		$this->dlm_logging = DLM_Logging::get_instance();
 	}
 
 	/**
@@ -28,8 +30,6 @@ class DLM_Download_Handler {
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
 		add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
-		add_action( 'wp_ajax_log_download', array( $this, 'log_download' ) );
-		add_action( 'wp_ajax_nopriv_log_download', array( $this, 'log_download' ) );
 		add_action( 'wp_ajax_dlm_check_permission', array( $this, 'dlm_check_permission' ) );
 		add_action( 'wp_ajax_nopriv_dlm_check_permission', array( $this, 'dlm_check_permission' ) );
 	}
@@ -221,37 +221,6 @@ class DLM_Download_Handler {
 	}
 
 	/**
-	 * Create a log if logging is enabled
-	 *
-	 * @param string $type
-	 * @param string $status
-	 * @param string $message
-	 * @param DLM_Download $download
-	 * @param DLM_Download_Version $version
-	 */
-	private function log( $download, $version, $status = 'completed' ) {
-
-		// Check if logging is enabled.
-		if ( ! DLM_Logging::is_logging_enabled() ) return;
-		// setup new log item object
-		if( ! DLM_Cookie_Manager::exists( $download ) ) {
-
-			$log_item = new DLM_Log_Item();
-			$log_item->set_user_id( absint( get_current_user_id() ) );
-			$log_item->set_download_id( absint( $download->get_id() ) );
-			$log_item->set_user_ip( DLM_Utils::get_visitor_ip() );
-			$log_item->set_user_agent( DLM_Utils::get_visitor_ua() );
-			$log_item->set_version_id( absint( $version->get_id() ) );
-			$log_item->set_version( $version->get_version() );
-			$log_item->set_download_status( $status );
-			$log_item->increase_download_count();
-			DLM_Cookie_Manager::set_cookie( $download );
-			// persist log item.
-			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
-		}
-	}
-
-	/**
 	 * trigger function.
 	 *
 	 * @access private
@@ -384,7 +353,7 @@ class DLM_Download_Handler {
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 
-			$this->log( $download, $version, 'redirect' );
+			$this->dlm_logging->log( $download, $version, 'redirect' );
 
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
@@ -405,21 +374,21 @@ class DLM_Download_Handler {
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
-				$this->log( $download, $version, 'completed' );
+				$this->dlm_logging->log( $download, $version, 'completed' );
 
 				header( "X-Sendfile: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-				$this->log( $download, $version, 'completed' );
+				$this->dlm_logging->log( $download, $version, 'completed' );
 
 				header( "X-LIGHTTPD-send-file: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-				$this->log( $download, $version, 'completed' );
+				$this->dlm_logging->log( $download, $version, 'completed' );
 
 				if ( isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
 					// phpcs:ignore
@@ -462,21 +431,21 @@ class DLM_Download_Handler {
 
 				header( 'Location: ' . $file_path );
 			}
-			$this->log( $download, $version, 'redirect' );
+			$this->dlm_logging->log( $download, $version, 'redirect' );
 
 		} elseif ( $this->readfile_chunked( $file_path, false, $range ) ) {
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 				header( 'log_status: downloaded' );
 			}
-			$this->log( $download, $version, 'completed' );
+			$this->dlm_logging->log( $download, $version, 'completed' );
 
 		} else {
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 				header( 'log_status : failed' );
 			}
 
-			$this->log( $download, $version, 'failed' );
+			$this->dlm_logging->log( $download, $version, 'failed' );
 
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
@@ -624,43 +593,9 @@ class DLM_Download_Handler {
 		return $status;
 	}
 
-	/**
-	 * AJAX log download
-	 *
-	 * @return void
-	 * @since 4.6.0
-	 */
-	public function log_download() {
-
-		check_ajax_referer( 'dlm_ajax_nonce', '_nonce' );
-
-		if( ! isset( $_POST['download_id'] ) ) wp_send_json_error( 'No download ID' );
-
-		$download_id = absint( $_POST['download_id'] );
-		$download    = null;
-
-		if ( $download_id > 0 ) {
-			try {
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
-			} catch ( Exception $e ) {
-				wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
-			}
-		}
-
-		if ( ! $download ) {
-			wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
-		}
-
-		$version   = $download->get_version();
-		$file_name = $version->get_filename();
-		$this->log( $download, $version, 'completed' );
-
-		// Send json response
-		wp_send_json_success( $file_name );
-	}
 
 	/**
-	 * Check for permissions before downloading
+	 * Check for permissions before downloading on XHR
 	 *
 	 * @return mixed
 	 * @since 4.6.0

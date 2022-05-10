@@ -196,6 +196,15 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Now lets clear all transients.
 			download_monitor()->service( 'transient_manager' )->clear_all_version_transients();
 
+			// Add uuid column to download_log table.
+			global $wpdb;
+			$alter_statement = "ALTER TABLE {$wpdb->download_log} ADD COLUMN uuid VARCHAR(200) AFTER USER_IP;";
+			$hash_statement  = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
+
+			$wpdb->query( $alter_statement );
+			$wpdb->query( $hash_statement );
+
+
 			wp_send_json( array( 'success' => true ) );
 			exit;
 			/*

@@ -12,6 +12,9 @@ class DLM_Log_Item {
 	private $user_ip;
 
 	/** @var string */
+	private $user_uuid;
+
+	/** @var string */
 	private $user_agent;
 
 	/** @var int */
@@ -75,6 +78,20 @@ class DLM_Log_Item {
 	 */
 	public function set_user_ip( $user_ip ) {
 		$this->user_ip = $user_ip;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_user_uuid() {
+		return $this->user_uuid;
+	}
+
+	/**
+	 * @param string $user_ip
+	 */
+	public function set_user_uuid( $user_ip ) {
+		$this->user_uuid = md5( $user_ip );
 	}
 
 	/**
@@ -246,6 +263,7 @@ class DLM_Log_Item {
 			array(
 				'user_id'                 => absint( $this->get_user_id() ),
 				'user_ip'                 => $this->get_user_ip(),
+				'uuid'                    => $this->get_user_uuid(),
 				'user_agent'              => $this->get_user_agent(),
 				'download_id'             => absint( $this->get_download_id() ),
 				'version_id'              => absint( $this->get_version_id() ),
