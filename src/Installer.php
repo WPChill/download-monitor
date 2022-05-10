@@ -228,15 +228,20 @@ class DLM_Installer {
 
 		$dlm_tables = '
 		CREATE TABLE `' . $wpdb->prefix . "download_log` (
-		ID bigint(20) NOT NULL auto_increment,
-		user_id bigint(20) NOT NULL,
-		download_id bigint(20) NOT NULL,
-		version_id bigint(20) NOT NULL,
-		version varchar(200) NOT NULL,
-		download_date datetime DEFAULT NULL,
-		meta_data longtext DEFAULT NULL,
-		PRIMARY KEY  (ID),
-		KEY attribute_name (download_id)
+			ID bigint(20) NOT NULL auto_increment,
+			user_id bigint(20) NOT NULL,
+			user_ip varchar(200) NOT NULL,
+			uuid varchar(200) NOT NULL,
+			user_agent varchar(200) NOT NULL,
+			download_id bigint(20) NOT NULL,
+			version_id bigint(20) NOT NULL,
+			version varchar(200) NOT NULL,
+			download_date datetime DEFAULT NULL,
+			download_status varchar(200) DEFAULT NULL,
+			download_status_message varchar(200) DEFAULT NULL,
+			meta_data longtext DEFAULT NULL,
+			PRIMARY KEY  (ID),
+			KEY attribute_name (download_id)
 		) $collate;
 		";
 		

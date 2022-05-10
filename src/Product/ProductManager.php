@@ -81,7 +81,7 @@ class DLM_Product_Manager {
 					'version' => '4.1.7',
 				),
 				'dlm-amazon-s3'               => array(
-					'version' => '4.0.3',
+					'version' => '4.0.6',
 				),
 				'dlm-mailchimp-lock'          => array(
 					'version' => '4.0.2',
