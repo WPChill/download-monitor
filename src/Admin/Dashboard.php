@@ -22,7 +22,7 @@ class DLM_Admin_Dashboard {
 
 		wp_add_dashboard_widget(
 			'dlm_popular_downloads',
-			__( 'Popular Downloads', 'download-monitor' ),
+			__( 'Top Downloads', 'download-monitor' ),
 			array(
 				$this,
 				'popular_downloads',
