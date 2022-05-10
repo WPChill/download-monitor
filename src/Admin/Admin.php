@@ -190,10 +190,10 @@ class DLM_Admin {
 	public function admin_enqueue_scripts( $hook ) {
 		global $post;
 
-		wp_enqueue_style( 'download_monitor_menu_css', download_monitor()->get_plugin_url() . '/assets/css/menu.css', array(), DLM_VERSION );
+		wp_enqueue_style( 'download_monitor_menu_css', download_monitor()->get_plugin_url() . '/assets/css/menu.min.css', array(), DLM_VERSION );
 
 		if ( $hook == 'index.php' ) {
-			wp_enqueue_style( 'download_monitor_dashboard_css', download_monitor()->get_plugin_url() . '/assets/css/dashboard.css', array(), DLM_VERSION );
+			wp_enqueue_style( 'download_monitor_dashboard_css', download_monitor()->get_plugin_url() . '/assets/css/dashboard.min.css', array(), DLM_VERSION );
 		}
 
 		$enqueue = false;
@@ -237,9 +237,9 @@ class DLM_Admin {
 		wp_enqueue_script( 'jquery-blockui', download_monitor()->get_plugin_url() . '/assets/js/blockui.min.js', array( 'jquery' ), '2.61' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
-		wp_enqueue_style( 'jquery-ui-style', download_monitor()->get_plugin_url() . '/assets/css/jquery-ui.css', array(), DLM_VERSION );
-		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ), DLM_VERSION );
-		wp_enqueue_style( 'download_monitor_range_picker', download_monitor()->get_plugin_url() . '/assets/css/daterangepicker.css', array( 'dashicons' ), DLM_VERSION );
+		wp_enqueue_style( 'jquery-ui-style', download_monitor()->get_plugin_url() . '/assets/css/jquery-ui.min.css', array(), DLM_VERSION );
+		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.min.css', array( 'dashicons' ), DLM_VERSION );
+		wp_enqueue_style( 'download_monitor_range_picker', download_monitor()->get_plugin_url() . '/assets/css/daterangepicker.min.css', array( 'dashicons' ), DLM_VERSION );
 	}
 
 	/**

@@ -293,7 +293,7 @@ class WP_DLM {
 	 */
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
+			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css' );
 		}
 
 		// only enqueue preview stylesheet when we're in the preview
@@ -301,7 +301,7 @@ class WP_DLM {
 			// Enqueue admin css
 			wp_enqueue_style(
 				'dlm_preview',
-				plugins_url( '/assets/css/preview.css', $this->get_plugin_file() ),
+				plugins_url( '/assets/css/preview.min.css', $this->get_plugin_file() ),
 				array(),
 				DLM_VERSION
 			);

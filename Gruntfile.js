@@ -45,7 +45,7 @@ module.exports = function ( grunt ) {
 				cwd: '<%= dirs.css %>/',
 				src: [ '*.css' ],
 				dest: '<%= dirs.css %>/',
-				ext: '.css'
+				ext: '.min.css'
 			}
 		},
 

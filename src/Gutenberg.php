@@ -31,7 +31,7 @@ class DLM_Gutenberg {
 
 		wp_register_style(
 			'dlm_gutenberg_blocks-editor',
-			plugins_url( '/assets/css/gb-editor.css', download_monitor()->get_plugin_file() ),
+			plugins_url( '/assets/css/gb-editor.min.css', download_monitor()->get_plugin_file() ),
 			array( 'wp-edit-blocks' ),
 			DLM_VERSION
 		);
