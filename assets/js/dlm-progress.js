@@ -42,6 +42,8 @@ function handleDownloadClick(e) {
 
 	jQuery.post(dlmProgressVar.ajaxUrl, permission_data, function (res) {
 		if ( res.data.permission ) {
+			triggerObject.file_name = res.data.file_name;
+			triggerObject.cookie_data = res.data.cookie_data;
 			// If the visitor has permission to download, we can start the download
 			retrieveBlob(triggerObject);
 		} else {
@@ -61,7 +63,7 @@ document.querySelectorAll('.download-link,.download-button').forEach(
 );
 
 function retrieveBlob( triggerObject ){
-	const { button, href, hiddenInfo, buttonObj, id } = triggerObject;
+	const { button, href, hiddenInfo, buttonObj, id, file_name, cookie_data } = triggerObject;
 
 	const request = new XMLHttpRequest();
 	const buttonClass = buttonObj.attr('class');
@@ -98,32 +100,28 @@ function retrieveBlob( triggerObject ){
 			_OBJECT_URL = URL.createObjectURL(blob);
 			// Ajax request to update the log
 			let data = {
-				action: 'log_download',
+				action: 'dlm_create_blob',
 				download_id: id,
 				_nonce: dlmProgressVar.nonce
 			};
 
-			jQuery.post(dlmProgressVar.ajaxUrl, data, function (res) {
+			// Remove event listener
+			button.removeEventListener('click', handleDownloadClick);
 
-				// Remove event listener
-				button.removeEventListener('click', handleDownloadClick);
+			// Set the href of the a.download-complete to the object URL
+			button.setAttribute('href', _OBJECT_URL);
+			hiddenInfo.attr('data-url', _OBJECT_URL);
+			// Set the download attribute of the a.download-complete to the file name
+			button.setAttribute('download', `${file_name}`);
+			// Trigger click on a.download-complete
+			button.click();
+			setTimeout(function(){
+				buttonObj.removeClass().addClass(buttonClass + ' dlm-download-complete');
+			},600);
+			// Trigger the `dlm_download_complete` action
+			jQuery(document).trigger( 'dlm_download_downloaded', [ this, button, hiddenInfo, _OBJECT_URL ] );
 
-				let filename = res.data;
-				// Set the href of the a.download-complete to the object URL
-				button.setAttribute('href', _OBJECT_URL);
-				hiddenInfo.attr('data-url', _OBJECT_URL);
-				// Set the download attribute of the a.download-complete to the file name
-				button.setAttribute('download', `${filename}`);
-				// Trigger click on a.download-complete
-				button.click();
-				setTimeout(function(){
-					buttonObj.removeClass().addClass(buttonClass + ' dlm-download-complete');
-				},600);
-				// Trigger the `dlm_download_complete` action
-				jQuery(document).trigger( 'dlm_download_downloaded', [ this, button, hiddenInfo, _OBJECT_URL ] );
-
-				button.addEventListener('click', handleDownloadClick);
-			});
+			button.addEventListener('click', handleDownloadClick);
 
 			// Append the paragraph to the download-contaner
 			hiddenInfo.find('span:not(.progress, .progress-inner)').remove();
@@ -151,6 +149,8 @@ function retrieveBlob( triggerObject ){
 		console.log('** An error occurred during the transaction');
 	};
 	request.open('GET', href, true);
-
+	
+	// Set the cookie to remember the user has downloaded this file
+	//Cookies.set(cookie_data.name,cookie_data.value,{ expires: cookie_data.expires,path: cookie_data.path,domain: cookie_data.domain, secure: cookie_data.secure });
 	request.send();
 }

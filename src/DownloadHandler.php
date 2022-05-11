@@ -94,7 +94,6 @@ class DLM_Download_Handler {
 	 */
 	public function handler() {
 		global $wp, $wpdb;
-
 		// check HTTP method
 		$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : 'GET' );
 		if ( ! in_array( $request_method, apply_filters( 'dlm_accepted_request_methods', array( 'GET', 'POST' ) ) ) ) {
@@ -243,11 +242,7 @@ class DLM_Download_Handler {
 		// Check if we got files in this version
 		if ( empty( $file_paths ) ) {
 
-			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				header( 'Status: 404' . esc_html__('No file paths defined.', 'download-monitor') );
-				die();
-			}
-
+			header( 'Status: 404' . esc_html__('No file paths defined.', 'download-monitor') );
 			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
@@ -257,11 +252,7 @@ class DLM_Download_Handler {
 		// Check if we actually got a path
 		if ( ! $file_path ) {
 
-			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				header( 'Status: 404 NoFilePaths, No file paths defined.' );
-				die();
-			}
-
+			header( 'Status: 404 NoFilePaths, No file paths defined.' );
 			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
@@ -273,10 +264,7 @@ class DLM_Download_Handler {
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( $restriction ) {
 
-			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				header( 'Status: 403 Access denied, file not in allowed paths.' );
-				die();
-			}
+			header( 'Status: 403 Access denied, file not in allowed paths.' );
 			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
@@ -285,11 +273,7 @@ class DLM_Download_Handler {
 
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
-				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-					header( "Status: 401 redirect,$redirect" );
-					die();
-				}
-
+				header( "Status: 401 redirect,$redirect" );
 				wp_redirect( $redirect );
 				exit;
 			} else {
@@ -322,22 +306,14 @@ class DLM_Download_Handler {
 						}
 
 						// redirect to no access page
-						if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-							header( "Status: 401 redirect,$redirect" );
-							die();
-						}
-
+						header( "Status: 401 redirect,$redirect" );
 						wp_redirect( $no_access_permalink );
 						exit; // out
 					}
 
 				}
 
-				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-					// if we get to this point, we have no proper 'no access' page. Fallback to default wp_die
-					header( "Status: 403 AccessDenied, You do not have permission to download this file." );
-					die();
-				}
+				header( "Status: 403 AccessDenied, You do not have permission to download this file." );
 				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 
 			}
@@ -371,7 +347,7 @@ class DLM_Download_Handler {
 
 		do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
-		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
+		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
 				$this->dlm_logging->log( $download, $version, 'completed' );
@@ -426,25 +402,18 @@ class DLM_Download_Handler {
 
 		if ( $remote_file ) {
 			// Redirect - we can't track if this completes or not
-			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				header( 'log_status : redirected' );
-
-				header( 'Location: ' . $file_path );
-			}
+			header( 'log_status : redirected' );
+			header( 'Location: ' . $file_path );
 			$this->dlm_logging->log( $download, $version, 'redirect' );
 
-		} elseif ( $this->readfile_chunked( $file_path, false, $range ) ) {
+		} elseif ( file_exists( $file_path ) ) {
 
-			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				header( 'log_status: downloaded' );
-			}
+			header( 'log_status: completed' );
 			$this->dlm_logging->log( $download, $version, 'completed' );
+			$this->readfile_chunked( $file_path, false, $range );
 
 		} else {
-			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				header( 'log_status : failed' );
-			}
-
+			header( 'log_status : failed' );
 			$this->dlm_logging->log( $download, $version, 'failed' );
 
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
@@ -564,7 +533,7 @@ class DLM_Download_Handler {
 		$chunksize = 1 * ( 1024 * 1024 );
 		$buffer    = '';
 		$cnt       = 0;
-		$handle    = fopen( $file, 'r' );
+		$handle    = fopen( $file, 'rb' );
 
 		if ( $handle === false ) {
 			return false;
@@ -619,13 +588,18 @@ class DLM_Download_Handler {
 			wp_send_json_error( 'Download doesn\'t exist.' );
 		}
 
-		$version  = $download->get_version();
+		$version   = $download->get_version();
+		$file_name = esc_attr( $version->get_filename() );
+
 		$response = array(
-			'permission'  => apply_filters( 'dlm_can_download', true, $download, $version ),
-			'download_id' => $download_id,
-			'version'     => $version
+			'permission'    => apply_filters( 'dlm_can_download', true, $download, $version ),
+			'download_id'   => $download_id,
+			'version'       => $version,
+			'file_name'     => $file_name,
 		);
 
+		// Trigger the log here as the user already has permission to download
+		//$this->dlm_logging->log( $download, $version, 'completed' );
 		wp_send_json_success( $response );
 	}
 

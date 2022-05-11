@@ -25,8 +25,8 @@ class DLM_Logging {
 	 */
 	private function __construct(){
 
-		add_action( 'wp_ajax_log_download', array( $this, 'log_download' ) );
-		add_action( 'wp_ajax_nopriv_log_download', array( $this, 'log_download' ) );
+		add_action( 'wp_ajax_dlm_create_blob', array( $this, 'create_blob' ) );
+		add_action( 'wp_ajax_nopriv_dlm_create_blob', array( $this, 'create_blob' ) );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class DLM_Logging {
 	 * @return void
 	 * @since 4.6.0
 	 */
-	public function log_download() {
+	public function create_blob() {
 
 		check_ajax_referer( 'dlm_ajax_nonce', '_nonce' );
 
@@ -143,8 +143,7 @@ class DLM_Logging {
 		}
 
 		$version   = $download->get_version();
-		$file_name = $version->get_filename();
-		$this->log( $download, $version, 'completed' );
+		$file_name = esc_attr( $version->get_filename() );
 
 		// Send json response
 		wp_send_json_success( $file_name );
