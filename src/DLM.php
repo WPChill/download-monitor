@@ -309,7 +309,7 @@ class WP_DLM {
 
 		wp_enqueue_script(
 			'dlm_progress_bar',
-			plugins_url( '/assets/js/dlm-progress.js', $this->get_plugin_file() ),
+			plugins_url( '/assets/js/dlm-progress' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
 			array('jquery'),
 			DLM_VERSION, true
 		);
