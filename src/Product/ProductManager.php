@@ -54,7 +54,7 @@ class DLM_Product_Manager {
 					'version' => '4.0.2',
 				),
 				'dlm-advanced-access-manager' => array(
-					'version' => '4.0.4',
+					'version' => '4.0.7',
 				),
 				'dlm-email-notification'      => array(
 					'version' => '4.1.7',
