@@ -36,13 +36,13 @@ class DLM_Product_Manager {
 			'dlm_addons_requirements',
 			array(
 				'dlm-buttons'                 => array(
-					'version' => '4.0.3',
+					'version' => '4.0.6',
 				),
 				'dlm-captcha'                 => array(
 					'version' => '4.2.2',
 				),
 				'dlm-downloading-page'        => array(
-					'version' => '4.0.2',
+					'version' => '4.0.4',
 				),
 				'dlm-google-drive'            => array(
 					'version' => '4.0.4',
