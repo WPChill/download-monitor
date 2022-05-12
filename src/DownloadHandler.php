@@ -591,11 +591,39 @@ class DLM_Download_Handler {
 		$version   = $download->get_version();
 		$file_name = esc_attr( $version->get_filename() );
 
+		// Let's check if we have a no-access page
+		$no_access_page_id = get_option( 'dlm_no_access_page', 0 );
+
+		// check if a no access page is set
+		if ( $no_access_page_id > 0 ) {
+			// get permalink of no access page
+			$no_access_permalink = get_permalink( $no_access_page_id );
+			// check if we can find a permalink
+			if ( false !== $no_access_permalink ) {
+
+				//get wordpress permalink structure so we can build the url
+				$structure = get_option('permalink_structure', 0 );
+
+				// append download id to no access URL
+
+				if( '' == $structure || 0 == $structure ){
+					$no_access_permalink = add_query_arg( 'download-id', $download->get_id(), untrailingslashit( $no_access_permalink ) );
+				}else{
+					$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
+				}
+
+				if ( ! $download->get_version()->is_latest() ) {
+					$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
+				}
+			}
+		}
+
 		$response = array(
 			'permission'    => apply_filters( 'dlm_can_download', true, $download, $version ),
 			'download_id'   => $download_id,
 			'version'       => $version,
 			'file_name'     => $file_name,
+			'no_access_url' => $no_access_permalink
 		);
 
 		// Trigger the log here as the user already has permission to download

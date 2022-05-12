@@ -49,8 +49,8 @@ function handleDownloadClick(e) {
 			// If the visitor has permission to download, we can start the download
 			retrieveBlob(triggerObject);
 		} else {
-			if (triggerObject.redirect) {
-				window.location.href = triggerObject.redirect
+			if ( res.data.no_access_url ) {
+				window.location.href = res.data.no_access_url;
 			} else {
 				// If the visitor does not have permission to download, we can show a message
 				triggerObject.buttonObj.after('<span class="dlm-permission-message"> - ' + dlmProgressVar.no_permissions + '</span>');
