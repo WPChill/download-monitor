@@ -104,16 +104,44 @@ class DLM_Template_Handler {
 			}
 
 			if ( apply_filters( 'dlm_do_xhr', true, $download ) ) {
+				// Let's check if we have a no-access page
+				$no_access_page_id = get_option( 'dlm_no_access_page', 0 );
+
+				// check if a no access page is set
+				if ( $no_access_page_id > 0 ) {
+					// get permalink of no access page
+					$no_access_permalink = get_permalink( $no_access_page_id );
+					// check if we can find a permalink
+					if ( false !== $no_access_permalink ) {
+
+						//get wordpress permalink structure so we can build the url
+						$structure = get_option('permalink_structure', 0 );
+
+						// append download id to no access URL
+
+						if( '' == $structure || 0 == $structure ){
+							$no_access_permalink = add_query_arg( 'download-id', $download->get_id(), untrailingslashit( $no_access_permalink ) );
+						}else{
+							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
+						}
+
+						if ( ! $download->get_version()->is_latest() ) {
+							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
+						}
+					}
+				}
+
 				$xhr_data = apply_filters(
 					'dlm_download_xhr_data',
 					array(
-						'id'          => 'dlm-' . $download->get_id() . '-download__info',
-						'data-id'     => $download->get_id(),
-						'data-slug'   => $download->get_slug(),
-						'data-url'    => $download->get_the_download_link(),
-						'class'       => 'dlm-hidden-info',
-						'data-action' => $download->is_redirect_only() ? 'redirect' : 'download',
-						'inner_html'  => $progress
+						'id'            => 'dlm-' . $download->get_id() . '-download__info',
+						'data-id'       => $download->get_id(),
+						'data-slug'     => $download->get_slug(),
+						'data-url'      => $download->get_the_download_link(),
+						'class'         => 'dlm-hidden-info',
+						'data-action'   => $download->is_redirect_only() ? 'redirect' : 'download',
+						'inner_html'    => $progress,
+						'data-redirect' => $no_access_permalink
 					)
 				);
 
