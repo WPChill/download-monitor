@@ -318,8 +318,9 @@ class WP_DLM {
 			'dlm_progress_bar',
 			'dlmProgressVar',
 			array(
-				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'nonce'   => wp_create_nonce( 'dlm_ajax_nonce' ),
+				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+				'nonce'          => wp_create_nonce( 'dlm_ajax_nonce' ),
+				'no_permissions' => __( 'You do not have permission to download this file', 'download-monitor' ),
 			)
 		);
 

@@ -45,7 +45,7 @@ class DLM_Product_Manager {
 					'version' => '4.0.2',
 				),
 				'dlm-google-drive'            => array(
-					'version' => '4.0.1',
+					'version' => '4.0.4',
 				),
 				'dlm-terms-and-conditions'    => array(
 					'version' => '4.0.2',

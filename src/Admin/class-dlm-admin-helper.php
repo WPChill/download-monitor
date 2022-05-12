@@ -21,8 +21,6 @@ class DLM_Admin_Helper {
 	 */
 	public function __construct() {
 
-		add_action( 'admin_init', array( $this, 'set_downloads_edit_actions' ) );
-
 	}
 
 	/**
@@ -126,35 +124,6 @@ class DLM_Admin_Helper {
 		}
 
 		return true;
-	}
-
-	/* Do our actions
-	 * 
-	 * @param bool $extensions Wether to do the extensions action. Default is true
-	 * 
-	 * @since 4.6.0
-	 */
-	public static function do_dlm_admin_page_actions( $extensions = true ) {
-
-		if ( (bool) $extensions ) {
-			do_action( 'dlm_extensions_actions' );
-		}
-	}
-
-	/**
-	 * Do action when viewing downloads list
-	 *
-	 * @return void
-	 *
-	 * @since 4.6.0
-	 */
-	public function set_downloads_edit_actions() {
-
-		global $pagenow;
-
-		if ( 'edit.php' === $pagenow && isset( $_GET['post_type'] ) && 'dlm_download' === $_GET['post_type'] ) {
-			do_action( 'dlm_extensions_actions' );
-		}
 	}
 
 }

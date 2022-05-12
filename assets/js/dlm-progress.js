@@ -48,7 +48,7 @@ function handleDownloadClick(e) {
 			retrieveBlob(triggerObject);
 		} else {
 			// If the visitor does not have permission to download, we can show a message
-			alert('no permissions');
+			triggerObject.buttonObj.after( '<span class="dlm-permission-message"> - ' + dlmProgressVar.no_permissions + '</span>' );
 		}
 	});
 	
