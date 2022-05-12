@@ -592,8 +592,8 @@ class DLM_Download_Handler {
 		$file_name = esc_attr( $version->get_filename() );
 
 		// Let's check if we have a no-access page
-		$no_access_page_id = get_option( 'dlm_no_access_page', 0 );
-
+		$no_access_page_id   = get_option( 'dlm_no_access_page', 0 );
+		$no_access_permalink = false;
 		// check if a no access page is set
 		if ( $no_access_page_id > 0 ) {
 			// get permalink of no access page

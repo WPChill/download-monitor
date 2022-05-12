@@ -43,6 +43,7 @@ class DLM_Installer {
 		$no_access_page_endpoint->setup();
 
 		$installed_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION );
+		$first_install     = ! $installed_version ? true : false;
 
 		if ( $installed_version && version_compare( $installed_version, DLM_UPGRADER_VERSION, '<' ) ) {
 			set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );

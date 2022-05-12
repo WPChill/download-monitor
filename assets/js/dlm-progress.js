@@ -67,7 +67,7 @@ jQuery.each( dlmProgressVar.xhr_links.class, function( $key, $value ){
 	$i = ',';
 	
 });
-console.log(xhr_links);
+
 // Loop through all .download-links buttons and add click event listener to them
 document.querySelectorAll( xhr_links ).forEach(
 	function (button) {
