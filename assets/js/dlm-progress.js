@@ -59,8 +59,17 @@ function handleDownloadClick(e) {
 	});
 }
 
+// Create the classes that we will target
+let xhr_links = '';
+let $i = '';
+jQuery.each( dlmProgressVar.xhr_links.class, function( $key, $value ){
+	xhr_links += $i + ' .' + $value;
+	$i = ',';
+	
+});
+console.log(xhr_links);
 // Loop through all .download-links buttons and add click event listener to them
-document.querySelectorAll('.download-link,.download-button').forEach(
+document.querySelectorAll( xhr_links ).forEach(
 	function (button) {
 		button.addEventListener('click', handleDownloadClick);
 	}, {

@@ -314,6 +314,16 @@ class WP_DLM {
 			DLM_VERSION, true
 		);
 
+		$xhr_links = apply_filters(
+			'dlm_xhr_links',
+			array(
+				'class' => array(
+					'download-link',
+					'download-button'
+				)
+			) 
+		);
+
 		wp_localize_script(
 			'dlm_progress_bar',
 			'dlmProgressVar',
@@ -321,6 +331,7 @@ class WP_DLM {
 				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
 				'nonce'          => wp_create_nonce( 'dlm_ajax_nonce' ),
 				'no_permissions' => __( 'You do not have permission to download this file', 'download-monitor' ),
+				'xhr_links'      => $xhr_links
 			)
 		);
 
