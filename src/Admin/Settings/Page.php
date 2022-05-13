@@ -453,6 +453,10 @@ class DLM_Settings_Page {
 	 */
 	public function access_files_checker_field( $settings ){
 
+		if ( ! self::check_if_dlm_settings() ) {
+			return $settings;
+		}
+
 		$upload_dir    = wp_upload_dir();
 		$htaccess_path = $upload_dir['basedir'] . '/dlm_uploads/.htaccess';
 		$icon          = 'dashicons-dismiss';
@@ -658,6 +662,44 @@ Deny from all
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return void
+	 */
+	public function redo_upgrade() {
+
+		global $wp, $wpdb, $pagenow;
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+
+		// Drop the dlm_reports_log
+		$drop_statement = "DROP TABLE IF EXISTS {$wpdb->prefix}dlm_reports_log";
+		$wpdb->query( $drop_statement );
+
+		// Delete upgrade history and set the need DB pgrade
+		delete_option( 'dlm_db_upgraded' );
+		set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
+
+		return true;
+	}
+
+	/**
+	 * Check if this is Download Monitor's settings page
+	 *
+	 * @return bool
+	 */
+	public static function check_if_dlm_settings() {
+
+		if ( ! isset( $_GET['post_type'] ) || 'dlm_download' !== $_GET['post_type'] || ! isset( $_GET['page'] ) || 'download-monitor-settings' !== $_GET['page'] ) {
+			return false;
+		}
+
+		return true;
 	}
 }
 
