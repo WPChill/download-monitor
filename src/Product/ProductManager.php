@@ -63,10 +63,10 @@ class DLM_Product_Manager {
 					'version' => '4.0.1',
 				),
 				'dlm-gravity-forms'           => array(
-					'version' => '4.0.3',
+					'version' => '4.0.4',
 				),
 				'dlm-ninja-forms'             => array(
-					'version' => '4.1.0',
+					'version' => '4.1.2',
 				),
 				'dlm-email-lock'              => array(
 					'version' => '4.2.2',
