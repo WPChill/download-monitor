@@ -103,7 +103,7 @@ class DLM_Template_Handler {
 				$progress = '<span class="progress box"><span class="progress-inner"></span></span>';
 			}
 
-			if ( apply_filters( 'dlm_do_xhr', true, $download ) ) {
+			if ( isset( $download ) && apply_filters( 'dlm_do_xhr', true, $download ) ) {
 
 				$xhr_data = apply_filters(
 					'dlm_download_xhr_data',

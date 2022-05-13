@@ -378,3 +378,13 @@ a.download-button.download-100:before,
 a.download-link.download-100:before {
   width: 100%;
 }
+html body a.download-button::before {
+  z-index: 0;
+  height: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+html body a.download-button > * {
+  z-index: 2;
+  position: relative;
+}

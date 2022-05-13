@@ -87,7 +87,7 @@ class DLM_Product_Manager {
 					'version' => '4.0.2',
 				),
 				'dlm-page-addon'              => array(
-					'version' => '4.1.4',
+					'version' => '4.1.6',
 				),
 			)
 		);

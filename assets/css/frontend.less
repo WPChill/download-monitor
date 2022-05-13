@@ -342,3 +342,18 @@ a.download-link {
     width: 100%;
   }
 }
+
+html body a.download-button {
+ 
+  &::before { 
+   z-index: 0;
+   height:auto;
+   top:50%;
+   transform:translateY(-50%)
+  }
+
+  & > * {
+    z-index:2;
+    position: relative;
+  }
+}

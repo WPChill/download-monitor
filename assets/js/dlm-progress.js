@@ -1,16 +1,17 @@
 // This will hold the the file as a local object URL
 let _OBJECT_URL;
 
-function handleDownloadClick(e) {
+function handleDownloadClick(obj,e) {
 
-	const button = this;
+	e.stopPropagation();
+	const button = obj;
 	const href = button.getAttribute('href');
 	const hiddenInfo = jQuery('data.dlm-hidden-info[data-url="' + href + '"]');
 	let triggerObject = {
-		button: this,
+		button: obj,
 		href: href,
 		hiddenInfo: hiddenInfo,
-		buttonObj: jQuery(this),
+		buttonObj: jQuery(obj),
 		redirect: hiddenInfo.data('redirect'),
 	};
 
@@ -68,14 +69,10 @@ jQuery.each( dlmProgressVar.xhr_links.class, function( $key, $value ){
 	
 });
 
-// Loop through all .download-links buttons and add click event listener to them
-document.querySelectorAll( xhr_links ).forEach(
-	function (button) {
-		button.addEventListener('click', handleDownloadClick);
-	}, {
-		once: true
-	}
-);
+//
+jQuery('html, body').one('click', xhr_links, function(e){
+	handleDownloadClick(this,e);
+});
 
 function retrieveBlob(triggerObject) {
 	const {
