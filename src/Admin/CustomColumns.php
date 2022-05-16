@@ -9,7 +9,7 @@ class DLM_Custom_Columns {
 		add_filter( 'manage_edit-dlm_download_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_dlm_download_posts_custom_column', array( $this, 'column_data' ), 2 );
 		add_filter( 'manage_edit-dlm_download_sortable_columns', array( $this, 'sortable_columns' ) );
-		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ) );
+		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ), 15, 2 );
 		add_filter( 'list_table_primary_column', array( $this, 'set_primary_column_name' ), 10, 2 );
 	}
 
@@ -196,16 +196,17 @@ class DLM_Custom_Columns {
 	 * @return string
 	 */
 	public function prepend_id_to_title( $title, $id = null ) {
-		if ( 'dlm_download' === get_post_type( $id ) ) {
-			if ( null !== $id ) {
-				return '#' . $id . ' - ' . $title;
-			} else {
-				return '#' . get_the_ID() . ' - ' . $title;
-			}
+
+		if ( ! isset( $id ) ) {
+			$id = get_the_ID();
 		}
 
-        return $title;
-    }
+		if ( 'dlm_download' === get_post_type( $id ) ) {
+			return '#' . $id . ' - ' . $title;
+		}
+
+		return $title;
+	}
 
 	/**
 	 * Defaults the primary column name to 'download_title'
