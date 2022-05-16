@@ -269,7 +269,7 @@ class DLM_Download_Handler {
 		}
 
 		// Check Access
-		if ( ! apply_filters( 'dlm_can_download', true, $download, $version ) ) {
+		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_POST ) ) {
 
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
@@ -619,7 +619,7 @@ class DLM_Download_Handler {
 		}
 
 		$response = array(
-			'permission'    => apply_filters( 'dlm_can_download', true, $download, $version ),
+			'permission'    => apply_filters( 'dlm_can_download', true, $download, $version, $_POST ),
 			'download_id'   => $download_id,
 			'version'       => $version,
 			'file_name'     => $file_name,
