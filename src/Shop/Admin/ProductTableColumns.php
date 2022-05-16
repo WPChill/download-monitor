@@ -14,7 +14,7 @@ class ProductTableColumns {
 		add_filter( 'manage_edit-' . PostType::KEY . '_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_' . PostType::KEY . '_posts_custom_column', array( $this, 'column_data' ), 10, 2 );
 		add_filter( 'manage_edit-' . PostType::KEY . '_sortable_columns', array( $this, 'sortable_columns' ) );
-		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ) );
+		add_filter( 'the_title', array( $this, 'prepend_id_to_title' ), 15, 2 );
 		add_filter( 'list_table_primary_column', array( $this, 'set_primary_column_name' ), 10, 2 );
 	}
 
@@ -127,12 +127,12 @@ class ProductTableColumns {
 	 */
 	public function prepend_id_to_title( $title, $id = null ) {
 
+		if ( ! isset( $id ) ) {
+			$id = get_the_ID();
+		}
+
 		if ( 'dlm_product' === get_post_type( $id ) ) {
-			if ( null !== $id ) {
-				return '#' . $id . ' - ' . $title;
-			} else {
-				return '#' . get_the_ID() . ' - ' . $title;
-			}
+			return '#' . $id . ' - ' . $title;
 		}
 
 		return $title;
