@@ -19,6 +19,9 @@ class DLM_Download_Handler {
 	public function __construct() {
 		$this->endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
 		$this->ep_value = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
+
+		add_action( 'wp_ajax_dlm_create_blob', array( $this, 'create_blob' ) );
+		add_action( 'wp_ajax_nopriv_dlm_create_blob', array( $this, 'create_blob' ) );
 		$this->dlm_logging = DLM_Logging::get_instance();
 	}
 
@@ -402,18 +405,15 @@ class DLM_Download_Handler {
 
 		if ( $remote_file ) {
 			// Redirect - we can't track if this completes or not
-			header( 'log_status : redirected' );
 			header( 'Location: ' . $file_path );
 			$this->dlm_logging->log( $download, $version, 'redirect' );
 
 		} elseif ( file_exists( $file_path ) ) {
 
-			header( 'log_status: completed' );
 			$this->dlm_logging->log( $download, $version, 'completed' );
 			$this->readfile_chunked( $file_path, false, $range );
 
 		} else {
-			header( 'log_status : failed' );
 			$this->dlm_logging->log( $download, $version, 'failed' );
 
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
@@ -629,6 +629,40 @@ class DLM_Download_Handler {
 		// Trigger the log here as the user already has permission to download
 		//$this->dlm_logging->log( $download, $version, 'completed' );
 		wp_send_json_success( $response );
+	}
+
+	/**
+	 * AJAX log download
+	 *
+	 * @return void
+	 * @since 4.6.0
+	 */
+	public function create_blob() {
+
+		check_ajax_referer( 'dlm_ajax_nonce', '_nonce' );
+
+		if( ! isset( $_POST['download_id'] ) ) wp_send_json_error( 'No download ID' );
+
+		$download_id = absint( $_POST['download_id'] );
+		$download    = null;
+
+		if ( $download_id > 0 ) {
+			try {
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+			} catch ( Exception $e ) {
+				wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+			}
+		}
+
+		if ( ! $download ) {
+			wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+		}
+
+		$version   = $download->get_version();
+		$file_name = esc_attr( $version->get_filename() );
+
+		// Send json response
+		wp_send_json_success( $file_name );
 	}
 
 }
