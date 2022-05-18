@@ -119,7 +119,6 @@ class DLM_Logging {
 			$log_item->set_download_id( absint( $download->get_id() ) );
 			$log_item->set_user_ip( DLM_Utils::get_visitor_ip() );
 			$log_item->set_user_uuid( DLM_Utils::get_visitor_ip() );
-			$log_item->set_user_agent( DLM_Utils::get_visitor_ua() );
 			$log_item->set_version_id( absint( $version->get_id() ) );
 			$log_item->set_version( $version->get_version() );
 			$log_item->set_download_status( $status );

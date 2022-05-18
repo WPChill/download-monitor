@@ -100,7 +100,6 @@ function add_dlm_dummy_logs() {
 				$table,
 				array(
 					'user_id'         => '1',
-					'user_agent'      => 'Edge',
 					'download_id'     => $id,
 					'version_id'      => $id,
 					'download_date'   => $date,

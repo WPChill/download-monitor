@@ -26,21 +26,6 @@ abstract class DLM_Utils {
 	}
 
 	/**
-	 * Get visitor's user agent
-	 *
-	 * @return string
-	 */
-	public static function get_visitor_ua() {
-		$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '' ;
-
-		if ( strlen( $ua ) > 200 ) {
-			$ua = substr( $ua, 0, 199 );
-		}
-
-		return $ua;
-	}
-
-	/**
 	 * Check if a given ip is in a network (IPv4)
 	 * https://gist.github.com/tott/7684443
 	 *
