@@ -23,6 +23,7 @@ class DLM_Test_Logging extends DLM_Unit_Test_Case {
 		$dummy_log->set_user_ip( $ip );
 		$dummy_log->set_user_uuid( $ip );
 		$dummy_log->set_version_id( 1 );
+		$dummy_log->set_user_agent( 'test' );
 		$dummy_log->set_version( '1.0' );
 
 		// check on empty database

@@ -233,6 +233,7 @@ class DLM_Installer {
 			user_id bigint(20) NOT NULL,
 			user_ip varchar(200) NOT NULL,
 			uuid varchar(200) NOT NULL,
+			user_agent varchar(200) NOT NULL,
 			download_id bigint(20) NOT NULL,
 			version_id bigint(20) NOT NULL,
 			version varchar(200) NOT NULL,
