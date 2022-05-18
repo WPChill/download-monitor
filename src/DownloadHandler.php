@@ -334,7 +334,8 @@ class DLM_Download_Handler {
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 
 			$this->dlm_logging->log( $download, $version, 'redirect' );
-
+			$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
+			
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 			// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
