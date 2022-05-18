@@ -323,8 +323,9 @@ class DLM_Download_Handler {
 
 			exit;
 		}
+		
 		// check if user downloaded this version in the past minute.
-		if ( DLM_Logging::is_download_window_enabled( $download ) ) {
+		if ( false === DLM_Cookie_Manager::exists( $download ) ) {
 			// Trigger Download Action.
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 		}

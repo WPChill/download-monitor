@@ -57,22 +57,6 @@ class DLM_Logging {
 	}
 
 	/**
-	 * 60 seconds download window enabled / cookie dependant report
-	 *
-	 * @param [type] $download The Download object.
-	 * @return bool
-	 */
-	public static function is_download_window_enabled( $download ) {
-
-		if( '1' !== get_option( 'dlm_enable_window_logging' ) ) return false;
-
-		if ( ! DLM_Cookie_Manager::exists( $download ) ) return true;
-
-		return false;
-
-	}
-
-	/**
 	 * Get the type of IP logging that is configured in settings
 	 *
 	 * @return string
@@ -121,8 +105,9 @@ class DLM_Logging {
 	 * @param string $message
 	 * @param DLM_Download $download
 	 * @param DLM_Download_Version $version
+	 * @param $cookie bool 
 	 */
-	public function log( $download, $version, $status = 'completed' ) {
+	public function log( $download, $version, $status = 'completed', $cookie = true ) {
 
 		// Check if logging is enabled.
 		if ( ! DLM_Logging::is_logging_enabled() ) return;
@@ -139,8 +124,11 @@ class DLM_Logging {
 			$log_item->set_version( $version->get_version() );
 			$log_item->set_download_status( $status );
 			$log_item->increase_download_count();
-
-			DLM_Cookie_Manager::set_cookie( $download );
+			
+			if ( $cookie ) {
+				DLM_Cookie_Manager::set_cookie( $download );
+			}
+		
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 		}
