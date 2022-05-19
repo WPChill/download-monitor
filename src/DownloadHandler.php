@@ -20,8 +20,6 @@ class DLM_Download_Handler {
 		$this->endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
 		$this->ep_value = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
 
-		add_action( 'wp_ajax_dlm_create_blob', array( $this, 'create_blob' ) );
-		add_action( 'wp_ajax_nopriv_dlm_create_blob', array( $this, 'create_blob' ) );
 		$this->dlm_logging = DLM_Logging::get_instance();
 	}
 
@@ -201,7 +199,7 @@ class DLM_Download_Handler {
 			}
 
 			$def_restricted = array( 'php', 'html', 'htm', 'tmp' );
-			$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_security_restricted_file_types', array( ), $download ) );
+			$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array( '' ), $download ) );
 
 			// Do not allow the download of certain file types.
 			if ( in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
@@ -326,7 +324,7 @@ class DLM_Download_Handler {
 
 			exit;
 		}
-		
+
 		// check if user downloaded this version in the past minute.
 		if ( false === DLM_Cookie_Manager::exists( $download ) ) {
 			// Trigger Download Action.
@@ -350,7 +348,7 @@ class DLM_Download_Handler {
 			header( 'Location: ' . $file_path );
 			exit;
 		}
-
+		
 		$this->download_headers( $file_path, $download, $version );
 
 		do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
@@ -423,7 +421,7 @@ class DLM_Download_Handler {
 
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
-
+		
 		exit;
 	}
 
@@ -630,44 +628,7 @@ class DLM_Download_Handler {
 			'file_name'     => $file_name,
 			'no_access_url' => $no_access_permalink
 		);
-
-		// Trigger the log here as the user already has permission to download
-		//$this->dlm_logging->log( $download, $version, 'completed' );
+		
 		wp_send_json_success( $response );
 	}
-
-	/**
-	 * AJAX log download
-	 *
-	 * @return void
-	 * @since 4.6.0
-	 */
-	public function create_blob() {
-
-		check_ajax_referer( 'dlm_ajax_nonce', '_nonce' );
-
-		if( ! isset( $_POST['download_id'] ) ) wp_send_json_error( 'No download ID' );
-
-		$download_id = absint( $_POST['download_id'] );
-		$download    = null;
-
-		if ( $download_id > 0 ) {
-			try {
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
-			} catch ( Exception $e ) {
-				wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
-			}
-		}
-
-		if ( ! $download ) {
-			wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
-		}
-
-		$version   = $download->get_version();
-		$file_name = esc_attr( $version->get_filename() );
-
-		// Send json response
-		wp_send_json_success( $file_name );
-	}
-
 }
