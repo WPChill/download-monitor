@@ -571,38 +571,58 @@ Deny from all
 			return $settings;
 		}
 
-		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
-		$page = wp_remote_get( get_home_url() . '/robots.txt');
-		$has_virtual_robots = 'undetermined';
+		$transient = get_transient( 'dlm_robots_txt' );
 
-		if ( ! is_wp_error( $page ) && is_array( $page ) ) {
-			$has_virtual_robots = false !== strpos( $page['headers']['content-type'], 'text/plain' );
+		if( !$transient ){
+			$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
+			$page = wp_remote_get( get_home_url() . '/robots.txt');
+			$has_virtual_robots = 'undetermined';
+
+			if ( ! is_wp_error( $page ) && is_array( $page ) ) {
+				$has_virtual_robots = false !== strpos( $page['headers']['content-type'], 'text/plain' );
+			}
 		}
 
-		if ( ! file_exists( $robots_file ) ) {
+
+		if ( ( !$transient ) && ! file_exists( $robots_file ) ) {
 			$icon       = 'dashicons-dismiss';
 			$icon_color = '#f00';
 			$icon_text  = __( 'Robots.txt is missing.', 'download-monitor' );
+			$transient['virtual'] = false;
 
 			if ( $has_virtual_robots && 'undetermined' !== $has_virtual_robots ) {
+				$transient['virtual'] = true;
 				$icon_text  = __( 'Robots.txt file is missing but site has virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
+				$transient['text'] = $icon_text;
 			}
 
 			if ( $has_virtual_robots && 'undetermined' === $has_virtual_robots ) {
+				$transient['virtual'] = 'maybe';
 				$icon_text  = __( 'Robots.txt file is missing but site may have virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
+				$transient['text'] = $icon_text;
 			}
 		} else {
-
-			$content = file_get_contents( $robots_file );
-			if ( stristr( $content, 'dlm_uploads' ) ) {
-				$icon       = 'dashicons-yes-alt';
-				$icon_color = '#00A32A';
-				$icon_text  = __( 'You are protected by robots.txt.', 'download-monitor' );
-			} else {
-				$icon       = 'dashicons-dismiss';
-				$icon_color = '#f00';
-				$icon_text  = __( 'Robots.txt file exists but dlm_uploads folder is not protected.', 'download-monitor' );
+			if( !$transient ){
+				$content = file_get_contents( $robots_file );
+				if ( stristr( $content, 'dlm_uploads' ) ) {
+					$icon       = 'dashicons-yes-alt';
+					$icon_color = '#00A32A';
+					$icon_text  = __( 'You are protected by robots.txt.', 'download-monitor' );
+					$transient['protected'] = true;
+					$transient['icon'] = $icon;
+					$transient['icon_color'] = $icon_color;
+					$transient['text'] = $icon_text;
+				} else {
+					$icon       = 'dashicons-dismiss';
+					$icon_color = '#f00';
+					$icon_text  = __( 'Robots.txt file exists but dlm_uploads folder is not protected.', 'download-monitor' );
+					$transient['protected'] = false;
+					$transient['icon'] = $icon;
+					$transient['icon_color'] = $icon_color;
+					$transient['text'] = $icon_text;
+				}
 			}
+
 		}
 
 		$settings['advanced']['sections']['misc']['fields'][] = array(
@@ -610,14 +630,15 @@ Deny from all
 			'label'      => __( 'Regenerate crawler protection for uploads folder', 'download-monitor' ),
 			'desc'       => __( 'Regenerates the robots.txt file.', 'download-monitor' ),
 			'link'       => admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '&tab=advanced&section=misc',
-			'icon'       => $icon,
-			'icon-color' => $icon_color,
-			'icon-text'  => $icon_text,
+			'icon'       => $transient['icon'],
+			'icon-color' => $transient['icon_color'],
+			'icon-text'  => $transient['text'],
 			'disabled'   => isset( $disabled ) ? 'true' : 'false',
 			'type'       => 'htaccess_status',
 			'priority'   => 40
 		);
 
+		set_transient( 'dlm_robots_txt', $transient, DAY_IN_SECONDS );
 		return $settings;
 	}
 
@@ -629,6 +650,8 @@ Deny from all
 	 * @since 4.5.9
 	 */
 	private function regenerate_robots(){
+
+		delete_transient( 'dlm_robots_txt' );
 
 		$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
 		if( ! file_exists( $robots_file ) ) {
@@ -647,11 +670,9 @@ Deny from all
 				$txt        = 'User-agent: *' . "\n" . 'Disallow: /dlm_uploads/' . "\n\n" . $content;
 
 				fwrite( $dlm_robots, $txt );
-
 				return true;
 			}
 		}
-
 		return false;
 	}
 
