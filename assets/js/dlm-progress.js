@@ -1,45 +1,35 @@
-// This will hold the the file as a local object URL
-let _OBJECT_URL;
-
 // Function to attach events for the download buttons
-function attachButtonEvent(){
+function attachButtonEvent() {
 
 	// Create the classes that we will target
 	let xhr_links = '';
 	let $i = '';
-	jQuery.each( dlmProgressVar.xhr_links.class, function( $key, $value ){
+	jQuery.each(dlmProgressVar.xhr_links.class, function ($key, $value) {
 		xhr_links += $i + ' .' + $value;
 		$i = ',';
-		
+
 	});
 
 	//
-	jQuery('html, body').one('click', xhr_links, function(e){
-		handleDownloadClick(this,e);
+	jQuery('html, body').on('click', xhr_links, function (e) {
+		handleDownloadClick(this, e);
 	});
 }
 
 // Attach the first event
 attachButtonEvent();
 
-function handleDownloadClick(obj,e) {
+function handleDownloadClick(obj, e) {
 
 	e.stopPropagation();
 	const button = obj;
 	const href = button.getAttribute('href');
-	const hiddenInfo = jQuery('data.dlm-hidden-info[data-url="' + href + '"]');
+
 	let triggerObject = {
 		button: obj,
 		href: href,
-		hiddenInfo: hiddenInfo,
 		buttonObj: jQuery(obj),
-		redirect: hiddenInfo.data('redirect'),
 	};
-
-	// Return if this is a redirect or there is no data
-	if (0 === triggerObject.hiddenInfo.length || 'download' !== triggerObject.hiddenInfo.data('action')) {
-		return;
-	}
 
 	// Show the progress bar after complete download also
 	if (triggerObject.href.indexOf('blob:http') !== -1) {
@@ -52,43 +42,19 @@ function handleDownloadClick(obj,e) {
 		return;
 	}
 
-	triggerObject.action = triggerObject.hiddenInfo.data('action');
-	triggerObject.id = triggerObject.hiddenInfo.data('id');
-
 	e.preventDefault();
-
-	// Check if visitor has permission to download
-	const permission_data = {
-		action: 'dlm_check_permission',
-		download_id: triggerObject.id,
-		_nonce: dlmProgressVar.nonce
-	}
-
-	jQuery.post(dlmProgressVar.ajaxUrl, permission_data, function (res) {
-		if (res.data.permission) {
-			triggerObject.file_name = res.data.file_name;
-			// If the visitor has permission to download, we can start the download
-			retrieveBlob(triggerObject);
-		} else {
-			if ( res.data.no_access_url ) {
-				window.location.href = res.data.no_access_url;
-			} else {
-				// If the visitor does not have permission to download, we can show a message
-				triggerObject.buttonObj.after('<span class="dlm-permission-message"> - ' + dlmProgressVar.no_permissions + '</span>');
-			}
-		}
-	});
+	retrieveBlob(triggerObject);
 }
 
 function retrieveBlob(triggerObject) {
 	const {
 		button,
 		href,
-		hiddenInfo,
 		buttonObj,
-		id,
-		file_name,
 	} = triggerObject;
+
+	// This will hold the the file as a local object URL
+	let _OBJECT_URL;
 
 	const request = new XMLHttpRequest();
 	const buttonClass = buttonObj.attr('class');
@@ -98,7 +64,7 @@ function retrieveBlob(triggerObject) {
 	button.setAttribute('disabled', 'disabled');
 
 	// Trigger the `dlm_download_triggered` action
-	jQuery(document).trigger('dlm_download_triggered', [this, button, hiddenInfo, _OBJECT_URL]);
+	jQuery(document).trigger('dlm_download_triggered', [this, button, _OBJECT_URL]);
 
 	request.responseType = 'blob';
 	request.onreadystatechange = function () {
@@ -107,6 +73,11 @@ function retrieveBlob(triggerObject) {
 			readyState,
 			statusText
 		} = request;
+
+		if (request.readyState == 2 && request.status == 200) {
+			// Download is being started
+			//button.parent().append('<span>Download started</span>');
+		}
 
 		if (status == 404 && readyState == 2) {
 			let p = document.createElement('p');
@@ -124,16 +95,25 @@ function retrieveBlob(triggerObject) {
 			button.parentNode.appendChild(p);
 		}
 
+		if ('undefined' !== typeof request.getResponseHeader('dlm-redirect') && '' !== request.getResponseHeader('dlm-redirect') && null !== request.getResponseHeader('dlm-redirect')) {
+			window.location.href = request.getResponseHeader('dlm-redirect');
+			return;
+		}
+
 		if (status == 200 && readyState == 4) {
+
+
 			let blob = request.response;
+			let file_name = request.getResponseHeader('Content-Disposition').split('filename=')[1];
+			file_name = file_name.replace(/\"/g, '').replace(';', '');
+
 			_OBJECT_URL = URL.createObjectURL(blob);
-			
+
 			// Remove event listener
 			button.removeEventListener('click', handleDownloadClick);
 
 			// Set the href of the a.download-complete to the object URL
 			button.setAttribute('href', _OBJECT_URL);
-			hiddenInfo.attr('data-url', _OBJECT_URL);
 			// Set the download attribute of the a.download-complete to the file name
 			button.setAttribute('download', `${file_name}`);
 			// Trigger click on a.download-complete
@@ -142,15 +122,19 @@ function retrieveBlob(triggerObject) {
 				buttonObj.removeClass().addClass(buttonClass + ' dlm-download-complete');
 			}, 600);
 			// Trigger the `dlm_download_complete` action
-			jQuery(document).trigger('dlm_download_downloaded', [this, button, hiddenInfo, _OBJECT_URL]);
+			jQuery(document).trigger('dlm_download_downloaded', [this, button, _OBJECT_URL]);
 
 			attachButtonEvent();
 
 			// Append the paragraph to the download-contaner
-			hiddenInfo.find('span:not(.progress, .progress-inner)').remove();
-			hiddenInfo.find('.progress, .progress .progress-inner').removeClass('dlm-visible-spinner');
 			// Trigger the `dlm_download_complete` action
-			jQuery(document).trigger('dlm_download_complete', [this, button, hiddenInfo, _OBJECT_URL]);
+			jQuery(document).trigger('dlm_download_complete', [this, button, _OBJECT_URL]);
+
+			// Recommended : Revoke the object URL after some time to free up resources
+			// There is no way to find out whether user finished downloading
+			setTimeout(function () {
+				window.URL.revokeObjectURL(_OBJECT_URL);
+			}, 60 * 1000);
 		}
 	};
 
@@ -161,17 +145,15 @@ function retrieveBlob(triggerObject) {
 		let $class = 'download-' + Math.ceil(percent_complete / 10) * 10;
 
 		// Show spinner
-		hiddenInfo.css('visibility', 'visible');
 		buttonObj.removeClass().addClass(buttonClass + ' ' + $class);
-		hiddenInfo.find('.progress, .progress .progress-inner').addClass('dlm-visible-spinner');
 		// Trigger the `dlm_download_progress` action
-		jQuery(document).trigger('dlm_download_progress', [this, button, hiddenInfo, _OBJECT_URL, e, percent_complete]);
+		jQuery(document).trigger('dlm_download_progress', [this, button, _OBJECT_URL, e, percent_complete]);
 	});
 
 	request.onerror = function () {
 		console.log('** An error occurred during the transaction');
 	};
 	request.open('GET', href, true);
-
+	request.setRequestHeader('dlm-request', 'dlm_XMLHttpRequest');
 	request.send();
 }

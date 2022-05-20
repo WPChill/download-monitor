@@ -97,30 +97,6 @@ class DLM_Template_Handler {
 			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );
 
 			include( $template );
-			$progress = '<span class="progress"><span class="progress-inner"></span></span>';
-
-			if ( 'button' === $name || 'box' === $name ) {
-				$progress = '<span class="progress box"><span class="progress-inner"></span></span>';
-			}
-
-			if ( isset( $download ) && apply_filters( 'dlm_do_xhr', true, $download ) ) {
-
-				$xhr_data = apply_filters(
-					'dlm_download_xhr_data',
-					array(
-						'id'            => 'dlm-' . $download->get_id() . '-download__info',
-						'data-id'       => $download->get_id(),
-						'data-slug'     => $download->get_slug(),
-						'data-url'      => $download->get_the_download_link(),
-						'class'         => 'dlm-hidden-info',
-						'data-action'   => $download->is_redirect_only() ? 'redirect' : 'download',
-						'inner_html'    => $progress,
-					)
-				);
-
-				echo '<data ' . DLM_Utils::generate_attributes( $xhr_data ) . '> ' . wp_kses_post( $xhr_data['inner_html'] ) . '</data';
-
-			}
 
 			do_action( 'dlm_after_template_part', $template, $slug, $name, $custom_dir, $args );
 			//load_template( $template, false );

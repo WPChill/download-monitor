@@ -31,8 +31,6 @@ class DLM_Download_Handler {
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
 		add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
-		add_action( 'wp_ajax_dlm_check_permission', array( $this, 'dlm_check_permission' ) );
-		add_action( 'wp_ajax_nopriv_dlm_check_permission', array( $this, 'dlm_check_permission' ) );
 	}
 
 	/**
@@ -277,6 +275,10 @@ class DLM_Download_Handler {
 
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
+				if ( isset( $_SERVER['HTTP_DLM_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_REQUEST'] ) {
+					header("dlm-redirect:" . $redirect );
+					exit;
+				}
 				header( "Status: 401 redirect,$redirect" );
 				wp_redirect( $redirect );
 				exit;
@@ -309,6 +311,10 @@ class DLM_Download_Handler {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
 
+						if ( isset( $_SERVER['HTTP_DLM_REQUEST'] ) || 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_REQUEST']  ) {							
+							header("dlm-redirect:" . $no_access_permalink );
+							exit;
+						}
 						// redirect to no access page
 						header( "Status: 401 redirect,$redirect" );
 						wp_redirect( $no_access_permalink );
@@ -563,72 +569,5 @@ class DLM_Download_Handler {
 		}
 
 		return $status;
-	}
-
-
-	/**
-	 * Check for permissions before downloading on XHR
-	 *
-	 * @return mixed
-	 * @since 4.6.0
-	 */
-	public function dlm_check_permission() {
-		check_ajax_referer( 'dlm_ajax_nonce', '_nonce' );
-
-		if( ! isset( $_POST['download_id'] ) ) wp_send_json_error( 'No download ID' );
-
-		$download_id = absint( $_POST['download_id'] );
-		$download    = null;
-		if ( $download_id > 0 ) {
-			try {
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
-			} catch ( Exception $e ) {
-				wp_send_json_error( 'Download doesn\'t exist.' );
-			}
-		}
-
-		if ( ! $download ) {
-			wp_send_json_error( 'Download doesn\'t exist.' );
-		}
-
-		$version   = $download->get_version();
-		$file_name = esc_attr( $version->get_filename() );
-
-		// Let's check if we have a no-access page
-		$no_access_page_id   = get_option( 'dlm_no_access_page', 0 );
-		$no_access_permalink = false;
-		// check if a no access page is set
-		if ( $no_access_page_id > 0 ) {
-			// get permalink of no access page
-			$no_access_permalink = get_permalink( $no_access_page_id );
-			// check if we can find a permalink
-			if ( false !== $no_access_permalink ) {
-
-				//get wordpress permalink structure so we can build the url
-				$structure = get_option('permalink_structure', 0 );
-
-				// append download id to no access URL
-
-				if( '' == $structure || 0 == $structure ){
-					$no_access_permalink = add_query_arg( 'download-id', $download->get_id(), untrailingslashit( $no_access_permalink ) );
-				}else{
-					$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
-				}
-
-				if ( ! $download->get_version()->is_latest() ) {
-					$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
-				}
-			}
-		}
-
-		$response = array(
-			'permission'    => apply_filters( 'dlm_can_download', true, $download, $version, $_POST ),
-			'download_id'   => $download_id,
-			'version'       => $version,
-			'file_name'     => $file_name,
-			'no_access_url' => $no_access_permalink
-		);
-		
-		wp_send_json_success( $response );
 	}
 }
