@@ -337,6 +337,7 @@ a.download-link::before {
   width: 0;
   background: red;
   transition: width 0.5s;
+  top: 0;
 }
 a.download-button.download-10:before,
 a.download-link.download-10:before {
@@ -378,13 +379,15 @@ a.download-button.download-100:before,
 a.download-link.download-100:before {
   width: 100%;
 }
-html body a.download-button::before {
-  z-index: 0;
+a.download-button.dlm-download-complete::after {
   height: auto;
   top: 50%;
   transform: translateY(-50%);
 }
-html body a.download-button > * {
+a.download-button::before {
+  z-index: 0;
+}
+a.download-button > * {
   z-index: 2;
   position: relative;
 }

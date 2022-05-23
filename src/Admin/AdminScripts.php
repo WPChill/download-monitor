@@ -167,6 +167,8 @@ class DLM_Admin_Scripts {
 
 		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-reports' === $_GET['page'] && ! DLM_DB_Upgrader::do_upgrade() ) {
 
+			wp_enqueue_style( 'download_monitor_range_picker', download_monitor()->get_plugin_url() . '/assets/css/daterangepicker.min.css', array( 'dashicons' ), DLM_VERSION );
+
 			// Enqueue Reports JS
 			wp_enqueue_script(
 				'dlm_reports_chartjs',

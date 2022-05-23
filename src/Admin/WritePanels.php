@@ -10,6 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Admin_Writepanels {
 
 	/**
+	 * The Download CPT
+	 *
+	 * @var object
+	 */
+	private $download_post = null;
+
+	/**
 	 * __construct function.
 	 *
 	 * @access public
@@ -109,27 +116,29 @@ class DLM_Admin_Writepanels {
 
 		try {
 			/** @var DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
+				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			}
 
-			do_action( 'dlm_information_start', $download->get_id(), $download );
+			do_action( 'dlm_information_start', $this->download_post->get_id(), $this->download_post );
 			?>
 			<div>
 				<p><?php echo esc_html__( 'ID', 'download-monitor' ); ?> </p>
-				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_id() ); ?>" readonly onfocus="this.select()"/>
+				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $this->download_post->get_id() ); ?>" readonly onfocus="this.select()"/>
 				<a href="#" title="<?php esc_attr_e( 'Copy ID', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Id" style="width:40px;"></a><span></span>
 			</div>
 			<div>
 				<p><?php echo esc_html__( 'URL', 'download-monitor' ); ?></p>
-				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $download->get_the_download_link() ); ?>" readonly onfocus="this.select()"/>
+				<input type="text" id="dlm-info-id" value="<?php echo esc_attr( $this->download_post->get_the_download_link() ); ?>" readonly onfocus="this.select()"/>
 				<a href="#" title="<?php esc_attr_e( 'Copy URL', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Url" style="width:40px;"></a><span></span>
 			</div>
 			<div>
 				<p><?php echo esc_html__( 'Shortcode', 'download-monitor' ); ?> </p>
-				<input type="text" id="dlm-info-id" value='[download id="<?php echo esc_attr( $download->get_id() ); ?>"]' readonly onfocus="this.select()"/>
+				<input type="text" id="dlm-info-id" value='[download id="<?php echo esc_attr( $this->download_post->get_id() ); ?>"]' readonly onfocus="this.select()"/>
 				<a href="#" title="<?php esc_attr_e( 'Copy shortcode', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Shortcode" style="width:40px;"></a><span></span>
 			</div>
 			<?php
-			do_action( 'dlm_information_end', $download->get_id(), $download );
+			do_action( 'dlm_information_end', $this->download_post->get_id(), $this->download_post );
 		} catch ( Exception $e ) {
 			echo '<p>' . esc_html__( 'No download information for new downloads.', 'download-monitor' ) . '</p>';
 		}
@@ -150,34 +159,36 @@ class DLM_Admin_Writepanels {
 
 		try {
 			/** @var DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
+				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			}
 		} catch ( Exception $e ) {
-			$download = new DLM_Download();
+			$this->download_post = new DLM_Download();
 		}
 
 		echo '<div class="dlm_options_panel">';
 
-		do_action( 'dlm_options_start', $download->get_id(), $download );
+		do_action( 'dlm_options_start', $this->download_post->get_id(), $this->download_post );
 
 		echo '<p class="form-field form-field-checkbox">
-			<input type="checkbox" name="_featured" id="_featured" ' . checked( true, $download->is_featured(), false ) . ' />
+			<input type="checkbox" name="_featured" id="_featured" ' . checked( true, $this->download_post->is_featured(), false ) . ' />
 			<label for="_featured">' . esc_html__( 'Featured download', 'download-monitor' ) . '</label>
 			<span class="dlm-description">' . esc_html__( 'Mark this download as featured. Used by shortcodes and widgets.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
-			<input type="checkbox" name="_members_only" id="_members_only" ' . checked( true, $download->is_members_only(), false ) . ' />
+			<input type="checkbox" name="_members_only" id="_members_only" ' . checked( true, $this->download_post->is_members_only(), false ) . ' />
 			<label for="_members_only">' . esc_html__( 'Members only', 'download-monitor' ) . '</label>
 			<span class="dlm-description">' . esc_html__( 'Only logged in users will be able to access the file via a download link if this is enabled.', 'download-monitor' ) . '</span>
 		</p>';
 
 		echo '<p class="form-field form-field-checkbox">
-			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( true, $download->is_redirect_only(), false ) . ' />
+			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( true, $this->download_post->is_redirect_only(), false ) . ' />
 			<label for="_redirect_only">' . esc_html__( 'Redirect to file', 'download-monitor' ) . '</label>
 			<span class="dlm-description">' . wp_kses_post( __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) ) . '</span>
 		</p>';
 
-		do_action( 'dlm_options_end', $download->get_id(), $download );
+		do_action( 'dlm_options_end', $this->download_post->get_id(), $this->download_post );
 
 		echo '</div>';
 	}
@@ -352,16 +363,18 @@ class DLM_Admin_Writepanels {
 		 */
 		/** @var DLM_Download $download */
 		try {
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post_id );
+			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
+				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			}
 		} catch ( Exception $e ) {
 			// download not found, no point in continuing
 			return;
 		}
 
 		// set the 'Download Options'
-		$download->set_featured( ( isset( $_POST['_featured'] ) ) );
-		$download->set_members_only( ( isset( $_POST['_members_only'] ) ) );
-		$download->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
+		$this->download_post->set_featured( ( isset( $_POST['_featured'] ) ) );
+		$this->download_post->set_members_only( ( isset( $_POST['_members_only'] ) ) );
+		$this->download_post->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
 
 		// Process files
 		if ( isset( $_POST['downloadable_file_id'] ) ) {
@@ -438,10 +451,10 @@ class DLM_Admin_Writepanels {
 		}
 
 		// persist download
-		download_monitor()->service( 'download_repository' )->persist( $download );
+		download_monitor()->service( 'download_repository' )->persist( $this->download_post );
 
 		// do dlm_save_metabox action
-		do_action( 'dlm_save_metabox', $post_id, $post, $download );
+		do_action( 'dlm_save_metabox', $post_id, $post, $this->download_post );
 	}
 
 	/**

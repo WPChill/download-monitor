@@ -953,7 +953,9 @@ class DLM_Reports {
 				table = main_parent.find('#total_downloads_table table'),
 				link = jQuery(this),
 				nextPage = parseInt(offset) + 1,
-				prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0;
+				prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				prevButton = jQuery('#downloads-block-navigation').find('button').first(),
+				nextButton = jQuery('#downloads-block-navigation').find('button').last();
 
 			link.attr('disabled', 'disabled');
 
@@ -962,12 +964,12 @@ class DLM_Reports {
 
 				main_parent.find('#total_downloads_table').attr('data-page', nextPage);
 				instance.setTopDownloads(nextPage);
-
 				// We remove the disable attribute only when there are pages to be shown
 				if (Math.ceil(instance.mostDownloaded.length / 10) > nextPage + 1) {
-					jQuery('#downloads-block-navigation').find('button').removeAttr('disabled');
+					nextButton.removeAttr('disabled');
 
 				}
+				prevButton.removeAttr('disabled');
 
 			} else {
 
@@ -979,8 +981,9 @@ class DLM_Reports {
 					instance.setTopDownloads(prevPage);
 
 					if (1 !== parseInt(offset)) {
-						jQuery('#downloads-block-navigation').find('button').removeAttr('disabled');
+						prevButton.removeAttr('disabled');
 					}
+					nextButton.removeAttr('disabled');
 
 				}
 			}
