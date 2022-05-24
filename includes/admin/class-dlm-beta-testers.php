@@ -36,7 +36,7 @@ class DLM_Beta_Testers {
 		add_action( 'admin_notices', array( $this, 'beta_testers_needed_notice' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'ajax_script' ) );
-		add_filter('st_uninstall_db_options',array($this,'uninstall_options'));
+		add_filter( 'dlm_uninstall_db_options', array( $this, 'uninstall_options' ) );
 
 	}
 
@@ -72,7 +72,7 @@ class DLM_Beta_Testers {
 	 */
 	public function uninstall_options( $options ) {
 
-		$options[] = 'download-monitor-rate-time';
+		$options[] = 'download-monitor-hide-beta-notice';
 
 		return $options;
 	}
