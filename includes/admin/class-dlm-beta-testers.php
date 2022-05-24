@@ -133,7 +133,7 @@ class DLM_Beta_Testers {
 		<script type="text/javascript">
 			jQuery( document ).ready( function( $ ){
 
-				$( '#download-monitor-beta-notice .notice-dismiss' ).on('click', function( ){
+				$(document).on('click','#download-monitor-beta-notice .notice-dismiss', function( ){
 					var data = {
 						action: 'download-monitor_beta_test_notice_dismiss',
 						security: '<?php echo $ajax_nonce; ?>',
