@@ -58,6 +58,10 @@ if( ! class_exists( 'DLM_Review') && is_admin() ) {
 	require_once dirname( __FILE__ ) . '/includes/admin/class-dlm-review.php';
 }
 
+if( ! class_exists( 'DLM_Beta_Testers') && is_admin() ) {
+	require_once dirname( __FILE__ ) . '/includes/admin/class-dlm-beta-testers.php';
+}
+
 if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
 	function download_monitor_start_plugin_tracking() {
 		$wisdom = new Download_Monitor_Usage_Tracker(
