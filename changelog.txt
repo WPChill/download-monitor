@@ -4,6 +4,7 @@ Added: "No file provided" notification in download admin listing for "empty" dow
 Added: Product ID in admin DLM products listing ( https://github.com/WPChill/download-monitor/issues/885 )
 Fixed: Downloads hanging at 99% in multi-threaded mode ( https://github.com/WPChill/download-monitor/issues/816 )
 Fixed: Critical error on quick-editing a Download/Product ( https://github.com/WPChill/download-monitor/issues/906 )
+Changed: Onboarding page ( https://github.com/WPChill/download-monitor/issues/820 )
 
 = 4.5.92 - 11.04.2022 =
 Fixed: Missing Files/Access denied for users with out of root wp-content ( https://github.com/WPChill/download-monitor/issues/888 )
