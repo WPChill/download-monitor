@@ -1,33 +1,45 @@
 <?php
-
+/**
+ * DLM_Beta_Testers - Used to display a notice for BETA testers need
+ * 
+ * @since 4.5.93
+ */
 class DLM_Beta_Testers {
 
 	private $messages;
 	private $link;
 	private $contact;
-	
-	function __construct() {
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
 
 		$this->messages = array(
-			'headling' 	=> esc_html__( 'BETA testers - needed!', 'download-monitor' ),
-			'notice'   	=> wp_kses_post( __( "<p> We've been working (hard!) on Download Monitor 4.6.0 which comes with a ton of improvements. We need hlep testing it out to make sure we don't break anything.</p>
-										<p> Just click on this link %s, download and install Download Monitor 4.6.0 and test for issues. Please report any issue found back to us via: %s.</p>", 'download-monitor' ) ),
-			'changelog_title' => esc_html__( "New features in this version:", 'download-monitor' ),
-			'changelog' => array(
+			'headling'        => esc_html__( 'Download Monitor - BETA testers - needed!', 'download-monitor' ),
+			'notice'          => __( "<p> We've been working (hard!) on Download Monitor 4.6.0 which comes with a ton of improvements. We need hlep testing it out to make sure we don't break anything.</p><p> Just click on this link %1\$s, download and install Download Monitor 4.6.0 and test for issues. Please report any issue found back to us via: %2\$s.</p>", 'download-monitor' ),
+			'changelog_title' => esc_html__( 'New features in this version:', 'download-monitor' ),
+			'changelog'       => array(
 				'custom tables for Reports (should be blazing fast now)',
 				'new way to handle downloads (we\'re using a browser-native way of handling downloads vs doing it via htaccess / nginx rules)',
-				'a LOT of smaller bug fixes under the hood'
+				'a LOT of smaller bug fixes under the hood',
 			),
-			);
+		);
 
-		$this->link = '<a target="_BLANK" href="https://www.download-monitor.com/contact/">' . esc_html( 'here', 'download-monitor' ) . '</a>';
+		$this->link    = '<a target="_BLANK" href="https://www.download-monitor.com/contact/">' . esc_html( 'here', 'download-monitor' ) . '</a>';
 		$this->contact = '<a target="_BLANK" href="https://www.download-monitor.com/contact/">' . esc_html( 'contact us form', 'download-monitor' ) . '</a>';
 
 		add_action( 'init', array( $this, 'init' ) );
 
 	}
 
+	/**
+	 * Init
+	 * 
+	 * @since 4.5.93
+	 */
 	public function init() {
+		
 		if ( ! is_admin() ) {
 			return;
 		}
@@ -40,35 +52,42 @@ class DLM_Beta_Testers {
 
 	}
 
+	/**
+	 * BETA testers notice
+	 * 
+	 * @since 4.5.93
+	 */
 	public function beta_testers_needed_notice() {
-			if( get_option( 'download-monitor-hide-beta-notice', false ) ){
-				return;
-			}
+		if ( get_option( 'download-monitor-hide-beta-notice', false ) ) {
+			return;
+		}
 		?>
 		<div data-dismissible="download-monitor-beta-notice" id="download-monitor-beta-notice" class="notice notice-success is-dismissible" style="margin-top:30px;">
 			<h1><?php echo $this->messages['headling']; ?></h1>
-			<p><?php echo sprintf( wp_kses_post( $this->messages['notice'] ), wp_kses_post( $this->link ), wp_kses_post( $this->contact ) ) ; ?></p>
-			<?php 
-				if( !empty( $this->messages['changelog']) ){
-					echo '<h3>' . $this->messages['changelog_title'] . '</h3>';
-					echo '<ul>';
-					foreach( $this->messages['changelog'] as $item ){
-						echo '<li><span class="dashicons dashicons-yes"></span> ' . $item . '</li>';
-					}
-					echo '</ul>';
-
+			<p><?php echo sprintf( wp_kses_post( $this->messages['notice'] ), wp_kses_post( $this->link ), wp_kses_post( $this->contact ) ); ?></p>
+			<?php
+			if ( ! empty( $this->messages['changelog'] ) ) {
+				echo '<h3>' . $this->messages['changelog_title'] . '</h3>';
+				echo '<ul>';
+				foreach ( $this->messages['changelog'] as $item ) {
+					echo '<li><span class="dashicons dashicons-yes"></span> ' . $item . '</li>';
 				}
+				echo '</ul>';
+
+			}
 			?>
 		</div>
 		<?php
 	}
 
 	/**
+	 * Add our options to the uninstall list
+	 * 
 	 * @param $options
 	 *
 	 * @return mixed
 	 *
-	 * @since 2.51.6
+	 * @since 4.5.93
 	 */
 	public function uninstall_options( $options ) {
 
@@ -78,22 +97,36 @@ class DLM_Beta_Testers {
 	}
 
 
+	/**
+	 * AJAX functions
+	 * 
+	 * @since 4.5.93
+	 */
 	public function ajax() {
 
-		check_ajax_referer( 'download-monitor-beta-notice', 'security' );	
+		check_ajax_referer( 'download-monitor-beta-notice', 'security' );
 		update_option( 'download-monitor-hide-beta-notice', true );
 		wp_die( 'ok' );
 
 	}
 
-
+	/**
+	 * Enqueue scripts
+	 * 
+	 * @since 4.5.93
+	 */
 	public function enqueue() {
 		wp_enqueue_script( 'jquery' );
 	}
 
+	/**
+	 * AJAX script
+	 * 
+	 * @since 4.5.93
+	 */
 	public function ajax_script() {
 
-		$ajax_nonce = wp_create_nonce( "download-monitor-beta-notice" );
+		$ajax_nonce = wp_create_nonce( 'download-monitor-beta-notice' );
 
 		?>
 
