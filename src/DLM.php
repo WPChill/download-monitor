@@ -131,6 +131,13 @@ class WP_DLM {
 			if( class_exists('DLM_Download_Duplicator') ) {
 				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
 			}
+
+			if ( defined( 'DLM_BETA' ) && DLM_BETA && class_exists( 'DLM_Beta_Testers') ) {
+				new DLM_Beta_Testers();
+			}
+
+			new DLM_Review();
+			
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.

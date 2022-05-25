@@ -17,7 +17,7 @@ class DLM_Beta_Testers {
 
 		$this->messages = array(
 			'headling'        => esc_html__( 'Download Monitor - BETA testers - needed!', 'download-monitor' ),
-			'notice'          => __( "<p> We've been working (hard!) on Download Monitor 4.6.0 which comes with a ton of improvements. We need hlep testing it out to make sure we don't break anything.</p><p> Just click on this link %1\$s, download and install Download Monitor 4.6.0 and test for issues. Please report any issue found back to us via: %2\$s.</p>", 'download-monitor' ),
+			'notice'          => __( "<p> We've been working (hard!) on Download Monitor %1\$s which comes with a ton of improvements. We need hlep testing it out to make sure we don't break anything.</p><p> Just click on this link %2\$s, download and install Download Monitor %1\$s  and test for issues. Please report any issue found back to us via: %3\$s.</p>", 'download-monitor' ),
 			'changelog_title' => esc_html__( 'New features in this version:', 'download-monitor' ),
 			'changelog'       => array(
 				'custom tables for Reports (should be blazing fast now)',
@@ -26,7 +26,7 @@ class DLM_Beta_Testers {
 			),
 		);
 
-		$this->link    = '<a target="_BLANK" href="https://www.download-monitor.com/contact/">' . esc_html( 'here', 'download-monitor' ) . '</a>';
+		$this->link    = '<a target="_BLANK" href="https://downloads.wordpress.org/plugin/download-monitor.zip">' . esc_html( 'here', 'download-monitor' ) . '</a>';
 		$this->contact = '<a target="_BLANK" href="https://www.download-monitor.com/contact/">' . esc_html( 'contact us form', 'download-monitor' ) . '</a>';
 
 		add_action( 'init', array( $this, 'init' ) );
@@ -64,7 +64,7 @@ class DLM_Beta_Testers {
 		?>
 		<div data-dismissible="download-monitor-beta-notice" id="download-monitor-beta-notice" class="notice notice-success is-dismissible" style="margin-top:30px;">
 			<h1><?php echo $this->messages['headling']; ?></h1>
-			<p><?php echo sprintf( wp_kses_post( $this->messages['notice'] ), wp_kses_post( $this->link ), wp_kses_post( $this->contact ) ); ?></p>
+			<p><?php echo sprintf( wp_kses_post( $this->messages['notice'] ), DLM_BETA_VERSION, wp_kses_post( $this->link ), wp_kses_post( $this->contact ) ); ?></p>
 			<?php
 			if ( ! empty( $this->messages['changelog'] ) ) {
 				echo '<h3>' . $this->messages['changelog_title'] . '</h3>';
@@ -153,5 +153,3 @@ class DLM_Beta_Testers {
 		<?php
 	}
 }
-
-new DLM_Beta_Testers();
