@@ -9,6 +9,7 @@ class DLM_Beta_Testers {
 	private $messages;
 	private $link;
 	private $contact;
+	private $notice_option = 'dlm_hide-beta-notice_' . DLM_BETA_VERSION;
 
 	/**
 	 * Class constructor
@@ -58,7 +59,7 @@ class DLM_Beta_Testers {
 	 * @since 4.5.93
 	 */
 	public function beta_testers_needed_notice() {
-		if ( get_option( 'download-monitor-hide-beta-notice', false ) ) {
+		if ( get_option( $this->notice_option, false ) ) {
 			return;
 		}
 		?>
@@ -91,6 +92,7 @@ class DLM_Beta_Testers {
 	 */
 	public function uninstall_options( $options ) {
 
+		// This is a legacy option for version 4.5.93
 		$options[] = 'download-monitor-hide-beta-notice';
 
 		return $options;
@@ -105,7 +107,7 @@ class DLM_Beta_Testers {
 	public function ajax() {
 
 		check_ajax_referer( 'download-monitor-beta-notice', 'security' );
-		update_option( 'download-monitor-hide-beta-notice', true );
+		update_option( $this->notice_option, true );
 		wp_die( 'ok' );
 
 	}
