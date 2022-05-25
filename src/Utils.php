@@ -14,8 +14,21 @@ abstract class DLM_Utils {
 	 */
 	public static function get_visitor_ip() {
 
-		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		// Fix for CloudFlare IPs
+		$ip = '';
 
+		if ( isset( $_SERVER['REMOTE_ADDR'] ) ){
+			$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+		}
+
+		if ( isset( $_SERVER["HTTP_X_REAL_IP"] ) ) {
+			$ip = sanitize_text_field( wp_unslash( $ $_SERVER["HTTP_X_REAL_IP"] ) );
+		}
+
+		if ( isset( $_SERVER["HTTP_CF_CONNECTING_IP"] ) ) {
+			$ip = sanitize_text_field( wp_unslash( $ $_SERVER["HTTP_CF_CONNECTING_IP"] ) );
+		}
+		
 		if (  ( '1' == get_option( 'dlm_allow_x_forwarded_for', 0 ) ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 			// phpcs:ignore
 			$parts = explode( ",", $_SERVER['HTTP_X_FORWARDED_FOR'] );
