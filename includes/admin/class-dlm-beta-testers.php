@@ -26,7 +26,7 @@ class DLM_Beta_Testers {
 			),
 		);
 
-		$this->link    = '<a target="_BLANK" href="https://www.download-monitor.com/contact/">' . esc_html( 'here', 'download-monitor' ) . '</a>';
+		$this->link    = '<a target="_BLANK" href="https://downloads.wordpress.org/plugin/download-monitor.zip">' . esc_html( 'here', 'download-monitor' ) . '</a>';
 		$this->contact = '<a target="_BLANK" href="https://www.download-monitor.com/contact/">' . esc_html( 'contact us form', 'download-monitor' ) . '</a>';
 
 		add_action( 'init', array( $this, 'init' ) );

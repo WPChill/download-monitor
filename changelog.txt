@@ -1,10 +1,13 @@
-= 4.5.93 - TBA =
+= 4.5.93 - 25.05.2022 =
 Fixed: Robots.txt check on all pages ( https://github.com/WPChill/download-monitor/issues/937 )
 Added: "No file provided" notification in download admin listing for "empty" downloads ( https://github.com/WPChill/download-monitor/issues/887 )
 Added: Product ID in admin DLM products listing ( https://github.com/WPChill/download-monitor/issues/885 )
 Fixed: Downloads hanging at 99% in multi-threaded mode ( https://github.com/WPChill/download-monitor/issues/816 )
 Fixed: Critical error on quick-editing a Download/Product ( https://github.com/WPChill/download-monitor/issues/906 )
 Changed: Onboarding page ( https://github.com/WPChill/download-monitor/issues/820 )
+Changed: Partition the Download Monitor's menu into groups ( https://github.com/WPChill/download-monitor/issues/776 )
+Fixed: the_title filter too few arguments ( https://github.com/WPChill/download-monitor/issues/908 )
+Added: Notice for BETA testers ( https://github.com/WPChill/download-monitor/issues/951 )
 
 = 4.5.92 - 11.04.2022 =
 Fixed: Missing Files/Access denied for users with out of root wp-content ( https://github.com/WPChill/download-monitor/issues/888 )
