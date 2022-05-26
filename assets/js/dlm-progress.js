@@ -47,7 +47,7 @@ function handleDownloadClick(obj, e) {
 }
 
 function retrieveBlob(triggerObject) {
-	const {
+	let {
 		button,
 		href,
 		buttonObj,
@@ -58,10 +58,11 @@ function retrieveBlob(triggerObject) {
 
 	const request = new XMLHttpRequest();
 	const buttonClass = buttonObj.attr('class');
-
 	button.setAttribute('href', '#');
 	button.removeAttribute('download');
 	button.setAttribute('disabled', 'disabled');
+
+	href = ( href.indexOf('/?') > 0 ) ? href + '&nonce=' + dlmProgressVar.nonce : href + '?nonce=' + dlmProgressVar.nonce;
 
 	// Trigger the `dlm_download_triggered` action
 	jQuery(document).trigger('dlm_download_triggered', [this, button, _OBJECT_URL]);
@@ -153,7 +154,8 @@ function retrieveBlob(triggerObject) {
 	request.onerror = function () {
 		console.log('** An error occurred during the transaction');
 	};
+	
 	request.open('GET', href, true);
-	request.setRequestHeader('dlm-request', 'dlm_XMLHttpRequest');
+	request.setRequestHeader('dlm-xhr-request', 'dlm_XMLHttpRequest');
 	request.send();
 }

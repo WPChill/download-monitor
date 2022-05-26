@@ -270,12 +270,22 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
+		$XMLHttpRequest = false;
+		// If we are retrieving the file with XMLHttpRequest verify that the action has permissions   
+		if( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' ===  $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
+			$XMLHttpRequest = true;
+			if ( ! isset( $_REQUEST['nonce'] ) ) {
+				wp_send_json_error( array( 'error' => 'missing_nonce' ) );
+			}
+			wp_verify_nonce('dlm_ajax_nonce', $_REQUEST['nonce'] );
+		}
+
 		// Check Access
-		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_POST ) ) {
+		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST ) ) {
 
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
-				if ( isset( $_SERVER['HTTP_DLM_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_REQUEST'] ) {
+				if ( $XMLHttpRequest ) {
 					header("dlm-redirect:" . $redirect );
 					exit;
 				}
@@ -311,7 +321,7 @@ class DLM_Download_Handler {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
 
-						if ( isset( $_SERVER['HTTP_DLM_REQUEST'] ) || 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_REQUEST']  ) {							
+						if ( $XMLHttpRequest ) {							
 							header("dlm-redirect:" . $no_access_permalink );
 							exit;
 						}
