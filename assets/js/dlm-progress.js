@@ -90,7 +90,7 @@ function retrieveBlob(triggerObject) {
 			}, {});
 
 		if ('undefined' !== typeof headers['dlm-error'] && '' !== headers['dlm-error'] && null !== headers['dlm-error']) {
-			alert(eaders['dlm-error']);
+			alert(headers['dlm-error']);
 			return;
 		}
 
