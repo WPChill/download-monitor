@@ -42,6 +42,11 @@ function handleDownloadClick(obj, e) {
 		return;
 	}
 
+	if ('#' === triggerObject.href) {
+		console.log('No file path found');
+		return;
+	}
+
 	e.preventDefault();
 	retrieveBlob(triggerObject);
 }
@@ -56,13 +61,13 @@ function retrieveBlob(triggerObject) {
 	// This will hold the the file as a local object URL
 	let _OBJECT_URL;
 
-	const request = new XMLHttpRequest();
-	const buttonClass = buttonObj.attr('class');
+	const request = new XMLHttpRequest(),
+		buttonClass = buttonObj.attr('class');
 	button.setAttribute('href', '#');
 	button.removeAttribute('download');
 	button.setAttribute('disabled', 'disabled');
 
-	href = ( href.indexOf('/?') > 0 ) ? href + '&nonce=' + dlmProgressVar.nonce : href + '?nonce=' + dlmProgressVar.nonce;
+	href = (href.indexOf('/?') > 0) ? href + '&nonce=' + dlmProgressVar.nonce : href + '?nonce=' + dlmProgressVar.nonce;
 
 	// Trigger the `dlm_download_triggered` action
 	jQuery(document).trigger('dlm_download_triggered', [this, button, _OBJECT_URL]);
@@ -74,6 +79,25 @@ function retrieveBlob(triggerObject) {
 			readyState,
 			statusText
 		} = request;
+
+		let headers = request
+			.getAllResponseHeaders()
+			.split('\r\n')
+			.reduce((result, current) => {
+				let [name, value] = current.split(': ');
+				result[name] = value;
+				return result;
+			}, {});
+
+		if ('undefined' !== typeof headers['dlm-error'] && '' !== headers['dlm-error'] && null !== headers['dlm-error']) {
+			alert(eaders['dlm-error']);
+			return;
+		}
+
+		if ('undefined' !== typeof headers['dlm-redirect'] && '' !== headers['dlm-redirect'] && null !== headers['dlm-redirect']) {
+			window.location.href = headers['dlm-redirect'];
+			return;
+		}
 
 		if (request.readyState == 2 && request.status == 200) {
 			// Download is being started
@@ -96,13 +120,7 @@ function retrieveBlob(triggerObject) {
 			button.parentNode.appendChild(p);
 		}
 
-		if ('undefined' !== typeof request.getResponseHeader('dlm-redirect') && '' !== request.getResponseHeader('dlm-redirect') && null !== request.getResponseHeader('dlm-redirect')) {
-			window.location.href = request.getResponseHeader('dlm-redirect');
-			return;
-		}
-
 		if (status == 200 && readyState == 4) {
-
 
 			let blob = request.response;
 			let file_name = request.getResponseHeader('Content-Disposition').split('filename=')[1];
@@ -154,7 +172,7 @@ function retrieveBlob(triggerObject) {
 	request.onerror = function () {
 		console.log('** An error occurred during the transaction');
 	};
-	
+
 	request.open('GET', href, true);
 	request.setRequestHeader('dlm-xhr-request', 'dlm_XMLHttpRequest');
 	request.send();
