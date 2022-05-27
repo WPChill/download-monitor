@@ -314,33 +314,36 @@ class WP_DLM {
 			);
 		}
 
-		wp_enqueue_script(
-			'dlm_progress_bar',
-			plugins_url( '/assets/js/dlm-progress' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
-			array('jquery'),
-			DLM_VERSION, true
-		);
+		// Leave this filter here in case XHR is problematic and needs to be disabled
+		if ( apply_filters( 'dlm_do_xhr', true ) ) {
+			wp_enqueue_script(
+				'dlm-xhr',
+				plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
+				array('jquery'),
+				DLM_VERSION, true
+			);
 
-		$xhr_links = apply_filters(
-			'dlm_xhr_links',
-			array(
-				'class' => array(
-					'download-link',
-					'download-button'
-				)
-			) 
-		);
+			$dlm_xhr_data = apply_filters(
+				'dlm_xhr_data',
+				array(
+					'xhr_links' => array(
+						'class' => array(
+							'download-link',
+							'download-button'
+						)
+					)					
+				) 
+			);
 
-		wp_localize_script(
-			'dlm_progress_bar',
-			'dlmProgressVar',
-			array(
+			$dlm_xhr_security_data = array(
 				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
 				'nonce'          => wp_create_nonce( 'dlm_ajax_nonce' ),
-				'no_permissions' => __( 'You do not have permission to download this file', 'download-monitor' ),
-				'xhr_links'      => $xhr_links
-			)
-		);
+			);
+
+			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
+	
+			wp_add_inline_script('dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . ';', 'before');
+		}
 
 		do_action( 'dlm_frontend_scripts_after' );
 

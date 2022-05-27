@@ -24,7 +24,8 @@ class DLM_Logging {
 	 * @since 4.6.0
 	 */
 	public function __construct() {
-
+		add_action( 'wp_ajax_log_dlm_xhr_download', array( $this, 'xhr_log_download' ), 15 );
+		add_action( 'wp_ajax_nopriv_log_dlm_xhr_download', array( $this, 'xhr_log_download' ), 15 );
 	}
 
 	/**
@@ -96,6 +97,26 @@ class DLM_Logging {
 		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE `version_id` = %d AND `user_ip` = %s", $version->get_id(), DLM_Utils::get_visitor_ip() ) ) ) > 0 );
 	}
 
+	/**
+	 * Log the XHR download
+	 *
+	 * @return void
+	 */
+	public function xhr_log_download() {
+		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
+
+		$download_id = absint( $_POST['download_id'] );
+		$version_id  = absint( $_POST['version_id'] );
+		$status      = sanitize_text_field( wp_unslash( $_POST['status'] ) );
+		$cookie      = boolval( $_POST['cookie'] );
+		// Set our objects
+		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
+		$version  = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
+		$download->set_version( $version );
+		// Truly log the corresponding status
+		$this->log( $download, $version, $status, $cookie );
+		die();
+	}
 
 	/**
 	 * Create a log if logging is enabled

@@ -368,8 +368,9 @@ class DLM_Download_Handler {
 
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
-
-			$this->dlm_logging->log( $download, $version, 'redirect' );
+			if ( ! $XMLHttpRequest ) {
+				$this->dlm_logging->log( $download, $version, 'redirect' );
+			}
 			$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
 			
 			// Ensure we have a valid URL, not a file path
@@ -390,22 +391,27 @@ class DLM_Download_Handler {
 
 		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
-
-				$this->dlm_logging->log( $download, $version, 'completed' );
+				if ( ! $XMLHttpRequest ) {
+					$this->dlm_logging->log( $download, $version, 'completed' );
+				}
 
 				header( "X-Sendfile: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-				$this->dlm_logging->log( $download, $version, 'completed' );
+				if ( ! $XMLHttpRequest ) {
+					$this->dlm_logging->log( $download, $version, 'completed' );
+				}
 
 				header( "X-LIGHTTPD-send-file: $file_path" );
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-				$this->dlm_logging->log( $download, $version, 'completed' );
+				if ( ! $XMLHttpRequest ) {
+					$this->dlm_logging->log( $download, $version, 'completed' );
+				}
 
 				if ( isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
 					// phpcs:ignore
@@ -456,15 +462,21 @@ class DLM_Download_Handler {
 				exit;
 			} 
 			header( 'Location: ' . $file_path );
-			$this->dlm_logging->log( $download, $version, 'redirect' );
+			if ( ! $XMLHttpRequest ) {
+				$this->dlm_logging->log( $download, $version, 'redirected' );
+			}
 
 		} elseif ( file_exists( $file_path ) ) {
 
-			$this->dlm_logging->log( $download, $version, 'completed' );
+			if ( ! $XMLHttpRequest ) {
+				$this->dlm_logging->log( $download, $version, 'completed' );
+			}
 			$this->readfile_chunked( $file_path, false, $range );
 
 		} else {
-			$this->dlm_logging->log( $download, $version, 'failed' );
+			if ( ! $XMLHttpRequest ) {
+				$this->dlm_logging->log( $download, $version, 'failed' );
+			}
 			if ( $XMLHttpRequest ) {
 				header( 'DLM-Error: ' . esc_html__( 'File not found.', 'download-monitor' ) );
 				exit;
@@ -551,7 +563,8 @@ class DLM_Download_Handler {
 		$headers['Content-Description']       = 'File Transfer';
 		$headers['Content-Disposition']       = "attachment; filename=\"{$file_name}\";";
 		$headers['Content-Transfer-Encoding'] = 'binary';
-
+		$headers['DLM-Download-ID']           = $download->get_id();
+		$headers['DLM-Version-ID']            = $version->get_id();
 		$file_manager = new DLM_File_Manager();
 		$file_size    = $file_manager->get_file_size( $file_path );
 
