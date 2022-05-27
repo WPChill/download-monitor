@@ -197,7 +197,7 @@ class DLM_Download_Handler {
 			}
 
 			$def_restricted = array( 'php', 'html', 'htm', 'tmp' );
-			$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array( '' ), $download ) );
+			$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array(), $download ) );
 
 			// Do not allow the download of certain file types.
 			if ( in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
