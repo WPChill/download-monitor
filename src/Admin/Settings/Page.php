@@ -178,80 +178,80 @@ class DLM_Settings_Page {
 				// loop fields for this tab
 				if ( isset( $settings[ $tab ] ) ) {
 
-						$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
+					$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
 
-						if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
+					if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
 
-							?>
-							<div class="wp-clearfix">
-							<ul class="subsubsub dlm-settings-sub-nav">
+						?>
+                        <div class="wp-clearfix">
+                            <ul class="subsubsub dlm-settings-sub-nav">
 								<?php foreach ( $settings[ $tab ]['sections'] as $section_key => $section ) : ?>
 									<?php echo "<li" . ( ( $active_section == $section_key ) ? " class='active-section'" : "" ) . ">"; ?>
-									<a href="<?php echo esc_url( add_query_arg( array(
-											'tab'     => $tab,
-											'section' => $section_key
-									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?><?php echo isset( $section['badge'] ) ?  '<span class="dlm-upsell-badge">PRO</span>' : ''; ?></a></li>
+                                    <a href="<?php echo esc_url( add_query_arg( array(
+										'tab'     => $tab,
+										'section' => $section_key
+									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?><?php echo isset( $section['badge'] ) ? '<span class="dlm-upsell-badge">PRO</span>' : ''; ?></a></li>
 								<?php endforeach; ?>
-							</ul>
-								</div><!--.wp-clearfix-->
-							<h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
-							<?php
-						}
+                            </ul>
+                        </div><!--.wp-clearfix-->
+                        <h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
+						<?php
+					}
 
-						//echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
-						do_action( 'dlm_tab_section_content_' . $active_section,  $settings );
+					//echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
+					do_action( 'dlm_tab_section_content_' . $active_section, $settings );
 
-						if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
+					if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 
-							// output correct settings_fields
-							// We change the output location so that it won't interfere with our upsells
-							$option_name = "dlm_" . $tab . "_" . $active_section;
-							settings_fields( $option_name );
+						// output correct settings_fields
+						// We change the output location so that it won't interfere with our upsells
+						$option_name = "dlm_" . $tab . "_" . $active_section;
+						settings_fields( $option_name );
 
-							echo '<table class="form-table">';
+						echo '<table class="form-table">';
 
-							foreach ( $settings[ $tab ]['sections'][ $active_section ]['fields'] as $option ) {
+						foreach ( $settings[ $tab ]['sections'][ $active_section ]['fields'] as $option ) {
 
-								$cs = 1;
+							$cs = 1;
 
-								if ( ! isset( $option['type'] ) ) {
-									$option['type'] = '';
-								}
-
-								echo '<tr valign="top" data-setting="' . ( isset( $option['name'] ) ? esc_attr( $option['name'] ) : '' ) . '">';
-								if ( isset( $option['label'] ) && '' !== $option['label'] ) {
-									echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
-								} else {
-									$cs ++;
-								}
-
-
-								echo '<td colspan="' . esc_attr( $cs ) . '">';
-
-								if ( ! isset( $option['type'] ) ) {
-									$option['type'] = '';
-								}
-
-								// make new field object
-								$field = DLM_Admin_Fields_Field_Factory::make( $option );
-
-								// check if factory made a field
-								if ( null !== $field ) {
-									// render field
-									$field->render();
-
-									if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
-										echo ' <p class="dlm-description description">' . wp_kses_post( $option['desc'] ) . '</p>';
-									}
-								}
-
-								echo '</td></tr>';
-
+							if ( ! isset( $option['type'] ) ) {
+								$option['type'] = '';
 							}
 
-							echo '</table>';
+							$tr_class = ( 'group' === $option['type'] ? 'dlm-groupped-settings' : '' );
+							echo '<tr valign="top" data-setting="' . ( isset( $option['name'] ) ? esc_attr( $option['name'] ) : '' ) . '" class="' . esc_attr( $tr_class ) . '">';
+							if ( isset( $option['label'] ) && '' !== $option['label'] ) {
+								echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
+							} else {
+								$cs ++;
+							}
+
+
+							echo '<td colspan="' . esc_attr( $cs ) . '">';
+
+							if ( ! isset( $option['type'] ) ) {
+								$option['type'] = '';
+							}
+
+							// make new field object
+							$field = DLM_Admin_Fields_Field_Factory::make( $option );
+
+							// check if factory made a field
+							if ( null !== $field ) {
+								// render field
+								$field->render();
+
+								if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
+									echo ' <p class="dlm-description description">' . wp_kses_post( $option['desc'] ) . '</p>';
+								}
+							}
+
+							echo '</td></tr>';
+
 						}
 
+						echo '</table>';
+					}
 
 					echo '<div class="wpchill-upsells-wrapper">';
 

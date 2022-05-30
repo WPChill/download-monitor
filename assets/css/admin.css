@@ -217,6 +217,28 @@
 .dlm-admin-settings .form-table label.dlm-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area + span {
   color: #fff;
 }
+.dlm-admin-settings .dlm-groupped-settings td,
+.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group {
+  margin: 0 auto;
+  padding: 0 !important;
+}
+.dlm-admin-settings .dlm-groupped-settings td .postbox,
+.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group .postbox {
+  padding: 0;
+  margin: 0 auto;
+}
+.dlm-admin-settings .dlm-groupped-settings .handle-actions button {
+  box-shadow: none;
+}
+.dlm-admin-settings .dlm-groupped-settings h2.hndle {
+  cursor: pointer;
+}
+.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group__content {
+  padding: 15px;
+}
+.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group__content .dlm-accordeon-group__setting {
+  padding: 35px 0;
+}
 /* File lists */
 ul.download_monitor_file_browser {
   list-style: none outside;

@@ -35,7 +35,9 @@ class DLM_Admin_Fields_Field_Radio extends DLM_Admin_Fields_Field {
 	 * Renders field
 	 */
 	public function render() {
-
+        if ( '' === $this->get_value() ) {
+            $this->set_value($this->get_placeholder());
+        }
 		foreach ( $this->get_options() as $key => $name ) {
 			?>
 			<label class="dlm-radio-label"><input id="setting-<?php echo esc_attr( $this->get_name() ); ?>"
