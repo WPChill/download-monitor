@@ -56,9 +56,12 @@ class DLM_Admin_Fields_Field_Factory {
 				break;
 			case 'gateway_overview':
 				$field = new \WPChill\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
-				break;			
+				break;
 			case 'htaccess_status':
 				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option );
+				break;
+			case 'group':
+				$field = new DLM_Admin_Fields_Field_Accordion( $option['name'], $option['options'], $option['title'] );
 				break;
 			default:
 				/**
