@@ -32,6 +32,21 @@ class DLM_Admin_Settings {
 				// Check to see if $section['fields'] is set, we could be using it for upsells
 				if ( isset( $section['fields'] ) ) {
 					foreach ( $section['fields'] as $field ) {
+
+						if( $field['type']  == 'group' ){
+							foreach( $field['options'] as $group_field ){
+
+								if ( ! empty( $group_field['name'] )  ) {
+									if ( isset( $group_field['std'] ) ) {
+										add_option( $group_field['name'], $group_field['std'] );
+									}
+									register_setting( $option_group, $group_field['name'] );
+								}
+
+							}
+							continue;
+						}
+
 						if ( ! empty( $field['name'] ) && ! in_array( $field['type'], apply_filters( 'dlm_settings_display_only_fields', array( 'action_button' ) ) ) ) {
 							if ( isset( $field['std'] ) ) {
 								add_option( $field['name'], $field['std'] );

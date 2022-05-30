@@ -66,6 +66,79 @@ Added: Shop enabled - create a new tab ( https://github.com/WPChill/download-mon
 Added: Lite vs Pro button in upsells ( https://github.com/WPChill/download-monitor/issues/857 )
 Fixed: Orders submenu entry under the Shop Menu entry ( https://github.com/WPChill/download-monitor/issues/859 )
 
+= 4.5.3 - 21.02.2022 =
+Added: LITE vs PRO page - https://github.com/WPChill/download-monitor/issues/851
+Changed: Extensions UI/texts update ( -https://github.com/WPChill/download-monitor/issues/846, https://github.com/WPChill/download-monitor/issues/849, https://github.com/WPChill/download-monitor/issues/838 )
+Fixed: Escaping the excerpt - https://github.com/WPChill/download-monitor/issues/790
+Fixed: Error in logs `select user` filter if user was deleted - https://github.com/WPChill/download-monitor/issues/828
+Added: Setting to disable file browser - https://github.com/WPChill/download-monitor/issues/469
+Fixed: Translation & escaping fixes
+
+= 4.5.2 - 16.02.2022 =
+Fixed: Reports date selection bug - ( https://github.com/WPChill/download-monitor/issues/823 )
+Fixed: Extensions page view on Safari
+
+= 4.5.1 - 31.01.2022 =
+Removed: Removed plugin updater from lite.
+
+
+= 4.5.92 - 11.04.2022 =
+Fixed: Missing Files/Access denied for users with out of root wp-content ( https://github.com/WPChill/download-monitor/issues/888 )
+Added: New setting for out of root/uploads directory for files to be downloaded
+
+= 4.5.91 - 05.04.2022 =
+Fixed: Error when checking for robots.txt file ( https://github.com/WPChill/download-monitor/issues/883 )
+
+= 4.5.9 - 05.04.2022 =
+Fixed: Security issues regarding file downloads and download titles
+Added: Option to not count admin downloads. ( https://github.com/WPChill/download-monitor/issues/854 )
+Added: No-index/no-follow header for redirect to file option ( https://github.com/WPChill/download-monitor/issues/879 )
+Added: Welcome banner on activation ( https://github.com/WPChill/download-monitor/issues/874 )
+Added: Robots.txt generation/protection setting ( https://github.com/WPChill/download-monitor/issues/878 )
+Added: Metabox and shortcode column for products ( https://github.com/WPChill/download-monitor/issues/866 )
+Fixed: Error downloading files if the files have been modified directly using a File Manager and the Download has not been updated ( https://github.com/WPChill/download-monitor/issues/860 )
+Fixed: Polyfill DateTimeImmutable __set_state array initialization
+
+= 4.5.8 - 28.03.2022 =
+Fixed: Upgrade to PRO now disappears when all extensions installed ( https://github.com/WPChill/download-monitor/issues/875 )
+
+= 4.5.7 - 21.03.2022 =
+Changed: Removed Download Duplicator from LITE vs PRO page ( https://github.com/WPChill/download-monitor/issues/872 )
+Changed: Versions from Gutenberg block now mention `n/a #id` as title if they are non-versioned ( https://github.com/WPChill/download-monitor/issues/873 )
+Added: Upgrade to pro link in plugins page ( https://github.com/WPChill/download-monitor/issues/870 ) 
+Added: do_action in shortcodes so we can add scripts only if shortcode is present ( https://github.com/WPChill/download-monitor/issues/868 )
+Change: members_only column to locked_downloads in admin listing table and added filters so we can override from extensions ( https://github.com/WPChill/download-monitor/issues/867 )
+
+= 4.5.6 - 14.03.2022 =
+Fixed: Endpoint changing value notice and flushing permalinks on endpoint change ( https://github.com/WPChill/download-monitor/issues/801 )
+Fixed: Place back the categories column in admin list view and change the copy shortcode functionality ( https://github.com/WPChill/download-monitor/issues/821 )
+Changed: Removed thumb column from Admin list table
+Fixed: PolyLang compatibility ( https://github.com/WPChill/download-monitor/issues/733 )
+Changed: Uploader enhancement ( https://github.com/WPChill/download-monitor/issues/869 )
+
+= 4.5.5 - 08.03.2022 =
+* Fixed: Uninstall now completely removes everything based on selection ( https://github.com/WPChill/download-monitor/issues/761 )
+* Added: New option to display featured downloads for the [downloads] shortcode ( https://github.com/WPChill/download-monitor/issues/624)
+* Added: Shortcode visible on all downloads page ( #821 )
+* Fixed: Set our own orderby param on Admin Dashboard ( https://github.com/WPChill/download-monitor/issues/809 )
+* Fixed: PayPal - new API ( https://github.com/WPChill/download-monitor/issues/861, https://github.com/WPChill/download-monitor/issues/796, https://github.com/WPChill/download-monitor/issues/665, https://github.com/WPChill/download-monitor/issues/636 )
+* Fixed: Direct upload button ( https://github.com/WPChill/download-monitor/issues/863 )
+* Fixed: Escaping on shop e-mail templates
+* Fixed: Issue preventing a product to be added to cart. ( https://github.com/WPChill/download-monitor/issues/865 )
+
+= 4.5.4 - 28.02.2022 =
+Added: Included DLM Download Duplicator as core Download Monitor function ( https://github.com/WPChill/download-monitor/issues/848 )
+Fixed: Insert downloads button ( https://github.com/WPChill/download-monitor/issues/811 )
+Fixed: File/Version date error ( https://github.com/WPChill/download-monitor/issues/812 )
+Fixed: Download Monitor endpoint already in use by a page/post ( https://github.com/WPChill/download-monitor/issues/826 )
+Added: Secure attribute on wp_dlm_downloading cookie ( https://github.com/WPChill/download-monitor/issues/592 )
+Fixed: DLM_Admin_Fields esc_attr insead of esc_attr ( https://github.com/WPChill/download-monitor/issues/656 )
+Fixed: Dismissable warnings ( https://github.com/WPChill/download-monitor/issues/680 )
+Fixed: Browse for file should use Wordpress Media Manager ( https://github.com/WPChill/download-monitor/issues/670 )
+Added: Shop enabled - create a new tab ( https://github.com/WPChill/download-monitor/issues/858 )
+Added: Lite vs Pro button in upsells ( https://github.com/WPChill/download-monitor/issues/857 )
+Fixed: Orders submenu entry under the Shop Menu entry ( https://github.com/WPChill/download-monitor/issues/859 )
+
 
 = 4.5.3 - 21.02.2022 =
 Added: LITE vs PRO page - https://github.com/WPChill/download-monitor/issues/851

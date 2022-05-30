@@ -1,55 +1,58 @@
-jQuery( function ( $ ) {
+jQuery(function ($) {
 
-	$( '#setting-dlm_default_template' ).change( function () {
-		if ( $( this ).val() === 'custom' ) {
-			$( '#setting-dlm_custom_template' ).closest( 'tr' ).show();
+	$('#setting-dlm_default_template').change(function () {
+		if ($(this).val() === 'custom') {
+			$('#setting-dlm_custom_template').closest('tr').show();
 		} else {
-			$( '#setting-dlm_custom_template' ).closest( 'tr' ).hide();
+			$('#setting-dlm_custom_template').closest('tr').hide();
 		}
-	} ).change();
+	}).change();
 
-	$( document ).ready( function () {
-
+	
+	$(document).ready(function () {
+		
 		// load lazy-select elements
-		$.each( $( '.dlm-lazy-select' ), function () {
+		$.each($('.dlm-lazy-select'), function () {
 
-			var lazy_select_el = $( this );
+			var lazy_select_el = $(this);
 
 			// add AJAX loader
-			$( '<span>' ).addClass( 'dlm-lazy-select-loader' ).append(
-				$( '<img>' ).attr( 'src', dlm_settings_vars.img_path + 'ajax-loader.gif' )
-			).insertAfter( lazy_select_el );
+			$('<span>').addClass('dlm-lazy-select-loader').append(
+				$('<img>').attr('src', dlm_settings_vars.img_path + 'ajax-loader.gif')
+			).insertAfter(lazy_select_el);
 
 			// load data
-			$.post( ajaxurl, {
+			$.post(ajaxurl, {
 				action: 'dlm_settings_lazy_select',
 				nonce: dlm_settings_vars.lazy_select_nonce,
-				option: lazy_select_el.attr( 'name' )
-			}, function ( response ) {
+				option: lazy_select_el.attr('name')
+			}, function (response) {
 
 				// remove current option(s)
-				lazy_select_el.find( 'option' ).remove();
+				lazy_select_el.find('option').remove();
 
 				// set new options
-				if ( response ) {
-					var selected = lazy_select_el.data( 'selected' );
-					for ( var i = 0; i < response.length; i ++ ) {
-						var opt = $( '<option>' ).attr( 'value', response[i].key ).html( response[i].lbl );
-						if ( selected === response[i].key ) {
-							opt.attr( 'selected', 'selected' );
+				if (response) {
+					var selected = lazy_select_el.data('selected');
+					for (var i = 0; i < response.length; i++) {
+						var opt = $('<option>').attr('value', response[i].key).html(response[i].lbl);
+						if (selected === response[i].key) {
+							opt.attr('selected', 'selected');
 						}
-						lazy_select_el.append( opt );
+						lazy_select_el.append(opt);
 					}
 				}
 
 				// remove ajax loader
-				lazy_select_el.parent().find( '.dlm-lazy-select-loader' ).remove();
+				lazy_select_el.parent().find('.dlm-lazy-select-loader').remove();
 
-			} );
+			});
+		});
 
-
+		$('tr.dlm-groupped-settings').on( 'click', '.postbox-header', (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+			$(event.currentTarget).parent().toggleClass('closed');
 		} );
-
-	} );
-
-} );
+	});
+});
