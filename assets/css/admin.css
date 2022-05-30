@@ -1949,7 +1949,7 @@ table.wp-list-table .column-thumb img {
 .wrap.dlm-admin-settings #setting-dlm_downloads_path + p strong {
   color: red;
 }
-.wrap.dlm-admin-settings .dlm-install-plugin-actions {
+.wrap.dlm-admin-settings #setting-dlm_downloads_path .dlm-install-plugin-actions {
   display: inline-block;
   vertical-align: middle;
   margin: 5px auto;

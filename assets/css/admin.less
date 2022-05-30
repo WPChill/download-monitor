@@ -2197,7 +2197,7 @@ table.wp-list-table {
     width: 65%;
     float: left;
 
-    &+.wpchill-upsells-wrapper {
+    & + .wpchill-upsells-wrapper {
       width: 30%;
       float: right;
     }
@@ -2217,17 +2217,18 @@ table.wp-list-table {
   }
 
   #setting-dlm_downloads_path {
-    &+p {
+    & + p {
       strong {
         color: red;
       }
     }
 
-  .dlm-install-plugin-actions {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 5px auto;
-    margin-left: 15px;
+    .dlm-install-plugin-actions {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 5px auto;
+      margin-left: 15px;
+    }
   }
 }
 
