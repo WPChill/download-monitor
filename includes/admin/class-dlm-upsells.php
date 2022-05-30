@@ -361,16 +361,6 @@ class DLM_Upsells {
 	 */
 	public function general_tab_upsell() {
 
-		if ( ! $this->check_extension( 'dlm-download-duplicator' ) ) {
-
-			$this->generate_upsell_box( 
-				__( 'Duplicate your downloads', 'download-monitor' ),
-				__( 'You’re one click away from duplicating downloads, including their data, versions, and files.', 'download-monitor' ),
-				'general',
-				'download-duplicator'
-			);
-		}
-
 		if ( ! $this->check_extension( 'dlm-email-notification' ) ) {
 
 			$this->generate_upsell_box(
