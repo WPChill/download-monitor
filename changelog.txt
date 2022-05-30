@@ -1,6 +1,7 @@
 = 4.5.94 - 31.05.2022 =
 Changed: Remove Duplicator Upsells ( https://github.com/WPChill/download-monitor/issues/959 )
 Fixed: Download url not working while permalinks are set to plain ( https://github.com/WPChill/download-monitor/issues/964 )
+Fixed: User IPs now showing in logs/download notification emails ( https://github.com/WPChill/download-monitor/issues/965 )
 
 = 4.5.93 - 25.05.2022 =
 Fixed: Robots.txt check on all pages ( https://github.com/WPChill/download-monitor/issues/937 )
