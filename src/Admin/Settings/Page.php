@@ -154,11 +154,12 @@ class DLM_Settings_Page {
 		$admin_settings = new DLM_Admin_Settings();
 		$settings       = $admin_settings->get_settings();
 		$tab            = $this->get_active_tab();
+		$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
 
 		// print global notices
 		$this->print_global_notices();
 		?>
-		<div class="wrap dlm-admin-settings <?php echo esc_attr( $tab ); ?>">
+		<div class="wrap dlm-admin-settings <?php echo esc_attr( $tab ) . ' ' . esc_attr( $active_section ); ?>">
 			<hr class="wp-header-end">
 			<form method="post" action="options.php">
 
@@ -177,8 +178,6 @@ class DLM_Settings_Page {
 
 				// loop fields for this tab
 				if ( isset( $settings[ $tab ] ) ) {
-
-					$active_section = $this->get_active_section( $settings[ $tab ]['sections'] );
 
 					if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
 

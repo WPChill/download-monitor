@@ -69,16 +69,13 @@ class DLM_Product_Manager {
 					'version' => '4.1.2',
 				),
 				'dlm-email-lock'              => array(
-					'version' => '4.2.2',
+					'version' => '4.3.2',
 				),
 				'dlm-download-duplicator'     => array(
 					'version' => '4.0.3',
 				),
 				'dlm-csv-importer'            => array(
 					'version' => '4.1.3',
-				),
-				'dlm-email-notification'      => array(
-					'version' => '4.1.7',
 				),
 				'dlm-amazon-s3'               => array(
 					'version' => '4.0.6',

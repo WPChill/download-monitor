@@ -296,7 +296,7 @@ class DLM_Download_Handler {
 		}
 
 		// Check Access
-		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST ) ) {
+		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, $XMLHttpRequest ) ) {
 
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
