@@ -71,9 +71,6 @@ class DLM_Product_Manager {
 				'dlm-email-lock'              => array(
 					'version' => '4.3.2',
 				),
-				'dlm-download-duplicator'     => array(
-					'version' => '4.0.3',
-				),
 				'dlm-csv-importer'            => array(
 					'version' => '4.1.3',
 				),
