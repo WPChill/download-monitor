@@ -111,7 +111,7 @@ class DLM_Download_Handler {
 		}
 
 		// check if need to handle an actual download
-		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && ( ( '' === $wp->request ) || ( null !== $wp->request && strstr( $wp->request, $this->endpoint . '/' ) ) ) ) {
+		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && ( ( null === $wp->request ) || ( '' === $wp->request ) || ( strstr( $wp->request, $this->endpoint . '/' ) ) ) ) {
 
 			// Prevent caching when endpoint is set
 			if ( ! defined( 'DONOTCACHEPAGE' ) ) {
