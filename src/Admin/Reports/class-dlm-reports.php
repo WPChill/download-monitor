@@ -9,14 +9,14 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 	/**
 	 * DLM_Reports
 	 *
-	 * @since 4.5.0
+	 * @since 4.6.0
 	 */
 	class DLM_Reports {
 
 		/**
 		 * Holds the class object.
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 *
 		 * @var object
 		 */
@@ -25,7 +25,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		/**
 		 * DLM_Reports constructor.
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function __construct() {
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
@@ -37,7 +37,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 *
 		 * @return object The DLM_Reports object.
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public static function get_instance() {
 
@@ -52,21 +52,23 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		/**
 		 * Set our global variable dlmReportsStats so we can manipulate given data
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function create_global_variable() {
-			
-			$rest_route = rest_url() . 'download-monitor/v1/reports';
-			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; dlmReportsAPI ="' . $rest_route . '"', 'before' );
+
+			$rest_route_reports = rest_url() . 'download-monitor/v1/reports';
+			$rest_route_users   = rest_url() . 'download-monitor/v1/user_reports';
+			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; dlmReportsAPI ="' . $rest_route_reports . '"; ', 'before' );
 		}
 
 		/**
 		 * Register DLM Logs Routes
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function register_routes() {
 
+			// The REST route for downloads reports
 			register_rest_route(
 				'download-monitor/v1',
 				'/reports',
@@ -84,7 +86,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 *
 		 * @return WP_REST_Response
 		 * @throws Exception
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function rest_stats() {
 
@@ -97,7 +99,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @param $data JSON data received from report_stats.
 		 *
 		 * @return WP_REST_Response
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function respond( $data ) {
 
@@ -117,7 +119,9 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 *
 		 * @return array
 		 * @throws Exception
-		 * @since 4.5.0
+		 *
+		 * @retun array
+		 * @since 4.6.0
 		 */
 		public function report_stats() {
 
@@ -127,12 +131,40 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				return array();
 			}
 
-
 			$cache_key = 'dlm_insights';
 			$stats     = wp_cache_get( $cache_key, 'dlm_reports_page' );
 
 			if ( ! $stats ) {
-				$stats = $wpdb->get_results( "SELECT  * FROM {$wpdb->dlm_reports};", ARRAY_A );
+
+				$logged_in_stats  = $wpdb->get_results( 'SELECT COUNT(ID) as `download_number`, user_id FROM ' . $wpdb->download_log . ' WHERE user_id > 0 GROUP BY user_id;', ARRAY_A );
+				$logged_out_stats = $wpdb->get_results( 'SELECT COUNT(ID) FROM ' . $wpdb->download_log . ' WHERE user_id = 0;', ARRAY_N );
+				$stats            = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . ' ORDER BY ID desc;', ARRAY_A );
+				$users            = get_users();
+				$users_data       = array();
+
+				foreach ( $users as $user ) {
+					$user_data                    = $user->data;
+					$users_data[ $user_data->ID ] = array(
+						'id'           => $user_data->ID,
+						'nicename'     => $user_data->user_nicename,
+						'url'          => $user_data->user_url,
+						'registered'   => $user_data->user_registered,
+						'display_name' => $user_data->display_name,
+						'role'         => ( ( ! in_array( 'administrator', $user->roles, true ) ) ? $user->roles : '' ),
+					);
+				}
+
+				$user_reports = array(
+					'logged_in'  => $logged_in_stats,
+					'logged_out' => $logged_out_stats,
+					'all'        => $stats,
+					'users'      => $users_data,
+				);
+
+				$stats = array(
+					'download_reports' => $wpdb->get_results( "SELECT  * FROM {$wpdb->dlm_reports};", ARRAY_A ),
+					'users_reports'    => $user_reports,
+				);
 				wp_cache_set( $cache_key, $stats, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
 			}
 

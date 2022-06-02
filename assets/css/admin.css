@@ -1591,6 +1591,22 @@ table.wp-list-table .column-thumb img {
   font-weight: 500;
   max-width: 20%;
 }
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #user_downloads_summary ul .wpchill-tooltip,
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #users_downloads_table_wrapper ul .wpchill-tooltip {
+  font-size: 12px;
+}
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #user_downloads_summary ul .wpchill-tooltip .wpchill-tooltip-content,
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #users_downloads_table_wrapper ul .wpchill-tooltip .wpchill-tooltip-content {
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+}
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #user_downloads_summary ul .wpchill-tooltip .wpchill-tooltip-content span,
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #users_downloads_table_wrapper ul .wpchill-tooltip .wpchill-tooltip-content span {
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+}
 /** Products overview page */
 .post-type-dlm_product table.wp-list-table .column-title {
   width: 65% !important;

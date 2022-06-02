@@ -231,19 +231,19 @@ class DLM_Download_Handler {
 	 * @return void
 	 */
 	private function trigger( $download ) {
-		
+
 		// Check to see if it's XMLHttpRequest or classic download
 		$XMLHttpRequest = false;
 
-		if ( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' ===  $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
-			
+		if ( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
+
 			if ( ! isset( $_REQUEST['nonce'] ) ) {
 				wp_send_json_error( array( 'error' => 'missing_nonce' ) );
 			}
-			wp_verify_nonce('dlm_ajax_nonce', $_REQUEST['nonce'] );
+			wp_verify_nonce( 'dlm_ajax_nonce', $_REQUEST['nonce'] );
 			$XMLHttpRequest = true;
-		}	
-		
+		}
+
 		// Download is triggered. First thing we do, send no cache headers.
 		$this->cache_headers();
 
@@ -287,8 +287,8 @@ class DLM_Download_Handler {
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( $restriction ) {
 			if ( $XMLHttpRequest ) {
-				header("DLM-Error: " . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
-				http_response_code(403);
+				header('DLM-Error: ' . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
+				http_response_code(403 );
 				exit;
 			}
 			header( 'Status: 403 Access denied, file not in allowed paths.' );
@@ -566,8 +566,8 @@ class DLM_Download_Handler {
 		$headers['Content-Transfer-Encoding'] = 'binary';
 		$headers['DLM-Download-ID']           = $download->get_id();
 		$headers['DLM-Version-ID']            = $version->get_id();
-		$file_manager = new DLM_File_Manager();
-		$file_size    = $file_manager->get_file_size( $file_path );
+		$file_manager                         = new DLM_File_Manager();
+		$file_size                            = $file_manager->get_file_size( $file_path );
 
 		if ( $file_size ) {
 			// Replace the old way ( getting the filesize from the DB ) in case the user has replaced the file directly using cPanel,

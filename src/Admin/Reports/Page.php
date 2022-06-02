@@ -45,6 +45,12 @@ class DLM_Reports_Page {
 					'callback'    => array( $this, 'general_info' ), // The callback to display the content.
 					'priority'    => 10, // Tab priority.
 				),
+				'user_reports' => array(
+					'tab_label'   => esc_html__( 'User reports', 'download-monitor' ), // Label to be displayed on tab nav.
+					'description' => esc_html__( 'Reports based on user activity', 'download-monitor' ), // Description to be displayed on tab nav.
+					'callback'    => array( $this, 'user_reports' ), // The callback to display the content.
+					'priority'    => 20, // Tab priority.
+				),
 			)
 		);
 
@@ -101,7 +107,7 @@ class DLM_Reports_Page {
 	public function insights_header() {
 		?>
 		<div class="dlm-insights-header">
-			<h1 class="dlm-reports-heading"><?php esc_html_e( 'Overview', 'download-monitor' ) ?></h1>
+			<h1 class="dlm-reports-heading"><?php esc_html_e( 'Overview', 'download-monitor' ); ?></h1>
 			<div class="dlm-insights-navigation">
 				<?php
 				$this->insights_navigation();
@@ -183,7 +189,55 @@ class DLM_Reports_Page {
 				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more" title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
 			</div>	
 		</div>
-		
+
+		<?php
+	}
+
+	/**
+	 * Insights page general info content
+	 *
+	 * @return void
+	 */
+	public function user_reports() {
+		?>
+		<div class="dlm-reports-wrapper">
+			<div class="dlm-reports-block dlm-reports-block-summary" id="user_downloads_summary">
+				<ul>
+					<li id="logged_in"><label><?php esc_html_e( 'Logged in downloads', 'download-monitor' ); ?>
+							<div class="wpchill-tooltip"><i>[?]</i>
+								<div class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged in users.', 'download-monitor' ); ?></div>
+							</div>
+						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+					<li id="logged_out"><label><?php esc_html_e( 'Logged out/visitor downloads', 'download-monitor' ); ?>
+							<div class="wpchill-tooltip"><i>[?]</i>
+								<div class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged out users or visitors.', 'download-monitor' ); ?></div>
+							</div>
+						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+					<li id="most_active_user">
+						<label><?php esc_html_e( 'Most active user', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+
+		<div id="users_downloads_table_wrapper" class="empty">
+			<h3><?php esc_html_e( 'User downloads', 'donwload-monitor' ); ?>
+				<div class="wpchill-tooltip"><i>[?]</i>
+					<div class="wpchill-tooltip-content"><?php esc_html_e( 'A log of each download process.', 'download-monitor' ); ?></div>
+				</div>
+			</h3>
+			<div class="dlm-reports-block dlm-reports-block-table" id="total_downloads_table" data-page="0">
+				<div class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></div>
+			</div>
+			<div id="downloads-block-navigation">
+				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled"
+						title="<?php esc_html_e( 'Previous 15', 'download-monitor' ); ?>"></button>
+				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more"
+						title="<?php esc_html_e( 'Next 15', 'download-monitor' ); ?>"></button>
+			</div>
+		</div>
+
 		<?php
 	}
 
@@ -228,27 +282,26 @@ class DLM_Reports_Page {
 			<div class="wrap">
 				<hr class="wp-header-end">
 				<div class="main">
-					<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s Reports page.', 'download-monitor' ); ?></h3>	
+					<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s Reports page.', 'download-monitor' ); ?></h3>
 				</div>
 				</div>
 			<?php
-		}else{
+		} else {
 			/* Display page */
 			?>
 			<div class="wrap dlm-reports wp-clearfix">
-				<hr class="wp-header-end">			
-				<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>		
+				<hr class="wp-header-end">
+				<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
 				<?php $this->insights_header(); ?>
 				<br/>
 				<?php do_action( 'dlm_reports_page_start' ); ?>
 				<?php $this->insights_content(); ?>
-				<?php do_action( 'dlm_reports_page_end' ); ?>			
+				<?php do_action( 'dlm_reports_page_end' ); ?>
 				<div class="dlm-loading-data"><h1><?php esc_html_e( 'Loading data...', 'download-monitor' ); ?></div>
 			</div>
 			<?php
 		}
 
-		
 	}
 
 }
