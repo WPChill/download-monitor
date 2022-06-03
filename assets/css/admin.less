@@ -1413,7 +1413,8 @@ table.wp-list-table {
         margin: -16px 0 0 -16px;
       }
 
-      #downloads-block-navigation {
+      #downloads-block-navigation,
+      #user-downloads-block-navigation{
         min-height: 24px;
         text-align: center;
         padding: 14px 0 0 0;
@@ -1620,7 +1621,8 @@ table.wp-list-table {
       }
     }
 
-    #total_downloads_table_wrapper {
+    #total_downloads_table_wrapper,
+    #users_downloads_table_wrapper{
       width: 50%;
       padding: 1rem;
       background-color: #FFF;
@@ -1634,6 +1636,10 @@ table.wp-list-table {
 
       &.empty {
         display: none;
+      }
+
+      #users_download_log {
+        margin-top:25px;
       }
 
       .dlm-reports-top-downloads {
@@ -1670,6 +1676,9 @@ table.wp-list-table {
           margin: 6px 0;
           align-items: center;
 
+          p{
+            margin:0;
+          }
 
           .dlm-reports-top-downloads__overflower {
             position: absolute;
@@ -1711,6 +1720,50 @@ table.wp-list-table {
         }
       }
     }
+
+    #users_downloads_table_wrapper {
+
+      width:calc(100% - 2rem);
+      .dlm-reports-top-downloads__header,
+      .dlm-reports-top-downloads__line{
+        &:nth-child(even){
+          background:#DEDEDE;
+        }
+        & > div {
+          width:20%;
+          display:inline-block;
+          text-align:left !important;
+          flex-grow:unset !important;
+
+          .dlm-user-reports {
+            .wpchill-tooltip {
+              font-size: 12px;
+
+              .wpchill-tooltip-content {
+
+                font-size: 16px;
+                line-height: 18px;
+                text-align:center;
+
+                span {
+                  font-size: 16px;
+                  line-height: 18px;
+                  text-align:center;
+                  display:block;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .user-downloads-filters {
+        .user-downloads-filters__heading,
+        .user-downloads-filters__filter {
+          display:inline-block;
+        }
+      }
+    }
   }
 
   div[data-id="user_reports"] {
@@ -1730,6 +1783,7 @@ table.wp-list-table {
               font-size: 16px;
               line-height: 18px;
               text-align:center;
+              display:block;
             }
           }
         }

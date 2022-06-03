@@ -227,10 +227,22 @@ class DLM_Reports_Page {
 					<div class="wpchill-tooltip-content"><?php esc_html_e( 'A log of each download process.', 'download-monitor' ); ?></div>
 				</div>
 			</h3>
-			<div class="dlm-reports-block dlm-reports-block-table" id="total_downloads_table" data-page="0">
+			<div class="user-downloads-filters">
+				<h3 class="user-downloads-filters__heading"><?php echo esc_html__( 'Filter logs by:', 'download-monitor' ); ?></h3>
+				<select id="dlm-filter-by-status" class="user-downloads-filters__filter" data-type="download_status">
+					<option value=""><?php echo esc_html__( 'Filter by status', 'download-monitor' ); ?></option>
+					<option value="completed"><?php echo esc_html__( 'Completed', 'download-monitor' ); ?></option>
+					<option value="redirected"><?php echo esc_html__( 'Redirected', 'download-monitor' ); ?></option>
+					<option value="failed"><?php echo esc_html__( 'Failed', 'download-monitor' ); ?></option>
+				</select>
+				<select id="dlm-filter-by-user" class="user-downloads-filters__filter" data-type="user_id">
+					<option value=""><?php echo esc_html__( 'Filter by user', 'download-monitor' ); ?></option>
+				</select>
+			</div>
+			<div class="dlm-reports-block dlm-reports-block-table" id="users_download_log" data-page="0">
 				<div class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></div>
 			</div>
-			<div id="downloads-block-navigation">
+			<div id="user-downloads-block-navigation">
 				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled"
 						title="<?php esc_html_e( 'Previous 15', 'download-monitor' ); ?>"></button>
 				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more"
