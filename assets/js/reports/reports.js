@@ -1301,8 +1301,9 @@ class DLM_Reports {
      * Create user related data
      */
     createUserRelatedData() {
+
         let data = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads));
-        dlmReportsInstance.userRelatedData = {};
+        dlmReportsInstance.userRelatedData = [];
         Object.values(data).forEach((download, index) => {
 
             if ('0' !== download.user_id) {
@@ -1340,10 +1341,10 @@ class DLM_Reports {
         });
 
         dlmReportsInstance.createUserRelatedData();
+        dlmReportsInstance.filterDownloads();
         dlmReportsInstance.setMostActiveUser();
         dlmReportsInstance.setLoggedOutDownloads();
         dlmReportsInstance.setLoggedInDownloads();
-        dlmReportsInstance.filterDownloads();
     }
 
     /**
@@ -1400,10 +1401,16 @@ class DLM_Reports {
      * @returns {number}
      */
     getLoggedInDownloads() {
+
         if (Object.values(dlmReportsInstance.userRelatedData).length) {
-            return Object.values(dlmReportsInstance.userRelatedData).reduce((previousValue, currentValue) => {
-                return parseInt(previousValue.length) + parseInt(currentValue.length);
-            });
+            if(Object.values(dlmReportsInstance.userRelatedData).length > 1){
+                return Object.values(dlmReportsInstance.userRelatedData).reduce((previousValue, currentValue) => {
+                    return parseInt(previousValue.length) + parseInt(currentValue.length);
+                });
+            } else {
+                return Object.values(dlmReportsInstance.userRelatedData)[0].length;
+            }
+
         }
         return 0;
     }
@@ -1477,15 +1484,6 @@ class DLM_Reports {
         // Setup header row
         let headerRow = document.createElement('div');
         headerRow.className = "dlm-reports-top-downloads__header";
-
-        // Create position row
-        /*
-        const posRow = document.createElement('div');
-        const posRowLabel = document.createElement('label');
-        posRowLabel.appendChild(document.createTextNode("#position"));
-        posRow.appendChild(posRowLabel);
-        headerRow.appendChild(posRow);
-        */
 
         // Create title row
         const titleRow = document.createElement('div');
@@ -1674,13 +1672,15 @@ class DLM_Reports {
      */
     filterDownloads() {
 
-        if (dlmReportsInstance.currentFilters.length) {
+        if (!dlmReportsInstance.currentFilters.length) {
             return;
         }
         // Reset userDownloads so we can filter through all of them
         dlmReportsInstance.tempDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads))
+        dlmReportsInstance.userDownloads = JSON.parse(JSON.stringify(dlmUsersStats.all));
 
         dlmReportsInstance.currentFilters.forEach((filter) => {
+
             dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
                 return filter.on === element[filter.type];
             });
