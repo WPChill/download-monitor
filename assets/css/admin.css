@@ -1135,8 +1135,25 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports {
   position: relative;
 }
+.dlm_download_page_download-monitor-reports #wpcontent {
+  background: #fff;
+}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports {
   position: relative;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .reports-block {
+  padding: 1rem;
+  background-color: #FFF;
+  margin-top: 24px;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  border-bottom: 1px solid #dedede;
+  border-left: 1px solid #dedede;
+  border-right: 1px solid #dedede;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .half-reports-block {
+  width: calc(50% - 45px);
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-loading-data {
   display: flex;
@@ -1156,8 +1173,9 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header {
   display: flex;
-  justify-content: space-between;
   padding: 15px 0;
+  background: #fff;
+  justify-content: space-between;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-heading {
   font-weight: bold;
@@ -1165,27 +1183,28 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   border-bottom: 1px solid #ccc;
+  overflow: hidden;
   margin: 0;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element {
+  min-width: 250px;
   border-bottom: 1px solid transparent;
   margin: 0 1px;
   display: block;
-  background-color: #fff;
-  padding: 15px 5px;
+  padding: 10px 5px;
   text-align: center;
   word-break: break-all;
   cursor: pointer;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  box-shadow: 0px 2px 0px red;
+  border-bottom: 1px solid blue;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element .dlm-insights-tab-navigation__label {
   display: block;
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element .dlm-insights-tab-navigation__description {
@@ -1196,11 +1215,10 @@ table.wp-list-table .column-thumb img {
   color: #646161;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions {
-  display: inline-flex;
+  display: block;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions:hover {
   border-color: #4338ca;
-  box-shadow: 0 0 1px #4338ca;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions:focus {
   border-color: #4338ca;
@@ -1218,11 +1236,8 @@ table.wp-list-table .column-thumb img {
   position: relative;
   font-size: 14px;
   padding: 0 0.5em 0 5px;
-  border: 1px solid #dedede;
   user-select: none;
   cursor: pointer;
-  background-color: #FFF;
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector #dlm_date_range_picker .date-picker-wrapper {
   background: #fff;
@@ -1348,9 +1363,13 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-tab-navigation__content {
   display: none;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-tab-navigation__content.active {
-  display: block;
+  display: flex;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm_reports_loader {
   position: absolute;
@@ -1467,27 +1486,28 @@ table.wp-list-table .column-thumb img {
   padding-bottom: 20px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-wrapper {
-  background-color: #FFF;
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-  border: 1px solid #dedede;
+  width: 100%;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-block-summary ul {
   display: flex;
-  align-items: strecth;
   flex-direction: row;
   padding: 30px 0;
+  justify-content: space-between;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-block-summary ul li {
-  flex-grow: 1;
-  flex: 1;
-  padding: 15px 0;
-  margin: 0 auto;
+  width: calc(30% - 30px);
+  padding: 30px !important;
+  margin: 0;
+  overflow: hidden;
+  font-weight: 600;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper {
   max-width: 100%;
   background-color: #FFF;
   padding: 15px 30px;
   position: relative;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-reports-block-chart {
   width: 100%;
@@ -1525,15 +1545,6 @@ table.wp-list-table .column-thumb img {
   font-size: 13px;
   margin: 0 auto;
   font-weight: 600;
-}
-.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper,
-.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper {
-  width: 50%;
-  padding: 1rem;
-  background-color: #FFF;
-  margin-top: 24px;
-  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-  border: 1px solid #DEDEDE;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper h3,
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper h3 {
@@ -1618,18 +1629,57 @@ table.wp-list-table .column-thumb img {
   max-width: 20%;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper {
-  width: calc(100% - 2rem);
+  width: 100%;
+  margin-top: 35px;
 }
-.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header:nth-child(even),
-.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line:nth-child(even) {
-  background: #DEDEDE;
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper #users_download_log {
+  border-radius: 10px !important;
+  padding: 0 !important;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header {
+  background: #f9fafb;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line {
+  font-weight: 700;
+  display: table;
+  width: 100%;
+  margin-bottom: 17px;
+  padding: 1rem 10px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header:not(:last-child),
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line:not(:last-child) {
+  border-bottom: 1px solid #DEDEDE;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header .dlm-reports-top-downloads__download_status,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line .dlm-reports-top-downloads__download_status {
+  border-radius: 10px;
+  padding: 10px;
+  text-transform: capitalize;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header .dlm-reports-top-downloads__download_status.completed,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line .dlm-reports-top-downloads__download_status.completed {
+  background: #adff2f60;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header .dlm-reports-top-downloads__download_status.redirected,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line .dlm-reports-top-downloads__download_status.redirected {
+  background: #FFFF0060;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header .dlm-reports-top-downloads__download_status.failed,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line .dlm-reports-top-downloads__download_status.failed {
+  background: #ff000060;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header > div,
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line > div {
-  width: 20%;
+  width: calc(15% - 3px);
   display: inline-block;
   text-align: left !important;
   flex-grow: unset !important;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header > div:last-child,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line > div:last-child {
+  width: calc(10% - 2px);
+  text-align: right !important;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header > div .dlm-user-reports .wpchill-tooltip,
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line > div .dlm-user-reports .wpchill-tooltip {
@@ -1647,6 +1697,10 @@ table.wp-list-table .column-thumb img {
   line-height: 18px;
   text-align: center;
   display: block;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header a,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line a {
+  text-decoration: none;
 }
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .user-downloads-filters .user-downloads-filters__heading,
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .user-downloads-filters .user-downloads-filters__filter {

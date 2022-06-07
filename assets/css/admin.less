@@ -1134,8 +1134,25 @@ table.wp-list-table {
   position: relative;
 
   #wpcontent {
+    background:#fff;
 
     .dlm-reports {
+
+      .reports-block {
+        padding: 1rem;
+        background-color: #FFF;
+        margin-top: 24px;
+        box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+        border-bottom: 1px solid #dedede;
+        border-left: 1px solid #dedede;
+        border-right: 1px solid #dedede;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      .half-reports-block {
+        width: calc(50% - 45px);
+      }
 
       position: relative;
 
@@ -1159,8 +1176,9 @@ table.wp-list-table {
       .dlm-insights-header {
 
         display: flex;
-        justify-content: space-between;
         padding: 15px 0;
+        background:#fff;
+        justify-content: space-between;
 
         .dlm-reports-heading {
           font-weight: bold;
@@ -1169,32 +1187,31 @@ table.wp-list-table {
         .dlm-insights-navigation {
 
           .dlm-insights-tab-navigation {
-
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
+            justify-content: flex-start;
             border-bottom: 1px solid #ccc;
+            overflow: hidden;
             margin: 0;
 
             .dlm-insights-tab-navigation__element {
-
-              &.active {
-                box-shadow: 0px 2px 0px red;
-              }
-
+              min-width:250px;
               border-bottom:1px solid transparent;
               margin:0 1px;
               display:block;
-              background-color:#fff;
-              padding:15px 5px;
+              padding:10px 5px;
               text-align:center;
               word-break: break-all;
               cursor: pointer;
 
+              &.active {
+                border-bottom:1px solid blue;
+              }
+
               .dlm-insights-tab-navigation__label {
                 display: block;
                 width: 100%;
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: bold;
               }
 
@@ -1211,11 +1228,10 @@ table.wp-list-table {
         }
 
         .dlm-reports-actions {
-          display: inline-flex;
+          display: block;
 
           &:hover {
             border-color: #4338ca;
-            box-shadow: 0 0 1px #4338ca;
           }
 
           &:focus {
@@ -1237,11 +1253,8 @@ table.wp-list-table {
             position: relative;
             font-size: 14px;
             padding: 0 .5em 0 5px;
-            border: 1px solid #dedede;
             user-select: none;
             cursor: pointer;
-            background-color: #FFF;
-            box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
             #dlm_date_range_picker {
               .date-picker-wrapper {
@@ -1397,10 +1410,13 @@ table.wp-list-table {
 
       .dlm-insights-tab-navigation__content {
         display: none;
-
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
 
         &.active {
-          display: block;
+          display: flex;
         }
       }
 
@@ -1547,24 +1563,23 @@ table.wp-list-table {
     }
 
     .dlm-reports-wrapper {
-      background-color: #FFF;
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-      border: 1px solid #dedede;
+      width: 100%;
     }
 
     .dlm-reports-block-summary {
 
       ul {
         display: flex;
-        align-items: strecth;
         flex-direction: row;
         padding: 30px 0;
+        justify-content: space-between;
 
         li {
-          flex-grow: 1;
-          flex: 1;
-          padding: 15px 0;
-          margin: 0 auto;
+          width: calc(30% - 30px);
+          padding: 30px !important;
+          margin: 0;
+          overflow: hidden;
+          font-weight: 600;
         }
       }
     }
@@ -1574,6 +1589,8 @@ table.wp-list-table {
       background-color: #FFF;
       padding: 15px 30px;
       position: relative;
+      border-radius:10px;
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 
       .dlm-reports-block-chart {
         width: 100%;
@@ -1623,12 +1640,6 @@ table.wp-list-table {
 
     #total_downloads_table_wrapper,
     #users_downloads_table_wrapper{
-      width: 50%;
-      padding: 1rem;
-      background-color: #FFF;
-      margin-top: 24px;
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-      border: 1px solid #DEDEDE;
 
       h3 {
         margin-top: 0;
@@ -1644,7 +1655,7 @@ table.wp-list-table {
 
       .dlm-reports-top-downloads {
 
-        .dlm-reports-top-downloads__header {
+        .dlm-reports-top-downloads__header{
           font-weight: bold;
           display: table;
           width: 100%;
@@ -1723,18 +1734,53 @@ table.wp-list-table {
 
     #users_downloads_table_wrapper {
 
-      width:calc(100% - 2rem);
+      width:100%;
+      margin-top:35px;
+
+      #users_download_log {
+        border-radius:10px !important;
+        padding:0 !important;
+      }
+      .dlm-reports-top-downloads__header{
+        background:#f9fafb;
+      }
       .dlm-reports-top-downloads__header,
       .dlm-reports-top-downloads__line{
-        &:nth-child(even){
-          background:#DEDEDE;
+
+        font-weight: 700;
+        display: table;
+        width: 100%;
+        margin-bottom: 17px;
+
+        &:not(:last-child){
+          border-bottom: 1px solid #DEDEDE;
         }
+
+        .dlm-reports-top-downloads__download_status {
+          border-radius:10px;
+          padding:10px;
+          text-transform: capitalize;
+          &.completed{
+            background:#adff2f60;
+          }
+          &.redirected{
+            background:#FFFF0060;
+          }
+          &.failed{
+            background:#ff000060;
+          }
+        }
+
+        padding:1rem 10px;
         & > div {
-          width:20%;
+          width:calc(15% - 3px);
           display:inline-block;
           text-align:left !important;
           flex-grow:unset !important;
-
+          &:last-child{
+            width:calc(10% - 2px);
+            text-align:right !important;
+          }
           .dlm-user-reports {
             .wpchill-tooltip {
               font-size: 12px;
@@ -1754,6 +1800,10 @@ table.wp-list-table {
               }
             }
           }
+        }
+
+        a{
+          text-decoration:none;
         }
       }
 

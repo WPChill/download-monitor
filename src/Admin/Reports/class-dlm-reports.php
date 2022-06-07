@@ -136,9 +136,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			if ( ! $stats ) {
 
-				$logged_in_stats  = $wpdb->get_results( 'SELECT COUNT(ID) as `download_number`, user_id FROM ' . $wpdb->download_log . ' WHERE user_id > 0 GROUP BY user_id;', ARRAY_A );
-				$logged_out_stats = $wpdb->get_results( 'SELECT COUNT(ID) FROM ' . $wpdb->download_log . ' WHERE user_id = 0;', ARRAY_N );
-				$stats            = $wpdb->get_results( 'SELECT dlm.user_id, dlm.user_ip, dlm.download_id, dlm.download_date, dlm.download_status FROM ' . $wpdb->download_log . ' dlm ORDER BY dlm.ID desc;', ARRAY_A );
+				$downloads        = $wpdb->get_results( 'SELECT dlm.user_id, dlm.user_ip, dlm.download_id, dlm.download_date, dlm.download_status FROM ' . $wpdb->download_log . ' dlm ORDER BY dlm.ID desc;', ARRAY_A );
 				$users            = get_users();
 				$users_data       = array();
 
@@ -155,9 +153,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				}
 
 				$user_reports = array(
-					'logged_in'  => $logged_in_stats,
-					'logged_out' => $logged_out_stats,
-					'all'        => $stats,
+					'all'        => $downloads,
 					'users'      => $users_data,
 				);
 
