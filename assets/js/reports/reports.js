@@ -26,20 +26,23 @@ class DLM_Reports {
         dlmReportsInstance.chartColors = {
             purple: {
                 default: "rgba(149, 76, 233, 1)",
-                half: "rgba(149, 76, 233, 0.75)",
+                threesome: "rgba(149, 76, 233, 0.75)",
+                half: "rgba(149, 76, 233, 0.5)",
                 quarter: "rgba(149, 76, 233, 0.5)",
                 zero: "rgba(149, 76, 233, 0.05)"
             },
             blue: {
                 default: "rgba(67, 56, 202, 1)",
-                half: "rgba(67, 56, 202, 0.75)",
-                quarter: "rgba(67, 56, 202, 0.5)",
+                threesome: "rgba(67, 56, 202, 0.75)",
+                half: "rgba(67, 56, 202, 0.5)",
+                quarter: "rgba(67, 56, 202, 0.25)",
                 zero: "rgba(67, 56, 202, 0.05)"
             },
             green: {
                 default: "rgba(00, 255, 00, 1)",
-                half: "rgba(00, 255, 00, 0.75)",
-                quarter: "rgba(00, 255, 00, 0.5)",
+                threesome: "rgba(00, 255, 00, 0.75)",
+                half: "rgba(00, 255, 00, 0.5)",
+                quarter: "rgba(00, 255, 00, 0.25)",
                 zero: "rgba(67, 56, 202, 0.05)",
             }
         };
@@ -155,11 +158,11 @@ class DLM_Reports {
             event.stopPropagation();
 
             if (jQuery(dlmReportsInstance.datePickerContainer).find('#dlm_date_range_picker').length > 0) {
-                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.datePickerContainer),{target:'date'});
+                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.datePickerContainer), {target: 'date'});
             }
 
             if (jQuery(dlmReportsInstance.compareDatePickerContainer).find('#dlm_compare_date_range_picker').length > 0) {
-                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.compareDatePickerContainer),{target:'compare'});
+                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.compareDatePickerContainer), {target: 'compare'});
             }
         });
     }
@@ -531,7 +534,8 @@ class DLM_Reports {
                 dataSetPointbg = dlmReportsInstance.chartColors.blue.default,
                 dataSetBorder = dlmReportsInstance.chartColors.blue.default,
                 dataSetElementColor = '#2ecc71',
-                lineType = 'original';
+                lineType = 'original',
+                xAxis = 'x';
 
             if ('undefined' !== typeof chart) {
                 chart.destroy();
@@ -545,13 +549,14 @@ class DLM_Reports {
                 dataSetBorder = dlmReportsInstance.chartColors.green.default;
                 dataSetElementColor = '#00ff00';
                 lineType = 'comparer';
+                xAxis = 'xAxis2';
             }
 
             // Unset the dataSet that will be modified
-            if(dlmReportsInstance.dataSets.length > 0){
+            if (dlmReportsInstance.dataSets.length > 0) {
                 dlmReportsInstance.dataSets = dlmReportsInstance.dataSets.filter((element) => {
 
-                    if( lineType === element.origin ) {
+                    if (lineType === element.origin) {
                         return false;
                     }
 
@@ -565,6 +570,7 @@ class DLM_Reports {
                 color: dataSetColor,
                 data: data,
                 type: 'line',
+               // xAxisID: xAxis,
                 fill: true,
                 backgroundColor: dataSetbg,
                 pointBackgroundColor: dataSetPointbg,
@@ -587,6 +593,29 @@ class DLM_Reports {
                 },
             });
 
+            // Get the compare data from our dataSets. We need to extract it from here in case the data parameter sent by the function
+            // had modifications.
+            let compareData = Object.values(dlmReportsInstance.dataSets).filter((element) => {
+                return 'comparer' === element.origin;
+            });
+
+            let currentData = Object.values(dlmReportsInstance.dataSets).filter((element) => {
+                return 'original' === element.origin;
+            });
+
+            if (compareData.length) {
+                compareData = compareData[0];
+            }
+
+            if (currentData.length) {
+                currentData = currentData[0];
+            }
+
+            let trueData = Object.keys(currentData.data);
+            if ('undefined' !== typeof compareData.data) {
+                let trueData = Object.keys(currentData.data).concat(Object.keys(compareData.data)).sort();
+            }
+
             dlmReportsInstance.chart = new Chart(chartId, {
                 title: "",
                 data: {
@@ -597,6 +626,11 @@ class DLM_Reports {
                 options: {
                     aspectRatio: 5,
                     animation: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    stacked: false,
                     scales: {
                         x: {
                             grid: {
@@ -604,17 +638,18 @@ class DLM_Reports {
                             },
                             ticks: {
                                 callback: (val) => {
-                                    if( dlmReportsInstance.dataSets.length > 1 ){
-                                        return '--';
-                                    }
+
                                     let date = '';
-                                    const dateString = Object.keys(data)[val];
-                                    const lastDate = Object.keys(data)[Object.keys(data).length - 1];
+                                    let dateString = '';
+
+                                    dateString = trueData[val];
+
+                                    const lastDate = trueData[trueData.length - 1];
                                     const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-M");
 
                                     if ('undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType) {
 
-                                        const month = moment(Object.keys(data)[val]).month();
+                                        const month = moment(trueData[val]).month();
 
                                         if (11 > month) {
                                             if (dateString === prevLastDate) {
@@ -644,10 +679,69 @@ class DLM_Reports {
                                 }
                             },
                         },
+                       /* xAxis2: {
+                            grid: {
+                                display: false,
+                            },
+                            position: "bottom",
+                            ticks: {
+                                callback: (val) => {
+
+                                    if (compareData.length === 0) {
+                                        return;
+                                    }
+
+                                    let date = '';
+                                    let dateString='';
+                                    if (Object.keys(trueData.data).length === Object.keys(compareData.data).length) {
+                                        dateString = Object.keys(compareData.data)[val - ((Object.keys(trueData.data).length - 1) - (Object.keys(compareData.data).length - 1))];
+                                    } else {
+                                        dateString = Object.keys(compareData.data)[val - ((Object.keys(trueData.data).length - 1) - (Object.keys(compareData.data).length - 1))];
+                                    }
+
+                                    if ('undefined' === typeof dateString) {
+                                        return '--';
+                                    }
+
+                                    const lastDate = Object.keys(compareData.data)[Object.keys(compareData.data).length - 1];
+                                    const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-M");
+
+                                    if ('undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType) {
+
+                                        const month = moment(Object.keys(compareData.data)[val - trueData.data.length]).month();
+
+                                        if (11 > month) {
+                                            if (dateString === prevLastDate) {
+                                                date = moment(dateString).format("MMM, YYYY");
+                                            } else {
+                                                date = moment(dateString).format("MMM") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).format(", YYYY");
+                                            }
+
+                                        } else {
+                                            if (dateString === prevLastDate || dateString === lastDate) {
+                                                date = moment(dateString).format("MMM, YYYY");
+                                            } else {
+                                                date = moment(dateString).format("MMM") + moment(dateString).format(" YYYY") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).month(month + 1).format(", YYYY");
+                                            }
+
+                                        }
+
+                                    } else if ('undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType) {
+
+                                        date = moment(dateString).format("MMMM, YYYY");
+                                    } else {
+
+                                        date = moment(dateString).format("D MMM");
+                                    }
+
+                                    return date;
+                                }
+                            },
+                        },*/
                         y: {
                             grid: {
                                 drawBorder: false,
-                            }
+                            },
                         }
                     },
                     normalized: true,
@@ -725,7 +819,7 @@ class DLM_Reports {
      *
      * @returns
      */
-    createDatepicker(target,opener,containerID) {
+    createDatepicker(target, opener, containerID) {
 
         const today = new Date();
         let dd = today.getDate() - 1;
@@ -749,8 +843,8 @@ class DLM_Reports {
 
 
         var el = jQuery('<div>').addClass('dlm_rdrs_overlay');
-        var startDate = jQuery('<div>').attr('id', containerID.replace('#',''));
-        if('date' === opener.target){
+        var startDate = jQuery('<div>').attr('id', containerID.replace('#', ''));
+        if ('date' === opener.target) {
             dlmReportsInstance.startDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_start_date').attr('value', lastMonth);
             dlmReportsInstance.endDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_end_date').attr('value', yesterday);
             el.append(startDate).append(dlmReportsInstance.startDateInput).append(dlmReportsInstance.endDateInput);
@@ -769,14 +863,14 @@ class DLM_Reports {
      *
      * @returns
      */
-    displayDatepicker(target,opener) {
+    displayDatepicker(target, opener) {
 
-        if ( opener.object.opened) {
+        if (opener.object.opened) {
             return;
         }
         let containerID = '#dlm_date_range_picker';
 
-        if('date' === opener.target){
+        if ('date' === opener.target) {
             dlmReportsInstance.datePicker.opened = true;
         } else {
             dlmReportsInstance.compareDatePicker.opened = true;
@@ -884,7 +978,7 @@ class DLM_Reports {
             separator: ' to ',
             autoClose: true,
             setValue: function (s, s1, s2) {
-                if('date' === opener.target){
+                if ('date' === opener.target) {
                     element.find('#dlm_start_date').val(s1);
                     element.find('#dlm_end_date').val(s2);
                 } else {
@@ -927,9 +1021,9 @@ class DLM_Reports {
             // Recreate the stats
             dlmReportsInstance.createDataOnDate(obj.date1, obj.date2);
 
-            dlmReportsInstance.dlmCreateChart(this.stats.chartStats, this.chartContainer,('compare' === opener.target) ? true : false);
+            dlmReportsInstance.dlmCreateChart(this.stats.chartStats, this.chartContainer, ('compare' === opener.target) ? true : false);
 
-            if('date' === opener.target){
+            if ('date' === opener.target) {
 
                 dlmReportsInstance.dlmDownloadsSummary();
 
@@ -945,8 +1039,8 @@ class DLM_Reports {
     /**
      * Hide the datepicker.
      */
-    hideDatepicker(target,opener) {
-        if( 'date' === opener.target){
+    hideDatepicker(target, opener) {
+        if ('date' === opener.target) {
             dlmReportsInstance.datePicker.opened = false;
         } else {
             dlmReportsInstance.compareDatePicker.opened = false;

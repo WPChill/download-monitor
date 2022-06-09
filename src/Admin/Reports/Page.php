@@ -24,6 +24,7 @@ class DLM_Reports_Page {
 
 		// Set this action on order for other plugins/themes to tap into our tabs.
 		add_action( 'admin_init', array( $this, 'set_tabs' ) );
+		add_action( 'dlm_page_header_links', array( $this, 'header_reports_settings' ) );
 
 	}
 
@@ -196,11 +197,11 @@ class DLM_Reports_Page {
 		</div>
 		<div id="total_downloads_summary_wrapper" class="reports-block half-reports-block">
 			<h3><?php esc_html_e( 'Downloads summary', 'donwload-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div></div></h3>
-			<div class="half-reports-nlock">
+			<div class="half-reports-block">
 				<label><?php echo esc_html__( 'Logged in downloads: ', 'download-monitor' ); ?></label>
 				<span class="dlm-reports-logged-in"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
 			</div>
-			<div class="half-reports-nlock">
+			<div class="half-reports-block">
 				<label><?php echo esc_html__( 'Logged out downloads:', 'download-monitor' ); ?></label>
 				<span class="dlm-reports-logged-out"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
 			</div>
@@ -324,7 +325,26 @@ class DLM_Reports_Page {
 			</div>
 			<?php
 		}
+	}
 
+	/**
+	 * The reports settings
+	 *
+	 * @return void
+	 */
+	public function header_reports_settings() {
+
+		$settings = apply_filters(
+			'dlm_reports_settings',
+			array(
+				'dlm_user_reports' => array(
+					'label'       => esc_html__( 'Enable user reports', 'donwload-monitor' ),
+					'description' => esc_html__( 'Toggle to enable or disable the user reports section', 'download-monitor' ),
+					'default'     => '1',
+					'type'        => 'checkbox'
+				)
+			)
+		);
 	}
 
 }
