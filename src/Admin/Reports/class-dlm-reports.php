@@ -30,6 +30,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function __construct() {
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
+			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
 		}
 
 		/**
@@ -165,6 +166,28 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			return $stats;
+		}
+
+		/**
+		 * Save reports settings
+		 *
+		 * @return void
+		 * @since 4.6.0
+		 */
+		public function save_reports_settings() {
+
+			if ( ! isset( $_POST['nonce'] ) ) {
+				wp_send_json_error( 'No nonce' );
+			}
+			check_ajax_referer( 'dlm_reports_nonce', $_POST['nonce'] );
+
+			$option = sanitize_text_field( wp_unslash( $_POST['name'] ) );
+			$value  = sanitize_text_field( wp_unslash( $_POST['value'] ) );
+
+			if ( '' !== $option ) {
+				update_option( $option, $value );
+			}
+			die();
 		}
 
 	}

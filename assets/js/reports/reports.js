@@ -1845,6 +1845,9 @@ class DLM_Reports {
         jQuery(document).trigger('dlm_set_users_filter', [dlmReportsInstance, dlmUsersStats]);
     }
 
+    /**
+     * Page settings area show/hide
+     */
     togglePageSettings(){
         jQuery('#dlm-toggle-settings').on('click', function(e) {
             e.stopPropagation();
@@ -1856,5 +1859,22 @@ class DLM_Reports {
         jQuery('html,body').on('click', function () {
             jQuery(this).find('.dlm-toggle-settings__settings').removeClass('display');
         });
+
+        jQuery(document).on('change', '.wpchill-toggle__input', function (e) {
+            const $this = jQuery(this),
+                value = $this.val(),
+                name = $this.name,
+                data = {
+                    action: 'dlm_update_report_setting',
+                    value: value,
+                    name: name,
+                    nonce: dlmReportsNonce
+                };
+
+            jQuery.post(ajaxurl,data,function(response){
+               console.log('saved');
+            });
+        });
     }
+
 }

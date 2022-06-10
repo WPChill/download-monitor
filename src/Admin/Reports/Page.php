@@ -131,7 +131,7 @@ class DLM_Reports_Page {
 					<div>
 						<div class="wpchill-toggle">
 							<input class="wpchill-toggle__input" type="checkbox"
-							       name="dlm_reports_page[<?php echo esc_attr( $key ); ?>]">
+							       name="<?php echo esc_attr( $key ); ?>" <?php checked( get_option( $key ), 'on' ); ?>>
 							<div class="wpchill-toggle__items">
 								<span class="wpchill-toggle__track"></span>
 								<span class="wpchill-toggle__thumb"></span>
