@@ -38,7 +38,7 @@ class DLM_Log_Export_CSV {
 		// setup filters
 		$filters = array();
 
-		// setup month filter
+		// setup month filter - leave this here for backwards compatibility purpose
 		if ( ! empty( $filter_month ) ) {
 			$filters[] = array(
 				'key'      => 'download_date',
@@ -49,6 +49,23 @@ class DLM_Log_Export_CSV {
 			$filters[] = array(
 				'key'      => 'download_date',
 				'value'    => date( 'Y-m-t', strtotime( $filter_month ) ),
+				'operator' => '<='
+			);
+		}
+
+		// Set new filters
+		if ( isset( $_GET['start_date'] ) ) {
+			$filters[] = array(
+				'key'      => 'download_date',
+				'value'    => date( 'Y-m-d', strtotime( $_GET['start_date'] ) ),
+				'operator' => '>='
+			);
+		}
+
+		if ( isset( $_GET['end_date'] ) ) {
+			$filters[] = array(
+				'key'      => 'download_date',
+				'value'    => date( 'Y-m-d', strtotime( $_GET['end_date'] ) ),
 				'operator' => '<='
 			);
 		}

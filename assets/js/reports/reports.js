@@ -59,6 +59,10 @@ class DLM_Reports {
         dlmReportsInstance.datePickerContainer = document.getElementById('dlm-date-range-picker');
         dlmReportsInstance.compareDatePickerContainer = document.getElementById('dlm-date-range-picker__compare');
         dlmReportsInstance.dataSets = [];
+        dlmReportsInstance.dates = {
+            start_date : false,
+            end_date : false,
+        };
 
         // Fetch reports data
         dlmReports = this.fetchReportsData();
@@ -105,12 +109,11 @@ class DLM_Reports {
             dlmReportsInstance.chartType = 'day';
 
             if (window.location.href.indexOf('dlm_time') > 0) {
-                const calendar_start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
-                const currDate = new Date();
-                dlmReportsInstance.createDataOnDate(calendar_start_date, currDate);
-            } else {
-                dlmReportsInstance.createDataOnDate(false, false);
+                dlmReportsInstance.dates.start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
+                dlmReportsInstance.dates.end_date =  new Date();
             }
+
+            dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
             dlmReportsInstance.datePicker = {
                 opened: false
@@ -187,12 +190,10 @@ class DLM_Reports {
         dlmReportsInstance.currentFilters = [];
         dlmReportsInstance.tempDownloads = null;
         if (window.location.href.indexOf('dlm_time') > 0) {
-            const calendar_start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
-            const currDate = new Date();
-            dlmReportsInstance.logsDataByDate(calendar_start_date, currDate);
-        } else {
-            dlmReportsInstance.logsDataByDate(false, false);
+            dlmReportsInstance.dates.start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
+            dlmReportsInstance.dates.end_date =  new Date();
         }
+        dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
         dlmReportsInstance.filterDownloadsAction();
         dlmReportsInstance.handleUserDownloads();
@@ -409,6 +410,11 @@ class DLM_Reports {
             } else {
                 dlmReportsInstance.chartType = 'months';
             }
+        }
+
+        dlmReportsInstance.dates = {
+            start_date : startDate,
+            end_date:endDate
         }
 
         // Get all dates from the startDate to the endDate
@@ -968,8 +974,13 @@ class DLM_Reports {
                 element.parent().find('span.date-range-info').text(date_s + ' to ' + date_e);
             }
 
+            dlmReportsInstance.dates = {
+                start_date:obj.date1,
+                end_date:obj.date2
+            }
+
             // Recreate the stats
-            dlmReportsInstance.createDataOnDate(obj.date1, obj.date2);
+            dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
             dlmReportsInstance.dlmCreateChart(dlmReportsInstance.stats.chartStats, dlmReportsInstance.chartContainer, ('compare' === opener.target) ? true : false);
 
@@ -979,7 +990,7 @@ class DLM_Reports {
 
                 // This needs to be set after dlmReportsInstance.dlmDownloadsSummary() because it uses a variable set by it
                 if (Object.values(dlmUsersStats).length > 0) {
-                    dlmReportsInstance.logsDataByDate(obj.date1, obj.date2);
+                    dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
                 }
             }
 
@@ -1914,17 +1925,14 @@ class DLM_Reports {
     /**
      * Download a CSV file containing the download_log table
      */
-    downloadLog(){
-        jQuery('a#dlm-download-log').on('click',function(e){
+    downloadLog() {
+        jQuery('a#dlm-download-log').on('click', function (e) {
             e.preventDefault();
-            const data = {
-                action: 'dlm_download_log',
-                _ajax_nonce: dlmReportsNonce
-            };
-
-            jQuery.post(ajaxurl, data, function (response) {
-
-            });
+            const $this = jQuery(this);
+            const link = $this.attr('href');
+            let start = dlmReportsInstance.createDateElement(new Date(dlmReportsInstance.dates.start_date));
+            let end = dlmReportsInstance.createDateElement(new Date(dlmReportsInstance.dates.end_date));
+            window.location.href = link + '&start_date=' + start + '&end_date=' + end;
         });
     }
 

@@ -587,11 +587,13 @@ Deny from all
 			}
 		}
 
-
 		if ( ( !$transient ) && ! file_exists( $robots_file ) ) {
 			$icon       = 'dashicons-dismiss';
 			$icon_color = '#f00';
 			$icon_text  = __( 'Robots.txt is missing.', 'download-monitor' );
+			$transient['icon'] = $icon;
+			$transient['icon_color'] = $icon_color;
+			$transient['text'] = $icon_text;
 			$transient['virtual'] = false;
 
 			if ( $has_virtual_robots && 'undetermined' !== $has_virtual_robots ) {
@@ -626,7 +628,6 @@ Deny from all
 					$transient['text'] = $icon_text;
 				}
 			}
-
 		}
 
 		$settings['advanced']['sections']['misc']['fields'][] = array(
