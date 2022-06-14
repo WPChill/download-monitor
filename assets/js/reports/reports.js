@@ -44,17 +44,45 @@ class DLM_Reports {
                 half: "rgba(00, 255, 00, 0.5)",
                 quarter: "rgba(00, 255, 00, 0.25)",
                 zero: "rgba(67, 56, 202, 0.05)",
+            },
+            royalBlue: {
+                default: "rgba(65, 105, 225, 1)",
+                threesome: "rgba(65, 105, 225, 0.75)",
+                half: "rgba(65, 105, 225, 0.5)",
+                quarter: "rgba(65, 105, 225, 0.25)",
+                zero: "rgba(65, 105, 225, 0.05)",
+            },
+            persianBlue: {
+                default: "rgba(28, 57, 187, 1)",
+                threesome: "rgba(28, 57, 187, 0.75)",
+                half: "rgba(28, 57, 187, 0.5)",
+                quarter: "rgba(28, 57, 187, 0.25)",
+                zero: "rgba(28, 57, 187, 0.05)",
+            },
+            darkCyan: {
+                default: "rgba(0,129,167, 1)",
+                threesome: "rgba(0,129,167, 0.75)",
+                half: "rgba(0,129,167, 0.5)",
+                quarter: "rgba(0,129,167, 0.25)",
+                zero: "rgba(0,129,167, 0.05)",
+            },
+            strongCyan: {
+                default: "rgba(0, 175, 185, 1)",
+                threesome: "rgba(0, 175, 185, 0.75)",
+                half: "rgba(0, 175, 185, 0.5)",
+                quarter: "rgba(0, 175, 185, 0.25)",
+                zero: "rgba(0, 175, 185, 0.05)",
             }
         };
         dlmReportsInstance.chartGradient = ctx.createLinearGradient(0, 25, 0, 300);
-        dlmReportsInstance.chartGradient.addColorStop(0, this.chartColors.blue.half);
-        dlmReportsInstance.chartGradient.addColorStop(0.45, this.chartColors.blue.quarter);
-        dlmReportsInstance.chartGradient.addColorStop(1, this.chartColors.blue.zero);
+        dlmReportsInstance.chartGradient.addColorStop(0, this.chartColors.darkCyan.half);
+        dlmReportsInstance.chartGradient.addColorStop(0.45, this.chartColors.darkCyan.quarter);
+        dlmReportsInstance.chartGradient.addColorStop(1, this.chartColors.darkCyan.zero);
 
         dlmReportsInstance.chartCompareGradient = ctx.createLinearGradient(0, 25, 0, 300);
-        dlmReportsInstance.chartCompareGradient.addColorStop(0, this.chartColors.green.half);
-        dlmReportsInstance.chartCompareGradient.addColorStop(0.45, this.chartColors.green.quarter);
-        dlmReportsInstance.chartCompareGradient.addColorStop(1, this.chartColors.green.zero);
+        dlmReportsInstance.chartCompareGradient.addColorStop(0, this.chartColors.strongCyan.half);
+        dlmReportsInstance.chartCompareGradient.addColorStop(0.45, this.chartColors.strongCyan.quarter);
+        dlmReportsInstance.chartCompareGradient.addColorStop(1, this.chartColors.strongCyan.zero);
 
         dlmReportsInstance.datePickerContainer = document.getElementById('dlm-date-range-picker');
         dlmReportsInstance.compareDatePickerContainer = document.getElementById('dlm-date-range-picker__compare');
@@ -557,8 +585,8 @@ class DLM_Reports {
                 dataSetLabel = 'Downloads',
                 dataSetColor = '#27ae60',
                 dataSetbg = dlmReportsInstance.chartGradient,
-                dataSetPointbg = dlmReportsInstance.chartColors.blue.default,
-                dataSetBorder = dlmReportsInstance.chartColors.blue.default,
+                dataSetPointbg = dlmReportsInstance.chartColors.darkCyan.default,
+                dataSetBorder = dlmReportsInstance.chartColors.darkCyan.default,
                 dataSetElementColor = '#2ecc71',
                 lineType = 'original',
                 xAxis = 'x',
@@ -572,8 +600,8 @@ class DLM_Reports {
                 dataSetLabel = 'Comparison';
                 dataSetColor = '#00ff00';
                 dataSetbg = dlmReportsInstance.chartCompareGradient;
-                dataSetPointbg = dlmReportsInstance.chartColors.green.default;
-                dataSetBorder = dlmReportsInstance.chartColors.green.default;
+                dataSetPointbg = dlmReportsInstance.chartColors.strongCyan.default;
+                dataSetBorder = dlmReportsInstance.chartColors.strongCyan.default;
                 dataSetElementColor = '#00ff00';
                 lineType = 'comparer';
                 xAxis = 'xAxis2';
