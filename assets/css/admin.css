@@ -1243,11 +1243,22 @@ table.wp-list-table .column-thumb img {
   user-select: none;
   cursor: pointer;
   margin: 0 15px;
+  transition: 800ms ease-in;
+  opacity: 1;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector.disabled {
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0;
   display: none;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector > label {
+  font-size: 12px;
+  font-style: italic;
+  top: -20px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  position: absolute;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector #dlm_date_range_picker .date-picker-wrapper,
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector #dlm_compare_date_range_picker .date-picker-wrapper {

@@ -186,10 +186,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Flush the permalinks.
 			flush_rewrite_rules( false );
 
-			// @todo: For the moment maybe it is best not to alter the download_log table in case someone wants 
-			// to revert back to the before-reports version of the plugin. So update option and send json success here
-			// Also, will keep the code and in the future delete said columns from table
-
 			// Final step has been made, upgrade is complete.
 			$dlm_db_upgrade                  = get_option( 'dlm_db_upgraded' );
 			$dlm_db_upgrade['db_upgraded']   = '1';
@@ -205,63 +201,14 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$alter_statement = "ALTER TABLE {$wpdb->download_log} ADD COLUMN uuid VARCHAR(200) AFTER USER_IP;";
 			$hash_statement  = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
 			// SQL to add index for download_log
-			$add_index       = "ALTER TABLE {$wpdb->download_log} ADD INDEX download_count (version_id);";
+			$add_index = "ALTER TABLE {$wpdb->download_log} ADD INDEX download_count (version_id);";
 
 			$wpdb->query( $alter_statement );
 			$wpdb->query( $hash_statement );
 			$wpdb->query( $add_index );
 
-
 			wp_send_json( array( 'success' => true ) );
 			exit;
-			/*
-			global $wpdb;
-
-			$check_status = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status' ) );
-
-			$check_agent = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'user_agent' ) );
-
-			$check_message = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->download_log} LIKE %s", 'download_status_message' ) );
-
-			$drop_statement = '';
-
-			if ( null !== $check_status && ! empty( $check_status ) ) {
-				$drop_statement .= 'DROP COLUMN download_status';
-
-				// We need to remove data that is was not imported in order to give propper stats.
-				$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.ID as `ID` FROM {$wpdb->download_log} dlm_log WHERE 1=1 AND ( dlm_log.download_status NOT IN ('completed','redirected') OR dlm_log.download_status IS NULL )" ), ARRAY_A );
-
-				if ( null !== $data && ! empty( $data ) ) {
-					foreach ( $data as $log ) {
-						$wpdb->delete( $wpdb->download_log, array( 'ID' => $log['id'] ) );
-					}
-				}
-			}
-
-			if ( null !== $check_agent && ! empty( $check_agent ) ) {
-				$drop_statement .= ', DROP COLUMN user_agent';
-			}
-
-			if ( null !== $check_message && ! empty( $check_message ) ) {
-				$drop_statement .= ', DROP COLUMN download_status_message';
-			}
-
-			// Check if we indeed have those columns.
-			// IF not, don't alter the table.
-			if ( '' !== $drop_statement ) {
-				// Drop not needed columns in table.
-				$wpdb->query( "ALTER TABLE {$wpdb->download_log} {$drop_statement};" );
-			}
-
-			// Final step has been made, upgrade is complete.
-			$dlm_db_upgrade                  = get_option( 'dlm_db_upgraded' );
-			$dlm_db_upgrade['db_upgraded']   = '1';
-			$dlm_db_upgrade['upgraded_date'] = wp_date( 'Y-m-d' );
-
-			update_option( 'dlm_db_upgraded', $dlm_db_upgrade );
-			wp_send_json( array( 'success' => true ) );
-			exit; */
-
 		}
 
 		/**

@@ -103,7 +103,15 @@ class DLM_Reports {
             dlmReportsInstance.mostDownloaded = false;
             dlmReportsInstance.stats = false;
             dlmReportsInstance.chartType = 'day';
-            dlmReportsInstance.createDataOnDate(false, false);
+
+            if (window.location.href.indexOf('dlm_time') > 0) {
+                const calendar_start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
+                const currDate = new Date();
+                dlmReportsInstance.createDataOnDate(calendar_start_date, currDate);
+            } else {
+                dlmReportsInstance.createDataOnDate(false, false);
+            }
+
             dlmReportsInstance.datePicker = {
                 opened: false
             };
@@ -122,7 +130,6 @@ class DLM_Reports {
             pageWrapper.appendChild(errorChart);
 
         }
-
     }
 
     /**
@@ -134,6 +141,7 @@ class DLM_Reports {
         dlmReportsInstance.overViewTab();
         dlmReportsInstance.userReportsTab();
         dlmReportsInstance.togglePageSettings();
+        dlmReportsInstance.downloadLog();
         jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);
 
     }
@@ -171,9 +179,21 @@ class DLM_Reports {
      * The user reports functiuonality
      */
     userReportsTab() {
+
+        if (0 === Object.values(dlmUsersStats).length) {
+            return;
+        }
+
         dlmReportsInstance.currentFilters = [];
         dlmReportsInstance.tempDownloads = null;
-        dlmReportsInstance.logsDataByDate(false, false);
+        if (window.location.href.indexOf('dlm_time') > 0) {
+            const calendar_start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
+            const currDate = new Date();
+            dlmReportsInstance.logsDataByDate(calendar_start_date, currDate);
+        } else {
+            dlmReportsInstance.logsDataByDate(false, false);
+        }
+
         dlmReportsInstance.filterDownloadsAction();
         dlmReportsInstance.handleUserDownloads();
         dlmReportsInstance.setFilters();
@@ -958,7 +978,9 @@ class DLM_Reports {
                 dlmReportsInstance.dlmDownloadsSummary();
 
                 // This needs to be set after dlmReportsInstance.dlmDownloadsSummary() because it uses a variable set by it
-                dlmReportsInstance.logsDataByDate(obj.date1, obj.date2);
+                if (Object.values(dlmUsersStats).length > 0) {
+                    dlmReportsInstance.logsDataByDate(obj.date1, obj.date2);
+                }
             }
 
             element.data('dateRangePicker').close();
@@ -1258,7 +1280,7 @@ class DLM_Reports {
         });
     }
 
-    // The external tooltip of the Chart
+// The external tooltip of the Chart
     getOrCreateTooltip(chart) {
 
         let tooltipEl = chart.canvas.parentNode.querySelector('div');
@@ -1703,7 +1725,8 @@ class DLM_Reports {
                             lineSection.innerHTML = '<p>' + dataResponse[i].download_date + '</p>';
                             break;
                         case 6:
-                            lineSection.innerHTML = '<p><a href="' + dlm_admin_url + 'user-edit.php?user_id=' + dataResponse[i].user_id + '" target="_blank">' + 'Edit user' + '</a></p>';
+                            const userLink = ( '0' !== dataResponse[i].user_id ) ? '<a href="' + dlm_admin_url + 'user-edit.php?user_id=' + dataResponse[i].user_id + '" target="_blank">' + 'Edit user' + '</a>' : '--';
+                            lineSection.innerHTML = '<p>'+userLink+'</p>';
                             break;
 
                     }
@@ -1848,12 +1871,12 @@ class DLM_Reports {
     /**
      * Page settings area show/hide
      */
-    togglePageSettings(){
-        jQuery('#dlm-toggle-settings').on('click', function(e) {
+    togglePageSettings() {
+        jQuery('#dlm-toggle-settings').on('click', function (e) {
             e.stopPropagation();
-            jQuery(this).find( '.dlm-toggle-settings__settings' ).toggleClass('display');
+            jQuery(this).find('.dlm-toggle-settings__settings').toggleClass('display');
         });
-        jQuery('.dlm-toggle-settings__settings').on('click', function(e) {
+        jQuery('.dlm-toggle-settings__settings').on('click', function (e) {
             e.stopPropagation();
         });
         jQuery('html,body').on('click', function () {
@@ -1862,17 +1885,45 @@ class DLM_Reports {
 
         jQuery(document).on('change', '.wpchill-toggle__input', function (e) {
             const $this = jQuery(this),
-                value = $this.val(),
-                name = $this.name,
+                name = $this.attr('name'),
                 data = {
                     action: 'dlm_update_report_setting',
-                    value: value,
                     name: name,
-                    nonce: dlmReportsNonce
+                    checked: $this.is(':checked'),
+                    _ajax_nonce: dlmReportsNonce
                 };
 
-            jQuery.post(ajaxurl,data,function(response){
-               console.log('saved');
+            jQuery.post(ajaxurl, data, function (response) {
+                switch (name) {
+                    case 'dlm_clear_api_cache':
+                    case 'dlm_toggle_user_reports':
+                        window.location.reload();
+                        break;
+                    case 'dlm_toggle_compare':
+                        if ($this.is(':checked')) {
+                            jQuery('#dlm-date-range-picker__compare').removeClass('disabled');
+                        } else {
+                            jQuery('#dlm-date-range-picker__compare').addClass('disabled');
+                        }
+                        break;
+                }
+            });
+        });
+    }
+
+    /**
+     * Download a CSV file containing the download_log table
+     */
+    downloadLog(){
+        jQuery('a#dlm-download-log').on('click',function(e){
+            e.preventDefault();
+            const data = {
+                action: 'dlm_download_log',
+                _ajax_nonce: dlmReportsNonce
+            };
+
+            jQuery.post(ajaxurl, data, function (response) {
+
             });
         });
     }

@@ -1260,12 +1260,24 @@ table.wp-list-table {
             user-select: none;
             cursor: pointer;
             margin:0 15px;
+            transition:800ms ease-in;
+            opacity:1;
 
             &.disabled {
               pointer-events: none;
-              opacity:0.5;
+              opacity:0;
               display:none;
 
+            }
+
+            & > label {
+              font-size:12px;
+              font-style:italic;
+              top: -20px;
+              display: block;
+              width: 100%;
+              text-align: center;
+              position: absolute;
             }
 
             #dlm_date_range_picker,

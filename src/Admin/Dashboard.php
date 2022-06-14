@@ -101,9 +101,16 @@ class DLM_Admin_Dashboard {
 				}
 			}
 			?>
-			<!-- @todo: Add a See more link that will link to the Reports page displaying the `All Time` option/shortcut of the reports
-						Currently we need to open the datepicker in order to get access to the shortcuts, but we could access the dlmReportsStats and get first and last dates and send them to the datepicker api somehow
-			-->
+	        <a href="<?php echo esc_url(
+			        add_query_arg(
+					        array(
+							        'post_type' => 'dlm_download',
+							        'page'      => 'download-monitor-reports',
+							        'dlm_time'  => 'all-time'
+					        ),
+					        admin_url( 'edit.php' )
+			        )
+	        ); ?>"><?php echo esc_html__( 'See more', 'donwload-monitor' ) ; ?></a>
 		</div>
 		<?php
 	}

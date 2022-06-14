@@ -103,6 +103,12 @@ class DLM_Logging {
 	 * @return void
 	 */
 	public function xhr_log_download() {
+
+		// Don't log if admin hit does not need to be logged
+		$admin_log = get_option( 'dlm_log_admin_download_count' );
+		if ( '1' === $admin_log && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
+			die();
+		}
 		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
 
 		$download_id = absint( $_POST['download_id'] );
@@ -126,7 +132,7 @@ class DLM_Logging {
 	 * @param string $message
 	 * @param DLM_Download $download
 	 * @param DLM_Download_Version $version
-	 * @param $cookie bool 
+	 * @param $cookie bool
 	 */
 	public function log( $download, $version, $status = 'completed', $cookie = true ) {
 
