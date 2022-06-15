@@ -106,12 +106,21 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function respond( $data ) {
 
 			$result = new \WP_REST_Response( $data, 200 );
-			$result->set_headers(
-				array(
-					'Cache-Control' => 'max-age=3600, s-max-age=3600',
-					'Content-Type'  => 'application/json',
-				)
-			);
+
+			if ( $this->clear_cache_maybe() ) {
+				$result->set_headers(
+					array(
+						'Content-Type' => 'application/json',
+					)
+				);
+			} else {
+				$result->set_headers(
+					array(
+						'Cache-Control' => 'max-age=3600, s-max-age=3600',
+						'Content-Type'  => 'application/json',
+					)
+				);
+			}
 
 			return $result;
 		}
@@ -134,11 +143,10 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$cache_key           = 'dlm_insights';
-			$toggled_reports     = get_option( 'dlm_first_user_reports_toggle' );
 			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
 			$user_reports        = array();
 			// If user toggled off user reports we should clear the cache
-			if ( ! $toggled_reports || $toggled_reports !== $user_reports_option ) {
+			if ( $this->clear_cache_maybe() ) {
 				wp_cache_delete( $cache_key, 'dlm_reports_page' );
 				update_option( 'dlm_first_user_reports_toggle', $user_reports_option );
 			}
@@ -228,12 +236,30 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 		/**
 		 * Catch the export request
+		 *
+		 * @since 4.6.0
 		 */
 		public function catch_export_request() {
 			if ( isset( $_GET['dlm_download_logs'] ) ) {
 				$export_csv = new DLM_Log_Export_CSV();
 				$export_csv->run();
 			}
+		}
+
+		/**
+		 * Check if we need to clear the cache
+		 *
+		 * @return bool
+		 * @since 4.6.0
+		 */
+		public function clear_cache_maybe() {
+			$toggled_reports     = get_option( 'dlm_first_user_reports_toggle' );
+			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
+			if ( ! $toggled_reports || $toggled_reports !== $user_reports_option ) {
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

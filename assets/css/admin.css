@@ -1398,6 +1398,9 @@ table.wp-list-table .column-thumb img {
   cursor: pointer;
   position: relative;
 }
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions #dlm-toggle-settings:before {
+  color: #0081a7;
+}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions #dlm-toggle-settings .dlm-toggle-settings__settings {
   width: 300px;
   position: absolute;
@@ -2644,7 +2647,7 @@ Toggles
   z-index: 1;
 }
 .wpchill-toggle .wpchill-toggle__input[type=checkbox]:checked + .wpchill-toggle__items .wpchill-toggle__track {
-  background-color: #11a0d2;
+  background-color: #0081a7;
   border: 9px solid transparent;
 }
 .wpchill-toggle .wpchill-toggle__input[type=checkbox]:checked + .wpchill-toggle__items .wpchill-toggle__thumb {

@@ -1446,6 +1446,9 @@ table.wp-list-table {
           #dlm-toggle-settings{
             cursor:pointer;
             position:relative;
+            &:before{
+              color:#0081a7;
+            }
 
             .dlm-toggle-settings__settings {
               width: 300px;
@@ -3026,7 +3029,7 @@ Toggles
 
     &:checked {
       & +  .wpchill-toggle__items .wpchill-toggle__track {
-        background-color : #11a0d2;
+        background-color : #0081a7;
         border           : 9px solid transparent;
       }
       & + .wpchill-toggle__items .wpchill-toggle__thumb {

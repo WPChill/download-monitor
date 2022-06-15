@@ -129,17 +129,18 @@ class DLM_Reports_Page {
 			'dlm_reports_settings',
 			array(
 				'dlm_toggle_compare'      => array(
-					'label'   => 'Toggle compare',
+					'label'   => 'Compare dates',
 					'default' => 'on',
 				),
 				'dlm_toggle_user_reports' => array(
-					'label'   => 'Toggle user reports',
+					'label'   => 'User reports',
 					'default' => 'on',
 				),
-				'dlm_clear_api_cache'     => array(
+				// Option to clear the cache. Functionality already present
+				/*'dlm_clear_api_cache'     => array(
 					'label'   => 'Clear reports cache',
 					'default' => false,
-				),
+				),*/
 			)
 		);
 		?>
@@ -264,19 +265,20 @@ class DLM_Reports_Page {
 				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more" title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
 			</div>
 		</div>
-		<div id="total_downloads_summary_wrapper" class="reports-block half-reports-block">
-			<h3><?php esc_html_e( 'Downloads summary', 'donwload-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div></div></h3>
-			<div class="half-reports-block">
-				<label><?php echo esc_html__( 'Logged in downloads: ', 'download-monitor' ); ?></label>
-				<span class="dlm-reports-logged-in"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
+		<?php if ( 'on' === get_option( 'dlm_toggle_user_reports' ) ) { ?>
+			<div id="total_downloads_summary_wrapper" class="reports-block half-reports-block">
+				<h3><?php esc_html_e( 'Downloads summary', 'donwload-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div></div></h3>
+				<div class="half-reports-block">
+					<label><?php echo esc_html__( 'Logged in downloads: ', 'download-monitor' ); ?></label>
+					<span class="dlm-reports-logged-in"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
+				</div>
+				<div class="half-reports-block">
+					<label><?php echo esc_html__( 'Logged out downloads:', 'download-monitor' ); ?></label>
+					<span class="dlm-reports-logged-out"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
+				</div>
 			</div>
-			<div class="half-reports-block">
-				<label><?php echo esc_html__( 'Logged out downloads:', 'download-monitor' ); ?></label>
-				<span class="dlm-reports-logged-out"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
-			</div>
-		</div>
-
-		<?php
+			<?php
+		}
 	}
 
 	/**

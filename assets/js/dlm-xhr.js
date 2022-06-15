@@ -89,15 +89,18 @@ function retrieveBlob(triggerObject) {
                 return result;
             }, {});
 
-        if ('undefined' !== typeof headers['dlm-error'] && '' !== headers['dlm-error'] && null !== headers['dlm-error']) {
+        if (request.readyState == 2 && 'undefined' !== typeof headers['dlm-error'] && '' !== headers['dlm-error'] && null !== headers['dlm-error']) {
             dlmLogDonwload(headers['dlm-download-id'], headers['dlm-version-id'], 'failed', false);
+            request.abort();
             alert(headers['dlm-error']);
             return;
         }
 
-        if ('undefined' !== typeof headers['dlm-redirect'] && '' !== headers['dlm-redirect'] && null !== headers['dlm-redirect']) {
-            dlmLogDonwload(headers['dlm-download-id'], headers['dlm-version-id'], 'redirected', false);
+        if ( request.readyState == 2 && 'undefined' !== typeof headers['dlm-redirect'] && '' !== headers['dlm-redirect'] && null !== headers['dlm-redirect']) {
+            dlmLogDonwload(headers['dlm-download-id'], headers['dlm-version-id'], 'redirected', false, headers['dlm-redirect'] );
+            request.abort();
             window.location.href = headers['dlm-redirect'];
+            //console.log('treabar');
             return;
         }
 
@@ -179,7 +182,7 @@ function retrieveBlob(triggerObject) {
     request.send();
 }
 
-function dlmLogDonwload(download_id, version_id, status, cookie) {
+function dlmLogDonwload(download_id, version_id, status, cookie, redirect_path = null) {
     const data = {
         download_id,
         version_id,
@@ -189,6 +192,9 @@ function dlmLogDonwload(download_id, version_id, status, cookie) {
         nonce: dlmXHR.nonce
     };
     jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
+        if(null !== redirect_path){
+            window.location.href = redirect_path;
+        }
         console.log('log created');
     });
 }
