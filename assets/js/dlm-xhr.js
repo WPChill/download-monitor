@@ -90,6 +90,7 @@ function retrieveBlob(triggerObject) {
             }, {});
 
         if (request.readyState == 2 && 'undefined' !== typeof headers['dlm-error'] && '' !== headers['dlm-error'] && null !== headers['dlm-error']) {
+
             dlmLogDonwload(headers['dlm-download-id'], headers['dlm-version-id'], 'failed', false);
             request.abort();
             alert(headers['dlm-error']);
@@ -97,10 +98,9 @@ function retrieveBlob(triggerObject) {
         }
 
         if ( request.readyState == 2 && 'undefined' !== typeof headers['dlm-redirect'] && '' !== headers['dlm-redirect'] && null !== headers['dlm-redirect']) {
+
             dlmLogDonwload(headers['dlm-download-id'], headers['dlm-version-id'], 'redirected', false, headers['dlm-redirect'] );
             request.abort();
-            window.location.href = headers['dlm-redirect'];
-            //console.log('treabar');
             return;
         }
 
@@ -195,6 +195,5 @@ function dlmLogDonwload(download_id, version_id, status, cookie, redirect_path =
         if(null !== redirect_path){
             window.location.href = redirect_path;
         }
-        console.log('log created');
     });
 }

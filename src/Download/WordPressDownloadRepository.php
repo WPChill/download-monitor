@@ -69,7 +69,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 
 		$downloads = $this->retrieve( array( 'p' => absint( $id ) ) );
 
-		if ( count( $downloads ) != 1 ) {
+		if ( count( $downloads ) !== 1 ) {
 			throw new Exception( 'Download not found' );
 		}
 

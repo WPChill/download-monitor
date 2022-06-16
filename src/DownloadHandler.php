@@ -295,6 +295,8 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
+		$this->set_required_xhr_headers( $file_path, $download, $version );
+
 		// Check Access
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, $XMLHttpRequest ) ) {
 
@@ -382,7 +384,7 @@ class DLM_Download_Handler {
 			$file_path    = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', $correct_path ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
 
 			if ( $XMLHttpRequest ) {
-				header( "DLM-Redirect: " . $file_path );
+				header( 'DLM-Redirect: ' . $file_path );
 				exit;
 			}
 
@@ -569,8 +571,6 @@ class DLM_Download_Handler {
 		$headers['Content-Description']       = 'File Transfer';
 		$headers['Content-Disposition']       = "attachment; filename=\"{$file_name}\";";
 		$headers['Content-Transfer-Encoding'] = 'binary';
-		$headers['DLM-Download-ID']           = $download->get_id();
-		$headers['DLM-Version-ID']            = $version->get_id();
 		$file_manager                         = new DLM_File_Manager();
 		$file_size                            = $file_manager->get_file_size( $file_path );
 
@@ -582,6 +582,27 @@ class DLM_Download_Handler {
 		}
 
 		$headers = apply_filters( 'dlm_download_headers', $headers, $file_path, $download, $version );
+
+		foreach ( $headers as $key => $value ) {
+			header( $key . ': ' . $value );
+		}
+	}
+
+	/**
+	 * Set required XHR download headers
+	 *
+	 * @param string $file_path
+	 * @param DLM_Download $download
+	 * @param DLM_Download_Version $version
+	 */
+	private function set_required_xhr_headers( $file_path, $download, $version ) {
+
+		$headers = array();
+
+		$headers['DLM-Download-ID'] = $download->get_id();
+		$headers['DLM-Version-ID']  = $version->get_id();
+
+		$headers = apply_filters( 'dlm_xhr_download_headers', $headers, $file_path, $download, $version );
 
 		foreach ( $headers as $key => $value ) {
 			header( $key . ': ' . $value );
