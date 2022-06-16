@@ -1,17 +1,6 @@
 #dlm-download-log {
   background: #0081a7;
 }
-.post-type-dlm_download h1 {
-  /* a.dlm-delete-logs {
-      color: #a00;
-
-      &:hover {
-        color: #fff;
-        background: #a00;
-        border-color: #7C0900;
-      }
-    } */
-}
 .post-type-dlm_download .dlm-page-header {
   border-bottom: 1px solid #ccc;
   padding: 15px 20px;
@@ -38,79 +27,6 @@
 .post-type-dlm_download td.column-shortcode .hidden {
   display: none;
 }
-/* Logs have been removed in 4.6.0 */
-/* Logs */
-/* #dlm_logs {
-  td {
-    padding: 7px 7px;
-    vertical-align: middle;
-  }
-
-  .check-column {
-    width: 1%;
-    padding: 0;
-    vertical-align: middle;
-  }
-
-  .column-status {
-    width: 2%;
-  }
-
-  td.column-status {
-    font-size: 10px;
-    vertical-align: middle;
-    text-align: center;
-
-    span {
-      color: #fff;
-      font-weight: normal;
-      -moz-border-radius: 50%;
-      -webkit-border-radius: 50%;
-      border-radius: 50%;
-      height: 18px;
-      line-height: 18px;
-      width: 18px;
-      display: inline-block;
-      background: url('../images/log-status-icons.png') top left no-repeat;
-    }
-
-    .completed {
-      background-color: #6cc644;
-    }
-
-    .failed {
-      background-color: #bd2c00;
-      background-position-y: -18px;
-    }
-
-    .redirected {
-      background-color: #1c769b;
-      background-position-y: -36px;
-    }
-  }
-
-  td.column-user_ip,
-  td.column-user_agent {
-    font-family: monospace;
-    font-weight: normal;
-  }
-
-  span.dlm-description {
-    font-weight: normal;
-  }
-
-  .column-download,
-  .column-file,
-  .column-user,
-  .column-user_ua {
-    width: 16% !important;
-  }
-
-  .column-user_ip,
-  .column-date {
-    width: 6% !important;
-  }
-} */
 .post-type-dlm_download .inline-edit-row .inline-edit-col-dlm .inline-edit-col-dlm-inner {
   margin-top: 10px;
 }
@@ -1248,6 +1164,7 @@ table.wp-list-table .column-thumb img {
   margin: 0 15px;
   transition: 800ms ease-in;
   opacity: 1;
+  min-width: 230px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector.disabled {
   pointer-events: none;

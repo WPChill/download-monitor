@@ -103,10 +103,10 @@ class DLM_Reports_Page {
 		$end   = new DateTime( $to );
 		$start = new DateTime( $from );
 		?>
-		<div class="dlm-reports-header-date-selector <?php echo ( 'on' !== get_option( 'dlm_toggle_compare' ) ) ? esc_attr( 'disabled' ) : ''; ?>" id="dlm-date-range-picker__compare">
+		<div class="dlm-reports-header-date-selector <?php echo ( 'on' !== get_option( 'dlm_toggle_compare' ) ) ? esc_attr( 'disabled' ) : ''; ?>" id="dlm-date-range-picker-compare">
 			<label><?php echo esc_html__( 'Select date to compare', 'download-monitor' ); ?></label>
 			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
-			<span class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' to ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
+			<span class="date-range-info">--</span>
 			<span class="dlm-arrow"></span>
 		</div>
 		<div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
