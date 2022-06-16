@@ -172,7 +172,6 @@ class DLM_Reports {
         dlmReportsInstance.overViewTab();
         dlmReportsInstance.userReportsTab();
         dlmReportsInstance.togglePageSettings();
-        dlmReportsInstance.downloadLog();
         jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);
 
     }
@@ -655,7 +654,12 @@ class DLM_Reports {
             });
 
             let trueData = Object.keys(currentData[0].data);
-
+            dlmReportsInstance.dataSets.sort(function(a,b){
+                if( 'original' === a.origin ){
+                    return -1;
+                }
+                return 1;
+            });
             dlmReportsInstance.chart = new Chart(chartId, {
                 title: "",
                 data: {
@@ -1949,19 +1953,4 @@ class DLM_Reports {
             });
         });
     }
-
-    /**
-     * Download a CSV file containing the download_log table
-     */
-    downloadLog() {
-        jQuery('a#dlm-download-log').on('click', function (e) {
-            e.preventDefault();
-            const $this = jQuery(this);
-            const link = $this.attr('href');
-            let start = dlmReportsInstance.createDateElement(new Date(dlmReportsInstance.dates.start_date));
-            let end = dlmReportsInstance.createDateElement(new Date(dlmReportsInstance.dates.end_date));
-            window.location.href = link + '&start_date=' + start + '&end_date=' + end;
-        });
-    }
-
 }

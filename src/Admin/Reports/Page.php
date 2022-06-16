@@ -103,7 +103,6 @@ class DLM_Reports_Page {
 		$end   = new DateTime( $to );
 		$start = new DateTime( $from );
 		?>
-		<a href="<?php echo esc_url( add_query_arg( 'dlm_download_logs', 'true', admin_url('edit.php') ) )  ?>" target="_blank" id="dlm-download-log" class="button button-primary"><?php echo esc_html__( 'Download log', 'download-monitor' ); ?></a>
 		<div class="dlm-reports-header-date-selector <?php echo ( 'on' !== get_option( 'dlm_toggle_compare' ) ) ? esc_attr( 'disabled' ) : ''; ?>" id="dlm-date-range-picker__compare">
 			<label><?php echo esc_html__( 'Select date to compare', 'download-monitor' ); ?></label>
 			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>

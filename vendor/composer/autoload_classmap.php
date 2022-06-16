@@ -72,7 +72,6 @@ return array(
     'DLM_LU_Download_Upgrader' => $baseDir . '/src/LegacyUpgrader/DownloadUpgrader.php',
     'DLM_LU_Message' => $baseDir . '/src/LegacyUpgrader/Message.php',
     'DLM_LU_Page' => $baseDir . '/src/LegacyUpgrader/Page.php',
-    'DLM_Log_Export_CSV' => $baseDir . '/src/Logs/LogExportCSV.php',
     'DLM_Log_Item' => $baseDir . '/src/Logs/LogItem.php',
     'DLM_Log_Item_Repository' => $baseDir . '/src/Logs/LogItemRepository.php',
     'DLM_Logging' => $baseDir . '/src/Logs/Logging.php',
@@ -258,5 +257,6 @@ return array(
     'WPChill\\DownloadMonitor\\Util\\ExtensionLoader' => $baseDir . '/src/Util/ExtensionLoader.php',
     'WPChill\\DownloadMonitor\\Util\\Onboarding' => $baseDir . '/src/Util/Onboarding.php',
     'WPChill\\DownloadMonitor\\Util\\PageCreator' => $baseDir . '/src/Util/PageCreator.php',
+    'WPChill_Welcome' => $baseDir . '/includes/submodules/banner/class-wpchill-welcome.php',
     'WP_DLM' => $baseDir . '/src/DLM.php',
 );

@@ -87,7 +87,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_LU_Download_Upgrader' => __DIR__ . '/../..' . '/src/LegacyUpgrader/DownloadUpgrader.php',
         'DLM_LU_Message' => __DIR__ . '/../..' . '/src/LegacyUpgrader/Message.php',
         'DLM_LU_Page' => __DIR__ . '/../..' . '/src/LegacyUpgrader/Page.php',
-        'DLM_Log_Export_CSV' => __DIR__ . '/../..' . '/src/Logs/LogExportCSV.php',
         'DLM_Log_Item' => __DIR__ . '/../..' . '/src/Logs/LogItem.php',
         'DLM_Log_Item_Repository' => __DIR__ . '/../..' . '/src/Logs/LogItemRepository.php',
         'DLM_Logging' => __DIR__ . '/../..' . '/src/Logs/Logging.php',
@@ -273,6 +272,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'WPChill\\DownloadMonitor\\Util\\ExtensionLoader' => __DIR__ . '/../..' . '/src/Util/ExtensionLoader.php',
         'WPChill\\DownloadMonitor\\Util\\Onboarding' => __DIR__ . '/../..' . '/src/Util/Onboarding.php',
         'WPChill\\DownloadMonitor\\Util\\PageCreator' => __DIR__ . '/../..' . '/src/Util/PageCreator.php',
+        'WPChill_Welcome' => __DIR__ . '/../..' . '/includes/submodules/banner/class-wpchill-welcome.php',
         'WP_DLM' => __DIR__ . '/../..' . '/src/DLM.php',
     );
 
