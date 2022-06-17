@@ -112,7 +112,7 @@ class DLM_Reports_Page {
 		<div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
 			<label><?php echo esc_html__( 'Select date', 'download-monitor' ); ?></label>
 			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
-			<span class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' to ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
+			<span class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
 			<span class="dlm-arrow"></span>
 		</div>
 		<?php

@@ -5,7 +5,11 @@ jQuery(function ($) {
     dlmUsersStats = '';
     dlmReportsInstance = {};
 
-    new DLM_Reports();
+    jQuery(document).ready(function ($) {
+        // Let's initiate the reports
+        const reports = new DLM_Reports();
+        dlmReports = reports.fetchReportsData();
+    });
 });
 
 class DLM_Reports {
@@ -16,9 +20,8 @@ class DLM_Reports {
     constructor() {
         // Add our class to a global variable
         dlmReportsInstance = this;
-
         dlmReportsInstance.chartContainer = document.getElementById('total_downloads_chart');
-        const ctx = this.chartContainer.getContext("2d");
+        const ctx = dlmReportsInstance.chartContainer.getContext("2d");
 
         /**
          * Gradient for the chart
@@ -75,9 +78,9 @@ class DLM_Reports {
             }
         };
         dlmReportsInstance.chartGradient = ctx.createLinearGradient(0, 25, 0, 300);
-        dlmReportsInstance.chartGradient.addColorStop(0, this.chartColors.darkCyan.half);
-        dlmReportsInstance.chartGradient.addColorStop(0.45, this.chartColors.darkCyan.quarter);
-        dlmReportsInstance.chartGradient.addColorStop(1, this.chartColors.darkCyan.zero);
+        dlmReportsInstance.chartGradient.addColorStop(0, dlmReportsInstance.chartColors.darkCyan.half);
+        dlmReportsInstance.chartGradient.addColorStop(0.45, dlmReportsInstance.chartColors.darkCyan.quarter);
+        dlmReportsInstance.chartGradient.addColorStop(1, dlmReportsInstance.chartColors.darkCyan.zero);
 
         dlmReportsInstance.datePickerContainer = document.getElementById('dlm-date-range-picker');
         dlmReportsInstance.dataSets = [];
@@ -86,10 +89,6 @@ class DLM_Reports {
             end_date: false,
         };
         dlmReportsInstance.chartDataObject = {};
-
-        // Fetch reports data
-        dlmReports = this.fetchReportsData();
-
     }
 
     /**
@@ -131,9 +130,19 @@ class DLM_Reports {
             dlmReportsInstance.stats = false;
             dlmReportsInstance.chartType = 'day';
 
+            // Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
             if (window.location.href.indexOf('dlm_time') > 0) {
                 dlmReportsInstance.dates.start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
                 dlmReportsInstance.dates.end_date = new Date();
+                jQuery('#dlm-date-range-picker .date-range-info').html(dlmReportsInstance.dates.start_date.toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit'
+                }) + ' - ' + dlmReportsInstance.dates.end_date.toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit'
+                }));
             }
 
             dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
@@ -149,7 +158,7 @@ class DLM_Reports {
             const errorChart = document.createElement('div');
             errorChart.className = 'dlm-loading-data';
             errorChart.appendChild(document.createTextNode('Something went wrong! ' + error.message));
-            //pageWrapper.removeChild(loadingChart);
+            pageWrapper.removeChild(loadingChart);
             pageWrapper.appendChild(errorChart);
 
         }
@@ -164,6 +173,7 @@ class DLM_Reports {
         dlmReportsInstance.overViewTab();
         dlmReportsInstance.userReportsTab();
         dlmReportsInstance.togglePageSettings();
+        // Trigger action so others can hook into this
         jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);
 
     }
@@ -187,7 +197,7 @@ class DLM_Reports {
             event.stopPropagation();
 
             if (jQuery(dlmReportsInstance.datePickerContainer).find('#dlm_date_range_picker').length > 0) {
-                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.datePickerContainer), {target: 'date'});
+                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.datePickerContainer), {target: 'dlm-date-range-picker'});
             }
 
         });
@@ -204,10 +214,6 @@ class DLM_Reports {
 
         dlmReportsInstance.currentFilters = [];
         dlmReportsInstance.tempDownloads = null;
-        if (window.location.href.indexOf('dlm_time') > 0) {
-            dlmReportsInstance.dates.start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
-            dlmReportsInstance.dates.end_date = new Date();
-        }
         dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
         dlmReportsInstance.filterDownloadsAction();
@@ -635,12 +641,14 @@ class DLM_Reports {
             });
 
             let trueData = Object.keys(currentData[0].data);
+            // Sort the dataSets so that the Downloads data will always be first
             dlmReportsInstance.dataSets.sort(function (a, b) {
                 if ('original' === a.origin) {
                     return -1;
                 }
                 return 1;
             });
+
             dlmReportsInstance.chart = new Chart(chartId, {
                 title: "",
                 data: {
@@ -720,7 +728,6 @@ class DLM_Reports {
                             enabled: false,
                             external: dlmReportsInstance.externalTooltipHandler.bind(dlmReportsInstance, this),
                         },
-                        // When we'll add more datasets we'll display the legend
                         legend: {
                             display: true
                         }
@@ -741,7 +748,7 @@ class DLM_Reports {
         let mostDownloaded = {};
         let totalDownloads = 0;
 
-        if (false === dlmReportsInstance.stats || false === this.stats.summaryStats || Object.keys(dlmReportsInstance.stats.summaryStats).length <= 0) {
+        if (false === dlmReportsInstance.stats || false === dlmReportsInstance.stats.summaryStats || Object.keys(dlmReportsInstance.stats.summaryStats).length <= 0) {
 
             this.setTotalDownloads(0);
             this.setDailyAverage(0);
@@ -847,6 +854,7 @@ class DLM_Reports {
                 break;
             default:
                 jQuery(document).trigger('dlm_display_datepicker_' + opener.target, [dlmReportsInstance, opener, target]);
+                break;
         }
 
         let element = dlmReportsInstance.createDatepicker(target, opener, containerID);
@@ -982,7 +990,7 @@ class DLM_Reports {
                     day: '2-digit'
                 });
 
-                element.parent().find('span.date-range-info').text(date_s + ' to ' + date_e);
+                element.parent().find('span.date-range-info').text(date_s + ' - ' + date_e);
             }
 
             dlmReportsInstance.dates = {
@@ -1240,6 +1248,11 @@ class DLM_Reports {
         });
     }
 
+    /**
+     * Slider navigation
+     *
+     * @param handleObj
+     */
     handleSliderNavigation(handleObj) {
         const {
             data,
@@ -1283,6 +1296,9 @@ class DLM_Reports {
         }
     }
 
+    /**
+     * Tab navigation
+     */
     tabNagivation() {
         jQuery(document).on('click', '.dlm-reports .dlm-insights-tab-navigation > li', function () {
             const listClicked = jQuery(this),
@@ -1300,7 +1316,12 @@ class DLM_Reports {
         });
     }
 
-// The external tooltip of the Chart
+    /**
+     * The external tooltip of the Chart
+     *
+     * @param chart
+     * @returns {*}
+     */
     getOrCreateTooltip(chart) {
 
         let tooltipEl = chart.canvas.parentNode.querySelector('div');
@@ -1319,6 +1340,12 @@ class DLM_Reports {
         return tooltipEl;
     }
 
+    /**
+     * The external tooltip of the Chart handler
+     *
+     * @param plugin
+     * @param context
+     */
     externalTooltipHandler(plugin, context) {
 
         // Tooltip Element
@@ -1584,6 +1611,11 @@ class DLM_Reports {
         jQuery('.dlm-reports-block-summary li#logged_in span,#total_downloads_summary_wrapper .dlm-reports-logged-in').html(stat);
     }
 
+    /**
+     * Get logged out number
+     *
+     * @returns {number}
+     */
     getLoggedOutDownloads() {
         const all = dlmReportsInstance.userDownloads.length;
         const loggedIn = dlmReportsInstance.getLoggedInDownloads();
@@ -1915,7 +1947,7 @@ class DLM_Reports {
 
             jQuery.post(ajaxurl, data, function (response) {
                 switch (name) {
-                    case 'dlm_clear_api_cache':
+                   /* case 'dlm_clear_api_cache':*/
                     case 'dlm_toggle_user_reports':
                         window.location.reload();
                         break;
