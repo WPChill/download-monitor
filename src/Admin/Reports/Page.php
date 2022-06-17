@@ -41,13 +41,13 @@ class DLM_Reports_Page {
 			'dlm_insights_navigation',
 			array(
 				'general_info' => array(
-					'tab_label'       => esc_html__( 'Overview', 'download-monitor' ),
+					'tab_label'   => esc_html__( 'Overview', 'download-monitor' ),
 					// Label to be displayed on tab nav.
-						'description' => esc_html__( 'General information about your downloads', 'download-monitor' ),
+					'description' => esc_html__( 'General information about your downloads', 'download-monitor' ),
 					// Description to be displayed on tab nav.
-						'callback'    => array( $this, 'general_info' ),
+					'callback'    => array( $this, 'general_info' ),
 					// The callback to display the content.
-						'priority'    => 10,
+					'priority'    => 10,
 					// Tab priority.
 				),
 			)
@@ -55,13 +55,13 @@ class DLM_Reports_Page {
 
 		if ( 'off' !== get_option( 'dlm_toggle_user_reports' ) ) {
 			$this->tabs['user_reports'] = array(
-				'tab_label'       => esc_html__( 'User reports', 'download-monitor' ),
+				'tab_label'   => esc_html__( 'User reports', 'download-monitor' ),
 				// Label to be displayed on tab nav.
-					'description' => esc_html__( 'Reports based on user activity', 'download-monitor' ),
+				'description' => esc_html__( 'Reports based on user activity', 'download-monitor' ),
 				// Description to be displayed on tab nav.
-					'callback'    => array( $this, 'user_reports' ),
+				'callback'    => array( $this, 'user_reports' ),
 				// The callback to display the content.
-					'priority'    => 20,
+				'priority'    => 20,
 				// Tab priority.
 			);
 		}
@@ -103,16 +103,10 @@ class DLM_Reports_Page {
 		$end   = new DateTime( $to );
 		$start = new DateTime( $from );
 		?>
-		<div class="dlm-reports-header-date-selector <?php echo ( 'on' !== get_option( 'dlm_toggle_compare' ) ) ? esc_attr( 'disabled' ) : ''; ?>" id="dlm-date-range-picker__compare">
-			<label><?php echo esc_html__( 'Select date to compare', 'download-monitor' ); ?></label>
-			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
-			<span class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' to ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
-			<span class="dlm-arrow"></span>
-		</div>
 		<div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
 			<label><?php echo esc_html__( 'Select date', 'download-monitor' ); ?></label>
 			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
-			<span class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' to ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
+			<span class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
 			<span class="dlm-arrow"></span>
 		</div>
 		<?php
@@ -127,10 +121,6 @@ class DLM_Reports_Page {
 		$reports_settings = apply_filters(
 			'dlm_reports_settings',
 			array(
-				'dlm_toggle_compare'      => array(
-					'label'   => 'Compare dates',
-					'default' => 'on',
-				),
 				'dlm_toggle_user_reports' => array(
 					'label'   => 'User reports',
 					'default' => 'on',
@@ -190,6 +180,7 @@ class DLM_Reports_Page {
 			</div>
 			<div class="dlm-insights-datepicker dlm-reports-actions">
 				<?php
+					do_action( 'dlm_insights_header' );
 					$this->date_range_button();
 					$this->page_settings();
 				?>
