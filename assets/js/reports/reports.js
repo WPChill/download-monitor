@@ -5,7 +5,11 @@ jQuery(function ($) {
     dlmUsersStats = '';
     dlmReportsInstance = {};
 
-    new DLM_Reports();
+    jQuery(document).ready(function ($) {
+        // Let's initiate the reports
+        const reports = new DLM_Reports();
+        dlmReports = reports.fetchReportsData();
+    });
 });
 
 class DLM_Reports {
@@ -16,9 +20,8 @@ class DLM_Reports {
     constructor() {
         // Add our class to a global variable
         dlmReportsInstance = this;
-
         dlmReportsInstance.chartContainer = document.getElementById('total_downloads_chart');
-        const ctx = this.chartContainer.getContext("2d");
+        const ctx = dlmReportsInstance.chartContainer.getContext("2d");
 
         /**
          * Gradient for the chart
@@ -75,26 +78,17 @@ class DLM_Reports {
             }
         };
         dlmReportsInstance.chartGradient = ctx.createLinearGradient(0, 25, 0, 300);
-        dlmReportsInstance.chartGradient.addColorStop(0, this.chartColors.darkCyan.half);
-        dlmReportsInstance.chartGradient.addColorStop(0.45, this.chartColors.darkCyan.quarter);
-        dlmReportsInstance.chartGradient.addColorStop(1, this.chartColors.darkCyan.zero);
-
-        dlmReportsInstance.chartCompareGradient = ctx.createLinearGradient(0, 25, 0, 300);
-        dlmReportsInstance.chartCompareGradient.addColorStop(0, this.chartColors.strongCyan.half);
-        dlmReportsInstance.chartCompareGradient.addColorStop(0.45, this.chartColors.strongCyan.quarter);
-        dlmReportsInstance.chartCompareGradient.addColorStop(1, this.chartColors.strongCyan.zero);
+        dlmReportsInstance.chartGradient.addColorStop(0, dlmReportsInstance.chartColors.darkCyan.half);
+        dlmReportsInstance.chartGradient.addColorStop(0.45, dlmReportsInstance.chartColors.darkCyan.quarter);
+        dlmReportsInstance.chartGradient.addColorStop(1, dlmReportsInstance.chartColors.darkCyan.zero);
 
         dlmReportsInstance.datePickerContainer = document.getElementById('dlm-date-range-picker');
-        dlmReportsInstance.compareDatePickerContainer = document.getElementById('dlm-date-range-picker__compare');
         dlmReportsInstance.dataSets = [];
         dlmReportsInstance.dates = {
-            start_date : false,
-            end_date : false,
+            start_date: false,
+            end_date: false,
         };
-
-        // Fetch reports data
-        dlmReports = this.fetchReportsData();
-
+        dlmReportsInstance.chartDataObject = {};
     }
 
     /**
@@ -136,17 +130,24 @@ class DLM_Reports {
             dlmReportsInstance.stats = false;
             dlmReportsInstance.chartType = 'day';
 
+            // Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
             if (window.location.href.indexOf('dlm_time') > 0) {
                 dlmReportsInstance.dates.start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
-                dlmReportsInstance.dates.end_date =  new Date();
+                dlmReportsInstance.dates.end_date = new Date();
+                jQuery('#dlm-date-range-picker .date-range-info').html(dlmReportsInstance.dates.start_date.toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit'
+                }) + ' - ' + dlmReportsInstance.dates.end_date.toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: '2-digit'
+                }));
             }
 
             dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
             dlmReportsInstance.datePicker = {
-                opened: false
-            };
-            dlmReportsInstance.compareDatePicker = {
                 opened: false
             };
 
@@ -157,7 +158,7 @@ class DLM_Reports {
             const errorChart = document.createElement('div');
             errorChart.className = 'dlm-loading-data';
             errorChart.appendChild(document.createTextNode('Something went wrong! ' + error.message));
-            //pageWrapper.removeChild(loadingChart);
+            pageWrapper.removeChild(loadingChart);
             pageWrapper.appendChild(errorChart);
 
         }
@@ -172,6 +173,7 @@ class DLM_Reports {
         dlmReportsInstance.overViewTab();
         dlmReportsInstance.userReportsTab();
         dlmReportsInstance.togglePageSettings();
+        // Trigger action so others can hook into this
         jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);
 
     }
@@ -185,7 +187,6 @@ class DLM_Reports {
         dlmReportsInstance.dlmDownloadsSummary();
 
         dlmReportsInstance.datePickerContainer.addEventListener('click', dlmReportsInstance.toggleDatepicker.bind(this));
-        dlmReportsInstance.compareDatePickerContainer.addEventListener('click', dlmReportsInstance.toggleDatepicker.bind(this));
 
         dlmReportsInstance.setTodayDownloads();
 
@@ -196,12 +197,9 @@ class DLM_Reports {
             event.stopPropagation();
 
             if (jQuery(dlmReportsInstance.datePickerContainer).find('#dlm_date_range_picker').length > 0) {
-                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.datePickerContainer), {target: 'date'});
+                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.datePickerContainer), {target: 'dlm-date-range-picker'});
             }
 
-            if (jQuery(dlmReportsInstance.compareDatePickerContainer).find('#dlm_compare_date_range_picker').length > 0) {
-                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.compareDatePickerContainer), {target: 'compare'});
-            }
         });
     }
 
@@ -216,10 +214,6 @@ class DLM_Reports {
 
         dlmReportsInstance.currentFilters = [];
         dlmReportsInstance.tempDownloads = null;
-        if (window.location.href.indexOf('dlm_time') > 0) {
-            dlmReportsInstance.dates.start_date = (Object.keys(dlmReportsStats).length > 0) ? new Date(dlmReportsStats[0].date) : new Date();
-            dlmReportsInstance.dates.end_date =  new Date();
-        }
         dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
         dlmReportsInstance.filterDownloadsAction();
@@ -440,8 +434,8 @@ class DLM_Reports {
         }
 
         dlmReportsInstance.dates = {
-            start_date : startDate,
-            end_date:endDate
+            start_date: startDate,
+            end_date: endDate
         }
 
         // Get all dates from the startDate to the endDate
@@ -576,42 +570,36 @@ class DLM_Reports {
      * @param {*} data
      * @param {*} chartId
      */
-    dlmCreateChart(data, chartId, comparer = false) {
+    dlmCreateChart(data, chartId, otherData = false) {
 
         if (data && chartId) {
 
-            let chart = Chart.getChart('total_downloads_chart'),
-                dataSetLabel = 'Downloads',
-                dataSetColor = '#27ae60',
-                dataSetbg = dlmReportsInstance.chartGradient,
-                dataSetPointbg = dlmReportsInstance.chartColors.darkCyan.default,
-                dataSetBorder = dlmReportsInstance.chartColors.darkCyan.default,
-                dataSetElementColor = '#2ecc71',
-                lineType = 'original',
-                xAxis = 'x',
-                chartData = data;
+            let chart = Chart.getChart('total_downloads_chart');
+
+            dlmReportsInstance.chartDataObject = {
+                dataSetLabel: 'Downloads',
+                dataSetColor: '#27ae60',
+                dataSetbg: dlmReportsInstance.chartGradient,
+                dataSetPointbg: dlmReportsInstance.chartColors.darkCyan.default,
+                dataSetBorder: dlmReportsInstance.chartColors.darkCyan.default,
+                dataSetElementColor: '#2ecc71',
+                lineType: 'original',
+                xAxis: 'x',
+                chartData: data
+            }
 
             if ('undefined' !== typeof chart) {
                 chart.destroy();
             }
 
-            if (comparer) {
-                dataSetLabel = 'Comparison';
-                dataSetColor = '#00ff00';
-                dataSetbg = dlmReportsInstance.chartCompareGradient;
-                dataSetPointbg = dlmReportsInstance.chartColors.strongCyan.default;
-                dataSetBorder = dlmReportsInstance.chartColors.strongCyan.default;
-                dataSetElementColor = '#00ff00';
-                lineType = 'comparer';
-                xAxis = 'xAxis2';
-                chartData = Object.values(data);
-            }
+            // Trigger this action here in order for us to tap into dlmReportsInstance.chartDataObject
+            jQuery(document).trigger('dlm_reports_before_data_sets', [dlmReportsInstance.chartDataObject, data, otherData]);
 
             // Unset the dataSet that will be modified
             if (dlmReportsInstance.dataSets.length > 0) {
                 dlmReportsInstance.dataSets = dlmReportsInstance.dataSets.filter((element) => {
 
-                    if (lineType === element.origin) {
+                    if (dlmReportsInstance.chartDataObject.lineType === element.origin) {
                         return false;
                     }
 
@@ -620,23 +608,23 @@ class DLM_Reports {
             }
 
             dlmReportsInstance.dataSets.push({
-                origin: lineType,
-                label: dataSetLabel,
-                color: dataSetColor,
-                data: chartData,
+                origin: dlmReportsInstance.chartDataObject.lineType,
+                label: dlmReportsInstance.chartDataObject.dataSetLabel,
+                color: dlmReportsInstance.chartDataObject.dataSetColor,
+                data: dlmReportsInstance.chartDataObject.chartData,
                 type: 'line',
                 fill: true,
-                backgroundColor: dataSetbg,
-                pointBackgroundColor: dataSetPointbg,
+                backgroundColor: dlmReportsInstance.chartDataObject.dataSetbg,
+                pointBackgroundColor: dlmReportsInstance.chartDataObject.dataSetPointbg,
                 pointHoverBackgroundColor: '#fff',
-                borderColor: dataSetBorder,
+                borderColor: dlmReportsInstance.chartDataObject.dataSetBorder,
                 pointBorderWidth: 1,
                 lineTension: 0.3,
                 borderWidth: 1,
                 pointRadius: 3,
                 elements: {
                     line: {
-                        borderColor: dataSetElementColor,
+                        borderColor: dlmReportsInstance.chartDataObject.dataSetElementColor,
                         borderWidth: 1,
                     },
                     point: {
@@ -647,19 +635,20 @@ class DLM_Reports {
                 },
             });
 
-            // Get the compare data from our dataSets. We need to extract it from here in case the data parameter sent by the function
-            // had modifications.
+            // Get the original data, in case dataSets has otherData
             let currentData = Object.values(dlmReportsInstance.dataSets).filter((element) => {
                 return 'original' === element.origin;
             });
 
             let trueData = Object.keys(currentData[0].data);
-            dlmReportsInstance.dataSets.sort(function(a,b){
-                if( 'original' === a.origin ){
+            // Sort the dataSets so that the Downloads data will always be first
+            dlmReportsInstance.dataSets.sort(function (a, b) {
+                if ('original' === a.origin) {
                     return -1;
                 }
                 return 1;
             });
+
             dlmReportsInstance.chart = new Chart(chartId, {
                 title: "",
                 data: {
@@ -727,6 +716,12 @@ class DLM_Reports {
                             grid: {
                                 drawBorder: false,
                             },
+                            min: 0,
+                            max: Math.ceil(dlmReportsInstance.getMaxDownload() / 10) * 10,
+                            ticks: {
+                                // forces step size to be 50 units
+                                stepSize: Math.ceil( dlmReportsInstance.getMaxDownload() / 4 ),
+                            }
                         }
                     },
                     normalized: true,
@@ -739,7 +734,6 @@ class DLM_Reports {
                             enabled: false,
                             external: dlmReportsInstance.externalTooltipHandler.bind(dlmReportsInstance, this),
                         },
-                        // When we'll add more datasets we'll display the legend
                         legend: {
                             display: true
                         }
@@ -760,7 +754,7 @@ class DLM_Reports {
         let mostDownloaded = {};
         let totalDownloads = 0;
 
-        if (false === dlmReportsInstance.stats || false === this.stats.summaryStats || Object.keys(dlmReportsInstance.stats.summaryStats).length <= 0) {
+        if (false === dlmReportsInstance.stats || false === dlmReportsInstance.stats.summaryStats || Object.keys(dlmReportsInstance.stats.summaryStats).length <= 0) {
 
             this.setTotalDownloads(0);
             this.setDailyAverage(0);
@@ -829,14 +823,15 @@ class DLM_Reports {
 
         var el = jQuery('<div>').addClass('dlm_rdrs_overlay');
         var startDate = jQuery('<div>').attr('id', containerID.replace('#', ''));
-        if ('date' === opener.target) {
-            dlmReportsInstance.startDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_start_date').attr('value', lastMonth);
-            dlmReportsInstance.endDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_end_date').attr('value', yesterday);
-            el.append(startDate).append(dlmReportsInstance.startDateInput).append(dlmReportsInstance.endDateInput);
-        } else {
-            dlmReportsInstance.startCompareDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_start_compare_date').attr('value', lastMonth);
-            dlmReportsInstance.endCompareDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_end_compare_date').attr('value', yesterday);
-            el.append(startDate).append(dlmReportsInstance.startCompareDateInput).append(dlmReportsInstance.endCompareDateInput);
+        switch (opener.target) {
+            case 'dlm-date-range-picker':
+                dlmReportsInstance.startDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_start_date').attr('value', lastMonth);
+                dlmReportsInstance.endDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_end_date').attr('value', yesterday);
+                el.append(startDate).append(dlmReportsInstance.startDateInput).append(dlmReportsInstance.endDateInput);
+                break;
+            default:
+                jQuery(document).trigger('dlm_create_date_picker_' + opener.target, [dlmReportsInstance, el, startDate, lastMonth, yesterday]);
+                break;
         }
 
         return el;
@@ -849,20 +844,23 @@ class DLM_Reports {
      * @returns
      */
     displayDatepicker(target, opener) {
+        let containerID = '';
 
-        let containerID = '#dlm_date_range_picker';
+        if (!jQuery(target)) {
+            return;
+        }
+        containerID = '#' + jQuery(target).attr('id').replace(/-/gi, '_');
 
-        if ('date' === opener.target) {
-            if (dlmReportsInstance.datePicker.opened) {
-                return;
-            }
-            dlmReportsInstance.datePicker.opened = true;
-        } else {
-            if (dlmReportsInstance.compareDatePicker.opened) {
-                return;
-            }
-            dlmReportsInstance.compareDatePicker.opened = true;
-            containerID = '#dlm_compare_date_range_picker';
+        switch (opener.target) {
+            case 'dlm-date-range-picker':
+                if (dlmReportsInstance.datePicker.opened) {
+                    return;
+                }
+                dlmReportsInstance.datePicker.opened = true;
+                break;
+            default:
+                jQuery(document).trigger('dlm_display_datepicker_' + opener.target, [dlmReportsInstance, opener, target]);
+                break;
         }
 
         let element = dlmReportsInstance.createDatepicker(target, opener, containerID);
@@ -966,13 +964,8 @@ class DLM_Reports {
             separator: ' to ',
             autoClose: true,
             setValue: function (s, s1, s2) {
-                if ('date' === opener.target) {
-                    element.find('#dlm_start_date').val(s1);
-                    element.find('#dlm_end_date').val(s2);
-                } else {
-                    element.find('#dlm_start_compare_date').val(s1);
-                    element.find('#dlm_end_compare_date').val(s2);
-                }
+                element.find('input[type="hidden"]').first().val(s1);
+                element.find('input[type="hidden"]').last().val(s2);
 
             },
             inline: true,
@@ -1003,18 +996,18 @@ class DLM_Reports {
                     day: '2-digit'
                 });
 
-                element.parent().find('span.date-range-info').text(date_s + ' to ' + date_e);
+                element.parent().find('span.date-range-info').text(date_s + ' - ' + date_e);
             }
 
             dlmReportsInstance.dates = {
-                start_date:obj.date1,
-                end_date:obj.date2
+                start_date: obj.date1,
+                end_date: obj.date2
             }
 
             // Recreate the stats
             dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
-            dlmReportsInstance.dlmCreateChart(dlmReportsInstance.stats.chartStats, dlmReportsInstance.chartContainer, ('compare' === opener.target) ? true : false);
+            dlmReportsInstance.dlmCreateChart(dlmReportsInstance.stats.chartStats, dlmReportsInstance.chartContainer, ('dlm-date-range-picker' !== opener.target) ? true : false);
 
             if ('date' === opener.target) {
 
@@ -1035,11 +1028,15 @@ class DLM_Reports {
      * Hide the datepicker.
      */
     hideDatepicker(target, opener) {
-        if ('date' === opener.target) {
-            dlmReportsInstance.datePicker.opened = false;
-        } else {
-            dlmReportsInstance.compareDatePicker.opened = false;
+
+        switch (opener.target) {
+            case 'dlm-date-range-picker' :
+                dlmReportsInstance.datePicker.opened = false;
+            default:
+                jQuery(document).trigger('dlm_hide_datepicker_' + opener.target, [dlmReportsInstance, target, opener]);
+                break;
         }
+
         target.find('.dlm_rdrs_overlay').remove();
     }
 
@@ -1050,25 +1047,19 @@ class DLM_Reports {
 
         event.stopPropagation();
         const target = jQuery(event.target).parents('.dlm-reports-header-date-selector');
-        let opener = {target: 'date', object: dlmReportsInstance.datePicker};
-        if ('dlm-date-range-picker__compare' === target.attr('id')) {
-            opener = {target: 'compare', object: dlmReportsInstance.compareDatePicker};
-        }
+        let opener = {target: target.attr('id'), object: dlmReportsInstance.datePicker};
 
-        if ('date' === opener.target) {
-            if (dlmReportsInstance.datePicker.opened) {
-                dlmReportsInstance.hideDatepicker(target, opener);
-            } else {
-                dlmReportsInstance.displayDatepicker(target, opener);
-                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.compareDatePickerContainer), {target: 'comparer'});
-            }
-        } else {
-            if (dlmReportsInstance.compareDatePicker.opened) {
-                dlmReportsInstance.hideDatepicker(target, opener);
-            } else {
-                dlmReportsInstance.displayDatepicker(target, opener);
-                dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.datePickerContainer), {target: 'date'});
-            }
+        switch (opener.target) {
+            case 'dlm-date-range-picker':
+                if (dlmReportsInstance.datePicker.opened) {
+                    dlmReportsInstance.hideDatepicker(target, opener);
+                } else {
+                    dlmReportsInstance.displayDatepicker(target, opener);
+                }
+                break;
+            default:
+                jQuery(document).trigger('dlm_toggle_datepicker_' + opener.target, [dlmReportsInstance, target, opener]);
+                break;
         }
 
     }
@@ -1263,6 +1254,11 @@ class DLM_Reports {
         });
     }
 
+    /**
+     * Slider navigation
+     *
+     * @param handleObj
+     */
     handleSliderNavigation(handleObj) {
         const {
             data,
@@ -1306,6 +1302,9 @@ class DLM_Reports {
         }
     }
 
+    /**
+     * Tab navigation
+     */
     tabNagivation() {
         jQuery(document).on('click', '.dlm-reports .dlm-insights-tab-navigation > li', function () {
             const listClicked = jQuery(this),
@@ -1323,10 +1322,21 @@ class DLM_Reports {
         });
     }
 
-// The external tooltip of the Chart
+    /**
+     * The external tooltip of the Chart
+     *
+     * @param chart
+     * @returns {*}
+     */
     getOrCreateTooltip(chart) {
 
-        let tooltipEl = chart.canvas.parentNode.querySelector('div');
+        let tooltipEl = chart.canvas.parentNode.querySelector('div.dlm-canvas-tooltip');
+        let tooltipLine = chart.canvas.parentNode.querySelector('div.dlm-reports-tooltip__line');
+
+        if (!tooltipEl) {
+            tooltipLine = document.createElement('div');
+            tooltipLine.className = "dlm-reports-tooltip__line";
+        }
 
         if (!tooltipEl) {
             tooltipEl = document.createElement('div');
@@ -1334,14 +1344,21 @@ class DLM_Reports {
 
             const tooltipWrapper = document.createElement('div');
             tooltipWrapper.className = "dlm-reports-tooltip";
-
             tooltipEl.appendChild(tooltipWrapper);
+
             chart.canvas.parentNode.appendChild(tooltipEl);
+            chart.canvas.parentNode.appendChild(tooltipLine);
         }
 
-        return tooltipEl;
+        return {tooltipEl,tooltipLine};
     }
 
+    /**
+     * The external tooltip of the Chart handler
+     *
+     * @param plugin
+     * @param context
+     */
     externalTooltipHandler(plugin, context) {
 
         // Tooltip Element
@@ -1350,12 +1367,13 @@ class DLM_Reports {
             tooltip
         } = context;
 
-        const tooltipEl = plugin.getOrCreateTooltip(chart);
+        const {tooltipEl,tooltipLine} ={ ...plugin.getOrCreateTooltip(chart) };
         const tooltipWidth = jQuery(tooltipEl).parent().width();
 
         // Hide if no tooltip
         if (tooltip.opacity === 0) {
             tooltipEl.style.opacity = 0;
+            tooltipLine.style.opacity = 0;
             return;
         }
 
@@ -1450,6 +1468,7 @@ class DLM_Reports {
 
         // Display, position, and set styles for font
         tooltipEl.style.opacity = 1;
+        tooltipLine.style.opacity = 1;
         let margin = {
             isMargin: false,
             left: false
@@ -1467,11 +1486,14 @@ class DLM_Reports {
 
         if (!margin.isMargin) {
             tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+            tooltipLine.style.left = positionX + tooltip.caretX + 'px';
         } else {
             if (!margin.left) {
                 tooltipEl.style.left = tooltipWidth - tooltip.width + 'px';
+                tooltipLine.style.left = tooltipWidth - tooltip.width + 'px';
             } else {
                 tooltipEl.style.left = positionX + tooltip.width + 'px';
+                tooltipLine.style.left = positionX + tooltip.width + 'px';
             }
         }
 
@@ -1607,6 +1629,11 @@ class DLM_Reports {
         jQuery('.dlm-reports-block-summary li#logged_in span,#total_downloads_summary_wrapper .dlm-reports-logged-in').html(stat);
     }
 
+    /**
+     * Get logged out number
+     *
+     * @returns {number}
+     */
     getLoggedOutDownloads() {
         const all = dlmReportsInstance.userDownloads.length;
         const loggedIn = dlmReportsInstance.getLoggedInDownloads();
@@ -1768,8 +1795,8 @@ class DLM_Reports {
                             lineSection.innerHTML = '<p>' + dataResponse[i].download_date + '</p>';
                             break;
                         case 6:
-                            const userLink = ( '0' !== dataResponse[i].user_id ) ? '<a href="' + dlm_admin_url + 'user-edit.php?user_id=' + dataResponse[i].user_id + '" target="_blank">' + 'Edit user' + '</a>' : '--';
-                            lineSection.innerHTML = '<p>'+userLink+'</p>';
+                            const userLink = ('0' !== dataResponse[i].user_id) ? '<a href="' + dlm_admin_url + 'user-edit.php?user_id=' + dataResponse[i].user_id + '" target="_blank">' + 'Edit user' + '</a>' : '--';
+                            lineSection.innerHTML = '<p>' + userLink + '</p>';
                             break;
 
                     }
@@ -1938,19 +1965,36 @@ class DLM_Reports {
 
             jQuery.post(ajaxurl, data, function (response) {
                 switch (name) {
-                    case 'dlm_clear_api_cache':
+                    /* case 'dlm_clear_api_cache':*/
                     case 'dlm_toggle_user_reports':
                         window.location.reload();
                         break;
-                    case 'dlm_toggle_compare':
-                        if ($this.is(':checked')) {
-                            jQuery('#dlm-date-range-picker__compare').removeClass('disabled');
-                        } else {
-                            jQuery('#dlm-date-range-picker__compare').addClass('disabled');
-                        }
+                    default:
+                        jQuery(document).trigger('dlm_settings_ajax_response', [dlmReportsInstance, $this, response]);
                         break;
                 }
             });
         });
+    }
+
+    /**
+     * Get maximum downloaded times in one tick from chart
+     * @returns {number}
+     */
+    getMaxDownload() {
+        let max = 0;
+        dlmReportsInstance.dataSets.forEach((element) => {
+            let i = Object.values(element.data).reduce((prev, curr) => {
+                if (prev > curr) {
+                    return prev;
+                }
+                return curr;
+            }, 0);
+            if (max < i) {
+                max = i;
+            }
+        });
+
+        return parseInt(max);
     }
 }
