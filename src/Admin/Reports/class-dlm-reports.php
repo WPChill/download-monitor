@@ -31,8 +31,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
-			add_action( 'wp_ajax_dlm_download_log', array( $this, 'dlm_download_log' ) );
-			add_action( 'admin_init', array( $this, 'catch_export_request' ) );
 		}
 
 		/**
@@ -59,8 +57,10 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public function create_global_variable() {
 
-			$rest_route_reports = rest_url() . 'download-monitor/v1/reports';
-			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; dlmReportsAPI ="' . $rest_route_reports . '"; ', 'before' );
+			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports';
+			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports';
+			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data';
+			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; ', 'before' );
 		}
 
 		/**
@@ -70,10 +70,10 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public function register_routes() {
 
-			// The REST route for downloads reports
+			// The REST route for downloads reports.
 			register_rest_route(
 				'download-monitor/v1',
-				'/reports',
+				'/download_reports',
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, 'rest_stats' ),
@@ -81,6 +81,27 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				)
 			);
 
+			// The REST route for user reports.
+			register_rest_route(
+				'download-monitor/v1',
+				'/user_reports',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'user_reports_stats' ),
+					'permission_callback' => '__return_true',
+				)
+			);
+
+			// The REST route for users data.
+			register_rest_route(
+				'download-monitor/v1',
+				'/user_data',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'user_data_stats' ),
+					'permission_callback' => '__return_true',
+				)
+			);
 		}
 
 		/**
@@ -93,6 +114,29 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function rest_stats() {
 
 			return $this->respond( $this->report_stats() );
+		}
+
+		/**
+		 * Get our stats for the user reports
+		 *
+		 * @return WP_REST_Response
+		 * @since 4.6.0
+		 */
+		public function user_reports_stats() {
+
+			return $this->respond( $this->get_user_reports() );
+		}
+
+
+		/**
+		 * Get our user data
+		 *
+		 * @return WP_REST_Response
+		 * @since 4.6.0
+		 */
+		public function user_data_stats() {
+
+			return $this->respond( $this->get_user_data() );
 		}
 
 		/**
@@ -116,7 +160,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			} else {
 				$result->set_headers(
 					array(
-						'Cache-Control' => 'max-age=3600, s-max-age=3600',
+						//'Cache-Control' => 'max-age=3600, s-max-age=3600',
 						'Content-Type'  => 'application/json',
 					)
 				);
@@ -127,9 +171,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 		/**
 		 * Return stats
-		 *
-		 * @return array
-		 * @throws Exception
 		 *
 		 * @retun array
 		 * @since 4.6.0
@@ -142,22 +183,83 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				return array();
 			}
 
-			$cache_key           = 'dlm_insights';
-			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
-			$user_reports        = array();
-			// If user toggled off user reports we should clear the cache
-			if ( $this->clear_cache_maybe() ) {
-				wp_cache_delete( $cache_key, 'dlm_reports_page' );
-				update_option( 'dlm_first_user_reports_toggle', $user_reports_option );
-			}
-			$stats = wp_cache_get( $cache_key, 'dlm_reports_page' );
+			$cache_key = 'dlm_insights';
+			$stats     = wp_cache_get( $cache_key, 'dlm_reports_page' );
 
 			if ( ! $stats ) {
-				if ( 'on' === $user_reports_option ) {
-					$downloads  = $wpdb->get_results( 'SELECT dlm.user_id, dlm.user_ip, dlm.download_id, dlm.download_date, dlm.download_status FROM ' . $wpdb->download_log . ' dlm ORDER BY dlm.ID desc;', ARRAY_A );
-					$users      = get_users();
-					$users_data = array();
+				$stats = $wpdb->get_results( "SELECT  * FROM {$wpdb->dlm_reports};", ARRAY_A );
+				wp_cache_set( $cache_key, $stats, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
+			}
 
+			return $stats;
+		}
+
+		/**
+		 * Return user reports stats
+		 *
+		 * @retun array
+		 * @since 4.6.0
+		 */
+		public function get_user_reports() {
+
+			global $wpdb;
+
+			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
+				return array();
+			}
+
+			$cache_key           = 'dlm_insights_users';
+			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
+			$user_reports        = array();
+			$offset              = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
+			$count               = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 10000;
+			$offset_limit        = ( 0 === $offset? 1 : $offset ) * 10000;
+
+			// If user toggled off user reports we should clear the cache.
+			if ( $this->clear_cache_maybe() ) {
+				wp_cache_delete( $cache_key, 'dlm_user_reports' );
+				update_option( 'dlm_first_user_reports_toggle', $user_reports_option );
+			}
+			wp_cache_delete( $cache_key, 'dlm_user_reports' );
+			$stats = wp_cache_get( $cache_key, 'dlm_user_reports' );
+			if ( ! $stats ) {
+				if ( 'on' === $user_reports_option ) {
+					$downloads  = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};", ARRAY_A );
+
+					$user_reports = array(
+						'logs'   => $downloads,
+						'offset' => ( 10000 === count( $downloads ) ) ? $offset + 1 : '',
+						'done'   => ( 10000 > count( $downloads ) ) ? true : false
+					);
+				}
+				wp_cache_set( $cache_key, $user_reports, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
+			}
+
+			return $user_reports;
+		}
+
+		/**
+		 * Return user data
+		 *
+		 * @retun array
+		 * @since 4.6.0
+		 */
+		public function get_user_data() {
+
+			global $wpdb;
+
+			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
+				return array();
+			}
+
+			$cache_key           = 'dlm_insights_users';
+			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
+			$user_data           = array();
+
+			$stats = wp_cache_get( $cache_key, 'dlm_user_data' );
+			if ( ! $stats ) {
+				if ( 'on' === $user_reports_option ) {
+					$users      = get_users();
 					foreach ( $users as $user ) {
 						$user_data                    = $user->data;
 						$users_data[ $user_data->ID ] = array(
@@ -169,21 +271,11 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 							'role'         => ( ( ! in_array( 'administrator', $user->roles, true ) ) ? $user->roles : '' ),
 						);
 					}
-
-					$user_reports = array(
-						'all'   => $downloads,
-						'users' => $users_data,
-					);
 				}
-
-				$stats = array(
-					'download_reports' => $wpdb->get_results( "SELECT  * FROM {$wpdb->dlm_reports};", ARRAY_A ),
-					'users_reports'    => $user_reports,
-				);
-				wp_cache_set( $cache_key, $stats, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
+				wp_cache_set( $cache_key, $user_data, 'dlm_user_data', 12 * HOUR_IN_SECONDS );
 			}
 
-			return $stats;
+			return $user_data;
 		}
 
 		/**
@@ -199,7 +291,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			check_ajax_referer( 'dlm_reports_nonce' );
-			$option = sanitize_text_field( wp_unslash( $_POST['name'] ) );
+			$option = ( isset( $_POST['name'] ) ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
 
 			if ( 'dlm_clear_api_cache' === $option ) {
 				wp_cache_delete( 'dlm_insights', 'dlm_reports_page' );
@@ -217,36 +309,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		}
 
 		/**
-		 * Save reports settings
-		 *
-		 * @return void
-		 * @since 4.6.0
-		 */
-		public function dlm_download_log() {
-
-			if ( ! isset( $_POST['_ajax_nonce'] ) ) {
-				wp_send_json_error( 'No nonce' );
-			}
-
-			check_ajax_referer( 'dlm_reports_nonce' );
-			$export_csv = new DLM_Log_Export_CSV();
-			$export_csv->run();
-			die();
-		}
-
-		/**
-		 * Catch the export request
-		 *
-		 * @since 4.6.0
-		 */
-		public function catch_export_request() {
-			if ( isset( $_GET['dlm_download_logs'] ) ) {
-				$export_csv = new DLM_Log_Export_CSV();
-				$export_csv->run();
-			}
-		}
-
-		/**
 		 * Check if we need to clear the cache
 		 *
 		 * @return bool
@@ -255,11 +317,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function clear_cache_maybe() {
 			$toggled_reports     = get_option( 'dlm_first_user_reports_toggle' );
 			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
-			if ( ! $toggled_reports || $toggled_reports !== $user_reports_option ) {
-				return true;
-			}
-
-			return false;
+			return ( ! $toggled_reports || $toggled_reports !== $user_reports_option );
 		}
 	}
 }

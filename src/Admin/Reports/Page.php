@@ -53,7 +53,8 @@ class DLM_Reports_Page {
 			)
 		);
 
-		if ( 'off' !== get_option( 'dlm_toggle_user_reports' ) ) {
+		$user_reports = get_option( 'dlm_toggle_user_reports' );
+		if ( $user_reports && 'off' !== get_option( 'dlm_toggle_user_reports' ) ) {
 			$this->tabs['user_reports'] = array(
 				'tab_label'   => esc_html__( 'User reports', 'download-monitor' ),
 				// Label to be displayed on tab nav.
