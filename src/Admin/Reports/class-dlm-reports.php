@@ -224,7 +224,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$stats = wp_cache_get( $cache_key, 'dlm_user_reports' );
 			if ( ! $stats ) {
 				if ( 'on' === $user_reports_option ) {
-					$downloads  = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};", ARRAY_A );
+					$downloads = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};", ARRAY_A );
 
 					$user_reports = array(
 						'logs'   => $downloads,

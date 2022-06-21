@@ -351,7 +351,7 @@ class DLM_Reports_Page {
 			$response = ob_get_clean();
 
 			// $response should be escaped in callback function.
-			echo '<div class="dlm-insights-tab-navigation__content ' . esc_attr( $active ) . '" data-id="' . esc_attr( $key ) . '">' . $response . '</div>';
+			echo '<div id="' . esc_attr( $key ) . '" class="dlm-insights-tab-navigation__content ' . esc_attr( $active ) . '" data-id="' . esc_attr( $key ) . '">' . $response . '</div>';
 
 		}
 

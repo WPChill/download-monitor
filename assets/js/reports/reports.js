@@ -164,7 +164,11 @@ class DLM_Reports {
 	 * @returns {Promise<void>}
 	 */
 	async fetchUsersReportsData(offset = 0, limit = 10000) {
+		const wrapper = jQuery('div#user_reports');
 		try {
+			if (0 === wrapper.find('.dlm-loading-data').length) {
+				wrapper.append('<div class="dlm-loading-data">Fetching data, please wait...</div>');
+			}
 
 			const fetchedUserData = await fetch(dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit);
 
@@ -177,16 +181,14 @@ class DLM_Reports {
 
 			if (true === response.done) {
 				dlmReportsInstance.userDownloads = ('undefined' !== typeof dlmUsersStats.logs) ? JSON.parse(JSON.stringify(dlmUsersStats.logs)) : {};
+				wrapper.find('.dlm-loading-data').remove();
 				dlmReportsInstance.userReportsTab();
 			} else {
 				dlmReportsInstance.fetchUsersReportsData(response.offset);
 			}
 
 		} catch (error) {
-			console.log();
-			const errorChart     = document.createElement('div');
-			errorChart.className = 'dlm-loading-data';
-			errorChart.appendChild(document.createTextNode('Something went wrong! ' + error.message));
+			wrapper.append('<div class="dlm-loading-data">\'Something went wrong! \' + error.message</div>');
 		}
 	}
 
@@ -203,9 +205,8 @@ class DLM_Reports {
 				throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
 			}
 
-			let response = await fetchedUserData.json();
-			dlmUsersStats.users.push(response);
-
+			let response        = await fetchedUserData.json();
+			dlmUsersStats.users = dlmUsersStats.users.concat(response);
 		} catch (error) {
 			const errorChart     = document.createElement('div');
 			errorChart.className = 'dlm-loading-data';
@@ -223,9 +224,9 @@ class DLM_Reports {
 		//dlmReportsInstance.userReportsTab();
 		dlmReportsInstance.togglePageSettings();
 
-		// Fetch our user reports data.
-		dlmReportsInstance.fetchUsersReportsData();
+		// Fetch our users and the logs.
 		dlmReportsInstance.fetchUserData();
+		dlmReportsInstance.fetchUsersReportsData();
 		// Trigger action so others can hook into this
 		jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);
 
@@ -1260,7 +1261,7 @@ class DLM_Reports {
 				offsetHolder                                                   = main_parent.find('#total_downloads_table'),
 				offset                                                         = main_parent.find('#total_downloads_table').attr('data-page'),
 				table = main_parent.find('#total_downloads_table table'), link = jQuery(this),
-				nextPage                                                       = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				nextPage                                                       = parseInt(offset) + 1, prevPage                      = (0 !== offset) ? parseInt(offset) - 1 : 0,
 				prevButton                                                     = jQuery('#downloads-block-navigation').find('button').first(),
 				nextButton                                                     = jQuery('#downloads-block-navigation').find('button').last();
 
@@ -1554,9 +1555,8 @@ class DLM_Reports {
 
 		let {startDate, endDate}         = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)};
 		dlmReportsInstance.userDownloads = JSON.parse(JSON.stringify(dlmUsersStats.logs));
-		console.log(dlmReportsInstance.userDownloads);
-		const startTimestamp = new Date(startDate).getTime();
-		const endTimestamp   = new Date(endDate).getTime();
+		const startTimestamp             = new Date(startDate).getTime();
+		const endTimestamp               = new Date(endDate).getTime();
 
 		dlmReportsInstance.userDownloads = dlmReportsInstance.userDownloads.filter((element, index) => {
 			const currentElement = new Date(element.download_date).getTime();
@@ -1686,7 +1686,7 @@ class DLM_Reports {
 
 		html += '<span>User registration date: ' + ((null !== user) ? user.registered : '--') + '</span>';
 
-		if (null !== user && user.role.length) {
+		if (null !== user && 'undefined' !== typeof user.role && user.role.length) {
 			html += '<span>User role: ' + user.role + '</span>';
 		}
 
@@ -1870,7 +1870,7 @@ class DLM_Reports {
 				offsetHolder                                                   = main_parent.find('#users_download_log'),
 				offset                                                         = main_parent.find('#users_download_log').attr('data-page'),
 				table = main_parent.find('#total_downloads_table table'), link = jQuery(this),
-				nextPage                                                       = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				nextPage                                                       = parseInt(offset) + 1, prevPage                      = (0 !== offset) ? parseInt(offset) - 1 : 0,
 				prevButton                                                     = jQuery('#user-downloads-block-navigation').find('button').first(),
 				nextButton                                                     = jQuery('#user-downloads-block-navigation').find('button').last();
 
