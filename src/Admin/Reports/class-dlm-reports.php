@@ -60,7 +60,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports';
 			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports';
 			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data';
-			wp_add_inline_script( 'dlm_reports', 'dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; ', 'before' );
+			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; ', 'before' );
 		}
 
 		/**

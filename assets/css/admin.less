@@ -975,6 +975,7 @@ table.wp-list-table {
 
       margin: 40px;
       position: relative;
+
       .reports-block {
         background-color: #FFF;
       }
@@ -998,6 +999,7 @@ table.wp-list-table {
         max-width: 100%;
         margin: 0 auto;
         font-size: 36px;
+        z-index: 30;
       }
 
       .dlm-insights-header {
@@ -1010,7 +1012,6 @@ table.wp-list-table {
         }
 
         .dlm-insights-navigation {
-          width: 100%;
 
           .dlm-insights-tab-navigation {
             display: flex;
@@ -1022,6 +1023,7 @@ table.wp-list-table {
 
             .dlm-insights-tab-navigation__element {
               width: 33%;
+              min-width: 200px;
               height: 100%;
               padding: 24px;
               cursor: pointer;
@@ -1183,119 +1185,118 @@ table.wp-list-table {
                 border: 0;
               }
             }
-          }
 
-          .dlm-arrow {
-            &:before {
-              font-family: "dashicons" !important;
-              content: "\f140";
-              font-style: normal;
-              font-weight: normal;
-              speak: none;
-              display: inline-block;
-              text-decoration: inherit;
-              text-align: center;
-              font-variant: normal;
-              text-transform: none;
-              font-size: 1.6em;
-              vertical-align: middle;
+            .dlm-arrow {
+              &:before {
+                font-family: "dashicons" !important;
+                content: "\f140";
+                font-style: normal;
+                font-weight: normal;
+                speak: none;
+                display: inline-block;
+                text-decoration: inherit;
+                text-align: center;
+                font-variant: normal;
+                text-transform: none;
+                font-size: 1.6em;
+                vertical-align: middle;
+              }
             }
-          }
 
-          .dlm_rdrs_overlay {
-            display: flex;
-            width: auto;
-            background: #fff;
-            position: absolute;
-            top: 30px;
-            right: 0;
-            z-index: 10;
-            overflow: hidden;
-            border-radius: 5px;
-            box-shadow: 0px 0px 3px rgba(0, 0, 0, .60);
+            .dlm_rdrs_overlay {
+              display: flex;
+              width: auto;
+              background: #fff;
+              position: absolute;
+              top: 30px;
+              right: 0;
+              z-index: 10;
+              overflow: hidden;
+              border-radius: 5px;
+              box-shadow: 0px 0px 3px rgba(0, 0, 0, .60);
 
 
-            .date-picker-wrapper {
+              .date-picker-wrapper {
 
-              padding-left: 175px;
+                padding-left: 175px;
 
-              .dlm_rdrs_date {
-                font-size: 70%;
-                margin-right: 5px;
-                float: left;
-                z-index: 11;
-                padding: 15px;
+                .dlm_rdrs_date {
+                  font-size: 70%;
+                  margin-right: 5px;
+                  float: left;
+                  z-index: 11;
+                  padding: 15px;
 
-                .ui-datepicker-inline {
-                  border: 0;
+                  .ui-datepicker-inline {
+                    border: 0;
 
-                  .ui-state-highlight {
-                    background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
-                    color: #555555;
-                    border: 1px solid #D3D3D3;
+                    .ui-state-highlight {
+                      background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+                      color: #555555;
+                      border: 1px solid #D3D3D3;
+                    }
+
+                    .ui-state-active {
+                      border: 1px solid #aaaaaa;
+                      background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+                    }
+
+                    td,
+                    th {
+                      padding: 0;
+                      margin: 0;
+                      line-height: 2em;
+
+                      a {
+                        text-align: center !important;
+                      }
+
+                    }
                   }
+                }
 
-                  .ui-state-active {
-                    border: 1px solid #aaaaaa;
-                    background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
-                  }
+                .dlm_rdrs_actions {
+                  width: 70px;
+                  padding-left: 10px;
+                  text-align: center;
+                  display: flex;
+                }
 
-                  td,
-                  th {
-                    padding: 0;
-                    margin: 0;
-                    line-height: 2em;
+                .footer {
+
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  height: 100%;
+                  padding-top: 0;
+                  padding-bottom: 0;
+
+                  .shortcuts {
+                    border-right: 1px solid rgba(0, 0, 0, .60);
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    display: flex;
+                    flex-flow: column;
+                    justify-content: center;
+                    height: 100%;
 
                     a {
-                      text-align: center !important;
-                    }
+                      text-align: left;
+                      padding: 5px 40px 5px 10px;
+                      min-width: 100px;
+                      color: #000;
+                      text-decoration: none;
 
-                  }
-                }
-              }
-
-              .dlm_rdrs_actions {
-                width: 70px;
-                padding-left: 10px;
-                text-align: center;
-                display: flex;
-              }
-
-              .footer {
-
-                position: absolute;
-                left: 0;
-                top: 0;
-                height: 100%;
-                padding-top: 0;
-                padding-bottom: 0;
-
-                .shortcuts {
-                  border-right: 1px solid rgba(0, 0, 0, .60);
-                  margin-top: 0;
-                  margin-bottom: 0;
-                  display: flex;
-                  flex-flow: column;
-                  justify-content: center;
-                  height: 100%;
-
-                  a {
-                    text-align: left;
-                    padding: 5px 40px 5px 10px;
-                    min-width: 100px;
-                    color: #000;
-                    text-decoration: none;
-
-                    &:hover {
-                      color: #4338ca;
-                      background: rgba(204, 204, 204, 0.3);
+                      &:hover {
+                        color: #4338ca;
+                        background: rgba(204, 204, 204, 0.3);
+                      }
                     }
                   }
                 }
               }
             }
           }
-
         }
       }
 
@@ -1340,6 +1341,7 @@ table.wp-list-table {
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: wrap;
+        position: relative;
 
         &.active {
           display: flex;
@@ -1529,7 +1531,6 @@ table.wp-list-table {
       }
 
       .dlm-canvas-tooltip {
-        background-color: #fff;
         border-radius: 10px;
         color: #FFF;
         background-color: #1F2937;
@@ -1539,12 +1540,25 @@ table.wp-list-table {
         transform: translate(-50%, 0);
         transition: all .1s ease;
         padding: 10px 15px;
-        text-align: center;
+        text-align: left;
+        z-index:99;
 
         .dlm-reports-tooltip__downloads {
           font-size: 18px;
           margin: 0 auto;
           font-weight: bold;
+          position: relative;
+          padding-left:15px;
+
+          .dlm-reports-tooltip__downloads_pointer {
+            width:5px;
+            height:5px;
+            display:inline-block;
+            position: absolute;
+            top:50%;
+            transform: translateY(-50%);
+            left:0;
+          }
         }
 
         .dlm-reports-tooltip__info {

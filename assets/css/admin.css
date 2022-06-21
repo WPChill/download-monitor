@@ -1058,6 +1058,7 @@ table.wp-list-table .column-thumb img {
   max-width: 100%;
   margin: 0 auto;
   font-size: 36px;
+  z-index: 30;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header {
   display: flex;
@@ -1065,9 +1066,6 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-heading {
   font-weight: bold;
-}
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation {
-  width: 100%;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
   display: flex;
@@ -1079,6 +1077,7 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element {
   width: 33%;
+  min-width: 200px;
   height: 100%;
   padding: 24px;
   cursor: pointer;
@@ -1208,7 +1207,7 @@ table.wp-list-table .column-thumb img {
   background: #fff;
   border: 0;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-arrow:before {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm-arrow:before {
   font-family: "dashicons" !important;
   content: "\f140";
   font-style: normal;
@@ -1222,7 +1221,7 @@ table.wp-list-table .column-thumb img {
   font-size: 1.6em;
   vertical-align: middle;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay {
   display: flex;
   width: auto;
   background: #fff;
@@ -1234,45 +1233,45 @@ table.wp-list-table .column-thumb img {
   border-radius: 5px;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.6);
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper {
   padding-left: 175px;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date {
   font-size: 70%;
   margin-right: 5px;
   float: left;
   z-index: 11;
   padding: 15px;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline {
   border: 0;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-highlight {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-highlight {
   background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
   color: #555555;
   border: 1px solid #D3D3D3;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-active {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-active {
   border: 1px solid #aaaaaa;
   background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td,
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th {
   padding: 0;
   margin: 0;
   line-height: 2em;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td a,
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th a {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td a,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th a {
   text-align: center !important;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_actions {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_actions {
   width: 70px;
   padding-left: 10px;
   text-align: center;
   display: flex;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .footer {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer {
   position: absolute;
   left: 0;
   top: 0;
@@ -1280,7 +1279,7 @@ table.wp-list-table .column-thumb img {
   padding-top: 0;
   padding-bottom: 0;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts {
   border-right: 1px solid rgba(0, 0, 0, 0.6);
   margin-top: 0;
   margin-bottom: 0;
@@ -1289,14 +1288,14 @@ table.wp-list-table .column-thumb img {
   justify-content: center;
   height: 100%;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a {
   text-align: left;
   padding: 5px 40px 5px 10px;
   min-width: 100px;
   color: #000;
   text-decoration: none;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a:hover {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm_date_range_picker .date-picker-wrapper .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a:hover {
   color: #4338ca;
   background: rgba(204, 204, 204, 0.3);
 }
@@ -1335,6 +1334,7 @@ table.wp-list-table .column-thumb img {
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
+  position: relative;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-tab-navigation__content.active {
   display: flex;
@@ -1483,7 +1483,6 @@ table.wp-list-table .column-thumb img {
   display: none;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip {
-  background-color: #fff;
   border-radius: 10px;
   color: #FFF;
   background-color: #1F2937;
@@ -1493,12 +1492,24 @@ table.wp-list-table .column-thumb img {
   transform: translate(-50%, 0);
   transition: all 0.1s ease;
   padding: 10px 15px;
-  text-align: center;
+  text-align: left;
+  z-index: 99;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip .dlm-reports-tooltip__downloads {
   font-size: 18px;
   margin: 0 auto;
   font-weight: bold;
+  position: relative;
+  padding-left: 15px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip .dlm-reports-tooltip__downloads .dlm-reports-tooltip__downloads_pointer {
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip .dlm-reports-tooltip__info {
   font-size: 12px;

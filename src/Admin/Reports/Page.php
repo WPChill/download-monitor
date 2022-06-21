@@ -142,7 +142,7 @@ class DLM_Reports_Page {
 					<div>
 						<div class="wpchill-toggle">
 							<input class="wpchill-toggle__input" type="checkbox"
-								   name="<?php echo esc_attr( $key ); ?>" <?php  checked( get_option( $key, $value['default']  ), 'on'); ?> value="on">
+								   name="<?php echo esc_attr( $key ); ?>" <?php  checked( get_option( $key ), 'on'); ?> value="on">
 							<div class="wpchill-toggle__items">
 								<span class="wpchill-toggle__track"></span>
 								<span class="wpchill-toggle__thumb"></span>
@@ -351,7 +351,7 @@ class DLM_Reports_Page {
 			$response = ob_get_clean();
 
 			// $response should be escaped in callback function.
-			echo '<div id="' . esc_attr( $key ) . '" class="dlm-insights-tab-navigation__content ' . esc_attr( $active ) . '" data-id="' . esc_attr( $key ) . '">' . $response . '</div>';
+			echo '<div id="tab_' . esc_attr( $key ) . '" class="dlm-insights-tab-navigation__content ' . esc_attr( $active ) . '" data-id="' . esc_attr( $key ) . '">' . $response . '</div>'; //phpcs:ignore
 
 		}
 
@@ -383,7 +383,6 @@ class DLM_Reports_Page {
 				<?php do_action( 'dlm_reports_page_start' ); ?>
 				<?php $this->insights_content(); ?>
 				<?php do_action( 'dlm_reports_page_end' ); ?>
-				<div class="dlm-loading-data"><h1><?php esc_html_e( 'Loading data...', 'download-monitor' ); ?></div>
 			</div>
 			<?php
 		}
