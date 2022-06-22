@@ -293,9 +293,8 @@ class DLM_Reports {
 	 * Get all months in set intervals
 	 * Used for chart data
 	 *
-	 * @param startDate
-	 * @param endDate
 	 * @returns {*[]}
+	 * @param days
 	 */
 	getMonths(days) {
 
@@ -317,9 +316,8 @@ class DLM_Reports {
 	 * Get all 2 months in set intervals
 	 * Used for chart data
 	 *
-	 * @param startDate
-	 * @param endDate
 	 * @returns {*[]}
+	 * @param days
 	 */
 	getDoubleMonths(days) {
 
@@ -349,9 +347,8 @@ class DLM_Reports {
 	 * Get all 2 weeks in set intervals
 	 * Used for chart data
 	 *
-	 * @param startDate
-	 * @param endDate
 	 * @returns {*[]}
+	 * @param days
 	 */
 	getWeeks(days) {
 
@@ -369,6 +366,62 @@ class DLM_Reports {
 			if ('undefined' === typeof dates[week]) {
 				dates[week] = 0;
 			}
+		});
+
+		return dates;
+	}
+
+	/**
+	 * Get all weeks in set intervals
+	 * Used for chart data
+	 *
+	 * @returns {*[]}
+	 * @param days
+	 */
+	getWeek(days) {
+
+		let dates   = [],
+			lastDay = Object.keys(days)[Object.keys(days).length - 1],
+			i       = 0;
+
+		Object.keys(days).map(element => {
+			if ('undefined' === typeof dates[element] && 0 === i % 7) {
+				dates[element] = 0;
+			}
+			i++;
+		});
+
+		// Also add last date if not in array
+		if ('undefined' === typeof dates[lastDay]) {
+			dates[lastDay] = 0;
+		}
+
+		return dates;
+	}
+
+	/**
+	 * Get all 2 months in set intervals
+	 * Used for chart data
+	 *
+	 * @returns {*[]}
+	 * @param days
+	 */
+	getDoubleDays(days) {
+
+		let dates = [], firstDay = Object.keys(days)[0], lastDay = Object.keys(days)[Object.keys(days).length - 1];
+
+		let i = 0;
+		Object.keys(days).map(element => {
+
+			if (firstDay !== element && lastDay !== element) {
+				firstDay = element;
+				i++;
+			}
+
+			if ('undefined' === typeof dates[element] && 0 === i % 2) {
+				dates[element] = 0;
+			}
+
 		});
 
 		return dates;
@@ -443,22 +496,31 @@ class DLM_Reports {
 	 */
 	createDataOnDate(startDateInput, endDateInput) {
 
-		let {startDate, endDate} = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)}, monthDiff,
+		let {startDate, endDate} = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)}, dayDiff, monthDiff,
 			yearDiff, chartDate, dlmDownloads;
 
 		dlmReportsInstance.reportsData = ('undefined' !== typeof dlmReportsInstance.dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmReportsStats)) : {};
 
 		monthDiff = moment(endDate, 'YYYY-MM-DD').month() - moment(startDate, 'YYYY-MM-DD').month();
 		yearDiff  = moment(endDate, 'YYYY-MM-DD').year() - moment(startDate, 'YYYY-MM-DD').year();
+		dayDiff   = moment(endDate).date() - moment(startDate).date();
 
 		if (yearDiff == 0 && monthDiff > -6 && monthDiff < 6) {
 
 			if (monthDiff > 1 || monthDiff < -1) {
-				dlmReportsInstance.chartType = 'weeks';
-			} else {
-				dlmReportsInstance.chartType = 'day';
-			}
+				if (2 === monthDiff) {
+					dlmReportsInstance.chartType = 'week';
+				} else {
+					dlmReportsInstance.chartType = 'weeks';
+				}
 
+			} else {
+				if (1 === monthDiff || dayDiff > 7) {
+					dlmReportsInstance.chartType = 'days';
+				} else {
+					dlmReportsInstance.chartType = 'day';
+				}
+			}
 		} else {
 			if (yearDiff = 1 && monthDiff <= 0) {
 				dlmReportsInstance.chartType = 'month';
@@ -473,12 +535,16 @@ class DLM_Reports {
 
 		// Get all dates from the startDate to the endDate
 		let dayDownloads         = dlmReportsInstance.getDates(new Date(startDate), new Date(endDate));
+		// Get double days
+		let doubleDays           = dlmReportsInstance.getDoubleDays(dayDownloads);
+		// Get selected dates in 2 weeks grouping
+		let weekDownloads        = dlmReportsInstance.getWeek(dayDownloads);
+		// Get selected dates in 2 weeks grouping
+		let weeksDownloads       = dlmReportsInstance.getWeeks(dayDownloads);
 		// Get selected months
 		let monthDownloads       = dlmReportsInstance.getMonths(dayDownloads);
 		// Get double selected months
 		let doubleMonthDownloads = dlmReportsInstance.getDoubleMonths(dayDownloads);
-		// Get selected dates in 2 weeks grouping
-		let weeksDownloads       = dlmReportsInstance.getWeeks(dayDownloads);
 
 		// Let's initiate our dlmDownloads with something
 		switch (dlmReportsInstance.chartType) {
@@ -490,6 +556,12 @@ class DLM_Reports {
 				break;
 			case 'weeks':
 				dlmDownloads = weeksDownloads;
+				break
+			case 'week':
+				dlmDownloads = weekDownloads;
+				break
+			case 'days':
+				dlmDownloads = doubleDays;
 				break
 			case 'day':
 				dlmDownloads = dayDownloads;
@@ -505,21 +577,18 @@ class DLM_Reports {
 				switch (dlmReportsInstance.chartType) {
 					case 'months':
 						chartDate        = day.date.substring(0, 7);
-						const chartMonth = parseInt(day.date.substring(5, 7)),
+						let chartMonth = parseInt(day.date.substring(5, 7)),
 							  chartYear  = day.date.substring(0, 5),
-							  prevDate   = (chartMonth - 1).length > 6 ? chartYear + (chartMonth - 1) : chartYear + '0' + (chartMonth - 1);
+							  prevDateI   = (chartMonth - 1).length > 6 ? chartYear + (chartMonth - 1) : chartYear + '0' + (chartMonth - 1);
 
 						Object.values(downloads).forEach((item, index) => {
 
 							// If it does not exist we attach the downloads to the previous month
 							if ('undefined' === typeof doubleMonthDownloads[chartDate]) {
-
-								if ('undefined' !== typeof doubleMonthDownloads[prevDate]) {
-									doubleMonthDownloads[prevDate] = doubleMonthDownloads[prevDate] + item.downloads;
+								if ('undefined' !== typeof doubleMonthDownloads[prevDateI]) {
+									doubleMonthDownloads[prevDateI] = doubleMonthDownloads[prevDateI] + item.downloads;
 								}
-
 							} else {
-
 								doubleMonthDownloads[chartDate] = doubleMonthDownloads[chartDate] + item.downloads;
 							}
 
@@ -532,9 +601,7 @@ class DLM_Reports {
 						chartDate = day.date.substring(0, 7);
 
 						Object.values(downloads).forEach((item, index) => {
-
 							monthDownloads[chartDate] = ('undefined' !== typeof monthDownloads[chartDate]) ? monthDownloads[chartDate] + item.downloads : item.downloads;
-
 						});
 
 						dlmDownloads = monthDownloads;
@@ -548,18 +615,49 @@ class DLM_Reports {
 						}
 
 						Object.values(downloads).forEach((item, index) => {
-
 							weeksDownloads[chartDate] = ('undefined' !== typeof weeksDownloads[chartDate]) ? weeksDownloads[chartDate] + item.downloads : item.downloads;
-
 						});
 
 						dlmDownloads = weeksDownloads;
 						break;
+					case 'week':
+						chartDate = day.date;
+						Object.values(downloads).forEach((item, index) => {
+							// If it does not exist we attach the downloads to the previous month
+							if ('undefined' === typeof weekDownloads[chartDate]) {
+								for (let $i = 1; $i < 8; $i++) {
+									let $currentDayOfWeek = moment(day.date).date(moment(day.date).date() - $i).format("YYYY-MM-DD");
+									if ('undefined' !== typeof weekDownloads[$currentDayOfWeek]) {
+										weekDownloads[$currentDayOfWeek] = weekDownloads[$currentDayOfWeek] + item.downloads;
+									}
+								}
+							} else {
+								weekDownloads[chartDate] = weekDownloads[chartDate] + item.downloads;
+							}
+						});
+
+						dlmDownloads = weekDownloads;
+						break;
+					case 'days':
+						chartDate    = day.date;
+						let prevDate = moment(day.date).date(moment(day.date).date() - 1).format("YYYY-MM-DD");
+
+						Object.values(downloads).forEach((item, index) => {
+							// If it does not exist we attach the downloads to the previous month
+							if ('undefined' === typeof doubleDays[chartDate]) {
+								if ('undefined' !== typeof doubleDays[prevDate]) {
+									doubleDays[prevDate] = doubleDays[prevDate] + item.downloads;
+								}
+							} else {
+								doubleDays[chartDate] = doubleDays[chartDate] + item.downloads;
+							}
+						});
+
+						dlmDownloads = doubleDays;
+						break;
 					case 'day':
 						Object.values(downloads).forEach((item, index) => {
-
 							dayDownloads[day.date] = dayDownloads[day.date] + item.downloads;
-
 						});
 
 						dlmDownloads = dayDownloads;
@@ -569,7 +667,6 @@ class DLM_Reports {
 			} else {
 				delete dlmReportsInstance.reportsData[index];
 			}
-
 		});
 
 		// Get number of days, used in summary for daily average downloads
