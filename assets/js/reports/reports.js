@@ -1473,16 +1473,15 @@ class DLM_Reports {
 
 		if (!margin.isMargin) {
 			tooltipEl.style.left   = positionX + tooltip.caretX + 'px';
-			tooltipLine.style.left = positionX + tooltip.caretX + 'px';
+
 		} else {
 			if (!margin.left) {
 				tooltipEl.style.left   = tooltipWidth - tooltip.width + 'px';
-				tooltipLine.style.left = tooltipWidth - tooltip.width + 'px';
 			} else {
 				tooltipEl.style.left   = positionX + tooltip.width + 'px';
-				tooltipLine.style.left = positionX + tooltip.width + 'px';
 			}
 		}
+		tooltipLine.style.left = positionX + tooltip.caretX + 'px';
 
 		tooltipEl.style.top = (positionY + tooltip.caretY - tooltipEl.offsetHeight - 10) + 'px';
 	}
