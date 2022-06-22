@@ -407,7 +407,6 @@ class DLM_Reports {
 	 */
 	getSetDates(startDateInput, endDateInput) {
 		let startDate, endDate;
-
 		if ('undefined' !== typeof startDateInput && startDateInput) {
 
 			startDate = dlmReportsInstance.createDateElement(new Date(startDateInput));
@@ -421,9 +420,7 @@ class DLM_Reports {
 
 		if ('undefined' !== typeof endDateInput && endDateInput) {
 			let trueEnd = new Date(endDateInput);
-			trueEnd     = trueEnd.setDate(trueEnd.getDate() + 1);
-			trueEnd     = new Date(trueEnd);
-			endDate     = dlmReportsInstance.createDateElement(trueEnd);
+			endDate = dlmReportsInstance.createDateElement(trueEnd);
 
 		} else {
 
@@ -433,7 +430,6 @@ class DLM_Reports {
 			tomorrow.setDate(tomorrow.getDate() + 1);
 			endDate = dlmReportsInstance.createDateElement(tomorrow);
 		}
-
 		return {startDate, endDate};
 	}
 
@@ -896,7 +892,6 @@ class DLM_Reports {
 			return;
 		}
 		containerID = '#' + jQuery(target).attr('id').replace(/-/gi, '_');
-
 		switch (opener.target) {
 			case 'dlm-date-range-picker':
 				if (dlmReportsInstance.datePicker.opened) {
@@ -1055,6 +1050,7 @@ class DLM_Reports {
 		switch (opener.target) {
 			case 'dlm-date-range-picker' :
 				dlmReportsInstance.datePicker.opened = false;
+				break;
 			default:
 				jQuery(document).trigger('dlm_hide_datepicker_' + opener.target, [dlmReportsInstance, target, opener]);
 				break;
@@ -1071,7 +1067,7 @@ class DLM_Reports {
 		event.stopPropagation();
 		const target = jQuery(event.target).parents('.dlm-reports-header-date-selector');
 		let opener   = {target: target.attr('id'), object: dlmReportsInstance.datePicker};
-
+		dlmReportsInstance.closeDatePickers(target);
 		switch (opener.target) {
 			case 'dlm-date-range-picker':
 				if (dlmReportsInstance.datePicker.opened) {
@@ -1253,7 +1249,7 @@ class DLM_Reports {
 				offsetHolder                                                   = main_parent.find('#total_downloads_table'),
 				offset                                                         = main_parent.find('#total_downloads_table').attr('data-page'),
 				table = main_parent.find('#total_downloads_table table'), link = jQuery(this),
-				nextPage                                                       = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				nextPage                                                       = parseInt(offset) + 1, prevPage                      = (0 !== offset) ? parseInt(offset) - 1 : 0,
 				prevButton                                                     = jQuery('#downloads-block-navigation').find('button').first(),
 				nextButton                                                     = jQuery('#downloads-block-navigation').find('button').last();
 
@@ -1518,15 +1514,20 @@ class DLM_Reports {
 	 * @param endDateInput
 	 */
 	logsDataByDate(startDateInput, endDateInput) {
-
 		let {startDate, endDate}         = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)};
 		dlmReportsInstance.userDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.dlmUsersStats.logs));
-		const startTimestamp             = new Date(startDate).getTime();
-		const endTimestamp               = new Date(endDate).getTime();
+		let startTimestamp               = new Date(startDate)
+		startTimestamp.setDate(startTimestamp.getDate() - 1);
+		startTimestamp = startTimestamp.getTime();
+
+		let endTimestamp = new Date(endDate);
+		endTimestamp.setDate(endTimestamp.getDate() + 1);
+		endTimestamp = endTimestamp.getTime();
 
 		dlmReportsInstance.userDownloads = dlmReportsInstance.userDownloads.filter((element, index) => {
-			const currentElement = new Date(element.download_date).getTime();
-			return !(currentElement < startTimestamp || currentElement > endTimestamp);
+			let currentElement = dlmReportsInstance.createDateElement(new Date(element.download_date));
+			currentElement     = new Date(currentElement).getTime();
+			return (currentElement > startTimestamp && currentElement < endTimestamp);
 		});
 
 		dlmReportsInstance.createUserRelatedData();
@@ -2020,7 +2021,7 @@ class DLM_Reports {
 	 * @param dataSet
 	 * @returns {*}
 	 */
-	setChartTooltipDate(dateInput,plugin,dataSet) {
+	setChartTooltipDate(dateInput, plugin, dataSet) {
 		let date = '';
 		if ('undefined' !== plugin.chartType && 'months' === plugin.chartType) {
 
@@ -2060,5 +2061,17 @@ class DLM_Reports {
 		}
 
 		return date;
+	}
+
+	/**
+	 * Close all date pickers except the targeted one
+	 *
+	 * @param target
+	 */
+	closeDatePickers(target) {
+		jQuery('.dlm-reports-header-date-selector').not(target).each(function () {
+			const opener = {target: jQuery(this).attr('id')};
+			dlmReportsInstance.hideDatepicker(jQuery(this), opener);
+		})
 	}
 }

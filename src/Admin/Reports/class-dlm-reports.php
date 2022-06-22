@@ -60,6 +60,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports';
 			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports';
 			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data';
+			// Let's add the global variable that will hold our reporst class and the routes
 			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; ', 'before' );
 		}
 

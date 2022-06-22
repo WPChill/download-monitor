@@ -16,10 +16,6 @@
   vertical-align: top;
 }
 
-#dlm-download-log {
-  background: #0081a7;
-}
-
 .post-type-dlm_download {
 
   .dlm-page-header {
@@ -961,16 +957,6 @@ table.wp-list-table {
 
   #wpcontent {
 
-    .dlm-reports-tooltip__line {
-      height: calc(100% - 110px);
-      width: 0;
-      background: transparent;
-      z-index: 1;
-      position: absolute;
-      top: 65px !important;
-      border: 1px dashed black;
-    }
-
     .dlm-reports {
 
       margin: 40px;
@@ -978,6 +964,8 @@ table.wp-list-table {
 
       .reports-block {
         background-color: #FFF;
+        padding:15px;
+        margin-top:25px;
       }
 
       .half-reports-block {
@@ -1001,6 +989,10 @@ table.wp-list-table {
         font-size: 36px;
         z-index: 30;
       }
+
+      /**
+      Reports header and actions
+       */
 
       .dlm-insights-header {
 
@@ -1058,94 +1050,30 @@ table.wp-list-table {
               }
             }
           }
-
         }
 
+        .dlm-reports-actions {
 
-      }
-
-      .dlm-reports-actions {
-
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        align-content: center;
-        display: flex;
-
-        &:hover {
-          border-color: #4338ca;
-        }
-
-        &:focus {
-          border-color: #4338ca;
-          box-shadow: 0 0 3px #4338ca;
-        }
-
-        a.dlm-reports-header-chart-switcher,
-        .dlm-reports-header-date-selector,
-        .dlm-reports-header-period {
-          margin: 0;
-        }
-      }
-
-      .dlm-reports-header-date-selector {
-
-        display: flex;
-        align-items: center;
-        min-height: 32px;
-        position: relative;
-        font-size: 14px;
-        padding: 0 .5em 0 5px;
-        user-select: none;
-        cursor: pointer;
-        margin: 0 15px;
-        transition: 800ms ease-in;
-        opacity: 1;
-
-        &.disabled {
-          pointer-events: none;
-          opacity: 0;
-          display: none;
-
-        }
-
-        & > label {
-          font-size: 12px;
-          font-style: italic;
-          top: -20px;
-          display: block;
-          width: 100%;
-          text-align: center;
-          position: absolute;
-        }
-
-        .dlm-reports-header-period {
-          display: flex;
-          align-content: center;
+          flex-wrap: wrap;
+          justify-content: space-between;
           align-items: center;
-          border: 1px solid #cccccc;
-          border-left: 0;
+          align-content: center;
+          display: flex;
 
-          a,
-          a:hover {
-            height: 100%;
-            border: 0;
-            background: #fff;
-            box-shadow: none;
-
-            &.active {
-              background: #cccccc;
-            }
+          &:hover {
+            border-color: #4338ca;
           }
-        }
 
-      }
+          &:focus {
+            border-color: #4338ca;
+            box-shadow: 0 0 3px #4338ca;
+          }
 
-
-      #dlm_date_range_picker {
-        .date-picker-wrapper {
-          background: #fff;
-          border: 0;
+          a.dlm-reports-header-chart-switcher,
+          .dlm-reports-header-date-selector,
+          .dlm-reports-header-period {
+            margin: 0;
+          }
 
           .dlm-reports-header-date-selector {
 
@@ -1177,6 +1105,26 @@ table.wp-list-table {
               width: 100%;
               text-align: center;
               position: absolute;
+            }
+
+            .dlm-reports-header-period {
+              display: flex;
+              align-content: center;
+              align-items: center;
+              border: 1px solid #cccccc;
+              border-left: 0;
+
+              a,
+              a:hover {
+                height: 100%;
+                border: 0;
+                background: #fff;
+                box-shadow: none;
+
+                &.active {
+                  background: #cccccc;
+                }
+              }
             }
 
             #dlm_date_range_picker {
@@ -1214,7 +1162,6 @@ table.wp-list-table {
               overflow: hidden;
               border-radius: 5px;
               box-shadow: 0px 0px 3px rgba(0, 0, 0, .60);
-
 
               .date-picker-wrapper {
 
@@ -1364,10 +1311,7 @@ table.wp-list-table {
         padding: 14px 0 0 0;
 
         button {
-          margin: 0 15px;
-          background-color: transparent;
           border: 0;
-          box-shadow: none;
           color: #000;
           font-size: 1rem;
           cursor: pointer;
@@ -1393,18 +1337,6 @@ table.wp-list-table {
           i {
             color: inherit;
             opacity: 0.6;
-          }
-        }
-
-        &#total_downloads_summary {
-
-
-          label {
-            font-size: 14px;
-            line-height: 20px;
-            margin-bottom: 16px;
-            color: #757575;
-            font-weight: normal;
           }
         }
 
@@ -1507,6 +1439,14 @@ table.wp-list-table {
           font-weight: 600;
         }
       }
+
+      label {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 16px;
+        color: #757575;
+        font-weight: normal;
+      }
     }
 
     .total_downloads_chart-wrapper {
@@ -1541,23 +1481,23 @@ table.wp-list-table {
         transition: all .1s ease;
         padding: 10px 15px;
         text-align: left;
-        z-index:99;
+        z-index: 99;
 
         .dlm-reports-tooltip__downloads {
           font-size: 18px;
           margin: 0 auto;
           font-weight: bold;
           position: relative;
-          padding-left:15px;
+          padding-left: 15px;
 
           .dlm-reports-tooltip__downloads_pointer {
-            width:5px;
-            height:5px;
-            display:inline-block;
+            width: 5px;
+            height: 5px;
+            display: inline-block;
             position: absolute;
-            top:50%;
+            top: 50%;
             transform: translateY(-50%);
-            left:0;
+            left: 0;
           }
         }
 
@@ -1571,6 +1511,16 @@ table.wp-list-table {
           margin: 0 auto;
           font-weight: 600;
         }
+      }
+
+      .dlm-reports-tooltip__line {
+        height: calc(100% - 110px);
+        width: 0;
+        background: transparent;
+        z-index: 1;
+        position: absolute;
+        top: 65px !important;
+        border: 1px dashed black;
       }
     }
 
@@ -1641,7 +1591,6 @@ table.wp-list-table {
             display: block;
             font-weight: 500;
           }
-
 
           & > div {
             text-align: left;
@@ -1764,7 +1713,7 @@ table.wp-list-table {
     #users_downloads_table_wrapper {
       ul {
         .wpchill-tooltip {
-          font-size: 12px;
+          font-size: 14px;
 
           .wpchill-tooltip-content {
 
@@ -2105,7 +2054,6 @@ table.wp-list-table {
       font-weight: bold;
       text-align: center;
     }
-
   }
 
   .dlm-onboarding-pages {
@@ -2149,7 +2097,6 @@ table.wp-list-table {
       font-weight: bold;
     }
   }
-
 }
 
 @media (min-width: 768px) {
@@ -2300,7 +2247,6 @@ table.wp-list-table {
       }
     }
   }
-
 }
 
 /* Fix Datepicker's UI bug */
@@ -2402,7 +2348,6 @@ table.wp-list-table {
     margin: 0;
     padding: 0;
   }
-
 }
 
 .upsells-columns {
@@ -2454,7 +2399,6 @@ table.wp-list-table {
       border-top: 1px solid #c3c4c7;
       border-bottom: 1px solid #c3c4c7;
     }
-
   }
 
   .wpchill-upsell {
@@ -2482,45 +2426,44 @@ WPCHill Tooltips
   position: relative;
   display: inline-block;
   margin-right: 10px;
-}
 
-.wpchill-tooltip > i {
-  cursor: pointer;
-  color: rgba(0, 0, 0, 0.6);
-  margin-left: 5px;
-  font-style: normal;
-}
+  & > i {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.6);
+    margin-left: 5px;
+    font-style: normal;
+  }
 
-.wpchill-tooltip .wpchill-tooltip-content {
-  display: none;
-  position: absolute;
-  top: 50%;
-  right: -10px;
-  transform: translate(100%, -50%);
-  width: 300px;
-  background: #000;
-  color: #fff;
-  padding: 10px;
-  box-sizing: border-box;
-  z-index: 99;
-}
+  .wpchill-tooltip-content {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translate(100%, -50%);
+    width: 300px;
+    background: #000;
+    color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 99;
 
-.wpchill-tooltip .wpchill-tooltip-content:before {
-  content: '';
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 8px 8px 8px 0;
-  border-color: transparent #000 transparent transparent;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: -8px;
-  transform: translateY(-50%);
-}
-
-.wpchill-tooltip:hover .wpchill-tooltip-content {
-  display: block;
+    &:before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-width: 8px 8px 8px 0;
+      border-color: transparent #000 transparent transparent;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: -8px;
+      transform: translateY(-50%);
+    }
+  }
+  &:hover .wpchill-tooltip-content {
+    display: block;
+  }
 }
 
 .dlm_download_page_dlm-extensions {
@@ -2528,7 +2471,6 @@ WPCHill Tooltips
     background-color: #FFF;
   }
 }
-
 
 /**
 *  Tooltips
@@ -2737,7 +2679,3 @@ Toggles
     }
   }
 }
-
-/**
-End Toggles
- */
