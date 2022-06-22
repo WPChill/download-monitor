@@ -41,7 +41,7 @@ class DLM_Download_Handler {
 	 * @access public
 	 *
 	 * @param boolean $can_download
-	 * @param mixed $download
+	 * @param mixed   $download
 	 *
 	 * @return boolean
 	 */
@@ -54,10 +54,9 @@ class DLM_Download_Handler {
 			if ( ! is_user_logged_in() ) {
 				$can_download = false;
 			} // Check if it's a multisite and if user is member of blog
-			else if ( is_multisite() && ! is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) ) {
+			elseif ( is_multisite() && ! is_user_member_of_blog( get_current_user_id(), get_current_blog_id() ) ) {
 				$can_download = false;
 			}
-
 		}
 
 		return $can_download;
@@ -101,11 +100,11 @@ class DLM_Download_Handler {
 
 		// GET to query_var
 		if ( ! empty( $_GET[ $this->endpoint ] ) ) {
-			$wp->query_vars[ $this->endpoint ] = sanitize_text_field( wp_unslash($_GET[ $this->endpoint ]) );
+			$wp->query_vars[ $this->endpoint ] = sanitize_text_field( wp_unslash( $_GET[ $this->endpoint ] ) );
 		}
 
 		// check if endpoint is set but is empty
-		if ( apply_filters( 'dlm_empty_download_redirect_enabled', true ) && isset ( $wp->query_vars[ $this->endpoint ] ) && empty ( $wp->query_vars[ $this->endpoint ] ) ) {
+		if ( apply_filters( 'dlm_empty_download_redirect_enabled', true ) && isset( $wp->query_vars[ $this->endpoint ] ) && empty( $wp->query_vars[ $this->endpoint ] ) ) {
 			wp_redirect( apply_filters( 'dlm_empty_download_redirect_url', home_url() ) );
 			exit;
 		}
@@ -123,10 +122,10 @@ class DLM_Download_Handler {
 
 			// Find real ID
 			switch ( $this->ep_value ) {
-				case 'slug' :
+				case 'slug':
 					$download_id = absint( $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_name = '%s' AND post_type = 'dlm_download';", $raw_id ) ) );
 					break;
-				default :
+				default:
 					$download_id = absint( $raw_id );
 					break;
 			}
@@ -135,7 +134,7 @@ class DLM_Download_Handler {
 			if ( '1' == get_option( 'dlm_hotlink_protection_enabled' ) ) {
 
 				// Get referer
-				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash($_SERVER['HTTP_REFERER'])) : '';
+				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
 
 				// Check if referer isn't empty or if referer is empty but empty referer isn't allowed
 				if ( ! empty( $referer ) || ( empty( $referer ) && apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) ) {
@@ -156,9 +155,7 @@ class DLM_Download_Handler {
 						wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url(), $download_id ) );
 						exit;
 					}
-
 				}
-
 			}
 
 			/** @var DLM_Download $download */
@@ -179,13 +176,12 @@ class DLM_Download_Handler {
 			$version_id = '';
 
 			if ( ! empty( $_GET['version'] ) ) {
-				$version_id = $download->get_version_id_version_name( sanitize_text_field( wp_unslash($_GET['version']) ) );
+				$version_id = $download->get_version_id_version_name( sanitize_text_field( wp_unslash( $_GET['version'] ) ) );
 			}
 
 			if ( ! empty( $_GET['v'] ) ) {
 				$version_id = absint( $_GET['v'] );
 			}
-
 
 			if ( $version_id ) {
 				try {
@@ -196,7 +192,7 @@ class DLM_Download_Handler {
 				}
 			}
 
-			$def_restricted = array( 'php', 'html', 'htm', 'tmp' );
+			$def_restricted        = array( 'php', 'html', 'htm', 'tmp' );
 			$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array(), $download ) );
 
 			// Do not allow the download of certain file types.
@@ -207,7 +203,7 @@ class DLM_Download_Handler {
 			// Action on found download
 			if ( $download->exists() ) {
 				if ( post_password_required( $download_id ) ) {
-					wp_die( get_the_password_form( $download_id ) , esc_html__( 'Password Required', 'download-monitor' ) );
+					wp_die( get_the_password_form( $download_id ), esc_html__( 'Password Required', 'download-monitor' ) );
 				}
 
 				$this->trigger( $download );
@@ -255,13 +251,13 @@ class DLM_Download_Handler {
 
 		// Check if we got files in this version
 		if ( empty( $file_paths ) ) {
-			if ( $XMLHttpRequest ) {				
-				header("DLM-Error: " . esc_html__( 'No file paths defined.', 'download-monitor' ) );
-				http_response_code(404);
+			if ( $XMLHttpRequest ) {
+				header( 'DLM-Error: ' . esc_html__( 'No file paths defined.', 'download-monitor' ) );
+				http_response_code( 404 );
 				exit;
 			}
 
-			header( 'Status: 404' . esc_html__('No file paths defined.', 'download-monitor') );
+			header( 'Status: 404' . esc_html__( 'No file paths defined.', 'download-monitor' ) );
 			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
@@ -271,8 +267,8 @@ class DLM_Download_Handler {
 		// Check if we actually got a path
 		if ( ! $file_path ) {
 			if ( $XMLHttpRequest ) {
-				header("DLM-Error: " . esc_html__( 'No file path defined.', 'download-monitor' ) );
-				http_response_code(404);
+				header( 'DLM-Error: ' . esc_html__( 'No file path defined.', 'download-monitor' ) );
+				http_response_code( 404 );
 				exit;
 			}
 			header( 'Status: 404 NoFilePaths, No file paths defined.' );
@@ -287,8 +283,8 @@ class DLM_Download_Handler {
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( $restriction ) {
 			if ( $XMLHttpRequest ) {
-				header('DLM-Error: ' . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
-				http_response_code(403 );
+				header( 'DLM-Error: ' . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
+				http_response_code( 403 );
 				exit;
 			}
 			header( 'Status: 403 Access denied, file not in allowed paths.' );
@@ -303,7 +299,7 @@ class DLM_Download_Handler {
 			// Check if we need to redirect if visitor don't have access to file
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
 				if ( $XMLHttpRequest ) {
-					header("DLM-Redirect: " . $redirect );
+					header( 'DLM-Redirect: ' . $redirect );
 					exit;
 				}
 				header( "Status: 401 redirect,$redirect" );
@@ -323,14 +319,14 @@ class DLM_Download_Handler {
 					// check if we can find a permalink
 					if ( false !== $no_access_permalink ) {
 
-						//get wordpress permalink structure so we can build the url
-						$structure = get_option('permalink_structure', 0 );
+						// get WordPress permalink structure so we can build the url
+						$structure = get_option( 'permalink_structure', 0 );
 
 						// append download id to no access URL
 
-						if( '' == $structure || 0 == $structure ){
+						if ( '' == $structure || 0 == $structure ) {
 							$no_access_permalink = add_query_arg( 'download-id', $download->get_id(), untrailingslashit( $no_access_permalink ) );
-						}else{
+						} else {
 							$no_access_permalink = untrailingslashit( $no_access_permalink ) . '/download-id/' . $download->get_id() . '/';
 						}
 
@@ -338,8 +334,8 @@ class DLM_Download_Handler {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
 
-						if ( $XMLHttpRequest ) {							
-							header("DLM-Redirect: " . $no_access_permalink );
+						if ( $XMLHttpRequest ) {
+							header( 'DLM-Redirect: ' . $no_access_permalink );
 							exit;
 						}
 						// redirect to no access page
@@ -347,7 +343,6 @@ class DLM_Download_Handler {
 						wp_redirect( $no_access_permalink );
 						exit; // out
 					}
-
 				}
 
 				if ( $XMLHttpRequest ) {
@@ -355,7 +350,7 @@ class DLM_Download_Handler {
 					exit;
 				}
 
-				header( "Status: 403 AccessDenied, You do not have permission to download this file." );
+				header( 'Status: 403 AccessDenied, You do not have permission to download this file.' );
 				wp_die( wp_kses_post( get_option( 'dlm_no_access_error', '' ) ), esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 
 			}
@@ -388,11 +383,11 @@ class DLM_Download_Handler {
 				exit;
 			}
 
-			header( "X-Robots-Tag: noindex, nofollow", true );
+			header( 'X-Robots-Tag: noindex, nofollow', true );
 			header( 'Location: ' . $file_path );
 			exit;
 		}
-		
+
 		$this->download_headers( $file_path, $download, $version );
 
 		do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
@@ -435,9 +430,9 @@ class DLM_Download_Handler {
 		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->get_filesize() ) {
 			// phpcs:ignore
 			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'], 2 );
-			list( $range ) = explode( ",", $range, 2 );
-			list( $range, $range_end ) = explode( "-", $range );
-			$range = intval( $range );
+			list( $range )             = explode( ',', $range, 2 );
+			list( $range, $range_end ) = explode( '-', $range );
+			$range                     = intval( $range );
 
 			if ( ! $range_end ) {
 				$range_end = $version->get_filesize();
@@ -445,9 +440,9 @@ class DLM_Download_Handler {
 				$range_end = intval( $range_end );
 			}
 
-			//$new_length = $range_end - $range;
+			// $new_length = $range_end - $range;
 			$new_length = ( $range_end - $range ) + 1;
-			header( "HTTP/1.1 206 Partial Content" );
+			header( 'HTTP/1.1 206 Partial Content' );
 			header( "Content-Length: $new_length" );
 			header( "Content-Range: bytes {$range}-{$range_end}/{$version->get_filesize()}" );
 
@@ -457,23 +452,22 @@ class DLM_Download_Handler {
 
 		if ( $remote_file ) {
 			// Redirect - we can't track if this completes or not
-			if ( $XMLHttpRequest) {
+			if ( $XMLHttpRequest ) {
 
-				$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();			
+				$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
 				// Ensure we have a valid URL, not a file path
 				$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
 				// we get the secure file path.
 				$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
 				$file_path    = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', $correct_path ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
-				header("DLM-Redirect: " . $file_path );
+				header( 'DLM-Redirect: ' . $file_path );
 				exit;
-			} 
+			}
 			header( 'Location: ' . $file_path );
 			if ( ! $XMLHttpRequest ) {
 				$this->dlm_logging->log( $download, $version, 'redirected' );
 			}
-
 		} elseif ( file_exists( $file_path ) ) {
 
 			if ( ! $XMLHttpRequest ) {
@@ -491,7 +485,7 @@ class DLM_Download_Handler {
 			}
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
-		var_Dump('4');
+		var_Dump( '4' );
 		exit;
 	}
 
@@ -513,14 +507,14 @@ class DLM_Download_Handler {
 	/**
 	 * Output download headers
 	 *
-	 * @param string $file_path
-	 * @param DLM_Download $download
+	 * @param string               $file_path
+	 * @param DLM_Download         $download
 	 * @param DLM_Download_Version $version
 	 */
 	private function download_headers( $file_path, $download, $version ) {
 
 		// Get Mime Type
-		$mime_type = "application/octet-stream";
+		$mime_type = 'application/octet-stream';
 
 		foreach ( get_allowed_mime_types() as $mime => $type ) {
 			$mimes = explode( '|', $mime );
@@ -591,8 +585,8 @@ class DLM_Download_Handler {
 	/**
 	 * Set required XHR download headers
 	 *
-	 * @param string $file_path
-	 * @param DLM_Download $download
+	 * @param string               $file_path
+	 * @param DLM_Download         $download
 	 * @param DLM_Download_Version $version
 	 */
 	private function set_required_xhr_headers( $file_path, $download, $version ) {
@@ -616,7 +610,7 @@ class DLM_Download_Handler {
 	 *
 	 * @access   public
 	 *
-	 * @param    string $file
+	 * @param    string  $file
 	 * @param    boolean $retbytes return bytes of file
 	 * @param    boolean $range if  HTTP RANGE to seek
 	 *
