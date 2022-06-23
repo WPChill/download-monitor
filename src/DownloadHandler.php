@@ -346,7 +346,7 @@ class DLM_Download_Handler {
 				}
 
 				if ( $XMLHttpRequest ) {
-					header( 'DLM-Error: ' . esc_html__( 'Status: 403 AccessDenied, You do not have permission to download this file.', 'download-monitor' ) );
+					header( 'DLM-Error: ' . esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ) );
 					exit;
 				}
 

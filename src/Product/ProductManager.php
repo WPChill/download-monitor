@@ -83,6 +83,9 @@ class DLM_Product_Manager {
 				'dlm-page-addon'              => array(
 					'version' => '4.1.6',
 				),
+				'dlm-enhanced-metrics'        => array(
+					'version' => '1.0.0',
+				),
 			)
 		);
 	}

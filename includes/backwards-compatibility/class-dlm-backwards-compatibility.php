@@ -132,7 +132,7 @@ class DLM_Backwards_Compatibility {
 
 		$download_count_order = false;
 
-		// We should keep this if custom functionality using our retrieve function was made by users / other developers
+		// We should keep this if custom functionality using our retrieve function was made by users / other developers.
 		if ( isset( $filters['meta_query'] ) && isset( $filters['meta_query']['orderby_meta'] ) && '_download_count' === $filters['meta_query']['orderby_meta']['key'] ) {
 			$download_count_order = true;
 		}
@@ -150,9 +150,9 @@ class DLM_Backwards_Compatibility {
 		}
 
 		$this->filters = $filters;
-
 		add_filter( 'dlm_admin_sort_columns', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
+		add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		add_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
@@ -174,6 +174,21 @@ class DLM_Backwards_Compatibility {
 
 		return $join;
 
+	}
+
+	/**
+	 * Add where clause on our query
+	 *
+	 * @param string $where The query where clause.
+	 *
+	 * @return string
+	 */
+	public function where_download_count_compatibility( $where ) {
+		global $wpdb;
+
+		$where .= " AND {$wpdb->download_log}.download_status IN ('completed', 'redirected') ";
+
+		return $where;
 	}
 
 	/**

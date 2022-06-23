@@ -393,3 +393,7 @@ a.download-button > * {
   z-index: 2;
   position: relative;
 }
+.dlm-xhr-error {
+  font-size: 12px;
+  color: red;
+}

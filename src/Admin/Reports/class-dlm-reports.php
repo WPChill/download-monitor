@@ -214,7 +214,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$user_reports        = array();
 			$offset              = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
 			$count               = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 10000;
-			$offset_limit        = ( 0 === $offset? 1 : $offset ) * 10000;
+			$offset_limit        = $offset * 10000;
 
 			// If user toggled off user reports we should clear the cache.
 			if ( $this->clear_cache_maybe() ) {
@@ -226,7 +226,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			if ( ! $stats ) {
 				if ( 'on' === $user_reports_option ) {
 					$downloads = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};", ARRAY_A );
-
 					$user_reports = array(
 						'logs'   => $downloads,
 						'offset' => ( 10000 === count( $downloads ) ) ? $offset + 1 : '',

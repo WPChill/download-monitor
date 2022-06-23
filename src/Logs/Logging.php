@@ -114,7 +114,7 @@ class DLM_Logging {
 		$download_id = absint( $_POST['download_id'] );
 		$version_id  = absint( $_POST['version_id'] );
 		$status      = sanitize_text_field( wp_unslash( $_POST['status'] ) );
-		$cookie      = boolval( $_POST['cookie'] );
+		$cookie      = 'true' === $_POST['cookie'];
 		// Set our objects
 		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 		$version  = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
@@ -132,12 +132,12 @@ class DLM_Logging {
 	 * @param string $message
 	 * @param DLM_Download $download
 	 * @param DLM_Download_Version $version
-	 * @param $cookie bool
+	 * @param bool $cookie
 	 */
 	public function log( $download, $version, $status = 'completed', $cookie = true ) {
 
 		// Check if logging is enabled.
-		if ( ! DLM_Logging::is_logging_enabled() ) return;
+		if ( ! self::is_logging_enabled() ) return;
 		// setup new log item object
 		if( ! DLM_Cookie_Manager::exists( $download ) ) {
 
@@ -151,11 +151,11 @@ class DLM_Logging {
 			$log_item->set_version( $version->get_version() );
 			$log_item->set_download_status( $status );
 			$log_item->increase_download_count();
-			
+
 			if ( $cookie ) {
 				DLM_Cookie_Manager::set_cookie( $download );
 			}
-		
+
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 		}
