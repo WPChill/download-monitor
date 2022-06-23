@@ -360,7 +360,7 @@ class DLM_Reports {
 			if (moment(element).date() > 15) {
 				week = element.substring(0, 7) + '-15';
 			} else {
-				week = element.substring(0, 7) + '-1';
+				week = element.substring(0, 7) + '-01';
 			}
 
 			if ('undefined' === typeof dates[week]) {
@@ -395,7 +395,6 @@ class DLM_Reports {
 		if ('undefined' === typeof dates[lastDay]) {
 			dates[lastDay] = 0;
 		}
-
 		return dates;
 	}
 
