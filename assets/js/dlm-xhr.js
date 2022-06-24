@@ -5,9 +5,13 @@ function attachButtonEvent() {
 	let xhr_links = '';
 	let $i        = '';
 	jQuery.each(dlmXHR.xhr_links.class, function ($key, $value) {
-		xhr_links += $i + ' .' + $value;
-		$i = ',';
+		if ($value.indexOf('[class=') || $value.indexOf('[id=')) {
+			xhr_links += $i + ' ' + $value;
+		} else {
+			xhr_links += $i + ' .' + $value;
+		}
 
+		$i = ',';
 	});
 
 	jQuery('html, body').on('click', xhr_links, function (e) {
@@ -21,8 +25,7 @@ attachButtonEvent();
 function handleDownloadClick(obj, e) {
 
 	e.stopPropagation();
-	const button = obj;
-	const href   = button.getAttribute('href');
+	const href   = obj.getAttribute('href');
 
 	let triggerObject = {
 		button   : obj,
