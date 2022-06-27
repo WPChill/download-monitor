@@ -218,7 +218,7 @@ class DLM_Download_Handler {
 	}
 
 	/**
-	 * trigger function.
+	 * Trigger function.
 	 *
 	 * @access private
 	 *
@@ -228,16 +228,14 @@ class DLM_Download_Handler {
 	 */
 	private function trigger( $download ) {
 
-		// Check to see if it's XMLHttpRequest or classic download
-		$XMLHttpRequest = false;
-
+		// Check and see if this is an XHR request or a classic request.
 		if ( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
 
 			if ( ! isset( $_REQUEST['nonce'] ) ) {
 				wp_send_json_error( array( 'error' => 'missing_nonce' ) );
 			}
 			wp_verify_nonce( 'dlm_ajax_nonce', $_REQUEST['nonce'] );
-			$XMLHttpRequest = true;
+			define( 'DLM_DOING_XHR', true );
 		}
 
 		// Download is triggered. First thing we do, send no cache headers.
@@ -249,9 +247,9 @@ class DLM_Download_Handler {
 		/** @var array $file_paths */
 		$file_paths = $version->get_mirrors();
 
-		// Check if we got files in this version
+		// Check if we got files in this version.
 		if ( empty( $file_paths ) ) {
-			if ( $XMLHttpRequest ) {
+			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 				header( 'DLM-Error: ' . esc_html__( 'No file paths defined.', 'download-monitor' ) );
 				http_response_code( 404 );
 				exit;
@@ -261,12 +259,12 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
-		// Get a random file (mirror)
+		// Get a random file (mirror).
 		$file_path = $file_paths[ array_rand( $file_paths ) ];
 
-		// Check if we actually got a path
+		// Check if we actually got a path.
 		if ( ! $file_path ) {
-			if ( $XMLHttpRequest ) {
+			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 				header( 'DLM-Error: ' . esc_html__( 'No file path defined.', 'download-monitor' ) );
 				http_response_code( 404 );
 				exit;
@@ -275,14 +273,14 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
-		// Parse file path
+		// Parse file path.
 		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
 
 		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
 		// The return of the get_secure_path function is an array that consists of the path ( string ), remote file ( bool ) and restriction ( bool ).
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( $restriction ) {
-			if ( $XMLHttpRequest ) {
+			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 				header( 'DLM-Error: ' . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
 				http_response_code( 403 );
 				exit;
@@ -293,12 +291,12 @@ class DLM_Download_Handler {
 
 		$this->set_required_xhr_headers( $file_path, $download, $version );
 
-		// Check Access
-		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, $XMLHttpRequest ) ) {
+		// Check Access.
+		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) ) {
 
-			// Check if we need to redirect if visitor don't have access to file
+			// Check if we need to redirect if visitor don't have access to file.
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
-				if ( $XMLHttpRequest ) {
+				if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 					header( 'DLM-Redirect: ' . $redirect );
 					exit;
 				}
@@ -307,22 +305,22 @@ class DLM_Download_Handler {
 				exit;
 			} else {
 
-				// get 'no access' page id
+				// get 'no access' page id.
 				$no_access_page_id = get_option( 'dlm_no_access_page', 0 );
 
-				// check if a no access page is set
+				// check if a no access page is set.
 				if ( $no_access_page_id > 0 ) {
 
-					// get permalink of no access page
+					// get permalink of no access page.
 					$no_access_permalink = get_permalink( $no_access_page_id );
 
-					// check if we can find a permalink
+					// check if we can find a permalink.
 					if ( false !== $no_access_permalink ) {
 
-						// get WordPress permalink structure so we can build the url
+						// get WordPress permalink structure so we can build the url.
 						$structure = get_option( 'permalink_structure', 0 );
 
-						// append download id to no access URL
+						// append download id to no access URL.
 
 						if ( '' == $structure || 0 == $structure ) {
 							$no_access_permalink = add_query_arg( 'download-id', $download->get_id(), untrailingslashit( $no_access_permalink ) );
@@ -334,18 +332,18 @@ class DLM_Download_Handler {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
 
-						if ( $XMLHttpRequest ) {
+						if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 							header( 'DLM-Redirect: ' . $no_access_permalink );
 							exit;
 						}
-						// redirect to no access page
+						// redirect to no access page.
 						header( "Status: 401 redirect,$redirect" );
 						wp_redirect( $no_access_permalink );
 						exit; // out
 					}
 				}
 
-				if ( $XMLHttpRequest ) {
+				if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 					header( 'DLM-Error: ' . esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ) );
 					exit;
 				}
@@ -366,19 +364,19 @@ class DLM_Download_Handler {
 
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
-			if ( ! $XMLHttpRequest ) {
+			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 				$this->dlm_logging->log( $download, $version, 'redirect' );
 			}
 			$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
 
-			// Ensure we have a valid URL, not a file path
-			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+			// Ensure we have a valid URL, not a file path.
+			$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 			// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
 			// we get the secure file path.
 			$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
 			$file_path    = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', $correct_path ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
 
-			if ( $XMLHttpRequest ) {
+			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 				header( 'DLM-Redirect: ' . $file_path );
 				exit;
 			}
@@ -394,7 +392,7 @@ class DLM_Download_Handler {
 
 		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
-				if ( ! $XMLHttpRequest ) {
+				if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 					$this->dlm_logging->log( $download, $version, 'completed' );
 				}
 
@@ -403,7 +401,7 @@ class DLM_Download_Handler {
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-				if ( ! $XMLHttpRequest ) {
+				if ( ! defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 					$this->dlm_logging->log( $download, $version, 'completed' );
 				}
 
@@ -412,7 +410,7 @@ class DLM_Download_Handler {
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-				if ( ! $XMLHttpRequest ) {
+				if ( ! defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 					$this->dlm_logging->log( $download, $version, 'completed' );
 				}
 
@@ -426,7 +424,7 @@ class DLM_Download_Handler {
 			}
 		}
 
-		// multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html
+		// multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html.
 		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->get_filesize() ) {
 			// phpcs:ignore
 			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'], 2 );
@@ -440,7 +438,6 @@ class DLM_Download_Handler {
 				$range_end = intval( $range_end );
 			}
 
-			// $new_length = $range_end - $range;
 			$new_length = ( $range_end - $range ) + 1;
 			header( 'HTTP/1.1 206 Partial Content' );
 			header( "Content-Length: $new_length" );
@@ -451,12 +448,12 @@ class DLM_Download_Handler {
 		}
 
 		if ( $remote_file ) {
-			// Redirect - we can't track if this completes or not
-			if ( $XMLHttpRequest ) {
+			// Redirect - we can't track if this completes or not.
+			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 
 				$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
-				// Ensure we have a valid URL, not a file path
-				$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+				// Ensure we have a valid URL, not a file path.
+				$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
 				// we get the secure file path.
 				$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
@@ -465,27 +462,26 @@ class DLM_Download_Handler {
 				exit;
 			}
 			header( 'Location: ' . $file_path );
-			if ( ! $XMLHttpRequest ) {
+			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 				$this->dlm_logging->log( $download, $version, 'redirected' );
 			}
 		} elseif ( file_exists( $file_path ) ) {
 
-			if ( ! $XMLHttpRequest ) {
+			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 				$this->dlm_logging->log( $download, $version, 'completed' );
 			}
 			$this->readfile_chunked( $file_path, false, $range );
 
 		} else {
-			if ( ! $XMLHttpRequest ) {
+			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 				$this->dlm_logging->log( $download, $version, 'failed' );
 			}
-			if ( $XMLHttpRequest ) {
+			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 				header( 'DLM-Error: ' . esc_html__( 'File not found.', 'download-monitor' ) );
 				exit;
 			}
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
-		var_Dump( '4' );
 		exit;
 	}
 

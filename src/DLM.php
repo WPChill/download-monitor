@@ -326,13 +326,14 @@ class WP_DLM {
 			$dlm_xhr_data = apply_filters(
 				'dlm_xhr_data',
 				array(
-					'xhr_links' => array(
+					'xhr_links'          => array(
 						'class' => array(
 							'download-link',
 							'download-button'
 						)
-					)					
-				) 
+					),
+					'prevent_duplicates' => '1' === get_option( 'dlm_enable_window_logging' )
+				)
 			);
 
 			$dlm_xhr_security_data = array(

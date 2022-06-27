@@ -111,6 +111,11 @@ class DLM_Logging {
 		}
 		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
 
+		// Let's make sure the DLM_DOING_XHR is defined
+		if ( ! defined( 'DLM_DOING_XHR' ) ) {
+			define( 'DLM_DOING_XHR', true );
+		}
+
 		$download_id = absint( $_POST['download_id'] );
 		$version_id  = absint( $_POST['version_id'] );
 		$status      = sanitize_text_field( wp_unslash( $_POST['status'] ) );
@@ -155,7 +160,6 @@ class DLM_Logging {
 			if ( $cookie ) {
 				DLM_Cookie_Manager::set_cookie( $download );
 			}
-
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 		}

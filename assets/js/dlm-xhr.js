@@ -5,7 +5,7 @@ function attachButtonEvent() {
 	let xhr_links = '';
 	let $i        = '';
 	jQuery.each(dlmXHR.xhr_links.class, function ($key, $value) {
-		if ($value.indexOf('[class=') || $value.indexOf('[id=')) {
+		if ($value.indexOf('[class') > -1 || $value.indexOf('[id') > -1) {
 			xhr_links += $i + ' ' + $value;
 		} else {
 			xhr_links += $i + ' .' + $value;
@@ -63,7 +63,8 @@ function retrieveBlob(triggerObject) {
 	// This will hold the the file as a local object URL
 	let _OBJECT_URL;
 	const request     = new XMLHttpRequest(),
-		  buttonClass = buttonObj.attr('class');
+		  buttonClass = buttonObj.attr('class'),
+		  $setCookie  = dlmXHR.prevent_duplicates;
 
 	buttonObj.addClass('dlm-download-started');
 	button.setAttribute('href', '#');
@@ -157,7 +158,7 @@ function retrieveBlob(triggerObject) {
 			// Append the paragraph to the download-contaner
 			// Trigger the `dlm_download_complete` action
 			jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL]);
-			dlmLogDonwload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'completed', false);
+			dlmLogDonwload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'completed', $setCookie);
 			// Recommended : Revoke the object URL after some time to free up resources
 			// There is no way to find out whether user finished downloading
 			setTimeout(function () {
