@@ -2076,9 +2076,6 @@ class DLM_Reports {
 			jQuery.post(ajaxurl, data, function (response) {
 				switch (name) {
 					/* case 'dlm_clear_api_cache':*/
-					case 'dlm_toggle_user_reports':
-						window.location.reload();
-						break;
 					default:
 						jQuery(document).trigger('dlm_settings_ajax_response', [dlmReportsInstance, $this, response]);
 						break;

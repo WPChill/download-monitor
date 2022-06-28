@@ -152,20 +152,12 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			$result = new \WP_REST_Response( $data, 200 );
 
-			if ( $this->clear_cache_maybe() ) {
-				$result->set_headers(
-					array(
-						'Content-Type' => 'application/json',
-					)
-				);
-			} else {
-				$result->set_headers(
-					array(
-						//'Cache-Control' => 'max-age=3600, s-max-age=3600',
-						'Content-Type'  => 'application/json',
-					)
-				);
-			}
+			$result->set_headers(
+				array(
+					'Cache-Control' => 'max-age=3600, s-max-age=3600',
+					'Content-Type' => 'application/json',
+				)
+			);
 
 			return $result;
 		}
@@ -210,28 +202,20 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$cache_key           = 'dlm_insights_users';
-			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
 			$user_reports        = array();
 			$offset              = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
 			$count               = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 10000;
 			$offset_limit        = $offset * 10000;
 
-			// If user toggled off user reports we should clear the cache.
-			if ( $this->clear_cache_maybe() ) {
-				wp_cache_delete( $cache_key, 'dlm_user_reports' );
-				update_option( 'dlm_first_user_reports_toggle', $user_reports_option );
-			}
 			wp_cache_delete( $cache_key, 'dlm_user_reports' );
 			$stats = wp_cache_get( $cache_key, 'dlm_user_reports' );
 			if ( ! $stats ) {
-				if ( 'on' === $user_reports_option ) {
-					$downloads = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};", ARRAY_A );
-					$user_reports = array(
-						'logs'   => $downloads,
-						'offset' => ( 10000 === count( $downloads ) ) ? $offset + 1 : '',
-						'done'   => ( 10000 > count( $downloads ) ) ? true : false
-					);
-				}
+				$downloads    = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};", ARRAY_A );
+				$user_reports = array(
+					'logs'   => $downloads,
+					'offset' => ( 10000 === count( $downloads ) ) ? $offset + 1 : '',
+					'done'   => ( 10000 > count( $downloads ) ) ? true : false
+				);
 				wp_cache_set( $cache_key, $user_reports, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
 			}
 
@@ -252,25 +236,22 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				return array();
 			}
 
-			$cache_key           = 'dlm_insights_users';
-			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
-			$user_data           = array();
+			$cache_key = 'dlm_insights_users';
+			$user_data = array();
 
 			$stats = wp_cache_get( $cache_key, 'dlm_user_data' );
 			if ( ! $stats ) {
-				if ( 'on' === $user_reports_option ) {
-					$users      = get_users();
-					foreach ( $users as $user ) {
-						$user_data                    = $user->data;
-						$users_data[ $user_data->ID ] = array(
-							'id'           => $user_data->ID,
-							'nicename'     => $user_data->user_nicename,
-							'url'          => $user_data->user_url,
-							'registered'   => $user_data->user_registered,
-							'display_name' => $user_data->display_name,
-							'role'         => ( ( ! in_array( 'administrator', $user->roles, true ) ) ? $user->roles : '' ),
-						);
-					}
+				$users = get_users();
+				foreach ( $users as $user ) {
+					$user_data                    = $user->data;
+					$users_data[ $user_data->ID ] = array(
+						'id'           => $user_data->ID,
+						'nicename'     => $user_data->user_nicename,
+						'url'          => $user_data->user_url,
+						'registered'   => $user_data->user_registered,
+						'display_name' => $user_data->display_name,
+						'role'         => ( ( ! in_array( 'administrator', $user->roles, true ) ) ? $user->roles : '' ),
+					);
 				}
 				wp_cache_set( $cache_key, $user_data, 'dlm_user_data', 12 * HOUR_IN_SECONDS );
 			}
@@ -306,18 +287,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			update_option( $option, $value );
 			die();
-		}
-
-		/**
-		 * Check if we need to clear the cache
-		 *
-		 * @return bool
-		 * @since 4.6.0
-		 */
-		public function clear_cache_maybe() {
-			$toggled_reports     = get_option( 'dlm_first_user_reports_toggle' );
-			$user_reports_option = get_option( 'dlm_toggle_user_reports' );
-			return ( ! $toggled_reports || $toggled_reports !== $user_reports_option );
 		}
 	}
 }

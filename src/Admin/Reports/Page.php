@@ -53,19 +53,16 @@ class DLM_Reports_Page {
 			)
 		);
 
-		$user_reports = get_option( 'dlm_toggle_user_reports' );
-		if ( $user_reports && 'off' !== get_option( 'dlm_toggle_user_reports' ) ) {
-			$this->tabs['user_reports'] = array(
-				'tab_label'   => esc_html__( 'User reports', 'download-monitor' ),
-				// Label to be displayed on tab nav.
-				'description' => esc_html__( 'Reports based on user activity', 'download-monitor' ),
-				// Description to be displayed on tab nav.
-				'callback'    => array( $this, 'user_reports' ),
-				// The callback to display the content.
-				'priority'    => 20,
-				// Tab priority.
-			);
-		}
+		$this->tabs['user_reports'] = array(
+			'tab_label'   => esc_html__( 'User reports', 'download-monitor' ),
+			// Label to be displayed on tab nav.
+			'description' => esc_html__( 'Reports based on user activity', 'download-monitor' ),
+			// Description to be displayed on tab nav.
+			'callback'    => array( $this, 'user_reports' ),
+			// The callback to display the content.
+			'priority'    => 20,
+			// Tab priority.
+		);
 
 		uasort( $this->tabs, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
 	}
@@ -122,10 +119,6 @@ class DLM_Reports_Page {
 		$reports_settings = apply_filters(
 			'dlm_reports_settings',
 			array(
-				'dlm_toggle_user_reports' => array(
-					'label'   => 'User reports',
-					'default' => 'on',
-				),
 				// Option to clear the cache. Functionality already present
 				/*'dlm_clear_api_cache'     => array(
 					'label'   => 'Clear reports cache',
@@ -133,6 +126,10 @@ class DLM_Reports_Page {
 				),*/
 			)
 		);
+
+        if ( empty($reports_settings) ) {
+            return;
+        }
 		?>
 		<div id="dlm-toggle-settings" class="dashicons dashicons-admin-generic">
 			<div class="dlm-toggle-settings__settings reports-block">
@@ -256,20 +253,23 @@ class DLM_Reports_Page {
 				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more" title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
 			</div>
 		</div>
-		<?php if ( 'on' === get_option( 'dlm_toggle_user_reports' ) ) { ?>
-			<div id="total_downloads_summary_wrapper" class="reports-block half-reports-block">
-				<h3><?php esc_html_e( 'Downloads summary', 'donwload-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div></div></h3>
-				<div class="half-reports-block">
-					<label><?php echo esc_html__( 'Logged in downloads: ', 'download-monitor' ); ?></label>
-					<span class="dlm-reports-logged-in"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
-				</div>
-				<div class="half-reports-block">
-					<label><?php echo esc_html__( 'Logged out downloads:', 'download-monitor' ); ?></label>
-					<span class="dlm-reports-logged-out"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
-				</div>
-			</div>
-			<?php
-		}
+        <div id="total_downloads_summary_wrapper" class="reports-block half-reports-block">
+            <h3><?php esc_html_e( 'Downloads summary', 'donwload-monitor' ); ?>
+                <div class="wpchill-tooltip"><i>[?]</i>
+                    <div
+                        class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div>
+                </div>
+            </h3>
+            <div class="half-reports-block">
+                <label><?php echo esc_html__( 'Logged in downloads: ', 'download-monitor' ); ?></label>
+                <span class="dlm-reports-logged-in"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
+            </div>
+            <div class="half-reports-block">
+                <label><?php echo esc_html__( 'Logged out downloads:', 'download-monitor' ); ?></label>
+                <span class="dlm-reports-logged-out"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
+            </div>
+        </div>
+		<?php
 	}
 
 	/**
