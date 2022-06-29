@@ -150,30 +150,25 @@ class DLM_Reports {
 	 */
 	async fetchUsersReportsData(offset = 0, limit = 10000) {
 		const wrapper = jQuery('div[data-id="user_reports"]');
-		try {
-			if (0 === wrapper.find('.dlm-loading-data').length) {
-				wrapper.append('<div class="dlm-loading-data">Fetching data, please wait...</div>');
-			}
+		if (0 === wrapper.find('.dlm-loading-data').length) {
+			wrapper.append('<div class="dlm-loading-data">Fetching data, please wait...</div>');
+		}
 
-			const fetchedUserData = await fetch(dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit);
+		const fetchedUserData = await fetch(dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit);
 
-			if (!fetchedUserData.ok) {
-				throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
-			}
+		if (!fetchedUserData.ok) {
+			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
+		}
 
-			let response                          = await fetchedUserData.json();
-			dlmReportsInstance.dlmUsersStats.logs = dlmReportsInstance.dlmUsersStats.logs.concat(response.logs);
+		let response                          = await fetchedUserData.json();
+		dlmReportsInstance.dlmUsersStats.logs = dlmReportsInstance.dlmUsersStats.logs.concat(response.logs);
 
-			if (true === response.done) {
-				dlmReportsInstance.userDownloads = ('undefined' !== typeof dlmReportsInstance.dlmUsersStats.logs) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmUsersStats.logs)) : {};
-				wrapper.find('.dlm-loading-data').remove();
-				dlmReportsInstance.userReportsTab();
-			} else {
-				dlmReportsInstance.fetchUsersReportsData(response.offset);
-			}
-
-		} catch (error) {
-			wrapper.append('<div class="dlm-loading-data">\'Something went wrong! \' + error.message</div>');
+		if (true === response.done) {
+			dlmReportsInstance.userDownloads = ('undefined' !== typeof dlmReportsInstance.dlmUsersStats.logs) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmUsersStats.logs)) : {};
+			wrapper.find('.dlm-loading-data').remove();
+			dlmReportsInstance.userReportsTab();
+		} else {
+			dlmReportsInstance.fetchUsersReportsData(response.offset);
 		}
 	}
 
@@ -254,7 +249,7 @@ class DLM_Reports {
 		dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
 		dlmReportsInstance.filterDownloadsAction();
-		dlmReportsInstance.handleUserDownloads();
+		dlmReportsInstance.handleUserDownloads();§
 		dlmReportsInstance.setFilters();
 	}
 
@@ -1660,18 +1655,12 @@ class DLM_Reports {
 			return null;
 		}
 
-		return Object.values(dlmReportsInstance.dlmUsersStats.users).reduce((previousValue, currentValue) => {
-
-			if (parseInt(previousValue.id) === parseInt(user_id)) {
-				return previousValue;
-			}
-
-			if (parseInt(currentValue.id) === parseInt(user_id)) {
-				return currentValue;
-			}
-
-			return null;
+		let $user = Object.values(dlmReportsInstance.dlmUsersStats.users).filter(user => {
+			return parseInt(user_id) === parseInt(user.ID);
 		});
+
+		return ( $user.length > 0 ) ? $user[0] : null;
+
 	}
 
 	/**
@@ -2036,7 +2025,7 @@ class DLM_Reports {
 	setFilters() {
 		let userOptions = '';
 		Object.values(dlmReportsInstance.dlmUsersStats.users).forEach((user) => {
-			userOptions += '<option value="' + user.id + '">' + user.display_name + '</option>';
+			userOptions += '<option value="' + user.ID + '">' + user.display_name + '</option>';
 		});
 		jQuery('#dlm-filter-by-user').append(userOptions);
 
