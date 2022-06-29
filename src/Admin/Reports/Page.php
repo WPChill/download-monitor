@@ -38,17 +38,17 @@ class DLM_Reports_Page {
 	public function set_tabs() {
 
 		$this->tabs = apply_filters( 'dlm_insights_navigation', array(
-				'general_info' => array(
-					'tab_label'   => esc_html__( 'Overview', 'download-monitor' ),
-					// Label to be displayed on tab nav.
-					'description' => esc_html__( 'General information about your downloads', 'download-monitor' ),
-					// Description to be displayed on tab nav.
-					'callback'    => array( $this, 'general_info' ),
-					// The callback to display the content.
-					'priority'    => 10,
-					// Tab priority.
-				),
-			) );
+			'general_info' => array(
+				'tab_label'   => esc_html__( 'Overview', 'download-monitor' ),
+				// Label to be displayed on tab nav.
+				'description' => esc_html__( 'General information about your downloads', 'download-monitor' ),
+				// Description to be displayed on tab nav.
+				'callback'    => array( $this, 'general_info' ),
+				// The callback to display the content.
+				'priority'    => 10,
+				// Tab priority.
+			),
+		) );
 
 		$this->tabs['user_reports'] = array(
 			'tab_label'   => esc_html__( 'User reports', 'download-monitor' ),
@@ -116,12 +116,12 @@ class DLM_Reports_Page {
 	 */
 	private function page_settings() {
 		$reports_settings = apply_filters( 'dlm_reports_settings', array(
-				// Option to clear the cache. Functionality already present
-				/*'dlm_clear_api_cache'     => array(
-					'label'   => 'Clear reports cache',
-					'default' => false,
-				),*/
-			) );
+			// Option to clear the cache. Functionality already present
+			/*'dlm_clear_api_cache'     => array(
+				'label'   => 'Clear reports cache',
+				'default' => false,
+			),*/
+		) );
 
 		if ( empty( $reports_settings ) ) {
 			return;
@@ -227,6 +227,7 @@ class DLM_Reports_Page {
 		?>
 		<div class="dlm-reports-wrapper">
 			<div class="dlm-reports-block dlm-reports-block-summary" id="total_downloads_summary">
+
 				<ul>
 					<li id="total" class="reports-block">
 						<label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?>
@@ -243,6 +244,12 @@ class DLM_Reports_Page {
 							</div>
 						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
 					<!--
+
+			<ul>
+				<li id="total" class="reports-block"><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'Number of downloads( completed & redirected ) between the selected date range.', 'download-monitor' ); ?></div></div></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+				<li id="average" class="reports-block"><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'Average number of downloads between the selected date range.', 'download-monitor' ); ?></div></div></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+				<!--
+>>>>>>> c36f6b908a87e3a47061cd9879b49ef63d271f48
 					<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
 				-->
 					<li id="today" class="reports-block">
@@ -300,27 +307,40 @@ class DLM_Reports_Page {
 	 */
 	public function user_reports() {
 		?>
-		<div class="dlm-reports-wrapper">
-			<div class="dlm-reports-block dlm-reports-block-summary" id="user_downloads_summary">
+		<div class='dlm-reports-wrapper'>
+			<div class='dlm-reports-block dlm-reports-block-summary' id='total_downloads_summary'>
+
 				<ul>
-					<li id="logged_in" class="reports-block">
-						<label><?php esc_html_e( 'Logged in downloads', 'download-monitor' ); ?>
+					<li id='total' class='reports-block'>
+						<label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?>
 							<div class="wpchill-tooltip"><i>[?]</i>
 								<div
-									class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged in users.', 'download-monitor' ); ?></div>
+									class="wpchill-tooltip-content"><?php esc_html_e( 'Number of downloads between the selected date range.', 'download-monitor' ); ?></div>
 							</div>
 						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-					<li id="logged_out" class="reports-block">
-						<label><?php esc_html_e( 'Logged out/visitor downloads', 'download-monitor' ); ?>
+					<li id="average" class="reports-block">
+						<label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?>
 							<div class="wpchill-tooltip"><i>[?]</i>
 								<div
-									class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged out users or visitors.', 'download-monitor' ); ?></div>
+									class="wpchill-tooltip-content"><?php esc_html_e( 'Average number of downloads between the selected date range.', 'download-monitor' ); ?></div>
 							</div>
 						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-					<li id="most_active_user" class="reports-block">
-						<label><?php esc_html_e( 'Most active user', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
+					<!--
+
+			<ul>
+				<li id="total" class="reports-block"><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'Number of downloads( completed & redirected ) between the selected date range.', 'download-monitor' ); ?></div></div></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+				<li id="average" class="reports-block"><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'Average number of downloads between the selected date range.', 'download-monitor' ); ?></div></div></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+>>>>>>> c36f6b908a87e3a47061cd9879b49ef63d271f48
+					<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+				-->
+					<li id="today" class="reports-block">
+						<label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
 					</li>
 				</ul>
+			</div>
+
+			<div class="total_downloads_chart-wrapper">
+				<canvas class="dlm-reports-block-chart" id="total_downloads_chart"></canvas>
 			</div>
 		</div>
 
@@ -419,13 +439,13 @@ class DLM_Reports_Page {
 	public function header_reports_settings() {
 
 		$settings = apply_filters( 'dlm_reports_settings', array(
-				'dlm_user_reports' => array(
-					'label'       => esc_html__( 'Enable user reports', 'donwload-monitor' ),
-					'description' => esc_html__( 'Toggle to enable or disable the user reports section', 'download-monitor' ),
-					'default'     => '1',
-					'type'        => 'checkbox',
-				),
-			) );
+			'dlm_user_reports' => array(
+				'label'       => esc_html__( 'Enable user reports', 'donwload-monitor' ),
+				'description' => esc_html__( 'Toggle to enable or disable the user reports section', 'download-monitor' ),
+				'default'     => '1',
+				'type'        => 'checkbox',
+			),
+		) );
 	}
 
 }
