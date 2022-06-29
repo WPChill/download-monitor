@@ -5,23 +5,23 @@
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
-    "@fltwk/grunt-po2mo": "^0.2.0",
-    "@wordpress/scripts": "^19.1.0",
-    "cypress": "^9.5.0",
-    "grunt": "^1.3.0",
+   "@floatwork/grunt-po2mo": "^0.3.0",
+    "@wordpress/scripts": "^23.4.0",
+    "cypress": "^10.3.0",
+    "grunt": "^1.5.3",
     "grunt-checktextdomain": "^1.0.1",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-compress": "^1.5.0",
-    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-clean": "^2.0.1",
+    "grunt-contrib-compress": "^2.0.0",
+    "grunt-contrib-concat": "^2.1.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "~3.0.0",
-    "grunt-contrib-less": "~2.0.0",
+    "grunt-contrib-cssmin": "~4.0.0",
+    "grunt-contrib-less": "~3.0.0",
     "grunt-contrib-rename": "^0.2.0",
-    "grunt-contrib-uglify": "~5.0.0",
+    "grunt-contrib-uglify": "~5.2.2",
     "grunt-contrib-watch": "~1.1.0",
-    "grunt-po2json": "^0.3.0",
-    "grunt-shell": "~2.1.0",
-    "grunt-wp-i18n": "^1.0.2",
+
+    "grunt-shell": "~4.0.0",
+    "grunt-wp-i18n": "^1.0.3",
     "load-grunt-tasks": "^5.1.0"
   },
   "engines": {
@@ -35,7 +35,7 @@
     "cypress:open": "./node_modules/.bin/cypress open"
   },
   "dependencies": {
-    "react-select": "^2.3.0",
-    "whatwg-fetch": "^3.0.0"
+    "react-select": "^5.3.2",
+    "whatwg-fetch": "^3.6.2"
   }
 }
