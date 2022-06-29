@@ -175,17 +175,7 @@ module.exports = function ( grunt ) {
 			}
 		},
 
-		shell: {
-			options: {
-				stdout: true,
-				stderr: true
-			},
-			txpull: {
-				command: [
-					'tx pull -a -f',
-				].join( '&&' )
-			}
-		},
+
 		clean: {
 			init: {
 				src: [ 'build/' ]
@@ -264,7 +254,6 @@ module.exports = function ( grunt ) {
 	} );
 
 	// Load NPM tasks to be used here
-	grunt.loadNpmTasks( 'grunt-shell' );
 	grunt.loadNpmTasks( 'grunt-contrib-less' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
@@ -289,7 +278,6 @@ module.exports = function ( grunt ) {
 
 	grunt.registerTask( 'dev', [
 		'default',
-		'shell:txpull',
 		'makepot'
 	] );
 

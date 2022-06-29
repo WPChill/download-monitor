@@ -1725,7 +1725,7 @@ class DLM_Reports {
 	setLoggedInDownloads() {
 		const stat = dlmReportsInstance.getLoggedInDownloads();
 
-		jQuery( '.dlm-reports-block-summary li#logged_in span,#total_downloads_summary_wrapper .dlm-reports-logged-in' ).html( stat );
+		jQuery( '.dlm-reports-block-summary li#logged_in span,#total_downloads_summary_wrapper .dlm-reports-logged-in' ).html( stat.toLocaleString() );
 	}
 
 	/**
@@ -1746,7 +1746,7 @@ class DLM_Reports {
 	setLoggedOutDownloads() {
 		const stat = dlmReportsInstance.getLoggedOutDownloads();
 
-		jQuery( '.dlm-reports-block-summary li#logged_out span,#total_downloads_summary_wrapper .dlm-reports-logged-out' ).html( stat );
+		jQuery( '.dlm-reports-block-summary li#logged_out span,#total_downloads_summary_wrapper .dlm-reports-logged-out' ).html( stat.toLocaleString() );
 	}
 
 	/**
