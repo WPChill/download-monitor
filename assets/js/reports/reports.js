@@ -96,58 +96,49 @@ class DLM_Reports {
 
 		const pageWrapper = jQuery('div[data-id="general_info"]');
 		pageWrapper.append('<div class="dlm-loading-data">Fetching data, please wait...</div>');
-		try {
 
-			const fetchedDownloadsData = await fetch(dlmDownloadReportsAPI);
+		const fetchedDownloadsData = await fetch(dlmDownloadReportsAPI);
 
-			if (!fetchedDownloadsData.ok) {
-				const errorText     = document.createElement('div');
-				errorText.className = "dlm-loading-data";
+		if (!fetchedDownloadsData.ok) {
+			const errorText     = document.createElement('div');
+			errorText.className = "dlm-loading-data";
 
-				const t1                                    = document.createTextNode('Seems like we bumped into an error! '),
-					  t2                                    = document.createTextNode('Data fetching returned a status text of : ' + fetchedData.statusText),
-					  p1 = document.createElement('h1'), p2 = document.createElement('h3');
-				p1.appendChild(t1);
-				p2.appendChild(t2);
-				errorText.appendChild(p1);
-				errorText.appendChild(p2);
-				pageWrapper.find('.dlm-loading-data').remove();
-				pageWrapper.append(errorText);
-				throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedData.statusText);
-			}
-
-			dlmReportsInstance.dlmReportsStats = await fetchedDownloadsData.json();
-			dlmReportsInstance.mostDownloaded  = false;
-			dlmReportsInstance.stats           = false;
-			dlmReportsInstance.chartType       = 'day';
-
-			// Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
-			if (window.location.href.indexOf('dlm_time') > 0) {
-				dlmReportsInstance.dates.start_date = (Object.keys(dlmReportsInstance.dlmReportsStats).length > 0) ? new Date(dlmReportsInstance.dlmReportsStats[0].date) : new Date();
-				dlmReportsInstance.dates.end_date   = new Date();
-				jQuery('#dlm-date-range-picker .date-range-info').html(dlmReportsInstance.dates.start_date.toLocaleDateString(undefined, {
-					year: 'numeric', month: 'short', day: '2-digit'
-				}) + ' - ' + dlmReportsInstance.dates.end_date.toLocaleDateString(undefined, {
-					year: 'numeric', month: 'short', day: '2-digit'
-				}));
-			}
-			dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
-
-			dlmReportsInstance.datePicker = {
-				opened: false
-			};
-
+			const t1                                    = document.createTextNode('Seems like we bumped into an error! '),
+				  t2                                    = document.createTextNode('Data fetching returned a status text of : ' + fetchedData.statusText),
+				  p1 = document.createElement('h1'), p2 = document.createElement('h3');
+			p1.appendChild(t1);
+			p2.appendChild(t2);
+			errorText.appendChild(p1);
+			errorText.appendChild(p2);
 			pageWrapper.find('.dlm-loading-data').remove();
-			jQuery(document).trigger('dlm_downloads_report_fetched', [dlmReportsInstance, dlmReportsInstance.dlmReportsStats]);
-
-		} catch (error) {
-			const errorChart     = document.createElement('div');
-			errorChart.className = 'dlm-loading-data';
-			errorChart.appendChild(document.createTextNode('Something went wrong! ' + error.message));
-			pageWrapper.find('.dlm-loading-data').remove();
-			pageWrapper.appendChild(errorChart);
-
+			pageWrapper.append(errorText);
+			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedData.statusText);
 		}
+
+		dlmReportsInstance.dlmReportsStats = await fetchedDownloadsData.json();
+		dlmReportsInstance.mostDownloaded  = false;
+		dlmReportsInstance.stats           = false;
+		dlmReportsInstance.chartType       = 'day';
+
+		// Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
+		if (window.location.href.indexOf('dlm_time') > 0) {
+			dlmReportsInstance.dates.start_date = (Object.keys(dlmReportsInstance.dlmReportsStats).length > 0) ? new Date(dlmReportsInstance.dlmReportsStats[0].date) : new Date();
+			dlmReportsInstance.dates.end_date   = new Date();
+			jQuery('#dlm-date-range-picker .date-range-info').html(dlmReportsInstance.dates.start_date.toLocaleDateString(undefined, {
+				year: 'numeric', month: 'short', day: '2-digit'
+			}) + ' - ' + dlmReportsInstance.dates.end_date.toLocaleDateString(undefined, {
+				year: 'numeric', month: 'short', day: '2-digit'
+			}));
+		}
+		dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
+
+		dlmReportsInstance.datePicker = {
+			opened: false
+		};
+
+		pageWrapper.find('.dlm-loading-data').remove();
+		jQuery(document).trigger('dlm_downloads_report_fetched', [dlmReportsInstance, dlmReportsInstance.dlmReportsStats]);
+
 	}
 
 	/**
@@ -863,8 +854,10 @@ class DLM_Reports {
 							min  : 0,
 							max  : (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil(dlmReportsInstance.getMaxDownload() / 10) * 10 : 100,
 							ticks: {
-								// forces step size to be 50 units
 								stepSize: (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil(dlmReportsInstance.getMaxDownload() / 4) : 25,
+								callback: (val) => {
+									return dlmReportsInstance.shortNumber(val);
+								}
 							}
 						}
 					},
@@ -1526,7 +1519,7 @@ class DLM_Reports {
 				downloadsPointer.style.backgroundColor = dlmReportsInstance.chartColors.darkCyan.default;
 				downloads.appendChild(downloadsPointer);
 
-				downloads.appendChild(document.createTextNode(tooltip.dataPoints[0].formattedValue));
+				downloads.appendChild(document.createTextNode(dlmReportsInstance.shortNumber(tooltip.dataPoints[0].formattedValue)));
 				tooltipRow.appendChild(downloads);
 
 				jQuery(document).trigger('dlm_chart_tooltip_after', [dlmReportsInstance, tooltip, tooltipRow, plugin]);
@@ -2165,5 +2158,22 @@ class DLM_Reports {
 			const opener = {target: jQuery(this).attr('id')};
 			dlmReportsInstance.hideDatepicker(jQuery(this), opener);
 		})
+	}
+
+	/**
+	 * Return short number in the form of 1K, 22K ....
+	 *
+	 * @param $number
+	 * @returns {string}
+	 */
+	shortNumber($number) {
+
+		$number = $number.toString().replace(/,/gi, '');
+
+		if ($number.length >= 4) {
+			$number = parseInt($number.substring(0, $number.length - 3));
+		}
+
+		return parseInt($number).toLocaleString() + 'k';
 	}
 }
