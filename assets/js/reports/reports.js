@@ -2168,12 +2168,16 @@ class DLM_Reports {
 	 */
 	shortNumber($number) {
 
-		$number = $number.toString().replace(/,/gi, '');
-
-		if ($number.length >= 4) {
-			$number = parseInt($number.substring(0, $number.length - 3));
+		if( 'string' === typeof $number){
+			$number = $number.replace(/,/gi,'');
+		} else {
+			$number = parseInt($number).toString();
 		}
 
-		return parseInt($number).toLocaleString() + 'k';
+		if ($number.length >= 4) {
+			$number = parseInt($number.substring(0, $number.length - 3)).toLocaleString() + 'k';
+		}
+
+		return $number;
 	}
 }
