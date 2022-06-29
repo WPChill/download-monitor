@@ -117,7 +117,7 @@ class DLM_Backwards_Compatibility {
 			return;
 		}
 
-		if ( 'dlm_download' != $filters['post_type'] ) {
+		if ( 'dlm_download' !== $filters['post_type'] ) {
 			return;
 		}
 
@@ -258,6 +258,7 @@ class DLM_Backwards_Compatibility {
 		remove_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		remove_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		remove_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
+		remove_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 	}
 
 	/**

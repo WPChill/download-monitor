@@ -48,9 +48,7 @@ class DLM_Admin_Dashboard {
 
 		// This is a fix for Custom Posts ordering plugins
 		add_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
-
 		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
-
 		// This is a fix for Custom Posts ordering plugins
 		remove_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
 
