@@ -249,7 +249,7 @@ class DLM_Reports {
 		dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 
 		dlmReportsInstance.filterDownloadsAction();
-		dlmReportsInstance.handleUserDownloads();§
+		dlmReportsInstance.handleUserDownloads();
 		dlmReportsInstance.setFilters();
 	}
 
@@ -263,7 +263,7 @@ class DLM_Reports {
 	 */
 	getDates(startDate, endDate) {
 
-		const dates     = [];
+		const dates     = {};
 		let currentDate = startDate;
 
 		while (currentDate <= endDate) {
@@ -284,7 +284,7 @@ class DLM_Reports {
 	 */
 	getMonths(days) {
 
-		const dates = [];
+		const dates = {};
 
 		Object.keys(days).map(element => {
 
@@ -307,7 +307,7 @@ class DLM_Reports {
 	 */
 	getDoubleMonths(days) {
 
-		const dates = [], firstDay = Object.keys(days)[0], lastDay = Object.keys(days)[Object.keys(days).length - 1];
+		const dates = {}, firstDay = Object.keys(days)[0], lastDay = Object.keys(days)[Object.keys(days).length - 1];
 
 		let i = 0, month = firstDay.substring(0, 7), lastMonth = lastDay.substring(0, 7);
 
@@ -338,11 +338,9 @@ class DLM_Reports {
 	 */
 	getWeeks(days) {
 
-		const dates = [];
-
-		Object.keys(days).map(element => {
+		let dates = {};
+		Object.keys(days).forEach(element => {
 			let week;
-
 			if (moment(element).date() > 15) {
 				week = element.substring(0, 7) + '-15';
 			} else {
@@ -366,7 +364,7 @@ class DLM_Reports {
 	 */
 	getWeek(days) {
 
-		let dates   = [],
+		let dates   = {},
 			lastDay = Object.keys(days)[Object.keys(days).length - 1],
 			i       = 0;
 
@@ -393,7 +391,7 @@ class DLM_Reports {
 	 */
 	getDoubleDays(days) {
 
-		let dates = [], firstDay = Object.keys(days)[0], lastDay = Object.keys(days)[Object.keys(days).length - 1];
+		let dates = {}, firstDay = Object.keys(days)[0], lastDay = Object.keys(days)[Object.keys(days).length - 1];
 
 		let i = 0;
 		Object.keys(days).map(element => {
@@ -519,33 +517,34 @@ class DLM_Reports {
 		}
 
 		// Get all dates from the startDate to the endDate
-		let dayDownloads         = dlmReportsInstance.getDates(new Date(startDate), new Date(endDate));
-		// Get double days
-		let doubleDays           = dlmReportsInstance.getDoubleDays(dayDownloads);
-		// Get selected dates in 2 weeks grouping
-		let weekDownloads        = dlmReportsInstance.getWeek(dayDownloads);
-		// Get selected dates in 2 weeks grouping
-		let weeksDownloads       = dlmReportsInstance.getWeeks(dayDownloads);
-		// Get selected months
-		let monthDownloads       = dlmReportsInstance.getMonths(dayDownloads);
-		// Get double selected months
-		let doubleMonthDownloads = dlmReportsInstance.getDoubleMonths(dayDownloads);
+		let dayDownloads = dlmReportsInstance.getDates(new Date(startDate), new Date(endDate)),
+			doubleDays, doubleMonthDownloads, weeksDownloads, weekDownloads;
 
 		// Let's initiate our dlmDownloads with something
 		switch (dlmReportsInstance.chartType) {
 			case 'months':
-				dlmDownloads = doubleMonthDownloads;
+				// Get double selected months
+				doubleMonthDownloads = dlmReportsInstance.getDoubleMonths(dayDownloads);
+				dlmDownloads         = doubleMonthDownloads;
 				break;
 			case 'month':
-				dlmDownloads = monthDownloads;
+				// Get selected months
+				let monthDownloads = dlmReportsInstance.getMonths(dayDownloads);
+				dlmDownloads       = monthDownloads;
 				break;
 			case 'weeks':
-				dlmDownloads = weeksDownloads;
+				// Get selected dates in 2 weeks grouping
+				weeksDownloads = dlmReportsInstance.getWeeks(dayDownloads);
+				dlmDownloads   = weeksDownloads;
 				break
 			case 'week':
-				dlmDownloads = weekDownloads;
+				// Get selected dates in 2 weeks grouping
+				weekDownloads = dlmReportsInstance.getWeek(dayDownloads);
+				dlmDownloads  = weekDownloads;
 				break
 			case 'days':
+				// Get double days
+				doubleDays   = dlmReportsInstance.getDoubleDays(dayDownloads);
 				dlmDownloads = doubleDays;
 				break
 			case 'day':
@@ -808,7 +807,7 @@ class DLM_Reports {
 									dateString = trueData[val];
 
 									const lastDate     = trueData[trueData.length - 1];
-									const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-M");
+									const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-MM");
 
 									if ('undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType) {
 
@@ -829,12 +828,9 @@ class DLM_Reports {
 											}
 
 										}
-
 									} else if ('undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType) {
-
 										date = moment(dateString).format("MMMM, YYYY");
 									} else {
-
 										date = moment(dateString).format("D MMM");
 									}
 
@@ -2102,8 +2098,8 @@ class DLM_Reports {
 			const year         = moment(dateInput).year();
 			const month        = moment(dateInput).month();
 			const lastDate     = Object.keys(dataSet)[Object.keys(dataSet).length - 1];
-			const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-M");
-			const dateString   = moment(dateInput).format("YYYY-M");
+			const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-MM");
+			const dateString   = moment(dateInput).format("YYYY-MM");
 
 			if (11 > month) {
 				if (dateString === prevLastDate) {
