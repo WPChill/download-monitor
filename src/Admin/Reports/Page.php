@@ -31,15 +31,13 @@ class DLM_Reports_Page {
 	/**
 	 * Set our insights page navigation tabs
 	 *
+	 * @return void
 	 * @since 4.5.0
 	 *
-	 * @return void
 	 */
 	public function set_tabs() {
 
-		$this->tabs = apply_filters(
-			'dlm_insights_navigation',
-			array(
+		$this->tabs = apply_filters( 'dlm_insights_navigation', array(
 				'general_info' => array(
 					'tab_label'   => esc_html__( 'Overview', 'download-monitor' ),
 					// Label to be displayed on tab nav.
@@ -50,8 +48,7 @@ class DLM_Reports_Page {
 					'priority'    => 10,
 					// Tab priority.
 				),
-			)
-		);
+			) );
 
 		$this->tabs['user_reports'] = array(
 			'tab_label'   => esc_html__( 'User reports', 'download-monitor' ),
@@ -70,7 +67,8 @@ class DLM_Reports_Page {
 	/**
 	 * Add settings menu item
 	 *
-	 * @param  mixed $links The links for the menu.
+	 * @param mixed $links The links for the menu.
+	 *
 	 * @return array
 	 */
 	public function add_admin_menu( $links ) {
@@ -104,7 +102,8 @@ class DLM_Reports_Page {
 		<div class="dlm-reports-header-date-selector" id="dlm-date-range-picker">
 			<label><?php echo esc_html__( 'Select date', 'download-monitor' ); ?></label>
 			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
-			<span class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
+			<span
+				class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
 			<span class="dlm-arrow"></span>
 		</div>
 		<?php
@@ -116,20 +115,17 @@ class DLM_Reports_Page {
 	 * @return void
 	 */
 	private function page_settings() {
-		$reports_settings = apply_filters(
-			'dlm_reports_settings',
-			array(
+		$reports_settings = apply_filters( 'dlm_reports_settings', array(
 				// Option to clear the cache. Functionality already present
 				/*'dlm_clear_api_cache'     => array(
 					'label'   => 'Clear reports cache',
 					'default' => false,
 				),*/
-			)
-		);
+			) );
 
-        if ( empty($reports_settings) ) {
-            return;
-        }
+		if ( empty( $reports_settings ) ) {
+			return;
+		}
 		?>
 		<div id="dlm-toggle-settings" class="dashicons dashicons-admin-generic">
 			<div class="dlm-toggle-settings__settings reports-block">
@@ -139,21 +135,24 @@ class DLM_Reports_Page {
 					<div>
 						<div class="wpchill-toggle">
 							<input class="wpchill-toggle__input" type="checkbox"
-								   name="<?php echo esc_attr( $key ); ?>" <?php  checked( get_option( $key ), 'on'); ?> value="on">
+							       name="<?php echo esc_attr( $key ); ?>" <?php checked( get_option( $key ), 'on' ); ?>
+							       value="on">
 							<div class="wpchill-toggle__items">
 								<span class="wpchill-toggle__track"></span>
 								<span class="wpchill-toggle__thumb"></span>
 								<svg class="wpchill-toggle__off" width="6" height="6" aria-hidden="true" role="img"
-									 focusable="false" viewBox="0 0 6 6">
-									<path d="M3 1.5c.8 0 1.5.7 1.5 1.5S3.8 4.5 3 4.5 1.5 3.8 1.5 3 2.2 1.5 3 1.5M3 0C1.3 0 0 1.3 0 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"></path>
+								     focusable="false" viewBox="0 0 6 6">
+									<path
+										d="M3 1.5c.8 0 1.5.7 1.5 1.5S3.8 4.5 3 4.5 1.5 3.8 1.5 3 2.2 1.5 3 1.5M3 0C1.3 0 0 1.3 0 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"></path>
 								</svg>
 								<svg class="wpchill-toggle__on" width="2" height="6" aria-hidden="true" role="img"
-									 focusable="false" viewBox="0 0 2 6">
+								     focusable="false" viewBox="0 0 2 6">
 									<path d="M0 0h2v6H0z"></path>
 								</svg>
 							</div>
 						</div>
-						<label for="dlm_reports_page[<?php echo esc_attr( $key ); ?>]" > <?php echo esc_html( $value['label'] ); ?></label>
+						<label
+							for="dlm_reports_page[<?php echo esc_attr( $key ); ?>]"> <?php echo esc_html( $value['label'] ); ?></label>
 					</div>
 					<?php
 				}
@@ -178,9 +177,9 @@ class DLM_Reports_Page {
 			</div>
 			<div class="dlm-insights-datepicker dlm-reports-actions">
 				<?php
-					do_action( 'dlm_insights_header' );
-					$this->date_range_button();
-					$this->page_settings();
+				do_action( 'dlm_insights_header' );
+				$this->date_range_button();
+				$this->page_settings();
 				?>
 			</div>
 		</div>
@@ -209,7 +208,8 @@ class DLM_Reports_Page {
 			}
 
 			?>
-			<li id="<?php echo esc_attr( $key ); ?>" class="dlm-insights-tab-navigation__element <?php echo esc_attr( $active ); ?>">
+			<li id="<?php echo esc_attr( $key ); ?>"
+			    class="dlm-insights-tab-navigation__element <?php echo esc_attr( $active ); ?>">
 				<label class="dlm-insights-tab-navigation__label"><?php echo esc_html( $tab['tab_label'] ); ?></label>
 			</li>
 			<?php
@@ -227,48 +227,69 @@ class DLM_Reports_Page {
 		?>
 		<div class="dlm-reports-wrapper">
 			<div class="dlm-reports-block dlm-reports-block-summary" id="total_downloads_summary">
-			<ul>
-				<li id="total" class="reports-block"><label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'Number of downloads between the selected date range.', 'download-monitor' ); ?></div></div></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-				<li id="average" class="reports-block"><label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'Average number of downloads between the selected date range.', 'download-monitor' ); ?></div></div></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-				<!--
+				<ul>
+					<li id="total" class="reports-block">
+						<label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?>
+							<div class="wpchill-tooltip"><i>[?]</i>
+								<div
+									class="wpchill-tooltip-content"><?php esc_html_e( 'Number of downloads between the selected date range.', 'download-monitor' ); ?></div>
+							</div>
+						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+					<li id="average" class="reports-block">
+						<label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?>
+							<div class="wpchill-tooltip"><i>[?]</i>
+								<div
+									class="wpchill-tooltip-content"><?php esc_html_e( 'Average number of downloads between the selected date range.', 'download-monitor' ); ?></div>
+							</div>
+						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+					<!--
 					<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
 				-->
-				<li id="today" class="reports-block"><label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-			</ul>
-		</div>
+					<li id="today" class="reports-block">
+						<label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
+					</li>
+				</ul>
+			</div>
 
-		<div class="total_downloads_chart-wrapper">
-			<canvas class="dlm-reports-block-chart"	id="total_downloads_chart"></canvas>
-		</div>
+			<div class="total_downloads_chart-wrapper">
+				<canvas class="dlm-reports-block-chart" id="total_downloads_chart"></canvas>
+			</div>
 		</div>
 
 
 		<div id="total_downloads_table_wrapper" class="empty reports-block half-reports-block">
-			<h3><?php esc_html_e( 'Top downloads', 'donwload-monitor' ); ?><div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div></div></h3>
+			<h3><?php esc_html_e( 'Top downloads', 'donwload-monitor' ); ?>
+				<div class="wpchill-tooltip"><i>[?]</i>
+					<div
+						class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div>
+				</div>
+			</h3>
 			<div class="dlm-reports-block dlm-reports-block-table" id="total_downloads_table" data-page="0">
 				<div class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></div>
 			</div>
 			<div id="downloads-block-navigation">
-				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled" title="<?php esc_html_e( 'Previous 15 downloads', 'download-monitor' ); ?>"></button>
-				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more" title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
+				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled"
+				        title="<?php esc_html_e( 'Previous 15 downloads', 'download-monitor' ); ?>"></button>
+				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more"
+				        title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
 			</div>
 		</div>
-        <div id="total_downloads_summary_wrapper" class="reports-block half-reports-block">
-            <h3><?php esc_html_e( 'Downloads summary', 'donwload-monitor' ); ?>
-                <div class="wpchill-tooltip"><i>[?]</i>
-                    <div
-                        class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div>
-                </div>
-            </h3>
-            <div class="half-reports-block">
-                <label><?php echo esc_html__( 'Logged in downloads: ', 'download-monitor' ); ?></label>
-                <span class="dlm-reports-logged-in"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
-            </div>
-            <div class="half-reports-block">
-                <label><?php echo esc_html__( 'Logged out downloads:', 'download-monitor' ); ?></label>
-                <span class="dlm-reports-logged-out"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
-            </div>
-        </div>
+		<div id="total_downloads_summary_wrapper" class="reports-block half-reports-block">
+			<h3><?php esc_html_e( 'Downloads summary', 'donwload-monitor' ); ?>
+				<div class="wpchill-tooltip"><i>[?]</i>
+					<div
+						class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div>
+				</div>
+			</h3>
+			<div class="half-reports-block">
+				<label><?php echo esc_html__( 'Logged in downloads: ', 'download-monitor' ); ?></label>
+				<span class="dlm-reports-logged-in"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
+			</div>
+			<div class="half-reports-block">
+				<label><?php echo esc_html__( 'Logged out downloads:', 'download-monitor' ); ?></label>
+				<span class="dlm-reports-logged-out"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
+			</div>
+		</div>
 		<?php
 	}
 
@@ -282,14 +303,18 @@ class DLM_Reports_Page {
 		<div class="dlm-reports-wrapper">
 			<div class="dlm-reports-block dlm-reports-block-summary" id="user_downloads_summary">
 				<ul>
-					<li id="logged_in" class="reports-block"><label><?php esc_html_e( 'Logged in downloads', 'download-monitor' ); ?>
+					<li id="logged_in" class="reports-block">
+						<label><?php esc_html_e( 'Logged in downloads', 'download-monitor' ); ?>
 							<div class="wpchill-tooltip"><i>[?]</i>
-								<div class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged in users.', 'download-monitor' ); ?></div>
+								<div
+									class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged in users.', 'download-monitor' ); ?></div>
 							</div>
 						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-					<li id="logged_out" class="reports-block"><label><?php esc_html_e( 'Logged out/visitor downloads', 'download-monitor' ); ?>
+					<li id="logged_out" class="reports-block">
+						<label><?php esc_html_e( 'Logged out/visitor downloads', 'download-monitor' ); ?>
 							<div class="wpchill-tooltip"><i>[?]</i>
-								<div class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged out users or visitors.', 'download-monitor' ); ?></div>
+								<div
+									class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged out users or visitors.', 'download-monitor' ); ?></div>
 							</div>
 						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
 					<li id="most_active_user" class="reports-block">
@@ -318,9 +343,9 @@ class DLM_Reports_Page {
 			</div>
 			<div id="user-downloads-block-navigation">
 				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled"
-						title="<?php esc_html_e( 'Previous 15', 'download-monitor' ); ?>"></button>
+				        title="<?php esc_html_e( 'Previous 15', 'download-monitor' ); ?>"></button>
 				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more"
-						title="<?php esc_html_e( 'Next 15', 'download-monitor' ); ?>"></button>
+				        title="<?php esc_html_e( 'Next 15', 'download-monitor' ); ?>"></button>
 			</div>
 		</div>
 
@@ -363,18 +388,16 @@ class DLM_Reports_Page {
 	public function view() {
 
 		if ( DLM_DB_Upgrader::do_upgrade() ) {
-			/* Upgrade DB View */
-			?>
+			/* Upgrade DB View */ ?>
 			<div class="wrap">
 				<hr class="wp-header-end">
 				<div class="main">
 					<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s Reports page.', 'download-monitor' ); ?></h3>
 				</div>
-				</div>
+			</div>
 			<?php
 		} else {
-			/* Display page */
-			?>
+			/* Display page */ ?>
 			<div class="wrap dlm-reports wp-clearfix">
 				<hr class="wp-header-end">
 				<div id="icon-edit" class="icon32 icon32-posts-dlm_download"><br/></div>
@@ -395,17 +418,14 @@ class DLM_Reports_Page {
 	 */
 	public function header_reports_settings() {
 
-		$settings = apply_filters(
-			'dlm_reports_settings',
-			array(
+		$settings = apply_filters( 'dlm_reports_settings', array(
 				'dlm_user_reports' => array(
 					'label'       => esc_html__( 'Enable user reports', 'donwload-monitor' ),
 					'description' => esc_html__( 'Toggle to enable or disable the user reports section', 'download-monitor' ),
 					'default'     => '1',
 					'type'        => 'checkbox',
 				),
-			)
-		);
+			) );
 	}
 
 }
