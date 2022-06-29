@@ -153,7 +153,7 @@ ul.download_monitor_file_browser li a:hover {
   background-color: #eaf2fa;
 }
 ul.download_monitor_file_browser li a:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -170,7 +170,7 @@ ul.download_monitor_file_browser li a:before {
   vertical-align: top;
 }
 ul.download_monitor_file_browser li a.folder:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -198,7 +198,7 @@ ul.download_monitor_file_browser li a.filetype-rm:before,
 ul.download_monitor_file_browser li a.filetype-srt:before,
 ul.download_monitor_file_browser li a.filetype-vob:before,
 ul.download_monitor_file_browser li a.filetype-wmv:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -225,7 +225,7 @@ ul.download_monitor_file_browser li a.filetype-mpa:before,
 ul.download_monitor_file_browser li a.filetype-ra:before,
 ul.download_monitor_file_browser li a.filetype-wav:before,
 ul.download_monitor_file_browser li a.filetype-wma:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -258,7 +258,7 @@ ul.download_monitor_file_browser li a.filetype-thm:before,
 ul.download_monitor_file_browser li a.filetype-tif:before,
 ul.download_monitor_file_browser li a.filetype-yuv:before,
 ul.download_monitor_file_browser li a.filetype-ico:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -334,7 +334,7 @@ table.wp-list-table th.column-thumb {
   text-align: center;
 }
 table.wp-list-table th.column-thumb span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -354,7 +354,7 @@ table.wp-list-table th.column-download_count {
   width: 5em;
 }
 table.wp-list-table th.column-download_count span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -376,7 +376,7 @@ table.wp-list-table th.column-members_only {
 }
 table.wp-list-table th.column-locked_download span:first-child:before,
 table.wp-list-table th.column-members_only span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -396,7 +396,7 @@ table.wp-list-table th.column-redirect_only {
   width: 3.5em;
 }
 table.wp-list-table th.column-redirect_only span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -416,7 +416,7 @@ table.wp-list-table th.column-featured {
   width: 3.5em;
 }
 table.wp-list-table th.column-featured span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -458,7 +458,7 @@ table.wp-list-table td.column-locked_download span.na:before,
 table.wp-list-table td.column-members_only span.na:before,
 table.wp-list-table td.column-redirect_only span.na:before,
 table.wp-list-table td.column-featured span.na:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -491,7 +491,7 @@ table.wp-list-table td.column-locked_download span.yes:before,
 table.wp-list-table td.column-members_only span.yes:before,
 table.wp-list-table td.column-redirect_only span.yes:before,
 table.wp-list-table td.column-featured span.yes:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -528,7 +528,7 @@ table.wp-list-table .column-thumb img {
   text-decoration: none;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .expand_all:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -545,7 +545,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: top;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .close_all:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -730,7 +730,7 @@ table.wp-list-table .column-thumb img {
   border-bottom: 1px solid #dcdcde;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .plus:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -747,7 +747,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: top;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .minus:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -764,7 +764,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: top;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm_upload_file:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -781,7 +781,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: top;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm_media_library:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -801,7 +801,7 @@ table.wp-list-table .column-thumb img {
   float: right;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm_browse_for_file:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -818,7 +818,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: top;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm_browse_for_file .dlm_browse_for_file:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
