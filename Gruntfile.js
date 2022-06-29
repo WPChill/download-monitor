@@ -272,7 +272,7 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks('grunt-wp-i18n');
 	grunt.loadNpmTasks('grunt-checktextdomain');
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
-	grunt.loadNpmTasks('@fltwk/grunt-po2mo');
+	grunt.loadNpmTasks('@floatwork/grunt-po2mo');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 
 	// Register tasks
