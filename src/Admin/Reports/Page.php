@@ -1,6 +1,21 @@
 <?php
 
 /**
+ * TODO:
+ * - create Downloads table as <table>, now it's using flex for quick & dirty propotyping
+ * - add filters next to Downloads (will come from PRO)
+ * - pagination improvements, like WooCommerce does it: https://www.download-monitor.com/wp-admin/admin.php?page=wc-admin&path=%2Fanalytics%2Frevenue
+ * - remove status: failed & redirected from LITE, will come from PRO
+ * - remove: logged-in & not-loggedin from lite; will come from PRO
+ * - remove: % of total and content locking from LITE, will come from PRO
+ *
+ * Note: on hover over "total downloads", in PRO, you will see a tooltip that shows a break down, in absolute and % values expressed similar to below for each status:
+ * Completed    2900    96.6%
+ * Failed       50      1.66%
+ * Redirected:  50      1.66%
+ */
+
+/**
  * DLM_Reports_Page class
  */
 class DLM_Reports_Page {
@@ -226,28 +241,39 @@ class DLM_Reports_Page {
 	public function general_info() {
 		?>
 		<div class="dlm-reports-wrapper">
-			<div class="dlm-reports-block dlm-reports-block-summary" id="total_downloads_summary">
-				<ul>
-					<li id="total" class="reports-block">
+			<div class="dlm-reports-block dlm-reports-block-summary " id="total_downloads_summary">
+				<ul class="reports-block">
+					<li id='today'>
+						<label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
+					</li>
+					<li id="total">
 						<label><?php esc_html_e( 'Total Downloads', 'download-monitor' ); ?>
 							<div class="wpchill-tooltip"><i>[?]</i>
 								<div
 									class="wpchill-tooltip-content"><?php esc_html_e( 'Number of downloads between the selected date range.', 'download-monitor' ); ?></div>
 							</div>
-						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-					<li id="average" class="reports-block">
+						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
+					</li>
+					<li id="average">
 						<label><?php esc_html_e( 'Daily Average Downloads', 'download-monitor' ); ?>
 							<div class="wpchill-tooltip"><i>[?]</i>
 								<div
 									class="wpchill-tooltip-content"><?php esc_html_e( 'Average number of downloads between the selected date range.', 'download-monitor' ); ?></div>
 							</div>
-						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
+						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
+					</li>
+					<li id='most_popular'>
+						<label><?php esc_html_e( 'Most Downloaded', 'download-monitor' ); ?>
+							<div class="wpchill-tooltip"><i>[?]</i>
+								<div
+									class="wpchill-tooltip-content"><?php esc_html_e( 'The most downloaded file for the time period.', 'download-monitor' ); ?></div>
+							</div>
+						</label><span><?php esc_html_e( 'Login v1', 'download-monitor' ); ?></span>
+					</li>
 					<!--
 					<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
 				-->
-					<li id="today" class="reports-block">
-						<label><?php esc_html_e( 'Today Downloads', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
-					</li>
+
 				</ul>
 			</div>
 
@@ -444,61 +470,11 @@ class DLM_Reports_Page {
 			</div><!--/.total_downloads_table_entries-->
 
 			<div class="total_downloads_table_footer">
-				<div class='woocommerce-pagination__page-arrows'><span
-						class='woocommerce-pagination__page-arrows-label' role='status'
-						aria-live='polite'>Page 1 of 6</span>
-					<div class='woocommerce-pagination__page-arrows-buttons'>
-						<button type='button' disabled='' class='components-button woocommerce-pagination__link'
-						        aria-label='Previous Page'>
-							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'
-							     aria-hidden='true' focusable='false'>
-								<path d='M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z'></path>
-							</svg>
-						</button>
-						<button type='button' class='components-button woocommerce-pagination__link is-active'
-						        aria-label='Next Page'>
-							<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'
-							     aria-hidden='true' focusable='false'>
-								<path d='M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z'></path>
-							</svg>
-						</button>
-					</div>
-				</div>
-				<div class='woocommerce-pagination__page-picker'><label for='woocommerce-pagination-page-picker-267'
-				                                                        class='woocommerce-pagination__page-picker-label'>Go
-						to page<input id='woocommerce-pagination-page-picker-267'
-						              class='woocommerce-pagination__page-picker-input' aria-invalid='false'
-						              type='number' min='1' max='6' value='1'></label></div>
-				<div class='woocommerce-pagination__per-page-picker'>
-					<div class='components-base-control css-1wzzj1a ej5x27r4'>
-						<div class='components-base-control__field css-1t5ousf ej5x27r3'>
-							<div data-wp-c16t='true' data-wp-component='Flex'
-							     class='components-flex components-select-control em5sgkm7 css-r7p7v1 em57xhy0'>
-								<div data-wp-c16t='true' data-wp-component='FlexItem'
-								     class='components-flex-item em5sgkm3 css-l7qly em57xhy0'><label
-										data-wp-c16t='true' data-wp-component='Text'
-										for='inspector-select-control-15'
-										class='components-truncate components-text components-input-control__label em5sgkm4 css-7tja0k em57xhy0'>Rows
-										per page</label></div>
-								<div class='components-input-control__container css-1t6thiu em5sgkm6'><select
-										class='components-select-control__input css-1opxiwx e1mv6sxx1'
-										id='inspector-select-control-15'>
-										<option value='25'>25</option>
-										<option value='50'>50</option>
-										<option value='75'>75</option>
-										<option value='100'>100</option>
-									</select><span class='components-input-control__suffix css-jgf79h em5sgkm0'><div
-											class='css-1j3xh4d e1mv6sxx0'><svg viewBox='0 0 24 24'
-								                                               xmlns='http://www.w3.org/2000/svg'
-								                                               width='18' height='18'
-								                                               aria-hidden='true' focusable='false'><path
-													d='M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z'></path></svg></div></span>
-									<div aria-hidden='true'
-									     class='components-input-control__backdrop css-29yhbg em5sgkm2'></div>
-								</div>
-							</div>
-						</div>
-					</div>
+				<div id='downloads-block-navigation'>
+					<button class='dashicons dashicons-arrow-left-alt2' disabled='disabled'
+					        title='Previous 15 downloads'></button>
+					<button class='dashicons dashicons-arrow-right-alt2' data-action='load-more'
+					        title='Next 15 downloads'></button>
 				</div>
 			</div>
 		</div>

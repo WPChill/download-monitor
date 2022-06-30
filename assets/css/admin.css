@@ -1030,9 +1030,9 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .reports-block {
   background-color: #FFF;
-  padding: 15px;
   margin-top: 25px;
   border: 1px solid #e0e0e0;
+  box-sizing: border-box;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .half-reports-block {
   width: calc(50% - 45px);
@@ -1359,13 +1359,12 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul {
   width: 100%;
-  margin: 0 auto;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li {
   position: relative;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li:not(:first-of-type) {
   border-left: 1px solid #e0e0e0;
-  border-top: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li:last-of-type {
   border-right: 1px solid #e0e0e0;
@@ -1411,7 +1410,7 @@ table.wp-list-table .column-thumb img {
   justify-content: initial;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-block-summary ul li {
-  width: 20%;
+  width: 12.5%;
   padding: 24px;
   margin: 0;
   overflow: hidden;
@@ -1430,7 +1429,6 @@ table.wp-list-table .column-thumb img {
   padding: 15px 24px;
   position: relative;
   border: 1px solid #e0e0e0;
-  border-top: 0;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-reports-block-chart {
   width: 100%;
@@ -2455,6 +2453,7 @@ Toggles
   font-size: 0.8125rem;
   text-align: left;
   color: #192a3d;
+  font-weight: 500;
 }
 #total_downloads_table_wrapper2 .total_downloads_table_entries:hover {
   background-color: #e0e0e0;
@@ -2467,4 +2466,8 @@ Toggles
   justify-content: center;
   align-items: center;
   align-content: center;
+  margin-bottom: 16px;
+  z-index: 1;
+  background: #fff;
+  position: relative;
 }

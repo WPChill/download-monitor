@@ -953,6 +953,7 @@ table.wp-list-table {
 /* Reports */
 .dlm_download_page_download-monitor-reports {
 
+
   position: relative;
 
   #wpcontent {
@@ -964,9 +965,9 @@ table.wp-list-table {
 
       .reports-block {
         background-color: #FFF;
-        padding:15px;
-        margin-top:25px;
+        margin-top: 25px;
         border: 1px solid #e0e0e0;
+        box-sizing: border-box;
       }
 
       .half-reports-block {
@@ -1362,13 +1363,13 @@ table.wp-list-table {
         ul {
 
           width: 100%;
-          margin: 0 auto;
 
           li {
             position: relative;
-            border-left: 1px solid #e0e0e0;
-            border-top: 1px solid #e0e0e0;
-            border-bottom: 1px solid #e0e0e0;
+
+            &:not(:first-of-type) {
+              border-left: 1px solid #e0e0e0;
+            }
 
             &:last-of-type {
               border-right: 1px solid #e0e0e0;
@@ -1432,7 +1433,7 @@ table.wp-list-table {
         justify-content: initial;
 
         li {
-          width: 20%;
+          width: 12.5%;
           padding: 24px;
           margin: 0;
           overflow: hidden;
@@ -1455,7 +1456,6 @@ table.wp-list-table {
       padding: 15px 24px;
       position: relative;
       border: 1px solid #e0e0e0;
-      border-top: 0;
 
       .dlm-reports-block-chart {
         width: 100%;
@@ -2462,6 +2462,7 @@ WPCHill Tooltips
       transform: translateY(-50%);
     }
   }
+
   &:hover .wpchill-tooltip-content {
     display: block;
   }
@@ -2697,7 +2698,7 @@ Toggles
 
     .total_downloads_table_exportcsv {
       .dashicons {
-          margin-right: 5px;
+        margin-right: 5px;
       }
     }
 
@@ -2736,8 +2737,9 @@ Toggles
     display: flex;
     justify-content: space-between;
 
-    &:last-of-type{border-bottom: 0;}
-
+    &:last-of-type {
+      border-bottom: 0;
+    }
 
 
     > div:first-of-type {
@@ -2750,6 +2752,7 @@ Toggles
       font-size: .8125rem;
       text-align: left;
       color: #192a3d;
+      font-weight: 500;
     }
 
 
@@ -2766,5 +2769,11 @@ Toggles
     justify-content: center;
     align-items: center;
     align-content: center;
+    margin-bottom: 16px;
+    z-index: 1;
+    background: #fff;
+    position: relative;
+
+
   }
 }
