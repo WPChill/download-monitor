@@ -1682,15 +1682,19 @@ class DLM_Reports {
 	 * Get the most active user
 	 */
 	getMostActiveID() {
-		if ( Object.values( dlmReportsInstance.userRelatedData ).length ) {
-			return Object.values( dlmReportsInstance.userRelatedData ).reduce( ( previousValue, currentValue, currentIndex ) => {
+		if (Object.values(dlmReportsInstance.userRelatedData).length) {
+			return Object.values(dlmReportsInstance.userRelatedData).reduce((previousValue, currentValue, currentIndex) => {
 
-				if ( parseInt( previousValue.length ) > parseInt( currentValue.length ) ) {
+				if (parseInt(previousValue.length) > parseInt(currentValue.length) && previousValue.length > 0 && null !== dlmReportsInstance.getUserByID(previousValue[0][0])) {
 					return previousValue;
 				}
+				if (null !== dlmReportsInstance.getUserByID(currentValue[0][0])) {
+					return currentValue;
+				}
 
-				return currentValue;
-			} );
+				return [];
+
+			}, []);
 		}
 		return 0;
 	}
