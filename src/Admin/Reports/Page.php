@@ -13,6 +13,8 @@
  * Completed    2900    96.6%
  * Failed       50      1.66%
  * Redirected:  50      1.66%
+ *
+ * In a future version, we could also have comparison here and potentially the ability to chart these values by clicking on them and displaying them in comparison on a chart
  */
 
 /**
