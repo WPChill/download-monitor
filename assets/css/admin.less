@@ -20,7 +20,7 @@
 
   .dlm-page-header {
     border-bottom: 1px solid #ccc;
-    padding: 15px 20px;
+    padding: 15px 60px;
     display: flex;
     justify-content: space-between;
     background: #fff;
@@ -966,6 +966,7 @@ table.wp-list-table {
         background-color: #FFF;
         padding:15px;
         margin-top:25px;
+        border: 1px solid #e0e0e0;
       }
 
       .half-reports-block {
@@ -1103,7 +1104,6 @@ table.wp-list-table {
               top: -20px;
               display: block;
               width: 100%;
-              text-align: center;
               position: absolute;
             }
 
@@ -1362,7 +1362,7 @@ table.wp-list-table {
         ul {
 
           width: 100%;
-          margin: 30px auto;
+          margin: 0 auto;
 
           li {
             position: relative;
@@ -1455,6 +1455,7 @@ table.wp-list-table {
       padding: 15px 24px;
       position: relative;
       border: 1px solid #e0e0e0;
+      border-top: 0;
 
       .dlm-reports-block-chart {
         width: 100%;
@@ -2677,5 +2678,93 @@ Toggles
         display: inline-block;
       }
     }
+  }
+}
+
+#total_downloads_table_wrapper2 {
+  width: 100%;
+  background-color: #FFF;
+  border: 1px solid #e0e0e0;
+  margin-top: 30px;
+
+  .total_downloads_table_header {
+    padding: 0 16px;
+    height: 70px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .total_downloads_table_exportcsv {
+      .dashicons {
+          margin-right: 5px;
+      }
+    }
+
+    h3 {
+      margin: 0;
+      line-height: 1.2;
+      color: rgb(35, 40, 45);
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+  }
+
+  .total_downloads_table_filters {
+    background-color: #f8f9fa;
+    padding-left: 16px;
+    border-bottom: 1px solid #e2e4e7;
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      display: inline-block;
+      padding: 8px 14px;
+      font-weight: bold;
+    }
+
+    > div:first-of-type {
+      background-color: #f0f0f0;
+    }
+  }
+
+  .total_downloads_table_entries {
+    background-color: #fff;
+    border-bottom: 1px solid #e2e4e7;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+
+    &:last-of-type{border-bottom: 0;}
+
+
+
+    > div:first-of-type {
+      background-color: #f0f0f0;
+    }
+
+    > div {
+      display: inline-block;
+      padding: 8px 14px;
+      font-size: .8125rem;
+      text-align: left;
+      color: #192a3d;
+    }
+
+
+    &:hover {
+      background-color: #e0e0e0;
+      cursor: pointer;
+    }
+  }
+
+  .total_downloads_table_footer {
+    padding: 0 16px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
 }
