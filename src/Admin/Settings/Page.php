@@ -573,10 +573,10 @@ Deny from all
 
 
 		if ( ( !$transient ) && ! file_exists( $robots_file ) ) {
-			$icon       = 'dashicons-dismiss';
-			$icon_color = '#f00';
-			$icon_text  = __( 'Robots.txt is missing.', 'download-monitor' );
-			$transient['virtual'] = false;
+			$transient['icon']       = 'dashicons-dismiss';
+			$transient['icon_color'] = '#f00';
+			$transient['text']       = __( 'Robots.txt is missing.', 'download-monitor' );
+			$transient['virtual']    = false;
 
 			if ( $has_virtual_robots && 'undetermined' !== $has_virtual_robots ) {
 				$transient['virtual'] = true;
