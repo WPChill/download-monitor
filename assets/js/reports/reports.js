@@ -76,17 +76,18 @@ class DLM_Reports {
 				zero: "rgba(0, 175, 185, 0.05)",
 			}
 		};
-		dlmReportsInstance.chartGradient = ctx.createLinearGradient( 0, 25, 0, 300 );
-		dlmReportsInstance.chartGradient.addColorStop( 0, dlmReportsInstance.chartColors.darkCyan.half );
-		dlmReportsInstance.chartGradient.addColorStop( 0.45, dlmReportsInstance.chartColors.darkCyan.quarter );
-		dlmReportsInstance.chartGradient.addColorStop( 1, dlmReportsInstance.chartColors.darkCyan.zero );
-
-		dlmReportsInstance.datePickerContainer = document.getElementById( 'dlm-date-range-picker' );
-		dlmReportsInstance.dataSets = [];
-		dlmReportsInstance.dates = {
-			start_date: false, end_date: false,
+		dlmReportsInstance.chartGradient = ctx.createLinearGradient(0, 25, 0, 300);
+		dlmReportsInstance.chartGradient.addColorStop(0, dlmReportsInstance.chartColors.darkCyan.half);
+		dlmReportsInstance.chartGradient.addColorStop(0.45, dlmReportsInstance.chartColors.darkCyan.quarter);
+		dlmReportsInstance.chartGradient.addColorStop(1, dlmReportsInstance.chartColors.darkCyan.zero);
+		dlmReportsInstance.datePickerContainer = document.getElementById('dlm-date-range-picker');
+		dlmReportsInstance.dataSets            = [];
+		let date                               = new Date();
+		dlmReportsInstance.dates               = {
+			start_date: new Date(date.setMonth(date.getMonth() - 1)),
+			end_date  : new Date(),
 		};
-		dlmReportsInstance.chartDataObject = {};
+		dlmReportsInstance.chartDataObject     = {};
 	}
 
 	/**
@@ -519,7 +520,8 @@ class DLM_Reports {
 		}
 
 		dlmReportsInstance.dates = {
-			start_date: startDate, end_date: endDate
+			start_date: startDate,
+			end_date: endDate
 		}
 
 		// Get all dates from the startDate to the endDate
@@ -1095,13 +1097,24 @@ class DLM_Reports {
 		} );
 
 		var configObject = {
-			separator: ' to ', autoClose: true, setValue: function ( s, s1, s2 ) {
+			separator: ' to ',
+			autoClose: true,
+			getValue: function(){
+
+			},
+			setValue: function ( s, s1, s2 ) {
 				element.find( 'input[type="hidden"]' ).first().val( s1 );
 				element.find( 'input[type="hidden"]' ).last().val( s2 );
 
-			}, inline: true, alwaysOpen: true, container: containerID, // End date should be current date
+			},
+			inline: true,
+			alwaysOpen: true,
+			container: containerID, // End date should be current date
 			endDate: new Date(), // Start date should be the first info we get about downloads
-			startDate: calendar_start_date, showShortcuts: true, shortcuts: null, customShortcuts: datepickerShortcuts,
+			startDate: calendar_start_date,
+			showShortcuts: true,
+			shortcuts: null,
+			customShortcuts: datepickerShortcuts,
 		};
 
 		element.dateRangePicker( configObject ).on( 'datepicker-change', ( event, obj ) => {
@@ -1120,7 +1133,8 @@ class DLM_Reports {
 			}
 
 			dlmReportsInstance.dates = {
-				start_date: obj.date1, end_date: obj.date2
+				start_date: obj.date1,
+				end_date: obj.date2
 			}
 
 			// Recreate the stats
@@ -1136,10 +1150,9 @@ class DLM_Reports {
 					dlmReportsInstance.logsDataByDate( dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date );
 				}
 			}
-
 			element.data( 'dateRangePicker' ).close();
 		} );
-
+		element.data( 'dateRangePicker' ).setDateRange(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
 	}
 
 	/**
