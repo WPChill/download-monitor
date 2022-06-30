@@ -561,57 +561,68 @@ Deny from all
 
 		$transient = get_transient( 'dlm_robots_txt' );
 
-		if( !$transient ){
+		if( ! $transient ){
 			$robots_file = "{$_SERVER['DOCUMENT_ROOT']}/robots.txt";
-			$page = wp_remote_get( get_home_url() . '/robots.txt');
-			$has_virtual_robots = 'undetermined';
+			$response = wp_remote_get( get_home_url() . '/robots.txt');
 
-			if ( ! is_wp_error( $page ) && is_array( $page ) ) {
-				$has_virtual_robots = false !== strpos( $page['headers']['content-type'], 'text/plain' );
-			}
-		}
+			// default values.
+			$transient = array(
+				'icon'       => 'dashicons-dismiss',
+				'icon_color' => '#f00',
+				'text'       => __( 'Robots.txt is missing.', 'download-monitor' ),
+			);
 
-
-		if ( ( !$transient ) && ! file_exists( $robots_file ) ) {
-			$transient['icon']       = 'dashicons-dismiss';
-			$transient['icon_color'] = '#f00';
-			$transient['text']       = __( 'Robots.txt is missing.', 'download-monitor' );
-			$transient['virtual']    = false;
-
-			if ( $has_virtual_robots && 'undetermined' !== $has_virtual_robots ) {
-				$transient['virtual'] = true;
-				$icon_text  = __( 'Robots.txt file is missing but site has virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
-				$transient['text'] = $icon_text;
-			}
-
-			if ( $has_virtual_robots && 'undetermined' === $has_virtual_robots ) {
+			// we don't have an robots.txt
+			if ( is_wp_error( $response ) || '404' == wp_remote_retrieve_response_code( $response ) ) {
+				
+				$transient['icon']       = 'dashicons-dismiss';
+				$transient['icon_color'] = '#f00';
+				$transient['text']       = __( 'Robots.txt is missing.', 'download-monitor' );
 				$transient['virtual'] = 'maybe';
-				$icon_text  = __( 'Robots.txt file is missing but site may have virtual Robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
+				$icon_text  = __( 'Robots.txt file is missing but site may have virtual robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
 				$transient['text'] = $icon_text;
-			}
-		} else {
-			if( !$transient ){
-				$content = file_get_contents( $robots_file );
-				if ( stristr( $content, 'dlm_uploads' ) ) {
-					$icon       = 'dashicons-yes-alt';
-					$icon_color = '#00A32A';
-					$icon_text  = __( 'You are protected by robots.txt.', 'download-monitor' );
-					$transient['protected'] = true;
-					$transient['icon'] = $icon;
-					$transient['icon_color'] = $icon_color;
+
+			//we have robots.txt
+			}else{
+				// we have robots.txt but it's virtual
+				if ( ! file_exists( $robots_file ) ) {
+					$transient['icon']       = 'dashicons-dismiss';
+					$transient['icon_color'] = '#f00';
+					$transient['text']       = __( 'Robots.txt is missing.', 'download-monitor' );
+					$transient['virtual'] = 'maybe';
+					$icon_text  = __( 'Robots.txt file is missing but site has virtual robots.txt file. If you regenerate this you will loose the restrictions set in the virtual one. Please either update the virtual with the corresponding rules for dlm_uploads or regenerate and update the newly created one with the contents from the virtual file.', 'download-monitor' );
 					$transient['text'] = $icon_text;
-				} else {
-					$icon       = 'dashicons-dismiss';
-					$icon_color = '#f00';
-					$icon_text  = __( 'Robots.txt file exists but dlm_uploads folder is not protected.', 'download-monitor' );
-					$transient['protected'] = false;
-					$transient['icon'] = $icon;
-					$transient['icon_color'] = $icon_color;
-					$transient['text'] = $icon_text;
+				}else{
+
+					// we have our rule/ the user is protected
+					if ( stristr( wp_remote_retrieve_body( $response ), 'dlm_uploads' ) ) {
+						$transient['protected']  = true;
+						$transient['icon']       = 'dashicons-yes-alt';
+						$transient['icon_color'] = '#00A32A';
+						$transient['text'] 	     = __( 'You are protected by robots.txt.', 'download-monitor' );
+					}else{
+						// we don't have our rule, the folder is not protected
+						$transient['protected'] = false;
+						$transient['icon'] = 'dashicons-dismiss';
+						$transient['icon_color'] = '#f00';
+						$transient['text'] = __( 'Robots.txt file exists but dlm_uploads folder is not protected.', 'download-monitor' );
+					}
+
 				}
+
 			}
 
+			// save our transient
+			set_transient( 'dlm_robots_txt', $transient, DAY_IN_SECONDS );
+
 		}
+
+		// we need to be sure we have icon/icon_color/text
+		$transient = wp_parse_args( $transient, array(
+				'icon'       => 'dashicons-dismiss',
+				'icon_color' => '#f00',
+				'text'       => __( 'Robots.txt is missing.', 'download-monitor' ),
+		));
 
 		$settings['advanced']['sections']['misc']['fields'][] = array(
 			'name'       => 'dlm_regenerate_robots',
@@ -626,7 +637,6 @@ Deny from all
 			'priority'   => 40
 		);
 
-		set_transient( 'dlm_robots_txt', $transient, DAY_IN_SECONDS );
 		return $settings;
 	}
 
