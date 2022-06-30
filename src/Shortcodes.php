@@ -40,8 +40,7 @@ class DLM_Shortcodes {
 		$total = false;
 
 		if ( DLM_Utils::table_checker( $wpdb->download_log ) && DLM_Logging::is_logging_enabled() ) {
-
-			$total = $wpdb->get_var( "SELECT COUNT('ID') FROM $wpdb->download_log WHERE version_id != 0;" );
+			$total = $wpdb->get_var( "SELECT COUNT('ID') FROM $wpdb->download_log WHERE version_id != 0 AND download_status IN ( 'completed','redirected' );" );
 		} else {
 
 			if ( ! DLM_Logging::is_logging_enabled() ) {

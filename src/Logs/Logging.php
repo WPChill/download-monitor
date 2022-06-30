@@ -94,7 +94,7 @@ class DLM_Logging {
 	public function has_ip_downloaded_version( $version ) {
 		global $wpdb;
 
-		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE `version_id` = %d AND `user_ip` = %s", $version->get_id(), DLM_Utils::get_visitor_ip() ) ) ) > 0 );
+		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE `version_id` = %d AND `user_ip` = %s AND `download_status` IN ('completed','redirected')", $version->get_id(), DLM_Utils::get_visitor_ip() ) ) ) > 0 );
 	}
 
 	/**
