@@ -527,7 +527,7 @@ class DLM_Download_Handler {
 			exit;
 		}
 
-		$this->download_headers( $file_path, $download, $version );
+		$this->download_headers( $file_path, $download, $version, $remote_file );
 
         do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
@@ -628,7 +628,7 @@ class DLM_Download_Handler {
 	 * @param DLM_Download $download
 	 * @param DLM_Download_Version $version
 	 */
-	private function download_headers( $file_path, $download, $version ) {
+	private function download_headers( $file_path, $download, $version, $remote_file ) {
 
 		// Get Mime Type
 		$mime_type = "application/octet-stream";
@@ -684,7 +684,16 @@ class DLM_Download_Handler {
 		$headers['Content-Transfer-Encoding'] = 'binary';
 
 		$file_manager = new DLM_File_Manager();
-		$file_size    = $file_manager->get_file_size( $file_path );
+
+		if ( $remote_file ) {
+			$file = wp_remote_head( $file_path );
+
+			if ( ! is_wp_error( $file ) && ! empty( $file['headers']['content-length'] ) ) {
+				$file_size = $file['headers']['content-length']; 
+			}
+		} else {
+			$file_size =  filesize( $file_path );					
+		}
 
 		if ( $file_size ) {
 			// Replace the old way ( getting the filesize from the DB ) in case the user has replaced the file directly using cPanel,
