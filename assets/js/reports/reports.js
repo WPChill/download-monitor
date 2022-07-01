@@ -83,9 +83,11 @@ class DLM_Reports {
 		dlmReportsInstance.datePickerContainer = document.getElementById('dlm-date-range-picker');
 		dlmReportsInstance.dataSets            = [];
 		let date                               = new Date();
-		dlmReportsInstance.dates               = {
-			start_date: new Date(date.setMonth(date.getMonth() - 1)),
-			end_date  : new Date(),
+		dlmReportsInstance.dates = {
+			downloads: {
+				start_date: new Date(date.setMonth(date.getMonth() - 1)),
+				end_date  : new Date()
+			}
 		};
 		dlmReportsInstance.chartDataObject     = {};
 	}
@@ -123,15 +125,15 @@ class DLM_Reports {
 
 		// Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
 		if ( window.location.href.indexOf( 'dlm_time' ) > 0 ) {
-			dlmReportsInstance.dates.start_date = (Object.keys( dlmReportsInstance.dlmReportsStats ).length > 0) ? new Date( dlmReportsInstance.dlmReportsStats[ 0 ].date ) : new Date();
-			dlmReportsInstance.dates.end_date = new Date();
-			jQuery( '#dlm-date-range-picker .date-range-info' ).html( dlmReportsInstance.dates.start_date.toLocaleDateString( undefined, {
+			dlmReportsInstance.dates.downloads.start_date = (Object.keys( dlmReportsInstance.dlmReportsStats ).length > 0) ? new Date( dlmReportsInstance.dlmReportsStats[ 0 ].date ) : new Date();
+			dlmReportsInstance.dates.downloads.end_date = new Date();
+			jQuery( '#dlm-date-range-picker .date-range-info' ).html( dlmReportsInstance.dates.downloads.start_date.toLocaleDateString( undefined, {
 				year: 'numeric', month: 'short', day: '2-digit'
-			} ) + ' - ' + dlmReportsInstance.dates.end_date.toLocaleDateString( undefined, {
+			} ) + ' - ' + dlmReportsInstance.dates.downloads.end_date.toLocaleDateString( undefined, {
 				year: 'numeric', month: 'short', day: '2-digit'
 			} ) );
 		}
-		dlmReportsInstance.createDataOnDate( dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date );
+		dlmReportsInstance.createDataOnDate( dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date );
 
 		dlmReportsInstance.datePicker = {
 			opened: false
@@ -250,7 +252,7 @@ class DLM_Reports {
 			return;
 		}
 
-		dlmReportsInstance.logsDataByDate( dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date );
+		dlmReportsInstance.logsDataByDate( dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date );
 
 		dlmReportsInstance.filterDownloadsAction();
 		dlmReportsInstance.handleUserDownloads();
@@ -517,11 +519,6 @@ class DLM_Reports {
 			} else {
 				dlmReportsInstance.chartType = 'months';
 			}
-		}
-
-		dlmReportsInstance.dates = {
-			start_date: startDate,
-			end_date: endDate
 		}
 
 		// Get all dates from the startDate to the endDate
@@ -1132,27 +1129,38 @@ class DLM_Reports {
 				element.parent().find( 'span.date-range-info' ).text( date_s + ' - ' + date_e );
 			}
 
-			dlmReportsInstance.dates = {
-				start_date: obj.date1,
-				end_date: obj.date2
+			switch (opener.target) {
+				case 'dlm-date-range-picker':
+					dlmReportsInstance.dates.downloads = {
+						start_date: obj.date1,
+						end_date  : obj.date2
+					}
+					// Recreate the stats
+					dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
+
+					dlmReportsInstance.dlmCreateChart(dlmReportsInstance.stats.chartStats, dlmReportsInstance.chartContainer, false);
+					dlmReportsInstance.dlmDownloadsSummary();
+					// This needs to be set after dlmReportsInstance.dlmDownloadsSummary() because it uses a variable set by it
+					if (Object.values(dlmReportsInstance.dlmUsersStats.logs).length > 0) {
+						dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
+					}
+					break;
+				default:
+					jQuery(document).trigger('dlm_daterangepicker_init_' + opener.target, [dlmReportsInstance, obj.date1, obj.date2]);
+					break;
 			}
 
-			// Recreate the stats
-			dlmReportsInstance.createDataOnDate( dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date );
-
-			dlmReportsInstance.dlmCreateChart( dlmReportsInstance.stats.chartStats, dlmReportsInstance.chartContainer, ('dlm-date-range-picker' !== opener.target) ? true : false );
-
-			if ( 'dlm-date-range-picker' === opener.target ) {
-
-				dlmReportsInstance.dlmDownloadsSummary();
-				// This needs to be set after dlmReportsInstance.dlmDownloadsSummary() because it uses a variable set by it
-				if ( Object.values( dlmReportsInstance.dlmUsersStats.logs ).length > 0 ) {
-					dlmReportsInstance.logsDataByDate( dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date );
-				}
-			}
 			element.data( 'dateRangePicker' ).close();
 		} );
-		element.data( 'dateRangePicker' ).setDateRange(dlmReportsInstance.dates.start_date, dlmReportsInstance.dates.end_date);
+
+		switch (opener.target) {
+			case 'dlm-date-range-picker':
+				element.data('dateRangePicker').setDateRange(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
+				break;
+			default:
+				jQuery(document).trigger('dlm_daterangepicker_after_init_' + opener.target, [element, dlmReportsInstance]);
+				break;
+		}
 	}
 
 	/**
