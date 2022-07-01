@@ -71,7 +71,7 @@ function retrieveBlob(triggerObject) {
 	button.removeAttribute('download');
 	button.setAttribute('disabled', 'disabled');
 
-	href = (href.indexOf('/?') > 0) ? href + '&nonce=' + dlmXHR.nonce : href + '?nonce=' + dlmXHR.nonce;
+	const newHref = (href.indexOf('/?') > 0) ? href + '&nonce=' + dlmXHR.nonce : href + '?nonce=' + dlmXHR.nonce;
 
 	// Trigger the `dlm_download_triggered` action
 	jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL]);
@@ -96,7 +96,7 @@ function retrieveBlob(triggerObject) {
 		if ('undefined' !== typeof responseHeaders['dlm-external-download']) {
 			request.abort();
 			let file_name = responseHeaders['dlm-file-name'].replace(/\"/g, '').replace(';', '');
-			dlmExternalDownload(responseHeaders, button, buttonObj, file_name);
+			dlmExternalDownload(responseHeaders, button, buttonObj, file_name, href);
 			return;
 		}
 
@@ -163,6 +163,8 @@ function retrieveBlob(triggerObject) {
 			// There is no way to find out whether user finished downloading
 			setTimeout(function () {
 				window.URL.revokeObjectURL(_OBJECT_URL);
+				button.removeAttribute('download');
+				button.setAttribute('href',href);
 			}, 60 * 1000);
 		}
 	};
@@ -186,7 +188,7 @@ function retrieveBlob(triggerObject) {
 		console.log('** An error occurred during the transaction');
 	};
 
-	request.open('GET', href, true);
+	request.open('GET', newHref, true);
 	request.setRequestHeader('dlm-xhr-request', 'dlm_XMLHttpRequest');
 	request.send();
 }
@@ -208,7 +210,7 @@ function dlmLogDonwload(download_id, version_id, status, cookie, redirect_path =
 	});
 }
 
-function dlmExternalDownload(headers, button, buttonObj, file_name) {
+function dlmExternalDownload(headers, button, buttonObj, file_name, href) {
 	const request     = new XMLHttpRequest(),
 		  uri = headers['dlm-external-download'],
 		  buttonClass = buttonObj.attr('class');
@@ -218,8 +220,6 @@ function dlmExternalDownload(headers, button, buttonObj, file_name) {
 	button.setAttribute('href', '#');
 	button.removeAttribute('download');
 	button.setAttribute('disabled', 'disabled');
-
-	let href = (uri.indexOf('/?') > 0) ? uri + '&nonce=' + dlmXHR.nonce : uri + '?nonce=' + dlmXHR.nonce;
 
 	// Trigger the `dlm_download_triggered` action
 	jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL]);
@@ -273,6 +273,8 @@ function dlmExternalDownload(headers, button, buttonObj, file_name) {
 			// There is no way to find out whether user finished downloading
 			setTimeout(function () {
 				window.URL.revokeObjectURL(_OBJECT_URL);
+				button.removeAttribute('download');
+				button.setAttribute('href',href);
 			}, 60 * 1000);
 		}
 	};
