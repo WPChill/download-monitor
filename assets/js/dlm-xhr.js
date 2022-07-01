@@ -166,7 +166,7 @@ class DLM_XHR_Download {
 				button.click();
 				buttonObj.removeClass().addClass(buttonClass + ' dlm-download-complete');
 
-				attachButtonEvent();
+				dlmXHRinstance.attachButtonEvent();
 
 				// Append the paragraph to the download-contaner
 				// Trigger the `dlm_download_complete` action
@@ -282,7 +282,7 @@ class DLM_XHR_Download {
 				button.click();
 				buttonObj.removeClass().addClass(buttonClass + ' dlm-download-complete');
 
-				attachButtonEvent();
+				dlmXHRinstance.attachButtonEvent();
 
 				// Append the paragraph to the download-contaner
 				// Trigger the `dlm_download_complete` action
