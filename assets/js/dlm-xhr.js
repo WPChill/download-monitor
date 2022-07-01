@@ -109,8 +109,7 @@ function retrieveBlob(triggerObject) {
 		}
 
 		if (request.readyState == 2 && 'undefined' !== typeof responseHeaders['dlm-redirect'] && '' !== responseHeaders['dlm-redirect'] && null !== responseHeaders['dlm-redirect']) {
-
-			dlmLogDonwload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'redirected', false, responseHeaders['dlm-redirect']);
+			dlmLogDonwload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'redirected', false, responseHeaders['dlm-redirect'], responseHeaders['dlm-no-access']);
 			request.abort();
 			return;
 		}
@@ -193,7 +192,13 @@ function retrieveBlob(triggerObject) {
 	request.send();
 }
 
-function dlmLogDonwload(download_id, version_id, status, cookie, redirect_path = null) {
+function dlmLogDonwload(download_id, version_id, status, cookie, redirect_path = null, no_access = null) {
+
+	if (null !== no_access) {
+		window.location.href = redirect_path;
+		return;
+	}
+
 	const data = {
 		download_id,
 		version_id,

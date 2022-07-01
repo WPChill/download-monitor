@@ -298,6 +298,7 @@ class DLM_Download_Handler {
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
 				if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 					header( 'DLM-Redirect: ' . $redirect );
+					header( 'DLM-No-Access: true' );
 					exit;
 				}
 				header( "Status: 401 redirect,$redirect" );
@@ -334,6 +335,7 @@ class DLM_Download_Handler {
 
 						if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 							header( 'DLM-Redirect: ' . $no_access_permalink );
+							header( 'DLM-No-Access: true' );
 							exit;
 						}
 						// redirect to no access page.
