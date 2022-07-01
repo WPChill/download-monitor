@@ -343,7 +343,7 @@ class WP_DLM {
 
 			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
 	
-			wp_add_inline_script('dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . ';', 'before');
+			wp_add_inline_script('dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {};', 'before');
 		}
 
 		do_action( 'dlm_frontend_scripts_after' );
