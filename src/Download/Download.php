@@ -51,6 +51,20 @@ class DLM_Download {
 	/** @var array */
 	private $version_ids = array();
 
+	/** @var int */
+	private $completed_downloads = 0;
+
+	/** @var int */
+	private $failed_downloads = 0;
+
+	/** @var int */
+	private $redirected_downloads = 0;
+
+	/** @var int */
+	private $logged_in_downloads = 0;
+
+	/** @var int */
+	private $non_logged_in_downloads = 0;
 	/**
 	 * @var WP_Post
 	 * @deprecated 4.0
@@ -881,5 +895,95 @@ class DLM_Download {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::the_filetype()' );
 
 		echo esc_html( $this->get_version()->get_filetype() );
+	}
+
+	/**
+	 * Get completed number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function set_completed_downloads( $completed_downloads ) {
+		$this->completed_downloads = $completed_downloads;
+	}
+
+	/**
+	 * Get failed number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function set_failed_downloads( $failed_downloads ) {
+		$this->failed_downloads = $failed_downloads;
+	}
+
+	/**
+	 * Get redirected number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function set_redirected_downloads( $redirected_downloads ) {
+		$this->redirected_downloads = $redirected_downloads;
+	}
+
+	/**
+	 * Get completed number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function get_completed_downloads() {
+		return $this->completed_downloads;
+	}
+
+	/**
+	 * Get failed number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function get_failed_downloads() {
+		return $this->failed_downloads;
+	}
+
+	/**
+	 * Get redirected number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function get_redirected_downloads() {
+		return $this->redirected_downloads;
+	}
+
+	/**
+	 * Set logged in number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function set_logged_in_downloads( $logged_in_downloads ) {
+		return $this->logged_in_downloads = $logged_in_downloads;
+	}
+
+	/**
+	 * Set non logged in number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function set_non_logged_in_downloads( $non_logged_in_downloads ) {
+		return $this->non_logged_in_downloads = $non_logged_in_downloads;
+	}
+
+	/**
+	 * Get failed number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function get_logged_in_downloads() {
+		return $this->logged_in_downloads;
+	}
+
+	/**
+	 * Get redirected number of downloads
+	 *
+	 * @return mixed
+	 */
+	public function get_non_logged_in_downloads() {
+		return $this->non_logged_in_downloads;
 	}
 }

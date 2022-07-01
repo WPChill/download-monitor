@@ -91,6 +91,71 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	}
 
 	/**
+	 * Retreieve the version download count
+	 *
+	 * @param  mixed $version_id
+	 * @return array
+	 */
+	public function retrieve_completed_download_count( $download_id ) {
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'completed' ;", $download_id ) );
+
+	}
+
+	/**
+	 * Retreieve the version download count
+	 *
+	 * @param  mixed $version_id
+	 * @return array
+	 */
+	public function retrieve_redirected_download_count( $download_id ) {
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'redirected';", $download_id ) );
+
+	}
+
+	/**
+	 * Retreieve the version download count
+	 *
+	 * @param  mixed $version_id
+	 * @return array
+	 */
+	public function retrieve_failed_download_count( $download_id ) {
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'failed';", $download_id ) );
+
+	}
+
+	/**
+	 * Retreieve the version download count
+	 *
+	 * @param  mixed $version_id
+	 * @return array
+	 */
+	public function retrieve_logged_in_downloads( $download_id ) {
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.user_id != '0';", $download_id ) );
+
+	}
+
+	/**
+	 * Retreieve the version download count
+	 *
+	 * @param  mixed $version_id
+	 * @return array
+	 */
+	public function retrieve_non_logged_in_downloads( $download_id ) {
+		global $wpdb;
+
+		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.user_id = '0';", $download_id ) );
+
+	}
+
+	/**
 	 * Retrieve downloads
 	 *
 	 * @param array $filters
@@ -253,6 +318,11 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_featured( ( 'yes' === get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' === get_post_meta( $post->ID, '_members_only', true ) ) );
 				$download->set_download_count( absint( $this->retrieve_download_count( $post->ID ) ) );
+				$download->set_redirected_downloads( absint( $this->retrieve_redirected_download_count( $post->ID ) ) );
+				$download->set_completed_downloads( absint( $this->retrieve_completed_download_count( $post->ID ) ) );
+				$download->set_failed_downloads( absint( $this->retrieve_failed_download_count( $post->ID ) ) );
+				$download->set_logged_in_downloads( absint( $this->retrieve_logged_in_downloads( $post->ID ) ) );
+				$download->set_non_logged_in_downloads( absint( $this->retrieve_non_logged_in_downloads( $post->ID ) ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
 				$download->post = $post;

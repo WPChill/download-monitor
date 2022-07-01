@@ -332,153 +332,7 @@ class DLM_Reports_Page {
 		-->
 
 		<div id="total_downloads_table_wrapper2" class="empty">
-			<div class='total_downloads_table_header'>
-				<h3><?php esc_html_e( 'Downloads', 'donwload-monitor' ); ?></h3>
-				<span class="total_downloads_table_exportcsv"><i class="dashicons dashicons-database-export"></i>export to csv</span>
-			</div><!--/.total_downloads_table_header-->
-
-			<div class="total_downloads_table_filters">
-				<div class="total_downloads_table_filters_id">ID</div>
-				<div class='total_downloads_table_filters_title'>Title</div>
-				<div class='total_downloads_table_filters_completed_downloads'>Completed</div>
-				<div class='total_downloads_table_filters_failed_downloads'>Failed</div>
-				<div class='total_downloads_table_filters_redirected_downloads'>Redirected</div>
-				<div class='total_downloads_table_filters_total_downloads'>Downloads</div>
-				<div class='total_downloads_table_filters_total_downloads'>Logged-in</div>
-				<div class='total_downloads_table_filters_total_downloads'>Not logged in</div>
-				<div class='total_downloads_table_filters_total_downloads'>% of total</div>
-				<div class='total_downloads_table_filters_total_downloads'>Content Locking</div>
-			</div><!--/.total_downloads_table_filters-->
-
-			<div class='total_downloads_table_entries'>
-				<div>1</div>
-				<div><a href="#">Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>15%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>2</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>18%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>3</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>23%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>4</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>21%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>5</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>1%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>6</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>2.3%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>7</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>3.5%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>8</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>99%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>9</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>150,000</div>
-				<div>1,000</div>
-				<div>250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>151,250</div>
-				<div>67%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-			<div class='total_downloads_table_entries'>
-				<div>10</div>
-				<div><a href='#'>Login_v1</a></div>
-				<div>290,000</div>
-				<div>3,000</div>
-				<div>1250</div>
-				<div>14,250</div>
-				<div>14,250</div>
-				<div>140,250</div>
-				<div>0.9%</div>
-				<div>1300</div>
-			</div><!--/.total_downloads_table_entries-->
-
-			<div class="total_downloads_table_footer">
-				<div id='downloads-block-navigation'>
-					<button class='dashicons dashicons-arrow-left-alt2' disabled='disabled'
-					        title='Previous 15 downloads'></button>
-					<button class='dashicons dashicons-arrow-right-alt2' data-action='load-more'
-					        title='Next 15 downloads'></button>
-				</div>
-			</div>
+            <?php $this->get_top_downloads_markup(); ?>
 		</div>
 
 
@@ -617,6 +471,18 @@ class DLM_Reports_Page {
 				'type'        => 'checkbox',
 			),
 		) );
+	}
+
+	/**
+	 * Get top downloads HTML markup
+	 *
+	 * @return void
+	 */
+	public function get_top_downloads_markup() {
+		global $wpdb;
+
+		$downloads = $wpdb->get_results( 'SELECT COUNT(ID) as downloads, download_id, download_status FROM ' . $wpdb->download_log . " GROUP BY download_id ORDER BY downloads desc LIMIT 0,10;", ARRAY_A );
+		include __DIR__ . '/components/top-downloads/top-downloads-table.php';
 	}
 
 }
