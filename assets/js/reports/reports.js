@@ -207,7 +207,7 @@ class DLM_Reports {
 
 		dlmReportsInstance.tabNagivation();
 		dlmReportsInstance.overViewTab();
-		//dlmReportsInstance.userReportsTab();
+		dlmReportsInstance.userReportsTab();
 		dlmReportsInstance.togglePageSettings();
 
 		// Fetch our users and the logs.
@@ -215,6 +215,8 @@ class DLM_Reports {
 		dlmReportsInstance.fetchUsersReportsData();
 		// Trigger action so others can hook into this
 		jQuery( document ).trigger( 'dlm_reports_init', [dlmReportsInstance] );
+
+		dlmReportsInstance.phpReportsNavigation();
 
 	}
 
@@ -491,30 +493,26 @@ class DLM_Reports {
 			monthDiff,
 			yearDiff, chartDate, dlmDownloads;
 
-		dlmReportsInstance.reportsData = ('undefined' !== typeof dlmReportsInstance.dlmReportsStats) ? JSON.parse( JSON.stringify( dlmReportsInstance.dlmReportsStats ) ) : {};
+		dlmReportsInstance.reportsData = ('undefined' !== typeof dlmReportsInstance.dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmReportsStats)) : {};
+		monthDiff                      = moment(endDate, 'YYYY-MM-DD').month() - moment(startDate, 'YYYY-MM-DD').month();
+		yearDiff                       = moment(endDate, 'YYYY-MM-DD').year() - moment(startDate, 'YYYY-MM-DD').year();
+		dayDiff                        = moment(endDate).date() - moment(startDate).date();
+		dlmReportsInstance.chartType   = 'day';
 
-		monthDiff = moment( endDate, 'YYYY-MM-DD' ).month() - moment( startDate, 'YYYY-MM-DD' ).month();
-		yearDiff = moment( endDate, 'YYYY-MM-DD' ).year() - moment( startDate, 'YYYY-MM-DD' ).year();
-		dayDiff = moment( endDate ).date() - moment( startDate ).date();
-
-		if ( yearDiff == 0 && monthDiff > -6 && monthDiff < 6 ) {
-
-			if ( monthDiff > 1 || monthDiff < -1 ) {
-				if ( 2 === monthDiff ) {
+		if (yearDiff == 0 && monthDiff > -6 && monthDiff < 6) {
+			if (monthDiff > 1 || monthDiff < -1) {
+				if (2 === monthDiff) {
 					dlmReportsInstance.chartType = 'week';
 				} else {
 					dlmReportsInstance.chartType = 'weeks';
 				}
-
 			} else {
-				if ( 1 === monthDiff || dayDiff > 7 ) {
+				if (1 === monthDiff && (dayDiff > 8 || dayDiff > -14 || 0 === dayDiff)) {
 					dlmReportsInstance.chartType = 'days';
-				} else {
-					dlmReportsInstance.chartType = 'day';
 				}
 			}
 		} else {
-			if ( yearDiff = 1 && monthDiff <= 0 ) {
+			if (yearDiff = 1 && monthDiff <= 0) {
 				dlmReportsInstance.chartType = 'month';
 			} else {
 				dlmReportsInstance.chartType = 'months';
@@ -2234,5 +2232,49 @@ class DLM_Reports {
 		}
 
 		return $number;
+	}
+
+	// AJAX requests for PHP reports
+	phpReportsNavigation() {
+		jQuery('.total_downloads_table_footer button').on('click', function (e) {
+			const button       = jQuery(this),
+				  buttonAction = button.data('action'),
+				  limit        = button.data('limit');
+			let offset         = button.data('offset');
+
+
+			jQuery.post(
+				ajaxurl,
+				{
+					action: 'dlm_top_downloads_reports',
+					offset: offset,
+					limit : ( 0 !== offset ) ? limit * offset : 15,
+					nonce : dlmReportsNonce
+				},
+				function (response) {
+					jQuery('#total_downloads_table_wrapper2 .total_downloads_table_content').html(response.html);
+
+					switch (buttonAction) {
+						case 'load-more':
+							jQuery('#total_downloads_table_wrapper2 .total_downloads_table_content').html(response.html);
+
+							if (limit === response.loaded) {
+								button.data('offset', parseInt(offset) + 1);
+							} else {
+								button.attr('disabled', true);
+							}
+							button.parent().find('button').not(button).removeAttr('disabled').data('offset', parseInt(offset) - 1);
+							break;
+						default:
+							if (0 !== offset) {
+								button.data('offset', parseInt(offset) - 1);
+							} else {
+								button.attr('disabled', true);
+							}
+							button.parent().find('button').not(button).removeAttr('disabled').data('offset', parseInt(offset) + 1);
+							break;
+					}
+				});
+		});
 	}
 }

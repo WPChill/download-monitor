@@ -332,7 +332,10 @@ class DLM_Reports_Page {
 		-->
 
 		<div id="total_downloads_table_wrapper2" class="empty">
-            <?php $this->get_top_downloads_markup(); ?>
+			<?php
+			$reports = DLM_Reports::get_instance();
+			echo $reports->get_top_downloads_markup();
+			?>
 		</div>
 
 
@@ -472,17 +475,4 @@ class DLM_Reports_Page {
 			),
 		) );
 	}
-
-	/**
-	 * Get top downloads HTML markup
-	 *
-	 * @return void
-	 */
-	public function get_top_downloads_markup() {
-		global $wpdb;
-
-		$downloads = $wpdb->get_results( 'SELECT COUNT(ID) as downloads, download_id, download_status FROM ' . $wpdb->download_log . " GROUP BY download_id ORDER BY downloads desc LIMIT 0,10;", ARRAY_A );
-		include __DIR__ . '/components/top-downloads/top-downloads-table.php';
-	}
-
 }

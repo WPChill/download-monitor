@@ -33,6 +33,9 @@ class DLM_Download {
 	/** @var int */
 	private $download_count = 0;
 
+	/** @var int */
+	private $total_download_count = 0;
+
 	/** @var bool */
 	private $redirect_only = false;
 
@@ -304,6 +307,29 @@ class DLM_Download {
 	 */
 	public function set_download_count( $download_count ) {
 		$this->download_count = $download_count;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_total_download_count() {
+
+		// set default download count
+		$download_count = $this->total_download_count;
+
+		// set download count of latest version if set
+		if ( null != $this->get_version() && ! $this->get_version()->is_latest() ) {
+			$download_count = $this->get_version()->get_download_count();
+		}
+
+		return apply_filters( 'dlm_download_count', $download_count, $this );
+	}
+
+	/**
+	 * @param int $download_count
+	 */
+	public function set_total_download_count( $download_count ) {
+		$this->total_download_count = $download_count;
 	}
 
 	/**

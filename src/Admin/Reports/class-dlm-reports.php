@@ -31,6 +31,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
+			add_action( 'wp_ajax_dlm_top_downloads_reports', array( $this, 'get_ajax_top_downloads_markup' ) );
+
 		}
 
 		/**
@@ -287,6 +289,72 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			update_option( $option, $value );
 			die();
+		}
+
+		/**
+		 * Get top downloads HTML markup
+		 *
+		 * @return void
+		 */
+		public function get_top_downloads_markup( $offset = 0, $limit = 15) {
+			global $wpdb;
+
+			$downloads = $wpdb->get_results( 'SELECT COUNT(ID) as downloads, download_id, download_status FROM ' . $wpdb->download_log . " GROUP BY download_id ORDER BY downloads desc LIMIT  " . absint( $offset ) . " , " . absint( $limit ) . ";", ARRAY_A );
+
+			ob_start();
+			include __DIR__ . '/components/top-downloads/top-downloads-table.php';
+			$html = ob_get_clean();
+			return $html;
+
+		}
+
+		/**
+		 * Get top downloads HTML markup
+		 *
+		 * @return void
+		 */
+		public function get_ajax_top_downloads_markup( $offset = 0, $limit = 15 ) {
+
+			if ( ! isset( $_POST['nonce'] ) ) {
+				wp_send_json_error( 'No nonce' );
+			}
+			check_ajax_referer( 'dlm_reports_nonce', 'nonce' );
+
+			global $wpdb;
+			if ( isset( $_POST['offset'] ) && '' !== $_POST['offset'] ) {
+				$offset = absint( $_POST['offset'] );
+			}
+
+			if ( isset( $_POST['limit'] ) && '' !== $_POST['limit'] ) {
+				$limit = absint( $_POST['limit'] );
+			}
+
+			$downloads = $wpdb->get_results( 'SELECT COUNT(ID) as downloads, download_id, download_status FROM ' . $wpdb->download_log . " GROUP BY download_id ORDER BY downloads desc LIMIT  " . absint( $offset ) . " , " . absint( $limit ) . ";", ARRAY_A );
+
+			ob_start();
+			foreach ( $downloads as $log ) {
+				// Get markup for each download.
+				include __DIR__ . '/components/top-downloads/top-downloads-row.php';
+			}
+			$html    = ob_get_clean();
+			$reponse = array(
+				'html'   => $html,
+				'loaded' => count( $downloads )
+			);
+			wp_send_json( $reponse );
+		}
+
+		/**
+		 * Get total downloads, including failed ones
+		 *
+		 * @return void
+		 * @since 4.6.0
+		 */
+		public function get_total_logs_count() {
+			global $wpdb;
+			$count = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->download_log};" );
+
+			return $count;
 		}
 	}
 }
