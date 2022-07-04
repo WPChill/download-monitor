@@ -22,6 +22,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public static $instance;
 
+		private $headers = array();
+
 		/**
 		 * DLM_Reports constructor.
 		 *
@@ -32,6 +34,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
 			add_action( 'wp_ajax_dlm_top_downloads_reports', array( $this, 'get_ajax_top_downloads_markup' ) );
+			add_action( 'admin_init', array( $this, 'set_table_headers' ) );
 
 		}
 
@@ -53,6 +56,31 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		}
 
 		/**
+		 * Set table headers
+		 *
+		 * @return void
+		 */
+		public function set_table_headers() {
+			$this->headers = apply_filters(
+				'dlm_reports_top_downloads',
+				array(
+					'table_headers' => array(
+						'id'                        => 'ID',
+						'title'                     => esc_html__( 'Title', 'download-monitor' ),
+						'completed_downloads'       => esc_html__( 'Completed', 'download-monitor' ),
+						'failed_downloads'          => esc_html__( 'Failed', 'download-monitor' ),
+						'redirected_downloads'      => esc_html__( 'Redirected', 'download-monitor' ),
+						'total_downloads'           => esc_html__( 'Total', 'download-monitor' ),
+						'logged_in_downloads'       => esc_html__( 'Logged In', 'download-monitor' ),
+						'non_logged_in_downloads'   => esc_html__( 'Non Logged In', 'download-monitor' ),
+						'percent_downloads'         => esc_html__( '% of total', 'download-monitor' ),
+						'content_locking_downloads' => esc_html__( 'Content Locking', 'download-monitor' ),
+					)
+				)
+			);
+		}
+
+		/**
 		 * Set our global variable dlmReportsStats so we can manipulate given data
 		 *
 		 * @since 4.6.0
@@ -62,8 +90,9 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports';
 			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports';
 			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data';
+			$rest_route_templates        = rest_url() . 'download-monitor/v1/templates';
 			// Let's add the global variable that will hold our reporst class and the routes
-			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; ', 'before' );
+			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; ', 'before' );
 		}
 
 		/**
@@ -105,6 +134,17 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 					'permission_callback' => '__return_true',
 				)
 			);
+
+			// The REST route for users data.
+			register_rest_route(
+				'download-monitor/v1',
+				'/templates',
+				array(
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'reports_templates' ),
+					'permission_callback' => '__return_true',
+				)
+			);
 		}
 
 		/**
@@ -140,6 +180,17 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function user_data_stats() {
 
 			return $this->respond( $this->get_user_data() );
+		}
+
+		/**
+		 * Get our user data
+		 *
+		 * @return WP_REST_Response
+		 * @since 4.6.0
+		 */
+		public function reports_templates() {
+
+			return $this->respond( $this->get_reports_templates() );
 		}
 
 		/**
@@ -302,6 +353,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$downloads = $wpdb->get_results( 'SELECT COUNT(ID) as downloads, download_id, download_status FROM ' . $wpdb->download_log . " GROUP BY download_id ORDER BY downloads desc LIMIT  " . absint( $offset ) . " , " . absint( $limit ) . ";", ARRAY_A );
 
 			ob_start();
+			$dlm_top_downloads = $this->headers;
 			include __DIR__ . '/components/top-downloads/top-downloads-table.php';
 			$html = ob_get_clean();
 			return $html;
@@ -355,6 +407,20 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$count = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->download_log};" );
 
 			return $count;
+		}
+
+		/**
+		 * The HTML for the reports templates
+		 *
+		 * @return string
+		 */
+		public function get_reports_templates() {
+			ob_start();
+			$dlm_top_downloads = $this->headers;
+			include __DIR__ . '/components/js-downloads/top-downloads-header-js.php';
+			$header = ob_get_clean();
+
+			ob_start();
 		}
 	}
 }

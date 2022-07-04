@@ -3,25 +3,6 @@
  * Table for the Top Downloads of the Reports
  */
 
-
-$dlm_top_downloads = apply_filters(
-	'dlm_reports_top_downloads',
-	array(
-		'table_headers' => array(
-			'id'                        => 'ID',
-			'title'                     => esc_html__( 'Title', 'download-monitor' ),
-			'completed_downloads'       => esc_html__( 'Completed', 'download-monitor' ),
-			'failed_downloads'          => esc_html__( 'Failed', 'download-monitor' ),
-			'redirected_downloads'      => esc_html__( 'Redirected', 'download-monitor' ),
-			'total_downloads'           => esc_html__( 'Total', 'download-monitor' ),
-			'logged_in_downloads'       => esc_html__( 'Logged In', 'download-monitor' ),
-			'non_logged_in_downloads'   => esc_html__( 'Non Logged In', 'download-monitor' ),
-			'percent_downloads'         => esc_html__( '% of total', 'download-monitor' ),
-			'content_locking_downloads' => esc_html__( 'Content Locking', 'download-monitor' ),
-		)
-	)
-);
-
 $reports    = DLM_Reports::get_instance();
 $total_logs = $reports->get_total_logs_count();
 
