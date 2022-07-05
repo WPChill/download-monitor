@@ -46,6 +46,19 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
 
+
+// Removing all admin notices from DLM pages
+if( is_admin() ){
+	add_action( 'admin_notices', 'remove_admin_notices', 9 );
+}
+function remove_admin_notices(){
+	$screen = get_current_screen();
+	if( isset( $screen->post_type ) && 'dlm_download' === $screen->post_type ){
+		remove_all_actions( 'admin_notices' );
+	}
+
+}
+
 /**
  * This function allows you to track usage of your plugin
  * Place in your main plugin file

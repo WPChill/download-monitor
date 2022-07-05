@@ -14,7 +14,7 @@ class Onboarding {
 
 		// add notice
 		if ( false === get_option( 'dlm_hide_notice-onboarding' ) && ( ! isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'dlm_onboarding' != $_GET['page'] ) ) ) {
-			add_action( 'admin_notices', array( $this, 'add_notice' ) );
+			add_action( 'admin_notices', array( $this, 'add_notice' ), 8 );
 
 			/*
 			// notice JS -.-
