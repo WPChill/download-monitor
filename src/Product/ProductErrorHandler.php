@@ -42,7 +42,7 @@ class DLM_Product_Error_Handler {
 
 	private function setup() {
 		$this->load();
-		add_action( 'admin_notices', array( $this, 'display' ) );
+		add_action( 'admin_notices', array( $this, 'display' ), 8 );
 		add_action( 'shutdown', array( $this, 'store' ) );
 	}
 

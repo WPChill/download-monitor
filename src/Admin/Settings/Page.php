@@ -75,7 +75,7 @@ class DLM_Settings_Page {
 		}
 
 		if ( isset( $_GET['dlm_action_done'] ) ) {
-			add_action( 'admin_notices', array( $this, 'display_admin_action_message' ) );
+			add_action( 'admin_notices', array( $this, 'display_admin_action_message' ), 8 );
 		}
 
 		$screen = get_current_screen();
@@ -86,7 +86,7 @@ class DLM_Settings_Page {
 			$cpt_check  = post_type_exists( $ep_value );
 
 			if( $page_check || $cpt_check ) {
-				add_action( 'admin_notices', array( $this, 'display_admin_invalid_ep' ) );
+				add_action( 'admin_notices', array( $this, 'display_admin_invalid_ep' ), 8 );
 			}
 		}
 

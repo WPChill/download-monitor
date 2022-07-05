@@ -32,7 +32,7 @@ class DLM_Review {
 		$this->value = $this->value();
 
 		if ( $this->check() ) {
-			add_action( 'admin_notices', array( $this, 'five_star_wp_rate_notice' ) );
+			add_action( 'admin_notices', array( $this, 'five_star_wp_rate_notice' ), 8 );
 			add_action( 'wp_ajax_download-monitor_review', array( $this, 'ajax' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'admin_print_footer_scripts', array( $this, 'ajax_script' ) );

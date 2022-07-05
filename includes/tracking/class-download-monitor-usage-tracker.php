@@ -179,8 +179,8 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 
 			// Display the admin notice on activation.
 			add_action( 'admin_init', array( $this, 'set_notification_time' ) );
-			add_action( 'admin_notices', array( $this, 'optin_notice' ) );
-			add_action( 'admin_notices', array( $this, 'marketing_notice' ) );
+			add_action( 'admin_notices', array( $this, 'optin_notice' ), 8 );
+			add_action( 'admin_notices', array( $this, 'marketing_notice' ), 8 );
 
 			// Deactivation.
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_file ), array( $this, 'filter_action_links' ) );

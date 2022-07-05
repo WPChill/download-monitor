@@ -23,7 +23,7 @@ class DLM_Custom_Actions {
 
 		// duplicate Admin Notice
 		if ( isset( $_GET['dlm-download-duplicator-success'] ) ) {
-			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+			add_action( 'admin_notices', array( $this, 'admin_notice' ), 8 );
 		}
 
 		// duplicate AAM access

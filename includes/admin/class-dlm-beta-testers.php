@@ -45,7 +45,7 @@ class DLM_Beta_Testers {
 		}
 
 		add_action( 'wp_ajax_download-monitor_beta_test_notice_dismiss', array( $this, 'ajax' ) );
-		add_action( 'admin_notices', array( $this, 'beta_testers_needed_notice' ) );
+		add_action( 'admin_notices', array( $this, 'beta_testers_needed_notice' ), 8 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'ajax_script' ) );
 		add_filter( 'dlm_uninstall_db_options', array( $this, 'uninstall_options' ) );
