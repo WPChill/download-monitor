@@ -1028,6 +1028,33 @@ table.wp-list-table .column-thumb img {
       Reports header and actions
        */
 }
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 9999;
+  color: #000;
+  text-align: center;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-spinner span {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-spinner span::after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #000;
+  border-color: #000 transparent #000 transparent;
+  animation: dlmRotate 1.2s linear infinite;
+}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .reports-block {
   background-color: #FFF;
   margin-top: 25px;
@@ -2399,6 +2426,7 @@ Toggles
   background-color: #FFF;
   border: 1px solid #e0e0e0;
   margin-top: 30px;
+  position: relative;
 }
 #total_downloads_table_wrapper2 .total_downloads_table_header {
   padding: 0 16px;
@@ -2470,4 +2498,12 @@ Toggles
   z-index: 1;
   background: #fff;
   position: relative;
+}
+@keyframes dlmRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

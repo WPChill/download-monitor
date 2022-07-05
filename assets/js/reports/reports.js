@@ -1,79 +1,85 @@
 /**
  * DLM Reports script
  */
-jQuery( function ( $ ) {
+jQuery(function ($) {
 	// Let's initiate the reports.
 	const reports = new DLM_Reports();
-	reports.fetchReportsData();
+	reports.fetchTemplates();
+	//reports.fetchReportsData();
 
-	$( document ).on( 'dlm_downloads_report_fetched', function () {
+	$(document).on('dlm_downloads_report_fetched', function () {
 		reports.init();
-	} );
-} );
+	});
+});
 
+/**
+ * DLM Reports class
+ */
 class DLM_Reports {
 	dlmReportsStats = [];
-	dlmUsersStats = {
-		logs: [],
+	dlmUsersStats   = {
+		logs : [],
 		users: []
 	};
-	currentFilters = [];
-	tempDownloads = null;
+	currentFilters  = [];
+	tempDownloads   = null;
+	templates       = {};
+	totalDownloads  = 0;
 
 	/**
 	 * The constructor for our class
 	 */
 	constructor() {
-		dlmReportsInstance = this;
-		dlmReportsInstance.chartContainer = document.getElementById( 'total_downloads_chart' );
-		const ctx = dlmReportsInstance.chartContainer.getContext( "2d" );
+		dlmReportsInstance                = this;
+		dlmReportsInstance.chartContainer = document.getElementById('total_downloads_chart');
+		const ctx                         = dlmReportsInstance.chartContainer.getContext("2d");
 
 		/**
 		 * Gradient for the chart
 		 */
 		dlmReportsInstance.chartColors = {
-			purple: {
-				default: "rgba(149, 76, 233, 1)",
+			purple        : {
+				default  : "rgba(149, 76, 233, 1)",
 				threesome: "rgba(149, 76, 233, 0.75)",
-				half: "rgba(149, 76, 233, 0.5)",
-				quarter: "rgba(149, 76, 233, 0.5)",
-				zero: "rgba(149, 76, 233, 0.05)"
-			}, blue: {
-				default: "rgba(67, 56, 202, 1)",
+				half     : "rgba(149, 76, 233, 0.5)",
+				quarter  : "rgba(149, 76, 233, 0.5)",
+				zero     : "rgba(149, 76, 233, 0.05)"
+			}, blue       : {
+				default  : "rgba(67, 56, 202, 1)",
 				threesome: "rgba(67, 56, 202, 0.75)",
-				half: "rgba(67, 56, 202, 0.5)",
-				quarter: "rgba(67, 56, 202, 0.25)",
-				zero: "rgba(67, 56, 202, 0.05)"
-			}, green: {
-				default: "rgba(00, 255, 00, 1)",
+				half     : "rgba(67, 56, 202, 0.5)",
+				quarter  : "rgba(67, 56, 202, 0.25)",
+				zero     : "rgba(67, 56, 202, 0.05)"
+			}, green      : {
+				default  : "rgba(00, 255, 00, 1)",
 				threesome: "rgba(00, 255, 00, 0.75)",
-				half: "rgba(00, 255, 00, 0.5)",
-				quarter: "rgba(00, 255, 00, 0.25)",
-				zero: "rgba(67, 56, 202, 0.05)",
-			}, royalBlue: {
-				default: "rgba(65, 105, 225, 1)",
+				half     : "rgba(00, 255, 00, 0.5)",
+				quarter  : "rgba(00, 255, 00, 0.25)",
+				zero     : "rgba(67, 56, 202, 0.05)",
+			}, royalBlue  : {
+				default  : "rgba(65, 105, 225, 1)",
 				threesome: "rgba(65, 105, 225, 0.75)",
-				half: "rgba(65, 105, 225, 0.5)",
-				quarter: "rgba(65, 105, 225, 0.25)",
-				zero: "rgba(65, 105, 225, 0.05)",
+				half     : "rgba(65, 105, 225, 0.5)",
+				quarter  : "rgba(65, 105, 225, 0.25)",
+				zero     : "rgba(65, 105, 225, 0.05)",
 			}, persianBlue: {
-				default: "rgba(28, 57, 187, 1)",
+				default  : "rgba(28, 57, 187, 1)",
 				threesome: "rgba(28, 57, 187, 0.75)",
-				half: "rgba(28, 57, 187, 0.5)",
-				quarter: "rgba(28, 57, 187, 0.25)",
-				zero: "rgba(28, 57, 187, 0.05)",
-			}, darkCyan: {
-				default: "rgba(0,129,167, 1)",
+				half     : "rgba(28, 57, 187, 0.5)",
+				quarter  : "rgba(28, 57, 187, 0.25)",
+				zero     : "rgba(28, 57, 187, 0.05)",
+			}, darkCyan   : {
+				default  : "rgba(0,129,167, 1)",
 				threesome: "rgba(0,129,167, 0.75)",
-				half: "rgba(0,129,167, 0.5)",
-				quarter: "rgba(0,129,167, 0.25)",
-				zero: "rgba(0,129,167, 0.05)",
-			}, strongCyan: {
-				default: "rgba(0, 175, 185, 1)",
+				half     : "rgba(0,129,167, 0.5)",
+				quarter  : "rgba(0,129,167, 0.25)",
+				zero     : "rgba(0,129,167, 0.05)",
+			}, strongCyan : {
+				default  : "rgba(0, 175, 185, 1)",
 				threesome: "rgba(0, 175, 185, 0.75)",
-				half: "rgba(0, 175, 185, 0.5)",
-				quarter: "rgba(0, 175, 185, 0.25)",
-				zero: "rgba(0, 175, 185, 0.05)",
+				half     : "rgba(0, 175, 185, 0.5)",
+				quarter  : "rgba(0, 175, 185, 0.25)",
+				zero     : "rgba(0, 175, 185, 0.05)",
 			}
 		};
 		dlmReportsInstance.chartGradient = ctx.createLinearGradient(0, 25, 0, 300);
@@ -83,7 +89,7 @@ class DLM_Reports {
 		dlmReportsInstance.datePickerContainer = document.getElementById('dlm-date-range-picker');
 		dlmReportsInstance.dataSets            = [];
 		let date                               = new Date();
-		dlmReportsInstance.dates = {
+		dlmReportsInstance.dates               = {
 			downloads: {
 				start_date: new Date(date.setMonth(date.getMonth() - 1)),
 				end_date  : new Date()
@@ -97,54 +103,50 @@ class DLM_Reports {
 	 */
 	async fetchReportsData() {
 
-		const pageWrapper = jQuery( 'div[data-id="general_info"]' );
-		pageWrapper.append( '<div class="dlm-loading-data">Fetching data, please wait...</div>' );
+		const pageWrapper          = jQuery('div[data-id="general_info"]');
+		const fetchedDownloadsData = await fetch(dlmDownloadReportsAPI);
 
-		const fetchedDownloadsData = await fetch( dlmDownloadReportsAPI );
-
-		if ( !fetchedDownloadsData.ok ) {
-			const errorText = document.createElement( 'div' );
+		if (!fetchedDownloadsData.ok) {
+			const errorText     = document.createElement('div');
 			errorText.className = "dlm-loading-data";
 
-			const t1 = document.createTextNode( 'Seems like we bumped into an error! ' ),
-				t2 = document.createTextNode( 'Data fetching returned a status text of : ' + fetchedData.statusText ),
-				p1 = document.createElement( 'h1' ), p2 = document.createElement( 'h3' );
-			p1.appendChild( t1 );
-			p2.appendChild( t2 );
-			errorText.appendChild( p1 );
-			errorText.appendChild( p2 );
-			pageWrapper.find( '.dlm-loading-data' ).remove();
-			pageWrapper.append( errorText );
-			throw new Error( 'Something went wrong! Reports response did not come OK - ' + fetchedData.statusText );
+			const t1                                    = document.createTextNode('Seems like we bumped into an error! '),
+				  t2                                    = document.createTextNode('Data fetching returned a status text of : ' + fetchedData.statusText),
+				  p1 = document.createElement('h1'), p2 = document.createElement('h3');
+			p1.appendChild(t1);
+			p2.appendChild(t2);
+			errorText.appendChild(p1);
+			errorText.appendChild(p2);
+			pageWrapper.find('.dlm-loading-data').remove();
+			pageWrapper.append(errorText);
+			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedData.statusText);
 		}
 
 		dlmReportsInstance.dlmReportsStats = await fetchedDownloadsData.json();
-		dlmReportsInstance.mostDownloaded = false;
-		dlmReportsInstance.stats = false;
-		dlmReportsInstance.chartType = 'day';
+		dlmReportsInstance.mostDownloaded  = false;
+		dlmReportsInstance.stats           = false;
+		dlmReportsInstance.chartType       = 'day';
 
 		// Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
-		if ( window.location.href.indexOf( 'dlm_time' ) > 0 ) {
-			dlmReportsInstance.dates.downloads.start_date = (Object.keys( dlmReportsInstance.dlmReportsStats ).length > 0) ? new Date( dlmReportsInstance.dlmReportsStats[ 0 ].date ) : new Date();
-			dlmReportsInstance.dates.downloads.end_date = new Date();
-			jQuery( '#dlm-date-range-picker .date-range-info' ).html( dlmReportsInstance.dates.downloads.start_date.toLocaleDateString( undefined, {
+		if (window.location.href.indexOf('dlm_time') > 0) {
+			dlmReportsInstance.dates.downloads.start_date = (Object.keys(dlmReportsInstance.dlmReportsStats).length > 0) ? new Date(dlmReportsInstance.dlmReportsStats[0].date) : new Date();
+			dlmReportsInstance.dates.downloads.end_date   = new Date();
+			jQuery('#dlm-date-range-picker .date-range-info').html(dlmReportsInstance.dates.downloads.start_date.toLocaleDateString(undefined, {
 				year: 'numeric', month: 'short', day: '2-digit'
-			} ) + ' - ' + dlmReportsInstance.dates.downloads.end_date.toLocaleDateString( undefined, {
+			}) + ' - ' + dlmReportsInstance.dates.downloads.end_date.toLocaleDateString(undefined, {
 				year: 'numeric', month: 'short', day: '2-digit'
-			} ) );
+			}));
 		}
-		dlmReportsInstance.createDataOnDate( dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date );
+		dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
 
 		dlmReportsInstance.datePicker = {
 			opened: false
 		};
 
-		pageWrapper.find( '.dlm-loading-data' ).remove();
-		jQuery( document ).trigger( 'dlm_downloads_report_fetched', [
+		jQuery(document).trigger('dlm_downloads_report_fetched', [
 			dlmReportsInstance,
 			dlmReportsInstance.dlmReportsStats
-		] );
-
+		]);
 	}
 
 	/**
@@ -154,27 +156,26 @@ class DLM_Reports {
 	 * @param limit
 	 * @returns {Promise<void>}
 	 */
-	async fetchUsersReportsData( offset = 0, limit = 10000 ) {
-		const wrapper = jQuery( 'div[data-id="user_reports"]' );
-		if ( 0 === wrapper.find( '.dlm-loading-data' ).length ) {
-			wrapper.append( '<div class="dlm-loading-data">Fetching data, please wait...</div>' );
+	async fetchUsersReportsData(offset = 0, limit = 10000) {
+
+		const wrapper         = jQuery('div[data-id="user_reports"]');
+		const fetchedUserData = await fetch(dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit);
+
+		if (!fetchedUserData.ok) {
+			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
 		}
 
-		const fetchedUserData = await fetch( dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit );
+		let response                          = await fetchedUserData.json();
+		dlmReportsInstance.dlmUsersStats.logs = dlmReportsInstance.dlmUsersStats.logs.concat(response.logs);
 
-		if ( !fetchedUserData.ok ) {
-			throw new Error( 'Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText );
-		}
-
-		let response = await fetchedUserData.json();
-		dlmReportsInstance.dlmUsersStats.logs = dlmReportsInstance.dlmUsersStats.logs.concat( response.logs );
-
-		if ( true === response.done ) {
-			dlmReportsInstance.userDownloads = ('undefined' !== typeof dlmReportsInstance.dlmUsersStats.logs) ? JSON.parse( JSON.stringify( dlmReportsInstance.dlmUsersStats.logs ) ) : {};
-			wrapper.find( '.dlm-loading-data' ).remove();
+		if (true === response.done) {
+			dlmReportsInstance.userDownloads = ('undefined' !== typeof dlmReportsInstance.dlmUsersStats.logs) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmUsersStats.logs)) : {};
+			wrapper.find('.dlm-loading-data').remove();
 			dlmReportsInstance.userReportsTab();
+			dlmReportsInstance.setTopDownloadsHybrid();
+			dlmReportsInstance.stopSpinner(wrapper);
 		} else {
-			dlmReportsInstance.fetchUsersReportsData( response.offset );
+			dlmReportsInstance.fetchUsersReportsData(response.offset);
 		}
 	}
 
@@ -183,21 +184,15 @@ class DLM_Reports {
 	 * @returns {Promise<void>}
 	 */
 	async fetchUserData() {
-		try {
 
-			const fetchedUserData = await fetch( dlmUserDataAPI );
+		const fetchedUserData = await fetch(dlmUserDataAPI);
 
-			if ( !fetchedUserData.ok ) {
-				throw new Error( 'Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText );
-			}
-
-			let response = await fetchedUserData.json();
-			dlmReportsInstance.dlmUsersStats.users = dlmReportsInstance.dlmUsersStats.users.concat( response );
-		} catch ( error ) {
-			const errorChart = document.createElement( 'div' );
-			errorChart.className = 'dlm-loading-data';
-			errorChart.appendChild( document.createTextNode( 'Something went wrong! ' + error.message ) );
+		if (!fetchedUserData.ok) {
+			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
 		}
+
+		let response                           = await fetchedUserData.json();
+		dlmReportsInstance.dlmUsersStats.users = dlmReportsInstance.dlmUsersStats.users.concat(response);
 	}
 
 	/**
@@ -212,37 +207,34 @@ class DLM_Reports {
 
 		// Fetch our users and the logs.
 		dlmReportsInstance.fetchUserData();
+		dlmReportsInstance.setSpinner(jQuery('#users_download_log .dlm-reports-top-downloads'));
+		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list'));
 		dlmReportsInstance.fetchUsersReportsData();
 		// Trigger action so others can hook into this
-		jQuery( document ).trigger( 'dlm_reports_init', [dlmReportsInstance] );
+		jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);
 
-		dlmReportsInstance.phpReportsNavigation();
-
+		//dlmReportsInstance.phpReportsNavigation();
 	}
 
 	/**
 	 * The overview functionality
 	 */
 	overViewTab() {
-		dlmReportsInstance.dlmCreateChart( dlmReportsInstance.stats.chartStats, dlmReportsInstance.chartContainer );
 
+		dlmReportsInstance.dlmCreateChart(dlmReportsInstance.stats.chartStats, dlmReportsInstance.chartContainer);
 		dlmReportsInstance.dlmDownloadsSummary();
-
-		dlmReportsInstance.datePickerContainer.addEventListener( 'click', dlmReportsInstance.toggleDatepicker.bind( this ) );
-
+		dlmReportsInstance.datePickerContainer.addEventListener('click', dlmReportsInstance.toggleDatepicker.bind(this));
 		dlmReportsInstance.setTodayDownloads();
-
 		dlmReportsInstance.handleTopDownloads();
 
-		jQuery( document ).on( 'click', 'body', function ( event ) {
+		jQuery(document).on('click', 'body', function (event) {
 
 			event.stopPropagation();
 
-			if ( jQuery( dlmReportsInstance.datePickerContainer ).find( '#dlm_date_range_picker' ).length > 0 ) {
-				dlmReportsInstance.hideDatepicker( jQuery( dlmReportsInstance.datePickerContainer ), {target: 'dlm-date-range-picker'} );
+			if (jQuery(dlmReportsInstance.datePickerContainer).find('#dlm_date_range_picker').length > 0) {
+				dlmReportsInstance.hideDatepicker(jQuery(dlmReportsInstance.datePickerContainer), {target: 'dlm-date-range-picker'});
 			}
-
-		} );
+		});
 	}
 
 	/**
@@ -250,12 +242,11 @@ class DLM_Reports {
 	 */
 	userReportsTab() {
 
-		if ( 0 === Object.values( dlmReportsInstance.dlmUsersStats ).length ) {
+		if (0 === Object.values(dlmReportsInstance.dlmUsersStats).length) {
 			return;
 		}
 
-		dlmReportsInstance.logsDataByDate( dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date );
-
+		dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
 		dlmReportsInstance.filterDownloadsAction();
 		dlmReportsInstance.handleUserDownloads();
 		dlmReportsInstance.setFilters();
@@ -269,15 +260,15 @@ class DLM_Reports {
 	 * @param endDate
 	 * @returns {*[]}
 	 */
-	getDates( startDate, endDate ) {
+	getDates(startDate, endDate) {
 
-		const dates = {};
+		const dates     = {};
 		let currentDate = startDate;
 
-		while ( currentDate <= endDate ) {
+		while (currentDate <= endDate) {
 
-			dates[ this.createDateElement( currentDate ) ] = 0;
-			currentDate = this.getNextDay( currentDate );
+			dates[this.createDateElement(currentDate)] = 0;
+			currentDate                                = this.getNextDay(currentDate);
 		}
 
 		return dates;
@@ -290,18 +281,18 @@ class DLM_Reports {
 	 * @returns {*[]}
 	 * @param days
 	 */
-	getMonths( days ) {
+	getMonths(days) {
 
 		const dates = {};
 
-		Object.keys( days ).map( element => {
+		Object.keys(days).map(element => {
 
-			let subString = element.substring( 0, 7 );
+			let subString = element.substring(0, 7);
 
-			if ( 'undefined' === typeof dates[ subString ] ) {
-				dates[ subString ] = 0;
+			if ('undefined' === typeof dates[subString]) {
+				dates[subString] = 0;
 			}
-		} );
+		});
 
 		return dates;
 	}
@@ -313,27 +304,27 @@ class DLM_Reports {
 	 * @returns {*[]}
 	 * @param days
 	 */
-	getDoubleMonths( days ) {
+	getDoubleMonths(days) {
 
-		const dates = {}, firstDay = Object.keys( days )[ 0 ],
-			lastDay = Object.keys( days )[ Object.keys( days ).length - 1 ];
+		const dates = {}, firstDay = Object.keys(days)[0],
+			  lastDay              = Object.keys(days)[Object.keys(days).length - 1];
 
-		let i = 0, month = firstDay.substring( 0, 7 ), lastMonth = lastDay.substring( 0, 7 );
+		let i = 0, month = firstDay.substring(0, 7), lastMonth = lastDay.substring(0, 7);
 
-		Object.keys( days ).map( element => {
+		Object.keys(days).map(element => {
 
-			let subString = element.substring( 0, 7 );
+			let subString = element.substring(0, 7);
 
-			if ( month !== subString && lastMonth !== subString ) {
+			if (month !== subString && lastMonth !== subString) {
 				month = subString;
 				i++;
 			}
 
-			if ( 'undefined' === typeof dates[ subString ] && 0 === i % 2 ) {
-				dates[ subString ] = 0;
+			if ('undefined' === typeof dates[subString] && 0 === i % 2) {
+				dates[subString] = 0;
 			}
 
-		} );
+		});
 
 		return dates;
 	}
@@ -345,21 +336,21 @@ class DLM_Reports {
 	 * @returns {*[]}
 	 * @param days
 	 */
-	getWeeks( days ) {
+	getWeeks(days) {
 
 		let dates = {};
-		Object.keys( days ).forEach( element => {
+		Object.keys(days).forEach(element => {
 			let week;
-			if ( moment( element ).date() > 15 ) {
-				week = element.substring( 0, 7 ) + '-15';
+			if (moment(element).date() > 15) {
+				week = element.substring(0, 7) + '-15';
 			} else {
-				week = element.substring( 0, 7 ) + '-01';
+				week = element.substring(0, 7) + '-01';
 			}
 
-			if ( 'undefined' === typeof dates[ week ] ) {
-				dates[ week ] = 0;
+			if ('undefined' === typeof dates[week]) {
+				dates[week] = 0;
 			}
-		} );
+		});
 
 		return dates;
 	}
@@ -371,22 +362,22 @@ class DLM_Reports {
 	 * @returns {*[]}
 	 * @param days
 	 */
-	getWeek( days ) {
+	getWeek(days) {
 
-		let dates = {},
-			lastDay = Object.keys( days )[ Object.keys( days ).length - 1 ],
-			i = 0;
+		let dates   = {},
+			lastDay = Object.keys(days)[Object.keys(days).length - 1],
+			i       = 0;
 
-		Object.keys( days ).map( element => {
-			if ( 'undefined' === typeof dates[ element ] && 0 === i % 7 ) {
-				dates[ element ] = 0;
+		Object.keys(days).map(element => {
+			if ('undefined' === typeof dates[element] && 0 === i % 7) {
+				dates[element] = 0;
 			}
 			i++;
-		} );
+		});
 
 		// Also add last date if not in array
-		if ( 'undefined' === typeof dates[ lastDay ] ) {
-			dates[ lastDay ] = 0;
+		if ('undefined' === typeof dates[lastDay]) {
+			dates[lastDay] = 0;
 		}
 		return dates;
 	}
@@ -398,24 +389,24 @@ class DLM_Reports {
 	 * @returns {*[]}
 	 * @param days
 	 */
-	getDoubleDays( days ) {
+	getDoubleDays(days) {
 
-		let dates = {}, firstDay = Object.keys( days )[ 0 ],
-			lastDay = Object.keys( days )[ Object.keys( days ).length - 1 ];
+		let dates = {}, firstDay = Object.keys(days)[0],
+			lastDay              = Object.keys(days)[Object.keys(days).length - 1];
 
 		let i = 0;
-		Object.keys( days ).map( element => {
+		Object.keys(days).map(element => {
 
-			if ( firstDay !== element && lastDay !== element ) {
+			if (firstDay !== element && lastDay !== element) {
 				firstDay = element;
 				i++;
 			}
 
-			if ( 'undefined' === typeof dates[ element ] && 0 === i % 2 ) {
-				dates[ element ] = 0;
+			if ('undefined' === typeof dates[element] && 0 === i % 2) {
+				dates[element] = 0;
 			}
 
-		} );
+		});
 
 		return dates;
 	}
@@ -426,10 +417,10 @@ class DLM_Reports {
 	 * @param currentDate
 	 * @returns {Date}
 	 */
-	getNextDay( currentDate ) {
+	getNextDay(currentDate) {
 
-		const date = new Date( currentDate );
-		date.setDate( currentDate.getDate() + 1 );
+		const date = new Date(currentDate);
+		date.setDate(currentDate.getDate() + 1);
 		return date;
 	}
 
@@ -438,10 +429,11 @@ class DLM_Reports {
 	 * @param date
 	 * @returns {string}
 	 */
-	createDateElement( date ) {
+	createDateElement(date) {
+
 		var MM = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
 
-		return date.getFullYear() + '-' + MM + '-' + ("0" + date.getDate()).slice( -2 );
+		return date.getFullYear() + '-' + MM + '-' + ("0" + date.getDate()).slice(-2);
 	}
 
 	/**
@@ -451,30 +443,31 @@ class DLM_Reports {
 	 * @param endDateInput
 	 * @returns {{endDate: *, startDate: *}}
 	 */
-	getSetDates( startDateInput, endDateInput ) {
-		let startDate, endDate;
-		if ( 'undefined' !== typeof startDateInput && startDateInput ) {
+	getSetDates(startDateInput, endDateInput) {
 
-			startDate = dlmReportsInstance.createDateElement( new Date( startDateInput ) );
+		let startDate, endDate;
+		if ('undefined' !== typeof startDateInput && startDateInput) {
+
+			startDate = dlmReportsInstance.createDateElement(new Date(startDateInput));
 		} else {
 			// If there are no startDateInput it means it is the first load, so get last 30 days.
 			const lastMonth = new Date();
-			lastMonth.setDate( lastMonth.getDate() - 30 );
-			startDate = dlmReportsInstance.createDateElement( lastMonth );
+			lastMonth.setDate(lastMonth.getDate() - 30);
+			startDate = dlmReportsInstance.createDateElement(lastMonth);
 
 		}
 
-		if ( 'undefined' !== typeof endDateInput && endDateInput ) {
-			let trueEnd = new Date( endDateInput );
-			endDate = dlmReportsInstance.createDateElement( trueEnd );
+		if ('undefined' !== typeof endDateInput && endDateInput) {
+			let trueEnd = new Date(endDateInput);
+			endDate     = dlmReportsInstance.createDateElement(trueEnd);
 
 		} else {
 
 			// If there is no endDateInput we'll set the endDate to tomorrow so that we can include today in our reports also.
 			// Seems like this is how the datepicker works.
 			const tomorrow = new Date();
-			tomorrow.setDate( tomorrow.getDate() + 1 );
-			endDate = dlmReportsInstance.createDateElement( tomorrow );
+			tomorrow.setDate(tomorrow.getDate() + 1);
+			endDate = dlmReportsInstance.createDateElement(tomorrow);
 		}
 		return {startDate, endDate};
 	}
@@ -484,12 +477,11 @@ class DLM_Reports {
 	 *
 	 * @param startDateInput
 	 * @param endDateInput
-	 * @param dataType
 	 * @returns {*}
 	 */
-	createDataOnDate( startDateInput, endDateInput ) {
+	createDataOnDate(startDateInput, endDateInput) {
 
-		let {startDate, endDate} = {...dlmReportsInstance.getSetDates( startDateInput, endDateInput )}, dayDiff,
+		let {startDate, endDate} = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)}, dayDiff,
 			monthDiff,
 			yearDiff, chartDate, dlmDownloads;
 
@@ -520,34 +512,34 @@ class DLM_Reports {
 		}
 
 		// Get all dates from the startDate to the endDate
-		let dayDownloads = dlmReportsInstance.getDates( new Date( startDate ), new Date( endDate ) ),
+		let dayDownloads = dlmReportsInstance.getDates(new Date(startDate), new Date(endDate)),
 			doubleDays, doubleMonthDownloads, weeksDownloads, weekDownloads;
 
 		// Let's initiate our dlmDownloads with something
-		switch ( dlmReportsInstance.chartType ) {
+		switch (dlmReportsInstance.chartType) {
 			case 'months':
 				// Get double selected months
-				doubleMonthDownloads = dlmReportsInstance.getDoubleMonths( dayDownloads );
-				dlmDownloads = doubleMonthDownloads;
+				doubleMonthDownloads = dlmReportsInstance.getDoubleMonths(dayDownloads);
+				dlmDownloads         = doubleMonthDownloads;
 				break;
 			case 'month':
 				// Get selected months
-				let monthDownloads = dlmReportsInstance.getMonths( dayDownloads );
-				dlmDownloads = monthDownloads;
+				let monthDownloads = dlmReportsInstance.getMonths(dayDownloads);
+				dlmDownloads       = monthDownloads;
 				break;
 			case 'weeks':
 				// Get selected dates in 2 weeks grouping
-				weeksDownloads = dlmReportsInstance.getWeeks( dayDownloads );
-				dlmDownloads = weeksDownloads;
+				weeksDownloads = dlmReportsInstance.getWeeks(dayDownloads);
+				dlmDownloads   = weeksDownloads;
 				break
 			case 'week':
 				// Get selected dates in 2 weeks grouping
-				weekDownloads = dlmReportsInstance.getWeek( dayDownloads );
-				dlmDownloads = weekDownloads;
+				weekDownloads = dlmReportsInstance.getWeek(dayDownloads);
+				dlmDownloads  = weekDownloads;
 				break
 			case 'days':
 				// Get double days
-				doubleDays = dlmReportsInstance.getDoubleDays( dayDownloads );
+				doubleDays   = dlmReportsInstance.getDoubleDays(dayDownloads);
 				dlmDownloads = doubleDays;
 				break
 			case 'day':
@@ -555,145 +547,146 @@ class DLM_Reports {
 				break;
 		}
 
-		Object.values( dlmReportsInstance.reportsData ).forEach( ( day, index ) => {
+		Object.values(dlmReportsInstance.reportsData).forEach((day, index) => {
 
-			const downloads = JSON.parse( day.download_ids );
+			const downloads = JSON.parse(day.download_ids);
 
-			if ( 'undefined' !== typeof dayDownloads[ day.date ] ) {
+			if ('undefined' !== typeof dayDownloads[day.date]) {
 
-				switch ( dlmReportsInstance.chartType ) {
+				switch (dlmReportsInstance.chartType) {
 					case 'months':
-						chartDate = day.date.substring( 0, 7 );
-						let chartMonth = parseInt( day.date.substring( 5, 7 ) ),
-							chartYear = day.date.substring( 0, 5 ),
-							prevDateI = (chartMonth - 1).length > 6 ? chartYear + (chartMonth - 1) : chartYear + '0' + (chartMonth - 1);
+						chartDate      = day.date.substring(0, 7);
+						let chartMonth = parseInt(day.date.substring(5, 7)),
+							chartYear  = day.date.substring(0, 5),
+							prevDateI  = (chartMonth - 1).length > 6 ? chartYear + (chartMonth - 1) : chartYear + '0' + (chartMonth - 1);
 
-						Object.values( downloads ).forEach( ( item, index ) => {
+						Object.values(downloads).forEach((item, index) => {
 
 							// If it does not exist we attach the downloads to the previous month
-							if ( 'undefined' === typeof doubleMonthDownloads[ chartDate ] ) {
-								if ( 'undefined' !== typeof doubleMonthDownloads[ prevDateI ] ) {
-									doubleMonthDownloads[ prevDateI ] = doubleMonthDownloads[ prevDateI ] + item.downloads;
+							if ('undefined' === typeof doubleMonthDownloads[chartDate]) {
+								if ('undefined' !== typeof doubleMonthDownloads[prevDateI]) {
+									doubleMonthDownloads[prevDateI] = doubleMonthDownloads[prevDateI] + item.downloads;
 								}
 							} else {
-								doubleMonthDownloads[ chartDate ] = doubleMonthDownloads[ chartDate ] + item.downloads;
+								doubleMonthDownloads[chartDate] = doubleMonthDownloads[chartDate] + item.downloads;
 							}
 
-						} );
+						});
 
 						dlmDownloads = doubleMonthDownloads;
 						break;
 					case 'month':
 
-						chartDate = day.date.substring( 0, 7 );
+						chartDate = day.date.substring(0, 7);
 
-						Object.values( downloads ).forEach( ( item, index ) => {
-							monthDownloads[ chartDate ] = ('undefined' !== typeof monthDownloads[ chartDate ]) ? monthDownloads[ chartDate ] + item.downloads : item.downloads;
-						} );
+						Object.values(downloads).forEach((item, index) => {
+							monthDownloads[chartDate] = ('undefined' !== typeof monthDownloads[chartDate]) ? monthDownloads[chartDate] + item.downloads : item.downloads;
+						});
 
 						dlmDownloads = monthDownloads;
 						break;
 					case 'weeks':
 
-						if ( moment( day.date ).date() > 15 ) {
-							chartDate = day.date.substring( 0, 7 ) + '-15';
+						if (moment(day.date).date() > 15) {
+							chartDate = day.date.substring(0, 7) + '-15';
 						} else {
-							chartDate = day.date.substring( 0, 7 ) + '-01';
+							chartDate = day.date.substring(0, 7) + '-01';
 						}
 
-						Object.values( downloads ).forEach( ( item, index ) => {
-							weeksDownloads[ chartDate ] = ('undefined' !== typeof weeksDownloads[ chartDate ]) ? weeksDownloads[ chartDate ] + item.downloads : item.downloads;
-						} );
+						Object.values(downloads).forEach((item, index) => {
+							weeksDownloads[chartDate] = ('undefined' !== typeof weeksDownloads[chartDate]) ? weeksDownloads[chartDate] + item.downloads : item.downloads;
+						});
 
 						dlmDownloads = weeksDownloads;
 						break;
 					case 'week':
+
 						chartDate = day.date;
-						Object.values( downloads ).forEach( ( item, index ) => {
+						Object.values(downloads).forEach((item, index) => {
 							// If it does not exist we attach the downloads to the previous month
-							if ( 'undefined' === typeof weekDownloads[ chartDate ] ) {
-								for ( let $i = 1; $i < 8; $i++ ) {
-									let $currentDayOfWeek = moment( day.date ).date( moment( day.date ).date() - $i ).format( "YYYY-MM-DD" );
-									if ( 'undefined' !== typeof weekDownloads[ $currentDayOfWeek ] ) {
-										weekDownloads[ $currentDayOfWeek ] = weekDownloads[ $currentDayOfWeek ] + item.downloads;
+							if ('undefined' === typeof weekDownloads[chartDate]) {
+								for (let $i = 1; $i < 8; $i++) {
+									let $currentDayOfWeek = moment(day.date).date(moment(day.date).date() - $i).format("YYYY-MM-DD");
+									if ('undefined' !== typeof weekDownloads[$currentDayOfWeek]) {
+										weekDownloads[$currentDayOfWeek] = weekDownloads[$currentDayOfWeek] + item.downloads;
 									}
 								}
 							} else {
-								weekDownloads[ chartDate ] = weekDownloads[ chartDate ] + item.downloads;
+								weekDownloads[chartDate] = weekDownloads[chartDate] + item.downloads;
 							}
-						} );
+						});
 
 						dlmDownloads = weekDownloads;
 						break;
 					case 'days':
-						chartDate = day.date;
-						let prevDate = moment( day.date ).date( moment( day.date ).date() - 1 ).format( "YYYY-MM-DD" );
 
-						Object.values( downloads ).forEach( ( item, index ) => {
+						chartDate    = day.date;
+						let prevDate = moment(day.date).date(moment(day.date).date() - 1).format("YYYY-MM-DD");
+
+						Object.values(downloads).forEach((item, index) => {
 							// If it does not exist we attach the downloads to the previous month
-							if ( 'undefined' === typeof doubleDays[ chartDate ] ) {
-								if ( 'undefined' !== typeof doubleDays[ prevDate ] ) {
-									doubleDays[ prevDate ] = doubleDays[ prevDate ] + item.downloads;
+							if ('undefined' === typeof doubleDays[chartDate]) {
+								if ('undefined' !== typeof doubleDays[prevDate]) {
+									doubleDays[prevDate] = doubleDays[prevDate] + item.downloads;
 								}
 							} else {
-								doubleDays[ chartDate ] = doubleDays[ chartDate ] + item.downloads;
+								doubleDays[chartDate] = doubleDays[chartDate] + item.downloads;
 							}
-						} );
+						});
 
 						dlmDownloads = doubleDays;
 						break;
 					case 'day':
-						Object.values( downloads ).forEach( ( item, index ) => {
-							dayDownloads[ day.date ] = dayDownloads[ day.date ] + item.downloads;
-						} );
+
+						Object.values(downloads).forEach((item, index) => {
+							dayDownloads[day.date] = dayDownloads[day.date] + item.downloads;
+						});
 
 						dlmDownloads = dayDownloads;
 						break;
 				}
-
 			} else {
-				delete dlmReportsInstance.reportsData[ index ];
+				delete dlmReportsInstance.reportsData[index];
 			}
-		} );
+		});
 
 		// Get number of days, used in summary for daily average downloads
-		const dayKeys = Object.keys( dayDownloads );
+		const dayKeys    = Object.keys(dayDownloads);
 		const daysLength = dayKeys.length;
 
 		// Find the start of the downloads object
-		let start = dayKeys.findIndex( ( element ) => {
+		let start = dayKeys.findIndex((element) => {
 			return startDate === element;
-		} );
+		});
 
 		// Find the end of the downloads object
-		let end = dayKeys.findIndex( ( element ) => {
+		let end = dayKeys.findIndex((element) => {
 			return endDate === element;
-		} );
+		});
 
-		if ( -1 === start && -1 === end ) {
+		if (-1 === start && -1 === end) {
 
 			dlmReportsInstance.stats = {
-				chartStats: Object.assign( {}, dlmDownloads ),
+				chartStats  : Object.assign({}, dlmDownloads),
 				summaryStats: false,
 				daysLength
 			};
 			return;
 		}
 
-		if ( -1 === start ) {
+		if (-1 === start) {
 			start = 0;
 		}
 
-		if ( -1 === end ) {
+		if (-1 === end) {
 			end = daysLength;
 		}
 
 		dlmReportsInstance.stats = {
-			chartStats: Object.assign( {}, dlmDownloads ),
+			chartStats  : Object.assign({}, dlmDownloads),
 			summaryStats: dlmReportsInstance.reportsData,
 			daysLength
 		};
-
 	}
 
 	/**
@@ -703,65 +696,65 @@ class DLM_Reports {
 	 * @param {*} chartId
 	 * @param otherData Check if data passsed in the original chart data or some other, like the compare data
 	 */
-	dlmCreateChart( data, chartId, otherData = false ) {
+	dlmCreateChart(data, chartId, otherData = false) {
 
-		if ( data && chartId ) {
+		if (data && chartId) {
 
-			let chart = Chart.getChart( 'total_downloads_chart' );
+			let chart = Chart.getChart('total_downloads_chart');
 
 			dlmReportsInstance.chartDataObject = {
-				dataSetLabel: 'Downloads',
-				dataSetColor: '#27ae60',
-				dataSetbg: dlmReportsInstance.chartGradient,
-				dataSetPointbg: dlmReportsInstance.chartColors.darkCyan.default,
-				dataSetBorder: dlmReportsInstance.chartColors.darkCyan.default,
+				dataSetLabel       : 'Downloads',
+				dataSetColor       : '#27ae60',
+				dataSetbg          : dlmReportsInstance.chartGradient,
+				dataSetPointbg     : dlmReportsInstance.chartColors.darkCyan.default,
+				dataSetBorder      : dlmReportsInstance.chartColors.darkCyan.default,
 				dataSetElementColor: '#2ecc71',
-				lineType: 'original',
-				xAxis: 'x',
-				chartData: data
+				lineType           : 'original',
+				xAxis              : 'x',
+				chartData          : data
 			}
 
-			if ( 'undefined' !== typeof chart ) {
+			if ('undefined' !== typeof chart) {
 				chart.destroy();
 			}
 
 			// Trigger this action here in order for us to tap into dlmReportsInstance.chartDataObject
-			jQuery( document ).trigger( 'dlm_reports_before_data_sets', [
+			jQuery(document).trigger('dlm_reports_before_data_sets', [
 				dlmReportsInstance.chartDataObject,
 				data,
 				otherData
-			] );
+			]);
 
 			// Unset the dataSet that will be modified
-			if ( dlmReportsInstance.dataSets.length > 0 ) {
-				dlmReportsInstance.dataSets = dlmReportsInstance.dataSets.filter( ( element ) => {
+			if (dlmReportsInstance.dataSets.length > 0) {
+				dlmReportsInstance.dataSets = dlmReportsInstance.dataSets.filter((element) => {
 
-					if ( dlmReportsInstance.chartDataObject.lineType === element.origin ) {
+					if (dlmReportsInstance.chartDataObject.lineType === element.origin) {
 						return false;
 					}
 
 					return true;
-				} );
+				});
 			}
 
 			dlmReportsInstance.dataSets.push(
 				{
-					origin: dlmReportsInstance.chartDataObject.lineType,
-					label: dlmReportsInstance.chartDataObject.dataSetLabel,
-					color: dlmReportsInstance.chartDataObject.dataSetColor,
-					data: dlmReportsInstance.chartDataObject.chartData,
-					type: 'line',
-					fill: true,
-					backgroundColor: dlmReportsInstance.chartDataObject.dataSetbg,
-					pointBackgroundColor: dlmReportsInstance.chartDataObject.dataSetPointbg,
+					origin                   : dlmReportsInstance.chartDataObject.lineType,
+					label                    : dlmReportsInstance.chartDataObject.dataSetLabel,
+					color                    : dlmReportsInstance.chartDataObject.dataSetColor,
+					data                     : dlmReportsInstance.chartDataObject.chartData,
+					type                     : 'line',
+					fill                     : true,
+					backgroundColor          : dlmReportsInstance.chartDataObject.dataSetbg,
+					pointBackgroundColor     : dlmReportsInstance.chartDataObject.dataSetPointbg,
 					pointHoverBackgroundColor: '#fff',
-					borderColor: dlmReportsInstance.chartDataObject.dataSetBorder,
-					pointBorderWidth: 1,
-					lineTension: 0.3,
-					borderWidth: 1,
-					pointRadius: 3,
-					elements: {
-						line: {
+					borderColor              : dlmReportsInstance.chartDataObject.dataSetBorder,
+					pointBorderWidth         : 1,
+					lineTension              : 0.3,
+					borderWidth              : 1,
+					pointRadius              : 3,
+					elements                 : {
+						line    : {
 							borderColor: dlmReportsInstance.chartDataObject.dataSetElementColor,
 							borderWidth: 1,
 						}, point: {
@@ -772,73 +765,73 @@ class DLM_Reports {
 			);
 
 			// Get the original data, in case dataSets has otherData
-			let currentData = Object.values( dlmReportsInstance.dataSets ).filter( ( element ) => {
+			let currentData = Object.values(dlmReportsInstance.dataSets).filter((element) => {
 				return 'original' === element.origin;
-			} );
+			});
 
-			let trueData = Object.keys( currentData[ 0 ].data );
+			let trueData = Object.keys(currentData[0].data);
 			// Sort the dataSets so that the Downloads data will always be first
-			dlmReportsInstance.dataSets.sort( function ( a, b ) {
-				if ( 'original' === a.origin ) {
+			dlmReportsInstance.dataSets.sort(function (a, b) {
+				if ('original' === a.origin) {
 					return -1;
 				}
 				return 1;
-			} );
+			});
 
-			dlmReportsInstance.chart = new Chart( chartId, {
-				title: "",
-				data: {
+			dlmReportsInstance.chart = new Chart(chartId, {
+				title    : "",
+				data     : {
 					datasets: dlmReportsInstance.dataSets
 				},
-				height: 450,
+				height   : 450,
 				is_series: 1,
-				options: {
+				options  : {
 					aspectRatio: 5,
-					animation: false,
+					animation  : false,
 					interaction: {
-						mode: 'index',
+						mode     : 'index',
 						intersect: false,
 					},
-					stacked: false,
-					scales: {
+					stacked    : false,
+					scales     : {
 						x: {
-							grid: {
+							grid : {
 								display: false,
 							},
 							ticks: {
-								callback: ( val ) => {
+								callback: (val) => {
 
-									let date = '';
+									let date       = '';
 									let dateString = '';
 
-									dateString = trueData[ val ];
+									dateString = trueData[val];
 
-									const lastDate = trueData[ trueData.length - 1 ];
-									const prevLastDate = moment( lastDate ).month( moment( lastDate ).month() - 1 ).format( "YYYY-MM" );
+									const lastDate     = trueData[trueData.length - 1];
+									const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-MM");
 
-									if ( 'undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType ) {
+									if ('undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType) {
 
-										const month = moment( trueData[ val ] ).month();
+										const month = moment(trueData[val]).month();
 
-										if ( 11 > month ) {
-											if ( dateString === prevLastDate ) {
-												date = moment( dateString ).format( "MMM, YYYY" );
+										if (11 > month) {
+											if (dateString === prevLastDate) {
+												date = moment(dateString).format("MMM, YYYY");
 											} else {
-												date = moment( dateString ).format( "MMM" ) + ' - ' + moment( dateString ).month( month + 1 ).format( "MMM" ) + moment( dateString ).format( ", YYYY" );
+												date = moment(dateString).format("MMM") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).format(", YYYY");
 											}
 
 										} else {
-											if ( dateString === prevLastDate || dateString === lastDate ) {
-												date = moment( dateString ).format( "MMM, YYYY" );
+											if (dateString === prevLastDate || dateString === lastDate) {
+												date = moment(dateString).format("MMM, YYYY");
 											} else {
-												date = moment( dateString ).format( "MMM" ) + moment( dateString ).format( " YYYY" ) + ' - ' + moment( dateString ).month( month + 1 ).format( "MMM" ) + moment( dateString ).month( month + 1 ).format( ", YYYY" );
+												date = moment(dateString).format("MMM") + moment(dateString).format(" YYYY") + ' - ' + moment(dateString).month(month + 1).format("MMM") + moment(dateString).month(month + 1).format(", YYYY");
 											}
 
 										}
-									} else if ( 'undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType ) {
-										date = moment( dateString ).format( "MMMM, YYYY" );
+									} else if ('undefined' !== dlmReportsInstance.chartType && 'months' === dlmReportsInstance.chartType) {
+										date = moment(dateString).format("MMMM, YYYY");
 									} else {
-										date = moment( dateString ).format( "D MMM" );
+										date = moment(dateString).format("D MMM");
 									}
 
 									return date;
@@ -846,33 +839,33 @@ class DLM_Reports {
 							},
 						},
 						y: {
-							grid: {
+							grid : {
 								drawBorder: false,
 							},
-							min: 0,
-							max: (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil( dlmReportsInstance.getMaxDownload() / 10 ) * 10 : 100,
+							min  : 0,
+							max  : (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil(dlmReportsInstance.getMaxDownload() / 10) * 10 : 100,
 							ticks: {
-								stepSize: (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil( dlmReportsInstance.getMaxDownload() / 4 ) : 25,
-								callback: ( val ) => {
-									return dlmReportsInstance.shortNumber( val );
+								stepSize: (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil(dlmReportsInstance.getMaxDownload() / 4) : 25,
+								callback: (val) => {
+									return dlmReportsInstance.shortNumber(val);
 								}
 							}
 						}
 					},
-					normalized: true, parsing: {
+					normalized : true, parsing: {
 						xAxisKey: 'x', yAxisKey: 'y'
 					},
-					plugins: {
+					plugins    : {
 						tooltip: {
-							enabled: false,
-							external: dlmReportsInstance.externalTooltipHandler.bind( dlmReportsInstance, this ),
+							enabled : false,
+							external: dlmReportsInstance.externalTooltipHandler.bind(dlmReportsInstance, this),
 						},
-						legend: {
+						legend : {
 							display: true
 						}
 					},
 				}
-			} );
+			});
 		}
 	}
 
@@ -885,40 +878,39 @@ class DLM_Reports {
 	dlmDownloadsSummary() {
 
 		let mostDownloaded = {};
-		let totalDownloads = 0;
 
-		if ( false === dlmReportsInstance.stats || false === dlmReportsInstance.stats.summaryStats || Object.keys( dlmReportsInstance.stats.summaryStats ).length <= 0 ) {
+		if (false === dlmReportsInstance.stats || false === dlmReportsInstance.stats.summaryStats || Object.keys(dlmReportsInstance.stats.summaryStats).length <= 0) {
 
-			this.setTotalDownloads( 0 );
-			this.setDailyAverage( 0 );
-			this.setMostDownloaded( '--' );
-			this.setTopDownloads( 0, true );
+			this.setTotalDownloads(0);
+			this.setDailyAverage(0);
+			this.setMostDownloaded('--');
+			//this.setTopDownloads( 0, true );
 			return;
 		}
 
 		// Lets prepare the items based on item id and not date so that we can get the most downloaded item
-		dlmReportsInstance.stats.summaryStats.forEach( ( itemSet ) => {
+		dlmReportsInstance.stats.summaryStats.forEach((itemSet) => {
 
-			itemSet = JSON.parse( itemSet.download_ids );
+			itemSet = JSON.parse(itemSet.download_ids);
 
-			Object.entries( itemSet ).forEach( ( [key, item] ) => {
-				totalDownloads += item.downloads;
-				mostDownloaded[ key ] = ('undefined' === typeof mostDownloaded[ key ]) ? {
+			Object.entries(itemSet).forEach(([key, item]) => {
+				dlmReportsInstance.totalDownloads += item.downloads;
+				mostDownloaded[key] = ('undefined' === typeof mostDownloaded[key]) ? {
 					downloads: item.downloads, title: item.title, id: key
 				} : {
-					downloads: mostDownloaded[ key ][ 'downloads' ] + item.downloads, title: item.title, id: key
+					downloads: mostDownloaded[key]['downloads'] + item.downloads, title: item.title, id: key
 				};
-			} );
-		} );
+			});
+		});
 
-		dlmReportsInstance.mostDownloaded = Object.values( mostDownloaded ).sort( ( a, b ) => {
+		dlmReportsInstance.mostDownloaded = Object.values(mostDownloaded).sort((a, b) => {
 			return a.downloads - b.downloads;
-		} ).reverse();
+		}).reverse();
 
-		dlmReportsInstance.setTotalDownloads( totalDownloads );
-		dlmReportsInstance.setDailyAverage( (totalDownloads / parseInt( this.stats.daysLength )).toFixed( 0 ) );
-		dlmReportsInstance.setMostDownloaded( this.mostDownloaded[ 0 ].title );
-		dlmReportsInstance.setTopDownloads();
+		dlmReportsInstance.setTotalDownloads(dlmReportsInstance.totalDownloads);
+		dlmReportsInstance.setDailyAverage((dlmReportsInstance.totalDownloads / parseInt(dlmReportsInstance.stats.daysLength)).toFixed(0));
+		dlmReportsInstance.setMostDownloaded(dlmReportsInstance.mostDownloaded[0].title);
+		//dlmReportsInstance.setTopDownloads();
 	}
 
 	/**
@@ -927,44 +919,44 @@ class DLM_Reports {
 	 *
 	 * @returns
 	 */
-	createDatepicker( target, opener, containerID ) {
+	createDatepicker(target, opener, containerID) {
 
 		const today = new Date();
-		let dd = today.getDate() - 1;
-		let mm = today.getMonth() + 1; //January is 0!
-		let mmm = mm - 1;
-		const yyyy = today.getFullYear();
+		let dd      = today.getDate() - 1;
+		let mm      = today.getMonth() + 1; //January is 0!
+		let mmm     = mm - 1;
+		const yyyy  = today.getFullYear();
 
-		if ( dd < 10 ) {
+		if (dd < 10) {
 			dd = '0' + dd;
 		}
 
-		if ( mm < 10 ) {
+		if (mm < 10) {
 			mm = "0" + mm;
 		}
 
-		if ( mmm < 10 ) {
+		if (mmm < 10) {
 			mmm = "0" + mmm;
 		}
 		const yesterday = yyyy + '-' + mm + '-' + dd;
 		const lastMonth = yyyy + '-' + mmm + '-' + dd;
 
-		var el = jQuery( '<div>' ).addClass( 'dlm_rdrs_overlay' );
-		var startDate = jQuery( '<div>' ).attr( 'id', containerID.replace( '#', '' ) );
-		switch ( opener.target ) {
+		var el        = jQuery('<div>').addClass('dlm_rdrs_overlay');
+		var startDate = jQuery('<div>').attr('id', containerID.replace('#', ''));
+		switch (opener.target) {
 			case 'dlm-date-range-picker':
-				dlmReportsInstance.startDateInput = jQuery( '<input>' ).attr( 'type', 'hidden' ).attr( 'id', 'dlm_start_date' ).attr( 'value', lastMonth );
-				dlmReportsInstance.endDateInput = jQuery( '<input>' ).attr( 'type', 'hidden' ).attr( 'id', 'dlm_end_date' ).attr( 'value', yesterday );
-				el.append( startDate ).append( dlmReportsInstance.startDateInput ).append( dlmReportsInstance.endDateInput );
+				dlmReportsInstance.startDateInput = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_start_date').attr('value', lastMonth);
+				dlmReportsInstance.endDateInput   = jQuery('<input>').attr('type', 'hidden').attr('id', 'dlm_end_date').attr('value', yesterday);
+				el.append(startDate).append(dlmReportsInstance.startDateInput).append(dlmReportsInstance.endDateInput);
 				break;
 			default:
-				jQuery( document ).trigger( 'dlm_create_date_picker_' + opener.target, [
+				jQuery(document).trigger('dlm_create_date_picker_' + opener.target, [
 					dlmReportsInstance,
 					el,
 					startDate,
 					lastMonth,
 					yesterday
-				] );
+				]);
 				break;
 		}
 
@@ -977,154 +969,160 @@ class DLM_Reports {
 	 *
 	 * @returns
 	 */
-	displayDatepicker( target, opener ) {
+	displayDatepicker(target, opener) {
+
 		let containerID = '';
 
-		if ( !jQuery( target ) ) {
+		if (!jQuery(target)) {
 			return;
 		}
-		containerID = '#' + jQuery( target ).attr( 'id' ).replace( /-/gi, '_' );
-		switch ( opener.target ) {
+
+		containerID = '#' + jQuery(target).attr('id').replace(/-/gi, '_');
+		switch (opener.target) {
 			case 'dlm-date-range-picker':
-				if ( dlmReportsInstance.datePicker.opened ) {
+				if (dlmReportsInstance.datePicker.opened) {
 					return;
 				}
 				dlmReportsInstance.datePicker.opened = true;
 				break;
 			default:
-				jQuery( document ).trigger( 'dlm_display_datepicker_' + opener.target, [
+				jQuery(document).trigger('dlm_display_datepicker_' + opener.target, [
 					dlmReportsInstance,
 					opener,
 					target
-				] );
+				]);
 				break;
 		}
 
-		let element = dlmReportsInstance.createDatepicker( target, opener, containerID );
+		let element = dlmReportsInstance.createDatepicker(target, opener, containerID);
 
-		const calendar_start_date = (Object.keys( dlmReportsInstance.dlmReportsStats ).length > 0) ? new Date( dlmReportsInstance.dlmReportsStats[ 0 ].date ) : new Date();
-		const currDate = new Date();
+		const calendar_start_date = (Object.keys(dlmReportsInstance.dlmReportsStats).length > 0) ? new Date(dlmReportsInstance.dlmReportsStats[0].date) : new Date();
+		const currDate            = new Date();
 
-		target.append( element );
+		target.append(element);
 
 		const datepickerShortcuts = [];
 
 		// Let's add shortcuts to our datepicker only if they can be managed/downloads can be viewed based on them.
-		if ( calendar_start_date.getTime() !== currDate.getTime() ) {
+		if (calendar_start_date.getTime() !== currDate.getTime()) {
 
-			let sevenDays = new Date(), lastMonth = moment().month( currDate.getMonth() - 1 ).startOf( 'month' )._d,
-				thisMonth = new Date( currDate.getFullYear(), currDate.getMonth(), 1 ),
-				thisYear = moment().startOf( 'year' )._d,
-				lastYear = moment().year( currDate.getFullYear() - 1 ).month( 0 ).startOf( 'month' )._d;
+			let sevenDays = new Date(), lastMonth = moment().month(currDate.getMonth() - 1).startOf('month')._d,
+				thisMonth                         = new Date(currDate.getFullYear(), currDate.getMonth(), 1),
+				thisYear                          = moment().startOf('year')._d,
+				lastYear                          = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
 
-			sevenDays = sevenDays.setDate( sevenDays.getDate() - 6 );
+			sevenDays = sevenDays.setDate(sevenDays.getDate() - 6);
 
-			if ( calendar_start_date.getTime() < sevenDays ) {
-				datepickerShortcuts.push( {
-					name: 'Last 7 Days', dates: function () {
+			if (calendar_start_date.getTime() < sevenDays) {
+				datepickerShortcuts.push({
+											 name: 'Last 7 Days', dates: function () {
 						return [
-							new Date( currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7 ),
-							new Date( currDate.getFullYear(), currDate.getMonth(), currDate.getDate() )
+							new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7),
+							new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate())
 						];
 					}
-				} );
+										 });
 			}
 
-			if ( calendar_start_date.getTime() < thisMonth ) {
+			if (calendar_start_date.getTime() < thisMonth) {
 
-				datepickerShortcuts.push( {
-					name: 'This month', dates: function () {
-						return [new Date( currDate.getFullYear(), currDate.getMonth(), 1 ), currDate];
+				datepickerShortcuts.push({
+											 name: 'This month', dates: function () {
+						return [new Date(currDate.getFullYear(), currDate.getMonth(), 1), currDate];
 					},
-				} );
+										 });
 			}
 
-			if ( calendar_start_date.getTime() < lastMonth.getTime() ) {
-				datepickerShortcuts.push( {
-					name: 'Last month', dates: function () {
+			if (calendar_start_date.getTime() < lastMonth.getTime()) {
+				datepickerShortcuts.push({
+											 name: 'Last month', dates: function () {
 
 						let start = lastMonth;
-						let end = moment().month( currDate.getMonth() - 1 ).endOf( 'month' )._d;
+						let end   = moment().month(currDate.getMonth() - 1).endOf('month')._d;
 
-						if ( 0 === currDate.getMonth() ) {
-							start = moment().year( currDate.getFullYear() - 1 ).month( 11 ).startOf( 'month' )._d;
-							end = moment().year( currDate.getFullYear() - 1 ).month( 11 ).endOf( 'month' )._d;
+						if (0 === currDate.getMonth()) {
+							start = moment().year(currDate.getFullYear() - 1).month(11).startOf('month')._d;
+							end   = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
 						}
 
 						return [start, end];
 					}
-				} );
+										 });
 			}
 
-			if ( calendar_start_date.getTime() < thisYear.getTime() ) {
-				datepickerShortcuts.push( {
-					name: 'This Year', dates: function () {
+			if (calendar_start_date.getTime() < thisYear.getTime()) {
+				datepickerShortcuts.push({
+											 name: 'This Year', dates: function () {
 
-						const start = moment().startOf( 'year' )._d;
+						const start = moment().startOf('year')._d;
 
-						if ( start.getTime() < calendar_start_date.getTime() ) {
+						if (start.getTime() < calendar_start_date.getTime()) {
 							return [calendar_start_date, currDate];
 						}
 
 						return [start, currDate];
 					}
-				} );
+										 });
 			}
 
-			if ( calendar_start_date.getTime() < lastYear.getTime() ) {
-				datepickerShortcuts.push( {
-					name: 'Last Year', dates: function () {
+			if (calendar_start_date.getTime() < lastYear.getTime()) {
+				datepickerShortcuts.push({
+											 name: 'Last Year', dates: function () {
 
-						const start = moment().year( currDate.getFullYear() - 1 ).month( 0 ).startOf( 'month' )._d;
-						const end = moment().year( currDate.getFullYear() - 1 ).month( 11 ).endOf( 'month' )._d;
+						const start = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
+						const end   = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
 
 						return [start, end];
 					}
-				} );
+										 });
 			}
 		}
 
-		datepickerShortcuts.push( {
-			name: 'All time', dates: function () {
-
-				return [calendar_start_date, currDate];
+		datepickerShortcuts.push(
+			{
+				name: 'All time', dates: function () {
+					return [calendar_start_date, currDate];
+				}
 			}
-		} );
+		);
+
+		// JS filter to add other shortcuts to the datepicker.
+		jQuery(document).trigger('dlm_datepicker_shortcuts_' + opener.target, [dlmReportsInstance, opener, target, datepickerShortcuts]);
 
 		var configObject = {
-			separator: ' to ',
-			autoClose: true,
-			getValue: function(){
+			separator      : ' to ',
+			autoClose      : true,
+			getValue       : function () {
 
 			},
-			setValue: function ( s, s1, s2 ) {
-				element.find( 'input[type="hidden"]' ).first().val( s1 );
-				element.find( 'input[type="hidden"]' ).last().val( s2 );
+			setValue       : function (s, s1, s2) {
+				element.find('input[type="hidden"]').first().val(s1);
+				element.find('input[type="hidden"]').last().val(s2);
 
 			},
-			inline: true,
-			alwaysOpen: true,
-			container: containerID, // End date should be current date
-			endDate: new Date(), // Start date should be the first info we get about downloads
-			startDate: calendar_start_date,
-			showShortcuts: true,
-			shortcuts: null,
+			inline         : true,
+			alwaysOpen     : true,
+			container      : containerID, // End date should be current date
+			endDate        : new Date(), // Start date should be the first info we get about downloads
+			startDate      : calendar_start_date,
+			showShortcuts  : true,
+			shortcuts      : null,
 			customShortcuts: datepickerShortcuts,
 		};
 
-		element.dateRangePicker( configObject ).on( 'datepicker-change', ( event, obj ) => {
+		element.dateRangePicker(configObject).on('datepicker-change', (event, obj) => {
 
-			if ( obj.date1 && obj.date2 ) {
+			if (obj.date1 && obj.date2) {
 
-				const date_s = obj.date1.toLocaleDateString( undefined, {
+				const date_s = obj.date1.toLocaleDateString(undefined, {
 					year: 'numeric', month: 'short', day: '2-digit'
-				} );
+				});
 
-				const date_e = obj.date2.toLocaleDateString( undefined, {
+				const date_e = obj.date2.toLocaleDateString(undefined, {
 					year: 'numeric', month: 'short', day: '2-digit'
-				} );
+				});
 
-				element.parent().find( 'span.date-range-info' ).text( date_s + ' - ' + date_e );
+				element.parent().find('span.date-range-info').text(date_s + ' - ' + date_e);
 			}
 
 			switch (opener.target) {
@@ -1144,12 +1142,13 @@ class DLM_Reports {
 					}
 					break;
 				default:
+					// JS action to trigger when custom datepicker is changed.
 					jQuery(document).trigger('dlm_daterangepicker_init_' + opener.target, [dlmReportsInstance, obj.date1, obj.date2]);
 					break;
 			}
-
-			element.data( 'dateRangePicker' ).close();
-		} );
+			dlmReportsInstance.setTopDownloadsHybrid();
+			element.data('dateRangePicker').close();
+		});
 
 		switch (opener.target) {
 			case 'dlm-date-range-picker':
@@ -1164,50 +1163,49 @@ class DLM_Reports {
 	/**
 	 * Hide the datepicker.
 	 */
-	hideDatepicker( target, opener ) {
+	hideDatepicker(target, opener) {
 
-		switch ( opener.target ) {
+		switch (opener.target) {
 			case 'dlm-date-range-picker' :
 				dlmReportsInstance.datePicker.opened = false;
 				break;
 			default:
-				jQuery( document ).trigger( 'dlm_hide_datepicker_' + opener.target, [
+				jQuery(document).trigger('dlm_hide_datepicker_' + opener.target, [
 					dlmReportsInstance,
 					target,
 					opener
-				] );
+				]);
 				break;
 		}
 
-		target.find( '.dlm_rdrs_overlay' ).remove();
+		target.find('.dlm_rdrs_overlay').remove();
 	}
 
 	/**
 	 * Toggle the date picker on/off.
 	 */
-	toggleDatepicker( event ) {
+	toggleDatepicker(event) {
 
 		event.stopPropagation();
-		const target = jQuery( event.target ).parents( '.dlm-reports-header-date-selector' );
-		let opener = {target: target.attr( 'id' ), object: dlmReportsInstance.datePicker};
-		dlmReportsInstance.closeDatePickers( target );
-		switch ( opener.target ) {
+		const target = jQuery(event.target).parents('.dlm-reports-header-date-selector');
+		let opener   = {target: target.attr('id'), object: dlmReportsInstance.datePicker};
+		dlmReportsInstance.closeDatePickers(target);
+		switch (opener.target) {
 			case 'dlm-date-range-picker':
-				if ( dlmReportsInstance.datePicker.opened ) {
-					dlmReportsInstance.hideDatepicker( target, opener );
+				if (dlmReportsInstance.datePicker.opened) {
+					dlmReportsInstance.hideDatepicker(target, opener);
 				} else {
-					dlmReportsInstance.displayDatepicker( target, opener );
+					dlmReportsInstance.displayDatepicker(target, opener);
 				}
 				break;
 			default:
-				jQuery( document ).trigger( 'dlm_toggle_datepicker_' + opener.target, [
+				jQuery(document).trigger('dlm_toggle_datepicker_' + opener.target, [
 					dlmReportsInstance,
 					target,
 					opener
-				] );
+				]);
 				break;
 		}
-
 	}
 
 	/**
@@ -1216,8 +1214,8 @@ class DLM_Reports {
 	 *
 	 * @param {*} totalDownloads
 	 */
-	setTotalDownloads( totalDownloads ) {
-		jQuery( '.dlm-reports-block-summary li#total span' ).html( totalDownloads.toLocaleString() );
+	setTotalDownloads(totalDownloads) {
+		jQuery('.dlm-reports-block-summary li#total span').html(totalDownloads.toLocaleString());
 	}
 
 	/**
@@ -1225,8 +1223,8 @@ class DLM_Reports {
 	 *
 	 * @param {*} dailyAverage
 	 */
-	setDailyAverage( dailyAverage ) {
-		jQuery( '.dlm-reports-block-summary li#average span' ).html( dailyAverage.toLocaleString() );
+	setDailyAverage(dailyAverage) {
+		jQuery('.dlm-reports-block-summary li#average span').html(dailyAverage.toLocaleString());
 	}
 
 	/**
@@ -1234,8 +1232,8 @@ class DLM_Reports {
 	 *
 	 * @param {*} mostDownloaded
 	 */
-	setMostDownloaded( mostDownloaded ) {
-		jQuery( '.dlm-reports-block-summary li#popular span' ).html( mostDownloaded ); // this is a string
+	setMostDownloaded(mostDownloaded) {
+		jQuery('.dlm-reports-block-summary li#popular span').html(mostDownloaded); // this is a string
 	}
 
 	/**
@@ -1245,24 +1243,23 @@ class DLM_Reports {
 
 		let todayDownloads = 0;
 
-		if ( 0 >= Object.keys( dlmReportsInstance.dlmReportsStats ).length ) {
+		if (0 >= Object.keys(dlmReportsInstance.dlmReportsStats).length) {
 
-			jQuery( '.dlm-reports-block-summary li#today span' ).html( todayDownloads.toLocaleString() );
+			jQuery('.dlm-reports-block-summary li#today span').html(todayDownloads.toLocaleString());
 			return;
 		}
 
 		// We only need the last date from dlmReportsStats, as it will be the last entry from the DB in crhonological order.
-		if ( dlmReportsInstance.dlmReportsStats[ dlmReportsInstance.dlmReportsStats.length - 1 ].date === dlmReportsInstance.createDateElement( new Date() ) ) {
+		if (dlmReportsInstance.dlmReportsStats[dlmReportsInstance.dlmReportsStats.length - 1].date === dlmReportsInstance.createDateElement(new Date())) {
 
-			todayDownloads = Object.values( JSON.parse( dlmReportsInstance.dlmReportsStats[ dlmReportsInstance.dlmReportsStats.length - 1 ].download_ids ) ).reduce( ( prevValue, element ) => {
+			todayDownloads = Object.values(JSON.parse(dlmReportsInstance.dlmReportsStats[dlmReportsInstance.dlmReportsStats.length - 1].download_ids)).reduce((prevValue, element) => {
 
 				return prevValue + element.downloads;
-			}, 0 );
+			}, 0);
 
 		}
 
-		jQuery( '.dlm-reports-block-summary li#today span' ).html( todayDownloads );
-
+		jQuery('.dlm-reports-block-summary li#today span').html(todayDownloads);
 	}
 
 	/**
@@ -1272,95 +1269,151 @@ class DLM_Reports {
 	 * @param {*} reset
 	 * @returns
 	 */
-	setTopDownloads( offset = 0, reset = false ) {
+	setTopDownloads(offset = 0, reset = false) {
 		// the table
-		const wrapper = jQuery( '#total_downloads_table' );
+		const wrapper = jQuery('#total_downloads_table');
 		wrapper.empty();
-		wrapper.parent().addClass( 'empty' );
+		wrapper.parent().addClass('empty');
 
-		if ( !dlmReportsInstance.mostDownloaded || true === reset ) {
+		if (!dlmReportsInstance.mostDownloaded || true === reset) {
 			return;
 		}
 
-		let dataWrapper = document.createElement( 'div' );
+		let dataWrapper       = document.createElement('div');
 		dataWrapper.className = "dlm-reports-top-downloads";
 
 		// Setup header row
-		let headerRow = document.createElement( 'div' );
+		let headerRow       = document.createElement('div');
 		headerRow.className = "dlm-reports-top-downloads__header";
 
-		// Create position row
-		/*
-		 const posRow = document.createElement('div');
-		 const posRowLabel = document.createElement('label');
-		 posRowLabel.appendChild(document.createTextNode("#position"));
-		 posRow.appendChild(posRowLabel);
-		 headerRow.appendChild(posRow);
-		 */
-
 		// Create title row
-		const titleRow = document.createElement( 'div' );
-		titleRow.className = 'dlm-reports-header-left';
-		const titleRowLabel = document.createElement( 'label' );
-		titleRowLabel.appendChild( document.createTextNode( "Title" ) );
-		titleRow.appendChild( titleRowLabel );
-		headerRow.appendChild( titleRow );
+		const titleRow      = document.createElement('div');
+		titleRow.className  = 'dlm-reports-header-left';
+		const titleRowLabel = document.createElement('label');
+		titleRowLabel.appendChild(document.createTextNode("Title"));
+		titleRow.appendChild(titleRowLabel);
+		headerRow.appendChild(titleRow);
 
 		// Create downloads row
-		const downloadsRow = document.createElement( 'div' );
-		downloadsRow.className = 'dlm-reports-header-right';
-		const downloadsRowLabel = document.createElement( 'label' );
-		downloadsRowLabel.appendChild( document.createTextNode( "Downloads" ) );
-		downloadsRow.appendChild( downloadsRowLabel );
-		headerRow.appendChild( downloadsRow );
+		const downloadsRow      = document.createElement('div');
+		downloadsRow.className  = 'dlm-reports-header-right';
+		const downloadsRowLabel = document.createElement('label');
+		downloadsRowLabel.appendChild(document.createTextNode("Downloads"));
+		downloadsRow.appendChild(downloadsRowLabel);
+		headerRow.appendChild(downloadsRow);
 
 		// Append header row
-		dataWrapper.append( headerRow );
-		const dataResponse = JSON.parse( JSON.stringify( dlmReportsInstance.mostDownloaded ) ).slice( 10 * parseInt( offset ), 10 * (parseInt( offset + 1 )) );
+		dataWrapper.append(headerRow);
+		const dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.mostDownloaded)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
 
-		for ( let i = 0; i < dataResponse.length; i++ ) {
+		for (let i = 0; i < dataResponse.length; i++) {
 
-			const line = document.createElement( 'div' );
-			line.className = "dlm-reports-top-downloads__line";
-			const size = dataResponse[ i ].downloads * 100 / dlmReportsInstance.mostDownloaded[ 0 ].downloads;
-			let overFlower = document.createElement( 'span' );
-			overFlower.className = 'dlm-reports-top-downloads__overflower';
-			overFlower.style.width = parseInt( size ) + '%';
+			const line             = document.createElement('div');
+			line.className         = "dlm-reports-top-downloads__line";
+			const size             = dataResponse[i].downloads * 100 / dlmReportsInstance.mostDownloaded[0].downloads;
+			let overFlower         = document.createElement('span');
+			overFlower.className   = 'dlm-reports-top-downloads__overflower';
+			overFlower.style.width = parseInt(size) + '%';
 
-			for ( let j = 0; j < 3; j++ ) {
+			for (let j = 0; j < 3; j++) {
 
-				let lineSection = document.createElement( 'div' );
-				lineSection.setAttribute( 'data-id', j ); // we will need this to style each div based on its position in the "table"
+				let lineSection = document.createElement('div');
+				lineSection.setAttribute('data-id', j); // we will need this to style each div based on its position in the "table"
 
-				if ( j === 0 ) {
-					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt( 10 * offset ) + i + 1) + '.</span>';
-				} else if ( j === 1 ) {
+				if (j === 0) {
+					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(10 * offset) + i + 1) + '.</span>';
+				} else if (j === 1) {
 
-					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[ i ].id + '&action=edit" title="Click to edit download: ' + dataResponse[ i ].title + '" target="_blank">' + dataResponse[ i ].title + '</a>';
-					lineSection.prepend( overFlower );
+					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" title="Click to edit download: ' + dataResponse[i].title + '" target="_blank">' + dataResponse[i].title + '</a>';
+					lineSection.prepend(overFlower);
 
 				} else {
-					lineSection.innerHTML = dataResponse[ i ].downloads.toLocaleString();
+					lineSection.innerHTML = dataResponse[i].downloads.toLocaleString();
 				}
 
-				line.appendChild( lineSection );
+				line.appendChild(lineSection);
 			}
 
 			// append row
-			dataWrapper.append( line );
+			dataWrapper.append(line);
 		}
 
-		const htmlTarget = wrapper.parent().find( '.dlm-reports-placeholder-no-data' );
-		wrapper.parent().removeClass( 'empty' );
-		wrapper.remove( htmlTarget ).append( dataWrapper );
+		const htmlTarget = wrapper.parent().find('.dlm-reports-placeholder-no-data');
+		wrapper.parent().removeClass('empty');
+		wrapper.remove(htmlTarget).append(dataWrapper);
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
-		if ( dlmReportsInstance.mostDownloaded.length > 10 ) {
-			wrapper.parent().find( '#downloads-block-navigation button' ).removeClass( 'hidden' );
+		if (dlmReportsInstance.mostDownloaded.length > 10) {
+			wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
 		} else {
-			wrapper.parent().find( '#downloads-block-navigation button' ).addClass( 'hidden' );
+			wrapper.parent().find('#downloads-block-navigation button').addClass('hidden');
 		}
 
+	}
+
+	/**
+	 * Set the top downloads with fetched templates.
+	 *
+	 * @param {*} offset
+	 * @param {*} reset
+	 * @returns
+	 */
+	setTopDownloadsHybrid(offset = 0, reset = false) {
+		// the table
+		const wrapper = jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list');
+		wrapper.empty();
+		wrapper.parent().addClass('empty');
+
+		if (!dlmReportsInstance.mostDownloaded || true === reset) {
+			return;
+		}
+
+		let dataWrapper       = document.createElement('div');
+		dataWrapper.className = "dlm-reports-top-downloads";
+		const dataResponse    = JSON.parse(JSON.stringify(dlmReportsInstance.mostDownloaded)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
+
+		jQuery(document).trigger('dlm_top_downloads_start_html', [dlmReportsInstance, dataWrapper, dataResponse]);
+
+		for (let i = 0; i < dataResponse.length; i++) {
+
+			const $download = dlmReportsInstance.getDownloadByID(dataResponse[i].id);
+			// No point on showing the download if it doesn't exist
+			if ('undefined' === typeof $download) {
+				return
+			}
+
+			const line     = document.createElement('div');
+			line.className = "dlm-reports-top-downloads__line";
+			let rowHTML    = dlmReportsInstance.templates.top_downloads_row.html;
+
+			rowHTML = rowHTML.replace('%dlm%id%dlm%', dataResponse[i].id)
+							 .replace('%dlm%title%dlm%', '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" title="Click to edit download: ' + dataResponse[i].title + '" target="_blank">' + dataResponse[i].title + '</a>')
+							 .replace('%dlm%completed_downloads%dlm%', $download.completed.toLocaleString())
+							 .replace('%dlm%failed_downloads%dlm%', $download.failed.toLocaleString())
+							 .replace('%dlm%total_downloads%dlm%', $download.total.toLocaleString())
+							 .replace('%dlm%redirected_downloads%dlm%', $download.redirected.toLocaleString())
+							 .replace('%dlm%logged_in_downloads%dlm%', $download.logged.toLocaleString())
+							 .replace('%dlm%non_logged_in_downloads%dlm%', $download.nonLoggged.toLocaleString())
+							 .replace('%dlm%percent_downloads%dlm%', parseFloat(parseInt($download.total) * 100 / parseInt(dlmReportsInstance.totalDownloads)).toFixed(2))
+							 .replace('%dlm%content_locking_downloads%dlm%', '500');
+
+			jQuery(document).trigger('dlm_top_downloads_row_html', [dlmReportsInstance, rowHTML, $download]);
+
+			line.innerHTML = rowHTML;
+			dataWrapper.append(line);
+		}
+
+		jQuery(document).trigger('dlm_top_downloads_end_html', [dlmReportsInstance, dataWrapper, dataResponse]);
+		wrapper.parent().removeClass('empty');
+		wrapper.append(dataWrapper);
+
+		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
+		if (dlmReportsInstance.mostDownloaded.length > 10) {
+			wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
+		} else {
+			wrapper.parent().find('#downloads-block-navigation button').addClass('hidden');
+		}
+		dlmReportsInstance.stopSpinner(wrapper);
 	}
 
 	/**
@@ -1368,19 +1421,19 @@ class DLM_Reports {
 	 */
 	handleTopDownloads() {
 
-		jQuery( '#downloads-block-navigation' ).on( 'click', 'button', function () {
+		jQuery('html body').on('click', '#downloads-block-navigation button', function () {
 
-			let main_parent = jQuery( this ).parents( '#total_downloads_table_wrapper' ),
-				offsetHolder = main_parent.find( '#total_downloads_table' ),
-				offset = main_parent.find( '#total_downloads_table' ).attr( 'data-page' ),
-				table = main_parent.find( '#total_downloads_table table' ), link = jQuery( this ),
-				nextPage = parseInt( offset ) + 1, prevPage = (0 !== offset) ? parseInt( offset ) - 1 : 0,
-				prevButton = jQuery( '#downloads-block-navigation' ).find( 'button' ).first(),
-				nextButton = jQuery( '#downloads-block-navigation' ).find( 'button' ).last();
+			let main_parent                               = jQuery(this).parents('#total_downloads_table_wrapper2'),
+				offsetHolder                              = main_parent,
+				offset                                    = main_parent.attr('data-page'),
+				table                                     = '', link = jQuery(this),
+				nextPage = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				prevButton                                = main_parent.find('#downloads-block-navigation').find('button').first(),
+				nextButton                                = main_parent.find('#downloads-block-navigation').find('button').last();
 
-			link.attr( 'disabled', 'disabled' );
+			link.attr('disabled', 'disabled');
 			const handleObj = {
-				data: dlmReportsInstance.mostDownloaded,
+				data    : dlmReportsInstance.mostDownloaded,
 				main_parent,
 				offsetHolder,
 				offset,
@@ -1390,10 +1443,11 @@ class DLM_Reports {
 				prevPage,
 				prevButton,
 				nextButton,
-				doAction: dlmReportsInstance.setTopDownloads
+				doAction: dlmReportsInstance.setTopDownloadsHybrid
 			}
-			dlmReportsInstance.handleSliderNavigation( handleObj )
-		} );
+
+			dlmReportsInstance.handleSliderNavigation(handleObj)
+		});
 	}
 
 	/**
@@ -1401,45 +1455,43 @@ class DLM_Reports {
 	 *
 	 * @param handleObj
 	 */
-	handleSliderNavigation( handleObj ) {
+	handleSliderNavigation(handleObj) {
 		const {
-			data,
-			main_parent,
-			offsetHolder,
-			offset,
-			table,
-			link,
-			nextPage,
-			prevPage,
-			prevButton,
-			nextButton,
-			doAction
-		} = {...handleObj};
+				  data,
+				  main_parent,
+				  offsetHolder,
+				  offset,
+				  table,
+				  link,
+				  nextPage,
+				  prevPage,
+				  prevButton,
+				  nextButton,
+				  doAction
+			  } = {...handleObj};
 
 		// Check if we click the next/load more button
-		if ( 'load-more' === link.data( 'action' ) ) {
+		if ('load-more' === link.data('action')) {
 
-			offsetHolder.attr( 'data-page', nextPage );
-			doAction( nextPage );
+			offsetHolder.attr('data-page', nextPage);
+			doAction(nextPage);
 			// We remove the disable attribute only when there are pages to be shown
-			if ( Math.ceil( data.length / 10 ) > nextPage + 1 ) {
-				nextButton.removeAttr( 'disabled' );
+			if (Math.ceil(data.length / 10) > nextPage + 1) {
+				nextButton.removeAttr('disabled');
 			}
-			prevButton.removeAttr( 'disabled' );
-
+			prevButton.removeAttr('disabled');
 		} else {
 
-			if ( 0 !== parseInt( offset ) ) {
+			if (0 !== parseInt(offset)) {
 
 				//table.toggle({ effect: "scale", direction: "both" });
-				offsetHolder.attr( 'data-page', prevPage );
-				doAction( prevPage );
+				offsetHolder.attr('data-page', prevPage);
+				doAction(prevPage);
 				// Remove on all buttons, as it will be at least page 2
-				if ( 1 !== parseInt( offset ) ) {
-					prevButton.removeAttr( 'disabled' );
+				if (1 !== parseInt(offset)) {
+					prevButton.removeAttr('disabled');
 				}
-				nextButton.removeAttr( 'disabled' );
-
+				nextButton.removeAttr('disabled');
 			}
 		}
 	}
@@ -1448,19 +1500,19 @@ class DLM_Reports {
 	 * Tab navigation
 	 */
 	tabNagivation() {
-		jQuery( document ).on( 'click', '.dlm-reports .dlm-insights-tab-navigation > li', function () {
-			const listClicked = jQuery( this ),
-				navLists = jQuery( '.dlm-reports .dlm-insights-tab-navigation > li' ).not( listClicked ),
-				contentTarget = jQuery( 'div.dlm-insights-tab-navigation__content[data-id="' + listClicked.attr( 'id' ) + '"]' ),
-				contentWrappers = jQuery( 'div.dlm-insights-tab-navigation__content' ).not( contentTarget );
+		jQuery(document).on('click', '.dlm-reports .dlm-insights-tab-navigation > li', function () {
+			const listClicked     = jQuery(this),
+				  navLists        = jQuery('.dlm-reports .dlm-insights-tab-navigation > li').not(listClicked),
+				  contentTarget   = jQuery('div.dlm-insights-tab-navigation__content[data-id="' + listClicked.attr('id') + '"]'),
+				  contentWrappers = jQuery('div.dlm-insights-tab-navigation__content').not(contentTarget);
 
-			if ( !listClicked.hasClass( 'active' ) ) {
-				listClicked.addClass( 'active' );
-				navLists.removeClass( 'active' );
-				contentTarget.addClass( 'active' );
-				contentWrappers.removeClass( 'active' );
+			if (!listClicked.hasClass('active')) {
+				listClicked.addClass('active');
+				navLists.removeClass('active');
+				contentTarget.addClass('active');
+				contentWrappers.removeClass('active');
 			}
-		} );
+		});
 	}
 
 	/**
@@ -1469,26 +1521,26 @@ class DLM_Reports {
 	 * @param chart
 	 * @returns {*}
 	 */
-	getOrCreateTooltip( chart ) {
+	getOrCreateTooltip(chart) {
 
-		let tooltipEl = chart.canvas.parentNode.querySelector( 'div.dlm-canvas-tooltip' );
-		let tooltipLine = chart.canvas.parentNode.querySelector( 'div.dlm-reports-tooltip__line' );
+		let tooltipEl   = chart.canvas.parentNode.querySelector('div.dlm-canvas-tooltip');
+		let tooltipLine = chart.canvas.parentNode.querySelector('div.dlm-reports-tooltip__line');
 
-		if ( !tooltipEl ) {
-			tooltipLine = document.createElement( 'div' );
+		if (!tooltipEl) {
+			tooltipLine           = document.createElement('div');
 			tooltipLine.className = "dlm-reports-tooltip__line";
 		}
 
-		if ( !tooltipEl ) {
-			tooltipEl = document.createElement( 'div' );
+		if (!tooltipEl) {
+			tooltipEl           = document.createElement('div');
 			tooltipEl.className = "dlm-canvas-tooltip";
 
-			const tooltipWrapper = document.createElement( 'div' );
+			const tooltipWrapper     = document.createElement('div');
 			tooltipWrapper.className = "dlm-reports-tooltip";
-			tooltipEl.appendChild( tooltipWrapper );
+			tooltipEl.appendChild(tooltipWrapper);
 
-			chart.canvas.parentNode.appendChild( tooltipEl );
-			chart.canvas.parentNode.appendChild( tooltipLine );
+			chart.canvas.parentNode.appendChild(tooltipEl);
+			chart.canvas.parentNode.appendChild(tooltipLine);
 		}
 
 		return {tooltipEl, tooltipLine};
@@ -1500,117 +1552,117 @@ class DLM_Reports {
 	 * @param plugin
 	 * @param context
 	 */
-	externalTooltipHandler( plugin, context ) {
+	externalTooltipHandler(plugin, context) {
 
 		// Tooltip Element
 		const {
-			chart, tooltip
-		} = context;
+				  chart, tooltip
+			  } = context;
 
-		const {tooltipEl, tooltipLine} = {...plugin.getOrCreateTooltip( chart )};
-		const tooltipWidth = jQuery( tooltipEl ).parent().width();
+		const {tooltipEl, tooltipLine} = {...plugin.getOrCreateTooltip(chart)};
+		const tooltipWidth             = jQuery(tooltipEl).parent().width();
 
 		// Hide if no tooltip
-		if ( tooltip.opacity === 0 ) {
-			tooltipEl.style.opacity = 0;
+		if (tooltip.opacity === 0) {
+			tooltipEl.style.opacity   = 0;
 			tooltipLine.style.opacity = 0;
 			return;
 		}
 
 		// Set Text
-		if ( tooltip.body ) {
+		if (tooltip.body) {
 			const titleLines = tooltip.title || [];
 
-			const tooltipContent = document.createElement( 'div' );
+			const tooltipContent     = document.createElement('div');
 			tooltipContent.className = "dlm-reports-tooltip__header";
 
-			titleLines.forEach( title => {
-				const tooltipRow = document.createElement( 'div' );
+			titleLines.forEach(title => {
+				const tooltipRow     = document.createElement('div');
 				tooltipRow.className = "dlm-reports-tooltip__row";
 
 				// Info
-				const downloadsInfo = document.createElement( 'p' );
+				const downloadsInfo     = document.createElement('p');
 				downloadsInfo.className = "dlm-reports-tooltip__info";
-				downloadsInfo.appendChild( document.createTextNode( 'Downloads' ) );
-				tooltipRow.appendChild( downloadsInfo );
+				downloadsInfo.appendChild(document.createTextNode('Downloads'));
+				tooltipRow.appendChild(downloadsInfo);
 
-				jQuery( document ).trigger( 'dlm_chart_tooltip_before', [
+				jQuery(document).trigger('dlm_chart_tooltip_before', [
 					dlmReportsInstance,
 					tooltip,
 					tooltipRow,
 					plugin
-				] );
+				]);
 
 				// Date
-				const downloadDate = document.createElement( 'p' );
+				const downloadDate     = document.createElement('p');
 				downloadDate.className = "dlm-reports-tooltip__date";
 
-				let date = dlmReportsInstance.setChartTooltipDate( tooltip.dataPoints[ 0 ].label, plugin, plugin.stats.chartStats );
+				let date = dlmReportsInstance.setChartTooltipDate(tooltip.dataPoints[0].label, plugin, plugin.stats.chartStats);
 
-				downloadDate.appendChild( document.createTextNode( date ) );
-				tooltipRow.appendChild( downloadDate );
+				downloadDate.appendChild(document.createTextNode(date));
+				tooltipRow.appendChild(downloadDate);
 
 				// Downloads number
-				const downloads = document.createElement( 'p' );
+				const downloads     = document.createElement('p');
 				downloads.className = "dlm-reports-tooltip__downloads";
 
 				// Pointer for the downloads chart
-				const downloadsPointer = document.createElement( 'span' );
-				downloadsPointer.className = "dlm-reports-tooltip__downloads_pointer";
+				const downloadsPointer                 = document.createElement('span');
+				downloadsPointer.className             = "dlm-reports-tooltip__downloads_pointer";
 				downloadsPointer.style.backgroundColor = dlmReportsInstance.chartColors.darkCyan.default;
-				downloads.appendChild( downloadsPointer );
+				downloads.appendChild(downloadsPointer);
 
-				downloads.appendChild( document.createTextNode( dlmReportsInstance.shortNumber( tooltip.dataPoints[ 0 ].formattedValue ) ) );
-				tooltipRow.appendChild( downloads );
+				downloads.appendChild(document.createTextNode(dlmReportsInstance.shortNumber(tooltip.dataPoints[0].formattedValue)));
+				tooltipRow.appendChild(downloads);
 
-				jQuery( document ).trigger( 'dlm_chart_tooltip_after', [
+				jQuery(document).trigger('dlm_chart_tooltip_after', [
 					dlmReportsInstance,
 					tooltip,
 					tooltipRow,
 					plugin
-				] );
+				]);
 
 				// Create the whole content and append it
-				tooltipContent.appendChild( tooltipRow );
-			} );
+				tooltipContent.appendChild(tooltipRow);
+			});
 
-			const tooltipWRapper = tooltipEl.querySelector( 'div.dlm-reports-tooltip' );
+			const tooltipWRapper = tooltipEl.querySelector('div.dlm-reports-tooltip');
 
 			// Remove old children
-			while ( tooltipWRapper.firstChild ) {
+			while (tooltipWRapper.firstChild) {
 				tooltipWRapper.firstChild.remove();
 			}
 
 			// Add new children
-			tooltipWRapper.appendChild( tooltipContent );
+			tooltipWRapper.appendChild(tooltipContent);
 		}
 
 		const {
-			offsetLeft: positionX, offsetTop: positionY
-		} = chart.canvas;
+				  offsetLeft: positionX, offsetTop: positionY
+			  } = chart.canvas;
 
 		// Display, position, and set styles for font
-		tooltipEl.style.opacity = 1;
+		tooltipEl.style.opacity   = 1;
 		tooltipLine.style.opacity = 1;
-		let margin = {
+		let margin                = {
 			isMargin: false, left: false
 		};
 
-		if ( tooltip.caretX - tooltip.width < 0 ) {
+		if (tooltip.caretX - tooltip.width < 0) {
 			margin.isMargin = true;
-			margin.left = true;
+			margin.left     = true;
 		}
 
-		if ( positionX + tooltip.caretX + tooltip.width > tooltipWidth ) {
+		if (positionX + tooltip.caretX + tooltip.width > tooltipWidth) {
 			margin.isMargin = true;
-			margin.left = false;
+			margin.left     = false;
 		}
 
-		if ( !margin.isMargin ) {
+		if (!margin.isMargin) {
 			tooltipEl.style.left = positionX + tooltip.caretX + 'px';
 
 		} else {
-			if ( !margin.left ) {
+			if (!margin.left) {
 				tooltipEl.style.left = tooltipWidth - tooltip.width + 'px';
 			} else {
 				tooltipEl.style.left = positionX + tooltip.width + 'px';
@@ -1628,22 +1680,22 @@ class DLM_Reports {
 
 		dlmReportsInstance.userRelatedData = [];
 
-		Object.values( dlmReportsInstance.userDownloads ).forEach( ( download, index ) => {
-			if ( '0' !== download.user_id ) {
+		Object.values(dlmReportsInstance.userDownloads).forEach((download, index) => {
+			if ('0' !== download.user_id) {
 				const insert_array = [
 					download.user_id,
 					download.download_id,
 					download.download_date,
 					download.download_status
 				];
-				const user_key = 'user_' + download.user_id;
-				if ( 'undefined' !== typeof dlmReportsInstance.userRelatedData[ user_key ] ) {
-					dlmReportsInstance.userRelatedData[ user_key ].push( insert_array );
+				const user_key     = 'user_' + download.user_id;
+				if ('undefined' !== typeof dlmReportsInstance.userRelatedData[user_key]) {
+					dlmReportsInstance.userRelatedData[user_key].push(insert_array);
 				} else {
-					dlmReportsInstance.userRelatedData[ user_key ] = [insert_array];
+					dlmReportsInstance.userRelatedData[user_key] = [insert_array];
 				}
 			}
-		} );
+		});
 	}
 
 	/**
@@ -1652,22 +1704,22 @@ class DLM_Reports {
 	 * @param startDateInput
 	 * @param endDateInput
 	 */
-	logsDataByDate( startDateInput, endDateInput ) {
-		let {startDate, endDate} = {...dlmReportsInstance.getSetDates( startDateInput, endDateInput )};
-		dlmReportsInstance.userDownloads = JSON.parse( JSON.stringify( dlmReportsInstance.dlmUsersStats.logs ) );
-		let startTimestamp = new Date( startDate )
-		startTimestamp.setDate( startTimestamp.getDate() - 1 );
+	logsDataByDate(startDateInput, endDateInput) {
+		let {startDate, endDate}         = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)};
+		dlmReportsInstance.userDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.dlmUsersStats.logs));
+		let startTimestamp               = new Date(startDate)
+		startTimestamp.setDate(startTimestamp.getDate() - 1);
 		startTimestamp = startTimestamp.getTime();
 
-		let endTimestamp = new Date( endDate );
-		endTimestamp.setDate( endTimestamp.getDate() + 1 );
+		let endTimestamp = new Date(endDate);
+		endTimestamp.setDate(endTimestamp.getDate() + 1);
 		endTimestamp = endTimestamp.getTime();
 
-		dlmReportsInstance.userDownloads = dlmReportsInstance.userDownloads.filter( ( element, index ) => {
-			let currentElement = dlmReportsInstance.createDateElement( new Date( element.download_date ) );
-			currentElement = new Date( currentElement ).getTime();
+		dlmReportsInstance.userDownloads = dlmReportsInstance.userDownloads.filter((element, index) => {
+			let currentElement = dlmReportsInstance.createDateElement(new Date(element.download_date));
+			currentElement     = new Date(currentElement).getTime();
 			return (currentElement > startTimestamp && currentElement < endTimestamp);
-		} );
+		});
 
 		dlmReportsInstance.createUserRelatedData();
 		dlmReportsInstance.filterDownloads();
@@ -1680,8 +1732,8 @@ class DLM_Reports {
 	 * Set the most active user
 	 */
 	setMostActiveUser() {
-		const user = dlmReportsInstance.getUserByID( dlmReportsInstance.getMostActiveID()[ 0 ] );
-		jQuery( '.dlm-reports-block-summary li#most_active_user span' ).html( dlmReportsInstance.userToolTipMarkup( user ) );
+		const user = dlmReportsInstance.getUserByID(dlmReportsInstance.getMostActiveID()[0]);
+		jQuery('.dlm-reports-block-summary li#most_active_user span').html(dlmReportsInstance.userToolTipMarkup(user));
 	}
 
 	/**
@@ -1709,18 +1761,17 @@ class DLM_Reports {
 	 * Get user by ID
 	 * @param user_id
 	 */
-	getUserByID( user_id ) {
+	getUserByID(user_id) {
 
-		if ( !user_id || '0' === user_id ) {
+		if (!user_id || '0' === user_id) {
 			return null;
 		}
 
-		let $user = Object.values( dlmReportsInstance.dlmUsersStats.users ).filter( user => {
-			return parseInt( user_id ) === parseInt( user.ID );
-		} );
+		let $user = Object.values(dlmReportsInstance.dlmUsersStats.users).filter(user => {
+			return parseInt(user_id) === parseInt(user.ID);
+		});
 
-		return ($user.length > 0) ? $user[ 0 ] : null;
-
+		return ($user.length > 0) ? $user[0] : null;
 	}
 
 	/**
@@ -1729,13 +1780,13 @@ class DLM_Reports {
 	 */
 	getLoggedInDownloads() {
 
-		if ( Object.values( dlmReportsInstance.userRelatedData ).length ) {
-			if ( Object.values( dlmReportsInstance.userRelatedData ).length > 1 ) {
-				return Object.values( dlmReportsInstance.userRelatedData ).reduce( ( previousValue, currentValue ) => {
-					return parseInt( previousValue ) + parseInt( currentValue.length );
-				}, 0 );
+		if (Object.values(dlmReportsInstance.userRelatedData).length) {
+			if (Object.values(dlmReportsInstance.userRelatedData).length > 1) {
+				return Object.values(dlmReportsInstance.userRelatedData).reduce((previousValue, currentValue) => {
+					return parseInt(previousValue) + parseInt(currentValue.length);
+				}, 0);
 			} else {
-				return Object.values( dlmReportsInstance.userRelatedData )[ 0 ].length;
+				return Object.values(dlmReportsInstance.userRelatedData)[0].length;
 			}
 
 		}
@@ -1748,7 +1799,7 @@ class DLM_Reports {
 	setLoggedInDownloads() {
 		const stat = dlmReportsInstance.getLoggedInDownloads();
 
-		jQuery( '.dlm-reports-block-summary li#logged_in span,#total_downloads_summary_wrapper .dlm-reports-logged-in' ).html( stat.toLocaleString() );
+		jQuery('.dlm-reports-block-summary li#logged_in span,#total_downloads_summary_wrapper .dlm-reports-logged-in').html(stat.toLocaleString());
 	}
 
 	/**
@@ -1757,7 +1808,7 @@ class DLM_Reports {
 	 * @returns {number}
 	 */
 	getLoggedOutDownloads() {
-		const all = dlmReportsInstance.userDownloads.length;
+		const all      = dlmReportsInstance.userDownloads.length;
 		const loggedIn = dlmReportsInstance.getLoggedInDownloads();
 
 		return all - loggedIn;
@@ -1769,14 +1820,14 @@ class DLM_Reports {
 	setLoggedOutDownloads() {
 		const stat = dlmReportsInstance.getLoggedOutDownloads();
 
-		jQuery( '.dlm-reports-block-summary li#logged_out span,#total_downloads_summary_wrapper .dlm-reports-logged-out' ).html( stat.toLocaleString() );
+		jQuery('.dlm-reports-block-summary li#logged_out span,#total_downloads_summary_wrapper .dlm-reports-logged-out').html(stat.toLocaleString());
 	}
 
 	/**
 	 * The tooltip markup for user's extra info
 	 * @param user
 	 */
-	userToolTipMarkup( user ) {
+	userToolTipMarkup(user) {
 
 		let html = '<div class="dlm-user-reports">';
 		html += '<div class="wpchill-tooltip"><i>[?]</i>';
@@ -1784,13 +1835,13 @@ class DLM_Reports {
 
 		html += '<span>User ID: ' + ((null !== user) ? user.id : '--') + '</span>';
 
-		if ( 'object' !== typeof user && user.url.length ) {
+		if ('object' !== typeof user && user.url.length) {
 			html += '<span>User URL: ' + ((null !== user) ? user.url : '--') + '</span>';
 		}
 
 		html += '<span>User registration date: ' + ((null !== user) ? user.registered : '--') + '</span>';
 
-		if ( null !== user && 'undefined' !== typeof user.role && user.role.length ) {
+		if (null !== user && 'undefined' !== typeof user.role && user.role.length) {
 			html += '<span>User role: ' + user.role + '</span>';
 		}
 
@@ -1804,176 +1855,58 @@ class DLM_Reports {
 	/**
 	 * Generate the user downloads table
 	 */
-	setUserDownloads( offset = 0, reset = false ) {
+	setUserDownloads(offset = 0, reset = false) {
 		// the table
-		const wrapper = jQuery( '#users_download_log' );
+		const wrapper = jQuery('#users_download_log .user-logs__list');
 		wrapper.empty();
-		wrapper.parent().addClass( 'empty' );
 
-		if ( true === reset ) {
+		if (true === reset) {
 			return;
 		}
 
-		let dataWrapper = document.createElement( 'div' );
-		dataWrapper.className = "dlm-reports-top-downloads";
-
-		// Setup header row
-		let headerRow = document.createElement( 'div' );
-		headerRow.className = "dlm-reports-top-downloads__header";
-
-		// Create title row
-		const titleRow = document.createElement( 'div' );
-		titleRow.className = 'dlm-reports-header-user';
-		const titleRowLabel = document.createElement( 'label' );
-		titleRowLabel.appendChild( document.createTextNode( "User" ) );
-		titleRow.appendChild( titleRowLabel );
-		headerRow.appendChild( titleRow );
-
-		// Create IP row
-		const ipRow = document.createElement( 'div' );
-		ipRow.className = 'dlm-reports-header-ip';
-		const ipRowLabel = document.createElement( 'label' );
-		ipRowLabel.appendChild( document.createTextNode( "IP" ) );
-		ipRow.appendChild( ipRowLabel );
-		headerRow.appendChild( ipRow );
-
-		// Create role row
-		const roleRow = document.createElement( 'div' );
-		roleRow.className = 'dlm-reports-header-role';
-		const roleRowLabel = document.createElement( 'label' );
-		roleRowLabel.appendChild( document.createTextNode( "Role" ) );
-		roleRow.appendChild( roleRowLabel );
-		headerRow.appendChild( roleRow );
-
-		// Create downloads row
-		const downloadsRow = document.createElement( 'div' );
-		downloadsRow.className = 'dlm-reports-header-download';
-		const downloadsRowLabel = document.createElement( 'label' );
-		downloadsRowLabel.appendChild( document.createTextNode( "Download" ) );
-		downloadsRow.appendChild( downloadsRowLabel );
-		headerRow.appendChild( downloadsRow );
-
-		// Create download status row
-		const downloadStatusRow = document.createElement( 'div' );
-		downloadStatusRow.className = 'dlm-reports-header-status';
-		const downloadStatusRowLabel = document.createElement( 'label' );
-		downloadStatusRowLabel.appendChild( document.createTextNode( "Status" ) );
-		downloadStatusRow.appendChild( downloadStatusRowLabel );
-		headerRow.appendChild( downloadStatusRow );
-
-		// Create download status row
-		const downloadDateRow = document.createElement( 'div' );
-		downloadDateRow.className = 'dlm-reports-header-date';
-		const downloadDateRowLabel = document.createElement( 'label' );
-		downloadDateRowLabel.appendChild( document.createTextNode( "Download date" ) );
-		downloadDateRow.appendChild( downloadDateRowLabel );
-		headerRow.appendChild( downloadDateRow );
-
-		// Create download status row
-		const actionRow = document.createElement( 'div' );
-		actionRow.className = 'dlm-reports-header-action';
-		const actionRowLabel = document.createElement( 'label' );
-		actionRowLabel.appendChild( document.createTextNode( "Action" ) );
-		actionRow.appendChild( actionRowLabel );
-		headerRow.appendChild( actionRow );
-
-		// Append header row
-		dataWrapper.append( headerRow );
 		let dataResponse = [];
 
-		if ( null !== dlmReportsInstance.tempDownloads ) {
-			dataResponse = JSON.parse( JSON.stringify( dlmReportsInstance.tempDownloads ) ).slice( 10 * parseInt( offset ), 10 * (parseInt( offset + 1 )) );
+		if (null !== dlmReportsInstance.tempDownloads) {
+			dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.tempDownloads)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
 		} else {
-			dataResponse = JSON.parse( JSON.stringify( dlmReportsInstance.userDownloads ) ).slice( 10 * parseInt( offset ), 10 * (parseInt( offset + 1 )) );
+			dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
 		}
 
-		if ( dataResponse.length > 0 ) {
-			for ( let i = 0; i < dataResponse.length; i++ ) {
+		jQuery(document).trigger('dlm_user_logs_row_start_html', [dlmReportsInstance, dataResponse]);
 
-				const line = document.createElement( 'div' );
-				line.className = "dlm-reports-top-downloads__line";
+		for (let i = 0; i < dataResponse.length; i++) {
 
-				for ( let j = 0; j < 7; j++ ) {
-					let lineSection = document.createElement( 'div' );
-					lineSection.setAttribute( 'data-id', j ); // we will need this to style each div based on its position in the "table"
-					switch ( j ) {
-						case 0:
-							lineSection.innerHTML = dlmReportsInstance.userToolTipMarkup( dlmReportsInstance.getUserByID( dataResponse[ i ].user_id.toString() ) );
-							break;
-						case 1:
-							lineSection.innerHTML = '<p>' + dataResponse[ i ].user_ip + '</p>';
-							break;
-						case 2:
-							const user = dlmReportsInstance.getUserByID( dataResponse[ i ].user_id.toString() );
-							lineSection.innerHTML = '<p>' + (null !== user && null !== user.role ? user.role : '--') + '</p>';
-							break;
-						case 3:
-							const download = dlmReportsInstance.getDownloadByID( dataResponse[ i ].download_id );
-							lineSection.innerHTML = '<p><a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[ i ].download_id + '&action=edit" title="Click to edit download: ' + download.title + '" target="_blank">' + download.title + '</a></p>';
-							break;
-						case 4:
-							lineSection.innerHTML = '<p><span class="dlm-reports-top-downloads__download_status ' + dataResponse[ i ].download_status + '">' + dataResponse[ i ].download_status + '</span></p>';
-							break;
-						case 5:
-							lineSection.innerHTML = '<p>' + dataResponse[ i ].download_date + '</p>';
-							break;
-						case 6:
-							const userLink = ('0' !== dataResponse[ i ].user_id) ? '<a href="' + dlm_admin_url + 'user-edit.php?user_id=' + dataResponse[ i ].user_id + '" target="_blank">' + 'Edit user' + '</a>' : '--';
-							lineSection.innerHTML = '<p>' + userLink + '</p>';
-							break;
-
-					}
-					line.appendChild( lineSection );
-				}
-
-				// append row
-				dataWrapper.append( line );
-			}
-		} else {
-			const line = document.createElement( 'div' );
+			const line     = document.createElement('div');
 			line.className = "dlm-reports-top-downloads__line";
 
-			for ( let j = 0; j < 7; j++ ) {
-				let lineSection = document.createElement( 'div' );
-				lineSection.setAttribute( 'data-id', j ); // we will need this to style each div based on its position in the "table"
-				switch ( j ) {
-					case 0:
-						lineSection.innerHTML = '<p>--</p>';
-						break;
-					case 1:
-						lineSection.innerHTML = '<p>--</p>';
-						break;
-					case 2:
-						lineSection.innerHTML = '<p>--</p>';
-						break;
-					case 3:
-						lineSection.innerHTML = '<p>--</p>';
-						break;
-					case 4:
-						lineSection.innerHTML = '<p>--</p>';
-						break;
-					case 5:
-						lineSection.innerHTML = '<p>--</p>';
-						break;
-					case 6:
-						lineSection.innerHTML = '<p>--</p>';
-						break;
+			let rowHTML    = dlmReportsInstance.templates.user_logs_row.html;
+			const user     = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
+			const download = dlmReportsInstance.getDownloadByID(dataResponse[i].download_id);
+			const userLink = ('0' !== dataResponse[i].user_id) ? '<a href="' + dlm_admin_url + 'user-edit.php?user_id=' + dataResponse[i].user_id + '" target="_blank">' + 'Edit user' + '</a>' : '--';
 
-				}
-				line.appendChild( lineSection );
-			}
-			dataWrapper.append( line );
+			rowHTML = rowHTML.replace('%dlm%user%dlm%', dlmReportsInstance.userToolTipMarkup(dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString())))
+							 .replace('%dlm%ip%dlm%', '<p>' + dataResponse[i].user_ip + '</p>')
+							 .replace('%dlm%role%dlm%', '<p>' + (null !== user && null !== user.role ? user.role : '--') + '</p>')
+							 .replace('%dlm%download%dlm%', '<p><a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].download_id + '&action=edit" title="Click to edit download: ' + download.title + '" target="_blank">' + download.title + '</a></p>')
+							 .replace('%dlm%status%dlm%', '<p><span class="dlm-reports-top-downloads__download_status ' + dataResponse[i].download_status + '">' + dataResponse[i].download_status + '</span></p>')
+							 .replace('%dlm%download_date%dlm%', '<p>' + dataResponse[i].download_date + '</p>')
+							 .replace('%dlm%action%dlm%', userLink);
+
+			jQuery(document).trigger('dlm_user_logs_row_html', [dlmReportsInstance, rowHTML, dataResponse[i]]);
+
+			line.innerHTML = rowHTML;
+			wrapper.append(line);
 		}
 
-		const htmlTarget = wrapper.parent().find( '.dlm-reports-placeholder-no-data' );
-		wrapper.parent().removeClass( 'empty' );
-		wrapper.remove( htmlTarget ).append( dataWrapper );
+		jQuery(document).trigger('dlm_user_logs_row_end_html', [dlmReportsInstance, dataResponse]);
+
+		dlmReportsInstance.stopSpinner(jQuery('#users_download_log .dlm-reports-top-downloads'));
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
-		if ( dlmReportsInstance.userDownloads.length > 10 ) {
-			wrapper.parent().find( '#user-downloads-block-navigation button' ).removeClass( 'hidden' );
+		if (dlmReportsInstance.userDownloads.length > 10) {
+			wrapper.parent().find('#user-downloads-block-navigation button').removeClass('hidden');
 		} else {
-			wrapper.parent().find( '#user-downloads-block-navigation button' ).addClass( 'hidden' );
+			wrapper.parent().find('#user-downloads-block-navigation button').addClass('hidden');
 		}
 	}
 
@@ -1981,41 +1914,42 @@ class DLM_Reports {
 	 * Get Download based on ID
 	 * @param download_id
 	 */
-	getDownloadByID( download_id ) {
 
-		return dlmReportsInstance.mostDownloaded.reduce( ( previous, current ) => {
+	/*getDownloadByID(download_id) {
 
-			if ( null !== previous && download_id === previous.id ) {
-				return previous;
-			}
+	 return dlmReportsInstance.mostDownloaded.reduce((previous, current) => {
 
-			if ( download_id === current.id ) {
-				return current;
-			}
+	 if (null !== previous && download_id === previous.id) {
+	 return previous;
+	 }
 
-			return null;
-		}, {id: 0} );
-	}
+	 if (download_id === current.id) {
+	 return current;
+	 }
+
+	 return null;
+	 }, {id: 0});
+	 }*/
 
 	/**
 	 * Let's create the slider navigation. Will be based on offset
 	 */
 	handleUserDownloads() {
 
-		jQuery( '#user-downloads-block-navigation' ).on( 'click', 'button', function () {
+		jQuery('#user-downloads-block-navigation').on('click', 'button', function () {
 
-			let main_parent = jQuery( this ).parents( '#users_downloads_table_wrapper' ),
-				offsetHolder = main_parent.find( '#users_download_log' ),
-				offset = main_parent.find( '#users_download_log' ).attr( 'data-page' ),
-				table = main_parent.find( '#total_downloads_table table' ), link = jQuery( this ),
-				nextPage = parseInt( offset ) + 1, prevPage = (0 !== offset) ? parseInt( offset ) - 1 : 0,
-				prevButton = jQuery( '#user-downloads-block-navigation' ).find( 'button' ).first(),
-				nextButton = jQuery( '#user-downloads-block-navigation' ).find( 'button' ).last();
+			let main_parent                                                    = jQuery(this).parents('#users_downloads_table_wrapper'),
+				offsetHolder                                                   = main_parent.find('#users_download_log'),
+				offset                                                         = main_parent.find('#users_download_log').attr('data-page'),
+				table = main_parent.find('#total_downloads_table table'), link = jQuery(this),
+				nextPage                                                       = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				prevButton                                                     = jQuery('#user-downloads-block-navigation').find('button').first(),
+				nextButton                                                     = jQuery('#user-downloads-block-navigation').find('button').last();
 
-			link.attr( 'disabled', 'disabled' );
+			link.attr('disabled', 'disabled');
 
 			const handleObj = {
-				data: dlmReportsInstance.tempDownloads,
+				data    : dlmReportsInstance.tempDownloads,
 				main_parent,
 				offsetHolder,
 				offset,
@@ -2028,33 +1962,35 @@ class DLM_Reports {
 				doAction: dlmReportsInstance.setUserDownloads
 
 			}
-			dlmReportsInstance.handleSliderNavigation( handleObj )
-		} );
+			dlmReportsInstance.handleSliderNavigation(handleObj)
+		});
 	}
 
 	/**
 	 * Filter the user downloads
 	 */
 	filterDownloadsAction() {
-		jQuery( '#users_downloads_table_wrapper' ).on( 'change', '.user-downloads-filters select', ( e ) => {
-			const target = jQuery( e.currentTarget ).val(), filterType = jQuery( e.currentTarget ).data( 'type' ),
-				filterObject = {type: filterType, on: target};
+		jQuery('#users_downloads_table_wrapper').on('change', '.user-downloads-filters select', (e) => {
+			dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
+
+			const target = jQuery(e.currentTarget).val(), filterType = jQuery(e.currentTarget).data('type'),
+				  filterObject                                       = {type: filterType, on: target};
 
 			// Set the filters
-			if ( dlmReportsInstance.currentFilters.length ) {
-				Object.values( dlmReportsInstance.currentFilters ).forEach( ( element, index ) => {
-					if ( filterType === element.type ) {
-						dlmReportsInstance.currentFilters.splice( index, 1 );
+			if (dlmReportsInstance.currentFilters.length) {
+				Object.values(dlmReportsInstance.currentFilters).forEach((element, index) => {
+					if (filterType === element.type) {
+						dlmReportsInstance.currentFilters.splice(index, 1);
 					}
-				} );
+				});
 			}
 
-			if ( '' !== target ) {
-				dlmReportsInstance.currentFilters.push( filterObject );
+			if ('' !== target) {
+				dlmReportsInstance.currentFilters.push(filterObject);
 			}
 
 			dlmReportsInstance.filterDownloads();
-		} );
+		});
 	}
 
 	/**
@@ -2062,20 +1998,20 @@ class DLM_Reports {
 	 */
 	filterDownloads() {
 
-		dlmReportsInstance.tempDownloads = JSON.parse( JSON.stringify( dlmReportsInstance.userDownloads ) )
+		dlmReportsInstance.tempDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads))
 
-		if ( !dlmReportsInstance.currentFilters.length ) {
+		if (!dlmReportsInstance.currentFilters.length) {
 			dlmReportsInstance.setUserDownloads();
 			return;
 		}
 
-		dlmReportsInstance.currentFilters.forEach( ( filter ) => {
+		dlmReportsInstance.currentFilters.forEach((filter) => {
 
-			dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter( ( element ) => {
-				return filter.on === element[ filter.type ];
-			} );
-		} );
-
+			dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
+				return filter.on === element[filter.type];
+			});
+		});
+		dlmReportsInstance.stopSpinner(jQuery('#users_download_log'));
 		dlmReportsInstance.setUserDownloads();
 	}
 
@@ -2084,50 +2020,49 @@ class DLM_Reports {
 	 */
 	setFilters() {
 		let userOptions = '';
-		Object.values( dlmReportsInstance.dlmUsersStats.users ).forEach( ( user ) => {
+		Object.values(dlmReportsInstance.dlmUsersStats.users).forEach((user) => {
 			userOptions += '<option value="' + user.ID + '">' + user.display_name + '</option>';
-		} );
-		jQuery( '#dlm-filter-by-user' ).append( userOptions );
+		});
+		jQuery('#dlm-filter-by-user').append(userOptions);
 
-		jQuery( document ).trigger( 'dlm_set_users_filter', [dlmReportsInstance, dlmReportsInstance.dlmUsersStats] );
+		jQuery(document).trigger('dlm_set_users_filter', [dlmReportsInstance, dlmReportsInstance.dlmUsersStats]);
 	}
 
 	/**
 	 * Page settings area show/hide
 	 */
 	togglePageSettings() {
-		jQuery( '#dlm-toggle-settings' ).on( 'click', function ( e ) {
+		jQuery('#dlm-toggle-settings').on('click', function (e) {
 			e.stopPropagation();
-			jQuery( this ).find( '.dlm-toggle-settings__settings' ).toggleClass( 'display' );
-		} );
-		jQuery( '.dlm-toggle-settings__settings' ).on( 'click', function ( e ) {
+			jQuery(this).find('.dlm-toggle-settings__settings').toggleClass('display');
+		});
+		jQuery('.dlm-toggle-settings__settings').on('click', function (e) {
 			e.stopPropagation();
-		} );
-		jQuery( 'html,body' ).on( 'click', function () {
-			jQuery( this ).find( '.dlm-toggle-settings__settings' ).removeClass( 'display' );
-		} );
+		});
+		jQuery('html,body').on('click', function () {
+			jQuery(this).find('.dlm-toggle-settings__settings').removeClass('display');
+		});
 
-		jQuery( document ).on( 'change', '.wpchill-toggle__input', function ( e ) {
-			const $this = jQuery( this ), name = $this.attr( 'name' ), data = {
-				action: 'dlm_update_report_setting',
-				name: name,
-				checked: $this.is( ':checked' ),
+		jQuery(document).on('change', '.wpchill-toggle__input', function (e) {
+			const $this = jQuery(this), name = $this.attr('name'), data = {
+				action     : 'dlm_update_report_setting',
+				name       : name,
+				checked    : $this.is(':checked'),
 				_ajax_nonce: dlmReportsNonce
 			};
 
-			jQuery.post( ajaxurl, data, function ( response ) {
-				switch ( name ) {
-					/* case 'dlm_clear_api_cache':*/
+			jQuery.post(ajaxurl, data, function (response) {
+				switch (name) {
 					default:
-						jQuery( document ).trigger( 'dlm_settings_ajax_response', [
+						jQuery(document).trigger('dlm_settings_ajax_response', [
 							dlmReportsInstance,
 							$this,
 							response
-						] );
+						]);
 						break;
 				}
-			} );
-		} );
+			});
+		});
 	}
 
 	/**
@@ -2136,19 +2071,19 @@ class DLM_Reports {
 	 */
 	getMaxDownload() {
 		let max = 0;
-		dlmReportsInstance.dataSets.forEach( ( element ) => {
-			let i = Object.values( element.data ).reduce( ( prev, curr ) => {
-				if ( prev > curr ) {
+		dlmReportsInstance.dataSets.forEach((element) => {
+			let i = Object.values(element.data).reduce((prev, curr) => {
+				if (prev > curr) {
 					return prev;
 				}
 				return curr;
-			}, 0 );
-			if ( max < i ) {
+			}, 0);
+			if (max < i) {
 				max = i;
 			}
-		} );
+		});
 
-		return parseInt( max );
+		return parseInt(max);
 	}
 
 	/**
@@ -2159,43 +2094,43 @@ class DLM_Reports {
 	 * @param dataSet
 	 * @returns {*}
 	 */
-	setChartTooltipDate( dateInput, plugin, dataSet ) {
+	setChartTooltipDate(dateInput, plugin, dataSet) {
 		let date = '';
-		if ( 'undefined' !== plugin.chartType && 'months' === plugin.chartType ) {
+		if ('undefined' !== plugin.chartType && 'months' === plugin.chartType) {
 
-			const year = moment( dateInput ).year();
-			const month = moment( dateInput ).month();
-			const lastDate = Object.keys( dataSet )[ Object.keys( dataSet ).length - 1 ];
-			const prevLastDate = moment( lastDate ).month( moment( lastDate ).month() - 1 ).format( "YYYY-MM" );
-			const dateString = moment( dateInput ).format( "YYYY-MM" );
+			const year         = moment(dateInput).year();
+			const month        = moment(dateInput).month();
+			const lastDate     = Object.keys(dataSet)[Object.keys(dataSet).length - 1];
+			const prevLastDate = moment(lastDate).month(moment(lastDate).month() - 1).format("YYYY-MM");
+			const dateString   = moment(dateInput).format("YYYY-MM");
 
-			if ( 11 > month ) {
-				if ( dateString === prevLastDate ) {
+			if (11 > month) {
+				if (dateString === prevLastDate) {
 
-					date = moment( dateString ).format( "MMMM, YYYY" );
+					date = moment(dateString).format("MMMM, YYYY");
 				} else {
 
-					date = moment( dateInput ).format( "MMM" ) + ' - ' + moment( dateInput ).month( month + 1 ).format( "MMM" ) + moment( dateInput ).format( ", YYYY" );
+					date = moment(dateInput).format("MMM") + ' - ' + moment(dateInput).month(month + 1).format("MMM") + moment(dateInput).format(", YYYY");
 				}
 
 			} else {
 
-				if ( dateString === prevLastDate || dateString === lastDate ) {
+				if (dateString === prevLastDate || dateString === lastDate) {
 
-					date = moment( dateString ).format( "MMMM, YYYY" );
+					date = moment(dateString).format("MMMM, YYYY");
 				} else {
 
-					date = moment( dateInput ).format( "MMM" ) + moment( dateInput ).format( " YYYY" ) + ' - ' + moment( dateInput ).month( month + 1 ).format( "MMM" ) + moment( dateInput ).month( month + 1 ).format( ", YYYY" );
+					date = moment(dateInput).format("MMM") + moment(dateInput).format(" YYYY") + ' - ' + moment(dateInput).month(month + 1).format("MMM") + moment(dateInput).month(month + 1).format(", YYYY");
 				}
 
 			}
 
-		} else if ( 'undefined' !== plugin.chartType && 'months' === plugin.chartType ) {
+		} else if ('undefined' !== plugin.chartType && 'months' === plugin.chartType) {
 
-			date = moment( dateInput ).format( "MMMM, YYYY" );
+			date = moment(dateInput).format("MMMM, YYYY");
 		} else {
 
-			date = moment( dateInput ).format( "MMMM Do, YY" );
+			date = moment(dateInput).format("MMMM Do, YY");
 		}
 
 		return date;
@@ -2206,11 +2141,11 @@ class DLM_Reports {
 	 *
 	 * @param target
 	 */
-	closeDatePickers( target ) {
-		jQuery( '.dlm-reports-header-date-selector' ).not( target ).each( function () {
-			const opener = {target: jQuery( this ).attr( 'id' )};
-			dlmReportsInstance.hideDatepicker( jQuery( this ), opener );
-		} )
+	closeDatePickers(target) {
+		jQuery('.dlm-reports-header-date-selector').not(target).each(function () {
+			const opener = {target: jQuery(this).attr('id')};
+			dlmReportsInstance.hideDatepicker(jQuery(this), opener);
+		})
 	}
 
 	/**
@@ -2219,16 +2154,16 @@ class DLM_Reports {
 	 * @param $number
 	 * @returns {string}
 	 */
-	shortNumber( $number ) {
+	shortNumber($number) {
 
-		if ( 'string' === typeof $number ) {
-			$number = $number.replace( /,/gi, '' );
+		if ('string' === typeof $number) {
+			$number = $number.replace(/,/gi, '');
 		} else {
-			$number = parseInt( $number ).toString();
+			$number = parseInt($number).toString();
 		}
 
-		if ( $number.length >= 4 ) {
-			$number = parseInt( $number.substring( 0, $number.length - 3 ) ).toLocaleString() + 'k';
+		if ($number.length >= 4) {
+			$number = parseInt($number.substring(0, $number.length - 3)).toLocaleString() + 'k';
 		}
 
 		return $number;
@@ -2248,7 +2183,7 @@ class DLM_Reports {
 				{
 					action: 'dlm_top_downloads_reports',
 					offset: offset,
-					limit : ( 0 !== offset ) ? limit * offset : 15,
+					limit : (0 !== offset) ? limit * offset : 15,
 					nonce : dlmReportsNonce
 				},
 				function (response) {
@@ -2276,5 +2211,86 @@ class DLM_Reports {
 					}
 				});
 		});
+	}
+
+	/**
+	 * Fetch the templates for the top downloads reports
+	 * @returns {Promise<void>}
+	 */
+	async fetchTemplates() {
+
+		const fetchedUserData = await fetch(dlmTemplates);
+
+		if (!fetchedUserData.ok) {
+			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
+		}
+
+		dlmReportsInstance.templates = await fetchedUserData.json();
+		dlmReportsInstance.fetchReportsData();
+	}
+
+	/**
+	 * Get download object based on ID
+	 * @param $id
+	 * @returns {{total: number, redirected: number, logged: number, completed: number, failed: number, nonLoggged: number}}
+	 */
+	getDownloadByID($id) {
+
+		let download = {
+			completed : 0,
+			failed    : 0,
+			redirected: 0,
+			total     : 0,
+			logged    : 0,
+			nonLoggged: 0
+		};
+
+		dlmReportsInstance.dlmUsersStats.logs.forEach(
+			function (item) {
+				if ($id === item.download_id) {
+
+					download.total = download.total + 1;
+
+					if ('completed' === item.download_status) {
+						download.completed = download.completed + 1;
+					}
+
+					if ('redirected' === item.download_status) {
+						download.redirected = download.redirected + 1;
+					}
+
+					if ('failed' === item.download_status) {
+						download.failed = download.failed + 1;
+					}
+
+					if ('0' !== item.user_id) {
+						download.logged = download.logged + 1;
+					} else {
+						download.nonLoggged = download.nonLoggged + 1;
+					}
+				}
+			}
+		);
+
+		jQuery(document).trigger('dlm_download_by_id', [dlmReportsInstance, download]);
+
+		return download;
+	}
+
+	/**
+	 * Set loading spinner
+	 * @param target
+	 */
+	setSpinner(target) {
+		let spinnerHTML = '<div class="dlm-reports-spinner"><span></span></div>';
+		target.append(spinnerHTML);
+	}
+
+	/**
+	 * Remove loading spinner
+	 * @param target
+	 */
+	stopSpinner(target) {
+		target.find('.dlm-reports-spinner').remove();
 	}
 }

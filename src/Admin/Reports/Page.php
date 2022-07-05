@@ -331,13 +331,19 @@ class DLM_Reports_Page {
 		</div>
 		-->
 
-		<div id="total_downloads_table_wrapper2" class="empty">
+		<!--<div id="total_downloads_table_wrapper2" class="empty">
 			<?php
-			$reports = DLM_Reports::get_instance();
+/*			$reports = DLM_Reports::get_instance();
 			echo $reports->get_top_downloads_markup();
-			?>
+			*/?>
+		</div>-->
+		<?php $reports = DLM_Reports::get_instance(); ?>
+		<div id="total_downloads_table_wrapper2" class="empty" data-page="0">
+			<?php echo $reports->header_top_downloads_markup(); ?>
+			<div class="total_downloads_table__list">
+			</div>
+			<?php echo $reports->footer_top_downloads_markup(); ?>
 		</div>
-
 
 		<?php
 	}
@@ -374,7 +380,7 @@ class DLM_Reports_Page {
 		</div>
 
 
-		<div id="users_downloads_table_wrapper" class="empty">
+		<div id="users_downloads_table_wrapper">
 			<div class="user-downloads-filters">
 				<h3 class="user-downloads-filters__heading"><?php echo esc_html__( 'Filter logs by:', 'download-monitor' ); ?></h3>
 				<select id="dlm-filter-by-status" class="user-downloads-filters__filter" data-type="download_status">
@@ -388,7 +394,14 @@ class DLM_Reports_Page {
 				</select>
 			</div>
 			<div class="dlm-reports-block dlm-reports-block-table reports-block" id="users_download_log" data-page="0">
-				<div class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></div>
+				<?php
+				$reports = DLM_Reports::get_instance();
+				echo $reports->header_user_logs_markup();
+				?>
+				<div class="user-logs__list"></div>
+				<?php
+				echo $reports->footer_user_logs_markup();
+				?>
 			</div>
 			<div id="user-downloads-block-navigation">
 				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled"
