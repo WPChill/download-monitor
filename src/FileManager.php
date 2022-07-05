@@ -373,7 +373,7 @@ class DLM_File_Manager {
 			foreach ( $allowed_paths as $allowed_path ) {
 
 				// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
-				if ( false !== strpos( $file_path, $allowed_path ) ) {
+				if ( false !== strpos( $file_path, str_replace( '/', DIRECTORY_SEPARATOR, $allowed_path ) ) ) {
 					$correct_path = $allowed_path;
 					break;
 				}
