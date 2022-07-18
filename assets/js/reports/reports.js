@@ -25,6 +25,7 @@ class DLM_Reports {
 	tempDownloads   = null;
 	templates       = {};
 	totalDownloads  = 0;
+	boneTemplates   = {};
 
 	/**
 	 * The constructor for our class
@@ -1382,6 +1383,23 @@ class DLM_Reports {
 				return
 			}
 
+
+			let item = new dlmBackBone['model'](
+				{
+					id                       : dataResponse[i].id,
+					title                    : dataResponse[i].title,
+					completed_downloads      : $download.completed.toLocaleString(),
+					failed_downloads         : $download.failed.toLocaleString(),
+					total_downloads          : $download.total.toLocaleString(),
+					redirected_downloads     : $download.redirected.toLocaleString(),
+					logged_in_downloads      : $download.logged.toLocaleString(),
+					non_logged_in_downloads  : $download.nonLoggged.toLocaleString(),
+					percent_downloads        : parseFloat(parseInt($download.total) * 100 / parseInt(dlmReportsInstance.totalDownloads)).toFixed(2),
+					content_locking_downloads: '500',
+				}
+			);
+			return;
+
 			const line     = document.createElement('div');
 			line.className = "dlm-reports-table__line";
 			let rowHTML    = dlmReportsInstance.templates.top_downloads_row.html;
@@ -1942,7 +1960,7 @@ class DLM_Reports {
 				offsetHolder                                                   = main_parent.find('#users_download_log'),
 				offset                                                         = main_parent.find('#users_download_log').attr('data-page'),
 				table = main_parent.find('#total_downloads_table table'), link = jQuery(this),
-				nextPage                                                       = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				nextPage                                                       = parseInt(offset) + 1, prevPage                      = (0 !== offset) ? parseInt(offset) - 1 : 0,
 				prevButton                                                     = jQuery('#user-downloads-block-navigation').find('button').first(),
 				nextButton                                                     = jQuery('#user-downloads-block-navigation').find('button').last();
 
@@ -2294,3 +2312,45 @@ class DLM_Reports {
 		target.find('.dlm-reports-spinner').remove();
 	}
 }
+
+dlmRowModel = Backbone.Model.extend(
+	{
+		initialize: function (args) {
+			var model = this;
+
+			jQuery.each(args, function (att, value) {
+				model.set(att, value);
+			});
+
+			var rowView = new dlmBackBone['view'](
+				{
+					model: this,
+					el   : jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list')
+				}
+			);
+
+			this.set('view', rowView);
+		},
+	}
+);
+
+dlmRowView = Backbone.View.extend(
+	{
+		/**
+		 * The Tag Name and Tag's Class(es)
+		 */
+		tagName  : 'div',
+		className: 'dlm-reports-table__line',
+
+		/**
+		 * Template
+		 * - The template to load inside the above tagName element
+		 */
+		template: wp.template('dlm-top-downloads-row'),
+	}
+);
+
+dlmBackBone = {
+	'model': dlmRowModel,
+	'view' : dlmRowView
+};

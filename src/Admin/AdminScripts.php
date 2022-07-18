@@ -199,7 +199,7 @@ class DLM_Admin_Scripts {
 			wp_enqueue_script(
 				'dlm_reports',
 				plugins_url( '/assets/js/reports/reports' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery','dlm_reports_chartjs' ),
+				array( 'jquery','dlm_reports_chartjs', 'wp-backbone' ),
 				DLM_VERSION,
 				true
 			);
