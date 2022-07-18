@@ -34,7 +34,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
 			add_action( 'wp_ajax_dlm_top_downloads_reports', array( $this, 'get_ajax_top_downloads_markup' ) );
-			add_action( 'init', array( $this, 'set_table_headers' ) );
+			add_action( 'init', array( $this, 'set_table_headers' ), 30 );
 
 		}
 

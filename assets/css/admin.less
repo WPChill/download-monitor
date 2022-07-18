@@ -1569,81 +1569,6 @@ table.wp-list-table {
         margin-top: 25px;
       }
 
-      .dlm-reports-top-downloads {
-
-        .dlm-reports-top-downloads__header {
-          font-weight: bold;
-          display: table;
-          width: 100%;
-          margin-bottom: 17px; // it's 17px because that's the margin bottom of the h3 heading used as the "box" header
-
-          .dlm-reports-header-left,
-          .dlm-reports-header-right {
-            display: table-cell;
-            margin-bottom: 15px;
-            font-size: 12px;
-            color: #6B7280;
-          }
-
-          .dlm-reports-header-left {
-            padding-left: 36px;
-          }
-
-          // we use the same padding-left as the min-width of the numbers, so we can align the label with the download names
-          .dlm-reports-header-right {
-            text-align: right;
-          }
-
-        }
-
-        .dlm-reports-top-downloads__line {
-          display: flex;
-          flex-wrap: wrap;
-          flex-direction: row;
-          margin: 6px 0;
-          align-items: center;
-
-          p {
-            margin: 0;
-          }
-
-          .dlm-reports-top-downloads__overflower {
-            position: absolute;
-            height: 100%;
-            background: #f5f5fc;
-            z-index: -1;
-
-          }
-
-          a {
-            color: #0081a7;
-            padding: 8px;
-            display: block;
-            font-weight: 500;
-          }
-
-          & > div {
-            text-align: left;
-
-
-            &:not(:first-child) {
-              flex-grow: 1;
-              position: relative;
-              z-index: 5;
-            }
-
-            &:first-child {
-              min-width: 36px;
-            }
-
-            &:last-of-type {
-              text-align: right;
-              font-weight: 500;
-              max-width: 20%;
-            }
-          }
-        }
-      }
     }
 
     #users_downloads_table_wrapper {
@@ -1652,7 +1577,6 @@ table.wp-list-table {
       margin-top: 35px;
 
       #users_download_log {
-        border-radius: 10px !important;
         padding: 0 !important;
       }
 
@@ -1759,6 +1683,170 @@ table.wp-list-table {
             }
           }
         }
+      }
+    }
+  }
+
+  // Reports list table
+  .dlm-reports-table{
+
+    .dlm-reports-table__filters {
+      background-color: #f8f9fa;
+      padding: 16px;
+      border-bottom: 1px solid #e2e4e7;
+      display: flex;
+      justify-content: space-between;
+
+      > div {
+        display: inline-block;
+        padding: 8px 14px;
+        font-weight: bold;
+
+        // Sizing for the top downloads table
+        &.total_downloads_table_filters_percent_downloads,
+        &.total_downloads_table_filters_id,
+        &.total_downloads_table_filters_failed_downloads,
+        &.total_downloads_table_filters_content_locking_downloads{
+          width:5%;
+        }
+
+        &.total_downloads_table_filters_title {
+          width:30%;
+        }
+        &.total_downloads_table_filters_completed_downloads,
+        &.total_downloads_table_filters_total_downloads,
+        &.total_downloads_table_filters_logged_in_downloads,
+        &.total_downloads_table_filters_non_logged_in_downloads,
+        &.total_downloads_table_filters_redirected_downloads{
+            width:10%;
+        }
+
+        // Sizing for user reports
+        &.total_downloads_table_filters_user,
+        &.total_downloads_table_filters_role,
+        &.total_downloads_table_filters_status,
+        &.total_downloads_table_filters_action{
+          width:10%;
+        }
+
+        &.total_downloads_table_filters_ip,
+        &.total_downloads_table_filters_download_date{
+          width:15%;
+        }
+
+        &.total_downloads_table_filters_download {
+          width:30%;
+        }
+      }
+    }
+
+    .dlm-reports-table__header {
+      font-weight: bold;
+      display: table;
+      width: 100%;
+      margin-bottom: 17px; // it's 17px because that's the margin bottom of the h3 heading used as the "box" header
+
+      .dlm-reports-header-left,
+      .dlm-reports-header-right {
+        display: table-cell;
+        margin-bottom: 15px;
+        font-size: 12px;
+        color: #6B7280;
+      }
+
+      .dlm-reports-header-left {
+        padding-left: 36px;
+      }
+
+      // we use the same padding-left as the min-width of the numbers, so we can align the label with the download names
+      .dlm-reports-header-right {
+        text-align: right;
+      }
+
+    }
+
+    .dlm-reports-table__line {
+      display: block;
+
+      .dlm-reports-table__entries{
+        background-color: #fff;
+        border-bottom: 1px solid #e2e4e7;
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+
+        > div.id {
+          background-color: #f0f0f0;
+        }
+
+        > div {
+          display: inline-block;
+          padding: 8px 14px;
+          font-size: .8125rem;
+          text-align: left;
+          color: #192a3d;
+          font-weight: 500;
+
+          // spacing for the top downloads
+          &.id,
+          &.percent_downloads,
+          &.failed_downloads,
+          &.content_locking_downloads{
+            width:5%;
+          }
+
+          &.title {
+            width:30%;
+          }
+
+          &.redirected_downloads,
+          &.logged_in_downloads,
+          &.non_logged_in_downloads,
+          &.total_downloads,
+          &.completed_downloads{
+            width:10%;
+          }
+
+          // spacing for user reports
+          &.user,
+          &.role,
+          &.status,
+          &.action {
+            width: 10%;
+          }
+
+          &.ip,
+          &.download_date {
+            width: 15%;
+          }
+
+          &.download {
+            width: 30%;
+          }
+        }
+        &:hover {
+          background-color: #e0e0e0;
+          cursor: pointer;
+        }
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .dlm-reports-table__overflower {
+        position: absolute;
+        height: 100%;
+        background: #f5f5fc;
+        z-index: -1;
+
+      }
+
+      a {
+        color: #0081a7;
+        padding: 8px;
+        display: block;
+        font-weight: 500;
       }
     }
   }
@@ -2739,56 +2827,6 @@ Toggles
       font-size: 16px;
       font-weight: 600;
       text-transform: capitalize;
-    }
-  }
-
-  .total_downloads_table_filters {
-    background-color: #f8f9fa;
-    padding-left: 16px;
-    border-bottom: 1px solid #e2e4e7;
-    display: flex;
-    justify-content: space-between;
-
-    > div {
-      display: inline-block;
-      padding: 8px 14px;
-      font-weight: bold;
-    }
-
-    > div:first-of-type {
-      background-color: #f0f0f0;
-    }
-  }
-
-  .total_downloads_table_entries {
-    background-color: #fff;
-    border-bottom: 1px solid #e2e4e7;
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-
-    &:last-of-type {
-      border-bottom: 0;
-    }
-
-
-    > div:first-of-type {
-      background-color: #f0f0f0;
-    }
-
-    > div {
-      display: inline-block;
-      padding: 8px 14px;
-      font-size: .8125rem;
-      text-align: left;
-      color: #192a3d;
-      font-weight: 500;
-    }
-
-
-    &:hover {
-      background-color: #e0e0e0;
-      cursor: pointer;
     }
   }
 

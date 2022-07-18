@@ -338,7 +338,7 @@ class DLM_Reports_Page {
 			*/?>
 		</div>-->
 		<?php $reports = DLM_Reports::get_instance(); ?>
-		<div id="total_downloads_table_wrapper2" class="empty" data-page="0">
+		<div id="total_downloads_table_wrapper2" class="empty dlm-reports-table" data-page="0">
 			<?php echo $reports->header_top_downloads_markup(); ?>
 			<div class="total_downloads_table__list">
 			</div>
@@ -393,7 +393,7 @@ class DLM_Reports_Page {
 					<option value=""><?php echo esc_html__( 'Filter by user', 'download-monitor' ); ?></option>
 				</select>
 			</div>
-			<div class="dlm-reports-block dlm-reports-block-table reports-block" id="users_download_log" data-page="0">
+			<div class="dlm-reports-block dlm-reports-block-table reports-block dlm-reports-table" id="users_download_log" data-page="0">
 				<?php
 				$reports = DLM_Reports::get_instance();
 				echo $reports->header_user_logs_markup();

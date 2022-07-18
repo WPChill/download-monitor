@@ -207,7 +207,7 @@ class DLM_Reports {
 
 		// Fetch our users and the logs.
 		dlmReportsInstance.fetchUserData();
-		dlmReportsInstance.setSpinner(jQuery('#users_download_log .dlm-reports-top-downloads'));
+		dlmReportsInstance.setSpinner(jQuery('#users_download_log .dlm-reports-table'));
 		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list'));
 		dlmReportsInstance.fetchUsersReportsData();
 		// Trigger action so others can hook into this
@@ -1280,11 +1280,11 @@ class DLM_Reports {
 		}
 
 		let dataWrapper       = document.createElement('div');
-		dataWrapper.className = "dlm-reports-top-downloads";
+		dataWrapper.className = "dlm-top-downloads";
 
 		// Setup header row
 		let headerRow       = document.createElement('div');
-		headerRow.className = "dlm-reports-top-downloads__header";
+		headerRow.className = "dlm-reports-table__header";
 
 		// Create title row
 		const titleRow      = document.createElement('div');
@@ -1309,10 +1309,10 @@ class DLM_Reports {
 		for (let i = 0; i < dataResponse.length; i++) {
 
 			const line             = document.createElement('div');
-			line.className         = "dlm-reports-top-downloads__line";
+			line.className         = "dlm-reports-table__line";
 			const size             = dataResponse[i].downloads * 100 / dlmReportsInstance.mostDownloaded[0].downloads;
 			let overFlower         = document.createElement('span');
-			overFlower.className   = 'dlm-reports-top-downloads__overflower';
+			overFlower.className   = 'dlm-reports-table__overflower';
 			overFlower.style.width = parseInt(size) + '%';
 
 			for (let j = 0; j < 3; j++) {
@@ -1369,7 +1369,7 @@ class DLM_Reports {
 		}
 
 		let dataWrapper       = document.createElement('div');
-		dataWrapper.className = "dlm-reports-top-downloads";
+		dataWrapper.className = "dlm-reports-table";
 		const dataResponse    = JSON.parse(JSON.stringify(dlmReportsInstance.mostDownloaded)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
 
 		jQuery(document).trigger('dlm_top_downloads_start_html', [dlmReportsInstance, dataWrapper, dataResponse]);
@@ -1383,7 +1383,7 @@ class DLM_Reports {
 			}
 
 			const line     = document.createElement('div');
-			line.className = "dlm-reports-top-downloads__line";
+			line.className = "dlm-reports-table__line";
 			let rowHTML    = dlmReportsInstance.templates.top_downloads_row.html;
 
 			rowHTML = rowHTML.replace('%dlm%id%dlm%', dataResponse[i].id)
@@ -1877,7 +1877,7 @@ class DLM_Reports {
 		for (let i = 0; i < dataResponse.length; i++) {
 
 			const line     = document.createElement('div');
-			line.className = "dlm-reports-top-downloads__line";
+			line.className = "dlm-reports-table__line";
 
 			let rowHTML    = dlmReportsInstance.templates.user_logs_row.html;
 			const user     = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
@@ -1888,7 +1888,7 @@ class DLM_Reports {
 							 .replace('%dlm%ip%dlm%', '<p>' + dataResponse[i].user_ip + '</p>')
 							 .replace('%dlm%role%dlm%', '<p>' + (null !== user && null !== user.role ? user.role : '--') + '</p>')
 							 .replace('%dlm%download%dlm%', '<p><a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].download_id + '&action=edit" title="Click to edit download: ' + download.title + '" target="_blank">' + download.title + '</a></p>')
-							 .replace('%dlm%status%dlm%', '<p><span class="dlm-reports-top-downloads__download_status ' + dataResponse[i].download_status + '">' + dataResponse[i].download_status + '</span></p>')
+							 .replace('%dlm%status%dlm%', '<p><span class="dlm-reports-table__download_status ' + dataResponse[i].download_status + '">' + dataResponse[i].download_status + '</span></p>')
 							 .replace('%dlm%download_date%dlm%', '<p>' + dataResponse[i].download_date + '</p>')
 							 .replace('%dlm%action%dlm%', userLink);
 
@@ -1900,7 +1900,7 @@ class DLM_Reports {
 
 		jQuery(document).trigger('dlm_user_logs_row_end_html', [dlmReportsInstance, dataResponse]);
 
-		dlmReportsInstance.stopSpinner(jQuery('#users_download_log .dlm-reports-top-downloads'));
+		dlmReportsInstance.stopSpinner(jQuery('#users_download_log .dlm-reports-table'));
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
 		if (dlmReportsInstance.userDownloads.length > 10) {
