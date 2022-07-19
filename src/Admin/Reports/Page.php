@@ -306,7 +306,7 @@ class DLM_Reports_Page {
 				<div class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></div>
 			</div>
 
-			<div id="downloads-block-navigation">
+			<div class="downloads-block-navigation">
 				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled"
 				        title="<?php esc_html_e( 'Previous 15 downloads', 'download-monitor' ); ?>"></button>
 				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more"
@@ -402,12 +402,6 @@ class DLM_Reports_Page {
 				<?php
 				echo $reports->footer_user_logs_markup();
 				?>
-			</div>
-			<div id="user-downloads-block-navigation">
-				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled"
-				        title="<?php esc_html_e( 'Previous 15', 'download-monitor' ); ?>"></button>
-				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more"
-				        title="<?php esc_html_e( 'Next 15', 'download-monitor' ); ?>"></button>
 			</div>
 		</div>
 

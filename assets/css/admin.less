@@ -1334,8 +1334,8 @@ table.wp-list-table {
         margin: -16px 0 0 -16px;
       }
 
-      #downloads-block-navigation,
-      #user-downloads-block-navigation {
+      .downloads-block-navigation,
+      .user-downloads-block-navigation {
         min-height: 24px;
         text-align: center;
         padding: 14px 0 0 0;
@@ -1786,6 +1786,11 @@ table.wp-list-table {
           text-align: left;
           color: #192a3d;
           font-weight: 500;
+
+          &.addons_top_downloads_entries,
+          &.addons_user_logs_entries {
+            padding:0;
+          }
 
           // spacing for the top downloads
           &.id,

@@ -76,18 +76,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 							'non_logged_in_downloads'   => esc_html__( 'Non Logged In', 'download-monitor' ),
 							'percent_downloads'         => esc_html__( '% of total', 'download-monitor' ),
 							'content_locking_downloads' => esc_html__( 'Content Locking', 'download-monitor' )
-						),
-						'table_row'     => array(
-							'id'                        => '%dlm%id%dlm%',
-							'title'                     => '%dlm%title%dlm%',
-							'completed_downloads'       => '%dlm%completed_downloads%dlm%',
-							'failed_downloads'          => '%dlm%failed_downloads%dlm%',
-							'redirected_downloads'      => '%dlm%redirected_downloads%dlm%',
-							'total_downloads'           => '%dlm%total_downloads%dlm%',
-							'logged_in_downloads'       => '%dlm%logged_in_downloads%dlm%',
-							'non_logged_in_downloads'   => '%dlm%non_logged_in_downloads%dlm%',
-							'percent_downloads'         => '%dlm%percent_downloads%dlm%',
-							'content_locking_downloads' => '%dlm%content_locking_downloads%dlm%'
 						)
 					),
 					'user_logs'     => array(
@@ -99,15 +87,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 							'status'        => esc_html__( 'Status', 'download-monitor' ),
 							'download_date' => esc_html__( 'Download date', 'download-monitor' ),
 							'action'        => esc_html__( 'Action', 'download-monitor' ),
-						),
-						'table_row'     => array(
-							'user'          => '%dlm%user%dlm%',
-							'ip'            => '%dlm%ip%dlm%',
-							'role'          => '%dlm%role%dlm%',
-							'download'      => '%dlm%download%dlm%',
-							'status'        => '%dlm%status%dlm%',
-							'download_date' => '%dlm%download_date%dlm%',
-							'action'        => '%dlm%action%dlm%',
 						)
 					),
 				)
@@ -168,24 +147,12 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 					'permission_callback' => '__return_true',
 				)
 			);
-
-			// The REST route for users data.
-			register_rest_route(
-				'download-monitor/v1',
-				'/templates',
-				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'reports_templates' ),
-					'permission_callback' => '__return_true',
-				)
-			);
 		}
 
 		/**
 		 * Get our stats for the chart
 		 *
 		 * @return WP_REST_Response
-		 * @throws Exception
 		 * @since 4.6.0
 		 */
 		public function rest_stats() {
@@ -214,17 +181,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function user_data_stats() {
 
 			return $this->respond( $this->get_user_data() );
-		}
-
-		/**
-		 * Get our user data
-		 *
-		 * @return WP_REST_Response
-		 * @since 4.6.0
-		 */
-		public function reports_templates() {
-
-			return $this->respond( $this->get_reports_templates() );
 		}
 
 		/**
@@ -380,6 +336,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * Get top downloads HTML markup
 		 *
 		 * @return string
+		 * @since 4.6.0
 		 */
 		public function get_top_downloads_markup( $offset = 0, $limit = 15 ) {
 			global $wpdb;
@@ -390,142 +347,62 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$dlm_top_downloads = $this->top_downloads;
 			include __DIR__ . '/components/php-components/top-downloads-table.php';
 			return ob_get_clean();
-
 		}
 
 		/**
 		 * Get top downloads HTML markup
 		 *
 		 * @return string
+		 * @since 4.6.0
 		 */
-		public function header_top_downloads_markup( $offset = 0, $limit = 15 ) {
+		public function header_top_downloads_markup() {
 
 			ob_start();
 			$dlm_top_downloads = $this->top_downloads;
 			include __DIR__ . '/components/php-components/top-downloads-header.php';
 			return ob_get_clean();
-
 		}
 
 		/**
 		 * Get top downloads HTML markup
 		 *
 		 * @return string
+		 * @since 4.6.0
 		 */
-		public function footer_top_downloads_markup( $offset = 0, $limit = 15 ) {
+		public function footer_top_downloads_markup() {
 
 			ob_start();
 			$dlm_top_downloads = $this->top_downloads;
 			include __DIR__ . '/components/php-components/top-downloads-footer.php';
 			return ob_get_clean();
-
 		}
 
 		/**
 		 * Get top downloads HTML markup
 		 *
 		 * @return string
+		 * @since 4.6.0
 		 */
-		public function header_user_logs_markup( $offset = 0, $limit = 15 ) {
+		public function header_user_logs_markup() {
 
 			ob_start();
 			$dlm_top_downloads = $this->top_downloads;
 			include __DIR__ . '/components/php-components/user-logs-header.php';
 			return ob_get_clean();
-
 		}
 
 		/**
 		 * Get top downloads HTML markup
 		 *
 		 * @return string
+		 * @since 4.6.0
 		 */
-		public function footer_user_logs_markup( $offset = 0, $limit = 15 ) {
+		public function footer_user_logs_markup() {
 
 			ob_start();
 			$dlm_top_downloads = $this->top_downloads;
 			include __DIR__ . '/components/php-components/user-logs-footer.php';
 			return ob_get_clean();
-
-		}
-
-		/**
-		 * Get top downloads HTML markup
-		 *
-		 * @param int $offset The offset used for the query.
-		 * @param int $limit The limit used for the query.
-		 */
-		public function get_ajax_top_downloads_markup( $offset = 0, $limit = 15 ) {
-
-			if ( ! isset( $_POST['nonce'] ) ) {
-				wp_send_json_error( 'No nonce' );
-			}
-			check_ajax_referer( 'dlm_reports_nonce', 'nonce' );
-
-			global $wpdb;
-			if ( isset( $_POST['offset'] ) && '' !== $_POST['offset'] ) {
-				$offset = absint( $_POST['offset'] );
-			}
-
-			if ( isset( $_POST['limit'] ) && '' !== $_POST['limit'] ) {
-				$limit = absint( $_POST['limit'] );
-			}
-
-			$downloads = $wpdb->get_results( 'SELECT COUNT(ID) as downloads, download_id, download_status FROM ' . $wpdb->download_log . ' GROUP BY download_id ORDER BY downloads desc LIMIT  ' . absint( $offset ) . ' , ' . absint( $limit ) . ';', ARRAY_A );
-
-			ob_start();
-			foreach ( $downloads as $log ) {
-				// Get markup for each download.
-				include __DIR__ . '/components/php-components/top-downloads-row.php';
-			}
-			$html    = ob_get_clean();
-			$reponse = array(
-				'html'   => $html,
-				'loaded' => count( $downloads ),
-			);
-			wp_send_json( $reponse );
-		}
-
-		/**
-		 * Get total downloads, including failed ones
-		 *
-		 * @return void
-		 * @since 4.6.0
-		 */
-		public function get_total_logs_count() {
-			global $wpdb;
-			$count = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->download_log};" );
-
-			return $count;
-		}
-
-		/**
-		 * The HTML for the reports templates
-		 *
-		 * @return array
-		 */
-		public function get_reports_templates() {
-
-			ob_start();
-			$dlm_top_downloads = $this->top_downloads;
-			include __DIR__ . '/components/js-components/top-downloads-row-js.php';
-			$top_downloads_row = ob_get_clean();
-
-			ob_start();
-			$dlm_top_downloads = $this->top_downloads;
-			include __DIR__ . '/components/js-components/user-logs-row-js.php';
-			$user_logs_row = ob_get_clean();
-
-			return array(
-				'top_downloads_row' => array(
-					'html'  => $top_downloads_row,
-					'count' => count( $this->top_downloads['top_downloads']['table_row'] )
-				),
-				'user_logs_row' => array(
-					'html' => $user_logs_row,
-					'count' =>  count( $this->top_downloads['user_logs']['table_row'] )
-				)
-			);
 		}
 	}
 }

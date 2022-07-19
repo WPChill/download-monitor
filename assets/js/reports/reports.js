@@ -2,11 +2,10 @@
  * DLM Reports script
  */
 jQuery(function ($) {
+
 	// Let's initiate the reports.
 	const reports = new DLM_Reports();
-	reports.fetchTemplates();
-	//reports.fetchReportsData();
-
+	dlmReportsInstance.fetchReportsData();
 	$(document).on('dlm_downloads_report_fetched', function () {
 		reports.init();
 	});
@@ -25,7 +24,6 @@ class DLM_Reports {
 	tempDownloads   = null;
 	templates       = {};
 	totalDownloads  = 0;
-	boneTemplates   = {};
 
 	/**
 	 * The constructor for our class
@@ -173,8 +171,8 @@ class DLM_Reports {
 			dlmReportsInstance.userDownloads = ('undefined' !== typeof dlmReportsInstance.dlmUsersStats.logs) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmUsersStats.logs)) : {};
 			wrapper.find('.dlm-loading-data').remove();
 			dlmReportsInstance.userReportsTab();
-			dlmReportsInstance.setTopDownloadsHybrid();
-			dlmReportsInstance.stopSpinner(wrapper);
+			dlmReportsInstance.setTopDownloads();
+			dlmReportsInstance.stopSpinner(jQuery('#total_downloads_table_wrapper2'));
 		} else {
 			dlmReportsInstance.fetchUsersReportsData(response.offset);
 		}
@@ -208,8 +206,8 @@ class DLM_Reports {
 
 		// Fetch our users and the logs.
 		dlmReportsInstance.fetchUserData();
-		dlmReportsInstance.setSpinner(jQuery('#users_download_log .dlm-reports-table'));
-		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list'));
+		dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
+		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2'));
 		dlmReportsInstance.fetchUsersReportsData();
 		// Trigger action so others can hook into this
 		jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);
@@ -885,7 +883,6 @@ class DLM_Reports {
 			this.setTotalDownloads(0);
 			this.setDailyAverage(0);
 			this.setMostDownloaded('--');
-			//this.setTopDownloads( 0, true );
 			return;
 		}
 
@@ -911,7 +908,6 @@ class DLM_Reports {
 		dlmReportsInstance.setTotalDownloads(dlmReportsInstance.totalDownloads);
 		dlmReportsInstance.setDailyAverage((dlmReportsInstance.totalDownloads / parseInt(dlmReportsInstance.stats.daysLength)).toFixed(0));
 		dlmReportsInstance.setMostDownloaded(dlmReportsInstance.mostDownloaded[0].title);
-		//dlmReportsInstance.setTopDownloads();
 	}
 
 	/**
@@ -1147,7 +1143,7 @@ class DLM_Reports {
 					jQuery(document).trigger('dlm_daterangepicker_init_' + opener.target, [dlmReportsInstance, obj.date1, obj.date2]);
 					break;
 			}
-			dlmReportsInstance.setTopDownloadsHybrid();
+			dlmReportsInstance.setTopDownloads();
 			element.data('dateRangePicker').close();
 		});
 
@@ -1264,102 +1260,13 @@ class DLM_Reports {
 	}
 
 	/**
-	 * Set the top downloads.
-	 *
-	 * @param {*} offset
-	 * @param {*} reset
-	 * @returns
-	 */
-	setTopDownloads(offset = 0, reset = false) {
-		// the table
-		const wrapper = jQuery('#total_downloads_table');
-		wrapper.empty();
-		wrapper.parent().addClass('empty');
-
-		if (!dlmReportsInstance.mostDownloaded || true === reset) {
-			return;
-		}
-
-		let dataWrapper       = document.createElement('div');
-		dataWrapper.className = "dlm-top-downloads";
-
-		// Setup header row
-		let headerRow       = document.createElement('div');
-		headerRow.className = "dlm-reports-table__header";
-
-		// Create title row
-		const titleRow      = document.createElement('div');
-		titleRow.className  = 'dlm-reports-header-left';
-		const titleRowLabel = document.createElement('label');
-		titleRowLabel.appendChild(document.createTextNode("Title"));
-		titleRow.appendChild(titleRowLabel);
-		headerRow.appendChild(titleRow);
-
-		// Create downloads row
-		const downloadsRow      = document.createElement('div');
-		downloadsRow.className  = 'dlm-reports-header-right';
-		const downloadsRowLabel = document.createElement('label');
-		downloadsRowLabel.appendChild(document.createTextNode("Downloads"));
-		downloadsRow.appendChild(downloadsRowLabel);
-		headerRow.appendChild(downloadsRow);
-
-		// Append header row
-		dataWrapper.append(headerRow);
-		const dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.mostDownloaded)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
-
-		for (let i = 0; i < dataResponse.length; i++) {
-
-			const line             = document.createElement('div');
-			line.className         = "dlm-reports-table__line";
-			const size             = dataResponse[i].downloads * 100 / dlmReportsInstance.mostDownloaded[0].downloads;
-			let overFlower         = document.createElement('span');
-			overFlower.className   = 'dlm-reports-table__overflower';
-			overFlower.style.width = parseInt(size) + '%';
-
-			for (let j = 0; j < 3; j++) {
-
-				let lineSection = document.createElement('div');
-				lineSection.setAttribute('data-id', j); // we will need this to style each div based on its position in the "table"
-
-				if (j === 0) {
-					lineSection.innerHTML = '<span class="dlm-listing-position">' + (parseInt(10 * offset) + i + 1) + '.</span>';
-				} else if (j === 1) {
-
-					lineSection.innerHTML = '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" title="Click to edit download: ' + dataResponse[i].title + '" target="_blank">' + dataResponse[i].title + '</a>';
-					lineSection.prepend(overFlower);
-
-				} else {
-					lineSection.innerHTML = dataResponse[i].downloads.toLocaleString();
-				}
-
-				line.appendChild(lineSection);
-			}
-
-			// append row
-			dataWrapper.append(line);
-		}
-
-		const htmlTarget = wrapper.parent().find('.dlm-reports-placeholder-no-data');
-		wrapper.parent().removeClass('empty');
-		wrapper.remove(htmlTarget).append(dataWrapper);
-
-		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
-		if (dlmReportsInstance.mostDownloaded.length > 10) {
-			wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
-		} else {
-			wrapper.parent().find('#downloads-block-navigation button').addClass('hidden');
-		}
-
-	}
-
-	/**
 	 * Set the top downloads with fetched templates.
 	 *
 	 * @param {*} offset
 	 * @param {*} reset
 	 * @returns
 	 */
-	setTopDownloadsHybrid(offset = 0, reset = false) {
+	setTopDownloads(offset = 0, reset = false) {
 		// the table
 		const wrapper = jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list');
 		wrapper.empty();
@@ -1369,11 +1276,7 @@ class DLM_Reports {
 			return;
 		}
 
-		let dataWrapper       = document.createElement('div');
-		dataWrapper.className = "dlm-reports-table";
-		const dataResponse    = JSON.parse(JSON.stringify(dlmReportsInstance.mostDownloaded)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
-
-		jQuery(document).trigger('dlm_top_downloads_start_html', [dlmReportsInstance, dataWrapper, dataResponse]);
+		const dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.mostDownloaded)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
 
 		for (let i = 0; i < dataResponse.length; i++) {
 
@@ -1383,55 +1286,34 @@ class DLM_Reports {
 				return
 			}
 
+			let itemObject = {
+				id                       : dataResponse[i].id,
+				title                    : dataResponse[i].title,
+				completed_downloads      : $download.completed.toLocaleString(),
+				failed_downloads         : $download.failed.toLocaleString(),
+				total_downloads          : $download.total.toLocaleString(),
+				redirected_downloads     : $download.redirected.toLocaleString(),
+				logged_in_downloads      : $download.logged.toLocaleString(),
+				non_logged_in_downloads  : $download.nonLoggged.toLocaleString(),
+				percent_downloads        : parseFloat(parseInt($download.total) * 100 / parseInt(dlmReportsInstance.totalDownloads)).toFixed(2),
+				content_locking_downloads: '500',
+			};
 
-			let item = new dlmBackBone['model'](
-				{
-					id                       : dataResponse[i].id,
-					title                    : dataResponse[i].title,
-					completed_downloads      : $download.completed.toLocaleString(),
-					failed_downloads         : $download.failed.toLocaleString(),
-					total_downloads          : $download.total.toLocaleString(),
-					redirected_downloads     : $download.redirected.toLocaleString(),
-					logged_in_downloads      : $download.logged.toLocaleString(),
-					non_logged_in_downloads  : $download.nonLoggged.toLocaleString(),
-					percent_downloads        : parseFloat(parseInt($download.total) * 100 / parseInt(dlmReportsInstance.totalDownloads)).toFixed(2),
-					content_locking_downloads: '500',
-				}
-			);
-			return;
+			// Trigger used to model the itemObject passed to the template
+			jQuery(document).trigger('dlm_top_downloads_template_object', [dlmReportsInstance, itemObject, dataResponse[i]]);
 
-			const line     = document.createElement('div');
-			line.className = "dlm-reports-table__line";
-			let rowHTML    = dlmReportsInstance.templates.top_downloads_row.html;
-
-			rowHTML = rowHTML.replace('%dlm%id%dlm%', dataResponse[i].id)
-							 .replace('%dlm%title%dlm%', '<a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].id + '&action=edit" title="Click to edit download: ' + dataResponse[i].title + '" target="_blank">' + dataResponse[i].title + '</a>')
-							 .replace('%dlm%completed_downloads%dlm%', $download.completed.toLocaleString())
-							 .replace('%dlm%failed_downloads%dlm%', $download.failed.toLocaleString())
-							 .replace('%dlm%total_downloads%dlm%', $download.total.toLocaleString())
-							 .replace('%dlm%redirected_downloads%dlm%', $download.redirected.toLocaleString())
-							 .replace('%dlm%logged_in_downloads%dlm%', $download.logged.toLocaleString())
-							 .replace('%dlm%non_logged_in_downloads%dlm%', $download.nonLoggged.toLocaleString())
-							 .replace('%dlm%percent_downloads%dlm%', parseFloat(parseInt($download.total) * 100 / parseInt(dlmReportsInstance.totalDownloads)).toFixed(2))
-							 .replace('%dlm%content_locking_downloads%dlm%', '500');
-
-			jQuery(document).trigger('dlm_top_downloads_row_html', [dlmReportsInstance, rowHTML, $download]);
-
-			line.innerHTML = rowHTML;
-			dataWrapper.append(line);
+			let item = new dlmBackBone['modelTopDownloads'](itemObject);
 		}
 
-		jQuery(document).trigger('dlm_top_downloads_end_html', [dlmReportsInstance, dataWrapper, dataResponse]);
 		wrapper.parent().removeClass('empty');
-		wrapper.append(dataWrapper);
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
 		if (dlmReportsInstance.mostDownloaded.length > 10) {
-			wrapper.parent().find('#downloads-block-navigation button').removeClass('hidden');
+			wrapper.parent().find('.downloads-block-navigation button').removeClass('hidden');
 		} else {
-			wrapper.parent().find('#downloads-block-navigation button').addClass('hidden');
+			wrapper.parent().find('.downloads-block-navigation button').addClass('hidden');
 		}
-		dlmReportsInstance.stopSpinner(wrapper);
+		dlmReportsInstance.stopSpinner(jQuery('#total_downloads_table_wrapper2'));
 	}
 
 	/**
@@ -1439,15 +1321,15 @@ class DLM_Reports {
 	 */
 	handleTopDownloads() {
 
-		jQuery('html body').on('click', '#downloads-block-navigation button', function () {
+		jQuery('html body').on('click', '#total_downloads_table_wrapper2 .downloads-block-navigation button', function () {
 
 			let main_parent                               = jQuery(this).parents('#total_downloads_table_wrapper2'),
 				offsetHolder                              = main_parent,
 				offset                                    = main_parent.attr('data-page'),
-				table                                     = '', link = jQuery(this),
+				link                                      = jQuery(this),
 				nextPage = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
-				prevButton                                = main_parent.find('#downloads-block-navigation').find('button').first(),
-				nextButton                                = main_parent.find('#downloads-block-navigation').find('button').last();
+				prevButton                                = main_parent.find('.downloads-block-navigation').find('button').first(),
+				nextButton                                = main_parent.find('.downloads-block-navigation').find('button').last();
 
 			link.attr('disabled', 'disabled');
 			const handleObj = {
@@ -1455,13 +1337,12 @@ class DLM_Reports {
 				main_parent,
 				offsetHolder,
 				offset,
-				table,
 				link,
 				nextPage,
 				prevPage,
 				prevButton,
 				nextButton,
-				doAction: dlmReportsInstance.setTopDownloadsHybrid
+				doAction: dlmReportsInstance.setTopDownloads
 			}
 
 			dlmReportsInstance.handleSliderNavigation(handleObj)
@@ -1479,7 +1360,6 @@ class DLM_Reports {
 				  main_parent,
 				  offsetHolder,
 				  offset,
-				  table,
 				  link,
 				  nextPage,
 				  prevPage,
@@ -1890,79 +1770,45 @@ class DLM_Reports {
 			dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
 		}
 
-		jQuery(document).trigger('dlm_user_logs_row_start_html', [dlmReportsInstance, dataResponse]);
-
 		for (let i = 0; i < dataResponse.length; i++) {
-
-			const line     = document.createElement('div');
-			line.className = "dlm-reports-table__line";
-
-			let rowHTML    = dlmReportsInstance.templates.user_logs_row.html;
-			const user     = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
-			const download = dlmReportsInstance.getDownloadByID(dataResponse[i].download_id);
-			const userLink = ('0' !== dataResponse[i].user_id) ? '<a href="' + dlm_admin_url + 'user-edit.php?user_id=' + dataResponse[i].user_id + '" target="_blank">' + 'Edit user' + '</a>' : '--';
-
-			rowHTML = rowHTML.replace('%dlm%user%dlm%', dlmReportsInstance.userToolTipMarkup(dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString())))
-							 .replace('%dlm%ip%dlm%', '<p>' + dataResponse[i].user_ip + '</p>')
-							 .replace('%dlm%role%dlm%', '<p>' + (null !== user && null !== user.role ? user.role : '--') + '</p>')
-							 .replace('%dlm%download%dlm%', '<p><a href="' + dlm_admin_url + 'post.php?post=' + dataResponse[i].download_id + '&action=edit" title="Click to edit download: ' + download.title + '" target="_blank">' + download.title + '</a></p>')
-							 .replace('%dlm%status%dlm%', '<p><span class="dlm-reports-table__download_status ' + dataResponse[i].download_status + '">' + dataResponse[i].download_status + '</span></p>')
-							 .replace('%dlm%download_date%dlm%', '<p>' + dataResponse[i].download_date + '</p>')
-							 .replace('%dlm%action%dlm%', userLink);
-
-			jQuery(document).trigger('dlm_user_logs_row_html', [dlmReportsInstance, rowHTML, dataResponse[i]]);
-
-			line.innerHTML = rowHTML;
-			wrapper.append(line);
+			const user = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
+			let item   = new dlmBackBone['modelUserLogs'](
+				{
+					user         : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user) ? user['user_nicename'] : '--',
+					ip           : dataResponse[i].user_ip,
+					role         : (null !== user && null !== user.role ? user.role : '--'),
+					valid_user   : ('0' !== dataResponse[i].user_id),
+					edit_link    : 'user-edit.php?user_id=' + dataResponse[i].user_id,
+					status       : dataResponse[i].download_status,
+					download_date: dataResponse[i].download_date,
+				}
+			);
 		}
 
-		jQuery(document).trigger('dlm_user_logs_row_end_html', [dlmReportsInstance, dataResponse]);
-
-		dlmReportsInstance.stopSpinner(jQuery('#users_download_log .dlm-reports-table'));
+		dlmReportsInstance.stopSpinner(jQuery('#users_download_log'));
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
 		if (dlmReportsInstance.userDownloads.length > 10) {
-			wrapper.parent().find('#user-downloads-block-navigation button').removeClass('hidden');
+			wrapper.parent().find('.user-downloads-block-navigation button').removeClass('hidden');
 		} else {
-			wrapper.parent().find('#user-downloads-block-navigation button').addClass('hidden');
+			wrapper.parent().find('.user-downloads-block-navigation button').addClass('hidden');
 		}
 	}
-
-	/**
-	 * Get Download based on ID
-	 * @param download_id
-	 */
-
-	/*getDownloadByID(download_id) {
-
-	 return dlmReportsInstance.mostDownloaded.reduce((previous, current) => {
-
-	 if (null !== previous && download_id === previous.id) {
-	 return previous;
-	 }
-
-	 if (download_id === current.id) {
-	 return current;
-	 }
-
-	 return null;
-	 }, {id: 0});
-	 }*/
 
 	/**
 	 * Let's create the slider navigation. Will be based on offset
 	 */
 	handleUserDownloads() {
 
-		jQuery('#user-downloads-block-navigation').on('click', 'button', function () {
+		jQuery('.user-downloads-block-navigation').on('click', 'button', function () {
 
-			let main_parent                                                    = jQuery(this).parents('#users_downloads_table_wrapper'),
-				offsetHolder                                                   = main_parent.find('#users_download_log'),
-				offset                                                         = main_parent.find('#users_download_log').attr('data-page'),
-				table = main_parent.find('#total_downloads_table table'), link = jQuery(this),
-				nextPage                                                       = parseInt(offset) + 1, prevPage                      = (0 !== offset) ? parseInt(offset) - 1 : 0,
-				prevButton                                                     = jQuery('#user-downloads-block-navigation').find('button').first(),
-				nextButton                                                     = jQuery('#user-downloads-block-navigation').find('button').last();
+			let main_parent                               = jQuery(this).parents('#users_downloads_table_wrapper'),
+				offsetHolder                              = main_parent.find('#users_download_log'),
+				offset                                    = offsetHolder.attr('data-page'),
+				link                                      = jQuery(this),
+				nextPage = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				prevButton                                = main_parent.find('.downloads-block-navigation button').first(),
+				nextButton                                = main_parent.find('.downloads-block-navigation button').last();
 
 			link.attr('disabled', 'disabled');
 
@@ -1971,7 +1817,6 @@ class DLM_Reports {
 				main_parent,
 				offsetHolder,
 				offset,
-				table,
 				link,
 				nextPage,
 				prevPage,
@@ -2029,7 +1874,6 @@ class DLM_Reports {
 				return filter.on === element[filter.type];
 			});
 		});
-		dlmReportsInstance.stopSpinner(jQuery('#users_download_log'));
 		dlmReportsInstance.setUserDownloads();
 	}
 
@@ -2187,66 +2031,6 @@ class DLM_Reports {
 		return $number;
 	}
 
-	// AJAX requests for PHP reports
-	phpReportsNavigation() {
-		jQuery('.total_downloads_table_footer button').on('click', function (e) {
-			const button       = jQuery(this),
-				  buttonAction = button.data('action'),
-				  limit        = button.data('limit');
-			let offset         = button.data('offset');
-
-
-			jQuery.post(
-				ajaxurl,
-				{
-					action: 'dlm_top_downloads_reports',
-					offset: offset,
-					limit : (0 !== offset) ? limit * offset : 15,
-					nonce : dlmReportsNonce
-				},
-				function (response) {
-					jQuery('#total_downloads_table_wrapper2 .total_downloads_table_content').html(response.html);
-
-					switch (buttonAction) {
-						case 'load-more':
-							jQuery('#total_downloads_table_wrapper2 .total_downloads_table_content').html(response.html);
-
-							if (limit === response.loaded) {
-								button.data('offset', parseInt(offset) + 1);
-							} else {
-								button.attr('disabled', true);
-							}
-							button.parent().find('button').not(button).removeAttr('disabled').data('offset', parseInt(offset) - 1);
-							break;
-						default:
-							if (0 !== offset) {
-								button.data('offset', parseInt(offset) - 1);
-							} else {
-								button.attr('disabled', true);
-							}
-							button.parent().find('button').not(button).removeAttr('disabled').data('offset', parseInt(offset) + 1);
-							break;
-					}
-				});
-		});
-	}
-
-	/**
-	 * Fetch the templates for the top downloads reports
-	 * @returns {Promise<void>}
-	 */
-	async fetchTemplates() {
-
-		const fetchedUserData = await fetch(dlmTemplates);
-
-		if (!fetchedUserData.ok) {
-			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
-		}
-
-		dlmReportsInstance.templates = await fetchedUserData.json();
-		dlmReportsInstance.fetchReportsData();
-	}
-
 	/**
 	 * Get download object based on ID
 	 * @param $id
@@ -2261,12 +2045,13 @@ class DLM_Reports {
 			total     : 0,
 			logged    : 0,
 			nonLoggged: 0
-		};
+		},
+		currentItem = {};
 
 		dlmReportsInstance.dlmUsersStats.logs.forEach(
 			function (item) {
 				if ($id === item.download_id) {
-
+					currentItem = item;
 					download.total = download.total + 1;
 
 					if ('completed' === item.download_status) {
@@ -2290,7 +2075,7 @@ class DLM_Reports {
 			}
 		);
 
-		jQuery(document).trigger('dlm_download_by_id', [dlmReportsInstance, download]);
+		jQuery(document).trigger('dlm_download_by_id', [dlmReportsInstance, download, currentItem]);
 
 		return download;
 	}
@@ -2313,7 +2098,10 @@ class DLM_Reports {
 	}
 }
 
-dlmRowModel = Backbone.Model.extend(
+/**
+ * Backbone templates
+ */
+dlmRowModelTopDownloads = Backbone.Model.extend(
 	{
 		initialize: function (args) {
 			var model = this;
@@ -2322,35 +2110,77 @@ dlmRowModel = Backbone.Model.extend(
 				model.set(att, value);
 			});
 
-			var rowView = new dlmBackBone['view'](
+			var rowView = new dlmBackBone['viewTopDownloads'](
 				{
-					model: this,
-					el   : jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list')
+					'model': model,
+					'el'   : jQuery('.total_downloads_table__list')
 				}
 			);
 
-			this.set('view', rowView);
+			model.set('view', rowView);
+			rowView.render();
 		},
 	}
 );
 
-dlmRowView = Backbone.View.extend(
+dlmRowViewTopDownloads = Backbone.View.extend(
 	{
-		/**
-		 * The Tag Name and Tag's Class(es)
-		 */
-		tagName  : 'div',
-		className: 'dlm-reports-table__line',
-
 		/**
 		 * Template
 		 * - The template to load inside the above tagName element
 		 */
 		template: wp.template('dlm-top-downloads-row'),
+
+		render: function () {
+			this.$el.append(this.template(this.model.attributes));
+			return this;
+		}
+	}
+);
+
+dlmRowModelUserLogs = Backbone.Model.extend(
+	{
+		initialize: function (args) {
+			var model = this;
+
+			jQuery.each(args, function (att, value) {
+				model.set(att, value);
+			});
+
+			var rowView = new dlmBackBone['viewUserLogs'](
+				{
+					'model': model,
+					'el'   : jQuery('.user-logs__list')
+				}
+			);
+
+			model.set('view', rowView);
+			rowView.render();
+		},
+	}
+);
+
+dlmRowViewUserLogs = Backbone.View.extend(
+	{
+		/**
+		 * Template
+		 * - The template to load inside the above tagName element
+		 */
+		template: wp.template('dlm-user-logs-row'),
+
+		render: function () {
+			this.$el.append(this.template(this.model.attributes));
+			return this;
+		}
 	}
 );
 
 dlmBackBone = {
-	'model': dlmRowModel,
-	'view' : dlmRowView
+	'modelTopDownloads': dlmRowModelTopDownloads,
+	'viewTopDownloads' : dlmRowViewTopDownloads,
+	'modelUserLogs'    : dlmRowModelUserLogs,
+	'viewUserLogs'     : dlmRowViewUserLogs,
 };
+/**
+ * End Backbone templates
+ */

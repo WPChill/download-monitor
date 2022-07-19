@@ -12,6 +12,7 @@ class DLM_Admin_Scripts {
 	public function setup() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_enqueue_scripts' ) );
+		add_action( 'admin_footer', array( $this, 'print_dlm_js_templates' ) );
 	}
 
 	/**
@@ -309,6 +310,15 @@ class DLM_Admin_Scripts {
 		}
 
 		return $strings;
+	}
+
+	/**
+	 * Print our js templates
+	 *
+	 * @return void
+	 */
+	public function print_dlm_js_templates(){
+		include __DIR__ . '/Reports/templates/dlm-js-templates.php';
 	}
 
 }

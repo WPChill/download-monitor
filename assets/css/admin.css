@@ -1336,14 +1336,14 @@ table.wp-list-table .column-thumb img {
   left: 50%;
   margin: -16px 0 0 -16px;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #downloads-block-navigation,
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #user-downloads-block-navigation {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .user-downloads-block-navigation {
   min-height: 24px;
   text-align: center;
   padding: 14px 0 0 0;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #downloads-block-navigation button,
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #user-downloads-block-navigation button {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation button,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .user-downloads-block-navigation button {
   border: 0;
   color: #000;
   font-size: 1rem;
@@ -1353,8 +1353,8 @@ table.wp-list-table .column-thumb img {
   background-color: #FFF;
   width: 24px;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #downloads-block-navigation button[disabled],
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #user-downloads-block-navigation button[disabled] {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation button[disabled],
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .user-downloads-block-navigation button[disabled] {
   opacity: 0.5;
   cursor: default;
 }
@@ -1700,6 +1700,10 @@ table.wp-list-table .column-thumb img {
   text-align: left;
   color: #192a3d;
   font-weight: 500;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.addons_top_downloads_entries,
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.addons_user_logs_entries {
+  padding: 0;
 }
 .dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.id,
 .dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.percent_downloads,
