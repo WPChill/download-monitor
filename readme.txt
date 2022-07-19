@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.0
-Stable tag: 4.5.94
+Stable tag: 4.5.95
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,14 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.5.95 - TBA =
+Fixed: Warning Undefined array key "icon", "icon-color", "icon-text" if transients are not set. ( https://github.com/WPChill/download-monitor/issues/979 )
+Fixed: On Pantheon hosted environments redirect to file doesn't work. ( https://github.com/WPChill/download-monitor/issues/914 )
+Changed: Remove double usage of parse_file_path();. ( https://github.com/WPChill/download-monitor/issues/983 )
+Changed: Remove all non-related actions from admin_notices on Download Monitor's pages. ( https://github.com/WPChill/download-monitor/issues/910 )
+Changed: Move all Download Monitor's admin_notices actions to prio 8 (https://github.com/WPChill/download-monitor/issues/984)
+Changed: Enhanced Download Monitor's disable survey ( https://github.com/WPChill/download-monitor/issues/881 )
 
 = 4.5.94 - 31.05.2022 =
 Changed: Remove Duplicator Upsells ( https://github.com/WPChill/download-monitor/issues/959 )
