@@ -132,13 +132,7 @@ class DLM_Reports_Page {
 	 * @return void
 	 */
 	private function page_settings() {
-		$reports_settings = apply_filters( 'dlm_reports_settings', array(
-			// Option to clear the cache. Functionality already present
-			/*'dlm_clear_api_cache'     => array(
-				'label'   => 'Clear reports cache',
-				'default' => false,
-			),*/
-		) );
+		$reports_settings = apply_filters( 'dlm_reports_settings', array() );
 
 		if ( empty( $reports_settings ) ) {
 			return;
@@ -272,10 +266,6 @@ class DLM_Reports_Page {
 							</div>
 						</label><span><?php esc_html_e( 'Login v1', 'download-monitor' ); ?></span>
 					</li>
-					<!--
-					<li id="popular"><label><?php esc_html_e( 'Most Popular Download', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-				-->
-
 				</ul>
 			</div>
 
@@ -283,7 +273,6 @@ class DLM_Reports_Page {
 				<canvas class="dlm-reports-block-chart" id="total_downloads_chart"></canvas>
 			</div>
 		</div>
-
 
 		<div id="total_downloads_table_wrapper" class="empty">
 			<div class="total_downloads_table_header">
@@ -297,10 +286,7 @@ class DLM_Reports_Page {
 				<div class='total_downloads_table_filters_status_failed'>Failed</div>
 				<div class='total_downloads_table_filters_status_redirected'>Redirected</div>
 				<div class='total_downloads_table_filters_status_Downloads'>Downloads</div>
-
-
 			</div><!--/.total_downloads_table_filters-->
-
 
 			<div class="dlm-reports-block dlm-reports-block-table" id="total_downloads_table" data-page="0">
 				<div class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></div>
@@ -313,30 +299,6 @@ class DLM_Reports_Page {
 				        title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
 			</div>
 		</div>
-		<!-- <div id="total_downloads_summary_wrapper" class="reports-block half-reports-block">
-			<h3><?php esc_html_e( 'Downloads summary', 'donwload-monitor' ); ?>
-				<div class="wpchill-tooltip"><i>[?]</i>
-					<div
-						class="wpchill-tooltip-content"><?php esc_html_e( 'The most accessed Downloads.', 'download-monitor' ); ?></div>
-				</div>
-			</h3>
-			<div class="half-reports-block">
-				<label><?php echo esc_html__( 'Logged in downloads: ', 'download-monitor' ); ?></label>
-				<span class="dlm-reports-logged-in"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
-			</div>
-			<div class="half-reports-block">
-				<label><?php echo esc_html__( 'Logged out downloads:', 'download-monitor' ); ?></label>
-				<span class="dlm-reports-logged-out"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></span>
-			</div>
-		</div>
-		-->
-
-		<!--<div id="total_downloads_table_wrapper2" class="empty">
-			<?php
-/*			$reports = DLM_Reports::get_instance();
-			echo $reports->get_top_downloads_markup();
-			*/?>
-		</div>-->
 		<?php $reports = DLM_Reports::get_instance(); ?>
 		<div id="total_downloads_table_wrapper2" class="empty dlm-reports-table" data-page="0">
 			<?php echo $reports->header_top_downloads_markup(); ?>
@@ -354,6 +316,7 @@ class DLM_Reports_Page {
 	 * @return void
 	 */
 	public function user_reports() {
+		$reports = DLM_Reports::get_instance();
 		?>
 		<div class="dlm-reports-wrapper">
 			<div class="dlm-reports-block dlm-reports-block-summary" id="user_downloads_summary">
@@ -395,7 +358,6 @@ class DLM_Reports_Page {
 			</div>
 			<div class="dlm-reports-block dlm-reports-block-table reports-block dlm-reports-table" id="users_download_log" data-page="0">
 				<?php
-				$reports = DLM_Reports::get_instance();
 				echo $reports->header_user_logs_markup();
 				?>
 				<div class="user-logs__list"></div>
