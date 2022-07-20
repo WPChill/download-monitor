@@ -247,4 +247,14 @@ abstract class DLM_Utils {
 
 	}
 
+	/**
+	 * Get visitor UUID
+	 *
+	 * @return string
+	 * @since 4.6.0
+	 */
+	public static function get_visitor_uuid() {
+		return md5( self::get_visitor_ip() );
+	}
+
 }

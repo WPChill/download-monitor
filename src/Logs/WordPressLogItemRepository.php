@@ -106,6 +106,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 				$log_item->set_id( $row->ID );
 				$log_item->set_user_id( $row->user_id );
 				$log_item->set_user_ip( $row->user_ip );
+				$log_item->set_user_uuid( $row->user_ip );
 				$log_item->set_user_agent( $row->user_agent );
 				$log_item->set_download_id( $row->download_id );
 				$log_item->set_version_id( $row->version_id );

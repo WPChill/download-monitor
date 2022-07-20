@@ -98,6 +98,20 @@ class DLM_Logging {
 	}
 
 	/**
+	 * Check if visitor has downloaded version
+	 *
+	 * @param DLM_Download_Version $version Version object.
+	 *
+	 * @return bool
+	 * @since 4.6.0
+	 */
+	public function has_uuid_downloaded_version( $version ) {
+		global $wpdb;
+
+		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE `version_id` = %d AND `uuid` = %s AND `download_status` IN ('completed','redirected')", $version->get_id(), DLM_Utils::get_visitor_uuid() ) ) ) > 0 );
+	}
+
+	/**
 	 * Log the XHR download
 	 *
 	 * @return void
@@ -143,14 +157,19 @@ class DLM_Logging {
 
 		// Check if logging is enabled.
 		if ( ! self::is_logging_enabled() ) return;
-		// setup new log item object
-		if( ! DLM_Cookie_Manager::exists( $download ) ) {
 
+		if ( $this->is_count_unique_ips_only() && true === $this->has_uuid_downloaded_version( $version ) ) {
+			return;
+		}
+
+		// setup new log item object
+		if ( ! DLM_Cookie_Manager::exists( $download ) ) {
+			$ip       = DLM_Utils::get_visitor_ip();
 			$log_item = new DLM_Log_Item();
 			$log_item->set_user_id( absint( get_current_user_id() ) );
 			$log_item->set_download_id( absint( $download->get_id() ) );
-			$log_item->set_user_ip( DLM_Utils::get_visitor_ip() );
-			$log_item->set_user_uuid( DLM_Utils::get_visitor_ip() );
+			$log_item->set_user_ip( $ip );
+			$log_item->set_user_uuid( $ip );
 			$log_item->set_user_agent( DLM_Utils::get_visitor_ua() );
 			$log_item->set_version_id( absint( $version->get_id() ) );
 			$log_item->set_version( $version->get_version() );
