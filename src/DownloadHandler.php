@@ -502,21 +502,21 @@ class DLM_Download_Handler {
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 			$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
-			
+
 			// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
 			// we get the secure file path.
 			$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
-			
+
 			// Ensure we have a valid URL, not a file path
 			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 			
 			$shortcuts = array(wp_get_upload_dir()['basedir']);
 			$shortcuts = apply_filters( 'dlm_upload_shortcuts', $shortcuts );
-			
-			foreach( $shortcuts as $shortcut ){
-				if( is_link( $shortcut ) && readlink( $shortcut ) == $correct_path ){
-					$file_path = str_replace( $correct_path, $shortcut, $file_path);
-					$file_path = str_replace( ABSPATH, site_url( '/', $scheme ) , $file_path);
+
+			foreach ( $shortcuts as $shortcut ) {
+				if ( is_link( $shortcut ) && readlink( $shortcut ) == $correct_path ) {
+					$file_path = str_replace( $correct_path, $shortcut, $file_path );
+					$file_path = str_replace( ABSPATH, site_url( '/', $scheme ), $file_path );
 				}
 			}
 
@@ -683,16 +683,14 @@ class DLM_Download_Handler {
 		$headers['Content-Disposition']       = "attachment; filename=\"{$file_name}\";";
 		$headers['Content-Transfer-Encoding'] = 'binary';
 
-		$file_manager = new DLM_File_Manager();
-
 		if ( $remote_file ) {
 			$file = wp_remote_head( $file_path );
 
 			if ( ! is_wp_error( $file ) && ! empty( $file['headers']['content-length'] ) ) {
-				$file_size = $file['headers']['content-length']; 
+				$file_size = $file['headers']['content-length'];
 			}
 		} else {
-			$file_size =  filesize( $file_path );					
+			$file_size = filesize( $file_path );
 		}
 
 		if ( $file_size ) {
