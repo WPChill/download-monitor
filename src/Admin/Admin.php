@@ -31,6 +31,9 @@ class DLM_Admin {
 
 		add_action( 'init', array( $this, 'required_classes' ), 30 );
 
+		// Remove admin notices from DLM pages
+		add_action( 'admin_notices', array(  $this, 'remove_admin_notices' ), 9 );
+
 		// Admin menus
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 20 );
 
@@ -376,5 +379,19 @@ class DLM_Admin {
 
 		set_transient( 'dlm_download_endpoints_rewrite', true, HOUR_IN_SECONDS );
 		return $new_value;
+	}
+
+	/**
+	 * Remove all notices that are in DLM's pages
+	 *
+	 * @return void
+	 * @since 4.5.95
+	 */
+	public function remove_admin_notices() {
+		$screen = get_current_screen();
+		if ( isset( $screen->post_type ) && 'dlm_download' === $screen->post_type ) {
+			remove_all_actions( 'admin_notices' );
+		}
+
 	}
 }

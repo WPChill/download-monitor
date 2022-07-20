@@ -269,7 +269,7 @@ class DLM_Product_Manager {
 			}
 
 			// Now, let's create the addon row info content only if the addon doesn't meet the requirements.
-			if ( $addon_present ) {
+			if ( isset( $addon_present ) && $addon_present ) {
 
 				$addons_content .= '<div class="dlm-plugin-inline-notice__row">';
 				$addons_content .= '<div class="dlm-plugin-inline-notice__line">' . $plugin_name . '</div>';
