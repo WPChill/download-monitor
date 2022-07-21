@@ -118,7 +118,7 @@ class DLM_File_Manager {
 			}
 		}
 
-		return array( $file_path, $remote_file );
+		return array( str_replace( DIRECTORY_SEPARATOR, '/', $file_path ), $remote_file );
 	}
 
 	/**
@@ -259,7 +259,7 @@ class DLM_File_Manager {
 	 * @param string $file The file path/url
 	 * @param bool $relative Wheter or not to return a relative path. Default is false 
 	 * 
-	 * @return string The secured file path/url
+	 * @return array The secured file path/url and restriction status
 	 * @since 4.5.9
 	 */
 	public function get_secure_path( $file, $relative = false ) {
@@ -324,7 +324,6 @@ class DLM_File_Manager {
 		}
 
 		$restriction = false;
-		$file_path   = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
 
 		return array( $file_path, $remote_file, $restriction );
 
@@ -338,12 +337,12 @@ class DLM_File_Manager {
 	 */
 	public function get_allowed_paths() {
 
-		$abspath_sub       = untrailingslashit( ABSPATH );
-		$user_defined_path = get_option( 'dlm_downloads_path' );
+		$abspath_sub       = str_replace(DIRECTORY_SEPARATOR, '/', untrailingslashit( ABSPATH ) );
+		$user_defined_path = str_replace(DIRECTORY_SEPARATOR, '/', get_option( 'dlm_downloads_path' ) );
 		$allowed_paths     = array();
 
 		if ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) {
-			$content_dir   = str_replace( 'wp-content', '', untrailingslashit( WP_CONTENT_DIR ) );
+			$content_dir   = str_replace(DIRECTORY_SEPARATOR, '/', str_replace( 'wp-content', '', untrailingslashit( WP_CONTENT_DIR ) ) );
 			$allowed_paths = array( $abspath_sub, $content_dir );
 		} else {
 			$allowed_paths = array( $abspath_sub );
@@ -373,7 +372,6 @@ class DLM_File_Manager {
 
 		if ( ! empty( $allowed_paths ) ) {
 			foreach ( $allowed_paths as $allowed_path ) {
-				$allowed_path = str_replace( DIRECTORY_SEPARATOR, '/', $allowed_path );
 				// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
 				if ( false !== strpos( $file_path, $allowed_path ) ) {
 					$correct_path = $allowed_path;
@@ -384,5 +382,4 @@ class DLM_File_Manager {
 
 		return $correct_path;
 	}
-
 }

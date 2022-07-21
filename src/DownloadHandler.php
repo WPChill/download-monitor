@@ -520,7 +520,7 @@ class DLM_Download_Handler {
 				}
 			}
 
-			$file_path    = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', $correct_path ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
+			$file_path    = str_replace( $correct_path, site_url( '/', $scheme ), $file_path );
 
 			header("X-Robots-Tag: noindex, nofollow", true);
 			header( 'Location: ' . $file_path );
@@ -693,7 +693,7 @@ class DLM_Download_Handler {
 			$file_size = filesize( $file_path );
 		}
 
-		if ( $file_size ) {
+		if ( isset( $file_size ) && $file_size ) {
 			// Replace the old way ( getting the filesize from the DB ) in case the user has replaced the file directly using cPanel,
 			// FTP or other File Manager, or sometimes using  an optimization service it may cause unwanted results.
 			$headers['Content-Length'] = $file_size;
