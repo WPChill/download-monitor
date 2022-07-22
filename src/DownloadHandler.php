@@ -507,22 +507,15 @@ class DLM_Download_Handler {
 			// we get the secure file path.
 			$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
 
-			// Ensure we have a valid URL, not a file path
-			$scheme = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-			
-			$shortcuts = array(wp_get_upload_dir()['basedir']);
-			$shortcuts = apply_filters( 'dlm_upload_shortcuts', $shortcuts );
+			// Ensure we have a valid URL, not a file path.
+			$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 
-			foreach ( $shortcuts as $shortcut ) {
-				if ( is_link( $shortcut ) && readlink( $shortcut ) == $correct_path ) {
-					$file_path = str_replace( $correct_path, $shortcut, $file_path );
-					$file_path = str_replace( ABSPATH, site_url( '/', $scheme ), $file_path );
-				}
-			}
+			// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
+			$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
 
-			$file_path    = str_replace( $correct_path, site_url( '/', $scheme ), $file_path );
+			$file_path = str_replace( $correct_path, site_url( '/', $scheme ), $file_path );
 
-			header("X-Robots-Tag: noindex, nofollow", true);
+			header( 'X-Robots-Tag: noindex, nofollow', true );
 			header( 'Location: ' . $file_path );
 			exit;
 		}

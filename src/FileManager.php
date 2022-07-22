@@ -382,4 +382,35 @@ class DLM_File_Manager {
 
 		return $correct_path;
 	}
+
+	/**
+	 * Check for symbolik links in the file path.
+	 *
+	 * @param string $file_path The file's path
+	 * @param bool $redirect Whether or not to redirect the user to the correct path. Default is false.
+	 *
+	 * @return array|mixed|string|string[]
+	 */
+	public function check_symbolic_links( $file_path, $redirect = false ) {
+		// On Pantheon hosted sites the upload dir is a symbolic link to another location.
+		// Make a filter of all shortcuts/symbolik links so that users can attach to them because we do not know what how the server
+		// is configured.
+		$shortcuts     = apply_filters( 'dlm_upload_shortcuts', array( wp_get_upload_dir()['basedir'] ) );
+		$scheme        = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+		$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
+		$correct_path  = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
+
+		if ( ! empty( $shortcuts ) ) {
+			foreach ( $shortcuts as $shortcut ) {
+				if ( is_link( $shortcut ) && readlink( $shortcut ) === $correct_path ) {
+					$file_path = str_replace( $correct_path, $shortcut, $file_path );
+					if ( $redirect ) {
+						$file_path = str_replace( ABSPATH, site_url( '/', $scheme ), $file_path );
+					}
+				}
+			}
+		}
+
+		return $file_path;
+	}
 }
