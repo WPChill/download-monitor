@@ -262,8 +262,6 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				return;
 			}
 
-			$this->set_admin_email();
-
 			// Get our data.
 			$body = $this->get_data();
 
@@ -1035,15 +1033,17 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				$html .= '<label for="' . esc_attr( $this->plugin_name ) . '-put-goodbye-reasons">' . esc_html( $form['details'] ) . '</label><textarea name="' . esc_attr( $this->plugin_name ) . '-put-goodbye-reasons" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
 
 				$html .= '<hr>';
-
+				if ( function_exists( 'wp_get_current_user' ) ) {
+					$current_user = wp_get_current_user();
+					$email        = $current_user->user_email;
+				}
 				$html .= '<p><input type="checkbox" name="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-check" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-check" value=""> <label for="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-check">' . esc_html__( 'I would like to be contacted.', 'download-monitor' ) . '</label></p>';
-				$html .= '<p><input type="email" name="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-email" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-email" value="" placeholder="' . esc_html__( 'Email address.', 'download-monitor' ) . '"></p>';
+				$html .= '<p><input type="email" name="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-email" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-email" value="' . $email . '" placeholder="' . esc_html__( 'Email address.', 'download-monitor' ) . '"></p>';
 				$html .= '</div><!-- .put-goodbye-options -->';
 			}
 
-
 			$html .= '<a href="#" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-tracking">' . esc_html__( 'What info do we collect?', 'download-monitor' ) . '</a>';
-			$html .= '<div id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-tracking-info"><ul><li><strong>' . esc_html__( 'Plugin Version', 'download-monitor' ) . '</strong><code>' . DLM_VERSION . '</code></li><li><strong>' . esc_html__( 'WordPress Version', 'download-monitor' ) . '</strong><code>' . $wp_version . '</code></li><li><strong>' . esc_html__( 'Current Website', 'download-monitor' ) . '</strong><code>' . trailingslashit( get_site_url() ) . '</code></li><li><strong>' . esc_html__( 'Uninstall Reason', 'download-monitor' ) . '</strong><i>' . esc_html__( 'Selected reason from above.', 'download-monitor' ) . '</i></li><li><strong>' . esc_html__( 'Email address', 'download-monitor' ) . '</strong><i>' . esc_html__( 'If specifically provided by you.', 'download-monitor' ) . '</i></li></ul></div>';
+			$html .= '<div id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-tracking-info"><ul><li><strong>' . esc_html__( 'Plugin Version', 'download-monitor' ) . '</strong><code>' . DLM_VERSION . '</code></li><li><strong>' . esc_html__( 'Plugin Options', 'download-monitor' ) . '</strong><code>current options</code></li><li><strong>' . esc_html__( 'Plugin CPTs', 'download-monitor' ) . '</strong><code>total number of Downloads</code></li><li><strong>' . esc_html__( 'WordPress Version', 'download-monitor' ) . '</strong><code>' . $wp_version . '</code></li><li><strong>' . esc_html__( 'PHP', 'download-monitor' ) . '</strong><code>general PHP information</code></li><li><strong>' . esc_html__( 'Installed plugins', 'download-monitor' ) . '</strong><code>Installed plugins</code></li><li><strong>' . esc_html__( 'Active theme', 'download-monitor' ) . '</strong><code>name, version and parent if set.</code></li><li><strong>' . esc_html__( 'Current Website', 'download-monitor' ) . '</strong><code>' . trailingslashit( get_site_url() ) . '</code></li><li><strong>' . esc_html__( 'Uninstall Reason', 'download-monitor' ) . '</strong><i>' . esc_html__( 'Selected reason from above.', 'download-monitor' ) . '</i></li><li><strong>' . esc_html__( 'Email address', 'download-monitor' ) . '</strong><i>' . esc_html__( 'If specifically provided by you.', 'download-monitor' ) . '</i></li></ul></div>';
 
 			$html .= '</div><!-- .put-goodbye-form-body -->';
 			$html .= '<p class="' . esc_attr( $this->plugin_name ) . '-deactivating-spinner"><span class="spinner"></span> ' . esc_html__( 'Submitting form', 'download-monitor' ) . '</p>';
@@ -1167,7 +1167,7 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 						});
 
 						var email = '';
-						if ($("input[name='<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-contact-check']:checked")) {
+						if ($("input[name='<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-contact-check']").is(':checked')) {
 							email = $('#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-contact-email').val();
 						}
 
@@ -1237,6 +1237,11 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			if ( isset( $_POST['details'] ) ) {
 				$details = sanitize_text_field( wp_unslash($_POST['details']) );
 				update_option( 'wisdom_deactivation_details_' . $this->plugin_name, $details );
+			}
+
+			if ( isset( $_POST['email'] ) && '' !== $_POST['email'] && is_email( $_POST['email'] ) ) {
+				$this->set_can_collect_email( true );
+				$this->set_admin_email( $_POST['email'] );
 			}
 
 			$this->do_tracking(); // Run this straightaway.
