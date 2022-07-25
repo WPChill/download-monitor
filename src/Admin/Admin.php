@@ -32,7 +32,8 @@ class DLM_Admin {
 		add_action( 'init', array( $this, 'required_classes' ), 30 );
 
 		// Remove admin notices from DLM pages
-		add_action( 'admin_notices', array(  $this, 'remove_admin_notices' ), 9 );
+		//@todo: uncomment this after we release our extensions with the proper modifications
+		//add_action( 'admin_notices', array(  $this, 'remove_admin_notices' ), 9 );
 
 		// Admin menus
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 20 );
