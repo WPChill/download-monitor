@@ -1,4 +1,4 @@
-= 4.5.95 - TBA =
+= 4.5.95 - 25.07.2022 =
 Fixed: Warning Undefined array key "icon", "icon-color", "icon-text" if transients are not set. ( https://github.com/WPChill/download-monitor/issues/979 )
 Fixed: On Pantheon hosted environments redirect to file doesn't work. ( https://github.com/WPChill/download-monitor/issues/914 )
 Changed: Remove double usage of parse_file_path();. ( https://github.com/WPChill/download-monitor/issues/983 )
