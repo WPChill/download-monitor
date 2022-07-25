@@ -153,7 +153,7 @@ class DLM_XHR_Download {
 
 				let blob      = request.response;
 				let file_name = responseHeaders['content-disposition'].split('filename=')[1];
-				file_name.replace(/\"/g, '').replace(';', '');
+				file_name = file_name.replace(/\"/g, '').replace(';', '');
 
 				_OBJECT_URL = URL.createObjectURL(blob);
 				// Remove event listener
