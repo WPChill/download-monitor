@@ -5,6 +5,7 @@ Changed: Remove double usage of parse_file_path();. ( https://github.com/WPChill
 Changed: Remove all non-related actions from admin_notices on Download Monitor's pages. ( https://github.com/WPChill/download-monitor/issues/910 )
 Changed: Move all Download Monitor's admin_notices actions to prio 8 (https://github.com/WPChill/download-monitor/issues/984)
 Changed: Enhanced Download Monitor's disable survey ( https://github.com/WPChill/download-monitor/issues/881 )
+Fix: Uninstall process not targeting the components correctly ( https://github.com/WPChill/download-monitor/issues/992 )
 
 = 4.5.94 - 31.05.2022 =
 Changed: Remove Duplicator Upsells ( https://github.com/WPChill/download-monitor/issues/959 )
