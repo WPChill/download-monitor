@@ -302,8 +302,8 @@ class DLM_Reports_Page {
 		<?php $reports = DLM_Reports::get_instance(); ?>
 		<div id="total_downloads_table_wrapper2" class="empty dlm-reports-table" data-page="0">
 			<?php echo $reports->header_top_downloads_markup(); ?>
-			<div class="total_downloads_table__list">
-			</div>
+			<tbody class="total_downloads_table__list">
+			</tbody>
 			<?php echo $reports->footer_top_downloads_markup(); ?>
 		</div>
 
@@ -320,22 +320,22 @@ class DLM_Reports_Page {
 		?>
 		<div class="dlm-reports-wrapper">
 			<div class="dlm-reports-block dlm-reports-block-summary" id="user_downloads_summary">
-				<ul>
-					<li id="logged_in" class="reports-block">
+				<ul class="reports-block">
+					<li id="logged_in">
 						<label><?php esc_html_e( 'Logged in downloads', 'download-monitor' ); ?>
 							<div class="wpchill-tooltip"><i>[?]</i>
 								<div
 									class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged in users.', 'download-monitor' ); ?></div>
 							</div>
 						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-					<li id="logged_out" class="reports-block">
+					<li id="logged_out">
 						<label><?php esc_html_e( 'Logged out/visitor downloads', 'download-monitor' ); ?>
 							<div class="wpchill-tooltip"><i>[?]</i>
 								<div
 									class="wpchill-tooltip-content"><?php esc_html_e( 'Total number of downloads made by logged out users or visitors.', 'download-monitor' ); ?></div>
 							</div>
 						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span></li>
-					<li id="most_active_user" class="reports-block">
+					<li id="most_active_user">
 						<label><?php esc_html_e( 'Most active user', 'download-monitor' ); ?></label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
 					</li>
 				</ul>
@@ -360,7 +360,7 @@ class DLM_Reports_Page {
 				<?php
 				echo $reports->header_user_logs_markup();
 				?>
-				<div class="user-logs__list"></div>
+				<tbody class="user-logs__list"></tbody>
 				<?php
 				echo $reports->footer_user_logs_markup();
 				?>

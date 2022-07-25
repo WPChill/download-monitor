@@ -1029,6 +1029,8 @@ table.wp-list-table {
 
         display: flex;
         justify-content: space-between;
+        background-color: #FFF;
+        border: 1px solid #DDD;
 
         .dlm-reports-heading {
           font-weight: bold;
@@ -1690,65 +1692,29 @@ table.wp-list-table {
   // Reports list table
   .dlm-reports-table{
 
+    .dlm-reports-table__table {
+      width:100%;
+      border-collapse: collapse;
+    }
+
     .dlm-reports-table__filters {
       background-color: #f8f9fa;
-      padding: 16px;
       border-bottom: 1px solid #e2e4e7;
-      display: flex;
-      justify-content: space-between;
 
-      > div {
-        display: inline-block;
-        padding: 8px 14px;
+      & > th {
+        padding: 16px;
         font-weight: bold;
-
-        // Sizing for the top downloads table
-        &.total_downloads_table_filters_percent_downloads,
-        &.total_downloads_table_filters_id,
-        &.total_downloads_table_filters_failed_downloads,
-        &.total_downloads_table_filters_content_locking_downloads{
-          width:5%;
-        }
-
-        &.total_downloads_table_filters_title {
-          width:30%;
-        }
-        &.total_downloads_table_filters_completed_downloads,
-        &.total_downloads_table_filters_total_downloads,
-        &.total_downloads_table_filters_logged_in_downloads,
-        &.total_downloads_table_filters_non_logged_in_downloads,
-        &.total_downloads_table_filters_redirected_downloads{
-            width:10%;
-        }
-
-        // Sizing for user reports
-        &.total_downloads_table_filters_user,
-        &.total_downloads_table_filters_role,
-        &.total_downloads_table_filters_status,
-        &.total_downloads_table_filters_action{
-          width:10%;
-        }
-
-        &.total_downloads_table_filters_ip,
-        &.total_downloads_table_filters_download_date{
-          width:15%;
-        }
-
-        &.total_downloads_table_filters_download {
-          width:30%;
-        }
+        text-align:left;
       }
     }
 
     .dlm-reports-table__header {
       font-weight: bold;
-      display: table;
       width: 100%;
       margin-bottom: 17px; // it's 17px because that's the margin bottom of the h3 heading used as the "box" header
 
       .dlm-reports-header-left,
       .dlm-reports-header-right {
-        display: table-cell;
         margin-bottom: 15px;
         font-size: 12px;
         color: #6B7280;
@@ -1766,77 +1732,20 @@ table.wp-list-table {
     }
 
     .dlm-reports-table__line {
-      display: block;
+      background-color: #fff;
+      border-bottom: 1px solid #e2e4e7;
 
-      .dlm-reports-table__entries{
-        background-color: #fff;
-        border-bottom: 1px solid #e2e4e7;
-        padding: 16px;
-        display: flex;
-        justify-content: space-between;
-
-        > div.id {
-          background-color: #f0f0f0;
-        }
-
-        > div {
-          display: inline-block;
-          padding: 8px 14px;
-          font-size: .8125rem;
-          text-align: left;
-          color: #192a3d;
-          font-weight: 500;
-
-          &.addons_top_downloads_entries,
-          &.addons_user_logs_entries {
-            padding:0;
-          }
-
-          // spacing for the top downloads
-          &.id,
-          &.percent_downloads,
-          &.failed_downloads,
-          &.content_locking_downloads{
-            width:5%;
-          }
-
-          &.title {
-            width:30%;
-          }
-
-          &.redirected_downloads,
-          &.logged_in_downloads,
-          &.non_logged_in_downloads,
-          &.total_downloads,
-          &.completed_downloads{
-            width:10%;
-          }
-
-          // spacing for user reports
-          &.user,
-          &.role,
-          &.status,
-          &.action {
-            width: 10%;
-          }
-
-          &.ip,
-          &.download_date {
-            width: 15%;
-          }
-
-          &.download {
-            width: 30%;
-          }
-        }
-        &:hover {
-          background-color: #e0e0e0;
-          cursor: pointer;
-        }
+      &:hover {
+        background-color: #e0e0e0;
+        cursor: pointer;
       }
 
-      p {
-        margin: 0;
+      & > td {
+        padding: 16px;
+        font-size: .8125rem;
+        text-align: left;
+        color: #192a3d;
+        font-weight: 500;
       }
 
       .dlm-reports-table__overflower {
@@ -2836,18 +2745,14 @@ Toggles
   }
 
   .total_downloads_table_footer {
-    padding: 0 16px;
+    padding:16px;
     height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    margin-bottom: 16px;
     z-index: 1;
     background: #fff;
     position: relative;
-
-
+    td {
+      width:100%;
+    }
   }
 }
 

@@ -1287,16 +1287,9 @@ class DLM_Reports {
 			}
 
 			let itemObject = {
-				id                       : dataResponse[i].id,
-				title                    : dataResponse[i].title,
-				completed_downloads      : $download.completed.toLocaleString(),
-				failed_downloads         : $download.failed.toLocaleString(),
-				total_downloads          : $download.total.toLocaleString(),
-				redirected_downloads     : $download.redirected.toLocaleString(),
-				logged_in_downloads      : $download.logged.toLocaleString(),
-				non_logged_in_downloads  : $download.nonLoggged.toLocaleString(),
-				percent_downloads        : parseFloat(parseInt($download.total) * 100 / parseInt(dlmReportsInstance.totalDownloads)).toFixed(2),
-				content_locking_downloads: '500',
+				id             : dataResponse[i].id,
+				title          : dataResponse[i].title,
+				total_downloads: $download.total.toLocaleString()
 			};
 
 			// Trigger used to model the itemObject passed to the template
@@ -1772,11 +1765,13 @@ class DLM_Reports {
 
 		for (let i = 0; i < dataResponse.length; i++) {
 			const user = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
+			const download = dlmReportsInstance.getDownloadCPT(dataResponse[i].download_id.toString());
 			let item   = new dlmBackBone['modelUserLogs'](
 				{
 					user         : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user) ? user['user_nicename'] : '--',
 					ip           : dataResponse[i].user_ip,
 					role         : (null !== user && null !== user.role ? user.role : '--'),
+					download     : download.title,
 					valid_user   : ('0' !== dataResponse[i].user_id),
 					edit_link    : 'user-edit.php?user_id=' + dataResponse[i].user_id,
 					status       : dataResponse[i].download_status,
@@ -2076,6 +2071,21 @@ class DLM_Reports {
 		);
 
 		jQuery(document).trigger('dlm_download_by_id', [dlmReportsInstance, download, currentItem]);
+
+		return download;
+	}
+
+	/**
+	 * Get download object based on ID
+	 * @param $id
+	 * @returns {{total: number, redirected: number, logged: number, completed: number, failed: number, nonLoggged: number}}
+	 */
+	getDownloadCPT($id) {
+		let download = dlmReportsInstance.mostDownloaded.filter((item) => {
+			return item.id === $id;
+		},0)[0];
+
+		jQuery(document).trigger('dlm_download_cpt', [dlmReportsInstance, download]);
 
 		return download;
 	}

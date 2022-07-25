@@ -1084,6 +1084,8 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header {
   display: flex;
   justify-content: space-between;
+  background-color: #FFF;
+  border: 1px solid #DDD;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-heading {
   font-weight: bold;
@@ -1620,56 +1622,26 @@ table.wp-list-table .column-thumb img {
   text-align: center;
   display: block;
 }
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__table {
+  width: 100%;
+  border-collapse: collapse;
+}
 .dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters {
   background-color: #f8f9fa;
-  padding: 16px;
   border-bottom: 1px solid #e2e4e7;
-  display: flex;
-  justify-content: space-between;
 }
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div {
-  display: inline-block;
-  padding: 8px 14px;
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > th {
+  padding: 16px;
   font-weight: bold;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_percent_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_id,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_failed_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_content_locking_downloads {
-  width: 5%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_title {
-  width: 30%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_completed_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_total_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_logged_in_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_non_logged_in_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_redirected_downloads {
-  width: 10%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_user,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_role,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_status,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_action {
-  width: 10%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_ip,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_download_date {
-  width: 15%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > div.total_downloads_table_filters_download {
-  width: 30%;
+  text-align: left;
 }
 .dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__header {
   font-weight: bold;
-  display: table;
   width: 100%;
   margin-bottom: 17px;
 }
 .dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__header .dlm-reports-header-left,
 .dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__header .dlm-reports-header-right {
-  display: table-cell;
   margin-bottom: 15px;
   font-size: 12px;
   color: #6B7280;
@@ -1681,65 +1653,19 @@ table.wp-list-table .column-thumb img {
   text-align: right;
 }
 .dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line {
-  display: block;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries {
   background-color: #fff;
   border-bottom: 1px solid #e2e4e7;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line > td {
   padding: 16px;
-  display: flex;
-  justify-content: space-between;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.id {
-  background-color: #f0f0f0;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div {
-  display: inline-block;
-  padding: 8px 14px;
   font-size: 0.8125rem;
   text-align: left;
   color: #192a3d;
   font-weight: 500;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.addons_top_downloads_entries,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.addons_user_logs_entries {
-  padding: 0;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.id,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.percent_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.failed_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.content_locking_downloads {
-  width: 5%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.title {
-  width: 30%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.redirected_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.logged_in_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.non_logged_in_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.total_downloads,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.completed_downloads {
-  width: 10%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.user,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.role,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.status,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.action {
-  width: 10%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.ip,
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.download_date {
-  width: 15%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries > div.download {
-  width: 30%;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__entries:hover {
-  background-color: #e0e0e0;
-  cursor: pointer;
-}
-.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line p {
-  margin: 0;
 }
 .dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__overflower {
   position: absolute;
@@ -2510,16 +2436,14 @@ Toggles
   text-transform: capitalize;
 }
 #total_downloads_table_wrapper2 .total_downloads_table_footer {
-  padding: 0 16px;
+  padding: 16px;
   height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  margin-bottom: 16px;
   z-index: 1;
   background: #fff;
   position: relative;
+}
+#total_downloads_table_wrapper2 .total_downloads_table_footer td {
+  width: 100%;
 }
 @keyframes dlmRotate {
   0% {
