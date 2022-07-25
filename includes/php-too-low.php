@@ -40,4 +40,4 @@ function dlm_admin_notice_php_version() {
 	<?php
 }
 
-add_action( 'admin_notices', 'dlm_admin_notice_php_version' );
+add_action( 'admin_notices', 'dlm_admin_notice_php_version', 8 );

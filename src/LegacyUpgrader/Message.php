@@ -34,7 +34,7 @@ class DLM_LU_Message {
 		$this->catch_hide_message();
 
 		if ( ( ! isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'dlm_legacy_upgrade' != $_GET['page'] ) ) && ! $this->is_hidden() ) {
-			add_action( 'admin_notices', array( $this, 'body' ) );
+			add_action( 'admin_notices', array( $this, 'body' ), 8 );
 		}
 	}
 

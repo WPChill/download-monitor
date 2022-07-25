@@ -9,7 +9,6 @@ class DLM_Beta_Testers {
 	private $messages;
 	private $link;
 	private $contact;
-	private $notice_option = 'dlm_hide-beta-notice_' . DLM_BETA_VERSION;
 
 	/**
 	 * Class constructor
@@ -18,7 +17,7 @@ class DLM_Beta_Testers {
 
 		$this->messages = array(
 			'headling'        => esc_html__( 'Download Monitor - BETA testers - needed!', 'download-monitor' ),
-			'notice'          => __( "<p> We've been working (hard!) on Download Monitor %1\$s which comes with a ton of improvements. We need hlep testing it out to make sure we don't break anything.</p><p> Just click on this link %2\$s, download and install Download Monitor %1\$s  and test for issues. Please report any issue found back to us via: %3\$s.</p>", 'download-monitor' ),
+			'notice'          => __( "<p> We've been working (hard!) on Download Monitor 4.6.0 which comes with a ton of improvements. We need hlep testing it out to make sure we don't break anything.</p><p> Just click on this link %1\$s, download and install Download Monitor 4.6.0 and test for issues. Please report any issue found back to us via: %2\$s.</p>", 'download-monitor' ),
 			'changelog_title' => esc_html__( 'New features in this version:', 'download-monitor' ),
 			'changelog'       => array(
 				'custom tables for Reports (should be blazing fast now)',
@@ -46,7 +45,7 @@ class DLM_Beta_Testers {
 		}
 
 		add_action( 'wp_ajax_download-monitor_beta_test_notice_dismiss', array( $this, 'ajax' ) );
-		add_action( 'admin_notices', array( $this, 'beta_testers_needed_notice' ) );
+		add_action( 'admin_notices', array( $this, 'beta_testers_needed_notice' ), 8 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'ajax_script' ) );
 		add_filter( 'dlm_uninstall_db_options', array( $this, 'uninstall_options' ) );
@@ -59,13 +58,13 @@ class DLM_Beta_Testers {
 	 * @since 4.5.93
 	 */
 	public function beta_testers_needed_notice() {
-		if ( get_option( $this->notice_option, false ) ) {
+		if ( get_option( 'download-monitor-hide-beta-notice', false ) ) {
 			return;
 		}
 		?>
 		<div data-dismissible="download-monitor-beta-notice" id="download-monitor-beta-notice" class="notice notice-success is-dismissible" style="margin-top:30px;">
 			<h1><?php echo $this->messages['headling']; ?></h1>
-			<p><?php echo sprintf( wp_kses_post( $this->messages['notice'] ), DLM_BETA_VERSION, wp_kses_post( $this->link ), wp_kses_post( $this->contact ) ); ?></p>
+			<p><?php echo sprintf( wp_kses_post( $this->messages['notice'] ), wp_kses_post( $this->link ), wp_kses_post( $this->contact ) ); ?></p>
 			<?php
 			if ( ! empty( $this->messages['changelog'] ) ) {
 				echo '<h3>' . $this->messages['changelog_title'] . '</h3>';
@@ -92,7 +91,6 @@ class DLM_Beta_Testers {
 	 */
 	public function uninstall_options( $options ) {
 
-		// This is a legacy option for version 4.5.93
 		$options[] = 'download-monitor-hide-beta-notice';
 
 		return $options;
@@ -107,7 +105,7 @@ class DLM_Beta_Testers {
 	public function ajax() {
 
 		check_ajax_referer( 'download-monitor-beta-notice', 'security' );
-		update_option( $this->notice_option, true );
+		update_option( 'download-monitor-hide-beta-notice', true );
 		wp_die( 'ok' );
 
 	}
@@ -155,3 +153,5 @@ class DLM_Beta_Testers {
 		<?php
 	}
 }
+
+new DLM_Beta_Testers();

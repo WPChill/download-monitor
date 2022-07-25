@@ -69,7 +69,7 @@ class DLM_Product_Manager {
 					'version' => '4.1.2',
 				),
 				'dlm-email-lock'              => array(
-					'version' => '4.3.2',
+					'version' => '4.3.1',
 				),
 				'dlm-csv-importer'            => array(
 					'version' => '4.1.3',

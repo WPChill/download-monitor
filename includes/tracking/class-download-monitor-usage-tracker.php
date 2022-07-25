@@ -179,8 +179,8 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 
 			// Display the admin notice on activation.
 			add_action( 'admin_init', array( $this, 'set_notification_time' ) );
-			add_action( 'admin_notices', array( $this, 'optin_notice' ) );
-			add_action( 'admin_notices', array( $this, 'marketing_notice' ) );
+			add_action( 'admin_notices', array( $this, 'optin_notice' ), 8 );
+			add_action( 'admin_notices', array( $this, 'marketing_notice' ), 8 );
 
 			// Deactivation.
 			add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_file ), array( $this, 'filter_action_links' ) );
@@ -261,8 +261,6 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			if ( ! $this->get_is_tracking_allowed() ) {
 				return;
 			}
-
-			$this->set_admin_email();
 
 			// Get our data.
 			$body = $this->get_data();
@@ -1014,7 +1012,8 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 * @since 1.0.0
 		 */
 		public function goodbye_ajax() {
-			// Get our strings for the form
+			global $wp_version;
+			// Get our strings for the form.
 			$form = $this->form_filterable_text();
 
 			if ( ! isset( $form['heading'] ) || ! isset( $form['body'] ) || ! isset( $form['options'] ) || ! is_array( $form['options'] ) || ! isset( $form['details'] ) ) {
@@ -1022,137 +1021,200 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 				$form = $this->form_default_text();
 			}
 			// Build the HTML to go in the form.
-			$html  = '<div class="'.esc_attr($this->plugin_name).'-put-goodbye-form-head"><strong>' . esc_html( $form['heading'] ) . '</strong></div>';
-			$html .= '<div class="'.esc_attr($this->plugin_name).'-put-goodbye-form-body"><p>' . esc_html( $form['body'] ) . '</p>';
+			$html  = '<div class="' . esc_attr( $this->plugin_name ) . '-put-goodbye-form-head"><strong>' . esc_html( $form['heading'] ) . '</strong></div>';
+			$html .= '<div class="' . esc_attr( $this->plugin_name ) . '-put-goodbye-form-body"><p>' . esc_html( $form['body'] ) . '</p>';
 
 			if ( is_array( $form['options'] ) ) {
 
-				$html .= '<div class="'.esc_attr($this->plugin_name).'-put-goodbye-options"><p>';
+				$html .= '<div class="' . esc_attr( $this->plugin_name ) . '-put-goodbye-options">';
 				foreach ( $form['options'] as $option ) {
-					$html .= '<input type="checkbox" name="'.esc_attr($this->plugin_name).'-put-goodbye-options[]" id="' . str_replace( ' ', '', esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( ' ', '', esc_attr( $option ) ) . '">' . esc_html( $option ) . '</label><br>';
+					$html .= '<p><input type="checkbox" name="' . esc_attr( $this->plugin_name ) . '-put-goodbye-options[]" id="' . str_replace( ' ', '', esc_attr( $option ) ) . '" value="' . esc_attr( $option ) . '"> <label for="' . str_replace( ' ', '', esc_attr( $option ) ) . '">' . esc_html( $option ) . '</label></p>';
 				}
-				$html .= '</p><label for="'.esc_attr($this->plugin_name).'-put-goodbye-reasons">' . esc_html( $form['details'] ) . '</label><textarea name="'.esc_attr($this->plugin_name).'-put-goodbye-reasons" id="'.esc_attr($this->plugin_name).'-put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
+				$html .= '<label for="' . esc_attr( $this->plugin_name ) . '-put-goodbye-reasons">' . esc_html( $form['details'] ) . '</label><textarea name="' . esc_attr( $this->plugin_name ) . '-put-goodbye-reasons" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-reasons" rows="2" style="width:100%"></textarea>';
+
+				$html .= '<hr>';
+				if ( function_exists( 'wp_get_current_user' ) ) {
+					$current_user = wp_get_current_user();
+					$email        = $current_user->user_email;
+				}
+				$html .= '<p><input type="checkbox" name="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-check" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-check" value=""> <label for="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-check">' . esc_html__( 'I would like to be contacted.', 'download-monitor' ) . '</label></p>';
+				$html .= '<p><input type="email" name="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-email" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-contact-email" value="' . $email . '" placeholder="' . esc_html__( 'Email address.', 'download-monitor' ) . '"></p>';
 				$html .= '</div><!-- .put-goodbye-options -->';
 			}
 
+			$html .= '<a href="#" id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-tracking">' . esc_html__( 'What info do we collect?', 'download-monitor' ) . '</a>';
+			$html .= '<div id="' . esc_attr( $this->plugin_name ) . '-put-goodbye-tracking-info"><ul><li><strong>' . esc_html__( 'Plugin Version', 'download-monitor' ) . '</strong><code>' . DLM_VERSION . '</code></li><li><strong>' . esc_html__( 'Plugin Options', 'download-monitor' ) . '</strong><code>current options</code></li><li><strong>' . esc_html__( 'Plugin CPTs', 'download-monitor' ) . '</strong><code>total number of Downloads</code></li><li><strong>' . esc_html__( 'WordPress Version', 'download-monitor' ) . '</strong><code>' . $wp_version . '</code></li><li><strong>' . esc_html__( 'PHP', 'download-monitor' ) . '</strong><code>general PHP information</code></li><li><strong>' . esc_html__( 'Installed plugins', 'download-monitor' ) . '</strong><code>Installed plugins</code></li><li><strong>' . esc_html__( 'Active theme', 'download-monitor' ) . '</strong><code>name, version and parent if set.</code></li><li><strong>' . esc_html__( 'Current Website', 'download-monitor' ) . '</strong><code>' . trailingslashit( get_site_url() ) . '</code></li><li><strong>' . esc_html__( 'Uninstall Reason', 'download-monitor' ) . '</strong><i>' . esc_html__( 'Selected reason from above.', 'download-monitor' ) . '</i></li><li><strong>' . esc_html__( 'Email address', 'download-monitor' ) . '</strong><i>' . esc_html__( 'If specifically provided by you.', 'download-monitor' ) . '</i></li></ul></div>';
+
 			$html .= '</div><!-- .put-goodbye-form-body -->';
-			$html .= '<p class="'.esc_attr($this->plugin_name).'-deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'download-monitor' ) . '</p>';
+			$html .= '<p class="' . esc_attr( $this->plugin_name ) . '-deactivating-spinner"><span class="spinner"></span> ' . esc_html__( 'Submitting form', 'download-monitor' ) . '</p>';
 			?>
-			<div class="<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-bg"></div>
+			<div class="<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form-bg"></div>
 			<style type="text/css">
-				.<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-bg {
-					background: rgba( 0, 0, 0, .5 );
-					position: fixed;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-wrapper {
-					position: fixed;
-					z-index: 999;
-					display: none;
-					top:0;
-					bottom:0;
-					left:0;
-					right:0;
-					width:100vw;
-					height:100vh;
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-wrapper {
-					display: block;
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form {
-					display: none;
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form {
-					position: absolute;
-					left:0;
-					right:0;
-					margin:0 auto;
-					max-width: 400px;
-					background: #fff;
-					white-space: normal;
-					top:50%;
-					transform: translateY(-50%);
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-head {
-					background: #0073aa;
-					color: #fff;
-					padding: 8px 18px;
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-body {
-					padding: 8px 18px;
-					color: #444;
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-deactivating-spinner {
-					display: none;
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-deactivating-spinner .spinner {
-					float: none;
-					margin: 4px 4px 0 18px;
-					vertical-align: bottom;
-					visibility: visible;
-				}
-				.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer {
-					padding: 8px 18px;
-				}
+                .<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-bg {
+                    background: rgba(0, 0, 0, .5);
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-wrapper {
+                    position: fixed;
+                    z-index: 999;
+                    display: none;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    width: 100vw;
+                    height: 100vh;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-wrapper {
+                    display: block;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form {
+                    display: none;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-put-form-active .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    margin: 0 auto;
+                    max-width: 400px;
+                    background: #fff;
+                    white-space: normal;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-head {
+                    background: #0073aa;
+                    color: #fff;
+                    padding: 8px 18px;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-body {
+                    padding: 8px 18px;
+                    color: #444;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-deactivating-spinner {
+                    display: none;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-deactivating-spinner .spinner {
+                    float: none;
+                    margin: 4px 4px 0 18px;
+                    vertical-align: bottom;
+                    visibility: visible;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer {
+                    padding: 8px 18px;
+                }
+
+                .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-options p input, <?php echo esc_attr($this->plugin_name); ?>-put-goodbye-options label {
+                    padding: 8px 0;
+                }
+
+                #<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-tracking-info:not(.active),
+                #<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-contact-email:not(.active) {
+                    display: none;
+                }
+
+                #<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-tracking-info ul li {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 0;
+                    padding: 5px 0;
+                    border-bottom: 1px solid #ccc;
+                }
+
+                #<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-contact-email {
+                    width: 100%;
+                    margin-bottom: 8px;
+                    padding: 8px 10px;
+                }
 			</style>
 			<script>
-				jQuery( document ).ready( function ( $ ) {
+				jQuery(document).ready(function ($) {
 
-					var url = document.getElementById( "<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-link" );
+					var url = document.getElementById("<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-link");
 
-					$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-link" ).on( "click", function () {
+					$("#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-link").on("click", function () {
 						// We'll send the user to this deactivation link when they've completed or dismissed the form.
-						$( 'body' ).toggleClass( '<?php echo esc_attr($this->plugin_name); ?>-put-form-active' );
-						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).fadeIn();
-						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).html( '<?php echo wp_kses_post( $html ); ?>' + '<div class="<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer"><p><a id="<?php echo esc_attr($this->plugin_name); ?>-put-submit-form" class="button primary" href="#"><?php echo esc_html__( 'Submit and Deactivate', 'download-monitor' ); ?></a>&nbsp;<a class="secondary button" href="' + url + '"><?php echo esc_html__( 'Just Deactivate', 'download-monitor' ); ?></a></p></div>' );
-					} );
+						$('body').toggleClass('<?php echo esc_attr( $this->plugin_name ); ?>-put-form-active');
+						$("#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form").fadeIn();
+						$("#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form").html('<?php echo $html; ?>' + '<div class="<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form-footer"><p><a id="<?php echo esc_attr( $this->plugin_name ); ?>-put-submit-form" class="button primary" href="#"><?php esc_html_e( 'Submit and Deactivate', 'download-monitor' ); ?></a>&nbsp;<a class="secondary button" href="' + url + '"><?php esc_html_e( 'Just Deactivate', 'download-monitor' ); ?></a></p></div>');
+					});
 
-					$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form"  ).on( "click", "#<?php echo esc_attr( $this->plugin_name ); ?>-put-submit-form", function ( e ) {
+					$("#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form").on("click", "#<?php echo esc_attr( $this->plugin_name ); ?>-put-submit-form", function (e) {
 						// As soon as we click, the body of the form should disappear.
-						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-body" ).fadeOut();
-						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-footer" ).fadeOut();
+						$("#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form-body").fadeOut();
+						$("#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form-footer").fadeOut();
 						// Fade in spinner.
-						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr($this->plugin_name); ?>-deactivating-spinner" ).fadeIn();
+						$("#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form .<?php echo esc_attr( $this->plugin_name ); ?>-deactivating-spinner").fadeIn();
 						e.preventDefault();
 
 						var values = new Array();
-						$.each( $( "input[name='<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-options[]']:checked" ), function () {
-							values.push( $( this ).val() );
-						} );
+						$.each($("input[name='<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-options[]']:checked"), function () {
+							values.push($(this).val());
+						});
 
-						var details = $( '#<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-reasons' ).val();
+						var email = '';
+						if ($("input[name='<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-contact-check']").is(':checked')) {
+							email = $('#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-contact-email').val();
+						}
+
+						var details = $('#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-reasons').val();
 
 						var data = {
-							'action'  : '<?php echo esc_attr($this->plugin_name); ?>_goodbye_form',
-							'values'  : values,
-							'details' : details,
-							'security': "<?php echo esc_js(wp_create_nonce( 'wisdom_goodbye_form' )); ?>",
-							'dataType': "json"
+							'action'        : '<?php echo esc_attr( $this->plugin_name ); ?>_goodbye_form',
+							'values'        : values,
+							'details'       : details,
+							'email'         : email,
+							'security'      : "<?php echo wp_create_nonce( 'wisdom_goodbye_form' ); ?>",
+							'dataType'      : "json"
 						}
 
 						$.post(
-								ajaxurl,
-								data,
-								function ( response ) {
-									// Redirect to original deactivation URL.
-									window.location.href = url;
-								}
+							ajaxurl,
+							data,
+							function (response) {
+								// Redirect to original deactivation URL.
+								window.location.href = url;
+							}
 						);
-					} );
+					});
 
 					// If we click outside the form, the form will close.
-					$( '.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form' ).on( 'click', function (e) {
+					$('.<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form').on('click', function (e) {
 						e.stopPropagation();
 					});
 
-					$( '.<?php echo esc_attr($this->plugin_name); ?>-put-goodbye-form-wrapper' ).on( 'click', function () {
-						$( "#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form" ).fadeOut();
-						$( 'body' ).removeClass( '<?php echo esc_attr($this->plugin_name); ?>-put-form-active' );
-					} );
-				} );
+					$('.<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form-wrapper').on('click', function () {
+						$("#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form").fadeOut();
+						$('body').removeClass('<?php echo esc_attr( $this->plugin_name ); ?>-put-form-active');
+					});
+
+					// If we click outside the form, the form will close.
+					$('#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form').on('click', '#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-tracking', function (e) {
+						e.preventDefault();
+						$('#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-tracking-info').toggleClass("active");
+					});
+
+					// If we click outside the form, the form will close.
+					$('#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-form').on('change', '#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-contact-check', function (e) {
+						e.preventDefault();
+						$('#<?php echo esc_attr( $this->plugin_name ); ?>-put-goodbye-contact-email').toggleClass("active");
+					});
+
+				});
 			</script>
 			<?php
 		}
@@ -1175,6 +1237,11 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 			if ( isset( $_POST['details'] ) ) {
 				$details = sanitize_text_field( wp_unslash($_POST['details']) );
 				update_option( 'wisdom_deactivation_details_' . $this->plugin_name, $details );
+			}
+
+			if ( isset( $_POST['email'] ) && '' !== $_POST['email'] && is_email( $_POST['email'] ) ) {
+				$this->set_can_collect_email( true );
+				$this->set_admin_email( $_POST['email'] );
 			}
 
 			$this->do_tracking(); // Run this straightaway.

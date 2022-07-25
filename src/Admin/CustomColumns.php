@@ -92,6 +92,10 @@ class DLM_Custom_Columns {
 					$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
 				}
 
+				if ( ! $wp_list_table ) {
+					$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
+				}
+
 				$wp_list_table->column_title( $post );
 
 				if ( $file->get_filename() ) {

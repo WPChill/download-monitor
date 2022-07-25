@@ -121,6 +121,15 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.5.95 - 25.07.2022 =
+Fixed: Warning Undefined array key "icon", "icon-color", "icon-text" if transients are not set. ( https://github.com/WPChill/download-monitor/issues/979 )
+Fixed: On Pantheon hosted environments redirect to file doesn't work. ( https://github.com/WPChill/download-monitor/issues/914 )
+Changed: Remove double usage of parse_file_path();. ( https://github.com/WPChill/download-monitor/issues/983 )
+Changed: Remove all non-related actions from admin_notices on Download Monitor's pages. ( https://github.com/WPChill/download-monitor/issues/910 )
+Changed: Move all Download Monitor's admin_notices actions to prio 8 (https://github.com/WPChill/download-monitor/issues/984)
+Changed: Enhanced Download Monitor's disable survey ( https://github.com/WPChill/download-monitor/issues/881 )
+Fix: Uninstall process not targeting the components correctly ( https://github.com/WPChill/download-monitor/issues/992 )
+
 = 4.5.94 - 31.05.2022 =
 Changed: Remove Duplicator Upsells ( https://github.com/WPChill/download-monitor/issues/959 )
 Fixed: Download url not working while permalinks are set to plain ( https://github.com/WPChill/download-monitor/issues/964 )
