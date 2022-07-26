@@ -153,5 +153,3 @@ class DLM_Beta_Testers {
 		<?php
 	}
 }
-
-new DLM_Beta_Testers();
