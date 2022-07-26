@@ -992,96 +992,10 @@ class DLM_Reports {
 		}
 
 		let element = dlmReportsInstance.createDatepicker(target, opener, containerID);
-
+		target.append(element);
 		const calendar_start_date = (Object.keys(dlmReportsInstance.dlmReportsStats).length > 0) ? new Date(dlmReportsInstance.dlmReportsStats[0].date) : new Date();
 		const currDate            = new Date();
-
-		target.append(element);
-
-		const datepickerShortcuts = [];
-
-		// Let's add shortcuts to our datepicker only if they can be managed/downloads can be viewed based on them.
-		if (calendar_start_date.getTime() !== currDate.getTime()) {
-
-			let sevenDays = new Date(), lastMonth = moment().month(currDate.getMonth() - 1).startOf('month')._d,
-				thisMonth                         = new Date(currDate.getFullYear(), currDate.getMonth(), 1),
-				thisYear                          = moment().startOf('year')._d,
-				lastYear                          = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
-
-			sevenDays = sevenDays.setDate(sevenDays.getDate() - 6);
-
-			if (calendar_start_date.getTime() < sevenDays) {
-				datepickerShortcuts.push({
-											 name: 'Last 7 Days', dates: function () {
-						return [
-							new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate() - 7),
-							new Date(currDate.getFullYear(), currDate.getMonth(), currDate.getDate())
-						];
-					}
-										 });
-			}
-
-			if (calendar_start_date.getTime() < thisMonth) {
-
-				datepickerShortcuts.push({
-											 name: 'This month', dates: function () {
-						return [new Date(currDate.getFullYear(), currDate.getMonth(), 1), currDate];
-					},
-										 });
-			}
-
-			if (calendar_start_date.getTime() < lastMonth.getTime()) {
-				datepickerShortcuts.push({
-											 name: 'Last month', dates: function () {
-
-						let start = lastMonth;
-						let end   = moment().month(currDate.getMonth() - 1).endOf('month')._d;
-
-						if (0 === currDate.getMonth()) {
-							start = moment().year(currDate.getFullYear() - 1).month(11).startOf('month')._d;
-							end   = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
-						}
-
-						return [start, end];
-					}
-										 });
-			}
-
-			if (calendar_start_date.getTime() < thisYear.getTime()) {
-				datepickerShortcuts.push({
-											 name: 'This Year', dates: function () {
-
-						const start = moment().startOf('year')._d;
-
-						if (start.getTime() < calendar_start_date.getTime()) {
-							return [calendar_start_date, currDate];
-						}
-
-						return [start, currDate];
-					}
-										 });
-			}
-
-			if (calendar_start_date.getTime() < lastYear.getTime()) {
-				datepickerShortcuts.push({
-											 name: 'Last Year', dates: function () {
-
-						const start = moment().year(currDate.getFullYear() - 1).month(0).startOf('month')._d;
-						const end   = moment().year(currDate.getFullYear() - 1).month(11).endOf('month')._d;
-
-						return [start, end];
-					}
-										 });
-			}
-		}
-
-		datepickerShortcuts.push(
-			{
-				name: 'All time', dates: function () {
-					return [calendar_start_date, currDate];
-				}
-			}
-		);
+		let datepickerShortcuts   = [];
 
 		// JS filter to add other shortcuts to the datepicker.
 		jQuery(document).trigger('dlm_datepicker_shortcuts_' + opener.target, [dlmReportsInstance, opener, target, datepickerShortcuts]);
@@ -1268,7 +1182,9 @@ class DLM_Reports {
 	 */
 	setTopDownloads(offset = 0, reset = false) {
 		// the table
-		const wrapper = jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list');
+		const wrapperParent = jQuery('#total_downloads_table_wrapper2'),
+			  wrapper       = jQuery('#total_downloads_table_wrapper2 .total_downloads_table__list');
+
 		wrapper.empty();
 		wrapper.parent().addClass('empty');
 
@@ -1289,6 +1205,7 @@ class DLM_Reports {
 			let itemObject = {
 				id             : dataResponse[i].id,
 				title          : dataResponse[i].title,
+				edit_link      : dlmAdminUrl + 'post.php?post=' + dataResponse[i].id + '&action=edit',
 				total_downloads: $download.total.toLocaleString()
 			};
 
@@ -1301,10 +1218,11 @@ class DLM_Reports {
 		wrapper.parent().removeClass('empty');
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
+		console.log(dlmReportsInstance.mostDownloaded.length);
 		if (dlmReportsInstance.mostDownloaded.length > 10) {
-			wrapper.parent().find('.downloads-block-navigation button').removeClass('hidden');
+			wrapperParent.find('.downloads-block-navigation button').removeClass('hidden');
 		} else {
-			wrapper.parent().find('.downloads-block-navigation button').addClass('hidden');
+			wrapperParent.find('.downloads-block-navigation button').addClass('hidden');
 		}
 		dlmReportsInstance.stopSpinner(jQuery('#total_downloads_table_wrapper2'));
 	}
@@ -1748,7 +1666,8 @@ class DLM_Reports {
 	 */
 	setUserDownloads(offset = 0, reset = false) {
 		// the table
-		const wrapper = jQuery('#users_download_log .user-logs__list');
+		const wrapperParent = jQuery('#users_download_log'),
+			  wrapper       = jQuery('#users_download_log .user-logs__list');
 		wrapper.empty();
 
 		if (true === reset) {
@@ -1766,16 +1685,17 @@ class DLM_Reports {
 		for (let i = 0; i < dataResponse.length; i++) {
 			const user = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
 			const download = dlmReportsInstance.getDownloadCPT(dataResponse[i].download_id.toString());
-			let item   = new dlmBackBone['modelUserLogs'](
+			let item = new dlmBackBone['modelUserLogs'](
 				{
-					user         : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user) ? user['user_nicename'] : '--',
-					ip           : dataResponse[i].user_ip,
-					role         : (null !== user && null !== user.role ? user.role : '--'),
-					download     : download.title,
-					valid_user   : ('0' !== dataResponse[i].user_id),
-					edit_link    : 'user-edit.php?user_id=' + dataResponse[i].user_id,
-					status       : dataResponse[i].download_status,
-					download_date: dataResponse[i].download_date,
+					user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user) ? user['user_nicename'] : '--',
+					ip                : dataResponse[i].user_ip,
+					role              : (null !== user && null !== user.role ? user.role : '--'),
+					download          : download.title,
+					valid_user        : ('0' !== dataResponse[i].user_id),
+					edit_link         : 'user-edit.php?user_id=' + dataResponse[i].user_id,
+					edit_download_link: dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit',
+					status            : dataResponse[i].download_status,
+					download_date     : dataResponse[i].download_date,
 				}
 			);
 		}
@@ -1784,9 +1704,9 @@ class DLM_Reports {
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
 		if (dlmReportsInstance.userDownloads.length > 10) {
-			wrapper.parent().find('.user-downloads-block-navigation button').removeClass('hidden');
+			wrapperParent.find('.user-downloads-block-navigation button').removeClass('hidden');
 		} else {
-			wrapper.parent().find('.user-downloads-block-navigation button').addClass('hidden');
+			wrapperParent.find('.user-downloads-block-navigation button').addClass('hidden');
 		}
 	}
 

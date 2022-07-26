@@ -207,7 +207,7 @@ class DLM_Admin_Scripts {
 
 			// Make JavaScript strings translatable
 			wp_localize_script( 'dlm_reports', 'dlm_rs', $this->get_strings( 'reports' ) );
-			wp_add_inline_script( 'dlm_reports', 'const dlmReportsNonce = "' . wp_create_nonce( 'dlm_reports_nonce' ) . '";', 'before' );
+			wp_add_inline_script( 'dlm_reports', 'const dlmReportsNonce = "' . wp_create_nonce( 'dlm_reports_nonce' ) . '"; const dlmAdminUrl = "' . get_admin_url() . '";', 'before' );
 
 		}
 

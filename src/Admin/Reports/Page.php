@@ -274,31 +274,6 @@ class DLM_Reports_Page {
 			</div>
 		</div>
 
-		<div id="total_downloads_table_wrapper" class="empty">
-			<div class="total_downloads_table_header">
-				<h3><?php esc_html_e( 'Top downloads', 'donwload-monitor' ); ?></h3>
-			</div><!--/.total_downloads_table_header-->
-
-			<div class="total_downloads_table_filters">
-				<div class="total_downloads_table_filters_id">ID</div>
-				<div class='total_downloads_table_filters_title'>Title</div>
-				<div class='total_downloads_table_filters_status_completed'>Completed</div>
-				<div class='total_downloads_table_filters_status_failed'>Failed</div>
-				<div class='total_downloads_table_filters_status_redirected'>Redirected</div>
-				<div class='total_downloads_table_filters_status_Downloads'>Downloads</div>
-			</div><!--/.total_downloads_table_filters-->
-
-			<div class="dlm-reports-block dlm-reports-block-table" id="total_downloads_table" data-page="0">
-				<div class="dlm-reports-placeholder-no-data"><?php esc_html_e( 'NO DATA', 'download-monitor' ); ?></div>
-			</div>
-
-			<div class="downloads-block-navigation">
-				<button class="hidden dashicons dashicons-arrow-left-alt2" disabled="disabled"
-				        title="<?php esc_html_e( 'Previous 15 downloads', 'download-monitor' ); ?>"></button>
-				<button class="hidden dashicons dashicons-arrow-right-alt2" data-action="load-more"
-				        title="<?php esc_html_e( 'Next 15 downloads', 'download-monitor' ); ?>"></button>
-			</div>
-		</div>
 		<?php $reports = DLM_Reports::get_instance(); ?>
 		<div id="total_downloads_table_wrapper2" class="empty dlm-reports-table" data-page="0">
 			<?php echo $reports->header_top_downloads_markup(); ?>

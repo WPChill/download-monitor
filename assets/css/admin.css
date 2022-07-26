@@ -1224,9 +1224,6 @@ table.wp-list-table .column-thumb img {
   border-radius: 5px;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.6);
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper {
-  padding-left: 175px;
-}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date {
   font-size: 70%;
   margin-right: 5px;
@@ -1411,24 +1408,6 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li:first-child span,
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li:first-child label {
   border: none;
-}
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block table {
-  width: 100%;
-  float: left;
-  position: relative;
-  padding: 0 15px;
-}
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block table th,
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block table td {
-  text-align: center;
-  padding: 10px 0;
-}
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block table th:first-child,
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block table td:first-child {
-  text-align: left;
-}
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block table th {
-  padding-bottom: 20px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-wrapper {
   width: 100%;
@@ -2434,16 +2413,6 @@ Toggles
   font-size: 16px;
   font-weight: 600;
   text-transform: capitalize;
-}
-#total_downloads_table_wrapper2 .total_downloads_table_footer {
-  padding: 16px;
-  height: 70px;
-  z-index: 1;
-  background: #fff;
-  position: relative;
-}
-#total_downloads_table_wrapper2 .total_downloads_table_footer td {
-  width: 100%;
 }
 @keyframes dlmRotate {
   0% {

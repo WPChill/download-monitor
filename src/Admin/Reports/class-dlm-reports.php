@@ -79,7 +79,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 							'download'      => esc_html__( 'Download', 'download-monitor' ),
 							'status'        => esc_html__( 'Status', 'download-monitor' ),
 							'download_date' => esc_html__( 'Download date', 'download-monitor' ),
-							'action'        => esc_html__( 'Action', 'download-monitor' ),
 						)
 					),
 				)
