@@ -116,6 +116,18 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					echo '</div>'; // .dlm-accordeon-group__setting
 					$html .= ob_get_clean();
 					break;
+				case 'enhanced_radio':
+					ob_start();
+					echo '<div class="dlm-accordeon-group__setting wp-clearfix">';
+					echo '<div class="dlm-accordeon-group__setting-title">' . esc_html( $option['label'] ) . '</div>';
+					echo '<div class="dlm-accordeon-group__setting-content">';
+					$field   = new DLM_Admin_Fields_Field_EnhancedRadio( $option['name'], $value, $option['options'] );
+					$content = $field->render();
+					echo ( isset( $option['desc'] ) ) ? '<p class="description">' . wp_kses_post( $option['desc'] ) . '</p>' : '';
+					echo '</div>'; // .dlm-accordeon-group__setting-content
+					echo '</div>'; // .dlm-accordeon-group__setting
+					$html .= ob_get_clean();
+					break;
 				case 'select':
 					ob_start();
 					echo '<div class="dlm-accordeon-group__setting wp-clearfix">';

@@ -36,6 +36,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'radio':
 				$field = new DLM_Admin_Fields_Field_Radio( $option['name'], $value, $option['options'] );
 				break;
+			case 'enhanced_raio':
+				$field = new DLM_Admin_Fields_Field_EnhancedRadio( $option['name'], $value, $option['options'] );
+				break;
 			case 'select':
 				$field = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
 				break;
