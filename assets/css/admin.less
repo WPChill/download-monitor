@@ -296,6 +296,11 @@
   .form-table {
 
     label.dlm-radio-label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    label.dlm-enhanced-radio-label {
       position: relative;
       padding:10px 15px;
       display:inline-block;
@@ -337,6 +342,48 @@
       }
     }
   }
+  
+  .dlm-groupped-settings {
+    td,
+    .dlm-accordeon-group {
+      margin: 0 auto;
+      padding: 0 !important;
+
+      .postbox {
+        padding: 0;
+        margin: 0 auto;
+      }
+    }
+
+    .handle-actions {
+      button {
+        box-shadow: none;
+      }
+    }
+
+    h2.hndle {
+      cursor: pointer;
+    }
+
+    .dlm-accordeon-group__content {
+      padding: 15px;
+
+      .dlm-accordeon-group__setting {
+        padding: 35px 0;
+
+        .dlm-accordeon-group__setting-title {
+          font-size:16px;
+          margin-bottom:15px;
+          font-weight: bold;
+        }
+
+        .description {
+          font-style: italic;
+        }
+      }
+    }
+  }
+
 }
 
 /* File lists */
