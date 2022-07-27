@@ -17,7 +17,7 @@ class DLM_Custom_Columns {
 	 * Get the download based on post ID, used for setting columns info
 	 *
 	 * @param  mixed $post_id
-	 * @return void
+	 * @return object $download
 	 */
 	private function get_download( $post_id ) {
 

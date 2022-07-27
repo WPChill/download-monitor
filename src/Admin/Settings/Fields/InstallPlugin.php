@@ -67,8 +67,9 @@ class DLM_Admin_Fields_Field_InstallPlugin extends DLM_Admin_Fields_Field {
 
 	/**
 	 * Retrieve action link attributes
+	 * The return array is composed of the following : disabled , action and slug. We need to pass the array like this in order to maintain PHP 5.6 compatibility.
 	 *
-	 * @return void
+	 * @return array
 	 *
 	 * @since 4.6.0
 	 */
@@ -77,32 +78,32 @@ class DLM_Admin_Fields_Field_InstallPlugin extends DLM_Admin_Fields_Field {
 		if ( empty( $this->slug ) ) {
 
 			return array(
-				'disabled' => 'disabled',
-				'action'   => '',
-				'slug'     => '',
+				'disabled',
+				'',
+				'',
 			);
 		}
 
 		if ( ! $this->check_if_installed() ) {
 			return array(
-				'disabled' => '',
-				'action'   => 'install',
-				'slug'     => $this->slug,
+				'',
+				'install',
+				$this->slug,
 			);
 		}
 
 		if ( ! $this->check_if_active() ) {
 			return array(
-				'disabled' => '',
-				'action'   => 'activate',
-				'slug'     => $this->slug,
+				'',
+				'activate',
+				$this->slug,
 			);
 		}
 
 		return array(
-			'disabled' => 'disabled',
-			'action'   => '',
-			'slug'     => $this->slug,
+			'disabled',
+			'',
+			$this->slug,
 		);
 	}
 
@@ -114,8 +115,7 @@ class DLM_Admin_Fields_Field_InstallPlugin extends DLM_Admin_Fields_Field {
 	 * @since 4.6.0
 	 */
 	public function render() {
-
-		list( 'disabled' => $disabled, 'action' => $action, 'slug' => $slug ) = $this->get_attributes();
+		list( $disabled, $action, $slug ) = $this->get_attributes();
 
 		$activate_url = add_query_arg(
 			array(
