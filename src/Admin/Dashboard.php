@@ -43,7 +43,7 @@ class DLM_Admin_Dashboard {
 			array(
 				'no_found_rows'  => 1,
 				'order_by_count' => '1',
-			),
+			)
 		);
 
 		// This is a fix for Custom Posts ordering plugins
