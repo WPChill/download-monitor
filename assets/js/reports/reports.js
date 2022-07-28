@@ -1210,7 +1210,7 @@ class DLM_Reports {
 			};
 
 			// Trigger used to model the itemObject passed to the template
-			jQuery(document).trigger('dlm_top_downloads_template_object', [dlmReportsInstance, itemObject, dataResponse[i]]);
+			jQuery(document).trigger('dlm_reports_top_downloads_item_before_render', [itemObject, dlmReportsInstance, dataResponse[i], $download]);
 
 			let item = new dlmBackBone['modelTopDownloads'](itemObject);
 		}
@@ -1218,7 +1218,6 @@ class DLM_Reports {
 		wrapper.parent().removeClass('empty');
 
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
-		console.log(dlmReportsInstance.mostDownloaded.length);
 		if (dlmReportsInstance.mostDownloaded.length > 10) {
 			wrapperParent.find('.downloads-block-navigation button').removeClass('hidden');
 		} else {
@@ -1685,19 +1684,22 @@ class DLM_Reports {
 		for (let i = 0; i < dataResponse.length; i++) {
 			const user = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
 			const download = dlmReportsInstance.getDownloadCPT(dataResponse[i].download_id.toString());
-			let item = new dlmBackBone['modelUserLogs'](
-				{
-					user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user) ? user['user_nicename'] : '--',
-					ip                : dataResponse[i].user_ip,
-					role              : (null !== user && null !== user.role ? user.role : '--'),
-					download          : download.title,
-					valid_user        : ('0' !== dataResponse[i].user_id),
-					edit_link         : 'user-edit.php?user_id=' + dataResponse[i].user_id,
-					edit_download_link: dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit',
-					status            : dataResponse[i].download_status,
-					download_date     : dataResponse[i].download_date,
-				}
-			);
+
+			let itemObject = {
+				user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user) ? user['user_nicename'] : '--',
+				ip                : dataResponse[i].user_ip,
+				role              : (null !== user && null !== user.role ? user.role : '--'),
+				download          : ('undefined' !== typeof download) ? download.title : '--',
+				valid_user        : ('0' !== dataResponse[i].user_id),
+				edit_link         : 'user-edit.php?user_id=' + dataResponse[i].user_id,
+				edit_download_link: ('undefined' !== typeof download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
+				status            : dataResponse[i].download_status,
+				download_date     : dataResponse[i].download_date,
+			}
+
+			jQuery(document).trigger('dlm_reports_user_downloads_item_before_render', [itemObject, dlmReportsInstance, dataResponse[i], user, download]);
+
+			let item = new dlmBackBone['modelUserLogs'](itemObject);
 		}
 
 		dlmReportsInstance.stopSpinner(jQuery('#users_download_log'));
@@ -2027,90 +2029,3 @@ class DLM_Reports {
 		target.find('.dlm-reports-spinner').remove();
 	}
 }
-
-/**
- * Backbone templates
- */
-dlmRowModelTopDownloads = Backbone.Model.extend(
-	{
-		initialize: function (args) {
-			var model = this;
-
-			jQuery.each(args, function (att, value) {
-				model.set(att, value);
-			});
-
-			var rowView = new dlmBackBone['viewTopDownloads'](
-				{
-					'model': model,
-					'el'   : jQuery('.total_downloads_table__list')
-				}
-			);
-
-			model.set('view', rowView);
-			rowView.render();
-		},
-	}
-);
-
-dlmRowViewTopDownloads = Backbone.View.extend(
-	{
-		/**
-		 * Template
-		 * - The template to load inside the above tagName element
-		 */
-		template: wp.template('dlm-top-downloads-row'),
-
-		render: function () {
-			this.$el.append(this.template(this.model.attributes));
-			return this;
-		}
-	}
-);
-
-dlmRowModelUserLogs = Backbone.Model.extend(
-	{
-		initialize: function (args) {
-			var model = this;
-
-			jQuery.each(args, function (att, value) {
-				model.set(att, value);
-			});
-
-			var rowView = new dlmBackBone['viewUserLogs'](
-				{
-					'model': model,
-					'el'   : jQuery('.user-logs__list')
-				}
-			);
-
-			model.set('view', rowView);
-			rowView.render();
-		},
-	}
-);
-
-dlmRowViewUserLogs = Backbone.View.extend(
-	{
-		/**
-		 * Template
-		 * - The template to load inside the above tagName element
-		 */
-		template: wp.template('dlm-user-logs-row'),
-
-		render: function () {
-			this.$el.append(this.template(this.model.attributes));
-			return this;
-		}
-	}
-);
-
-dlmBackBone = {
-	'modelTopDownloads': dlmRowModelTopDownloads,
-	'viewTopDownloads' : dlmRowViewTopDownloads,
-	'modelUserLogs'    : dlmRowModelUserLogs,
-	'viewUserLogs'     : dlmRowViewUserLogs,
-};
-/**
- * End Backbone templates
- */

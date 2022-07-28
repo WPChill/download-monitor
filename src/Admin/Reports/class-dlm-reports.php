@@ -62,7 +62,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public function set_table_headers() {
 			$this->top_downloads = apply_filters(
-				'dlm_reports_top_downloads',
+				'dlm_reports_templates',
 				array(
 					'top_downloads' => array(
 						'table_headers' => array(

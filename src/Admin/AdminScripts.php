@@ -196,11 +196,18 @@ class DLM_Admin_Scripts {
 				true
 			);
 
+			wp_enqueue_script(
+				'dlm_templates',
+				plugins_url( '/assets/js/reports/dlm-templates' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'wp-backbone' ),
+				DLM_VERSION,
+				true
+			);
 
 			wp_enqueue_script(
 				'dlm_reports',
 				plugins_url( '/assets/js/reports/reports' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery','dlm_reports_chartjs', 'wp-backbone' ),
+				array( 'jquery','dlm_reports_chartjs', 'dlm_templates' ),
 				DLM_VERSION,
 				true
 			);
