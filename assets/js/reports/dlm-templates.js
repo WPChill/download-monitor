@@ -91,8 +91,31 @@ dlmRowViewUserLogs = Backbone.View.extend(
 		 */
 		template: wp.template('dlm-user-logs-row'),
 
+		initialize: function (args) {
+			// Child Views
+			this.childViews = ('undefined' !== typeof args.childViews) ? args.childViews : [];
+		},
+
 		render: function () {
-			this.$el.append(this.template(this.model.attributes));
+			const element    = this.$el;
+			const childViews = this.childViews;
+			element.append(this.template(this.model.attributes));
+
+			// Generate Child Views
+			if (childViews.length > 0) {
+				childViews.forEach(function (view) {
+
+					// Init with model
+					var childView = new view(
+						{
+							model: this.model
+						}
+					);
+					let childHTML = childView.render().el;
+					// Render view within our main view
+					element.find('.dlm-reports-table__line[data-id="' + this.model.attributes.key + '"]').append(childHTML.innerHTML);
+				}, this);
+			}
 			return this;
 		}
 	}

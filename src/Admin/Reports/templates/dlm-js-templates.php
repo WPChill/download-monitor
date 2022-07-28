@@ -7,7 +7,7 @@
 </script>
 
 <script type="text/html" id="tmpl-dlm-user-logs-row">
-	<tr class="dlm-reports-table__line">
+	<tr class="dlm-reports-table__line" data-id="{{data.key}}">
 		<td class="user"><p><a href="{{data.edit_link}}" target="_blank">{{data.user}}</a></p></td>
 		<td class="ip"><p>{{data.ip}}</p></td>
 		<td class="role"><p><# if(data.role){ #> {{data.role}} <# } else { #> -- <#  } #></p></td>

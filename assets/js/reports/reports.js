@@ -1686,6 +1686,7 @@ class DLM_Reports {
 			const download = dlmReportsInstance.getDownloadCPT(dataResponse[i].download_id.toString());
 
 			let itemObject = {
+				key               : i,
 				user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user) ? user['user_nicename'] : '--',
 				ip                : dataResponse[i].user_ip,
 				role              : (null !== user && null !== user.role ? user.role : '--'),
