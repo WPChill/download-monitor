@@ -842,7 +842,7 @@ class DLM_Reports {
 								drawBorder: false,
 							},
 							min  : 0,
-							max  : (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil(dlmReportsInstance.getMaxDownload() / 10) * 10 : 100,
+							max  : (0 !== dlmReportsInstance.getMaxDownload()) ? ( Math.ceil(dlmReportsInstance.getMaxDownload() / 10) === 1 ? dlmReportsInstance.getMaxDownload() + 1 : Math.ceil(dlmReportsInstance.getMaxDownload() / 10) * 10 ) : 100,
 							ticks: {
 								stepSize: (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil(dlmReportsInstance.getMaxDownload() / 4) : 25,
 								callback: (val) => {
@@ -885,13 +885,14 @@ class DLM_Reports {
 			this.setMostDownloaded('--');
 			return;
 		}
-
+		dlmReportsInstance.totalDownloads = 0;
 		// Lets prepare the items based on item id and not date so that we can get the most downloaded item
 		dlmReportsInstance.stats.summaryStats.forEach((itemSet) => {
 
 			itemSet = JSON.parse(itemSet.download_ids);
 
 			Object.entries(itemSet).forEach(([key, item]) => {
+
 				dlmReportsInstance.totalDownloads += item.downloads;
 				mostDownloaded[key] = ('undefined' === typeof mostDownloaded[key]) ? {
 					downloads: item.downloads, title: item.title, id: key
@@ -1720,13 +1721,14 @@ class DLM_Reports {
 
 		jQuery('.user-downloads-block-navigation').on('click', 'button', function () {
 
-			let main_parent                               = jQuery(this).parents('#users_downloads_table_wrapper'),
-				offsetHolder                              = main_parent.find('#users_download_log'),
-				offset                                    = offsetHolder.attr('data-page'),
-				link                                      = jQuery(this),
-				nextPage = parseInt(offset) + 1, prevPage = (0 !== offset) ? parseInt(offset) - 1 : 0,
-				prevButton                                = main_parent.find('.downloads-block-navigation button').first(),
-				nextButton                                = main_parent.find('.downloads-block-navigation button').last();
+			let main_parent  = jQuery(this).parents('#users_downloads_table_wrapper'),
+				offsetHolder = main_parent.find('#users_download_log'),
+				offset       = offsetHolder.attr('data-page'),
+				link         = jQuery(this),
+				nextPage     = parseInt(offset) + 1,
+				prevPage     = (0 !== offset) ? parseInt(offset) - 1 : 0,
+				prevButton   = main_parent.find('.downloads-block-navigation button').first(),
+				nextButton   = main_parent.find('.downloads-block-navigation button').last();
 
 			link.attr('disabled', 'disabled');
 
@@ -1952,48 +1954,24 @@ class DLM_Reports {
 	/**
 	 * Get download object based on ID
 	 * @param $id
-	 * @returns {{total: number, redirected: number, logged: number, completed: number, failed: number, nonLoggged: number}}
+	 * @returns {{total: number}}
 	 */
 	getDownloadByID($id) {
 
 		let download = {
-			completed : 0,
-			failed    : 0,
-			redirected: 0,
 			total     : 0,
-			logged    : 0,
-			nonLoggged: 0
 		},
 		currentItem = {};
-
-		dlmReportsInstance.dlmUsersStats.logs.forEach(
+		dlmReportsInstance.tempDownloads.forEach(
 			function (item) {
 				if ($id === item.download_id) {
 					currentItem = item;
 					download.total = download.total + 1;
 
-					if ('completed' === item.download_status) {
-						download.completed = download.completed + 1;
-					}
-
-					if ('redirected' === item.download_status) {
-						download.redirected = download.redirected + 1;
-					}
-
-					if ('failed' === item.download_status) {
-						download.failed = download.failed + 1;
-					}
-
-					if ('0' !== item.user_id) {
-						download.logged = download.logged + 1;
-					} else {
-						download.nonLoggged = download.nonLoggged + 1;
-					}
+					jQuery(document).trigger('dlm_download_by_id', [dlmReportsInstance, download, currentItem]);
 				}
 			}
 		);
-
-		jQuery(document).trigger('dlm_download_by_id', [dlmReportsInstance, download, currentItem]);
 
 		return download;
 	}
