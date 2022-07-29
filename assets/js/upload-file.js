@@ -22,6 +22,7 @@ jQuery(function ($) {
 
         dlmUploader.uploader.bind('FilesAdded', dlmFileAdded);
         dlmUploader.uploader.bind('FileUploaded', dlmAddFileToPath);
+        dlmUploader.uploader.bind('Error', dlmUploadError);
     });
 
 
@@ -47,6 +48,7 @@ jQuery(function ($) {
                 dlmUploader = new wp.Uploader(dlmUploaderOptions);
             dlmUploader.uploader.bind('FilesAdded', dlmFileAdded);
             dlmUploader.uploader.bind('FileUploaded', dlmAddFileToPath);
+            dlmUploader.uploader.bind('Error', dlmUploadError);
         });
 
     });
@@ -75,5 +77,18 @@ jQuery(function ($) {
 
         const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
         fileURLs.parent().addClass('dlm-blury');
+    }
+
+    /**
+     * Blur the textarea so the user knows it is loading
+     * @param {*} up
+     * @param {*} pluploadError
+     */
+    function dlmUploadError(up, pluploadError) {
+        console.log(pluploadError);
+        jQuery(up.settings.browse_button).parent().append('<p class="error description" style="color:red;">' + pluploadError.message + '</p>');
+        setTimeout(function () {
+            jQuery(up.settings.browse_button).parent().find('.error.description').remove();
+        }, 3500);
     }
 });

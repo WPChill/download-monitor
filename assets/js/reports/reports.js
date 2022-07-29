@@ -1979,7 +1979,7 @@ class DLM_Reports {
 	/**
 	 * Get download object based on ID
 	 * @param $id
-	 * @returns {{total: number, redirected: number, logged: number, completed: number, failed: number, nonLoggged: number}}
+	 * @returns {{total: number}}
 	 */
 	getDownloadCPT($id) {
 		let download = dlmReportsInstance.mostDownloaded.filter((item) => {
