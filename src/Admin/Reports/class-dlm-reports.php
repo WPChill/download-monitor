@@ -283,8 +283,19 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			wp_cache_delete( $cache_key, 'dlm_user_reports' );
 			$stats = wp_cache_get( $cache_key, 'dlm_user_reports' );
 			if ( ! $stats ) {
-				$downloads    = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};", ARRAY_A );
-				$user_reports = array(
+				$table_columns = apply_filters(
+					'dlm_download_log_columns',
+					array(
+						'user_id',
+						'user_ip',
+						'download_id',
+						'download_date',
+						'download_status'
+					)
+				);
+				$table_columns = sanitize_text_field( implode( ',', wp_unslash( $table_columns ) ) );
+				$downloads     = $wpdb->get_results( $wpdb->prepare( 'SELECT ' . $table_columns . ' FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ), ARRAY_A );
+				$user_reports  = array(
 					'logs'   => $downloads,
 					'offset' => ( $this->php_info['retrieved_rows'] === count( $downloads ) ) ? $offset + 1 : '',
 					'done'   => ( $this->php_info['retrieved_rows'] > count( $downloads ) ) ? true : false,

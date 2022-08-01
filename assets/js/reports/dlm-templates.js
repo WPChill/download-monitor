@@ -73,7 +73,8 @@ dlmRowModelUserLogs = Backbone.Model.extend(
 			var rowView = new dlmBackBone['viewUserLogs'](
 				{
 					'model': model,
-					'el'   : jQuery('.user-logs__list')
+					'el'   : jQuery('.user-logs__list'),
+					'childViews': dlmBackBone.userLogsChildViews
 				}
 			);
 

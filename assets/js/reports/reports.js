@@ -1699,7 +1699,7 @@ class DLM_Reports {
 				download_date     : dataResponse[i].download_date,
 			}
 
-			jQuery(document).trigger('dlm_reports_user_downloads_item_before_render', [itemObject, dlmReportsInstance, dataResponse[i], user, download]);
+			jQuery(document).trigger('dlm_reports_user_logs_item_before_render', [itemObject, dlmReportsInstance, dataResponse[i], user, download]);
 
 			let item = new dlmBackBone['modelUserLogs'](itemObject);
 		}
