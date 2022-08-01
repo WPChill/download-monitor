@@ -201,7 +201,6 @@ class DLM_Reports {
 
 		dlmReportsInstance.tabNagivation();
 		dlmReportsInstance.overViewTab();
-		dlmReportsInstance.userReportsTab();
 		dlmReportsInstance.togglePageSettings();
 
 		// Fetch our users and the logs.
@@ -1719,8 +1718,8 @@ class DLM_Reports {
 	 */
 	handleUserDownloads() {
 
-		jQuery('.user-downloads-block-navigation').on('click', 'button', function () {
-
+		jQuery('.user-downloads-block-navigation').on('click', 'button', function (e) {
+			e.stopPropagation();
 			let main_parent  = jQuery(this).parents('#users_downloads_table_wrapper'),
 				offsetHolder = main_parent.find('#users_download_log'),
 				offset       = offsetHolder.attr('data-page'),
