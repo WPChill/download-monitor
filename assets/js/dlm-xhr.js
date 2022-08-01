@@ -213,11 +213,14 @@ class DLM_XHR_Download {
 			return;
 		}
 
+		const currentURL = window.location.href;
+
 		const data = {
 			download_id,
 			version_id,
 			status,
 			cookie,
+			currentURL,
 			action: 'log_dlm_xhr_download',
 			nonce : dlmXHR.nonce
 		};

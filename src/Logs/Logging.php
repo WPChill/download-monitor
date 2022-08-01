@@ -134,12 +134,13 @@ class DLM_Logging {
 		$version_id  = absint( $_POST['version_id'] );
 		$status      = sanitize_text_field( wp_unslash( $_POST['status'] ) );
 		$cookie      = 'true' === $_POST['cookie'];
+		$current_url = ( isset( $_POST['currentURL'] ) ) ? esc_url_raw( $_POST['currentURL'] ) : '-';
 		// Set our objects
 		$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 		$version  = download_monitor()->service( 'version_repository' )->retrieve_single( $version_id );
 		$download->set_version( $version );
 		// Truly log the corresponding status
-		$this->log( $download, $version, $status, $cookie );
+		$this->log( $download, $version, $status, $cookie, $current_url );
 		die();
 	}
 
@@ -152,8 +153,9 @@ class DLM_Logging {
 	 * @param DLM_Download $download
 	 * @param DLM_Download_Version $version
 	 * @param bool $cookie
+	 * @param string $url
 	 */
-	public function log( $download, $version, $status = 'completed', $cookie = true ) {
+	public function log( $download, $version, $status = 'completed', $cookie = true, $url = '-' ) {
 
 		// Check if logging is enabled.
 		if ( ! self::is_logging_enabled() ) return;
@@ -174,6 +176,7 @@ class DLM_Logging {
 			$log_item->set_version_id( absint( $version->get_id() ) );
 			$log_item->set_version( $version->get_version() );
 			$log_item->set_download_status( $status );
+			$log_item->set_current_url( $url );
 			$log_item->increase_download_count();
 
 			if ( $cookie ) {

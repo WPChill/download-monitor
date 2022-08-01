@@ -35,6 +35,9 @@ class DLM_Log_Item {
 	/** @var string */
 	private $download_status_message;
 
+	/** @var string */
+	private $current_url;
+
 	/** @var array */
 	private $meta_data = array();
 
@@ -92,6 +95,23 @@ class DLM_Log_Item {
 	 */
 	public function set_user_uuid( $user_ip ) {
 		$this->user_uuid = md5( $user_ip );
+	}
+
+	/**
+	 * Get the URL from which the download took part
+	 *
+	 * @return string
+	 */
+	public function get_current_url() {
+		return $this->current_url;
+	}
+
+	/** Set the URL from which the download took part
+	 *
+	 * @param string $current_url the URL from which the download took part.
+	 */
+	public function set_current_url( $current_url ) {
+		$this->current_url = $current_url;
 	}
 
 	/**
@@ -271,6 +291,7 @@ class DLM_Log_Item {
 				'download_date'           => sanitize_text_field( $download_date ),
 				'download_status'         => $this->get_download_status(),
 				'download_status_message' => $this->get_download_status_message(),
+				'download_location'       => $this->get_current_url(),
 			),
 			array(
 				'%d',
@@ -278,6 +299,7 @@ class DLM_Log_Item {
 				'%s',
 				'%d',
 				'%d',
+				'%s',
 				'%s',
 				'%s',
 				'%s',

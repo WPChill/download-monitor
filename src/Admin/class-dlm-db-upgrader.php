@@ -198,12 +198,14 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			// Add uuid column to download_log table.
 			global $wpdb;
-			$alter_statement = "ALTER TABLE {$wpdb->download_log} ADD COLUMN uuid VARCHAR(200) AFTER USER_IP;";
-			$hash_statement  = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
+			$alter_statement   = "ALTER TABLE {$wpdb->download_log} ADD COLUMN uuid VARCHAR(200) AFTER USER_IP;";
+			$alter_statement_2 = "ALTER TABLE {$wpdb->download_log} ADD COLUMN download_location VARCHAR(200) AFTER download_status_message;";
+			$hash_statement    = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
 			// SQL to add index for download_log
 			$add_index = "ALTER TABLE {$wpdb->download_log} ADD INDEX download_count (version_id);";
 
 			$wpdb->query( $alter_statement );
+			$wpdb->query( $alter_statement_2 );
 			$wpdb->query( $hash_statement );
 			$wpdb->query( $add_index );
 
