@@ -155,7 +155,7 @@ class DLM_Reports {
 	 * @param limit
 	 * @returns {Promise<void>}
 	 */
-	async fetchUsersReportsData(offset = 0, limit = 10000) {
+	async fetchUsersReportsData(offset = 0, limit = dlmPHPinfo['retrieved_rows']) {
 
 		const wrapper         = jQuery('div[data-id="user_reports"]');
 		const fetchedUserData = await fetch(dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit);

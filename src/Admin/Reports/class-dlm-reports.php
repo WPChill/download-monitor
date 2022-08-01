@@ -22,7 +22,17 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public static $instance;
 
-		private $top_downloads = array();
+		/**
+		 * @var array
+		 */
+		private $reports_headers = array();
+
+		/**
+		 * PHP info used to set the limit for SQL queries.
+		 *
+		 * @var array
+		 */
+		public  $php_info = array();
 
 		/**
 		 * DLM_Reports constructor.
@@ -30,6 +40,34 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.6.0
 		 */
 		public function __construct() {
+
+			$this->php_info = array(
+				'memory_limit'       => ini_get( 'memory_limit' ),
+				'max_execution_time' => ini_get( 'max_execution_time' ),
+				'retrieved_rows'     => 10000
+			);
+
+			if ( 40 < $this->php_info['memory_limit'] ) {
+				if ( 80 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 30000;
+				}
+
+				if ( 120 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 40000;
+				}
+				if ( 150 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 60000;
+				}
+
+				if ( 200 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 100000;
+				}
+
+				if ( 500 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 150000;
+				}
+			}
+
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
@@ -61,7 +99,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @return void
 		 */
 		public function set_table_headers() {
-			$this->top_downloads = apply_filters(
+			$this->reports_headers = apply_filters(
 				'dlm_reports_templates',
 				array(
 					'top_downloads' => array(
@@ -96,8 +134,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports';
 			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data';
 			$rest_route_templates        = rest_url() . 'download-monitor/v1/templates';
-			// Let's add the global variable that will hold our reporst class and the routes
-			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; ', 'before' );
+			// Let's add the global variable that will hold our reporst class and the routes.
+			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; const dlmPHPinfo =  ' . wp_json_encode( $this->php_info ) . ';', 'before' );
 		}
 
 		/**
@@ -239,8 +277,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$cache_key    = 'dlm_insights_users';
 			$user_reports = array();
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 10000;
-			$offset_limit = $offset * 10000;
+			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_rows'];
+			$offset_limit = $offset * $this->php_info['retrieved_rows'];
 
 			wp_cache_delete( $cache_key, 'dlm_user_reports' );
 			$stats = wp_cache_get( $cache_key, 'dlm_user_reports' );
@@ -248,8 +286,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				$downloads    = $wpdb->get_results( 'SELECT user_id, user_ip, download_id, download_date, download_status FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};", ARRAY_A );
 				$user_reports = array(
 					'logs'   => $downloads,
-					'offset' => ( 10000 === count( $downloads ) ) ? $offset + 1 : '',
-					'done'   => ( 10000 > count( $downloads ) ) ? true : false,
+					'offset' => ( $this->php_info['retrieved_rows'] === count( $downloads ) ) ? $offset + 1 : '',
+					'done'   => ( $this->php_info['retrieved_rows'] > count( $downloads ) ) ? true : false,
 				);
 				wp_cache_set( $cache_key, $user_reports, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
 			}
@@ -336,7 +374,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$downloads = $wpdb->get_results( 'SELECT COUNT(ID) as downloads, download_id, download_status FROM ' . $wpdb->download_log . ' GROUP BY download_id ORDER BY downloads desc LIMIT  ' . absint( $offset ) . ' , ' . absint( $limit ) . ';', ARRAY_A );
 
 			ob_start();
-			$dlm_top_downloads = $this->top_downloads;
+			$dlm_top_downloads = $this->reports_headers;
 			include __DIR__ . '/components/php-components/top-downloads-table.php';
 			return ob_get_clean();
 		}
@@ -350,7 +388,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function header_top_downloads_markup() {
 
 			ob_start();
-			$dlm_top_downloads = $this->top_downloads;
+			$dlm_top_downloads = $this->reports_headers;
 			include __DIR__ . '/components/php-components/top-downloads-header.php';
 			return ob_get_clean();
 		}
@@ -364,7 +402,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function footer_top_downloads_markup() {
 
 			ob_start();
-			$dlm_top_downloads = $this->top_downloads;
+			$dlm_top_downloads = $this->reports_headers;
 			include __DIR__ . '/components/php-components/top-downloads-footer.php';
 			return ob_get_clean();
 		}
@@ -378,7 +416,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function header_user_logs_markup() {
 
 			ob_start();
-			$dlm_top_downloads = $this->top_downloads;
+			$dlm_top_downloads = $this->reports_headers;
 			include __DIR__ . '/components/php-components/user-logs-header.php';
 			return ob_get_clean();
 		}
@@ -392,7 +430,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function footer_user_logs_markup() {
 
 			ob_start();
-			$dlm_top_downloads = $this->top_downloads;
+			$dlm_top_downloads = $this->reports_headers;
 			include __DIR__ . '/components/php-components/user-logs-footer.php';
 			return ob_get_clean();
 		}
