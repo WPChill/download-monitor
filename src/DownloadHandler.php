@@ -92,24 +92,24 @@ class DLM_Download_Handler {
 	 */
 	public function handler() {
 		global $wp, $wpdb;
-		// check HTTP method
+		// check HTTP method.
 		$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : 'GET' );
 		if ( ! in_array( $request_method, apply_filters( 'dlm_accepted_request_methods', array( 'GET', 'POST' ) ) ) ) {
 			return;
 		}
 
-		// GET to query_var
+		// GET to query_var.
 		if ( ! empty( $_GET[ $this->endpoint ] ) ) {
 			$wp->query_vars[ $this->endpoint ] = sanitize_text_field( wp_unslash( $_GET[ $this->endpoint ] ) );
 		}
 
-		// check if endpoint is set but is empty
+		// check if endpoint is set but is empty.
 		if ( apply_filters( 'dlm_empty_download_redirect_enabled', true ) && isset( $wp->query_vars[ $this->endpoint ] ) && empty( $wp->query_vars[ $this->endpoint ] ) ) {
 			wp_redirect( apply_filters( 'dlm_empty_download_redirect_url', home_url() ) );
 			exit;
 		}
 
-		// check if need to handle an actual download
+		// check if need to handle an actual download.
 		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && ( ( null === $wp->request ) || ( '' === $wp->request ) || ( strstr( $wp->request, $this->endpoint . '/' ) ) ) ) {
 
 			// Prevent caching when endpoint is set
@@ -214,6 +214,9 @@ class DLM_Download_Handler {
 			}
 
 			die( '1' );
+		} else {
+			// Set the no-waypoints in case link/button has triggering class and we don't want to do the download action. Ex.: Page Addon extension.
+			header( 'dlm-no-waypoints: true' );
 		}
 	}
 
@@ -246,7 +249,8 @@ class DLM_Download_Handler {
 
 		/** @var array $file_paths */
 		$file_paths = $version->get_mirrors();
-
+		// Set required headers used by XHR download
+		$this->set_required_xhr_headers( $download, $version );
 		// Check if we got files in this version.
 		if ( empty( $file_paths ) ) {
 			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
@@ -289,7 +293,8 @@ class DLM_Download_Handler {
 			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
 
-		$this->set_required_xhr_headers( $file_path, $download, $version );
+		// Set extra headers for XHR download.
+		$this->set_extra_xhr_headers( $file_path, $download, $version );
 
 		// Check Access.
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) ) {
@@ -594,21 +599,36 @@ class DLM_Download_Handler {
 	/**
 	 * Set required XHR download headers
 	 *
-	 * @param string               $file_path
-	 * @param DLM_Download         $download
-	 * @param DLM_Download_Version $version
+	 * @param DLM_Download         $download DLM Download object.
+	 * @param DLM_Download_Version $version DLN Version object.
 	 */
-	private function set_required_xhr_headers( $file_path, $download, $version ) {
+	private function set_required_xhr_headers( $download, $version ) {
 
 		$headers = array();
 
 		$headers['DLM-Download-ID'] = $download->get_id();
 		$headers['DLM-Version-ID']  = $version->get_id();
 
-		$headers = apply_filters( 'dlm_xhr_download_headers', $headers, $file_path, $download, $version );
-
 		foreach ( $headers as $key => $value ) {
 			header( $key . ': ' . $value );
+		}
+	}
+
+	/**
+	 * Set extra XHR download headers
+	 *
+	 * @param DLM_Download $download DLM Download object.
+	 * @param DLM_Download_Version $version DLN Version object.
+	 * @param string $file_path The file path.
+	 */
+	private function set_extra_xhr_headers( $file_path, $download, $version ) {
+
+		$headers = apply_filters( 'dlm_xhr_download_headers', array(), $file_path, $download, $version );
+
+		if ( ! empty( $headers ) ) {
+			foreach ( $headers as $key => $value ) {
+				header( $key . ': ' . $value );
+			}
 		}
 	}
 

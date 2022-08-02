@@ -74,7 +74,7 @@ class DLM_XHR_Download {
 				buttonObj,
 			} = triggerObject;
 
-		// This will hold the the file as a local object URL
+		// This will hold the file as a local object URL
 		let _OBJECT_URL;
 		const request     = new XMLHttpRequest(),
 			  buttonClass = buttonObj.attr('class'),
@@ -106,6 +106,11 @@ class DLM_XHR_Download {
 					result[name]      = value;
 					return result;
 				}, {});
+
+			if ('undefined' !== typeof responseHeaders['dlm-no-waypoints']) {
+				request.abort();
+				window.location.href = href;
+			}
 
 			if ('undefined' !== typeof responseHeaders['dlm-external-download']) {
 				request.abort();

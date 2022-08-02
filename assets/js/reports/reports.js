@@ -1705,6 +1705,12 @@ class DLM_Reports {
 
 		dlmReportsInstance.stopSpinner(jQuery('#users_download_log'));
 
+		if (10 !== dataResponse.length) {
+			wrapperParent.find('.user-downloads-block-navigation button[data-action="load-more"]').attr('disabled', 'disabled');
+		} else {
+			wrapperParent.find('.user-downloads-block-navigation button[data-action="load-more"]').removeAttr('disabled');
+		}
+
 		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
 		if (dlmReportsInstance.userDownloads.length > 10) {
 			wrapperParent.find('.user-downloads-block-navigation button').removeClass('hidden');
