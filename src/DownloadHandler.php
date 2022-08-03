@@ -344,7 +344,7 @@ class DLM_Download_Handler {
 							exit;
 						}
 						// redirect to no access page.
-						header( "Status: 401 redirect,$redirect" );
+						header( "Status: 301 redirect,$no_access_permalink" );
 						wp_redirect( $no_access_permalink );
 						exit; // out
 					}

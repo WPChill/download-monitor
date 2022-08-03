@@ -5,7 +5,7 @@
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
-   "@floatwork/grunt-po2mo": "^0.3.0",
+    "@floatwork/grunt-po2mo": "^0.3.0",
     "@wordpress/scripts": "^23.4.0",
     "cypress": "^10.3.0",
     "grunt": "^1.5.3",
