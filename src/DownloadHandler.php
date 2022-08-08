@@ -458,39 +458,30 @@ class DLM_Download_Handler {
 			$range = false;
 		}
 
-		if ( $remote_file ) {
-			// Redirect - we can't track if this completes or not.
-			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
-
-				$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
-				// Ensure we have a valid URL, not a file path.
-				$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
-				// we get the secure file path.
-				$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
-				$file_path    = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', $correct_path ), site_url( '/', $scheme ), str_replace( DIRECTORY_SEPARATOR, '/', $file_path ) );
-				header( 'DLM-Redirect: ' . $file_path );
-				exit;
-			}
-			header( 'Location: ' . $file_path );
-			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
-				$this->dlm_logging->log( $download, $version, 'redirected' );
-			}
-		} elseif ( file_exists( $file_path ) ) {
-
+		if ( $this->readfile_chunked( $file_path, false, $range ) ) {
 			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 				$this->dlm_logging->log( $download, $version, 'completed' );
 			}
 			$this->readfile_chunked( $file_path, false, $range );
+		} elseif ( $remote_file ) {
+			header('dlm-caca: pute');
+			// Redirect - we can't track if this completes or not.
+			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+				header( 'DLM-Redirect: ' . $file_path );
+				exit;
+			}
+
+			header( 'Location: ' . $file_path );
+			$this->dlm_logging->log( $download, $version, 'redirected' );
 
 		} else {
-			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
-				$this->dlm_logging->log( $download, $version, 'failed' );
-			}
+
 			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 				header( 'DLM-Error: ' . esc_html__( 'File not found.', 'download-monitor' ) );
 				exit;
 			}
+
+			$this->dlm_logging->log( $download, $version, 'failed' );
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
 		exit;

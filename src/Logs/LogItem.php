@@ -111,6 +111,13 @@ class DLM_Log_Item {
 	 * @param string $current_url the URL from which the download took part.
 	 */
 	public function set_current_url( $current_url ) {
+
+		if ( get_option( 'permalink_structure' ) ) {
+			$current_url = wp_parse_url( $current_url )['path'];
+		} else {
+			$current_url = '/' . wp_parse_url( $current_url )['query'];
+		}
+
 		$this->current_url = $current_url;
 	}
 
