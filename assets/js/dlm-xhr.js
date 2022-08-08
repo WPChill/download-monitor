@@ -85,7 +85,7 @@ class DLM_XHR_Download {
 		button.removeAttribute('download');
 		button.setAttribute('disabled', 'disabled');
 
-		const newHref = (href.indexOf('/?') > 0) ? href + '&nonce=' + dlmXHR.nonce : href + '?nonce=' + dlmXHR.nonce;
+		const newHref = (href.indexOf('?') > 0) ? href + '&nonce=' + dlmXHR.nonce : href + '?nonce=' + dlmXHR.nonce;
 
 		// Trigger the `dlm_download_triggered` action
 		jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL]);
@@ -155,7 +155,6 @@ class DLM_XHR_Download {
 			}
 
 			if (status == 200 && readyState == 4) {
-
 				let blob      = request.response;
 				let file_name = responseHeaders['content-disposition'].split('filename=')[1];
 				file_name = file_name.replace(/\"/g, '').replace(';', '');
