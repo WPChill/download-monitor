@@ -60,7 +60,7 @@
 
   td.column-shortcode {
     .hidden {
-      display:none;
+      display: none;
     }
   }
 }
@@ -302,22 +302,22 @@
 
     label.dlm-enhanced-radio-label {
       position: relative;
-      padding:10px 15px;
-      display:inline-block;
-      margin-bottom:15px;
-      -webkit-user-select: none; /* Safari */        
+      padding: 10px 15px;
+      display: inline-block;
+      margin-bottom: 15px;
+      -webkit-user-select: none; /* Safari */
       -moz-user-select: none; /* Firefox */
       -ms-user-select: none; /* IE10+/Edge */
       user-select: none; /* Standard */
 
       span {
-        z-index:3;
+        z-index: 3;
         position: relative;
       }
-   
+
       input[type="radio"] {
         position: relative;
-        z-index:2;
+        z-index: 2;
 
         & + div.dlm-radio__selectable-area {
           position: absolute;
@@ -327,22 +327,22 @@
           display: block;
           top: 0;
           left: 0;
-          opacity:1;
-          border:1px solid grey;
+          opacity: 1;
+          border: 1px solid grey;
         }
 
         &:checked + div.dlm-radio__selectable-area {
-          border-color:green;
+          border-color: green;
           background-color: rgba(0, 128, 0, 0.6);
 
           & + span {
-            color:#fff;
+            color: #fff;
           }
         }
       }
     }
   }
-  
+
   .dlm-groupped-settings {
     td,
     .dlm-accordeon-group {
@@ -372,8 +372,8 @@
         padding: 35px 0;
 
         .dlm-accordeon-group__setting-title {
-          font-size:16px;
-          margin-bottom:15px;
+          font-size: 16px;
+          margin-bottom: 15px;
           font-weight: bold;
         }
 
@@ -707,31 +707,31 @@ table.wp-list-table {
       border: 1px solid #ececec;
       margin: 9px 0 !important;
 
-      & .dlm-blury{
+      & .dlm-blury {
         &:before {
-          content:url('../images/ajax-loader.gif');
-          display:block;
+          content: url('../images/ajax-loader.gif');
+          display: block;
           position: absolute;
-          top:50%;
-          transform:translateY(-50%);
-          width:100%;
-          left:0;
-          margin:0 auto;
-          color:#cecece;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 100%;
+          left: 0;
+          margin: 0 auto;
+          color: #cecece;
           text-align: center;
           z-index: 11;
           font-size: 16px;
-         // background-image:url('../images/ajax-loader.gif') center center no-repeat;
+          // background-image:url('../images/ajax-loader.gif') center center no-repeat;
         }
 
         &:after {
-          content:"";
-          display:block;
-          background:rgba(0,0,0,0.5);
-          width:100%;
-          top:0;
-          left:0;
-          margin:0 auto;
+          content: "";
+          display: block;
+          background: rgba(0, 0, 0, 0.5);
+          width: 100%;
+          top: 0;
+          left: 0;
+          margin: 0 auto;
           height: 100%;
           z-index: 10;
           position: absolute;
@@ -860,6 +860,7 @@ table.wp-list-table {
       &:first-child {
 
         /* main file */
+
         h3 {
           background-color: #FAFAFA;
           border-bottom: 1px solid #dcdcde;
@@ -885,6 +886,7 @@ table.wp-list-table {
 
     .dlm_browse_for_file {
       float: right;
+
       &:before {
         .iconbefore("\f322");
       }
@@ -915,6 +917,7 @@ table.wp-list-table {
     }
   }
 }
+
 #download-monitor-product-information {
   .dlm_information_panel {
     div {
@@ -1135,7 +1138,7 @@ table.wp-list-table {
         float: left;
       }
 
-      &> :last-child {
+      & > :last-child {
         margin-right: 0;
       }
 
@@ -1785,14 +1788,15 @@ table.wp-list-table {
 
 /* Extensions */
 .dlm_extensions_wrap {
-  
+
   a.dlm-reload-button {
     float: right;
     position: relative;
     top: -40px;
   }
-  #available-extensions{
-    clear:both;
+
+  #available-extensions {
+    clear: both;
   }
 
   .dlm_extensions {
@@ -1802,7 +1806,7 @@ table.wp-list-table {
     .dlm_extension {
 
       background-color: #FFF;
-      width: calc( 20% - 15px); 
+      width: calc(20% - 15px);
       margin: 0 15px 15px 0;
       display: inline-block;
       vertical-align: top;
@@ -1935,7 +1939,8 @@ table.wp-list-table {
       width: 33%;
     }
   }
-  a:first-child{
+
+  a:first-child {
     margin-right: 10px;
   }
 }
@@ -1949,13 +1954,13 @@ table.wp-list-table {
     width: 65%;
     float: left;
 
-    &+.wpchill-upsells-wrapper {
+    & + .wpchill-upsells-wrapper {
       width: 30%;
       float: right;
     }
-    
-    .dlm_htaccess_notice{
-      margin-bottom:5px;
+
+    .dlm_htaccess_notice {
+      margin-bottom: 5px;
     }
   }
 
@@ -1982,6 +1987,7 @@ table.wp-list-table {
     margin: 5px auto;
     margin-left: 15px;
   }
+}
 
 #total_downloads_browser_table {
   a.nav-tab {
@@ -2034,7 +2040,7 @@ table.wp-list-table {
     align-items: center;
     align-content: center;
 
-    >* {
+    > * {
       display: inline-block;
       align-content: center;
       vertical-align: middle;
@@ -2091,8 +2097,8 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
     margin: 0;
   }
 
-  &>.wpchill-plans-table.wpchill-highlight {
-    &>.wpchill-pricing-package {
+  & > .wpchill-plans-table.wpchill-highlight {
+    & > .wpchill-pricing-package {
       background: #fefff0;
       box-shadow: 0 0 15px rgb(208 219 219);
     }
@@ -2274,10 +2280,10 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
 */
 
 .wpchill-tooltip {
-	position: relative;
-	display: inline-block;
-	float: left;
-	margin-right: 10px;
+  position: relative;
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
 
   & > span {
     cursor: pointer;
@@ -2291,7 +2297,7 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
     position: absolute;
     top: 50%;
     right: -10px;
-    transform: translate( 100% ,-50% );
+    transform: translate(100%, -50%);
     width: 300px;
     background: #000;
     color: #fff;
@@ -2304,7 +2310,7 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
     display: block;
   }
 
-  .wpchill-tooltip-content{
+  .wpchill-tooltip-content {
     &:before {
       content: '';
       width: 0px;
@@ -2316,7 +2322,7 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
       position: absolute;
       top: 50%;
       left: -8px;
-      transform: translateY( -50% );
+      transform: translateY(-50%);
     }
   }
 }
@@ -2344,7 +2350,7 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
     display: block;
   }
 
-  .wpchill-tooltip-content{
+  .wpchill-tooltip-content {
     &:before {
       content: '';
       width: 0px;
@@ -2361,12 +2367,12 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
   }
 }
 
-.dlm-file-link{
-  display:block;
-  margin-top:3px;
+.dlm-file-link {
+  display: block;
+  margin-top: 3px;
 }
 
-.dlm-listing-no-file{
+.dlm-listing-no-file {
   code {
     color: #b32d2e;
   }
