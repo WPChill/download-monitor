@@ -1,6 +1,6 @@
 <?php
 
-class DLM_Admin_Fields_Field_Radio extends DLM_Admin_Fields_Field {
+class DLM_Admin_Fields_Field_EnhancedRadio extends DLM_Admin_Fields_Field {
 
 	/** @var String */
 	private $options;
@@ -35,14 +35,14 @@ class DLM_Admin_Fields_Field_Radio extends DLM_Admin_Fields_Field {
 	 * Renders field
 	 */
 	public function render() {
-		if ( '' === $this->get_value() ) {
-			$this->set_value($this->get_placeholder());
-		}
+        if ( '' === $this->get_value() ) {
+            $this->set_value($this->get_placeholder());
+        }
 		foreach ( $this->get_options() as $key => $name ) {
 			?>
-			<label class="dlm-radio-label"><input id="setting-<?php echo esc_attr( $this->get_name() ); ?>"
-			                                      name="<?php echo esc_attr( $this->get_name() ); ?>" type="radio"
-			                                      value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $this->get_value() ); ?> /><span><?php echo esc_html( $name ); ?></span></label>
+			<label class="dlm-enhanced-radio-label"><input id="setting-<?php echo esc_attr( $this->get_name() ); ?>"
+					  name="<?php echo esc_attr( $this->get_name() ); ?>" type="radio"
+					  value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $this->get_value() ); ?> /><div class="dlm-radio__selectable-area"></div><span><?php echo esc_html( $name ); ?></span></label>
 			<?php
 		}
 
