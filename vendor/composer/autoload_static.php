@@ -28,7 +28,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Admin_Fields_Field' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/Field.php',
         'DLM_Admin_Fields_Field_Accordion' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/Accordion.php',
         'DLM_Admin_Fields_Field_ActionButton' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/ActionButton.php',
-        'DLM_Admin_Fields_Field_InstallPlugin' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/InstallPlugin.php',
         'DLM_Admin_Fields_Field_Checkbox' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/Checkbox.php',
         'DLM_Admin_Fields_Field_Desc' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/Desc.php',
         'DLM_Admin_Fields_Field_Editor' => __DIR__ . '/../..' . '/src/Admin/Settings/Fields/Editor.php',
@@ -279,6 +278,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\PimpleTest' => __DIR__ . '/../..' . '/src/Dependencies/Pimple/Tests/PimpleTest.php',
         'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\Psr11\\ContainerTest' => __DIR__ . '/../..' . '/src/Dependencies/Pimple/Tests/Psr11/ContainerTest.php',
         'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\Psr11\\ServiceLocatorTest' => __DIR__ . '/../..' . '/src/Dependencies/Pimple/Tests/Psr11/ServiceLocatorTest.php',
+        'WPChill_Welcome' => __DIR__ . '/../..' . '/includes/submodules/banner/class-wpchill-welcome.php',
         'WP_DLM' => __DIR__ . '/../..' . '/src/DLM.php',
     );
 

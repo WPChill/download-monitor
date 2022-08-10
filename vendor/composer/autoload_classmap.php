@@ -13,7 +13,6 @@ return array(
     'DLM_Admin_Fields_Field' => $baseDir . '/src/Admin/Settings/Fields/Field.php',
     'DLM_Admin_Fields_Field_Accordion' => $baseDir . '/src/Admin/Settings/Fields/Accordion.php',
     'DLM_Admin_Fields_Field_ActionButton' => $baseDir . '/src/Admin/Settings/Fields/ActionButton.php',
-    'DLM_Admin_Fields_Field_InstallPlugin' => $baseDir . '/src/Admin/Settings/Fields/InstallPlugin.php',
     'DLM_Admin_Fields_Field_Checkbox' => $baseDir . '/src/Admin/Settings/Fields/Checkbox.php',
     'DLM_Admin_Fields_Field_Desc' => $baseDir . '/src/Admin/Settings/Fields/Desc.php',
     'DLM_Admin_Fields_Field_Editor' => $baseDir . '/src/Admin/Settings/Fields/Editor.php',
@@ -264,5 +263,6 @@ return array(
     'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\PimpleTest' => $baseDir . '/src/Dependencies/Pimple/Tests/PimpleTest.php',
     'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\Psr11\\ContainerTest' => $baseDir . '/src/Dependencies/Pimple/Tests/Psr11/ContainerTest.php',
     'WPChill\\DownloadMonitor\\Dependencies\\Pimple\\Tests\\Psr11\\ServiceLocatorTest' => $baseDir . '/src/Dependencies/Pimple/Tests/Psr11/ServiceLocatorTest.php',
+    'WPChill_Welcome' => $baseDir . '/includes/submodules/banner/class-wpchill-welcome.php',
     'WP_DLM' => $baseDir . '/src/DLM.php',
 );
