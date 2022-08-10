@@ -67,7 +67,7 @@ $pro_arguments = array(
 	),
 );
 ?>
-<div class="wrap rsvp-lite-vs-premium">
+<div class="wrap dlm-lite-vs-premium">
 	<hr class="wp-header-end" />
 	<div class="free-vs-premium">
 		<!--  Table header -->
