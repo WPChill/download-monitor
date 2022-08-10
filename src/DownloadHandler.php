@@ -439,18 +439,26 @@ class DLM_Download_Handler {
 		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->get_filesize() ) {
 			// phpcs:ignore
 			list( $a, $range ) = explode( "=", $_SERVER['HTTP_RANGE'], 2 );
-			list( $range )             = explode( ',', $range, 2 );
-			list( $range, $range_end ) = explode( '-', $range );
-			$range                     = intval( $range );
 
-			if ( ! $range_end ) {
-				$range_end = $version->get_filesize();
+			list( $range ) = explode( ",", $range, 2 );
+			list( $range, $range_end ) = explode( "-", $range );
+			$range              = intval( $range );
+			$range_end_modified = false;
+
+			if ( ! $range_end || $range_end > $version->get_filesize() ) {
+				$range_end          = $version->get_filesize() - 1;
+				$range_end_modified = true;
 			} else {
 				$range_end = intval( $range_end );
 			}
 
-			$new_length = ( $range_end - $range ) + 1;
-			header( 'HTTP/1.1 206 Partial Content' );
+			if ( $range_end_modified ) {
+				$new_length = ( $range_end - $range ) + 1;
+			} else {
+				$new_length = $range_end - $range;
+			}
+
+			header( "HTTP/1.1 206 Partial Content" );
 			header( "Content-Length: $new_length" );
 			header( "Content-Range: bytes {$range}-{$range_end}/{$version->get_filesize()}" );
 
