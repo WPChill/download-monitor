@@ -72,7 +72,7 @@ class DLM_Template_Handler {
 		}
 
 		// Allow 3rd party plugin filter template file from their plugin
-		$template = apply_filters( 'dlm_get_template_part', $template, $slug, $name );
+		$template = apply_filters( 'dlm_get_template_part', $template, $slug, $name, $args );
 
 		// Allow 3rd party plugin filter template arguments from their plugin
 		$args = apply_filters( 'dlm_get_template_part_args', $args, $template, $slug, $name );
