@@ -575,7 +575,7 @@ class DLM_Download_Handler {
 				$new_length = $range_end - $range;
 			}
 
-			header( "HTTP/1.1 206 Partial Content" );
+			header( $_SERVER['SERVER_PROTOCOL'] . " 206 Partial Content" );
 			header( "Content-Length: $new_length" );
 			header( "Content-Range: bytes {$range}-{$range_end}/{$version->get_filesize()}" );
 
