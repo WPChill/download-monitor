@@ -2,19 +2,37 @@
 
 class DLM_Admin_Fields_Field_EnhancedRadio extends DLM_Admin_Fields_Field {
 
-	/** @var String */
+	/** @var Array */
 	private $options;
+	/** @var String */
+	private $default;
 
 	/**
 	 * DLM_Admin_Fields_Field_Radio constructor.
 	 *
 	 * @param String $name Radio name
 	 * @param String $value Radio current value
-	 * @param String $options Radio options
+	 * @param Array $options Radio options
+	 * @param String $default Radio default value
 	 */
-	public function __construct( $name, $value, $options ) {
-		$this->options = $options;
+	public function __construct( $name, $value, $options, $default = '' ) {
+		$this->set_options( $options );
+		$this->set_default( $default );
 		parent::__construct( $name, $value, '' );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_default() {
+		return $this->default;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function set_default( $default ) {
+		$this->default = $default;
 	}
 
 	/**
@@ -36,7 +54,7 @@ class DLM_Admin_Fields_Field_EnhancedRadio extends DLM_Admin_Fields_Field {
 	 */
 	public function render() {
         if ( '' === $this->get_value() ) {
-            $this->set_value($this->get_placeholder());
+            $this->set_value($this->get_default());
         }
 		foreach ( $this->get_options() as $key => $name ) {
 			?>
