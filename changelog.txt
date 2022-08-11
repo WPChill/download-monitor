@@ -1,4 +1,4 @@
-= 4.5.96 - TBA =
+= 4.5.96 - 16.08.2022 =
 Changed: Show error on upload if file not OK ( https://github.com/WPChill/download-monitor/issues/995 )
 Added: New settings field types ( https://github.com/WPChill/download-monitor/issues/1005 )
 Fixed: Download link on SiteGround with CDN not working ( https://github.com/WPChill/download-monitor/issues/994 )
