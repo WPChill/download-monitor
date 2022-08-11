@@ -85,7 +85,6 @@ jQuery(function ($) {
      * @param {*} pluploadError
      */
     function dlmUploadError(up, pluploadError) {
-        console.log(pluploadError);
         jQuery(up.settings.browse_button).parent().append('<p class="error description" style="color:red;">' + pluploadError.message + '</p>');
         setTimeout(function () {
             jQuery(up.settings.browse_button).parent().find('.error.description').remove();
