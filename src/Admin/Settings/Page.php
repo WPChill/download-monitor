@@ -217,7 +217,7 @@ class DLM_Settings_Page {
 								$option['type'] = '';
 							}
 
-							$tr_class = ( 'group' === $option['type'] ? 'dlm-groupped-settings' : '' );
+							$tr_class = 'dlm_settings dlm_' . $option['type'] . '_setting';
 							echo '<tr valign="top" data-setting="' . ( isset( $option['name'] ) ? esc_attr( $option['name'] ) : '' ) . '" class="' . esc_attr( $tr_class ) . '">';
 							if ( isset( $option['label'] ) && '' !== $option['label'] ) {
 								echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
