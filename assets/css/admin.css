@@ -107,34 +107,56 @@
 .dlm-admin-settings .form-table label.dlm-enhanced-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area + span {
   color: #fff;
 }
-.dlm-admin-settings .dlm-groupped-settings td,
-.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group {
+.dlm-admin-settings .dlm_settings {
+  padding: 5px 0;
+}
+.dlm-admin-settings .dlm_settings > th {
+  padding: 15px 5px;
+}
+.dlm-admin-settings .dlm_settings > td {
+  padding: 15px 5px 15px 0;
+}
+.dlm-admin-settings .dlm_install_plugin_setting {
+  background: #fff;
+}
+.dlm-admin-settings .dlm_group_setting td,
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group {
   margin: 0 auto;
   padding: 0 !important;
 }
-.dlm-admin-settings .dlm-groupped-settings td .postbox,
-.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group .postbox {
+.dlm-admin-settings .dlm_group_setting td .dlm-groupped-settings__box,
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group .dlm-groupped-settings__box {
+  margin: 5px 0 5px 0;
+}
+.dlm-admin-settings .dlm_group_setting td .dlm-groupped-settings__box .postbox,
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group .dlm-groupped-settings__box .postbox {
   padding: 0;
   margin: 0 auto;
 }
-.dlm-admin-settings .dlm-groupped-settings .handle-actions button {
+.dlm-admin-settings .dlm_group_setting td .dlm-groupped-settings__box .postbox .hndle,
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group .dlm-groupped-settings__box .postbox .hndle {
+  margin: 0;
+  padding: 8px;
+  font-weight: lighter;
+}
+.dlm-admin-settings .dlm_group_setting .handle-actions button {
   box-shadow: none;
 }
-.dlm-admin-settings .dlm-groupped-settings h2.hndle {
+.dlm-admin-settings .dlm_group_setting h2.hndle {
   cursor: pointer;
 }
-.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group__content {
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content {
   padding: 15px;
 }
-.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group__content .dlm-accordeon-group__setting {
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting {
   padding: 35px 0;
 }
-.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
   font-size: 16px;
   margin-bottom: 15px;
   font-weight: bold;
 }
-.dlm-admin-settings .dlm-groupped-settings .dlm-accordeon-group__content .dlm-accordeon-group__setting .description {
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .description {
   font-style: italic;
 }
 /* File lists */

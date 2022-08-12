@@ -26,7 +26,7 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 	 */
 	public function render() {
 
-		$html = '<div id="poststuff" class="meta-box-sortables dlm-accordeon-group">';
+		$html = '<div class="meta-box-sortables dlm-accordeon-group dlm-groupped-settings__box">';
 		$html  .= '<div class="postbox closed">';
 		$html .= '<div class="postbox-header">';
 		$html .= '<h2 class="hndle">' . esc_html( $this->title ) . '</h2>';
