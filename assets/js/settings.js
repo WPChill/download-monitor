@@ -56,7 +56,7 @@ jQuery(function ($) {
 			});
 		});
 
-		$('tr.dlm-groupped-settings').on( 'click', '.postbox-header', (event) => {
+		$('tr.dlm_group_setting').on( 'click', '.postbox-header', (event) => {
 			event.preventDefault();
 			event.stopPropagation();
 			$(event.currentTarget).parent().toggleClass('closed');
