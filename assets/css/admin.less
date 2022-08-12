@@ -357,6 +357,11 @@
 
   .dlm_install_plugin_setting {
     background: #fff;
+    padding: 0 15px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #ccc;
+    }
   }
 
   .dlm_group_setting {
@@ -394,11 +399,20 @@
 
       .dlm-accordeon-group__setting {
         padding: 35px 0;
+        display:flex;
+        flex-wrap:wrap;
+        flex-direction:row;
+        justify-content: space-between;
 
         .dlm-accordeon-group__setting-title {
           font-size: 16px;
           margin-bottom: 15px;
           font-weight: bold;
+          width:20%;
+        }
+
+        .dlm-accordeon-group__setting-content {
+          width:80%;
         }
 
         .description {
