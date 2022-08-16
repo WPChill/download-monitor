@@ -2,6 +2,7 @@
 Changed: Show error on upload if file not OK ( https://github.com/WPChill/download-monitor/issues/995 )
 Added: New settings field types ( https://github.com/WPChill/download-monitor/issues/1005 )
 Fixed: Download link on SiteGround with CDN not working ( https://github.com/WPChill/download-monitor/issues/994 )
+Fixed: Add parameter to filter for 3rd party payment gateway ( https://github.com/WPChill/download-monitor/issues/922 )
 
 = 4.5.95 - 25.07.2022 =
 Fixed: Warning Undefined array key "icon", "icon-color", "icon-text" if transients are not set. ( https://github.com/WPChill/download-monitor/issues/979 )
