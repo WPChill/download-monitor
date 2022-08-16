@@ -118,6 +118,9 @@
 }
 .dlm-admin-settings .dlm_install_plugin_setting {
   background: #fff;
+  padding: 0 15px;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 .dlm-admin-settings .dlm_group_setting td,
 .dlm-admin-settings .dlm_group_setting .dlm-accordeon-group {
@@ -150,11 +153,19 @@
 }
 .dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting {
   padding: 35px 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
   font-size: 16px;
   margin-bottom: 15px;
   font-weight: bold;
+  width: 20%;
+}
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-content {
+  width: 80%;
 }
 .dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .description {
   font-style: italic;
