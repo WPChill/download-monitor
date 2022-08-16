@@ -1,94 +1,143 @@
 jQuery(function ($) {
 
-    /**
-     * Set up the Media Uploader
-     */
+	/**
+	 * Set up the Media Uploader
+	 */
 
-    let dlmUploadButtons = [];
-    $('.dlm_upload_file').each((index, element) => {
+	let dlmUploadButtons = [],
+		dlmUploader      = {};
 
-        dlmUploadButtons.push($(element));
+	var uploadHandler = Backbone.Model.extend(
+		{
+			initialize: function ($args) {
+				this.uploaderOptions = $args;
 
-        const dlmUploaderOptions = {
-                browser: $(element),
-                plupload: {
-                    multi_selection: false,
-                },
-                params: {
-                    type: 'dlm_download'
-                }
-            },
-            dlmUploader = new wp.Uploader(dlmUploaderOptions);
+				var dlmUploaderInstance = this,
+					uploader,
+					dropzone;
 
-        dlmUploader.uploader.bind('FilesAdded', dlmFileAdded);
-        dlmUploader.uploader.bind('FileUploaded', dlmAddFileToPath);
-        dlmUploader.uploader.bind('Error', dlmUploadError);
-    });
+				uploader = new wp.Uploader(dlmUploaderInstance.uploaderOptions);
+
+				// Dropzone events
+				dropzone = uploader.dropzone;
+				dropzone.on('dropzone:enter', dlmUploaderInstance.show);
+				dropzone.on('dropzone:leave', dlmUploaderInstance.hide);
+
+				uploader.uploader.bind('FilesAdded', dlmUploaderInstance.dlmFileAdded);
+				uploader.uploader.bind('FileUploaded', dlmUploaderInstance.dlmAddFileToPath);
+				uploader.uploader.bind('Error', dlmUploaderInstance.dlmUploadError);
 
 
-    $(document).on('dlm_new_file_added', () => {
+			},
+			show      : function () {
+				var $el = $('#dlm-uploader-container').show();
 
-        $('.dlm_upload_file').each((index, element) => {
+				// Ensure that the animation is triggered by waiting until
+				// the transparent element is painted into the DOM.
+				_.defer(function () {
+					$el.css({opacity: 1});
+				});
+			},
+			hide      : function () {
+				var $el = $('#dlm-uploader-container').css({opacity: 0});
 
-            if (dlmUploadButtons.includes($(element))) {
-                return true;
-            }
+				wp.media.transition($el).done(function () {
+					// Transition end events are subject to race conditions.
+					// Make sure that the value is set as intended.
+					if ('0' === $el.css('opacity')) {
+						$el.hide();
+					}
+				});
 
-            dlmUploadButtons.push($(element));
+				// https://core.trac.wordpress.org/ticket/27341
+				_.delay(function () {
+					if ('0' === $el.css('opacity') && $el.is(':visible')) {
+						$el.hide();
+					}
+				}, 500);
+			},
+			/**
+			 * Add the file url to File URLs meta
+			 * @param {*} up
+			 * @param {*} file
+			 */
+			dlmAddFileToPath: function (up, file) {
 
-            const dlmUploaderOptions = {
-                    browser: $(element),
-                    plupload: {
-                        multi_selection: false,
-                    },
-                    params: {
-                        type: 'dlm_download'
-                    }
-                },
-                dlmUploader = new wp.Uploader(dlmUploaderOptions);
-            dlmUploader.uploader.bind('FilesAdded', dlmFileAdded);
-            dlmUploader.uploader.bind('FileUploaded', dlmAddFileToPath);
-            dlmUploader.uploader.bind('Error', dlmUploadError);
-        });
+				const fileUrl  = file.attachment.attributes.url;
+				const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
+				fileURLs.parent().removeClass('dlm-blury');
+				let filePaths = fileURLs.val();
+				filePaths     = filePaths ? filePaths + "\n" + fileUrl : fileUrl;
+				fileURLs.val(filePaths);
+			},
+			/**
+			 * Blur the textarea so the user knows it is loading
+			 * @param {*} up
+			 * @param {*} file
+			 */
+			dlmFileAdded: function (up, file) {
 
-    });
+				const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
+				fileURLs.parent().addClass('dlm-blury');
+			},
+			/**
+			 * Blur the textarea so the user knows it is loading
+			 * @param {*} up
+			 * @param {*} pluploadError
+			 */
+			dlmUploadError: function (up, pluploadError) {
+				jQuery(up.settings.browse_button).parent().append('<p class="error description" style="color:red;">' + pluploadError.message + '</p>');
+				setTimeout(function () {
+					jQuery(up.settings.browse_button).parent().find('.error.description').remove();
+				}, 3500);
+			}
+		}
+	);
 
-    /**
-     * Add the file url to File URLs meta
-     * @param {*} up 
-     * @param {*} file 
-     */
-    function dlmAddFileToPath(up, file) {
+	dlmUploader['uploadHandler'] = uploadHandler;
 
-        const fileUrl = file.attachment.attributes.url;
-        const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
-        fileURLs.parent().removeClass('dlm-blury');
-        let filePaths = fileURLs.val();
-        filePaths = filePaths ? filePaths + "\n" + fileUrl : fileUrl;
-        fileURLs.val(filePaths);
-    }
+	$('.dlm_upload_file').each((index, element) => {
 
-    /**
-     * Blur the textarea so the user knows it is loading
-     * @param {*} up 
-     * @param {*} file 
-     */
-    function dlmFileAdded(up, file) {
+		dlmUploadButtons.push($(element));
 
-        const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
-        fileURLs.parent().addClass('dlm-blury');
-    }
+		const dlmUploaderOptions = {
+				  browser  : $(element),
+				  plupload : {
+					  multi_selection: false,
+				  },
+				  params   : {
+					  type: 'dlm_download'
+				  },
+				  container: $(element).parents('table.dlm-metabox-content'),
+				  dropzone : $(element).parents('table.dlm-metabox-content'),
+			  },
+			  dlmUploadeFile     = new dlmUploader['uploadHandler'](dlmUploaderOptions);
 
-    /**
-     * Blur the textarea so the user knows it is loading
-     * @param {*} up
-     * @param {*} pluploadError
-     */
-    function dlmUploadError(up, pluploadError) {
-        console.log(pluploadError);
-        jQuery(up.settings.browse_button).parent().append('<p class="error description" style="color:red;">' + pluploadError.message + '</p>');
-        setTimeout(function () {
-            jQuery(up.settings.browse_button).parent().find('.error.description').remove();
-        }, 3500);
-    }
+	});
+
+	$(document).on('dlm_new_file_added', () => {
+
+		$('.dlm_upload_file').each((index, element) => {
+
+			if (dlmUploadButtons.includes($(element))) {
+				return true;
+			}
+
+			dlmUploadButtons.push($(element));
+
+			const dlmUploaderOptions = {
+					  browser  : $(element),
+					  plupload : {
+						  multi_selection: false,
+					  },
+					  params   : {
+						  type: 'dlm_download'
+					  },
+					  container: $(element).parents('table.dlm-metabox-content'),
+					  dropzone : $(element).parents('table.dlm-metabox-content'),
+				  },
+				  dlmUploaderFile    = new wp.Uploader(dlmUploaderOptions);
+		});
+
+	});
 });

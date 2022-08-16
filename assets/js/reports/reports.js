@@ -1687,7 +1687,7 @@ class DLM_Reports {
 
 			let itemObject = {
 				key               : i,
-				user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user) ? user['user_nicename'] : '--',
+				user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user && null !== user) ? user['user_nicename'] : '--',
 				ip                : dataResponse[i].user_ip,
 				role              : (null !== user && null !== user.role ? user.role : '--'),
 				download          : ('undefined' !== typeof download) ? download.title : '--',
