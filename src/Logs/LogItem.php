@@ -101,6 +101,7 @@ class DLM_Log_Item {
 	 * Get the URL from which the download took part
 	 *
 	 * @return string
+	 * @since 4.6.0
 	 */
 	public function get_current_url() {
 		return $this->current_url;
@@ -268,6 +269,32 @@ class DLM_Log_Item {
 	}
 
 	/**
+	 * Return JSON encoded Download categories
+	 *
+	 * @param int $download_id The ID of the download.
+	 *
+	 * @return false|string
+	 * @since 4.6.0
+	 */
+	public function get_download_categories( $download_id ) {
+
+		$terms      = get_the_Terms( $download_id, 'dlm_download_category' );
+		$categories = array();
+
+		if ( ! empty( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$categories[] = array(
+					'id'   => $term->term_id,
+					'name' => $term->name,
+					'slug' => $term->slug,
+				);
+			}
+		}
+
+		return wp_json_encode( $categories );
+	}
+
+	/**
 	 * Increase the version and total download count
 	 *
 	 * @access public
@@ -299,6 +326,7 @@ class DLM_Log_Item {
 				'download_status'         => $this->get_download_status(),
 				'download_status_message' => $this->get_download_status_message(),
 				'download_location'       => $this->get_current_url(),
+				'download_category'       => $this->get_download_categories( $this->get_download_id() ),
 			),
 			array(
 				'%d',
@@ -306,6 +334,7 @@ class DLM_Log_Item {
 				'%s',
 				'%d',
 				'%d',
+				'%s',
 				'%s',
 				'%s',
 				'%s',

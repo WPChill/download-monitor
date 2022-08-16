@@ -79,7 +79,7 @@ class DLM_Upgrade_Manager {
 
 			// upgrade log table
 			$wpdb->query( "ALTER TABLE {$wpdb->download_log} CHANGE `download_date` `download_date` DATETIME NULL DEFAULT NULL;" );
-			$wpdb->query( "ALTER TABLE {$wpdb->download_log} ADD `meta_data` LONGTEXT NULL DEFAULT NULL AFTER `download_status_message`;" );
+			$wpdb->query( "ALTER TABLE {$wpdb->download_log} ADD `meta_data` LONGTEXT NULL DEFAULT NULL AFTER `download_status_message`, `download_location` varchar(200) DEFAULT NULL AFTER `download_status_message`, `download_category` varchar(200) DEFAULT NULL AFTER `download_status_message`;" );
 			$wpdb->query( "ALTER TABLE {$wpdb->download_log} DROP `type`;" );
 
 			// add new capability

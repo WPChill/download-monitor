@@ -240,6 +240,8 @@ class DLM_Installer {
 			download_date datetime DEFAULT NULL,
 			download_status varchar(200) DEFAULT NULL,
 			download_status_message varchar(200) DEFAULT NULL,
+			download_location varchar(200) DEFAULT NULL,
+			download_category varchar(200) DEFAULT NULL,
 			meta_data longtext DEFAULT NULL,
 			PRIMARY KEY  (ID),
 			KEY attribute_name (download_id)
