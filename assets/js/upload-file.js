@@ -26,35 +26,6 @@ jQuery(function ($) {
 				uploader.uploader.bind('FilesAdded', dlmUploaderInstance.dlmFileAdded);
 				uploader.uploader.bind('FileUploaded', dlmUploaderInstance.dlmAddFileToPath);
 				uploader.uploader.bind('Error', dlmUploaderInstance.dlmUploadError);
-
-
-			},
-			show      : function () {
-				var $el = $('#dlm-uploader-container').show();
-
-				// Ensure that the animation is triggered by waiting until
-				// the transparent element is painted into the DOM.
-				_.defer(function () {
-					$el.css({opacity: 1});
-				});
-			},
-			hide      : function () {
-				var $el = $('#dlm-uploader-container').css({opacity: 0});
-
-				wp.media.transition($el).done(function () {
-					// Transition end events are subject to race conditions.
-					// Make sure that the value is set as intended.
-					if ('0' === $el.css('opacity')) {
-						$el.hide();
-					}
-				});
-
-				// https://core.trac.wordpress.org/ticket/27341
-				_.delay(function () {
-					if ('0' === $el.css('opacity') && $el.is(':visible')) {
-						$el.hide();
-					}
-				}, 500);
 			},
 			/**
 			 * Add the file url to File URLs meta
@@ -94,13 +65,164 @@ jQuery(function ($) {
 		}
 	);
 
-	dlmUploader['uploadHandler'] = uploadHandler;
+	var EditorUploader = Backbone.View.extend(
+		{
+			tagName  : 'div',
+			className: 'dlm-uploader-editor',
+			template : wp.template('uploader-editor'),
+
+			localDrag       : false,
+			overContainer   : false,
+			overDropzone    : false,
+			draggingFile    : null,
+			args            : {},
+			elementContainer: null,
+
+			/**
+			 * Bind drag'n'drop events to callbacks.
+			 */
+			initialize: function ($args) {
+
+				this.initialized      = false;
+				this.args             = $args;
+				this.elementContainer = jQuery(this.args.container[0]).attr('id');
+
+				// Bail if not enabled or UA does not support drag'n'drop or File API.
+				if (!window.tinyMCEPreInit || !window.tinyMCEPreInit.dragDropUpload || !this.browserSupport()) {
+					return this;
+				}
+
+				this.$document = $(document);
+				this.dropzone  = null;
+				this.files     = [];
+				this.$document.on('drop', '#' + this.elementContainer + ' .dlm-uploader-editor', _.bind(this.drop, this));
+				this.$document.on('click', '#' + this.elementContainer + ' .dlm-uploader-editor', _.bind(this.click, this));
+				this.$document.on('dragover', '#' + this.elementContainer + ' .dlm-uploader-editor', _.bind(this.dropzoneDragover, this));
+				this.$document.on('dragleave', '#' + this.elementContainer + ' .dlm-uploader-editor', _.bind(this.dropzoneDragleave, this));
+
+				this.$document.on('dragover', _.bind(this.containerDragover, this));
+				this.$document.on('dragleave', _.bind(this.containerDragleave, this));
+
+				this.$document.on('dragstart dragend drop', _.bind(function (event) {
+					this.localDrag = event.type === 'dragstart';
+
+					if (event.type === 'drop') {
+						this.containerDragleave();
+					}
+				}, this));
+				this.initialized = true;
+				return this;
+			},
+
+			/**
+			 * Check browser support for drag'n'drop.
+			 *
+			 * @return {boolean}
+			 */
+			browserSupport: function () {
+				var supports = false, div = document.createElement('div');
+
+				supports = ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
+				supports = supports && !!(window.File && window.FileList && window.FileReader);
+				return supports;
+			},
+
+			isDraggingFile: function (event) {
+				if (this.draggingFile !== null) {
+					return this.draggingFile;
+				}
+
+				if (_.isUndefined(event.originalEvent) || _.isUndefined(event.originalEvent.dataTransfer)) {
+					return false;
+				}
+
+				this.draggingFile = _.indexOf(event.originalEvent.dataTransfer.types, 'Files') > -1 &&
+									_.indexOf(event.originalEvent.dataTransfer.types, 'text/plain') === -1;
+
+				return this.draggingFile;
+			},
+
+			refresh: function (e) {
+
+				// Hide the dropzones only if dragging has left the screen.
+				this.dropzone.toggle(this.overContainer || this.overDropzone);
+
+				if (!_.isUndefined(e)) {
+					$(e.target).closest('.dlm-uploader-editor').toggleClass('droppable', this.overDropzone);
+				}
+
+				if (!this.overContainer && !this.overDropzone) {
+					this.draggingFile = null;
+				}
+
+				return this;
+			},
+
+			render: function () {
+				if (!this.initialized) {
+					return this;
+				}
+				this.$el.html(this.template());
+				jQuery('#' + this.elementContainer).append(this.$el);
+				this.dropzone = this.$el;
+				return this;
+			},
+
+			containerDragover: function (event) {
+
+				if (this.localDrag || !this.isDraggingFile(event)) {
+					return;
+				}
+
+				this.overContainer = true;
+				this.refresh();
+			},
+
+			containerDragleave: function () {
+				this.overContainer = false;
+
+				// Throttle dragleave because it's called when bouncing from some elements to others.
+				_.delay(_.bind(this.refresh, this), 50);
+			},
+
+			dropzoneDragover: function (event) {
+				if (this.localDrag || !this.isDraggingFile(event)) {
+					return;
+				}
+
+				this.overDropzone = true;
+				this.refresh(event);
+				return false;
+			},
+
+			dropzoneDragleave: function (e) {
+				this.overDropzone = false;
+				_.delay(_.bind(this.refresh, this, e), 50);
+			},
+
+			drop: function (event) {
+				this.containerDragleave(event);
+				this.dropzoneDragleave(event);
+				return false;
+			},
+
+			click: function (e) {
+				// In the rare case where the dropzone gets stuck, hide it on click.
+				this.containerDragleave(e);
+				this.dropzoneDragleave(e);
+				this.localDrag = false;
+			}
+		}
+	);
+
+	dlmUploader['uploadHandlerModel'] = uploadHandler;
+	dlmUploader['uploadHandlerView']  = EditorUploader;
 
 	$('.dlm_upload_file').each((index, element) => {
 
 		dlmUploadButtons.push($(element));
 
-		const dlmUploaderOptions = {
+		const dlmUploaderOptions  = {
 				  browser  : $(element),
 				  plupload : {
 					  multi_selection: false,
@@ -111,7 +233,10 @@ jQuery(function ($) {
 				  container: $(element).parents('table.dlm-metabox-content'),
 				  dropzone : $(element).parents('table.dlm-metabox-content'),
 			  },
-			  dlmUploadeFile     = new dlmUploader['uploadHandler'](dlmUploaderOptions);
+			  dlmUploadeFileModel = new dlmUploader['uploadHandlerModel'](dlmUploaderOptions),
+			  dlmUploadeFileView  = new dlmUploader['uploadHandlerView'](dlmUploaderOptions);
+
+		dlmUploadeFileView.render();
 
 	});
 
@@ -125,7 +250,7 @@ jQuery(function ($) {
 
 			dlmUploadButtons.push($(element));
 
-			const dlmUploaderOptions = {
+			const dlmUploaderOptions  = {
 					  browser  : $(element),
 					  plupload : {
 						  multi_selection: false,
@@ -136,8 +261,10 @@ jQuery(function ($) {
 					  container: $(element).parents('table.dlm-metabox-content'),
 					  dropzone : $(element).parents('table.dlm-metabox-content'),
 				  },
-				  dlmUploaderFile    = new wp.Uploader(dlmUploaderOptions);
-		});
+				  dlmUploadeFileModel = new dlmUploader['uploadHandlerModel'](dlmUploaderOptions),
+				  dlmUploadeFileView  = new dlmUploader['uploadHandlerView'](dlmUploaderOptions);
 
+			dlmUploadeFileView.render();
+		});
 	});
 });

@@ -61,6 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							echo '>' . esc_html( $button['text'] ) . '</a> ';
 						}
 					?>
+					&nbsp;&nbsp;<?php echo sprintf( esc_html__( 'You can use %sDrag & Drop%s to upload files', 'download-monitor' ), '<strong>', '</strong>' ); ?>
 				</p>
 
 			</td>
@@ -117,8 +118,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		}
 
 		?>
-
-
 
 		<?php do_action( 'dlm_downloadable_file_version_table_end', $file_id, $version_increment ); ?>
 
