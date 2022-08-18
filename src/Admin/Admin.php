@@ -78,6 +78,7 @@ class DLM_Admin {
 
 		// Do not make sub-sizes for images uploaded in dlm_uploads
 		add_filter( 'file_is_displayable_image', array( $this, 'no_image_subsizes' ), 15, 2 );
+		add_filter( 'ajax_query_attachments_args', array( $this, 'no_media_library_display' ), 15 );
 	}
 
 	/**
@@ -409,5 +410,35 @@ class DLM_Admin {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Don't display DLM Uploads in Media Library
+	 *
+	 * @param array $query Query parameters.
+	 *
+	 * @return array
+	 * @since 4.6.0
+	 */
+	public function no_media_library_display( $query ) {
+
+		if ( ! isset( $query['meta_query'] ) ) {
+			$query['meta_query'] = array(
+				'relation' => 'AND',
+				array(
+					'key'     => '_wp_attached_file',
+					'compare' => 'NOT LIKE',
+					'value'   => 'dlm_uploads'
+				)
+			);
+		} else {
+			$query['meta_query'][] = array(
+				'key'     => '_wp_attached_file',
+				'compare' => 'NOT LIKE',
+				'value'   => 'dlm_uploads'
+			);
+		}
+
+		return $query;
 	}
 }
