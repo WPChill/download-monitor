@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * DLM_Admin class.
  *
- * TODO Future: Look into making this class smaller
  */
 class DLM_Admin {
 
@@ -32,8 +31,7 @@ class DLM_Admin {
 		add_action( 'init', array( $this, 'required_classes' ), 30 );
 
 		// Remove admin notices from DLM pages
-		//@todo: uncomment this after we release our extensions with the proper modifications
-		//add_action( 'admin_notices', array(  $this, 'remove_admin_notices' ), 9 );
+		add_action( 'admin_notices', array(  $this, 'remove_admin_notices' ), 9 );
 
 		// Admin menus
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 20 );
@@ -77,6 +75,9 @@ class DLM_Admin {
 
 		// Checks and flushes rewrite rule if rewrite flag option is set.
 		add_action( 'admin_init', array( $this, 'check_rewrite_rules') );
+
+		// Do not make sub-sizes for images uploaded in dlm_uploads
+		add_filter( 'file_is_displayable_image', array( $this, 'no_image_subsizes' ), 15, 2 );
 	}
 
 	/**
@@ -142,7 +143,6 @@ class DLM_Admin {
 	 * @return array
 	 */
 	public function filter_thumbnails_protected_files_grid( $response ) {
-
 		if ( apply_filters( 'dlm_filter_thumbnails_protected_files', true ) ) {
 			$upload_dir = wp_upload_dir();
 
@@ -389,5 +389,25 @@ class DLM_Admin {
 			remove_all_actions( 'admin_notices' );
 		}
 
+	}
+
+	/**
+	 * Don't display or create sub-sizes for DLM uploads
+	 *
+	 * @param $result
+	 * @param $path
+	 *
+	 * @return false|mixed
+	 * @since 4.6.0
+	 */
+	public function no_image_subsizes( $result, $path ) {
+
+		$upload_dir = wp_upload_dir();
+
+		if ( strpos( $path, $upload_dir['basedir'] . '/dlm_uploads' ) !== false ) {
+			$result = false;
+		}
+
+		return $result;
 	}
 }
