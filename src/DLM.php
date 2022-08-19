@@ -315,7 +315,7 @@ class WP_DLM {
 		}
 
 		// Leave this filter here in case XHR is problematic and needs to be disabled
-		if ( apply_filters( 'dlm_do_xhr', true ) ) {
+		if ( self::do_xhr() ) {
 			wp_enqueue_script(
 				'dlm-xhr',
 				plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
@@ -610,4 +610,13 @@ class WP_DLM {
 		return $list;
 	}
 
+	/**
+	 * Check if we can do XHR download
+	 *
+	 * @return mixed|null
+	 * @since 4.6.0
+	 */
+	public static function do_xhr() {
+		return apply_filters( 'dlm_do_xhr', true );
+	}
 }
