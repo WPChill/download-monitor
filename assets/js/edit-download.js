@@ -59,45 +59,9 @@ jQuery( function ( $ ) {
     };
 
     // Add a file
-    jQuery( '.download_monitor_files' ).on( 'click', 'a.add_file', function () {
-
-        jQuery( '.download_monitor_files' ).block( {
-            message: null,
-            overlayCSS: {
-                background: '#fff url(' + $( '#dlm-plugin-url' ).val() + '/assets/images/ajax-loader.gif) no-repeat center',
-                opacity: 0.6
-            }
-        } );
-
-        var size = jQuery( '.downloadable_files .downloadable_file' ).length;
-
-        var data = {
-            action: 'download_monitor_add_file',
-            post_id: $( '#dlm-post-id' ).val(),
-            size: size,
-            security: $( '#dlm-ajax-nonce-add-file' ).val()
-        };
-
-        jQuery.post( ajaxurl, data, function ( response ) {
-
-            jQuery( '.downloadable_files' ).prepend( response );
-
-            downloadable_file_row_indexes();
-
-            jQuery( '.download_monitor_files' ).unblock();
-
-            // Date picker
-            jQuery( ".date-picker-field" ).datepicker( {
-                dateFormat: "yy-mm-dd",
-                numberOfMonths: 1,
-                showButtonPanel: true
-            } );
-
-            jQuery(document).trigger( 'dlm_new_file_added', [this, response] );
-        } );
-
-        return false;
-
+    jQuery( '.download_monitor_files' ).on( 'click', 'a.add_file', function (e) {
+        e.preventDefault();
+        dlm_add_new_file();
     } );
 
     // Remove a file
@@ -234,7 +198,7 @@ jQuery( function ( $ ) {
     } );
 
 		// Copy button functionality
-		$('.copy-dlm-button').click(function(e) {
+		$('.copy-dlm-button').on('click',function(e) {
 			e.preventDefault();
 			var dlm_input = $(this).parent().find('input');
 			dlm_input.focus();
@@ -244,4 +208,44 @@ jQuery( function ( $ ) {
 			$('.copy-dlm-button').not($(this)).parent().find('span').text('');
 		});
 
+    function dlm_add_new_file() {
+        jQuery('.download_monitor_files').block(
+            {
+                message   : null,
+                overlayCSS: {
+                    background: '#fff url(' + $('#dlm-plugin-url').val() + '/assets/images/ajax-loader.gif) no-repeat center',
+                    opacity   : 0.6
+                }
+            });
+
+        var size = jQuery('.downloadable_files .downloadable_file').length;
+
+        var data = {
+            action  : 'download_monitor_add_file',
+            post_id : $('#dlm-post-id').val(),
+            size    : size,
+            security: $('#dlm-ajax-nonce-add-file').val()
+        };
+
+        jQuery.post(ajaxurl, data, function (response) {
+
+            jQuery('.downloadable_files').prepend(response);
+
+            downloadable_file_row_indexes();
+
+            jQuery('.download_monitor_files').unblock();
+
+            // Date picker
+            jQuery(".date-picker-field").datepicker(
+                {
+                    dateFormat     : "yy-mm-dd",
+                    numberOfMonths : 1,
+                    showButtonPanel: true
+                });
+
+            jQuery(document).trigger('dlm_new_file_added', [this, response]);
+        });
+
+        return false;
+    }
 } );

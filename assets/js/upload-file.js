@@ -9,11 +9,12 @@ jQuery(function ($) {
 
 	var uploadHandler = Backbone.Model.extend(
 		{
-			initialize: function ($args) {
+			dlmUploaderInstance: null,
+			initialize         : function ($args) {
 				this.uploaderOptions = $args;
 
-				var dlmUploaderInstance = this,
-					uploader,
+				dlmUploaderInstance = this;
+				var uploader,
 					dropzone;
 
 				uploader = new wp.Uploader(dlmUploaderInstance.uploaderOptions);
@@ -33,13 +34,30 @@ jQuery(function ($) {
 			 * @param {*} file
 			 */
 			dlmAddFileToPath: function (up, file) {
+				const fileUrl = file.attachment.attributes.url;
+				if ('plupload-browse-button' !== jQuery(up.settings.browse_button).attr('id')) {
+					const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
+					fileURLs.parent().removeClass('dlm-blury');
+					let filePaths = fileURLs.val();
+					filePaths     = filePaths ? filePaths + "\n" + fileUrl : fileUrl;
+					fileURLs.val(filePaths);
+				} else {
+					jQuery('.download_monitor_files a.add_file').trigger('click');
 
-				const fileUrl  = file.attachment.attributes.url;
-				const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
-				fileURLs.parent().removeClass('dlm-blury');
-				let filePaths = fileURLs.val();
-				filePaths     = filePaths ? filePaths + "\n" + fileUrl : fileUrl;
-				fileURLs.val(filePaths);
+					// Attach file to newly created version
+					jQuery(document).on('dlm_new_file_added', function () {
+						const versionWrapper = jQuery('.dlm-metaboxes.downloadable_files').find('.downloadable_file').first(),
+							  fileURLs       = versionWrapper.find('textarea'),
+							  version        = dlmUploaderInstance.retrieveVersion(file),
+							  versionInpout  = versionWrapper.find('input[name*="downloadable_file_version"]');
+
+						jQuery(up.settings.container).removeClass('dlm-blury');
+						fileURLs.val(fileUrl);
+						if (null !== version) {
+							versionInpout.val(version);
+						}
+					});
+				}
 			},
 			/**
 			 * Blur the textarea so the user knows it is loading
@@ -47,20 +65,32 @@ jQuery(function ($) {
 			 * @param {*} file
 			 */
 			dlmFileAdded: function (up, file) {
+				if ('plupload-browse-button' !== jQuery(up.settings.browse_button).attr('id')) {
+					const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
+					fileURLs.parent().addClass('dlm-blury');
+				} else {
+					jQuery(up.settings.container).addClass('dlm-blury');
+				}
 
-				const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
-				fileURLs.parent().addClass('dlm-blury');
 			},
 			/**
 			 * Blur the textarea so the user knows it is loading
 			 * @param {*} up
 			 * @param {*} pluploadError
 			 */
-			dlmUploadError: function (up, pluploadError) {
+			dlmUploadError : function (up, pluploadError) {
 				jQuery(up.settings.browse_button).parent().append('<p class="error description" style="color:red;">' + pluploadError.message + '</p>');
 				setTimeout(function () {
 					jQuery(up.settings.browse_button).parent().find('.error.description').remove();
 				}, 3500);
+			},
+			retrieveVersion: function ($file) {
+				const name    = $file.name;
+				let version   = name.split('-')[1];
+				let extension = version.split('.');
+				extension     = extension.pop();
+				version       = version.slice(0, -(extension.length + 1));
+				return version.length ? version : null;
 			}
 		}
 	);
@@ -217,6 +247,24 @@ jQuery(function ($) {
 
 	dlmUploader['uploadHandlerModel'] = uploadHandler;
 	dlmUploader['uploadHandlerView']  = EditorUploader;
+
+	jQuery(document).ready(function () {
+		const dlmNewUploaderOptions = {
+			browser  : $('#plupload-browse-button'),
+			plupload : {
+				multi_selection: false,
+			},
+			params   : {
+				type: 'dlm_download'
+			},
+			container: $('#drag-drop-area'),
+			dropzone : $('#drag-drop-area'),
+		}
+
+		const dlmNewUploadeFileModel = new dlmUploader['uploadHandlerModel'](dlmNewUploaderOptions),
+			  dlmNewUploadeFileView  = new dlmUploader['uploadHandlerView'](dlmNewUploaderOptions);
+		dlmNewUploadeFileView.render();
+	});
 
 	$('.dlm_upload_file').each((index, element) => {
 

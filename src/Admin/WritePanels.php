@@ -230,6 +230,27 @@ class DLM_Admin_Writepanels {
 				   value="<?php echo esc_attr( wp_create_nonce( 'remove-file' ) ); ?>"/>
 
 			<?php do_action( 'dlm_download_monitor_files_writepanel_start', $download ); ?>
+			<div id="upload">
+				<div id="plupload-upload-ui" class="hide-if-no-js drag-drop">
+					<div id="drag-drop-area" style="position: relative;">
+						<div class="drag-drop-inside" style="margin-top: 40px">
+							<p class="drag-drop-info" style="letter-spacing: 1px;font-size: 10pt">Drop file here</p>
+							<p>
+							</p>
+							<p>— or —</p>
+							<p class="drag-drop-buttons">
+								<button id="plupload-browse-button" type="button"
+								        class="btn btn-sm btn-success wpdm-whatsapp"
+								        style="position: relative; z-index: 1;"><i class="fa fa-file"></i> Select File
+								</button>
+								<br>
+								<small style="margin-top: 15px;display: block">[ Max: 300 MB ]</small>
+							</p>
+							<p>To create a new version</p>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<p class="toolbar">
 				<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>

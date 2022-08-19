@@ -82,15 +82,6 @@ class DLM_Admin_Scripts {
 					)
 				);
 
-				// Upload file JS
-				wp_enqueue_script(
-					'dlm_upload_file_js',
-					plugins_url( '/assets/js/upload-file' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-					array( 'jquery' ),
-					DLM_VERSION
-				);
-				wp_add_inline_script( 'dlm_upload_file_js', 'const max_file_size = ' . wp_max_upload_size() . ';', 'before' );
-
 				// Enqueue Edit Download JS
 				wp_enqueue_script(
 					'dlm_edit_download',
@@ -101,6 +92,15 @@ class DLM_Admin_Scripts {
 
 				// Make JavaScript strings translatable
 				wp_localize_script( 'dlm_edit_download', 'dlm_ed_strings', $this->get_strings( 'edit-download' ) );
+
+				// Upload file JS
+				wp_enqueue_script(
+					'dlm_upload_file_js',
+					plugins_url( '/assets/js/upload-file' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+					array( 'jquery', 'dlm_edit_download' ),
+					DLM_VERSION
+				);
+				wp_add_inline_script( 'dlm_upload_file_js', 'const max_file_size = ' . wp_max_upload_size() . ';', 'before' );
 
 			}
 
