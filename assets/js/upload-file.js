@@ -35,6 +35,7 @@ jQuery(function ($) {
 			 */
 			dlmAddFileToPath: function (up, file) {
 				const fileUrl = file.attachment.attributes.url;
+				// Check if is subjective upload or general one
 				if ('plupload-browse-button' !== jQuery(up.settings.browse_button).attr('id')) {
 					const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
 					fileURLs.parent().removeClass('dlm-blury');
@@ -42,10 +43,12 @@ jQuery(function ($) {
 					filePaths     = filePaths ? filePaths + "\n" + fileUrl : fileUrl;
 					fileURLs.val(filePaths);
 				} else {
+					// It's a general update so we need to create a new File Version
 					jQuery('.download_monitor_files a.add_file').trigger('click');
 
 					// Attach file to newly created version
-					jQuery(document).on('dlm_new_file_added', function () {
+					jQuery(document).on('dlm_new_file_added', function (e) {
+
 						const versionWrapper = jQuery('.dlm-metaboxes.downloadable_files').find('.downloadable_file').first(),
 							  fileURLs       = versionWrapper.find('textarea'),
 							  version        = dlmUploaderInstance.retrieveVersion(file),
@@ -56,6 +59,8 @@ jQuery(function ($) {
 						if (null !== version) {
 							versionInpout.val(version);
 						}
+						// Unbind event
+						$(this).off(e);
 					});
 				}
 			},
@@ -85,7 +90,13 @@ jQuery(function ($) {
 				}, 3500);
 			},
 			retrieveVersion: function ($file) {
-				const name    = $file.name;
+				const name = $file.name;
+				// If name doesn't contain the `-` element it means it doesn't follow the naming convention
+				// So no version can be retrieved
+				if (name.indexOf('-') < 0) {
+					return null;
+				}
+
 				let version   = name.split('-')[1];
 				let extension = version.split('.');
 				extension     = extension.pop();
