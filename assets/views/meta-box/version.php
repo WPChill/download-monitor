@@ -63,7 +63,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					?>
 					&nbsp;&nbsp;<?php echo sprintf( esc_html__( 'You can use %sDrag & Drop%s to upload files', 'download-monitor' ), '<strong>', '</strong>' ); ?>
 				</p>
-
+				<div class="dlm-uploading-file hidden">
+					<label><?php esc_html_e( 'Uploading file:', 'download-monitor' ) ?> <span></span></label>
+					<label class="dlm-file-uploaded hidden"><?php esc_html_e( 'File uploaded.', 'download-monitor' ) ?></label>
+					<div class="dlm-uploading-progress-bar"></div>
+				</div>
 			</td>
 		</tr>
 		<tr>

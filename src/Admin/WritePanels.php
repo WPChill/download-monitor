@@ -230,28 +230,59 @@ class DLM_Admin_Writepanels {
 				   value="<?php echo esc_attr( wp_create_nonce( 'remove-file' ) ); ?>"/>
 
 			<?php do_action( 'dlm_download_monitor_files_writepanel_start', $download ); ?>
-			<div id="upload">
+			<?php
+			$versions             = $download->get_versions();
+			$upload_handler_class = ( ! empty( $versions ) ) ? 'hidden' : '';
+			?>
+			<div id="dlm-new-upload" class="<?php echo esc_attr( $upload_handler_class ); ?>">
+				<div class="dlm-uploading-file hidden">
+					<label><?php esc_html_e( 'Uploading file:', 'download-monitor' ) ?> <span></span></label>
+					<label class="dlm-file-uploaded hidden"><?php esc_html_e( 'File uploaded.', 'download-monitor' ) ?></label>
+					<div class="dlm-uploading-progress-bar"></div>
+				</div>
 				<div id="plupload-upload-ui" class="hide-if-no-js drag-drop">
 					<div id="drag-drop-area" style="position: relative;">
 						<div class="drag-drop-inside" style="margin-top: 40px">
-							<p class="drag-drop-info" style="letter-spacing: 1px;font-size: 10pt">Drop file here</p>
+							<p class="drag-drop-info" style="letter-spacing: 1px;font-size: 10pt"><?php esc_html_e( 'Drag & Drop here to create a new version', 'download-monitor' ); ?></p>
 							<p>
 							</p>
 							<p>— or —</p>
-							<p class="drag-drop-buttons">
-								<button id="plupload-browse-button" type="button"
-								        class="btn btn-sm btn-success wpdm-whatsapp"
-								        style="position: relative; z-index: 1;"><i class="fa fa-file"></i> Select File
-								</button>
-								<br>
-								<small style="margin-top: 15px;display: block">[ Max: 300 MB ]</small>
+							<p>
+								<?php
+								$buttons = array(
+									'upload_file'     => array(
+										'text' => __( 'Upload file', 'download-monitor' )
+									),
+									'media_library'     => array(
+										'text' => __( 'Media Library', 'download-monitor' ),
+										'data' => array(
+											'choose' => __( 'Choose a file', 'download-monitor' ),
+											'update' => __( 'Insert file URL', 'download-monitor' ),
+										)
+									)
+								);
+
+								if( !get_option( 'dlm_turn_off_file_browser', true ) ){
+									$buttons['browse_for_file'] = array( 'text' => __( 'Browse for file', 'download-monitor' ) );
+								}
+
+								$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', $buttons );
+
+								foreach ( $buttons as $key => $button ) {
+									echo '<a href="#" ' . ( 'upload_file' === $key ? 'id="plupload-browse-button"' : '' ) . ' class="button dlm_' . esc_attr( $key ) . '" ';
+									if ( ! empty( $button['data'] ) ) {
+										foreach ( $button['data'] as $data_key => $data_value ) {
+											echo 'data-' . esc_attr( $data_key ) . '="' . esc_attr( $data_value ) . '" ';
+										}
+									}
+									echo '>' . esc_html( $button['text'] ) . '</a> ';
+								}
+								?>
 							</p>
-							<p>To create a new version</p>
 						</div>
 					</div>
 				</div>
 			</div>
-
 			<p class="toolbar">
 				<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
 				<a href="#" class="close_all"><?php echo esc_html__( 'Close all', 'download-monitor' ); ?></a>
@@ -261,8 +292,7 @@ class DLM_Admin_Writepanels {
 			<div class="dlm-metaboxes downloadable_files">
 				<?php
 				$i        = - 1;
-				$versions = $download->get_versions();
-
+				// $versions declared above.
 				if ( $versions ) {
 
 					/** @var DLM_Download_Version $version */
