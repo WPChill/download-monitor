@@ -598,7 +598,7 @@ table.wp-list-table {
       position: relative;
       .drag-drop {
         .drag-drop-inside {
-          width:450px;
+          width:100%;
 
           .dlm_browse_for_file {
             float:none;
@@ -2541,6 +2541,194 @@ table.wp-list-table {
 
 .text-right {
   text-align: right;
+}
+
+/* Lite vs PRO Section */
+
+.dlm_download_page_dlm-lite-vs-pro {
+
+  &,
+  p {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  & > .wpchill-plans-table.wpchill-highlight {
+    & > .wpchill-pricing-package {
+      background: #fefff0;
+      box-shadow: 0 0 15px rgb(208 219 219);
+    }
+  }
+
+  .wp-badge {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    margin-right: 2.5%;
+  }
+
+  h3 {
+    display: block;
+    position: relative;
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .wpchill-plans-table {
+    display: flex;
+
+    &.table-header {
+      margin-top: 50px;
+      border-top: 0;
+
+      .wpchill-pricing-package {
+        border: 0;
+
+        &:not(.wpchill-modula-lite):last-child:before,
+        &.wpchill-title.wpchill-highlight::before {
+          content: '';
+          width: auto;
+          display: inline-block;
+          opacity: 1;
+          position: absolute;
+          top: -1px;
+          background: #41495b;
+          text-align: center;
+          left: 0;
+          right: 0;
+          color: #fff;
+          font-size: 15px;
+          text-transform: uppercase;
+          padding: 10px 5px;
+          transform: translateY(-100%);
+        }
+      }
+    }
+  }
+
+  &.table-footer {
+    .wpchill-pricing-package:last-child {
+      border: 0;
+    }
+  }
+
+  .wpchill-pricing-package {
+    text-align: center;
+    line-height: 1.5;
+    padding: 10px 15px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    width: 32%;
+
+    &:not(:first-child) {
+      max-width: 300px;
+    }
+
+    &.wpchill-title {
+      font-weight: 400;
+      color: #666;
+      font-size: 1.25rem;
+      height: auto;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      padding-top: 30px;
+      padding-bottom: 30px;
+      justify-content: space-between;
+      position: relative;
+
+      .wpchill-name {
+        margin: 0;
+        font-size: 36px;
+      }
+
+      &.wpchill-modula-lite {
+        justify-content: center;
+      }
+
+      p.description {
+        font-style: italic;
+        font-size: 13px;
+        margin-bottom: 40px;
+      }
+
+      .wpchill-price {
+
+        p {
+          &:last-child {
+            font-size: 30px;
+            margin: 0 0 40px 0;
+          }
+
+          &.old-price {
+            margin: 0;
+            position: relative;
+
+            &:after {
+              content: "";
+              height: 2px;
+              width: 60px;
+              background: red;
+              display: block;
+              position: absolute;
+              left: 50%;
+              top: 52%;
+              transform: translate(-50%, -50%);
+            }
+          }
+        }
+
+        sup {
+          top: 2px;
+          position: relative;
+          font-size: 15px;
+        }
+      }
+    }
+
+    &.wpchill-empty {
+      background: transparent;
+      border-color: transparent;
+    }
+
+    &.feature-name {
+      justify-content: space-between;
+      font-weight: 400;
+      text-align: left;
+      font-size: 13px;
+      display: block;
+      background: transparent;
+    }
+
+    .dashicons-saved {
+      color: green;
+    }
+
+    .dashicons {
+      width: 30px;
+      height: 30px;
+      font-size: 30px;
+    }
+
+    .dashicons-no-alt {
+      color: #ff3439;
+    }
+
+    &:last-child {
+      background: #fefff0;
+    }
+  }
+
+  .button {
+    .dashicons {
+      font-size: 16px;
+      vertical-align: middle;
+      line-height: 26px;
+    }
+  }
 }
 
 /**
