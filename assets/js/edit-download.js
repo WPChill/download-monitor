@@ -32,11 +32,11 @@ jQuery(function ($) {
 			 * @param {*} file
 			 */
 			dlmAddFileToPath: function (up, file) {
-				const fileUrl  = file.attachment.attributes.url;
+				const fileUrl = file.attachment.attributes.url;
 				// Check if is subjective upload or general one
 				if ('plupload-browse-button' !== jQuery(up.settings.browse_button).attr('id')) {
-					const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
-					dlmUploaderInstance.endUploadProgress(fileURLs.parent());
+					const fileURLs = jQuery(up.settings.browse_button).parents('.dlm-file-version__row').find('textarea');
+					dlmUploaderInstance.endUploadProgress(fileURLs.parents('.dlm-file-version__row'));
 
 					let filePaths = fileURLs.val();
 					filePaths     = filePaths ? filePaths + "\n" + fileUrl : fileUrl;
@@ -70,8 +70,8 @@ jQuery(function ($) {
 			 */
 			dlmFileAdded: function (up, file) {
 				if ('plupload-browse-button' !== jQuery(up.settings.browse_button).attr('id')) {
-					const fileURLs = jQuery(up.settings.browse_button).parents('td').find('textarea');
-					dlmUploaderInstance.startUploadProgress(fileURLs.parent());
+					const fileURLs = jQuery(up.settings.browse_button).parents('.dlm-file-version__row').find('textarea');
+					dlmUploaderInstance.startUploadProgress(fileURLs.parents('.dlm-file-version__row'));
 				} else {
 					dlmUploaderInstance.startUploadProgress(jQuery(up.settings.container).parents('#dlm-new-upload'));
 				}
@@ -103,7 +103,7 @@ jQuery(function ($) {
 			 * @param $file
 			 * @returns {{length}|*|null}
 			 */
-			retrieveVersion   : function ($file) {
+			retrieveVersion    : function ($file) {
 				const name = $file.name;
 				// If name doesn't contain the `-` element it means it doesn't follow the naming convention
 				// So no version can be retrieved
@@ -117,15 +117,32 @@ jQuery(function ($) {
 				version       = version.slice(0, -(extension.length + 1));
 				return version.length ? version : null;
 			},
+			/**
+			 * Start uploading progress
+			 *
+			 * @param $element
+			 */
 			startUploadProgress: function ($element) {
 				$element.find('.dlm-uploading-file').removeClass('hidden');
 			},
-			endUploadProgress : function ($element) {
+			/**
+			 * End uploading progress
+			 *
+			 * @param $element
+			 */
+			endUploadProgress  : function ($element) {
 				$element.find('.dlm-uploading-file label').toggleClass('hidden');
+
+				if('dlm-new-upload' === $element.attr('id')) {
+					dlmEditInstance.hideNewVersionUpload();
+				}
 
 				setTimeout(function () {
 					$element.find('.dlm-uploading-file').addClass('hidden');
 					$element.find('.dlm-uploading-file label').toggleClass('hidden');
+					$element.find('.dlm-file-version__drag_and_drop').addClass('hidden');
+					$element.find('.dlm-file-version__file_present').removeClass('hidden');
+
 				}, 3000);
 			}
 		}
@@ -337,8 +354,8 @@ jQuery(function ($) {
 						  params   : {
 							  type: 'dlm_download'
 						  },
-						  container: $(element).parents('table.dlm-metabox-content'),
-						  dropzone : $(element).parents('table.dlm-metabox-content'),
+						  container: $(element).parents('div.dlm-uploader-container'),
+						  dropzone : $(element).parents('div.dlm-uploader-container'),
 					  },
 					  dlmUploadeFileModel = new dlmUploader['uploadHandlerModel'](dlmUploaderOptions),
 					  dlmUploadeFileView  = new dlmUploader['uploadHandlerView'](dlmUploaderOptions);
@@ -352,6 +369,7 @@ jQuery(function ($) {
 		 * When adding a new file we need to initiate the newly created uploaders and we need to hide the new version upload functionality.
 		 */
 		newFileAction() {
+			const instance = this;
 			$(document).on('dlm_new_file_added', () => {
 
 				$('.dlm_upload_file:not(#plupload-browse-button)').each((index, element) => {
@@ -369,15 +387,14 @@ jQuery(function ($) {
 							  params   : {
 								  type: 'dlm_download'
 							  },
-							  container: $(element).parents('table.dlm-metabox-content'),
-							  dropzone : $(element).parents('table.dlm-metabox-content'),
+							  container: $(element).parents('div.dlm-uploader-container'),
+							  dropzone : $(element).parents('div.dlm-uploader-container'),
 						  },
 						  dlmUploadeFileModel = new dlmUploader['uploadHandlerModel'](dlmUploaderOptions),
 						  dlmUploadeFileView  = new dlmUploader['uploadHandlerView'](dlmUploaderOptions);
 
 					dlmUploadeFileView.render();
 				});
-
 				jQuery('#dlm-new-upload').hide();
 			});
 		}
@@ -388,7 +405,6 @@ jQuery(function ($) {
 		removeFileAction() {
 			$(document).on('dlm_remove_file', () => {
 				const files = jQuery('.downloadable_files').find('.dlm-metabox.downloadable_file');
-				console.log(files);
 				if (0 === files.length) {
 					jQuery('#dlm-new-upload').show();
 				}
@@ -648,6 +664,18 @@ jQuery(function ($) {
 
 			// Finally, open the modal.
 			dlm_media_library_frame.open();
+		}
+
+		/**
+		 * Hide the new version filer upload and toggle the visibility for the new version file
+		 */
+		hideNewVersionUpload() {
+
+			const versions = jQuery('.downloadable_files').children('.downloadable_file');
+			if (1 === versions.length) {
+				versions.find('.dlm-file-version__drag_and_drop').addClass('hidden');
+				versions.find('.dlm-file-version__file_present').removeClass('hidden');
+			}
 		}
 	}
 

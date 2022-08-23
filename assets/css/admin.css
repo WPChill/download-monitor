@@ -635,46 +635,86 @@ table.wp-list-table .column-thumb img {
   border-width: 1px;
   border-style: dashed;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox {
-  background: #ececec;
-  border: 1px solid #ececec;
-  margin: 9px 0 !important;
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files {
+  padding: 0;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox #dlm-new-upload .drag-drop .drag-drop-inside {
-  width: 450px;
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file {
+  background: #fff;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox #dlm-new-upload .drag-drop .drag-drop-inside .dlm_browse_for_file {
-  float: none;
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row {
+  width: calc(100% - 30px);
+  position: relative;
+  margin: 15px 0;
+  padding: 0 15px;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-uploading-file {
-  background: #F0F0F0;
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > *,
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > .dlm-file-version__file_present > * {
+  width: 100%;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > *:not(.hidden,.dlm-uploader-editor),
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > .dlm-file-version__file_present > *:not(.hidden,.dlm-uploader-editor) {
+  display: block;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__date > * {
+  display: inline-block;
+  width: auto;
+}
+#download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload,
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader {
   position: relative;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-uploading-file:before {
+#download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload .drag-drop .drag-drop-inside,
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader .drag-drop .drag-drop-inside {
+  width: 450px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload .drag-drop .drag-drop-inside .dlm_browse_for_file,
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader .drag-drop .drag-drop-inside .dlm_browse_for_file {
+  float: none;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file {
+  background: #F0F0F0;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 989;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file:before {
   content: "";
   position: absolute;
   left: 0;
   height: 3px;
   width: 100%;
   right: 0;
-  bottom: 0;
+  top: 0;
   background: #D8D8D8;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-uploading-file label {
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file label {
   text-align: center;
-  padding: 5px 0;
+  padding: 5px 0 7px 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-uploading-file label.hidden {
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file label.hidden {
   display: none;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-uploading-file label span {
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file label span {
   font-weight: bold;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-uploading-file .dlm-uploading-progress-bar {
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file .dlm-uploading-progress-bar {
   background: #2271B1;
   height: 3px;
   position: absolute;
-  bottom: 0;
+  top: 0;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox {
+  background: #ececec;
+  border: 1px solid #ececec;
+  margin: 9px 0 !important;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 {
   margin: 0 !important;
@@ -721,6 +761,9 @@ table.wp-list-table .column-thumb img {
   text-align: left;
   display: block;
   line-height: 21px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table td .dlm-uploading-file label {
+  text-align: center;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table td input {
   float: left;

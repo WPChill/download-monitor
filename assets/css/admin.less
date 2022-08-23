@@ -563,56 +563,98 @@ table.wp-list-table {
       border-style: dashed;
     }
 
+    .downloadable_files {
+      padding:0;
+
+      .downloadable_file {
+        background:#fff;
+      }
+    }
+
+    .dlm-file-version__row {
+      width:calc(100% - 30px);
+      position:relative;
+      margin: 15px 0;
+      padding:0 15px;
+
+      & > *, & > .dlm-file-version__file_present > *{
+        width: 100%;
+
+        &:not(.hidden,.dlm-uploader-editor) {
+          display: block;
+        }
+      }
+
+      .dlm-file-version__date{
+         & > * {
+           display:inline-block;
+           width:auto;
+         }
+      }
+    }
+
+    #dlm-new-upload,
+    .dlm-file-version__uploader{
+      position: relative;
+      .drag-drop {
+        .drag-drop-inside {
+          width:450px;
+
+          .dlm_browse_for_file {
+            float:none;
+          }
+        }
+      }
+    }
+
+    .dlm-uploading-file {
+      background:#F0F0F0;
+      position: absolute;
+      overflow:hidden;
+      width:100%;
+      height:100%;
+      top:0;
+      left:0;
+      z-index:989;
+
+      &:before {
+        content:"";
+        position: absolute;
+        left:0;
+        height: 3px;
+        width:100%;
+        right:0;
+        top:0;
+        background:#D8D8D8;
+      }
+
+      label {
+        text-align:center;
+        padding:5px 0 7px 0;
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        width:100%;
+
+        &.hidden {
+          display:none;
+        }
+        span {
+          font-weight: bold;
+        }
+      }
+      .dlm-uploading-progress-bar {
+        background:#2271B1;
+        height:3px;
+        position: absolute;
+        top:0;
+      }
+    }
+
     .dlm-metabox {
       background: #ececec;
       border: 1px solid #ececec;
       margin: 9px 0 !important;
-
-      #dlm-new-upload {
-        .drag-drop {
-          .drag-drop-inside {
-            width:450px;
-
-            .dlm_browse_for_file {
-              float:none;
-            }
-          }
-        }
-      }
-
-      .dlm-uploading-file {
-        background:#F0F0F0;
-        position: relative;
-
-        &:before {
-          content:"";
-          position: absolute;
-          left:0;
-          height: 3px;
-          width:100%;
-          right:0;
-          bottom:0;
-          background:#D8D8D8;
-        }
-
-        label {
-          text-align:center;
-          padding:5px 0;
-
-          &.hidden {
-            display:none;
-          }
-          span {
-            font-weight: bold;
-          }
-        }
-        .dlm-uploading-progress-bar {
-          background:#2271B1;
-          height:3px;
-          position: absolute;
-          bottom:0;
-        }
-      }
 
       h3 {
         margin: 0 !important;
@@ -666,6 +708,12 @@ table.wp-list-table {
             text-align: left;
             display: block;
             line-height: 21px;
+          }
+
+          .dlm-uploading-file {
+            label {
+              text-align:center;
+            }
           }
 
           input {
