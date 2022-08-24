@@ -637,15 +637,17 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-file .dlm-metaboxes-wrapper .downloadable_files {
   padding: 0;
+  margin: 0 15px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file {
   background: #fff;
+  border-radius: 4px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row {
   width: calc(100% - 30px);
   position: relative;
-  margin: 15px 0;
-  padding: 0 15px;
+  margin: 10px 0;
+  padding: 0 10px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > *,
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > .dlm-file-version__file_present > * {
@@ -659,6 +661,9 @@ table.wp-list-table .column-thumb img {
   display: inline-block;
   width: auto;
 }
+#download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload {
+  padding: 0 15px;
+}
 #download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload,
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader {
   position: relative;
@@ -666,6 +671,7 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload .drag-drop .drag-drop-inside,
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader .drag-drop .drag-drop-inside {
   width: 100%;
+  margin-top: 60px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload .drag-drop .drag-drop-inside .dlm_browse_for_file,
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader .drag-drop .drag-drop-inside .dlm_browse_for_file {
@@ -718,17 +724,17 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 {
   margin: 0 !important;
-  padding: 6px !important;
+  padding: 10px !important;
   font-size: 1em !important;
   overflow: hidden;
   zoom: 1;
-  cursor: move;
+  cursor: pointer;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 button {
   float: right;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 strong {
-  line-height: 24px;
+  line-height: 30px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 select {
   font-family: sans-serif;
@@ -819,13 +825,6 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table .fr {
   float: right;
-}
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox:first-child {
-  /* main file */
-}
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox:first-child h3 {
-  background-color: #FAFAFA;
-  border-bottom: 1px solid #dcdcde;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .plus:before {
   font-family: "dashicons" !important;
@@ -2214,6 +2213,8 @@ table.wp-list-table .column-thumb img {
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
+  padding-top: 5px;
+  margin-bottom: 10px;
 }
 .upsells-columns .upsells-columns-2 {
   width: 50%;
@@ -2223,18 +2224,55 @@ table.wp-list-table .column-thumb img {
   align-content: center;
 }
 .upsells-columns .upsells-column {
-  width: 100%;
+  width: calc(100% - 30px);
   text-align: center;
   display: flex;
   align-items: center;
   align-content: center;
+  margin: 5px auto 0 auto;
+  border-radius: 5px;
+  border: 1px solid #cecece;
+  overflow: hidden;
+}
+.upsells-columns .upsells-column .dashicons-amazon {
+  font-size: 22px;
+}
+.upsells-columns .upsells-column .dashicons-google {
+  font-size: 18px;
+  position: relative;
+  left: 1px;
+  top: 1px;
+}
+.upsells-columns .upsells-column .dlm-available-with-pro {
+  width: auto;
+  border-bottom-left-radius: 5px;
+  border: 1px solid #cecece;
+  background: #2271b1;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: -1px;
+  display: flex;
+  align-content: center;
+  border-top: 0;
+  border-left: 0;
+  padding: 5px 8px 2px 5px;
+}
+.upsells-columns .upsells-column .dlm-available-with-pro > * {
+  font-size: 12px;
+}
+.upsells-columns .upsells-column .dlm-available-with-pro > *.dashicons {
+  line-height: 15px;
+}
+.upsells-columns .upsells-column .dashicons-lock:before {
+  font-size: 14px;
 }
 .upsells-columns .upsells-column > * {
   display: inline-block;
   align-content: center;
   vertical-align: middle;
-  margin: 0 15px;
-  padding: 10px 0;
+  margin: 0 10px;
+  padding: 7px 0;
 }
 .upsells-columns .upsells-column > *.wpchill-upsell {
   position: relative;
@@ -2242,12 +2280,18 @@ table.wp-list-table .column-thumb img {
   flex-grow: 1;
   display: flex;
   align-items: center;
+  margin: 0;
 }
 .upsells-columns .upsells-column > *.wpchill-upsell .wpchill-upsell-description {
-  margin: 0 auto;
+  margin: 0;
+  text-align: left;
+  max-width: 535px;
+  font-size: 12px;
 }
 .upsells-columns .upsells-column h3 {
   line-height: 1.3em;
+  font-size: 1em;
+  margin-left: 0;
 }
 .upsells-columns .upsells-column:last-child {
   border-top: 1px solid #c3c4c7;

@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div class="dlm-file-version__uploader">
 					<div id="plupload-upload-ui" class="hide-if-no-js drag-drop">
 						<div id="drag-drop-area" style="position: relative;">
-							<div class="drag-drop-inside" style="margin-top: 40px">
+							<div class="drag-drop-inside">
 								<p class="drag-drop-info"
 								   style="letter-spacing: 1px;font-size: 10pt"><?php esc_html_e( 'Drag & Drop here', 'download-monitor' ); ?></p>
 								<p>

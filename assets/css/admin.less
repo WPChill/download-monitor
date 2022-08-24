@@ -565,17 +565,19 @@ table.wp-list-table {
 
     .downloadable_files {
       padding:0;
+      margin: 0 15px;
 
       .downloadable_file {
         background:#fff;
+        border-radius: 4px;
       }
     }
 
     .dlm-file-version__row {
       width:calc(100% - 30px);
       position:relative;
-      margin: 15px 0;
-      padding:0 15px;
+      margin: 10px 0;
+      padding: 0 10px;
 
       & > *, & > .dlm-file-version__file_present > *{
         width: 100%;
@@ -593,12 +595,16 @@ table.wp-list-table {
       }
     }
 
+    #dlm-new-upload {
+      padding: 0 15px;
+    }
     #dlm-new-upload,
     .dlm-file-version__uploader{
       position: relative;
       .drag-drop {
         .drag-drop-inside {
           width:100%;
+          margin-top:60px;
 
           .dlm_browse_for_file {
             float:none;
@@ -658,18 +664,18 @@ table.wp-list-table {
 
       h3 {
         margin: 0 !important;
-        padding: 6px !important;
+        padding: 10px !important;
         font-size: 1em !important;
         overflow: hidden;
         zoom: 1;
-        cursor: move;
+        cursor: pointer;
 
         button {
           float: right;
         }
 
         strong {
-          line-height: 24px;
+          line-height: 30px;
         }
 
         select {
@@ -782,16 +788,6 @@ table.wp-list-table {
 
         .fr {
           float: right;
-        }
-      }
-
-      &:first-child {
-
-        /* main file */
-
-        h3 {
-          background-color: #FAFAFA;
-          border-bottom: 1px solid #dcdcde;
         }
       }
     }
@@ -2481,6 +2477,8 @@ table.wp-list-table {
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
+  padding-top: 5px;
+  margin-bottom: 10px;
 
   .upsells-columns-2 {
     width: 50%;
@@ -2491,18 +2489,59 @@ table.wp-list-table {
   }
 
   .upsells-column {
-    width: 100%;
+    width: calc(100% - 30px);
     text-align: center;
     display: flex;
     align-items: center;
     align-content: center;
+    margin: 5px auto 0 auto;
+    border-radius: 5px;
+    border: 1px solid #cecece;
+    overflow:hidden;
+
+    .dashicons-amazon {
+      font-size:22px;
+    }
+
+    .dashicons-google {
+      font-size: 18px;
+      position: relative;
+      left: 1px;
+      top: 1px;
+    }
+
+    .dlm-available-with-pro {
+      width:auto;
+      border-bottom-left-radius: 5px;
+      border: 1px solid #cecece;
+      background:#2271b1;
+      color:#fff;
+      position: absolute;
+      top:0;
+      right:-1px;
+      display:flex;
+      align-content: center;
+      border-top:0;
+      border-left:0;
+      padding: 5px 8px 2px 5px;
+      & > * {
+        font-size:12px;
+        &.dashicons {
+          line-height:15px;
+        }
+      }
+    }
+
+    .dashicons-lock:before {
+      font-size: 14px;
+    }
 
     > * {
       display: inline-block;
       align-content: center;
       vertical-align: middle;
-      margin: 0 15px;
-      padding: 10px 0;
+      margin: 0 10px;
+      padding: 7px 0;
 
       &.wpchill-upsell {
         position: relative;
@@ -2510,15 +2549,21 @@ table.wp-list-table {
         flex-grow: 1;
         display: flex;
         align-items: center;
+        margin:0;
 
         .wpchill-upsell-description {
-          margin: 0 auto;
+          margin: 0;
+          text-align: left;
+          max-width: 535px;
+          font-size: 12px;
         }
       }
     }
 
     h3 {
       line-height: 1.3em;
+      font-size: 1em;
+      margin-left: 0;
     }
 
     &:last-child {
