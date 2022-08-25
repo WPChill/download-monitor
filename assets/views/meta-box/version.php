@@ -5,11 +5,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="dlm-metabox closed downloadable_file" data-file="<?php echo esc_html( $file_id ); ?>">
 	<h3>
-		<button type="button"
-		        class="remove_file button"><?php echo esc_html__( 'Remove', 'download-monitor' ); ?></button>
+		<span type="button"
+		        class="remove_file dashicons dashicons-trash"></span>
 		<div class="handlediv" title="<?php echo esc_attr__( 'Click to toggle', 'download-monitor' ); ?>"></div>
 		<strong>#<?php echo esc_html( $file_id ); ?>
-			&mdash; <?php echo sprintf( wp_kses_post( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ) ), ( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ), esc_html( date_i18n( get_option( 'date_format' ), $file_post_date->format( 'U' ) ) ) ); ?>
+			&mdash; <?php echo sprintf( wp_kses_post( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ) ), ( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ), esc_html( date_i18n( $date_format, $file_post_date->format( 'U' ) ) ) ); ?>
 			&mdash; <?php echo sprintf( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ), esc_html( $file_download_count ) ); ?></strong>
 		<input type="hidden" name="downloadable_file_id[<?php echo esc_attr( $version_increment ); ?>]"
 		       value="<?php echo esc_attr( $file_id ); ?>"/>
@@ -53,7 +53,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 										)
 									);
 
-									if ( ! get_option( 'dlm_turn_off_file_browser', true ) ) {
+									if ( ! $file_browser ) {
 										$buttons['browse_for_file'] = array( 'text' => __( 'Browse for file', 'download-monitor' ) );
 									}
 
@@ -102,7 +102,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						)
 					);
 
-					if ( ! get_option( 'dlm_turn_off_file_browser', true ) ) {
+					if ( ! $file_browser ) {
 						$buttons['browse_for_file'] = array( 'text' => __( 'Browse for file', 'download-monitor' ) );
 					}
 
@@ -123,33 +123,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 		<div class="dlm-file-version__row ">
-			<label><?php echo esc_html__( 'Version', 'download-monitor' ); ?>:</label>
-			<input type="text" class="short"
-			       name="downloadable_file_version[<?php echo esc_attr( $version_increment ); ?>]"
-			       placeholder="<?php echo esc_attr__( 'n/a', 'download-monitor' ); ?>"
-			       value="<?php echo esc_attr( $file_version ); ?>"/>
-		</div>
-
-		<div class="dlm-file-version__row ">
-			<label><?php _e( 'Download count', 'download-monitor' ); ?>:</label>
-			<span
-				class="button button-secondary dlm-download-count-button"><?php echo esc_html( $file_download_count ); ?></span>
-		</div>
-		<div class="dlm-file-version__row ">
-			<div class="dlm-file-version__date">
-				<label><?php echo esc_html__( 'File Date', 'download-monitor' ); ?>:</label>
-				<input type="text" class="date-picker-field"
-				       name="downloadable_file_date[<?php echo esc_attr( $version_increment ); ?>]"
-				       maxlength="10" value="<?php echo esc_attr( $file_post_date->format( 'Y-m-d' ) ); ?>"/> @ <input
-					type="text" class="hour" placeholder="<?php echo esc_html__( 'h', 'download-monitor' ) ?>"
-					name="downloadable_file_date_hour[<?php echo esc_attr( $version_increment ); ?>]" maxlength="2"
-					size="2"
-					value="<?php echo esc_attr( $file_post_date->format( 'H' ) ); ?>"/>:
-				<input type="text" class="minute"
-				       placeholder="<?php echo esc_attr__( 'm', 'download-monitor' ) ?>"
-				       name="downloadable_file_date_minute[<?php echo esc_attr( $version_increment ); ?>]"
-				       maxlength="2" size="2"
-				       value="<?php echo esc_attr( $file_post_date->format( 'i' ) ); ?>"/>
+			<div class="dlm-file-version__flex">
+				<div>
+					<label><?php echo esc_html__( 'Version', 'download-monitor' ); ?>:</label>
+					<input type="text" class="short"
+					       name="downloadable_file_version[<?php echo esc_attr( $version_increment ); ?>]"
+					       placeholder="<?php echo esc_attr__( 'n/a', 'download-monitor' ); ?>"
+					       value="<?php echo esc_attr( $file_version ); ?>"/>
+				</div>
+				<div>
+					<label><?php _e( 'Download count', 'download-monitor' ); ?>:</label>
+					<span
+						class="button button-secondary dlm-download-count-button"><?php echo esc_html( $file_download_count ); ?></span>
+				</div>
+				<div class="dlm-file-version__date">
+					<label><?php echo esc_html__( 'File Date', 'download-monitor' ); ?>:</label>
+					<input type="text" class="date-picker-field"
+					       name="downloadable_file_date[<?php echo esc_attr( $version_increment ); ?>]"
+					       maxlength="10" value="<?php echo esc_attr( $file_post_date->format( $date_format ) ); ?>"/> @
+					<input
+						type="text" class="hour" placeholder="<?php echo esc_html__( 'h', 'download-monitor' ) ?>"
+						name="downloadable_file_date_hour[<?php echo esc_attr( $version_increment ); ?>]" maxlength="2"
+						size="2"
+						value="<?php echo esc_attr( $file_post_date->format( 'H' ) ); ?>"/>:
+					<input type="text" class="minute"
+					       placeholder="<?php echo esc_attr__( 'm', 'download-monitor' ) ?>"
+					       name="downloadable_file_date_minute[<?php echo esc_attr( $version_increment ); ?>]"
+					       maxlength="2" size="2"
+					       value="<?php echo esc_attr( $file_post_date->format( 'i' ) ); ?>"/>
+				</div>
 			</div>
 		</div>
 

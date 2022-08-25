@@ -416,24 +416,17 @@ jQuery(function ($) {
 		 */
 		clickActions() {
 			const instance = this;
-			// Expand all files
-			jQuery('.expand_all').on('click', function () {
-				jQuery(this).closest('.dlm-metaboxes-wrapper').find('.dlm-metabox table').show();
-				return false;
-			});
-
-			// Close all files
-			jQuery('.close_all').on('click', function () {
-				jQuery(this).closest('.dlm-metaboxes-wrapper').find('.dlm-metabox table').hide();
-				return false;
-			});
 
 			// Open/close
 			jQuery('.dlm-metaboxes-wrapper').on('click', '.dlm-metabox h3', function (event) {
 				// If the user clicks on some form input inside the h3, like a select list (for variations), the box should not be toggled
 				if (jQuery(event.target).filter(':input, option').length) return;
-
-				jQuery(this).next('.dlm-metabox-content').toggle();
+				const target = jQuery(this),
+					  content = target.next('.dlm-metabox-content');
+				target.toggleClass('opened');
+				content.toggle();
+				jQuery( '.dlm-metabox h3' ).not(target).removeClass('opened');
+				jQuery('.dlm-metabox-content').not(content).hide();
 			});
 
 			// Add a file
@@ -443,7 +436,7 @@ jQuery(function ($) {
 			});
 
 			// Remove a file
-			jQuery('.download_monitor_files').on('click', 'button.remove_file', function (e) {
+			jQuery('.download_monitor_files').on('click', '.remove_file', function (e) {
 				e.preventDefault();
 				var answer = confirm(dlm_ed_strings.confirm_delete);
 				if (answer) {

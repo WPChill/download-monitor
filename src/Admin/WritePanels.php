@@ -285,10 +285,12 @@ class DLM_Admin_Writepanels {
 			</div>
 			<p class="toolbar">
 				<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
-				<a href="#" class="close_all"><?php echo esc_html__( 'Close all', 'download-monitor' ); ?></a>
-				<a href="#" class="expand_all"><?php echo esc_html__( 'Expand all', 'download-monitor' ); ?></a>
 			</p>
-
+			<?php if( ! empty( $versions ) ){
+				?>
+				<div class="dlm-metaboxes"><p><strong><?php echo sprintf( esc_html__( 'Your version(s) ( %s )', 'download-monitor' ), count($versions) ); ?></strong></p></div>
+				<?php
+			} ?>
 			<div class="dlm-metaboxes downloadable_files">
 				<?php
 				$i        = - 1;
@@ -310,6 +312,8 @@ class DLM_Admin_Writepanels {
 								'file_download_count' => $version->get_download_count(),
 								'file_urls'           => $version->get_mirrors(),
 								'version'             => $version,
+								'date_format'         => get_option( 'date_format' ),
+								'file_browser'        => get_option( 'dlm_turn_off_file_browser', true )
 							)
 						);
 

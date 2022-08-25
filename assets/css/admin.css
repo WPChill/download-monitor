@@ -637,17 +637,24 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-file .dlm-metaboxes-wrapper .downloadable_files {
   padding: 0;
-  margin: 0 15px;
+  margin: 15px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file {
   background: #fff;
   border-radius: 4px;
 }
+#download-monitor-file .dlm-metaboxes-wrapper .drag-drop #drag-drop-area {
+  border: 4px dashed #c3c4c7;
+  height: 140px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox-content {
+  padding-top: 5px;
+}
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row {
   width: calc(100% - 30px);
   position: relative;
   margin: 10px 0;
-  padding: 0 10px;
+  padding: 0 15px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > *,
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > .dlm-file-version__file_present > * {
@@ -656,6 +663,17 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > *:not(.hidden,.dlm-uploader-editor),
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > .dlm-file-version__file_present > *:not(.hidden,.dlm-uploader-editor) {
   display: block;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__flex * {
+  display: inline-block;
+  vertical-align: middle;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__date > * {
   display: inline-block;
@@ -671,7 +689,7 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload .drag-drop .drag-drop-inside,
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader .drag-drop .drag-drop-inside {
   width: 100%;
-  margin-top: 60px;
+  margin-top: 25px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload .drag-drop .drag-drop-inside .dlm_browse_for_file,
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader .drag-drop .drag-drop-inside .dlm_browse_for_file {
@@ -719,19 +737,43 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox {
   background: #ececec;
-  border: 1px solid #ececec;
-  margin: 9px 0 !important;
+  border: 1px solid #cecece;
+  margin: 10px 0!important;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 {
-  margin: 0 !important;
-  padding: 10px !important;
-  font-size: 1em !important;
+  margin: 0!important;
+  padding: 6px 10px!important;
+  font-size: 1em!important;
   overflow: hidden;
   zoom: 1;
   cursor: pointer;
+  position: relative;
+  border-bottom: 1px solid #cecece;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 button {
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3:before {
+  content: "\f140";
+  display: block;
+  font: normal 22px/1 dashicons;
+  speak: none;
+  position: absolute;
+  right: 15px;
+  color: #787c82;
+  margin-top: 5px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3.opened:before {
+  content: "\f142";
+  margin-top: 5px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 span.remove_file {
   float: right;
+  margin-right: 30px;
+  color: #787C8250;
+  transition-duration: 0.2s;
+  position: relative;
+  top: 5px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 span.remove_file:hover {
+  color: red;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 strong {
   line-height: 30px;
@@ -748,7 +790,9 @@ table.wp-list-table .column-thumb img {
   display: block;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-download-count-button {
-  width: 100%;
+  width: auto;
+  min-width: 50px;
+  display: inline-block;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table {
   width: 100%;
@@ -2134,9 +2178,9 @@ table.wp-list-table .column-thumb img {
 /* Upsells */
 .wpchill-upsell {
   background: #fff;
-  border: 0;
   padding: 15px;
   margin-top: 30px;
+  position: relative;
 }
 .wpchill-upsell .wpchill-upsell-features {
   text-align: left;
@@ -2152,6 +2196,17 @@ table.wp-list-table .column-thumb img {
 }
 .wpchill-upsells-wrapper {
   width: 100%;
+}
+.wpchill-upsells-wrapper .wpchill-upsell {
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  text-align: center;
+}
+.wpchill-upsells-wrapper .wpchill-upsell img {
+  max-width: 100px;
+  max-height: 100px;
+  height: auto;
+  width: auto;
 }
 .wrap.dlm-admin-settings .form-table {
   width: 65%;
@@ -2196,7 +2251,7 @@ table.wp-list-table .column-thumb img {
 #dlm-amazon-s3-upsell .inside .wpchill-upsell,
 #dlm-google-drive-upsell .inside .wpchill-upsell,
 #dlm-buttons-upsell .inside .wpchill-upsell {
-  background: transparent;
+  background: #fff;
   text-align: center;
   width: 100%;
   margin-top: 0;
@@ -2207,6 +2262,29 @@ table.wp-list-table .column-thumb img {
 #dlm-buttons-upsell .inside {
   margin: 0;
   padding: 0;
+}
+.upsells-columns .dlm-available-with-pro,
+.wpchill-upsells-wrapper .dlm-available-with-pro {
+  width: auto;
+  border-radius: 0 5px 0 5px;
+  background: #2271b1;
+  color: #fff;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  display: flex;
+  align-content: center;
+  border-top: 0;
+  border-left: 0;
+  padding: 5px 8px 2px 5px;
+}
+.upsells-columns .dlm-available-with-pro > *,
+.wpchill-upsells-wrapper .dlm-available-with-pro > * {
+  font-size: 12px;
+}
+.upsells-columns .dlm-available-with-pro > *.dashicons,
+.wpchill-upsells-wrapper .dlm-available-with-pro > *.dashicons {
+  line-height: 15px;
 }
 .upsells-columns {
   display: flex;
@@ -2242,27 +2320,6 @@ table.wp-list-table .column-thumb img {
   position: relative;
   left: 1px;
   top: 1px;
-}
-.upsells-columns .upsells-column .dlm-available-with-pro {
-  width: auto;
-  border-bottom-left-radius: 5px;
-  border: 1px solid #cecece;
-  background: #2271b1;
-  color: #fff;
-  position: absolute;
-  top: 0;
-  right: -1px;
-  display: flex;
-  align-content: center;
-  border-top: 0;
-  border-left: 0;
-  padding: 5px 8px 2px 5px;
-}
-.upsells-columns .upsells-column .dlm-available-with-pro > * {
-  font-size: 12px;
-}
-.upsells-columns .upsells-column .dlm-available-with-pro > *.dashicons {
-  line-height: 15px;
 }
 .upsells-columns .upsells-column .dashicons-lock:before {
   font-size: 14px;
