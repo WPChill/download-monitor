@@ -55,6 +55,10 @@ class DLM_File_Manager {
 		$allowed_paths  = $this->get_allowed_paths();
 		$common_path    = DLM_Utils::longest_common_path( $allowed_paths );
 
+		if( isset( $parsed_file_path['scheme'] ) && 'php' == strtolower( $parsed_file_path['scheme'] ) ){
+			return array( '', false );
+		}
+
 		// Fix for plugins that modify the uploads dir
 		// add filter in order to return files
 		if ( apply_filters( 'dlm_check_file_paths', false, $file_path, $remote_file ) ) {
