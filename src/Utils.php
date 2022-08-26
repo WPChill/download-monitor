@@ -208,6 +208,33 @@ abstract class DLM_Utils {
 		return false;
 	}
 
+
+	/**
+	 *Check for existing column inside a table
+	 *
+	 * @param string $table_name The table in witch we are checking.
+	 * 
+	 * @param string $col_name The column we are checking for.
+	 *
+	 * @return bool
+	 */
+	public static function column_checker( $table_name, $col_name ) {
+		global $wpdb;
+	 
+		$diffs   = 0;
+		$results = $wpdb->get_results( "DESC $table_name" );
+	 
+		foreach ( $results as $row ) {
+	 
+			if ( $row->Field === $col_name ) {
+	 
+				return true;
+			} // End if found our column.
+		}
+	 
+		return false;
+	}
+
 	/*
 	*
 	* Generate html attributes based on array
