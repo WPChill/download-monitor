@@ -162,15 +162,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		if ( ! empty( $hashes ) ) {
 			?>
-			<div class="dlm-file-version__row">
+			<div class="dlm-file-version__row"><div class="dlm-file-version__hashes">
 			<?php
-			$hi = 0;
 			foreach ( $hashes as $hash ) {
-				if ( $hi > 0 && ( $hi % 2 ) == 0 ) {
-					?></div><div class="dlm-file-version__row"><?php
-				}
-				$hi ++;
-				$value  = "";
+
+				$value  = '';
 				$method = 'get_' . $hash;
 				if ( method_exists( $version, $method ) ) {
 					$value = $version->$method();
@@ -181,7 +177,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<input type="text" readonly="readonly" value="<?php echo esc_attr( $value ); ?>"/>
 				</div>
 			<?php } ?>
-			</div>
+				</div></div>
 			<?php
 		}
 		?>

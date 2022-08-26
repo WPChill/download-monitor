@@ -503,23 +503,22 @@ class DLM_Download {
 	 * @return array
 	 */
 	public function get_version_ids() {
-	
+
 		if ( empty( $this->version_ids ) ) {
 
 			if ( apply_filters( 'dlm_download_use_version_transient', true, $this ) ) {
 
-				$transient_name = 'dlm_file_version_ids_' . $this->get_id();
-			
-				if ( false === ( $this->version_ids = get_transient( $transient_name ) ) ) {
+				$transient_name    = 'dlm_file_version_ids_' . $this->get_id();
+				$this->version_ids = get_transient( $transient_name );
+				// If there is no transient, get the versions from the database.
+				if ( false === $this->version_ids ) {
 					$this->version_ids = download_monitor()->service( 'version_manager' )->get_version_ids( $this->get_id() );
 					set_transient( $transient_name, $this->version_ids, YEAR_IN_SECONDS );
 				}
-
 			} else {
-			
+
 				$this->version_ids = download_monitor()->service( 'version_manager' )->get_version_ids( $this->get_id() );
 			}
-
 		}
 
 		return $this->version_ids;

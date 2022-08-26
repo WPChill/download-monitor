@@ -679,6 +679,12 @@ table.wp-list-table .column-thumb img {
   display: inline-block;
   width: auto;
 }
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__hashes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 25px;
+}
 #download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload {
   padding: 0 15px;
 }
