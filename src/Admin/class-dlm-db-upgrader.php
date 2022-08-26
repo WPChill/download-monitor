@@ -35,7 +35,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			}
 
 			// Add notice for user to update the DB.
-			add_action( 'admin_notices', array( $this, 'add_db_update_notice' ) );
+			add_action( 'admin_notices', array( $this, 'add_db_update_notice' ), 8 );
 			// Enqueue our upgrader scripts.
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_db_upgrader_scripts' ) );
 			// Add our AJAX actions.
