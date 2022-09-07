@@ -39,7 +39,7 @@ class DLM_Product_Manager {
 					'version' => '4.0.6',
 				),
 				'dlm-captcha'                 => array(
-					'version' => '4.2.2',
+					'version' => '4.2.4',
 				),
 				'dlm-downloading-page'        => array(
 					'version' => '4.0.4',
@@ -48,22 +48,22 @@ class DLM_Product_Manager {
 					'version' => '4.0.4',
 				),
 				'dlm-terms-and-conditions'    => array(
-					'version' => '4.0.2',
+					'version' => '4.0.4',
 				),
 				'dlm-twitter-lock'            => array(
-					'version' => '4.0.2',
+					'version' => '4.1.1',
 				),
 				'dlm-advanced-access-manager' => array(
 					'version' => '4.0.7',
 				),
 				'dlm-email-notification'      => array(
-					'version' => '4.1.7',
+					'version' => '4.1.9',
 				),
 				'dlm-csv-exporter'            => array(
-					'version' => '4.0.1',
+					'version' => '4.0.3',
 				),
 				'dlm-gravity-forms'           => array(
-					'version' => '4.0.4',
+					'version' => '4.0.5',
 				),
 				'dlm-ninja-forms'             => array(
 					'version' => '4.1.2',
@@ -72,13 +72,13 @@ class DLM_Product_Manager {
 					'version' => '4.3.1',
 				),
 				'dlm-csv-importer'            => array(
-					'version' => '4.1.3',
+					'version' => '4.1.6',
 				),
 				'dlm-amazon-s3'               => array(
 					'version' => '4.0.6',
 				),
 				'dlm-mailchimp-lock'          => array(
-					'version' => '4.0.2',
+					'version' => '4.0.4',
 				),
 				'dlm-page-addon'              => array(
 					'version' => '4.1.6',
