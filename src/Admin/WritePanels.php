@@ -445,9 +445,9 @@ class DLM_Admin_Writepanels {
 			$downloadable_file_menu_order     = $_POST['downloadable_file_menu_order'];
 			$downloadable_file_version        = $_POST['downloadable_file_version'];
 			$downloadable_file_urls           = wp_unslash( $_POST['downloadable_file_urls'] );
-			$downloadable_file_date           = $_POST['downloadable_file_date'];
-			$downloadable_file_date_hour      = $_POST['downloadable_file_date_hour'];
-			$downloadable_file_date_minute    = $_POST['downloadable_file_date_minute'];
+			$downloadable_file_date           = isset( $_POST['downloadable_file_date'] ) ? $_POST['downloadable_file_date'] : '';
+			$downloadable_file_date_hour      = isset( $_POST['downloadable_file_date_hour'] ) ? $_POST['downloadable_file_date_hour'] : array();
+			$downloadable_file_date_minute    = isset( $_POST['downloadable_file_date_minute'] ) ? $_POST['downloadable_file_date_minute'] : array();
 
 			// loop
 			for ( $i = 0; $i <= max( array_keys( $downloadable_file_id ) ); $i ++ ) {
@@ -458,15 +458,15 @@ class DLM_Admin_Writepanels {
 				}
 
 				// sanatize post data
-				$file_id             = absint( $downloadable_file_id[ $i ] );
-				$file_menu_order     = absint( $downloadable_file_menu_order[ $i ] );
-				$file_version        = strtolower( sanitize_text_field( $downloadable_file_version[ $i ] ) );
-				$file_date_hour      = absint( $downloadable_file_date_hour[ $i ] );
-				$file_date_minute    = absint( $downloadable_file_date_minute[ $i ] );
-				$file_date           = sanitize_text_field( $downloadable_file_date[ $i ] );
-				$files               = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
-				$secured_files       = array();
-				$file_manager        = new DLM_File_Manager();
+				$file_id          = absint( $downloadable_file_id[ $i ] );
+				$file_menu_order  = absint( $downloadable_file_menu_order[ $i ] );
+				$file_version     = strtolower( sanitize_text_field( $downloadable_file_version[ $i ] ) );
+				$file_date_hour   = ( ! empty( $downloadable_file_date_hour ) ) ? absint( $downloadable_file_date_hour[ $i ] ) : 0;
+				$file_date_minute = ! empty( $downloadable_file_date_minute ) ? absint( $downloadable_file_date_minute[ $i ] ) : 0;
+				$file_date        = ! empty( $downloadable_file_date ) ? sanitize_text_field( $downloadable_file_date[ $i ] ) : '';
+				$files            = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
+				$secured_files    = array();
+				$file_manager     = new DLM_File_Manager();
 
 				foreach ( $files as $file ) {
 					list( $file_path ) = $file_manager->get_secure_path( $file, true );
