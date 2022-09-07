@@ -283,12 +283,17 @@ class DLM_Admin_Writepanels {
 					</div>
 				</div>
 			</div>
-			<p class="toolbar">
-				<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
-			</p>
+
 			<?php if( ! empty( $versions ) ){
 				?>
-				<div class="dlm-metaboxes"><p><strong><?php echo sprintf( esc_html__( 'Your version(s) ( %s )', 'download-monitor' ), count($versions) ); ?></strong></p></div>
+				<div class="dlm-metaboxes dlm-versions-tab">
+					<p>
+						<strong><?php echo sprintf( esc_html__( 'Your version(s) ( %s )', 'download-monitor' ), count($versions) ); ?></strong>
+					</p>
+					<p class="toolbar">
+						<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
+					</p>
+				</div>
 				<?php
 			} ?>
 			<div class="dlm-metaboxes downloadable_files">

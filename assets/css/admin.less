@@ -532,7 +532,6 @@ table.wp-list-table {
     p.toolbar {
       margin: 0 !important;
       border-top: 1px solid white;
-      border-bottom: 1px solid #DFDFDF;
       padding: 7px 12px !important;
       overflow: hidden;
       zoom: 1;
@@ -553,6 +552,13 @@ table.wp-list-table {
 
     .dlm-metaboxes {
       padding: 0 12px 0;
+
+      &.dlm-versions-tab {
+        display:flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-top: 1px solid #DFDFDF;
+      }
     }
 
     .dlm-metabox-sortable-placeholder {
@@ -570,6 +576,33 @@ table.wp-list-table {
       .downloadable_file {
         background:#fff;
         border-radius: 4px;
+
+        .dlm-version-info {
+          display:inline-block;
+
+          & > span {
+            font-size:13px;
+            font-weight: 400;
+            margin-right:30px;
+
+            &:first-child{
+              border:1px solid #ccc;
+              padding: 2px 3px;
+              border-radius: 5px;
+            }
+
+            .dashicons {
+              margin-right:10px;
+              color:#787C8250;
+            }
+          }
+
+          .dlm-version-info__version {
+            background: #787C8250;
+            padding: 2px 5px;
+            border-radius: 3px;
+          }
+        }
       }
     }
 
@@ -608,6 +641,15 @@ table.wp-list-table {
         * {
          display:inline-block;
           vertical-align: middle;
+        }
+      }
+
+      .dlm-file-version__inline {
+       & > * {
+          display:inline-block;
+          vertical-align: middle;
+          margin-right:25px;
+         margin-bottom:25px;
         }
       }
 
@@ -689,9 +731,10 @@ table.wp-list-table {
     }
 
     .dlm-metabox {
-      background: #ececec;
+      /*background: #ececec;*/
       border: 1px solid #cecece;
       margin: 10px 0!important;
+      box-shadow: 0 4px 6px rgb(0 0 0 / 5%);
 
       h3 {
         margin: 0!important;
@@ -711,12 +754,10 @@ table.wp-list-table {
           position: absolute;
           right: 15px;
           color: #787c82;
-          margin-top: 5px;
         }
 
         &.opened:before {
           content: "\f142";
-          margin-top: 5px;
         }
 
         span.remove_file {
@@ -725,7 +766,6 @@ table.wp-list-table {
           color: #787C8250;
           transition-duration: .2s;
           position: relative;
-          top: 5px;
 
           &:hover {
             color:red;

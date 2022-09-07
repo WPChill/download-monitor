@@ -504,6 +504,7 @@ jQuery(function ($) {
 					window.send_to_editor = window.send_to_browse_file_url;
 
 					tb_show(dlm_ed_strings.browse_file, 'media-upload.php?post_id=' + $('#dlm-post-id').val() + '&amp;type=downloadable_file_browser&amp;from=wpdlm01&amp;TB_iframe=true');
+					dlmEditInstance.afterAddFile(downloadable_files_field);
 
 					return false;
 				}
@@ -530,9 +531,10 @@ jQuery(function ($) {
 					});
 
 				} else {
-					$file_path_field = $el.parent().parent().find('.downloadable_file_urls');
+					$file_path_field = $el.parents('.dlm-file-version__row').find('.downloadable_file_urls');
 					var file_paths   = $file_path_field.val();
 					instance.addBrowsedFile($el, $file_path_field, file_paths, dlm_media_library_frame);
+					dlmEditInstance.afterAddFile($file_path_field);
 				}
 
 			});
@@ -647,7 +649,7 @@ jQuery(function ($) {
 						file_paths = file_paths ? file_paths + "\n" + attachment.url : attachment.url
 
 				});
-
+				console.log($file_path_field);
 				$file_path_field.val(file_paths);
 			});
 

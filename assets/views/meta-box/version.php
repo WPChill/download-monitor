@@ -6,11 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="dlm-metabox closed downloadable_file" data-file="<?php echo esc_html( $file_id ); ?>">
 	<h3>
 		<span type="button"
-		        class="remove_file dashicons dashicons-trash"></span>
+		      class="remove_file dashicons dashicons-trash"></span>
 		<div class="handlediv" title="<?php echo esc_attr__( 'Click to toggle', 'download-monitor' ); ?>"></div>
-		<strong>#<?php echo esc_html( $file_id ); ?>
-			&mdash; <?php echo sprintf( wp_kses_post( __( 'Version <span class="version">%s</span> (%s)', 'download-monitor' ) ), ( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ), esc_html( date_i18n( $date_format, $file_post_date->format( 'U' ) ) ) ); ?>
-			&mdash; <?php echo sprintf( _n( 'Downloaded %s time', 'Downloaded %s times', $file_download_count, 'download-monitor' ), esc_html( $file_download_count ) ); ?></strong>
+		<span class="dlm-version-info">
+			<span>#<?php echo esc_html( $file_id ); ?></span>
+			<span><span
+					class="dashicons dashicons-media-text"></span><?php echo esc_html__( 'Version: ', 'download-monitor' ) . '<span class="dlm-version-info__version">' . ( ( $file_version ) ? esc_html( $file_version ) : esc_html__( 'n/a', 'download-monitor' ) ); ?></span></span>
+		<span><span
+				class="dashicons dashicons-calendar-alt"></span><?php echo esc_html( date_i18n( $date_format, $file_post_date->format( 'U' ) ) ); ?></span>
+		<span><span
+				class="dashicons dashicons-download"></span><?php echo sprintf( __( '%s downloads', 'download-monitor' ), ( ( ! empty( $file_download_count ) ) ? esc_html( $file_download_count ) : 0 ) ); ?></span>
+		</span>
 		<input type="hidden" name="downloadable_file_id[<?php echo esc_attr( $version_increment ); ?>]"
 		       value="<?php echo esc_attr( $file_id ); ?>"/>
 		<input type="hidden" class="file_menu_order"
@@ -28,7 +34,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					class="dlm-file-uploaded hidden"><?php esc_html_e( 'File uploaded.', 'download-monitor' ) ?></label>
 				<div class="dlm-uploading-progress-bar"></div>
 			</div>
-			<div class="dlm-file-version__drag_and_drop dlm-uploader-container <?php echo ( ! empty( $file_urls ) ) ? 'hidden' : ''; ?>">
+			<div
+				class="dlm-file-version__drag_and_drop dlm-uploader-container <?php echo ( ! empty( $file_urls ) ) ? 'hidden' : ''; ?>">
 				<div class="dlm-file-version__uploader">
 					<div id="plupload-upload-ui" class="hide-if-no-js drag-drop">
 						<div id="drag-drop-area" style="position: relative;">
@@ -75,7 +82,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 				</div>
 			</div>
-			<div class="dlm-file-version__file_present dlm-uploader-container <?php echo ( empty( $file_urls ) ) ? 'hidden' : ''; ?>">
+			<div
+				class="dlm-file-version__file_present dlm-uploader-container <?php echo ( empty( $file_urls ) ) ? 'hidden' : ''; ?>">
 				<label><?php echo esc_html__( 'File URL(s); note: only enter multiple URLs in here if you want to use file mirrors', 'download-monitor' ); ?></label>
 				<div class="dlm-uploading-file hidden">
 					<label><?php esc_html_e( 'Uploading file:', 'download-monitor' ) ?> <span></span></label>
@@ -123,7 +131,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 		<div class="dlm-file-version__row ">
-			<div class="dlm-file-version__flex">
+			<div class="dlm-file-version__inline">
 				<div>
 					<label><?php echo esc_html__( 'Version', 'download-monitor' ); ?>:</label>
 					<input type="text" class="short"
@@ -131,11 +139,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 					       placeholder="<?php echo esc_attr__( 'n/a', 'download-monitor' ); ?>"
 					       value="<?php echo esc_attr( $file_version ); ?>"/>
 				</div>
-				<div>
-					<label><?php _e( 'Download count', 'download-monitor' ); ?>:</label>
+				<!-- @todo: Delete after confirmation -->
+				<!--<div>
+					<label><?php /*_e( 'Download count', 'download-monitor' ); */ ?>:</label>
 					<span
-						class="button button-secondary dlm-download-count-button"><?php echo esc_html( $file_download_count ); ?></span>
-				</div>
+						class="button button-secondary dlm-download-count-button"><?php /*echo esc_html( $file_download_count ); */ ?></span>
+				</div>-->
 				<div class="dlm-file-version__date">
 					<label><?php echo esc_html__( 'File Date', 'download-monitor' ); ?>:</label>
 					<input type="text" class="date-picker-field"
@@ -152,36 +161,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 					       maxlength="2" size="2"
 					       value="<?php echo esc_attr( $file_post_date->format( 'i' ) ); ?>"/>
 				</div>
-			</div>
-		</div>
 
-		<?php
+				<?php
 
-		// get available hashes
-		$hashes = download_monitor()->service( 'hasher' )->get_available_hashes();
+				// get available hashes
+				$hashes = download_monitor()->service( 'hasher' )->get_available_hashes();
 
-		if ( ! empty( $hashes ) ) {
-			?>
-			<div class="dlm-file-version__row"><div class="dlm-file-version__hashes">
-			<?php
-			foreach ( $hashes as $hash ) {
+				if ( ! empty( $hashes ) ) {
+					?>
+					<?php
+					foreach ( $hashes as $hash ) {
 
-				$value  = '';
-				$method = 'get_' . $hash;
-				if ( method_exists( $version, $method ) ) {
-					$value = $version->$method();
+						$value  = '';
+						$method = 'get_' . $hash;
+						if ( method_exists( $version, $method ) ) {
+							$value = $version->$method();
+						}
+						?>
+						<div>
+							<label><?php echo esc_html( strtoupper( $hash ) ); ?> Hash: </label>
+							<input type="text" readonly="readonly" value="<?php echo esc_attr( $value ); ?>"/>
+						</div>
+					<?php } ?>
+					<?php
 				}
 				?>
-				<div>
-					<label><?php echo esc_html( strtoupper( $hash ) ); ?> Hash</label>
-					<input type="text" readonly="readonly" value="<?php echo esc_attr( $value ); ?>"/>
-				</div>
-			<?php } ?>
-				</div></div>
-			<?php
-		}
-		?>
-
+			</div>
+		</div>
 		<?php do_action( 'dlm_downloadable_file_version_table_end', $file_id, $version_increment ); ?>
 
 	</div>
