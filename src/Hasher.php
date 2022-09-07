@@ -58,8 +58,12 @@ class DLM_Hasher {
 		$file_manager  = download_monitor()->service( 'file_manager' );
 		$allowed_paths = $file_manager->get_allowed_paths();
 		$common_path   = DLM_Utils::longest_common_path( $allowed_paths );
-		$file_path     = $common_path . $file_path;
 		$hash          = "";
+		
+		// Check to see if the path is an absolute one or a relative one, in which case we need to make it absolute
+		if ( $common_path && strlen( $common_path ) > 1 && false === strpos( $file_path, $common_path ) ) {
+			$file_path     = $common_path . $file_path;
+		}
 
 		switch ( $type ) {
 			case 'md5':

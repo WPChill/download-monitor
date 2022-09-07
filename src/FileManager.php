@@ -61,12 +61,22 @@ class DLM_File_Manager {
 			return array( $file_path, $remote_file );
 		}
 
-		$file_exists = false;
+		// Check if relative path or absolute path, as the file_exists function needs an absolute path
+		// So that we do not trigger warnings/errors with open_basedir restrictions
+		$file_check['exists']   = false;
+		$file_check['relative'] = false;
+
 		if ( isset( $parsed_file_path['path'] ) ) {
-			// Add the common_path to the file path so that we can check for absolute and not relative path
-			// This is a fix for open_basedir warnings & errors, as it needs absolute paths
-			if ( file_exists( $common_path . $parsed_file_path['path'] ) ) {
-				$file_exists = true;
+			// Check if common path is contained within the file path, if it doesn't it is a relative path
+			if ( $common_path && strlen( $common_path ) > 1 && false === strpos( $parsed_file_path['path'], $common_path ) ) {
+				if ( file_exists( $common_path . $parsed_file_path['path'] ) ) {
+					$file_check['exists']   = true;
+					$file_check['relative'] = true;
+				}
+			} else {
+				if ( file_exists( $parsed_file_path['path'] ) ) {
+					$file_check['exists'] = true;
+				}
 			}
 		}
 
@@ -74,22 +84,27 @@ class DLM_File_Manager {
 					'http',
 					'https',
 					'ftp'
-				) ) ) && $file_exists
+				) ) ) && $file_check['exists']
 		) {
 
-			/** This is an absolute path */
+			/** The file lies in the server */
 			$remote_file = false;
+			// If it's relative we need to make it absolute
+			if ( $file_check['relative'] ) {
+				$file_path = $common_path . $parsed_file_path['path'];
+				$file_path = realpath( $file_path );
+			}
 
 		} elseif ( strpos( $file_path, $wp_uploads_url ) !== false ) {
 
-			/** This is a local file given by URL so we need to figure out the path */
+			/** This is a local file given by URL, so we need to figure out the path */
 			$remote_file = false;
 			$file_path   = trim( str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path ) );
 			$file_path   = realpath( $file_path );
 
 		} elseif ( is_multisite() && ( ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false ) || ( strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) ) {
 
-			/** This is a local file outside of wp-content so figure out the path */
+			/** This is a local file outside wp-content so figure out the path */
 			$remote_file = false;
 			// Try to replace network url
 			$file_path = str_replace( network_site_url( '/', 'https' ), ABSPATH, $file_path );
@@ -100,7 +115,7 @@ class DLM_File_Manager {
 
 		} elseif ( strpos( $file_path, site_url( '/', 'http' ) ) !== false || strpos( $file_path, site_url( '/', 'https' ) ) !== false ) {
 
-			/** This is a local file outside of wp-content so figure out the path */
+			/** This is a local file outside wp-content so figure out the path */
 			$remote_file = false;
 			$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
 			$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
@@ -110,11 +125,6 @@ class DLM_File_Manager {
 			/** Path needs an abspath to work */
 			$remote_file = false;
 			$file_path   = ABSPATH . $file_path;
-			$file_path   = realpath( $file_path );
-		} elseif ( $common_path && strlen( $common_path ) > 1 && file_exists( $common_path . $file_path ) ) {
-			/** Path needs an $common_path to work */
-			$remote_file = false;
-			$file_path   = $common_path . $file_path;
 			$file_path   = realpath( $file_path );
 		} elseif ( '' === $common_path || strlen( $common_path ) === 1 ) {
 			foreach ( $allowed_paths as $path ) {
