@@ -654,7 +654,7 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info > span {
   font-size: 13px;
   font-weight: 400;
-  margin-right: 30px;
+  margin-right: 20px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info > span:first-child {
   border: 1px solid #ccc;
@@ -662,13 +662,12 @@ table.wp-list-table .column-thumb img {
   border-radius: 5px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info > span .dashicons {
-  margin-right: 10px;
+  margin-right: 5px;
   color: #787C8250;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info .dlm-version-info__version {
-  background: #787C8250;
-  padding: 2px 5px;
-  border-radius: 3px;
+  background: rgba(206, 206, 206, 0.5);
+  padding: 3px 5px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .drag-drop #drag-drop-area {
   border: 4px dashed #c3c4c7;
@@ -782,7 +781,7 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 {
   margin: 0!important;
-  padding: 6px 10px!important;
+  padding: 10px 10px 8px 10px!important;
   font-size: 1em!important;
   overflow: hidden;
   zoom: 1;

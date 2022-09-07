@@ -145,24 +145,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<span
 						class="button button-secondary dlm-download-count-button"><?php /*echo esc_html( $file_download_count ); */ ?></span>
 				</div>-->
-				<div class="dlm-file-version__date">
-					<label><?php echo esc_html__( 'File Date', 'download-monitor' ); ?>:</label>
-					<input type="text" class="date-picker-field"
-					       name="downloadable_file_date[<?php echo esc_attr( $version_increment ); ?>]"
-					       maxlength="10" value="<?php echo esc_attr( $file_post_date->format( $date_format ) ); ?>"/> @
-					<input
-						type="text" class="hour" placeholder="<?php echo esc_html__( 'h', 'download-monitor' ) ?>"
-						name="downloadable_file_date_hour[<?php echo esc_attr( $version_increment ); ?>]" maxlength="2"
-						size="2"
-						value="<?php echo esc_attr( $file_post_date->format( 'H' ) ); ?>"/>:
-					<input type="text" class="minute"
-					       placeholder="<?php echo esc_attr__( 'm', 'download-monitor' ) ?>"
-					       name="downloadable_file_date_minute[<?php echo esc_attr( $version_increment ); ?>]"
-					       maxlength="2" size="2"
-					       value="<?php echo esc_attr( $file_post_date->format( 'i' ) ); ?>"/>
-				</div>
+				<?php if ( ! empty( $file_post_date->format( $date_format ) ) ) {
+					?>
+					<div class="dlm-file-version__date">
+						<label><?php echo esc_html__( 'File Date', 'download-monitor' ); ?>:</label>
+						<input type="text" class="date-picker-field"
+						       name="downloadable_file_date[<?php echo esc_attr( $version_increment ); ?>]"
+						       maxlength="10"
+						       value="<?php echo esc_attr( $file_post_date->format( $date_format ) ); ?>"/> @
+						<input
+							type="text" class="hour" placeholder="<?php echo esc_html__( 'h', 'download-monitor' ) ?>"
+							name="downloadable_file_date_hour[<?php echo esc_attr( $version_increment ); ?>]"
+							maxlength="2"
+							size="2"
+							value="<?php echo esc_attr( $file_post_date->format( 'H' ) ); ?>"/>:
+						<input type="text" class="minute"
+						       placeholder="<?php echo esc_attr__( 'm', 'download-monitor' ) ?>"
+						       name="downloadable_file_date_minute[<?php echo esc_attr( $version_increment ); ?>]"
+						       maxlength="2" size="2"
+						       value="<?php echo esc_attr( $file_post_date->format( 'i' ) ); ?>"/>
+					</div>
+					<?php
 
-				<?php
+				}
 
 				// get available hashes
 				$hashes = download_monitor()->service( 'hasher' )->get_available_hashes();
