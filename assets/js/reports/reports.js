@@ -158,7 +158,14 @@ class DLM_Reports {
 	async fetchUsersReportsData(offset = 0, limit = dlmPHPinfo['retrieved_rows']) {
 
 		const wrapper         = jQuery('div[data-id="user_reports"]');
-		const fetchedUserData = await fetch(dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit);
+
+		// Let's see if these are pretty permalinks or plain
+		let fetchingLink = dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit;
+		if (dlmUserReportsAPI.indexOf('index.php?') > 0) {
+			fetchingLink = dlmUserReportsAPI + '&offset=' + offset + '&limit=' + limit;
+		}
+
+		const fetchedUserData = await fetch(fetchingLink);
 
 		if (!fetchedUserData.ok) {
 			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
