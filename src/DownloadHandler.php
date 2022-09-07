@@ -374,17 +374,20 @@ class DLM_Download_Handler {
 			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 				$this->dlm_logging->log( $download, $version, 'redirect' );
 			}
-			$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
 
+			// If it's not a remote file we need to create the correct URL.
+			if ( ! $remote_file ) {
+				$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
 
-			// Ensure we have a valid URL, not a file path.
-			$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-			// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
-			// we get the secure file path.
-			$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
-			// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
-			$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
-			$file_path = str_replace( $correct_path, site_url( '/', $scheme ), $file_path );
+				// Ensure we have a valid URL, not a file path.
+				$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
+				// we get the secure file path.
+				$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
+				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
+				$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
+				$file_path = str_replace( $correct_path, site_url( '', $scheme ), $file_path );
+			}
 
 			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 				header( 'DLM-Redirect: ' . $file_path );
@@ -472,7 +475,6 @@ class DLM_Download_Handler {
 			}
 			$this->readfile_chunked( $file_path, false, $range );
 		} elseif ( $remote_file ) {
-			header('dlm-caca: pute');
 			// Redirect - we can't track if this completes or not.
 			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
 				header( 'DLM-Redirect: ' . $file_path );
