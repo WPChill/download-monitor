@@ -61,11 +61,20 @@ class DLM_File_Manager {
 			return array( $file_path, $remote_file );
 		}
 
+		$file_exists = false;
+		if ( isset( $parsed_file_path['path'] ) ) {
+			// Add the common_path to the file path so that we can check for absolute and not relative path
+			// This is a fix for open_basedir warnings & errors, as it needs absolute paths
+			if ( file_exists( $common_path . $parsed_file_path['path'] ) ) {
+				$file_exists = true;
+			}
+		}
+
 		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array(
 					'http',
 					'https',
 					'ftp'
-				) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path['path'] )
+				) ) ) && $file_exists
 		) {
 
 			/** This is an absolute path */

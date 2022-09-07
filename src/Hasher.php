@@ -54,7 +54,13 @@ class DLM_Hasher {
 	 * @return string
 	 */
 	public function generate_hash( $type, $file_path ) {
-		$hash = "";
+
+		$file_manager  = download_monitor()->service( 'file_manager' );
+		$allowed_paths = $file_manager->get_allowed_paths();
+		$common_path   = DLM_Utils::longest_common_path( $allowed_paths );
+		$file_path     = $common_path . $file_path;
+		$hash          = "";
+
 		switch ( $type ) {
 			case 'md5':
 				$hash = hash_file( 'md5', $file_path );
