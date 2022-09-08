@@ -386,7 +386,7 @@ class DLM_Download_Handler {
 				$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
 				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
 				$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
-				$file_path = str_replace( $correct_path, site_url( '', $scheme ), $file_path );
+				$file_path = str_replace( trailingslashit( $correct_path ), site_url( '/', $scheme ), $file_path );
 			}
 
 			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
