@@ -121,6 +121,12 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.5.98 - 08.09.2022 =
+Fixed: Un-approved file download bug/security issue ( [#1021](https://github.com/WPChill/download-monitor/issues/1021) )
+
+= 4.5.97 - 23.08.2022 =
+Fixed: Class naming error
+
 = 4.5.96 - 16.08.2022 =
 Changed: Show error on upload if file not OK ( [#995](https://github.com/WPChill/download-monitor/issues/995) )
 Added: New settings field types ( [#1005](https://github.com/WPChill/download-monitor/issues/1005) )
