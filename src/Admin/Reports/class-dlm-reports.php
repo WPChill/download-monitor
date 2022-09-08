@@ -280,7 +280,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_rows'];
 			$offset_limit = $offset * $this->php_info['retrieved_rows'];
 
-			wp_cache_delete( $cache_key, 'dlm_user_reports' );
 			$stats = wp_cache_get( $cache_key, 'dlm_user_reports' );
 			if ( ! $stats ) {
 				$table_columns = apply_filters(
