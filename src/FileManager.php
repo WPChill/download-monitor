@@ -274,7 +274,7 @@ class DLM_File_Manager {
 		// Let's see if the file path is dirty
 		$file_scheme = parse_url( $file_path, PHP_URL_SCHEME );
 		// Default defined URL schemes
-		$allowed_schemes = array( 'http', 'https', 'ftp' );
+		$allowed_schemes = array( 'http', 'https', 'ftp', 'ftps' );
 
 		if ( ! is_null( $file_scheme ) && ! in_array( $file_scheme, $allowed_schemes ) ) {
 			$restriction = true;

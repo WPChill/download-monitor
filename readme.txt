@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.5.98 - TBA =
+= 4.5.98 - 08.09.2022 =
 Fixed: Un-approved file download bug/security issue ( [#1021](https://github.com/WPChill/download-monitor/issues/1021) )
 
 = 4.5.97 - 23.08.2022 =
