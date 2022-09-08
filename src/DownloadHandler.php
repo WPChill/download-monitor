@@ -648,11 +648,6 @@ class DLM_Download_Handler {
 	 */
 	public function readfile_chunked( $file, $retbytes = true, $range = false ) {
 		
-		$parsed_file_path = parse_url( $file );
-		if( isset( $parsed_file_path['scheme'] ) && 'php' == strtolower( $parsed_file_path['scheme'] ) ){
-			return false;
-		}
-		
 		$chunksize = 1 * ( 1024 * 1024 );
 		$buffer    = '';
 		$cnt       = 0;
