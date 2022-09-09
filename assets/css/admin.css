@@ -994,7 +994,7 @@ table.wp-list-table .column-thumb img {
   position: relative;
   vertical-align: top;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm_browse_for_file .dlm_:before {
+#download-monitor-file .dlm-metaboxes-wrapper .dlm_browse_for_file .dlm_browse_for_file:before {
   font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;

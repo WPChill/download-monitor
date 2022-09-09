@@ -459,7 +459,7 @@ class DLM_Admin_Writepanels {
 				if ( ! isset( $downloadable_file_id[ $i ] ) ) {
 					continue;
 				}
-var_dump($downloadable_file_urls);
+				
 				// sanatize post data
 				$file_id          = absint( $downloadable_file_id[ $i ] );
 				$file_menu_order  = absint( $downloadable_file_menu_order[ $i ] );

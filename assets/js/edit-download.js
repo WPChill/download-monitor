@@ -521,9 +521,6 @@ jQuery(function ($) {
 						const object             = jQuery(this);
 						downloadable_files_field = jQuery('.downloadable_file').find('textarea[name^="downloadable_file_urls"]');
 
-
-
-						
 						// Unbind event
 						object.off(event);
 						dlmEditInstance.afterAddFile(downloadable_files_field);
@@ -532,7 +529,6 @@ jQuery(function ($) {
 					});
 				} else {
 					downloadable_files_field = jQuery(this).closest('.downloadable_file').find('textarea[name^="downloadable_file_urls"]');
-
 
 					dlmEditInstance.afterAddFile(downloadable_files_field);
 
