@@ -259,6 +259,9 @@ class DLM_Admin_Writepanels {
 											'choose' => __( 'Choose a file', 'download-monitor' ),
 											'update' => __( 'Insert file URL', 'download-monitor' ),
 										)
+									),
+									'external_source' => array(
+										'text' => __( 'External Source', 'download-monitor' )
 									)
 								);
 
@@ -456,14 +459,14 @@ class DLM_Admin_Writepanels {
 				if ( ! isset( $downloadable_file_id[ $i ] ) ) {
 					continue;
 				}
-
+var_dump($downloadable_file_urls);
 				// sanatize post data
 				$file_id          = absint( $downloadable_file_id[ $i ] );
 				$file_menu_order  = absint( $downloadable_file_menu_order[ $i ] );
 				$file_version     = strtolower( sanitize_text_field( $downloadable_file_version[ $i ] ) );
-				$file_date_hour   = ( ! empty( $downloadable_file_date_hour ) ) ? absint( $downloadable_file_date_hour[ $i ] ) : 0;
-				$file_date_minute = ! empty( $downloadable_file_date_minute ) ? absint( $downloadable_file_date_minute[ $i ] ) : 0;
-				$file_date        = ! empty( $downloadable_file_date ) ? sanitize_text_field( $downloadable_file_date[ $i ] ) : '';
+				$file_date_hour   = ( ! empty( $downloadable_file_date_hour[ $i ] ) ) ? absint( $downloadable_file_date_hour[ $i ] ) : 0;
+				$file_date_minute = ! empty( $downloadable_file_date_minute[ $i ] ) ? absint( $downloadable_file_date_minute[ $i ] ) : 0;
+				$file_date        = ! empty( $downloadable_file_date[ $i ] ) ? sanitize_text_field( $downloadable_file_date[ $i ] ) : '';
 				$files            = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
 				$secured_files    = array();
 				$file_manager     = new DLM_File_Manager();

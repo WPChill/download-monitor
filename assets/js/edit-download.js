@@ -510,6 +510,36 @@ jQuery(function ($) {
 				}
 			});
 
+
+			// External Source
+			jQuery('.download_monitor_files').on('click', 'a.dlm_external_source', function (e) {
+				e.preventDefault();
+				if (jQuery(this).parents('#dlm-new-upload').length > 0) {
+					instance.addNewFile();
+					// Attach file to newly created version
+					jQuery(document).on('dlm_new_file_added', function (event) {
+						const object             = jQuery(this);
+						downloadable_files_field = jQuery('.downloadable_file').find('textarea[name^="downloadable_file_urls"]');
+
+
+
+						
+						// Unbind event
+						object.off(event);
+						dlmEditInstance.afterAddFile(downloadable_files_field);
+
+						return false;
+					});
+				} else {
+					downloadable_files_field = jQuery(this).closest('.downloadable_file').find('textarea[name^="downloadable_file_urls"]');
+
+
+					dlmEditInstance.afterAddFile(downloadable_files_field);
+
+					return false;
+				}
+			});
+
 			// Uploading files
 			var dlm_media_library_frame;
 

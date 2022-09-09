@@ -57,6 +57,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 												'choose' => __( 'Choose a file', 'download-monitor' ),
 												'update' => __( 'Insert file URL', 'download-monitor' ),
 											)
+										),
+										'external_source' => array(
+											'text' => __( 'External Source', 'download-monitor' )
 										)
 									);
 
