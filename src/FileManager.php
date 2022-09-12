@@ -292,10 +292,12 @@ class DLM_File_Manager {
 
 		// Let's see if the file path is dirty
 		$file_scheme = parse_url( $file_path, PHP_URL_SCHEME );
-		// Default defined URL schemes
-		$allowed_schemes = array( 'http', 'https', 'ftp', 'ftps' );
+		// Default restricted URL schemes
+		$restricted_schemes = array( 'php');
+		$restricted_user_added_schemes = apply_filters( 'dlm_restricted_schemes', array() );
+		$restricted_schemes = array_merge( $restricted_schemes, $restricted_user_added_schemes );
 
-		if ( ! is_null( $file_scheme ) && ! in_array( $file_scheme, $allowed_schemes ) ) {
+		if ( in_array( $file_scheme, $restricted_schemes ) ) {
 			$restriction = true;
 			return array( $file_path, $remote_file, $restriction );
 		}
