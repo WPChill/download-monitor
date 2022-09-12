@@ -35,6 +35,9 @@ class DLM_Upgrade_Manager {
 			// Update version code
 			$this->update_current_version_code();
 
+			// flush rewrite rules
+			flush_rewrite_rules(false);
+
 		}
 
 	}

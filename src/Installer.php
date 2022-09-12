@@ -55,7 +55,7 @@ class DLM_Installer {
 		add_rewrite_endpoint( 'download-id', EP_ALL );
 
 		// flush rewrite rules
-		flush_rewrite_rules();
+		flush_rewrite_rules(false);
 
 		// We need this class here also so that we can use it in the activation hook.
 		// DLM Welcome page
