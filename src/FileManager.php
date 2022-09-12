@@ -274,9 +274,14 @@ class DLM_File_Manager {
 		// Let's see if the file path is dirty
 		$file_scheme = parse_url( $file_path, PHP_URL_SCHEME );
 		// Default restricted URL schemes
-		$restricted_schemes = array( 'php');
-		$restricted_user_added_schemes = apply_filters( 'dlm_restricted_schemes', array() );
-		$restricted_schemes = array_merge( $restricted_schemes, $restricted_user_added_schemes );
+		$restricted_schemes = array( 'php' );
+		$restricted_schemes = array_merge(
+			$restricted_schemes,
+			apply_filters(
+				'dlm_restricted_schemes',
+				array()
+			)
+		);
 
 		if ( in_array( $file_scheme, $restricted_schemes ) ) {
 			$restriction = true;
