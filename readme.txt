@@ -121,6 +121,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.5.99 - 12.09.2022 =
+Fixed: Restricted schemes ( [#1035](https://github.com/WPChill/download-monitor/issues/1035))
+
 = 4.5.98 - 08.09.2022 =
 Fixed: Un-approved file download bug/security issue ( [#1021](https://github.com/WPChill/download-monitor/issues/1021) )
 
