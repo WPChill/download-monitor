@@ -59,7 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											)
 										),
 										'external_source' => array(
-											'text' => __( 'External Source', 'download-monitor' )
+											'text' => __( 'Custom URL', 'download-monitor' )
 										)
 									);
 

@@ -261,7 +261,7 @@ class DLM_Admin_Writepanels {
 										)
 									),
 									'external_source' => array(
-										'text' => __( 'External Source', 'download-monitor' )
+										'text' => __( 'Custom URL', 'download-monitor' )
 									)
 								);
 
@@ -291,7 +291,7 @@ class DLM_Admin_Writepanels {
 				?>
 				<div class="dlm-metaboxes dlm-versions-tab">
 					<p>
-						<strong><?php echo sprintf( esc_html__( 'Your version(s) ( %s )', 'download-monitor' ), count($versions) ); ?></strong>
+						<strong><?php echo sprintf( wp_kses_post( 'Your version(s) <span class="dlm-versions-number">( %s )</span>', 'download-monitor' ), count($versions) ); ?></strong>
 					</p>
 					<p class="toolbar">
 						<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>

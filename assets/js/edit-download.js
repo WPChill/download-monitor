@@ -396,6 +396,12 @@ jQuery(function ($) {
 					dlmUploadeFileView.render();
 				});
 				jQuery('#dlm-new-upload').hide();
+
+				const versions = jQuery('.downloadable_file');
+				if ( 0 !== versions.length ) {
+					jQuery('.dlm-versions-tab').show();
+					jQuery('.dlm-versions-tab .dlm-versions-number').html( '(' + versions.length + ')' );
+				}
 			});
 		}
 
@@ -511,7 +517,7 @@ jQuery(function ($) {
 			});
 
 
-			// External Source
+			// Custom URL
 			jQuery('.download_monitor_files').on('click', 'a.dlm_external_source', function (e) {
 				e.preventDefault();
 				if (jQuery(this).parents('#dlm-new-upload').length > 0) {
@@ -575,6 +581,15 @@ jQuery(function ($) {
 				$(this).next('span').text($(this).data('item') + ' copied');
 				$('.copy-dlm-button').not($(this)).parent().find('span').text('');
 			});
+
+			jQuery(document).on( 'dlm_remove_file', function (event, action, element ) {
+				const versions = jQuery('.downloadable_file');
+				if ( 0 === versions.length ) {
+					jQuery('.dlm-versions-tab').hide();
+				} else {
+					jQuery('.dlm-versions-tab .dlm-versions-number').html( '(' + versions.length + ')' );
+				}
+			} );
 		}
 
 		/**
