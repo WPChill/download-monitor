@@ -306,7 +306,7 @@ class DLM_Download_Handler {
 					header( 'DLM-No-Access: true' );
 					exit;
 				}
-				header( "Status: 401 redirect,$redirect" );
+				header( "Status: 301 redirect,$redirect" );
 				wp_redirect( $redirect );
 				exit;
 			} else {
