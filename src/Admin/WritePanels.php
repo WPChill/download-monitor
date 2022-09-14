@@ -286,30 +286,14 @@ class DLM_Admin_Writepanels {
 					</div>
 				</div>
 			</div>
-
-			<?php if( ! empty( $versions ) ){
-				?>
-				<div class="dlm-metaboxes dlm-versions-tab">
-					<p>
-						<strong><?php echo sprintf( wp_kses_post( 'Your version(s) <span class="dlm-versions-number">( %s )</span>', 'download-monitor' ), count($versions) ); ?></strong>
-					</p>
-					<p class="toolbar">
-						<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
-					</p>
-				</div>
-				<?php
-			}else{
-				?>
-				<div class="dlm-metaboxes dlm-versions-tab" style="display:none;">
-					<p>
-						<strong><?php echo sprintf( wp_kses_post( 'Your version(s) <span class="dlm-versions-number">( %s )</span>', 'download-monitor' ), 1 ); ?></strong>
-					</p>
-					<p class="toolbar">
-						<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
-					</p>
-				</div>
-				<?php
-			} ?>
+			<div class="dlm-metaboxes dlm-versions-tab" <?php echo ( !empty( $versions ) ?  '' : 'style="display:none;"' ); ?>>
+				<p>
+					<strong><?php echo sprintf( wp_kses_post( 'Your version(s) <span class="dlm-versions-number">( %s )</span>', 'download-monitor' ), ( ! empty( $versions ) ? count($versions)  : 1 ) ); ?></strong>
+				</p>
+				<p class="toolbar">
+					<a href="#" class="button plus add_file"><?php echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
+				</p>
+			</div>
 			<div class="dlm-metaboxes downloadable_files">
 				<?php
 				$i        = - 1;
