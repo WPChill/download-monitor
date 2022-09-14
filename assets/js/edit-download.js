@@ -690,7 +690,7 @@ jQuery(function ($) {
 						file_paths = file_paths ? file_paths + "\n" + attachment.url : attachment.url
 
 				});
-				console.log($file_path_field);
+
 				$file_path_field.val(file_paths);
 			});
 
@@ -711,7 +711,6 @@ jQuery(function ($) {
 		 * @param $element
 		 */
 		afterAddFile($element) {
-			console.log($element);
 			$element.parents('.dlm-file-version__row').find('.dlm-file-version__drag_and_drop').addClass('hidden');
 			$element.parents('.dlm-file-version__row').find('.dlm-file-version__file_present').removeClass('hidden');
 		}

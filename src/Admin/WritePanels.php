@@ -466,7 +466,7 @@ class DLM_Admin_Writepanels {
 				$file_version     = strtolower( sanitize_text_field( $downloadable_file_version[ $i ] ) );
 				$file_date_hour   = ( ! empty( $downloadable_file_date_hour[ $i ] ) ) ? absint( $downloadable_file_date_hour[ $i ] ) : 0;
 				$file_date_minute = ! empty( $downloadable_file_date_minute[ $i ] ) ? absint( $downloadable_file_date_minute[ $i ] ) : 0;
-				$file_date        = ! empty( $downloadable_file_date[ $i ] ) ? sanitize_text_field( $downloadable_file_date[ $i ] ) : '';
+				$file_date        = ! empty( $downloadable_file_date[ $i ] ) ? sanitize_text_field( $downloadable_file_date[ $i ] ) : new DateTime();
 				$files            = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
 				$secured_files    = array();
 				$file_manager     = new DLM_File_Manager();
@@ -481,12 +481,16 @@ class DLM_Admin_Writepanels {
 					continue;
 				}
 
-				
 				// format correct file date
 				if ( empty( $file_date ) ) {
 					$file_date_obj = new DateTime( current_time( 'mysql' ) );
 				} else {
-					$file_date_obj = new DateTime( $file_date . ' ' . $file_date_hour . ':' . $file_date_minute . ':00' );
+					if ( is_object($file_date) ) {
+						$file_date_obj = new DateTime( $file_date->format('Y-m-d') . ' ' . $file_date_hour . ':' . $file_date_minute . ':00' );
+					} else {
+						$file_date_obj = new DateTime( $file_date . ' ' . $file_date_hour . ':' . $file_date_minute . ':00' );
+					}
+
 				}
 
 				try {

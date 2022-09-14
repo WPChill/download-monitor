@@ -24,7 +24,7 @@
 
 
 
-			$(document).on('click', 'button#dlm-upgrade-db', function (e) {
+			$(document).on('click', 'button#dlm-upgrade-db,a.dlm-db-upgrade-link', function (e) {
 				e.preventDefault();
 				$(this).prop('disabled', true);
 				$(this).parents('.dlm-upgrade-db-notice').addClass('started');

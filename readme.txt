@@ -131,6 +131,8 @@ Changed: Change checking from IP to new column added UUID ( [#987](https://githu
 Changed: Beautify Download Monitor's settings and UI ( [#971](https://github.com/WPChill/download-monitor/issues/971) )
 Changed: Reports page and functionalities ( [#968](https://github.com/WPChill/download-monitor/issues/968) )
 Changed: Update datepicker library ( [#736](https://github.com/WPChill/download-monitor/issues/736) )
+Fixed: Double escaping on form attributes ( [#1032](https://github.com/WPChill/download-monitor/issues/1032) )
+Fixed: open_basedir warnings & errors for trying to open relative path ( [#981](https://github.com/WPChill/download-monitor/issues/981), [#890](https://github.com/WPChill/download-monitor/issues/890) )
 
 = 4.5.99 - 12.09.2022 =
 Fixed: Restricted schemes ( [#1035](https://github.com/WPChill/download-monitor/issues/1035))

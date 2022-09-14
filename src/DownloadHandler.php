@@ -237,7 +237,7 @@ class DLM_Download_Handler {
 			if ( ! isset( $_REQUEST['nonce'] ) ) {
 				wp_send_json_error( array( 'error' => 'missing_nonce' ) );
 			}
-			wp_verify_nonce( 'dlm_ajax_nonce', $_REQUEST['nonce'] );
+			wp_verify_nonce( $_REQUEST['nonce'], 'dlm_ajax_nonce' );
 			define( 'DLM_DOING_XHR', true );
 		}
 
