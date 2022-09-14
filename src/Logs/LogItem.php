@@ -313,7 +313,7 @@ class DLM_Log_Item {
 		$download_date = current_time( 'mysql' );
 
 		$result = $wpdb->insert(
-			$wpdb->download_log,
+			"{$wpdb->download_log}",
 			array(
 				'user_id'                 => absint( $this->get_user_id() ),
 				'user_ip'                 => $this->get_user_ip(),

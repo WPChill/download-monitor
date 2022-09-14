@@ -118,6 +118,13 @@ class DLM_Logging {
 	 */
 	public function xhr_log_download() {
 
+		if ( ! isset( $_POST['download_id']  ) || ! isset( $_POST['version_id']  ) ) {
+			if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+				wp_send_json_error('Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.');
+			}
+			wp_send_json_error('Missing download_id or version_id');
+		}
+
 		// Don't log if admin hit does not need to be logged
 		$admin_log = get_option( 'dlm_log_admin_download_count' );
 		if ( '1' === $admin_log && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {

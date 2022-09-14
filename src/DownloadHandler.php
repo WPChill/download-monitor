@@ -369,6 +369,10 @@ class DLM_Download_Handler {
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 		}
 
+		$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
+		// we get the secure file path.
+		$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
+
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
@@ -377,13 +381,9 @@ class DLM_Download_Handler {
 
 			// If it's not a remote file we need to create the correct URL.
 			if ( ! $remote_file ) {
-				$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
-
 				// Ensure we have a valid URL, not a file path.
 				$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
-				// we get the secure file path.
-				$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
 				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
 				$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
 				$file_path = str_replace( trailingslashit( $correct_path ), site_url( '/', $scheme ), $file_path );
@@ -415,7 +415,7 @@ class DLM_Download_Handler {
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-				if ( ! defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+				if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 					$this->dlm_logging->log( $download, $version, 'completed' );
 				}
 
@@ -423,15 +423,13 @@ class DLM_Download_Handler {
 				exit;
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
+				// Log this way as the js doesn't know who the download_id and version_id is
+				$this->dlm_logging->log( $download, $version, 'completed' );
 
-				if ( ! defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
-					$this->dlm_logging->log( $download, $version, 'completed' );
-				}
-
-				if ( isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
-					// phpcs:ignore
-					$file_path = str_ireplace( $_SERVER['DOCUMENT_ROOT'], '', $file_path );
-				}
+				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
+				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
+				$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
+				$file_path = str_replace( trailingslashit( $correct_path ), '', $file_path );
 
 				header( "X-Accel-Redirect: /$file_path" );
 				exit;

@@ -161,7 +161,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			}
 
 			$result = $wpdb->update(
-				$wpdb->dlm_reports,
+				"{$wpdb->dlm_reports}",
 				array(
 					'download_ids' => wp_json_encode( $downloads ),
 				),
@@ -177,7 +177,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 			// insert row.
 			$result = $wpdb->insert(
-				$wpdb->dlm_reports,
+				"{$wpdb->dlm_reports}",
 				array(
 					'date'         => $log_date,
 					'download_ids' => wp_json_encode(
