@@ -131,7 +131,9 @@ class DLM_Ajax_Handler {
 			'file_post_date'      => $new_version->get_date(),
 			'file_download_count' => $new_version->get_download_count(),
 			'file_urls'           => $new_version->get_mirrors(),
-			'version'             => $new_version
+			'version'             => $new_version,
+			'date_format'         => get_option( 'date_format' ),
+			'file_browser'        => get_option( 'dlm_turn_off_file_browser', true ) 
 		) );
 
 		die();
