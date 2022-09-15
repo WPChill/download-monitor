@@ -59,7 +59,6 @@ class DLM_XHR_Download {
 		}
 
 		if ('#' === triggerObject.href) {
-			console.log('No file path found');
 			return;
 		}
 
