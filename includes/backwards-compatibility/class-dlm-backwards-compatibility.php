@@ -337,7 +337,7 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
-	 * Backwards compatibility to take meta count into consideration for Donwloads
+	 * Backwards compatibility to take meta count into consideration for Downloads
 	 *
 	 * @param [type] $count
 	 * @param [type] $download_id
@@ -347,7 +347,10 @@ class DLM_Backwards_Compatibility {
 	 */
 	public function add_meta_download_count( $counts, $download_id ) {
 
-		if ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) {
+		// Filter to enable adding meta counts to download counts.
+		$count_meta = apply_filters( 'dlm_count_meta_downloads', false );
+
+		if ( ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) || $count_meta ) {
 
 			if ( 'dlm_download' !== get_post_type( $download_id ) ) {
 

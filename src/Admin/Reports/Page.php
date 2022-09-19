@@ -2,18 +2,7 @@
 
 /**
  * TODO:
- * - create Downloads table as <table>, now it's using flex for quick & dirty propotyping
- * - add filters next to Downloads (will come from PRO)
  * - pagination improvements, like WooCommerce does it: https://www.download-monitor.com/wp-admin/admin.php?page=wc-admin&path=%2Fanalytics%2Frevenue
- * - remove status: failed & redirected from LITE, will come from PRO
- * - remove: logged-in & not-loggedin from lite; will come from PRO
- * - remove: % of total and content locking from LITE, will come from PRO
- *
- * Note: on hover over "total downloads", in PRO, you will see a tooltip that shows a break down, in absolute and % values expressed similar to below for each status:
- * Completed    2900    96.6%
- * Failed       50      1.66%
- * Redirected:  50      1.66%
- *
  * In a future version, we could also have comparison here and potentially the ability to chart these values by clicking on them and displaying them in comparison on a chart
  */
 
@@ -321,15 +310,9 @@ class DLM_Reports_Page {
 		<div id="users_downloads_table_wrapper">
 			<div class="user-downloads-filters">
 				<h3 class="user-downloads-filters__heading"><?php echo esc_html__( 'Filter logs by:', 'download-monitor' ); ?></h3>
-				<select id="dlm-filter-by-status" class="user-downloads-filters__filter" data-type="download_status">
-					<option value=""><?php echo esc_html__( 'Filter by status', 'download-monitor' ); ?></option>
-					<option value="completed"><?php echo esc_html__( 'Completed', 'download-monitor' ); ?></option>
-					<option value="redirected"><?php echo esc_html__( 'Redirected', 'download-monitor' ); ?></option>
-					<option value="failed"><?php echo esc_html__( 'Failed', 'download-monitor' ); ?></option>
-				</select>
-				<select id="dlm-filter-by-user" class="user-downloads-filters__filter" data-type="user_id">
-					<option value=""><?php echo esc_html__( 'Filter by user', 'download-monitor' ); ?></option>
-				</select>
+				<?php
+				echo $this->filters();
+				?>
 			</div>
 			<div class="dlm-reports-block dlm-reports-block-table reports-block dlm-reports-table" id="users_download_log" data-page="0">
 				<?php
@@ -418,5 +401,27 @@ class DLM_Reports_Page {
 				'type'        => 'checkbox',
 			),
 		) );
+	}
+
+	/**
+	 * Logs filters
+	 *
+	 * @return void
+	 */
+	public function filters() {
+		$filters = apply_filters( 'dlm_reports_logs_filters', '' );
+		if ( ! empty( $filters ) ) {
+			return $filters;
+		}
+		?>
+		<select class="user-downloads-filters__filter dlm-available-with-pro" data-type="download_status">
+			<option value=""><?php echo esc_html__( 'Filter by status', 'download-monitor' ); ?></option>
+		</select>
+		<span class="dlm-available-with-pro__label">PRO</span>
+		<select class="user-downloads-filters__filter dlm-available-with-pro" data-type="user_id">
+			<option value=""><?php echo esc_html__( 'Filter by user', 'download-monitor' ); ?></option>
+		</select>
+		<span class="dlm-available-with-pro__label">PRO</span>
+		<?php
 	}
 }

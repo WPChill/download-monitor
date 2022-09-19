@@ -248,8 +248,7 @@ class DLM_Installer {
 			KEY attribute_name (download_id)
 		) $collate;
 		";
-		// @Todo : maybe we can add INDEX for download_log table based on version_id ** INDEX download_count (version_id)
-		
+
 		$sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_reports_log` (
 			`date` DATE NOT NULL,
 			`download_ids` longtext NULL,

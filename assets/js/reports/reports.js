@@ -252,9 +252,7 @@ class DLM_Reports {
 		}
 
 		dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
-		dlmReportsInstance.filterDownloadsAction();
 		dlmReportsInstance.handleUserDownloads();
-		dlmReportsInstance.setFilters();
 	}
 
 	/**
@@ -1224,7 +1222,6 @@ class DLM_Reports {
 
 		wrapper.parent().removeClass('empty');
 
-		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
 		if (dlmReportsInstance.mostDownloaded.length > 10) {
 			wrapperParent.find('.downloads-block-navigation button').removeClass('hidden');
 		} else {
@@ -1537,10 +1534,10 @@ class DLM_Reports {
 		});
 
 		dlmReportsInstance.createUserRelatedData();
-		dlmReportsInstance.filterDownloads();
 		dlmReportsInstance.setMostActiveUser();
 		dlmReportsInstance.setLoggedOutDownloads();
 		dlmReportsInstance.setLoggedInDownloads();
+		jQuery(document).trigger('dlm_set_logs_data_by_date', [dlmReportsInstance]);
 	}
 
 	/**
@@ -1718,7 +1715,6 @@ class DLM_Reports {
 			wrapperParent.find('.user-downloads-block-navigation button[data-action="load-more"]').removeAttr('disabled');
 		}
 
-		// @todo: you need to hide the parent, not the actual buttons here, otherwise we're going to be left with a div that takes up vertical space but doesn't show
 		if (dlmReportsInstance.userDownloads.length > 10) {
 			wrapperParent.find('.user-downloads-block-navigation button').removeClass('hidden');
 		} else {
@@ -1759,67 +1755,6 @@ class DLM_Reports {
 			}
 			dlmReportsInstance.handleSliderNavigation(handleObj)
 		});
-	}
-
-	/**
-	 * Filter the user downloads
-	 */
-	filterDownloadsAction() {
-		jQuery('#users_downloads_table_wrapper').on('change', '.user-downloads-filters select', (e) => {
-			dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
-
-			const target = jQuery(e.currentTarget).val(), filterType = jQuery(e.currentTarget).data('type'),
-				  filterObject                                       = {type: filterType, on: target};
-
-			// Set the filters
-			if (dlmReportsInstance.currentFilters.length) {
-				Object.values(dlmReportsInstance.currentFilters).forEach((element, index) => {
-					if (filterType === element.type) {
-						dlmReportsInstance.currentFilters.splice(index, 1);
-					}
-				});
-			}
-
-			if ('' !== target) {
-				dlmReportsInstance.currentFilters.push(filterObject);
-			}
-
-			dlmReportsInstance.filterDownloads();
-		});
-	}
-
-	/**
-	 * Filter our downloads
-	 */
-	filterDownloads() {
-
-		dlmReportsInstance.tempDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads))
-
-		if (!dlmReportsInstance.currentFilters.length) {
-			dlmReportsInstance.setUserDownloads();
-			return;
-		}
-
-		dlmReportsInstance.currentFilters.forEach((filter) => {
-
-			dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
-				return filter.on === element[filter.type];
-			});
-		});
-		dlmReportsInstance.setUserDownloads();
-	}
-
-	/**
-	 * Set our filters data
-	 */
-	setFilters() {
-		let userOptions = '';
-		Object.values(dlmReportsInstance.dlmUsersStats.users).forEach((user) => {
-			userOptions += '<option value="' + user.ID + '">' + user.display_name + '</option>';
-		});
-		jQuery('#dlm-filter-by-user').append(userOptions);
-
-		jQuery(document).trigger('dlm_set_users_filter', [dlmReportsInstance, dlmReportsInstance.dlmUsersStats]);
 	}
 
 	/**

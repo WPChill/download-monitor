@@ -115,13 +115,6 @@ class DLM_Post_Type_Manager {
 
 			},
 		));
-		// @todo: Delete after testing, download_count post meta won't exist anymore
-		/* register_rest_field( 'dlm_download', 'download_count', array(
-			'get_callback' => function( $post_arr ) {
-				return get_post_meta( $post_arr['id'], '_download_count', true );
-
-			},
-		)); */
 		register_rest_field( 'dlm_download', 'author', array(
 			'get_callback' => function( $post_arr ) {
 				return get_the_author_meta( 'nickname', $post_arr['author'] );

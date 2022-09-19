@@ -2872,3 +2872,21 @@ Toggles
   border-top-right-radius: 5px;
   padding: 3px 15px;
 }
+.dlm-available-with-pro {
+  pointer-events: none;
+  background: #fff !important;
+  opacity: 0.5;
+}
+.dlm-available-with-pro.select {
+  margin-left: 10px;
+}
+.dlm-available-with-pro__label {
+  pointer-events: none;
+  background: #80808080;
+  padding: 1px 5px;
+  border-radius: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 10px;
+  color: #fff;
+}

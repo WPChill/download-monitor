@@ -142,12 +142,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 					       placeholder="<?php echo esc_attr__( 'n/a', 'download-monitor' ); ?>"
 					       value="<?php echo esc_attr( $file_version ); ?>"/>
 				</div>
-				<!-- @todo: Delete after confirmation -->
-				<!--<div>
-					<label><?php /*_e( 'Download count', 'download-monitor' ); */ ?>:</label>
-					<span
-						class="button button-secondary dlm-download-count-button"><?php /*echo esc_html( $file_download_count ); */ ?></span>
-				</div>-->
 				<?php if ( ! empty( $file_post_date->format( 'Y-m-d' ) ) ) {
 					?>
 					<div class="dlm-file-version__date">
