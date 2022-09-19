@@ -154,7 +154,7 @@ class DLM_Admin_Scripts {
 				array( 'jquery' ),
 				DLM_VERSION,
 				true
-			);			
+			);
 
 		}
 

@@ -17,9 +17,8 @@ class DLM_Download_Handler {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
-		$this->ep_value = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
-
+		$this->endpoint    = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
+		$this->ep_value    = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
 		$this->dlm_logging = DLM_Logging::get_instance();
 	}
 
@@ -31,6 +30,7 @@ class DLM_Download_Handler {
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 		add_action( 'parse_request', array( $this, 'handler' ), 0 );
 		add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
+		add_filter( 'dlm_can_download', array( $this, 'check_blacklist' ), 10, 2 );
 	}
 
 	/**
