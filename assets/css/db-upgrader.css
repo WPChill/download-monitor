@@ -5,6 +5,21 @@
     box-shadow: none
 }
 
+.dlm-notice-logo {
+    width: auto;
+    max-height: 35px;
+    max-width: 35px;
+    display: inline-block;
+}
+
+.dlm-yellow-band-notice {
+    background: #DB942A33;
+    border: 1px solid #DB942A;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 3px 15px;
+}
+
 .dlm-upgrade-db-notice .main {
     display: flex;
     flex-direction: row;

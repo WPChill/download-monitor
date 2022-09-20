@@ -409,11 +409,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * @since 4.5.0
 		 */
 		public function add_db_update_notice() {
-			$current_screen = get_current_screen();
-
-			if ( 'dlm_download' !== $current_screen->post_type ) {
-				return;
-			}
 
 			?>
 			<div class="dlm-upgrade-db-notice notice">
