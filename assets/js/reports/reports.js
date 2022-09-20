@@ -253,6 +253,7 @@ class DLM_Reports {
 
 		dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
 		dlmReportsInstance.handleUserDownloads();
+		dlmReportsInstance.filterDownloads();
 	}
 
 	/**
@@ -1720,6 +1721,26 @@ class DLM_Reports {
 		} else {
 			wrapperParent.find('.user-downloads-block-navigation button').addClass('hidden');
 		}
+	}
+
+	/**
+	 * Filter our downloads
+	 */
+	filterDownloads() {
+		dlmReportsInstance.tempDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads));
+
+		if (!dlmReportsInstance.currentFilters.length) {
+			dlmReportsInstance.setUserDownloads();
+			return;
+		}
+
+		dlmReportsInstance.currentFilters.forEach((filter) => {
+
+			dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
+				return filter.on === element[filter.type];
+			});
+		});
+		dlmReportsInstance.setUserDownloads();
 	}
 
 	/**
