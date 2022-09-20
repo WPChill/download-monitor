@@ -2865,12 +2865,12 @@ Toggles
   max-width: 35px;
   display: inline-block;
 }
-.dlm-available-with-pro {
+.dlm-available-with-pro__overlay {
   pointer-events: none;
   background: #fff !important;
   opacity: 0.5;
 }
-.dlm-available-with-pro.select {
+.dlm-available-with-pro__overlay.select {
   margin-left: 10px;
 }
 .dlm-available-with-pro__label {
