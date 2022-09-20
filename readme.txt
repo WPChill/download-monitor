@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.6.0 - TBA =
+= 4.6.0 - 20.09.2022 =
 Fixed: Flush permalinks on install/update to prevent 404s ( [#1036](https://github.com/WPChill/download-monitor/issues/1036) )
 Changed: Don't display DLM Uploads in Media Library ( [#1014](https://github.com/WPChill/download-monitor/issues/1014) )
 Changed: Downloading a file is now beeing handled by XHR ( [#1013](https://github.com/WPChill/download-monitor/issues/1013), [#832](https://github.com/WPChill/download-monitor/issues/832), [#781](https://github.com/WPChill/download-monitor/issues/781) )
