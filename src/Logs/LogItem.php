@@ -343,6 +343,7 @@ class DLM_Log_Item {
 				'%s'
 			)
 		);
-	}
 
+		do_action( 'dlm_increase_download_count', $this );
+	}
 }

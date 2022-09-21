@@ -50,6 +50,7 @@ class DLM_Backwards_Compatibility {
 		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
 		add_filter( 'dlm_add_version_meta_download_count', array( $this, 'meta_download_counts' ), 15, 2 );
 		add_filter( 'dlm_add_meta_download_count', array( $this, 'add_meta_download_count' ), 30, 2 );
+		add_action( 'dlm_increase_download_count', array( $this, 'increase_meta_count' ), 15, 1 );
 
 		// If the DB upgrade functionality did not take place we won't have the option stored.
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
@@ -370,4 +371,26 @@ class DLM_Backwards_Compatibility {
 		return $counts;
 	}
 
+	public function increase_meta_count( $log_item ){
+
+		if ( apply_filters( 'dlm_count_meta_downloads', false ) ) {
+
+			(int) $current_count = get_post_meta( $log_item->get_download_id(), '_download_count', true );
+			if ( $current_count ) {
+				$current_count++;
+			} else {
+				$current_count = 1;
+			}
+
+			(int) $current_version_count = get_post_meta( $log_item->get_version_id(), '_download_count', true );
+			if ( $current_version_count ) {
+				$current_version_count++;
+			} else {
+				$current_version_count = 1;
+			}
+
+			update_post_meta( $log_item->get_download_id(), '_download_count', $current_count );
+			update_post_meta( $log_item->get_version_id(), '_download_count', $current_version_count );
+		}
+	}
 }
