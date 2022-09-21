@@ -1579,12 +1579,18 @@ class DLM_Reports {
 		if (!user_id || '0' === user_id) {
 			return null;
 		}
-
 		let $user = Object.values(dlmReportsInstance.dlmUsersStats.users).filter(user => {
-			return parseInt(user_id) === parseInt(user.ID);
+			return parseInt(user_id) === parseInt(user.id);
 		});
 
-		return ($user.length > 0) ? $user[0] : null;
+		if (Array.isArray($user)) {
+			if (0 === $user.length) {
+				return null;
+			}
+			return $user[0];
+		}
+
+		return $user;
 	}
 
 	/**
@@ -1692,7 +1698,7 @@ class DLM_Reports {
 
 			let itemObject = {
 				key               : i,
-				user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user && null !== user) ? user['user_nicename'] : '--',
+				user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user && null !== user) ? user['display_name'] : '--',
 				ip                : dataResponse[i].user_ip,
 				role              : (null !== user && null !== user.role ? user.role : '--'),
 				download          : ('undefined' !== typeof download) ? download.title : '--',
@@ -1952,7 +1958,7 @@ class DLM_Reports {
 	getDownloadCPT($id) {
 		let download = dlmReportsInstance.mostDownloaded.filter((item) => {
 			return item.id === $id;
-		},0)[0];
+		}, 0)[0];
 
 		jQuery(document).trigger('dlm_download_cpt', [dlmReportsInstance, download]);
 
