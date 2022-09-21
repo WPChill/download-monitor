@@ -132,9 +132,10 @@ class WP_DLM {
 				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
 			}
 
-			if ( defined( 'DLM_BETA' ) && DLM_BETA && class_exists( 'DLM_Beta_Testers') ) {
+			// The beta testers class
+			/*if ( defined( 'DLM_BETA' ) && DLM_BETA && class_exists( 'DLM_Beta_Testers') ) {
 				new DLM_Beta_Testers();
-			}
+			}*/
 
 			new DLM_Review();
 			

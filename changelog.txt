@@ -1,3 +1,6 @@
+= 4.6.1 - 21.09.2022 =
+Fixed: User reports user fetching and displaying was broken ( [#1040](https://github.com/WPChill/download-monitor/issues/1040) ).
+
 = 4.6.0 - 20.09.2022 =
 Fixed: Flush permalinks on install/update to prevent 404s ( [#1036](https://github.com/WPChill/download-monitor/issues/1036) )
 Changed: Don't display DLM Uploads in Media Library ( [#1014](https://github.com/WPChill/download-monitor/issues/1014) )
