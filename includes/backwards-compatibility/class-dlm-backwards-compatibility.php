@@ -272,7 +272,10 @@ class DLM_Backwards_Compatibility {
 	 */
 	public function meta_download_counts( $counts, $id ) {
 
-		if ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) {
+		// Filter to enable adding meta counts to download counts.
+		$count_meta = apply_filters( 'dlm_count_meta_downloads', false );
+
+		if ( ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) || $count_meta ) {
 
 			if ( 'dlm_download_version' === get_post_type( $id ) ) {
 				$meta_counts = get_post_meta( get_post_parent( $id )->ID, '_download_count', true );
