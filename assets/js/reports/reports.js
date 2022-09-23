@@ -217,8 +217,7 @@ class DLM_Reports {
 		dlmReportsInstance.fetchUsersReportsData();
 		// Trigger action so others can hook into this
 		jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);
-
-		//dlmReportsInstance.phpReportsNavigation();
+		dlmReportsInstance.eventsFunctions();
 	}
 
 	/**
@@ -906,9 +905,7 @@ class DLM_Reports {
 			});
 		});
 
-		dlmReportsInstance.mostDownloaded = Object.values(mostDownloaded).sort((a, b) => {
-			return a.downloads - b.downloads;
-		}).reverse();
+		dlmReportsInstance.mostDownloaded = dlmReportsInstance.orderItems(Object.values(mostDownloaded), 'desc', 'downloads');
 
 		dlmReportsInstance.setTotalDownloads(dlmReportsInstance.totalDownloads);
 		dlmReportsInstance.setDailyAverage((dlmReportsInstance.totalDownloads / parseInt(dlmReportsInstance.stats.daysLength)).toFixed(0));
@@ -1979,5 +1976,56 @@ class DLM_Reports {
 	 */
 	stopSpinner(target) {
 		target.find('.dlm-reports-spinner').remove();
+	}
+	eventsFunctions() {
+		jQuery('body').on('click', '.total_downloads_table_filters_total_downloads > a', function (e) {
+			e.preventDefault();
+			jQuery(this).parent().find('span.dashicons').toggleClass('dashicons-arrow-down dashicons-arrow-up');
+			dlmReportsInstance.orderOverviewItemsByTotal();
+		});
+
+		jQuery('body').on('click', '.total_downloads_table_filters_download_date > a', function (e) {
+			e.preventDefault();
+			jQuery(this).parent().find('span.dashicons').toggleClass('dashicons-arrow-down dashicons-arrow-up');
+			dlmReportsInstance.orderUserReportsItemsByDate();
+		});
+	}
+	/**
+	 * Set order of items
+	 *
+	 * @since 4.6.1
+	 */
+	orderItems(items, order, key, setUploads = false) {
+
+		items.sort((a, b) => {
+			switch (order) {
+				case 'asc':
+					return a[key] - b[key];
+				case 'desc':
+					return b[key] - a[key];
+				default:
+					return b[key] - a[key];
+			}
+		});
+
+		return items;
+	}
+	/**
+	 * Revert the current set order of the Overview tab Top Downloads table
+	 *
+	 * @since 4.6.1
+	 */
+	orderOverviewItemsByTotal(){
+		dlmReportsInstance.mostDownloaded = dlmReportsInstance.mostDownloaded.reverse();
+		dlmReportsInstance.setTopDownloads();
+	}
+	/**
+	 * Revert the current set order of the User Reports tab Logs tabel
+	 *
+	 * @since 4.6.1
+	 */
+	orderUserReportsItemsByDate(){
+		dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.reverse();
+		dlmReportsInstance.setUserDownloads();
 	}
 }
