@@ -123,6 +123,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 4.6.1 - 21.09.2022 =
 Fixed: User reports user fetching and displaying was broken ( [#1040](https://github.com/WPChill/download-monitor/issues/1040) ).
+Fixed: Versions did not add the meta to the count ( [#1041](https://github.com/WPChill/download-monitor/issues/1041) ).
+Fixed: Increase meta count if user wants ( [#1042](https://github.com/WPChill/download-monitor/issues/1042) )
+Fixed: Add ordering to tables ( [#1044](https://github.com/WPChill/download-monitor/issues/1044) )
 
 = 4.6.0 - 20.09.2022 =
 Fixed: Flush permalinks on install/update to prevent 404s ( [#1036](https://github.com/WPChill/download-monitor/issues/1036) )
