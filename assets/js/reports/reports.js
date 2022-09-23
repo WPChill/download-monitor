@@ -250,7 +250,6 @@ class DLM_Reports {
 		if (0 === Object.values(dlmReportsInstance.dlmUsersStats).length) {
 			return;
 		}
-
 		dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
 		dlmReportsInstance.handleUserDownloads();
 		dlmReportsInstance.filterDownloads();
@@ -1527,7 +1526,6 @@ class DLM_Reports {
 		let endTimestamp = new Date(endDate);
 		endTimestamp.setDate(endTimestamp.getDate() + 1);
 		endTimestamp = endTimestamp.getTime();
-
 		dlmReportsInstance.userDownloads = dlmReportsInstance.userDownloads.filter((element, index) => {
 			let currentElement = dlmReportsInstance.createDateElement(new Date(element.download_date));
 			currentElement     = new Date(currentElement).getTime();
@@ -1535,6 +1533,7 @@ class DLM_Reports {
 		});
 
 		dlmReportsInstance.createUserRelatedData();
+		dlmReportsInstance.filterDownloads()
 		dlmReportsInstance.setMostActiveUser();
 		dlmReportsInstance.setLoggedOutDownloads();
 		dlmReportsInstance.setLoggedInDownloads();
@@ -1733,8 +1732,8 @@ class DLM_Reports {
 	 * Filter our downloads
 	 */
 	filterDownloads() {
-		dlmReportsInstance.tempDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads));
 
+		dlmReportsInstance.tempDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads));
 		if (!dlmReportsInstance.currentFilters.length) {
 			dlmReportsInstance.setUserDownloads();
 			return;
