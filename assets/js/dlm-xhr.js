@@ -50,10 +50,10 @@ class DLM_XHR_Download {
 		// Show the progress bar after complete download also
 		if (triggerObject.href.indexOf('blob:http') !== -1) {
 
-			triggerObject.buttonObj.addClass('download-100');
+			/*triggerObject.buttonObj.addClass('download-100');
 			setTimeout(function () {
 				triggerObject.buttonObj.removeClass('download-100');
-			}, 1500);
+			}, 1500);*/
 
 			return;
 		}
@@ -189,11 +189,13 @@ class DLM_XHR_Download {
 			let percent_complete = (e.loaded / e.total) * 100;
 			// Force perfect complete to have 2 digits
 			percent_complete     = Math.round(percent_complete);
-			let $class           = 'download-' + Math.ceil(percent_complete / 10) * 10;
+			// Comment below lines for the new XHR loader so that we know where to rever
+			/*let $class           = 'download-' + Math.ceil(percent_complete / 10) * 10;
 
 			if ('100' !== percent_complete) {
 				$class = $class + ' dlm-download-started';
-			}
+			}*/
+			let $class = 'dlm-download-started';
 			// Show spinner
 			buttonObj.removeClass().addClass(buttonClass + ' ' + $class);
 			// Trigger the `dlm_download_progress` action
