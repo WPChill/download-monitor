@@ -327,15 +327,14 @@ html body a.download-button.dlm-download-complete::after {
 html body a.download-button::before {
   content: '';
   position: absolute;
-  height: 100%;
-  z-index: -1;
+  height: 2px;
+  z-index: 3;
   bottom: -2px;
-  left: -5px;
+  left: 0;
   width: 0;
   background: red;
   transition: width 0.5s;
-  top: 0;
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0px 0px 3px rgba(255, 0, 0, 0.8);
   border-radius: 5px;
 }
 html body a.download-button.download-10:before {
@@ -366,7 +365,7 @@ html body a.download-button.download-90:before {
   width: 90%;
 }
 html body a.download-button.download-100:before {
-  width: calc(100% + 10px);
+  width: 100%;
 }
 a.download-button.dlm-download-complete::after {
   height: auto;

@@ -177,11 +177,12 @@ class DLM_XHR_Download {
 				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL]);
 				dlmXHRinstance.dlmLogDownload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'completed', $setCookie);
 				// Recommended : Revoke the object URL after some time to free up resources
+				window.URL.revokeObjectURL(_OBJECT_URL);
+				button.removeAttribute('download');
+				button.setAttribute('href', href);
+
 				// There is no way to find out whether user finished downloading
 				setTimeout(function () {
-					window.URL.revokeObjectURL(_OBJECT_URL);
-					button.removeAttribute('download');
-					button.setAttribute('href', href);
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
 				}, 4000);
 			}
@@ -301,11 +302,11 @@ class DLM_XHR_Download {
 				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL]);
 				dlmXHRinstance.dlmLogDownload(headers['dlm-download-id'], headers['dlm-version-id'], 'completed', false);
 				// Recommended : Revoke the object URL after some time to free up resources
+				window.URL.revokeObjectURL(_OBJECT_URL);
+				button.removeAttribute('download');
+				button.setAttribute('href', href);
 				// There is no way to find out whether user finished downloading
 				setTimeout(function () {
-					window.URL.revokeObjectURL(_OBJECT_URL);
-					button.removeAttribute('download');
-					button.setAttribute('href', href);
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
 				}, 1000);
 			}
