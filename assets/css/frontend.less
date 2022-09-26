@@ -267,8 +267,7 @@ data.dlm-hidden-info {
   } 
 }
 /* Comment below lines for the new XHR loader so that we know where to rever*/
-/*html body a.download-button,
-html body a.download-link {
+html body a.download-button{
   position: relative;
   
   &.dlm-download-started {
@@ -365,9 +364,9 @@ a.download-button {
     z-index:2;
     position: relative;
   }
-}*/
+}
 
-html body a.download-button,
+
 html body a.download-link {
   position: relative;
 
@@ -382,6 +381,8 @@ html body a.download-link {
     width: 10px;
     opacity:0;
     z-index:-1;
+    transform: translateY(-50%);
+    top:calc( 50% - 5px );
   }
 
   &::before {
@@ -408,6 +409,9 @@ html body a.download-link {
       z-index:99;
       background:transparent;
       animation:none;
+      transform: translateY(-50%);
+      top:calc( 50% - 5px );
+      line-height: initial;
     }
 
     &::before {
@@ -435,4 +439,10 @@ html body a.download-link {
 .dlm-xhr-error {
   font-size:12px;
   color:red;
+}
+
+.dlm-xhr-progress {
+  width:75px;
+  display:inline-block;
+  position:relative;
 }

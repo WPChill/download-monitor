@@ -75,9 +75,10 @@ class DLM_XHR_Download {
 
 		// This will hold the file as a local object URL
 		let _OBJECT_URL;
-		const request     = new XMLHttpRequest(),
-			  buttonClass = buttonObj.attr('class'),
-			  $setCookie  = dlmXHR.prevent_duplicates;
+		const request    = new XMLHttpRequest(),
+			  $setCookie = dlmXHR.prevent_duplicates;
+		let buttonClass  = buttonObj.attr('class');
+		buttonClass = buttonClass.replace('dlm-download-started', '').replace('dlm-download-completed','');
 
 		buttonObj.addClass('dlm-download-started');
 		button.setAttribute('href', '#');
@@ -181,21 +182,24 @@ class DLM_XHR_Download {
 					window.URL.revokeObjectURL(_OBJECT_URL);
 					button.removeAttribute('download');
 					button.setAttribute('href', href);
-				}, 60 * 1000);
+					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
+				}, 4000);
 			}
 		};
 
 		request.addEventListener('progress', function (e) {
 			let percent_complete = (e.loaded / e.total) * 100;
 			// Force perfect complete to have 2 digits
-			percent_complete     = Math.round(percent_complete);
+			percent_complete     = percent_complete.toFixed(2);
+			let $class           = 'dlm-download-started';
+			buttonObj.find('span.dlm-xhr-progress').remove();
 			// Comment below lines for the new XHR loader so that we know where to rever
-			/*let $class           = 'download-' + Math.ceil(percent_complete / 10) * 10;
+			$class = $class + ' download-' + Math.ceil(percent_complete / 10) * 10;
 
-			if ('100' !== percent_complete) {
-				$class = $class + ' dlm-download-started';
-			}*/
-			let $class = 'dlm-download-started';
+			if (Infinity != percent_complete) {
+				buttonObj.append('<span class="dlm-xhr-progress">&nbsp;' + percent_complete + '%</span>');
+			}
+
 			// Show spinner
 			buttonObj.removeClass().addClass(buttonClass + ' ' + $class);
 			// Trigger the `dlm_download_progress` action
@@ -238,10 +242,11 @@ class DLM_XHR_Download {
 	}
 
 	dlmExternalDownload(headers, button, buttonObj, file_name, href) {
-		const request     = new XMLHttpRequest(),
-			  uri         = headers['dlm-external-download'],
-			  buttonClass = buttonObj.attr('class');
-		let _OBJECT_URL;
+		const request   = new XMLHttpRequest(),
+			  uri       = headers['dlm-external-download'];
+		let buttonClass = buttonObj.attr('class'),
+			_OBJECT_URL;
+		buttonClass = buttonClass.replace('dlm-download-started', '').replace('dlm-download-completed','');
 
 		buttonObj.addClass('dlm-download-started');
 		button.setAttribute('href', '#');
@@ -274,7 +279,6 @@ class DLM_XHR_Download {
 				buttonObj.append('<span class="dlm-xhr-error">Acces Denied to file.</span>');
 				return;
 			}
-
 			if (status == 200 && readyState == 4) {
 
 				let blob = request.response;
@@ -302,7 +306,8 @@ class DLM_XHR_Download {
 					window.URL.revokeObjectURL(_OBJECT_URL);
 					button.removeAttribute('download');
 					button.setAttribute('href', href);
-				}, 60 * 1000);
+					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
+				}, 1000);
 			}
 		};
 
