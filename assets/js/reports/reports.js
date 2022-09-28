@@ -1146,7 +1146,7 @@ class DLM_Reports {
 	 * @param {*} mostDownloaded
 	 */
 	setMostDownloaded(mostDownloaded) {
-		jQuery('.dlm-reports-block-summary li#popular span').html(mostDownloaded); // this is a string
+		jQuery('.dlm-reports-block-summary li#most_popular span').html(mostDownloaded); // this is a string
 	}
 
 	/**

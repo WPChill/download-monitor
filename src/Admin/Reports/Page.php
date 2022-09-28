@@ -253,7 +253,7 @@ class DLM_Reports_Page {
 								<div
 									class="wpchill-tooltip-content"><?php esc_html_e( 'The most downloaded file for the time period.', 'download-monitor' ); ?></div>
 							</div>
-						</label><span><?php esc_html_e( 'Login v1', 'download-monitor' ); ?></span>
+						</label><span><?php esc_html_e( 'No data', 'download-monitor' ); ?></span>
 					</li>
 				</ul>
 			</div>
