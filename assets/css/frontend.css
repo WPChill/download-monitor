@@ -446,7 +446,8 @@ html body a.download-link.dlm-download-complete::before {
   color: red;
 }
 .dlm-xhr-progress {
-  width: 75px;
+  min-width: 75px;
+  width: auto;
   display: inline-block;
   position: relative;
 }

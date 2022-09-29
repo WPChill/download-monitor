@@ -312,6 +312,25 @@ class DLM_XHR_Download {
 			}
 		};
 
+		request.addEventListener('progress', function (e) {
+			let percent_complete = (e.loaded / e.total) * 100;
+			// Force perfect complete to have 2 digits
+			percent_complete     = percent_complete.toFixed(2);
+			let $class           = 'dlm-download-started';
+			buttonObj.find('span.dlm-xhr-progress').remove();
+			// Comment below lines for the new XHR loader so that we know where to rever
+			$class = $class + ' download-' + Math.ceil(percent_complete / 10) * 10;
+
+			if (Infinity != percent_complete) {
+				buttonObj.append('<span class="dlm-xhr-progress">&nbsp;' + percent_complete + '%</span>');
+			}
+
+			// Show spinner
+			buttonObj.removeClass().addClass(buttonClass + ' ' + $class);
+			// Trigger the `dlm_download_progress` action
+			jQuery(document).trigger('dlm_download_progress', [this, button, buttonObj, _OBJECT_URL, e, percent_complete]);
+		});
+
 		request.onerror = function () {
 			console.log('** An error occurred during the transaction');
 		};
