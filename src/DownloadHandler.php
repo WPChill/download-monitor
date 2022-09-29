@@ -292,7 +292,22 @@ class DLM_Download_Handler {
 
 			// Action on found download
 			if ( $download->exists() ) {
+
+				// Check and see if this is an XHR request or a classic request.
+				if ( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
+
+					if ( ! isset( $_REQUEST['nonce'] ) ) {
+						wp_send_json_error( array( 'error' => 'missing_nonce' ) );
+					}
+					wp_verify_nonce( $_REQUEST['nonce'], 'dlm_ajax_nonce' );
+					define( 'DLM_DOING_XHR', true );
+				}
+
 				if ( post_password_required( $download_id ) ) {
+					if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+						header( 'DLM-Redirect: ' . $download->get_the_download_link() );
+						exit;
+					}
 					wp_die( get_the_password_form( $download_id ), esc_html__( 'Password Required', 'download-monitor' ) );
 				}
 
@@ -320,16 +335,6 @@ class DLM_Download_Handler {
 	 * @return void
 	 */
 	private function trigger( $download ) {
-
-		// Check and see if this is an XHR request or a classic request.
-		if ( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
-
-			if ( ! isset( $_REQUEST['nonce'] ) ) {
-				wp_send_json_error( array( 'error' => 'missing_nonce' ) );
-			}
-			wp_verify_nonce( $_REQUEST['nonce'], 'dlm_ajax_nonce' );
-			define( 'DLM_DOING_XHR', true );
-		}
 
 		// Download is triggered. First thing we do, send no cache headers.
 		$this->cache_headers();
