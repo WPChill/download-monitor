@@ -1,3 +1,8 @@
+= 4.6.2 - 29.09.2022 =
+Fixed: WP VIP servers bug ( [#1052](https://github.com/WPChill/download-monitor/issues/1052) ) thanks to @jesusfreak3
+Fixed: Progress loader for external sources ( [#1051](https://github.com/WPChill/download-monitor/issues/1051) )
+Fixed: Reports Page Most downloaded Download not shown correctly ( [#1048](https://github.com/WPChill/download-monitor/issues/1048) )
+
 = 4.6.1 - 26.09.2022 =
 Fixed: User reports user fetching and displaying was broken ( [#1040](https://github.com/WPChill/download-monitor/issues/1040) ).
 Fixed: Versions did not add the meta to the count ( [#1041](https://github.com/WPChill/download-monitor/issues/1041) ).
