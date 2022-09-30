@@ -368,7 +368,7 @@ class DLM_Reports_Page {
 			<div class="wrap">
 				<hr class="wp-header-end">
 				<div class="main">
-					<h3><?php esc_html_e( 'Please upgrade the database in order to further use Download Monitor\'s Reports page.', 'download-monitor' ); ?></h3>
+					<h3><?php echo __( 'Please <a href="#" class="dlm-db-upgrade-link">upgrade the database</a> in order to further use Download Monitor\'s Reports page.', 'download-monitor' ); ?></h3>
 				</div>
 			</div>
 			<?php

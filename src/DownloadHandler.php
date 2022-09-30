@@ -744,7 +744,7 @@ class DLM_Download_Handler {
 		$chunksize = 1 * ( 1024 * 1024 );
 		$buffer    = '';
 		$cnt       = 0;
-		$handle    = fopen( $file, 'rb' );
+		$handle    = fopen( $file, 'r' );
 
 		if ( $handle === false ) {
 			return false;
