@@ -151,6 +151,7 @@ class DLM_Backwards_Compatibility {
 
 		$this->filters = $filters;
 		add_filter( 'dlm_admin_sort_columns', array( $this, 'query_args_download_count_compatibility' ), 60 );
+		add_filter( 'dlm_query_args_filter', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
 		add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
