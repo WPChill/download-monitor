@@ -567,10 +567,15 @@ class DLM_Download_Handler {
 			$range = false;
 		}
 
-		if ( $this->readfile_chunked( $file_path, false, $range ) ) {
+		ob_start();
+		$this->readfile_chunked( $file_path, false, $range );
+		$contents = ob_get_clean();
+
+		if ( $contents ) {
 			if ( ! $this->check_for_xhr() ) {
 				$this->dlm_logging->log( $download, $version, 'completed' );
 			}
+			echo $contents;
 		} elseif ( $remote_file ) {
 			// Redirect - we can't track if this completes or not.
 			if ( $this->check_for_xhr() ) {
