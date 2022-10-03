@@ -304,7 +304,7 @@ class DLM_Download_Handler {
 				}
 
 				if ( post_password_required( $download_id ) ) {
-					if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+					if ( $this->check_for_xhr() ) {
 						header( 'DLM-Redirect: ' . $download->get_the_download_link() );
 						exit;
 					}
@@ -344,11 +344,15 @@ class DLM_Download_Handler {
 
 		/** @var array $file_paths */
 		$file_paths = $version->get_mirrors();
-		// Set required headers used by XHR download
-		$this->set_required_xhr_headers( $download, $version );
+
+		if ( $this->check_for_xhr() ) {
+			// Set required headers used by XHR download
+			$this->set_required_xhr_headers( $download, $version );
+		}
+
 		// Check if we got files in this version.
 		if ( empty( $file_paths ) ) {
-			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Error: ' . esc_html__( 'No file paths defined.', 'download-monitor' ) );
 				http_response_code( 404 );
 				exit;
@@ -363,7 +367,7 @@ class DLM_Download_Handler {
 
 		// Check if we actually got a path.
 		if ( ! $file_path ) {
-			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Error: ' . esc_html__( 'No file path defined.', 'download-monitor' ) );
 				http_response_code( 404 );
 				exit;
@@ -379,7 +383,7 @@ class DLM_Download_Handler {
 		// The return of the get_secure_path function is an array that consists of the path ( string ), remote file ( bool ) and restriction ( bool ).
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( $restriction ) {
-			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Error: ' . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
 				http_response_code( 403 );
 				exit;
@@ -387,16 +391,17 @@ class DLM_Download_Handler {
 			header( 'Status: 403 Access denied, file not in allowed paths.' );
 			wp_die( esc_html__( 'Access denied to this file', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ) );
 		}
-
-		// Set extra headers for XHR download.
-		$this->set_extra_xhr_headers( $file_path, $download, $version );
+		if ( $this->check_for_xhr() ) {
+			// Set extra headers for XHR download.
+			$this->set_extra_xhr_headers( $file_path, $download, $version );
+		}
 
 		// Check Access.
-		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) ) {
+		if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, $this->check_for_xhr() ) ) {
 
 			// Check if we need to redirect if visitor don't have access to file.
 			if ( $redirect = apply_filters( 'dlm_access_denied_redirect', false ) ) {
-				if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+				if ( $this->check_for_xhr() ) {
 					header( 'DLM-Redirect: ' . $redirect );
 					header( 'DLM-No-Access: true' );
 					exit;
@@ -433,7 +438,7 @@ class DLM_Download_Handler {
 							$no_access_permalink = add_query_arg( 'version', $download->get_version()->get_version(), $no_access_permalink );
 						}
 
-						if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+						if ( $this->check_for_xhr() ) {
 							header( 'DLM-Redirect: ' . $no_access_permalink );
 							header( 'DLM-No-Access: true' );
 							exit;
@@ -445,7 +450,7 @@ class DLM_Download_Handler {
 					}
 				}
 
-				if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+				if ( $this->check_for_xhr() ) {
 					header( 'DLM-Error: ' . esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ) );
 					exit;
 				}
@@ -470,7 +475,7 @@ class DLM_Download_Handler {
 
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
-			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
+			if ( ! $this->check_for_xhr() ) {
 				$this->dlm_logging->log( $download, $version, 'redirect' );
 			}
 
@@ -484,7 +489,7 @@ class DLM_Download_Handler {
 				$file_path = str_replace( trailingslashit( $correct_path ), site_url( '/', $scheme ), $file_path );
 			}
 
-			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Redirect: ' . $file_path );
 				exit;
 			}
@@ -501,7 +506,7 @@ class DLM_Download_Handler {
 
 		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
-				if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
+				if ( ! $this->check_for_xhr() ) {
 					$this->dlm_logging->log( $download, $version, 'completed' );
 				}
 
@@ -510,7 +515,7 @@ class DLM_Download_Handler {
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-				if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
+				if ( ! $this->check_for_xhr() ) {
 					$this->dlm_logging->log( $download, $version, 'completed' );
 				}
 
@@ -563,12 +568,12 @@ class DLM_Download_Handler {
 		}
 
 		if ( $this->readfile_chunked( $file_path, false, $range ) ) {
-			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
+			if ( ! $this->check_for_xhr() ) {
 				$this->dlm_logging->log( $download, $version, 'completed' );
 			}
 		} elseif ( $remote_file ) {
 			// Redirect - we can't track if this completes or not.
-			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Redirect: ' . $file_path );
 				exit;
 			}
@@ -578,7 +583,7 @@ class DLM_Download_Handler {
 
 		} else {
 
-			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
+			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Error: ' . esc_html__( 'File not found.', 'download-monitor' ) );
 				exit;
 			}
@@ -770,5 +775,14 @@ class DLM_Download_Handler {
 		}
 
 		return $status;
+	}
+
+	/**
+	 * Check if this is an XHR request or not
+	 *
+	 * @return bool
+	 */
+	private function check_for_xhr(){
+		return defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR;
 	}
 }
