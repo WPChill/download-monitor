@@ -26,6 +26,8 @@ class DLM_Logging {
 	public function __construct() {
 		add_action( 'wp_ajax_log_dlm_xhr_download', array( $this, 'xhr_log_download' ), 15 );
 		add_action( 'wp_ajax_nopriv_log_dlm_xhr_download', array( $this, 'xhr_log_download' ), 15 );
+		add_filter( 'dlm_log_entries', array( $this, 'log_entries' ), 15, 2 );
+		add_filter( 'dlm_log_values', array( $this, 'log_values' ), 15, 1 );
 	}
 
 	/**
@@ -192,6 +194,60 @@ class DLM_Logging {
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
 		}
+	}
+
+	/**
+	 * Failproof way to log a download if DB upgrade did not proceed correctly
+	 *
+	 * @param $entries
+	 * @param $item
+	 *
+	 * @return void
+	 * @since 40.6.3
+	 */
+	public function log_entries( $entries, $item ) {
+		global $wpdb;
+
+		if ( isset( $wpdb->download_log ) && DLM_Utils::column_checker( $wpdb->download_log, 'uuid' ) ) {
+			$entries['uuid'] = $item->get_user_uuid();
+		}
+
+		if ( isset( $wpdb->download_log ) && DLM_Utils::column_checker( $wpdb->download_log, 'download_location' ) ) {
+			$entries['download_location'] = $item->get_current_url();
+		}
+
+		if ( isset( $wpdb->download_log ) && DLM_Utils::column_checker( $wpdb->download_log, 'download_category' ) ) {
+			$entries['download_category'] = $item->get_download_categories( $item->get_download_id() );
+		}
+
+		return $entries;
+	}
+
+	/**
+	 * Failproof way to log a download if DB upgrade did not proceed correctly
+	 *
+	 * @param $entries
+	 * @param $item
+	 *
+	 * @return void
+	 * @since 4.6.3
+	 */
+	public function log_values( $entries ) {
+		global $wpdb;
+
+		if ( isset( $wpdb->download_log ) && DLM_Utils::column_checker( $wpdb->download_log, 'uuid' ) ) {
+			$entries[] = '%s';
+		}
+
+		if ( isset( $wpdb->download_log ) && DLM_Utils::column_checker( $wpdb->download_log, 'download_location' ) ) {
+			$entries[] = '%s';
+		}
+
+		if ( isset( $wpdb->download_log ) && DLM_Utils::column_checker( $wpdb->download_log, 'download_category' ) ) {
+			$entries[] = '%s';
+		}
+
+		return $entries;
 	}
 }
 

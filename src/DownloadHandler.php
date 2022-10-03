@@ -567,6 +567,7 @@ class DLM_Download_Handler {
 			$range = false;
 		}
 
+		// Add our file contents to the output buffer, so we can set the cookie for the 60 seconds download.
 		ob_start();
 		$this->readfile_chunked( $file_path, false, $range );
 		$contents = ob_get_clean();

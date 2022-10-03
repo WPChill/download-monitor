@@ -312,12 +312,16 @@ class DLM_Log_Item {
 
 		$download_date = current_time( 'mysql' );
 
-		$result = $wpdb->insert(
-			"{$wpdb->download_log}",
+		// Add filters for download_log column entries, so in case the upgrader failed we can still log the download.
+		/**
+		 * Filter for the download_log columns
+		 * @hooked: ( DLM_Logging, log_entries ) Adds uuid, download_category and download_location
+		 */
+		$log_entries = apply_filters(
+			'dlm_log_entries',
 			array(
 				'user_id'                 => absint( $this->get_user_id() ),
 				'user_ip'                 => $this->get_user_ip(),
-				'uuid'                    => $this->get_user_uuid(),
 				'user_agent'              => $this->get_user_agent(),
 				'download_id'             => absint( $this->get_download_id() ),
 				'version_id'              => absint( $this->get_version_id() ),
@@ -325,13 +329,18 @@ class DLM_Log_Item {
 				'download_date'           => sanitize_text_field( $download_date ),
 				'download_status'         => $this->get_download_status(),
 				'download_status_message' => $this->get_download_status_message(),
-				'download_location'       => $this->get_current_url(),
-				'download_category'       => $this->get_download_categories( $this->get_download_id() ),
 			),
+			$this
+		);
+		/**
+		 * Filter for the download_log columns types
+		 * @hooked: ( DLM_Logging, log_values )
+		 */
+		$log_values  = apply_filters(
+			'dlm_log_values',
 			array(
 				'%d',
 				'%s',
-				'%s',
 				'%d',
 				'%d',
 				'%s',
@@ -339,9 +348,14 @@ class DLM_Log_Item {
 				'%s',
 				'%s',
 				'%s',
-				'%s',
-				'%s'
-			)
+			),
+			$this
+		);
+
+		$result = $wpdb->insert(
+			"{$wpdb->download_log}",
+			$log_entries,
+			$log_values
 		);
 
 		do_action( 'dlm_increase_download_count', $this );

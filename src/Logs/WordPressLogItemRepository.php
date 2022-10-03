@@ -144,55 +144,60 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 
 		// Set the log date. Should be current date, as logs will be separated by dates.
 		$log_date = date( 'Y-m-d' );
-		$today    = $wpdb->get_results( $wpdb->prepare( "SELECT  * FROM {$wpdb->dlm_reports} WHERE date = %s;", $log_date ), ARRAY_A );
 
-		// check if entry exists.
-		if ( null !== $today && ! empty( $today ) ) {
+		//Check first if the table exists, db upgrade process might have failed.
+		if ( DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 
-			$downloads = json_decode( $today[0]['download_ids'], ARRAY_A );
+			$today = $wpdb->get_results( $wpdb->prepare( "SELECT  * FROM {$wpdb->dlm_reports} WHERE date = %s;", $log_date ), ARRAY_A );
 
-			if ( isset( $downloads[ $download_id ] ) ) {
-				$downloads[ $download_id ]['downloads'] = $downloads[ $download_id ]['downloads'] + 1;
-			} else {
-				$downloads[ $download_id ] = array(
-					'downloads' => 1,
-					'title'     => get_the_title( $download_id ),
-				);
-			}
+			// check if entry exists.
+			if ( null !== $today && ! empty( $today ) ) {
 
-			$result = $wpdb->update(
-				"{$wpdb->dlm_reports}",
-				array(
-					'download_ids' => wp_json_encode( $downloads ),
-				),
-				array(
-					'date' => $log_date,
-				)
-			);
+				$downloads = json_decode( $today[0]['download_ids'], ARRAY_A );
 
-			if ( false === $result ) {
-				throw new Exception( 'Unable to insert log item in WordPress database' );
-			}
-		} else {
+				if ( isset( $downloads[ $download_id ] ) ) {
+					$downloads[ $download_id ]['downloads'] = $downloads[ $download_id ]['downloads'] + 1;
+				} else {
+					$downloads[ $download_id ] = array(
+						'downloads' => 1,
+						'title'     => get_the_title( $download_id ),
+					);
+				}
 
-			// insert row.
-			$result = $wpdb->insert(
-				"{$wpdb->dlm_reports}",
-				array(
-					'date'         => $log_date,
-					'download_ids' => wp_json_encode(
-						array(
-							$download_id => array(
-								'downloads' => 1,
-								'title'     => get_the_title( $download_id ),
-							),
-						)
+				$result = $wpdb->update(
+					"{$wpdb->dlm_reports}",
+					array(
+						'download_ids' => wp_json_encode( $downloads ),
 					),
-				)
-			);
+					array(
+						'date' => $log_date,
+					)
+				);
 
-			if ( false === $result ) {
-				throw new Exception( 'Unable to insert log item in WordPress database' );
+				if ( false === $result ) {
+					throw new Exception( 'Unable to insert log item in WordPress database' );
+				}
+			} else {
+
+				// insert row.
+				$result = $wpdb->insert(
+					"{$wpdb->dlm_reports}",
+					array(
+						'date'         => $log_date,
+						'download_ids' => wp_json_encode(
+							array(
+								$download_id => array(
+									'downloads' => 1,
+									'title'     => get_the_title( $download_id ),
+								),
+							)
+						),
+					)
+				);
+
+				if ( false === $result ) {
+					throw new Exception( 'Unable to insert log item in WordPress database' );
+				}
 			}
 		}
 

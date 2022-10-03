@@ -1,3 +1,7 @@
+= 4.6.3 - 03.10.2022 =
+Fixed: Double sized downloads ( [#1059](https://github.com/WPChill/download-monitor/issues/1059) )
+Fixed: Failsafe logging for unsuccessful database upgrade ( [#1060](https://github.com/WPChill/download-monitor/issues/1060) )
+
 = 4.6.2 - 29.09.2022 =
 Fixed: WP VIP servers bug ( [#1052](https://github.com/WPChill/download-monitor/issues/1052) ) thanks to @jesusfreak3
 Fixed: Progress loader for external sources ( [#1051](https://github.com/WPChill/download-monitor/issues/1051) )
