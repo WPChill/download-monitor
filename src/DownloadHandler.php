@@ -566,7 +566,6 @@ class DLM_Download_Handler {
 			if ( ! ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) ) {
 				$this->dlm_logging->log( $download, $version, 'completed' );
 			}
-			$this->readfile_chunked( $file_path, false, $range );
 		} elseif ( $remote_file ) {
 			// Redirect - we can't track if this completes or not.
 			if ( defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
