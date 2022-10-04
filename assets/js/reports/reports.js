@@ -1590,9 +1590,16 @@ class DLM_Reports {
 	 */
 	getUserByID(user_id) {
 
-		if (!user_id || '0' === user_id) {
+		if (!user_id) {
 			return null;
 		}
+		if ('0' === user_id) {
+			return {
+				role:'Guest',
+				display_name:'Guest',
+			};
+		}
+
 		let $user = Object.values(dlmReportsInstance.dlmUsersStats.users).filter(user => {
 			return parseInt(user_id) === parseInt(user.id);
 		});
@@ -1712,12 +1719,12 @@ class DLM_Reports {
 
 			let itemObject = {
 				key               : i,
-				user              : ('0' !== dataResponse[i].user_id && 'undefined' !== typeof user && null !== user) ? user['display_name'] : '--',
+				user              : ('undefined' !== typeof user && null !== user) ? user['display_name'] : '--',
 				ip                : dataResponse[i].user_ip,
 				role              : (null !== user && null !== user.role ? user.role : '--'),
 				download          : ('undefined' !== typeof download) ? download.title : '--',
 				valid_user        : ('0' !== dataResponse[i].user_id),
-				edit_link         : 'user-edit.php?user_id=' + dataResponse[i].user_id,
+				edit_link         : ( '0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
 				edit_download_link: ('undefined' !== typeof download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
 				status            : dataResponse[i].download_status,
 				download_date     : dataResponse[i].download_date,
