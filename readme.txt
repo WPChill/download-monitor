@@ -121,6 +121,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.6.3 - TBA =
+Fixed: Take target attribute into consideration when redirecting ( [#1049](https://github.com/WPChill/download-monitor/issues/1049) )
+
 = 4.6.3 - 03.10.2022 =
 Fixed: Double sized downloads ( [#1059](https://github.com/WPChill/download-monitor/issues/1059) )
 Fixed: Failsafe logging for unsuccessful database upgrade ( [#1060](https://github.com/WPChill/download-monitor/issues/1060) )

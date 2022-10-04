@@ -75,8 +75,9 @@ class DLM_XHR_Download {
 
 		// This will hold the file as a local object URL
 		let _OBJECT_URL;
-		const request    = new XMLHttpRequest(),
-			  $setCookie = dlmXHR.prevent_duplicates;
+		const request      = new XMLHttpRequest(),
+			  $setCookie   = dlmXHR.prevent_duplicates,
+			  buttonTarget = buttonObj.attr('target');
 		let buttonClass  = buttonObj.attr('class');
 		buttonClass = buttonClass.replace('dlm-download-started', '').replace('dlm-download-completed','');
 
@@ -128,7 +129,10 @@ class DLM_XHR_Download {
 			}
 
 			if (request.readyState == 2 && 'undefined' !== typeof responseHeaders['dlm-redirect'] && '' !== responseHeaders['dlm-redirect'] && null !== responseHeaders['dlm-redirect']) {
-				dlmXHRinstance.dlmLogDownload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'redirected', false, responseHeaders['dlm-redirect'], responseHeaders['dlm-no-access']);
+				dlmXHRinstance.dlmLogDownload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'redirected', false, responseHeaders['dlm-redirect'], responseHeaders['dlm-no-access'], buttonTarget);
+				button.removeAttribute('download');
+				button.setAttribute('href', href);
+				buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
 				request.abort();
 				return;
 			}
@@ -216,7 +220,7 @@ class DLM_XHR_Download {
 		request.send();
 	}
 
-	dlmLogDownload(download_id, version_id, status, cookie, redirect_path = null, no_access = null) {
+	dlmLogDownload(download_id, version_id, status, cookie, redirect_path = null, no_access = null, target = '_self') {
 
 		if (null !== no_access) {
 			window.location.href = redirect_path;
@@ -237,14 +241,19 @@ class DLM_XHR_Download {
 
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
 			if (null !== redirect_path) {
-				window.location.href = redirect_path;
+				// If the link has no target attribute, then open in the same window
+				if (null == target) {
+					target = '_self';
+				}
+				window.open(redirect_path, target);
 			}
 		});
 	}
 
 	dlmExternalDownload(headers, button, buttonObj, file_name, href) {
-		const request   = new XMLHttpRequest(),
-			  uri       = headers['dlm-external-download'];
+		const request      = new XMLHttpRequest(),
+			  uri          = headers['dlm-external-download'],
+			  buttonTarget = buttonObj.attr('target');
 		let buttonClass = buttonObj.attr('class'),
 			_OBJECT_URL;
 		buttonClass = buttonClass.replace('dlm-download-started', '').replace('dlm-download-completed','');
