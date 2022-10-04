@@ -24,6 +24,7 @@ class DLM_Reports {
 	tempDownloads   = null;
 	templates       = {};
 	totalDownloads  = 0;
+	perPage         = 10;
 
 	/**
 	 * The constructor for our class
@@ -1218,7 +1219,8 @@ class DLM_Reports {
 		}
 
 		wrapper.parent().removeClass('empty');
-
+		// Set top downloads number of pages
+		wrapperParent.find('.dlm-reports-total-pages').html(Math.ceil(dlmReportsInstance.mostDownloaded.length / dlmReportsInstance.perPage));
 		if (dlmReportsInstance.mostDownloaded.length > 10) {
 			wrapperParent.find('.downloads-block-navigation button').removeClass('hidden');
 		} else {
@@ -1258,6 +1260,10 @@ class DLM_Reports {
 
 			dlmReportsInstance.handleSliderNavigation(handleObj)
 		});
+
+		jQuery('#total_downloads_table_wrapper2').find('input.dlm-reports-current-page').on('change', function () {
+			dlmReportsInstance.paginationChange(jQuery(this), dlmReportsInstance.mostDownloaded, jQuery('#total_downloads_table_wrapper2'), jQuery(this).parents('#total_downloads_table_wrapper2'), dlmReportsInstance.setTopDownloads);
+		});
 	}
 
 	/**
@@ -1279,16 +1285,18 @@ class DLM_Reports {
 				  doAction
 			  } = {...handleObj};
 
+		let page = 1;
 		// Check if we click the next/load more button
 		if ('load-more' === link.data('action')) {
 
 			offsetHolder.attr('data-page', nextPage);
 			doAction(nextPage);
 			// We remove the disable attribute only when there are pages to be shown
-			if (Math.ceil(data.length / 10) > nextPage + 1) {
+			if (Math.ceil(data.length / dlmReportsInstance.perPage) > nextPage + 1) {
 				nextButton.removeAttr('disabled');
 			}
 			prevButton.removeAttr('disabled');
+			page = parseInt(nextPage) + 1;
 		} else {
 
 			if (0 !== parseInt(offset)) {
@@ -1301,8 +1309,11 @@ class DLM_Reports {
 					prevButton.removeAttr('disabled');
 				}
 				nextButton.removeAttr('disabled');
+				page = parseInt(prevPage) + 1;
 			}
 		}
+
+		main_parent.find('.dlm-reports-current-page').val(page);
 	}
 
 	/**
@@ -1711,6 +1722,8 @@ class DLM_Reports {
 		}
 
 		dlmReportsInstance.stopSpinner(jQuery('#users_download_log'));
+		// Set the total number of downloads pages
+		wrapperParent.find('.dlm-reports-total-pages').html(Math.ceil(dlmReportsInstance.tempDownloads.length / dlmReportsInstance.perPage));
 
 		if (10 !== dataResponse.length) {
 			wrapperParent.find('.user-downloads-block-navigation button[data-action="load-more"]').attr('disabled', 'disabled');
@@ -1776,7 +1789,11 @@ class DLM_Reports {
 				doAction: dlmReportsInstance.setUserDownloads
 
 			}
-			dlmReportsInstance.handleSliderNavigation(handleObj)
+			dlmReportsInstance.handleSliderNavigation(handleObj);
+		});
+
+		jQuery('#users_downloads_table_wrapper').find('input.dlm-reports-current-page').on('change', function () {
+			dlmReportsInstance.paginationChange(jQuery(this), dlmReportsInstance.tempDownloads, jQuery('#users_downloads_table_wrapper'), jQuery('#users_downloads_table_wrapper').find('#users_download_log'), dlmReportsInstance.setUserDownloads);
 		});
 	}
 
@@ -2027,5 +2044,50 @@ class DLM_Reports {
 	orderUserReportsItemsByDate(){
 		dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.reverse();
 		dlmReportsInstance.setUserDownloads();
+	}
+
+	/**
+	 * Pagination changing using the input type number
+	 *
+	 * @param input
+	 * @param data
+	 * @param main_parent
+	 * @param offsetHolder
+	 * @param action
+	 */
+	paginationChange( input, data, main_parent, offsetHolder, action ){
+
+		let offset  = parseInt(input.val());
+
+		if (0 === offset) {
+			offset = 1;
+		}
+
+		if (data.length < (offset * 10)) {
+			offset = Math.ceil(data.length / dlmReportsInstance.perPage);
+		}
+
+		let link         = jQuery(this).next('button[data-action="load-more"]'),
+			nextPage     = offset + 1,
+			prevPage     = offset - 1,
+			prevButton   = main_parent.find('.downloads-block-navigation button').first(),
+			nextButton   = main_parent.find('.downloads-block-navigation button').last();
+
+		link.attr('disabled', 'disabled');
+
+		const handleObj = {
+			data    : data,
+			main_parent,
+			offsetHolder,
+			offset,
+			link,
+			nextPage,
+			prevPage,
+			prevButton,
+			nextButton,
+			doAction: action
+		}
+
+		dlmReportsInstance.handleSliderNavigation(handleObj);
 	}
 }
