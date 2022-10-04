@@ -24,7 +24,7 @@ class DLM_Reports {
 	tempDownloads   = null;
 	templates       = {};
 	totalDownloads  = 0;
-	perPage         = 10;
+	perPage         = dlmReportsPerPage;
 
 	/**
 	 * The constructor for our class
@@ -1195,7 +1195,7 @@ class DLM_Reports {
 			return;
 		}
 
-		const dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.mostDownloaded)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
+		const dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.mostDownloaded)).slice(dlmReportsInstance.perPage * parseInt(offset), dlmReportsInstance.perPage * (parseInt(offset + 1)));
 
 		for (let i = 0; i < dataResponse.length; i++) {
 
@@ -1694,9 +1694,9 @@ class DLM_Reports {
 		let dataResponse = [];
 
 		if (null !== dlmReportsInstance.tempDownloads) {
-			dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.tempDownloads)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
+			dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.tempDownloads)).slice(dlmReportsInstance.perPage * parseInt(offset), dlmReportsInstance.perPage * (parseInt(offset + 1)));
 		} else {
-			dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads)).slice(10 * parseInt(offset), 10 * (parseInt(offset + 1)));
+			dataResponse = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads)).slice(dlmReportsInstance.perPage * parseInt(offset), dlmReportsInstance.perPage * (parseInt(offset + 1)));
 		}
 
 		for (let i = 0; i < dataResponse.length; i++) {
@@ -2005,6 +2005,22 @@ class DLM_Reports {
 			e.preventDefault();
 			jQuery(this).parent().find('span.dashicons').toggleClass('dashicons-arrow-down dashicons-arrow-up');
 			dlmReportsInstance.orderUserReportsItemsByDate();
+		});
+
+		jQuery('body').on('change', 'select.dlm-reports-per-page', function (e) {
+			dlmReportsInstance.perPage = jQuery(this).val();
+			dlmReportsInstance.setTopDownloads();
+			dlmReportsInstance.setUserDownloads();
+			jQuery.post(
+				ajaxurl,
+				{
+					action     : 'dlm_update_report_setting',
+					name       : 'dlm-reports-per-page',
+					value      : dlmReportsInstance.perPage,
+					_ajax_nonce: dlmReportsNonce
+				}, function (response) {
+				}
+			);
 		});
 	}
 	/**

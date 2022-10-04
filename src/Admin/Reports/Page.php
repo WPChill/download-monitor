@@ -168,6 +168,8 @@ class DLM_Reports_Page {
 	 * @return void
 	 */
 	public function insights_header() {
+		$per_page = ( $item = get_option('dlm-reports-per-page') ) ? $item : 10;
+		$per_page_options = array(10, 25, 50, 100);
 		?>
 		<div class="dlm-insights-header">
 			<div class="dlm-insights-navigation">
@@ -175,6 +177,13 @@ class DLM_Reports_Page {
 				$this->insights_navigation();
 				?>
 			</div>
+			<select class="dlm-reports-per-page">
+				<?php
+				foreach ( $per_page_options as $option ) {
+					echo '<option value="' . absint( $option ) . '" ' . selected( $option, $per_page, false ) . '>' . absint( $option ) . '</option>';
+				}
+				?>
+			</select>
 			<div class="dlm-insights-datepicker dlm-reports-actions">
 				<?php
 				do_action( 'dlm_insights_header' );

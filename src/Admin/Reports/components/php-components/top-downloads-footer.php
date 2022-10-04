@@ -13,4 +13,3 @@
 		        title='Next 15 downloads'></button>
 	</div>
 </div>
-

@@ -367,6 +367,10 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				$value = 'off';
 			}
 
+			if ( isset( $_POST['value'] ) ) {
+				$value = sanitize_text_field( wp_unslash( $_POST['value'] ) );
+			}
+
 			update_option( $option, $value );
 			die();
 		}
