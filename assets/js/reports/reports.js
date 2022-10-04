@@ -1221,7 +1221,14 @@ class DLM_Reports {
 		wrapper.parent().removeClass('empty');
 		// Set top downloads number of pages
 		wrapperParent.find('.dlm-reports-total-pages').html(Math.ceil(dlmReportsInstance.mostDownloaded.length / dlmReportsInstance.perPage));
-		if (dlmReportsInstance.mostDownloaded.length > 10) {
+
+		if (parseInt(dlmReportsInstance.perPage) !== parseInt(dataResponse.length)) {
+			wrapperParent.find('.downloads-block-navigation button[data-action="load-more"]').attr('disabled', 'disabled');
+		} else {
+			wrapperParent.find('.downloads-block-navigation button[data-action="load-more"]').removeAttr('disabled');
+		}
+
+		if (dlmReportsInstance.mostDownloaded.length > dlmReportsInstance.perPage) {
 			wrapperParent.find('.downloads-block-navigation button').removeClass('hidden');
 		} else {
 			wrapperParent.find('.downloads-block-navigation button').addClass('hidden');
@@ -1725,13 +1732,13 @@ class DLM_Reports {
 		// Set the total number of downloads pages
 		wrapperParent.find('.dlm-reports-total-pages').html(Math.ceil(dlmReportsInstance.tempDownloads.length / dlmReportsInstance.perPage));
 
-		if (10 !== dataResponse.length) {
+		if (parseInt(dlmReportsInstance.perPage) !== parseInt(dataResponse.length)) {
 			wrapperParent.find('.user-downloads-block-navigation button[data-action="load-more"]').attr('disabled', 'disabled');
 		} else {
 			wrapperParent.find('.user-downloads-block-navigation button[data-action="load-more"]').removeAttr('disabled');
 		}
 
-		if (dlmReportsInstance.userDownloads.length > 10) {
+		if (dlmReportsInstance.userDownloads.length > dlmReportsInstance.perPage) {
 			wrapperParent.find('.user-downloads-block-navigation button').removeClass('hidden');
 		} else {
 			wrapperParent.find('.user-downloads-block-navigation button').addClass('hidden');
@@ -2079,7 +2086,7 @@ class DLM_Reports {
 			offset = 1;
 		}
 
-		if (data.length < (offset * 10)) {
+		if (data.length < (offset * dlmReportsInstance.perPage)) {
 			offset = Math.ceil(data.length / dlmReportsInstance.perPage);
 		}
 

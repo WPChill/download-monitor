@@ -177,19 +177,23 @@ class DLM_Reports_Page {
 				$this->insights_navigation();
 				?>
 			</div>
-			<select class="dlm-reports-per-page">
-				<?php
-				foreach ( $per_page_options as $option ) {
-					echo '<option value="' . absint( $option ) . '" ' . selected( $option, $per_page, false ) . '>' . absint( $option ) . '</option>';
-				}
-				?>
-			</select>
+			<div class="dlm-reports-actions">
+				<span><?php esc_html_e( 'Show per page:' ); ?>  </span>
+				<select class="dlm-reports-per-page">
+					<?php
+					foreach ( $per_page_options as $option ) {
+						echo '<option value="' . absint( $option ) . '" ' . selected( $option, $per_page, false ) . '>' . absint( $option ) . '</option>';
+					}
+					?>
+				</select>
+
 			<div class="dlm-insights-datepicker dlm-reports-actions">
 				<?php
 				do_action( 'dlm_insights_header' );
 				$this->date_range_button();
 				$this->page_settings();
 				?>
+			</div>
 			</div>
 		</div>
 		<?php
