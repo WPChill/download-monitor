@@ -1529,14 +1529,21 @@ table.wp-list-table .column-thumb img {
   left: 50%;
   margin: -16px 0 0 -16px;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation,
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .user-downloads-block-navigation {
-  min-height: 24px;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation {
   text-align: center;
-  padding: 14px 0 0 0;
+  padding: 7px 0;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation button,
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .user-downloads-block-navigation button {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation > * {
+  vertical-align: middle;
+  display: inline-block;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation > span {
+  color: grey;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation .dlm-reports-total-pages {
+  margin-right: 15px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation button {
   border: 0;
   color: #000;
   font-size: 1rem;
@@ -1545,9 +1552,9 @@ table.wp-list-table .column-thumb img {
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   background-color: #FFF;
   width: 24px;
+  vertical-align: middle;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation button[disabled],
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .user-downloads-block-navigation button[disabled] {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation button[disabled] {
   opacity: 0.5;
   cursor: default;
 }
@@ -1851,6 +1858,11 @@ table.wp-list-table .column-thumb img {
   padding: 8px;
   display: block;
   font-weight: 500;
+}
+.dlm_download_page_download-monitor-reports input.dlm-reports-current-page {
+  display: inline-block;
+  width: 75px;
+  vertical-align: middle;
 }
 /** Products overview page */
 .post-type-dlm_product table.wp-list-table .column-title {

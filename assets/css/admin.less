@@ -1171,7 +1171,6 @@ table.wp-list-table {
 /* Reports */
 .dlm_download_page_download-monitor-reports {
 
-
   position: relative;
 
   #wpcontent {
@@ -1553,11 +1552,21 @@ table.wp-list-table {
         margin: -16px 0 0 -16px;
       }
 
-      .downloads-block-navigation,
-      .user-downloads-block-navigation {
-        min-height: 24px;
+      .downloads-block-navigation {
         text-align: center;
-        padding: 14px 0 0 0;
+        padding: 7px 0;
+        & > * {
+          vertical-align: middle;
+          display:inline-block;
+        }
+
+        & > span{
+          color:grey;
+        }
+
+        .dlm-reports-total-pages {
+          margin-right:15px;
+        }
 
         button {
           border: 0;
@@ -1568,6 +1577,7 @@ table.wp-list-table {
           box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
           background-color: #FFF;
           width: 24px;
+          vertical-align: middle;
 
           &[disabled] {
             opacity: 0.5;
@@ -1959,6 +1969,12 @@ table.wp-list-table {
         font-weight: 500;
       }
     }
+  }
+
+  input.dlm-reports-current-page {
+    display: inline-block;
+    width: 75px;
+    vertical-align: middle;
   }
 }
 
