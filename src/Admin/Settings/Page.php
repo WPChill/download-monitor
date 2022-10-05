@@ -72,7 +72,7 @@ class DLM_Settings_Page {
 					}
 					break;
 				case 'dlm_redo_upgrade':
-					if ( $this->redo_upgrade() ) {
+					if ( DLM_Admin_Helper::redo_upgrade() ) {
 						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
 						exit;
 					}
@@ -686,30 +686,6 @@ Deny from all
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Undocumented function
-	 *
-	 * @return void
-	 */
-	public function redo_upgrade() {
-
-		global $wp, $wpdb, $pagenow;
-
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			return false;
-		}
-
-		// Drop the dlm_reports_log
-		$drop_statement = "DROP TABLE IF EXISTS {$wpdb->prefix}dlm_reports_log";
-		$wpdb->query( $drop_statement );
-
-		// Delete upgrade history and set the need DB pgrade
-		delete_option( 'dlm_db_upgraded' );
-		set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
-
-		return true;
 	}
 
 	/**

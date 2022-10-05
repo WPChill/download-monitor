@@ -126,4 +126,28 @@ class DLM_Admin_Helper {
 		return true;
 	}
 
+	/**
+	 * Recreates the upgrade environment. Previously declared in DLM_Settings_Page
+	 *
+	 * @return bool
+	 * @since 4.6.4
+	 */
+	public static function redo_upgrade() {
+
+		global $wp, $wpdb, $pagenow;
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+
+		// Drop the dlm_reports_log
+		$drop_statement = "DROP TABLE IF EXISTS {$wpdb->prefix}dlm_reports_log";
+		$wpdb->query( $drop_statement );
+
+		// Delete upgrade history and set the need DB pgrade
+		delete_option( 'dlm_db_upgraded' );
+		set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
+
+		return true;
+	}
 }

@@ -79,14 +79,17 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 	 * Retreieve the version download count
 	 *
 	 * @param  mixed $version_id
-	 * @return array
+	 * @return string
 	 */
 	public function retrieve_version_download_count( $version_id ) {
 		global $wpdb;
+		$download_count = 0;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE version_id = %s AND download_status IN ( 'completed','redirected' )", $version_id ) );
+		}
 
-		$download_counts = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE version_id = %s AND download_status IN ( 'completed','redirected' )", $version_id ) );
-
-		return  apply_filters( 'dlm_add_version_meta_download_count', $download_counts, $version_id );
+		return apply_filters( 'dlm_add_version_meta_download_count', $download_count, $version_id );
 	}
 
 	/**

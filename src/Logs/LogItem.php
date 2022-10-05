@@ -303,6 +303,10 @@ class DLM_Log_Item {
 	public function increase_download_count() {
 		global $wpdb;
 
+		if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			return;
+		}
+
 		$user_id       = 0;
 		$download_date = '';
 

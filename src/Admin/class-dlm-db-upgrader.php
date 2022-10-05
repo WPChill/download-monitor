@@ -28,6 +28,9 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 */
 		public function __construct() {
 
+			// We need to add this because there are scenarios where the user deleted the download_log table.
+			add_action( 'admin_init', array( $this, 'recreate_upgrade_process' ), 15, 1 );
+
 			// Don't do anything if we don't need to or if upgrader already done.
 			if ( ! self::do_upgrade() ) {
 
@@ -89,8 +92,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				return true;
 			}
 
-			if ( self::check_if_migrated() ) {
-				return false;
+			if ( ! self::check_if_migrated() ) {
+				return true;
 			}
 
 			if ( ! self::version_checker() ) {
@@ -135,14 +138,14 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			global $wpdb;
 			$posts_table = "{$wpdb->prefix}posts";
 
-			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			// Made it here, now let's create the table and start migrating.
+			$this->create_new_table( $wpdb->dlm_reports );
 
+			// Check if the table exists. User might have deleted it in the past.
+			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
 				wp_send_json( '0' );
 				exit;
 			}
-
-			// Made it here, now let's create the table and start migrating.
-			$this->create_new_table( $wpdb->dlm_reports );
 
 			$results = $wpdb->get_results( $wpdb->prepare( "SELECT  COUNT(dlm_log.ID) as `entries` FROM {$wpdb->download_log} dlm_log INNER JOIN $posts_table dlm_posts ON dlm_log.download_id = dlm_posts.ID" ), ARRAY_A );
 
@@ -198,6 +201,37 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			// Add uuid column to download_log table.
 			global $wpdb;
+
+			// In the event that the user had previously deleted the downlod_log table, we need to create it again.
+			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+				$dlm_tables = '
+					CREATE TABLE `' . $wpdb->prefix . "download_log` (
+						ID bigint(20) NOT NULL auto_increment,
+						user_id bigint(20) NOT NULL,
+						user_ip varchar(200) NOT NULL,
+						uuid varchar(200) NOT NULL,
+						user_agent varchar(200) NOT NULL,
+						download_id bigint(20) NOT NULL,
+						version_id bigint(20) NOT NULL,
+						version varchar(200) NOT NULL,
+						download_date datetime DEFAULT NULL,
+						download_status varchar(200) DEFAULT NULL,
+						download_status_message varchar(200) DEFAULT NULL,
+						download_location varchar(200) DEFAULT NULL,
+						download_category varchar(200) DEFAULT NULL,
+						meta_data longtext DEFAULT NULL,
+						PRIMARY KEY  (ID),
+						KEY attribute_name (download_id)
+					) $collate;
+					";
+
+				dbDelta( $dlm_tables );
+				wp_send_json( array( 'success' => true ) );
+				exit;
+			}
+
 			$alter_statement = "ALTER TABLE {$wpdb->download_log} ADD COLUMN uuid VARCHAR(200) AFTER USER_IP,ADD COLUMN download_location VARCHAR(200) AFTER download_status_message,ADD COLUMN download_category VARCHAR(200) AFTER download_status_message;";
 			$hash_statement  = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
 			// SQL to add index for download_log
@@ -413,7 +447,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			?>
 			<div class="dlm-upgrade-db-notice notice">
 				<div class="dlm-yellow-band-notice">
-					<?php echo wp_kses_post( __( 'Please <a href="#" class="dlm-db-upgrade-link">upgrade the database</a> in order to further use Download Monitor\'s Reports page.' ) ); ?>
+					<?php echo wp_kses_post( __( 'Please <a href="#" class="dlm-db-upgrade-link">upgrade the database</a>.' ) ); ?>
 				</div>
 				<div class="inside">
 					<div class="main">
@@ -453,5 +487,16 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			wp_enqueue_style( 'jquery-ui-style', download_monitor()->get_plugin_url() . '/assets/css/jquery-ui.min.css', array(), DLM_VERSION );
 		}
 
+		/**
+		 * Automatically recreate the upgrade environment if the download_log is not present
+		 *
+		 * @return false|void
+		 */
+		public function recreate_upgrade_process() {
+			global $wpdb;
+			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+				DLM_Admin_Helper::redo_upgrade();
+			}
+		}
 	}
 }

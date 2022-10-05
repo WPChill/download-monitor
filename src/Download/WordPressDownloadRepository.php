@@ -80,12 +80,15 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 * Retreieve the version download count
 	 *
 	 * @param  mixed $version_id
-	 * @return array
+	 * @return string
 	 */
 	public function retrieve_download_count( $download_id ) {
 		global $wpdb;
-
-		$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status IN ( 'completed', 'redirected' );", $download_id ) );
+		$download_count = 0;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status IN ( 'completed', 'redirected' );", $download_id ) );
+		}
 
 		return apply_filters( 'dlm_add_meta_download_count', $download_count, $download_id );
 	}
@@ -95,24 +98,34 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 *
 	 * @param mixed $version_id
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function retrieve_total_download_count( $download_id ) {
 		global $wpdb;
+		$download_count = 0;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s;", $download_id ) );
+		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s;", $download_id ) );
+		return $download_count;
 	}
 
 	/**
 	 * Retreieve the version download count
 	 *
 	 * @param  mixed $version_id
-	 * @return array
+	 * @return string
 	 */
 	public function retrieve_completed_download_count( $download_id ) {
 		global $wpdb;
+		$download_count = 0;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'completed' ;", $download_id ) );
+		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'completed' ;", $download_id ) );
+		return $download_count;
 
 	}
 
@@ -124,8 +137,13 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 */
 	public function retrieve_redirected_download_count( $download_id ) {
 		global $wpdb;
+		$download_count = 0;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'redirected';", $download_id ) );
+		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'redirected';", $download_id ) );
+		return $download_count;
 
 	}
 
@@ -133,12 +151,17 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 * Retreieve the version download count
 	 *
 	 * @param  mixed $version_id
-	 * @return array
+	 * @return string
 	 */
 	public function retrieve_failed_download_count( $download_id ) {
 		global $wpdb;
+		$download_count = 0;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'failed';", $download_id ) );
+		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status = 'failed';", $download_id ) );
+		return $download_count;
 
 	}
 
@@ -146,26 +169,34 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 * Retreieve the version download count
 	 *
 	 * @param  mixed $version_id
-	 * @return array
+	 * @return string
 	 */
 	public function retrieve_logged_in_downloads( $download_id ) {
 		global $wpdb;
+		$download_count = 0;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.user_id != '0';", $download_id ) );
+		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.user_id != '0';", $download_id ) );
-
+		return $download_count;
 	}
 
 	/**
 	 * Retreieve the version download count
 	 *
 	 * @param  mixed $version_id
-	 * @return array
+	 * @return string
 	 */
 	public function retrieve_non_logged_in_downloads( $download_id ) {
 		global $wpdb;
+		$download_count = 0;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.user_id = '0';", $download_id ) );
+		}
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.user_id = '0';", $download_id ) );
-
+		return $download_count;
 	}
 
 	/**
