@@ -271,7 +271,11 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			global $wpdb;
 
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
-				return array();
+				return array(
+					'logs'   => array(),
+					'offset' => 1,
+					'done'   => true,
+				);
 			}
 
 			$cache_key    = 'dlm_insights_users';
