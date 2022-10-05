@@ -310,7 +310,7 @@ class DLM_Log_Item {
 			$user_id = get_current_user_id();
 		}
 
-		$download_date = current_time( 'mysql' );
+		$download_date = current_time( 'mysql', false );
 
 		// Add filters for download_log column entries, so in case the upgrader failed we can still log the download.
 		/**

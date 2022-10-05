@@ -119,6 +119,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			}
 		}
 
+
 		return $items;
 	}
 
@@ -143,7 +144,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		$wpdb->hide_errors();
 
 		// Set the log date. Should be current date, as logs will be separated by dates.
-		$log_date = date( 'Y-m-d' );
+		$log_date = current_time( 'Y-m-d', false );
 
 		//Check first if the table exists, db upgrade process might have failed.
 		if ( DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
