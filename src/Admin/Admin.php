@@ -52,33 +52,32 @@ class DLM_Admin {
 
 		// Dashboard
 		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
-
 		// Admin Footer Text
 		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ), 1 );
-
 		// flush rewrite rules on shutdown
 		add_action( 'shutdown', array( $this, 'maybe_flush_rewrites' ) );
-
 		// filter attachment thumbnails in media library for files in dlm_uploads
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_thumbnails_protected_files_grid' ), 10, 1 );
 		add_filter( 'wp_get_attachment_image_src', array( $this, 'filter_thumbnails_protected_files_list' ), 10, 1 );
-
 		// Legacy Upgrader
 		$lu_check = new DLM_LU_Checker();
 		if ( $lu_check->needs_upgrading() ) {
 			$lu_message = new DLM_LU_Message();
 			$lu_message->display();
 		}
-
 		// Sets the rewrite rule option if dlm_download_endpoint option is changed.
 		add_filter( 'pre_update_option_dlm_download_endpoint', array( $this, 'set_rewrite_rules_flag_on_endpoint_change'), 15, 2 );
-
 		// Checks and flushes rewrite rule if rewrite flag option is set.
 		add_action( 'admin_init', array( $this, 'check_rewrite_rules') );
-
 		// Do not make sub-sizes for images uploaded in dlm_uploads
 		add_filter( 'file_is_displayable_image', array( $this, 'no_image_subsizes' ), 15, 2 );
 		add_filter( 'ajax_query_attachments_args', array( $this, 'no_media_library_display' ), 15 );
+		// Add a Media Library filter to list view so that we can filter out dlm_uploads
+		add_action( 'restrict_manage_posts', array( $this, 'add_dlm_uploads_filter' ), 15, 2 );
+		// Set query vars for dlm_uploads filter
+		add_action( 'pre_get_posts', array( $this, 'media_library_filter' ), 15 );
+		// Add DLM Uploads file as a mime type
+		add_filter( 'post_mime_types', array( $this, 'add_mime_types' ), 15, 1 );
 	}
 
 	/**
@@ -422,23 +421,125 @@ class DLM_Admin {
 	 */
 	public function no_media_library_display( $query ) {
 
-		if ( ! isset( $query['meta_query'] ) ) {
-			$query['meta_query'] = array(
-				'relation' => 'AND',
-				array(
+		//Check for the added temporary mime_type so that we can filter the Media Library contents
+		if ( ! isset( $query['post_mime_type'] ) || 'dlm_uploads_files' !== $query['post_mime_type'] ) {
+			if ( ! isset( $query['meta_query'] ) ) {
+				$query['meta_query'] = array(
+					'relation' => 'AND',
+					array(
+						'key'     => '_wp_attached_file',
+						'compare' => 'NOT LIKE',
+						'value'   => 'dlm_uploads'
+					)
+				);
+			} else {
+				$query['meta_query'][] = array(
 					'key'     => '_wp_attached_file',
 					'compare' => 'NOT LIKE',
 					'value'   => 'dlm_uploads'
-				)
-			);
+				);
+			}
 		} else {
+			unset($query['post_mime_type']);
+			$query['meta_key'] = '_wp_attached_file';
 			$query['meta_query'][] = array(
 				'key'     => '_wp_attached_file',
-				'compare' => 'NOT LIKE',
+				'compare' => 'LIKE',
 				'value'   => 'dlm_uploads'
 			);
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Add Media Library filters for DLM Downloads
+	 *
+	 * @param $screen
+	 * @param $which
+	 *
+	 * @return void
+	 * @since 4.6.4
+	 */
+	public function add_dlm_uploads_filter( $screen, $which ) {
+		// Add a filter to the Media Library page so that we can filter regular uploads and Download Monitor's uploads
+		if ( $screen === 'attachment' ) {
+			$views = apply_filters( 'dlm_media_views', array(
+				'uploads_folder'     => __( 'Uploads folder', 'download-monitor' ),
+				'dlm_uploads_folder' => __( 'Download Monitor', 'download-monitor' )
+			) );
+
+			$applied_filter = isset( $_GET['dlm_upload_folder_type'] ) ? sanitize_text_field( wp_unslash( $_GET['dlm_upload_folder_type'] ) ) : 'all';
+			?>
+			<select name="dlm_upload_folder_type">
+				<?php
+				foreach ( $views as $key => $view ) {
+					echo '<option value="' . $key . '" ' . selected( $key, $applied_filter ) . '>' . $view . '</option>';
+				}
+				?>
+			</select>
+			<?php
+		}
+	}
+
+	/**
+	 * Filter the media library query to wether show DLM uploads or not
+	 *
+	 * @param $query
+	 *
+	 * @return void
+	 * @since 4.6.4
+	 */
+	public function media_library_filter( $query ) {
+
+		if ( ! is_admin() || false === strpos( $_SERVER['REQUEST_URI'], '/wp-admin/upload.php' ) ) {
+			return;
+		}
+		// If users views uploads folder then we don't need to show DLM uploads.
+		$compare = 'NOT LIKE';
+		// If user views the DLM Uploads folder then we need to show DLM uploads.
+		if ( isset( $_GET['dlm_upload_folder_type'] ) && 'dlm_uploads_folder' === $_GET['dlm_upload_folder_type'] ) {
+			$compare = 'LIKE';
+		}
+		// Set the meta query for the corresponding request.
+		$query->set( 'meta_key', '_wp_attached_file' );
+		$query->set( 'meta_query', array(
+			'key'     => '_wp_attached_file',
+			'compare' => $compare,
+			'value'   => 'dlm_uploads'
+		) );
+	}
+
+	/**
+	 * Add temporary dlm_uploads_files mime type to help us filter the media library
+	 *
+	 * @param $mimes
+	 *
+	 * @return mixed
+	 * @since 4.6.4
+	 */
+	public function add_mime_types($mimes){
+		$screen = get_current_screen();
+		// If we are not on the Media Library page or editing the Download then we don't need to add the mime types.
+		if ( ! is_admin() || ( 'upload' !== $screen->base && 'attachment' !== $screen->post_type && 'dlm_download' !== $screen->post_type ) ) {
+			return $mimes;
+		}
+
+		// Create temp mime_type that will only be available on Media Library page and edit Download page.
+		// We need this to proper filter the Media Library contents and show only DLM uploads or regular uploads.
+		$mimes['dlm_uploads_files'] = array(
+			'Download Monitor Files',
+			'Manage DLM Files',
+			array(
+				'dlm_uploads',
+				'else',
+				'singular' => 'DLM File',
+				'plural'   => 'DLM Files',
+				'content'  => null,
+				'domain'   => null
+			)
+		);
+
+		return $mimes;
 	}
 }
