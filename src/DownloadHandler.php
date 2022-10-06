@@ -250,6 +250,7 @@ class DLM_Download_Handler {
 
 			/** @var DLM_Download $download */
 			$download = null;
+			$version  = null;
 			if ( $download_id > 0 ) {
 				try {
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
@@ -282,12 +283,14 @@ class DLM_Download_Handler {
 				}
 			}
 
-			$def_restricted        = array( 'php', 'html', 'htm', 'tmp' );
-			$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array(), $download ) );
+			if ( ! ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) ) {
+				$def_restricted        = array( 'php', 'html', 'htm', 'tmp' );
+				$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array(), $download ) );
 
-			// Do not allow the download of certain file types.
-			if ( in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
-				wp_die( esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+				// Do not allow the download of certain file types.
+				if ( in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
+					wp_die( esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+				}
 			}
 
 			// Action on found download
