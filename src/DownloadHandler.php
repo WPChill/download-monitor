@@ -193,8 +193,22 @@ class DLM_Download_Handler {
 			$wp->query_vars[ $this->endpoint ] = sanitize_text_field( wp_unslash( $_GET[ $this->endpoint ] ) );
 		}
 
+		// Check and see if this is an XHR request or a classic request.
+		if ( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
+
+			if ( ! isset( $_REQUEST['nonce'] ) ) {
+				wp_send_json_error( array( 'error' => 'missing_nonce' ) );
+			}
+			wp_verify_nonce( $_REQUEST['nonce'], 'dlm_ajax_nonce' );
+			define( 'DLM_DOING_XHR', true );
+		}
+
 		// check if endpoint is set but is empty.
 		if ( apply_filters( 'dlm_empty_download_redirect_enabled', true ) && isset( $wp->query_vars[ $this->endpoint ] ) && empty( $wp->query_vars[ $this->endpoint ] ) ) {
+			if ( $this->check_for_xhr() ) {
+				header( 'DLM-Redirect: ' . apply_filters( 'dlm_empty_download_redirect_url', home_url() ) );
+				exit;
+			}
 			wp_redirect( apply_filters( 'dlm_empty_download_redirect_url', home_url() ) );
 			exit;
 		}
@@ -242,6 +256,10 @@ class DLM_Download_Handler {
 
 					// Check if allowed
 					if ( false == $allowed ) {
+						if ( $this->check_for_xhr() ) {
+							header( 'DLM-Redirect: ' . apply_filters( 'dlm_hotlink_redirect', home_url(), $download_id ) );
+							exit;
+						}
 						wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url(), $download_id ) );
 						exit;
 					}
@@ -255,11 +273,21 @@ class DLM_Download_Handler {
 				try {
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 				} catch ( Exception $e ) {
+					if ( $this->check_for_xhr() ) {
+						header( 'DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
+						http_response_code( 404 );
+						exit;
+					}
 					wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 				}
 			}
 
 			if ( ! $download ) {
+				if ( $this->check_for_xhr() ) {
+					header( 'DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
+					http_response_code( 404 );
+					exit;
+				}
 				wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 			}
 
@@ -289,22 +317,17 @@ class DLM_Download_Handler {
 
 				// Do not allow the download of certain file types.
 				if ( in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
+					if ( $this->check_for_xhr() ) {
+						header( 'DLM-Error: ' . esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) );
+						http_response_code( 403 );
+						exit;
+					}
 					wp_die( esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 				}
 			}
 
 			// Action on found download
 			if ( $download->exists() ) {
-
-				// Check and see if this is an XHR request or a classic request.
-				if ( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
-
-					if ( ! isset( $_REQUEST['nonce'] ) ) {
-						wp_send_json_error( array( 'error' => 'missing_nonce' ) );
-					}
-					wp_verify_nonce( $_REQUEST['nonce'], 'dlm_ajax_nonce' );
-					define( 'DLM_DOING_XHR', true );
-				}
 
 				if ( post_password_required( $download_id ) ) {
 					if ( $this->check_for_xhr() ) {
@@ -316,8 +339,17 @@ class DLM_Download_Handler {
 
 				$this->trigger( $download );
 			} elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
+				if ( $this->check_for_xhr() ) {
+					header( 'DLM-Redirect: ' . $redirect );
+					exit;
+				}
 				wp_redirect( $redirect );
 			} else {
+				if ( $this->check_for_xhr() ) {
+					header( 'DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
+					http_response_code( 404 );
+					exit;
+				}
 				wp_die( esc_html__( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 			}
 

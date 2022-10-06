@@ -123,6 +123,9 @@ class DLM_XHR_Download {
 			if (request.readyState == 2 && 'undefined' !== typeof responseHeaders['dlm-error'] && '' !== responseHeaders['dlm-error'] && null !== responseHeaders['dlm-error']) {
 
 				dlmXHRinstance.dlmLogDownload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'failed', false);
+				button.removeAttribute('download');
+				button.setAttribute('href', href);
+				buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
 				request.abort();
 				buttonObj.append('<span class="dlm-xhr-error">' + responseHeaders['dlm-error'] + '</span>');
 				return;
