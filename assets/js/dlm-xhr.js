@@ -33,6 +33,9 @@ class DLM_XHR_Download {
 		});
 
 		jQuery('html, body').on('click', xhr_links, function (e) {
+			if (jQuery(this).hasClass('dlm-no-xhr-download')) {
+				return true;
+			}
 			dlmXHRinstance.handleDownloadClick(this, e);
 		});
 	}
@@ -215,6 +218,10 @@ class DLM_XHR_Download {
 		});
 
 		request.onerror = function () {
+			button.removeAttribute('download');
+			button.setAttribute('href', href);
+			buttonObj.removeClass().addClass(buttonClass + ' dlm-no-xhr-download').find('span.dlm-xhr-progress').remove();
+			buttonObj.append('<span class="dlm-xhr-error">' + dlmXHRtranslations.error + '</span>');
 			console.log('** An error occurred during the transaction');
 		};
 
@@ -344,6 +351,10 @@ class DLM_XHR_Download {
 		});
 
 		request.onerror = function () {
+			button.removeAttribute('download');
+			button.setAttribute('href', href);
+			buttonObj.removeClass().addClass(buttonClass + ' .dlm-no-xhr-download').find('span.dlm-xhr-progress').remove();
+			buttonObj.append('<span class="dlm-xhr-error">' + dlmXHRtranslations.error + '</span>');
 			console.log('** An error occurred during the transaction');
 		};
 
