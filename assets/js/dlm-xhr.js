@@ -22,6 +22,7 @@ class DLM_XHR_Download {
 		// Create the classes that we will target
 		let xhr_links = '';
 		let $i        = '';
+
 		jQuery.each(dlmXHR.xhr_links.class, function ($key, $value) {
 			if ($value.indexOf('[class') > -1 || $value.indexOf('[id') > -1) {
 				xhr_links += $i + ' ' + $value;
@@ -82,7 +83,7 @@ class DLM_XHR_Download {
 			  $setCookie   = dlmXHR.prevent_duplicates,
 			  buttonTarget = buttonObj.attr('target');
 		let buttonClass  = buttonObj.attr('class');
-		buttonClass = buttonClass.replace('dlm-download-started', '').replace('dlm-download-completed','');
+		buttonClass = ('undefined' !== typeof buttonClass && '' !== buttonClass ) ? buttonClass.replace('dlm-download-started', '').replace('dlm-download-completed','') : '';
 
 		buttonObj.addClass('dlm-download-started');
 		button.setAttribute('href', '#');
@@ -266,7 +267,7 @@ class DLM_XHR_Download {
 			  buttonTarget = buttonObj.attr('target');
 		let buttonClass = buttonObj.attr('class'),
 			_OBJECT_URL;
-		buttonClass = buttonClass.replace('dlm-download-started', '').replace('dlm-download-completed','');
+		buttonClass = ('undefined' !== typeof buttonClass && '' !== buttonClass ) ? buttonClass.replace('dlm-download-started', '').replace('dlm-download-completed','') : '';
 
 		buttonObj.addClass('dlm-download-started');
 		button.setAttribute('href', '#');
