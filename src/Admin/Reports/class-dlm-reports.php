@@ -227,7 +227,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			$result->set_headers(
 				array(
-					'Cache-Control' => 'max-age=3600, s-max-age=3600',
+					// @todo : comment this and if people complain about the performance, we can add it back.
+					//'Cache-Control' => 'max-age=3600, s-max-age=3600',
 					'Content-Type'  => 'application/json',
 				)
 			);
@@ -303,7 +304,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 					'offset' => ( $this->php_info['retrieved_rows'] === count( $downloads ) ) ? $offset + 1 : '',
 					'done'   => ( $this->php_info['retrieved_rows'] > count( $downloads ) ) ? true : false,
 				);
-				wp_cache_set( $cache_key, $user_reports, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
+
+				wp_cache_set( $cache_key, $user_reports, 'dlm_user_reports', 12 * HOUR_IN_SECONDS );
 			}
 
 			return $user_reports;
@@ -323,10 +325,9 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				return array();
 			}
 
-			$cache_key = 'dlm_insights_users';
 			$users_data = array();
+			$cache_key = 'dlm_insights_users';
 			$stats = wp_cache_get( $cache_key, 'dlm_user_data' );
-
 			if ( ! $stats ) {
 				$users = get_users();
 				foreach ( $users as $user ) {
@@ -340,6 +341,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 						'role'         => ( ( ! in_array( 'administrator', $user->roles, true ) ) ? $user->roles : '' ),
 					);
 				}
+
 				wp_cache_set( $cache_key, $user_data, 'dlm_user_data', 12 * HOUR_IN_SECONDS );
 			}
 			return $users_data;
