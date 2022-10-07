@@ -303,6 +303,7 @@ class DLM_Log_Item {
 	public function increase_download_count() {
 		global $wpdb;
 
+		// If there is no table we don't need to increase the download count as it will trigger an error.
 		if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
 			return;
 		}
