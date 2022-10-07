@@ -1,5 +1,20 @@
-= 4.6.3 - TBA =
+= 4.6.4 - TBA =
 Fixed: Take target attribute into consideration when redirecting ( [#1049](https://github.com/WPChill/download-monitor/issues/1049) )
+Changed: Removed caching of reports data, for instant data updates ( [#1070](https://github.com/WPChill/download-monitor/issues/1070) )
+Fixed: Failsafe for XHR requests ( [#1067](https://github.com/WPChill/download-monitor/issues/1067) )
+Fixed: Relevant XHR responses ( [#1066](https://github.com/WPChill/download-monitor/issues/1066) )
+Fixed: Stop checking for file extensions when redirect ( [#1065](https://github.com/WPChill/download-monitor/issues/1065) )
+Fixed: Reports data continuous retrieval when table download_log not present ( [#1064](https://github.com/WPChill/download-monitor/issues/1064) )
+Fixed: Time zones logging error ( [#1063](https://github.com/WPChill/download-monitor/issues/1063) )
+Added: Meta tag with Download Monitor version ( [#1062](https://github.com/WPChill/download-monitor/issues/1062) )
+Fixed: Error when no button class present ( [#1061](https://github.com/WPChill/download-monitor/issues/1061) )
+Fixed: Failsafe for failed database upgrade ( [#1060](https://github.com/WPChill/download-monitor/issues/1060) )
+Fixed: Better display of guest downloads on Reports page ( [#1056](https://github.com/WPChill/download-monitor/issues/1056) )
+Added: Reports page numbers ( [#1054](https://github.com/WPChill/download-monitor/issues/1054) )
+Added: Reports page entries per page ( [#1053](https://github.com/WPChill/download-monitor/issues/1053) )
+Fixed: Redirect to file when link target is _blank ( [#1049](https://github.com/WPChill/download-monitor/issues/1049) )
+Added: Media Library filters for Download Monitor files ( [#1047](https://github.com/WPChill/download-monitor/issues/1047) )
+Fixed: Ordering when postmeta is taken into consideration ( [#1046](https://github.com/WPChill/download-monitor/issues/1046) )
 
 = 4.6.3 - 03.10.2022 =
 Fixed: Double sized downloads ( [#1059](https://github.com/WPChill/download-monitor/issues/1059) )
