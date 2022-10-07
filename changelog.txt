@@ -1,4 +1,4 @@
-= 4.6.4 - TBA =
+= 4.6.4 - 07.10.2022 =
 Fixed: Take target attribute into consideration when redirecting ( [#1049](https://github.com/WPChill/download-monitor/issues/1049) )
 Changed: Removed caching of reports data, for instant data updates ( [#1070](https://github.com/WPChill/download-monitor/issues/1070) )
 Fixed: Failsafe for XHR requests ( [#1067](https://github.com/WPChill/download-monitor/issues/1067) )
