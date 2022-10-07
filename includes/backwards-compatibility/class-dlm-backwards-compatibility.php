@@ -45,12 +45,16 @@ class DLM_Backwards_Compatibility {
 	 */
 	public function __construct() {
 
+		// Add post meta count to total downloads.
 		add_filter( 'dlm_shortcode_total_downloads', array( $this, 'total_downloads_shortcode' ) );
+		// Add orderby postmeta compatibility.
 		add_action( 'dlm_query_args', array( $this, 'orderby_compatibility' ), 15, 1 );
+		// Reset postdata after the loop.
 		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
+		// Add version postmeta downloads to the version download count.
 		add_filter( 'dlm_add_version_meta_download_count', array( $this, 'meta_download_counts' ), 15, 2 );
+		// Add Download postmeta downloads to the Download download count.
 		add_filter( 'dlm_add_meta_download_count', array( $this, 'add_meta_download_count' ), 30, 2 );
-
 		// If the DB upgrade functionality did not take place we won't have the option stored.
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
 
@@ -122,7 +126,8 @@ class DLM_Backwards_Compatibility {
 		}
 
 		if ( apply_filters( 'dlm_backwards_compatibility_orderby_meta', false ) ) {
-			add_filter( 'dlm_admin_sort_columns', array( $this, 'no_log_query_args_compatibility' ) );
+			add_filter( 'dlm_admin_sort_columns', array( $this, 'no_log_query_args_compatibility' ), 15, 1 );
+			add_filter( 'dlm_query_args_filter', array( $this, 'no_log_query_args_compatibility' ), 15, 1 );
 			return;
 		}
 

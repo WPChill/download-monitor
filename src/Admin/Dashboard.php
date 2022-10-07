@@ -43,14 +43,19 @@ class DLM_Admin_Dashboard {
 			array(
 				'no_found_rows'  => 1,
 				'order_by_count' => '1',
+				'order'          => 'DESC',
+				'post_type'      => 'dlm_download',
 			)
 		);
 
+		// @todo: Seems like from 4.6.x the below "add_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );" & "remove_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );" are not
+		// needed anymore, it seems to break order if used. Leaving them here for a while.
+
 		// This is a fix for Custom Posts ordering plugins
-		add_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
+		//add_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
 		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
 		// This is a fix for Custom Posts ordering plugins
-		remove_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
+		//remove_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
 
 		if ( empty( $downloads ) ) {
 			echo '<p>' . esc_html__( 'There are no stats available yet!', 'download-monitor' ) . '</p>';

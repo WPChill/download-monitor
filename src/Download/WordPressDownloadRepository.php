@@ -220,14 +220,15 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 
 		$q = new WP_Query();
 
-		$filters = $this->filter_query_args( $filters, $limit, $offset );
 		/**
 		 * Add arguments to query before querying
 		 * @hooked ( DLM_Backwards_Compatibility, orderby_compatibility )
-		 * 
+		 *
 		 * @since 4.6.0
 		 */
 		do_action( 'dlm_query_args', $filters );
+
+		$filters = $this->filter_query_args( $filters, $limit, $offset );
 
 		$posts = $q->query( $filters );
 
