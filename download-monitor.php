@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Define DLM Version
 
-define( 'DLM_VERSION', '4.6.4' );
+define( 'DLM_VERSION', '4.6.5' );
 define( 'DLM_UPGRADER_VERSION', '4.6.0' );
 
 // Define DLM FILE
