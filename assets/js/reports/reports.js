@@ -1722,10 +1722,10 @@ class DLM_Reports {
 				user              : ('undefined' !== typeof user && null !== user) ? user['display_name'] : '--',
 				ip                : dataResponse[i].user_ip,
 				role              : (null !== user && null !== user.role ? user.role : '--'),
-				download          : ('undefined' !== typeof download) ? download.title : '--',
+				download          : ('undefined' !== typeof download && null !== download) ? download.title : '--',
 				valid_user        : ('0' !== dataResponse[i].user_id),
 				edit_link         : ( '0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
-				edit_download_link: ('undefined' !== typeof download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
+				edit_download_link: ('undefined' !== typeof download && null !== download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
 				status            : dataResponse[i].download_status,
 				download_date     : dataResponse[i].download_date,
 			}
@@ -1980,12 +1980,15 @@ class DLM_Reports {
 	/**
 	 * Get download object based on ID
 	 * @param $id
-	 * @returns {{total: number}}
+	 * @returns {{id: number, title: string}}
 	 */
 	getDownloadCPT($id) {
-		let download = dlmReportsInstance.mostDownloaded.filter((item) => {
-			return item.id === $id;
-		}, 0)[0];
+		let download = null;
+		if (Array.isArray(dlmReportsInstance.mostDownloaded)) {
+			download = dlmReportsInstance.mostDownloaded.filter((item) => {
+				return item.id === $id;
+			}, 0)[0];
+		}
 
 		jQuery(document).trigger('dlm_download_cpt', [dlmReportsInstance, download]);
 
