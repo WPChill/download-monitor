@@ -46,7 +46,7 @@ define( 'DLM_BETA_VERSION', 'x.x.x' );
 
 // Add meta tags to head for DLM Version
 add_action( 'wp_head', function () {
-	echo '<meta name="dlm-version" content="' . DLM_VERSION . '">';
+	echo '<meta name="dlm-version" content="' . esc_attr( DLM_VERSION ) . '">';
 }, 1 );
 
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
