@@ -116,14 +116,16 @@ class DLM_Admin_Media_Insert {
 
 					// File Manager
 					$file_manager = new DLM_File_Manager();
+					
+					list( $file_path )  = $file_manager->get_secure_path( $url, true );
 
 					// Meta
 					update_post_meta( $file_id, '_version', $version );
-					update_post_meta( $file_id, '_filesize', $file_manager->get_file_size( $url ) );
-					update_post_meta( $file_id, '_files', $file_manager->json_encode_files( array( $url ) ) );
+					update_post_meta( $file_id, '_filesize', $file_manager->get_file_size( $file_path ) );
+					update_post_meta( $file_id, '_files', $file_manager->json_encode_files( array( $file_path ) ) );
 
 					// Hashes
-					$hashes = download_monitor()->service( 'hasher' )->get_file_hashes( $url );
+					$hashes = download_monitor()->service( 'hasher' )->get_file_hashes( $file_path );
 
 					// Set hashes
 					update_post_meta( $file_id, '_md5', $hashes['md5'] );
