@@ -2906,3 +2906,9 @@ Toggles
   font-size: 10px;
   color: #fff;
 }
+.dlm-copy-shortcode-input {
+  border: 0 !important;
+  width: 0;
+  padding: 0 !important;
+  outline: none;
+}

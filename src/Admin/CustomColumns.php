@@ -159,7 +159,7 @@ class DLM_Custom_Columns {
 				break;
 
 			case "shortcode" :
-				echo '<button class="wpchill-tooltip-button copy-dlm-shortcode button button-primary dashicons dashicons-shortcode" style="width:40px;"><div class="wpchill-tooltip-content"><span class="dlm-copy-text">' . esc_html__( 'Copy shortcode', 'download-monitor' ) . '</span><div class="dl-shortcode-copy"><code>[download id="' . absint( $post->ID ) . '"]</code><input type="text" value="[download id=\'' . absint( $post->ID ) . '\']" class="hidden"></div></div></button>';
+				echo '<button class="wpchill-tooltip-button copy-dlm-shortcode button button-primary dashicons dashicons-shortcode" style="width:40px;"><div class="wpchill-tooltip-content"><span class="dlm-copy-text">' . esc_html__( 'Copy shortcode', 'download-monitor' ) . '</span><div class="dl-shortcode-copy"><code>[download id="' . absint( $post->ID ) . '"]</code><input type="text" readonly value="[download id=\'' . absint( $post->ID ) . '\']" class="dlm-copy-shortcode-input"></div></div></button>';
 				break;
 			case "download_count" :
 				echo number_format( $this->column_download->get_download_count(), 0, '.', ',' );

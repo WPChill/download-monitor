@@ -92,8 +92,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				return true;
 			}
 
-			if ( ! self::check_if_migrated() ) {
-				return true;
+			if ( self::check_if_migrated() ) {
+				return false;
 			}
 
 			if ( ! self::version_checker() ) {
