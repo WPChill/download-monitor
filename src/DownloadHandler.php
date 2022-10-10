@@ -762,7 +762,7 @@ class DLM_Download_Handler {
 	 */
 	private function set_extra_xhr_headers( $file_path, $download, $version ) {
 
-		$headers = apply_filters( 'dlm_xhr_download_headers', array(), $file_path, $download, $version );
+		$headers = apply_filters( 'dlm_xhr_download_headers', array(), $file_path, $download, $version, $_REQUEST );
 
 		if ( ! empty( $headers ) ) {
 			foreach ( $headers as $key => $value ) {

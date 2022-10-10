@@ -126,7 +126,7 @@ class DLM_XHR_Download {
 
 			if (request.readyState == 2 && 'undefined' !== typeof responseHeaders['dlm-error'] && '' !== responseHeaders['dlm-error'] && null !== responseHeaders['dlm-error']) {
 
-				dlmXHRinstance.dlmLogDownload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'failed', false);
+				dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
 				button.removeAttribute('download');
 				button.setAttribute('href', href);
 				buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
@@ -136,7 +136,7 @@ class DLM_XHR_Download {
 			}
 
 			if (request.readyState == 2 && 'undefined' !== typeof responseHeaders['dlm-redirect'] && '' !== responseHeaders['dlm-redirect'] && null !== responseHeaders['dlm-redirect']) {
-				dlmXHRinstance.dlmLogDownload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'redirected', false, responseHeaders['dlm-redirect'], responseHeaders['dlm-no-access'], buttonTarget);
+				dlmXHRinstance.dlmLogDownload(responseHeaders, 'redirected', false, responseHeaders['dlm-redirect'], responseHeaders['dlm-no-access'], buttonTarget);
 				button.removeAttribute('download');
 				button.setAttribute('href', href);
 				buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
@@ -186,7 +186,7 @@ class DLM_XHR_Download {
 				// Append the paragraph to the download-contaner
 				// Trigger the `dlm_download_complete` action
 				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL]);
-				dlmXHRinstance.dlmLogDownload(responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], 'completed', $setCookie);
+				dlmXHRinstance.dlmLogDownload(responseHeaders, 'completed', $setCookie);
 				// Recommended : Revoke the object URL after some time to free up resources
 				window.URL.revokeObjectURL(_OBJECT_URL);
 				button.removeAttribute('download');
@@ -231,15 +231,16 @@ class DLM_XHR_Download {
 		request.send();
 	}
 
-	dlmLogDownload(download_id, version_id, status, cookie, redirect_path = null, no_access = null, target = '_self') {
+	dlmLogDownload(headers, status, cookie, redirect_path = null, no_access = null, target = '_self') {
 
 		if (null !== no_access) {
 			window.location.href = redirect_path;
 			return;
 		}
 
-		const currentURL = window.location.href;
-
+		const currentURL  = window.location.href;
+		const download_id = headers['dlm-download-id'];
+		const version_id  = headers['dlm-version-id'];
 		const data = {
 			download_id,
 			version_id,
@@ -247,6 +248,7 @@ class DLM_XHR_Download {
 			cookie,
 			currentURL,
 			action: 'log_dlm_xhr_download',
+			responseHeaders : headers,
 			nonce : dlmXHR.nonce
 		};
 
@@ -295,7 +297,7 @@ class DLM_XHR_Download {
 				}, {});
 
 			if (403 === status) {
-				dlmXHRinstance.dlmLogDownload(headers['dlm-download-id'], headers['dlm-version-id'], 'failed', false);
+				dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
 				request.abort();
 				buttonObj.append('<span class="dlm-xhr-error">Acces Denied to file.</span>');
 				return;
@@ -320,7 +322,7 @@ class DLM_XHR_Download {
 				// Append the paragraph to the download-contaner
 				// Trigger the `dlm_download_complete` action
 				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL]);
-				dlmXHRinstance.dlmLogDownload(headers['dlm-download-id'], headers['dlm-version-id'], 'completed', false);
+				dlmXHRinstance.dlmLogDownload(responseHeaders, 'completed', false);
 				// Recommended : Revoke the object URL after some time to free up resources
 				window.URL.revokeObjectURL(_OBJECT_URL);
 				button.removeAttribute('download');
