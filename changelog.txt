@@ -1,3 +1,11 @@
+= 4.6.5 - 10.10.2022 =
+Fixed: Elementor compatibility error ( [#1073](https://github.com/WPChill/download-monitor/issues/1073) )
+Fixed: Log meta data not saved ( [#1076](https://github.com/WPChill/download-monitor/issues/1076) )
+Fixed: Sending headers through XHR ( [#1075](https://github.com/WPChill/download-monitor/issues/1075) )
+Fixed: Shortcode copy on admin downloads table ( [#1072](https://github.com/WPChill/download-monitor/issues/1072) )
+Fixed: Adding Download via the Quick Add button ( [#1071](https://github.com/WPChill/download-monitor/issues/1071) )
+Fixed: Adding products to cart through XHR ( [#1077](https://github.com/WPChill/download-monitor/issues/1073) )
+
 = 4.6.4 - 07.10.2022 =
 Fixed: Take target attribute into consideration when redirecting ( [#1049](https://github.com/WPChill/download-monitor/issues/1049) )
 Changed: Removed caching of reports data, for instant data updates ( [#1070](https://github.com/WPChill/download-monitor/issues/1070) )
