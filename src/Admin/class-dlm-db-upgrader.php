@@ -29,8 +29,45 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public function __construct() {
 
 			// We need to add this because there are scenarios where the user deleted the download_log table.
-			add_action( 'admin_init', array( $this, 'recreate_upgrade_process' ), 15, 1 );
+			add_action( 'admin_init', array( $this, 'check_upgrade_necessity' ), 15, 1 );
+		}
 
+		/**
+		 * Returns the singleton instance of the class.
+		 *
+		 * @return object The DLM_Admin_Helper object.
+		 * @since 4.5.0
+		 */
+		public static function get_instance() {
+
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_DB_Upgrader ) ) {
+				self::$instance = new DLM_DB_Upgrader();
+			}
+
+			return self::$instance;
+
+		}
+
+		/**
+		 * Automatically recreate the upgrade environment if the download_log is not present
+		 *
+		 * @return false|void
+		 */
+		public function check_upgrade_necessity() {
+			global $wpdb;
+			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+				DLM_Admin_Helper::redo_upgrade();
+			}
+
+			$this->init();
+		}
+
+		/**
+		 * Init the upgrade process. Only actions after admin_init should be added here.
+		 *
+		 * @return void
+		 */
+		public function init(){
 			// Don't do anything if we don't need to or if upgrader already done.
 			if ( ! self::do_upgrade() ) {
 
@@ -57,22 +94,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 					'upgraded_date' => wp_date( 'Y-m-d' ) . ' 00:00:00',
 				)
 			);
-		}
-
-		/**
-		 * Returns the singleton instance of the class.
-		 *
-		 * @return object The DLM_Admin_Helper object.
-		 * @since 4.5.0
-		 */
-		public static function get_instance() {
-
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_DB_Upgrader ) ) {
-				self::$instance = new DLM_DB_Upgrader();
-			}
-
-			return self::$instance;
-
 		}
 
 		/**
@@ -485,18 +506,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			wp_enqueue_style( 'dlm-db-upgrade-style', download_monitor()->get_plugin_url() . '/assets/css/db-upgrader.min.css', array(), '4.4.7' );
 			wp_enqueue_style( 'jquery-ui-style', download_monitor()->get_plugin_url() . '/assets/css/jquery-ui.min.css', array(), DLM_VERSION );
-		}
-
-		/**
-		 * Automatically recreate the upgrade environment if the download_log is not present
-		 *
-		 * @return false|void
-		 */
-		public function recreate_upgrade_process() {
-			global $wpdb;
-			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
-				DLM_Admin_Helper::redo_upgrade();
-			}
 		}
 	}
 }
