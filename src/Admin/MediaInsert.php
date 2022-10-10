@@ -360,12 +360,30 @@ class DLM_Admin_Media_Insert {
 				} );
 
 				// a file was uploaded
-				uploader.bind( 'FileUploaded', function ( up, file, response ) {
-					jQuery( '#quick-add-details' ).find( 'input.download_url' ).val( response.response );
-					jQuery( '#quick-add-details' ).find( 'input.download_title' ).val( basename( response.response ) );
-					jQuery( '#plupload-upload-ui' ).slideUp();
-					jQuery( '#quick-add-details' ).slideDown();
-				} );
+				uploader.bind('FileUploaded', function (up, file, response) {
+
+					let is_json = false;
+					try {
+						JSON.parse(response.response);
+						is_json = true;
+					} catch (e) {
+						// nothing, is_json already is false
+					}
+
+					if ( is_json && !JSON.parse(response.response).success) {
+						jQuery(up.settings.container).append('<p class="error description" style="color:red;">' + JSON.parse(response.response).data.error + '</p>');
+						setTimeout(function () {
+							jQuery(up.settings.container).find('.error.description').remove();
+						}, 5500);
+
+						up.refresh();
+						return;
+					}
+					jQuery('#quick-add-details').find('input.download_url').val(response.response);
+					jQuery('#quick-add-details').find('input.download_title').val(basename(response.response));
+					jQuery('#plupload-upload-ui').slideUp();
+					jQuery('#quick-add-details').slideDown();
+				});
 
 				function basename( path ) {
 					return path.split( '/' ).reverse()[ 0 ];

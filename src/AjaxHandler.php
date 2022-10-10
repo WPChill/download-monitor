@@ -51,6 +51,11 @@ class DLM_Ajax_Handler {
 			if ( false !== $attachment_url ) {
 				echo esc_url( $attachment_url );
 			}
+		} else {
+			$data = array(
+				'error' => $attachment_id->get_error_message()
+			);
+			wp_send_json_error($data);
 		}
 
 		die();
