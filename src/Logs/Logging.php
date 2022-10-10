@@ -186,7 +186,6 @@ class DLM_Logging {
 			$log_item->set_version( $version->get_version() );
 			$log_item->set_download_status( $status );
 			$log_item->set_current_url( $url );
-			$log_item->increase_download_count();
 
 			if ( $cookie ) {
 				DLM_Cookie_Manager::set_cookie( $download );

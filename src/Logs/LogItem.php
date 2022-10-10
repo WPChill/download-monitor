@@ -309,7 +309,12 @@ class DLM_Log_Item {
 		}
 
 		$user_id       = 0;
-		$download_date = '';
+		$meta_data = null;
+
+		$lmd = $this->get_meta_data();
+		if ( ! empty( $lmd ) ) {
+			$meta_data = json_encode( $lmd );
+		}
 
 		if ( is_user_logged_in() ) {
 			$user_id = get_current_user_id();
@@ -334,6 +339,7 @@ class DLM_Log_Item {
 				'download_date'           => sanitize_text_field( $download_date ),
 				'download_status'         => $this->get_download_status(),
 				'download_status_message' => $this->get_download_status_message(),
+				'meta_data'               => $meta_data
 			),
 			$this
 		);
@@ -353,6 +359,7 @@ class DLM_Log_Item {
 				'%s',
 				'%s',
 				'%s',
+				'%s'
 			),
 			$this
 		);

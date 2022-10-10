@@ -202,6 +202,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			}
 		}
 
+		$log_item->increase_download_count();
 		// trigger action when new log item was added for a download request.
 		do_action( 'dlm_downloading_log_item_added', $log_item, $download_id, $version_id );
 
