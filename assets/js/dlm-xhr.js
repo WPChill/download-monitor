@@ -34,7 +34,12 @@ class DLM_XHR_Download {
 		});
 
 		jQuery('html, body').on('click', xhr_links, function (e) {
+			// Search to see if we don't have to do XHR on this link
 			if (jQuery(this).hasClass('dlm-no-xhr-download')) {
+				return true;
+			}
+			// Search the href and see if this is not a Product
+			if (jQuery(this).attr('href').indexOf('?add-to-cart') >= 0) {
 				return true;
 			}
 			dlmXHRinstance.handleDownloadClick(this, e);
