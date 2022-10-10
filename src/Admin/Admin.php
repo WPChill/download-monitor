@@ -519,6 +519,11 @@ class DLM_Admin {
 	 * @since 4.6.4
 	 */
 	public function add_mime_types($mimes){
+
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return $mimes;
+		}
+
 		$screen = get_current_screen();
 		// If we are not on the Media Library page or editing the Download then we don't need to add the mime types.
 		if ( ! is_admin() || ( 'upload' !== $screen->base && 'attachment' !== $screen->post_type && 'dlm_download' !== $screen->post_type ) ) {
