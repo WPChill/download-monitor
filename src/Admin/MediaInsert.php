@@ -222,6 +222,9 @@ class DLM_Admin_Media_Insert {
 						<p class="drag-drop-buttons">
 							<input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button"/>
 						</p>
+						<p class="dlm-drag-drop-loading" style="display:none;">
+							<?php echo esc_html__( 'Please wait...', 'download-monitor' ); ?>
+						</p>
 					</div>
 				</div>
 				<p>
@@ -351,7 +354,8 @@ class DLM_Admin_Media_Insert {
 						if ( max > hundredmb && file.size > hundredmb && up.runtime != 'html5' ) {
 							// file size error?
 						} else {
-							jQuery( '.drag-drop-inside' ).html( '<p><?php echo esc_html__( 'Please wait...', 'download-monitor' ); ?></p>' );
+							jQuery( '.dlm-drag-drop-loading' ).show();
+							jQuery( '.drag-drop-inside *:not(.dlm-drag-drop-loading)' ).hide();
 						}
 					} );
 
@@ -372,11 +376,14 @@ class DLM_Admin_Media_Insert {
 
 					if ( is_json && !JSON.parse(response.response).success) {
 						jQuery(up.settings.container).append('<p class="error description" style="color:red;">' + JSON.parse(response.response).data.error + '</p>');
+						
 						setTimeout(function () {
 							jQuery(up.settings.container).find('.error.description').remove();
 						}, 5500);
 
-						up.refresh();
+						jQuery( '.dlm-drag-drop-loading' ).hide();
+						jQuery( '.drag-drop-inside *:not(.dlm-drag-drop-loading)' ).show();
+
 						return;
 					}
 					jQuery('#quick-add-details').find('input.download_url').val(response.response);
