@@ -158,7 +158,7 @@ class DLM_Backwards_Compatibility {
 		add_filter( 'dlm_admin_sort_columns', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'dlm_query_args_filter', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
-		add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
+		//add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		add_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
@@ -176,7 +176,7 @@ class DLM_Backwards_Compatibility {
 	public function join_download_count_compatibility( $join ) {
 		global $wpdb;
 
-		$join .= " LEFT JOIN {$wpdb->download_log} ON ({$wpdb->posts}.ID = {$wpdb->download_log}.download_id) ";
+		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) ";
 
 		return $join;
 
@@ -209,7 +209,7 @@ class DLM_Backwards_Compatibility {
 
 		global $wpdb;
 
-		$fields .= ", COUNT({$wpdb->download_log}.ID) as counts ";
+		$fields .= ", {$wpdb->dlm_downloads}.download_count as counts ";
 
 		return $fields;
 	}
@@ -264,7 +264,8 @@ class DLM_Backwards_Compatibility {
 		remove_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		remove_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		remove_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
-		remove_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
+		//@todo: remove filter after testing, we don't need this since version 4.7.0
+		//remove_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 	}
 
 	/**

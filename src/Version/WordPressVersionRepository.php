@@ -78,18 +78,27 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 	/**
 	 * Retreieve the version download count
 	 *
-	 * @param  mixed $version_id
+	 * @param mixed $version_id
+	 *
 	 * @return string
 	 */
 	public function retrieve_version_download_count( $version_id ) {
 		global $wpdb;
-		$download_count = 0;
+		$version_count = 0;
+		$download_id   = get_post_parent( $version_id )->ID;
 		// Check to see if the table exists first.
-		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
-			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE version_id = %s AND download_status IN ( 'completed','redirected' )", $version_id ) );
+		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+			// Data in the table are based on Download and it's meta, so we need to get the Download to find the version count.
+			$download_count = $wpdb->get_results( $wpdb->prepare( "SELECT download.download_meta FROM {$wpdb->dlm_downloads} download WHERE download_id = %s;", $download_id ), ARRAY_A );
+			// Version counts are present in the `download_meta` column of the table, as a json object, containing information for all versions.
+			$meta = ( ! empty( $download_count[0]['download_meta'] ) ) ? json_decode( $download_count[0]['download_meta'], true ) : array();
+			// Get the information for our current version.
+			if ( ! empty( $meta ) && isset( $meta[ $version_id ] ) ) {
+				$version_count = $meta[ $version_id ];
+			}
 		}
 
-		return apply_filters( 'dlm_add_version_meta_download_count', $download_count, $version_id );
+		return apply_filters( 'dlm_add_version_meta_download_count', $version_count, $version_id );
 	}
 
 	/**

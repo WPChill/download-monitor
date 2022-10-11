@@ -70,8 +70,10 @@ class WP_DLM {
 
 		// Table for Download Infos.
 		$wpdb->download_log = "{$wpdb->prefix}download_log";
-		// New Table for logs.
+		// New Table for reports.
 		$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
+		// New Table for individual Downloads.
+		$wpdb->dlm_downloads = "{$wpdb->prefix}dlm_downloads";
 
 		// Setup admin classes.
 		if ( is_admin() ) {

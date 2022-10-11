@@ -86,8 +86,8 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		global $wpdb;
 		$download_count = 0;
 		// Check to see if the table exists first.
-		if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
-			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(`ID`) FROM {$wpdb->download_log} WHERE download_id = %s AND {$wpdb->download_log}.download_status IN ( 'completed', 'redirected' );", $download_id ) );
+		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT download.download_count FROM {$wpdb->dlm_downloads} as download WHERE download_id = %s;", $download_id ) );
 		}
 
 		return apply_filters( 'dlm_add_meta_download_count', $download_count, $download_id );
@@ -363,12 +363,6 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_featured( ( 'yes' === get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' === get_post_meta( $post->ID, '_members_only', true ) ) );
 				$download->set_download_count( absint( $this->retrieve_download_count( $post->ID ) ) );
-				$download->set_total_download_count( absint( $this->retrieve_total_download_count( $post->ID ) ) );
-				$download->set_redirected_downloads( absint( $this->retrieve_redirected_download_count( $post->ID ) ) );
-				$download->set_completed_downloads( absint( $this->retrieve_completed_download_count( $post->ID ) ) );
-				$download->set_failed_downloads( absint( $this->retrieve_failed_download_count( $post->ID ) ) );
-				$download->set_logged_in_downloads( absint( $this->retrieve_logged_in_downloads( $post->ID ) ) );
-				$download->set_non_logged_in_downloads( absint( $this->retrieve_non_logged_in_downloads( $post->ID ) ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
 				$download->post = $post;
