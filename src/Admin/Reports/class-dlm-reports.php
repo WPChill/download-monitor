@@ -254,7 +254,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$stats     = wp_cache_get( $cache_key, 'dlm_reports_page' );
 
 			if ( ! $stats ) {
-				$stats = $wpdb->get_results( "SELECT  * FROM {$wpdb->dlm_reports};", ARRAY_A );
+				$stats = $wpdb->get_results( $wpdb->prepare("SELECT * FROM {$wpdb->dlm_reports}", null ), ARRAY_A );
 				wp_cache_set( $cache_key, $stats, 'dlm_reports_page', 12 * HOUR_IN_SECONDS );
 			}
 

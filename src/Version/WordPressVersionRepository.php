@@ -89,9 +89,9 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 		// Check to see if the table exists first.
 		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
 			// Data in the table are based on Download and it's meta, so we need to get the Download to find the version count.
-			$download_count = $wpdb->get_results( $wpdb->prepare( "SELECT download.download_meta FROM {$wpdb->dlm_downloads} download WHERE download_id = %s;", $download_id ), ARRAY_A );
-			// Version counts are present in the `download_meta` column of the table, as a json object, containing information for all versions.
-			$meta = ( ! empty( $download_count[0]['download_meta'] ) ) ? json_decode( $download_count[0]['download_meta'], true ) : array();
+			$download_count = $wpdb->get_results( $wpdb->prepare( "SELECT download.download_versions FROM {$wpdb->dlm_downloads} download WHERE download_id = %s;", $download_id ), ARRAY_A );
+			// Version counts are present in the `download_versions` column of the table, as a json object, containing information for all versions.
+			$meta = ( ! empty( $download_count[0]['download_versions'] ) ) ? json_decode( $download_count[0]['download_versions'], true ) : array();
 			// Get the information for our current version.
 			if ( ! empty( $meta ) && isset( $meta[ $version_id ] ) ) {
 				$version_count = $meta[ $version_id ];

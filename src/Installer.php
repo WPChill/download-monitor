@@ -260,7 +260,7 @@ class DLM_Installer {
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
-						download_meta varchar(200) NOT NULL,
+						download_versions varchar(200) NOT NULL,
 		 				PRIMARY KEY (`ID`))
 						ENGINE = InnoDB $collate;";
 

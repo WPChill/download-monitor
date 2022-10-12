@@ -376,23 +376,23 @@ class DLM_Log_Item {
 			$version_id          = absint( $this->get_version_id() );
 			$downloads_table     = "{$wpdb->dlm_downloads}";
 			$check_for_downloads = "SELECT * FROM {$downloads_table}  WHERE download_id = %s;";
-			$downloads_insert    = "INSERT INTO {$downloads_table} (download_id,download_count,download_meta) VALUES ( %s , %s, %s );";
-			$downloads_update    = "UPDATE {$downloads_table} dlm SET dlm.download_count = dlm.download_count + 1, dlm.download_meta = %s WHERE dlm.download_id = %s";
+			$downloads_insert    = "INSERT INTO {$downloads_table} (download_id,download_count,download_versions) VALUES ( %s , %s, %s );";
+			$downloads_update    = "UPDATE {$downloads_table} dlm SET dlm.download_count = dlm.download_count + 1, dlm.download_versions = %s WHERE dlm.download_id = %s";
 			$check               = $wpdb->get_results( $wpdb->prepare( $check_for_downloads, $download_id ), ARRAY_A );
-			$download_meta       = array();
+			$download_versions       = array();
 			// Check if there is anything there, else insert new row.
 			if ( null !== $check && ! empty( $check ) ) {
 				// If meta exists update it, lese insert it.
-				$download_meta = ! empty( $check[0]['download_meta'] ) ? json_decode( $check[0]['download_meta'], true ) : array();
-				if ( isset( $download_meta[ $version_id ] ) ) {
-					$download_meta[ $version_id ] = absint( $download_meta[ $version_id ] ) + 1;
+				$download_versions = ! empty( $check[0]['download_versions'] ) ? json_decode( $check[0]['download_versions'], true ) : array();
+				if ( isset( $download_versions[ $version_id ] ) ) {
+					$download_versions[ $version_id ] = absint( $download_versions[ $version_id ] ) + 1;
 				} else {
-					$download_meta[ $version_id ] = 1;
+					$download_versions[ $version_id ] = 1;
 				}
-				$wpdb->query( $wpdb->prepare( $downloads_update, json_encode( $download_meta ), $download_id ) );
+				$wpdb->query( $wpdb->prepare( $downloads_update, json_encode( $download_versions ), $download_id ) );
 			} else {
-				$download_meta[ $version_id ] = 1;
-				$wpdb->query( $wpdb->prepare( $downloads_insert, $download_id, 1, json_encode( $download_meta ) ) );
+				$download_versions[ $version_id ] = 1;
+				$wpdb->query( $wpdb->prepare( $downloads_insert, $download_id, 1, json_encode( $download_versions ) ) );
 			}
 		}
 
