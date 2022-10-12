@@ -369,6 +369,32 @@ class DLM_Log_Item {
 			$log_entries,
 			$log_values
 		);
+		// Let's check if table exists.
+		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+			// Table exists, now log new download into table. This is used for faster download counts, performance issues introduced in version 4.6.0 of plugin
+			$download_id         = absint( $this->get_download_id() );
+			$version_id          = absint( $this->get_version_id() );
+			$downloads_table     = "{$wpdb->dlm_downloads}";
+			$check_for_downloads = "SELECT * FROM {$downloads_table}  WHERE download_id = %s;";
+			$downloads_insert    = "INSERT INTO {$downloads_table} (download_id,download_count,download_meta) VALUES ( %s , %s, %s );";
+			$downloads_update    = "UPDATE {$downloads_table} dlm SET dlm.download_count = dlm.download_count + 1, dlm.download_meta = %s WHERE dlm.download_id = %s";
+			$check               = $wpdb->get_results( $wpdb->prepare( $check_for_downloads, $download_id ), ARRAY_A );
+			$download_meta       = array();
+			// Check if there is anything there, else insert new row.
+			if ( null !== $check && ! empty( $check ) ) {
+				// If meta exists update it, lese insert it.
+				$download_meta = ! empty( $check[0]['download_meta'] ) ? json_decode( $check[0]['download_meta'], true ) : array();
+				if ( isset( $download_meta[ $version_id ] ) ) {
+					$download_meta[ $version_id ] = absint( $download_meta[ $version_id ] ) + 1;
+				} else {
+					$download_meta[ $version_id ] = 1;
+				}
+				$wpdb->query( $wpdb->prepare( $downloads_update, json_encode( $download_meta ), $download_id ) );
+			} else {
+				$download_meta[ $version_id ] = 1;
+				$wpdb->query( $wpdb->prepare( $downloads_insert, $download_id, 1, json_encode( $download_meta ) ) );
+			}
+		}
 
 		do_action( 'dlm_increase_download_count', $this );
 	}

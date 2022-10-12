@@ -39,8 +39,9 @@ class DLM_Shortcodes {
 
 		$total = false;
 
-		if ( DLM_Utils::table_checker( $wpdb->download_log ) && DLM_Logging::is_logging_enabled() ) {
-			$total = $wpdb->get_var( "SELECT COUNT('ID') FROM $wpdb->download_log WHERE version_id != 0 AND download_status IN ( 'completed','redirected' );" );
+		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) && DLM_Logging::is_logging_enabled() ) {
+			$total = $wpdb->get_results( "SELECT download.download_count FROM {$wpdb->dlm_downloads} as download;",ARRAY_A );
+			$total = array_sum( array_column( $total, 'download_count' ) );
 		} else {
 
 			if ( ! DLM_Logging::is_logging_enabled() ) {

@@ -141,11 +141,12 @@ class DLM_Admin_Helper {
 		}
 
 		// Drop the dlm_reports_log
-		$drop_statement = "DROP TABLE IF EXISTS {$wpdb->prefix}dlm_reports_log";
+		$drop_statement = "DROP TABLE IF EXISTS {$wpdb->prefix}dlm_reports_log,{$wpdb->prefix}dlm_downloads";
 		$wpdb->query( $drop_statement );
 
 		// Delete upgrade history and set the need DB pgrade
 		delete_option( 'dlm_db_upgraded' );
+		delete_transient('dlm_db_upgrade_offset');
 		set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
 
 		return true;

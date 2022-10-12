@@ -14,7 +14,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		/**
 		 * Holds the class object.
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 *
 		 * @var object
 		 */
@@ -24,7 +24,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * Class constructor
 		 *
 		 * @return void
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function __construct() {
 
@@ -36,7 +36,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * Returns the singleton instance of the class.
 		 *
 		 * @return object The DLM_Admin_Helper object.
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public static function get_instance() {
 
@@ -70,7 +70,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public function init(){
 			// Don't do anything if we don't need to or if upgrader already done.
 			if ( ! self::do_upgrade() ) {
-
 				return;
 			}
 
@@ -99,7 +98,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		/**
 		 * Check to see if we need to upgrade
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 *
 		 * @return bool
 		 */
@@ -120,6 +119,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			if ( ! self::version_checker() ) {
 				return false;
 			}
+			var_dump();
 
 			return true;
 		}
@@ -150,7 +150,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		/**
 		 * Check the old table entries
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function count_log_entries() {
 
@@ -160,7 +160,40 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$posts_table = "{$wpdb->prefix}posts";
 
 			// Made it here, now let's create the table and start migrating.
-			$this->create_new_table( $wpdb->dlm_reports );
+			// Let check if table does not exist.
+			if ( ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
+
+				$charset_collate = $wpdb->get_charset_collate();
+
+				$sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->dlm_reports}` (
+					  `date` DATE NOT NULL,
+					  `download_ids` longtext NULL,
+					  `revenue` longtext NULL,
+					  `refunds` longtext NULL,
+					  PRIMARY KEY (`date`))
+					  ENGINE = InnoDB $charset_collate;";
+
+				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+				dbDelta( $sql );
+			}
+
+			// Made it here, now let's create the table and start migrating.
+			// Let check if table does not exist.
+			if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+
+				$charset_collate = $wpdb->get_charset_collate();
+
+				$sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->dlm_downloads}` (
+					    ID bigint(20) NOT NULL auto_increment,
+						download_id bigint(20) NOT NULL,
+						download_count bigint(20) NOT NULL,
+						download_meta varchar(200) NOT NULL,
+		 				PRIMARY KEY (`ID`))
+						ENGINE = InnoDB $charset_collate;";
+
+				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+				dbDelta( $sql );
+			}
 
 			// Check if the table exists. User might have deleted it in the past.
 			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
@@ -226,7 +259,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// In the event that the user had previously deleted the downlod_log table, we need to create it again.
 			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
 				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
+				$charset_collate = $wpdb->get_charset_collate();
 				$dlm_tables = '
 					CREATE TABLE `' . $wpdb->prefix . "download_log` (
 						ID bigint(20) NOT NULL auto_increment,
@@ -245,7 +278,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 						meta_data longtext DEFAULT NULL,
 						PRIMARY KEY  (ID),
 						KEY attribute_name (download_id)
-					) $collate;
+					) $charset_collate;
 					";
 
 				dbDelta( $dlm_tables );
@@ -267,39 +300,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		}
 
 		/**
-		 * Create the new table
-		 *
-		 * @return void
-		 * @since 4.5.0
-		 */
-		public function create_new_table( $table ) {
-
-			global $wpdb;
-
-			// Let check if table does not exist.
-			if ( ! DLM_Utils::table_checker( $table ) ) {
-
-				$charset_collate = $wpdb->get_charset_collate();
-
-				$sql = "CREATE TABLE IF NOT EXISTS `$table` (
-		  `date` DATE NOT NULL,
-		  `download_ids` longtext NULL,
-		  `revenue` longtext NULL,
-		  `refunds` longtext NULL,
-		  PRIMARY KEY (`date`))
-		ENGINE = InnoDB $charset_collate;";
-
-				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-				dbDelta( $sql );
-			}
-
-		}
-
-		/**
 		 * Check if DB migrated or not
 		 *
 		 * @return bool
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public static function check_if_migrated() {
 
@@ -318,7 +322,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		/**
 		 * The new table update functionality
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function update_log_table_db() {
 
@@ -332,13 +336,82 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			$sql_limit = "LIMIT {$offset},{$limit}";
 
-			$items   = array();
-			$table_1 = "{$wpdb->download_log}";
-			$able_2  = "{$wpdb->posts}";
+			$items           = array();
+			$table_1         = "{$wpdb->download_log}";
+			$able_2          = "{$wpdb->posts}";
+			// Table that contains downlaod counts about each Download and their versions. Used for performance issues introduced in version 4.6.0 of the plugin.
+			$downloads_table = "{$wpdb->dlm_downloads}";
+			// If at this point the table does not exist, we need to create it.
+			if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+				$charset_collate = $wpdb->get_charset_collate();
+				$sql             = "CREATE TABLE IF NOT EXISTS `{$wpdb->dlm_downloads}` (
+					    ID bigint(20) NOT NULL auto_increment,
+						download_id bigint(20) NOT NULL,
+						download_count bigint(20) NOT NULL,
+						download_meta varchar(200) NOT NULL,
+		 				PRIMARY KEY (`ID`))
+						ENGINE = InnoDB $charset_collate;";
 
-			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log LEFT JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 $sql_limit" ), ARRAY_A );
+				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+				dbDelta( $sql );
+			}
+			// Check if data has been introduced into table and update it, else we need to populate it.
+			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`, dlm_log.version_id as 'version', DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_log.download_status as `status` dlm_posts.post_title AS `title` FROM {$table_1} dlm_log LEFT JOIN {$able_2} dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 {$sql_limit}" ), ARRAY_A );
+
+			// Create empty array of downloads. Will be used to add to the table as a bulk insert and not each row at a time.
+			// This will improve performance.
+			$downloads       = array();
+			$saved_downloads = array();
+			// This should not be a problem as the number of entries would be the number of existing downloads.
+			$get_downloads = $wpdb->get_results( "SELECT * FROM {$downloads_table};", ARRAY_A );
+
+			if ( ! empty( $get_downloads ) ) {
+				$saved_downloads = $get_downloads[0];
+			}
 
 			foreach ( $data as $row ) {
+				// Only add non-failed attempts to the table.
+				if ( 'failed' !== $row['status'] ) {
+					/*$check_for_downloads = "SELECT * FROM {$downloads_table}  WHERE download_id = %s;";
+					$downloads_insert    = "INSERT INTO {$downloads_table} (download_id,download_count,download_meta) VALUES ( %s , %s, %s );";
+					$downloads_update    = "UPDATE {$downloads_table} dlm SET dlm.download_count = dlm.download_count + 1, dlm.download_meta = %s WHERE dlm.download_id = %s";
+					$check               = $wpdb->get_results( $wpdb->prepare( $check_for_downloads, $row['ID'] ), ARRAY_A );*/
+
+					$download_meta       = array();
+					// IF the download does not exist in the table, we need to insert it, else we need to update it.
+					if ( ! empty( $saved_downloads ) ) {
+						if ( isset( $saved_downloads[ $row['ID'] ] ) ) {
+							$download_meta = ! empty( $check[0]['download_meta'] ) ? json_decode( $check[0]['download_meta'], true ) : array();
+							if ( isset( $download_meta[ $row['version'] ] ) ) {
+								$download_meta[ $row['version'] ] = absint( $download_meta[ $row['version'] ] ) + 1;
+							} else {
+								$download_meta[ $row['version'] ] = 1;
+							}
+							$downloads[ $row['ID'] ] = array(
+								'download_id'    => $row['ID'],
+								'download_count' => $downloads[ $row['ID'] ]['download_count'] + 1,
+								'download_meta'  => wp_json_encode( $download_meta ),
+							);
+							//$wpdb->query( $wpdb->prepare( $downloads_update, json_encode( $download_meta ), $row['ID'] ) );
+						} else {
+							$download_meta[ $row['version'] ] = 1;
+							$downloads[ $row['ID'] ]          = array(
+								'download_id'    => $row['ID'],
+								'download_count' => 1,
+								'download_meta'  => wp_json_encode( $download_meta ),
+							);
+							//$wpdb->query( $wpdb->prepare( $downloads_insert, $row['ID'], 1, json_encode( $download_meta ) ) );
+						}
+					} else {
+						$download_meta[ $row['version'] ] = 1;
+						$downloads[ $row['ID'] ]          = array(
+							'download_id'    => $row['ID'],
+							'download_count' => 1,
+							'download_meta'  => wp_json_encode( $download_meta ),
+						);
+						//$wpdb->query( $wpdb->prepare( $downloads_insert, $row['ID'], 1, json_encode( $download_meta ) ) );
+					}
+				}
 
 				if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
 					$items[ $row['date'] ][ $row['ID'] ] = array(
@@ -461,7 +534,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		/**
 		 * Add the DB Upgrader notice
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function add_db_update_notice() {
 
@@ -495,7 +568,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		/**
 		 * Enqueue the DB Upgrader scripts
 		 *
-		 * @since 4.5.0
+		 * @since 4.6.0
 		 */
 		public function enqueue_db_upgrader_scripts() {
 

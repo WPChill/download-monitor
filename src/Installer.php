@@ -256,8 +256,18 @@ class DLM_Installer {
 			`refunds` longtext NULL,
 			PRIMARY KEY (`date`)) $collate;";
 
+		$sql_2 = "CREATE TABLE IF NOT EXISTS `{$wpdb->dlm_downloads}` (
+					    ID bigint(20) NOT NULL auto_increment,
+						download_id bigint(20) NOT NULL,
+						download_count bigint(20) NOT NULL,
+						download_meta varchar(200) NOT NULL,
+		 				PRIMARY KEY (`ID`))
+						ENGINE = InnoDB $collate;";
+
+
 		dbDelta( $dlm_tables );
 		dbDelta( $sql );
+		dbDelta( $sql_2 );
 
 		// install shop tables.
 		$this->create_shop_tables();
