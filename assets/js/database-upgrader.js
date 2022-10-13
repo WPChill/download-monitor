@@ -194,11 +194,11 @@
 				},
 				complete: () => {
 					setTimeout(function () {
-						ProgressBar.label.text('Complete! Page will be reloaded in 5 seconds.');
+						ProgressBar.label.text('Complete!');
 						ProgressBar.el.addClass('completed');
-						setTimeout(function () {
+						/*setTimeout(function () {
 							window.location.reload(false);
-						}, 5000);
+						}, 5000);*/
 					}, 3000);
 				}
 			});

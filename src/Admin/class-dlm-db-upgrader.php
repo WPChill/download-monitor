@@ -288,13 +288,15 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				exit;
 			}
 
-			$alter_statement = "ALTER TABLE {$wpdb->download_log} ADD COLUMN uuid VARCHAR(200) AFTER USER_IP,ADD COLUMN download_location VARCHAR(200) AFTER download_status_message,ADD COLUMN download_category VARCHAR(200) AFTER download_status_message;";
-			$hash_statement  = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
+			if ( 'total' === get_transient( 'dlm_upgrade_type' ) ) {
+				$alter_statement = "ALTER TABLE {$wpdb->download_log} ADD COLUMN uuid VARCHAR(200) AFTER USER_IP,ADD COLUMN download_location VARCHAR(200) AFTER download_status_message,ADD COLUMN download_category VARCHAR(200) AFTER download_status_message;";
+				$hash_statement  = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
+				$wpdb->query( $alter_statement );
+				$wpdb->query( $hash_statement );
+			}
+
 			// SQL to add index for download_log
 			$add_index = "ALTER TABLE {$wpdb->download_log} ADD INDEX download_count (version_id);";
-
-			$wpdb->query( $alter_statement );
-			$wpdb->query( $hash_statement );
 			$wpdb->query( $add_index );
 
 			wp_send_json( array( 'success' => true ) );
@@ -370,79 +372,34 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$looped = array();
 
 			foreach ( $data as $row ) {
-
 				// Only add non-failed attempts to the table.
 				if ( 'failed' !== $row['status'] ) {
-					$download_versions = array();
-					$download_id       = $row['ID'];
-					$version_id        = $row['version'];
-					$download_count    = 1;
-					$existing_versions = array(
-						$version_id => 1,
-					);
+					list( $loop_key, $download ) = $this->create_downloads( $row, $downloads, $download_id_column, $saved_downloads, $looped );
+					$downloads[ $row['ID'] ] = $download;
 
-					// If download already exists in $downloads means we looped through, and we should take into consideration the existing data.
-					if ( isset( $downloads[ $download_id ] ) ) {
-						$existing_versions = json_decode( $downloads[ $download_id ]['download_versions'], true );
-						$download_count    = absint( $downloads[ $download_id ]['download_count'] ) + 1;
-						if ( isset( $existing_versions[ $version_id ] ) ) {
-							$existing_versions[ $version_id ] = absint( $existing_versions[ $version_id ] ) + 1;
-						} else {
-							$existing_versions = array(
-								$version_id => 1,
-							);
-						}
+					if ( false !== $loop_key ) {
+						$looped[] = $loop_key;
 					}
-
-					// IF the download does not exist in the table, we need to insert it, else we need to update it.
-					if ( ! empty( $saved_downloads ) ) {
-						// Search in a multidimensional array if download_id exists.
-						$key = array_search( $download_id, $download_id_column );
-						// We should only search the saved downloads once, otherwise it will falsely add data.
-						if ( false !== $key && ! in_array( $key, $looped ) ) {
-							$looped[]          = $key;
-							$download          = $saved_downloads[ $key ];
-							$download_versions = ! empty( $download['download_versions'] ) ? json_decode( $download['download_versions'], true ) : array();
-							$download_count    = absint( $download['download_count'] ) + absint( $download_count );
-
-							if ( isset( $download_versions[ $version_id ] ) ) {
-								$download_versions[ $version_id ] = absint( $download_versions[ $version_id ] ) + absint( $existing_versions[ $version_id ] );
-							} else {
-								$download_versions[ $version_id ] = absint( $existing_versions[ $version_id ] );
-							}
-						}
-					}
-
-					if ( empty( $download_versions ) ) {
-						$download_versions = $existing_versions;
-					}
-
-					$downloads[ $download_id ] = array(
-						'download_id'       => $download_id,
-						'download_count'    => $download_count,
-						'download_versions' => wp_json_encode( $download_versions )
-					);
 				}
-
 				// Only do this if we need to recreate the dlm_reports_log table also.
 				if ( 'total' === $upgrade_type ) {
-					if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
-						$items[ $row['date'] ][ $row['ID'] ] = array(
-							'downloads' => 1,
-							'title'     => $row['title'],
-						);
+					$item = $this->create_dates( $row );
+					if ( is_array( $item ) ) {
+						$items[ $row['date'] ][ $row['ID'] ] = $item;
 					} else {
-						$items[ $row['date'] ][ $row['ID'] ]['downloads'] = absint( $items[ $row['date'] ][ $row['ID'] ]['downloads'] ) + 1;
+						$items[ $row['date'] ][ $row['ID'] ]['downloads'] = $item;
 					}
 				}
 			}
-
-			$this->import_downloads( $downloads );
+			// Import Downloads into new table.
+			if ( ! empty( $downloads ) ) {
+				$this->import_downloads( $downloads );
+			}
+			// Import Report Dates into new table.
 			if ( 'total' === $upgrade_type ) {
 				$this->import_dates( $items );
 			}
 			set_transient( 'dlm_db_upgrade_offset', absint( $_POST['offset'] ) );
-
 			// We save the previous so that we make sure all the entries from that range will be saved.
 			wp_send_json( $offset );
 			exit;
@@ -458,14 +415,13 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
 
 			if ( ! isset( $_POST['offset'] ) ) {
-
 				// We need the previous set offset
 				wp_send_json_error();
 				exit;
 			}
 
 			global $wpdb;
-
+			$downloads_table = "{$wpdb->dlm_downloads}";
 			$limit     = 10000;
 			$offset    = $_POST['offset'];
 			$sql_limit = "LIMIT {$offset},{$limit}";
@@ -473,41 +429,63 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			$table_1   = "{$wpdb->download_log}";
 			$able_2    = "{$wpdb->prefix}posts";
 
-			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`,  DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_posts.post_title AS `title` FROM $table_1 dlm_log INNER JOIN $able_2 dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 $sql_limit" ), ARRAY_A );
+			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`, dlm_log.version_id as `version`, DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_log.download_status as `status`, dlm_posts.post_title AS `title` FROM {$table_1} dlm_log LEFT JOIN {$able_2} dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 {$sql_limit}" ), ARRAY_A );
+
+			// Create empty array of downloads. Will be used to add to the table as a bulk insert and not each row at a time.
+			// This will improve performance.
+			$downloads = array();
+			// This should not be a problem as the number of entries would be the number of existing downloads.
+			$saved_downloads    = $wpdb->get_results( "SELECT * FROM {$downloads_table};", ARRAY_A );
+			$download_id_column = array_column( $saved_downloads, 'download_id' );
+			$looped             = array();
 
 			foreach ( $data as $row ) {
 
-				if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
-					$items[ $row['date'] ][ $row['ID'] ] = array(
-						'downloads' => 1,
-						'title'     => $row['title'],
-					);
-				} else {
-					$items[ $row['date'] ][ $row['ID'] ]['downloads'] = absint( $items[ $row['date'] ][ $row['ID'] ]['downloads'] ) + 1;
+				if ( 'failed' !== $row['status'] ) {
+					list( $loop_key, $download ) = $this->create_downloads( $row, $downloads, $download_id_column, $saved_downloads, $looped );
+					$downloads[ $row['ID'] ] = $download;
+					if ( false !== $loop_key ) {
+						$looped[] = $loop_key;
+					}
+				}
+
+				if ( 'total' === get_transient( 'dlm_upgrade_type' ) ) {
+					$item = $this->create_dates( $row );
+					if ( is_array( $item ) ) {
+						$items[ $row['date'] ][ $row['ID'] ] = $item;
+					} else {
+						$items[ $row['date'] ][ $row['ID'] ]['downloads'] = $item;
+					}
 				}
 			}
+			// Clear offset Downloads.
+			if ( ! empty( $downloads ) ) {
+				$this->clear_downloads( $downloads );
+			}
+			// Clear offset Report Dates
+			if ( 'total' === get_transient( 'dlm_upgrade_type' ) ) {
+				foreach ( $items as $key => $log ) {
 
-			foreach ( $items as $key => $log ) {
+					$table = "{$wpdb->dlm_reports}";
 
-				$table = "{$wpdb->dlm_reports}";
+					$sql_check  = "SELECT * FROM $table  WHERE date = %s;";
+					$sql_update = "UPDATE $table dlm SET dlm.download_ids = %s WHERE dlm.date = %s";
+					$check      = $wpdb->get_results( $wpdb->prepare( $sql_check, $key ), ARRAY_A );
 
-				$sql_check  = "SELECT * FROM $table  WHERE date = %s;";
-				$sql_update = "UPDATE $table dlm SET dlm.download_ids = %s WHERE dlm.date = %s";
-				$check      = $wpdb->get_results( $wpdb->prepare( $sql_check, $key ), ARRAY_A );
+					if ( null !== $check && ! empty( $check ) ) {
 
-				if ( null !== $check && ! empty( $check ) ) {
+						$downloads = json_decode( $check[0]['download_ids'], ARRAY_A );
 
-					$downloads = json_decode( $check[0]['download_ids'], ARRAY_A );
+						foreach ( $log as $item_key => $item ) {
 
-					foreach ( $log as $item_key => $item ) {
-
-						if ( isset( $downloads[ $item_key ] ) ) {
-							$downloads[ $item_key ]['downloads'] = $downloads[ $item_key ]['downloads'] - $item['downloads'];
+							if ( isset( $downloads[ $item_key ] ) ) {
+								$downloads[ $item_key ]['downloads'] = $downloads[ $item_key ]['downloads'] - $item['downloads'];
+							}
 						}
+
+						$wpdb->query( $wpdb->prepare( $sql_update, wp_json_encode( $downloads ), $key ) );
+
 					}
-
-					$wpdb->query( $wpdb->prepare( $sql_update, wp_json_encode( $downloads ), $key ) );
-
 				}
 			}
 
@@ -594,6 +572,40 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		}
 
 		/**
+		 * Clear created downloads
+		 *
+		 * @param $downloads
+		 *
+		 * @return void
+		 * @since 4.7.0
+		 */
+		public function clear_downloads( $downloads ) {
+			global $wpdb;
+			$downloads_table = "{$wpdb->dlm_downloads}";
+			// The queries we need to make so that we insert each download as a row.
+			$check_for_downloads = "SELECT * FROM {$downloads_table}  WHERE download_id = %s;";
+			$downloads_update    = "UPDATE {$downloads_table} dlm SET dlm.download_count = %s, dlm.download_versions = %s WHERE dlm.download_id = %s";
+
+			if ( ! empty( $downloads ) ) {
+				foreach ( $downloads as $key => $dlm ) {
+					$check = $wpdb->get_results( $wpdb->prepare( $check_for_downloads, $key ), ARRAY_A );
+					if ( ! empty( $check ) ) {
+						$saved_download   = $check[0];
+						$download_count   = absint( $saved_download['download_count'] ) - absint( $dlm['download_count'] );
+						$saved_versions   = json_decode( $saved_download['download_versions'], true );
+						$current_versions = json_decode( $dlm['download_versions'], true );
+						foreach ( $saved_versions as $id => $count ) {
+							if ( isset( $current_versions[ $id ] ) ) {
+								$saved_versions[ $id ] = absint( $count ) - absint( $current_versions[ $id ] );
+							}
+						}
+						$wpdb->query( $wpdb->prepare( $downloads_update, $download_count, json_encode( $saved_versions ), $key ) );
+					}
+				}
+			}
+		}
+
+		/**
 		 * Import data used for Reports chart. Adds data to new table {prefix}dlm_reports_log
 		 *
 		 * @param $items
@@ -647,10 +659,100 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			global $wpdb;
 			$transient = 'dlm_upgrade_type';
 			if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+				set_transient( $transient, 'partial', 7 * DAY_IN_SECONDS );
 				if ( ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 					set_transient( $transient, 'total', 7 * DAY_IN_SECONDS );
 				}
-				set_transient( $transient, 'partial', 7 * DAY_IN_SECONDS );
+			}
+		}
+
+		/**
+		 * Create upgrader downloads
+		 *
+		 * @param $row
+		 * @param $downloads
+		 * @param array $download_id_column
+		 * @param array $saved_downloads
+		 * @param array $looped
+		 *
+		 * @return array
+		 * @since 4.7.0
+		 */
+		public function create_downloads( $row, $downloads, $download_id_column = array(), $saved_downloads = array(), $looped = array() ) {
+
+			$download_versions = array();
+			$download_id       = $row['ID'];
+			$version_id        = $row['version'];
+			$download_count    = 1;
+			$existing_versions = array(
+				$version_id => 1,
+			);
+			$looped_key = false;
+
+			// If download already exists in $downloads means we looped through, and we should take into consideration the existing data.
+			if ( isset( $downloads[ $download_id ] ) ) {
+				$existing_versions = json_decode( $downloads[ $download_id ]['download_versions'], true );
+				$download_count    = absint( $downloads[ $download_id ]['download_count'] ) + 1;
+				if ( isset( $existing_versions[ $version_id ] ) ) {
+					$existing_versions[ $version_id ] = absint( $existing_versions[ $version_id ] ) + 1;
+				} else {
+					$existing_versions = array(
+						$version_id => 1,
+					);
+				}
+			}
+
+			// IF the download does not exist in the table, we need to insert it, else we need to update it.
+			if ( ! empty( $saved_downloads ) ) {
+				// Search in a multidimensional array if download_id exists.
+				$key = array_search( $download_id, $download_id_column );
+				// We should only search the saved downloads once, otherwise it will falsely add data.
+				if ( false !== $key && ! in_array( $key, $looped ) ) {
+					$looped_key        = $key;
+					$download          = $saved_downloads[ $key ];
+					$download_versions = ! empty( $download['download_versions'] ) ? json_decode( $download['download_versions'], true ) : array();
+					$download_count    = absint( $download['download_count'] ) + absint( $download_count );
+
+					if ( isset( $download_versions[ $version_id ] ) ) {
+						$download_versions[ $version_id ] = absint( $download_versions[ $version_id ] ) + absint( $existing_versions[ $version_id ] );
+					} else {
+						$download_versions[ $version_id ] = absint( $existing_versions[ $version_id ] );
+					}
+				}
+			}
+
+			if ( empty( $download_versions ) ) {
+				$download_versions = $existing_versions;
+			}
+
+			$download = array(
+				'download_id'       => $download_id,
+				'download_count'    => $download_count,
+				'download_versions' => wp_json_encode( $download_versions )
+			);
+
+			return array(
+				$looped_key,
+				$download
+			);
+		}
+
+		/**
+		 * Create upgrader dates.
+		 *
+		 * @param $row
+		 *
+		 * @return array|int
+		 * @since 4.7.0
+		 */
+		public function create_dates( $row ) {
+			if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
+				return array(
+					'downloads' => 1,
+					'title'     => $row['title'],
+				);
+			} else {
+				return absint( $items[ $row['date'] ][ $row['ID'] ]['downloads'] ) + 1;
 			}
 		}
 	}
