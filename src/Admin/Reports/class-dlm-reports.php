@@ -298,6 +298,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 					)
 				);
 				$table_columns = sanitize_text_field( implode( ',', wp_unslash( $table_columns ) ) );
+				print_r( $wpdb->prepare( "SELECT {$table_columns} FROM {$wpdb->download_log} ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ) );die();
 				$downloads     = $wpdb->get_results( $wpdb->prepare( 'SELECT ' . $table_columns . ' FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ), ARRAY_A );
 				$user_reports  = array(
 					'logs'   => $downloads,

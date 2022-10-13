@@ -422,12 +422,12 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			global $wpdb;
 			$downloads_table = "{$wpdb->dlm_downloads}";
-			$limit     = 10000;
-			$offset    = $_POST['offset'];
-			$sql_limit = "LIMIT {$offset},{$limit}";
-			$items     = array();
-			$table_1   = "{$wpdb->download_log}";
-			$able_2    = "{$wpdb->prefix}posts";
+			$limit           = 10000;
+			$offset          = ( isset( $_POST['offset'] ) ) ? $limit * absint( $_POST['offset'] ) : 0;
+			$sql_limit       = "LIMIT {$offset},{$limit}";
+			$items           = array();
+			$table_1         = "{$wpdb->download_log}";
+			$able_2          = "{$wpdb->prefix}posts";
 
 			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`, dlm_log.version_id as `version`, DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_log.download_status as `status`, dlm_posts.post_title AS `title` FROM {$table_1} dlm_log LEFT JOIN {$able_2} dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 {$sql_limit}" ), ARRAY_A );
 
@@ -458,6 +458,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 					}
 				}
 			}
+
 			// Clear offset Downloads.
 			if ( ! empty( $downloads ) ) {
 				$this->clear_downloads( $downloads );
