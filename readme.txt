@@ -121,6 +121,14 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.7.0 - 14.10.2022 =
+Fixed: Quick add - recreate Uploader if file upload ended in error ( [#1079](https://github.com/WPChill/download-monitor/issues/1079) )
+Changed: Show grouped dates as period instead of a single day on repoprt chart tooltip ( [#1082](https://github.com/WPChill/download-monitor/issues/1082) )
+Fixed: Performance issues on larga databases ( [#1081](https://github.com/WPChill/download-monitor/issues/1081) )
+Changed: Get user data first ( [#1086](https://github.com/WPChill/download-monitor/issues/1086) )
+Fixed: Downloading big files error ( [#1084](https://github.com/WPChill/download-monitor/issues/1084) )
+Changed: Get chart data un chunks ( [#1083](https://github.com/WPChill/download-monitor/issues/1083) )
+
 = 4.6.5 - 10.10.2022 =
 Fixed: Elementor compatibility error ( [#1073](https://github.com/WPChill/download-monitor/issues/1073) )
 Fixed: Log meta data not saved ( [#1076](https://github.com/WPChill/download-monitor/issues/1076) )
