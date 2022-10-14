@@ -321,6 +321,7 @@ class DLM_Log_Item {
 		}
 
 		$download_date = current_time( 'mysql', false );
+		$download_status = $this->get_download_status();
 
 		// Add filters for download_log column entries, so in case the upgrader failed we can still log the download.
 		/**
@@ -337,7 +338,7 @@ class DLM_Log_Item {
 				'version_id'              => absint( $this->get_version_id() ),
 				'version'                 => $this->get_version(),
 				'download_date'           => sanitize_text_field( $download_date ),
-				'download_status'         => $this->get_download_status(),
+				'download_status'         => $download_status,
 				'download_status_message' => $this->get_download_status_message(),
 				'meta_data'               => $meta_data
 			),
@@ -370,7 +371,7 @@ class DLM_Log_Item {
 			$log_values
 		);
 		// Let's check if table exists.
-		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) && 'failed' !== $download_status ) {
 			// Table exists, now log new download into table. This is used for faster download counts, performance issues introduced in version 4.6.0 of plugin
 			$download_id         = absint( $this->get_download_id() );
 			$version_id          = absint( $this->get_version_id() );
