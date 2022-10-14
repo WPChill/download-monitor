@@ -254,7 +254,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Now lets clear all transients.
 			download_monitor()->service( 'transient_manager' )->clear_all_version_transients();
 
-			// Add uuid column to download_log table.
+			// Add extra columns to the table
 			global $wpdb;
 
 			// In the event that the user had previously deleted the downlod_log table, we need to create it again.
@@ -298,7 +298,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			}
 
 			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'download_category' ) ) {
-				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_category VARCHAR(200) AFTER download_status_message' : 'ADD COLUMN download_location VARCHAR(200) AFTER download_status_message';
+				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_category VARCHAR(200) AFTER download_status_message' : 'ADD COLUMN download_category VARCHAR(200) AFTER download_status_message';
 			}
 
 			// Let's check if all the required columns are present. If not, let's add them.

@@ -1933,26 +1933,24 @@ class DLM_Reports {
 
 		} else if ('undefined' !== plugin.chartType && 'days' === plugin.chartType) {
 
-			
 			const year         = moment(dateInput).year();
 			const day          = moment(dateInput).day();
-			const dayMonth	   = moment(dateInput).format("MMMM");
+			const dayMonth     = moment(dateInput).format("MMMM");
 			const nextDayMonth = moment(dateInput).day(day + 1).format("MMMM");
 			const lastDate     = dlmReportsInstance.dates.downloads.end_date;
 			const prevLastDate = moment(lastDate).day(moment(lastDate).day() - 1).format("MMMM Do");
 
-			if( moment(dateInput).format("MMMM Do") === moment(lastDate).format("MMMM Do") || moment(dateInput).format("MMMM Do") === prevLastDate){
+			if (moment(dateInput).format("MMMM Do") === moment(lastDate).format("MMMM Do") || moment(dateInput).format("MMMM Do") === prevLastDate) {
 				date = moment(dateInput).format("MMMM Do, YYYY");
-			}else{
-				if( dayMonth === nextDayMonth){
+			} else {
+				if (dayMonth === nextDayMonth) {
 					date = moment(dateInput).format("MMMM Do") + ' - ' + moment(dateInput).day(day + 1).format("Do") + moment(dateInput).format(", YYYY");
-				}else{
+				} else {
 					date = moment(dateInput).format("MMM Do") + ' - ' + moment(dateInput).day(day + 1).format("MMM Do") + moment(dateInput).format(", YYYY");
 				}
 			}
 
 		} else {
-	
 			date = moment(dateInput).format("MMMM Do, YY");
 		}
 
