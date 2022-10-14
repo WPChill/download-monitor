@@ -5,6 +5,9 @@ jQuery(function ($) {
 
 	// Let's initiate the reports.
 	const reports = new DLM_Reports();
+	// Fetch our users and the logs. Do this first so that we query for users we have data.
+	dlmReportsInstance.fetchUserData();
+	// Get the data used for the chart.
 	dlmReportsInstance.fetchReportsData();
 	$(document).on('dlm_downloads_report_fetched', function () {
 		reports.init();
@@ -100,11 +103,14 @@ class DLM_Reports {
 
 	/**
 	 * Fetch our needed data from REST API. This includes the init() function because we need our data to be present and the moment of the initialization
+	 *
+	 * @param offset Offset used for database query
+	 * @param limit Limit used for database query
 	 */
 	async fetchReportsData(offset = 0, limit = 1000) {
 
 		const pageWrapper          = jQuery('div[data-id="general_info"]');
-
+		// Set spinner so that users know there is something going on.
 		dlmReportsInstance.setSpinner(jQuery('.total_downloads_chart-wrapper'));
 		dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
 		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2'));
@@ -113,6 +119,7 @@ class DLM_Reports {
 		if (dlmDownloadReportsAPI.indexOf('index.php?') > 0) {
 			fetchingLink = dlmDownloadReportsAPI + '&offset=' + offset + '&limit=' + limit;
 		}
+		// Fetch our data
 		const fetchedDownloadsData = await fetch(fetchingLink);
 
 		if (!fetchedDownloadsData.ok) {
@@ -131,7 +138,6 @@ class DLM_Reports {
 			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedData.statusText);
 		}
 
-		/*dlmReportsInstance.dlmReportsStats = await fetchedDownloadsData.json();*/
 		dlmReportsInstance.mostDownloaded  = false;
 		dlmReportsInstance.stats           = false;
 		dlmReportsInstance.chartType       = 'day';
@@ -140,7 +146,7 @@ class DLM_Reports {
 		dlmReportsInstance.dlmReportsStats = dlmReportsInstance.dlmReportsStats.concat(response.stats);
 
 		if (true === response.done) {
-			// Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
+			// Set the "all time" reports if URL has dlm_time. Used when coming from Dashboard widget
 			if (window.location.href.indexOf('dlm_time') > 0) {
 				dlmReportsInstance.dates.downloads.start_date = (Object.keys(dlmReportsInstance.dlmReportsStats).length > 0) ? new Date(dlmReportsInstance.dlmReportsStats[0].date) : new Date();
 				dlmReportsInstance.dates.downloads.end_date   = new Date();
@@ -229,8 +235,6 @@ class DLM_Reports {
 		dlmReportsInstance.overViewTab();
 		dlmReportsInstance.togglePageSettings();
 
-		// Fetch our users and the logs.
-		dlmReportsInstance.fetchUserData();
 		dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
 		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2'));
 		dlmReportsInstance.fetchUsersReportsData();

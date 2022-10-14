@@ -147,7 +147,8 @@
 					} else {
 						ProgressBar.progressHandler((dlmDBUpgrader.completed + dlmDBUpgrader.upgraderResumeOffset) * 100);
 					}
-
+					jQuery('#dlm_progress-bar').parent().find('.dlm-progress-label').text('Upgrade completed!');
+					jQuery('#dlm_progress-bar').addClass('completed');
 				}
 			};
 
@@ -193,13 +194,6 @@
 					ProgressBar.label.text(ProgressBar.el.progressbar('value') + '%');
 				},
 				complete: () => {
-					setTimeout(function () {
-						ProgressBar.label.text('Complete!');
-						ProgressBar.el.addClass('completed');
-						/*setTimeout(function () {
-							window.location.reload(false);
-						}, 5000);*/
-					}, 3000);
 				}
 			});
 		},
