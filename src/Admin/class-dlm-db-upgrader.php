@@ -398,7 +398,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				}
 				// Only do this if we need to recreate the dlm_reports_log table also.
 				if ( 'total' === $upgrade_type ) {
-					$item = $this->create_dates( $row );
+					$item = $this->create_dates( $row, $items );
 					if ( is_array( $item ) ) {
 						$items[ $row['date'] ][ $row['ID'] ] = $item;
 					} else {
@@ -465,7 +465,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				}
 
 				if ( 'total' === get_transient( 'dlm_upgrade_type' ) ) {
-					$item = $this->create_dates( $row );
+					$item = $this->create_dates( $row, $items );
 					if ( is_array( $item ) ) {
 						$items[ $row['date'] ][ $row['ID'] ] = $item;
 					} else {
@@ -756,12 +756,13 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		/**
 		 * Create upgrader dates.
 		 *
-		 * @param $row
+		 * @param $row array Current row of the query.
+		 * @param $items array Array of items parsed.
 		 *
 		 * @return array|int
 		 * @since 4.7.0
 		 */
-		public function create_dates( $row ) {
+		public function create_dates( $row, $items ) {
 			if ( ! isset( $items[ $row['date'] ][ $row['ID'] ] ) ) {
 				return array(
 					'downloads' => 1,

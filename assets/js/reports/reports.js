@@ -101,10 +101,19 @@ class DLM_Reports {
 	/**
 	 * Fetch our needed data from REST API. This includes the init() function because we need our data to be present and the moment of the initialization
 	 */
-	async fetchReportsData() {
+	async fetchReportsData(offset = 0, limit = 1000) {
 
 		const pageWrapper          = jQuery('div[data-id="general_info"]');
-		const fetchedDownloadsData = await fetch(dlmDownloadReportsAPI);
+
+		dlmReportsInstance.setSpinner(jQuery('.total_downloads_chart-wrapper'));
+		dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
+		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2'));
+		// Let's see if these are pretty permalinks or plain
+		let fetchingLink = dlmDownloadReportsAPI + '?offset=' + offset + '&limit=' + limit;
+		if (dlmDownloadReportsAPI.indexOf('index.php?') > 0) {
+			fetchingLink = dlmDownloadReportsAPI + '&offset=' + offset + '&limit=' + limit;
+		}
+		const fetchedDownloadsData = await fetch(fetchingLink);
 
 		if (!fetchedDownloadsData.ok) {
 			const errorText     = document.createElement('div');
@@ -122,31 +131,40 @@ class DLM_Reports {
 			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedData.statusText);
 		}
 
-		dlmReportsInstance.dlmReportsStats = await fetchedDownloadsData.json();
+		/*dlmReportsInstance.dlmReportsStats = await fetchedDownloadsData.json();*/
 		dlmReportsInstance.mostDownloaded  = false;
 		dlmReportsInstance.stats           = false;
 		dlmReportsInstance.chartType       = 'day';
 
-		// Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
-		if (window.location.href.indexOf('dlm_time') > 0) {
-			dlmReportsInstance.dates.downloads.start_date = (Object.keys(dlmReportsInstance.dlmReportsStats).length > 0) ? new Date(dlmReportsInstance.dlmReportsStats[0].date) : new Date();
-			dlmReportsInstance.dates.downloads.end_date   = new Date();
-			jQuery('#dlm-date-range-picker .date-range-info').html(dlmReportsInstance.dates.downloads.start_date.toLocaleDateString(undefined, {
-				year: 'numeric', month: 'short', day: '2-digit'
-			}) + ' - ' + dlmReportsInstance.dates.downloads.end_date.toLocaleDateString(undefined, {
-				year: 'numeric', month: 'short', day: '2-digit'
-			}));
+		let response                          = await fetchedDownloadsData.json();
+		dlmReportsInstance.dlmReportsStats = dlmReportsInstance.dlmReportsStats.concat(response.stats);
+
+		if (true === response.done) {
+			// Set the all time reports if URL has dlm_time. Used when coming from Dashboard widget
+			if (window.location.href.indexOf('dlm_time') > 0) {
+				dlmReportsInstance.dates.downloads.start_date = (Object.keys(dlmReportsInstance.dlmReportsStats).length > 0) ? new Date(dlmReportsInstance.dlmReportsStats[0].date) : new Date();
+				dlmReportsInstance.dates.downloads.end_date   = new Date();
+				jQuery('#dlm-date-range-picker .date-range-info').html(dlmReportsInstance.dates.downloads.start_date.toLocaleDateString(undefined, {
+					year: 'numeric', month: 'short', day: '2-digit'
+				}) + ' - ' + dlmReportsInstance.dates.downloads.end_date.toLocaleDateString(undefined, {
+					year: 'numeric', month: 'short', day: '2-digit'
+				}));
+			}
+			dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
+
+			dlmReportsInstance.datePicker = {
+				opened: false
+			};
+
+			jQuery(document).trigger('dlm_downloads_report_fetched', [
+				dlmReportsInstance,
+				dlmReportsInstance.dlmReportsStats
+			]);
+
+			dlmReportsInstance.stopSpinner(jQuery('.total_downloads_chart-wrapper'));
+		} else {
+			dlmReportsInstance.fetchReportsData(response.offset);
 		}
-		dlmReportsInstance.createDataOnDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
-
-		dlmReportsInstance.datePicker = {
-			opened: false
-		};
-
-		jQuery(document).trigger('dlm_downloads_report_fetched', [
-			dlmReportsInstance,
-			dlmReportsInstance.dlmReportsStats
-		]);
 	}
 
 	/**
