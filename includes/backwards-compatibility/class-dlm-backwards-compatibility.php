@@ -158,6 +158,7 @@ class DLM_Backwards_Compatibility {
 		add_filter( 'dlm_admin_sort_columns', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'dlm_query_args_filter', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
+		// @todo: delete this filter and function after feedback, as version 4.7.0 doesn't need it.
 		//add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
@@ -189,6 +190,7 @@ class DLM_Backwards_Compatibility {
 	 *
 	 * @return string
 	 */
+	// @todo: delete this filter and function after feedback, as version 4.7.0 doesn't need it.
 	public function where_download_count_compatibility( $where ) {
 		global $wpdb;
 
@@ -264,7 +266,7 @@ class DLM_Backwards_Compatibility {
 		remove_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		remove_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		remove_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
-		//@todo: remove filter after testing, we don't need this since version 4.7.0
+		// @todo: delete this filter and function after feedback, as version 4.7.0 doesn't need it.
 		//remove_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 	}
 
