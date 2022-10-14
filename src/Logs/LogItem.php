@@ -352,7 +352,7 @@ class DLM_Log_Item {
 			array(
 				'%d',
 				'%s',
-				'%d',
+				'%s',
 				'%d',
 				'%s',
 				'%s',

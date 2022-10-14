@@ -240,7 +240,6 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Managed this far, means migration of data is finalized so we can delete our set transient with the offset.
 			delete_transient( 'dlm_db_upgrade_offset' );
 			delete_transient( 'dlm_needs_upgrade' );
-			delete_transient( 'dlm_upgrade_type' );
 
 			// Flush the permalinks.
 			flush_rewrite_rules( false );
@@ -288,8 +287,23 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				exit;
 			}
 
-			if ( 'total' === get_transient( 'dlm_upgrade_type' ) ) {
-				$alter_statement = "ALTER TABLE {$wpdb->download_log} ADD COLUMN uuid VARCHAR(200) AFTER USER_IP,ADD COLUMN download_location VARCHAR(200) AFTER download_status_message,ADD COLUMN download_category VARCHAR(200) AFTER download_status_message;";
+			$columns = '';
+
+			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'uuid' ) ) {
+				$columns .= 'ADD COLUMN uuid VARCHAR(200) AFTER USER_IP';
+			}
+
+			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'download_location' ) ) {
+				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_location VARCHAR(200) AFTER download_status_message' : 'ADD COLUMN download_location VARCHAR(200) AFTER download_status_message';
+			}
+
+			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'download_category' ) ) {
+				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_category VARCHAR(200) AFTER download_status_message' : 'ADD COLUMN download_location VARCHAR(200) AFTER download_status_message';
+			}
+
+			// Let's check if all the required columns are present. If not, let's add them.
+			if ( ! empty( $columns ) ) {
+				$alter_statement = "ALTER TABLE {$wpdb->download_log} {$columns}";
 				$hash_statement  = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
 				$wpdb->query( $alter_statement );
 				$wpdb->query( $hash_statement );
@@ -298,7 +312,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// SQL to add index for download_log
 			$add_index = "ALTER TABLE {$wpdb->download_log} ADD INDEX download_count (version_id);";
 			$wpdb->query( $add_index );
-
+			// Keep transient deletion here, we are using it to check if the upgrade is total or partial.
+			delete_transient( 'dlm_upgrade_type' );
 			wp_send_json( array( 'success' => true ) );
 			exit;
 		}

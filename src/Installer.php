@@ -228,7 +228,7 @@ class DLM_Installer {
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$dlm_tables = '
+		$dlm_log = '
 		CREATE TABLE `' . $wpdb->prefix . "download_log` (
 			ID bigint(20) NOT NULL auto_increment,
 			user_id bigint(20) NOT NULL,
@@ -249,14 +249,14 @@ class DLM_Installer {
 		) $collate;
 		";
 
-		$sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_reports_log` (
+		$dlm_reports = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_reports_log` (
 			`date` DATE NOT NULL,
 			`download_ids` longtext NULL,
 			`revenue` longtext NULL,
 			`refunds` longtext NULL,
 			PRIMARY KEY (`date`)) $collate;";
 
-		$sql_2 = "CREATE TABLE IF NOT EXISTS `{$wpdb->dlm_downloads}` (
+		$dlm_downloads = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_downloads` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
@@ -265,9 +265,9 @@ class DLM_Installer {
 						ENGINE = InnoDB $collate;";
 
 
-		dbDelta( $dlm_tables );
-		dbDelta( $sql );
-		dbDelta( $sql_2 );
+		dbDelta( $dlm_log );
+		dbDelta( $dlm_reports );
+		dbDelta( $dlm_downloads );
 
 		// install shop tables.
 		$this->create_shop_tables();

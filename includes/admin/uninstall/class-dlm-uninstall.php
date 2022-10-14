@@ -284,6 +284,7 @@ class DLM_Uninstall {
 					$wpdb->prefix . 'dlm_order_transaction',
 					$wpdb->prefix . 'dlm_order',
 					$wpdb->prefix . 'dlm_reports_log',
+					$wpdb->prefix . 'dlm_downloads',
 				)
 			);
 
