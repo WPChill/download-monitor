@@ -398,6 +398,10 @@ class DLM_Download {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
 		}
 
+		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts
+		$timestamp = time();
+		$link      = add_query_arg( 'tmstv', $timestamp, $link );
+
 		// only add version argument when current version isn't latest version
 		if ( null !== $this->get_version() && false === $this->get_version()->is_latest() ) {
 
