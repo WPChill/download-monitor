@@ -1,3 +1,8 @@
+= 4.7.1 - 17.10.2022 =
+Fixed: Top Downloads widget wrong URL ( [#1087](https://github.com/WPChill/download-monitor/issues/1087) )
+Fixed: Error when getting version download ( [#1090](https://github.com/WPChill/download-monitor/issues/1090) )
+Fixed: Unicode file names downloaded with wrong name ( [#1069](https://github.com/WPChill/download-monitor/issues/1069) )
+
 = 4.7.0 - 14.10.2022 =
 Fixed: Quick add - recreate Uploader if file upload ended in error ( [#1079](https://github.com/WPChill/download-monitor/issues/1079) )
 Changed: Show grouped dates as period instead of a single day on repoprt chart tooltip ( [#1082](https://github.com/WPChill/download-monitor/issues/1082) )

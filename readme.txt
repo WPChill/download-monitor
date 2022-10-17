@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.0
-Stable tag: 4.7.0
+Stable tag: 4.7.1
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.7.1 - 17.10.2022 =
+Fixed: Top Downloads widget wrong URL ( [#1087](https://github.com/WPChill/download-monitor/issues/1087) )
+Fixed: Error when getting version download ( [#1090](https://github.com/WPChill/download-monitor/issues/1090) )
+Fixed: Unicode file names downloaded with wrong name ( [#1069](https://github.com/WPChill/download-monitor/issues/1069) )
 
 = 4.7.0 - 14.10.2022 =
 Fixed: Quick add - recreate Uploader if file upload ended in error ( [#1079](https://github.com/WPChill/download-monitor/issues/1079) )
