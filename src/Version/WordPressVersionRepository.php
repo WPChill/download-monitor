@@ -85,7 +85,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 	public function retrieve_version_download_count( $version_id ) {
 		global $wpdb;
 		$version_count = 0;
-		$download_id   = get_post_parent( $version_id )->ID;
+		$download_id   = get_post( $version_id )->post_parent;
 		// Check to see if the table exists first.
 		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
 			// Data in the table are based on Download and it's meta, so we need to get the Download to find the version count.
