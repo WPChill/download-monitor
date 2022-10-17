@@ -287,7 +287,7 @@ class DLM_Backwards_Compatibility {
 		if ( ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) || $count_meta ) {
 
 			if ( 'dlm_download_version' === get_post_type( $id ) ) {
-				$meta_counts = get_post_meta( get_post_parent( $id )->ID, '_download_count', true );
+				$meta_counts = get_post_meta( get_post( $id )->post_parent, '_download_count', true );
 			} else {
 				$meta_counts = get_post_meta( $id, '_download_count', true );
 			}
