@@ -701,6 +701,12 @@ class DLM_Download_Handler {
 
 		$headers = array();
 
+		if ( $this->check_for_xhr() ) {
+			// We use this method to encode the filename for XHR requests so that file names with characters like
+			// chinese or persian can be named correctly after the download.
+			$file_name = urlencode( $file_name );
+		}
+		
 		$headers['X-Robots-Tag']              = 'noindex, nofollow';
 		$headers['Content-Type']              = $mime_type;
 		$headers['Content-Description']       = 'File Transfer';

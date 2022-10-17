@@ -174,7 +174,8 @@ class DLM_XHR_Download {
 				let blob      = request.response;
 				let file_name = responseHeaders['content-disposition'].split('filename=')[1];
 				file_name = file_name.replace(/\"/g, '').replace(';', '');
-
+				// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
+				file_name = decodeURI( file_name );
 				_OBJECT_URL = URL.createObjectURL(blob);
 				// Remove event listener
 				button.removeEventListener('click', dlmXHRinstance.handleDownloadClick);
