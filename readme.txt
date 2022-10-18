@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.7.1 - 17.10.2022 =
+= 4.7.1 - 18.10.2022 =
 Fixed: Top Downloads widget wrong URL ( [#1087](https://github.com/WPChill/download-monitor/issues/1087) )
 Fixed: Error when getting version download ( [#1090](https://github.com/WPChill/download-monitor/issues/1090) )
 Fixed: Unicode file names downloaded with wrong name ( [#1069](https://github.com/WPChill/download-monitor/issues/1069) )
