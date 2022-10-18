@@ -525,6 +525,15 @@ class DLM_Download_Handler {
 			}
 
 			if ( $this->check_for_xhr() ) {
+				// We need to urlencode in case there are unicode characters in the file name.
+				// Get file name
+				$file_name = urldecode( DLM_Utils::basename( $file_path ) );
+
+				if ( strstr( $file_name, '?' ) ) {
+					$file_name = current( explode( '?', $file_name ) );
+				}
+
+				$file_path = str_replace( $file_name, urlencode( $file_name ), $file_path );
 				header( 'DLM-Redirect: ' . $file_path );
 				exit;
 			}
