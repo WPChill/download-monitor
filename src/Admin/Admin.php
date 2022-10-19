@@ -78,6 +78,13 @@ class DLM_Admin {
 		add_action( 'pre_get_posts', array( $this, 'media_library_filter' ), 15 );
 		// Add DLM Uploads file as a mime type
 		add_filter( 'post_mime_types', array( $this, 'add_mime_types' ), 15, 1 );
+
+		// Actions done to Media Library files in order to create Downloads and protect files
+		add_filter( 'attachment_fields_to_edit', array( $this, 'add_protect_button' ), 15, 2 );
+		add_action( 'wp_ajax_dlm_protect_file', array( $this, 'protect_file' ), 15 );
+		add_action( 'wp_ajax_dlm_unprotect_file', array( $this, 'unprotect_file' ), 15 );
+		add_action( 'wp_ajax_dlm_bulk_protect_file', array( $this, 'bulk_protect_files' ), 15 );
+		// End Actions to Media Library files
 	}
 
 	/**
@@ -546,5 +553,181 @@ class DLM_Admin {
 		);
 
 		return $mimes;
+	}
+
+	/**
+	 * Add a Protect Download button in the Attachment details view
+	 *
+	 * @param $fields
+	 * @param $post
+	 *
+	 * @return mixed
+	 * @since 4.7.2
+	 */
+	public function add_protect_button( $fields, $post ) {
+		// Let's check if this is not already set.
+		if ( ! isset( $fields['dlm_protect_file'] ) ) {
+
+			$button_text = __( 'Protect', 'download-monitor' );
+			$action      = 'protect_file';
+			if ( '1' === get_post_meta( $post->ID, 'dlm_protected_file', true) ) {
+				$button_text = __( 'Unprotect', 'download-monitor' );
+				$action = 'unprotect_file';
+			}
+			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-title="' . esc_attr( $post->title ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" >' . esc_html( $button_text ) . '</button><p class="description">' . esc_html__( 'Creates a Download based on this file.', 'download-monitor' ) . '</p>';
+
+			// Add our button
+			$fields['dlm_protect_file'] = array(
+				'label' => __( 'DLM protect file', 'download-monitor' ),
+				'input' => 'html',
+				'html'  => $html,
+
+			);
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Function used to create new Downloads directly from the Media Library
+	 *
+	 * @return void
+	 * @since 4.7.2
+	 */
+	public function protect_file() {
+		// Check if nonce is transmitted
+		if ( ! isset( $_POST['_ajax_nonce'] ) ) {
+			wp_send_json_error( 'No nonce' );
+		}
+		// Check if nonce is correct
+		check_ajax_referer( 'dlm_protect_file', '_ajax_nonce' );
+		// Get the data so we can create the download
+		$file        = $_POST;
+		$current_url = $this->create_download( $file );
+		// Send the response
+		$data = array(
+			'url'  => $current_url,
+			'text' => esc_html__( 'File protected. Download created', 'download-monitor' )
+		);
+		wp_send_json_success( $data );
+	}
+
+	/**
+	 * Function used to unprotect Media Library file
+	 *
+	 * @return void
+	 * @since 4.7.2
+	 */
+	public function unprotect_file() {
+		// Check if nonce is transmitted
+		if ( ! isset( $_POST['_ajax_nonce'] ) ) {
+			wp_send_json_error( 'No nonce' );
+		}
+		// Check if nonce is correct
+		check_ajax_referer( 'dlm_protect_file', '_ajax_nonce' );
+		// Get the data so we can create the download
+		$file        = $_POST;
+		// Delete set metas when the file was protected.
+		delete_post_meta( $file['attachment_id'], 'dlm_protected_file' );
+		delete_post_meta( $file['attachment_id'], 'dlm_download' );
+
+		$current_url = wp_get_attachment_url( $file['attachment_id'] );
+		// Send the response
+		$data = array(
+			'url'  => $current_url,
+			'text' => esc_html__( 'File unprotected.', 'download-monitor' )
+		);
+		wp_send_json_success( $data );
+	}
+
+	/**
+	 * Bulk create downloads from the Media Library
+	 *
+	 * @return void
+	 * @since 4.7.2
+	 */
+	public function bulk_protect_files() {
+		// Check if nonce is transmitted
+		if ( ! isset( $_POST['_ajax_nonce'] ) ) {
+			wp_send_json_error( 'No nonce' );
+		}
+		// Check if nonce is correct
+		check_ajax_referer( 'dlm_bulk_protect_files', '_ajax_nonce' );
+		// Get the data so we can create the download
+		$data = $_POST;
+		if ( isset( $data['files'] ) && ! empty( $data['files'] ) ) {
+			foreach ( $data['files'] as $file ) {
+				$current_url = $this->create_download( $file );
+			}
+		}
+	}
+
+	/**
+	 * Create new Download and its version
+	 *
+	 * @param $file
+	 *
+	 * @return string URL of the new Download
+	 * @since 4.7.2
+	 */
+	public function create_download( $file ) {
+		$download_title = ( empty( $file['title'] ) ) ? DLM_Utils::basename( $file['file'] ) : $file['title'];
+		$file_path      = '';
+		$file_size      = 0;
+
+		if ( isset( $file['file'] ) ) {
+			$file_path = download_monitor()->service( 'file_manager' )->get_secure_path( $file['file'], 'relative' );
+			$file_size = download_monitor()->service( 'file_manager' )->get_file_size( $file['file'] );
+		}
+
+		// Create the Download object.
+		$download = array(
+			'post_title'   => $download_title,
+			'post_content' => '',
+			'post_status'  => 'publish',
+			'post_author'  => absint( $file['user_id'] ),
+			'post_type'    => 'dlm_download'
+		);
+		// Insert the Download. We need its ID to create the Download Version.
+		$download_id = wp_insert_post( $download );
+		// Create the Version object
+		$version = array(
+			'post_title'   => 'Download #' . $download_title . 'File Version',
+			'post_content' => '',
+			'post_status'  => 'publish',
+			'post_author'  => absint( $file['user_id'] ),
+			'post_type'    => 'dlm_download_version',
+			'post_parent'  => $download_id
+		);
+		// Insert the Version.
+		$version_id = wp_insert_post( $version );
+		// Update the Version meta.
+		update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+		update_post_meta( $version_id, '_filesize', $file_size );
+		update_post_meta( $version_id, '_version', '' );
+		$transient_name = 'dlm_file_version_ids_' . $download_id;
+		// Set a meta option to know that this file is protected by Download Monitor.
+		update_post_meta( $file['attachment_id'], 'dlm_protected_file', '1' );
+		// Set a meta option to know what Downloads is using this file.
+		update_post_meta( $file['attachment_id'], 'dlm_download', $download_id );
+		// Update the file's URL with the Download Monitor's URL.
+		// First we need to retrieve the newly created Download
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
+			$attachment = array(
+				'ID'   => $file['attachment_id'],
+			);
+			wp_update_post($attachment);
+			// Delete transient as it won't be able to find the versions if not.
+			delete_transient( $transient_name );
+
+			return $download->get_the_download_link();
+
+		} catch ( Exception $exception ) {
+			// no download found, don't do anything.
+		}
+
+		return false;
 	}
 }

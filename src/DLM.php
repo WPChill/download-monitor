@@ -217,6 +217,8 @@ class WP_DLM {
 
 		// Fix to whitelist our function for PolyLang
 		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
+		// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front
+		add_filter( 'wp_get_attachment_url', array( $this, 'generate_attachment_url' ), 15, 2 );
 	}
 
 	/**
@@ -624,5 +626,34 @@ class WP_DLM {
 	 */
 	public static function do_xhr() {
 		return apply_filters( 'dlm_do_xhr', true );
+	}
+
+	/**
+	 * Return the Download Link for a given file if that file was protected by DLM
+	 *
+	 * @param $url
+	 * @param $attachment_id
+	 *
+	 * @return mixed|String
+	 * @since 4.7.2
+	 */
+	public function generate_attachment_url( $url, $attachment_id ) {
+		// Get the Download ID, if exists
+		$known_download = get_post_meta( $attachment_id, 'dlm_download', true );
+		// If it doesn't exist, return the original URL
+		if ( empty( $known_download ) ) {
+			return $url;
+		}
+
+		$download = false;
+		// Try to find our Download
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $known_download ) );
+		} catch ( Exception $exception ) {
+			return $url;
+		}
+		// Return our Download Link instead of the original URL
+		return $download->get_the_download_link();
 	}
 }
