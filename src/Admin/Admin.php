@@ -602,7 +602,10 @@ class DLM_Admin {
 		// Check if nonce is correct
 		check_ajax_referer( 'dlm_protect_file', '_ajax_nonce' );
 		// Get the data so we can create the download
-		$file        = $_POST;
+		$file = $_POST;
+		// Move the file
+		download_monitor()->service( 'file_manager' )->move_file_to_dlm_uploads( $file['attachment_id'] );
+		// Create the download or update existing one
 		$current_url = $this->create_download( $file );
 		// Send the response
 		$data = array(
@@ -626,17 +629,34 @@ class DLM_Admin {
 		// Check if nonce is correct
 		check_ajax_referer( 'dlm_protect_file', '_ajax_nonce' );
 		// Get the data so we can create the download
-		$file        = $_POST;
+		$file = $_POST;
+		// For the moment we don't know the version id or if it exists
+		$version_id = false;
+		// Now make the move to Download Monitor's protected folder dlm_uploads
+		download_monitor()->service( 'file_manager' )->move_file_back( $file['attachment_id'] );
+		// Get the currently protected download so that we can update its files
+		$known_download = get_post_meta( $file['attachment_id'], 'dlm_download', true );
+		if ( ! empty( $known_download ) ) {
+			$version_id    = json_decode( $known_download, true )['version_id'];
+		}
 		// Delete set metas when the file was protected.
 		delete_post_meta( $file['attachment_id'], 'dlm_protected_file' );
-		delete_post_meta( $file['attachment_id'], 'dlm_download' );
-
+		// Get current URL so we can update the Version files.
 		$current_url = wp_get_attachment_url( $file['attachment_id'] );
+		// Get secure path and update the file path in the Download
+		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $current_url, 'relative' );
+
+		if ( $version_id ) {
+			// Update the Version meta.
+			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+		}
+
 		// Send the response
 		$data = array(
 			'url'  => $current_url,
 			'text' => esc_html__( 'File unprotected.', 'download-monitor' )
 		);
+
 		wp_send_json_success( $data );
 	}
 
@@ -671,58 +691,78 @@ class DLM_Admin {
 	 * @since 4.7.2
 	 */
 	public function create_download( $file ) {
-		$download_title = ( empty( $file['title'] ) ) ? DLM_Utils::basename( $file['file'] ) : $file['title'];
-		$file_path      = '';
-		$file_size      = 0;
 
-		if ( isset( $file['file'] ) ) {
-			$file_path = download_monitor()->service( 'file_manager' )->get_secure_path( $file['file'], 'relative' );
-			$file_size = download_monitor()->service( 'file_manager' )->get_file_size( $file['file'] );
+		// Get new path
+		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( wp_get_attachment_url( $file['attachment_id'] ), 'relative' );
+
+		// Check if the file has been previously protected
+		$known_download = get_post_meta( $file['attachment_id'], 'dlm_download', true );
+		// If not, protect and add the corresponding meta, Download & Version
+		if ( empty( $known_download ) ) {
+			$download_title = ( empty( $file['title'] ) ) ? DLM_Utils::basename( $file['file'] ) : $file['title'];
+			// Create the Download object.
+			$download = array(
+				'post_title'   => $download_title,
+				'post_content' => '',
+				'post_status'  => 'publish',
+				'post_author'  => absint( $file['user_id'] ),
+				'post_type'    => 'dlm_download'
+			);
+			// Insert the Download. We need its ID to create the Download Version.
+			$download_id = wp_insert_post( $download );
+			// Create the Version object
+			$version = array(
+				'post_title'   => 'Download #' . $download_title . 'File Version',
+				'post_content' => '',
+				'post_status'  => 'publish',
+				'post_author'  => absint( $file['user_id'] ),
+				'post_type'    => 'dlm_download_version',
+				'post_parent'  => $download_id
+			);
+			// Insert the Version.
+			$version_id = wp_insert_post( $version );
+			// Update the Version meta.
+			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+			// Set a meta option to know what Download is using this file and what Version.
+			$attachment_meta = json_encode(
+				array(
+					'download_id' => $download_id,
+					'version_id'  => $version_id
+				)
+			);
+			update_post_meta( $file['attachment_id'], 'dlm_download', $attachment_meta );
+		} else { // Use the current Download and Version
+			$download_id = json_decode( $known_download, true )['download_id'];
+			$version_id  = json_decode( $known_download, true )['version_id'];
 		}
 
-		// Create the Download object.
-		$download = array(
-			'post_title'   => $download_title,
-			'post_content' => '',
-			'post_status'  => 'publish',
-			'post_author'  => absint( $file['user_id'] ),
-			'post_type'    => 'dlm_download'
-		);
-		// Insert the Download. We need its ID to create the Download Version.
-		$download_id = wp_insert_post( $download );
-		// Create the Version object
-		$version = array(
-			'post_title'   => 'Download #' . $download_title . 'File Version',
-			'post_content' => '',
-			'post_status'  => 'publish',
-			'post_author'  => absint( $file['user_id'] ),
-			'post_type'    => 'dlm_download_version',
-			'post_parent'  => $download_id
-		);
-		// Insert the Version.
-		$version_id = wp_insert_post( $version );
 		// Update the Version meta.
 		update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
-		update_post_meta( $version_id, '_filesize', $file_size );
 		update_post_meta( $version_id, '_version', '' );
-		$transient_name = 'dlm_file_version_ids_' . $download_id;
+		$transient_name   = 'dlm_file_version_ids_' . $download_id;
+		$transient_name_2 = 'dlm_file_version_ids_' . $version_id;
 		// Set a meta option to know that this file is protected by Download Monitor.
 		update_post_meta( $file['attachment_id'], 'dlm_protected_file', '1' );
-		// Set a meta option to know what Downloads is using this file.
-		update_post_meta( $file['attachment_id'], 'dlm_download', $download_id );
 		// Update the file's URL with the Download Monitor's URL.
 		// First we need to retrieve the newly created Download
 		try {
 			/** @var DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
+			$download   = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
 			$attachment = array(
-				'ID'   => $file['attachment_id'],
+				'ID' => $file['attachment_id'],
 			);
-			wp_update_post($attachment);
+			wp_update_post( $attachment );
 			// Delete transient as it won't be able to find the versions if not.
 			delete_transient( $transient_name );
+			delete_transient( $transient_name_2 );
 
-			return $download->get_the_download_link();
+			$url = $download->get_the_download_link();
+			// Set version also to the URL as the user might add another version to that Download that could download another file
+			if ( $version_id ) {
+				$url = add_query_arg( 'v', $version_id, $url );
+			}
+
+			return $url;
 
 		} catch ( Exception $exception ) {
 			// no download found, don't do anything.

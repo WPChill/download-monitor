@@ -467,4 +467,333 @@ class DLM_File_Manager {
 
 		return $file_path;
 	}
+
+	/**
+	 * Function to move files from Media Library to the DLM protected folder dlm_uploads.
+	 *
+	 * @param $post_id
+	 *
+	 * @return WP_Error
+	 * @since 4.7.2
+	 */
+	public function move_file_to_dlm_uploads( $post_id ) {
+		//Move file to dlm_uploads
+		$file = get_post_meta( $post_id, '_wp_attached_file', true );
+
+		if ( 0 === stripos( $file, $this->dlm_upload_dir( '/' ) ) ) {
+			return new WP_Error( 'protected_file_existed', sprintf(
+				__( 'This file is already protected. Please reload your page.', 'download-monitor' ),
+				$file
+			),                   array( 'status' => 500 ) );
+		}
+
+		$reldir = dirname( $file );
+
+		if ( in_array( $reldir, array( '\\', '/', '.' ), true ) ) {
+			$reldir = '';
+		}
+
+		$protected_dir = path_join( $this->dlm_upload_dir(), $reldir );
+		return $this->move_attachment_to_protected( $post_id, $protected_dir );
+
+	}
+
+	/**
+	 * Function to move files back to the Media Library.
+	 *
+	 * @param $post_id
+	 *
+	 * @return array|bool|int|WP_Error
+	 * @since 4.7.2
+	 */
+	public function move_file_back( $post_id ) {
+
+		$file = get_post_meta( $post_id, '_wp_attached_file', true );
+
+		// check if files are already not in Download Monitor's protected folder
+		if ( 0 !== stripos( $file, $this->dlm_upload_dir( '/' ) ) ) {
+			return true;
+		}
+
+		$protected_dir = ltrim( dirname( $file ), $this->dlm_upload_dir( '/' ) );
+		return  $this->move_attachment_to_protected( $post_id, $protected_dir );
+	}
+
+	/**
+	 * Download Monitor's upload directory ( dlm_uploads ).
+	 *
+	 * @param $path
+	 * @param $in_url
+	 *
+	 * @return string
+	 * @since 4.7.2
+	 */
+	public function dlm_upload_dir( $path = '', $in_url = false ) {
+
+		$dirpath = $in_url ? '/' : '';
+		$dirpath .= 'dlm_uploads';
+		$dirpath .= $path;
+
+		return $dirpath;
+	}
+
+	/**
+	 *  Move attachment to protected folder.
+	 *
+	 * @param $attachment_id
+	 * @param $protected_dir
+	 * @param $meta_input
+	 *
+	 * @return array|bool|WP_Error
+	 * @since 4.7.2
+	 */
+	public function move_attachment_to_protected( $attachment_id, $protected_dir, $meta_input = [] ) {
+
+		if ( 'attachment' !== get_post_type( $attachment_id ) ) {
+			return new WP_Error( 'not_attachment', sprintf(
+				__( 'The post with ID: %d is not an attachment post type.', 'download-monitor' ),
+				$attachment_id
+			),                   array( 'status' => 404 ) );
+		}
+
+		if ( path_is_absolute( $protected_dir ) ) {
+			return new WP_Error( 'protected_dir_not_relative', sprintf(
+				__( 'The new path provided: %s is absolute. The new path must be a path relative to the WP uploads directory.', 'download-monitor' ),
+				$protected_dir
+			),                   array( 'status' => 404 ) );
+		}
+
+		$meta = empty( $meta_input ) ? wp_get_attachment_metadata( $attachment_id ) : $meta_input;
+		$meta = is_array( $meta ) ? $meta : array();
+
+		$file       = get_post_meta( $attachment_id, '_wp_attached_file', true );
+		$backups    = get_post_meta( $attachment_id, '_wp_attachment_backup_sizes', true );
+		$upload_dir = wp_upload_dir();
+		$old_dir    = dirname( $file );
+
+		if ( in_array( $old_dir, array( '\\', '/', '.' ), true ) ) {
+			$old_dir = '';
+		}
+
+		if ( $protected_dir === $old_dir ) {
+			return true;
+		}
+
+		$old_full_path       = path_join( $upload_dir['basedir'], $old_dir );
+		$protected_full_path = path_join( $upload_dir['basedir'], $protected_dir );
+
+		if ( ! wp_mkdir_p( $protected_full_path ) ) {
+			return new WP_Error( 'wp_mkdir_p_error', sprintf(
+				__( 'There was an error making or verifying the directory at: %s', 'download-monitor' ),
+				$protected_full_path
+			),                   array( 'status' => 500 ) );
+		}
+
+		//Get all files
+		$sizes = array();
+
+		if ( array_key_exists( 'sizes', $meta ) ) {
+			$sizes = $this->get_files_from_meta( $meta['sizes'] );
+		}
+
+		$backup_sizes  = $this->get_files_from_meta( $backups );
+		$old_basenames = $new_basenames = array_merge(
+			array( wp_basename( $file ) ),
+			$sizes,
+			$backup_sizes
+		);
+		$orig_basename = wp_basename( $file );
+
+		if ( is_array( $backups ) && isset( $backups['full-orig'] ) ) {
+			$orig_basename = $backups['full-orig']['file'];
+		}
+
+		$orig_filename = pathinfo( $orig_basename );
+		$orig_filename = $orig_filename['filename'];
+
+		$result        = $this->resolve_name_conflict( $new_basenames, $protected_full_path, $orig_filename );
+		$new_basenames = $result['new_basenames'];
+
+		$this->rename_files( $old_basenames, $new_basenames, $old_full_path, $protected_full_path );
+
+		$base_file_name = 0;
+
+		$new_attached_file = path_join( $protected_dir, $new_basenames[0] );
+		if ( array_key_exists( 'file', $meta ) ) {
+			$meta['file'] = $new_attached_file;
+		}
+		update_post_meta( $attachment_id, '_wp_attached_file', $new_attached_file );
+
+		if ( $new_basenames[ $base_file_name ] != $old_basenames[ $base_file_name ] ) {
+			$pattern       = $result['pattern'];
+			$replace       = $result['replace'];
+			$separator     = "#";
+			$orig_basename = ltrim(
+				str_replace( $pattern, $replace, $separator . $orig_basename ),
+				$separator
+			);
+			$meta          = $this->update_meta_sizes_file( $meta, $new_basenames );
+			$this->update_backup_files( $attachment_id, $backups, $new_basenames );
+		}
+
+		update_post_meta( $attachment_id, '_wp_attachment_metadata', $meta );
+		$guid = path_join( $protected_full_path, $orig_basename );
+		wp_update_post( array( 'ID' => $attachment_id, 'guid' => $guid ) );
+
+		return empty( $meta_input ) ? true : $meta;
+	}
+
+	/**
+	 * Get files from meta.
+	 *
+	 * @param $input
+	 *
+	 * @return array
+	 * @since 4.7.2
+	 */
+	public function get_files_from_meta( $input ) {
+
+		$files = array();
+		if ( is_array( $input ) ) {
+			foreach ( $input as $size ) {
+				$files[] = $size['file'];
+			}
+		}
+
+		return $files;
+	}
+
+	/**
+	 * Resolve name conflict.
+	 *
+	 * @param $new_basenames
+	 * @param $protected_full_path
+	 * @param $orig_file_name
+	 *
+	 * @return array
+	 * @since 4.7.2
+	 */
+	public function resolve_name_conflict( $new_basenames, $protected_full_path, $orig_file_name ) {
+
+		$conflict     = true;
+		$number       = 1;
+		$separator    = "#";
+		$med_filename = $orig_file_name;
+		$pattern      = "";
+		$replace      = "";
+
+		while ( $conflict ) {
+			$conflict = false;
+			foreach ( $new_basenames as $basename ) {
+				if ( is_file( path_join( $protected_full_path, $basename ) ) ) {
+					$conflict = true;
+					break;
+				}
+			}
+
+			if ( $conflict ) {
+				$new_filename = "$orig_file_name-$number";
+				$number ++;
+				$pattern       = "$separator$med_filename";
+				$replace       = "$separator$new_filename";
+				$new_basenames = explode(
+					$separator,
+					ltrim(
+						str_replace( $pattern, $replace, $separator . implode( $separator, $new_basenames ) ),
+						$separator
+					)
+				);
+
+			}
+		}
+
+		return array(
+			'new_basenames' => $new_basenames,
+			'pattern'       => $pattern,
+			'replace'       => $replace
+		);
+	}
+
+	/**
+	 * Rename files.
+	 *
+	 * @param $old_basenames
+	 * @param $new_basenames
+	 * @param $old_dir
+	 * @param $protected_dir
+	 *
+	 * @return void|WP_Error
+	 * @since 4.7.2
+	 */
+	public function rename_files( $old_basenames, $new_basenames, $old_dir, $protected_dir ) {
+
+		$unique_old_basenames = array_values( array_unique( $old_basenames ) );
+		$unique_new_basenames = array_values( array_unique( $new_basenames ) );
+		$i                    = count( $unique_old_basenames );
+
+		while ( $i -- ) {
+			$old_fullpath = path_join( $old_dir, $unique_old_basenames[ $i ] );
+			$new_fullpath = path_join( $protected_dir, $unique_new_basenames[ $i ] );
+			if ( is_file( $old_fullpath ) ) {
+				rename( $old_fullpath, $new_fullpath );
+
+				if ( ! is_file( $new_fullpath ) ) {
+					return new WP_Error(
+						'rename_failed',
+						sprintf(
+							__( 'Rename failed when trying to move file from: %s, to: %s', 'download-monitor' ),
+							$old_fullpath,
+							$new_fullpath
+						)
+					);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update meta sizes file.
+	 *
+	 * @param $meta
+	 * @param $new_basenames
+	 *
+	 * @return array
+	 * @since 4.7.2
+	 */
+	public function update_meta_sizes_file( $meta, $new_basenames ) {
+
+		if ( is_array( $meta['sizes'] ) ) {
+			$i = 0;
+
+			foreach ( $meta['sizes'] as $size => $data ) {
+				$meta['sizes'][ $size ]['file'] = $new_basenames[ ++ $i ];
+			}
+		}
+
+		return $meta;
+	}
+
+	/**
+	 * Update backup files.
+	 *
+	 * @param $attachment_id
+	 * @param $backups
+	 * @param $new_basenames
+	 *
+	 * @return void
+	 * @since 4.7.2
+	 */
+	public function update_backup_files( $attachment_id, $backups, $new_basenames ) {
+
+		if ( is_array( $backups ) ) {
+			$i                = 0;
+			$l                = count( $backups );
+			$new_backup_sizes = array_slice( $new_basenames, - $l, $l );
+
+			foreach ( $backups as $size => $data ) {
+				$backups[ $size ]['file'] = $new_backup_sizes[ $i ++ ];
+			}
+			update_post_meta( $attachment_id, '_wp_attachment_backup_sizes', $backups );
+		}
+	}
 }

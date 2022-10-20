@@ -640,8 +640,17 @@ class WP_DLM {
 	public function generate_attachment_url( $url, $attachment_id ) {
 		// Get the Download ID, if exists
 		$known_download = get_post_meta( $attachment_id, 'dlm_download', true );
+		$protected      = get_post_meta( $attachment_id, 'dlm_protected_file', true );
 		// If it doesn't exist, return the original URL
-		if ( empty( $known_download ) ) {
+		if ( empty( $known_download ) || '1' !== $protected ) {
+			return $url;
+		}
+
+		$known_download = json_decode( $known_download, true );
+		$download_id    = isset( $known_download['download_id'] ) ? $known_download['download_id'] : false;
+		$version_id     = isset( $known_download['version_id'] ) ? $known_download['version_id'] : false;
+
+		if ( ! $download_id ) {
 			return $url;
 		}
 
@@ -649,11 +658,18 @@ class WP_DLM {
 		// Try to find our Download
 		try {
 			/** @var DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $known_download ) );
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
 		} catch ( Exception $exception ) {
 			return $url;
 		}
+
+		$url = $download->get_the_download_link();
+		// Set version also to the URL as the user might add another version to that Download that could download another file
+		if ( $version_id ) {
+			$url = add_query_arg( 'v', $version_id, $url );
+		}
+
 		// Return our Download Link instead of the original URL
-		return $download->get_the_download_link();
+		return $url;
 	}
 }

@@ -22,6 +22,7 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_dlm_settings_lazy_select', array( $this, 'handle_settings_lazy_select' ) );
 		add_action( 'wp_ajax_dlm_extension', array( $this, 'handle_extensions' ) );
 		add_action( 'wp_ajax_dlm_dismiss_notice', array( $this, 'dismiss_notice' ) );
+		add_action( 'wp_ajax_dlm_update_file_meta', array( $this, 'save_attachment_meta' ) );
 	}
 
 	/**
@@ -290,5 +291,28 @@ class DLM_Ajax_Handler {
 
 		// Send JSON
 		wp_send_json( $response );
+	}
+
+	/**
+	 * Save attachment meta dlm_download
+	 *
+	 * @return void
+	 * @since 4.7.2
+	 */
+	public function save_attachment_meta() {
+		// Check if there is a nonce
+		if ( ! isset( $_POST['nonce'] ) ) {
+			wp_send_json_error( 'No nonce send' );
+		}
+		// check nonce
+		check_ajax_referer( 'add-file', 'nonce' );
+		$meta = json_encode(
+			array(
+				'download_id' => absint( $_POST['download_id'] ),
+				'version_id'  => absint( $_POST['version_id'] )
+			)
+		);
+		update_post_meta( absint( $_POST['file_id'] ), 'dlm_download', $meta );
+		wp_send_json_success();
 	}
 }

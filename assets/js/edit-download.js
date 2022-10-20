@@ -54,7 +54,8 @@ jQuery(function ($) {
 					 * @param {*} file
 					 */
 					dlmAddFileToPath: function (up, file) {
-						const fileUrl = file.attachment.attributes.url;
+						const fileUrl  = file.attachment.attributes.url;
+
 						// Check if is subjective upload or general one
 						if ('plupload-browse-button' !== jQuery(up.settings.browse_button).attr('id')) {
 							const fileURLs = jQuery(up.settings.browse_button).parents('.dlm-file-version__row').find('textarea');
@@ -63,7 +64,7 @@ jQuery(function ($) {
 							let filePaths = fileURLs.val();
 							filePaths     = filePaths ? filePaths + "\n" + fileUrl : fileUrl;
 							fileURLs.val(filePaths);
-							dlmEditInstance.afterAddFile(fileURLs);
+							dlmEditInstance.afterAddFile(fileURLs, file, up);
 						} else {
 							// It's a general update so we need to create a new File Version
 							dlmEditInstance.addNewFile();
@@ -81,7 +82,7 @@ jQuery(function ($) {
 								if (null !== version) {
 									versionInpout.val(version);
 								}
-								dlmEditInstance.afterAddFile(fileURLs);
+								dlmEditInstance.afterAddFile(fileURLs, file, up);
 								// Unbind event
 								object.off(e);
 							});
@@ -710,9 +711,28 @@ jQuery(function ($) {
 		 *
 		 * @param $element
 		 */
-		afterAddFile($element) {
+		afterAddFile($element, file = null, up = null) {
 			$element.parents('.dlm-file-version__row').find('.dlm-file-version__drag_and_drop').addClass('hidden');
 			$element.parents('.dlm-file-version__row').find('.dlm-file-version__file_present').removeClass('hidden');
+			if ( null !== file && null !== up ) {
+				const file_id = file.attachment.id,
+					  nonce   = $('#dlm-ajax-nonce-add-file').val(),
+					  download_id = parseInt(jQuery('input#post_ID').val()),
+					  version_id = $element.parents('.downloadable_files').find( '.downloadable_file' ).first().data('file'),
+					  data    = {
+						  action     : 'dlm_update_file_meta',
+						  file_id    : file_id,
+						  version_id : version_id,
+						  download_id: download_id,
+						  nonce      : nonce
+					  };
+
+				jQuery.post(ajaxurl, data, function (response) {
+					if (!response.success) {
+						console.log('Error saving attachment meta');
+					}
+				});
+			}
 		}
 	}
 

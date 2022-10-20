@@ -22,7 +22,7 @@ jQuery( function ($) {
                   file         : objectData.file,
                   attachment_id: objectData.post_id
               }
-
+        button.attr('disabled', 'disabled');
         button.text('Please wait...');
 
         $.post(ajaxurl, data, function (response) {
@@ -37,11 +37,13 @@ jQuery( function ($) {
                 setTimeout(function () {
                     const nextButtonText = ('protect_file' === nextAction) ? 'Protect File' : 'Unprotect File';
                     button.text(nextButtonText);
+                    button.removeAttr('disabled');
                 }, 3000);
             } else {
                 button.text(response.data);
                 setTimeout(function () {
                     button.text(buttonText);
+                    button.removeAttr('disabled');
                 }, 3000);
             }
         });
