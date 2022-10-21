@@ -24,7 +24,7 @@ class DLM_Admin_Scripts {
 		// Enqueue Edit Post JS
 		wp_enqueue_script(
 			'dlm_insert_download',
-			plugins_url( '/assets/js/insert-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+			plugins_url( '/assets/js/download-operations' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
 			DLM_VERSION
 		);
@@ -51,7 +51,7 @@ class DLM_Admin_Scripts {
 		// Enqueue Edit Post JS
 		wp_enqueue_script(
 			'dlm_insert_download',
-			plugins_url( '/assets/js/insert-download' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+			plugins_url( '/assets/js/download-operations' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
 			DLM_VERSION
 		);

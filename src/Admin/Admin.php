@@ -83,8 +83,12 @@ class DLM_Admin {
 		add_filter( 'attachment_fields_to_edit', array( $this, 'add_protect_button' ), 15, 2 );
 		add_action( 'wp_ajax_dlm_protect_file', array( $this, 'protect_file' ), 15 );
 		add_action( 'wp_ajax_dlm_unprotect_file', array( $this, 'unprotect_file' ), 15 );
-		add_action( 'wp_ajax_dlm_bulk_protect_file', array( $this, 'bulk_protect_files' ), 15 );
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'add_visual_indicator' ), 10, 2 );
+		add_filter( 'manage_upload_columns', array( $this, 'dlm_ml_column' ), 15, 1 );
+		add_action( 'manage_media_custom_column', array( $this, 'manage_dlm_ml_column' ), 0, 2 );
+		add_filter( 'bulk_actions-upload', array( $this, 'dlm_ml_bulk_actions' ), 15 );
+		add_filter( 'handle_bulk_actions-upload', array( $this, 'dlm_ml_handle_bulk' ),15 , 3 );
+		add_filter( 'admin_init', array( $this, 'dlm_ml_do_bulk' ), 15 );
 		// End Actions to Media Library files
 	}
 
@@ -662,28 +666,6 @@ class DLM_Admin {
 	}
 
 	/**
-	 * Bulk create downloads from the Media Library
-	 *
-	 * @return void
-	 * @since 4.7.2
-	 */
-	public function bulk_protect_files() {
-		// Check if nonce is transmitted
-		if ( ! isset( $_POST['_ajax_nonce'] ) ) {
-			wp_send_json_error( 'No nonce' );
-		}
-		// Check if nonce is correct
-		check_ajax_referer( 'dlm_bulk_protect_files', '_ajax_nonce' );
-		// Get the data so we can create the download
-		$data = $_POST;
-		if ( isset( $data['files'] ) && ! empty( $data['files'] ) ) {
-			foreach ( $data['files'] as $file ) {
-				$current_url = $this->create_download( $file );
-			}
-		}
-	}
-
-	/**
 	 * Create new Download and its version
 	 *
 	 * @param $file
@@ -788,5 +770,106 @@ class DLM_Admin {
 		}
 
 		return $response;
+	}
+
+	public function dlm_ml_column( $columns ) {
+		$columns['dlm_protection'] = __( 'Download Monitor', 'download-monitor' );
+
+		return $columns;
+	}
+
+	public function manage_dlm_ml_column( $column_name, $id ) {
+
+		if ( $column_name == 'dlm_protection' ) {
+
+			if ( '1' === get_post_meta( $id, 'dlm_protected_file', true ) ) {
+				?>
+				<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAyOCAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI4IDE0QzI4IDYuMjY4MDEgMjEuNzMyIDAgMTQgMEM2LjI2ODAxIDAgMCA2LjI2ODAxIDAgMTRDMCAyMS43MzIgNi4yNjgwMSAyOCAxNCAyOEMyMS43MzIgMjggMjggMjEuNzMyIDI4IDE0WiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzM2XzM5KSIvPgo8cGF0aCBkPSJNMTcuNjE1NCAxMi41NjI1SDE3LjM3NVY5LjUxNTYyQzE3LjM3NSA4LjU4MzIyIDE2Ljk5NTEgNy42ODkwMSAxNi4zMTg5IDcuMDI5N0MxNS42NDI3IDYuMzcwNCAxNC43MjU1IDYgMTMuNzY5MiA2QzEyLjgxMjkgNiAxMS44OTU4IDYuMzcwNCAxMS4yMTk2IDcuMDI5N0MxMC41NDM0IDcuNjg5MDEgMTAuMTYzNSA4LjU4MzIyIDEwLjE2MzUgOS41MTU2MlYxMi41NjI1SDkuOTIzMDhDOS40MTMwNSAxMi41NjI1IDguOTIzOSAxMi43NiA4LjU2MzI2IDEzLjExMTdDOC4yMDI2MSAxMy40NjMzIDggMTMuOTQwMiA4IDE0LjQzNzVWMTkuMTI1QzggMTkuNjIyMyA4LjIwMjYxIDIwLjA5OTIgOC41NjMyNiAyMC40NTA4QzguOTIzOSAyMC44MDI1IDkuNDEzMDUgMjEgOS45MjMwOCAyMUgxNy42MTU0QzE4LjEyNTQgMjEgMTguNjE0NiAyMC44MDI1IDE4Ljk3NTIgMjAuNDUwOEMxOS4zMzU5IDIwLjA5OTIgMTkuNTM4NSAxOS42MjIzIDE5LjUzODUgMTkuMTI1VjE0LjQzNzVDMTkuNTM4NSAxMy45NDAyIDE5LjMzNTkgMTMuNDYzMyAxOC45NzUyIDEzLjExMTdDMTguNjE0NiAxMi43NiAxOC4xMjU0IDEyLjU2MjUgMTcuNjE1NCAxMi41NjI1VjEyLjU2MjVaTTExLjEyNSA5LjUxNTYyQzExLjEyNSA4LjgzMTg2IDExLjQwMzYgOC4xNzYxMSAxMS44OTk1IDcuNjkyNjJDMTIuMzk1NCA3LjIwOTEyIDEzLjA2NzkgNi45Mzc1IDEzLjc2OTIgNi45Mzc1QzE0LjQ3MDUgNi45Mzc1IDE1LjE0MzEgNy4yMDkxMiAxNS42MzkgNy42OTI2MkMxNi4xMzQ5IDguMTc2MTEgMTYuNDEzNSA4LjgzMTg2IDE2LjQxMzUgOS41MTU2MlYxMi41NjI1SDExLjEyNVY5LjUxNTYyWk0xNC4yNSAxNy45NTMxQzE0LjI1IDE4LjA3NzQgMTQuMTk5MyAxOC4xOTY3IDE0LjEwOTIgMTguMjg0NkMxNC4wMTkgMTguMzcyNSAxMy44OTY3IDE4LjQyMTkgMTMuNzY5MiAxOC40MjE5QzEzLjY0MTcgMTguNDIxOSAxMy41MTk0IDE4LjM3MjUgMTMuNDI5MyAxOC4yODQ2QzEzLjMzOTEgMTguMTk2NyAxMy4yODg1IDE4LjA3NzQgMTMuMjg4NSAxNy45NTMxVjE1LjYwOTRDMTMuMjg4NSAxNS40ODUxIDEzLjMzOTEgMTUuMzY1OCAxMy40MjkzIDE1LjI3NzlDMTMuNTE5NCAxNS4xOSAxMy42NDE3IDE1LjE0MDYgMTMuNzY5MiAxNS4xNDA2QzEzLjg5NjcgMTUuMTQwNiAxNC4wMTkgMTUuMTkgMTQuMTA5MiAxNS4yNzc5QzE0LjE5OTMgMTUuMzY1OCAxNC4yNSAxNS40ODUxIDE0LjI1IDE1LjYwOTRWMTcuOTUzMVoiIGZpbGw9IndoaXRlIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXJfMzZfMzkiIHgxPSItNy41NDY4NyIgeTE9Ii00LjM3NSIgeDI9IjI1LjU5MzciIHkyPSIyOC43NjU2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4xMTAxMTMiIHN0b3AtY29sb3I9IiM1RERFRkIiLz4KPHN0b3Agb2Zmc2V0PSIwLjQ0MzU2OCIgc3RvcC1jb2xvcj0iIzQxOUJDQSIvPgo8c3RvcCBvZmZzZXQ9IjAuNjM2MTIyIiBzdG9wLWNvbG9yPSIjMDA4Q0Q1Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAyNUVBMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=">
+				<?php
+			} else {
+				?>
+				<span class="dashicons dashicons-no"
+				      style="color:red"></span><?php echo esc_html__( 'Un-Protected', 'download-monitor' ) ?>
+				<?php
+			}
+
+		}
+	}
+
+	/**
+	 * Add bulk actions to Media Library table
+	 *
+	 * @param $bulk_actions
+	 *
+	 * @return mixed
+	 * @since 4.7.2
+	 */
+	public function dlm_ml_bulk_actions( $bulk_actions ) {
+		$bulk_actions['dlm_protect_files'] = __( 'Download Monitor protect', 'download-monitor' );
+
+		return $bulk_actions;
+	}
+
+	/**
+	 * Handle our bulk actions
+	 *
+	 * @param $location
+	 * @param $doaction
+	 * @param $post_ids
+	 *
+	 * @return string
+	 * @since 4.7.2
+	 */
+	public function dlm_ml_handle_bulk( $location, $doaction, $post_ids ) {
+
+		global $pagenow;
+		if ( 'dlm_protect_files' === $doaction ) {
+			return admin_url(
+				add_query_arg(
+					array(
+						'dlm_action' => $doaction,
+						'posts'      => $post_ids
+					), '/upload.php' ) );
+		}
+
+		return $location;
+	}
+
+	/**
+	 * Bulk action for protecting files
+	 *
+	 * @return void
+	 * @since 4.7.2
+	 */
+	public function dlm_ml_do_bulk(){
+		// If there's no action or posts, bail
+		if ( ! isset( $_GET['dlm_action'] ) || ! isset( $_GET['posts'] ) ) {
+			return;
+		}
+
+		$action = $_GET['dlm_action'];
+		$posts  = $_GET['posts'];
+
+		if ( 'dlm_protect_files' === $action ) {
+			foreach ( $posts as $post_id ) {
+				// If it's not an attachment or is already protected, skip it
+				if ( 'attachment' !== get_post_type( $post_id ) || ( '1' === get_post_meta( $post_id, 'dlm_protected_file', true ) ) ) {
+					continue;
+				}
+				// Create the file object
+				$file = array(
+					'attachment_id' => $post_id,
+					'user_id' => get_current_user_id(),
+					'title' => get_the_title( $post_id ),
+				);
+				// Move the file
+				download_monitor()->service( 'file_manager' )->move_file_to_dlm_uploads( $file['attachment_id'] );
+				// Create the Download
+				$this->create_download( $file );
+			}
+		}
+		// Redirect to the media library when finished.
+		wp_redirect( admin_url( 'upload.php' ) );
+		exit;
 	}
 }

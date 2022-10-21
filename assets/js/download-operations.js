@@ -30,6 +30,7 @@ jQuery( function ($) {
                 button.text(response.data.text);
                 if (response.data.url) {
                     button.parents('.attachment-info').find('#attachment-details-two-column-copy-link').val(response.data.url);
+                    jQuery('#attachment_url').val(response.data.url);
                 }
                 const nextAction = ('protect_file' === objectData.action) ? 'unprotect_file' : 'protect_file';
                 button.data('action', nextAction);
