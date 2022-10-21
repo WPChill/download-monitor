@@ -76,6 +76,7 @@ return array(
     'DLM_Log_Item' => $baseDir . '/src/Logs/LogItem.php',
     'DLM_Log_Item_Repository' => $baseDir . '/src/Logs/LogItemRepository.php',
     'DLM_Logging' => $baseDir . '/src/Logs/Logging.php',
+    'DLM_Media_Library' => $baseDir . '/src/Admin/class-dlm-media-library.php',
     'DLM_Post_Type_Manager' => $baseDir . '/src/PostTypeManager.php',
     'DLM_Product' => $baseDir . '/src/Product/Product.php',
     'DLM_Product_Error_Handler' => $baseDir . '/src/Product/ProductErrorHandler.php',
