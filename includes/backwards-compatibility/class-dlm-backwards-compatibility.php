@@ -52,7 +52,7 @@ class DLM_Backwards_Compatibility {
 		// Reset postdata after the loop.
 		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
 		// Add version postmeta downloads to the version download count.
-		add_filter( 'dlm_add_version_meta_download_count', array( $this, 'meta_download_counts' ), 15, 2 );
+		add_filter( 'dlm_add_version_meta_download_count', array( $this, 'add_meta_download_count' ), 15, 2 );
 		// Add Download postmeta downloads to the Download download count.
 		add_filter( 'dlm_add_meta_download_count', array( $this, 'add_meta_download_count' ), 30, 2 );
 		// If the DB upgrade functionality did not take place we won't have the option stored.
@@ -271,36 +271,6 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
-	 * Backwards compaitbility for users who did not use the logs
-	 *
-	 * @since 4.6.0
-	 *
-	 * @param  mixed $counts
-	 * @param  mixed $version_id
-	 * @return void
-	 */
-	public function meta_download_counts( $counts, $id ) {
-
-		// Filter to enable adding meta counts to download counts.
-		$count_meta = apply_filters( 'dlm_count_meta_downloads', false );
-
-		if ( ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) || $count_meta ) {
-
-			if ( 'dlm_download_version' === get_post_type( $id ) ) {
-				$meta_counts = get_post_meta( get_post( $id )->post_parent, '_download_count', true );
-			} else {
-				$meta_counts = get_post_meta( $id, '_download_count', true );
-			}
-
-			if ( isset( $meta_counts ) && '' !== $meta_counts ) {
-				return ( (int) $counts + (int) $meta_counts );
-			}
-		}
-
-		return $counts;
-	}
-
-	/**
 	 * Backwards compatiblity for query args if using custom functionality
 	 *
 	 * @param [type] $query_args
@@ -349,7 +319,7 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
-	 * Backwards compatibility to take meta count into consideration for Downloads
+	 * Backwards compatibility to take meta count into consideration for Downloads & Versions
 	 *
 	 * @param [type] $count
 	 * @param [type] $download_id
@@ -364,7 +334,7 @@ class DLM_Backwards_Compatibility {
 
 		if ( ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) || $count_meta ) {
 
-			if ( 'dlm_download' !== get_post_type( $download_id ) ) {
+			if ( 'dlm_download' !== get_post_type( $download_id ) && 'dlm_download_version' !== get_post_type( $download_id ) ) {
 
 				return $counts;
 			}
