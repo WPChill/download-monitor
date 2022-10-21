@@ -114,7 +114,7 @@ class DLM_Log_Item {
 	public function set_current_url( $current_url ) {
 
 		if ( get_option( 'permalink_structure' ) ) {
-			$current_url = wp_parse_url( $current_url )['path'];
+			$current_url = wp_parse_url( $current_url )['path'] . '?' . wp_parse_url( $current_url )['query'];
 		} else {
 			$current_url = '/' . wp_parse_url( $current_url )['query'];
 		}
