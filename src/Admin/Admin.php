@@ -84,6 +84,7 @@ class DLM_Admin {
 		add_action( 'wp_ajax_dlm_protect_file', array( $this, 'protect_file' ), 15 );
 		add_action( 'wp_ajax_dlm_unprotect_file', array( $this, 'unprotect_file' ), 15 );
 		add_action( 'wp_ajax_dlm_bulk_protect_file', array( $this, 'bulk_protect_files' ), 15 );
+		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'add_visual_indicator' ), 10, 2 );
 		// End Actions to Media Library files
 	}
 
@@ -201,7 +202,7 @@ class DLM_Admin {
 	public function admin_enqueue_scripts( $hook ) {
 		global $post;
 
-		wp_enqueue_style( 'download_monitor_menu_css', download_monitor()->get_plugin_url() . '/assets/css/menu.min.css', array(), DLM_VERSION );
+		wp_enqueue_style( 'download_monitor_others', download_monitor()->get_plugin_url() . '/assets/css/others.min.css', array(), DLM_VERSION );
 
 		if ( $hook == 'index.php' ) {
 			wp_enqueue_style( 'download_monitor_dashboard_css', download_monitor()->get_plugin_url() . '/assets/css/dashboard.min.css', array(), DLM_VERSION );
@@ -769,5 +770,23 @@ class DLM_Admin {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Displays a visual indicator for Media Library files that are protected by DLM
+	 *
+	 * @param $response
+	 * @param $attachment
+	 *
+	 * @return mixed
+	 * @since 4.7.2
+	 */
+	public function add_visual_indicator( $response, $attachment ) {
+
+		if ( '1' === get_post_meta( $attachment->ID, 'dlm_protected_file', true ) ) {
+			$response['customClass'] = 'dlm-ml-protected-file';
+		}
+
+		return $response;
 	}
 }
