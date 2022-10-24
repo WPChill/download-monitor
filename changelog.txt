@@ -1,3 +1,12 @@
+= 4.7.2 - 24.10.2022 =
+Fixed: Possible overload of server on the Reports page ( [#1102](https://github.com/WPChill/download-monitor/issues/1102) )
+Changed: Plugin Logo ( [#1101](https://github.com/WPChill/download-monitor/issues/1101) )
+Fixed: Log query strings for download location ( [#1099](https://github.com/WPChill/download-monitor/issues/1099) )
+Fixed: Version's number of downloads wrong ( [#1097](https://github.com/WPChill/download-monitor/issues/1097) )
+Added: Protection functionality for Media Library files ( [#1096](https://github.com/WPChill/download-monitor/issues/1096) )
+Fixed: Redirect to file when unicode chars are present ( [#1095](https://github.com/WPChill/download-monitor/issues/1095) )
+Fixed: Front-end CSS was not enqueued for Gutenberg blocks ( [#1094](https://github.com/WPChill/download-monitor/issues/1094) )
+
 = 4.7.1 - 18.10.2022 =
 Fixed: Top Downloads widget wrong URL ( [#1087](https://github.com/WPChill/download-monitor/issues/1087) )
 Fixed: Error when getting version download ( [#1090](https://github.com/WPChill/download-monitor/issues/1090) )

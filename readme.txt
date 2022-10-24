@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.0
-Stable tag: 4.7.1
+Stable tag: 4.7.2
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,15 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.7.2 - 24.10.2022 =
+Fixed: Possible overload of server on the Reports page ( [#1102](https://github.com/WPChill/download-monitor/issues/1102) )
+Changed: Plugin Logo ( [#1101](https://github.com/WPChill/download-monitor/issues/1101) )
+Fixed: Log query strings for download location ( [#1099](https://github.com/WPChill/download-monitor/issues/1099) )
+Fixed: Version's number of downloads wrong ( [#1097](https://github.com/WPChill/download-monitor/issues/1097) )
+Added: Protection functionality for Media Library files ( [#1096](https://github.com/WPChill/download-monitor/issues/1096) )
+Fixed: Redirect to file when unicode chars are present ( [#1095](https://github.com/WPChill/download-monitor/issues/1095) )
+Fixed: Front-end CSS was not enqueued for Gutenberg blocks ( [#1094](https://github.com/WPChill/download-monitor/issues/1094) )
 
 = 4.7.1 - 18.10.2022 =
 Fixed: Top Downloads widget wrong URL ( [#1087](https://github.com/WPChill/download-monitor/issues/1087) )
