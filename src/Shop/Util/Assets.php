@@ -21,11 +21,11 @@ class Assets {
 	public function enqueue_assets() {
 
 		if ( Services::get()->service( 'page' )->is_cart() ) {
-			wp_enqueue_style( 'dlm-frontend-cart', download_monitor()->get_plugin_url() . '/assets/css/cart.min.css' );
+			wp_enqueue_style( 'dlm-frontend-cart', download_monitor()->get_plugin_url() . '/assets/css/cart.min.css', array(), DLM_VERSION );
 		}
 
 		if ( Services::get()->service( 'page' )->is_checkout() ) {
-			wp_enqueue_style( 'dlm-frontend-checkout', download_monitor()->get_plugin_url() . '/assets/css/checkout.min.css' );
+			wp_enqueue_style( 'dlm-frontend-checkout', download_monitor()->get_plugin_url() . '/assets/css/checkout.min.css', array(), DLM_VERSION );
 
 			wp_enqueue_script(
 				'dlm-frontend-checkout-js',

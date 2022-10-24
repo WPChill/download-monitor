@@ -228,7 +228,7 @@ class DLM_Admin_Scripts {
 			) );
 
 			// Script used to install plugins
-			wp_enqueue_script( 'dlm_install_plugins', plugins_url( '/assets/js/install-plugins' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ), array( 'jquery', 'updates' ), null, true );
+			wp_enqueue_script( 'dlm_install_plugins', plugins_url( '/assets/js/install-plugins' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ), array( 'jquery', 'updates' ), DLM_VERSION, true );
 			wp_localize_script(
 				'dlm_install_plugins',
 				'dlm_install_plugins_vars',
