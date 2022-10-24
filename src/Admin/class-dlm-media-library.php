@@ -285,12 +285,12 @@ class DLM_Media_Library {
 
 			$button_text = __( 'Protect', 'download-monitor' );
 			$action      = 'protect_file';
-			$text        = esc_html__( 'Creates a Download based on this file and moves the file to Download Monitor\'s protected folder.', 'download-monitor' );
+			$text        = esc_html__( 'Creates a Download based on this file and moves the file to Download Monitor\'s protected folder. Also replaces the attachment\'s URL with the download link.', 'download-monitor' );
 
 			if ( '1' === get_post_meta( $post->ID, 'dlm_protected_file', true ) ) {
 				$button_text = __( 'Unprotect', 'download-monitor' );
 				$action      = 'unprotect_file';
-				$text        = esc_html__( 'Moves the file from Download Monitor\'s protected directory to the uploads directory.', 'download-monitor' );
+				$text        = esc_html__( 'Moves the file from Download Monitor\'s protected directory to the uploads directory. Also places back the original URL for this attachment.', 'download-monitor' );
 			}
 
 			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-title="' . esc_attr( $post->title ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" >' . esc_html( $button_text ) . '</button><p class="description">' . $text . '</p>';
