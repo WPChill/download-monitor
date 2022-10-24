@@ -1,4 +1,8 @@
 <?php
+/**
+ * Download Monitor - Media Library, class that handles the funcitonality from Media Library
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
@@ -17,8 +21,8 @@ class DLM_Media_Library {
 	/**
 	 * Returns the singleton instance of the class.
 	 *
-	 * @return object The DLM_Admin_Helper object.
-	 * @since 4.4.7
+	 * @return object The DLM_Media_Library object.
+	 * @since 4.7.2
 	 */
 	public static function get_instance() {
 

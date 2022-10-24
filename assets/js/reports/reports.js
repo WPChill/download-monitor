@@ -7,11 +7,6 @@ jQuery(function ($) {
 	const reports = new DLM_Reports();
 	// Fetch our users and the logs. Do this first so that we query for users we have data.
 	dlmReportsInstance.fetchUserData();
-	// Get the data used for the chart.
-	dlmReportsInstance.fetchReportsData();
-	$(document).on('dlm_downloads_report_fetched', function () {
-		reports.init();
-	});
 });
 
 /**
@@ -168,6 +163,7 @@ class DLM_Reports {
 			]);
 
 			dlmReportsInstance.stopSpinner(jQuery('.total_downloads_chart-wrapper'));
+			dlmReportsInstance.init();
 		} else {
 			dlmReportsInstance.fetchReportsData(response.offset);
 		}
@@ -224,6 +220,8 @@ class DLM_Reports {
 
 		let response                           = await fetchedUserData.json();
 		dlmReportsInstance.dlmUsersStats.users = dlmReportsInstance.dlmUsersStats.users.concat(response);
+		// Get the data used for the chart. We get it so that the users are completed and we won't possibly overload the server
+		dlmReportsInstance.fetchReportsData();
 	}
 
 	/**
