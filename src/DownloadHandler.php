@@ -504,7 +504,7 @@ class DLM_Download_Handler {
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 		}
 
-		$referrer = esc_url_raw( $_SERVER['HTTP_REFERER'] );
+		$referrer = ( isset( $_SERVER['HTTP_REFERER'] ) ) ? esc_url_raw( $_SERVER['HTTP_REFERER'] ) : '';
 
 		$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
 		// we get the secure file path.
