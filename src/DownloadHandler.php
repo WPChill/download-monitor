@@ -504,6 +504,8 @@ class DLM_Download_Handler {
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 		}
 
+		$referrer = esc_url_raw( $_SERVER['HTTP_REFERER'] );
+
 		$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
 		// we get the secure file path.
 		$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
@@ -511,7 +513,7 @@ class DLM_Download_Handler {
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 			if ( ! $this->check_for_xhr() ) {
-				$this->dlm_logging->log( $download, $version, 'redirect' );
+				$this->dlm_logging->log( $download, $version, 'redirect', true, $referrer );
 			}
 
 			// If it's not a remote file we need to create the correct URL.
@@ -551,7 +553,7 @@ class DLM_Download_Handler {
 		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 				if ( ! $this->check_for_xhr() ) {
-					$this->dlm_logging->log( $download, $version, 'completed' );
+					$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
 				}
 
 				header( "X-Sendfile: $file_path" );
@@ -560,7 +562,7 @@ class DLM_Download_Handler {
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
 				if ( ! $this->check_for_xhr() ) {
-					$this->dlm_logging->log( $download, $version, 'completed' );
+					$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
 				}
 
 				header( "X-LIGHTTPD-send-file: $file_path" );
@@ -568,7 +570,7 @@ class DLM_Download_Handler {
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 				// Log this way as the js doesn't know who the download_id and version_id is
-				$this->dlm_logging->log( $download, $version, 'completed' );
+				$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
 
 				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
 				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
@@ -614,7 +616,7 @@ class DLM_Download_Handler {
 		// Adding contents to an object will trigger error on big files.
 		if ( $this->readfile_chunked( $file_path, false, $range ) ) {
 			if ( ! $this->check_for_xhr() ) {
-				$this->dlm_logging->log( $download, $version, 'completed' );
+				$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
 			}
 		} elseif ( $remote_file ) {
 			// Redirect - we can't track if this completes or not.
@@ -624,7 +626,7 @@ class DLM_Download_Handler {
 			}
 
 			header( 'Location: ' . $file_path );
-			$this->dlm_logging->log( $download, $version, 'redirected' );
+			$this->dlm_logging->log( $download, $version, 'redirected', true, $referrer );
 
 		} else {
 
@@ -633,7 +635,7 @@ class DLM_Download_Handler {
 				exit;
 			}
 
-			$this->dlm_logging->log( $download, $version, 'failed' );
+			$this->dlm_logging->log( $download, $version, 'failed', true, $referrer );
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
 		exit;
