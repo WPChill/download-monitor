@@ -37,9 +37,9 @@ class DLM_Shortcodes {
 
 		global $wpdb;
 
-		$total = false;
+		$total = 0;
 
-		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) && DLM_Logging::is_logging_enabled() ) {
+		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
 			$total = $wpdb->get_results( "SELECT download.download_count FROM {$wpdb->dlm_downloads} as download;",ARRAY_A );
 			$total = array_sum( array_column( $total, 'download_count' ) );
 		} else {

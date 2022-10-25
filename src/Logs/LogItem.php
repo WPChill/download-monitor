@@ -304,12 +304,7 @@ class DLM_Log_Item {
 	public function increase_download_count() {
 		global $wpdb;
 
-		// If there is no table we don't need to increase the download count as it will trigger an error.
-		if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
-			return;
-		}
-
-		$user_id       = 0;
+		$user_id   = 0;
 		$meta_data = null;
 
 		$lmd = $this->get_meta_data();
@@ -321,56 +316,62 @@ class DLM_Log_Item {
 			$user_id = get_current_user_id();
 		}
 
-		$download_date = current_time( 'mysql', false );
+		$download_date   = current_time( 'mysql', false );
 		$download_status = $this->get_download_status();
 
-		// Add filters for download_log column entries, so in case the upgrader failed we can still log the download.
-		/**
-		 * Filter for the download_log columns
-		 * @hooked: ( DLM_Logging, log_entries ) Adds uuid, download_category and download_location
-		 */
-		$log_entries = apply_filters(
-			'dlm_log_entries',
-			array(
-				'user_id'                 => absint( $this->get_user_id() ),
-				'user_ip'                 => $this->get_user_ip(),
-				'user_agent'              => $this->get_user_agent(),
-				'download_id'             => absint( $this->get_download_id() ),
-				'version_id'              => absint( $this->get_version_id() ),
-				'version'                 => $this->get_version(),
-				'download_date'           => sanitize_text_field( $download_date ),
-				'download_status'         => $download_status,
-				'download_status_message' => $this->get_download_status_message(),
-				'meta_data'               => $meta_data
-			),
-			$this
-		);
-		/**
-		 * Filter for the download_log columns types
-		 * @hooked: ( DLM_Logging, log_values )
-		 */
-		$log_values  = apply_filters(
-			'dlm_log_values',
-			array(
-				'%d',
-				'%s',
-				'%s',
-				'%d',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s'
-			),
-			$this
-		);
+		// If there is no table we don't need to increase the download count as it will trigger an error.
+		// Also, we don't need to update the table if the reports are deactivated
+		if ( DLM_Logging::is_logging_enabled() &&  DLM_Utils::table_checker( $wpdb->download_log ) ) {
 
-		$result = $wpdb->insert(
-			"{$wpdb->download_log}",
-			$log_entries,
-			$log_values
-		);
+			// Add filters for download_log column entries, so in case the upgrader failed we can still log the download.
+			/**
+			 * Filter for the download_log columns
+			 * @hooked: ( DLM_Logging, log_entries ) Adds uuid, download_category and download_location
+			 */
+			$log_entries = apply_filters(
+				'dlm_log_entries',
+				array(
+					'user_id'                 => absint( $this->get_user_id() ),
+					'user_ip'                 => $this->get_user_ip(),
+					'user_agent'              => $this->get_user_agent(),
+					'download_id'             => absint( $this->get_download_id() ),
+					'version_id'              => absint( $this->get_version_id() ),
+					'version'                 => $this->get_version(),
+					'download_date'           => sanitize_text_field( $download_date ),
+					'download_status'         => $download_status,
+					'download_status_message' => $this->get_download_status_message(),
+					'meta_data'               => $meta_data
+				),
+				$this
+			);
+			/**
+			 * Filter for the download_log columns types
+			 * @hooked: ( DLM_Logging, log_values )
+			 */
+			$log_values = apply_filters(
+				'dlm_log_values',
+				array(
+					'%d',
+					'%s',
+					'%s',
+					'%d',
+					'%s',
+					'%s',
+					'%s',
+					'%s',
+					'%s',
+					'%s'
+				),
+				$this
+			);
+
+			$result = $wpdb->insert(
+				"{$wpdb->download_log}",
+				$log_entries,
+				$log_values
+			);
+		}
+
 		// Let's check if table exists.
 		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) && 'failed' !== $download_status ) {
 			// Table exists, now log new download into table. This is used for faster download counts, performance issues introduced in version 4.6.0 of plugin
@@ -381,7 +382,7 @@ class DLM_Log_Item {
 			$downloads_insert    = "INSERT INTO {$downloads_table} (download_id,download_count,download_versions) VALUES ( %s , %s, %s );";
 			$downloads_update    = "UPDATE {$downloads_table} dlm SET dlm.download_count = dlm.download_count + 1, dlm.download_versions = %s WHERE dlm.download_id = %s";
 			$check               = $wpdb->get_results( $wpdb->prepare( $check_for_downloads, $download_id ), ARRAY_A );
-			$download_versions       = array();
+			$download_versions   = array();
 			// Check if there is anything there, else insert new row.
 			if ( null !== $check && ! empty( $check ) ) {
 				// If meta exists update it, lese insert it.

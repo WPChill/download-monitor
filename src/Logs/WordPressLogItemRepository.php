@@ -146,8 +146,8 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		// Set the log date. Should be current date, as logs will be separated by dates.
 		$log_date = current_time( 'Y-m-d', false );
 
-		//Check first if the table exists, db upgrade process might have failed.
-		if ( DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
+		//Check first if logging is enabled and the table exists, db upgrade process might have failed.
+		if ( DLM_Logging::is_logging_enabled() && DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 
 			$today = $wpdb->get_results( $wpdb->prepare( "SELECT  * FROM {$wpdb->dlm_reports} WHERE date = %s;", $log_date ), ARRAY_A );
 

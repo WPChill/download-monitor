@@ -80,17 +80,20 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Backwards compatibility function for the total_downloads shortcode.
 	 *
-	 * @param  mixed $total Total downloads to be displayed.
+	 * @param mixed $total Total downloads to be displayed.
+	 *
 	 * @return mixed
 	 *
 	 * @since 4.6.0
 	 */
 	public function total_downloads_shortcode( $total ) {
 
-		if ( false === $total ) {
-			global $wpdb;
+		global $wpdb;
+		$meta_counts = 0;
+		// Apply the meta count to the total downloads.
+		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
 
-			$total = $wpdb->get_var(
+			$meta_counts = $wpdb->get_var(
 				"
                 SELECT SUM( meta_value ) FROM $wpdb->postmeta
                 LEFT JOIN $wpdb->posts on $wpdb->postmeta.post_id = $wpdb->posts.ID
@@ -101,8 +104,7 @@ class DLM_Backwards_Compatibility {
 			);
 		}
 
-		return $total;
-
+		return absint( $total ) + absint( $meta_counts );
 	}
 
 	/**
@@ -330,7 +332,7 @@ class DLM_Backwards_Compatibility {
 	public function add_meta_download_count( $counts, $download_id ) {
 
 		// Filter to enable adding meta counts to download counts.
-		$count_meta = apply_filters( 'dlm_count_meta_downloads', false );
+		$count_meta = apply_filters( 'dlm_count_meta_downloads', true );
 
 		if ( ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) || $count_meta ) {
 

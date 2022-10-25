@@ -166,9 +166,6 @@ class DLM_Logging {
 	 */
 	public function log( $download, $version, $status = 'completed', $cookie = true, $url = '-' ) {
 
-		// Check if logging is enabled.
-		if ( ! self::is_logging_enabled() ) return;
-
 		if ( $this->is_count_unique_ips_only() && true === $this->has_uuid_downloaded_version( $version ) ) {
 			return;
 		}
