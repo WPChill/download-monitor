@@ -248,7 +248,7 @@ class DLM_Media_Library {
 
 		$screen = get_current_screen();
 		// If we are not on the Media Library page or editing the Download then we don't need to add the mime types.
-		if ( null === $screen || ! is_admin() || ( 'upload' !== $screen->base && 'attachment' !== $screen->post_type && 'dlm_download' !== $screen->post_type ) ) {
+		if ( ! is_admin() || ( 'upload' !== $screen->base && 'attachment' !== $screen->post_type && 'dlm_download' !== $screen->post_type ) ) {
 			return $mimes;
 		}
 
@@ -480,7 +480,7 @@ class DLM_Media_Library {
 	public function add_visual_indicator( $response, $attachment ) {
 
 		if ( '1' === get_post_meta( $attachment->ID, 'dlm_protected_file', true ) ) {
-			$response['dlmCustomClass'] = 'dlm-ml-protected-file';
+			$response['customClass'] = 'dlm-ml-protected-file';
 		}
 
 		return $response;
