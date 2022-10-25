@@ -34,6 +34,9 @@ class DLM_Download {
 	private $download_count = 0;
 
 	/** @var int */
+	private $meta_download_count = 0;
+
+	/** @var int */
 	private $total_download_count = 0;
 
 	/** @var bool */
@@ -307,6 +310,29 @@ class DLM_Download {
 	 */
 	public function set_download_count( $download_count ) {
 		$this->download_count = $download_count;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_meta_download_count() {
+
+		// set default download count
+		$download_count = $this->meta_download_count;
+
+		// set download count of latest version if set
+		if ( null != $this->get_version() && ! $this->get_version()->is_latest() ) {
+			$download_count = $this->get_version()->get_meta_download_count();
+		}
+
+		return $download_count;
+	}
+
+	/**
+	 * @param int $download_count
+	 */
+	public function set_meta_download_count( $download_count ) {
+		$this->meta_download_count = $download_count;
 	}
 
 	/**

@@ -142,6 +142,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 					       placeholder="<?php echo esc_attr__( 'n/a', 'download-monitor' ); ?>"
 					       value="<?php echo esc_attr( $file_version ); ?>"/>
 				</div>
+				<div>
+					<label><?php echo esc_html__( 'Meta count', 'download-monitor' ); ?>:</label>
+					<div class="wpchill-tooltip"><i>[?]</i>
+						<div
+							class="wpchill-tooltip-content"><?php esc_html_e( 'Taken into consideration for the total download count ( custom table + meta ).', 'download-monitor' ); ?></div>
+					</div>
+					<input type="text" class="short"
+					       name="downloadable_file_download_count[<?php echo esc_attr( $version_increment ); ?>]"
+					       placeholder="<?php echo esc_attr( $meta_download_count ); ?>"/>
+				</div>
 				<?php if ( ! empty( $file_post_date->format( 'Y-m-d' ) ) ) {
 					?>
 					<div class="dlm-file-version__date">

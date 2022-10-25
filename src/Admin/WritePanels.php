@@ -313,6 +313,7 @@ class DLM_Admin_Writepanels {
 								'file_version'        => $version->get_version(),
 								'file_post_date'      => $version->get_date(),
 								'file_download_count' => $version->get_download_count(),
+								'meta_download_count' => $version->get_meta_download_count(),
 								'file_urls'           => $version->get_mirrors(),
 								'version'             => $version,
 								'date_format'         => get_option( 'date_format' ),
@@ -433,6 +434,7 @@ class DLM_Admin_Writepanels {
 		$this->download_post->set_featured( ( isset( $_POST['_featured'] ) ) );
 		$this->download_post->set_members_only( ( isset( $_POST['_members_only'] ) ) );
 		$this->download_post->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
+		$total_meta_download_count = 0;
 
 		// Process files
 		if ( isset( $_POST['downloadable_file_id'] ) ) {
@@ -446,6 +448,7 @@ class DLM_Admin_Writepanels {
 			$downloadable_file_date           = isset( $_POST['downloadable_file_date'] ) ? $_POST['downloadable_file_date'] : '';
 			$downloadable_file_date_hour      = isset( $_POST['downloadable_file_date_hour'] ) ? $_POST['downloadable_file_date_hour'] : array();
 			$downloadable_file_date_minute    = isset( $_POST['downloadable_file_date_minute'] ) ? $_POST['downloadable_file_date_minute'] : array();
+			$downloadable_file_download_count = $_POST['downloadable_file_download_count'];
 
 			// loop
 			for ( $i = 0; $i <= max( array_keys( $downloadable_file_id ) ); $i ++ ) {
@@ -456,15 +459,16 @@ class DLM_Admin_Writepanels {
 				}
 				
 				// sanatize post data
-				$file_id          = absint( $downloadable_file_id[ $i ] );
-				$file_menu_order  = absint( $downloadable_file_menu_order[ $i ] );
-				$file_version     = strtolower( sanitize_text_field( $downloadable_file_version[ $i ] ) );
-				$file_date_hour   = ( ! empty( $downloadable_file_date_hour[ $i ] ) ) ? absint( $downloadable_file_date_hour[ $i ] ) : 0;
-				$file_date_minute = ! empty( $downloadable_file_date_minute[ $i ] ) ? absint( $downloadable_file_date_minute[ $i ] ) : 0;
-				$file_date        = ! empty( $downloadable_file_date[ $i ] ) ? sanitize_text_field( $downloadable_file_date[ $i ] ) : new DateTime();
-				$files            = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
-				$secured_files    = array();
-				$file_manager     = new DLM_File_Manager();
+				$file_id             = absint( $downloadable_file_id[ $i ] );
+				$file_menu_order     = absint( $downloadable_file_menu_order[ $i ] );
+				$file_version        = strtolower( sanitize_text_field( $downloadable_file_version[ $i ] ) );
+				$file_date_hour      = ( ! empty( $downloadable_file_date_hour[ $i ] ) ) ? absint( $downloadable_file_date_hour[ $i ] ) : 0;
+				$file_date_minute    = ! empty( $downloadable_file_date_minute[ $i ] ) ? absint( $downloadable_file_date_minute[ $i ] ) : 0;
+				$file_date           = ! empty( $downloadable_file_date[ $i ] ) ? sanitize_text_field( $downloadable_file_date[ $i ] ) : new DateTime();
+				$file_download_count = sanitize_text_field( $downloadable_file_download_count[ $i ] );
+				$files               = array_filter( array_map( 'trim', explode( "\n", $downloadable_file_urls[ $i ] ) ) );
+				$secured_files       = array();
+				$file_manager        = new DLM_File_Manager();
 
 				foreach ( $files as $file ) {
 					list( $file_path ) = $file_manager->get_secure_path( $file, true );
@@ -500,8 +504,15 @@ class DLM_Admin_Writepanels {
 					$version->set_date( $file_date_obj );
 					$version->set_mirrors( $secured_files );
 
+					// only set download count if is posted
+					if ( '' !== $file_download_count ) {
+						$version->set_meta_download_count( $file_download_count );
+					}
+
 					// persist version
 					download_monitor()->service( 'version_repository' )->persist( $version );
+					// add version download count to total download count
+					$total_meta_download_count += absint( $version->get_meta_download_count() );
 
 				} catch ( Exception $e ) {
 
@@ -512,6 +523,8 @@ class DLM_Admin_Writepanels {
 			}
 		}
 
+		// sync download_count
+		$this->download_post->set_meta_download_count( $total_meta_download_count );
 		// persist download
 		download_monitor()->service( 'download_repository' )->persist( $this->download_post );
 

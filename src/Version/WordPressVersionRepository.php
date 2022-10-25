@@ -133,6 +133,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				$version->set_date( new DateTime( $post->post_date ) );
 				$version->set_version( strtolower( get_post_meta( $version->get_id(), '_version', true ) ) );
 				$version->set_download_count( absint( $this->retrieve_version_download_count( $version->get_id() ) ) );
+				$version->set_meta_download_count( absint( get_post_meta( $version->get_id(), '_download_count', true ) ) );
 				$version->set_filesize( get_post_meta( $version->get_id(), '_filesize', true ) );
 				$version->set_md5( get_post_meta( $version->get_id(), '_md5', true ) );
 				$version->set_sha1( get_post_meta( $version->get_id(), '_sha1', true ) );
@@ -223,6 +224,11 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 			if ( is_wp_error( $version_id ) ) {
 				throw new \Exception( 'Unable to update version in WordPress database' );
 			}
+		}
+
+		// store version download count if it's not NULL
+		if ( null !== $version->get_meta_download_count() ) {
+			update_post_meta( $version_id, '_download_count', absint( $version->get_meta_download_count() ) );
 		}
 
 		// store version

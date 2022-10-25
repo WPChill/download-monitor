@@ -87,7 +87,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		$download_count = 0;
 		// Check to see if the table exists first.
 		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
-			$download_count = $wpdb->get_var( $wpdb->prepare( "SELECT download.download_count FROM {$wpdb->dlm_downloads} as download WHERE download_id = %s;", $download_id ) );
+			$download_count = absint( $wpdb->get_var( $wpdb->prepare( "SELECT download.download_count FROM {$wpdb->dlm_downloads} as download WHERE download_id = %s;", $download_id ) ) );
 		}
 
 		return apply_filters( 'dlm_add_meta_download_count', $download_count, $download_id );
@@ -292,6 +292,8 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		update_post_meta( $download_id, '_featured', ( ( $download->is_featured() ) ? 'yes' : 'no' ) );
 		update_post_meta( $download_id, '_members_only', ( ( $download->is_members_only() ) ? 'yes' : 'no' ) );
 		update_post_meta( $download_id, '_redirect_only', ( ( $download->is_redirect_only() ) ? 'yes' : 'no' ) );
+		// other download meta
+		update_post_meta( $download_id, '_download_count', $download->get_meta_download_count() );
 
 		// clear versions transient.
 		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );
@@ -363,6 +365,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_featured( ( 'yes' === get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' === get_post_meta( $post->ID, '_members_only', true ) ) );
 				$download->set_download_count( absint( $this->retrieve_download_count( $post->ID ) ) );
+				$download->set_meta_download_count( absint( get_post_meta( $post->ID, '_download_count', true ) ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
 				$download->post = $post;

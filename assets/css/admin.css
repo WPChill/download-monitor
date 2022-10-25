@@ -669,6 +669,9 @@ table.wp-list-table .column-thumb img {
   background: rgba(206, 206, 206, 0.5);
   padding: 3px 5px;
 }
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .wpchill-tooltip {
+  float: none;
+}
 #download-monitor-file .dlm-metaboxes-wrapper .drag-drop #drag-drop-area {
   border: 4px dashed #c3c4c7;
   height: 140px;

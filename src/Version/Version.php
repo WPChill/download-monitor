@@ -37,6 +37,9 @@ class DLM_Download_Version {
 	private $total_download_count = null;
 
 	/** @var int */
+	private $meta_download_count = null;
+
+	/** @var int */
 	private $filesize;
 
 	/** @var string */
@@ -219,6 +222,20 @@ class DLM_Download_Version {
 	 */
 	public function set_total_download_count( $download_count ) {
 		$this->total_download_count = $download_count;
+	}
+
+	/**
+	 * @param int $download_count
+	 */
+	public function set_meta_download_count( $download_count ) {
+		$this->meta_download_count = $download_count;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_meta_download_count() {
+		return $this->meta_download_count;
 	}
 
 	/**
