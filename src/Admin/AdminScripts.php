@@ -26,7 +26,8 @@ class DLM_Admin_Scripts {
 			'dlm_insert_download',
 			plugins_url( '/assets/js/download-operations' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
-			DLM_VERSION
+			DLM_VERSION,
+			true
 		);
 
 		// Notices JS

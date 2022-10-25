@@ -1,4 +1,5 @@
 jQuery( function ($) {
+
     // Browse for file
     jQuery( 'body' ).on( 'click', 'a.dlm_insert_download', function () {
 
@@ -49,4 +50,30 @@ jQuery( function ($) {
             }
         });
     });
+});
+
+jQuery(document).ready(function () {
+    if (undefined !== wp.media) {
+        wp.media.view.Attachment.Library = wp.media.view.Attachment.Library.extend(
+            {
+                className: function () {
+                    // Mainly class for attachment.
+                    let attachmentClass = 'attachment';
+
+                    // If the dlmCustomClass attribute exists than apply it.
+                    if ('undefined' !== this.model.get('dlmCustomClass')) {
+                        attachmentClass += ' ' + this.model.get('dlmCustomClass');
+                    }
+                    // If the customClass attirbute exists than apply it.
+                    if ('undefined' !== this.model.get('customClass')) {
+                        attachmentClass += ' ' + this.model.get('customClass');
+                    }
+                    // Trigger this event in case other plugins want to attach to this.
+                    jQuery(document).trigger('dlm_custom_attachment_class', [this.model, attachmentClass]);
+                    // Return the class for attachment.
+                    return attachmentClass;
+                }
+            }
+        );
+    }
 });
