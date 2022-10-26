@@ -177,6 +177,8 @@ class DLM_Custom_Actions {
 					'meta_key' => '_redirect_only',
 					'orderby'  => 'meta_value'
 				) );
+			} elseif ( 'download_title' === $vars['orderby'] ) {
+				$vars['orderby'] = 'title';
 			}
 		}
 

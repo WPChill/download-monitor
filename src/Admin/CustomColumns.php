@@ -178,11 +178,12 @@ class DLM_Custom_Columns {
 	 */
 	public function sortable_columns( $columns ) {
 		$custom = array(
-			'download_id'       => 'download_id',
-			'download_count'    => 'download_count',
-			'featured'          => 'featured',
-			'locked_download'   => 'locked_download',
-			'redirect_only'     => 'redirect_only',
+			'download_id'     => 'download_id',
+			'download_title'  => 'download_title',
+			'download_count'  => 'download_count',
+			'featured'        => 'featured',
+			'locked_download' => 'locked_download',
+			'redirect_only'   => 'redirect_only',
 		);
 
 		return wp_parse_args( $custom, $columns );
@@ -221,12 +222,12 @@ class DLM_Custom_Columns {
 	 *
 	 * @return string
 	 */
-	public function set_primary_column_name( $column_name, $context ){
-		if( 'edit-dlm_download' === $context ){
+	public function set_primary_column_name( $column_name, $context ) {
+		if ( 'edit-dlm_download' === $context ) {
 
 			return 'download_title';
 		}
 
 		return $column_name;
-    }
+	}
 }
