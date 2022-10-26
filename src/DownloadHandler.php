@@ -502,6 +502,13 @@ class DLM_Download_Handler {
 		if ( false === DLM_Cookie_Manager::exists( $download ) ) {
 			// Trigger Download Action.
 			do_action( 'dlm_downloading', $download, $version, $file_path );
+			// Set the cookie to prevent multiple download logs in download window of 60 seconds.
+			// Do this only for non-XHR downloads as XHR downloads are logged through AJAX request
+			if ( '1' === get_option( 'dlm_enable_window_logging', '0' ) && ! $this->check_for_xhr() ) {
+				// Set cookie here to prevent "Cannot modify header information - headers already sent" error
+				// in non-XHR downloads.
+				DLM_Cookie_Manager::set_cookie( $download );
+			}
 		}
 
 		$referrer = ( isset( $_SERVER['HTTP_REFERER'] ) ) ? esc_url_raw( $_SERVER['HTTP_REFERER'] ) : '';
@@ -513,7 +520,7 @@ class DLM_Download_Handler {
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 			if ( ! $this->check_for_xhr() ) {
-				$this->dlm_logging->log( $download, $version, 'redirect', true, $referrer );
+				$this->dlm_logging->log( $download, $version, 'redirect', false, $referrer );
 			}
 
 			// If it's not a remote file we need to create the correct URL.
@@ -553,7 +560,7 @@ class DLM_Download_Handler {
 		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 				if ( ! $this->check_for_xhr() ) {
-					$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
+					$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 				}
 
 				header( "X-Sendfile: $file_path" );
@@ -562,7 +569,7 @@ class DLM_Download_Handler {
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
 				if ( ! $this->check_for_xhr() ) {
-					$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
+					$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 				}
 
 				header( "X-LIGHTTPD-send-file: $file_path" );
@@ -570,7 +577,7 @@ class DLM_Download_Handler {
 
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 				// Log this way as the js doesn't know who the download_id and version_id is
-				$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
+				$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 
 				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
 				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
@@ -616,7 +623,7 @@ class DLM_Download_Handler {
 		// Adding contents to an object will trigger error on big files.
 		if ( $this->readfile_chunked( $file_path, false, $range ) ) {
 			if ( ! $this->check_for_xhr() ) {
-				$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
+				$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 			}
 		} elseif ( $remote_file ) {
 			// Redirect - we can't track if this completes or not.
@@ -626,7 +633,7 @@ class DLM_Download_Handler {
 			}
 
 			header( 'Location: ' . $file_path );
-			$this->dlm_logging->log( $download, $version, 'redirected', true, $referrer );
+			$this->dlm_logging->log( $download, $version, 'redirected', false, $referrer );
 
 		} else {
 
@@ -635,7 +642,7 @@ class DLM_Download_Handler {
 				exit;
 			}
 
-			$this->dlm_logging->log( $download, $version, 'failed', true, $referrer );
+			$this->dlm_logging->log( $download, $version, 'failed', false, $referrer );
 			wp_die( esc_html__( 'File not found.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
 		}
 		exit;
