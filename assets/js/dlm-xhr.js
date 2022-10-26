@@ -117,41 +117,53 @@ class DLM_XHR_Download {
 					return result;
 				}, {});
 
-			if ('undefined' !== typeof responseHeaders['dlm-no-waypoints']) {
-				request.abort();
-				window.location.href = href;
-			}
+			// Let's check for DLM request headers
+			if (request.readyState === 2) {
 
-			if ('undefined' !== typeof responseHeaders['dlm-external-download']) {
-				request.abort();
-				let file_name = responseHeaders['dlm-file-name'].replace(/\"/g, '').replace(';', '');
-				dlmXHRinstance.dlmExternalDownload(responseHeaders, button, buttonObj, file_name, href);
-				return;
-			}
+				// If the dlm-no-waypoints header is set we need to redirect.
+				if ('undefined' !== typeof responseHeaders['dlm-no-waypoints']) {
+					request.abort();
+					window.location.href = href;
+				}
 
-			if (request.readyState == 2 && 'undefined' !== typeof responseHeaders['dlm-error'] && '' !== responseHeaders['dlm-error'] && null !== responseHeaders['dlm-error']) {
+				// If it's an external link we need to redirect.
+				if ('undefined' !== typeof responseHeaders['dlm-external-download']) {
+					request.abort();
+					let file_name = responseHeaders['dlm-file-name'].replace(/\"/g, '').replace(';', '');
+					dlmXHRinstance.dlmExternalDownload(responseHeaders, button, buttonObj, file_name, href);
+					return;
+				}
 
-				dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
-				button.removeAttribute('download');
-				button.setAttribute('href', href);
-				buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
-				request.abort();
-				buttonObj.append('<span class="dlm-xhr-error">' + responseHeaders['dlm-error'] + '</span>');
-				return;
-			}
+				// If there are no specific DLM headers then we need to abort and redirect.
+				const responseDLM = Object.keys(responseHeaders).filter((element) => {
+					return element.indexOf('dlm-') !== -1;
+				}).length;
 
-			if (request.readyState == 2 && 'undefined' !== typeof responseHeaders['dlm-redirect'] && '' !== responseHeaders['dlm-redirect'] && null !== responseHeaders['dlm-redirect']) {
-				dlmXHRinstance.dlmLogDownload(responseHeaders, 'redirected', false, responseHeaders['dlm-redirect'], responseHeaders['dlm-no-access'], buttonTarget);
-				button.removeAttribute('download');
-				button.setAttribute('href', href);
-				buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
-				request.abort();
-				return;
-			}
+				if (0 === responseDLM) {
+					request.abort();
+					window.location.href = href;
+				}
 
-			if (request.readyState == 2 && request.status == 200) {
-				// Download is being started
-				//button.parent().append('<span>Download started</span>');
+				// If there is a dlm-error headers means we have an error. Display the error and abort.
+				if ('undefined' !== typeof responseHeaders['dlm-error'] && '' !== responseHeaders['dlm-error'] && null !== responseHeaders['dlm-error']) {
+					dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
+					button.removeAttribute('download');
+					button.setAttribute('href', href);
+					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
+					request.abort();
+					buttonObj.append('<span class="dlm-xhr-error">' + responseHeaders['dlm-error'] + '</span>');
+					return;
+				}
+
+				// If we have a dlm-redirect header means this is a redirect. Let's do that.
+				if ('undefined' !== typeof responseHeaders['dlm-redirect'] && '' !== responseHeaders['dlm-redirect'] && null !== responseHeaders['dlm-redirect']) {
+					dlmXHRinstance.dlmLogDownload(responseHeaders, 'redirected', false, responseHeaders['dlm-redirect'], responseHeaders['dlm-no-access'], buttonTarget);
+					button.removeAttribute('download');
+					button.setAttribute('href', href);
+					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
+					request.abort();
+					return;
+				}
 			}
 
 			if (status == 404 && readyState == 2) {
@@ -301,6 +313,7 @@ class DLM_XHR_Download {
 					result[name]      = value;
 					return result;
 				}, {});
+
 
 			if (403 === status) {
 				dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
