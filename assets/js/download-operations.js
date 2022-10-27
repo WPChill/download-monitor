@@ -17,7 +17,6 @@ jQuery( function ($) {
               buttonText = button.text(),
               data       = {
                   action       : ('protect_file' === objectData.action) ? 'dlm_protect_file' : 'dlm_unprotect_file',
-                  title        : objectData.title,
                   _ajax_nonce  : objectData.nonce,
                   user_id      : objectData.user_id,
                   file         : objectData.file,

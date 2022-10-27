@@ -283,7 +283,7 @@ class DLM_Media_Library {
 				$disabled    = true;
 			}
 
-			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-title="' . esc_attr( $post->title ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' )  . '>' . esc_html( $button_text ) . '</button><p class="description">' . $text . '</p>';
+			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' )  . '>' . esc_html( $button_text ) . '</button><p class="description">' . $text . '</p>';
 
 			// Add our button
 			$fields['dlm_protect_file'] = array(
@@ -386,7 +386,8 @@ class DLM_Media_Library {
 		$known_download = get_post_meta( $file['attachment_id'], 'dlm_download', true );
 		// If not, protect and add the corresponding meta, Download & Version
 		if ( empty( $known_download ) ) {
-			$download_title = ( empty( $file['title'] ) ) ? DLM_Utils::basename( $file['file'] ) : $file['title'];
+			$title          = get_the_title( $file['attachment_id'] );
+			$download_title = ! empty( $title ) ? $title : DLM_Utils::basename( $file['file'] );
 			// Create the Download object.
 			$download = array(
 				'post_title'   => $download_title,

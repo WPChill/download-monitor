@@ -1,6 +1,6 @@
 .post-type-dlm_download .dlm-page-header {
   border-bottom: 1px solid #ccc;
-  padding: 15px 60px;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   background: #fff;
@@ -1219,7 +1219,7 @@ table.wp-list-table .column-thumb img {
   position: relative;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports {
-  margin: 40px;
+  margin: 40px 20px 0 0;
   position: relative;
   /**
       Reports header and actions
