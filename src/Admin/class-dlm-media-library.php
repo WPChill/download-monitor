@@ -143,25 +143,9 @@ class DLM_Media_Library {
 	 */
 	public function no_media_library_display( $query ) {
 
-		//Check for the added temporary mime_type so that we can filter the Media Library contents
-		if ( ! isset( $query['post_mime_type'] ) || 'dlm_uploads_files' !== $query['post_mime_type'] ) {
-			if ( ! isset( $query['meta_query'] ) ) {
-				$query['meta_query'] = array(
-					'relation' => 'AND',
-					array(
-						'key'     => '_wp_attached_file',
-						'compare' => 'NOT LIKE',
-						'value'   => 'dlm_uploads'
-					)
-				);
-			} else {
-				$query['meta_query'][] = array(
-					'key'     => '_wp_attached_file',
-					'compare' => 'NOT LIKE',
-					'value'   => 'dlm_uploads'
-				);
-			}
-		} else {
+		// Check for the added temporary mime_type so that we can filter the Media Library contents
+		// and show only the files that are in dlm_uploads ( aka protected )
+		if ( isset( $query['post_mime_type'] ) && 'dlm_uploads_files' === $query['post_mime_type'] ) {
 			unset( $query['post_mime_type'] );
 			$query['meta_key']     = '_wp_attached_file';
 			$query['meta_query'][] = array(
@@ -187,7 +171,7 @@ class DLM_Media_Library {
 		// Add a filter to the Media Library page so that we can filter regular uploads and Download Monitor's uploads
 		if ( $screen === 'attachment' ) {
 			$views = apply_filters( 'dlm_media_views', array(
-				'uploads_folder'     => __( 'Uploads folder', 'download-monitor' ),
+				'uploads_folder'     => __( 'All media', 'download-monitor' ),
 				'dlm_uploads_folder' => __( 'Download Monitor', 'download-monitor' )
 			) );
 
@@ -217,17 +201,18 @@ class DLM_Media_Library {
 		if ( ! is_admin() || false === strpos( $_SERVER['REQUEST_URI'], '/wp-admin/upload.php' ) ) {
 			return;
 		}
-		// If users views uploads folder then we don't need to show DLM uploads.
-		$compare = 'NOT LIKE';
-		// If user views the DLM Uploads folder then we need to show DLM uploads.
-		if ( isset( $_GET['dlm_upload_folder_type'] ) && 'dlm_uploads_folder' === $_GET['dlm_upload_folder_type'] ) {
-			$compare = 'LIKE';
+
+		// If users views all media then we don't need to do anything
+		if ( ! isset( $_GET['dlm_upload_folder_type'] ) || 'dlm_uploads_folder' !== $_GET['dlm_upload_folder_type']   ) {
+			return;
 		}
+
+		// If user views the DLM Uploads folder then we need to show DLM uploads only.
 		// Set the meta query for the corresponding request.
 		$query->set( 'meta_key', '_wp_attached_file' );
 		$query->set( 'meta_query', array(
 			'key'     => '_wp_attached_file',
-			'compare' => $compare,
+			'compare' => 'LIKE',
 			'value'   => 'dlm_uploads'
 		) );
 	}
@@ -286,14 +271,19 @@ class DLM_Media_Library {
 			$button_text = __( 'Protect', 'download-monitor' );
 			$action      = 'protect_file';
 			$text        = esc_html__( 'Creates a Download based on this file and moves the file to Download Monitor\'s protected folder. Also replaces the attachment\'s URL with the download link.', 'download-monitor' );
-
+			$disabled    = false;
 			if ( '1' === get_post_meta( $post->ID, 'dlm_protected_file', true ) ) {
 				$button_text = __( 'Unprotect', 'download-monitor' );
 				$action      = 'unprotect_file';
 				$text        = esc_html__( 'Moves the file from Download Monitor\'s protected directory to the uploads directory. Also places back the original URL for this attachment.', 'download-monitor' );
+			} elseif ( false !== strpos( $post->guid, 'dlm_uploads' ) ) {
+				$button_text = __( 'Default file', 'download-monitor' );
+				$action      = '';
+				$text        = esc_html__( 'No action is needed.', 'download-monitor' );
+				$disabled    = true;
 			}
 
-			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-title="' . esc_attr( $post->title ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" >' . esc_html( $button_text ) . '</button><p class="description">' . $text . '</p>';
+			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-title="' . esc_attr( $post->title ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' )  . '>' . esc_html( $button_text ) . '</button><p class="description">' . $text . '</p>';
 
 			// Add our button
 			$fields['dlm_protect_file'] = array(
@@ -481,32 +471,55 @@ class DLM_Media_Library {
 
 		if ( '1' === get_post_meta( $attachment->ID, 'dlm_protected_file', true ) ) {
 			$response['dlmCustomClass'] = 'dlm-ml-protected-file';
+		} elseif ( false !== strpos( wp_get_attachment_url( $attachment->ID ), 'dlm_uploads' ) ) {
+			$response['dlmCustomClass'] = 'dlm-ml-file';
 		}
 
 		return $response;
 	}
 
+	/**
+	 * Add a new column to the Media Library
+	 *
+	 * @param $columns
+	 *
+	 * @return mixed
+	 * @since 4.7.2
+	 */
 	public function dlm_ml_column( $columns ) {
 		$columns['dlm_protection'] = __( 'Download Monitor', 'download-monitor' );
 
 		return $columns;
 	}
 
+	/**
+	 * Manage the new column in the Media Library
+	 *
+	 * @param $column_name
+	 * @param $id
+	 *
+	 * @return void
+	 * @since 4.7.2
+	 */
 	public function manage_dlm_ml_column( $column_name, $id ) {
 
 		if ( $column_name == 'dlm_protection' ) {
-
+			$url = wp_get_attachment_url( $id );
 			if ( '1' === get_post_meta( $id, 'dlm_protected_file', true ) ) {
 				?>
 				<img
-					src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAyOCAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI4IDE0QzI4IDYuMjY4MDEgMjEuNzMyIDAgMTQgMEM2LjI2ODAxIDAgMCA2LjI2ODAxIDAgMTRDMCAyMS43MzIgNi4yNjgwMSAyOCAxNCAyOEMyMS43MzIgMjggMjggMjEuNzMyIDI4IDE0WiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzM2XzM5KSIvPgo8cGF0aCBkPSJNMTcuNjE1NCAxMi41NjI1SDE3LjM3NVY5LjUxNTYyQzE3LjM3NSA4LjU4MzIyIDE2Ljk5NTEgNy42ODkwMSAxNi4zMTg5IDcuMDI5N0MxNS42NDI3IDYuMzcwNCAxNC43MjU1IDYgMTMuNzY5MiA2QzEyLjgxMjkgNiAxMS44OTU4IDYuMzcwNCAxMS4yMTk2IDcuMDI5N0MxMC41NDM0IDcuNjg5MDEgMTAuMTYzNSA4LjU4MzIyIDEwLjE2MzUgOS41MTU2MlYxMi41NjI1SDkuOTIzMDhDOS40MTMwNSAxMi41NjI1IDguOTIzOSAxMi43NiA4LjU2MzI2IDEzLjExMTdDOC4yMDI2MSAxMy40NjMzIDggMTMuOTQwMiA4IDE0LjQzNzVWMTkuMTI1QzggMTkuNjIyMyA4LjIwMjYxIDIwLjA5OTIgOC41NjMyNiAyMC40NTA4QzguOTIzOSAyMC44MDI1IDkuNDEzMDUgMjEgOS45MjMwOCAyMUgxNy42MTU0QzE4LjEyNTQgMjEgMTguNjE0NiAyMC44MDI1IDE4Ljk3NTIgMjAuNDUwOEMxOS4zMzU5IDIwLjA5OTIgMTkuNTM4NSAxOS42MjIzIDE5LjUzODUgMTkuMTI1VjE0LjQzNzVDMTkuNTM4NSAxMy45NDAyIDE5LjMzNTkgMTMuNDYzMyAxOC45NzUyIDEzLjExMTdDMTguNjE0NiAxMi43NiAxOC4xMjU0IDEyLjU2MjUgMTcuNjE1NCAxMi41NjI1VjEyLjU2MjVaTTExLjEyNSA5LjUxNTYyQzExLjEyNSA4LjgzMTg2IDExLjQwMzYgOC4xNzYxMSAxMS44OTk1IDcuNjkyNjJDMTIuMzk1NCA3LjIwOTEyIDEzLjA2NzkgNi45Mzc1IDEzLjc2OTIgNi45Mzc1QzE0LjQ3MDUgNi45Mzc1IDE1LjE0MzEgNy4yMDkxMiAxNS42MzkgNy42OTI2MkMxNi4xMzQ5IDguMTc2MTEgMTYuNDEzNSA4LjgzMTg2IDE2LjQxMzUgOS41MTU2MlYxMi41NjI1SDExLjEyNVY5LjUxNTYyWk0xNC4yNSAxNy45NTMxQzE0LjI1IDE4LjA3NzQgMTQuMTk5MyAxOC4xOTY3IDE0LjEwOTIgMTguMjg0NkMxNC4wMTkgMTguMzcyNSAxMy44OTY3IDE4LjQyMTkgMTMuNzY5MiAxOC40MjE5QzEzLjY0MTcgMTguNDIxOSAxMy41MTk0IDE4LjM3MjUgMTMuNDI5MyAxOC4yODQ2QzEzLjMzOTEgMTguMTk2NyAxMy4yODg1IDE4LjA3NzQgMTMuMjg4NSAxNy45NTMxVjE1LjYwOTRDMTMuMjg4NSAxNS40ODUxIDEzLjMzOTEgMTUuMzY1OCAxMy40MjkzIDE1LjI3NzlDMTMuNTE5NCAxNS4xOSAxMy42NDE3IDE1LjE0MDYgMTMuNzY5MiAxNS4xNDA2QzEzLjg5NjcgMTUuMTQwNiAxNC4wMTkgMTUuMTkgMTQuMTA5MiAxNS4yNzc5QzE0LjE5OTMgMTUuMzY1OCAxNC4yNSAxNS40ODUxIDE0LjI1IDE1LjYwOTRWMTcuOTUzMVoiIGZpbGw9IndoaXRlIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXJfMzZfMzkiIHgxPSItNy41NDY4NyIgeTE9Ii00LjM3NSIgeDI9IjI1LjU5MzciIHkyPSIyOC43NjU2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4xMTAxMTMiIHN0b3AtY29sb3I9IiM1RERFRkIiLz4KPHN0b3Agb2Zmc2V0PSIwLjQ0MzU2OCIgc3RvcC1jb2xvcj0iIzQxOUJDQSIvPgo8c3RvcCBvZmZzZXQ9IjAuNjM2MTIyIiBzdG9wLWNvbG9yPSIjMDA4Q0Q1Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAyNUVBMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=">
+					src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAyOCAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI4IDE0QzI4IDYuMjY4MDEgMjEuNzMyIDAgMTQgMEM2LjI2ODAxIDAgMCA2LjI2ODAxIDAgMTRDMCAyMS43MzIgNi4yNjgwMSAyOCAxNCAyOEMyMS43MzIgMjggMjggMjEuNzMyIDI4IDE0WiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzM2XzM5KSIvPgo8cGF0aCBkPSJNMTcuNjE1NCAxMi41NjI1SDE3LjM3NVY5LjUxNTYyQzE3LjM3NSA4LjU4MzIyIDE2Ljk5NTEgNy42ODkwMSAxNi4zMTg5IDcuMDI5N0MxNS42NDI3IDYuMzcwNCAxNC43MjU1IDYgMTMuNzY5MiA2QzEyLjgxMjkgNiAxMS44OTU4IDYuMzcwNCAxMS4yMTk2IDcuMDI5N0MxMC41NDM0IDcuNjg5MDEgMTAuMTYzNSA4LjU4MzIyIDEwLjE2MzUgOS41MTU2MlYxMi41NjI1SDkuOTIzMDhDOS40MTMwNSAxMi41NjI1IDguOTIzOSAxMi43NiA4LjU2MzI2IDEzLjExMTdDOC4yMDI2MSAxMy40NjMzIDggMTMuOTQwMiA4IDE0LjQzNzVWMTkuMTI1QzggMTkuNjIyMyA4LjIwMjYxIDIwLjA5OTIgOC41NjMyNiAyMC40NTA4QzguOTIzOSAyMC44MDI1IDkuNDEzMDUgMjEgOS45MjMwOCAyMUgxNy42MTU0QzE4LjEyNTQgMjEgMTguNjE0NiAyMC44MDI1IDE4Ljk3NTIgMjAuNDUwOEMxOS4zMzU5IDIwLjA5OTIgMTkuNTM4NSAxOS42MjIzIDE5LjUzODUgMTkuMTI1VjE0LjQzNzVDMTkuNTM4NSAxMy45NDAyIDE5LjMzNTkgMTMuNDYzMyAxOC45NzUyIDEzLjExMTdDMTguNjE0NiAxMi43NiAxOC4xMjU0IDEyLjU2MjUgMTcuNjE1NCAxMi41NjI1VjEyLjU2MjVaTTExLjEyNSA5LjUxNTYyQzExLjEyNSA4LjgzMTg2IDExLjQwMzYgOC4xNzYxMSAxMS44OTk1IDcuNjkyNjJDMTIuMzk1NCA3LjIwOTEyIDEzLjA2NzkgNi45Mzc1IDEzLjc2OTIgNi45Mzc1QzE0LjQ3MDUgNi45Mzc1IDE1LjE0MzEgNy4yMDkxMiAxNS42MzkgNy42OTI2MkMxNi4xMzQ5IDguMTc2MTEgMTYuNDEzNSA4LjgzMTg2IDE2LjQxMzUgOS41MTU2MlYxMi41NjI1SDExLjEyNVY5LjUxNTYyWk0xNC4yNSAxNy45NTMxQzE0LjI1IDE4LjA3NzQgMTQuMTk5MyAxOC4xOTY3IDE0LjEwOTIgMTguMjg0NkMxNC4wMTkgMTguMzcyNSAxMy44OTY3IDE4LjQyMTkgMTMuNzY5MiAxOC40MjE5QzEzLjY0MTcgMTguNDIxOSAxMy41MTk0IDE4LjM3MjUgMTMuNDI5MyAxOC4yODQ2QzEzLjMzOTEgMTguMTk2NyAxMy4yODg1IDE4LjA3NzQgMTMuMjg4NSAxNy45NTMxVjE1LjYwOTRDMTMuMjg4NSAxNS40ODUxIDEzLjMzOTEgMTUuMzY1OCAxMy40MjkzIDE1LjI3NzlDMTMuNTE5NCAxNS4xOSAxMy42NDE3IDE1LjE0MDYgMTMuNzY5MiAxNS4xNDA2QzEzLjg5NjcgMTUuMTQwNiAxNC4wMTkgMTUuMTkgMTQuMTA5MiAxNS4yNzc5QzE0LjE5OTMgMTUuMzY1OCAxNC4yNSAxNS40ODUxIDE0LjI1IDE1LjYwOTRWMTcuOTUzMVoiIGZpbGw9IndoaXRlIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXJfMzZfMzkiIHgxPSItNy41NDY4NyIgeTE9Ii00LjM3NSIgeDI9IjI1LjU5MzciIHkyPSIyOC43NjU2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4xMTAxMTMiIHN0b3AtY29sb3I9IiM1RERFRkIiLz4KPHN0b3Agb2Zmc2V0PSIwLjQ0MzU2OCIgc3RvcC1jb2xvcj0iIzQxOUJDQSIvPgo8c3RvcCBvZmZzZXQ9IjAuNjM2MTIyIiBzdG9wLWNvbG9yPSIjMDA4Q0Q1Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAyNUVBMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" title="<?php esc_attr_e( 'Download Monitor protected file', 'download-monitor' ); ?>">
 				<?php
-			} else {
+			} elseif ( false !== strpos( $url, 'dlm_uploads' ) ) {
 				?>
+				<img
+					src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1IiBoZWlnaHQ9IjEwNSIgdmlld0JveD0iMCAwIDEwNSAxMDUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01Mi41IDAuMDAwNTk5Njc0QzM4LjU3NTYgMC4wMDA1OTk2NzQgMjUuMjIxOSA1LjUzMjAzIDE1LjM3NzYgMTUuMzc4MUM1LjUzMTQ2IDI1LjIyMjkgMCAzOC41NzY2IDAgNTIuNTAwM0MwIDY2LjQyNCA1LjUzMTQ2IDc5Ljc3ODMgMTUuMzc3NiA4OS42MjI1QzI1LjIyMjUgOTkuNDY4NiAzOC41NzYyIDEwNSA1Mi41IDEwNUM2Ni40MjM4IDEwNSA3OS43NzgxIDk5LjQ2ODYgODkuNjIyNCA4OS42MjI1Qzk5LjQ2ODUgNzkuNzc3NyAxMDUgNjYuNDI0IDEwNSA1Mi41MDAzQzEwNSA0My4yODQ1IDEwMi41NzQgMzQuMjMwOCA5Ny45NjY0IDI2LjI1MDJDOTMuMzU4NyAxOC4yNjk1IDg2LjczMDQgMTEuNjQxNiA3OC43NDk3IDcuMDMzNTRDNzAuNzY5IDIuNDI1ODEgNjEuNzE1MiAwIDUyLjQ5OTQgMEw1Mi41IDAuMDAwNTk5Njc0Wk00MC40Nzc3IDM4LjI3MThMNDcuMjQ5OSA0NS4wOTY5VjI2LjI0OTZINTcuNzUwMVY0NS4wOTY5TDY0LjUyMjMgMzguMzI0Nkw3MS45MjUyIDQ1LjcyNzVMNTIuNSA2NS4xNTI2TDMzLjAyMiA0NS42NzQ3TDQwLjQ3NzcgMzguMjcxOFpNNzguNzQ5MSA3OC43NTExSDI2LjI0ODVWNjguMjUxSDc4Ljc0OTFWNzguNzUxMVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl8zN184NSkiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhcl8zN184NSIgeDE9Ii0zNy41MjkzIiB5MT0iMS4wOTMzNGUtMDYiIHgyPSI5NS45NzY2IiB5Mj0iMTA3Ljg3MSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMTEwMTEzIiBzdG9wLWNvbG9yPSIjNURERUZCIi8+CjxzdG9wIG9mZnNldD0iMC40NDM1NjgiIHN0b3AtY29sb3I9IiM0MTlCQ0EiLz4KPHN0b3Agb2Zmc2V0PSIwLjYzNjEyMiIgc3RvcC1jb2xvcj0iIzAwOENENSIvPgo8c3RvcCBvZmZzZXQ9IjAuODU1OTk3IiBzdG9wLWNvbG9yPSIjMDI1RUEwIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAyNTM4RCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" title="<?php esc_attr_e( 'Download Monitor file', 'download-monitor' ); ?>">
+				<?php
+			} else { ?>
 				<span class="dashicons dashicons-no"
 				      style="color:red"></span><?php echo esc_html__( 'Un-Protected', 'download-monitor' ) ?>
-				<?php
-			}
+
+			<?php }
 
 		}
 	}
