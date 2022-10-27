@@ -67,13 +67,18 @@ class DLM_File_Manager {
 		$file_check['relative'] = false;
 
 		if ( isset( $parsed_file_path['path'] ) ) {
-			// Check if common path is contained within the file path, if it doesn't it is a relative path
+			// Check if common path is contained within the file path, if it doesn't it is a relative path,
+			// or it is a non-allowed file.
 			if ( $common_path && strlen( $common_path ) > 1 && false === strpos( $parsed_file_path['path'], $common_path ) ) {
-				if ( file_exists( $common_path . $parsed_file_path['path'] ) ) {
+
+				if ( file_exists( $common_path . $parsed_file_path['path'] ) ) { // Check if it's a relative path, so add the common path to it
 					$file_check['exists']   = true;
 					$file_check['relative'] = true;
+				} elseif ( file_exists( $parsed_file_path['path'] ) ) { // Check if it's an absolute path, most probably a non-allowed file
+					$file_check['exists']   = true;
 				}
 			} else {
+				// If common path is included in the file path, check if the file exists
 				if ( file_exists( $parsed_file_path['path'] ) ) {
 					$file_check['exists'] = true;
 				}
