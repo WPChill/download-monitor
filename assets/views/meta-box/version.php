@@ -143,10 +143,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					       value="<?php echo esc_attr( $file_version ); ?>"/>
 				</div>
 				<div>
-					<label><?php echo esc_html__( 'Meta count', 'download-monitor' ); ?>:</label>
+					<label><?php echo esc_html__( 'Download count', 'download-monitor' ); ?>:</label>
 					<div class="wpchill-tooltip"><i>[?]</i>
 						<div
-							class="wpchill-tooltip-content"><?php esc_html_e( 'Taken into consideration for the total download count ( custom table + meta ).', 'download-monitor' ); ?></div>
+							class="wpchill-tooltip-content"><?php esc_html_e( 'Taken into consideration for the total download count ( total = custom table + post meta ).', 'download-monitor' ); ?></div>
 					</div>
 					<input type="text" class="short"
 					       name="downloadable_file_download_count[<?php echo esc_attr( $version_increment ); ?>]"
