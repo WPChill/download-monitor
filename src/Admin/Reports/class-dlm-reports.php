@@ -250,19 +250,16 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				return array();
 			}
 
-			$offset         = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count          = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 1000;
-			$offset_limit   = $offset * 1000;
-			$download_stats = array();
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 1000;
+			$offset_limit = $offset * 1000;
+			$stats        = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} LIMIT {$offset_limit}, {$count};", null ), ARRAY_A );
 
-			$stats          = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} LIMIT {$offset_limit}, {$count};", null ), ARRAY_A );
-			$download_stats = array(
+			return array(
 				'stats'  => $stats,
 				'offset' => ( 1000 === count( $stats ) ) ? $offset + 1 : '',
-				'done'   => ( 1000 > count( $stats ) ) ? true : false,
+				'done'   => 1000 > count( $stats ),
 			);
-
-			return $download_stats;
 		}
 
 		/**
@@ -283,7 +280,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				);
 			}
 
-			$user_reports = array();
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
 			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_rows'];
 			$offset_limit = $offset * $this->php_info['retrieved_rows'];
@@ -300,14 +296,13 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			);
 			$table_columns = sanitize_text_field( implode( ',', wp_unslash( $table_columns ) ) );
 			$downloads     = $wpdb->get_results( $wpdb->prepare( 'SELECT ' . $table_columns . ' FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ), ARRAY_A );
-			$user_reports  = array(
+
+			return array(
 				'logs'   => $downloads,
 				'offset' => ( $this->php_info['retrieved_rows'] === count( $downloads ) ) ? $offset + 1 : '',
-				'done'   => ( $this->php_info['retrieved_rows'] > count( $downloads ) ) ? true : false,
+				'done'   => $this->php_info['retrieved_rows'] > count( $downloads ),
 			);
 
-
-			return $user_reports;
 		}
 
 		/**
@@ -325,9 +320,9 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$users_data = array();
-			$users = get_users();
+			$users      = get_users();
 			foreach ( $users as $user ) {
-				$user_data                    = $user->data;
+				$user_data    = $user->data;
 				$users_data[] = array(
 					'id'           => $user_data->ID,
 					'nicename'     => $user_data->user_nicename,
