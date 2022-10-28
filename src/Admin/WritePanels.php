@@ -448,7 +448,7 @@ class DLM_Admin_Writepanels {
 			$downloadable_file_date           = isset( $_POST['downloadable_file_date'] ) ? $_POST['downloadable_file_date'] : '';
 			$downloadable_file_date_hour      = isset( $_POST['downloadable_file_date_hour'] ) ? $_POST['downloadable_file_date_hour'] : array();
 			$downloadable_file_date_minute    = isset( $_POST['downloadable_file_date_minute'] ) ? $_POST['downloadable_file_date_minute'] : array();
-			$downloadable_file_download_count = $_POST['downloadable_file_download_count'];
+			$downloadable_file_download_count = isset( $_POST['downloadable_file_download_count'] ) ? $_POST['downloadable_file_download_count'] : array();
 
 			// loop
 			for ( $i = 0; $i <= max( array_keys( $downloadable_file_id ) ); $i ++ ) {

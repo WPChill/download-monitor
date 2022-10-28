@@ -292,8 +292,8 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		update_post_meta( $download_id, '_featured', ( ( $download->is_featured() ) ? 'yes' : 'no' ) );
 		update_post_meta( $download_id, '_members_only', ( ( $download->is_members_only() ) ? 'yes' : 'no' ) );
 		update_post_meta( $download_id, '_redirect_only', ( ( $download->is_redirect_only() ) ? 'yes' : 'no' ) );
-		// other download meta
-		update_post_meta( $download_id, '_download_count', $download->get_meta_download_count() );
+		// other download meta.
+		update_post_meta( $download_id, '_download_count', absint( $download->get_meta_download_count() ) );
 
 		// clear versions transient.
 		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );
