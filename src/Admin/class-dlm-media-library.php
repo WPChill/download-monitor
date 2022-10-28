@@ -15,7 +15,7 @@ class DLM_Media_Library {
 	 * @since 4.7.2
 	 *
 	 * @var object
-	 */
+	 *//**/
 	public static $instance;
 
 	/**
@@ -180,7 +180,7 @@ class DLM_Media_Library {
 			<select name="dlm_upload_folder_type">
 				<?php
 				foreach ( $views as $key => $view ) {
-					echo '<option value="' . $key . '" ' . selected( $key, $applied_filter ) . '>' . $view . '</option>';
+					echo '<option value="' . esc_attr( $key ) . '" ' . selected( $key, $applied_filter ) . '>' . esc_html( $view ) . '</option>';
 				}
 				?>
 			</select>
@@ -283,7 +283,7 @@ class DLM_Media_Library {
 				$disabled    = true;
 			}
 
-			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' )  . '>' . esc_html( $button_text ) . '</button><p class="description">' . $text . '</p>';
+			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' )  . '>' . esc_html( $button_text ) . '</button><p class="description">' . esc_html( $text ) . '</p>';
 
 			// Add our button
 			$fields['dlm_protect_file'] = array(
@@ -576,8 +576,8 @@ class DLM_Media_Library {
 			return;
 		}
 
-		$action = $_GET['dlm_action'];
-		$posts  = $_GET['posts'];
+		$action = sanitize_text_field( wp_unslash( $_GET['dlm_action'] ) );
+		$posts = array_map( 'absint', $_GET['posts'] );
 
 		if ( 'dlm_protect_files' === $action ) {
 			foreach ( $posts as $post_id ) {

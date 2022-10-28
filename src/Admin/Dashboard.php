@@ -94,7 +94,7 @@ class DLM_Admin_Dashboard {
 						<div>
 							<span class="dlm-reports-top-downloads__overflower" style="width: <?php echo absint( $width ); ?>%;"></span>
 							<a href="<?php echo esc_url( admin_url( 'post.php?post=' . absint( $download->get_id() ) . '&amp;action=edit' ) ); ?>"
-							   title="<?php echo sprintf( esc_html__( 'Click to edit download: %s', 'download-monitor' ), $download->get_title() ); ?>"
+							   title="<?php echo sprintf( esc_html__( 'Click to edit download: %s', 'download-monitor' ), esc_html( $download->get_title() ) ); ?>"
 							   target="_blank"><?php echo esc_html( $download->get_title() ); ?></a>
 						</div>
 						<div>

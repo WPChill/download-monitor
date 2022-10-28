@@ -460,6 +460,6 @@ class DLM_Custom_Actions {
 	 * Display admin notice
 	 */
 	public function admin_notice() {
-		echo '<div class="updated"><p>' . __( 'Download succesfully duplicated!', 'dlm-download-duplicator' ) . '</p></div>' . PHP_EOL;
+		echo '<div class="updated"><p>' . esc_html__( 'Download succesfully duplicated!', 'dlm-download-duplicator' ) . '</p></div>' . PHP_EOL;
 	}
 }
