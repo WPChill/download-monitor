@@ -309,7 +309,7 @@ class DLM_Log_Item {
 
 		$lmd = $this->get_meta_data();
 		if ( ! empty( $lmd ) ) {
-			$meta_data = json_encode( $lmd );
+			$meta_data = wp_json_encode( $lmd );
 		}
 
 		if ( is_user_logged_in() ) {
@@ -320,13 +320,14 @@ class DLM_Log_Item {
 		$download_status = $this->get_download_status();
 
 		// If there is no table we don't need to increase the download count as it will trigger an error.
-		// Also, we don't need to update the table if the reports are deactivated
-		if ( DLM_Logging::is_logging_enabled() &&  DLM_Utils::table_checker( $wpdb->download_log ) ) {
+		// Also, we don't need to update the table if the reports are deactivated.
+		if ( DLM_Logging::is_logging_enabled() && DLM_Utils::table_checker( $wpdb->download_log ) ) {
 
 			// Add filters for download_log column entries, so in case the upgrader failed we can still log the download.
 			/**
 			 * Filter for the download_log columns
-			 * @hooked: ( DLM_Logging, log_entries ) Adds uuid, download_category and download_location
+			 *
+			 * @hooked ( DLM_Logging, log_entries ) Adds uuid, download_category and download_location
 			 */
 			$log_entries = apply_filters(
 				'dlm_log_entries',
@@ -346,6 +347,7 @@ class DLM_Log_Item {
 			);
 			/**
 			 * Filter for the download_log columns types
+			 *
 			 * @hooked: ( DLM_Logging, log_values )
 			 */
 			$log_values = apply_filters(
@@ -374,7 +376,8 @@ class DLM_Log_Item {
 
 		// Let's check if table exists.
 		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) && 'failed' !== $download_status ) {
-			// Table exists, now log new download into table. This is used for faster download counts, performance issues introduced in version 4.6.0 of plugin
+			// Table exists, now log new download into table. This is used for faster download counts,
+			// performance issues introduced in version 4.6.0 of plugin.
 			$download_id         = absint( $this->get_download_id() );
 			$version_id          = absint( $this->get_version_id() );
 			$downloads_table     = "{$wpdb->dlm_downloads}";

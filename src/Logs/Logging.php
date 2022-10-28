@@ -170,7 +170,7 @@ class DLM_Logging {
 			return;
 		}
 
-		// setup new log item object
+		// setup new log item object.
 		if ( ! DLM_Cookie_Manager::exists( $download ) ) {
 			$ip       = DLM_Utils::get_visitor_ip();
 			$log_item = new DLM_Log_Item();
