@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.0
-Stable tag: 4.7.2
+Stable tag: 4.7.3
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,18 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.7.2 - 31.10.2022 =
+Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )
+Fixed: Security update regarding directory traversal ( [#1111](https://github.com/WPChill/download-monitor/issues/1111) )
+Fixed: Admin Downloads list order by title ( [#1110](https://github.com/WPChill/download-monitor/issues/1110) )
+Fixed: Fallback for links that use the XHR triggering classes ( [#1109](https://github.com/WPChill/download-monitor/issues/1109) )
+Fixed: Cannot modify headers error when setting cookie ( [#1108](https://github.com/WPChill/download-monitor/issues/1108) )
+Changed: Media Library - restored default view and kept filter for Download Monitor used files ( [#1107](https://github.com/WPChill/download-monitor/issues/1107) )
+Fixed: Media Library visual indicator for Download Monitor protected files ( [#1106](https://github.com/WPChill/download-monitor/issues/1106) )
+Changed: Reconsider the Download's post meta for download count, priorly used as main download count info ( [#1105](https://github.com/WPChill/download-monitor/issues/1105) )
+Fixed: Warning when trying to read current screen ( [#1104](https://github.com/WPChill/download-monitor/issues/1104) )
+Fixed: Count downloads when the reports/logs are disabled ( [#1103](https://github.com/WPChill/download-monitor/issues/1103) )
 
 = 4.7.2 - 24.10.2022 =
 Fixed: Possible overload of server on the Reports page ( [#1102](https://github.com/WPChill/download-monitor/issues/1102) )
