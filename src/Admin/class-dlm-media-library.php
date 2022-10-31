@@ -203,7 +203,7 @@ class DLM_Media_Library {
 		}
 
 		// If users views all media then we don't need to do anything
-		if ( ! isset( $_GET['dlm_upload_folder_type'] ) || 'dlm_uploads_folder' !== $_GET['dlm_upload_folder_type']   ) {
+		if ( ! isset( $_GET['dlm_upload_folder_type'] ) || 'dlm_uploads_folder' !== sanitize_text_field( wp_unslash( $_GET['dlm_upload_folder_type'] ) ) ) {
 			return;
 		}
 
@@ -283,7 +283,7 @@ class DLM_Media_Library {
 				$disabled    = true;
 			}
 
-			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' )  . '>' . esc_html( $button_text ) . '</button><p class="description">' . esc_html( $text ) . '</p>';
+			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' ) . '>' . esc_html( $button_text ) . '</button><p class="description">' . esc_html( $text ) . '</p>';
 
 			// Add our button
 			$fields['dlm_protect_file'] = array(

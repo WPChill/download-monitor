@@ -24,9 +24,7 @@ class DLM_Reports_Page {
 	public function setup() {
 
 		// menu item.
-		if ( DLM_Logging::is_logging_enabled() ) {
-			add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
-		}
+		add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
 
 		// Set this action on order for other plugins/themes to tap into our tabs.
 		add_action( 'admin_init', array( $this, 'set_tabs' ) );
@@ -78,8 +76,12 @@ class DLM_Reports_Page {
 	 * @return array
 	 */
 	public function add_admin_menu( $links ) {
+		// If Reports are disabled don't add the menu item.
+		if ( ! DLM_Logging::is_logging_enabled() ) {
+			return $links;
+		}
 
-		// Reports page page.
+		// Reports page.
 		$links[] = array(
 			'page_title' => __( 'Reports', 'download-monitor' ),
 			'menu_title' => __( 'Reports', 'download-monitor' ),
