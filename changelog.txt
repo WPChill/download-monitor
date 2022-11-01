@@ -1,4 +1,4 @@
-= 4.7.2 - 31.10.2022 =
+= 4.7.2 - 1.11.2022 =
 Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )
 Fixed: Security update regarding directory traversal ( [#1111](https://github.com/WPChill/download-monitor/issues/1111) )
 Fixed: Admin Downloads list order by title ( [#1110](https://github.com/WPChill/download-monitor/issues/1110) )
