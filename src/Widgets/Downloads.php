@@ -59,6 +59,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 		$order          = isset( $instance['order'] ) ? $instance['order'] : 'ASC';
 		$featured       = isset( $instance['featured'] ) ? $instance['featured'] : 'no';
 		$members_only   = isset( $instance['members_only'] ) ? $instance['members_only'] : 'no';
+		$category       = isset( $instance['category'] ) ? $instance['category'] : 'all';
 
 		$args = array(
 			'post_status'    => 'publish',
@@ -85,6 +86,14 @@ class DLM_Widget_Downloads extends WP_Widget {
 			$args['meta_query'][] = array(
 				'key'   => '_members_only',
 				'value' => 'yes'
+			);
+		}
+
+		if ( 'all' !== $category ) {
+			$args['tax_query'][] = array(
+				'taxonomy' => 'dlm_download_category',
+				'field'    => 'slug',
+				'terms'    => $category
 			);
 		}
 
@@ -143,6 +152,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 		$instance['order']          = sanitize_text_field( $new_instance['order'] );
 		$instance['featured']       = isset( $new_instance['featured'] ) ? $new_instance['featured'] : 'no';
 		$instance['members_only']   = isset( $new_instance['members_only'] ) ? $new_instance['members_only'] : 'no';
+		$instance['category']       = isset( $new_instance['category'] ) ? $new_instance['category'] : 'all';
 
 		return $instance;
 	}
@@ -165,6 +175,8 @@ class DLM_Widget_Downloads extends WP_Widget {
 		$order          = isset( $instance['order'] ) ? $instance['order'] : 'ASC';
 		$featured       = isset( $instance['featured'] ) ? $instance['featured'] : 'no';
 		$members_only   = isset( $instance['members_only'] ) ? $instance['members_only'] : 'no';
+		$category       = isset( $instance['category'] ) ? $instance['category'] : 'all';
+		$cats           = get_terms( 'dlm_download_category', array( 'hide_empty' => false ) );
 		?>
         <p>
             <label
@@ -214,6 +226,24 @@ class DLM_Widget_Downloads extends WP_Widget {
                 <option value="DESC" <?php selected( $order, 'DESC' ); ?>><?php echo esc_html__( 'DESC', 'download-monitor' ); ?></option>
             </select>
         </p>
+		<p>
+			<label
+				for="<?php echo esc_attr( $this->get_field_id( 'category' ) ); ?>"><?php echo esc_html__( 'Category', 'download-monitor' ); ?>
+				:</label>
+			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'category' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'category' ) ); ?>" type="text">
+				<option value="all" <?php selected( $category, 'all' ); ?>><?php echo esc_html__( 'All', 'download-monitor' ); ?></option>
+				<?php
+				if ( ! empty( $cats ) ) {
+					foreach ( $cats as $cat ) {
+						?>
+						<option
+							value="<?php echo esc_attr( $cat->slug ); ?>>" <?php selected( $category, $cat->slug ); ?>><?php echo esc_html( $cat->name ); ?></option>
+						<?php
+					}
+				}
+				?>
+			</select>
+		</p>
         <p>
             <input id="<?php echo esc_attr( $this->get_field_id( 'featured' ) ); ?>"
                    name="<?php echo esc_attr( $this->get_field_name( 'featured' ) ); ?>"
