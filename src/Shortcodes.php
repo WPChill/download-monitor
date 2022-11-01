@@ -326,10 +326,11 @@ class DLM_Shortcodes {
 			'paginate'                  => false
 		), $atts ) );
 
-		$post__in     = ! empty( $include ) ? explode( ',', $include ) : '';
-		$post__not_in = ! empty( $exclude ) ? explode( ',', $exclude ) : '';
-		$order        = strtoupper( $order );
-		$meta_key     = '';
+		$post__in       = ! empty( $include ) ? explode( ',', $include ) : '';
+		$post__not_in   = ! empty( $exclude ) ? explode( ',', $exclude ) : '';
+		$tag_not_in     = ! empty( $exclude_tag ) ? explode( ',', $exclude_tag ) : '';
+		$order          = strtoupper( $order );
+		$meta_key       = '';
 		$order_by_count = '';
 
 		switch ( $orderby ) {
@@ -367,7 +368,7 @@ class DLM_Shortcodes {
 			'order_by_count' => $order_by_count,
 		);
 
-		if ( $category || $tag || $exclude_tag ) {
+		if ( $category || $tag || ! empty( $tag_not_in ) ) {
 			$args['tax_query'] = array( 'relation' => 'AND' );
 
 			$tags = array_filter( explode( ',', $tag ) );
@@ -429,11 +430,11 @@ class DLM_Shortcodes {
 				);
 			}
 
-			if ( ! empty( $exclude_tag ) ) {
+			if ( ! empty( $tag_not_in ) ) {
 				$args['tax_query'][] = array(
 					'taxonomy' => 'dlm_download_tag',
 					'field'    => 'slug',
-					'terms'    => $exclude_tag,
+					'terms'    => $tag_not_in,
 					'operator' => 'NOT IN'
 				);
 			}
