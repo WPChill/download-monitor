@@ -35,11 +35,20 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public  $php_info = array();
 
 		/**
+		 * The time format
+		 *
+		 * @var string
+		 */
+		public $date_format = 'Y-m-d H:i:s';
+
+		/**
 		 * DLM_Reports constructor.
 		 *
 		 * @since 4.6.0
 		 */
 		public function __construct() {
+
+			$this->date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
 			$this->php_info = array(
 				'memory_limit'       => ini_get( 'memory_limit' ),
@@ -295,7 +304,9 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				)
 			);
 			$table_columns = sanitize_text_field( implode( ',', wp_unslash( $table_columns ) ) );
-			$downloads     = $wpdb->get_results( $wpdb->prepare( 'SELECT ' . $table_columns . ' FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ), ARRAY_A );
+			$downloads     = $wpdb->get_results( $wpdb->prepare( 'SELECT ' . $table_columns . ', UNIX_TIMESTAMP( download_date ) as display_date FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ), ARRAY_A );
+
+			$downloads = array_map( array( $this, 'date_creator' ), $downloads );
 
 			return array(
 				'logs'   => $downloads,
@@ -303,6 +314,21 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				'done'   => $this->php_info['retrieved_rows'] > count( $downloads ),
 			);
 
+		}
+
+		/**
+		 * Create WordPress generated date
+		 *
+		 * @param $element
+		 *
+		 * @return mixed
+		 * @since 4.7.4
+		 */
+		public function date_creator( $element ) {
+
+			$element['display_date'] = wp_date( $this->date_format, $element['display_date'] );
+
+			return $element;
 		}
 
 		/**

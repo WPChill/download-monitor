@@ -1747,7 +1747,7 @@ class DLM_Reports {
 				edit_link         : ( '0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
 				edit_download_link: ('undefined' !== typeof download && null !== download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
 				status            : dataResponse[i].download_status,
-				download_date     : dataResponse[i].download_date,
+				download_date     : dataResponse[i].display_date,
 			}
 
 			jQuery(document).trigger('dlm_reports_user_logs_item_before_render', [itemObject, dlmReportsInstance, dataResponse[i], user, download]);
