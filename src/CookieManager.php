@@ -50,19 +50,30 @@ class DLM_Cookie_Manager {
 	 * @param DLM_Download $download
 	 */
 	public static function set_cookie( $download ) {
-		$secure = is_ssl();
-		$cookie_data = apply_filters( 'wp_dlm_set_downloading_cookie', array( 'expires' => time() + 60, 'secure' => $secure, 'httponly' => true ) );
+		$secure      = is_ssl();
+		$cookie_data = apply_filters(
+			'wp_dlm_set_downloading_cookie',
+			array(
+				'expires'  => time() + 60,
+				'secure'   => $secure,
+				'httponly' => true
+			)
+		);
 		setcookie(
 			self::KEY,
-			base64_encode( json_encode( array(
-				'download' => $download->get_id(),
-				'version'  => $download->get_version()->get_version_number()
-			) ) ),
+			base64_encode(
+				json_encode(
+					array(
+						'download' => $download->get_id(),
+						'version'  => $download->get_version()->get_version_number()
+					)
+				)
+			),
 			$cookie_data['expires'],
 			COOKIEPATH,
 			COOKIE_DOMAIN,
 			$cookie_data['secure'],
-			$cookie_data['httponly'] );
+			$cookie_data['httponly']
+		);
 	}
-
 }
