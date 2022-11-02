@@ -165,13 +165,13 @@ class DLM_Admin_Settings {
 								'std'         => 'download',
 								'placeholder' => __( 'download', 'download-monitor' ),
 								'label'       => __( 'Download Endpoint', 'download-monitor' ),
-								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code>.', 'download-monitor' ), home_url( '/download/' ) ),
+								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code> ( %s ).', 'download-monitor' ), 'download', esc_url( home_url( ) ) . '<code>/download/</code>' ),
 							),
 							array(
 								'name'    => 'dlm_download_endpoint_value',
 								'std'     => 'ID',
 								'label'   => __( 'Endpoint Value', 'download-monitor' ),
-								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>', 'download-monitor' ), home_url( '/download/10/' ) ),
+								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>10</code> ( %s%s )', 'download-monitor' ), home_url( '/download/' ), '<code>10/</code>' ),
 								'type'    => 'select',
 								'options' => array(
 									'ID'   => __( 'Download ID', 'download-monitor' ),
