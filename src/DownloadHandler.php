@@ -525,12 +525,23 @@ class DLM_Download_Handler {
 
 			// If it's not a remote file we need to create the correct URL.
 			if ( ! $remote_file ) {
-				// Ensure we have a valid URL, not a file path.
-				$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
-				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
-				$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
-				$file_path = str_replace( trailingslashit( $correct_path ), site_url( '/', $scheme ), $file_path );
+
+				// Let's check if the file is in the uploads' folder.
+				$uploads_dir = wp_upload_dir();
+				$file_path   = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
+				$basedir     = str_replace( DIRECTORY_SEPARATOR, '/', $uploads_dir['basedir'] );
+
+				if ( false !== strpos( $file_path, $basedir ) ) { // File is in the uploads' folder, so we need to create the correct URL.
+					// Set the URL for the uploads' folder.
+					$file_path = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $basedir ) ), str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $uploads_dir['baseurl'] ) ), $file_path );
+				} else { // This is the case if the file is not located in the uploads' folder.
+					// Ensure we have a valid URL, not a file path.
+					$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+					// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
+					// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
+					$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
+					$file_path = str_replace( trailingslashit( $correct_path ), site_url( '/', $scheme ), $file_path );
+				}
 			}
 
 			if ( $this->check_for_xhr() ) {
@@ -546,7 +557,6 @@ class DLM_Download_Handler {
 				header( 'DLM-Redirect: ' . $file_path );
 				exit;
 			}
-
 
 			header( 'X-Robots-Tag: noindex, nofollow', true );
 			header( 'Location: ' . $file_path );
