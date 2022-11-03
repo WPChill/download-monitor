@@ -123,6 +123,8 @@ class DLM_Welcome_Page {
 		}
 
 		$welcome = WPChill_Welcome::get_instance();
+		/** @var \DLM_Settings_Helper $settings */
+		$settings = download_monitor()->service( "settings" );
 		?>
 			<div id="wpchill-welcome">
 
@@ -161,6 +163,108 @@ class DLM_Welcome_Page {
 								<?php $welcome->display_button( esc_html__( 'Upgrade Now', 'download-monitor' ), 'https://www.download-monitor.com/pricing/?utm_source=welcome_banner&utm_medium=upgradenow&utm_campaign=welcome_banner&utm_content=first_button', true, '#E76F51' ); ?>
 								</div>
 						</div>
+					</div>
+					<?php $welcome->horizontal_delimiter(); ?>
+					<div class="block">
+						<?php $welcome->display_heading( esc_html__( 'Let\'s Create Your Pages', 'download-monitor' ) ); ?>
+						<?php $welcome->display_subheading( esc_html__( 'In order to function properly, Download Monitor needs to create some pages in your WordPress website.', 'download-monitor' ) ); ?>
+						<?php $welcome->display_subheading( esc_html__( 'We can create these pages for you here. If you click the \'Create Page\' button we will create that page and add the required shortcode to it. We\'ll also make sure the newly created page is set in your settings page.', 'download-monitor' ) ); ?>
+						<?php $welcome->layout_start( '3' ); ?>
+						<div class="block">
+							<p><?php echo esc_html__( 'No Access', 'download-monitor' ); ?></p>
+						</div>
+						<div class="block">
+							<p><?php echo esc_html__( 'The page your visitors see when they are not allowed to download a file.', 'download-monitor' ); ?></p>
+						</div>
+						<div class="block">
+							<?php
+							/**
+							 * Check if no access page is already set in settings
+							 */
+							$page_no_access = $settings->get_option( 'no_access_page' );
+
+							if ( $page_no_access != 0 ) :
+								?>
+								<a href="javascript:;"
+								   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
+							<?php
+							else:
+								?>
+								<a href="javascript:;"
+								   class="button button-primary button-hero dlm-create-page"
+								   data-page="no-access"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
+							<?php
+							endif;
+							?>
+						</div>
+						<?php $welcome->layout_end(); ?>
+						<?php $welcome->layout_start( '3' ); ?>
+						<div class="block">
+							<p><?php echo esc_html__( 'Cart', 'download-monitor' ); ?></p>
+						</div>
+						<div class="block">
+							<p><?php echo esc_html__( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></p>
+						</div>
+						<div class="block">
+							<?php
+							/**
+							 * Check if no access page is already set in settings
+							 */
+							$page_cart = $settings->get_option( 'page_cart' );
+
+							if ( $page_cart != 0 ) :
+								?>
+								<a href="javascript:;"
+								   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
+							<?php
+							else:
+								?>
+								<a href="javascript:;"
+								   class="button button-primary button-hero dlm-create-page"
+								   data-page="cart"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
+							<?php
+							endif;
+							?>
+						</div>
+						<?php $welcome->layout_end(); ?>
+						<?php $welcome->layout_start( '3' ); ?>
+						<div class="block">
+							<p><?php echo esc_html__( 'Checkout', 'download-monitor' ); ?></p>
+						</div>
+						<div class="block">
+							<p><?php echo esc_html__( 'Your shop checkout page if you decide to sell downloads.', 'download-monitor' ); ?></p>
+						</div>
+						<div class="block">
+							<?php
+							/**
+							 * Check if no access page is already set in settings
+							 */
+							$page_checkout = $settings->get_option( 'page_checkout' );
+
+							if ( 0 !== $page_checkout ) :
+								?>
+								<a href="javascript:;"
+								   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
+							<?php
+							else:
+								?>
+								<a href="javascript:;"
+								   class="button button-primary button-hero dlm-create-page"
+								   data-page="checkout"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
+							<?php
+							endif;
+							?>
+						</div>
+						<?php $welcome->layout_end(); ?>
+					</div>
+					<?php $welcome->horizontal_delimiter(); ?>
+					<img src="<?php echo esc_url( DLM_URL ); ?>assets/images/banner-dlm.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>" class="video-thumbnail">
+					<?php $welcome->display_empty_space(); ?>
+					<div class="block">
+						<?php $welcome->display_button( esc_html__( 'Read our step-by-step guide to get started', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, '#2271b1' ); ?>
+					</div>
+					<div class="block">
+						<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ), true, '#2271b1' ); ?>
 					</div>
 					<?php $welcome->horizontal_delimiter(); ?>
 					<div class="block">						
