@@ -215,7 +215,14 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		// First, let's check if WPML is installed and activated - check for it's class.
 		if ( class_exists( 'SitePress' ) ) {
 			global $sitepress;
-			$sitepress->switch_lang( 'all' );
+			if ( is_admin() && function_exists( 'get_current_screen' ) ) {
+				$current_screen = get_current_screen();
+				if ( ! isset( $current_screen->post_type ) || 'dlm_download' !== $current_screen->post_type ) {
+					$sitepress->switch_lang( 'all' );
+				}
+			} else {
+				$sitepress->switch_lang( 'all' );
+			}
 		}
 
 		$q = new WP_Query();
