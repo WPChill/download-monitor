@@ -24,6 +24,7 @@ jQuery(function ($) {
 			this.newFileAction();
 			this.removeFileAction();
 			this.clickActions();
+			this.otherActions();
 		}
 
 		/**
@@ -733,6 +734,19 @@ jQuery(function ($) {
 					}
 				});
 			}
+		}
+		/**
+		 * Other functions that are used
+		 *
+		 * @since 4.7.4
+		 */
+		otherActions() {
+			// Update the version number when version input changes
+			jQuery(document).on('keyup', 'input[name^="downloadable_file_version"]', function () {
+				const value = '' !== jQuery(this).val() ? jQuery(this).val() : 'n/a';
+
+				jQuery(this).parents('.downloadable_file').find('.dlm-version-info__version').text(value);
+			});
 		}
 	}
 

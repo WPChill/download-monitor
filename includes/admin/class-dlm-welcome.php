@@ -25,6 +25,7 @@ class DLM_Welcome_Page {
 		add_filter( 'dlm_admin_menu_links', array( $this, 'dlm_about_menu' ) );
 		add_filter( 'submenu_file', array( $this, 'remove_about_submenu_item' ) );
 		add_action( 'dlm_after_install_setup', array( $this, 'dlm_on_activation' ), 15 );
+		add_filter( 'dlm_page_header', array( $this, 'welcome_header' ), 15 );
 	}
 
 
@@ -289,6 +290,27 @@ class DLM_Welcome_Page {
 			</div><!-- container -->
 		</div><!-- wpchill welcome -->
 		<?php
+	}
+
+	/**
+	 * Don't display the header on the Welcome banner
+	 *
+	 * @param bool $return Return value.
+	 *
+	 * @return bool|false
+	 * @since 4.7.4
+	 */
+	public function welcome_header( $return ) {
+
+		if ( function_exists( 'get_current_screen' ) ) {
+			$current_screen = get_current_screen();
+
+			if ( 'dlm_download' === $current_screen->post_type && 'dlm_download_page_download-monitor-about-page' === $current_screen->base ) {
+				$return = false;
+			}
+		}
+
+		return $return;
 	}
 
 }
