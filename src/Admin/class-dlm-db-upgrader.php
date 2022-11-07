@@ -416,7 +416,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			}
 			set_transient( 'dlm_db_upgrade_offset', absint( $_POST['offset'] ) );
 			// We save the previous so that we make sure all the entries from that range will be saved.
-			wp_send_json( $offset );
+			wp_send_json_success( $offset );
 			exit;
 		}
 

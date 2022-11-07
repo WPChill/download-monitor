@@ -2915,3 +2915,84 @@ Toggles
   padding: 0 !important;
   outline: none;
 }
+/**
+Welcome page
+ */
+html body #wpchill-welcome {
+  width: calc(100% + 20px);
+  padding-top: 0;
+  margin-left: -20px;
+}
+html body #wpchill-welcome .hero {
+  background-color: transparent;
+  background-image: url('../images/welcome_header_bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  color: #fff;
+  border-radius: 0;
+}
+html body #wpchill-welcome .hero img {
+  max-height: 300px;
+  width: auto;
+  position: relative;
+  display: inline-block;
+  margin: 0 auto;
+}
+html body #wpchill-welcome .hero h1 {
+  color: #fff;
+}
+html body #wpchill-welcome .dlm-logo {
+  width: 100%;
+  margin-bottom: 25px;
+}
+html body #wpchill-welcome .dlm-logo img {
+  max-width: 40px;
+}
+html body #wpchill-welcome .features {
+  background: transparent;
+  box-shadow: none;
+}
+html body #wpchill-welcome .features hr {
+  border-bottom: 0;
+}
+html body #wpchill-welcome .block-row {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+html body #wpchill-welcome .pages-creation .block-row {
+  align-items: baseline;
+}
+html body #wpchill-welcome .feature-block {
+  background: #fff;
+  width: calc(33% - 10px) !important;
+  margin-bottom: 10px !important;
+  min-height: 200px;
+  padding: 15px;
+}
+html body #wpchill-welcome .feature-block p {
+  margin-left: 0 !important;
+  margin-top: 45px;
+  display: block;
+  width: 100%;
+  clear: both;
+}
+html body #wpchill-welcome .testimonials {
+  background: transparent;
+  box-shadow: none;
+}
+html body #wpchill-welcome .testimonials .block-row {
+  justify-content: space-between;
+}
+html body #wpchill-welcome .testimonials .testimonial-block {
+  background: #fff;
+  width: calc(50% - 15px);
+  padding: 15px;
+}
+html body #wpchill-welcome .white-bg {
+  background: #fff;
+  margin-bottom: 10px;
+}
+html body #wpchill-welcome .padding-15 {
+  padding: 15px;
+}
