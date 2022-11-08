@@ -60,6 +60,14 @@ class DLM_Admin_Extensions {
 	private $installed_extensions = array();
 
 	/**
+	 * DLM Licensed extensions
+	 *
+	 * @var array
+	 * @since 4.7.4
+	 */
+	private $licensed_extensions = array();
+
+	/**
 	 * Json
 	 *
 	 * @var mixed|string
@@ -135,6 +143,8 @@ class DLM_Admin_Extensions {
 		$this->set_response();
 
 		$this->set_tabs();
+
+		$this->set_licensed_extensions();
 
 	}
 
@@ -523,5 +533,45 @@ class DLM_Admin_Extensions {
 			}
 		}
 		return $settings;
+	}
+
+	/**
+	 * Get the installed extensions
+	 *
+	 * @return array
+	 */
+	public function get_installed_extensions() {
+		return $this->installed_extensions;
+	}
+
+	/**
+	 * Set the licensed extensions
+	 *
+	 * @return void
+	 * @since 4.7.4
+	 */
+	public function set_licensed_extensions() {
+		global $wpdb;
+		// Let's retrieve extensions that have a license key.
+		$extensions = $wpdb->get_results( $wpdb->prepare( "SELECT `option_name`, `option_value` FROM {$wpdb->prefix}options WHERE `option_name` LIKE %s AND `option_name` LIKE %s;", $wpdb->esc_like( 'dlm-' ) . '%', '%' . $wpdb->esc_like( '-license' ) ), ARRAY_A );
+
+		foreach ( $extensions as $extension ) {
+			$extension_name = str_replace( '-license', '', $extension['option_name'] );
+			$value          = unserialize( $extension['option_value'] );
+			// Extension must have an active status in order to be regitered.
+			if ( isset( $value['status'] ) && 'active' === $value['status'] ) {
+				$this->licensed_extensions[] = $extension_name;
+			}
+		}
+	}
+
+	/**
+	 * Get the licensed extensions
+	 *
+	 * @return array
+	 * @since 4.7.4
+	 */
+	public function get_licensed_extensions() {
+		return $this->licensed_extensions;
 	}
 }

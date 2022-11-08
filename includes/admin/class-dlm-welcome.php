@@ -171,6 +171,7 @@ class DLM_Welcome_Page {
 				<div class="block">
 					<?php $welcome->display_heading( esc_html__( 'Features & Add-ons', 'download-monitor' ), 'left' ); ?>
 					<?php $welcome->horizontal_delimiter(); ?>
+					<?php $welcome->display_empty_space(); ?>
 					<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Gated content', 'download-monitor' ), esc_html__( 'Use our Email Lock or Gravity/Ninja Forms extensions to lock downloads and gather leads. Alternatively, use Twitter Lock to require tweets in exchange for access to digital products.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/gated-content.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Enforce download limits', 'download-monitor' ), esc_html__( 'Create advanced access rules and IP restrictions to control who can access downloads, how many times can files be downloaded by each user or when do files expire.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/enforce-download-limits.png', true, '#F08232' ); ?>
