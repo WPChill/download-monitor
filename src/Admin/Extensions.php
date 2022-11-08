@@ -241,7 +241,32 @@ class DLM_Admin_Extensions {
 			delete_transient( 'dlm_extension_json' );
 		}
 
+		// WPChill Welcome Class
+		require_once plugin_dir_path( DLM_PLUGIN_FILE ) . '/includes/submodules/banner/class-wpchill-welcome.php';
+
+		if ( ! class_exists( 'WPChill_Welcome' ) ) {
+			return;
+		}
+
+		$welcome = WPChill_Welcome::get_instance();
+
 		?>
+		<div id="wpchill-welcome">
+			<div class="features">
+				<div class="block">
+					<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
+					<!-- Let's display the extensions.  -->
+					<?php
+					if ( count( $this->extensions ) > 0 ) {
+						foreach ( $this->extensions as $extension ) {
+							$welcome->display_extension( $extension->name, wp_kses_post($extension->desc), $extension->image, true, '#F08232', $extension->name );
+						}
+					}
+					?><!-- end extensions display -->
+					<?php $welcome->layout_end(); ?>
+				</div><!-- .block -->
+			</div><!-- .features -->
+		</div><!-- #wpchill-welcome -->
 		<div class="wrap dlm_extensions_wrap">
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 			<h1>

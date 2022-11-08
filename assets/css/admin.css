@@ -2918,44 +2918,6 @@ Toggles
 /**
 Welcome page
  */
-html body #wpchill-welcome {
-  width: calc(100% + 20px);
-  padding-top: 0;
-  margin-left: -20px;
-}
-html body #wpchill-welcome .hero {
-  background-color: transparent;
-  background-image: url('../images/welcome_header_bg.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  color: #fff;
-  border-radius: 0;
-}
-html body #wpchill-welcome .hero img {
-  max-height: 300px;
-  width: auto;
-  position: relative;
-  display: inline-block;
-  margin: 0 auto;
-}
-html body #wpchill-welcome .hero h1 {
-  color: #fff;
-}
-html body #wpchill-welcome .dlm-logo {
-  width: 100%;
-  margin-bottom: 25px;
-}
-html body #wpchill-welcome .dlm-logo img {
-  max-width: 40px;
-}
-html body #wpchill-welcome .features {
-  background: transparent;
-  box-shadow: none;
-}
-html body #wpchill-welcome .features hr {
-  border-bottom: 0;
-}
 html body #wpchill-welcome .block-row {
   flex-grow: 1;
   flex-basis: 0;

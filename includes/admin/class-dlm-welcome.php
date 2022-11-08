@@ -162,7 +162,7 @@ class DLM_Welcome_Page {
 						<?php $welcome->layout_end(); ?>
 					</div>
 					<div class="block-row">
-						<img src="<?php echo esc_url( DLM_URL ); ?>assets/images/welcome_header_laptop.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>">
+						<img src="<?php echo esc_url( DLM_URL ); ?>includes/submodules/banner/assets/img/welcome_header_laptop.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>">
 					</div>
 					<?php $welcome->layout_end(); ?>
 				</div>
@@ -172,18 +172,18 @@ class DLM_Welcome_Page {
 					<?php $welcome->display_heading( esc_html__( 'Features&Add-ons', 'download-monitor' ), 'left' ); ?>
 					<?php $welcome->horizontal_delimiter(); ?>
 					<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Gated content', 'download-monitor' ), esc_html__( 'Use our Email Lock or Gravity/Ninja Forms extensions to lock downloads and gather leads. Alternatively, use Twitter Lock to require tweets in exchange for access to digital products.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/gated-content.png', true, '#7364ff' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Enforce download limits', 'download-monitor' ), esc_html__( 'Create advanced access rules and IP restrictions to control who can access downloads, how many times can files be downloaded by each user or when do files expire.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/enforce-download-limits.png', true, '#7364ff' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Host files externally', 'download-monitor' ), esc_html__( 'Easily link files from Amazon S3 and Google Drive to your website.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/link-downloads-from-cloud.png', true, '#7364ff' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Gated content', 'download-monitor' ), esc_html__( 'Use our Email Lock or Gravity/Ninja Forms extensions to lock downloads and gather leads. Alternatively, use Twitter Lock to require tweets in exchange for access to digital products.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/gated-content.png', true, '#F08232' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Enforce download limits', 'download-monitor' ), esc_html__( 'Create advanced access rules and IP restrictions to control who can access downloads, how many times can files be downloaded by each user or when do files expire.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/enforce-download-limits.png', true, '#F08232' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Host files externally', 'download-monitor' ), esc_html__( 'Easily link files from Amazon S3 and Google Drive to your website.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/link-downloads-from-cloud.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Track your content', 'download-monitor' ), esc_html__( 'Gain access to detailed reports to see how your downloads are behaving.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/track-your-content.png' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Content grouping', 'download-monitor' ), esc_html__( 'Easily assign categories, tags or other meta to your downloads.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/content-grouping.png' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Customisable endpoints', 'download-monitor' ), esc_html__( 'For showing appealing download links and engaging buttons.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/customisable-endpoints.png', true, '#7364ff' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Spam protection', 'download-monitor' ), esc_html__( 'Our smart Captcha extension stops bots from finding, accessing and/or downloading your files without authorization', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/spam-protection.png', true, '#7364ff' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Customisable endpoints', 'download-monitor' ), esc_html__( 'For showing appealing download links and engaging buttons.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/customisable-endpoints.png', true, '#F08232' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Spam protection', 'download-monitor' ), esc_html__( 'Our smart Captcha extension stops bots from finding, accessing and/or downloading your files without authorization', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/spam-protection.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Monetize your downloads', 'download-monitor' ), esc_html__( 'Ability to sell your downloads straight from your WordPress website.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/monetize-your-downloads.png' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Instant notifications', 'download-monitor' ), esc_html__( 'Receive instant email notifications whenever someone downloads your content.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/instant-notifications.png', true, '#7364ff' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Page Addon', 'download-monitor' ), esc_html__( 'Make use of a shortcode to turn a page into a fully featured download listing page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/page-addon.png', true, '#7364ff' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Downloading Page', 'download-monitor' ), esc_html__( 'Forces your downloads to be served from a separate page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/downloading-page.png', true, '#7364ff' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Easy data importing/exporting', 'download-monitor' ), esc_html__( ' Import/export all download data including categories, tags and all file versions to and from a CSV file.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/data-importing-exporting.png', true, '#7364ff' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Instant notifications', 'download-monitor' ), esc_html__( 'Receive instant email notifications whenever someone downloads your content.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/instant-notifications.png', true, '#F08232' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Page Addon', 'download-monitor' ), esc_html__( 'Make use of a shortcode to turn a page into a fully featured download listing page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/page-addon.png', true, '#F08232' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Downloading Page', 'download-monitor' ), esc_html__( 'Forces your downloads to be served from a separate page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/downloading-page.png', true, '#F08232' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Easy data importing/exporting', 'download-monitor' ), esc_html__( ' Import/export all download data including categories, tags and all file versions to and from a CSV file.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/data-importing-exporting.png', true, '#F08232' ); ?>
 					<?php $welcome->layout_end(); ?>
 					<?php $welcome->display_empty_space(); ?>
 					<div class="wpchill-text-center">
@@ -291,7 +291,8 @@ class DLM_Welcome_Page {
 							<?php $welcome->display_testimonial( esc_html__( 'Download Monitor rocks! It lets me easily implement customized/themed lists of downloads and offers useful statistics and access logs for my downloads.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/Sebastian-Herrmann.jpeg', 'Sebastian Herrmann' ); ?>
 						</div>
 					</div><!-- testimonials -->
-
+					<?php $welcome->display_empty_space(); ?>
+					<?php $welcome->display_empty_space(); ?>
 					<div class="button-wrap clear">
 						<div class="left">
 							<?php $welcome->display_button( esc_html__( 'Start Adding Downloads', 'download-monitor' ), esc_url( admin_url( 'edit.php?post_type=dlm_download' ) ), true, '#7364ff' ); ?>
