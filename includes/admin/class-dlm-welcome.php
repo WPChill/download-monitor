@@ -201,9 +201,10 @@ class DLM_Welcome_Page {
 					<?php $welcome->display_subheading( esc_html__( 'In order to function properly, Download Monitor needs to create some pages in your WordPress website.', 'download-monitor' ), 'left' ); ?>
 					<?php $welcome->display_subheading( esc_html__( 'We can create these pages for you here. If you click the \'Create Page\' button we will create that page and add the required shortcode to it. We\'ll also make sure the newly created page is set in your settings page.', 'download-monitor' ), 'left' ); ?>
 					<?php $welcome->display_empty_space(); ?>
-					<?php $welcome->layout_start( '2', 'white-bg' ); ?>
-					<div class="block text-left padding-15">
-						<p><strong><input type="checkbox" <?php echo 0 != $page_no_access ? 'checked="checked"': ''; ?>><?php echo esc_html__( 'No Access', 'download-monitor' ); ?></strong></p>
+					<?php $welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
+					<div class="block text-left">
+						<p style="margin:0 auto;margin-top:5px;"><strong>
+								<span class="dashicons <?php echo 0 != $page_no_access ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_no_access ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'No Access', 'download-monitor' ); ?></strong></p>
 						<p class="description"><?php echo esc_html__( 'The page your visitors see when they are not allowed to download a file.', 'download-monitor' ); ?></p>
 					</div>
 					<div class="block text-right padding-15">
@@ -224,9 +225,9 @@ class DLM_Welcome_Page {
 						?>
 					</div>
 					<?php $welcome->layout_end(); ?>
-					<?php $welcome->layout_start( '2', 'white-bg' ); ?>
-					<div class="block text-left padding-15">
-						<p><strong><input type="checkbox" <?php echo 0 != $page_cart ? 'checked="checked"': ''; ?>><?php echo esc_html__( 'Cart', 'download-monitor' ); ?></strong></p>
+					<?php $welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
+					<div class="block text-left">
+						<p style="margin:0 auto;margin-top:5px;"><strong><span class="dashicons  <?php echo 0 != $page_cart ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_cart ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'Cart', 'download-monitor' ); ?></strong></p>
 						<p class="description"><?php echo esc_html__( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></p>
 					</div>
 					<div class="block text-right padding-15">
@@ -246,9 +247,9 @@ class DLM_Welcome_Page {
 						?>
 					</div>
 					<?php $welcome->layout_end(); ?>
-					<?php $welcome->layout_start( '2', 'white-bg' ); ?>
-					<div class="block text-left padding-15">
-						<p><strong><input type="checkbox" <?php echo 0 != $page_checkout ? 'checked="checked"': ''; ?>><?php echo esc_html__( 'Checkout', 'download-monitor' ); ?></strong></p>
+					<?php $welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
+					<div class="block text-left">
+						<p style="margin:0 auto;margin-top:5px;"><strong><span class="dashicons  <?php echo 0 != $page_checkout ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_checkout ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'Checkout', 'download-monitor' ); ?></strong></p>
 						<p class="description"><?php echo esc_html__( 'Your shop checkout page if you decide to sell downloads.', 'download-monitor' ); ?></p>
 					</div>
 					<div class="block text-right padding-15">
