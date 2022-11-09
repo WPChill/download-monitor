@@ -534,6 +534,9 @@ class DLM_Download_Handler {
 				if ( false !== strpos( $file_path, $basedir ) ) { // File is in the uploads' folder, so we need to create the correct URL.
 					// Set the URL for the uploads' folder.
 					$file_path = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $basedir ) ), str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $uploads_dir['baseurl'] ) ), $file_path );
+				} elseif ( is_link( $basedir ) && false !== strpos( $file_path, readlink( $basedir ) ) ) { // File is in the uploads' folder but in symlinked directory, so we need to create the correct URL.
+					// Set the URL for the uploads' folder.
+					$file_path = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( readlink( $basedir ) ) ), str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $uploads_dir['baseurl'] ) ), $file_path );
 				} else { // This is the case if the file is not located in the uploads' folder.
 					// Ensure we have a valid URL, not a file path.
 					$scheme = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
