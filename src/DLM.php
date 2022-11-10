@@ -190,6 +190,10 @@ class WP_DLM {
 		$post_type_manager = new DLM_Post_Type_Manager();
 		$post_type_manager->setup();
 
+		// Setup Log Filters
+		$log_filters = new DLM_Log_Filters();
+		$log_filters->setup();
+
 		// Setup actions
 		$this->setup_actions();
 
