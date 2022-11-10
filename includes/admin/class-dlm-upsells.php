@@ -870,12 +870,13 @@ class DLM_Upsells {
 	 */
 	public function filter_action_links( $links ) {
 
-		$dlm_extensions      = DLM_Admin_Extensions::get_instance();
-		$extensions          = $dlm_extensions->get_available_extensions();
-		$licensed_extensions = $dlm_extensions->get_licensed_extensions();
+		$dlm_extensions       = DLM_Admin_Extensions::get_instance();
+		$extensions           = $dlm_extensions->get_available_extensions();
+		$licensed_extensions  = $dlm_extensions->get_licensed_extensions();
+		$installed_extensions = $dlm_extensions->get_installed_extensions();
 
 		if ( 0 < count( $extensions ) ) {
-			if ( 0 !== count( $licensed_extensions ) ) { // If there are any licensed extensions we show the Upgrade button, not the upgrade to PRO button.
+			if ( 0 !== count( $licensed_extensions ) && 0 < count( $installed_extensions ) ) { // If there are any licensed extensions ( active ) we show the Upgrade button, not the upgrade to PRO button.
 				$upgrade = array( '<a target="_blank" style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade!', 'download-monitor' ) . '</a>' );
 			} else { // Show the upgrade to PRO button if no extensions are licensed.
 				$upgrade = array( '<a target="_blank" style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade to PRO!', 'download-monitor' ) . '</a>' );
