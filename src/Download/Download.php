@@ -415,6 +415,9 @@ class DLM_Download {
 				$value = $this->id;
 				break;
 		}
+		// If WPML is active we should return the original home_url to avoid 404 pages.
+		//@todo: If Downloads will be made translatable in the future then this should be removed.
+		add_filter( 'wpml_get_home_url', array( $this, 'wpml_download_link' ), 15, 2 );
 
 		if ( get_option( 'permalink_structure' ) ) {
 			// Fix for translation plugins that modify the home_url
@@ -423,6 +426,10 @@ class DLM_Download {
 		} else {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
 		}
+
+		// Now we can remove the filter as the link is generated.
+		//@todo: If Downloads will be made translatable in the future then this should be removed.
+		remove_filter( 'wpml_get_home_url', array( $this, 'wpml_download_link' ), 15, 2 );
 
 		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts
 		$timestamp = time();
@@ -1040,5 +1047,18 @@ class DLM_Download {
 	 */
 	public function get_non_logged_in_downloads() {
 		return $this->non_logged_in_downloads;
+	}
+
+	/**
+	 * Fix for WPML setting language for download links. IF the downloads are made trasnlatable this will need to be deleted.
+	 *
+	 * @param string $home_url Home URL made by WPML.
+	 * @param string $url Original URL.
+	 *
+	 * @return string $home_url The correct home URL for Download Monitor.
+	 */
+	public function wpml_download_link( $home_url, $url ) {
+
+		return $url;
 	}
 }
