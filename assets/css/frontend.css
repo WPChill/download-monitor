@@ -267,6 +267,14 @@ nav.download-monitor-pagination ul li a:focus,
     transform: rotate(360deg);
   }
 }
+@keyframes infinite-loading {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
 data.dlm-hidden-info {
   position: relative;
 }
@@ -336,6 +344,9 @@ html body a.download-button::before {
   transition: width 0.5s;
   box-shadow: 0px 0px 3px rgba(255, 0, 0, 0.8);
   border-radius: 5px;
+}
+html body a.download-button.download-infinity::before {
+  animation: infinite-loading 1s infinite linear;
 }
 html body a.download-button.download-10:before {
   width: 10%;

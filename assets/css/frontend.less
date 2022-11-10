@@ -216,6 +216,16 @@ nav.download-monitor-pagination, #content nav.download-monitor-pagination {
   }
 }
 
+@keyframes infinite-loading {
+  from {
+    width:0%;
+  }
+
+  to {
+    width:100%;
+  }
+}
+
 data.dlm-hidden-info {
   position: relative;
   span {
@@ -301,6 +311,12 @@ html body a.download-button{
     transition: width .5s;
     box-shadow:0px 0px 3px rgba(255, 0, 0, 0.8);
     border-radius:5px;
+  }
+
+  &.download-infinity {
+    &::before {
+      animation: infinite-loading 1s infinite linear;
+    }
   }
 
   &.download-10:before {
