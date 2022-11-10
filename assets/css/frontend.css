@@ -462,3 +462,55 @@ html body a.download-link.dlm-download-complete::before {
   display: inline-block;
   position: relative;
 }
+.dlm-no-access-modal-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding: 50px 30px 30px;
+  color: inherit;
+  background-color: #fff;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 1280px;
+  height: 600px;
+  box-shadow: 10px 10px 25px rgba(33, 42, 47, 0.1);
+  border-radius: 10px;
+  max-width: 80%;
+  max-height: 90%;
+  overflow-y: auto;
+}
+.dlm-no-access-modal-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #dededea1;
+  top: 0;
+}
+.dlm-no-access-modal-close {
+  display: block;
+  position: absolute;
+  text-align: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 100px;
+  background: #212A2F;
+  right: 40px;
+  top: 40px;
+}
+.dlm-no-access-modal-close span.dashicons {
+  width: 52px;
+  height: 52px;
+  font-size: 40px;
+  color: #fff;
+  margin-top: 6px;
+}
+.dlm-no-access-modal-close:hover {
+  cursor: pointer;
+  background-color: #fff;
+}
+.dlm-no-access-modal-close:hover span.dashicons {
+  color: #212A2F;
+}

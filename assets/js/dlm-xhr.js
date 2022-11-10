@@ -33,6 +33,13 @@ class DLM_XHR_Download {
 			$i = ',';
 		});
 
+		jQuery('html, body').on('click', '#dlm-no-access-modal, .dlm-no-access-modal-close', function (e) {
+
+			jQuery( '#dlm-no-access-modal' ).remove();
+
+		});
+
+
 		jQuery('html, body').on('click', xhr_links, function (e) {
 			// Search to see if we don't have to do XHR on this link
 			if (jQuery(this).hasClass('dlm-no-xhr-download')) {
@@ -262,7 +269,13 @@ class DLM_XHR_Download {
 	dlmLogDownload(headers, status, cookie, redirect_path = null, no_access = null, target = '_self') {
 
 		if (null !== no_access) {
-			window.location.href = redirect_path;
+
+			 if( headers['dlm-no-access-modal'] && 0 != headers['dlm-no-access-modal']){
+				dlmXHRinstance.dlmNoAccessModal( headers['dlm-download-id'], headers['dlm-version-id'] );
+			 }else{
+				window.location.href = redirect_path;
+			 }
+
 			return;
 		}
 
@@ -288,6 +301,22 @@ class DLM_XHR_Download {
 				}
 				window.open(redirect_path, target);
 			}
+		});
+	}
+
+	dlmNoAccessModal( download_id , version_id,){
+		const data = {
+			download_id,
+			version_id,
+			action: 'no_access_dlm_xhr_download',
+			nonce : dlmXHR.nonce
+		};
+
+		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
+			
+			jQuery( '#dlm-no-access-modal' ).remove();
+			jQuery('body').append( response );
+
 		});
 	}
 
