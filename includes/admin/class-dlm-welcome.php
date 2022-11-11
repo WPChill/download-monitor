@@ -153,10 +153,10 @@ class DLM_Welcome_Page {
 						<?php $welcome->display_heading( esc_html__( 'Welcome to Download Monitor', 'download-monitor' ),' left' ); ?>
 						<?php $welcome->display_subheading( esc_html__( 'You\'re just a few steps away from adding, displaying and tracking your first download on your website with the easiest to use WordPress download plugin.', 'download-monitor' ), 'left' ); ?>
 						<?php $welcome->layout_start( 2, 'feature-list clear' ); ?>
-							<div class="block">
+							<div class="block text-right padding-horizontal-15">
 								<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ), true, '#2271b1' ); ?>
 							</div>
-							<div class="block">
+							<div class="block guide-button">
 								<?php $welcome->display_button( esc_html__( 'Read our getting started guide', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, 'transparent', '#fff', '#fff' ); ?>
 							</div>
 						<?php $welcome->layout_end(); ?>
@@ -271,18 +271,19 @@ class DLM_Welcome_Page {
 						?>
 					</div>
 					<?php $welcome->layout_end(); ?>
-				</div>
-				<?php $welcome->display_empty_space(); ?>
-				<?php $welcome->layout_start( '4' ); ?>
+					<?php $welcome->display_empty_space(); ?>
+					<?php $welcome->layout_start( '4', 'pages-creation__buttons' ); ?>
 					<div class="block"></div>
-					<div class="block">
+					<div class="block text-right">
 						<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ), true, '#2271b1' ); ?>
 					</div>
-				<div class="block">
-					<?php $welcome->display_button( esc_html__( 'Read our getting started guide', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, 'transparent', '#2271b1', '#2271b1'  ); ?>
-				</div>
+					<div class="block guide-button">
+						<?php $welcome->display_button( esc_html__( 'Read our getting started guide', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, 'transparent', '#2271b1', '#2271b1'  ); ?>
+					</div>
 					<div class="block"></div>
-				<?php $welcome->layout_end(); ?>
+					<?php $welcome->layout_end(); ?>
+				</div>
+				<?php $welcome->display_empty_space(); ?>
 				<?php $welcome->display_empty_space(); ?>
 				<div class="block">
 					<?php $welcome->display_heading( esc_html__( 'Happy users of Download Monitor', 'download-monitor' ), 'left' ); ?>
@@ -295,13 +296,17 @@ class DLM_Welcome_Page {
 					</div><!-- testimonials -->
 					<?php $welcome->display_empty_space(); ?>
 					<?php $welcome->display_empty_space(); ?>
-					<div class="button-wrap clear">
-						<div class="left">
+					<div class="pages-creation">
+						<?php $welcome->layout_start( '4', 'pages-creation__buttons' ); ?>
+						<div class="block"></div>
+						<div class="block text-right">
 							<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'edit.php?post_type=dlm_download' ) ), true, '#2271b1' ); ?>
 						</div>
-						<div class="right">
+						<div class="block">
 							<?php $welcome->display_button( esc_html__( 'Upgrade Now', 'download-monitor' ), 'https://www.download-monitor.com/pricing/?utm_source=welcome_banner&utm_medium=upgradenow&utm_campaign=welcome_banner&utm_content=second_button', true, '#E76F51' ); ?>
 						</div>
+						<div class="block"></div>
+						<?php $welcome->layout_end(); ?>
 					</div>
 				</div>
 			</div><!-- features -->
