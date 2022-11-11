@@ -1,3 +1,6 @@
+= 4.7.4 - TBD =
+Added: No Access setting message is now translatable witm WPML ( [#902](https://github.com/WPChill/download-monitor/issues/902) )
+
 = 4.7.3 - 1.11.2022 =
 Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )
 Fixed: Security update regarding directory traversal ( [#1111](https://github.com/WPChill/download-monitor/issues/1111) )

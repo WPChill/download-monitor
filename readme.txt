@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.0
-Stable tag: 4.7.3
+Stable tag: 4.7.4
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.7.4 - TBD =
+Added: No Access setting message is now translatable witm WPML ( [#902](https://github.com/WPChill/download-monitor/issues/902) )
 
 = 4.7.3 - 1.11.2022 =
 Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )
