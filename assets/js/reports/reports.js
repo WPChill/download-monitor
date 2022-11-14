@@ -288,11 +288,13 @@ class DLM_Reports {
 		const dates     = {};
 		let currentDate = startDate;
 
-		while (currentDate <= endDate) {
-
+		while (currentDate.getTime() < endDate.getTime()) {
 			dates[this.createDateElement(currentDate)] = 0;
 			currentDate                                = this.getNextDay(currentDate);
 		}
+		// Add another day to get the last day
+		dates[this.createDateElement(currentDate)] = 0;
+		currentDate                                = this.getNextDay(currentDate);
 
 		return dates;
 	}
@@ -1220,6 +1222,7 @@ class DLM_Reports {
 		for (let i = 0; i < dataResponse.length; i++) {
 
 			const $download = dlmReportsInstance.getDownloadByID(dataResponse[i].id);
+
 			// No point on showing the download if it doesn't exist
 			if ('undefined' === typeof $download) {
 				return
