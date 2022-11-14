@@ -1230,7 +1230,7 @@ class DLM_Reports {
 
 			let itemObject = {
 				id             : dataResponse[i].id,
-				title          : dataResponse[i].title,
+				title          : dlmReportsInstance.htmlEntities( dataResponse[i].title ),
 				edit_link      : dlmAdminUrl + 'post.php?post=' + dataResponse[i].id + '&action=edit',
 				total_downloads: $download.total.toLocaleString()
 			};
@@ -1745,7 +1745,7 @@ class DLM_Reports {
 				user              : ('undefined' !== typeof user && null !== user) ? user['display_name'] : '--',
 				ip                : dataResponse[i].user_ip,
 				role              : (null !== user && null !== user.role ? user.role : '--'),
-				download          : ('undefined' !== typeof download && null !== download) ? download.title : '--',
+				download          : ('undefined' !== typeof download && null !== download) ? dlmReportsInstance.htmlEntities(download.title) : '--',
 				valid_user        : ('0' !== dataResponse[i].user_id),
 				edit_link         : ( '0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
 				edit_download_link: ('undefined' !== typeof download && null !== download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
@@ -2161,5 +2161,16 @@ class DLM_Reports {
 		}
 
 		dlmReportsInstance.handleSliderNavigation(handleObj);
+	}
+	/**
+	 * HTML entities for Download's title
+	 * @param string
+	 * @returns {string}
+	 */
+	htmlEntities(string) {
+		var textarea = document.getElementById("dlm_reports_decode_area");
+		textarea.innerHTML = string;
+		return textarea.value;
+
 	}
 }

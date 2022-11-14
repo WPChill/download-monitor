@@ -198,6 +198,8 @@ class DLM_Reports_Page {
 			</div>
 			</div>
 		</div>
+		<!-- Textarea used to decode HTML entities that are retrieved from RESTP API -->
+		<textarea id="dlm_reports_decode_area" class="hidden"></textarea>
 		<?php
 	}
 
