@@ -7,8 +7,6 @@ jQuery(function ($) {
 	const reports = new DLM_Reports();
 	// Let's get the available Downloads
 	dlmReportsInstance.fetchDownloadsCPT();
-	// Fetch our users and the logs. Do this first so that we query for users we have data.
-	dlmReportsInstance.fetchUserData();
 });
 
 /**
@@ -2193,5 +2191,8 @@ class DLM_Reports {
 		}
 
 		dlmReportsInstance.downloads = await fetchedUserData.json();
+
+		// Fetch our users and the logs. Do this first so that we query for users we have data.
+		dlmReportsInstance.fetchUserData();
 	}
 }
