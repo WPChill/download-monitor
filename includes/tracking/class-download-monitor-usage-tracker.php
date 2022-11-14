@@ -797,6 +797,13 @@ if ( ! class_exists( 'Download_Monitor_Usage_Tracker' ) ) {
 		 */
 		public function optin_notice() {
 
+			if ( function_exists( 'get_current_screen' ) ) {
+				$current_screen = get_current_screen();
+				if ( 'dlm_download_page_download-monitor-about-page' === $current_screen->base ) {
+					return;
+				}
+			}
+
 			// Check for plugin args.
 			if ( isset( $_GET['plugin'] ) && $this->plugin_name === $_GET['plugin'] && isset( $_GET['plugin_action'] ) ) {
 
