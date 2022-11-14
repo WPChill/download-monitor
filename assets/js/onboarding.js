@@ -54,7 +54,10 @@ DLM_Onboarding_CP.prototype.process = function () {
 		if ( response.result === 'success' ) {
 			jQuery( instance.el ).html( dlm_onboarding.lbl_created );
 			jQuery( instance.el ).removeClass( 'dlm-create-page' ).addClass( 'dlm-page-exists' );
-			jQuery( instance.el ).parents('.block-row ').find('input[type="checkbox"]').prop('checked', true);
+			jQuery(instance.el).parents('.block-row ').find('span.dashicons').removeClass('dashicons-no').addClass('dashicons-yes').css({
+																																			color  : '#23A870',
+																																			opacity: 1
+																																		});
 		} else {
 			jQuery( instance.el ).html( dlm_onboarding.lbl_create_page );
 
