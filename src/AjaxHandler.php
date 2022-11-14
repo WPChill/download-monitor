@@ -345,7 +345,6 @@ class DLM_Ajax_Handler {
 			define( 'DLM_DOING_XHR', true );
 		}
 		
-		wp_enqueue_style('dashicons');
 		// Action to allow the adition of extra scripts and code related to the shortcode
 		do_action( 'dlm_dlm_no_access_shortcode_scripts' );
 
@@ -379,7 +378,7 @@ class DLM_Ajax_Handler {
 		$modal_template = '
 			<div id="dlm-no-access-modal" class="dlm-no-access-modal-overlay">
 				<div class="dlm-no-access-modal-window">
-					<span class="dlm-no-access-modal-close" title="' . esc_html__( "Close Modal", 'download-monitor' ) . '">  <span class="dashicons dashicons-no-alt"></span> </span>
+					<span class="dlm-no-access-modal-close" title="' . esc_html__( "Close Modal", 'download-monitor' ) . '">  <span class="dlm-modal-close-icon"></span> </span>
 					' . $content . '
 				
 				</div>
