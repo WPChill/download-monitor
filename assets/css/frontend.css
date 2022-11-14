@@ -481,6 +481,7 @@ html body a.download-link.dlm-download-complete::before {
   max-width: 80%;
   max-height: 90%;
   overflow-y: auto;
+  z-index: 99;
 }
 .dlm-no-access-modal-overlay {
   position: fixed;
@@ -488,6 +489,7 @@ html body a.download-link.dlm-download-complete::before {
   height: 100%;
   background-color: #dededea1;
   top: 0;
+  z-index: 98;
 }
 .dlm-no-access-modal-close {
   display: block;

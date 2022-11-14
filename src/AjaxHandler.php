@@ -376,14 +376,16 @@ class DLM_Ajax_Handler {
 
 		$content =  ob_get_clean();
 		$modal_template = '
-			<div id="dlm-no-access-modal" class="dlm-no-access-modal-overlay">
+			<div id="dlm-no-access-modal" >
+				<div class="dlm-no-access-modal-overlay">
+
+				</div>
 				<div class="dlm-no-access-modal-window">
 					<span class="dlm-no-access-modal-close" title="' . esc_html__( "Close Modal", 'download-monitor' ) . '">  <span class="dlm-modal-close-icon"></span> </span>
 					' . $content . '
 				
-				</div>
+					</div>			
 			</div>';
-
 		echo $modal_template;
 		die();
 	}

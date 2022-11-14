@@ -24,7 +24,7 @@ class DLM_XHR_Download {
 		let $i        = '';
 
 		jQuery.each(dlmXHR.xhr_links.class, function ($key, $value) {
-			if ($value.indexOf('[class') > -1 || $value.indexOf('[id') > -1) {
+			if ($value.indexOf('[class') > -1 || $value.indexOf('[id') > -1) { 
 				xhr_links += $i + ' ' + $value;
 			} else {
 				xhr_links += $i + ' .' + $value;
@@ -33,7 +33,7 @@ class DLM_XHR_Download {
 			$i = ',';
 		});
 
-		jQuery('html, body').on('click', '#dlm-no-access-modal, .dlm-no-access-modal-close', function (e) {
+		jQuery('html, body').on('click', '.dlm-no-access-modal-overlay, .dlm-no-access-modal-close', function (e) {
 
 			jQuery( '#dlm-no-access-modal' ).remove();
 
