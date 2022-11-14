@@ -5,6 +5,8 @@ jQuery(function ($) {
 
 	// Let's initiate the reports.
 	const reports = new DLM_Reports();
+	// Let's get the available Downloads
+	dlmReportsInstance.fetchDownloadsCPT();
 	// Fetch our users and the logs. Do this first so that we query for users we have data.
 	dlmReportsInstance.fetchUserData();
 });
@@ -23,6 +25,7 @@ class DLM_Reports {
 	templates       = {};
 	totalDownloads  = 0;
 	perPage         = dlmReportsPerPage;
+	downloads = [];
 
 	/**
 	 * The constructor for our class
@@ -921,9 +924,9 @@ class DLM_Reports {
 
 				dlmReportsInstance.totalDownloads += item.downloads;
 				mostDownloaded[key] = ('undefined' === typeof mostDownloaded[key]) ? {
-					downloads: item.downloads, title: item.title, id: key
+					downloads: item.downloads, id: key
 				} : {
-					downloads: mostDownloaded[key]['downloads'] + item.downloads, title: item.title, id: key
+					downloads: mostDownloaded[key]['downloads'] + item.downloads, id: key
 				};
 			});
 		});
@@ -932,7 +935,8 @@ class DLM_Reports {
 
 		dlmReportsInstance.setTotalDownloads(dlmReportsInstance.totalDownloads);
 		dlmReportsInstance.setDailyAverage((dlmReportsInstance.totalDownloads / parseInt(dlmReportsInstance.stats.daysLength)).toFixed(0));
-		dlmReportsInstance.setMostDownloaded(dlmReportsInstance.mostDownloaded[0].title);
+		const mostDownloadedItem = dlmReportsInstance.getDownloadCPT(dlmReportsInstance.mostDownloaded[0].id);
+		dlmReportsInstance.setMostDownloaded(mostDownloadedItem.title.rendered);
 	}
 
 	/**
@@ -1221,7 +1225,8 @@ class DLM_Reports {
 
 		for (let i = 0; i < dataResponse.length; i++) {
 
-			const $download = dlmReportsInstance.getDownloadByID(dataResponse[i].id);
+			const $download    = dlmReportsInstance.getDownloadByID(dataResponse[i].id);
+			const $downloadCPT = dlmReportsInstance.getDownloadCPT(dataResponse[i].id);
 
 			// No point on showing the download if it doesn't exist
 			if ('undefined' === typeof $download) {
@@ -1230,7 +1235,7 @@ class DLM_Reports {
 
 			let itemObject = {
 				id             : dataResponse[i].id,
-				title          : dlmReportsInstance.htmlEntities( dataResponse[i].title ),
+				title          : dlmReportsInstance.htmlEntities( $downloadCPT.title.rendered ),
 				edit_link      : dlmAdminUrl + 'post.php?post=' + dataResponse[i].id + '&action=edit',
 				total_downloads: $download.total.toLocaleString()
 			};
@@ -1745,7 +1750,7 @@ class DLM_Reports {
 				user              : ('undefined' !== typeof user && null !== user) ? user['display_name'] : '--',
 				ip                : dataResponse[i].user_ip,
 				role              : (null !== user && null !== user.role ? user.role : '--'),
-				download          : ('undefined' !== typeof download && null !== download) ? dlmReportsInstance.htmlEntities(download.title) : '--',
+				download          : ('undefined' !== typeof download && null !== download) ? dlmReportsInstance.htmlEntities(download.title.rendered) : '--',
 				valid_user        : ('0' !== dataResponse[i].user_id),
 				edit_link         : ( '0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
 				edit_download_link: ('undefined' !== typeof download && null !== download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
@@ -2023,9 +2028,10 @@ class DLM_Reports {
 	 */
 	getDownloadCPT($id) {
 		let download = null;
-		if (Array.isArray(dlmReportsInstance.mostDownloaded)) {
-			download = dlmReportsInstance.mostDownloaded.filter((item) => {
-				return item.id === $id;
+
+		if (Array.isArray(dlmReportsInstance.downloads)) {
+			download = dlmReportsInstance.downloads.filter((item) => {
+				return parseInt( item.id ) === parseInt( $id );
 			}, 0)[0];
 		}
 
@@ -2164,6 +2170,7 @@ class DLM_Reports {
 	}
 	/**
 	 * HTML entities for Download's title
+	 *
 	 * @param string
 	 * @returns {string}
 	 */
@@ -2172,5 +2179,19 @@ class DLM_Reports {
 		textarea.innerHTML = string;
 		return textarea.value;
 
+	}
+	/**
+	 * Get existing Downloads
+	 *
+	 * @returns {Promise<void>}
+	 */
+	async fetchDownloadsCPT() {
+		const fetchedUserData = await fetch(dlmDownloadsCptApiapi);
+
+		if (!fetchedUserData.ok) {
+			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
+		}
+
+		dlmReportsInstance.downloads = await fetchedUserData.json();
 	}
 }

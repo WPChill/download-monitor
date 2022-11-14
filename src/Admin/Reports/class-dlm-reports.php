@@ -143,8 +143,15 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports';
 			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data';
 			$rest_route_templates        = rest_url() . 'download-monitor/v1/templates';
+			$cpt_fields = apply_filters( 'dlm_reports_downloads_cpt', array(
+				'author',
+				'id',
+				'title',
+				'slug'
+			) );
+			$rest_rout_downloadscpt = rest_url() . 'wp/v2/dlm_download?_fields=' . implode( ',', $cpt_fields );
 			// Let's add the global variable that will hold our reporst class and the routes.
-			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; const dlmPHPinfo =  ' . wp_json_encode( $this->php_info ) . ';', 'before' );
+			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; const dlmDownloadsCptApiapi = "' . $rest_rout_downloadscpt . '"; const dlmPHPinfo =  ' . wp_json_encode( $this->php_info ) . ';', 'before' );
 		}
 
 		/**
