@@ -179,10 +179,9 @@ class DLM_Backwards_Compatibility {
 	public function join_download_count_compatibility( $join ) {
 		global $wpdb;
 
-		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) ";
+		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) JOIN ( SELECT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE {$wpdb->postmeta}.meta_key = '_download_count') as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";
 
 		return $join;
-
 	}
 
 	/**
@@ -213,7 +212,7 @@ class DLM_Backwards_Compatibility {
 
 		global $wpdb;
 
-		$fields .= ", {$wpdb->dlm_downloads}.download_count as counts ";
+		$fields .= ", {$wpdb->dlm_downloads}.download_count, ( {$wpdb->dlm_downloads}.download_count + meta_downloads.meta_value ) total_downloads";
 
 		return $fields;
 	}
@@ -251,7 +250,7 @@ class DLM_Backwards_Compatibility {
 			$order = $this->filters['order'];
 		}
 
-		return ' counts ' . $order;
+		return ' total_downloads ' . $order;
 
 	}
 
