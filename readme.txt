@@ -123,6 +123,17 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 4.7.4 - TBD =
 Added: No Access setting message is now translatable witm WPML ( [#902](https://github.com/WPChill/download-monitor/issues/902) )
+Fix: Sorting by download count did not take into consideration the post meta ( [#1126](https://github.com/WPChill/download-monitor/issues/1126) )
+Fix: Reports Downloads CPT retrieval ( [#1128](https://github.com/WPChill/download-monitor/issues/1128) )
+Fix: Storing IP setting not working ( [#1124](https://github.com/WPChill/download-monitor/issues/1124) )
+Fix: Visual indicator for buttons and non-content headers ( [#1119](https://github.com/WPChill/download-monitor/issues/1119) )
+Changed: Reports display dates are now based on the Date Format and Time Format settings ( [#516](https://github.com/WPChill/download-monitor/issues/516) )
+Added: Option to set category in the Downloads list widget ( [#659](https://github.com/WPChill/download-monitor/issues/659) )
+Fixed: Exclude multiple tags in [downloads] shortcode ( [#660](https://github.com/WPChill/download-monitor/issues/660) )
+Change: Set cookies "secure" flag based on server configuration ( [#687](https://github.com/WPChill/download-monitor/issues/687) )
+Fixed: Bedrock installations redirect to file bug ( [#973](https://github.com/WPChill/download-monitor/issues/973) )
+Fixed: Conflict between WPML and Download CPT REST APIs ( [#1118](https://github.com/WPChill/download-monitor/issues/1118) )
+Fixed: Incompatiblity with WPML when languages added as parameter ( [#1112](https://github.com/WPChill/download-monitor/issues/1122) )
 
 = 4.7.3 - 1.11.2022 =
 Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )
