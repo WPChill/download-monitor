@@ -735,13 +735,18 @@ class DLM_Download_Handler {
 		if ( $this->check_for_xhr() ) {
 			// We use this method to encode the filename for XHR requests so that file names with characters like
 			// chinese or persian can be named correctly after the download.
-			$file_name = urlencode( $file_name );
+			$file_name                      = urlencode( $file_name );
+			$headers['Content-Disposition'] = "attachment; filename=\"{$file_name}\";";
+		} else {
+			// We use this method to encode the filename so that file names with characters like
+			// chinese or persian can be named correctly after the download in Safari.
+			$file_name                      = rawurlencode( $file_name );
+			$headers['Content-Disposition'] = "attachment; filename*=UTF-8''{$file_name};";
 		}
-		
+
 		$headers['X-Robots-Tag']              = 'noindex, nofollow';
 		$headers['Content-Type']              = $mime_type;
 		$headers['Content-Description']       = 'File Transfer';
-		$headers['Content-Disposition']       = "attachment; filename=\"{$file_name}\";";
 		$headers['Content-Transfer-Encoding'] = 'binary';
 
 		if ( $remote_file ) {
