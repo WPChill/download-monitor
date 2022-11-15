@@ -11,6 +11,8 @@ Change: Set cookies "secure" flag based on server configuration ( [#687](https:/
 Fixed: Bedrock installations redirect to file bug ( [#973](https://github.com/WPChill/download-monitor/issues/973) )
 Fixed: Conflict between WPML and Download CPT REST APIs ( [#1118](https://github.com/WPChill/download-monitor/issues/1118) )
 Fixed: Incompatiblity with WPML when languages added as parameter ( [#1112](https://github.com/WPChill/download-monitor/issues/1122) )
+Fixed: Safari compatibility for filenames ( [#1125](https://github.com/WPChill/download-monitor/issues/1125) )
+Changed: Upsell system for plugins page ( [#875](https://github.com/WPChill/download-monitor/issues/875) )
 
 = 4.7.3 - 1.11.2022 =
 Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )
