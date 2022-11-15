@@ -330,22 +330,22 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function xhr_no_access_modal() {
-		
-		if ( ! isset( $_POST['download_id'] ) || ! isset( $_POST['version_id']  ) ) {
+
+		if ( ! isset( $_POST['download_id'] ) || ! isset( $_POST['version_id'] ) ) {
 			if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
-				wp_send_json_error('Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.');
+				wp_send_json_error( 'Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.' );
 			}
-			wp_send_json_error('Missing download_id or version_id');
+			wp_send_json_error( 'Missing download_id or version_id' );
 		}
 
 		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
 
-		// Let's make sure the DLM_DOING_XHR is defined
+		// Let's make sure the DLM_DOING_XHR is defined.
 		if ( ! defined( 'DLM_DOING_XHR' ) ) {
 			define( 'DLM_DOING_XHR', true );
 		}
-		
-		// Action to allow the adition of extra scripts and code related to the shortcode
+
+		// Action to allow the adition of extra scripts and code related to the shortcode.
 		do_action( 'dlm_dlm_no_access_shortcode_scripts' );
 
 		$atts = array(
@@ -354,39 +354,44 @@ class DLM_Ajax_Handler {
 
 		ob_start();
 
-		// template handler
+		// template handler.
 		$template_handler = new DLM_Template_Handler();
 
 		try {
 			/** @var \DLM_Download $download */
 			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $_POST['download_id'] ) );
-			$version = download_monitor()->service( 'version_repository' )->retrieve_single( $_POST['version_id'] );
+			$version  = download_monitor()->service( 'version_repository' )->retrieve_single( absint( $_POST['version_id'] ) );
 			$download->set_version( $version );
-			
 
-			// load no access template
-			$template_handler->get_template_part( 'no-access', '', '', array(
-				'download'          => $download,
-				'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
-			) );
+			// load no access template.
+			$template_handler->get_template_part(
+				'no-access',
+				'',
+				'',
+				array(
+					'download'          => $download,
+					'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
+				)
+			);
 
 		} catch ( Exception $exception ) {
-			
+			wp_send_json_error( 'No download found' );
 		}
 
-		$content =  ob_get_clean();
+		$content        = ob_get_clean();
 		$modal_template = '
 			<div id="dlm-no-access-modal" >
 				<div class="dlm-no-access-modal-overlay">
 
 				</div>
 				<div class="dlm-no-access-modal-window">
-					<span class="dlm-no-access-modal-close" title="' . esc_html__( "Close Modal", 'download-monitor' ) . '">  <span class="dlm-modal-close-icon"></span> </span>
-					' . $content . '
-				
+					<span class="dlm-no-access-modal-close" title="' . esc_attr__( 'Close Modal', 'download-monitor' ) . '">  <span class="dlm-modal-close-icon"></span> </span>
+					' . $content . '				
 					</div>			
 			</div>';
-		echo $modal_template;
+		// Content and variables escaped above.
+		// $content variable escaped from extensions as it may include inputs or other HTML elements.
+		echo $modal_template; //phpcs:ignore
 		die();
 	}
 }
