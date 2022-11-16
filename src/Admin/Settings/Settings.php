@@ -200,6 +200,14 @@ class DLM_Admin_Settings {
 								'type'        => 'textarea',
 							),
 							array(
+								'name'     => 'dlm_no_access_modal',
+								'std'      => '0',
+								'label'    => __( 'No Access Modal', 'download-monitor' ),
+								'cb_label' => '',
+								'desc' => __( 'Open no access message in a modal window.', 'download-monitor' ),
+								'type'     => 'checkbox',
+							),
+							array(
 								'name'        => 'dlm_ip_blacklist',
 								'std'         => '192.168.0.0/24',
 								'label'       => __( 'Blacklist IPs', 'download-monitor' ),
