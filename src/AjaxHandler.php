@@ -340,11 +340,6 @@ class DLM_Ajax_Handler {
 
 		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
 
-		// Let's make sure the DLM_DOING_XHR is defined.
-		if ( ! defined( 'DLM_DOING_XHR' ) ) {
-			define( 'DLM_DOING_XHR', true );
-		}
-
 		// Action to allow the adition of extra scripts and code related to the shortcode.
 		do_action( 'dlm_dlm_no_access_shortcode_scripts' );
 
