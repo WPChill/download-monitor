@@ -136,6 +136,7 @@ Fixed: Conflict between WPML and Download CPT REST APIs ( [#1118](https://github
 Fixed: Incompatiblity with WPML when languages added as parameter ( [#1112](https://github.com/WPChill/download-monitor/issues/1122) )
 Fixed: Safari compatibility for filenames ( [#1125](https://github.com/WPChill/download-monitor/issues/1125) )
 Changed: Upsell system for plugins page ( [#875](https://github.com/WPChill/download-monitor/issues/875) )
+Added: Popup for no-access message ( [#686](https://github.com/WPChill/download-monitor/issues/686) )
 
 = 4.7.3 - 1.11.2022 =
 Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )

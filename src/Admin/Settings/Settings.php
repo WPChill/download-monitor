@@ -204,7 +204,7 @@ class DLM_Admin_Settings {
 								'std'      => '0',
 								'label'    => __( 'No Access Modal', 'download-monitor' ),
 								'cb_label' => '',
-								'desc' => __( 'Open no access message in a modal window.', 'download-monitor' ),
+								'desc' => __( 'Open no access message in a modal (pop-up) window.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 							array(
