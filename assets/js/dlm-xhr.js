@@ -270,7 +270,7 @@ class DLM_XHR_Download {
 
 		if (null !== no_access) {
 
-			 if( headers['dlm-no-access-modal'] && 0 != headers['dlm-no-access-modal']){
+			 if( 'undefined' !== typeof headers['dlm-no-access-modal'] && 0 != headers['dlm-no-access-modal']){
 				dlmXHRinstance.dlmNoAccessModal( headers['dlm-download-id'], headers['dlm-version-id'] );
 			 }else{
 				window.location.href = redirect_path;

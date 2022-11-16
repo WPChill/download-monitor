@@ -439,7 +439,7 @@ class DLM_Download_Handler {
 				if ( $this->check_for_xhr() ) {
 					header( 'DLM-Redirect: ' . $redirect );
 					header( 'DLM-No-Access: true' );
-					header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', 0, $download ) );
+					header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
 					exit;
 				}
 				header( "Status: 301 redirect,$redirect" );
