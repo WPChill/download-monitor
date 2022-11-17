@@ -549,16 +549,18 @@ class DLM_Download_Handler {
 				}
 			}
 
+			// We need to rawurlencode in case there are unicode characters in the file name
+			// and to prevent white space from being converted to + sign.
+			// Get file name.
+			$file_name = DLM_Utils::basename( $file_path );
+
+			if ( strstr( $file_name, '?' ) ) {
+				$file_name = current( explode( '?', $file_name ) );
+			}
+
+			$file_path = str_replace( $file_name, rawurlencode( $file_name ), $file_path );
+
 			if ( $this->check_for_xhr() ) {
-				// We need to urlencode in case there are unicode characters in the file name.
-				// Get file name.
-				$file_name = DLM_Utils::basename( $file_path );
-
-				if ( strstr( $file_name, '?' ) ) {
-					$file_name = current( explode( '?', $file_name ) );
-				}
-
-				$file_path = str_replace( $file_name, urlencode( $file_name ), $file_path );
 				header( 'DLM-Redirect: ' . $file_path );
 				exit;
 			}
@@ -733,16 +735,12 @@ class DLM_Download_Handler {
 		}
 
 		$headers = array();
-
+		// We use this method to encode the filename so that file names with characters like
+		// chinese or persian can be named correctly after the download in Safari.
+		$file_name = rawurlencode( $file_name );
 		if ( $this->check_for_xhr() ) {
-			// We use this method to encode the filename for XHR requests so that file names with characters like
-			// chinese or persian can be named correctly after the download.
-			$file_name                      = urlencode( $file_name );
 			$headers['Content-Disposition'] = "attachment; filename=\"{$file_name}\";";
 		} else {
-			// We use this method to encode the filename so that file names with characters like
-			// chinese or persian can be named correctly after the download in Safari.
-			$file_name                      = rawurlencode( $file_name );
 			$headers['Content-Disposition'] = "attachment; filename*=UTF-8''{$file_name};";
 		}
 
