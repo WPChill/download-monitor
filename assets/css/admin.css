@@ -2159,8 +2159,17 @@ table.wp-list-table .column-thumb img {
   clear: both;
 }
 .dlm_extensions_wrap .dlm_extensions {
-  padding: 15px 0;
+  padding: 0;
   overflow: hidden;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-list {
+  margin-top: 10px;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-block {
+  margin: 10px;
+  width: calc(33% - 20px) !important;
 }
 .dlm_extensions_wrap .dlm_extensions .dlm_extension {
   background-color: #FFF;

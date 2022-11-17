@@ -169,6 +169,7 @@ class DLM_Welcome_Page {
 			</div><!-- hero -->
 			<div class="features">
 				<div class="block">
+					<?php $welcome->display_empty_space(); ?>
 					<?php $welcome->display_heading( esc_html__( 'Features & Add-ons', 'download-monitor' ), 'left' ); ?>
 					<?php $welcome->horizontal_delimiter(); ?>
 					<?php $welcome->display_empty_space(); ?>
