@@ -122,7 +122,6 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 
 = 4.7.4 - TBD =
-Added: No Access setting message is now translatable witm WPML ( [#902](https://github.com/WPChill/download-monitor/issues/902) )
 Fix: Sorting by download count did not take into consideration the post meta ( [#1126](https://github.com/WPChill/download-monitor/issues/1126) )
 Fix: Reports Downloads CPT retrieval ( [#1128](https://github.com/WPChill/download-monitor/issues/1128) )
 Fix: Storing IP setting not working ( [#1124](https://github.com/WPChill/download-monitor/issues/1124) )
