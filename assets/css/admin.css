@@ -2324,6 +2324,13 @@ table.wp-list-table .column-thumb img {
   margin: 5px auto;
   margin-left: 15px;
 }
+#installed-extensions #wpchill-welcome .features .feature-list .feature-block {
+  margin: 10px;
+  width: calc(33% - 20px) !important;
+}
+#installed-extensions #wpchill-welcome .features .feature-list a {
+  color: #fff;
+}
 #total_downloads_browser_table a.nav-tab {
   text-transform: capitalize;
 }
