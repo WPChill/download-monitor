@@ -388,9 +388,18 @@ class DLM_Ajax_Handler {
 
 				</div>
 				<div class="dlm-no-access-modal-window">
-					<span class="dlm-no-access-modal-close" title="' . esc_attr__( 'Close Modal', 'download-monitor' ) . '">  <span class="dlm-modal-close-icon"></span> </span>
-					' . $content . '				
-					</div>			
+					<div class="dlm-no-access-modal__header">
+						<span class="dlm-no-access-modal__title">' . esc_html__( 'Hold up!', 'download-monitor' ) . ' </span>
+						<span class="dlm-no-access-modal-close" title="' . esc_attr__( 'Close Modal', 'download-monitor' ) . '"> <span class="dashicons dashicons-no"></span>
+					</div>
+					<div class="dlm-no-access-modal__body">
+						
+						' . $content . '			
+					</div>	
+					<div class="dlm-no-access-modal__footer">
+						<button class="dlm-no-access-modal-close">' . esc_html__( 'Close', 'download-monitor' ) . '</button>
+					</div>
+				</div>			
 			</div>';
 		// Content and variables escaped above.
 		// $content variable escaped from extensions as it may include inputs or other HTML elements.
