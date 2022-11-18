@@ -2158,6 +2158,9 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap #available-extensions {
   clear: both;
 }
+.dlm_extensions_wrap #available-extensions .features .feature-list .feature-block a {
+  color: #fff;
+}
 .dlm_extensions_wrap .dlm_extensions {
   padding: 0;
   overflow: hidden;
@@ -2327,6 +2330,7 @@ table.wp-list-table .column-thumb img {
 #installed-extensions #wpchill-welcome .features .feature-list .feature-block {
   margin: 10px;
   width: calc(33% - 20px) !important;
+  min-height: 400px;
 }
 #installed-extensions #wpchill-welcome .features .feature-list a {
   color: #fff;
