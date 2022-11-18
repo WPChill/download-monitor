@@ -440,7 +440,7 @@ class DLM_Download_Handler {
 				header( 'DLM-Error: ' . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
 				$restriction_type = 'access_denied';
 				header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-				header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'Access denied to the file.', 'download-monitor' ), $download, $restriction_type ) );
+				header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'Access denied to this file.', 'download-monitor' ), $download, $restriction_type ) );
 				http_response_code( 403 );
 				exit;
 			}
