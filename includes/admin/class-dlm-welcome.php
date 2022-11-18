@@ -152,14 +152,10 @@ class DLM_Welcome_Page {
 						</div>
 						<?php $welcome->display_heading( esc_html__( 'Welcome to Download Monitor', 'download-monitor' ),' left' ); ?>
 						<?php $welcome->display_subheading( esc_html__( 'You\'re just a few steps away from adding, displaying and tracking your first download on your website with the easiest to use WordPress download plugin.', 'download-monitor' ), 'left' ); ?>
-						<?php $welcome->layout_start( 2, 'feature-list clear' ); ?>
-							<div class="block text-right padding-horizontal-15">
-								<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ), true, '#2271b1' ); ?>
-							</div>
-							<div class="block guide-button">
-								<?php $welcome->display_button( esc_html__( 'Read our getting started guide', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, 'transparent', '#fff', '#fff' ); ?>
-							</div>
-						<?php $welcome->layout_end(); ?>
+						<div class="block padding-horizontal-15">
+							<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ), true, '#2271b1' ); ?>&nbsp;&nbsp;&nbsp;&nbsp;
+							<?php $welcome->display_button( esc_html__( 'Read our getting started guide', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, 'transparent', '#fff', '#fff' ); ?>
+						</div>
 					</div>
 					<div class="block-row">
 						<img src="<?php echo esc_url( DLM_URL ); ?>includes/submodules/banner/assets/img/welcome_header_laptop.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>">
