@@ -168,7 +168,13 @@ class DLM_XHR_Download {
 					button.setAttribute('href', href);
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
 					request.abort();
-					buttonObj.append('<span class="dlm-xhr-error">' + responseHeaders['dlm-error'] + '</span>');
+
+					if( 'undefined' !== typeof responseHeaders['dlm-no-access-modal'] && 0 != responseHeaders['dlm-no-access-modal']){
+						dlmXHRinstance.dlmNoAccessModal( responseHeaders['dlm-download-id'], responseHeaders['dlm-version-id'], responseHeaders['dlm-no-access-modal-text'] );
+					} else {
+						buttonObj.append('<span class="dlm-xhr-error">' + responseHeaders['dlm-error'] + '</span>');
+					}
+
 					return;
 				}
 
@@ -269,14 +275,7 @@ class DLM_XHR_Download {
 	dlmLogDownload(headers, status, cookie, redirect_path = null, no_access = null, target = '_self') {
 
 		if (null !== no_access) {
-
-			 if( 'undefined' !== typeof headers['dlm-no-access-modal'] && 0 != headers['dlm-no-access-modal']){
-				dlmXHRinstance.dlmNoAccessModal( headers['dlm-download-id'], headers['dlm-version-id'] );
-			 }else{
-				window.location.href = redirect_path;
-			 }
-
-			return;
+			window.location.href = redirect_path;
 		}
 
 		const currentURL  = window.location.href;
@@ -304,12 +303,29 @@ class DLM_XHR_Download {
 		});
 	}
 
-	dlmNoAccessModal( download_id , version_id,){
+	dlmNoAccessModal( downloadIid , versionIid, modalText){
+		let download = 'empty-download',
+			version  = 'empty-version',
+			text     = '';
+
+		if ('undefined' !== typeof downloadIid) {
+			download = downloadIid;
+		}
+
+		if ('undefined' !== typeof versionIid) {
+			version = versionIid;
+		}
+
+		if ('undefined' !== typeof modalText) {
+			text = modalText;
+		}
+
 		const data = {
-			download_id,
-			version_id,
-			action: 'no_access_dlm_xhr_download',
-			nonce : dlmXHR.nonce
+			download_id: download,
+			version_id : version,
+			modal_text : text,
+			action     : 'no_access_dlm_xhr_download',
+			nonce      : dlmXHR.nonce
 		};
 
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {

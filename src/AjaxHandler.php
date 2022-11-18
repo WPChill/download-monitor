@@ -352,25 +352,33 @@ class DLM_Ajax_Handler {
 		// template handler.
 		$template_handler = new DLM_Template_Handler();
 
-		try {
-			/** @var \DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $_POST['download_id'] ) );
-			$version  = download_monitor()->service( 'version_repository' )->retrieve_single( absint( $_POST['version_id'] ) );
-			$download->set_version( $version );
+		if ( 'empty-download' === $_POST['download_id'] || ( isset( $_POST['modal_text'] ) && ! empty( $_POST['modal_text'] ) ) ) {
+			if ( isset( $_POST['modal_text'] ) && ! empty( $_POST['modal_text'] ) ) {
+				echo sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
+			} else {
+				echo '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
+			}
+		} else {
 
-			// load no access template.
-			$template_handler->get_template_part(
-				'no-access',
-				'',
-				'',
-				array(
-					'download'          => $download,
-					'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
-				)
-			);
+			try {
+				/** @var \DLM_Download $download */
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $_POST['download_id'] ) );
+				$version  = ( 'empty-download' !== $_POST['download_id'] ) ? download_monitor()->service( 'version_repository' )->retrieve_single( absint( $_POST['version_id'] ) ) : $download->get_version();
+				$download->set_version( $version );
 
-		} catch ( Exception $exception ) {
-			wp_send_json_error( 'No download found' );
+				// load no access template.
+				$template_handler->get_template_part(
+					'no-access',
+					'',
+					'',
+					array(
+						'download'          => $download,
+						'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
+					)
+				);
+			} catch ( Exception $exception ) {
+				wp_send_json_error( 'No download found' );
+			}
 		}
 
 		$content        = ob_get_clean();
