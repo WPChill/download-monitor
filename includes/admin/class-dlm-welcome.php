@@ -153,8 +153,8 @@ class DLM_Welcome_Page {
 						<?php $welcome->display_heading( esc_html__( 'Welcome to Download Monitor', 'download-monitor' ),' left' ); ?>
 						<?php $welcome->display_subheading( esc_html__( 'You\'re just a few steps away from adding, displaying and tracking your first download on your website with the easiest to use WordPress download plugin.', 'download-monitor' ), 'left' ); ?>
 						<div class="block padding-horizontal-15">
-							<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ), 'button-primary', false, '#2271b1' ); ?>&nbsp;&nbsp;&nbsp;&nbsp;
-							<?php $welcome->display_button( esc_html__( 'Read our getting started guide', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', 'button-secondary', false, 'transparent', '#fff', '#fff' ); ?>
+							<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ), 'button-primary button-hero', false, '#2271b1' ); ?>&nbsp;&nbsp;&nbsp;&nbsp;
+							<?php $welcome->display_button( esc_html__( 'Read our getting started guide', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', 'button-secondary button-hero', false, 'transparent', '#fff', '#fff' ); ?>
 						</div>
 					</div>
 					<div class="block-row">
@@ -187,7 +187,7 @@ class DLM_Welcome_Page {
 					<div class="wpchill-text-center">
 						<div class="button-wrap-single clear">
 							<div >
-								<?php $welcome->display_button( esc_html__( 'Upgrade Now', 'download-monitor' ), 'https://www.download-monitor.com/pricing/?utm_source=welcome_banner&utm_medium=upgradenow&utm_campaign=welcome_banner&utm_content=first_button', 'button-primary', false, '#E76F51' ); ?>
+								<?php $welcome->display_button( esc_html__( 'Upgrade Now', 'download-monitor' ), 'https://www.download-monitor.com/pricing/?utm_source=welcome_banner&utm_medium=upgradenow&utm_campaign=welcome_banner&utm_content=first_button', 'button-primary button-hero', false, '#E76F51' ); ?>
 							</div>
 						</div>
 					</div>
