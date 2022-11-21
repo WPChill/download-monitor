@@ -350,6 +350,8 @@ class DLM_XHR_Download {
 			jQuery( '#dlm-no-access-modal' ).remove();
 			jQuery('body').append( response );
 
+			jQuery(document).trigger( 'dlm_no_access_modal_response', [ response, data ] );
+
 		});
 	}
 
