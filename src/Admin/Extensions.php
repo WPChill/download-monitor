@@ -371,6 +371,13 @@ class DLM_Admin_Extensions {
 		<?php
 		// Installed Extensions
 		if ( count( $this->installed_extensions ) > 0 ) {
+			// WPChill Welcome Class.
+			require_once plugin_dir_path( DLM_PLUGIN_FILE ) . '/includes/submodules/banner/class-wpchill-welcome.php';
+
+			if ( ! class_exists( 'WPChill_Welcome' ) ) {
+				return;
+			}
+
 			$welcome = WPChill_Welcome::get_instance();
 			echo '<div id="installed-extensions" class="settings_panel">';
 
