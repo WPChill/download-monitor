@@ -313,7 +313,7 @@ class WP_DLM {
 			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css' );
 		}
 
-		// only enqueue preview stylesheet when we're in the preview
+		// only enqueue preview stylesheet when we're in the preview.
 		if ( isset( $_GET['dlm_gutenberg_download_preview'] ) ) {
 			// Enqueue admin css
 			wp_enqueue_style(
@@ -324,7 +324,7 @@ class WP_DLM {
 			);
 		}
 
-		// Leave this filter here in case XHR is problematic and needs to be disabled
+		// Leave this filter here in case XHR is problematic and needs to be disabled.
 		if ( self::do_xhr() ) {
 			wp_enqueue_script(
 				'dlm-xhr',
@@ -332,6 +332,11 @@ class WP_DLM {
 				array('jquery'),
 				DLM_VERSION, true
 			);
+
+			// Add dashicons on the front if popup modal for no access is used.
+			if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
+				wp_enqueue_style( 'dashicons' );
+			}
 
 			$dlm_xhr_data = apply_filters(
 				'dlm_xhr_data',
@@ -352,7 +357,7 @@ class WP_DLM {
 			);
 
 			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
-	
+
 			wp_add_inline_script('dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {};', 'before');
 			wp_localize_script('dlm-xhr', 'dlmXHRtranslations', array(
 				'error' => __('An error occurred while trying to download the file. Please try again.', 'download-monitor')
