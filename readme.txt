@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.7.4 - TBD =
+= 4.7.4 - 21.11.2022 =
 Fix: Sorting by download count did not take into consideration the post meta ( [#1126](https://github.com/WPChill/download-monitor/issues/1126) )
 Fix: Reports Downloads CPT retrieval ( [#1128](https://github.com/WPChill/download-monitor/issues/1128) )
 Fix: Storing IP setting not working ( [#1124](https://github.com/WPChill/download-monitor/issues/1124) )
@@ -136,6 +136,8 @@ Fixed: Incompatiblity with WPML when languages added as parameter ( [#1112](http
 Fixed: Safari compatibility for filenames ( [#1125](https://github.com/WPChill/download-monitor/issues/1125) )
 Changed: Upsell system for plugins page ( [#875](https://github.com/WPChill/download-monitor/issues/875) )
 Added: Popup for no-access message ( [#686](https://github.com/WPChill/download-monitor/issues/686) )
+Added: Option to display the "No access" message in a popup( modal ) ( [#686](https://github.com/WPChill/download-monitor/issues/686) )
+Fixed: Redirect to file when from uploads / uploadsis a symlink ( [#1100](https://github.com/WPChill/download-monitor/issues/1100) )
 
 = 4.7.3 - 1.11.2022 =
 Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )
