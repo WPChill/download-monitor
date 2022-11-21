@@ -546,7 +546,8 @@ class DLM_Download_Handler {
 				$uploads_dir = wp_upload_dir();
 				$file_path   = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
 				$basedir     = str_replace( DIRECTORY_SEPARATOR, '/', $uploads_dir['basedir'] );
-				$sympath     = str_replace( DIRECTORY_SEPARATOR, '/', readlink( $basedir ));
+				$sympath     = str_replace( DIRECTORY_SEPARATOR, '/', readlink( $basedir ) );
+
 				if ( false !== strpos( $file_path, $basedir ) ) { // File is in the uploads' folder, so we need to create the correct URL.
 					// Set the URL for the uploads' folder.
 					$file_path = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $basedir ) ), str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $uploads_dir['baseurl'] ) ), $file_path );
@@ -876,7 +877,7 @@ class DLM_Download_Handler {
 	 *
 	 * @return bool
 	 */
-	private function check_for_xhr(){
+	private function check_for_xhr() {
 		return defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR;
 	}
 
