@@ -381,6 +381,17 @@ class DLM_Ajax_Handler {
 			}
 		}
 
+		$restriction_type = isset( $_POST['restriction'] ) && 'restriction-empty' !== $_POST['restriction'] ? sanitize_text_field( wp_unslash( $_POST['restriction'] ) ) : 'no_access_page';
+
+		$title = array(
+			'no_file_path' => __( 'Error!', 'download-monitor' ),
+			'no_file_paths' => __( 'Error!', 'download-monitor' ),
+			'access_denied'    => __( 'No access!', 'download-monitor' ),
+			'file_not_found'    => __( 'Error!', 'download-monitor' ),
+			'not_found'    => __( 'Error!', 'download-monitor' ),
+			'filetype'    => __( 'No access!', 'download-monitor' ),
+			'no_access_page'    => __( 'No access!', 'download-monitor' ),
+		);
 		$content        = ob_get_clean();
 		$modal_template = '
 			<div id="dlm-no-access-modal" >
@@ -389,11 +400,10 @@ class DLM_Ajax_Handler {
 				</div>
 				<div class="dlm-no-access-modal-window">
 					<div class="dlm-no-access-modal__header">
-						<span class="dlm-no-access-modal__title">' . esc_html__( 'Hold up!', 'download-monitor' ) . ' </span>
+						<span class="dlm-no-access-modal__title">' . esc_html( $title[ $restriction_type ] ) . ' </span>
 						<span class="dlm-no-access-modal-close" title="' . esc_attr__( 'Close Modal', 'download-monitor' ) . '"> <span class="dashicons dashicons-no"></span>
 					</div>
-					<div class="dlm-no-access-modal__body">
-						
+					<div class="dlm-no-access-modal__body">						
 						' . $content . '			
 					</div>	
 					<div class="dlm-no-access-modal__footer">

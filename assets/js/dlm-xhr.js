@@ -161,6 +161,17 @@ class DLM_XHR_Download {
 					window.location.href = href;
 				}
 
+				if ('undefined' !== typeof responseHeaders['dlm-no-access'] && 'true' === responseHeaders['dlm-no-access']) {
+					if ('undefined' !== typeof responseHeaders['dlm-no-access-modal'] && 0 != responseHeaders['dlm-no-access-modal']) {
+						dlmXHRinstance.dlmNoAccessModal(responseHeaders);
+						button.removeAttribute('download');
+						button.setAttribute('href', href);
+						buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
+						request.abort();
+						return;
+					}
+				}
+
 				// If there is a dlm-error headers means we have an error. Display the error and abort.
 				if ('undefined' !== typeof responseHeaders['dlm-error'] && '' !== responseHeaders['dlm-error'] && null !== responseHeaders['dlm-error']) {
 					dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
@@ -303,27 +314,33 @@ class DLM_XHR_Download {
 		});
 	}
 
-	dlmNoAccessModal( downloadIid , versionIid, modalText){
+	dlmNoAccessModal( headers){
 		let download = 'empty-download',
 			version  = 'empty-version',
+			restriction = 'empty-restriction',
 			text     = '';
 
-		if ('undefined' !== typeof downloadIid) {
-			download = downloadIid;
+		if ('undefined' !== typeof headers['dlm-download-id']) {
+			download = headers['dlm-download-id'];
 		}
 
-		if ('undefined' !== typeof versionIid) {
-			version = versionIid;
+		if ('undefined' !== typeof headers['dlm-version-id']) {
+			version = headers['dlm-version-id'];
 		}
 
-		if ('undefined' !== typeof modalText) {
-			text = modalText;
+		if ('undefined' !== typeof headers['dlm-no-access-modal-text']) {
+			text = headers['dlm-no-access-modal-text'];
+		}
+
+		if ( 'undefined' !== typeof headers['dlm-no-access-restriction'] ) {
+			restriction = headers['dlm-no-access-restriction'];
 		}
 
 		const data = {
 			download_id: download,
 			version_id : version,
 			modal_text : text,
+			restriction,
 			action     : 'no_access_dlm_xhr_download',
 			nonce      : dlmXHR.nonce
 		};

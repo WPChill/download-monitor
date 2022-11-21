@@ -276,8 +276,7 @@ class DLM_Download_Handler {
 					if ( $this->check_for_xhr() ) {
 						header( 'DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
 						$restriction_type = 'not_found';
-						header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-						header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type ) );
+						$this->set_no_access_modal( __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type );
 						http_response_code( 404 );
 						exit;
 					}
@@ -289,8 +288,7 @@ class DLM_Download_Handler {
 				if ( $this->check_for_xhr() ) {
 					header( 'DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
 					$restriction_type = 'not_found';
-					header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-					header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type ) );
+					$this->set_no_access_modal( __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type );
 					http_response_code( 404 );
 					exit;
 				}
@@ -325,9 +323,8 @@ class DLM_Download_Handler {
 				if ( in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
 					if ( $this->check_for_xhr() ) {
 						header( 'DLM-Error: ' . esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) );
-						header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
 						$restriction_type = 'filetype';
-						header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'Download is not allowed for this file type', 'download-monitor' ), $download, $restriction_type ) );
+						$this->set_no_access_modal( __( 'Download is not allowed for this file type.', 'download-monitor' ), $download, $restriction_type );
 						http_response_code( 403 );
 						exit;
 					}
@@ -357,8 +354,7 @@ class DLM_Download_Handler {
 				if ( $this->check_for_xhr() ) {
 					header( 'DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
 					$restriction_type = 'not_found';
-					header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-					header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type ) );
+					$this->set_no_access_modal( __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type );
 					http_response_code( 404 );
 					exit;
 				}
@@ -402,8 +398,7 @@ class DLM_Download_Handler {
 			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Error: ' . esc_html__( 'No file paths defined.', 'download-monitor' ) );
 				$restriction_type = 'no_file_paths';
-				header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-				header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'No file paths defined.', 'download-monitor' ), $download, $restriction_type ) );
+				$this->set_no_access_modal( __( 'No file paths defined', 'download-monitor' ), $download, $restriction_type );
 				http_response_code( 404 );
 				exit;
 			}
@@ -420,8 +415,7 @@ class DLM_Download_Handler {
 			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Error: ' . esc_html__( 'No file path defined.', 'download-monitor' ) );
 				$restriction_type = 'no_file_path';
-				header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-				header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'No file path defined.', 'download-monitor' ), $download, $restriction_type ) );
+				$this->set_no_access_modal( __( 'No file path defined', 'download-monitor' ), $download, $restriction_type );
 				http_response_code( 404 );
 				exit;
 			}
@@ -439,8 +433,7 @@ class DLM_Download_Handler {
 			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Error: ' . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
 				$restriction_type = 'access_denied';
-				header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-				header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'Access denied to this file.', 'download-monitor' ), $download, $restriction_type ) );
+				$this->set_no_access_modal( __( 'Access denied to this file.', 'download-monitor' ), $download, $restriction_type );
 				http_response_code( 403 );
 				exit;
 			}
@@ -496,8 +489,7 @@ class DLM_Download_Handler {
 
 						if ( $this->check_for_xhr() ) {
 							header( 'DLM-Redirect: ' . $no_access_permalink );
-							header( 'DLM-No-Access: true' );
-							header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
+							$this->set_no_access_modal( false, $download, 'no_access_page' );
 							exit;
 						}
 						// redirect to no access page.
@@ -510,8 +502,7 @@ class DLM_Download_Handler {
 				if ( $this->check_for_xhr() ) {
 					header( 'DLM-Error: ' . esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ) );
 					$restriction_type = 'access_denied';
-					header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-					header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'Access denied. You don\'t have permission to download this file.', 'download-monitor' ), $download, $restriction_type ) );
+					$this->set_no_access_modal( __( 'Access denied. You do not have permission to download this file.', 'download-monitor' ), $download, $restriction_type );
 					exit;
 				}
 
@@ -680,8 +671,7 @@ class DLM_Download_Handler {
 			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Error: ' . esc_html__( 'File not found.', 'download-monitor' ) );
 				$restriction_type = 'file_not_found';
-				header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', absint( get_option( 'dlm_no_access_modal', 0 ) ), $download ) );
-				header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', __( 'File not found.', 'download-monitor' ), $download, $restriction_type ) );
+				$this->set_no_access_modal( __( 'File not found.', 'download-monitor' ), $download, $restriction_type );
 				exit;
 			}
 
@@ -888,5 +878,29 @@ class DLM_Download_Handler {
 	 */
 	private function check_for_xhr(){
 		return defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR;
+	}
+
+	/**
+	 * Set headers for Modal opening
+	 *
+	 * @param string $text The text to be displayed.
+	 * @param object $download The download object.
+	 * @param string $restriction_type The restriction type.
+	 *
+	 * @return void
+	 * @since 4.7.4
+	 */
+	public function set_no_access_modal( $text, $download, $restriction_type ) {
+		$access_modal = absint( get_option( 'dlm_no_access_modal', 0 ) );
+
+		if ( 0 !== $access_modal ) {
+			header( 'DLM-No-Access: true' );
+		}
+
+		header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', $access_modal, $download ) );
+		header( 'DLM-No-Access-Restriction: ' . $restriction_type );
+		if ( ! empty( $text ) ) {
+			header( 'DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', $text, $download, $restriction_type ) );
+		}
 	}
 }
