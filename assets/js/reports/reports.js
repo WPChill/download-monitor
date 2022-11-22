@@ -1774,7 +1774,7 @@ class DLM_Reports {
 				valid_user        : ('0' !== dataResponse[i].user_id),
 				edit_link         : ( '0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
 				edit_download_link: ('undefined' !== typeof download && null !== download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
-				status            : dataResponse[i].download_status,
+				status            : ( 'redirect' === dataResponse[i].download_status ) ? 'redirected' : dataResponse[i].download_status,
 				download_date     : dataResponse[i].display_date,
 			}
 

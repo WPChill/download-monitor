@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.1
-Stable tag: 4.7.6
+Stable tag: 4.7.60
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.7.6 - TBA =
+= 4.7.60 - TBA =
 
 = 4.7.51 - 22.11.2022 =
 Fix: Bug on reports when Download deleted ( [#1136](https://github.com/WPChill/download-monitor/issues/1136) )
