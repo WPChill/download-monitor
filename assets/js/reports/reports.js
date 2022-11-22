@@ -922,9 +922,9 @@ class DLM_Reports {
 
 				dlmReportsInstance.totalDownloads += item.downloads;
 				mostDownloaded[key] = ('undefined' === typeof mostDownloaded[key]) ? {
-					downloads: item.downloads, id: key
+					downloads: item.downloads, id: key, title: item.title
 				} : {
-					downloads: mostDownloaded[key]['downloads'] + item.downloads, id: key
+					downloads: mostDownloaded[key]['downloads'] + item.downloads, id: key, title: item.title
 				};
 			});
 		});
@@ -934,7 +934,12 @@ class DLM_Reports {
 		dlmReportsInstance.setTotalDownloads(dlmReportsInstance.totalDownloads);
 		dlmReportsInstance.setDailyAverage((dlmReportsInstance.totalDownloads / parseInt(dlmReportsInstance.stats.daysLength)).toFixed(0));
 		const mostDownloadedItem = dlmReportsInstance.getDownloadCPT(dlmReportsInstance.mostDownloaded[0].id);
-		dlmReportsInstance.setMostDownloaded(mostDownloadedItem.title.rendered);
+
+		if ('undefined' !== typeof mostDownloadedItem) {
+			dlmReportsInstance.setMostDownloaded(mostDownloadedItem.title.rendered);
+		} else {
+			dlmReportsInstance.setMostDownloaded(dlmReportsInstance.mostDownloaded[0].title);
+		}
 	}
 
 	/**
@@ -1224,7 +1229,14 @@ class DLM_Reports {
 		for (let i = 0; i < dataResponse.length; i++) {
 
 			const $download    = dlmReportsInstance.getDownloadByID(dataResponse[i].id);
-			const $downloadCPT = dlmReportsInstance.getDownloadCPT(dataResponse[i].id);
+			let $downloadCPT = dlmReportsInstance.getDownloadCPT(dataResponse[i].id);
+			let title = '--';
+
+			if ( 'undefined' === typeof $downloadCPT) {
+				title = dataResponse[i].title;
+			} else {
+				title = $downloadCPT.title.rendered
+			}
 
 			// No point on showing the download if it doesn't exist
 			if ('undefined' === typeof $download) {
@@ -1233,7 +1245,7 @@ class DLM_Reports {
 
 			let itemObject = {
 				id             : dataResponse[i].id,
-				title          : dlmReportsInstance.htmlEntities( $downloadCPT.title.rendered ),
+				title          : dlmReportsInstance.htmlEntities( title ),
 				edit_link      : dlmAdminUrl + 'post.php?post=' + dataResponse[i].id + '&action=edit',
 				total_downloads: $download.total.toLocaleString()
 			};
@@ -1741,14 +1753,24 @@ class DLM_Reports {
 
 		for (let i = 0; i < dataResponse.length; i++) {
 			const user = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
-			const download = dlmReportsInstance.getDownloadCPT(dataResponse[i].download_id.toString());
+			let download = dlmReportsInstance.getDownloadCPT(parseInt(dataResponse[i].download_id));
+			let title = '--';
+
+			if ('undefined' === typeof download) {
+				download = dlmReportsInstance.altGetDownloadCPT(dataResponse[i].download_id.toString());
+				if ('undefined' !== typeof download) {
+					title = download.title;
+				}
+			} else {
+				title = download.title.rendered;
+			}
 
 			let itemObject = {
 				key               : i,
 				user              : ('undefined' !== typeof user && null !== user) ? user['display_name'] : '--',
 				ip                : dataResponse[i].user_ip,
 				role              : (null !== user && null !== user.role ? user.role : '--'),
-				download          : ('undefined' !== typeof download && null !== download) ? dlmReportsInstance.htmlEntities(download.title.rendered) : '--',
+				download          : ('undefined' !== typeof download && null !== download) ? dlmReportsInstance.htmlEntities(title) : '--',
 				valid_user        : ('0' !== dataResponse[i].user_id),
 				edit_link         : ( '0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
 				edit_download_link: ('undefined' !== typeof download && null !== download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
@@ -2194,5 +2216,23 @@ class DLM_Reports {
 
 		// Fetch our users and the logs. Do this first so that we query for users we have data.
 		dlmReportsInstance.fetchUserData();
+	}
+	/**
+	 * Get download object based on ID
+	 * @param $id
+	 * @returns {{total: number}}
+	 */
+	altGetDownloadCPT($id) {
+
+		let download = null;
+		if (Array.isArray(dlmReportsInstance.mostDownloaded)) {
+			download = dlmReportsInstance.mostDownloaded.filter((item) => {
+				return item.id === $id;
+			}, 0)[0];
+		}
+
+		jQuery(document).trigger('dlm_download_cpt', [dlmReportsInstance, download]);
+
+		return download;
 	}
 }
