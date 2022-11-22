@@ -536,7 +536,7 @@ class DLM_Download_Handler {
 		// Redirect to the file...
 		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
 			if ( ! $this->check_for_xhr() ) {
-				$this->dlm_logging->log( $download, $version, 'redirect', false, $referrer );
+				$this->dlm_logging->log( $download, $version, 'redirected', false, $referrer );
 			}
 
 			// If it's not a remote file we need to create the correct URL.
