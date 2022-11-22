@@ -119,7 +119,6 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 			}
 		}
 
-
 		return $items;
 	}
 
