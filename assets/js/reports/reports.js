@@ -1808,7 +1808,12 @@ class DLM_Reports {
 		dlmReportsInstance.currentFilters.forEach((filter) => {
 
 			dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
+				let currFilter = filter.on;
+				if ( 'redirected' === filter.on ) {
+					return filter.on === element[filter.type] || 'redirect' === element[filter.type];
+				}
 				return filter.on === element[filter.type];
+
 			});
 		});
 		dlmReportsInstance.setUserDownloads();
