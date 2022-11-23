@@ -111,10 +111,7 @@ class DLM_Reports {
 		dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
 		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2'));
 		// Let's see if these are pretty permalinks or plain
-		let fetchingLink = dlmDownloadReportsAPI + '?offset=' + offset + '&limit=' + limit;
-		if (dlmDownloadReportsAPI.indexOf('index.php?') > 0) {
-			fetchingLink = dlmDownloadReportsAPI + '&offset=' + offset + '&limit=' + limit;
-		}
+		let fetchingLink = dlmDownloadReportsAPI + '&offset=' + offset + '&limit=' + limit;
 		// Fetch our data
 		const fetchedDownloadsData = await fetch(fetchingLink);
 
@@ -182,10 +179,7 @@ class DLM_Reports {
 		const wrapper         = jQuery('div[data-id="user_reports"]');
 
 		// Let's see if these are pretty permalinks or plain
-		let fetchingLink = dlmUserReportsAPI + '?offset=' + offset + '&limit=' + limit;
-		if (dlmUserReportsAPI.indexOf('index.php?') > 0) {
-			fetchingLink = dlmUserReportsAPI + '&offset=' + offset + '&limit=' + limit;
-		}
+		let fetchingLink = dlmUserReportsAPI + '&offset=' + offset + '&limit=' + limit;
 
 		const fetchedUserData = await fetch(fetchingLink);
 
