@@ -121,8 +121,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.7.60 - TBA =
-Fix: Security fix for sensitive data exposure
+= 4.7.52 - 23.11.2022 =
+Fix: Security fix
 
 = 4.7.51 - 22.11.2022 =
 Fix: Bug on reports when Download deleted ( [#1136](https://github.com/WPChill/download-monitor/issues/1136) )
