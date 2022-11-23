@@ -138,11 +138,13 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.6.0
 		 */
 		public function create_global_variable() {
+			$current_user_can = '&user_can_view_reports=' . apply_filters( 'dlm_user_can_view_reports', current_user_can( 'manage_options' ) );
 
-			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports';
-			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports';
-			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data';
-			$rest_route_templates        = rest_url() . 'download-monitor/v1/templates';
+			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
+			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
+			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
+			$rest_route_templates        = rest_url() . 'download-monitor/v1/templates?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
+
 			$cpt_fields = apply_filters( 'dlm_reports_downloads_cpt', array(
 				'author',
 				'id',
@@ -262,8 +264,22 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			global $wpdb;
 
+			check_ajax_referer( 'wp_rest' );
+
+			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() ) {
+				return array(
+					'stats'  => array(),
+					'offset' => 0,
+					'done'   => true,
+				);
+			}
+
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
-				return array();
+				return array(
+					'stats'  => array(),
+					'offset' => 0,
+					'done'   => true,
+				);
 			}
 
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
@@ -287,6 +303,16 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function get_user_reports() {
 
 			global $wpdb;
+
+			check_ajax_referer( 'wp_rest' );
+
+			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() ) {
+				return array(
+					'logs'   => array(),
+					'offset' => 1,
+					'done'   => true,
+				);
+			}
 
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 				return array(
@@ -347,6 +373,12 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function get_user_data() {
 
 			global $wpdb;
+
+			check_ajax_referer( 'wp_rest' );
+
+			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() ) {
+				return array();
+			}
 
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 				return array();
