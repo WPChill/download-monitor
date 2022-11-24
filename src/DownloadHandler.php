@@ -894,10 +894,7 @@ class DLM_Download_Handler {
 	public function set_no_access_modal( $text, $download, $restriction_type ) {
 		$access_modal = absint( get_option( 'dlm_no_access_modal', 0 ) );
 
-		if ( 0 !== $access_modal ) {
-			header( 'DLM-No-Access: true' );
-		}
-
+		header( 'DLM-No-Access: true' );
 		header( 'DLM-No-Access-Modal: ' . apply_filters( 'do_dlm_xhr_access_modal', $access_modal, $download ) );
 		header( 'DLM-No-Access-Restriction: ' . $restriction_type );
 		if ( ! empty( $text ) ) {
