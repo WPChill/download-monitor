@@ -120,7 +120,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 							),
 							'title'           => array(
 								'title' => __( 'Title', 'download-monitor' ),
-								'sort'  => false,
+								'sort'  => true,
 								'class' => '',
 							),
 							'total_downloads' => array(

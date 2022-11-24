@@ -24,6 +24,7 @@ class DLM_Reports {
 	totalDownloads  = 0;
 	perPage         = dlmReportsPerPage;
 	downloads = [];
+	topDownloadsOrder = 'count';
 
 	/**
 	 * The constructor for our class
@@ -2079,8 +2080,22 @@ class DLM_Reports {
 	eventsFunctions() {
 		jQuery('body').on('click', '.total_downloads_table_filters_total_downloads > a', function (e) {
 			e.preventDefault();
-			jQuery(this).parent().find('span.dashicons').toggleClass('dashicons-arrow-down dashicons-arrow-up');
+			if ('count' === dlmReportsInstance.topDownloadsOrder) {
+				jQuery(this).parent().find('span.dashicons').toggleClass('dashicons-arrow-down dashicons-arrow-up');
+			} else {
+				jQuery(this).parent().find('span.dashicons').removeClass().addClass('dashicons dashicons-arrow-down');
+			}
 			dlmReportsInstance.orderOverviewItemsByTotal();
+		});
+
+		jQuery('body').on('click', '.total_downloads_table_filters_title > a', function (e) {
+			e.preventDefault();
+			if ('title' === dlmReportsInstance.topDownloadsOrder) {
+				jQuery(this).parent().find('span.dashicons').toggleClass('dashicons-arrow-down dashicons-arrow-up');
+			} else {
+				jQuery(this).parent().find('span.dashicons').removeClass().addClass('dashicons dashicons-arrow-up');
+			}
+			dlmReportsInstance.orderOverviewItemsByTitle();
 		});
 
 		jQuery('body').on('click', '.total_downloads_table_filters_download_date > a', function (e) {
@@ -2131,7 +2146,13 @@ class DLM_Reports {
 	 * @since 4.6.1
 	 */
 	orderOverviewItemsByTotal(){
-		dlmReportsInstance.mostDownloaded = dlmReportsInstance.mostDownloaded.reverse();
+		if ('count' !== dlmReportsInstance.topDownloadsOrder) {
+			dlmReportsInstance.topDownloadsOrder = 'count';
+			dlmReportsInstance.mostDownloaded = dlmReportsInstance.orderItems(dlmReportsInstance.mostDownloaded, 'desc', 'downloads');
+		} else {
+			dlmReportsInstance.mostDownloaded = dlmReportsInstance.mostDownloaded.reverse();
+		}
+
 		dlmReportsInstance.setTopDownloads();
 	}
 	/**
@@ -2143,7 +2164,32 @@ class DLM_Reports {
 		dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.reverse();
 		dlmReportsInstance.setUserDownloads();
 	}
+	/**
+	 * Revert the current set order of the Overview tab Top Downloads table
+	 *
+	 * @since 4.6.1
+	 */
+	orderOverviewItemsByTitle(){
+		if ('title' !== dlmReportsInstance.topDownloadsOrder) {
+			dlmReportsInstance.topDownloadsOrder = 'title';
+			dlmReportsInstance.mostDownloaded.sort(function (a, b) {
 
+				const aTitle = dlmReportsInstance.getDownloadCPT(a.id).title.rendered.toLowerCase();
+				const bTitle = dlmReportsInstance.getDownloadCPT(b.id).title.rendered.toLowerCase();
+				if (aTitle < bTitle) {
+					return -1;
+				}
+				if (aTitle > bTitle) {
+					return 1;
+				}
+				return 0;
+			});
+		} else {
+			dlmReportsInstance.mostDownloaded = dlmReportsInstance.mostDownloaded.reverse();
+		}
+
+		dlmReportsInstance.setTopDownloads();
+	}
 	/**
 	 * Pagination changing using the input type number
 	 *
