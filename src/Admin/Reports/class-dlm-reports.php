@@ -113,19 +113,55 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				array(
 					'top_downloads' => array(
 						'table_headers' => array(
-							'id'                        => 'ID',
-							'title'                     => esc_html__( 'Title', 'download-monitor' ),
-							'total_downloads'           => esc_html__( 'Total', 'download-monitor' ),
+							'id'              => array(
+								'title' => __( 'ID', 'download-monitor' ),
+								'sort'  => false,
+								'class' => '',
+							),
+							'title'           => array(
+								'title' => __( 'Title', 'download-monitor' ),
+								'sort'  => false,
+								'class' => '',
+							),
+							'total_downloads' => array(
+								'title' => __( 'Total', 'download-monitor' ),
+								'sort'  => true,
+								'class' => '',
+							),
 						)
 					),
-					'user_logs'     => array(
+					'user_logs' => array(
 						'table_headers' => array(
-							'user'          => esc_html__( 'User', 'download-monitor' ),
-							'ip'            => esc_html__( 'IP', 'download-monitor' ),
-							'role'          => esc_html__( 'Role', 'download-monitor' ),
-							'download'      => esc_html__( 'Download', 'download-monitor' ),
-							'status'        => esc_html__( 'Status', 'download-monitor' ),
-							'download_date' => esc_html__( 'Download date', 'download-monitor' ),
+							'user'          => array(
+								'title' => esc_html__( 'User', 'download-monitor' ),
+								'sort'  => false,
+								'class' => '',
+							),
+							'ip'            => array(
+								'title' => esc_html__( 'IP', 'download-monitor' ),
+								'sort'  => false,
+								'class' => '',
+							),
+							'role'          => array(
+								'title' => esc_html__( 'Role', 'download-monitor' ),
+								'sort'  => false,
+								'class' => '',
+							),
+							'download'      => array(
+								'title' => esc_html__( 'Download', 'download-monitor' ),
+								'sort'  => false,
+								'class' => '',
+							),
+							'status'        => array(
+								'title' => esc_html__( 'Status', 'download-monitor' ),
+								'sort'  => false,
+								'class' => '',
+							),
+							'download_date' => array(
+								'title' => esc_html__( 'Download date', 'download-monitor' ),
+								'sort'  => true,
+								'class' => '',
+							)
 						)
 					),
 				)
@@ -394,6 +430,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 					'url'          => $user_data->user_url,
 					'registered'   => $user_data->user_registered,
 					'display_name' => $user_data->display_name,
+					'email'        => $user_data->user_email,
 					'role'         => ( ( ! in_array( 'administrator', $user->roles, true ) ) ? $user->roles : '' ),
 				);
 			}

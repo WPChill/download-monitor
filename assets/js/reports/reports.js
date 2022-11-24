@@ -1325,6 +1325,7 @@ class DLM_Reports {
 			  } = {...handleObj};
 
 		let page = 1;
+
 		// Check if we click the next/load more button
 		if ('load-more' === link.data('action')) {
 
@@ -1824,7 +1825,7 @@ class DLM_Reports {
 	 */
 	handleUserDownloads() {
 
-		jQuery('.user-downloads-block-navigation').on('click', 'button', function (e) {
+		jQuery('.user-downloads-block-navigation').on('click', '#users_download_log button', function (e) {
 			e.stopPropagation();
 			let main_parent  = jQuery(this).parents('#users_downloads_table_wrapper'),
 				offsetHolder = main_parent.find('#users_download_log'),

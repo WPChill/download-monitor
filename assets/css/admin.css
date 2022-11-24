@@ -1258,7 +1258,8 @@ table.wp-list-table .column-thumb img {
   border: 1px solid #e0e0e0;
   box-sizing: border-box;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .half-reports-block {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .half-reports-block,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .reports-block.half-reports-block {
   width: calc(50% - 45px);
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-loading-data {

@@ -323,7 +323,6 @@ class DLM_Reports_Page {
 			</div>
 		</div>
 
-
 		<div id="users_downloads_table_wrapper">
 			<div class="user-downloads-filters">
 				<h3 class="user-downloads-filters__heading"><?php echo esc_html__( 'Filter logs by:', 'download-monitor' ); ?></h3>
@@ -366,6 +365,12 @@ class DLM_Reports_Page {
 
 			ob_start();
 			call_user_func( $tab['callback'] );
+
+			/**
+			 *  Hook mainly used to attach extra content to the tab.
+			 */
+			do_action( 'dlm_reports_' . $key, $tab );
+
 			$response = ob_get_clean();
 
 			// $response should be escaped in callback function.
