@@ -546,12 +546,12 @@ class DLM_Download_Handler {
 				$uploads_dir = wp_upload_dir();
 				$file_path   = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
 				$basedir     = str_replace( DIRECTORY_SEPARATOR, '/', $uploads_dir['basedir'] );
-				$sympath     = str_replace( DIRECTORY_SEPARATOR, '/', readlink( $basedir ) );
+				$sympath     = ( is_link( $basedir ) ) ? str_replace( DIRECTORY_SEPARATOR, '/', readlink( $basedir ) ) : false;
 
 				if ( false !== strpos( $file_path, $basedir ) ) { // File is in the uploads' folder, so we need to create the correct URL.
 					// Set the URL for the uploads' folder.
 					$file_path = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $basedir ) ), str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $uploads_dir['baseurl'] ) ), $file_path );
-				} elseif ( is_link( $basedir ) && false !== strpos( $file_path, $sympath ) ) { // File is in the uploads' folder but in symlinked directory, so we need to create the correct URL.
+				} elseif ( $sympath && false !== strpos( $file_path, $sympath ) ) { // File is in the uploads' folder but in symlinked directory, so we need to create the correct URL.
 					// Set the URL for the uploads' folder.
 					$file_path = str_replace( str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $sympath ) ), str_replace( DIRECTORY_SEPARATOR, '/', trailingslashit( $uploads_dir['baseurl'] ) ), $file_path );
 				} else { // This is the case if the file is not located in the uploads' folder.
