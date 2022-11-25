@@ -928,13 +928,16 @@ class DLM_Reports {
 
 		dlmReportsInstance.setTotalDownloads(dlmReportsInstance.totalDownloads);
 		dlmReportsInstance.setDailyAverage((dlmReportsInstance.totalDownloads / parseInt(dlmReportsInstance.stats.daysLength)).toFixed(0));
-		const mostDownloadedItem = dlmReportsInstance.getDownloadCPT(dlmReportsInstance.mostDownloaded[0].id);
+		if ('undefined' !== typeof dlmReportsInstance.mostDownloaded[0]) {
+			const mostDownloadedItem = dlmReportsInstance.getDownloadCPT(dlmReportsInstance.mostDownloaded[0].id);
 
-		if ('undefined' !== typeof mostDownloadedItem) {
-			dlmReportsInstance.setMostDownloaded(mostDownloadedItem.title.rendered);
-		} else {
-			dlmReportsInstance.setMostDownloaded(dlmReportsInstance.mostDownloaded[0].title);
+			if ('undefined' !== typeof mostDownloadedItem) {
+				dlmReportsInstance.setMostDownloaded(mostDownloadedItem.title.rendered);
+			} else {
+				dlmReportsInstance.setMostDownloaded(dlmReportsInstance.mostDownloaded[0].title);
+			}
 		}
+
 	}
 
 	/**
