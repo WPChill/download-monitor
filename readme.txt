@@ -121,6 +121,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.7.53 - 25.11.2022 =
+Fix: Readlink error ( [#1142](https://github.com/WPChill/download-monitor/issues/1142) )
+
 = 4.7.52 - 23.11.2022 =
 Fix: Security fix
 
