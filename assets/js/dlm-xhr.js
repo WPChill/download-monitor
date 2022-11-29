@@ -287,6 +287,7 @@ class DLM_XHR_Download {
 
 		if (null !== no_access) {
 			window.location.href = redirect_path;
+			return;
 		}
 
 		const currentURL  = window.location.href;
