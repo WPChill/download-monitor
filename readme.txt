@@ -121,6 +121,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.7.54 - 30.11.2022 =
+Fix: Incompatibility with WPML for translated downloads ( [#1144](https://github.com/WPChill/download-monitor/issues/1144) )
+
 = 4.7.53 - 25.11.2022 =
 Fix: Readlink error ( [#1142](https://github.com/WPChill/download-monitor/issues/1142) )
 
