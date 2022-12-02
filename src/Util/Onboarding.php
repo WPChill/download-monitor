@@ -194,7 +194,7 @@ class Onboarding {
 				?>
 				<div id="wpchill-welcome">
 					<div class="dlm-onboarding-section dlm-onboarding-section-one-col wpchill-text-center">
-						<img src="<?php echo esc_url( DLM_URL ); ?>assets/images/banner-dlm.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>" class="video-thumbnail">
+						<img src="<?php echo esc_url( DLM_URL ); ?>assets/images/banner-dlm.png" alt="<?php esc_attr_e( 'Watch how to', 'download-monitor' ); ?>" class="video-thumbnail">
 						<?php $welcome->display_empty_space(); ?>
 						<div class="button-wrap-single">
 							<?php $welcome->display_button( esc_html__( 'Read our step-by-step guide to get started', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, '#2271b1' ); ?>

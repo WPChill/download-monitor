@@ -158,7 +158,7 @@ class DLM_Welcome_Page {
 						</div>
 					</div>
 					<div class="block-row">
-						<img src="<?php echo esc_url( DLM_URL ); ?>includes/submodules/banner/assets/img/welcome_header_laptop.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>">
+						<img src="<?php echo esc_url( DLM_URL ); ?>includes/submodules/banner/assets/img/welcome_header_laptop.png" alt="<?php esc_attr_e( 'Watch how to', 'download-monitor' ); ?>">
 					</div>
 					<?php $welcome->layout_end(); ?>
 				</div>

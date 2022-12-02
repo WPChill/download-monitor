@@ -351,7 +351,7 @@ class DLM_Custom_Actions {
 
 		// Only for downloads
 		if ( 'dlm_download' === $post->post_type && 'trash' !== $post->post_status ) {
-			$actions['dlm_duplicate_download'] = '<a href="javascript:;" class="dlm-duplicate-download" rel="' . $post->ID . '" data-value="' . wp_create_nonce( 'dlm_duplicate_download_nonce' ) . '">' . __( 'Duplicate Download', 'dlm-download-duplicator' ) . '</a>';
+			$actions['dlm_duplicate_download'] = '<a href="javascript:;" class="dlm-duplicate-download" rel="' . $post->ID . '" data-value="' . wp_create_nonce( 'dlm_duplicate_download_nonce' ) . '">' . __( 'Duplicate Download', 'download-monitor' ) . '</a>';
 		}
 
 		return $actions;
@@ -460,6 +460,6 @@ class DLM_Custom_Actions {
 	 * Display admin notice
 	 */
 	public function admin_notice() {
-		echo '<div class="updated"><p>' . esc_html__( 'Download succesfully duplicated!', 'dlm-download-duplicator' ) . '</p></div>' . PHP_EOL;
+		echo '<div class="updated"><p>' . esc_html__( 'Download succesfully duplicated!', 'download-monitor' ) . '</p></div>' . PHP_EOL;
 	}
 }

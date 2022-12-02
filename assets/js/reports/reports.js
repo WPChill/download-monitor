@@ -1829,8 +1829,9 @@ class DLM_Reports {
 	 */
 	handleUserDownloads() {
 
-		jQuery('.user-downloads-block-navigation').on('click', '#users_download_log button', function (e) {
+		jQuery('#users_download_log').on('click', '.user-downloads-block-navigation button', function (e) {
 			e.stopPropagation();
+
 			let main_parent  = jQuery(this).parents('#users_downloads_table_wrapper'),
 				offsetHolder = main_parent.find('#users_download_log'),
 				offset       = offsetHolder.attr('data-page'),

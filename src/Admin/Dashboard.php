@@ -115,7 +115,7 @@ class DLM_Admin_Dashboard {
 					        ),
 					        admin_url( 'edit.php' )
 			        )
-	        ); ?>"><?php echo esc_html__( 'See more', 'donwload-monitor' ) ; ?></a>
+	        ); ?>"><?php echo esc_html__( 'See more', 'download-monitor' ) ; ?></a>
 		</div>
 		<?php
 	}

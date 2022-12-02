@@ -417,7 +417,7 @@ class DLM_Reports_Page {
 
 		$settings = apply_filters( 'dlm_reports_settings', array(
 			'dlm_user_reports' => array(
-				'label'       => esc_html__( 'Enable user reports', 'donwload-monitor' ),
+				'label'       => esc_html__( 'Enable user reports', 'download-monitor' ),
 				'description' => esc_html__( 'Toggle to enable or disable the user reports section', 'download-monitor' ),
 				'default'     => '1',
 				'type'        => 'checkbox',
