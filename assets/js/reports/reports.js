@@ -2177,9 +2177,11 @@ class DLM_Reports {
 		if ('title' !== dlmReportsInstance.topDownloadsOrder) {
 			dlmReportsInstance.topDownloadsOrder = 'title';
 			dlmReportsInstance.mostDownloaded.sort(function (a, b) {
+				const downloadA = dlmReportsInstance.getDownloadCPT(a.id),
+					  downloadB = dlmReportsInstance.getDownloadCPT(b.id),
+					  aTitle    = ('undefined' !== typeof downloadA) ? dlmReportsInstance.getDownloadCPT(a.id).title.rendered.toLowerCase() : dlmReportsInstance.altGetDownloadCPT(a.id)['title'],
+					  bTitle    = ('undefined' !== typeof downloadB) ? dlmReportsInstance.getDownloadCPT(b.id).title.rendered.toLowerCase() : dlmReportsInstance.altGetDownloadCPT(b.id)['title'];
 
-				const aTitle = dlmReportsInstance.getDownloadCPT(a.id).title.rendered.toLowerCase();
-				const bTitle = dlmReportsInstance.getDownloadCPT(b.id).title.rendered.toLowerCase();
 				if (aTitle < bTitle) {
 					return -1;
 				}
