@@ -1,3 +1,9 @@
+= 4.7.60 - 05.12.2022 =
+Fix: No access logs as redirect ( [#1143](https://github.com/WPChill/download-monitor/issues/1143) )
+Added: Action hook for extensions to hook on Reports page ( [#1140](https://github.com/WPChill/download-monitor/issues/1140) )
+Added: Order top downloads by title ( [#1138](https://github.com/WPChill/download-monitor/issues/1138) )
+Fix: No access logging still present ( [#1139](https://github.com/WPChill/download-monitor/issues/1139) )
+
 = 4.7.54 - 30.11.2022 =
 Fix: Incompatibility with WPML for translated downloads ( [#1144](https://github.com/WPChill/download-monitor/issues/1144) )
 
