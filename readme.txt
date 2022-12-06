@@ -120,6 +120,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.7.70 - TBD =
+Fix: Aditional CSS classes for gutenberg blocks ( [#1146](https://github.com/WPChill/download-monitor/issues/1146) )
 
 = 4.7.60 - 05.12.2022 =
 Fix: No access logs as redirect ( [#1143](https://github.com/WPChill/download-monitor/issues/1143) )

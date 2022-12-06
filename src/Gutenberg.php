@@ -124,7 +124,7 @@ class DLM_Gutenberg {
 		ob_start();
 		if($download)
 		{
-			$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+			$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download, 'dlm_attributes' => $attributes ) );
 		}
 		$output = ob_get_clean();
 
