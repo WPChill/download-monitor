@@ -19,7 +19,7 @@ Fix: Bug on reports when Download deleted ( [#1136](https://github.com/WPChill/d
 = 4.7.5 - 22.11.2022 =
 Fix: Installed extensions error - missing class
 
-= 4.7.4 - 21.12.2022 =
+= 4.7.4 - 21.11.2022 =
 Fix: Sorting by download count did not take into consideration the post meta ( [#1126](https://github.com/WPChill/download-monitor/issues/1126) )
 Fix: Reports Downloads CPT retrieval ( [#1128](https://github.com/WPChill/download-monitor/issues/1128) )
 Fix: Storing IP setting not working ( [#1124](https://github.com/WPChill/download-monitor/issues/1124) )
