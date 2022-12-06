@@ -302,7 +302,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			check_ajax_referer( 'wp_rest' );
 
-			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() ) {
+			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
 				return array(
 					'stats'  => array(),
 					'offset' => 0,
@@ -342,7 +342,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			check_ajax_referer( 'wp_rest' );
 
-			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() ) {
+			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
 				return array(
 					'logs'   => array(),
 					'offset' => 1,
@@ -412,7 +412,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			check_ajax_referer( 'wp_rest' );
 
-			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() ) {
+			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
 				return array();
 			}
 
