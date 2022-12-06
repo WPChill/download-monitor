@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 ?>
-<a class="download-link" title="<?php if ( $dlm_download->get_version()->has_version_number() ) {
+<a class="download-link<?php echo ( !empty( $dlm_attributes['className'] ) ) ? ' ' . $dlm_attributes['className'] : '' ; ?>" title="<?php if ( $dlm_download->get_version()->has_version_number() ) {
 	printf( esc_html__( 'Version %s', 'download-monitor' ), esc_html( $dlm_download->get_version()->get_version_number() ) );
 } ?>" href="<?php esc_url( $dlm_download->the_download_link() ); ?>" rel="nofollow">
 	<?php $dlm_download->the_title(); ?>
