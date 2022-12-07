@@ -373,7 +373,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				)
 			);
 			$table_columns = sanitize_text_field( implode( ',', wp_unslash( $table_columns ) ) );
-			$downloads     = $wpdb->get_results( $wpdb->prepare( 'SELECT ' . $table_columns . ', UNIX_TIMESTAMP( download_date ) as display_date FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ), ARRAY_A );
+			$downloads     = $wpdb->get_results( $wpdb->prepare( 'SELECT ' . $table_columns . ' FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ), ARRAY_A );
 
 			$downloads = array_map( array( $this, 'date_creator' ), $downloads );
 
@@ -394,8 +394,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.7.4
 		 */
 		public function date_creator( $element ) {
-
-			$element['display_date'] = wp_date( $this->date_format, $element['display_date'] );
+			// Set UTC timezone bacause in the DB it is stored based on the timezone in the settings.
+			$element['display_date'] = wp_date( $this->date_format, strtotime( $element['download_date'] ), new DateTimeZone('UTC') );
 
 			return $element;
 		}
