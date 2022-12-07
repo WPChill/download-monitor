@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $versions = $dlm_download->get_versions();
 
 if ( $versions ) : ?>
-	<ul class="download-versions<?php echo ( !empty( $dlm_attributes['className'] ) ) ? ' ' . $dlm_attributes['className'] : '' ; ?>">
+	<ul class="download-versions<?php echo ( !empty( $dlm_attributes['className'] ) ) ? ' ' . esc_attr( $dlm_attributes['className'] ) : '' ; ?>">
 		<?php
 		/** @var DLM_Download_Version $version */
 		foreach ( $versions as $version ) {

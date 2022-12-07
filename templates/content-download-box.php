@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<aside class="download-box<?php echo ( !empty( $dlm_attributes['className'] ) ) ? ' ' . $dlm_attributes['className'] : '' ; ?>">
+<aside class="download-box<?php echo ( ! empty( $dlm_attributes['className'] ) ) ? ' ' . esc_attr( $dlm_attributes['className'] ) : '' ; ?>">
 
 	<?php $dlm_download->the_image(); ?>
 
