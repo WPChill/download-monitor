@@ -144,7 +144,7 @@ class DLM_Admin_Scripts {
 				'dlm_download_overview',
 				array(
 					'copy_shortcode'    => esc_html__( 'Copy shortcode', 'download-monitor' ),
-					'shortcode_copied' => esc_html__( 'Shortcode copied', 'download-monitor' ),
+					'shortcode_copied' => esc_html__( 'Copied', 'download-monitor' ),
 				)
 			);
 

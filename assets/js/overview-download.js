@@ -45,6 +45,7 @@
         dlm_shortcode.trigger("focus");
         dlm_shortcode.trigger("select");
         document.execCommand('copy');
+        navigator.clipboard.writeText(dlm_shortcode.val());
         $(this).next('span').text($(this).data('item') + ' copied');
         $('.copy-dlm-button').not($(this)).parent().find('span').text('');
         dlm_shortcode.trigger("blur");
