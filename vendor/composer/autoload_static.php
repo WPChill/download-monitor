@@ -227,7 +227,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'WPChill\\DownloadMonitor\\Shop\\Checkout\\PaymentGateway\\PayPal\\Payments\\RefundsGetRequest' => __DIR__ . '/../..' . '/src/Shop/Checkout/PaymentGateway/PayPal/Payments/RefundsGetRequest.php',
         'WPChill\\DownloadMonitor\\Shop\\Checkout\\PaymentGateway\\PaymentGateway' => __DIR__ . '/../..' . '/src/Shop/Checkout/PaymentGateway/PaymentGateway.php',
         'WPChill\\DownloadMonitor\\Shop\\Checkout\\PaymentGateway\\Result' => __DIR__ . '/../..' . '/src/Shop/Checkout/PaymentGateway/Result.php',
-        'WPChill\\DownloadMonitor\\Shop\\Checkout\\PaymentGateway\\Test\\TestGateway' => __DIR__ . '/../..' . '/src/Shop/Checkout/PaymentGateway/Test/TestGateway.php',
         'WPChill\\DownloadMonitor\\Shop\\Email\\Handler' => __DIR__ . '/../..' . '/src/Shop/Email/Handler.php',
         'WPChill\\DownloadMonitor\\Shop\\Email\\Message' => __DIR__ . '/../..' . '/src/Shop/Email/Message.php',
         'WPChill\\DownloadMonitor\\Shop\\Email\\VarParser' => __DIR__ . '/../..' . '/src/Shop/Email/VarParser.php',

@@ -122,6 +122,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 = 4.7.70 - TBD =
 Fix: Aditional CSS classes for gutenberg blocks ( [#1146](https://github.com/WPChill/download-monitor/issues/1146) )
+Changed: Removed test paymant gateway as PayPal gateway already has a test solution ( [#666](https://github.com/WPChill/download-monitor/issues/666) )
 
 = 4.7.60 - 05.12.2022 =
 Fix: No access logs as redirect ( [#1143](https://github.com/WPChill/download-monitor/issues/1143) )
