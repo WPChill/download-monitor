@@ -768,7 +768,7 @@ class DLM_Admin_Settings {
 				$fields = array(
 					array(
 						'name'     => 'dlm_gateway_' . esc_attr( $gateway->get_id() ) . '_enabled',
-						'std'      => '0',
+						'std'      => ( $gateway->is_enabled() ) ? '1' : '0',
 						'label'    => __( 'Enabled', 'download-monitor' ),
 						'cb_label' => __( 'Enable Gateway', 'download-monitor' ),
 						'desc'     => __( 'Check this to allow your customers to use this payment method to pay at your checkout page.', 'download-monitor' ),

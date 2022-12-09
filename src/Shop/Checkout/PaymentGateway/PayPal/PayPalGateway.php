@@ -22,7 +22,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		$this->set_id( 'paypal' );
 		$this->set_title( 'PayPal' );
 		$this->set_description( __( 'Pay with PayPal', 'download-monitor' ) );
-
+		$this->set_enabled( true );
 		parent::__construct();
 
 		$this->set_sandbox( '1' == $this->get_option( 'sandbox_enabled' ) );
