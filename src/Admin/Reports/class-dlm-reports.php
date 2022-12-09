@@ -206,7 +206,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, 'rest_stats' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'check_api_rights' ),
 				)
 			);
 
@@ -217,7 +217,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, 'user_reports_stats' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'check_api_rights' ),
 				)
 			);
 
@@ -228,7 +228,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				array(
 					'methods'             => 'GET',
 					'callback'            => array( $this, 'user_data_stats' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => array( $this, 'check_api_rights' ),
 				)
 			);
 		}
@@ -302,14 +302,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			check_ajax_referer( 'wp_rest' );
 
-			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
-				return array(
-					'stats'  => array(),
-					'offset' => 0,
-					'done'   => true,
-				);
-			}
-
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 				return array(
 					'stats'  => array(),
@@ -341,14 +333,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			global $wpdb;
 
 			check_ajax_referer( 'wp_rest' );
-
-			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
-				return array(
-					'logs'   => array(),
-					'offset' => 1,
-					'done'   => true,
-				);
-			}
 
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 				return array(
@@ -411,10 +395,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			global $wpdb;
 
 			check_ajax_referer( 'wp_rest' );
-
-			if ( ! isset( $_REQUEST['user_can_view_reports'] ) || ! (bool) $_REQUEST['user_can_view_reports'] || ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
-				return array();
-			}
 
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 				return array();
@@ -538,6 +518,28 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$dlm_top_downloads = $this->reports_headers;
 			include __DIR__ . '/components/php-components/user-logs-footer.php';
 			return ob_get_clean();
+		}
+
+		/**
+		 * Check permissions to display data
+		 *
+		 * @param array $request The request.
+		 *
+		 * @return bool|WP_Error
+		 * @since 4.7.70
+		 */
+		public function check_api_rights( $request ) {
+
+			if ( ! isset( $request['user_can_view_reports'] ) || ! (bool) $request['user_can_view_reports'] ||
+			     ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+				return new WP_Error(
+					'rest_forbidden_context',
+					esc_html__( 'Sorry, you are not allowed to see data from this endpoint.', 'download-monitor' ),
+					array( 'status' => rest_authorization_required_code() )
+				);
+			}
+
+			return true;
 		}
 	}
 }
