@@ -211,8 +211,11 @@ class DLM_Backwards_Compatibility {
 	public function select_download_count_compatibility( $fields ) {
 
 		global $wpdb;
-
-		$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) +   IFNULL( meta_downloads.meta_value, 0 ) ) total_downloads";
+		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
+			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) +   IFNULL( meta_downloads.meta_value, 0 ) ) total_downloads";
+		} else {
+			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) total_downloads";
+		}
 
 		return $fields;
 	}
