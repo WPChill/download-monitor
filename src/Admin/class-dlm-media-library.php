@@ -287,9 +287,10 @@ class DLM_Media_Library {
 			$tooltip = '<div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"> ' . $text . ' </div></div>';
 			// Add our button
 			$fields['dlm_protect_file'] = array(
-				'label' => $tooltip . __( 'DLM protect file', 'download-monitor' ),
+				'label' =>  __( 'DLM protect file', 'download-monitor' ),
 				'input' => 'html',
 				'html'  => $html,
+				'helps' => esc_html( $text ),
 
 			);
 		}
