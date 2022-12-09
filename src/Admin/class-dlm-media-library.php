@@ -283,14 +283,13 @@ class DLM_Media_Library {
 				$disabled    = true;
 			}
 
-			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' ) . '>' . esc_html( $button_text ) . '</button>';
-			$tooltip = '<div class="wpchill-tooltip"><i>[?]</i><div class="wpchill-tooltip-content"> ' . $text . ' </div></div>';
+			$html = '<button id="dlm-protect-file" class="button button-primary" data-action="' . esc_attr( $action ) . '" data-post_id="' . absint( $post->ID ) . '" data-nonce="' . wp_create_nonce( 'dlm_protect_file' ) . '" data-user_id="' . get_current_user_id() . '" data-file="' . esc_url( wp_get_attachment_url( $post->ID ) ) . '" ' . ( $disabled ? 'disabled="true"' : '' ) . '>' . esc_html( $button_text ) . '</button><p class="description">' . esc_html( $text ) . '</p>';
+
 			// Add our button
 			$fields['dlm_protect_file'] = array(
-				'label' =>  __( 'DLM protect file', 'download-monitor' ),
+				'label' => __( 'DLM protect file', 'download-monitor' ),
 				'input' => 'html',
 				'html'  => $html,
-				'helps' => esc_html( $text ),
 
 			);
 		}
