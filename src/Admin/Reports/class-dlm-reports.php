@@ -174,7 +174,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.6.0
 		 */
 		public function create_global_variable() {
-			$current_user_can = '&user_can_view_reports=' . apply_filters( 'dlm_user_can_view_reports', current_user_can( 'manage_options' ) );
+			$current_user_can = '&user_can_view_reports=' . apply_filters( 'dlm_user_can_view_reports', current_user_can( 'dlm_view_reports' ) );
 
 			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
 			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
@@ -531,7 +531,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function check_api_rights( $request ) {
 
 			if ( ! isset( $request['user_can_view_reports'] ) || ! (bool) $request['user_can_view_reports'] ||
-			     ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+			     ! is_user_logged_in() || ! current_user_can( 'dlm_view_reports' ) ) {
 				return new WP_Error(
 					'rest_forbidden_context',
 					esc_html__( 'Sorry, you are not allowed to see data from this endpoint.', 'download-monitor' ),
