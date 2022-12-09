@@ -51,7 +51,7 @@ class DLM_Media_Library {
 		// Add DLM Uploads file as a mime type
 		add_filter( 'post_mime_types', array( $this, 'add_mime_types' ), 15, 1 );
 		// Actions done to Media Library files in order to create Downloads and protect files
-		add_filter( 'attachment_fields_to_edit', array( $this, 'add_protect_button' ), 15, 2 );
+		add_filter( 'attachment_fields_to_edit', array( $this, 'add_protect_button' ), 999, 2 );
 		add_action( 'wp_ajax_dlm_protect_file', array( $this, 'protect_file' ), 15 );
 		add_action( 'wp_ajax_dlm_unprotect_file', array( $this, 'unprotect_file' ), 15 );
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'add_visual_indicator' ), 10, 2 );
