@@ -340,6 +340,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	 * @return int
 	 */
 	private function cents_to_full( $fl_cents ) {
-		return number_format( ( $fl_cents / 100 ), 2 );
+
+		return number_format( ( $fl_cents / 100 ), 2, ".", "" );
 	}
 }
