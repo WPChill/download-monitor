@@ -129,8 +129,31 @@ class DLM_Post_Type_Manager {
 
 	}
 
+	/**
+	 * Add tab navigation.
+	 *
+	 * @param array $views Array of views.
+	 *
+	 * @return array|mixed
+	 */
 	public function add_extensions_tab( $views ) {
 		$this->display_extension_tab();
+		$posts = count(
+			get_posts(
+				array(
+					'post_type'   => 'dlm_download',
+					'post_status' => array( 'publish', 'future', 'trash', 'draft', 'inherit' ),
+				)
+			)
+		);
+
+		if ( 0 === $posts ) {
+			global $wp_list_table;
+			$wp_list_table = new DLM_Empty_Table();
+
+			return array();
+		}
+
 		return $views;
 	}
 

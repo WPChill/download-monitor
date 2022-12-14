@@ -3397,3 +3397,94 @@ Toggles
   padding: 20px 20px 0px 0px;
   box-shadow: none;
 }
+
+
+/**
+ Onboarding CSS
+ */
+
+.dlm-onboarding-wrapper {
+  text-align: center;
+  padding: 25px;
+  max-width: 960px;
+  margin: 0 auto;
+
+  .dlm-onboarding-title {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+
+    & > span {
+      font-size: 16px;
+      margin-left: 10px;
+      font-weight: 700;
+    }
+
+    img.dlm-onboarding-title-icon {
+      max-width: 35px;
+      vertical-align: middle;
+    }
+  }
+
+  .dlm-onboarding-text-wrap {
+    padding: 10px 0 30px 0;
+    max-width: 960px;
+    margin: 0 auto;
+
+    p {
+      font-size: 16px;
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+
+  img.dlm-onboarding-banner {
+    width: auto;
+    max-width: 300px;
+  }
+
+  a.dlm-onboarding-button {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 43px;
+    color: #fff;
+    text-decoration: none;
+    background: #219962;
+    border-radius: 100px;
+    padding: 15px 45px;
+
+    &:hover {
+      background: #1A7A4E;
+    }
+  }
+
+  .dlm-onboarding-button-wrap {
+    padding: 30px 0 0 0;
+  }
+
+  p.dlm-onboarding-doc {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 44px;
+    text-align: center;
+    color: #000000;
+
+    & > a {
+      text-decoration: none;
+      color: #219962;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../font/dm/DMSans-Regular.ttf');
+}

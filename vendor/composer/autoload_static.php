@@ -74,6 +74,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Download_No_Access_Page_Endpoint' => __DIR__ . '/../..' . '/src/DownloadNoAccessPageEndpoint.php',
         'DLM_Download_Repository' => __DIR__ . '/../..' . '/src/Download/DownloadRepository.php',
         'DLM_Download_Version' => __DIR__ . '/../..' . '/src/Version/Version.php',
+        'DLM_Empty_Table' => __DIR__ . '/../..' . '/src/Admin/class-dlm-empty-table.php',
         'DLM_File_Manager' => __DIR__ . '/../..' . '/src/FileManager.php',
         'DLM_Gutenberg' => __DIR__ . '/../..' . '/src/Gutenberg.php',
         'DLM_Hasher' => __DIR__ . '/../..' . '/src/Hasher.php',
