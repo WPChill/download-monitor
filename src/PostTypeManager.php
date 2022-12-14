@@ -224,11 +224,6 @@ class DLM_Post_Type_Manager {
 	 */
 	public function delete_files( $id ) {
 
-		// User needs to set this in order to delete the files to true. Defaults to false.
-		if ( ! apply_filters( 'dlm_delete_files', false ) ) {
-			return;
-		}
-
 		$version = download_monitor()->service( 'version_repository' )->retrieve_single( $id );
 		$version->delete_files();
 	}
@@ -246,6 +241,10 @@ class DLM_Post_Type_Manager {
 
 		// Don't do anything if the post is not a download or version.
 		if ( 'dlm_download' !== $post->post_type && 'dlm_download_version' !== $post->post_type ) {
+			return;
+		}
+		// User needs to set this in order to delete the files to true. Defaults to false.
+		if ( ! apply_filters( 'dlm_delete_files', false ) ) {
 			return;
 		}
 		// Delete files in Versions.
