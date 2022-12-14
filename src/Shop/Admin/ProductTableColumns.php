@@ -77,7 +77,9 @@ class ProductTableColumns {
 					echo '<div class="product-download__links">';
 					foreach ( $downloads as $download_id ) {
 						$download = $this->get_download( $download_id );
-						echo '<a class="product-download__download-link" target="_blank" href="' . esc_url( get_edit_post_link( $download->get_id() ) ) . '"><code>' . esc_html( $download->get_title() ) . '</code></a>';
+						if ( $download ) {
+							echo '<a class="product-download__download-link" target="_blank" href="' . esc_url( get_edit_post_link( $download->get_id() ) ) . '"><code>' . esc_html( $download->get_title() ) . '</code></a>';
+						}
 					}
 					echo '</div>';
 
