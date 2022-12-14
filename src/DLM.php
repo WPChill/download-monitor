@@ -358,10 +358,10 @@ class WP_DLM {
 
 			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
 
-			wp_add_inline_script('dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {};', 'before');
-			wp_localize_script('dlm-xhr', 'dlmXHRtranslations', array(
-				'error' => __('An error occurred while trying to download the file. Please try again.', 'download-monitor')
-			));
+			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = ' . get_option( 'dlm_xhr_object', false ) . ';', 'before' );
+			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', array(
+				'error' => __( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' )
+			) );
 		}
 
 		do_action( 'dlm_frontend_scripts_after' );
