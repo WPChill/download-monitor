@@ -150,7 +150,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 					<input type="text" class="short"
 					       name="downloadable_file_download_count[<?php echo esc_attr( $version_increment ); ?>]"
-					       placeholder="<?php echo esc_attr( $meta_download_count ); ?>"/>
+					       placeholder="<?php echo ( isset( $meta_download_count ) ) ? esc_attr( $meta_download_count ) : '0'; ?>"/>
 				</div>
 				<?php if ( ! empty( $file_post_date->format( 'Y-m-d' ) ) ) {
 					?>

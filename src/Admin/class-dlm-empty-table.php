@@ -21,7 +21,7 @@ class DLM_Empty_Table extends WP_Posts_List_Table {
 	 */
 	public function display() {
 
-		$new_gal_url = admin_url( 'post-new.php?post_type=dlm_download' );
+		$new_download_url = admin_url( 'post-new.php?post_type=dlm_download' );
 		?>
 		<div class="dlm-onboarding-wrapper">
 
@@ -39,7 +39,7 @@ class DLM_Empty_Table extends WP_Posts_List_Table {
 					class="dlm-onboarding-banner"/>
 			</div>
 			<div class="dlm-onboarding-button-wrap">
-				<a href="<?php echo esc_url( $new_gal_url ); ?>"
+				<a href="<?php echo esc_url( $new_download_url ); ?>"
 				   class="dlm-onboarding-button"><?php esc_html_e( 'Create your first Download', 'download-monitor' ); ?></a>
 			</div>
 			<div class="dlm-onboarding-doc-wrap">
