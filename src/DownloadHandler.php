@@ -562,18 +562,19 @@ class DLM_Download_Handler {
 					$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
 					$file_path = str_replace( trailingslashit( $correct_path ), site_url( '/', $scheme ), $file_path );
 				}
+
+				// We need to rawurlencode in case there are unicode characters in the file name
+				// and to prevent white space from being converted to + sign. Only do this for non-remote files
+				// as remote files already have encoded url.
+				// Get file name.
+				$file_name = DLM_Utils::basename( $file_path );
+
+				if ( strstr( $file_name, '?' ) ) {
+					$file_name = current( explode( '?', $file_name ) );
+				}
+
+				$file_path = str_replace( $file_name, rawurlencode( $file_name ), $file_path );
 			}
-
-			// We need to rawurlencode in case there are unicode characters in the file name
-			// and to prevent white space from being converted to + sign.
-			// Get file name.
-			$file_name = DLM_Utils::basename( $file_path );
-
-			if ( strstr( $file_name, '?' ) ) {
-				$file_name = current( explode( '?', $file_name ) );
-			}
-
-			$file_path = str_replace( $file_name, rawurlencode( $file_name ), $file_path );
 
 			if ( $this->check_for_xhr() ) {
 				header( 'DLM-Redirect: ' . $file_path );
