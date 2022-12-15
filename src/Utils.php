@@ -284,4 +284,17 @@ abstract class DLM_Utils {
 		return md5( self::get_visitor_ip() );
 	}
 
+	/**
+	 * Fix for WPML setting language for download links. IF the downloads are made trasnlatable this will need to be deleted.
+	 *
+	 * @param string $home_url Home URL made by WPML.
+	 * @param string $url Original URL.
+	 *
+	 * @return string $home_url The correct home URL for Download Monitor.
+	 */
+	public static function wpml_download_link( $home_url, $url ) {
+
+		return $url;
+	}
+
 }

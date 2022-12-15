@@ -311,11 +311,6 @@ class WP_DLM {
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
 			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css', array(), DLM_VERSION );
-			wp_register_style( 'dlm-xhr', $this->get_plugin_url() . '/assets/css/dlm-xhr.min.css', array(), DLM_VERSION );
-		}
-
-		if ( get_option( 'dlm_global_enqueue_xhr', false ) ) {
-			wp_enqueue_style( 'dlm-xhr' );
 		}
 
 		// only enqueue preview stylesheet when we're in the preview.
@@ -363,8 +358,35 @@ class WP_DLM {
 			);
 
 			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
+			// Let's create the URL pointer for the download link. It will be used as a global variable in the xhr.js file
+			// and will be used to check if is a true download request or not.
+			$scheme            = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+			$endpoint          = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
+			$wpml_options      = get_option( 'icl_sitepress_settings', false );
+			$is_dlm_translated = false;
+			if ( $wpml_options && isset( $wpml_options['custom_posts_sync_option'] ) && in_array( 'dlm_download', $wpml_options['custom_posts_sync_option'] ) ) {
+				$is_dlm_translated = true;
+			}
 
-			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = ' . get_option( 'dlm_xhr_object', false ) . ';', 'before' );
+			if ( $is_dlm_translated ) {
+				add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+			}
+
+			if ( get_option( 'permalink_structure' ) ) {
+				// Fix for translation plugins that modify the home_url.
+				$download_pointing_url = get_home_url( null, '', $scheme );
+				$download_pointing_url = $download_pointing_url . '/' . $endpoint . '/';
+			} else {
+				$download_pointing_url = add_query_arg( $endpoint, home_url( '', $scheme ) );
+			}
+
+			// Now we can remove the filter as the link is generated.
+			//@todo: If Downloads will be made translatable in the future then this should be removed.
+			if ( $is_dlm_translated ) {
+				remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+			}
+
+			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '";', 'before' );
 			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', array(
 				'error' => __( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' )
 			) );

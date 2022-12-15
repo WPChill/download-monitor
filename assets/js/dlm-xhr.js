@@ -35,7 +35,8 @@ class DLM_XHR_Download {
 				return true;
 			}
 
-			if (dlmXHRGlobalLinks.filter(res => url.includes(res)).length > 0) {
+
+			if (url.indexOf(dlmXHRGlobalLinks) >= 0) {
 
 				if (!jQuery(this).hasClass('download-link') && !jQuery(this).hasClass('download-button')) {
 					jQuery(this).addClass('download-link');

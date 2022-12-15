@@ -14,8 +14,6 @@ class DLM_Post_Type_Manager {
 		add_action( 'current_screen', array( $this, 'disable_geditor' ) );
 		// Action to do when a post is deleted.
 		add_action( 'before_delete_post', array( $this, 'delete_post' ), 15, 2 );
-		// Action to do when a post is created.
-		add_action( 'wp_after_insert_post', array( $this, 'after_post_creation' ), 15, 3 );
 	}
 
 	/**
@@ -281,47 +279,6 @@ class DLM_Post_Type_Manager {
 					$this->delete_files( $version->get_id() );
 				}
 			}
-		}
-	}
-
-	/**
-	 * Recreate global XHR object when a new Download is created.
-	 *
-	 * @param int    $post_id The ID of the post.
-	 * @param object $post Post object.
-	 * @param bool   $update Whether this is an existing post being updated or not.
-	 *
-	 * @return void
-	 * @since 4.7.71
-	 */
-	public function after_post_creation( $post_id, $post, $update ) {
-		// If not a download or is an update, return.
-		if ( 'dlm_download' !== $post->post_type || ! $update ) {
-			return;
-		}
-
-		$this->create_xhr_object( $post_id );
-	}
-
-	/**
-	 * Global XHR object containing the links to download.
-	 *
-	 * @param int $post_id The ID of the post.
-	 *
-	 * @return void
-	 * @since 4.7.71
-	 */
-	public function create_xhr_object( $post_id = 0 ) {
-		$downloads      = download_monitor()->service( 'download_repository' )->retrieve();
-		$download_links = array();
-
-		if ( ! empty( $downloads ) ) {
-			foreach ( $downloads as $download ) {
-				// Let's remove the timestamp from the download link.
-				$download_links[] = $download->get_the_download_link( false );
-			}
-			// Create a new XHR object.
-			update_option( 'dlm_xhr_object', json_encode( $download_links ) );
 		}
 	}
 }
