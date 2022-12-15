@@ -36,6 +36,11 @@ class DLM_XHR_Download {
 			}
 
 			if (dlmXHRGlobalLinks.filter(res => url.includes(res)).length > 0) {
+
+				if (!jQuery(this).hasClass('download-link') && !jQuery(this).hasClass('download-button')) {
+					jQuery(this).addClass('download-link');
+				}
+
 				dlmXHRinstance.handleDownloadClick(this, e);
 			}
 		});

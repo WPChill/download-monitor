@@ -310,7 +310,12 @@ class WP_DLM {
 	 */
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css' );
+			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css', array(), DLM_VERSION );
+			wp_register_style( 'dlm-xhr', $this->get_plugin_url() . '/assets/css/dlm-xhr.min.css', array(), DLM_VERSION );
+		}
+
+		if ( get_option( 'dlm_global_enqueue_xhr', false ) ) {
+			wp_enqueue_style( 'dlm-xhr' );
 		}
 
 		// only enqueue preview stylesheet when we're in the preview.

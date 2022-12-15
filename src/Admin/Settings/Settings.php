@@ -345,6 +345,14 @@ class DLM_Admin_Settings {
 								'type'     => 'text',
 								'priority' => 60
 							),
+							array(
+								'name'     => 'dlm_global_enqueue_xhr',
+								'std'      => '0',
+								'label'    => __( 'Global load XHR stylesheet', 'download-monitor' ),
+								'desc'     => __( 'Globally load the stylesheet responsible for the download progress animations. Usefull in case you are using download links in other places than the plugin\'s shortcodes or editor blocks.', 'download-monitor' ),
+								'type'     => 'checkbox',
+								'priority' => 70
+							),
 						),
 					),
 				),
