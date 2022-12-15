@@ -399,10 +399,11 @@ class DLM_Download {
 	/**
 	 * get_the_download_link function.
 	 *
+	 * @param bool $timestamp Whether to add a timestamp to the download link.
 	 * @access public
 	 * @return String
 	 */
-	public function get_the_download_link() {
+	public function get_the_download_link( $timestamp = true ) {
 		$scheme   = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 		$endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
 		$ep_value = get_option( 'dlm_download_endpoint_value' );
@@ -442,11 +443,13 @@ class DLM_Download {
 			remove_filter( 'wpml_get_home_url', array( $this, 'wpml_download_link' ), 15, 2 );
 		}
 
-		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts
-		$timestamp = time();
-		$link      = add_query_arg( 'tmstv', $timestamp, $link );
+		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts.
+		if ( $timestamp ) {
+			$timestamp = time();
+			$link      = add_query_arg( 'tmstv', $timestamp, $link );
+		}
 
-		// only add version argument when current version isn't latest version
+		// only add version argument when current version isn't the latest version.
 		if ( null !== $this->get_version() && false === $this->get_version()->is_latest() ) {
 
 			if ( $this->get_version()->has_version_number() ) {

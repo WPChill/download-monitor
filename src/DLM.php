@@ -337,7 +337,8 @@ class WP_DLM {
 			if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
 				wp_enqueue_style( 'dashicons' );
 			}
-
+			// @todo: delete the xhr_links attribute in the future as it will not be needed. It's only here for backwards
+			// compatibility as extensions miht using it. Used prior to 4.7.71.
 			$dlm_xhr_data = apply_filters(
 				'dlm_xhr_data',
 				array(
