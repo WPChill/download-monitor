@@ -1,5 +1,5 @@
 jQuery(function ($) {
-	// Let's initiate the reports.
+	// Let's initiate the XHR.
 	new DLM_XHR_Download();
 });
 
