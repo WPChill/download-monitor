@@ -377,7 +377,7 @@ class WP_DLM {
 				$download_pointing_url = get_home_url( null, '', $scheme );
 				$download_pointing_url = $download_pointing_url . '/' . $endpoint . '/';
 			} else {
-				$download_pointing_url = add_query_arg( $endpoint, home_url( '', $scheme ) );
+				$download_pointing_url = add_query_arg( $endpoint, '', home_url( '', $scheme ) );
 			}
 
 			// Now we can remove the filter as the link is generated.
