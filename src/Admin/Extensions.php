@@ -258,10 +258,6 @@ class DLM_Admin_Extensions {
 			return;
 		}
 
-		if( !isset( $_GET['page'] ) || !( 'dlm-installed-extensions' != $_GET['page'] || 'dlm-extensions' != $_GET['page'] ) ){
-			return;
-		}
-
 		$welcome = WPChill_Welcome::get_instance();
 		wp_enqueue_style( array( 'dlm-welcome-style' ) );
 
@@ -347,7 +343,8 @@ class DLM_Admin_Extensions {
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
 		}
-
+		
+		wp_enqueue_style( array( 'dlm-welcome-style' ) );
 		?>
 		<div class="wrap dlm_extensions_wrap">
 		<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>

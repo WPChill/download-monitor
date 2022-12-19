@@ -134,10 +134,6 @@ class DLM_Welcome_Page {
 			return;
 		}
 
-		if( !isset( $_GET['page'] ) || 'download-monitor-about-page' != $_GET['page'] ){
-			return;
-		}
-
 		$welcome = WPChill_Welcome::get_instance();
 
 		wp_enqueue_style( array( 'dlm-welcome-style' ) );
