@@ -65,8 +65,7 @@ class WP_DLM {
 		$this->services = new DLM_Services();
 
 		// Load plugin text domain.
-		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
-		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( DLM_PLUGIN_FILE ) ) . '/languages' );
+		$this->load_textdomain();
 
 		// Table for Download Infos.
 		$wpdb->download_log = "{$wpdb->prefix}download_log";
@@ -224,6 +223,35 @@ class WP_DLM {
 		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
 		// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front
 		add_filter( 'wp_get_attachment_url', array( $this, 'generate_attachment_url' ), 15, 2 );
+	}
+
+	/**
+	 * Load Textdomain
+	 */
+	private function load_textdomain(){
+		$dlm_lang = dirname( DLM_FILE ) . '/languages/';
+
+		if( get_user_locale() !== get_locale() ){
+
+			unload_textdomain( 'download-monitor' );
+			$locale = apply_filters( 'plugin_locale', get_user_locale(), 'download-monitor' );
+
+			$lang_ext = sprintf( '%1$s-%2$s.mo', 'download-monitor', $locale );
+			$lang_ext1 = WP_LANG_DIR . "/download-monitor/download-monitor-{$locale}.mo";
+			$lang_ext2 = WP_LANG_DIR . "/plugins/download-monitor/{$lang_ext}";
+
+			if ( file_exists( $lang_ext1 ) ) {
+				load_textdomain( 'download-monitor', $mofile_global1 );
+
+			} elseif ( file_exists( $lang_ext2 ) ) {
+				load_textdomain( 'download-monitor', $lang_ext2 );
+
+			} else {
+				load_plugin_textdomain( 'download-monitor', false, $dlm_lang );
+			}
+		} else {
+			load_plugin_textdomain( 'download-monitor', false, $dlm_lang );
+		}
 	}
 
 	/**
