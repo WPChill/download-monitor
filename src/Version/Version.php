@@ -430,7 +430,7 @@ class DLM_Download_Version {
 				}
 				// Now, let's check if this is an attachment.
 				global $wpdb;
-				$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE %s;", '%' . $wpdb->esc_like( $file_path ) . '%' ) );
+				$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE %s;", '%' . $wpdb->esc_like( $file_path ) ) );
 				// If it's an attachment, delete it.
 				if ( ! empty( $attachments ) ) {
 					foreach ( $attachments as $attachment ) {
