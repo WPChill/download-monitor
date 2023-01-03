@@ -368,7 +368,7 @@ class WP_DLM {
 				wp_enqueue_style( 'dashicons' );
 			}
 			// @todo: delete the xhr_links attribute in the future as it will not be needed. It's only here for backwards
-			// compatibility as extensions miht using it. Used prior to 4.7.71.
+			// compatibility as extensions might using it. Used prior to 4.7.71.
 			$dlm_xhr_data = apply_filters(
 				'dlm_xhr_data',
 				array(
@@ -391,7 +391,8 @@ class WP_DLM {
 			// Let's create the URL pointer for the download link. It will be used as a global variable in the xhr.js file
 			// and will be used to check if is a true download request or not.
 			$scheme            = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-			$endpoint          = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
+			$endpoint          = get_option( 'dlm_download_endpoint' );
+			$endpoint          = $endpoint ? $endpoint : 'download';
 			$wpml_options      = get_option( 'icl_sitepress_settings', false );
 			$is_dlm_translated = false;
 			if ( $wpml_options && isset( $wpml_options['custom_posts_sync_option'] ) && in_array( 'dlm_download', $wpml_options['custom_posts_sync_option'] ) ) {
