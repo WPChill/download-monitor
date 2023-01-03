@@ -534,7 +534,7 @@ class DLM_Reports {
 
 		// Get all dates from the startDate to the endDate
 		let dayDownloads = dlmReportsInstance.getDates(new Date(startDate), new Date(endDate)),
-			doubleDays, doubleMonthDownloads, weeksDownloads, weekDownloads;
+			doubleDays, doubleMonthDownloads, weeksDownloads, weekDownloads, monthDownloads;
 
 		// Let's initiate our dlmDownloads with something
 		switch (dlmReportsInstance.chartType) {
@@ -545,7 +545,7 @@ class DLM_Reports {
 				break;
 			case 'month':
 				// Get selected months
-				let monthDownloads = dlmReportsInstance.getMonths(dayDownloads);
+				monthDownloads = dlmReportsInstance.getMonths(dayDownloads);
 				dlmDownloads       = monthDownloads;
 				break;
 			case 'weeks':
