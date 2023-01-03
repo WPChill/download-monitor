@@ -219,29 +219,31 @@ class WP_DLM {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
 		}
 
-		// Fix to whitelist our function for PolyLang
+		// Fix to whitelist our function for PolyLang.
 		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
-		// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front
+		// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front.
 		add_filter( 'wp_get_attachment_url', array( $this, 'generate_attachment_url' ), 15, 2 );
 	}
 
 	/**
 	 * Load Textdomain
+	 *
+	 * @since 4.7.71
 	 */
-	private function load_textdomain(){
+	private function load_textdomain() {
 		$dlm_lang = dirname( DLM_FILE ) . '/languages/';
 
-		if( get_user_locale() !== get_locale() ){
+		if ( get_user_locale() !== get_locale() ) {
 
 			unload_textdomain( 'download-monitor' );
 			$locale = apply_filters( 'plugin_locale', get_user_locale(), 'download-monitor' );
 
-			$lang_ext = sprintf( '%1$s-%2$s.mo', 'download-monitor', $locale );
+			$lang_ext  = sprintf( '%1$s-%2$s.mo', 'download-monitor', $locale );
 			$lang_ext1 = WP_LANG_DIR . "/download-monitor/download-monitor-{$locale}.mo";
 			$lang_ext2 = WP_LANG_DIR . "/plugins/download-monitor/{$lang_ext}";
 
 			if ( file_exists( $lang_ext1 ) ) {
-				load_textdomain( 'download-monitor', $mofile_global1 );
+				load_textdomain( 'download-monitor', $lang_ext1 );
 
 			} elseif ( file_exists( $lang_ext2 ) ) {
 				load_textdomain( 'download-monitor', $lang_ext2 );
