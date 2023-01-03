@@ -112,22 +112,24 @@ class DLM_Welcome_Page {
 	}
 
 	/**
+	 *  Register admin Wellcome style
+	 *
 	 * @since 4.7.71
-	 * Register admin Wellcome style
 	 */
 	public function welcome_style() {
-		if( isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] ){
-			wp_register_style( 'dlm-welcome-style', plugins_url( '/assets/css/welcome.css', DLM_PLUGIN_FILE ), null, '1.0.0' );
+		if ( isset( $_GET['post_type'] ) && 'dlm_download' === sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) {
+			wp_register_style( 'dlm-welcome-style', plugins_url( '/assets/css/welcome.css', DLM_PLUGIN_FILE ), null, DLM_VERSION );
 		}
 	}
 
 	/**
+	 *  Display About page
+	 *
 	 * @since 4.5.9
-	 * Display About page
 	 */
 	public function about_page() {
 
-		// WPChill Welcome Class
+		// WPChill Welcome Class.
 		require_once plugin_dir_path( DLM_PLUGIN_FILE ) . '/includes/submodules/banner/class-wpchill-welcome.php';
 
 		if ( ! class_exists( 'WPChill_Welcome' ) ) {
@@ -136,7 +138,7 @@ class DLM_Welcome_Page {
 
 		$welcome = WPChill_Welcome::get_instance();
 
-		wp_enqueue_style( array( 'dlm-welcome-style' ) );
+		wp_enqueue_style( 'dlm-welcome-style' );
 
 		/** @var \DLM_Settings_Helper $settings */
 		$settings = download_monitor()->service( 'settings' );
