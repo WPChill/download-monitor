@@ -54,10 +54,9 @@ Dashboard Widget CSS
       }
 
 
-      &>div {
+      & > div {
         text-align: left;
-
-
+        overflow:hidden;
 
         &:not(:first-child) {
           flex-grow: 1;
@@ -66,13 +65,14 @@ Dashboard Widget CSS
         }
 
         &:first-child {
-          min-width: 36px;
+          width: 40px;
         }
 
         &:last-of-type {
           text-align: right;
           font-weight: 500;
           max-width: 20%;
+          width: 75px;
         }
       }
     }

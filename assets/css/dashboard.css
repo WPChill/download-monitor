@@ -41,6 +41,7 @@ Dashboard Widget CSS
 }
 #dlm_popular_downloads.postbox .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div {
   text-align: left;
+  overflow: hidden;
 }
 #dlm_popular_downloads.postbox .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:not(:first-child) {
   flex-grow: 1;
@@ -48,10 +49,11 @@ Dashboard Widget CSS
   z-index: 5;
 }
 #dlm_popular_downloads.postbox .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:first-child {
-  min-width: 36px;
+  width: 40px;
 }
 #dlm_popular_downloads.postbox .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:last-of-type {
   text-align: right;
   font-weight: 500;
   max-width: 20%;
+  width: 75px;
 }
