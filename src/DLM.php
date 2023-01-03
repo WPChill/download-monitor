@@ -240,7 +240,7 @@ class WP_DLM {
 
 			$lang_ext  = sprintf( '%1$s-%2$s.mo', 'download-monitor', $locale );
 			$lang_ext1 = WP_LANG_DIR . "/download-monitor/download-monitor-{$locale}.mo";
-			$lang_ext2 = WP_LANG_DIR . "/plugins/download-monitor/{$lang_ext}";
+			$lang_ext2 = WP_LANG_DIR . "/plugins/{$lang_ext}";
 
 			if ( file_exists( $lang_ext1 ) ) {
 				load_textdomain( 'download-monitor', $lang_ext1 );
