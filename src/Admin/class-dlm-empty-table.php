@@ -35,7 +35,7 @@ class DLM_Empty_Table extends WP_Posts_List_Table {
 			</div>
 			<div class="dlm-onboarding-banner-wrap">
 				<img
-					src="<?php echo esc_url( DLM_URL ) . 'assets/images/onboarding/Modula onboarding Banner.png'; ?>"
+					src="<?php echo esc_url( DLM_URL ) . 'assets/images/onboarding/dlm-banner.png'; ?>"
 					class="dlm-onboarding-banner"/>
 			</div>
 			<div class="dlm-onboarding-button-wrap">
