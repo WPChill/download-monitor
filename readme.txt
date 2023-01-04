@@ -120,9 +120,17 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 4.7.71 - TBD =
+= 4.7.71 - 09.01.2022 =
 Changed: Enqueue welcome banner assets only on the welcome page ( [#1153](https://github.com/WPChill/download-monitor/issues/1153) )
 Fixed: Issue preventing the display of texts according to the user language ( [#961](https://github.com/WPChill/download-monitor/issues/961) )
+Added: Empty downloads display ( [#882](https://github.com/WPChill/download-monitor/issues/882) )
+Added: Delete files when Version or Download is deleted ( [#1034](https://github.com/WPChill/download-monitor/issues/1034) )
+Changed: Global XHR for download links, not depending on class anylonger ( [#1157](https://github.com/WPChill/download-monitor/issues/1157) )
+Fixed: Error when PayPal payment if product price bigger than 1000 ( [#1155](https://github.com/WPChill/download-monitor/issues/1155) )
+Fixed: URLencode only for server hosted files ( [#1158](https://github.com/WPChill/download-monitor/issues/1158) )
+Fixed: Fatal error if product contains deleted download ( [#1160](https://github.com/WPChill/download-monitor/issues/1160) )
+Fixed: Reports not working ( [#1171](https://github.com/WPChill/download-monitor/issues/1171) )
+Fixed: Dashboard top downloads widget bugged ( [#1170](https://github.com/WPChill/download-monitor/issues/1170) [#1167](https://github.com/WPChill/download-monitor/issues/1167) )
 
 = 4.7.70 - 12.12.2022 =
 Fixed: Aditional CSS classes for gutenberg blocks ( [#1146](https://github.com/WPChill/download-monitor/issues/1146) )
