@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.1
-Stable tag: 4.7.70
+Stable tag: 4.7.71
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.7.71 - 05.01.2022 =
+Fixed: Reports page not working ( [#1171](https://github.com/WPChill/download-monitor/issues/1171) )
+
 = 4.7.70 - 12.12.2022 =
 Fixed: Aditional CSS classes for gutenberg blocks ( [#1146](https://github.com/WPChill/download-monitor/issues/1146) )
 Changed: Removed test paymant gateway as PayPal gateway already has a test solution ( [#666](https://github.com/WPChill/download-monitor/issues/666) )
