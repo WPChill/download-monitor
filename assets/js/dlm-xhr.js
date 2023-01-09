@@ -38,10 +38,6 @@ class DLM_XHR_Download {
 
 			if (url.indexOf(dlmXHRGlobalLinks) >= 0) {
 
-				if (!jQuery(this).hasClass('download-link') && !jQuery(this).hasClass('download-button')) {
-					jQuery(this).addClass('download-link');
-				}
-
 				dlmXHRinstance.handleDownloadClick(this, e);
 			}
 		});
@@ -95,6 +91,9 @@ class DLM_XHR_Download {
 		button.setAttribute('href', '#');
 		button.removeAttribute('download');
 		button.setAttribute('disabled', 'disabled');
+
+		const loading_gif = '<img src="' + dlmXHRgif + '" class="dlm-xhr-loading-gif" style="display:inline-block; vertical-align: middle; margin-left:15px;">';
+		button.innerHTML += loading_gif;
 
 		const newHref = (href.indexOf('?') > 0) ? href + '&nonce=' + dlmXHR.nonce : href + '?nonce=' + dlmXHR.nonce;
 
@@ -161,6 +160,7 @@ class DLM_XHR_Download {
 						button.removeAttribute('download');
 						button.setAttribute('href', href);
 						buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
+						buttonObj.find('.dlm-xhr-loading-gif').remove();
 						request.abort();
 						return;
 					}
@@ -172,6 +172,7 @@ class DLM_XHR_Download {
 					button.removeAttribute('download');
 					button.setAttribute('href', href);
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
+					buttonObj.find('.dlm-xhr-loading-gif').remove();
 					request.abort();
 
 					if( 'undefined' !== typeof responseHeaders['dlm-no-access-modal'] && 0 != responseHeaders['dlm-no-access-modal']){
@@ -189,6 +190,7 @@ class DLM_XHR_Download {
 					button.removeAttribute('download');
 					button.setAttribute('href', href);
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
+					buttonObj.find('.dlm-xhr-loading-gif').remove();
 					request.abort();
 					return;
 				}
@@ -237,7 +239,7 @@ class DLM_XHR_Download {
 				window.URL.revokeObjectURL(_OBJECT_URL);
 				button.removeAttribute('download');
 				button.setAttribute('href', href);
-
+				buttonObj.find('.dlm-xhr-loading-gif').remove();
 				// There is no way to find out whether user finished downloading
 				setTimeout(function () {
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
@@ -416,6 +418,7 @@ class DLM_XHR_Download {
 				button.removeAttribute('download');
 				button.setAttribute('href', href);
 				// There is no way to find out whether user finished downloading
+				buttonObj.find('.dlm-xhr-loading-gif').remove();
 				setTimeout(function () {
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
 				}, 1000);

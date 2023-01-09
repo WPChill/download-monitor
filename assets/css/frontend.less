@@ -374,13 +374,11 @@ a.download-button {
     z-index: 0;
   }
 
-
   & > * {
     z-index:2;
     position: relative;
   }
 }
-
 
 html body a.download-link {
   position: relative;
@@ -391,21 +389,8 @@ html body a.download-link {
     right: -40px;
     border-radius: 5px;
     display: block;
-    background: red;
-    height: 10px;
-    width: 10px;
     opacity:0;
     z-index:-1;
-    transform: translateY(-50%);
-    top:calc( 50% - 5px );
-  }
-
-  &::before {
-    animation: lds-ellipsis1 0.6s infinite;
-  }
-
-  &::after {
-    animation: lds-ellipsis2 0.6s infinite;
   }
 
   &.dlm-download-started {

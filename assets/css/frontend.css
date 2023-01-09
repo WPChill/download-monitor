@@ -400,19 +400,8 @@ html body a.download-link::after {
   right: -40px;
   border-radius: 5px;
   display: block;
-  background: red;
-  height: 10px;
-  width: 10px;
   opacity: 0;
   z-index: -1;
-  transform: translateY(-50%);
-  top: calc(50% - 5px);
-}
-html body a.download-link::before {
-  animation: lds-ellipsis1 0.6s infinite;
-}
-html body a.download-link::after {
-  animation: lds-ellipsis2 0.6s infinite;
 }
 html body a.download-link.dlm-download-started {
   text-decoration: none;
