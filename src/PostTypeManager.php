@@ -220,7 +220,7 @@ class DLM_Post_Type_Manager {
 	 * @param int $id The ID of the Version.
 	 *
 	 * @return void
-	 * @since 4.7.71
+	 * @since 4.7.72
 	 */
 	public function delete_files( $id ) {
 
@@ -235,7 +235,7 @@ class DLM_Post_Type_Manager {
 	 * @param object $post Post object.
 	 *
 	 * @return void
-	 * @since 4.7.71
+	 * @since 4.7.72
 	 */
 	public function delete_post( $id, $post ) {
 

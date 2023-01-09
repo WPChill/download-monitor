@@ -114,7 +114,7 @@ class DLM_Welcome_Page {
 	/**
 	 *  Register admin Wellcome style
 	 *
-	 * @since 4.7.71
+	 * @since 4.7.72
 	 */
 	public function welcome_style() {
 		if ( isset( $_GET['post_type'] ) && 'dlm_download' === sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) {

@@ -9,7 +9,7 @@ if ( ! class_exists( 'WP_Posts_List_Table' ) ) {
 /**
  * Class DLM_Onboarding. Displays the onboarding screen if no Downloads are created.
  *
- * @since 4.7.71
+ * @since 4.7.72
  */
 class DLM_Empty_Table extends WP_Posts_List_Table {
 

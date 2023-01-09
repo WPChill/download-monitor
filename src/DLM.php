@@ -228,7 +228,7 @@ class WP_DLM {
 	/**
 	 * Load Textdomain
 	 *
-	 * @since 4.7.71
+	 * @since 4.7.72
 	 */
 	private function load_textdomain() {
 		$dlm_lang = dirname( DLM_FILE ) . '/languages/';
@@ -368,7 +368,7 @@ class WP_DLM {
 				wp_enqueue_style( 'dashicons' );
 			}
 			// @todo: delete the xhr_links attribute in the future as it will not be needed. It's only here for backwards
-			// compatibility as extensions might using it. Used prior to 4.7.71.
+			// compatibility as extensions might using it. Used prior to 4.7.72.
 			$dlm_xhr_data = apply_filters(
 				'dlm_xhr_data',
 				array(

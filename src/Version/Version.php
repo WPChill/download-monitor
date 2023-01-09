@@ -418,7 +418,7 @@ class DLM_Download_Version {
 	 * Delete files contained in version.
 	 *
 	 * @return void
-	 * @since 4.7.71
+	 * @since 4.7.72
 	 */
 	public function delete_files() {
 
