@@ -120,7 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 4.7.72 - 09.01.2022 =
+= 4.7.72 - 09.01.2023 =
 Changed: Enqueue welcome banner assets only on the welcome page ( [#1153](https://github.com/WPChill/download-monitor/issues/1153) )
 Fixed: Issue preventing the display of texts according to the user language ( [#961](https://github.com/WPChill/download-monitor/issues/961) )
 Added: Empty downloads display ( [#882](https://github.com/WPChill/download-monitor/issues/882) )
