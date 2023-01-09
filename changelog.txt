@@ -8,6 +8,7 @@ Fixed: Error when PayPal payment if product price bigger than 1000 ( [#1155](htt
 Fixed: URLencode only for server hosted files ( [#1158](https://github.com/WPChill/download-monitor/issues/1158) )
 Fixed: Fatal error if product contains deleted download ( [#1160](https://github.com/WPChill/download-monitor/issues/1160) )
 Fixed: Dashboard top downloads widget bugged ( [#1170](https://github.com/WPChill/download-monitor/issues/1170) [#1167](https://github.com/WPChill/download-monitor/issues/1167) )
+Changed: Download progress animation ( [#1177](https://github.com/WPChill/download-monitor/issues/1177) )
 
 = 4.7.71 - 05.01.2022 =
 Fixed: Reports page not working ( [#1171](https://github.com/WPChill/download-monitor/issues/1171) )

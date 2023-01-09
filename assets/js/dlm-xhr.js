@@ -250,7 +250,7 @@ class DLM_XHR_Download {
 		request.addEventListener('progress', function (e) {
 			let percent_complete = (e.loaded / e.total) * 100;
 			// Force perfect complete to have 2 digits
-			percent_complete     = percent_complete.toFixed(2);
+			percent_complete     = percent_complete.toFixed();
 			let $class           = 'dlm-download-started';
 			buttonObj.find('span.dlm-xhr-progress').remove();
 			// Comment below lines for the new XHR loader so that we know where to rever
@@ -428,7 +428,7 @@ class DLM_XHR_Download {
 		request.addEventListener('progress', function (e) {
 			let percent_complete = (e.loaded / e.total) * 100;
 			// Force perfect complete to have 2 digits
-			percent_complete     = percent_complete.toFixed(2);
+			percent_complete     = percent_complete.toFixed();
 			let $class           = 'dlm-download-started';
 			buttonObj.find('span.dlm-xhr-progress').remove();
 			// Comment below lines for the new XHR loader so that we know where to rever
