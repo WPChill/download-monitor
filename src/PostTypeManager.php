@@ -144,7 +144,7 @@ class DLM_Post_Type_Manager {
 			get_posts(
 				array(
 					'post_type'   => 'dlm_download',
-					'post_status' => array( 'publish', 'future', 'trash', 'draft', 'inherit' ),
+					'post_status' => array( 'publish', 'future', 'trash', 'draft', 'inherit', 'pending' ),
 				)
 			)
 		);
