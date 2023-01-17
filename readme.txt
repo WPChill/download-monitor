@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.1
-Stable tag: 4.7.72
+Stable tag: 4.7.73
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.7.73 - 17.01.2023 =
+Fixed: XHR error on <a> tags without href attribute ( [#1188](https://github.com/WPChill/download-monitor/issues/1188) )
+Fixed: Click to copy shortcode from admin list view ( [#1072](https://github.com/WPChill/download-monitor/issues/1072) )
+
 = 4.7.72 - 09.01.2023 =
 Changed: Enqueue welcome banner assets only on the welcome page ( [#1153](https://github.com/WPChill/download-monitor/issues/1153) )
 Fixed: Issue preventing the display of texts according to the user language ( [#961](https://github.com/WPChill/download-monitor/issues/961) )

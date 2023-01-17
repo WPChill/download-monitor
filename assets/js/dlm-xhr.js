@@ -36,7 +36,7 @@ class DLM_XHR_Download {
 			}
 
 
-			if (url.indexOf(dlmXHRGlobalLinks) >= 0) {
+			if ( 'undefined' != typeof url && url.indexOf(dlmXHRGlobalLinks) >= 0) {
 
 				dlmXHRinstance.handleDownloadClick(this, e);
 			}
