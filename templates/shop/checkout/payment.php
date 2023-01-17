@@ -4,8 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 
-/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\Manager $pgm Payment Gateway Manager */
-$pgm              = \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'payment_gateway' );
+/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\Manager $pgm Payment Gateway Manager */
+$pgm              = \WPChill\DownloadMonitor\Shop\Services\Services::get()->service( 'payment_gateway' );
 $payment_gateways = $pgm->get_enabled_gateways();
 $default_gateway  = download_monitor()->service( 'settings' )->get_option( 'default_gateway' );
 

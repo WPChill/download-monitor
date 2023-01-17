@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Admin;
+namespace WPChill\DownloadMonitor\Shop\Admin;
 
 class DownloadOption {
 

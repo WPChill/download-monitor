@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Product;
+namespace WPChill\DownloadMonitor\Shop\Product;
 
 interface Repository {
 

@@ -32,13 +32,13 @@ class DLM_Review {
 		$this->value = $this->value();
 
 		if ( $this->check() ) {
-			add_action( 'admin_notices', array( $this, 'five_star_wp_rate_notice' ) );
+			add_action( 'admin_notices', array( $this, 'five_star_wp_rate_notice' ), 8 );
 			add_action( 'wp_ajax_download-monitor_review', array( $this, 'ajax' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'admin_print_footer_scripts', array( $this, 'ajax_script' ) );
 		}
 
-		add_filter('st_uninstall_db_options',array($this,'uninstall_options'));
+		add_filter( 'dlm_uninstall_db_options', array( $this, 'uninstall_options' ) );
 
 	}
 
@@ -138,8 +138,8 @@ class DLM_Review {
 						data['download-monitor-review'] = 1;
 					}
 
-					$.post( '<?php echo admin_url( 'admin-ajax.php' ) ?>', data, function( response ) {
-						$( '#<?php echo esc_attr( $this->slug ) ?>-download-monitor-review-notice' ).slideUp( 'fast', function() {
+					$.post( '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', data, function( response ) {
+						$( '#<?php echo esc_attr( $this->slug ); ?>-download-monitor-review-notice' ).slideUp( 'fast', function() {
 							$( this ).remove();
 						} );
 					});
@@ -166,5 +166,3 @@ class DLM_Review {
 		return $options;
 	}
 }
-
-new DLM_Review();

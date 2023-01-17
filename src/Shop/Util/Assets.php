@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Util;
+namespace WPChill\DownloadMonitor\Shop\Util;
 
-use Never5\DownloadMonitor\Shop\Ajax;
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Ajax;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Assets {
 
@@ -21,11 +21,11 @@ class Assets {
 	public function enqueue_assets() {
 
 		if ( Services::get()->service( 'page' )->is_cart() ) {
-			wp_enqueue_style( 'dlm-frontend-cart', download_monitor()->get_plugin_url() . '/assets/css/cart.css' );
+			wp_enqueue_style( 'dlm-frontend-cart', download_monitor()->get_plugin_url() . '/assets/css/cart.min.css', array(), DLM_VERSION );
 		}
 
 		if ( Services::get()->service( 'page' )->is_checkout() ) {
-			wp_enqueue_style( 'dlm-frontend-checkout', download_monitor()->get_plugin_url() . '/assets/css/checkout.css' );
+			wp_enqueue_style( 'dlm-frontend-checkout', download_monitor()->get_plugin_url() . '/assets/css/checkout.min.css', array(), DLM_VERSION );
 
 			wp_enqueue_script(
 				'dlm-frontend-checkout-js',
@@ -53,6 +53,25 @@ class Assets {
 	 */
 	public function enqueue_admin_assets() {
 		global $pagenow;
+
+		if( 'edit.php' == $pagenow && isset( $_GET['post_type'] ) && PostType::KEY === $_GET['post_type'] ) {
+			wp_enqueue_script(
+				'product_script',
+				plugins_url( '/assets/js/shop/product-script' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', download_monitor()->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION
+			);
+
+			// Make JavaScript strings translatable
+			wp_localize_script(
+				'product_script',
+				'dlm_product_overview',
+				array(
+					'copy_shortcode'    => esc_html__( 'Copy shortcode', 'download-monitor' ),
+					'shortcode_copied' => esc_html__( 'Shortcode copied', 'download-monitor' ),
+				)
+			);
+		}
 
 		if (
 			'edit.php' == $pagenow

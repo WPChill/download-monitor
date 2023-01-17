@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var \Never5\DownloadMonitor\Shop\Order\Order $order */
+/** @var \WPChill\DownloadMonitor\Shop\Order\Order $order */
 ?>
 <div class="dlm-checkout dlm-checkout-complete">
     <p><?php echo esc_html__( 'Thank you for your order. Please find your order details below.', 'download-monitor' ); ?></p>
@@ -56,11 +56,43 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 						<?php
 						try {
-							$product = \Never5\DownloadMonitor\Shop\Services\Services::get()->service( 'product_repository' )->retrieve_single( $order_item->get_product_id() );
+							$product = \WPChill\DownloadMonitor\Shop\Services\Services::get()->service( 'product_repository' )->retrieve_single( $order_item->get_product_id() );
 						} catch ( \Exception $exception ) {
 							continue;
 						}
-
+						$allowed_kses_html = array(
+							'input' => array(
+								'type' 		  	=> array(),
+								'name' 		 	 => array(),
+								'id'    	  	=> array(),
+								'class' 	  	=> array(),
+								'value' 	  	=> array(),
+								'placeholder'	=> array(), 
+							),
+							'form' => array(
+								'method' 		=> array(),
+								'action' 		=> array(),
+								'id'    		=> array(),
+								'class' 		=> array(),
+							),
+							'a' => array(
+								'href' 		=> array(),
+								'style' 		=> array(),
+								'id'    		=> array(),
+								'class' 		=> array(),
+							),
+							'p' => array(
+								'style' 		=> array(),
+								'id'    		=> array(),
+								'class' 		=> array(),
+							),
+							'div' => array(
+								'style' 		=> array(),
+								'id'    		=> array(),
+								'class' 		=> array(),
+								'data-sitekey'  => array(),
+							),
+						);
 						?>
 
                         <h3><?php echo esc_html( $product->get_title() ); ?></h3>
@@ -94,7 +126,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <tr>
                                         <td><?php echo esc_html( $download_title ); ?></td>
                                         <td><?php echo esc_html( $version_label ); ?></td>
-                                        <td><?php echo wp_kses_post( $download_button_html ); ?></td>
+                                        <td><?php echo wp_kses( $download_button_html, $allowed_kses_html ); ?></td>
                                     </tr>
 								<?php endforeach; ?>
                                 </tbody>

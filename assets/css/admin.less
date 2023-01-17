@@ -1,5 +1,5 @@
 .iconbefore(@glyph: "\f333") {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -16,19 +16,7 @@
   vertical-align: top;
 }
 
-/* Logs */
 .post-type-dlm_download {
-  h1 {
-    a.dlm-delete-logs {
-      color: #a00;
-
-      &:hover {
-        color: #fff;
-        background: #a00;
-        border-color: #7C0900;
-      }
-    }
-  }
 
   .dlm-page-header {
     border-bottom: 1px solid #ccc;
@@ -46,6 +34,10 @@
       a {
         span {
           vertical-align: middle;
+          position: relative;
+          top: -2px;
+          padding-right: 10px;
+          font-size: 16px;
         }
       }
     }
@@ -54,77 +46,11 @@
       max-height: 35px;
     }
   }
-}
 
-#dlm_logs {
-  td {
-    padding: 7px 7px;
-    vertical-align: middle;
-  }
-
-  .check-column {
-    width: 1%;
-    padding: 0;
-    vertical-align: middle;
-  }
-
-  .column-status {
-    width: 2%;
-  }
-
-  td.column-status {
-    font-size: 10px;
-    vertical-align: middle;
-    text-align: center;
-
-    span {
-      color: #fff;
-      font-weight: normal;
-      -moz-border-radius: 50%;
-      -webkit-border-radius: 50%;
-      border-radius: 50%;
-      height: 18px;
-      line-height: 18px;
-      width: 18px;
-      display: inline-block;
-      background: url('../images/log-status-icons.png') top left no-repeat;
+  td.column-shortcode {
+    .hidden {
+      display: none;
     }
-
-    .completed {
-      background-color: #6cc644;
-    }
-
-    .failed {
-      background-color: #bd2c00;
-      background-position-y: -18px;
-    }
-
-    .redirected {
-      background-color: #1c769b;
-      background-position-y: -36px;
-    }
-  }
-
-  td.column-user_ip,
-  td.column-user_agent {
-    font-family: monospace;
-    font-weight: normal;
-  }
-
-  span.dlm-description {
-    font-weight: normal;
-  }
-
-  .column-download,
-  .column-file,
-  .column-user,
-  .column-user_ua {
-    width: 16% !important;
-  }
-
-  .column-user_ip,
-  .column-date {
-    width: 6% !important;
   }
 }
 
@@ -153,6 +79,8 @@
   a {
     padding: 13px;
     display: block;
+    outline: none;
+    box-shadow: none;
   }
 
   .active-section {
@@ -167,105 +95,6 @@
   }
 }
 
-.admin-color-blue {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #096484;
-      }
-    }
-  }
-}
-
-.admin-color-coffee {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #c7a589;
-      }
-    }
-  }
-}
-
-.admin-color-ectoplasm {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #a3b745;
-      }
-    }
-  }
-}
-
-.admin-color-midnight {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #e14d43;
-      }
-    }
-  }
-}
-
-.admin-color-ocean {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #627c83;
-      }
-    }
-  }
-}
-
-.admin-color-sunrise {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #be3631;
-      }
-    }
-  }
-}
-
-.admin-color-light {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #888;
-      }
-    }
-  }
-}
-
-.admin-color-evergreen {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #36533f;
-      }
-    }
-  }
-}
-
-.admin-color-mint {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #4f6d59;
-      }
-    }
-  }
-}
-
-.admin-color-modern {
-  .dlm-settings-sub-nav {
-    .active-section {
-      a {
-        border-bottom-color: #3858e9;
-      }
-    }
-  }
-}
 
 .dlm-admin-settings {
 
@@ -287,23 +116,28 @@
   .form-table {
 
     label.dlm-radio-label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    label.dlm-enhanced-radio-label {
       position: relative;
-      padding:10px 15px;
-      display:inline-block;
-      margin-bottom:15px;
-      -webkit-user-select: none; /* Safari */        
+      padding: 10px 15px;
+      display: inline-block;
+      margin-bottom: 15px;
+      -webkit-user-select: none; /* Safari */
       -moz-user-select: none; /* Firefox */
       -ms-user-select: none; /* IE10+/Edge */
       user-select: none; /* Standard */
 
       span {
-        z-index:3;
+        z-index: 3;
         position: relative;
       }
-   
+
       input[type="radio"] {
         position: relative;
-        z-index:2;
+        z-index: 2;
 
         & + div.dlm-radio__selectable-area {
           position: absolute;
@@ -313,73 +147,96 @@
           display: block;
           top: 0;
           left: 0;
-          opacity:1;
-          border:1px solid grey;
+          opacity: 1;
+          border: 1px solid grey;
         }
 
         &:checked + div.dlm-radio__selectable-area {
-          border-color:green;
+          border-color: green;
           background-color: rgba(0, 128, 0, 0.6);
 
           & + span {
-            color:#fff;
+            color: #fff;
           }
         }
       }
     }
   }
 
-  .dlm-groupped-settings {
+  .dlm_settings {
+    padding: 5px 0;
+
+    & > th {
+      padding: 15px 5px;
+    }
 
     & > td {
-      padding:0;
+      padding: 15px 5px 15px 0;
     }
-    
-    /* Accordeon group CSS */
-    #poststuff.dlm-accordeon-group {
-      position: relative;
-      background:#fff;
-      border-radius:3px;
-      padding-top:0px;
-      margin:10px 0;
+  }
 
-      .postbox {
-        margin:0;
+  .dlm_install_plugin_setting {
+    background: #fff;
+    padding: 0 15px;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+  }
+
+  .dlm_group_setting {
+    td,
+    .dlm-accordeon-group {
+      margin: 0 auto;
+      padding: 0 !important;
+
+      .dlm-groupped-settings__box {
+        margin: 5px 0 5px 0;
+
+        .postbox {
+          padding: 0;
+          margin: 0 auto;
+
+          .hndle {
+            margin: 0;
+            padding: 8px;
+            font-weight: lighter;
+          }
+        }
       }
+    }
 
-      .dlm-accordeon-group__content {
-    
-        .dlm-accordeon-group__setting {
-          margin-top: 25px;
-          position:relative;
-          display: flex;
-          align-items: center;   
-          
-          &:not(:last-child):after {
-            position: absolute;
-            bottom: -15px;
-            content: "";
-            height: 1px;
-            background-color: #ddd;
-            width: 100%;
-            display: block;
-            margin: 0 auto;
-            left: 0;
-            right: 0;
-          }
-          
-          .dlm-accordeon-group__setting-title {
-            float:left;
-            width:30%;
-            min-width:300px;
-            font-weight: 600;
-          }
-    
-          .dlm-accordeon-group__setting-content {
-            float:right;
-            width:65%;
-            min-width:300px;
-          }
+    .handle-actions {
+      button {
+        box-shadow: none;
+      }
+    }
+
+    h2.hndle {
+      cursor: pointer;
+    }
+
+    .dlm-accordeon-group__content {
+      padding: 15px;
+
+      .dlm-accordeon-group__setting {
+        padding: 35px 0;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .dlm-accordeon-group__setting-title {
+          font-size: 16px;
+          margin-bottom: 15px;
+          font-weight: bold;
+          width: 20%;
+        }
+
+        .dlm-accordeon-group__setting-content {
+          width: 80%;
+        }
+
+        .description {
+          font-style: italic;
         }
       }
     }
@@ -526,6 +383,7 @@ table.wp-list-table {
 
   th.column-thumb,
   th.column-download_count,
+  th.column-locked_download,
   th.column-members_only,
   th.column-redirect_only,
   th.column-featured {
@@ -565,12 +423,13 @@ table.wp-list-table {
     }
   }
 
+  th.column-locked_download,
   th.column-members_only {
     width: 3.5em;
 
     span:first-child {
       &:before {
-        .iconbefore("\f338");
+        .iconbefore("\f160");
       }
     }
   }
@@ -596,6 +455,7 @@ table.wp-list-table {
   }
 
   td.column-download_count,
+  td.column-locked_download,
   td.column-members_only,
   td.column-redirect_only,
   td.column-featured {
@@ -672,7 +532,6 @@ table.wp-list-table {
     p.toolbar {
       margin: 0 !important;
       border-top: 1px solid white;
-      border-bottom: 1px solid #DFDFDF;
       padding: 7px 12px !important;
       overflow: hidden;
       zoom: 1;
@@ -693,6 +552,13 @@ table.wp-list-table {
 
     .dlm-metaboxes {
       padding: 0 12px 0;
+
+      &.dlm-versions-tab {
+        display:flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-top: 1px solid #DFDFDF;
+      }
     }
 
     .dlm-metabox-sortable-placeholder {
@@ -703,25 +569,214 @@ table.wp-list-table {
       border-style: dashed;
     }
 
+    .downloadable_files {
+      padding: 0;
+      margin: 15px;
+
+      .downloadable_file {
+        background:#fff;
+        border-radius: 4px;
+
+        .dlm-version-info {
+          display:inline-block;
+
+          & > span {
+            font-size:13px;
+            font-weight: 400;
+            margin-right:20px;
+
+            &:first-child{
+              border:1px solid #ccc;
+              padding: 2px 3px;
+              border-radius: 5px;
+            }
+
+            .dashicons {
+              margin-right:5px;
+              color:#787C8250;
+            }
+          }
+
+          .dlm-version-info__version {
+            background: rgb(206 206 206 / 50%);
+            padding: 3px 5px;
+          }
+        }
+
+        .wpchill-tooltip{
+          float:none;
+        }
+      }
+    }
+
+    .drag-drop {
+      #drag-drop-area {
+        border: 4px dashed #c3c4c7;
+        height: 140px;
+      }
+    }
+
+    .dlm-metabox-content {
+      padding-top: 5px;
+    }
+
+    .dlm-file-version__row {
+      width: calc(100% - 30px);
+      position: relative;
+      margin: 10px 0;
+      padding: 0 15px;
+
+      & > *, & > .dlm-file-version__file_present > *{
+        width: 100%;
+
+        &:not(.hidden,.dlm-uploader-editor) {
+          display: block;
+        }
+      }
+
+      .dlm-file-version__flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+
+        * {
+         display:inline-block;
+          vertical-align: middle;
+        }
+      }
+
+      .dlm-file-version__inline {
+       & > * {
+          display:inline-block;
+          vertical-align: middle;
+          margin-right:25px;
+         margin-bottom:25px;
+        }
+      }
+
+      .dlm-file-version__date{
+         & > * {
+           display:inline-block;
+           width:auto;
+         }
+      }
+
+      .dlm-file-version__hashes {
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top:25px;
+      }
+    }
+
+    #dlm-new-upload {
+      padding: 0 15px;
+    }
+    #dlm-new-upload,
+    .dlm-file-version__uploader{
+      position: relative;
+      .drag-drop {
+        .drag-drop-inside {
+          width: 100%;
+          margin-top: 25px;
+
+          .dlm_browse_for_file {
+            float:none;
+          }
+        }
+      }
+    }
+
+    .dlm-uploading-file {
+      background:#F0F0F0;
+      position: absolute;
+      overflow:hidden;
+      width:100%;
+      height:100%;
+      top:0;
+      left:0;
+      z-index:989;
+
+      &:before {
+        content:"";
+        position: absolute;
+        left:0;
+        height: 3px;
+        width:100%;
+        right:0;
+        top:0;
+        background:#D8D8D8;
+      }
+
+      label {
+        text-align:center;
+        padding:5px 0 7px 0;
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        width:100%;
+
+        &.hidden {
+          display:none;
+        }
+        span {
+          font-weight: bold;
+        }
+      }
+      .dlm-uploading-progress-bar {
+        background:#2271B1;
+        height:3px;
+        position: absolute;
+        top:0;
+      }
+    }
+
     .dlm-metabox {
-      background: #ececec;
-      border: 1px solid #ececec;
-      margin: 9px 0 !important;
+      /*background: #ececec;*/
+      border: 1px solid #cecece;
+      margin: 10px 0!important;
+      box-shadow: 0 4px 6px rgb(0 0 0 / 5%);
 
       h3 {
-        margin: 0 !important;
-        padding: 6px !important;
-        font-size: 1em !important;
+        margin: 0!important;
+        padding: 10px 10px 8px 10px!important;
+        font-size: 1em!important;
         overflow: hidden;
         zoom: 1;
-        cursor: move;
+        cursor: pointer;
+        position: relative;
+        border-bottom: 1px solid #cecece;
 
-        button {
+        &:before {
+          content: "\f140";
+          display: block;
+          font: normal 22px/1 dashicons;
+          speak: none;
+          position: absolute;
+          right: 15px;
+          color: #787c82;
+        }
+
+        &.opened:before {
+          content: "\f142";
+        }
+
+        span.remove_file {
           float: right;
+          margin-right: 30px;
+          color: #787C8250;
+          transition-duration: .2s;
+          position: relative;
+
+          &:hover {
+            color:red;
+          }
         }
 
         strong {
-          line-height: 24px;
+          line-height: 30px;
         }
 
         select {
@@ -737,6 +792,12 @@ table.wp-list-table {
 
       &:hover h3 .handlediv {
         display: block;
+      }
+
+      .dlm-download-count-button {
+        width: auto;
+        min-width:50px;
+        display:inline-block;
       }
 
       table {
@@ -756,6 +817,12 @@ table.wp-list-table {
             text-align: left;
             display: block;
             line-height: 21px;
+          }
+
+          .dlm-uploading-file {
+            label {
+              text-align:center;
+            }
           }
 
           input {
@@ -826,15 +893,6 @@ table.wp-list-table {
           float: right;
         }
       }
-
-      &:first-child {
-
-        /* main file */
-        h3 {
-          background-color: #FAFAFA;
-          border-bottom: 1px solid #dcdcde;
-        }
-      }
     }
 
     .plus:before {
@@ -849,14 +907,56 @@ table.wp-list-table {
       .iconbefore("\f317");
     }
 
-    .dlm_browse_for_file:before {
-      .iconbefore("\f322");
+    .dlm_media_library:before {
+      .iconbefore("\f104");
+    }
+
+    .dlm_browse_for_file {
+      float: right;
+
+      &:before {
+        .iconbefore("\f322");
+      }
+
+      .dlm_browse_for_file:before {
+        .iconbefore("\f322");
+      }
+    }
+
+    .dlm_external_source {
+
+      &:before {
+        .iconbefore("\f103");
+      }
     }
   }
 }
 
 /* Writepanel forms */
 #download-monitor-information {
+  .dlm_information_panel {
+    div {
+      p {
+        overflow: hidden;
+        width: 100%;
+        font-weight: bold;
+        box-sizing: border-box;
+        line-height: 28px;
+        margin-bottom: 5px;
+      }
+    }
+
+    input {
+      margin: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      flex-grow: 1;
+      width: calc(100% - 45px);
+    }
+  }
+}
+
+#download-monitor-product-information {
   .dlm_information_panel {
     div {
       p {
@@ -952,6 +1052,16 @@ table.wp-list-table {
     margin-left: 5px;
     border-radius: 10px;
   }
+
+  .dlm-upsell-badge {
+    font-size: 10px;
+    background: #f4daa4;
+    padding: 2px 5px;
+    display: inline-block;
+    margin-left: 5px;
+    border-radius: 10px;
+  }
+
 }
 
 #insert-download {
@@ -1063,280 +1173,827 @@ table.wp-list-table {
 }
 
 /* Reports */
-.dlm-reports {
+.dlm_download_page_download-monitor-reports {
 
-  h1 {
-    .dlm-reports-actions {
-      float: right;
+  position: relative;
 
-      a.dlm-reports-header-chart-switcher,
-      .dlm-reports-header-date-selector,
-      .dlm-reports-header-period {
-        margin: 0 5px;
-        float: left;
-      }
+  #wpcontent {
 
-      &> :last-child {
-        margin-right: 0;
-      }
+    .dlm-reports {
 
-      .dlm-reports-header-date-selector {
+      margin: 40px 20px 0 0;
+      position: relative;
 
-        position: relative;
-        font-size: 14px;
-        padding: 0 .5em 0 1em;
+      .dlm-reports-spinner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: #fff;
-        border: 1px solid #cccccc;
-        border-radius: 3px;
+        z-index: 9999;
+        color: #000;
+        text-align: center;
 
-        user-select: none;
+        span {
+          display: inline-block;
+          width: 80px;
+          height: 80px;
 
-        cursor: pointer;
-
-        .dlm-arrow {
-          &:before {
-            font-family: "dashicons" !important;
-            content: "\f140";
-            font-style: normal;
-            font-weight: normal;
-            speak: none;
-            display: inline-block;
-            text-decoration: inherit;
-            width: 1em;
-            text-align: center;
-            font-variant: normal;
-            text-transform: none;
-            line-height: 1em;
-            font-size: 1.6em;
-            vertical-align: middle;
-            margin-top: -2px;
+          &::after {
+            content: " ";
+            display: block;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border-radius: 50%;
+            border: 6px solid #000;
+            border-color: #000 transparent #000 transparent;
+            animation: dlmRotate 1.2s linear infinite;
           }
         }
+      }
 
-        .dlm_rdrs_overlay {
-          display: block;
-          width: 466px;
-          //height: 198px;
-          padding: 10px;
-          background: #fff;
-          border: 1px solid #cccccc;
-          position: absolute;
-          top: 30px;
-          right: 0;
-          z-index: 10;
-          overflow: hidden;
+      .reports-block {
+        background-color: #FFF;
+        margin-top: 25px;
+        border: 1px solid #e0e0e0;
+        box-sizing: border-box;
+      }
 
-          .dlm_rdrs_date {
-            font-size: 70%;
-            margin-right: 5px;
-            float: left;
-            z-index: 11;
+      .half-reports-block,
+      .reports-block.half-reports-block{
+        width: calc(50% - 45px);
+      }
 
-            .ui-datepicker-inline {
-              border: 0;
+      .dlm-loading-data {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        position: absolute;
+        top: 0;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        max-width: 100%;
+        margin: 0 auto;
+        font-size: 36px;
+        z-index: 30;
+      }
 
-              .ui-state-highlight {
-                background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
-                color: #555555;
-                border: 1px solid #D3D3D3;
+      /**
+      Reports header and actions
+       */
+
+      .dlm-insights-header {
+
+        display: flex;
+        justify-content: space-between;
+        background-color: #FFF;
+        border: 1px solid #DDD;
+
+        .dlm-reports-heading {
+          font-weight: bold;
+        }
+
+        .dlm-reports-page-actions {
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+          align-content: center;
+          display: flex;
+        }
+
+        .dlm-insights-navigation {
+
+          .dlm-insights-tab-navigation {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            border-bottom: 1px solid #e0e0e0;
+            overflow: hidden;
+            margin: 0;
+
+            .dlm-insights-tab-navigation__element {
+              width: 33%;
+              min-width: 200px;
+              height: 100%;
+              padding: 24px;
+              cursor: pointer;
+              margin-bottom: 0;
+              background-color: #f8f9fa;
+              border-top: 4px solid;
+              border-top-color: #f1f1f1;
+              border-left: 1px solid #e0e0e0;
+
+              &:last-of-type {
+                border-right: 1px solid #e0e0e0;
               }
 
-              .ui-state-active {
-                border: 1px solid #aaaaaa;
-                background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+              &.active {
+                background-color: #FFF;
+                border-top-color: #3858e9;
               }
 
-              td,
-              th {
-                padding: 0;
-                margin: 0;
-                line-height: 2em;
+              .dlm-insights-tab-navigation__label {
+                display: block;
+                width: 100%;
+                font-size: 16px;
+                font-weight: bold;
+              }
 
-                a {
-                  text-align: center !important;
-                }
-
+              .dlm-insights-tab-navigation__description {
+                display: block;
+                width: 100%;
+                font-size: 12px;
+                font-style: italic;
+                color: rgb(100, 97, 97);
               }
             }
           }
+        }
 
-          .dlm_rdrs_actions {
-            width: 70px;
-            padding-left: 10px;
-            text-align: center;
-            float: left;
+        .dlm-reports-actions {
+
+          .dlm-reports-per-page {
+            margin-left:10px;
+            margin-right:15px;
+          }
+
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+          align-content: center;
+          display: flex;
+
+          &:hover {
+            border-color: #4338ca;
+          }
+
+          &:focus {
+            border-color: #4338ca;
+            box-shadow: 0 0 3px #4338ca;
+          }
+
+          a.dlm-reports-header-chart-switcher,
+          .dlm-reports-header-date-selector,
+          .dlm-reports-header-period {
+            margin: 0;
+          }
+
+          .dlm-reports-header-date-selector {
+
+            display: flex;
+            align-items: center;
+            min-height: 32px;
+            position: relative;
+            font-size: 14px;
+            padding: 0 .5em 0 5px;
+            user-select: none;
+            cursor: pointer;
+            margin: 0 15px;
+            transition: 800ms ease-in;
+            opacity: 1;
+            min-width: 230px;
+
+            &.disabled {
+              pointer-events: none;
+              opacity: 0;
+              display: none;
+
+            }
+
+            & > label {
+              font-size: 12px;
+              font-style: italic;
+              top: -20px;
+              display: block;
+              width: 100%;
+              position: absolute;
+            }
+
+            .dlm-reports-header-period {
+              display: flex;
+              align-content: center;
+              align-items: center;
+              border: 1px solid #cccccc;
+              border-left: 0;
+
+              a,
+              a:hover {
+                height: 100%;
+                border: 0;
+                background: #fff;
+                box-shadow: none;
+
+                &.active {
+                  background: #cccccc;
+                }
+              }
+            }
+
+            #dlm_date_range_picker {
+              .date-picker-wrapper {
+                background: #fff;
+                border: 0;
+              }
+            }
+
+            .dlm-arrow {
+              &:before {
+                font-family: "dashicons" !important;
+                content: "\f140";
+                font-style: normal;
+                font-weight: normal;
+                speak: none;
+                display: inline-block;
+                text-decoration: inherit;
+                text-align: center;
+                font-variant: normal;
+                text-transform: none;
+                font-size: 1.6em;
+                vertical-align: middle;
+              }
+            }
+
+            .dlm_rdrs_overlay {
+              display: flex;
+              width: auto;
+              background: #fff;
+              position: absolute;
+              top: 30px;
+              right: 0;
+              z-index: 10;
+              overflow: hidden;
+              border-radius: 5px;
+              box-shadow: 0px 0px 3px rgba(0, 0, 0, .60);
+
+              .date-picker-wrapper {
+
+                .dlm_rdrs_date {
+                  font-size: 70%;
+                  margin-right: 5px;
+                  float: left;
+                  z-index: 11;
+                  padding: 15px;
+
+                  .ui-datepicker-inline {
+                    border: 0;
+
+                    .ui-state-highlight {
+                      background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+                      color: #555555;
+                      border: 1px solid #D3D3D3;
+                    }
+
+                    .ui-state-active {
+                      border: 1px solid #aaaaaa;
+                      background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+                    }
+
+                    td,
+                    th {
+                      padding: 0;
+                      margin: 0;
+                      line-height: 2em;
+
+                      a {
+                        text-align: center !important;
+                      }
+
+                    }
+                  }
+                }
+
+                .dlm_rdrs_actions {
+                  width: 70px;
+                  padding-left: 10px;
+                  text-align: center;
+                  display: flex;
+                }
+
+                .footer {
+
+                  position: absolute;
+                  left: 0;
+                  top: 0;
+                  height: 100%;
+                  padding-top: 0;
+                  padding-bottom: 0;
+
+                  .shortcuts {
+                    border-right: 1px solid rgba(0, 0, 0, .60);
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    display: flex;
+                    flex-flow: column;
+                    justify-content: center;
+                    height: 100%;
+
+                    a {
+                      text-align: left;
+                      padding: 5px 40px 5px 10px;
+                      min-width: 100px;
+                      color: #000;
+                      text-decoration: none;
+
+                      &:hover {
+                        color: #4338ca;
+                        background: rgba(204, 204, 204, 0.3);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .dlm-chart-icon {
+        display: block;
+        padding-right: 15px;
+        color: #23282d;
+      }
+
+      #dlm-toggle-settings {
+        cursor: pointer;
+        position: relative;
+
+        &:before {
+          color: #0081a7;
+        }
+
+        .dlm-toggle-settings__settings {
+          width: 300px;
+          position: absolute;
+          top: 0;
+          left: -335px;
+          padding: 15px;
+          background: #fff;
+          z-index: 3;
+          text-align: left;
+          display: none;
+
+          &.display {
+            display: block;
+          }
+
+          & > div {
+            margin: 15px 0;
+          }
+        }
+      }
+
+      .dlm-insights-tab-navigation__content {
+        display: none;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        position: relative;
+
+        &.active {
+          display: flex;
+        }
+      }
+
+      .dlm_reports_loader {
+        position: absolute;
+        width: 32px;
+        height: 32px;
+        top: 50%;
+        left: 50%;
+        margin: -16px 0 0 -16px;
+      }
+
+      .downloads-block-navigation {
+        text-align: center;
+        padding: 7px 0;
+        & > * {
+          vertical-align: middle;
+          display:inline-block;
+        }
+
+        & > span{
+          color:grey;
+        }
+
+        .dlm-reports-total-pages {
+          margin-right:15px;
+        }
+
+        button {
+          border: 0;
+          color: #000;
+          font-size: 1rem;
+          cursor: pointer;
+          margin: 0;
+          box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+          background-color: #FFF;
+          width: 24px;
+          vertical-align: middle;
+
+          &[disabled] {
+            opacity: 0.5;
+            cursor: default;
+          }
+        }
+      }
+
+      .dlm-reports-block {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        overflow: hidden;
+
+        .wpchill-tooltip {
+          i {
+            color: inherit;
+            opacity: 0.6;
           }
         }
 
-      }
+        &.dlm-reports-block-half {
+          width: 49%;
+          margin-right: 1%;
+        }
 
-      a.dlm-reports-header-chart-switcher {
-        display: block;
-        margin-top: 1px;
-        padding-top: 4px;
-        color: #23282d;
-        //border: 1px solid #23282d;
-        text-decoration: none;
+        &.dlm-reports-block-half-right {
+          width: 49%;
+          margin-left: 1%;
+        }
 
-        &:before {
-          font-family: "dashicons" !important;
-          font-style: normal;
-          font-weight: normal;
-          speak: none;
+        .dlm-reports-placeholder-no-data {
           display: inline-block;
-          text-decoration: inherit;
-          width: 1em;
+          width: 100%;
+          font-size: 1.5em;
+          color: #b4b9be;
+          font-style: italic;
           text-align: center;
-          font-variant: normal;
-          text-transform: none;
-          line-height: 1em;
-          font-size: 1.4em;
         }
 
-        &.dlm-line:before {
-          content: "\f238";
-        }
+        ul {
 
-        &.dlm-bar:before {
-          content: "\f185";
-        }
-      }
+          width: 100%;
 
-      .dlm-reports-header-period {
-        a {
-          border-color: #cccccc !important;
-        }
+          li {
+            position: relative;
 
-        a:first-child {
-          border-bottom-right-radius: 0;
-          border-top-right-radius: 0;
-          border-right: 0;
-        }
+            &:not(:first-of-type) {
+              border-left: 1px solid #e0e0e0;
+            }
 
-        a:last-child {
-          border-bottom-left-radius: 0;
-          border-top-left-radius: 0;
-          border-left: 0;
+            &:last-of-type {
+              border-right: 1px solid #e0e0e0;
+            }
+
+            label,
+            span {
+              display: block;
+              width: 100%;
+            }
+
+            span {
+              font-size: 18px;
+              line-height: 28px;
+              font-weight: bold;
+            }
+
+            &:first-child {
+
+              span,
+              label {
+                border: none;
+              }
+            }
+          }
         }
       }
 
     }
-  }
 
-  .dlm_reports_loader {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    top: 50%;
-    left: 50%;
-    margin: -16px 0 0 -16px;
-  }
+    .dlm-reports-wrapper {
+      width: 100%;
+    }
 
-  .dlm-reports-block-chart {
-    width: 100%;
-    height: 300px;
-    margin-top: 20px;
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    overflow: hidden;
+    .dlm-reports-block-summary {
 
-    .chart-container {
-      h6 {
+      ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: initial;
+
+        li {
+          width: 12.5%;
+          padding: 24px;
+          margin: 0;
+        /*  overflow: hidden;*/
+          font-weight: 600;
+        }
+      }
+
+      label {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 16px;
+        color: #757575;
+        font-weight: normal;
+      }
+    }
+
+    .total_downloads_chart-wrapper {
+      max-width: 100%;
+      background-color: #FFF;
+      padding: 15px 24px;
+      position: relative;
+      border: 1px solid #e0e0e0;
+
+      .dlm-reports-block-chart {
+        width: 100%;
+        height: 300px;
+        margin-top: 20px;
+        background: #fff;
+        overflow: hidden;
+
+        .chart-container {
+          h6 {
+            display: none;
+          }
+        }
+      }
+
+      .dlm-canvas-tooltip {
+        border-radius: 10px;
+        color: #FFF;
+        background-color: #1F2937;
+        opacity: 1;
+        pointer-events: none;
+        position: absolute;
+        transform: translate(-50%, 0);
+        transition: all .1s ease;
+        padding: 10px 15px;
+        text-align: left;
+        z-index: 99;
+
+        .dlm-reports-tooltip__downloads {
+          font-size: 18px;
+          margin: 0 auto;
+          font-weight: bold;
+          position: relative;
+          padding-left: 15px;
+
+          .dlm-reports-tooltip__downloads_pointer {
+            width: 5px;
+            height: 5px;
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+          }
+        }
+
+        .dlm-reports-tooltip__info {
+          font-size: 12px;
+          margin: 0 auto;
+        }
+
+        .dlm-reports-tooltip__date {
+          font-size: 13px;
+          margin: 0 auto;
+          font-weight: 600;
+        }
+      }
+
+      .dlm-reports-tooltip__line {
+        height: calc(100% - 110px);
+        width: 0;
+        background: transparent;
+        z-index: 1;
+        position: absolute;
+        top: 65px !important;
+        border: 1px dashed black;
+      }
+    }
+
+    #total_downloads_table_wrapper,
+    #users_downloads_table_wrapper {
+
+      h3 {
+        margin-top: 0;
+      }
+
+      &.empty {
         display: none;
       }
+
+      #users_download_log {
+        margin-top: 25px;
+      }
+
+    }
+
+    #users_downloads_table_wrapper {
+
+      width: 100%;
+      margin-top: 35px;
+
+      #users_download_log {
+        padding: 0 !important;
+      }
+
+      .dlm-reports-top-downloads__header {
+        background: #f9fafb;
+      }
+
+      .dlm-reports-top-downloads__header,
+      .dlm-reports-top-downloads__line {
+
+        font-weight: 700;
+        display: table;
+        width: 100%;
+        margin-bottom: 17px;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid #DEDEDE;
+        }
+
+        .dlm-reports-top-downloads__download_status {
+          border-radius: 10px;
+          padding: 10px;
+          text-transform: capitalize;
+
+          &.completed {
+            background: #adff2f60;
+          }
+
+          &.redirected {
+            background: #FFFF0060;
+          }
+
+          &.failed {
+            background: #ff000060;
+          }
+        }
+
+        padding: 1rem 10px;
+
+        & > div {
+          width: calc(15% - 3px);
+          display: inline-block;
+          text-align: left !important;
+          flex-grow: unset !important;
+
+          &:last-child {
+            width: calc(10% - 2px);
+            text-align: right !important;
+          }
+
+          .dlm-user-reports {
+            .wpchill-tooltip {
+              font-size: 12px;
+
+              .wpchill-tooltip-content {
+
+                font-size: 16px;
+                line-height: 18px;
+                text-align: center;
+
+                span {
+                  font-size: 16px;
+                  line-height: 18px;
+                  text-align: center;
+                  display: block;
+                }
+              }
+            }
+          }
+        }
+
+        a {
+          text-decoration: none;
+        }
+      }
+
+      .user-downloads-filters {
+        .user-downloads-filters__heading,
+        .user-downloads-filters__filter {
+          display: inline-block;
+        }
+      }
     }
   }
 
-  .dlm-reports-block-summary {
-    #popular {
-      span {
-        line-height: 1em;
+  div[data-id="user_reports"] {
+    #user_downloads_summary,
+    #users_downloads_table_wrapper {
+      ul {
+        .wpchill-tooltip {
+          font-size: 14px;
+
+          .wpchill-tooltip-content {
+
+            font-size: 16px;
+            line-height: 18px;
+            text-align: center;
+
+            span {
+              font-size: 16px;
+              line-height: 18px;
+              text-align: center;
+              display: block;
+            }
+          }
+        }
       }
     }
   }
 
-  .dlm-reports-block {
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    //height: 300px;
-    padding: 20px 10px;
-    margin-top: 20px;
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    overflow: hidden;
-    float: left;
+  // Reports list table
+  .dlm-reports-table {
 
-    &.dlm-reports-block-half {
-      width: 49%;
-      margin-right: 1%;
-    }
-
-    &.dlm-reports-block-half-right {
-      width: 49%;
-      margin-left: 1%;
-    }
-
-    .dlm-reports-placeholder-no-data {
-      display: inline-block;
+    .dlm-reports-table__table {
       width: 100%;
-      font-size: 1.5em;
-      color: #b4b9be;
-      font-style: italic;
-      text-align: center;
+      border-collapse: collapse;
     }
 
-    ul {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 0;
-      margin: 0;
+    .dlm-reports-table__filters {
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #e2e4e7;
 
-      li {
-        display: inline-block;
-        width: 33%;
-        padding: 5px 0;
-
-        label,
-        span {
-          display: block;
-          width: 100%;
-          text-align: center;
-        }
-
-        span {
-          font-size: 2.5em;
-          font-weight: bold;
-          padding: .5em 0 0;
-        }
+      & > th {
+        padding: 16px;
+        font-weight: bold;
+        text-align: left;
       }
     }
 
-    table {
+    .dlm-reports-table__header {
+      font-weight: bold;
       width: 100%;
+      margin-bottom: 17px; // it's 17px because that's the margin bottom of the h3 heading used as the "box" header
 
-      th,
-      td {
-        text-align: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #e5e5e5;
-
-        &:first-child {
-          text-align: left;
-        }
+      .dlm-reports-header-left,
+      .dlm-reports-header-right {
+        margin-bottom: 15px;
+        font-size: 12px;
+        color: #6B7280;
       }
 
-      th {
-        padding-bottom: 20px;
+      .dlm-reports-header-left {
+        padding-left: 36px;
+      }
+
+      // we use the same padding-left as the min-width of the numbers, so we can align the label with the download names
+      .dlm-reports-header-right {
+        text-align: right;
+      }
+
+    }
+
+    .dlm-reports-table__line {
+      background-color: #fff;
+      border-bottom: 1px solid #e2e4e7;
+
+      &:hover {
+        background-color: #e0e0e0;
+        cursor: pointer;
+      }
+
+      & > td {
+        padding: 16px;
+        font-size: .8125rem;
+        text-align: left;
+        color: #192a3d;
+        font-weight: 500;
+      }
+
+      .dlm-reports-table__overflower {
+        position: absolute;
+        height: 100%;
+        background: #f5f5fc;
+        z-index: -1;
+
+      }
+
+      a {
+        color: #0081a7;
+        padding: 8px;
+        display: block;
+        font-weight: 500;
       }
     }
   }
 
-}
-
-.dlm-reports-block-summary {
-  background: #333 !important;
-  color: white;
+  input.dlm-reports-current-page {
+    display: inline-block;
+    width: 75px;
+    vertical-align: middle;
+  }
 }
 
 /** Products overview page */
@@ -1571,6 +2228,7 @@ table.wp-list-table {
 }
 
 @media (min-width: 768px) {
+
   .dlm-order-details {
 
     .dlm-order-details-main {
@@ -1606,7 +2264,7 @@ table.wp-list-table {
 
     &.dlm-onboarding-section-one-col {
       margin: 0 auto;
-      max-width: 680px;
+      max-width: 800px;
     }
 
     &.dlm-onboarding-section-cta {
@@ -1658,7 +2316,6 @@ table.wp-list-table {
       font-weight: bold;
       text-align: center;
     }
-
   }
 
   .dlm-onboarding-pages {
@@ -1702,7 +2359,6 @@ table.wp-list-table {
       font-weight: bold;
     }
   }
-
 }
 
 @media (min-width: 768px) {
@@ -1726,17 +2382,56 @@ table.wp-list-table {
 
 /* Extensions */
 .dlm_extensions_wrap {
-  h1 {
-    a.dlm-reload-button {
-      float: right;
-    }
+
+  a.dlm-reload-button {
+    float: right;
+    position: relative;
+    top: -40px;
+  }
+
+  #available-extensions {
+    clear: both;
+    .features {
+      .feature-list {
+        .feature-block {
+          a {
+            color:#fff;
+          }
+          }
+        }
+        }
   }
 
   .dlm_extensions {
-    padding: 15px 0;
+    padding: 0;
     overflow: hidden;
 
-    div.dlm_extension {
+    #wpchill-welcome {
+
+      .feature-list {
+        margin-top: 10px;
+        margin-left: -15px;
+        margin-right: -15px;
+      }
+
+      .feature-block {
+        margin:10px;
+        width:calc(33% - 20px) !important;
+      }
+    }
+
+    .dlm_extension {
+
+      background-color: #FFF;
+      width: calc(20% - 15px);
+      margin: 0 15px 15px 0;
+      display: inline-block;
+      vertical-align: top;
+
+      p {
+        margin: 0;
+      }
+
       a {
         color: #444;
         text-decoration: none;
@@ -1754,12 +2449,13 @@ table.wp-list-table {
       }
 
       h3 {
+        min-height: 40px;
         padding: 0 20px;
 
       }
 
       div.extension-desc {
-        min-height: 85px;
+        min-height: 120px;
         padding: 0 20px;
       }
 
@@ -1836,7 +2532,6 @@ table.wp-list-table {
       }
     }
   }
-
 }
 
 /* Fix Datepicker's UI bug */
@@ -1846,10 +2541,10 @@ table.wp-list-table {
 
 /* Upsells */
 .wpchill-upsell {
-  background: #fff;
-  border: 0;
+  background:#fff;
   padding: 15px;
   margin-top: 30px;
+  position: relative;
 
   .wpchill-upsell-features {
     text-align: left;
@@ -1861,10 +2556,27 @@ table.wp-list-table {
       width: 33%;
     }
   }
+
+  a:first-child {
+    margin-right: 10px;
+  }
 }
 
 .wpchill-upsells-wrapper {
   width: 100%;
+
+  .wpchill-upsell {
+    border:1px solid #cecece;
+    border-radius:5px;
+    text-align:center;
+
+    img {
+      max-width:100px;
+      max-height:100px;
+      height:auto;
+      width:auto;
+    }
+  }
 }
 
 .wrap.dlm-admin-settings {
@@ -1872,9 +2584,13 @@ table.wp-list-table {
     width: 65%;
     float: left;
 
-    &+.wpchill-upsells-wrapper {
+    & + .wpchill-upsells-wrapper {
       width: 30%;
       float: right;
+    }
+
+    .dlm_htaccess_notice {
+      margin-bottom: 5px;
     }
   }
 
@@ -1887,14 +2603,37 @@ table.wp-list-table {
     border-radius: 10px;
   }
 
-  .dlm-install-plugin-actions {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 5px auto;
-    margin-left: 15px;
+  #setting-dlm_downloads_path {
+    & + p {
+      strong {
+        color: red;
+      }
+    }
+
+    .dlm-install-plugin-actions {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 5px auto;
+      margin-left: 15px;
+    }
   }
 }
-
+#installed-extensions {
+  #wpchill-welcome {
+    .features {
+      .feature-list {
+        .feature-block {
+          margin:10px;
+          width:calc(33% - 20px) !important;
+          min-height:400px;
+        }
+        a{
+          color: #fff;
+        }
+      }
+    }
+  }
+}
 #total_downloads_browser_table {
   a.nav-tab {
     text-transform: capitalize;
@@ -1911,7 +2650,7 @@ table.wp-list-table {
     background: #f1f1f1;
 
     .wpchill-upsell {
-      background: transparent;
+      background: #fff;
       text-align: center;
       width: 100%;
       margin-top: 0;
@@ -1922,7 +2661,30 @@ table.wp-list-table {
     margin: 0;
     padding: 0;
   }
+}
 
+.upsells-columns,
+.wpchill-upsells-wrapper {
+  .dlm-available-with-pro {
+    width: auto;
+    border-radius: 0 5px 0 5px;
+    background: #2271b1;
+    color: #fff;
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    display: flex;
+    align-content: center;
+    border-top: 0;
+    border-left: 0;
+    padding: 5px 8px 2px 5px;
+    & > * {
+      font-size:12px;
+      &.dashicons {
+        line-height:15px;
+      }
+    }
+  }
 }
 
 .upsells-columns {
@@ -1930,6 +2692,8 @@ table.wp-list-table {
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
+  padding-top: 5px;
+  margin-bottom: 10px;
 
   .upsells-columns-2 {
     width: 50%;
@@ -1940,18 +2704,37 @@ table.wp-list-table {
   }
 
   .upsells-column {
-    width: 100%;
+    width: calc(100% - 30px);
     text-align: center;
     display: flex;
     align-items: center;
     align-content: center;
+    margin: 5px auto 0 auto;
+    border-radius: 5px;
+    border: 1px solid #cecece;
+    overflow:hidden;
 
-    >* {
+    .dashicons-amazon {
+      font-size:22px;
+    }
+
+    .dashicons-google {
+      font-size: 18px;
+      position: relative;
+      left: 1px;
+      top: 1px;
+    }
+
+    .dashicons-lock:before {
+      font-size: 14px;
+    }
+
+    > * {
       display: inline-block;
       align-content: center;
       vertical-align: middle;
-      margin: 0 15px;
-      padding: 10px 0;
+      margin: 0 10px;
+      padding: 7px 0;
 
       &.wpchill-upsell {
         position: relative;
@@ -1959,22 +2742,27 @@ table.wp-list-table {
         flex-grow: 1;
         display: flex;
         align-items: center;
+        margin:0;
 
         .wpchill-upsell-description {
-          margin: 0 auto;
+          margin: 0;
+          text-align: left;
+          max-width: 535px;
+          font-size: 12px;
         }
       }
     }
 
     h3 {
       line-height: 1.3em;
+      font-size: 1em;
+      margin-left: 0;
     }
 
     &:last-child {
       border-top: 1px solid #c3c4c7;
       border-bottom: 1px solid #c3c4c7;
     }
-
   }
 
   .wpchill-upsell {
@@ -1982,30 +2770,20 @@ table.wp-list-table {
   }
 }
 
-.dlm_download_page_dlm-extensions {
-  .theme.dlm_extension {
-    background-color: #FFF;
-  }
+.disabled-link {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
 }
 
-#menu-posts-dlm_download {
-  ul.wp-submenu {
-
-    // Lite vs PRO menu link
-    a[href$="dlm-lite-vs-pro"] {
-      color: gold;
-    }
-  }
+.text-right {
+  text-align: right;
 }
 
 /* Lite vs PRO Section */
 
-body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
-  margin-left: 0;
-  max-width: 85%;
-}
-
-.rsvp-lite-vs-premium {
+.dlm_download_page_dlm-lite-vs-pro {
 
   &,
   p {
@@ -2013,8 +2791,8 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
     margin: 0;
   }
 
-  &>.wpchill-plans-table.wpchill-highlight {
-    &>.wpchill-pricing-package {
+  & > .wpchill-plans-table.wpchill-highlight {
+    & > .wpchill-pricing-package {
       background: #fefff0;
       box-shadow: 0 0 15px rgb(208 219 219);
     }
@@ -2189,4 +2967,524 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
       line-height: 26px;
     }
   }
+}
+
+/**
+WPCHill Tooltips
+*/
+
+/* Tabs tooltips */
+.wpchill-tooltip {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+
+  & > i {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.6);
+    margin-left: 5px;
+    font-style: normal;
+  }
+
+  .wpchill-tooltip-content {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translate(100%, -50%);
+    width: 300px;
+    background: #000;
+    color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 99;
+
+    &:before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-width: 8px 8px 8px 0;
+      border-color: transparent #000 transparent transparent;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: -8px;
+      transform: translateY(-50%);
+    }
+  }
+
+  &:hover .wpchill-tooltip-content {
+    display: block;
+  }
+}
+
+.dlm_download_page_dlm-extensions {
+  .theme.dlm_extension {
+    background-color: #FFF;
+  }
+}
+
+/**
+*  Tooltips
+*/
+
+.wpchill-tooltip {
+  position: relative;
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+
+  & > span {
+    cursor: pointer;
+    color: #0073aa;
+    text-decoration: underline;
+    margin-left: 5px;
+  }
+
+  .wpchill-tooltip-content {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translate(100%, -50%);
+    width: 300px;
+    background: #000;
+    color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 99;
+  }
+
+  &:hover .wpchill-tooltip-content {
+    display: block;
+  }
+
+  .wpchill-tooltip-content {
+    &:before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-width: 8px 8px 8px 0;
+      border-color: transparent #000 transparent transparent;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: -8px;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.wpchill-tooltip-button {
+
+  position: relative;
+
+  .wpchill-tooltip-content {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translate(50%, -135%);
+    width: auto;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    z-index: 99;
+  }
+
+  &:hover .wpchill-tooltip-content {
+    display: block;
+  }
+
+  .wpchill-tooltip-content {
+    &:before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-width: 8px 8px 8px 0;
+      border-color: transparent #000 transparent transparent;
+      display: block;
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+.dlm-file-link {
+  display: block;
+  margin-top: 3px;
+}
+
+.dlm-listing-no-file {
+  code {
+    color: #b32d2e;
+  }
+}
+
+/**
+Toggles
+ */
+
+/* Toggles */
+.wpchill-toggle {
+  position: relative;
+  user-select: none;
+  display: inline-block;
+  vertical-align: middle;
+
+  .wpchill-toggle__items {
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+
+    & > * {
+      box-sizing: inherit;
+    }
+
+    .wpchill-toggle__track {
+      background-color: #fff;
+      border: 2px solid #6c7781;
+      border-radius: 9px;
+      display: inline-block;
+      height: 18px;
+      width: 36px;
+      vertical-align: top;
+      transition: background .2s ease;
+    }
+
+    .wpchill-toggle__thumb {
+      background-color: #6c7781;
+      border: 5px solid #6c7781;
+      border-radius: 50%;
+      display: block;
+      height: 10px;
+      width: 10px;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      transition: transform .2s ease;
+      min-width: auto;
+      min-height: auto;
+      float: none;
+      padding: 0;
+    }
+
+    .wpchill-toggle__off {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      color: #6c7781;
+      fill: currentColor;
+    }
+
+    .wpchill-toggle__on {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      border: 1px solid #fff;
+      outline: 1px solid transparent;
+      outline-offset: -1px;
+      display: none;
+    }
+  }
+
+  .wpchill-toggle__input[type=checkbox] {
+    border-radius: 2px;
+    border: 2px solid #6c7781;
+    margin-right: 12px;
+    transition: none;
+    height: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+
+    &:checked {
+      & + .wpchill-toggle__items .wpchill-toggle__track {
+        background-color: #0081a7;
+        border: 9px solid transparent;
+      }
+
+      & + .wpchill-toggle__items .wpchill-toggle__thumb {
+        background-color: #fff;
+        border-width: 0;
+        transform: translateX(18px);
+      }
+
+      & + .wpchill-toggle__items .wpchill-toggle__off {
+        display: none;
+      }
+
+      & + .wpchill-toggle__items .wpchill-toggle__on {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+#total_downloads_table_wrapper2 {
+  width: 100%;
+  background-color: #FFF;
+  border: 1px solid #e0e0e0;
+  margin-top: 30px;
+  position: relative;
+
+  .total_downloads_table_header {
+    padding: 0 16px;
+    height: 70px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .total_downloads_table_exportcsv {
+      .dashicons {
+        margin-right: 5px;
+      }
+    }
+
+    h3 {
+      margin: 0;
+      line-height: 1.2;
+      color: rgb(35, 40, 45);
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+  }
+}
+
+@keyframes dlmRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/**
+ * DLM Uploader
+ */
+.dlm-uploader-editor {
+  position: absolute;
+  z-index: 99998;
+  background: rgba(140, 143, 148, 0.9);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  display: none;
+  &.droppable {
+    background: rgba(10, 75, 120, 0.9);
+  }
+
+  .uploader-editor-content {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px dashed #fff;
+
+    .uploader-editor-title {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      font-size: 3em;
+      line-height: 1.3;
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+      padding: 0 10px;
+    }
+  }
+}
+
+.dlm-notice-logo {
+  width: auto;
+  max-height: 35px;
+  max-width: 35px;
+  display: inline-block;
+}
+
+.dlm-available-with-pro__overlay {
+  pointer-events: none;
+  background:#fff !important;
+  opacity:0.5;
+  &.select{
+    margin-left:10px;
+  }
+}
+
+
+.dlm-available-with-pro__label {
+  pointer-events: none;
+  background: #80808080;
+  padding: 1px 5px;
+  border-radius: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 10px;
+  color: #fff;
+}
+
+.dlm-copy-shortcode-input {
+  border: 0 !important;
+  width: 0;
+  padding: 0 !important;
+  outline: none;
+}
+
+.guide-button {
+  a {
+    &:hover {
+      background-color: #fff !important;
+      color:#2271b1 !important;
+    }
+  }
+}
+
+#wpchill-welcome .welcome-header .feature-list .block {
+  padding: 20px 20px 0px 0px;
+}
+
+#wpchill-welcome .pages-creation .block {
+  padding: 0 20px;
+}
+
+#wpchill-welcome .pages-creation .pages-creation__buttons {
+  box-shadow: none !important;
+}
+
+#wpchill-welcome .pages-creation .pages-creation__buttons .block {
+  padding: 20px 20px 0px 0px;
+  box-shadow: none !important;
+}
+
+#wpchill-welcome .pages-creation .pages-creation__buttons .guide-button {
+  a {
+    &:hover {
+      background-color: #2271b1 !important;
+      color: #fff !important;
+    }
+  }
+}
+
+#wpchill-welcome .pages-creation .block {
+  padding: 0 20px;
+}
+
+#wpchill-welcome .pages-creation .pages-creation__buttons {
+  box-shadow: none;
+}
+
+#wpchill-welcome .pages-creation .pages-creation__buttons .block {
+  padding: 20px 20px 0px 0px;
+  box-shadow: none;
+}
+
+
+/**
+ Onboarding CSS
+ */
+
+.dlm-onboarding-wrapper {
+  text-align: center;
+  padding: 25px;
+  max-width: 960px;
+  margin: 0 auto;
+
+  .dlm-onboarding-title {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+
+    & > span {
+      font-size: 16px;
+      margin-left: 10px;
+      font-weight: 700;
+    }
+
+    img.dlm-onboarding-title-icon {
+      max-width: 35px;
+      vertical-align: middle;
+    }
+  }
+
+  .dlm-onboarding-text-wrap {
+    padding: 10px 0 30px 0;
+    max-width: 960px;
+    margin: 0 auto;
+
+    p {
+      font-size: 16px;
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+
+  img.dlm-onboarding-banner {
+    width: auto;
+    max-width: 300px;
+  }
+
+  a.dlm-onboarding-button {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 43px;
+    color: #fff;
+    text-decoration: none;
+    background: #219962;
+    border-radius: 100px;
+    padding: 15px 45px;
+
+    &:hover {
+      background: #1A7A4E;
+    }
+  }
+
+  .dlm-onboarding-button-wrap {
+    padding: 30px 0 0 0;
+  }
+
+  p.dlm-onboarding-doc {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 44px;
+    text-align: center;
+    color: #000000;
+
+    & > a {
+      text-decoration: none;
+      color: #219962;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../font/dm/DMSans-Regular.ttf');
 }

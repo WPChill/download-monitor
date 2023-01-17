@@ -36,58 +36,55 @@ class DLM_Product_Manager {
 			'dlm_addons_requirements',
 			array(
 				'dlm-buttons'                 => array(
-					'version' => '4.0.3',
+					'version' => '4.0.6',
 				),
 				'dlm-captcha'                 => array(
-					'version' => '4.2.2',
+					'version' => '4.2.4',
 				),
 				'dlm-downloading-page'        => array(
-					'version' => '4.0.2',
-				),
-				'dlm-google-drive'            => array(
-					'version' => '4.0.1',
-				),
-				'dlm-terms-and-conditions'    => array(
-					'version' => '4.0.2',
-				),
-				'dlm-twitter-lock'            => array(
-					'version' => '4.0.2',
-				),
-				'dlm-advanced-access-manager' => array(
 					'version' => '4.0.4',
 				),
+				'dlm-google-drive'            => array(
+					'version' => '4.0.4',
+				),
+				'dlm-terms-and-conditions'    => array(
+					'version' => '4.0.4',
+				),
+				'dlm-twitter-lock'            => array(
+					'version' => '4.1.1',
+				),
+				'dlm-advanced-access-manager' => array(
+					'version' => '4.0.7',
+				),
 				'dlm-email-notification'      => array(
-					'version' => '4.1.7',
+					'version' => '4.1.9',
 				),
 				'dlm-csv-exporter'            => array(
-					'version' => '4.0.1',
+					'version' => '4.0.3',
 				),
 				'dlm-gravity-forms'           => array(
-					'version' => '4.0.3',
+					'version' => '4.0.5',
 				),
 				'dlm-ninja-forms'             => array(
-					'version' => '4.1.0',
+					'version' => '4.1.2',
 				),
 				'dlm-email-lock'              => array(
-					'version' => '4.2.2',
-				),
-				'dlm-download-duplicator'     => array(
-					'version' => '4.0.3',
+					'version' => '4.3.1',
 				),
 				'dlm-csv-importer'            => array(
-					'version' => '4.1.3',
-				),
-				'dlm-email-notification'      => array(
-					'version' => '4.1.7',
+					'version' => '4.1.6',
 				),
 				'dlm-amazon-s3'               => array(
-					'version' => '4.0.3',
+					'version' => '4.0.6',
 				),
 				'dlm-mailchimp-lock'          => array(
-					'version' => '4.0.2',
+					'version' => '4.0.4',
 				),
 				'dlm-page-addon'              => array(
-					'version' => '4.1.4',
+					'version' => '4.1.6',
+				),
+				'dlm-enhanced-metrics'        => array(
+					'version' => '1.0.0',
 				),
 			)
 		);
@@ -170,14 +167,6 @@ class DLM_Product_Manager {
 
 				// Setup new Product
 				$product = new DLM_Product( $extension['file'], $extension['version'], $extension['name'] );
-
-				// Remove this after migration.
-				if ( apply_filters( "dlm_disable_update_for_{$extension['file']}", true ) ) {
-					// Setup plugin actions and filters
-					add_action( 'pre_set_site_transient_update_plugins', array( $product, 'check_for_updates' ) );
-					add_filter( 'plugins_api', array( $product, 'plugins_api' ), 10, 3 );
-					add_action( 'after_plugin_row_' . $product->get_plugin_name(), array( $product, 'after_plugin_row' ), 10, 2 );
-				}
 
 				// Set action for each extension
 				do_action( 'dlm_extensions_action_' . $extension['file'], $extension, $product );
@@ -283,7 +272,7 @@ class DLM_Product_Manager {
 			}
 
 			// Now, let's create the addon row info content only if the addon doesn't meet the requirements.
-			if ( $addon_present ) {
+			if ( isset( $addon_present ) && $addon_present ) {
 
 				$addons_content .= '<div class="dlm-plugin-inline-notice__row">';
 				$addons_content .= '<div class="dlm-plugin-inline-notice__line">' . $plugin_name . '</div>';

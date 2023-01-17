@@ -1,13 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Cart;
+namespace WPChill\DownloadMonitor\Shop\Cart;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Manager {
 
 	/**
-	 * @param \Never5\DownloadMonitor\Shop\Session\Session $session
+	 * @param \WPChill\DownloadMonitor\Shop\Session\Session $session
 	 *
 	 * @return Cart
 	 */
@@ -28,7 +28,7 @@ class Manager {
 			/** @var Item\Factory $item_factory */
 			$item_factory = Services::get()->service( 'cart_item_factory' );
 
-			/** @var \Never5\DownloadMonitor\Shop\Session\Item\Item $session_item */
+			/** @var \WPChill\DownloadMonitor\Shop\Session\Item\Item $session_item */
 			foreach ( $session_items as $session_item ) {
 
 				try {
@@ -71,11 +71,11 @@ class Manager {
 	 *
 	 * @param Cart $cart
 	 *
-	 * @return \Never5\DownloadMonitor\Shop\Session\Session
+	 * @return \WPChill\DownloadMonitor\Shop\Session\Session
 	 */
 	private function build_session_from_cart( $cart ) {
 
-		/** @var \Never5\DownloadMonitor\Shop\Session\Session $session */
+		/** @var \WPChill\DownloadMonitor\Shop\Session\Session $session */
 		$session = Services::get()->service( 'session' )->get_session();
 
 		// reset expiry date

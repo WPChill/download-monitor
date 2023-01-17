@@ -45,7 +45,7 @@ class DLM_Admin_Media_Insert {
 	public function media_browser() {
 
 		// Enqueue scripts and styles for panel
-		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
+		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.min.css', array( 'dashicons' ), DLM_VERSION );
 		wp_enqueue_script( 'common' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
@@ -97,8 +97,7 @@ class DLM_Admin_Media_Insert {
 					update_post_meta( $download_id, '_featured', 'no' );
 					update_post_meta( $download_id, '_members_only', 'no' );
 					update_post_meta( $download_id, '_redirect_only', 'no' );
-					update_post_meta( $download_id, '_download_count', 0 );
-
+					
 					// File
 					$file = array(
 						'post_title'   => 'Download #' . $download_id . ' File Version',
@@ -117,14 +116,16 @@ class DLM_Admin_Media_Insert {
 
 					// File Manager
 					$file_manager = new DLM_File_Manager();
+					
+					list( $file_path )  = $file_manager->get_secure_path( $url, true );
 
 					// Meta
 					update_post_meta( $file_id, '_version', $version );
-					update_post_meta( $file_id, '_filesize', $file_manager->get_file_size( $url ) );
-					update_post_meta( $file_id, '_files', $file_manager->json_encode_files( array( $url ) ) );
+					update_post_meta( $file_id, '_filesize', $file_manager->get_file_size( $file_path ) );
+					update_post_meta( $file_id, '_files', $file_manager->json_encode_files( array( $file_path ) ) );
 
 					// Hashes
-					$hashes = download_monitor()->service( 'hasher' )->get_file_hashes( $url );
+					$hashes = download_monitor()->service( 'hasher' )->get_file_hashes( $file_path );
 
 					// Set hashes
 					update_post_meta( $file_id, '_md5', $hashes['md5'] );
@@ -220,6 +221,9 @@ class DLM_Admin_Media_Insert {
 						<p><?php echo esc_html_x( 'or', 'Drop file here *or* select file', 'download-monitor' ); ?></p>
 						<p class="drag-drop-buttons">
 							<input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select File', 'download-monitor' ); ?>" class="button"/>
+						</p>
+						<p class="dlm-drag-drop-loading" style="display:none;">
+							<?php echo esc_html__( 'Please wait...', 'download-monitor' ); ?>
 						</p>
 					</div>
 				</div>
@@ -350,7 +354,8 @@ class DLM_Admin_Media_Insert {
 						if ( max > hundredmb && file.size > hundredmb && up.runtime != 'html5' ) {
 							// file size error?
 						} else {
-							jQuery( '.drag-drop-inside' ).html( '<p><?php echo esc_html__( 'Please wait...', 'download-monitor' ); ?></p>' );
+							jQuery( '.dlm-drag-drop-loading' ).show();
+							jQuery( '.drag-drop-inside *:not(.dlm-drag-drop-loading)' ).hide();
 						}
 					} );
 
@@ -359,12 +364,33 @@ class DLM_Admin_Media_Insert {
 				} );
 
 				// a file was uploaded
-				uploader.bind( 'FileUploaded', function ( up, file, response ) {
-					jQuery( '#quick-add-details' ).find( 'input.download_url' ).val( response.response );
-					jQuery( '#quick-add-details' ).find( 'input.download_title' ).val( basename( response.response ) );
-					jQuery( '#plupload-upload-ui' ).slideUp();
-					jQuery( '#quick-add-details' ).slideDown();
-				} );
+				uploader.bind('FileUploaded', function (up, file, response) {
+
+					let is_json = false;
+					try {
+						JSON.parse(response.response);
+						is_json = true;
+					} catch (e) {
+						// nothing, is_json already is false
+					}
+
+					if ( is_json && !JSON.parse(response.response).success) {
+						jQuery(up.settings.container).append('<p class="error description" style="color:red;">' + JSON.parse(response.response).data.error + '</p>');
+						
+						setTimeout(function () {
+							jQuery(up.settings.container).find('.error.description').remove();
+						}, 5500);
+
+						jQuery( '.dlm-drag-drop-loading' ).hide();
+						jQuery( '.drag-drop-inside *:not(.dlm-drag-drop-loading)' ).show();
+
+						return;
+					}
+					jQuery('#quick-add-details').find('input.download_url').val(response.response);
+					jQuery('#quick-add-details').find('input.download_title').val(basename(response.response));
+					jQuery('#plupload-upload-ui').slideUp();
+					jQuery('#quick-add-details').slideDown();
+				});
 
 				function basename( path ) {
 					return path.split( '/' ).reverse()[ 0 ];

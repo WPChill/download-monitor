@@ -24,9 +24,9 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Exception;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Exception;
 
-use Never5\DownloadMonitor\Dependencies\Psr\Container\ContainerExceptionInterface;
+use WPChill\DownloadMonitor\Dependencies\Psr\Container\ContainerExceptionInterface;
 
 /**
  * An attempt to modify a frozen service was made.

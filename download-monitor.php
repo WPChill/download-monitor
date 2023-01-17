@@ -3,11 +3,11 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing and selling downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 4.5.0
+	Version: 4.7.73
 	Author: WPChill
 	Author URI: https://wpchill.com
 	Requires at least: 5.4
-	Tested up to: 5.8
+	Tested up to: 6.1
 	Text Domain: download-monitor
 
 	License: GPL v3
@@ -33,17 +33,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '4.5.0' );
+
+define( 'DLM_VERSION', '4.7.73' );
+define( 'DLM_UPGRADER_VERSION', '4.6.0' );
 
 // Define DLM FILE
 define( 'DLM_PLUGIN_FILE', __FILE__ );
-define( 'DLM_URL' , plugin_dir_url( __FILE__ ) );
+define( 'DLM_URL', plugin_dir_url( __FILE__ ) );
+define( 'DLM_FILE', plugin_basename( __FILE__ ) );
+define( 'DLM_BETA', false );
+define( 'DLM_BETA_VERSION', 'x.x.x' );
+
+// Add meta tags to head for DLM Version
+add_action( 'wp_head', function () {
+	echo '<meta name="dlm-version" content="' . esc_attr( DLM_VERSION ) . '">';
+}, 1 );
 
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
-}else {
+} else {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
+
 
 /**
  * This function allows you to track usage of your plugin

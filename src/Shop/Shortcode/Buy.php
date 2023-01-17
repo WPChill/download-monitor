@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Shortcode;
+namespace WPChill\DownloadMonitor\Shop\Shortcode;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Buy {
 
@@ -40,7 +40,7 @@ class Buy {
 
 		// create download object
 		try {
-			/** @var \Never5\DownloadMonitor\Shop\Product\Product $download */
+			/** @var \WPChill\DownloadMonitor\Shop\Product\Product $download */
 			$product = Services::get()->service( 'product_repository' )->retrieve_single( $id );
 
 			$atc_url = Services::get()->service( 'page' )->get_add_to_cart_url( $product->get_id() );

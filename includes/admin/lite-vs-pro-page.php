@@ -14,12 +14,8 @@ $pro_arguments = array(
 		'description' => esc_html__( 'Create beautiful, fully customizable download buttons with our Buttons extension. No coding or file editing required!', 'download-monitor' ),
 	),
 	'terms_and_conditions'    => array(
-		'title'       => esc_html__( 'Terms and conditions', 'donwload-monitor' ),
+		'title'       => esc_html__( 'Terms and conditions', 'download-monitor' ),
 		'description' => esc_html__( 'Require your users to accept your terms and conditions before they can download your files.', 'download-monitor' ),
-	),
-	'download_duplicator'     => array(
-		'title'       => esc_html__( 'Download Duplicator', 'download-monitor' ),
-		'description' => esc_html__( 'Easily duplicate downloads including their data, versions and files with a single click.', 'download-monitor' ),
 	),
 	'email_ notification'     => array(
 		'title'       => esc_html__( 'Email Notification', 'download-monitor' ),
@@ -73,7 +69,6 @@ $pro_arguments = array(
 ?>
 <div class="wrap rsvp-lite-vs-premium">
 	<hr class="wp-header-end" />
-	<h1><?php echo esc_html__( 'LITE vs PRO', 'download-monitor' ); ?> </h1>	
 	<div class="free-vs-premium">
 		<!--  Table header -->
 		<div class="wpchill-plans-table table-header">
@@ -126,9 +121,9 @@ $pro_arguments = array(
 			</div>
 			<div class="wpchill-pricing-package wpchill-title wpchill-modula-grid-gallery-business">
 
-				<a href="https://chl.so/dlm-lite-vs-pro" target="_blank"
+				<a href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=lite-vs-pro&utm_campaign=upsell" target="_blank"
 					class="button button-primary button-hero "><span class="dashicons dashicons-cart"></span>
-					<?php esc_html_e( 'Upgrade now!', 'rsvp' ); ?> </a>
+					<?php esc_html_e( 'Upgrade now!', 'download-monitor' ); ?> </a>
 
 			</div>
 			<div class="wpchill-pricing-package wpchill-title wpchill-modula-lite">

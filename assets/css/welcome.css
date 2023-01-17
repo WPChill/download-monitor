@@ -1,0 +1,197 @@
+#wpchill-welcome {
+	width: calc(100% + 20px);
+	padding-top: 0;
+	margin-left: -20px;
+}
+
+#wpchill-welcome .block {
+	padding: 0 40px;
+}
+
+#wpchill-welcome .dlm-logo {
+	width: 100%;
+	margin-bottom: 25px;
+}
+
+#wpchill-welcome .dlm-logo img {
+	max-width: 40px;
+}
+
+/* hero section */
+#wpchill-welcome .hero {
+	background-color: transparent;
+	background-image: url('../images/welcome_header_bg.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	color: #fff;
+	border-radius: 0;
+}
+
+#wpchill-welcome .hero img:not(.mascot) {
+	max-height: 300px;
+	width: auto;
+	position: relative;
+	display: inline-block;
+	margin: 0 auto;
+}
+
+#wpchill-welcome .features .feature-block h5 {
+    margin-left: 15px;
+}
+
+#wpchill-welcome .hero h1 {
+	color: #fff;
+}
+
+/* features section */
+#wpchill-welcome .features {
+	padding-top: 0px;
+	background: transparent;
+	box-shadow: none;
+}
+
+#wpchill-welcome .features hr {
+	border-bottom: 0;
+	height: 1px;
+}
+
+#wpchill-welcome .features .feature-list {
+	margin-top: 10px;
+	margin-left: -7px;
+	margin-right: -7px;
+}
+
+#wpchill-welcome .features .feature-list a {
+	background-color: #2271B1;
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: 8px 16px;
+	display: inline-block;
+}
+
+#wpchill-welcome .features .feature-block {
+	margin-bottom: 30px;
+	background: #fff;
+	width: calc(33% - 10px) !important;
+	margin-bottom: 10px !important;
+	min-height: 200px;
+	padding: 15px;
+	box-shadow: 0 0 15px rgba(0,0,0,0.1);
+	position: relative;
+}
+
+#wpchill-welcome .features .feature-block .feature-block__header * {
+	display:inline-block;
+	vertical-align: middle;
+}
+
+#wpchill-welcome .features .feature-block p {
+	margin-left: 0;
+	margin-top: 15px;
+	display: block;
+	width: 100%;
+	clear: both;
+}
+
+#wpchill-welcome .features .feature-block img {
+    float: unset;
+
+}
+
+#wpchill-welcome .block-row {
+	flex-grow: 1;
+	flex-basis: 0;
+}
+
+#wpchill-welcome .pages-creation .block-row {
+	align-items: center;
+	box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.block.text-left.pages-creation {
+	margin-top: 45px;
+}
+
+#wpchill-welcome .features .feature__upgrade-to-pro {
+	position: absolute;
+	bottom: 15px;
+	left: 15px;
+	display:inline-block;
+}
+
+#wpchill-welcome .features .pro-label {
+	position: absolute;
+	top:15px;
+	right:15px;
+}
+
+
+/* testimonials section */
+#wpchill-welcome .testimonials {
+	background: transparent;
+	box-shadow: none;
+}
+
+#wpchill-welcome .testimonials .block-row {
+	justify-content: space-between;
+}
+
+#wpchill-welcome .testimonials .testimonial-block {
+	box-shadow: 0 0 15px rgba(0,0,0,0.1);
+	border-radius: 5px;
+	background: #fff;
+	width: calc(50% - 15px);
+	padding: 25px;
+	min-height: 285px;
+}
+
+@media screen and (min-width: 720px) {
+
+	#wpchill-welcome .testimonials .testimonial-block {
+		width: calc(50% - 15px);
+	}
+
+}
+
+#wpchill-welcome .wpmtst-btn{
+	width: auto;
+}
+
+.white-bg {
+	background: #fff;
+	margin-bottom: 10px;
+}
+
+.padding-15 {
+	padding: 15px;
+}
+
+.padding-vertical-15 {
+	padding: 15px 0;
+}
+
+.padding-horizontal-15 {
+	padding: 15px 0;
+}
+
+html body .button.dlm-page-exists {
+	background: #23A870;
+	border: 1px solid #23A870;
+	cursor: initial;
+	box-shadow: none;
+}
+
+html body .button.dlm-page-exists, html body .button.dlm-page-exists:hover{
+	background: #23A870;
+	border: 1px solid #23A870;
+	cursor: initial;
+	box-shadow: none;
+}
+
+.features .block .button {
+	font-size: 14px;
+	min-height: 30px;
+	line-height: 30px;
+	padding: 0 16px;
+}

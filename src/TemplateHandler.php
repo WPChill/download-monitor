@@ -72,7 +72,7 @@ class DLM_Template_Handler {
 		}
 
 		// Allow 3rd party plugin filter template file from their plugin
-		$template = apply_filters( 'dlm_get_template_part', $template, $slug, $name );
+		$template = apply_filters( 'dlm_get_template_part', $template, $slug, $name, $args );
 
 		// Allow 3rd party plugin filter template arguments from their plugin
 		$args = apply_filters( 'dlm_get_template_part_args', $args, $template, $slug, $name );
@@ -83,6 +83,15 @@ class DLM_Template_Handler {
 			// Extract args if there are any
 			if ( is_array( $args ) && count( $args ) > 0 ) {
 				extract( $args );
+
+				// Compatibility between extensions and templates.
+				if ( ! isset( $download ) && isset( $dlm_download ) ) {
+					$download = $dlm_download;
+				}
+
+				if ( ! isset( $dlm_download ) && isset( $download ) ) {
+					$dlm_download = $download;
+				}
 			}
 
 			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );

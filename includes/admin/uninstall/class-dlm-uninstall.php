@@ -40,7 +40,7 @@ class DLM_Uninstall {
 
 		$current_screen = get_current_screen();
 		if ( in_array( $current_screen->base, array( 'plugins', 'plugins-network' ) ) ) {
-			wp_enqueue_style( 'dlm-uninstall', $plugin_url . '/assets/css/dlm-uninstall.css' );
+			wp_enqueue_style( 'dlm-uninstall', $plugin_url . '/assets/css/dlm-uninstall.min.css', array(), DLM_VERSION );
 			wp_enqueue_script( 'dlm-uninstall', $plugin_url . '/assets/js/dlm-uninstall.js', array( 'jquery' ), DLM_VERSION, true );
 			wp_localize_script( 'dlm-uninstall', 'wpDLMUninstall', array(
 					'redirect_url' => admin_url( '/plugins.php' ),
@@ -103,7 +103,7 @@ class DLM_Uninstall {
 						$after_input  = '</strong>';
 					}
 
-					echo ' <p><input type="checkbox" name="' . esc_attr( $key ) . ' " id="' . esc_attr( $key ) . '" value="' . esc_attr( $key ) . '"> <label for="' . esc_attr( $key ) . '">' . wp_kses_post( $before_input ) . esc_attr( $option['label'] ) . wp_kses_post( $after_input ) . '</label><p class="description">' . esc_html( $option['description'] ) . '</p><br>';
+					echo ' <p><input type="checkbox" name="' . esc_attr( $key ) . '" id="' . esc_attr( $key ) . '" value="' . esc_attr( $key ) . '"> <label for="' . esc_attr( $key ) . '">' . wp_kses_post( $before_input ) . esc_attr( $option['label'] ) . wp_kses_post( $after_input ) . '</label><p class="description">' . esc_html( $option['description'] ) . '</p><br>';
 				}
 				?>
             </div><!-- .dlm-uninstall-options -->
@@ -179,6 +179,9 @@ class DLM_Uninstall {
 			 * Remove all options that have our dlm_ prefix
 			 */
 			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'dlm_%';" );
+			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '%_dlm_%';" );
+			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '%download-monitor%';" );
+			$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE '%download_monitor%';" );
 
 			// filter for options to be added by Download Monitor's add-ons
 			$options_array = apply_filters( 'dlm_uninstall_db_options', array() );
@@ -210,11 +213,40 @@ class DLM_Uninstall {
 		// Delete custom post type
 		if ( '1' == $uninstall_option['delete_cpt'] ) {
 
-			$post_types = apply_filters( 'dlm_uninstall_post_types', array( 'dlm_download' ) );
+			$post_types = apply_filters( 'dlm_uninstall_post_types', array( 'dlm_download', 'dlm_download_version', 'dlm_product' ) );
 
 			$dlm_cpts = get_posts( array( 'post_type' => $post_types, 'posts_per_page' => - 1, 'fields' => 'ids' ) );
 
+			$terms = get_terms( 'dlm_download_category', array( 'hide_empty' => false, 'fields' => 'ids' ) );
+
+			if ( ! empty( $terms ) ) {
+
+				$where_terms = $wpdb->prepare(
+					sprintf(
+						"{$wpdb->terms}.term_id IN (%s)",
+						implode( ', ', array_fill( 0, count( $terms ), '%d' ) )
+					),
+					$terms
+				);
+
+				$sql_terms = $wpdb->prepare( "DELETE FROM {$wpdb->terms} WHERE {$where_terms}" );
+
+				$where_taxonomy = $wpdb->prepare(
+					sprintf(
+						"{$wpdb->term_taxonomy}.term_id IN (%s)",
+						implode( ', ', array_fill( 0, count( $terms ), '%d' ) )
+					),
+					$terms
+				);
+
+				$sql_taxonomy = $wpdb->prepare( "DELETE FROM {$wpdb->term_taxonomy} WHERE {$where_taxonomy}" );
+				
+				$wpdb->query( $sql_terms );
+				$wpdb->query( $sql_taxonomy );
+			}
+
 			if ( is_array( $dlm_cpts ) && ! empty( $dlm_cpts ) ) {
+
 				$where = $wpdb->prepare(
 					sprintf(
 						"{$wpdb->posts}.ID IN (%s)",
@@ -242,19 +274,28 @@ class DLM_Uninstall {
 		// Delete tables set by the plugin
 		if ( '1' == $uninstall_option['delete_set_tables'] ) {
 
-			$dlm_tables = apply_filters( 'dlm_uninstall_db_tables', array( $wpdb->prefix . "download_log" ) );
+			$dlm_tables = apply_filters(
+				'dlm_uninstall_db_tables',
+				array(
+					$wpdb->prefix . 'download_log',
+					$wpdb->prefix . 'dlm_session',
+					$wpdb->prefix . 'dlm_order_customer',
+					$wpdb->prefix . 'dlm_order_item',
+					$wpdb->prefix . 'dlm_order_transaction',
+					$wpdb->prefix . 'dlm_order',
+					$wpdb->prefix . 'dlm_reports_log',
+					$wpdb->prefix . 'dlm_downloads',
+				)
+			);
 
 			if ( ! empty( $dlm_tables ) ) {
 
 				foreach ( $dlm_tables as $table ) {
 
 					$sql_dlm_table = $wpdb->prepare( "DROP TABLE IF EXISTS $table" );
-
 					$wpdb->query( $sql_dlm_table );
 				}
 			}
-
-
 		}
 
 		do_action( 'dlm_uninstall' );

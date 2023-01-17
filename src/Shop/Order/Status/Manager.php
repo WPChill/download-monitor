@@ -1,8 +1,8 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Order\Status;
+namespace WPChill\DownloadMonitor\Shop\Order\Status;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class Manager {
 
@@ -13,7 +13,7 @@ class Manager {
 	 */
 	public function get_available_statuses() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Status\Factory $factory */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Status\Factory $factory */
 		$factory = Services::get()->service( 'order_status_factory' );
 
 		return apply_filters( 'dlm_shop_order_statuses', array(

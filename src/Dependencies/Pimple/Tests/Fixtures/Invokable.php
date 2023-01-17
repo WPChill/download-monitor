@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures;
 
 class Invokable
 {

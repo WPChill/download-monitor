@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Util;
+namespace WPChill\DownloadMonitor\Util;
 
 class ExtensionLoader {
 
@@ -23,7 +23,7 @@ class ExtensionLoader {
 			    $extension_json = wp_remote_retrieve_body( $extension_request );
 
 			    // Set Transient
-			    set_transient( 'dlm_extension_json', $extension_json, DAY_IN_SECONDS );
+			    set_transient( 'dlm_extension_json', $extension_json, WEEK_IN_SECONDS );
 		    }
 	    }
 

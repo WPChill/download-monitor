@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-use \Never5\DownloadMonitor\Util;
+use \WPChill\DownloadMonitor\Util;
 
 /**
  * WP_DLM class.
@@ -55,7 +55,7 @@ class WP_DLM {
 
 	/**
 	 * __construct function.
-	 *
+	 *z
 	 * @access public
 	 */
 	public function __construct() {
@@ -64,14 +64,17 @@ class WP_DLM {
 		// Setup Services
 		$this->services = new DLM_Services();
 
-		// Load plugin text domain
-		load_textdomain( 'download-monitor', WP_LANG_DIR . '/download-monitor/download_monitor-' . get_locale() . '.mo' );
-		load_plugin_textdomain( 'download-monitor', false, dirname( plugin_basename( DLM_PLUGIN_FILE ) ) . '/languages' );
+		// Load plugin text domain.
+		$this->load_textdomain();
 
-		// Table for logs
-		$wpdb->download_log = $wpdb->prefix . 'download_log';
+		// Table for Download Infos.
+		$wpdb->download_log = "{$wpdb->prefix}download_log";
+		// New Table for reports.
+		$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
+		// New Table for individual Downloads.
+		$wpdb->dlm_downloads = "{$wpdb->prefix}dlm_downloads";
 
-		// Setup admin classes
+		// Setup admin classes.
 		if ( is_admin() ) {
 
 			// check if multisite and needs to create DB table
@@ -109,6 +112,9 @@ class WP_DLM {
 			$upgrade_manager = new DLM_Upgrade_Manager();
 			$upgrade_manager->setup();
 
+			// DLM Welcome page
+			DLM_Welcome_Page::get_instance();
+
 			// Legacy Upgrader
 			$lu_page = new DLM_LU_Page();
 			$lu_page->setup();
@@ -117,12 +123,32 @@ class WP_DLM {
 			$lu_ajax->setup();
 
 			// Onboarding
-			$onboarding = new Util\Onboarding();
-			$onboarding->setup();
+			// Delete this after new welcome banner.
+		/*	$onboarding = new Util\Onboarding();
+			$onboarding->setup();*/
 
 			// Admin Download Page Options Upsells
 			new DLM_Admin_OptionsUpsells();
+
+			if( class_exists('DLM_Download_Duplicator') ) {
+				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
+			}
+
+			// The beta testers class
+			/*if ( defined( 'DLM_BETA' ) && DLM_BETA && class_exists( 'DLM_Beta_Testers') ) {
+				new DLM_Beta_Testers();
+			}*/
+
+			new DLM_Review();
+			
 		}
+
+		// Set the DB Upgrader class to see if we need to upgrade the table or not.
+		// This is mainly to move to version 4.6.x from 4.5.x and below.
+		$upgrader = DLM_DB_Upgrader::get_instance();
+
+		// Set Reports. We set them here in order to also create the REST Api calls.
+		$reports = DLM_Reports::get_instance();
 
 		// Setup AJAX handler if doing AJAX
 		if ( defined( 'DOING_AJAX' ) ) {
@@ -182,6 +208,9 @@ class WP_DLM {
 		$gb_download_preview = new DLM_DownloadPreview_Preview();
 		$gb_download_preview->setup();
 
+		// Backwards Compatibility.
+		$dlm_backwards_compatibility = DLM_Backwards_Compatibility::get_instance();
+
 		// Setup integrations
 		$this->setup_integrations();
 
@@ -190,12 +219,48 @@ class WP_DLM {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
 		}
 
+		// Fix to whitelist our function for PolyLang.
+		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
+		// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front.
+		add_filter( 'wp_get_attachment_url', array( $this, 'generate_attachment_url' ), 15, 2 );
+	}
+
+	/**
+	 * Load Textdomain
+	 *
+	 * @since 4.7.72
+	 */
+	private function load_textdomain() {
+		$dlm_lang = dirname( DLM_FILE ) . '/languages/';
+
+		if ( get_user_locale() !== get_locale() ) {
+
+			unload_textdomain( 'download-monitor' );
+			$locale = apply_filters( 'plugin_locale', get_user_locale(), 'download-monitor' );
+
+			$lang_ext  = sprintf( '%1$s-%2$s.mo', 'download-monitor', $locale );
+			$lang_ext1 = WP_LANG_DIR . "/download-monitor/download-monitor-{$locale}.mo";
+			$lang_ext2 = WP_LANG_DIR . "/plugins/download-monitor/{$lang_ext}";
+
+			if ( file_exists( $lang_ext1 ) ) {
+				load_textdomain( 'download-monitor', $lang_ext1 );
+
+			} elseif ( file_exists( $lang_ext2 ) ) {
+				load_textdomain( 'download-monitor', $lang_ext2 );
+
+			} else {
+				load_plugin_textdomain( 'download-monitor', false, $dlm_lang );
+			}
+		} else {
+			load_plugin_textdomain( 'download-monitor', false, $dlm_lang );
+		}
 	}
 
 	/**
 	 * Setup actions
 	 */
 	private function setup_actions() {
+
 		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ), array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
@@ -275,18 +340,87 @@ class WP_DLM {
 	 */
 	public function frontend_scripts() {
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.css' );
+			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css', array(), DLM_VERSION );
 		}
 
-		// only enqueue preview stylesheet when we're in the preview
+		// only enqueue preview stylesheet when we're in the preview.
 		if ( isset( $_GET['dlm_gutenberg_download_preview'] ) ) {
 			// Enqueue admin css
 			wp_enqueue_style(
 				'dlm_preview',
-				plugins_url( '/assets/css/preview.css', $this->get_plugin_file() ),
+				plugins_url( '/assets/css/preview.min.css', $this->get_plugin_file() ),
 				array(),
 				DLM_VERSION
 			);
+		}
+
+		// Leave this filter here in case XHR is problematic and needs to be disabled.
+		if ( self::do_xhr() ) {
+			wp_enqueue_script(
+				'dlm-xhr',
+				plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
+				array('jquery'),
+				DLM_VERSION, true
+			);
+
+			// Add dashicons on the front if popup modal for no access is used.
+			if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
+				wp_enqueue_style( 'dashicons' );
+			}
+			// @todo: delete the xhr_links attribute in the future as it will not be needed. It's only here for backwards
+			// compatibility as extensions might using it. Used prior to 4.7.72.
+			$dlm_xhr_data = apply_filters(
+				'dlm_xhr_data',
+				array(
+					'xhr_links'          => array(
+						'class' => array(
+							'download-link',
+							'download-button'
+						)
+					),
+					'prevent_duplicates' => '1' === get_option( 'dlm_enable_window_logging' )
+				)
+			);
+
+			$dlm_xhr_security_data = array(
+				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+				'nonce'          => wp_create_nonce( 'dlm_ajax_nonce' ),
+			);
+
+			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
+			// Let's create the URL pointer for the download link. It will be used as a global variable in the xhr.js file
+			// and will be used to check if is a true download request or not.
+			$scheme            = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+			$endpoint          = get_option( 'dlm_download_endpoint' );
+			$endpoint          = $endpoint ? $endpoint : 'download';
+			$wpml_options      = get_option( 'icl_sitepress_settings', false );
+			$is_dlm_translated = false;
+			if ( $wpml_options && isset( $wpml_options['custom_posts_sync_option'] ) && in_array( 'dlm_download', $wpml_options['custom_posts_sync_option'] ) ) {
+				$is_dlm_translated = true;
+			}
+
+			if ( $is_dlm_translated ) {
+				add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+			}
+
+			if ( get_option( 'permalink_structure' ) ) {
+				// Fix for translation plugins that modify the home_url.
+				$download_pointing_url = get_home_url( null, '', $scheme );
+				$download_pointing_url = $download_pointing_url . '/' . $endpoint . '/';
+			} else {
+				$download_pointing_url = add_query_arg( $endpoint, '', home_url( '', $scheme ) );
+			}
+
+			// Now we can remove the filter as the link is generated.
+			//@todo: If Downloads will be made translatable in the future then this should be removed.
+			if ( $is_dlm_translated ) {
+				remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+			}
+
+			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; dlmXHRgif = "' . esc_url( includes_url( '/images/spinner.gif' ) ) .'"', 'before' );
+			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', array(
+				'error' => __( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' )
+			) );
 		}
 
 		do_action( 'dlm_frontend_scripts_after' );
@@ -541,4 +675,70 @@ class WP_DLM {
 		return $post_link;
 	}
 
+	/**
+	 * Whitelist  class DLM_Download's method get_the_download_link
+	 */
+	public function whitelist_polylang( $list ) {
+
+		$download = new DLM_Download();
+		// We add our download link to polylang's whitelist functions, to be able to retrieve the language in the link
+		$list[] = array('function' => 'get_the_download_link' );
+
+		return $list;
+	}
+
+	/**
+	 * Check if we can do XHR download
+	 *
+	 * @return mixed|null
+	 * @since 4.6.0
+	 */
+	public static function do_xhr() {
+		return apply_filters( 'dlm_do_xhr', true );
+	}
+
+	/**
+	 * Return the Download Link for a given file if that file was protected by DLM
+	 *
+	 * @param $url
+	 * @param $attachment_id
+	 *
+	 * @return mixed|String
+	 * @since 4.7.2
+	 */
+	public function generate_attachment_url( $url, $attachment_id ) {
+		// Get the Download ID, if exists
+		$known_download = get_post_meta( $attachment_id, 'dlm_download', true );
+		$protected      = get_post_meta( $attachment_id, 'dlm_protected_file', true );
+		// If it doesn't exist, return the original URL
+		if ( empty( $known_download ) || '1' !== $protected ) {
+			return $url;
+		}
+
+		$known_download = json_decode( $known_download, true );
+		$download_id    = isset( $known_download['download_id'] ) ? $known_download['download_id'] : false;
+		$version_id     = isset( $known_download['version_id'] ) ? $known_download['version_id'] : false;
+
+		if ( ! $download_id ) {
+			return $url;
+		}
+
+		$download = false;
+		// Try to find our Download
+		try {
+			/** @var DLM_Download $download */
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
+		} catch ( Exception $exception ) {
+			return $url;
+		}
+
+		$url = $download->get_the_download_link();
+		// Set version also to the URL as the user might add another version to that Download that could download another file
+		if ( $version_id ) {
+			$url = add_query_arg( 'v', $version_id, $url );
+		}
+
+		// Return our Download Link instead of the original URL
+		return $url;
+	}
 }

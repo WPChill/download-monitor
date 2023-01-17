@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Util;
+namespace WPChill\DownloadMonitor\Util;
 
 class PageCreator {
 

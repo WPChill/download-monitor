@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway;
 
 class Manager {
 
@@ -15,7 +15,6 @@ class Manager {
 		// add gateways
 		$this->gateways = apply_filters( 'dlm_shop_payment_gateways', array(
 			new PayPal\PayPalGateway(),
-			new Test\TestGateway()
 		) );
 
 	}

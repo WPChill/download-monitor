@@ -15,9 +15,9 @@ jQuery(function ($) {
 			$('#setting-dlm_count_unique_ips').closest('tr').hide();
 		}
 	}).change();
-
+	
 	$(document).ready(function () {
-
+		
 		// load lazy-select elements
 		$.each($('.dlm-lazy-select'), function () {
 
@@ -56,7 +56,7 @@ jQuery(function ($) {
 			});
 		});
 
-		$('tr.dlm-groupped-settings').on( 'click', '.postbox-header', (event) => {
+		$('tr.dlm_group_setting').on( 'click', '.postbox-header', (event) => {
 			event.preventDefault();
 			event.stopPropagation();
 			$(event.currentTarget).parent().toggleClass('closed');

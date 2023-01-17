@@ -36,4 +36,32 @@
         }
     };
 
+    // Copy shortcode functionality
+    $('.copy-dlm-shortcode').click( (e) => {
+        e.preventDefault();
+
+        const target = $(e.currentTarget);
+        const dlm_shortcode = target.find('input');
+        dlm_shortcode.trigger("focus");
+        dlm_shortcode.trigger("select");
+        document.execCommand('copy');
+
+        if ( 'undefined' !== typeof navigator.clipboard ) {
+            navigator.clipboard.writeText(dlm_shortcode.val());
+        }
+
+        if ( 'undefined' !== typeof window.ClipboardJS  ) {
+            window.ClipboardJS.copy(dlm_shortcode.val());
+        }
+
+        $(this).next('span').text($(this).data('item') + ' copied');
+        $('.copy-dlm-button').not($(this)).parent().find('span').text('');
+        dlm_shortcode.trigger("blur");
+
+        target.find('.wpchill-tooltip-content span').text(dlm_download_overview.shortcode_copied);
+        setTimeout(() => {
+            target.find('.wpchill-tooltip-content span').text(dlm_download_overview.copy_shortcode);
+        }, 1000);
+    });
+
 })( jQuery );

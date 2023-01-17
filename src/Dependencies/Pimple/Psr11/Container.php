@@ -24,10 +24,10 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Psr11;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Psr11;
 
-use Never5\DownloadMonitor\Dependencies\Pimple\Container as PimpleContainer;
-use Never5\DownloadMonitor\Dependencies\Psr\Container\ContainerInterface;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container as PimpleContainer;
+use WPChill\DownloadMonitor\Dependencies\Psr\Container\ContainerInterface;
 
 /**
  * PSR-11 compliant wrapper.
@@ -43,12 +43,12 @@ final class Container implements ContainerInterface
         $this->pimple = $pimple;
     }
 
-    public function get($id)
+    public function get(string $id)
     {
         return $this->pimple[$id];
     }
 
-    public function has($id)
+    public function has(string $id): bool
     {
         return isset($this->pimple[$id]);
     }

@@ -11,7 +11,9 @@ class DLM_Post_Type_Manager {
 
 		add_filter( 'views_edit-dlm_download', array( $this, 'add_extensions_tab' ), 10, 1 );
 
-		add_action( 'current_screen', array( $this, 'disable_geditor'));
+		add_action( 'current_screen', array( $this, 'disable_geditor' ) );
+		// Action to do when a post is deleted.
+		add_action( 'before_delete_post', array( $this, 'delete_post' ), 15, 2 );
 	}
 
 	/**
@@ -69,6 +71,7 @@ class DLM_Post_Type_Manager {
 				'show_in_nav_menus'   => false,
 				'menu_position'       => 35,
 				'show_in_rest'        => true,
+				'menu_icon'           => 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1IiBoZWlnaHQ9IjEwNSIgdmlld0JveD0iMCAwIDEwNSAxMDUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01Mi41IDAuMDAwNTk5Njc0QzM4LjU3NTYgMC4wMDA1OTk2NzQgMjUuMjIxOSA1LjUzMjAzIDE1LjM3NzYgMTUuMzc4MUM1LjUzMTQ2IDI1LjIyMjkgMCAzOC41NzY2IDAgNTIuNTAwM0MwIDY2LjQyNCA1LjUzMTQ2IDc5Ljc3ODMgMTUuMzc3NiA4OS42MjI1QzI1LjIyMjUgOTkuNDY4NiAzOC41NzYyIDEwNSA1Mi41IDEwNUM2Ni40MjM4IDEwNSA3OS43NzgxIDk5LjQ2ODYgODkuNjIyNCA4OS42MjI1Qzk5LjQ2ODUgNzkuNzc3NyAxMDUgNjYuNDI0IDEwNSA1Mi41MDAzQzEwNSA0My4yODQ1IDEwMi41NzQgMzQuMjMwOCA5Ny45NjY0IDI2LjI1MDJDOTMuMzU4NyAxOC4yNjk1IDg2LjczMDQgMTEuNjQxNiA3OC43NDk3IDcuMDMzNTRDNzAuNzY5IDIuNDI1ODEgNjEuNzE1MiAwIDUyLjQ5OTQgMEw1Mi41IDAuMDAwNTk5Njc0Wk00MC40Nzc3IDM4LjI3MThMNDcuMjQ5OSA0NS4wOTY5VjI2LjI0OTZINTcuNzUwMVY0NS4wOTY5TDY0LjUyMjMgMzguMzI0Nkw3MS45MjUyIDQ1LjcyNzVMNTIuNSA2NS4xNTI2TDMzLjAyMiA0NS42NzQ3TDQwLjQ3NzcgMzguMjcxOFpNNzguNzQ5MSA3OC43NTExSDI2LjI0ODVWNjguMjUxSDc4Ljc0OTFWNzguNzUxMVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo='
 			) )
 		);
 
@@ -128,8 +131,31 @@ class DLM_Post_Type_Manager {
 
 	}
 
+	/**
+	 * Add tab navigation.
+	 *
+	 * @param array $views Array of views.
+	 *
+	 * @return array|mixed
+	 */
 	public function add_extensions_tab( $views ) {
 		$this->display_extension_tab();
+		$posts = count(
+			get_posts(
+				array(
+					'post_type'   => 'dlm_download',
+					'post_status' => array( 'publish', 'future', 'trash', 'draft', 'inherit', 'pending' ),
+				)
+			)
+		);
+
+		if ( 0 === $posts ) {
+			global $wp_list_table;
+			$wp_list_table = new DLM_Empty_Table();
+
+			return array();
+		}
+
 		return $views;
 	}
 
@@ -183,11 +209,76 @@ class DLM_Post_Type_Manager {
 	public function disable_geditor() {
 
 		$screen = get_current_screen();
-		if( $screen->post_type == 'dlm_download' ) {
+		if ( $screen->post_type == 'dlm_download' ) {
 			add_filter( 'use_block_editor_for_post_type', '__return_false', 100 );
 		}
+	}
 
+	/**
+	 * Actions to do when a version is deleted.
+	 *
+	 * @param int $id The ID of the Version.
+	 *
+	 * @return void
+	 * @since 4.7.72
+	 */
+	public function delete_files( $id ) {
+
+		$version = download_monitor()->service( 'version_repository' )->retrieve_single( $id );
+		$version->delete_files();
+	}
+
+	/**
+	 * Action to do when a Download or Version is deleted.
+	 *
+	 * @param int    $id The ID of the post.
+	 * @param object $post Post object.
+	 *
+	 * @return void
+	 * @since 4.7.72
+	 */
+	public function delete_post( $id, $post ) {
+
+		// Don't do anything if the post is not a download or version.
+		if ( 'dlm_download' !== $post->post_type && 'dlm_download_version' !== $post->post_type ) {
+			return;
 		}
+		// User needs to set this in order to delete the files to true. Defaults to false.
+		if ( ! apply_filters( 'dlm_delete_files', false ) ) {
+			return;
+		}
+		// Delete files in Versions.
+		if ( 'dlm_download_version' === $post->post_type ) {
+			$this->delete_files( $id );
+		}
+		// Delete files in all versions from a Download.
+		if ( 'dlm_download' === $post->post_type ) {
 
+			$download = download_monitor()->service( 'download_repository' )->retrieve(
+				array(
+					'p'           => absint( $id ),
+					'post_status' => array(
+						'publish',
+						'future',
+						'trash',
+						'draft',
+						'inherit'
+					)
+				)
+			);
+
+			// The retrieved download is an array of downloads. We only need the first and only one, as it's a query
+			// based on ID.
+			if ( ! empty( $download ) ) {
+				$download = $download[0];
+			}
+
+			$versions = $download->get_versions();
+			if ( ! empty( $versions ) ) {
+				foreach ( $versions as $version ) {
+					$this->delete_files( $version->get_id() );
+				}
+			}
+		}
+	}
 }
-

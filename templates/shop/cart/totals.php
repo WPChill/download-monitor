@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var Never5\DownloadMonitor\Shop\Cart\Cart $cart */
+/** @var WPChill\DownloadMonitor\Shop\Cart\Cart $cart */
 ?>
 <table cellspacing="0" cellpadding="0" border="0">
     <tbody>

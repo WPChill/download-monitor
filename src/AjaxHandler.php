@@ -22,6 +22,9 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_dlm_settings_lazy_select', array( $this, 'handle_settings_lazy_select' ) );
 		add_action( 'wp_ajax_dlm_extension', array( $this, 'handle_extensions' ) );
 		add_action( 'wp_ajax_dlm_dismiss_notice', array( $this, 'dismiss_notice' ) );
+		add_action( 'wp_ajax_dlm_update_file_meta', array( $this, 'save_attachment_meta' ) );
+		add_action( 'wp_ajax_nopriv_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
+		add_action( 'wp_ajax_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
 	}
 
 	/**
@@ -51,6 +54,11 @@ class DLM_Ajax_Handler {
 			if ( false !== $attachment_url ) {
 				echo esc_url( $attachment_url );
 			}
+		} else {
+			$data = array(
+				'error' => $attachment_id->get_error_message()
+			);
+			wp_send_json_error($data);
 		}
 
 		die();
@@ -131,7 +139,9 @@ class DLM_Ajax_Handler {
 			'file_post_date'      => $new_version->get_date(),
 			'file_download_count' => $new_version->get_download_count(),
 			'file_urls'           => $new_version->get_mirrors(),
-			'version'             => $new_version
+			'version'             => $new_version,
+			'date_format'         => get_option( 'date_format' ),
+			'file_browser'        => get_option( 'dlm_turn_off_file_browser', true ) 
 		) );
 
 		die();
@@ -154,6 +164,11 @@ class DLM_Ajax_Handler {
 		}
 
 		if ( ! isset( $_POST['path'] ) ) {
+			die();
+		}
+
+		// If searched path is not a child of ABSPATH die - prevents directory traversal
+		if ( false === strpos( $_POST['path'], ABSPATH ) ) {
 			die();
 		}
 
@@ -283,5 +298,125 @@ class DLM_Ajax_Handler {
 
 		// Send JSON
 		wp_send_json( $response );
+	}
+
+	/**
+	 * Save attachment meta dlm_download
+	 *
+	 * @return void
+	 * @since 4.7.2
+	 */
+	public function save_attachment_meta() {
+		// Check if there is a nonce
+		if ( ! isset( $_POST['nonce'] ) ) {
+			wp_send_json_error( 'No nonce send' );
+		}
+		// check nonce
+		check_ajax_referer( 'add-file', 'nonce' );
+		$meta = json_encode(
+			array(
+				'download_id' => absint( $_POST['download_id'] ),
+				'version_id'  => absint( $_POST['version_id'] )
+			)
+		);
+		update_post_meta( absint( $_POST['file_id'] ), 'dlm_download', $meta );
+		wp_send_json_success();
+	}
+
+
+	/**
+	 * Log the XHR download
+	 *
+	 * @return void
+	 */
+	public function xhr_no_access_modal() {
+
+		if ( ! isset( $_POST['download_id'] ) || ! isset( $_POST['version_id'] ) ) {
+			if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+				wp_send_json_error( 'Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.' );
+			}
+			wp_send_json_error( 'Missing download_id or version_id' );
+		}
+
+		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
+
+		// Action to allow the adition of extra scripts and code related to the shortcode.
+		do_action( 'dlm_dlm_no_access_shortcode_scripts' );
+
+		$atts = array(
+			'show_message' => 'true',
+		);
+
+		ob_start();
+
+		// template handler.
+		$template_handler = new DLM_Template_Handler();
+
+		if ( 'empty-download' === $_POST['download_id'] || ( isset( $_POST['modal_text'] ) && ! empty( $_POST['modal_text'] ) ) ) {
+			if ( isset( $_POST['modal_text'] ) && ! empty( $_POST['modal_text'] ) ) {
+				echo sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
+			} else {
+				echo '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
+			}
+		} else {
+
+			try {
+				/** @var \DLM_Download $download */
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $_POST['download_id'] ) );
+				$version  = ( 'empty-download' !== $_POST['download_id'] ) ? download_monitor()->service( 'version_repository' )->retrieve_single( absint( $_POST['version_id'] ) ) : $download->get_version();
+				$download->set_version( $version );
+
+				// load no access template.
+				$template_handler->get_template_part(
+					'no-access',
+					'',
+					'',
+					array(
+						'download'          => $download,
+						'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
+					)
+				);
+			} catch ( Exception $exception ) {
+				wp_send_json_error( 'No download found' );
+			}
+		}
+
+		$restriction_type = isset( $_POST['restriction'] ) && 'restriction-empty' !== $_POST['restriction'] ? sanitize_text_field( wp_unslash( $_POST['restriction'] ) ) : 'no_access_page';
+
+		$title = apply_filters(
+			'dlm_modal_title',
+			array(
+				'no_file_path'   => __( 'Error!', 'download-monitor' ),
+				'no_file_paths'  => __( 'Error!', 'download-monitor' ),
+				'access_denied'  => __( 'No access!', 'download-monitor' ),
+				'file_not_found' => __( 'Error!', 'download-monitor' ),
+				'not_found'      => __( 'Error!', 'download-monitor' ),
+				'filetype'       => __( 'No access!', 'download-monitor' ),
+				'no_access_page' => __( 'No access!', 'download-monitor' ),
+			)
+		);
+		$content        = ob_get_clean();
+		$modal_template = '
+			<div id="dlm-no-access-modal" >
+				<div class="dlm-no-access-modal-overlay">
+
+				</div>
+				<div class="dlm-no-access-modal-window">
+					<div class="dlm-no-access-modal__header">
+						<span class="dlm-no-access-modal__title">' . esc_html( $title[ $restriction_type ] ) . ' </span>
+						<span class="dlm-no-access-modal-close" title="' . esc_attr__( 'Close Modal', 'download-monitor' ) . '"> <span class="dashicons dashicons-no"></span>
+					</div>
+					<div class="dlm-no-access-modal__body">						
+						' . $content . '			
+					</div>	
+					<div class="dlm-no-access-modal__footer">
+						<button class="dlm-no-access-modal-close">' . esc_html__( 'Close', 'download-monitor' ) . '</button>
+					</div>
+				</div>			
+			</div>';
+		// Content and variables escaped above.
+		// $content variable escaped from extensions as it may include inputs or other HTML elements.
+		echo $modal_template; //phpcs:ignore
+		die();
 	}
 }

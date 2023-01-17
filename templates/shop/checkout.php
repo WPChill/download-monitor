@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * @var string $form_data_str
- * @var Never5\DownloadMonitor\Shop\Cart\Cart $cart
+ * @var WPChill\DownloadMonitor\Shop\Cart\Cart $cart
  * @var string $url_cart
  * @var string $url_checkout
  * @var array $field_values
@@ -17,12 +17,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div class="dlm-checkout">
-    <noscript><?php
+	<noscript><?php
 		download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/error', '', '', array(
 			'error' => __( "Your browser does not support JavaScript which our checkout page requires to function properly.", 'download-monitor' )
 		) );
 		?></noscript>
-    <form method="post" action="<?php echo esc_url( $url_checkout ); ?>" id="dlm-form-checkout" <?php echo esc_attr( $form_data_str ); ?>>
+	<form method="post" action="<?php echo esc_url( $url_checkout ); ?>"
+	      id="dlm-form-checkout" <?php echo htmlspecialchars_decode( esc_attr( $form_data_str ), ENT_QUOTES ); ?>>
 		<?php
 		if ( ! empty( $errors ) ):
 			foreach ( $errors as $error ):
@@ -32,12 +33,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			endforeach;
 		endif;
 		?>
-        <div class="dlm-checkout-billing">
-            <h2><?php echo esc_html__( 'Billing details', 'download-monitor' ); ?></h2>
+		<div class="dlm-checkout-billing">
+			<h2><?php echo esc_html__( 'Billing details', 'download-monitor' ); ?></h2>
 			<?php dlm_checkout_fields( $field_values ); ?>
-        </div>
-        <div class="dlm-checkout-order-review">
-            <h2><?php echo esc_html__( 'Your order', 'download-monitor' ); ?></h2>
+		</div>
+		<div class="dlm-checkout-order-review">
+			<h2><?php echo esc_html__( 'Your order', 'download-monitor' ); ?></h2>
 			<?php
 			download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/order-review', '', '', array(
 				'cart'         => $cart,
@@ -48,23 +49,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 			) );
 			?>
 
-            <div class="dlm-checkout-payment">
+			<div class="dlm-checkout-payment">
 				<?php
 				download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/payment', '', '', array(
 					'cart'         => $cart,
 					'url_checkout' => $url_checkout
 				) );
 				?>
-            </div>
+			</div>
 
-            <div class="dlm-checkout-submit">
+			<div class="dlm-checkout-submit">
 				<?php
 				download_monitor()->service( 'template_handler' )->get_template_part( 'shop/checkout/submit-button', '', '', array(
 					'cart'         => $cart,
 					'url_checkout' => $url_checkout
 				) );
 				?>
-            </div>
-        </div>
-    </form>
+			</div>
+		</div>
+	</form>
 </div>

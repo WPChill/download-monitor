@@ -24,12 +24,12 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Never5\DownloadMonitor\Dependencies\Pimple\Container;
-use Never5\DownloadMonitor\Dependencies\Pimple\ServiceIterator;
-use Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container;
+use WPChill\DownloadMonitor\Dependencies\Pimple\ServiceIterator;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures\Service;
 
 class ServiceIteratorTest extends TestCase
 {
@@ -45,8 +45,8 @@ class ServiceIteratorTest extends TestCase
         $pimple['service3'] = function () {
             return new Service();
         };
-        $iterator = new ServiceIterator($pimple, array('service1', 'service2'));
+        $iterator = new ServiceIterator($pimple, ['service1', 'service2']);
 
-        $this->assertSame(array('service1' => $pimple['service1'], 'service2' => $pimple['service2']), iterator_to_array($iterator));
+        $this->assertSame(['service1' => $pimple['service1'], 'service2' => $pimple['service2']], iterator_to_array($iterator));
     }
 }

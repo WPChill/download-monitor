@@ -24,10 +24,10 @@
  * THE SOFTWARE.
  */
 
-namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures;
+namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures;
 
-use Never5\DownloadMonitor\Dependencies\Pimple\Container;
-use Never5\DownloadMonitor\Dependencies\Pimple\ServiceProviderInterface;
+use WPChill\DownloadMonitor\Dependencies\Pimple\Container;
+use WPChill\DownloadMonitor\Dependencies\Pimple\ServiceProviderInterface;
 
 class PimpleServiceProvider implements ServiceProviderInterface
 {
@@ -36,8 +36,6 @@ class PimpleServiceProvider implements ServiceProviderInterface
      *
      * This method should only be used to configure services and parameters.
      * It should not get services.
-     *
-     * @param Container $pimple An Container instance
      */
     public function register(Container $pimple)
     {

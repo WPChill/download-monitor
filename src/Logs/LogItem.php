@@ -12,6 +12,9 @@ class DLM_Log_Item {
 	private $user_ip;
 
 	/** @var string */
+	private $user_uuid;
+
+	/** @var string */
 	private $user_agent;
 
 	/** @var int */
@@ -31,6 +34,9 @@ class DLM_Log_Item {
 
 	/** @var string */
 	private $download_status_message;
+
+	/** @var string */
+	private $current_url;
 
 	/** @var array */
 	private $meta_data = array();
@@ -75,6 +81,46 @@ class DLM_Log_Item {
 	 */
 	public function set_user_ip( $user_ip ) {
 		$this->user_ip = $user_ip;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_user_uuid() {
+		return $this->user_uuid;
+	}
+
+	/**
+	 * @param string $user_ip
+	 */
+	public function set_user_uuid( $user_ip ) {
+		$this->user_uuid = md5( $user_ip );
+	}
+
+	/**
+	 * Get the URL from which the download took part
+	 *
+	 * @return string
+	 * @since 4.6.0
+	 */
+	public function get_current_url() {
+		return $this->current_url;
+	}
+
+	/** Set the URL from which the download took part
+	 *
+	 * @param string $current_url the URL from which the download took part.
+	 */
+	public function set_current_url( $current_url ) {
+
+		if ( get_option( 'permalink_structure' ) ) {
+			$query_url = wp_parse_url( $current_url );
+			$current_url = wp_parse_url( $current_url )['path'] . ( isset( $query_url['query'] ) ? '?' . $query_url['query'] : '' );
+		} else {
+			$current_url = '/' . wp_parse_url( $current_url )['query'];
+		}
+
+		$this->current_url = $current_url;
 	}
 
 	/**
@@ -223,4 +269,139 @@ class DLM_Log_Item {
 		return ( is_array( $meta ) && isset( $meta[ $key ] ) );
 	}
 
+	/**
+	 * Return JSON encoded Download categories
+	 *
+	 * @param int $download_id The ID of the download.
+	 *
+	 * @return false|string
+	 * @since 4.6.0
+	 */
+	public function get_download_categories( $download_id ) {
+
+		$terms      = get_the_Terms( $download_id, 'dlm_download_category' );
+		$categories = array();
+
+		if ( ! empty( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$categories[] = array(
+					'id'   => $term->term_id,
+					'name' => $term->name,
+					'slug' => $term->slug,
+				);
+			}
+		}
+
+		return wp_json_encode( $categories );
+	}
+
+	/**
+	 * Increase the version and total download count
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function increase_download_count() {
+		global $wpdb;
+
+		$user_id   = 0;
+		$meta_data = null;
+
+		$lmd = $this->get_meta_data();
+		if ( ! empty( $lmd ) ) {
+			$meta_data = wp_json_encode( $lmd );
+		}
+
+		if ( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
+		}
+
+		$download_date   = current_time( 'mysql', false );
+		$download_status = $this->get_download_status();
+
+		// If there is no table we don't need to increase the download count as it will trigger an error.
+		// Also, we don't need to update the table if the reports are deactivated.
+		if ( DLM_Logging::is_logging_enabled() && DLM_Utils::table_checker( $wpdb->download_log ) ) {
+
+			// Add filters for download_log column entries, so in case the upgrader failed we can still log the download.
+			/**
+			 * Filter for the download_log columns
+			 *
+			 * @hooked ( DLM_Logging, log_entries ) Adds uuid, download_category and download_location
+			 */
+			$log_entries = apply_filters(
+				'dlm_log_entries',
+				array(
+					'user_id'                 => absint( $this->get_user_id() ),
+					'user_ip'                 => $this->get_user_ip(),
+					'user_agent'              => $this->get_user_agent(),
+					'download_id'             => absint( $this->get_download_id() ),
+					'version_id'              => absint( $this->get_version_id() ),
+					'version'                 => $this->get_version(),
+					'download_date'           => sanitize_text_field( $download_date ),
+					'download_status'         => $download_status,
+					'download_status_message' => $this->get_download_status_message(),
+					'meta_data'               => $meta_data
+				),
+				$this
+			);
+			/**
+			 * Filter for the download_log columns types
+			 *
+			 * @hooked: ( DLM_Logging, log_values )
+			 */
+			$log_values = apply_filters(
+				'dlm_log_values',
+				array(
+					'%d',
+					'%s',
+					'%s',
+					'%d',
+					'%s',
+					'%s',
+					'%s',
+					'%s',
+					'%s',
+					'%s'
+				),
+				$this
+			);
+
+			$result = $wpdb->insert(
+				"{$wpdb->download_log}",
+				$log_entries,
+				$log_values
+			);
+		}
+
+		// Let's check if table exists.
+		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) && 'failed' !== $download_status ) {
+			// Table exists, now log new download into table. This is used for faster download counts,
+			// performance issues introduced in version 4.6.0 of plugin.
+			$download_id         = absint( $this->get_download_id() );
+			$version_id          = absint( $this->get_version_id() );
+			$downloads_table     = "{$wpdb->dlm_downloads}";
+			$check_for_downloads = "SELECT * FROM {$downloads_table}  WHERE download_id = %s;";
+			$downloads_insert    = "INSERT INTO {$downloads_table} (download_id,download_count,download_versions) VALUES ( %s , %s, %s );";
+			$downloads_update    = "UPDATE {$downloads_table} dlm SET dlm.download_count = dlm.download_count + 1, dlm.download_versions = %s WHERE dlm.download_id = %s";
+			$check               = $wpdb->get_results( $wpdb->prepare( $check_for_downloads, $download_id ), ARRAY_A );
+			$download_versions   = array();
+			// Check if there is anything there, else insert new row.
+			if ( null !== $check && ! empty( $check ) ) {
+				// If meta exists update it, lese insert it.
+				$download_versions = ! empty( $check[0]['download_versions'] ) ? json_decode( $check[0]['download_versions'], true ) : array();
+				if ( isset( $download_versions[ $version_id ] ) ) {
+					$download_versions[ $version_id ] = absint( $download_versions[ $version_id ] ) + 1;
+				} else {
+					$download_versions[ $version_id ] = 1;
+				}
+				$wpdb->query( $wpdb->prepare( $downloads_update, json_encode( $download_versions ), $download_id ) );
+			} else {
+				$download_versions[ $version_id ] = 1;
+				$wpdb->query( $wpdb->prepare( $downloads_insert, $download_id, 1, json_encode( $download_versions ) ) );
+			}
+		}
+
+		do_action( 'dlm_increase_download_count', $this );
+	}
 }

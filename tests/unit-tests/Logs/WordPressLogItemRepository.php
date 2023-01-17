@@ -142,6 +142,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		// dummy log item
 		$log = new DLM_Test_Log_Item_Mock();
 		$log->set_user_ip( "1.2.3.4" );
+		$log->set_user_uuid( md5( "127.0.0.1" ) );
 
 		// validate that currently it has no id
 		$this->assertEquals( 0, $log->get_id() );
@@ -174,6 +175,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 		// dummy log item
 		$log = new DLM_Test_Log_Item_Mock();
 		$log->set_user_ip( "1.2.3.4" );
+		$log->set_user_uuid( md5( "1.2.3.4" ) );
 		$wp_repo->persist( $log );
 
 		// validate that log now has id 1
@@ -181,6 +183,7 @@ class DLM_Test_WordPress_Log_Item_Repository extends DLM_Unit_Test_Case {
 
 		// update log in db
 		$log->set_user_ip( "1.2.3.5" );
+		$log->set_user_uuid( md5( "1.2.3.5" ) );
 		$wp_repo->persist( $log );
 
 		// clear obj and fetch from DB

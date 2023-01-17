@@ -34,7 +34,10 @@ class DLM_Admin_Fields_Field_Factory {
 				$field = new DLM_Admin_Fields_Field_Checkbox( $option['name'], $value, $option['cb_label'] );
 				break;
 			case 'radio':
-				$field = new DLM_Admin_Fields_Field_Radio( $option['name'], $value, $option['options'] );
+				$field = new DLM_Admin_Fields_Field_Radio( $option['name'], $value, $option['options'], $option['std'] );
+				break;
+			case 'enhanced_raio':
+				$field = new DLM_Admin_Fields_Field_EnhancedRadio( $option['name'], $value, $option['options'] );
 				break;
 			case 'select':
 				$field = new DLM_Admin_Fields_Field_Select( $option['name'], $value, $option['options'] );
@@ -54,18 +57,20 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'title':
 				$field = new DLM_Admin_Fields_Field_Title( $option['title'] );
 				break;
+			case 'gateway_overview':
+				$field = new \WPChill\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
+				break;
+			case 'htaccess_status':
+				$field = new DLM_Admin_Fields_Field_HtaccessStatus( $option );
+				break;
 			case 'group':
 				$field = new DLM_Admin_Fields_Field_Accordion( $option['name'], $option['options'], $option['title'] );
-				break;
-			case 'gateway_overview':
-				$field = new \Never5\DownloadMonitor\Shop\Admin\Fields\GatewayOverview( $option['gateways'] );
 				break;
 			default:
 				/**
 				 * do_filter: dlm_setting_field_$type: (null) $field, (array) $option, (String) $value, (String) $placeholder
 				 */
 				$field = apply_filters( 'dlm_setting_field_' . $option['type'], $field, $option, $value, $placeholder );
-				
 				break;
 		}
 

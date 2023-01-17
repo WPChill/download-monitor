@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Admin\Pages;
+namespace WPChill\DownloadMonitor\Shop\Admin\Pages;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Shop\Util\PostType;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Util\PostType;
 
 class Orders {
 
@@ -11,22 +11,21 @@ class Orders {
 	 * Setup admin order page
 	 */
 	public function setup() {
-		add_filter( 'dlm_admin_menu_links', array( $this, 'orders_menu' ), 30 );
+		add_filter( 'dlm_shop_admin_menu_links', array( $this, 'orders_menu' ), 50, 1 );
 	}
 
 	/**
 	 * Add settings menu item
 	 */
-	public function orders_menu($links) {
+	public function orders_menu( $links ) {
 
-		// Orders page
 		$links[] = array(
 			'page_title' => __( 'Orders', 'download-monitor' ),
-			'menu_title' => __( 'Orders', 'download-monitor' ),
+			'menu_title' => 'Orders',
 			'capability' => 'manage_options',
 			'menu_slug'  => 'download-monitor-orders',
 			'function'   => array( $this, 'view' ),
-			'priority'   => 30,
+			'priority'   => 50,
 		);
 
 		return $links;
@@ -39,7 +38,7 @@ class Orders {
 		if ( isset( $_GET['details'] ) && ! empty( $_GET['details'] ) ) {
 			$order_id = absint( $_GET['details'] );
 			try {
-				/** @var \Never5\DownloadMonitor\Shop\Order\Order $order */
+				/** @var \WPChill\DownloadMonitor\Shop\Order\Order $order */
 				$order = Services::get()->service( 'order_repository' )->retrieve_single( $order_id );
 
 				$customer = array(

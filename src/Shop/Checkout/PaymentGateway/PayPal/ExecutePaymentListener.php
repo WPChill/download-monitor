@@ -1,9 +1,9 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
 
-use Never5\DownloadMonitor\Dependencies\PayPal;
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\CaptureOrder;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 use PHPUnit\Runner\Exception;
 
 class ExecutePaymentListener {
@@ -33,7 +33,6 @@ class ExecutePaymentListener {
 		/**
 		 * Get order
 		 */
-
 		$order_id   = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : 0;
 		$order_hash = isset( $_GET['order_hash'] ) ? sanitize_text_field( wp_unslash($_GET['order_hash']) ) : '';
 
@@ -41,7 +40,7 @@ class ExecutePaymentListener {
 			$this->execute_failed( $order_id, $order_hash );
 		}
 
-		/** @var \Never5\DownloadMonitor\Shop\Order\Repository $order_repo */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Repository $order_repo */
 		$order_repo = Services::get()->service( 'order_repository' );
 		try {
 			$order = $order_repo->retrieve_single( $order_id );
@@ -54,40 +53,28 @@ class ExecutePaymentListener {
 			return;
 		}
 
-
 		/**
-		 * Get Payment by paymentId
+		 * Get payment identifier
 		 */
-		$paymentId = 0;
-		if ( isset( $_GET['paymentId'] ) ) {
-			$paymentId = sanitize_text_field( wp_unslash( $_GET['paymentId'] ) );
+		$token = '';
+		if ( isset( $_GET['token'] ) ) {
+			$token = sanitize_text_field( wp_unslash( $_GET['token'] ) );
 		}
-		$payment   = PayPal\Api\Payment::get( $paymentId, $this->gateway->get_api_context() );
-
-		/**
-		 * Setup PaymentExecution object
-		 */
-		$execution = new PayPal\Api\PaymentExecution();
-		$payerID = 0;
-		if ( isset( $_GET['PayerID'] ) ) {
-			$payerID = sanitize_text_field( wp_unslash( $_GET['PayerID'] ) );
-		}
-		$execution->setPayerId( $payerID );
-
 
 		/**
 		 * Execute the payement
 		 */
 		try {
 
-			/**
-			 * Execute the payment
-			 */
-			$result = $payment->execute( $execution, $this->gateway->get_api_context() );
+			$capture = new CaptureOrder();
+			$capture->set_client( $this->gateway->get_api_context() )
+					->set_order_id( $token );
+
+			$response = $capture->captureOrder();
 
 			// if payment is not approved, exit;
-			if ( $result->getState() !== "approved" ) {
-				throw new Exception( sprintf( "Execute payment state is %s", $result->getState() ) );
+			if ( $response->getStatus() !== "COMPLETED" ) {
+				throw new Exception( sprintf( "Execute payment state is %s", $response->getStatus() ) );
 			}
 
 			/**
@@ -97,14 +84,14 @@ class ExecutePaymentListener {
 			// update the order status to 'completed'
 			$transactions = $order->get_transactions();
 			foreach ( $transactions as $transaction ) {
-				if ( $transaction->get_processor_transaction_id() == $result->getId() ) {
+				if ( $transaction->get_processor_transaction_id() == $response->getId() ) {
 					$transaction->set_status( Services::get()->service( 'order_transaction_factory' )->make_status( 'success' ) );
-					$transaction->set_processor_status( $result->getState() );
+					$transaction->set_processor_status( $response->getStatus() );
 
 					try {
 						$transaction->set_date_modified( new \DateTimeImmutable( current_time( 'mysql' ) ) );
 					} catch ( \Exception $e ) {
-
+						// ?
 					}
 
 					$order->set_transactions( $transactions );
@@ -141,11 +128,8 @@ class ExecutePaymentListener {
 	 * @param string $order_hash
 	 */
 	private function execute_failed( $order_id, $order_hash ) {
-//		echo 'failed';
-//		exit();
 		wp_redirect( $this->gateway->get_failed_url( $order_id, $order_hash ), 302 );
 		exit;
 	}
-
 
 }

@@ -34,6 +34,12 @@ class DLM_Download_Version {
 	private $download_count = null;
 
 	/** @var int */
+	private $total_download_count = null;
+
+	/** @var int */
+	private $meta_download_count = null;
+
+	/** @var int */
 	private $filesize;
 
 	/** @var string */
@@ -126,7 +132,7 @@ class DLM_Download_Version {
 	/**
 	 * @param bool $latest
 	 */
-	public function set_latest($latest) {
+	public function set_latest( $latest ) {
 		$this->latest = $latest;
 	}
 
@@ -202,6 +208,34 @@ class DLM_Download_Version {
 	 */
 	public function set_download_count( $download_count ) {
 		$this->download_count = $download_count;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_total_download_count() {
+		return $this->total_download_count;
+	}
+
+	/**
+	 * @param int $download_count
+	 */
+	public function set_total_download_count( $download_count ) {
+		$this->total_download_count = $download_count;
+	}
+
+	/**
+	 * @param int $download_count
+	 */
+	public function set_meta_download_count( $download_count ) {
+		$this->meta_download_count = $download_count;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_meta_download_count() {
+		return $this->meta_download_count;
 	}
 
 	/**
@@ -346,26 +380,10 @@ class DLM_Download_Version {
 		return sanitize_title_with_dashes( $this->version );
 	}
 
-	/**
-	 * Increase the version and total download count
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function increase_download_count() {
-		// File download_count
-		$this->download_count = absint( get_post_meta( $this->id, '_download_count', true ) ) + 1;
-		update_post_meta( $this->id, '_download_count', $this->download_count );
-
-		// Parent download download_count
-		$parent_download_count = absint( get_post_meta( $this->download_id, '_download_count', true ) ) + 1;
-		update_post_meta( $this->download_id, '_download_count', $parent_download_count );
-	}
 
 	/**
 	 *
 	 * Deprecated methods below.
-	 *
 	 */
 
 	/**
@@ -394,5 +412,40 @@ class DLM_Download_Version {
 	 */
 	public function get_crc32() {
 		return $this->get_crc32b();
+	}
+
+	/**
+	 * Delete files contained in version.
+	 *
+	 * @return void
+	 * @since 4.7.72
+	 */
+	public function delete_files() {
+
+		if ( ! empty( $this->mirrors ) ) {
+			foreach ( $this->mirrors as $mirror ) {
+				list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $mirror, true );
+				if ( $remote_file || $restriction || ! $file_path ) {
+					continue;
+				}
+				// Now, let's check if this is an attachment.
+				global $wpdb;
+				$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE %s;", '%' . $wpdb->esc_like( $file_path ) ) );
+				// If it's an attachment, delete it.
+				if ( ! empty( $attachments ) ) {
+					foreach ( $attachments as $attachment ) {
+						wp_delete_attachment( $attachment->ID, true );
+					}
+				} else {
+					// We need absolute path to the file in order to delete it.
+					list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $mirror );
+
+					// If it's not an attachment, search for the file and delete it.
+					if ( file_exists( $file_path ) ) {
+						wp_delete_file( $file_path );
+					}
+				}
+			}
+		}
 	}
 }

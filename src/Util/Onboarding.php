@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Util;
+namespace WPChill\DownloadMonitor\Util;
 
 class Onboarding {
 
@@ -14,7 +14,7 @@ class Onboarding {
 
 		// add notice
 		if ( false === get_option( 'dlm_hide_notice-onboarding' ) && ( ! isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'dlm_onboarding' != $_GET['page'] ) ) ) {
-			add_action( 'admin_notices', array( $this, 'add_notice' ) );
+			add_action( 'admin_notices', array( $this, 'add_notice' ), 8 );
 
 			/*
 			// notice JS -.-
@@ -98,19 +98,6 @@ class Onboarding {
 		// the actual page
 		?>
         <div class="wrap dlm-onboarding">
-
-            <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
-                <h2><?php echo esc_html__( "Welcome to ", 'download-monitor' ); ?> Download Monitor</h2>
-                <p>
-					<?php echo esc_html__( "Thank you for installing Download Monitor! We'd like to help you setup the plugin correctly so you can start sharing your files as quickly as possible.", 'download-monitor' ); ?>
-					<?php echo esc_html__( "With Download Monitor you can manage, track and offer downloads to your users using your WordPress website.", 'download-monitor' ); ?>
-					<?php echo esc_html__( "On top of that, Download Monitor allows you to sell your downloads, turning your WordPress website into fully featured e-commerce website out of the box.", 'download-monitor' ); ?>
-                </p>
-                <p>
-					<?php echo esc_html__( "You decide if you want to offer you downloads for free or want to start selling them (or both!). Whatever you decide, you chose the right plugin for the job!", 'download-monitor' ); ?>
-                </p>
-            </div>
-
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
                 <h2><?php echo esc_html__( "Let's Create Your Pages", 'download-monitor' ); ?></h2>
                 <p>
@@ -201,45 +188,23 @@ class Onboarding {
                 </table>
             </div>
 
-            <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
-                <h2><?php echo esc_html__( 'Extensions', 'download-monitor' ); ?></h2>
-                <p>
-					<?php echo esc_html__( 'Power up your Download Monitor website with our official extensions. Our extensions allow you to add specific functionality to your Download Monitor powered website and come with our premium support and updates.', 'download-monitor' ); ?>
-					<?php echo esc_html__( "Here's a quick sample of what we offer.", 'download-monitor' ); ?>
-                </p>
-            </div>
-
-            <div class="dlm-onboarding-section dlm-onboarding-section-three-col">
-				<?php
-				$extension_loader = new ExtensionLoader();
-				$response         = json_decode( $extension_loader->fetch() );
-				if ( ! empty( $response->extensions ) ) :
-					$i = 0;
-					foreach ( $response->extensions as $extension ) :
-						?>
-                        <div class="dlm-onboarding-col">
-                            <img src="<?php echo esc_attr( $extension->image ); ?>"
-                                 alt="<?php echo esc_attr( $extension->name ); ?>"/>
-                            <h3><?php echo esc_html( $extension->name ); ?></h3>
-                            <p><?php echo wp_kses_post( $extension->desc ); ?></p>
-                        </div>
-						<?php
-						$i ++;
-						if ( $i > 2 ) {
-							break;
-						}
-					endforeach;
-				endif;
+            <?php
+			if ( class_exists( 'WPChill_Welcome' ) ) {
+				$welcome = \WPChill_Welcome::get_instance();
 				?>
-            </div>
-
-            <div class="dlm-onboarding-section dlm-onboarding-section-one-col dlm-onboarding-section-cta">
-                <p>
-                    <a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=onboarding"
-                       class="button button-primary button-hero"
-                       target="_blank"><?php echo esc_html__( 'View More Extensions', 'download-monitor' ); ?></a>
-                </p>
-            </div>
+				<div id="wpchill-welcome">
+					<div class="dlm-onboarding-section dlm-onboarding-section-one-col wpchill-text-center">
+						<img src="<?php echo esc_url( DLM_URL ); ?>assets/images/banner-dlm.png" alt="<?php esc_attr_e( 'Watch how to', 'download-monitor' ); ?>" class="video-thumbnail">
+						<?php $welcome->display_empty_space(); ?>
+						<div class="button-wrap-single">
+							<?php $welcome->display_button( esc_html__( 'Read our step-by-step guide to get started', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', true, '#2271b1' ); ?>
+						</div>
+					</div>
+				</div>
+				<?php
+			}
+			
+			?>
 
             <div class="dlm-onboarding-section dlm-onboarding-section-one-col">
                 <h2><?php echo esc_html__( "What's Next?", 'download-monitor' ); ?></h2>

@@ -21,18 +21,19 @@ class DLM_Test_Logging extends DLM_Unit_Test_Case {
 		$dummy_log = new DLM_Log_Item();
 		$dummy_log->set_user_id( 0 );
 		$dummy_log->set_user_ip( $ip );
+		$dummy_log->set_user_uuid( $ip );
 		$dummy_log->set_version_id( 1 );
 		$dummy_log->set_user_agent( 'test' );
 		$dummy_log->set_version( '1.0' );
 
 		// check on empty database
-		$this->assertEquals( false, $logging->has_ip_downloaded_version( $version ) );
+		$this->assertEquals( false, $logging->has_uuid_downloaded_version( $version ) );
 
 		// store log item
 		$wp_repo->persist( $dummy_log );
 
 		// now we should have already downloaded the file
-		$this->assertEquals( true, $logging->has_ip_downloaded_version( $version ) );
+		$this->assertEquals( true, $logging->has_uuid_downloaded_version( $version ) );
 
 	}
 }

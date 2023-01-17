@@ -20,10 +20,14 @@ class DLM_Admin_Dashboard {
 			return;
 		}
 
-		wp_add_dashboard_widget( 'dlm_popular_downloads', __( 'Popular Downloads', 'download-monitor' ), array(
-			$this,
-			'popular_downloads'
-		) );
+		wp_add_dashboard_widget(
+			'dlm_popular_downloads',
+			__( 'Top Downloads', 'download-monitor' ),
+			array(
+				$this,
+				'popular_downloads',
+			)
+		);
 	}
 
 	/**
@@ -34,27 +38,24 @@ class DLM_Admin_Dashboard {
 	 */
 	public function popular_downloads() {
 
-		$filters   = apply_filters( 'dlm_admin_dashboard_popular_downloads_filters', array(
-			'no_found_rows' => 1,
-			'orderby'       => array(
-				'orderby_meta' => 'DESC'
-			),
-			'meta_query'    => array(
-				'orderby_meta' => array(
-					'key'  => '_download_count',
-					'type' => 'NUMERIC'
-				),
-				array(
-					'key'     => '_download_count',
-					'value'   => '0',
-					'compare' => '>',
-					'type'    => 'NUMERIC'
-				)
-			),
-		) );
+		$filters = apply_filters(
+			'dlm_admin_dashboard_popular_downloads_filters',
+			array(
+				'no_found_rows'  => 1,
+				'order_by_count' => '1',
+				'order'          => 'DESC',
+				'post_type'      => 'dlm_download',
+			)
+		);
 
+		// @todo: Seems like from 4.6.x the below "add_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );" & "remove_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );" are not
+		// needed anymore, it seems to break order if used. Leaving them here for a while.
 
+		// This is a fix for Custom Posts ordering plugins
+		//add_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
 		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
+		// This is a fix for Custom Posts ordering plugins
+		//remove_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
 
 		if ( empty( $downloads ) ) {
 			echo '<p>' . esc_html__( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
@@ -67,31 +68,81 @@ class DLM_Admin_Dashboard {
 			$max_count = 1;
 		}
 		?>
-        <table class="download_chart" cellpadding="0" cellspacing="0">
-            <thead>
-            <tr>
-                <th scope="col"><?php echo esc_html__( 'Download', "download_monitor" ); ?></th>
-                <th scope="col"><?php echo esc_html__( 'Download count', "download_monitor" ); ?></th>
-            </tr>
-            </thead>
-            <tbody>
+
+        <div class="dlm-reports-top-downloads">
+			<div class="dlm-reports-top-downloads__header">
+				<div class="dlm-reports-header-left">
+					<label><?php esc_html_e( 'Title', 'download-monitor' ); ?></label>
+				</div>
+				<div class="dlm-reports-header-right">
+					<label><?php esc_html_e( 'Downloads', 'download-monitor' ); ?></label>
+				</div>
+			</div>
 			<?php
 			if ( $downloads ) {
+				$i = 1;
 				/** @var DLM_Download $download */
 				foreach ( $downloads as $download ) {
 
-					$width = ( $download->get_download_count() / $max_count ) * 80;
+					$width = ( $download->get_download_count() * 100 ) / $max_count;
 
-					echo '<tr>
-							<th scope="row" style="width:25%;"><a href="' . esc_url( admin_url( 'post.php?post=' . $download->get_id() . '&action=edit' ) ) . '">' . esc_html( $download->get_title() ) . '</a></th>
-							<td><span class="bar" style="width:' . esc_attr( $width ) . '%;"></span>' . number_format( $download->get_download_count(), 0, '.', ',' ) . '</td>
-						</tr>';
+					?>
+					<div class="dlm-reports-top-downloads__line">
+						<div>
+							<span class="dlm-listing-position"><?php echo absint( $i ); ?>.</span>
+						</div>
+						<div>
+							<span class="dlm-reports-top-downloads__overflower" style="width: <?php echo absint( $width ); ?>%;"></span>
+							<a href="<?php echo esc_url( admin_url( 'post.php?post=' . absint( $download->get_id() ) . '&amp;action=edit' ) ); ?>"
+							   title="<?php echo sprintf( esc_html__( 'Click to edit download: %s', 'download-monitor' ), esc_html( $download->get_title() ) ); ?>"
+							   target="_blank"><?php echo esc_html( $download->get_title() ); ?></a>
+						</div>
+						<div>
+							<?php echo esc_html( $download->get_download_count() ); ?>
+						</div>
+					</div>
+					<?php
+					$i++;
 				}
 			}
 			?>
-            </tbody>
-        </table>
+	        <a href="<?php echo esc_url(
+			        add_query_arg(
+					        array(
+							        'post_type' => 'dlm_download',
+							        'page'      => 'download-monitor-reports',
+							        'dlm_time'  => 'all-time'
+					        ),
+					        admin_url( 'edit.php' )
+			        )
+	        ); ?>"><?php echo esc_html__( 'See more', 'download-monitor' ) ; ?></a>
+		</div>
 		<?php
+	}
+
+	/**
+	 * This is a fix for Custom Posts ordering plugins
+	 *
+	 * @param Object $query
+	 * @return void
+	 * 
+	 * @since 4.5.5
+	 */
+	public function orderby_fix( $query ) {
+
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		$query->set(
+			'orderby',
+			array(
+				'orderby_meta' => 'DESC',
+			)
+		);
+
+		do_action( 'dlm_orderby_dashboard_fix', $query );
+
 	}
 
 }

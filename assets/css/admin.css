@@ -1,12 +1,3 @@
-/* Logs */
-.post-type-dlm_download h1 a.dlm-delete-logs {
-  color: #a00;
-}
-.post-type-dlm_download h1 a.dlm-delete-logs:hover {
-  color: #fff;
-  background: #a00;
-  border-color: #7C0900;
-}
 .post-type-dlm_download .dlm-page-header {
   border-bottom: 1px solid #ccc;
   padding: 15px 20px;
@@ -22,67 +13,16 @@
 }
 .post-type-dlm_download .dlm-page-header .dlm-header-links a span {
   vertical-align: middle;
+  position: relative;
+  top: -2px;
+  padding-right: 10px;
+  font-size: 16px;
 }
 .post-type-dlm_download .dlm-page-header .dlm-header-logo img {
   max-height: 35px;
 }
-#dlm_logs td {
-  padding: 7px 7px;
-  vertical-align: middle;
-}
-#dlm_logs .check-column {
-  width: 1%;
-  padding: 0;
-  vertical-align: middle;
-}
-#dlm_logs .column-status {
-  width: 2%;
-}
-#dlm_logs td.column-status {
-  font-size: 10px;
-  vertical-align: middle;
-  text-align: center;
-}
-#dlm_logs td.column-status span {
-  color: #fff;
-  font-weight: normal;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  height: 18px;
-  line-height: 18px;
-  width: 18px;
-  display: inline-block;
-  background: url('../images/log-status-icons.png') top left no-repeat;
-}
-#dlm_logs td.column-status .completed {
-  background-color: #6cc644;
-}
-#dlm_logs td.column-status .failed {
-  background-color: #bd2c00;
-  background-position-y: -18px;
-}
-#dlm_logs td.column-status .redirected {
-  background-color: #1c769b;
-  background-position-y: -36px;
-}
-#dlm_logs td.column-user_ip,
-#dlm_logs td.column-user_agent {
-  font-family: monospace;
-  font-weight: normal;
-}
-#dlm_logs span.dlm-description {
-  font-weight: normal;
-}
-#dlm_logs .column-download,
-#dlm_logs .column-file,
-#dlm_logs .column-user,
-#dlm_logs .column-user_ua {
-  width: 16% !important;
-}
-#dlm_logs .column-user_ip,
-#dlm_logs .column-date {
-  width: 6% !important;
+.post-type-dlm_download td.column-shortcode .hidden {
+  display: none;
 }
 .post-type-dlm_download .inline-edit-row .inline-edit-col-dlm .inline-edit-col-dlm-inner {
   margin-top: 10px;
@@ -101,6 +41,8 @@
 .dlm-settings-sub-nav a {
   padding: 13px;
   display: block;
+  outline: none;
+  box-shadow: none;
 }
 .dlm-settings-sub-nav .active-section {
   margin-bottom: -2px;
@@ -110,36 +52,6 @@
   padding-bottom: 9px;
   margin-bottom: -2px;
   font-weight: 600;
-}
-.admin-color-blue .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #096484;
-}
-.admin-color-coffee .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #c7a589;
-}
-.admin-color-ectoplasm .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #a3b745;
-}
-.admin-color-midnight .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #e14d43;
-}
-.admin-color-ocean .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #627c83;
-}
-.admin-color-sunrise .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #be3631;
-}
-.admin-color-light .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #888;
-}
-.admin-color-evergreen .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #36533f;
-}
-.admin-color-mint .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #4f6d59;
-}
-.admin-color-modern .dlm-settings-sub-nav .active-section a {
-  border-bottom-color: #3858e9;
 }
 .dlm-admin-settings #setting-dlm_decimal_separator,
 .dlm-admin-settings #setting-dlm_thousand_separator {
@@ -152,6 +64,10 @@
   margin: 2em 0 0;
 }
 .dlm-admin-settings .form-table label.dlm-radio-label {
+  display: block;
+  margin-bottom: 5px;
+}
+.dlm-admin-settings .form-table label.dlm-enhanced-radio-label {
   position: relative;
   padding: 10px 15px;
   display: inline-block;
@@ -165,15 +81,15 @@
   user-select: none;
   /* Standard */
 }
-.dlm-admin-settings .form-table label.dlm-radio-label span {
+.dlm-admin-settings .form-table label.dlm-enhanced-radio-label span {
   z-index: 3;
   position: relative;
 }
-.dlm-admin-settings .form-table label.dlm-radio-label input[type="radio"] {
+.dlm-admin-settings .form-table label.dlm-enhanced-radio-label input[type="radio"] {
   position: relative;
   z-index: 2;
 }
-.dlm-admin-settings .form-table label.dlm-radio-label input[type="radio"] + div.dlm-radio__selectable-area {
+.dlm-admin-settings .form-table label.dlm-enhanced-radio-label input[type="radio"] + div.dlm-radio__selectable-area {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -184,57 +100,75 @@
   opacity: 1;
   border: 1px solid grey;
 }
-.dlm-admin-settings .form-table label.dlm-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area {
+.dlm-admin-settings .form-table label.dlm-enhanced-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area {
   border-color: green;
   background-color: rgba(0, 128, 0, 0.6);
 }
-.dlm-admin-settings .form-table label.dlm-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area + span {
+.dlm-admin-settings .form-table label.dlm-enhanced-radio-label input[type="radio"]:checked + div.dlm-radio__selectable-area + span {
   color: #fff;
 }
-.dlm-admin-settings .dlm-groupped-settings {
-  /* Accordeon group CSS */
+.dlm-admin-settings .dlm_settings {
+  padding: 5px 0;
 }
-.dlm-admin-settings .dlm-groupped-settings > td {
-  padding: 0;
+.dlm-admin-settings .dlm_settings > th {
+  padding: 15px 5px;
 }
-.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group {
-  position: relative;
+.dlm-admin-settings .dlm_settings > td {
+  padding: 15px 5px 15px 0;
+}
+.dlm-admin-settings .dlm_install_plugin_setting {
   background: #fff;
-  border-radius: 3px;
-  padding-top: 0px;
-  margin: 10px 0;
+  padding: 0 15px;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
-.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .postbox {
-  margin: 0;
-}
-.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting {
-  margin-top: 25px;
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting:not(:last-child):after {
-  position: absolute;
-  bottom: -15px;
-  content: "";
-  height: 1px;
-  background-color: #ddd;
-  width: 100%;
-  display: block;
+.dlm-admin-settings .dlm_group_setting td,
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group {
   margin: 0 auto;
-  left: 0;
-  right: 0;
+  padding: 0 !important;
 }
-.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
-  float: left;
-  width: 30%;
-  min-width: 300px;
-  font-weight: 600;
+.dlm-admin-settings .dlm_group_setting td .dlm-groupped-settings__box,
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group .dlm-groupped-settings__box {
+  margin: 5px 0 5px 0;
 }
-.dlm-admin-settings .dlm-groupped-settings #poststuff.dlm-accordeon-group .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-content {
-  float: right;
-  width: 65%;
-  min-width: 300px;
+.dlm-admin-settings .dlm_group_setting td .dlm-groupped-settings__box .postbox,
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group .dlm-groupped-settings__box .postbox {
+  padding: 0;
+  margin: 0 auto;
+}
+.dlm-admin-settings .dlm_group_setting td .dlm-groupped-settings__box .postbox .hndle,
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group .dlm-groupped-settings__box .postbox .hndle {
+  margin: 0;
+  padding: 8px;
+  font-weight: lighter;
+}
+.dlm-admin-settings .dlm_group_setting .handle-actions button {
+  box-shadow: none;
+}
+.dlm-admin-settings .dlm_group_setting h2.hndle {
+  cursor: pointer;
+}
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content {
+  padding: 15px;
+}
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting {
+  padding: 35px 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-title {
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  width: 20%;
+}
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .dlm-accordeon-group__setting-content {
+  width: 80%;
+}
+.dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .description {
+  font-style: italic;
 }
 /* File lists */
 ul.download_monitor_file_browser {
@@ -264,7 +198,7 @@ ul.download_monitor_file_browser li a:hover {
   background-color: #eaf2fa;
 }
 ul.download_monitor_file_browser li a:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -281,7 +215,7 @@ ul.download_monitor_file_browser li a:before {
   vertical-align: top;
 }
 ul.download_monitor_file_browser li a.folder:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -309,7 +243,7 @@ ul.download_monitor_file_browser li a.filetype-rm:before,
 ul.download_monitor_file_browser li a.filetype-srt:before,
 ul.download_monitor_file_browser li a.filetype-vob:before,
 ul.download_monitor_file_browser li a.filetype-wmv:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -336,7 +270,7 @@ ul.download_monitor_file_browser li a.filetype-mpa:before,
 ul.download_monitor_file_browser li a.filetype-ra:before,
 ul.download_monitor_file_browser li a.filetype-wav:before,
 ul.download_monitor_file_browser li a.filetype-wma:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -369,7 +303,7 @@ ul.download_monitor_file_browser li a.filetype-thm:before,
 ul.download_monitor_file_browser li a.filetype-tif:before,
 ul.download_monitor_file_browser li a.filetype-yuv:before,
 ul.download_monitor_file_browser li a.filetype-ico:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -420,6 +354,7 @@ table.wp-list-table .column-version {
 }
 table.wp-list-table th.column-thumb span:first-child,
 table.wp-list-table th.column-download_count span:first-child,
+table.wp-list-table th.column-locked_download span:first-child,
 table.wp-list-table th.column-members_only span:first-child,
 table.wp-list-table th.column-redirect_only span:first-child,
 table.wp-list-table th.column-featured span:first-child {
@@ -433,6 +368,7 @@ table.wp-list-table th.column-featured span:first-child {
 }
 table.wp-list-table th.column-thumb .sorting-indicator,
 table.wp-list-table th.column-download_count .sorting-indicator,
+table.wp-list-table th.column-locked_download .sorting-indicator,
 table.wp-list-table th.column-members_only .sorting-indicator,
 table.wp-list-table th.column-redirect_only .sorting-indicator,
 table.wp-list-table th.column-featured .sorting-indicator {
@@ -443,7 +379,7 @@ table.wp-list-table th.column-thumb {
   text-align: center;
 }
 table.wp-list-table th.column-thumb span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -463,7 +399,7 @@ table.wp-list-table th.column-download_count {
   width: 5em;
 }
 table.wp-list-table th.column-download_count span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -479,11 +415,13 @@ table.wp-list-table th.column-download_count span:first-child:before {
   position: relative;
   vertical-align: top;
 }
+table.wp-list-table th.column-locked_download,
 table.wp-list-table th.column-members_only {
   width: 3.5em;
 }
+table.wp-list-table th.column-locked_download span:first-child:before,
 table.wp-list-table th.column-members_only span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -491,7 +429,7 @@ table.wp-list-table th.column-members_only span:first-child:before {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0 4px 0 0;
-  content: "\f338";
+  content: "\f160";
   top: 1px;
   left: -1px;
   font-size: 1em;
@@ -503,7 +441,7 @@ table.wp-list-table th.column-redirect_only {
   width: 3.5em;
 }
 table.wp-list-table th.column-redirect_only span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -523,7 +461,7 @@ table.wp-list-table th.column-featured {
   width: 3.5em;
 }
 table.wp-list-table th.column-featured span:first-child:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -540,6 +478,7 @@ table.wp-list-table th.column-featured span:first-child:before {
   vertical-align: top;
 }
 table.wp-list-table td.column-download_count,
+table.wp-list-table td.column-locked_download,
 table.wp-list-table td.column-members_only,
 table.wp-list-table td.column-redirect_only,
 table.wp-list-table td.column-featured {
@@ -547,6 +486,7 @@ table.wp-list-table td.column-featured {
   padding-left: 11px;
 }
 table.wp-list-table td.column-download_count span.na,
+table.wp-list-table td.column-locked_download span.na,
 table.wp-list-table td.column-members_only span.na,
 table.wp-list-table td.column-redirect_only span.na,
 table.wp-list-table td.column-featured span.na {
@@ -559,10 +499,11 @@ table.wp-list-table td.column-featured span.na {
   vertical-align: middle;
 }
 table.wp-list-table td.column-download_count span.na:before,
+table.wp-list-table td.column-locked_download span.na:before,
 table.wp-list-table td.column-members_only span.na:before,
 table.wp-list-table td.column-redirect_only span.na:before,
 table.wp-list-table td.column-featured span.na:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -579,6 +520,7 @@ table.wp-list-table td.column-featured span.na:before {
   vertical-align: top;
 }
 table.wp-list-table td.column-download_count span.yes,
+table.wp-list-table td.column-locked_download span.yes,
 table.wp-list-table td.column-members_only span.yes,
 table.wp-list-table td.column-redirect_only span.yes,
 table.wp-list-table td.column-featured span.yes {
@@ -590,10 +532,11 @@ table.wp-list-table td.column-featured span.yes {
   vertical-align: middle;
 }
 table.wp-list-table td.column-download_count span.yes:before,
+table.wp-list-table td.column-locked_download span.yes:before,
 table.wp-list-table td.column-members_only span.yes:before,
 table.wp-list-table td.column-redirect_only span.yes:before,
 table.wp-list-table td.column-featured span.yes:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -630,7 +573,7 @@ table.wp-list-table .column-thumb img {
   text-decoration: none;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .expand_all:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -647,7 +590,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: top;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .close_all:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -666,7 +609,6 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper p.toolbar {
   margin: 0 !important;
   border-top: 1px solid white;
-  border-bottom: 1px solid #DFDFDF;
   padding: 7px 12px !important;
   overflow: hidden;
   zoom: 1;
@@ -685,6 +627,12 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metaboxes {
   padding: 0 12px 0;
 }
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metaboxes.dlm-versions-tab {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-top: 1px solid #DFDFDF;
+}
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox-sortable-placeholder {
   border-color: #bbb;
   background-color: #f5f5f5;
@@ -692,24 +640,182 @@ table.wp-list-table .column-thumb img {
   border-width: 1px;
   border-style: dashed;
 }
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files {
+  padding: 0;
+  margin: 15px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file {
+  background: #fff;
+  border-radius: 4px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info {
+  display: inline-block;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info > span {
+  font-size: 13px;
+  font-weight: 400;
+  margin-right: 20px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info > span:first-child {
+  border: 1px solid #ccc;
+  padding: 2px 3px;
+  border-radius: 5px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info > span .dashicons {
+  margin-right: 5px;
+  color: #787C8250;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .dlm-version-info .dlm-version-info__version {
+  background: rgba(206, 206, 206, 0.5);
+  padding: 3px 5px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .wpchill-tooltip {
+  float: none;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .drag-drop #drag-drop-area {
+  border: 4px dashed #c3c4c7;
+  height: 140px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox-content {
+  padding-top: 5px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row {
+  width: calc(100% - 30px);
+  position: relative;
+  margin: 10px 0;
+  padding: 0 15px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > *,
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > .dlm-file-version__file_present > * {
+  width: 100%;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > *:not(.hidden,.dlm-uploader-editor),
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row > .dlm-file-version__file_present > *:not(.hidden,.dlm-uploader-editor) {
+  display: block;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__flex * {
+  display: inline-block;
+  vertical-align: middle;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__inline > * {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 25px;
+  margin-bottom: 25px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__date > * {
+  display: inline-block;
+  width: auto;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__row .dlm-file-version__hashes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload {
+  padding: 0 15px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload,
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader {
+  position: relative;
+}
+#download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload .drag-drop .drag-drop-inside,
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader .drag-drop .drag-drop-inside {
+  width: 100%;
+  margin-top: 25px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper #dlm-new-upload .drag-drop .drag-drop-inside .dlm_browse_for_file,
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-file-version__uploader .drag-drop .drag-drop-inside .dlm_browse_for_file {
+  float: none;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file {
+  background: #F0F0F0;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 989;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  right: 0;
+  top: 0;
+  background: #D8D8D8;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file label {
+  text-align: center;
+  padding: 5px 0 7px 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file label.hidden {
+  display: none;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file label span {
+  font-weight: bold;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-uploading-file .dlm-uploading-progress-bar {
+  background: #2271B1;
+  height: 3px;
+  position: absolute;
+  top: 0;
+}
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox {
-  background: #ececec;
-  border: 1px solid #ececec;
-  margin: 9px 0 !important;
+  /*background: #ececec;*/
+  border: 1px solid #cecece;
+  margin: 10px 0!important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 {
-  margin: 0 !important;
-  padding: 6px !important;
-  font-size: 1em !important;
+  margin: 0!important;
+  padding: 10px 10px 8px 10px!important;
+  font-size: 1em!important;
   overflow: hidden;
   zoom: 1;
-  cursor: move;
+  cursor: pointer;
+  position: relative;
+  border-bottom: 1px solid #cecece;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 button {
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3:before {
+  content: "\f140";
+  display: block;
+  font: normal 22px/1 dashicons;
+  speak: none;
+  position: absolute;
+  right: 15px;
+  color: #787c82;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3.opened:before {
+  content: "\f142";
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 span.remove_file {
   float: right;
+  margin-right: 30px;
+  color: #787C8250;
+  transition-duration: 0.2s;
+  position: relative;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 span.remove_file:hover {
+  color: red;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 strong {
-  line-height: 24px;
+  line-height: 30px;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 select {
   font-family: sans-serif;
@@ -721,6 +827,11 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox:hover h3 .handlediv {
   display: block;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox .dlm-download-count-button {
+  width: auto;
+  min-width: 50px;
+  display: inline-block;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table {
   width: 100%;
@@ -739,6 +850,9 @@ table.wp-list-table .column-thumb img {
   text-align: left;
   display: block;
   line-height: 21px;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table td .dlm-uploading-file label {
+  text-align: center;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table td input {
   float: left;
@@ -795,15 +909,8 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox table .fr {
   float: right;
 }
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox:first-child {
-  /* main file */
-}
-#download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox:first-child h3 {
-  background-color: #FAFAFA;
-  border-bottom: 1px solid #dcdcde;
-}
 #download-monitor-file .dlm-metaboxes-wrapper .plus:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -820,7 +927,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: top;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .minus:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -837,7 +944,7 @@ table.wp-list-table .column-thumb img {
   vertical-align: top;
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm_upload_file:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -853,8 +960,28 @@ table.wp-list-table .column-thumb img {
   position: relative;
   vertical-align: top;
 }
+#download-monitor-file .dlm-metaboxes-wrapper .dlm_media_library:before {
+  font-family: "dashicons" !important;
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 4px 0 0;
+  content: "\f104";
+  top: 1px;
+  left: -1px;
+  font-size: 1em;
+  line-height: inherit;
+  position: relative;
+  vertical-align: top;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm_browse_for_file {
+  float: right;
+}
 #download-monitor-file .dlm-metaboxes-wrapper .dlm_browse_for_file:before {
-  font-family: dashicons !important;
+  font-family: "dashicons" !important;
   speak: none;
   font-weight: normal;
   font-variant: normal;
@@ -863,6 +990,40 @@ table.wp-list-table .column-thumb img {
   -moz-osx-font-smoothing: grayscale;
   margin: 0 4px 0 0;
   content: "\f322";
+  top: 1px;
+  left: -1px;
+  font-size: 1em;
+  line-height: inherit;
+  position: relative;
+  vertical-align: top;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm_browse_for_file .dlm_browse_for_file:before {
+  font-family: "dashicons" !important;
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 4px 0 0;
+  content: "\f322";
+  top: 1px;
+  left: -1px;
+  font-size: 1em;
+  line-height: inherit;
+  position: relative;
+  vertical-align: top;
+}
+#download-monitor-file .dlm-metaboxes-wrapper .dlm_external_source:before {
+  font-family: "dashicons" !important;
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 4px 0 0;
+  content: "\f103";
   top: 1px;
   left: -1px;
   font-size: 1em;
@@ -880,6 +1041,21 @@ table.wp-list-table .column-thumb img {
   margin-bottom: 5px;
 }
 #download-monitor-information .dlm_information_panel input {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  flex-grow: 1;
+  width: calc(100% - 45px);
+}
+#download-monitor-product-information .dlm_information_panel div p {
+  overflow: hidden;
+  width: 100%;
+  font-weight: bold;
+  box-sizing: border-box;
+  line-height: 28px;
+  margin-bottom: 5px;
+}
+#download-monitor-product-information .dlm_information_panel input {
   margin: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -937,6 +1113,14 @@ table.wp-list-table .column-thumb img {
 #download-monitor-options .options_upsell_link {
   color: unset;
   text-decoration: none;
+}
+#download-monitor-options .dlm-upsell-badge {
+  font-size: 10px;
+  background: #f4daa4;
+  padding: 2px 5px;
+  display: inline-block;
+  margin-left: 5px;
+  border-radius: 10px;
 }
 #download-monitor-options .dlm-upsell-badge {
   font-size: 10px;
@@ -1031,29 +1215,199 @@ table.wp-list-table .column-thumb img {
   margin-top: 1px;
 }
 /* Reports */
-.dlm-reports h1 .dlm-reports-actions {
-  float: right;
+.dlm_download_page_download-monitor-reports {
+  position: relative;
 }
-.dlm-reports h1 .dlm-reports-actions a.dlm-reports-header-chart-switcher,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period {
-  margin: 0 5px;
-  float: left;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports {
+  margin: 40px 20px 0 0;
+  position: relative;
+  /**
+      Reports header and actions
+       */
 }
-.dlm-reports h1 .dlm-reports-actions > :last-child {
-  margin-right: 0;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 9999;
+  color: #000;
+  text-align: center;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-spinner span {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-spinner span::after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #000;
+  border-color: #000 transparent #000 transparent;
+  animation: dlmRotate 1.2s linear infinite;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .reports-block {
+  background-color: #FFF;
+  margin-top: 25px;
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .half-reports-block,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .reports-block.half-reports-block {
+  width: calc(50% - 45px);
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-loading-data {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  max-width: 100%;
+  margin: 0 auto;
+  font-size: 36px;
+  z-index: 30;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #FFF;
+  border: 1px solid #DDD;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-heading {
+  font-weight: bold;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-page-actions {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  display: flex;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  border-bottom: 1px solid #e0e0e0;
+  overflow: hidden;
+  margin: 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element {
+  width: 33%;
+  min-width: 200px;
+  height: 100%;
+  padding: 24px;
+  cursor: pointer;
+  margin-bottom: 0;
+  background-color: #f8f9fa;
+  border-top: 4px solid;
+  border-top-color: #f1f1f1;
+  border-left: 1px solid #e0e0e0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element:last-of-type {
+  border-right: 1px solid #e0e0e0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
+  background-color: #FFF;
+  border-top-color: #3858e9;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element .dlm-insights-tab-navigation__label {
+  display: block;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element .dlm-insights-tab-navigation__description {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  font-style: italic;
+  color: #646161;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  display: flex;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-per-page {
+  margin-left: 10px;
+  margin-right: 15px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions:hover {
+  border-color: #4338ca;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions:focus {
+  border-color: #4338ca;
+  box-shadow: 0 0 3px #4338ca;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions a.dlm-reports-header-chart-switcher,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-period {
+  margin: 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
   position: relative;
   font-size: 14px;
-  padding: 0 0.5em 0 1em;
-  background: #fff;
-  border: 1px solid #cccccc;
-  border-radius: 3px;
+  padding: 0 0.5em 0 5px;
   user-select: none;
   cursor: pointer;
+  margin: 0 15px;
+  transition: 800ms ease-in;
+  opacity: 1;
+  min-width: 230px;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm-arrow:before {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector.disabled {
+  pointer-events: none;
+  opacity: 0;
+  display: none;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector > label {
+  font-size: 12px;
+  font-style: italic;
+  top: -20px;
+  display: block;
+  width: 100%;
+  position: absolute;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-reports-header-period {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  border: 1px solid #cccccc;
+  border-left: 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-reports-header-period a,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-reports-header-period a:hover {
+  height: 100%;
+  border: 0;
+  background: #fff;
+  box-shadow: none;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-reports-header-period a.active,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-reports-header-period a:hover.active {
+  background: #cccccc;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector #dlm_date_range_picker .date-picker-wrapper {
+  background: #fff;
+  border: 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-arrow:before {
   font-family: "dashicons" !important;
   content: "\f140";
   font-style: normal;
@@ -1061,102 +1415,128 @@ table.wp-list-table .column-thumb img {
   speak: none;
   display: inline-block;
   text-decoration: inherit;
-  width: 1em;
   text-align: center;
   font-variant: normal;
   text-transform: none;
-  line-height: 1em;
   font-size: 1.6em;
   vertical-align: middle;
-  margin-top: -2px;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay {
-  display: block;
-  width: 466px;
-  padding: 10px;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay {
+  display: flex;
+  width: auto;
   background: #fff;
-  border: 1px solid #cccccc;
   position: absolute;
   top: 30px;
   right: 0;
   z-index: 10;
   overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.6);
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_date {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date {
   font-size: 70%;
   margin-right: 5px;
   float: left;
   z-index: 11;
+  padding: 15px;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_date .ui-datepicker-inline {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline {
   border: 0;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_date .ui-datepicker-inline .ui-state-highlight {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-highlight {
   background: #e6e6e6 url(../images/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
   color: #555555;
   border: 1px solid #D3D3D3;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_date .ui-datepicker-inline .ui-state-active {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline .ui-state-active {
   border: 1px solid #aaaaaa;
   background: #ffffff url(../images/jquery-ui/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_date .ui-datepicker-inline td,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_date .ui-datepicker-inline th {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th {
   padding: 0;
   margin: 0;
   line-height: 2em;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_date .ui-datepicker-inline td a,
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_date .ui-datepicker-inline th a {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline td a,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_date .ui-datepicker-inline th a {
   text-align: center !important;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .dlm_rdrs_actions {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .dlm_rdrs_actions {
   width: 70px;
   padding-left: 10px;
   text-align: center;
-  float: left;
+  display: flex;
 }
-.dlm-reports h1 .dlm-reports-actions a.dlm-reports-header-chart-switcher {
-  display: block;
-  margin-top: 1px;
-  padding-top: 4px;
-  color: #23282d;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts {
+  border-right: 1px solid rgba(0, 0, 0, 0.6);
+  margin-top: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  height: 100%;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a {
+  text-align: left;
+  padding: 5px 40px 5px 10px;
+  min-width: 100px;
+  color: #000;
   text-decoration: none;
 }
-.dlm-reports h1 .dlm-reports-actions a.dlm-reports-header-chart-switcher:before {
-  font-family: "dashicons" !important;
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  text-align: center;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1em;
-  font-size: 1.4em;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a:hover {
+  color: #4338ca;
+  background: rgba(204, 204, 204, 0.3);
 }
-.dlm-reports h1 .dlm-reports-actions a.dlm-reports-header-chart-switcher.dlm-line:before {
-  content: "\f238";
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-chart-icon {
+  display: block;
+  padding-right: 15px;
+  color: #23282d;
 }
-.dlm-reports h1 .dlm-reports-actions a.dlm-reports-header-chart-switcher.dlm-bar:before {
-  content: "\f185";
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm-toggle-settings {
+  cursor: pointer;
+  position: relative;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period a {
-  border-color: #cccccc !important;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm-toggle-settings:before {
+  color: #0081a7;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period a:first-child {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-  border-right: 0;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm-toggle-settings .dlm-toggle-settings__settings {
+  width: 300px;
+  position: absolute;
+  top: 0;
+  left: -335px;
+  padding: 15px;
+  background: #fff;
+  z-index: 3;
+  text-align: left;
+  display: none;
 }
-.dlm-reports h1 .dlm-reports-actions .dlm-reports-header-period a:last-child {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-  border-left: 0;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm-toggle-settings .dlm-toggle-settings__settings.display {
+  display: block;
 }
-.dlm-reports .dlm_reports_loader {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports #dlm-toggle-settings .dlm-toggle-settings__settings > div {
+  margin: 15px 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-tab-navigation__content {
+  display: none;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: relative;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-tab-navigation__content.active {
+  display: flex;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm_reports_loader {
   position: absolute;
   width: 32px;
   height: 32px;
@@ -1164,40 +1544,54 @@ table.wp-list-table .column-thumb img {
   left: 50%;
   margin: -16px 0 0 -16px;
 }
-.dlm-reports .dlm-reports-block-chart {
-  width: 100%;
-  height: 300px;
-  margin-top: 20px;
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  overflow: hidden;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation {
+  text-align: center;
+  padding: 7px 0;
 }
-.dlm-reports .dlm-reports-block-chart .chart-container h6 {
-  display: none;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation > * {
+  vertical-align: middle;
+  display: inline-block;
 }
-.dlm-reports .dlm-reports-block-summary #popular span {
-  line-height: 1em;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation > span {
+  color: grey;
 }
-.dlm-reports .dlm-reports-block {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation .dlm-reports-total-pages {
+  margin-right: 15px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation button {
+  border: 0;
+  color: #000;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0;
+  box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  background-color: #FFF;
+  width: 24px;
+  vertical-align: middle;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .downloads-block-navigation button[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  padding: 20px 10px;
-  margin-top: 20px;
-  background: #fff;
-  border: 1px solid #e5e5e5;
   overflow: hidden;
-  float: left;
 }
-.dlm-reports .dlm-reports-block.dlm-reports-block-half {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block .wpchill-tooltip i {
+  color: inherit;
+  opacity: 0.6;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block.dlm-reports-block-half {
   width: 49%;
   margin-right: 1%;
 }
-.dlm-reports .dlm-reports-block.dlm-reports-block-half-right {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block.dlm-reports-block-half-right {
   width: 49%;
   margin-left: 1%;
 }
-.dlm-reports .dlm-reports-block .dlm-reports-placeholder-no-data {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block .dlm-reports-placeholder-no-data {
   display: inline-block;
   width: 100%;
   font-size: 1.5em;
@@ -1205,47 +1599,285 @@ table.wp-list-table .column-thumb img {
   font-style: italic;
   text-align: center;
 }
-.dlm-reports .dlm-reports-block ul {
-  box-sizing: border-box;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul {
   width: 100%;
-  padding: 0;
-  margin: 0;
 }
-.dlm-reports .dlm-reports-block ul li {
-  display: inline-block;
-  width: 33%;
-  padding: 5px 0;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li {
+  position: relative;
 }
-.dlm-reports .dlm-reports-block ul li label,
-.dlm-reports .dlm-reports-block ul li span {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li:not(:first-of-type) {
+  border-left: 1px solid #e0e0e0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li:last-of-type {
+  border-right: 1px solid #e0e0e0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li label,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li span {
   display: block;
   width: 100%;
-  text-align: center;
 }
-.dlm-reports .dlm-reports-block ul li span {
-  font-size: 2.5em;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li span {
+  font-size: 18px;
+  line-height: 28px;
   font-weight: bold;
-  padding: 0.5em 0 0;
 }
-.dlm-reports .dlm-reports-block table {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li:first-child span,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-block ul li:first-child label {
+  border: none;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-wrapper {
   width: 100%;
 }
-.dlm-reports .dlm-reports-block table th,
-.dlm-reports .dlm-reports-block table td {
-  text-align: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #e5e5e5;
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-block-summary ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: initial;
 }
-.dlm-reports .dlm-reports-block table th:first-child,
-.dlm-reports .dlm-reports-block table td:first-child {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-block-summary ul li {
+  width: 12.5%;
+  padding: 24px;
+  margin: 0;
+  /*  overflow: hidden;*/
+  font-weight: 600;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports-block-summary label {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 16px;
+  color: #757575;
+  font-weight: normal;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper {
+  max-width: 100%;
+  background-color: #FFF;
+  padding: 15px 24px;
+  position: relative;
+  border: 1px solid #e0e0e0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-reports-block-chart {
+  width: 100%;
+  height: 300px;
+  margin-top: 20px;
+  background: #fff;
+  overflow: hidden;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-reports-block-chart .chart-container h6 {
+  display: none;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip {
+  border-radius: 10px;
+  color: #FFF;
+  background-color: #1F2937;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, 0);
+  transition: all 0.1s ease;
+  padding: 10px 15px;
+  text-align: left;
+  z-index: 99;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip .dlm-reports-tooltip__downloads {
+  font-size: 18px;
+  margin: 0 auto;
+  font-weight: bold;
+  position: relative;
+  padding-left: 15px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip .dlm-reports-tooltip__downloads .dlm-reports-tooltip__downloads_pointer {
+  width: 5px;
+  height: 5px;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip .dlm-reports-tooltip__info {
+  font-size: 12px;
+  margin: 0 auto;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-canvas-tooltip .dlm-reports-tooltip__date {
+  font-size: 13px;
+  margin: 0 auto;
+  font-weight: 600;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .total_downloads_chart-wrapper .dlm-reports-tooltip__line {
+  height: calc(100% - 110px);
+  width: 0;
+  background: transparent;
+  z-index: 1;
+  position: absolute;
+  top: 65px !important;
+  border: 1px dashed black;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper h3,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper h3 {
+  margin-top: 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper.empty,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper.empty {
+  display: none;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #total_downloads_table_wrapper #users_download_log,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper #users_download_log {
+  margin-top: 25px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper {
+  width: 100%;
+  margin-top: 35px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper #users_download_log {
+  padding: 0 !important;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header {
+  background: #f9fafb;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line {
+  font-weight: 700;
+  display: table;
+  width: 100%;
+  margin-bottom: 17px;
+  padding: 1rem 10px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header:not(:last-child),
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line:not(:last-child) {
+  border-bottom: 1px solid #DEDEDE;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header .dlm-reports-top-downloads__download_status,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line .dlm-reports-top-downloads__download_status {
+  border-radius: 10px;
+  padding: 10px;
+  text-transform: capitalize;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header .dlm-reports-top-downloads__download_status.completed,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line .dlm-reports-top-downloads__download_status.completed {
+  background: #adff2f60;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header .dlm-reports-top-downloads__download_status.redirected,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line .dlm-reports-top-downloads__download_status.redirected {
+  background: #FFFF0060;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header .dlm-reports-top-downloads__download_status.failed,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line .dlm-reports-top-downloads__download_status.failed {
+  background: #ff000060;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header > div,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line > div {
+  width: calc(15% - 3px);
+  display: inline-block;
+  text-align: left !important;
+  flex-grow: unset !important;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header > div:last-child,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line > div:last-child {
+  width: calc(10% - 2px);
+  text-align: right !important;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header > div .dlm-user-reports .wpchill-tooltip,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line > div .dlm-user-reports .wpchill-tooltip {
+  font-size: 12px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header > div .dlm-user-reports .wpchill-tooltip .wpchill-tooltip-content,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line > div .dlm-user-reports .wpchill-tooltip .wpchill-tooltip-content {
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header > div .dlm-user-reports .wpchill-tooltip .wpchill-tooltip-content span,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line > div .dlm-user-reports .wpchill-tooltip .wpchill-tooltip-content span {
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  display: block;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__header a,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .dlm-reports-top-downloads__line a {
+  text-decoration: none;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .user-downloads-filters .user-downloads-filters__heading,
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .user-downloads-filters .user-downloads-filters__filter {
+  display: inline-block;
+}
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #user_downloads_summary ul .wpchill-tooltip,
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #users_downloads_table_wrapper ul .wpchill-tooltip {
+  font-size: 14px;
+}
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #user_downloads_summary ul .wpchill-tooltip .wpchill-tooltip-content,
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #users_downloads_table_wrapper ul .wpchill-tooltip .wpchill-tooltip-content {
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+}
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #user_downloads_summary ul .wpchill-tooltip .wpchill-tooltip-content span,
+.dlm_download_page_download-monitor-reports div[data-id="user_reports"] #users_downloads_table_wrapper ul .wpchill-tooltip .wpchill-tooltip-content span {
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  display: block;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e2e4e7;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__filters > th {
+  padding: 16px;
+  font-weight: bold;
   text-align: left;
 }
-.dlm-reports .dlm-reports-block table th {
-  padding-bottom: 20px;
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__header {
+  font-weight: bold;
+  width: 100%;
+  margin-bottom: 17px;
 }
-.dlm-reports-block-summary {
-  background: #333 !important;
-  color: white;
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__header .dlm-reports-header-left,
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__header .dlm-reports-header-right {
+  margin-bottom: 15px;
+  font-size: 12px;
+  color: #6B7280;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__header .dlm-reports-header-left {
+  padding-left: 36px;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__header .dlm-reports-header-right {
+  text-align: right;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line {
+  background-color: #fff;
+  border-bottom: 1px solid #e2e4e7;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line > td {
+  padding: 16px;
+  font-size: 0.8125rem;
+  text-align: left;
+  color: #192a3d;
+  font-weight: 500;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line .dlm-reports-table__overflower {
+  position: absolute;
+  height: 100%;
+  background: #f5f5fc;
+  z-index: -1;
+}
+.dlm_download_page_download-monitor-reports .dlm-reports-table .dlm-reports-table__line a {
+  color: #0081a7;
+  padding: 8px;
+  display: block;
+  font-weight: 500;
+}
+.dlm_download_page_download-monitor-reports input.dlm-reports-current-page {
+  display: inline-block;
+  width: 75px;
+  vertical-align: middle;
 }
 /** Products overview page */
 .post-type-dlm_product table.wp-list-table .column-title {
@@ -1431,7 +2063,7 @@ table.wp-list-table .column-thumb img {
 /** Onboarding */
 .dlm-onboarding .dlm-onboarding-section.dlm-onboarding-section-one-col {
   margin: 0 auto;
-  max-width: 680px;
+  max-width: 800px;
 }
 .dlm-onboarding .dlm-onboarding-section.dlm-onboarding-section-cta {
   margin-top: 40px;
@@ -1519,68 +2151,96 @@ table.wp-list-table .column-thumb img {
   }
 }
 /* Extensions */
-.dlm_extensions_wrap h1 a.dlm-reload-button {
+.dlm_extensions_wrap a.dlm-reload-button {
   float: right;
+  position: relative;
+  top: -40px;
+}
+.dlm_extensions_wrap #available-extensions {
+  clear: both;
+}
+.dlm_extensions_wrap #available-extensions .features .feature-list .feature-block a {
+  color: #fff;
 }
 .dlm_extensions_wrap .dlm_extensions {
-  padding: 15px 0;
+  padding: 0;
   overflow: hidden;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension a {
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-list {
+  margin-top: 10px;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-block {
+  margin: 10px;
+  width: calc(33% - 20px) !important;
+}
+.dlm_extensions_wrap .dlm_extensions .dlm_extension {
+  background-color: #FFF;
+  width: calc(20% - 15px);
+  margin: 0 15px 15px 0;
+  display: inline-block;
+  vertical-align: top;
+}
+.dlm_extensions_wrap .dlm_extensions .dlm_extension p {
+  margin: 0;
+}
+.dlm_extensions_wrap .dlm_extensions .dlm_extension a {
   color: #444;
   text-decoration: none;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .dlm_extension_img_wrapper {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .dlm_extension_img_wrapper {
   width: 100%;
   background: #419CCB;
   text-align: center;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .dlm_extension_img_wrapper img {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .dlm_extension_img_wrapper img {
   max-width: 100%;
   margin: 0 auto;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension h3 {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension h3 {
+  min-height: 40px;
   padding: 0 20px;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension div.extension-desc {
-  min-height: 85px;
+.dlm_extensions_wrap .dlm_extensions .dlm_extension div.extension-desc {
+  min-height: 120px;
   padding: 0 20px;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer {
   padding: 15px 15px 15px 0;
   text-align: right;
   background-color: #FAFAFA;
   border-top: 1px solid #dcdcde;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_price {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer .loop_price {
   font-weight: bold;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_price.sale {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer .loop_price.sale {
   color: #008000;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .loop_price.sale strike {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer .loop_price.sale strike {
   color: #444;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .product_footer .button .dashicons {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer .button .dashicons {
   vertical-align: middle;
   font-size: 16px;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license {
   padding: 0 20px 20px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license div.dlm_license_error {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license div.dlm_license_error {
   padding: 0.5em;
   margin-bottom: 15px;
   background: lightYellow;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license div.dlm_license_error a {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license div.dlm_license_error a {
   color: blue;
   text-decoration: underline;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license p.license-status {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license p.license-status {
   padding: 5px 0;
   margin: 5px 0;
   background: red;
@@ -1589,15 +2249,15 @@ table.wp-list-table .column-thumb img {
   color: #fff;
   text-align: center;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license p.license-status.active {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license p.license-status.active {
   background: #008000;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license input {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license input {
   width: 100%;
   margin: 7px 0;
   padding: 7px;
 }
-.dlm_extensions_wrap .dlm_extensions div.dlm_extension .extension_license a.button-primary {
+.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license a.button-primary {
   width: 100%;
   margin: 5px auto 0;
   color: #fff;
@@ -1610,9 +2270,9 @@ table.wp-list-table .column-thumb img {
 /* Upsells */
 .wpchill-upsell {
   background: #fff;
-  border: 0;
   padding: 15px;
   margin-top: 30px;
+  position: relative;
 }
 .wpchill-upsell .wpchill-upsell-features {
   text-align: left;
@@ -1623,8 +2283,22 @@ table.wp-list-table .column-thumb img {
 .wpchill-upsell .wpchill-upsell-features li {
   width: 33%;
 }
+.wpchill-upsell a:first-child {
+  margin-right: 10px;
+}
 .wpchill-upsells-wrapper {
   width: 100%;
+}
+.wpchill-upsells-wrapper .wpchill-upsell {
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  text-align: center;
+}
+.wpchill-upsells-wrapper .wpchill-upsell img {
+  max-width: 100px;
+  max-height: 100px;
+  height: auto;
+  width: auto;
 }
 .wrap.dlm-admin-settings .form-table {
   width: 65%;
@@ -1634,6 +2308,9 @@ table.wp-list-table .column-thumb img {
   width: 30%;
   float: right;
 }
+.wrap.dlm-admin-settings .form-table .dlm_htaccess_notice {
+  margin-bottom: 5px;
+}
 .wrap.dlm-admin-settings .dlm-upsell-badge {
   font-size: 10px;
   background: #f4daa4;
@@ -1642,11 +2319,22 @@ table.wp-list-table .column-thumb img {
   margin-left: 10px;
   border-radius: 10px;
 }
-.wrap.dlm-admin-settings .dlm-install-plugin-actions {
+.wrap.dlm-admin-settings #setting-dlm_downloads_path + p strong {
+  color: red;
+}
+.wrap.dlm-admin-settings #setting-dlm_downloads_path .dlm-install-plugin-actions {
   display: inline-block;
   vertical-align: middle;
   margin: 5px auto;
   margin-left: 15px;
+}
+#installed-extensions #wpchill-welcome .features .feature-list .feature-block {
+  margin: 10px;
+  width: calc(33% - 20px) !important;
+  min-height: 400px;
+}
+#installed-extensions #wpchill-welcome .features .feature-list a {
+  color: #fff;
 }
 #total_downloads_browser_table a.nav-tab {
   text-transform: capitalize;
@@ -1663,7 +2351,7 @@ table.wp-list-table .column-thumb img {
 #dlm-amazon-s3-upsell .inside .wpchill-upsell,
 #dlm-google-drive-upsell .inside .wpchill-upsell,
 #dlm-buttons-upsell .inside .wpchill-upsell {
-  background: transparent;
+  background: #fff;
   text-align: center;
   width: 100%;
   margin-top: 0;
@@ -1675,11 +2363,36 @@ table.wp-list-table .column-thumb img {
   margin: 0;
   padding: 0;
 }
+.upsells-columns .dlm-available-with-pro,
+.wpchill-upsells-wrapper .dlm-available-with-pro {
+  width: auto;
+  border-radius: 0 5px 0 5px;
+  background: #2271b1;
+  color: #fff;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  display: flex;
+  align-content: center;
+  border-top: 0;
+  border-left: 0;
+  padding: 5px 8px 2px 5px;
+}
+.upsells-columns .dlm-available-with-pro > *,
+.wpchill-upsells-wrapper .dlm-available-with-pro > * {
+  font-size: 12px;
+}
+.upsells-columns .dlm-available-with-pro > *.dashicons,
+.wpchill-upsells-wrapper .dlm-available-with-pro > *.dashicons {
+  line-height: 15px;
+}
 .upsells-columns {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
+  padding-top: 5px;
+  margin-bottom: 10px;
 }
 .upsells-columns .upsells-columns-2 {
   width: 50%;
@@ -1689,18 +2402,34 @@ table.wp-list-table .column-thumb img {
   align-content: center;
 }
 .upsells-columns .upsells-column {
-  width: 100%;
+  width: calc(100% - 30px);
   text-align: center;
   display: flex;
   align-items: center;
   align-content: center;
+  margin: 5px auto 0 auto;
+  border-radius: 5px;
+  border: 1px solid #cecece;
+  overflow: hidden;
+}
+.upsells-columns .upsells-column .dashicons-amazon {
+  font-size: 22px;
+}
+.upsells-columns .upsells-column .dashicons-google {
+  font-size: 18px;
+  position: relative;
+  left: 1px;
+  top: 1px;
+}
+.upsells-columns .upsells-column .dashicons-lock:before {
+  font-size: 14px;
 }
 .upsells-columns .upsells-column > * {
   display: inline-block;
   align-content: center;
   vertical-align: middle;
-  margin: 0 15px;
-  padding: 10px 0;
+  margin: 0 10px;
+  padding: 7px 0;
 }
 .upsells-columns .upsells-column > *.wpchill-upsell {
   position: relative;
@@ -1708,12 +2437,18 @@ table.wp-list-table .column-thumb img {
   flex-grow: 1;
   display: flex;
   align-items: center;
+  margin: 0;
 }
 .upsells-columns .upsells-column > *.wpchill-upsell .wpchill-upsell-description {
-  margin: 0 auto;
+  margin: 0;
+  text-align: left;
+  max-width: 535px;
+  font-size: 12px;
 }
 .upsells-columns .upsells-column h3 {
   line-height: 1.3em;
+  font-size: 1em;
+  margin-left: 0;
 }
 .upsells-columns .upsells-column:last-child {
   border-top: 1px solid #c3c4c7;
@@ -1722,50 +2457,49 @@ table.wp-list-table .column-thumb img {
 .upsells-columns .wpchill-upsell {
   margin-top: 0;
 }
-.dlm_download_page_dlm-extensions .theme.dlm_extension {
-  background-color: #FFF;
+.disabled-link {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
 }
-#menu-posts-dlm_download ul.wp-submenu a[href$="dlm-lite-vs-pro"] {
-  color: gold;
+.text-right {
+  text-align: right;
 }
 /* Lite vs PRO Section */
-body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
-  margin-left: 0;
-  max-width: 85%;
-}
-.rsvp-lite-vs-premium,
-.rsvp-lite-vs-premium p {
+.dlm_download_page_dlm-lite-vs-pro,
+.dlm_download_page_dlm-lite-vs-pro p {
   font-size: 14px;
   margin: 0;
 }
-.rsvp-lite-vs-premium > .wpchill-plans-table.wpchill-highlight > .wpchill-pricing-package {
+.dlm_download_page_dlm-lite-vs-pro > .wpchill-plans-table.wpchill-highlight > .wpchill-pricing-package {
   background: #fefff0;
-  box-shadow: 0 0 15px rgb(208 219 219);
+  box-shadow: 0 0 15px #d0dbdb;
 }
-.rsvp-lite-vs-premium .wp-badge {
+.dlm_download_page_dlm-lite-vs-pro .wp-badge {
   display: inline-block;
   vertical-align: middle;
   position: relative;
   margin-right: 2.5%;
 }
-.rsvp-lite-vs-premium h3 {
+.dlm_download_page_dlm-lite-vs-pro h3 {
   display: block;
   position: relative;
   font-size: 16px;
   margin: 0;
 }
-.rsvp-lite-vs-premium .wpchill-plans-table {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-plans-table {
   display: flex;
 }
-.rsvp-lite-vs-premium .wpchill-plans-table.table-header {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-plans-table.table-header {
   margin-top: 50px;
   border-top: 0;
 }
-.rsvp-lite-vs-premium .wpchill-plans-table.table-header .wpchill-pricing-package {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-plans-table.table-header .wpchill-pricing-package {
   border: 0;
 }
-.rsvp-lite-vs-premium .wpchill-plans-table.table-header .wpchill-pricing-package:not(.wpchill-modula-lite):last-child:before,
-.rsvp-lite-vs-premium .wpchill-plans-table.table-header .wpchill-pricing-package.wpchill-title.wpchill-highlight::before {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-plans-table.table-header .wpchill-pricing-package:not(.wpchill-modula-lite):last-child:before,
+.dlm_download_page_dlm-lite-vs-pro .wpchill-plans-table.table-header .wpchill-pricing-package.wpchill-title.wpchill-highlight::before {
   content: '';
   width: auto;
   display: inline-block;
@@ -1782,10 +2516,10 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
   padding: 10px 5px;
   transform: translateY(-100%);
 }
-.rsvp-lite-vs-premium.table-footer .wpchill-pricing-package:last-child {
+.dlm_download_page_dlm-lite-vs-pro.table-footer .wpchill-pricing-package:last-child {
   border: 0;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package {
   text-align: center;
   line-height: 1.5;
   padding: 10px 15px;
@@ -1797,10 +2531,10 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
   border-top: 1px solid #ccc;
   width: 32%;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package:not(:first-child) {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package:not(:first-child) {
   max-width: 300px;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-title {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-title {
   font-weight: 400;
   color: #666;
   font-size: 1.25rem;
@@ -1812,27 +2546,27 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
   justify-content: space-between;
   position: relative;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-title .wpchill-name {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-title .wpchill-name {
   margin: 0;
   font-size: 36px;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-title.wpchill-modula-lite {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-title.wpchill-modula-lite {
   justify-content: center;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-title p.description {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-title p.description {
   font-style: italic;
   font-size: 13px;
   margin-bottom: 40px;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-title .wpchill-price p:last-child {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-title .wpchill-price p:last-child {
   font-size: 30px;
   margin: 0 0 40px 0;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-title .wpchill-price p.old-price {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-title .wpchill-price p.old-price {
   margin: 0;
   position: relative;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-title .wpchill-price p.old-price:after {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-title .wpchill-price p.old-price:after {
   content: "";
   height: 2px;
   width: 60px;
@@ -1843,16 +2577,16 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
   top: 52%;
   transform: translate(-50%, -50%);
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-title .wpchill-price sup {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-title .wpchill-price sup {
   top: 2px;
   position: relative;
   font-size: 15px;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.wpchill-empty {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.wpchill-empty {
   background: transparent;
   border-color: transparent;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package.feature-name {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package.feature-name {
   justify-content: space-between;
   font-weight: 400;
   text-align: left;
@@ -1860,22 +2594,451 @@ body.rsvp_page_rsvp-upgrade-to-pro #wpcontent .wrap {
   display: block;
   background: transparent;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package .dashicons-saved {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package .dashicons-saved {
   color: green;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package .dashicons {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package .dashicons {
   width: 30px;
   height: 30px;
   font-size: 30px;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package .dashicons-no-alt {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package .dashicons-no-alt {
   color: #ff3439;
 }
-.rsvp-lite-vs-premium .wpchill-pricing-package:last-child {
+.dlm_download_page_dlm-lite-vs-pro .wpchill-pricing-package:last-child {
   background: #fefff0;
 }
-.rsvp-lite-vs-premium .button .dashicons {
+.dlm_download_page_dlm-lite-vs-pro .button .dashicons {
   font-size: 16px;
   vertical-align: middle;
   line-height: 26px;
+}
+/**
+WPCHill Tooltips
+*/
+/* Tabs tooltips */
+.wpchill-tooltip {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+}
+.wpchill-tooltip > i {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+  margin-left: 5px;
+  font-style: normal;
+}
+.wpchill-tooltip .wpchill-tooltip-content {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translate(100%, -50%);
+  width: 300px;
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 99;
+}
+.wpchill-tooltip .wpchill-tooltip-content:before {
+  content: '';
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 8px 8px 8px 0;
+  border-color: transparent #000 transparent transparent;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  transform: translateY(-50%);
+}
+.wpchill-tooltip:hover .wpchill-tooltip-content {
+  display: block;
+}
+.dlm_download_page_dlm-extensions .theme.dlm_extension {
+  background-color: #FFF;
+}
+/**
+*  Tooltips
+*/
+.wpchill-tooltip {
+  position: relative;
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+}
+.wpchill-tooltip > span {
+  cursor: pointer;
+  color: #0073aa;
+  text-decoration: underline;
+  margin-left: 5px;
+}
+.wpchill-tooltip .wpchill-tooltip-content {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translate(100%, -50%);
+  width: 300px;
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 99;
+}
+.wpchill-tooltip:hover .wpchill-tooltip-content {
+  display: block;
+}
+.wpchill-tooltip .wpchill-tooltip-content:before {
+  content: '';
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 8px 8px 8px 0;
+  border-color: transparent #000 transparent transparent;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  transform: translateY(-50%);
+}
+.wpchill-tooltip-button {
+  position: relative;
+}
+.wpchill-tooltip-button .wpchill-tooltip-content {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translate(50%, -135%);
+  width: auto;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+  z-index: 99;
+}
+.wpchill-tooltip-button:hover .wpchill-tooltip-content {
+  display: block;
+}
+.wpchill-tooltip-button .wpchill-tooltip-content:before {
+  content: '';
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 8px 8px 8px 0;
+  border-color: transparent #000 transparent transparent;
+  display: block;
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: rotate(-90deg);
+}
+.dlm-file-link {
+  display: block;
+  margin-top: 3px;
+}
+.dlm-listing-no-file code {
+  color: #b32d2e;
+}
+/**
+Toggles
+ */
+/* Toggles */
+.wpchill-toggle {
+  position: relative;
+  user-select: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+.wpchill-toggle .wpchill-toggle__items {
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+}
+.wpchill-toggle .wpchill-toggle__items > * {
+  box-sizing: inherit;
+}
+.wpchill-toggle .wpchill-toggle__items .wpchill-toggle__track {
+  background-color: #fff;
+  border: 2px solid #6c7781;
+  border-radius: 9px;
+  display: inline-block;
+  height: 18px;
+  width: 36px;
+  vertical-align: top;
+  transition: background 0.2s ease;
+}
+.wpchill-toggle .wpchill-toggle__items .wpchill-toggle__thumb {
+  background-color: #6c7781;
+  border: 5px solid #6c7781;
+  border-radius: 50%;
+  display: block;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  transition: transform 0.2s ease;
+  min-width: auto;
+  min-height: auto;
+  float: none;
+  padding: 0;
+}
+.wpchill-toggle .wpchill-toggle__items .wpchill-toggle__off {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  color: #6c7781;
+  fill: currentColor;
+}
+.wpchill-toggle .wpchill-toggle__items .wpchill-toggle__on {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  border: 1px solid #fff;
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  display: none;
+}
+.wpchill-toggle .wpchill-toggle__input[type=checkbox] {
+  border-radius: 2px;
+  border: 2px solid #6c7781;
+  margin-right: 12px;
+  transition: none;
+  height: 100%;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+.wpchill-toggle .wpchill-toggle__input[type=checkbox]:checked + .wpchill-toggle__items .wpchill-toggle__track {
+  background-color: #0081a7;
+  border: 9px solid transparent;
+}
+.wpchill-toggle .wpchill-toggle__input[type=checkbox]:checked + .wpchill-toggle__items .wpchill-toggle__thumb {
+  background-color: #fff;
+  border-width: 0;
+  transform: translateX(18px);
+}
+.wpchill-toggle .wpchill-toggle__input[type=checkbox]:checked + .wpchill-toggle__items .wpchill-toggle__off {
+  display: none;
+}
+.wpchill-toggle .wpchill-toggle__input[type=checkbox]:checked + .wpchill-toggle__items .wpchill-toggle__on {
+  display: inline-block;
+}
+#total_downloads_table_wrapper2 {
+  width: 100%;
+  background-color: #FFF;
+  border: 1px solid #e0e0e0;
+  margin-top: 30px;
+  position: relative;
+}
+#total_downloads_table_wrapper2 .total_downloads_table_header {
+  padding: 0 16px;
+  height: 70px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#total_downloads_table_wrapper2 .total_downloads_table_header .total_downloads_table_exportcsv .dashicons {
+  margin-right: 5px;
+}
+#total_downloads_table_wrapper2 .total_downloads_table_header h3 {
+  margin: 0;
+  line-height: 1.2;
+  color: #23282d;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+@keyframes dlmRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/**
+ * DLM Uploader
+ */
+.dlm-uploader-editor {
+  position: absolute;
+  z-index: 99998;
+  background: rgba(140, 143, 148, 0.9);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  display: none;
+}
+.dlm-uploader-editor.droppable {
+  background: rgba(10, 75, 120, 0.9);
+}
+.dlm-uploader-editor .uploader-editor-content {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px dashed #fff;
+}
+.dlm-uploader-editor .uploader-editor-content .uploader-editor-title {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 3em;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  padding: 0 10px;
+}
+.dlm-notice-logo {
+  width: auto;
+  max-height: 35px;
+  max-width: 35px;
+  display: inline-block;
+}
+.dlm-available-with-pro__overlay {
+  pointer-events: none;
+  background: #fff !important;
+  opacity: 0.5;
+}
+.dlm-available-with-pro__overlay.select {
+  margin-left: 10px;
+}
+.dlm-available-with-pro__label {
+  pointer-events: none;
+  background: #80808080;
+  padding: 1px 5px;
+  border-radius: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 10px;
+  color: #fff;
+}
+.dlm-copy-shortcode-input {
+  border: 0 !important;
+  width: 0;
+  padding: 0 !important;
+  outline: none;
+}
+.guide-button a:hover {
+  background-color: #fff !important;
+  color: #2271b1 !important;
+}
+#wpchill-welcome .welcome-header .feature-list .block {
+  padding: 20px 20px 0px 0px;
+}
+#wpchill-welcome .pages-creation .block {
+  padding: 0 20px;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons {
+  box-shadow: none !important;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons .block {
+  padding: 20px 20px 0px 0px;
+  box-shadow: none !important;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons .guide-button a:hover {
+  background-color: #2271b1 !important;
+  color: #fff !important;
+}
+#wpchill-welcome .pages-creation .block {
+  padding: 0 20px;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons {
+  box-shadow: none;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons .block {
+  padding: 20px 20px 0px 0px;
+  box-shadow: none;
+}
+/**
+ Onboarding CSS
+ */
+.dlm-onboarding-wrapper {
+  text-align: center;
+  padding: 25px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.dlm-onboarding-wrapper .dlm-onboarding-title {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+}
+.dlm-onboarding-wrapper .dlm-onboarding-title > span {
+  font-size: 16px;
+  margin-left: 10px;
+  font-weight: 700;
+}
+.dlm-onboarding-wrapper .dlm-onboarding-title img.dlm-onboarding-title-icon {
+  max-width: 35px;
+  vertical-align: middle;
+}
+.dlm-onboarding-wrapper .dlm-onboarding-text-wrap {
+  padding: 10px 0 30px 0;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.dlm-onboarding-wrapper .dlm-onboarding-text-wrap p {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+}
+.dlm-onboarding-wrapper img.dlm-onboarding-banner {
+  width: auto;
+  max-width: 300px;
+}
+.dlm-onboarding-wrapper a.dlm-onboarding-button {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 43px;
+  color: #fff;
+  text-decoration: none;
+  background: #219962;
+  border-radius: 100px;
+  padding: 15px 45px;
+}
+.dlm-onboarding-wrapper a.dlm-onboarding-button:hover {
+  background: #1A7A4E;
+}
+.dlm-onboarding-wrapper .dlm-onboarding-button-wrap {
+  padding: 30px 0 0 0;
+}
+.dlm-onboarding-wrapper p.dlm-onboarding-doc {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 44px;
+  text-align: center;
+  color: #000000;
+}
+.dlm-onboarding-wrapper p.dlm-onboarding-doc > a {
+  text-decoration: none;
+  color: #219962;
+}
+.dlm-onboarding-wrapper p.dlm-onboarding-doc a:hover {
+  text-decoration: underline;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../font/dm/DMSans-Regular.ttf');
 }

@@ -18,6 +18,11 @@ class DLM_Upgrade_Manager {
 	 */
 	public function check() {
 
+		// check only on admin
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		// Get current version
 		$current_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION, 0 );
 
@@ -29,6 +34,9 @@ class DLM_Upgrade_Manager {
 
 			// Update version code
 			$this->update_current_version_code();
+
+			// flush rewrite rules
+			flush_rewrite_rules(false);
 
 		}
 
@@ -74,7 +82,7 @@ class DLM_Upgrade_Manager {
 
 			// upgrade log table
 			$wpdb->query( "ALTER TABLE {$wpdb->download_log} CHANGE `download_date` `download_date` DATETIME NULL DEFAULT NULL;" );
-			$wpdb->query( "ALTER TABLE {$wpdb->download_log} ADD `meta_data` LONGTEXT NULL DEFAULT NULL AFTER `download_status_message`;" );
+			$wpdb->query( "ALTER TABLE {$wpdb->download_log} ADD `meta_data` LONGTEXT NULL DEFAULT NULL AFTER `download_status_message`, `download_location` varchar(200) DEFAULT NULL AFTER `download_status_message`, `download_category` varchar(200) DEFAULT NULL AFTER `download_status_message`;" );
 			$wpdb->query( "ALTER TABLE {$wpdb->download_log} DROP `type`;" );
 
 			// add new capability
@@ -107,6 +115,7 @@ class DLM_Upgrade_Manager {
 	 * Update the current version code
 	 */
 	private function update_current_version_code() {
+
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 	}
 

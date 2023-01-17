@@ -1,15 +1,15 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Email;
+namespace WPChill\DownloadMonitor\Shop\Email;
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class VarParser {
 
 	/**
 	 * Parse (find and replace) all email variables
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 * @param string $body
 	 *
 	 * @return string
@@ -35,7 +35,7 @@ class VarParser {
 	/**
 	 * Build a simplified order items array, used in email template files
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return array
 	 */
@@ -48,7 +48,7 @@ class VarParser {
 			foreach ( $order_items as $order_item ) {
 
 				try {
-					/** @var \Never5\DownloadMonitor\Shop\Product\Product $product */
+					/** @var \WPChill\DownloadMonitor\Shop\Product\Product $product */
 					$product = Services::get()->service( 'product_repository' )->retrieve_single( $order_item->get_product_id() );
 
 					$html_item = array(
@@ -96,7 +96,7 @@ class VarParser {
 	/**
 	 * Build a simplified order data array, used in email template files
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return array
 	 */
@@ -105,7 +105,7 @@ class VarParser {
 		$processor    = "";
 		$transactions = $order->get_transactions();
 		if ( count( $transactions ) > 0 ) {
-			/** @var \Never5\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $transaction */
+			/** @var \WPChill\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $transaction */
 			foreach ( $transactions as $transaction ) {
 				if ( 'success' === $transaction->get_status()->get_key() ) {
 					$processor = $transaction->get_processor_nice_name();
@@ -141,7 +141,7 @@ class VarParser {
 	/**
 	 * Generate the table with downloads customer just purchased
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */
@@ -160,7 +160,7 @@ class VarParser {
 	/**
 	 * Generate a plain text overview with downloads customer just purchased
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */
@@ -178,7 +178,7 @@ class VarParser {
 	/**
 	 * Generate the table with downloads customer just purchased
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */
@@ -197,7 +197,7 @@ class VarParser {
 	/**
 	 * Generate the plain text overview with downloads customer just purchased
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */

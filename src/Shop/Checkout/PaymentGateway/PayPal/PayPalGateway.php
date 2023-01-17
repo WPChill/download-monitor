@@ -1,10 +1,13 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
+namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal;
 
-use Never5\DownloadMonitor\Shop\Checkout\PaymentGateway;
-use Never5\DownloadMonitor\Shop\Services\Services;
-use Never5\DownloadMonitor\Dependencies\PayPal;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway;
+use WPChill\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api as PayPalApi;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\PayPalHttpClient;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\ProductionEnvironment;
+use WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Core\SandboxEnvironment;
 
 class PayPalGateway extends PaymentGateway\PaymentGateway {
 
@@ -19,7 +22,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		$this->set_id( 'paypal' );
 		$this->set_title( 'PayPal' );
 		$this->set_description( __( 'Pay with PayPal', 'download-monitor' ) );
-
+		$this->set_enabled( true );
 		parent::__construct();
 
 		$this->set_sandbox( '1' == $this->get_option( 'sandbox_enabled' ) );
@@ -52,25 +55,17 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 
 		if ( ! $this->is_sandbox() ) {
 			// get live keys
-			$client_id     = $this->get_option( 'client_id' );
-			$client_secret = $this->get_option( 'client_secret' );
+			$client_id     = trim( $this->get_option( 'client_id' ) );
+			$client_secret = trim( $this->get_option( 'client_secret' ) );
 
+			return new PayPalHttpClient( new ProductionEnvironment( $client_id, $client_secret ) );
 		} else {
 			// get sandbox keys
-			$client_id     = $this->get_option( 'sandbox_client_id' );
-			$client_secret = $this->get_option( 'sandbox_client_secret' );
+			$client_id     = trim( $this->get_option( 'sandbox_client_id' ) );
+			$client_secret = trim( $this->get_option( 'sandbox_client_secret' ) );
+
+			return new PayPalHttpClient( new SandboxEnvironment( $client_id, $client_secret ) );
 		}
-
-		// remove spaces
-		$client_id     = trim( $client_id );
-		$client_secret = trim( $client_secret );
-
-		return new PayPal\Rest\ApiContext(
-			new PayPal\Auth\OAuthTokenCredential(
-				$client_id,
-				$client_secret
-			)
-		);
 	}
 
 	/**
@@ -166,40 +161,45 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	}
 
 	/**
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return PaymentGateway\Result
 	 */
 	public function process( $order ) {
 
+		// Payer
 		$payer = $this->get_payer( $order );
 
+		// Transaction
 		$transaction = $this->get_transaction( $order );
 
-		$redirectUrls = new PayPal\Api\RedirectUrls();
+		// Redirect URLs
+		$redirectUrls = new PayPalApi\RedirectUrls();
 		$redirectUrls->setReturnUrl( $this->get_execute_payment_url( $order ) )
 		             ->setCancelUrl( $this->get_cancel_url( $order->get_id(), $order->get_hash() ) );
 
-		$payment = new PayPal\Api\Payment();
-		$payment->setIntent( 'sale' )
-		        ->setPayer( $payer )
+		// Payment
+		$payment = new CreateOrder();
+		$payment->setClient( $this->get_api_context() );
+		$payment->setIntent( 'CAPTURE' )
+				->setPayer( $payer )
 		        ->setTransactions( array( $transaction ) )
 		        ->setRedirectUrls( $redirectUrls );
 
 		try {
-			$payment->create( $this->get_api_context() );
+			$payment->createOrder();
 		} catch ( \Exception $ex ) {
-			return new PaymentGateway\Result( false, '', 'Could not create payment. Please check your PayPal logs.' );
+			return new PaymentGateway\Result( false, '', __( 'Could not create payment. Please check your PayPal logs.', 'download-monitor' ) );
 		}
 
 		// create local transaction
-		/** @var \Never5\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
+		/** @var \WPChill\DownloadMonitor\Shop\Order\Transaction\OrderTransaction $dlm_transaction */
 		$dlm_transaction = Services::get()->service( 'order_transaction_factory' )->make();
 		$dlm_transaction->set_amount( $order->get_total() );
 		$dlm_transaction->set_processor( $this->get_id() );
 		$dlm_transaction->set_processor_nice_name( $this->get_title() );
 		$dlm_transaction->set_processor_transaction_id( $payment->getId() );
-		$dlm_transaction->set_processor_status( $payment->getState() );
+		$dlm_transaction->set_processor_status( $payment->getStatus() );
 
 		// add transaction to order
 		$order->add_transaction( $dlm_transaction );
@@ -208,7 +208,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		try {
 			Services::get()->service( 'order_repository' )->persist( $order );
 		} catch ( \Exception $exception ) {
-			return new PaymentGateway\Result( false, '', 'Error saving order with PayPal transaction.' );
+			return new PaymentGateway\Result( false, '', __( 'Error saving order with PayPal transaction.', 'download-monitor' ) );
 		}
 
 		// get the URL where user can pay
@@ -220,7 +220,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	/**
 	 * Get the URL for executing a payment
 	 *
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */
@@ -233,7 +233,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	}
 
 	/**
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return PayPal\Api\Payer
 	 */
@@ -241,12 +241,11 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		$oc = $order->get_customer();
 
 		// create address
-		$address = new PayPal\Api\Address();
+		$address = new PayPalApi\Address();
 
 		if ( '' != $oc->get_address_1() ) {
 			$address->setLine1( $oc->get_address_1() );
 		}
-
 
 		if ( '' != $oc->get_address_2() ) {
 			$address->setLine2( $oc->get_address_2() );
@@ -256,11 +255,9 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 			$address->setPostalCode( $oc->get_postcode() );
 		}
 
-
 		if ( '' != $oc->get_city() ) {
 			$address->setCity( $oc->get_city() );
 		}
-
 
 		if ( '' != $oc->get_state() ) {
 			$address->setState( $oc->get_state() );
@@ -270,24 +267,19 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 			$address->setCountryCode( $oc->get_country() );
 		}
 
-		if ( '' != $oc->get_phone() ) {
-			$address->setPhone( $oc->get_phone() );
-		}
-		$payer_info = new PayPal\Api\PayerInfo();
-		$payer_info->setEmail( $oc->get_email() );
-		$payer_info->setFirstName( $oc->get_first_name() );
-		$payer_info->setLastName( $oc->get_last_name() );
+		$payer_info = new PayPalApi\PayerInfo();
+		$payer_info->setEmailAddress( $oc->get_email() );
+		$payer_info->setName( $oc->get_first_name(), $oc->get_last_name() );
 		$payer_info->setBillingAddress( $address );
 
-		$payer = new PayPal\Api\Payer();
-		$payer->setPaymentMethod( 'paypal' );
+		$payer = new PayPalApi\Payer();
 		$payer->setPayerInfo( $payer_info );
 
 		return $payer;
 	}
 
 	/**
-	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
+	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return PayPal\Api\Transaction
 	 */
@@ -298,29 +290,30 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		// generate items
 		$items = array();
 		foreach ( $order->get_items() as $order_item ) {
-			$item = new PayPal\Api\Item();
+			$item = new PayPalApi\Item();
 			$item->setName( $order_item->get_label() )
 			     ->setCurrency( $currency )
 			     ->setQuantity( $order_item->get_qty() )
 			     ->setSku( $order_item->get_product_id() )
-			     ->setPrice( $this->cents_to_full( $order_item->get_subtotal() ) );
+			     ->setPrice( $this->cents_to_full( $order_item->get_subtotal() ) )
+				 ->setUnitAmount();
 			$items[] = $item;
 		}
 
 		// set items in list
-		$itemList = new PayPal\Api\ItemList();
+		$itemList = new PayPalApi\ItemList();
 		$itemList->setItems( $items );
 
-
 		// set order details
-		$details = new PayPal\Api\Details();
+		$details = new PayPalApi\Details();
 		$details->setTax( 0 )/** @todo add tax support later */
 		        ->setSubtotal( $this->cents_to_full( $order->get_subtotal() ) );
 
 		// set amount
-		$amount = new PayPal\Api\Amount();
+		$amount = new PayPalApi\Amount();
 		$amount->setCurrency( $currency )
 		       ->setTotal( $this->cents_to_full( $order->get_total() ) )
+			   ->setBreakdown()
 		       ->setDetails( $details );
 
 		// setup transactions
@@ -331,12 +324,12 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		}
 
 		// setup transaction object
-		$transaction = new PayPal\Api\Transaction();
+		$transaction = new PayPalApi\Transaction();
 		$transaction->setAmount( $amount )
-		            ->setItemList( $itemList )
+		            ->setItemList( $itemList->getItems() )
 		            ->setDescription( sprintf( "%s - Order #%d ", get_bloginfo( 'name' ), $order->get_id() ) )
 		            ->setInvoiceNumber( $invoiceStr );
-
+		
 		return $transaction;
 	}
 
@@ -347,6 +340,7 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 	 * @return int
 	 */
 	private function cents_to_full( $fl_cents ) {
-		return number_format( ( $fl_cents / 100 ), 2 );
+
+		return number_format( ( $fl_cents / 100 ), 2, ".", "" );
 	}
 }

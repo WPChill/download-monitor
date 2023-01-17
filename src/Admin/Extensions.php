@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-use \Never5\DownloadMonitor\Util;
+use \WPChill\DownloadMonitor\Util;
 
 /**
  * DLM_Admin_Extensions Class
@@ -58,6 +58,14 @@ class DLM_Admin_Extensions {
 	 * @since 4.4.5
 	 */
 	private $installed_extensions = array();
+
+	/**
+	 * DLM Licensed extensions
+	 *
+	 * @var array
+	 * @since 4.7.4
+	 */
+	private $licensed_extensions = array();
 
 	/**
 	 * Json
@@ -135,6 +143,8 @@ class DLM_Admin_Extensions {
 		$this->set_response();
 
 		$this->set_tabs();
+
+		$this->set_licensed_extensions();
 
 	}
 
@@ -241,15 +251,21 @@ class DLM_Admin_Extensions {
 			delete_transient( 'dlm_extension_json' );
 		}
 
+		// WPChill Welcome Class
+		require_once plugin_dir_path( DLM_PLUGIN_FILE ) . '/includes/submodules/banner/class-wpchill-welcome.php';
+
+		if ( ! class_exists( 'WPChill_Welcome' ) ) {
+			return;
+		}
+
+		$welcome = WPChill_Welcome::get_instance();
+		wp_enqueue_style( array( 'dlm-welcome-style' ) );
+
 		?>
 		<div class="wrap dlm_extensions_wrap">
 			<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 			<h1>
 				<?php echo esc_html__( 'Download Monitor Extensions', 'download-monitor' ); ?>
-				<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
-				   class="button dlm-reload-button">
-					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
-				</a>
 			</h1>
 			<?php
 
@@ -274,44 +290,33 @@ class DLM_Admin_Extensions {
 				<h2 class="nav-tab-wrapper">
 					<?php DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab ); ?>
 				</h2>
+				<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
+				   class="button dlm-reload-button">
+					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
+				</a>
 				<?php
 
 				// Available Extensions
 				if ( count( $this->extensions ) > 0 ) {
 
 					echo '<div id="available-extensions" class="settings_panel">';
-					echo '<div class="theme-browser dlm_extensions">';
-
-					foreach ( $this->extensions as $extension ) {
-
-						$sale = false;
-
-						if ( $extension->price > 0 ) {
-
-							$price_display = '$' . $extension->price;
-
-							if ( '' != $extension->sale_price && $extension->sale_price > 0 ) {
-
-								$price_display = '<strike>$' . $extension->price . '</strike> $' . $extension->sale_price;
-								$sale          = true;
-							}
-						} else {
-
-							$price_display = __( 'FREE', 'download-monitor' );
-						}
-
-						echo '<div class="theme dlm_extension">';
-						echo '<a href="' . esc_url( $extension->url ) . '?utm_source=plugin&utm_medium=extension-block&utm_campaign=' . esc_attr( $extension->name ) . '" target="_blank">';
-						echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
-						echo '<h3>' . esc_html( $extension->name ) . '</h3>';
-						echo '<div class="extension-desc">' . wp_kses_post( $extension->desc ) . '</div>';
-						echo '<div class="product_footer">';
-						echo '<div class="button button-secondary loop_more">' . esc_html__( 'View Extension', 'download-monitor' ) . '<span class="dashicons dashicons-external"></span></div>';
-						echo '</div>';
-						echo '</a>';
-						echo '</div>';
-					}
-
+					echo '<div class="dlm_extensions">';
+					?>
+					<div id="wpchill-welcome">
+						<div class="features">
+							<div class="block">
+								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
+								<!-- Let's display the extensions.  -->
+								<?php
+								foreach ( $this->extensions as $extension ) {
+									$welcome->display_extension( $extension->name, wp_kses_post( $extension->desc ), $extension->image, true, '#F08232', $extension->name );
+								}
+								?><!-- end extensions display -->
+								<?php $welcome->layout_end(); ?>
+							</div><!-- .block -->
+						</div><!-- .features -->
+					</div><!-- #wpchill-welcome -->
+					<?php
 					echo '</div>';
 					echo '</div>';
 
@@ -338,16 +343,14 @@ class DLM_Admin_Extensions {
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
 		}
-
+		
+		wp_enqueue_style( array( 'dlm-welcome-style' ) );
 		?>
 		<div class="wrap dlm_extensions_wrap">
 		<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
 		<h1>
 			<?php esc_html_e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
-			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
-			   class="button dlm-reload-button">
-				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
-			</a>
+
 		</h1>
 		<?php
 
@@ -362,36 +365,61 @@ class DLM_Admin_Extensions {
 		DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab );
 
 		echo '</h2>';
-
+		?>
+			<a href="<?php echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
+				class="button dlm-reload-button">
+				<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
+			</a>
+		<?php
 		// Installed Extensions
 		if ( count( $this->installed_extensions ) > 0 ) {
+			// WPChill Welcome Class.
+			require_once plugin_dir_path( DLM_PLUGIN_FILE ) . '/includes/submodules/banner/class-wpchill-welcome.php';
 
+			if ( ! class_exists( 'WPChill_Welcome' ) ) {
+				return;
+			}
+
+			$welcome = WPChill_Welcome::get_instance();
 			echo '<div id="installed-extensions" class="settings_panel">';
 
-			echo '<div class="theme-browser dlm_extensions">';
+			echo '<div class="dlm_extensions">';
+			?>
+			<div id="wpchill-welcome">
+						<div class="features">
+							<div class="block">
+								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
+								<!-- Let's display the extensions.  -->
+								<?php
+										foreach ( $this->installed_extensions as $extension ) {
+											// Get the product
+											$license = $this->products[ $extension->product_id ]->get_license();
+											echo '<div class="feature-block dlm_extension">';
+											echo '<div class="feature-block__header">';
+											if ( '' != $extension->image ) {
+												echo '<img src="' . esc_attr( $extension->image ) . '">';
+											}
+											echo '<h5>' . esc_html( $extension->name ) . '</h5>';
+											echo '</div>';
+											echo '<p>' . wp_kses_post( $extension->desc  ) . '</p>';
+											echo '<div class="extension_license">';
+											echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>';
+											echo '<input type="hidden" id="dlm-ajax-nonce" value="' . esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ) . '" />';
+											echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />';
+											echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />';
+											echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
+											echo '<input type="text" name="email" id="email" value="' . esc_attr( $license->get_email() ) . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
+											echo '<a href="javascript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
+											echo '</div>';
+											echo '</div>';
+										}
+								?><!-- end extensions display -->
+								<?php $welcome->layout_end(); ?>
+							</div><!-- .block -->
+						</div><!-- .features -->
+					</div><!-- #wpchill-welcome -->
+			<?php
 
-			foreach ( $this->installed_extensions as $extension ) {
-
-				// Get the product
-				$license = $this->products[ $extension->product_id ]->get_license();
-
-				echo '<div class="theme dlm_extension">';
-
-				echo '<div class="dlm_extension_img_wrapper"><img src="' . esc_url( $extension->image ) . '" alt="' . esc_attr( $extension->name ) . '" /></div>';
-				echo '<h3>' . esc_html( $extension->name ) . '</h3>';
-
-				echo '<div class="extension_license">';
-				echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>';
-				echo '<input type="hidden" id="dlm-ajax-nonce" value="' . esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ) . '" />';
-				echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />';
-				echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />';
-				echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
-				echo '<input type="text" name="email" id="email" value="' . esc_attr( $license->get_email() ) . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
-				echo '<a href="javascript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
-				echo '</div>';
-
-				echo '</div>';
-			}
 
 			echo '</div>';
 			echo '</div>';
@@ -473,6 +501,15 @@ class DLM_Admin_Extensions {
 	}
 
 	/**
+	 * Get the available extensions
+	 * 
+	 * @since 4.5.8
+	 */
+	public function get_available_extensions() {
+		return $this->extensions;
+	}
+
+	/**
 	 * Removes pro badge if the section has any extension installed
 	 *
 	 * @return array
@@ -487,5 +524,45 @@ class DLM_Admin_Extensions {
 			}
 		}
 		return $settings;
+	}
+
+	/**
+	 * Get the installed extensions
+	 *
+	 * @return array
+	 */
+	public function get_installed_extensions() {
+		return $this->installed_extensions;
+	}
+
+	/**
+	 * Set the licensed extensions
+	 *
+	 * @return void
+	 * @since 4.7.4
+	 */
+	public function set_licensed_extensions() {
+		global $wpdb;
+		// Let's retrieve extensions that have a license key.
+		$extensions = $wpdb->get_results( $wpdb->prepare( "SELECT `option_name`, `option_value` FROM {$wpdb->prefix}options WHERE `option_name` LIKE %s AND `option_name` LIKE %s;", $wpdb->esc_like( 'dlm-' ) . '%', '%' . $wpdb->esc_like( '-license' ) ), ARRAY_A );
+
+		foreach ( $extensions as $extension ) {
+			$extension_name = str_replace( '-license', '', $extension['option_name'] );
+			$value          = unserialize( $extension['option_value'] );
+			// Extension must have an active status in order to be regitered.
+			if ( isset( $value['status'] ) && 'active' === $value['status'] ) {
+				$this->licensed_extensions[] = $extension_name;
+			}
+		}
+	}
+
+	/**
+	 * Get the licensed extensions
+	 *
+	 * @return array
+	 * @since 4.7.4
+	 */
+	public function get_licensed_extensions() {
+		return $this->licensed_extensions;
 	}
 }

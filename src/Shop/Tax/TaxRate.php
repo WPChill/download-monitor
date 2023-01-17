@@ -1,6 +1,6 @@
 <?php
 
-namespace Never5\DownloadMonitor\Shop\Tax;
+namespace WPChill\DownloadMonitor\Shop\Tax;
 
 class TaxRate {
 

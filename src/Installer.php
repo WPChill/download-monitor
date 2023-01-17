@@ -35,21 +35,34 @@ class DLM_Installer {
 		// Set default 'No access message'
 		$dlm_no_access_error = get_option( 'dlm_no_access_error', '' );
 		if ( '' === $dlm_no_access_error ) {
-			update_option( 'dlm_no_access_error', sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ) );
+			update_option( 'dlm_no_access_error', sprintf( __( 'You do not have permission to access this download. %1$sGo to homepage%2$s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ) );
 		}
 
 		// setup no access page endpoints
 		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
 		$no_access_page_endpoint->setup();
 
-		// Set the current version
+		$installed_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION );
+		$first_install     = ! $installed_version ? true : false;
+
+		if ( $installed_version && version_compare( $installed_version, DLM_UPGRADER_VERSION, '<' ) ) {
+			set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
+		}
+
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
 
 		// add rewrite rules
 		add_rewrite_endpoint( 'download-id', EP_ALL );
 
 		// flush rewrite rules
+		flush_rewrite_rules(false);
 		flush_rewrite_rules();
+
+		// We need this class here also so that we can use it in the activation hook.
+		// DLM Welcome page
+		DLM_Welcome_Page::get_instance();
+
+		do_action( 'dlm_after_install_setup', $first_install );
 	}
 
 
@@ -173,7 +186,7 @@ class DLM_Installer {
 		  PRIMARY KEY (`key`))
 		ENGINE = InnoDB {$collate};";
 
-		foreach($tables_sql as $sql) {
+		foreach ( $tables_sql as $sql ) {
 			$wpdb->query( $sql );
 		}
 
@@ -213,28 +226,50 @@ class DLM_Installer {
 
 		$collate = $this->get_db_collate();
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$dlm_tables = "
-	CREATE TABLE `" . $wpdb->prefix . "download_log` (
-	  ID bigint(20) NOT NULL auto_increment,
-	  user_id bigint(20) NOT NULL,
-	  user_ip varchar(200) NOT NULL,
-	  user_agent varchar(200) NOT NULL,
-	  download_id bigint(20) NOT NULL,
-	  version_id bigint(20) NOT NULL,
-	  version varchar(200) NOT NULL,
-	  download_date datetime DEFAULT NULL,
-	  download_status varchar(200) DEFAULT NULL,
-	  download_status_message varchar(200) DEFAULT NULL,
-	  meta_data longtext DEFAULT NULL,
-	  PRIMARY KEY  (ID),
-	  KEY attribute_name (download_id)
-	) $collate;
-	";
-		dbDelta( $dlm_tables );
+		$dlm_log = '
+		CREATE TABLE `' . $wpdb->prefix . "download_log` (
+			ID bigint(20) NOT NULL auto_increment,
+			user_id bigint(20) NOT NULL,
+			user_ip varchar(200) NOT NULL,
+			uuid varchar(200) NOT NULL,
+			user_agent varchar(200) NOT NULL,
+			download_id bigint(20) NOT NULL,
+			version_id bigint(20) NOT NULL,
+			version varchar(200) NOT NULL,
+			download_date datetime DEFAULT NULL,
+			download_status varchar(200) DEFAULT NULL,
+			download_status_message varchar(200) DEFAULT NULL,
+			download_location varchar(200) DEFAULT NULL,
+			download_category varchar(200) DEFAULT NULL,
+			meta_data longtext DEFAULT NULL,
+			PRIMARY KEY  (ID),
+			KEY attribute_name (download_id)
+		) $collate;
+		";
 
-		// install shop tables
+		$dlm_reports = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_reports_log` (
+			`date` DATE NOT NULL,
+			`download_ids` longtext NULL,
+			`revenue` longtext NULL,
+			`refunds` longtext NULL,
+			PRIMARY KEY (`date`)) $collate;";
+
+		$dlm_downloads = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_downloads` (
+					    ID bigint(20) NOT NULL auto_increment,
+						download_id bigint(20) NOT NULL,
+						download_count bigint(20) NOT NULL,
+						download_versions varchar(200) NOT NULL,
+		 				PRIMARY KEY (`ID`))
+						ENGINE = InnoDB $collate;";
+
+
+		dbDelta( $dlm_log );
+		dbDelta( $dlm_reports );
+		dbDelta( $dlm_downloads );
+
+		// install shop tables.
 		$this->create_shop_tables();
 	}
 
@@ -244,33 +279,33 @@ class DLM_Installer {
 	 * @access public
 	 * @return void
 	 */
-	private function directory_protection() {
+	public function directory_protection() {
 
 		// Install files and folders for uploading files and prevent hotlinking
 		$upload_dir = wp_upload_dir();
 
-		$htaccess_content = "# Apache 2.4 and up
-<IfModule mod_authz_core.c>
-Require all denied
-</IfModule>
+		$htaccess_content = '# Apache 2.4 and up
+		<IfModule mod_authz_core.c>
+		Require all denied
+		</IfModule>
 
-# Apache 2.3 and down
-<IfModule !mod_authz_core.c>
-Order Allow,Deny
-Deny from all
-</IfModule>";
+		# Apache 2.3 and down
+		<IfModule !mod_authz_core.c>
+		Order Allow,Deny
+		Deny from all
+		</IfModule>';
 
 		$files = array(
 			array(
 				'base'    => $upload_dir['basedir'] . '/dlm_uploads',
 				'file'    => '.htaccess',
-				'content' => $htaccess_content
+				'content' => $htaccess_content,
 			),
 			array(
 				'base'    => $upload_dir['basedir'] . '/dlm_uploads',
 				'file'    => 'index.html',
-				'content' => ''
-			)
+				'content' => '',
+			),
 		);
 
 		foreach ( $files as $file ) {

@@ -34,14 +34,19 @@ class DLM_Ajax_GetVersions extends DLM_Ajax {
 		}
 
 		$versions = $download->get_versions();
-		
+
 		$versions_array = array();
 		if ( ! empty( $download ) ) {
 			/** @var DLM_Download_Version $version */
 			foreach ( $versions as $version ) {
+				if( $version->get_version() === '' ) {
+					$label = 'n/a - ' . $version->get_id();
+				} else {
+					$label = $version->get_version();
+				}
 				$versions_array[] = array(
 					'value' => $version->get_id(),
-					'label' => $version->get_version()
+					'label' => $label,
 				);
 			}
 		}

@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Never5
+# Copyright (C) 2019 WPChill
 # This file is distributed under the GPL v3.
 # Translators:
 # Barry Kooij <mail@barrykooij.nl>, 2015
@@ -3273,11 +3273,11 @@ msgid ""
 msgstr "A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site."
 
 #. Author of the plugin/theme
-msgid "Never5"
+msgid "WPChill"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://www.never5.com"
+msgid "https://www.WPChill.com"
 msgstr ""
 
 #: src/Admin/MediaInsert.php:217

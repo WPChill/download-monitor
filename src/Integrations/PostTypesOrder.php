@@ -6,7 +6,7 @@ class DLM_Integrations_PostTypesOrder {
 	 * Setup integration
 	 */
 	public function setup() {
-		add_filter( 'dlm_admin_dashboard_popular_downloads_filters', array( $this, 'ignore_popular_downloads_order' ), 10, 2 );
+		add_filter( 'dlm_admin_dashboard_popular_downloads_filters', array( $this, 'ignore_popular_downloads_order' ), 10, 1 );
 	}
 
 	/**
