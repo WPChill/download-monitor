@@ -755,7 +755,7 @@ class DLM_Download_Handler {
 		$headers = array();
 		// We use this method to encode the filename so that file names with characters like
 		// chinese or persian can be named correctly after the download in Safari.
-		$file_name = rawurlencode( $file_name );
+		$file_name = rawurlencode( sanitize_file_name( $file_name ) );
 		if ( $this->check_for_xhr() ) {
 			$headers['Content-Disposition'] = "attachment; filename=\"{$file_name}\";";
 		} else {

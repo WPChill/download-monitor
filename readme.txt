@@ -120,6 +120,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.7.73 - TBD =
+Fixed: Encoded commas in file name ( [#1187](https://github.com/WPChill/download-monitor/issues/1187) )
+
 = 4.7.73 - 17.01.2023 =
 Fixed: XHR error on <a> tags without href attribute ( [#1188](https://github.com/WPChill/download-monitor/issues/1188) )
 Fixed: Click to copy shortcode from admin list view ( [#1072](https://github.com/WPChill/download-monitor/issues/1072) )
