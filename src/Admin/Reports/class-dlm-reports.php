@@ -401,7 +401,13 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$users_data = array();
-			$users      = get_users();
+
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 5000;
+			$offset_limit = $offset * 5000;
+
+			$args = array( "number" => $count, "offset" => $offset_limit );
+			$users      = get_users( $args );
 			foreach ( $users as $user ) {
 				$user_data    = $user->data;
 				$users_data[] = array(
@@ -415,7 +421,11 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				);
 			}
 
-			return $users_data;
+			return array(
+				'logs'   => $users_data,
+				'offset' => ( absint( $count ) === count( $users ) ) ? $offset + 1 : '',
+				'done'   => $count  > count( $users ),
+			);
 		}
 
 		/**
