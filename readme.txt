@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 4.7.74 - TBD =
 Fixed: Encoded commas in file name ( [#1187](https://github.com/WPChill/download-monitor/issues/1187) )
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
+Fixed: iThemes security and reports REST api ( [#1185](https://github.com/WPChill/download-monitor/issues/1185) )
 
 = 4.7.73 - 17.01.2023 =
 Fixed: XHR error on <a> tags without href attribute ( [#1188](https://github.com/WPChill/download-monitor/issues/1188) )
