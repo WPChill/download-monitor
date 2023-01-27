@@ -353,7 +353,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 					'user_ip',
 					'download_id',
 					'download_date',
-					'download_status'
+					'download_status',
+					'meta_data'
 				)
 			);
 			$table_columns = sanitize_text_field( implode( ',', wp_unslash( $table_columns ) ) );

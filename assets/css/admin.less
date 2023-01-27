@@ -1705,7 +1705,15 @@ table.wp-list-table {
       }
     }
 
-    .total_downloads_chart-wrapper {
+    .dlm_chart_wrapper {
+      min-width:calc(100% - 50px);
+      canvas {
+        min-width:100%;
+      }
+    }
+
+    .total_downloads_chart-wrapper,
+    .dlm_chart_wrapper {
       max-width: 100%;
       background-color: #FFF;
       padding: 15px 24px;

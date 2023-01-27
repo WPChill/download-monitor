@@ -1095,6 +1095,7 @@ class DLM_Reports {
 					if (Object.values(dlmReportsInstance.dlmUsersStats.logs).length > 0) {
 						dlmReportsInstance.logsDataByDate(dlmReportsInstance.dates.downloads.start_date, dlmReportsInstance.dates.downloads.end_date);
 					}
+					jQuery(document).trigger('dlm_date_change_' + opener.target, [dlmReportsInstance, obj.date1, obj.date2]);
 					break;
 				default:
 					// JS action to trigger when custom datepicker is changed.
