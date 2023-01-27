@@ -19,17 +19,17 @@ jQuery(function ($) {
  * DLM Reports class
  */
 class DLM_Reports {
-	dlmReportsStats = [];
-	dlmUsersStats   = {
+	dlmReportsStats   = [];
+	dlmUsersStats     = {
 		logs : [],
 		users: []
 	};
-	currentFilters  = [];
-	tempDownloads   = null;
-	templates       = {};
-	totalDownloads  = 0;
-	perPage         = dlmReportsPerPage;
-	downloads = [];
+	currentFilters    = [];
+	tempDownloads     = null;
+	templates         = {};
+	totalDownloads    = 0;
+	perPage           = dlmReportsPerPage;
+	downloads         = [];
 	topDownloadsOrder = 'count';
 
 	/**
@@ -112,10 +112,10 @@ class DLM_Reports {
 	 */
 	async fetchReportsData(offset = 0, limit = 1000) {
 
-		const pageWrapper          = jQuery('div[data-id="general_info"]');
+		const pageWrapper = jQuery('div[data-id="general_info"]');
 
 		// Let's see if these are pretty permalinks or plain
-		let fetchingLink = dlmDownloadReportsAPI + '&offset=' + offset + '&limit=' + limit;
+		let fetchingLink           = dlmDownloadReportsAPI + '&offset=' + offset + '&limit=' + limit;
 		// Fetch our data
 		const fetchedDownloadsData = await fetch(fetchingLink);
 
@@ -135,11 +135,11 @@ class DLM_Reports {
 			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedData.statusText);
 		}
 
-		dlmReportsInstance.mostDownloaded  = false;
-		dlmReportsInstance.stats           = false;
-		dlmReportsInstance.chartType       = 'day';
+		dlmReportsInstance.mostDownloaded = false;
+		dlmReportsInstance.stats          = false;
+		dlmReportsInstance.chartType      = 'day';
 
-		let response                          = await fetchedDownloadsData.json();
+		let response                       = await fetchedDownloadsData.json();
 		dlmReportsInstance.dlmReportsStats = dlmReportsInstance.dlmReportsStats.concat(response.stats);
 
 		if (true === response.done) {
@@ -180,7 +180,7 @@ class DLM_Reports {
 	 */
 	async fetchUsersReportsData(offset = 0, limit = dlmPHPinfo['retrieved_rows']) {
 
-		const wrapper         = jQuery('div[data-id="user_reports"]');
+		const wrapper = jQuery('div[data-id="user_reports"]');
 
 		// Let's see if these are pretty permalinks or plain
 		let fetchingLink = dlmUserReportsAPI + '&offset=' + offset + '&limit=' + limit;
@@ -209,7 +209,7 @@ class DLM_Reports {
 	 * The request for user data
 	 * @returns {Promise<void>}
 	 */
-	async fetchUserData( offset = 0, limit = 5000 ) {
+	async fetchUserData(offset = 0, limit = 5000) {
 
 		// Let's see if these are pretty permalinks or plain
 		let fetchingLink = dlmUserDataAPI + '&offset=' + offset + '&limit=' + limit;
@@ -229,7 +229,7 @@ class DLM_Reports {
 			dlmReportsInstance.fetchReportsData();
 
 		} else {
-			
+
 			dlmReportsInstance.fetchUserData(response.offset);
 		}
 
@@ -514,35 +514,42 @@ class DLM_Reports {
 	 * @param endDateInput
 	 * @returns {*}
 	 */
-	createDataOnDate(startDateInput, endDateInput) {
+	createDataOnDate(startDateInput, endDateInput, customChartData = false) {
 
 		let {startDate, endDate} = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)}, dayDiff,
 			monthDiff,
-			yearDiff, chartDate, dlmDownloads;
+			yearDiff, chartDate, dlmDownloads, chartData, chartType;
 
-		dlmReportsInstance.reportsData = ('undefined' !== typeof dlmReportsInstance.dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmReportsStats)) : {};
-		monthDiff                      = moment(endDate, 'YYYY-MM-DD').month() - moment(startDate, 'YYYY-MM-DD').month();
-		yearDiff                       = moment(endDate, 'YYYY-MM-DD').year() - moment(startDate, 'YYYY-MM-DD').year();
-		dayDiff                        = moment(endDate).date() - moment(startDate).date();
-		dlmReportsInstance.chartType   = 'day';
+		if (!customChartData) {
+			dlmReportsInstance.reportsData = ('undefined' !== typeof dlmReportsInstance.dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmReportsStats)) : {};
+			dlmReportsInstance.chartType   = 'day';
+			chartData                      = dlmReportsInstance.reportsData;
+			chartType                      = dlmReportsInstance.chartType;
+		} else {
+			chartData = customChartData;
+		}
+
+		monthDiff = moment(endDate, 'YYYY-MM-DD').month() - moment(startDate, 'YYYY-MM-DD').month();
+		yearDiff  = moment(endDate, 'YYYY-MM-DD').year() - moment(startDate, 'YYYY-MM-DD').year();
+		dayDiff   = moment(endDate).date() - moment(startDate).date();
 
 		if (yearDiff == 0 && monthDiff > -6 && monthDiff < 6) {
 			if (monthDiff > 1 || monthDiff < -1) {
 				if (2 === monthDiff) {
-					dlmReportsInstance.chartType = 'week';
+					chartType = 'week';
 				} else {
-					dlmReportsInstance.chartType = 'weeks';
+					chartType = 'weeks';
 				}
 			} else {
 				if (1 === monthDiff && (dayDiff > 8 || dayDiff > -14 || 0 === dayDiff)) {
-					dlmReportsInstance.chartType = 'days';
+					chartType = 'days';
 				}
 			}
 		} else {
 			if (yearDiff = 1 && monthDiff <= 0) {
-				dlmReportsInstance.chartType = 'month';
+				chartType = 'month';
 			} else {
-				dlmReportsInstance.chartType = 'months';
+				chartType = 'months';
 			}
 		}
 
@@ -551,7 +558,7 @@ class DLM_Reports {
 			doubleDays, doubleMonthDownloads, weeksDownloads, weekDownloads, monthDownloads;
 
 		// Let's initiate our dlmDownloads with something
-		switch (dlmReportsInstance.chartType) {
+		switch (chartType) {
 			case 'months':
 				// Get double selected months
 				doubleMonthDownloads = dlmReportsInstance.getDoubleMonths(dayDownloads);
@@ -560,7 +567,7 @@ class DLM_Reports {
 			case 'month':
 				// Get selected months
 				monthDownloads = dlmReportsInstance.getMonths(dayDownloads);
-				dlmDownloads       = monthDownloads;
+				dlmDownloads   = monthDownloads;
 				break;
 			case 'weeks':
 				// Get selected dates in 2 weeks grouping
@@ -582,13 +589,13 @@ class DLM_Reports {
 				break;
 		}
 
-		Object.values(dlmReportsInstance.reportsData).forEach((day, index) => {
+		Object.values(chartData).forEach((day, index) => {
 
 			const downloads = JSON.parse(day.download_ids);
 
 			if ('undefined' !== typeof dayDownloads[day.date]) {
 
-				switch (dlmReportsInstance.chartType) {
+				switch (chartType) {
 					case 'months':
 						chartDate      = day.date.substring(0, 7);
 						let chartMonth = parseInt(day.date.substring(5, 7)),
@@ -682,6 +689,7 @@ class DLM_Reports {
 				}
 			} else {
 				delete dlmReportsInstance.reportsData[index];
+				delete chartData[index];
 			}
 		});
 
@@ -699,7 +707,9 @@ class DLM_Reports {
 			return endDate === element;
 		});
 
-		if (-1 === start && -1 === end) {
+		dlmReportsInstance.chartType = chartType;
+
+		if (!customChartData && -1 === start && -1 === end) {
 
 			dlmReportsInstance.stats = {
 				chartStats  : Object.assign({}, dlmDownloads),
@@ -717,11 +727,19 @@ class DLM_Reports {
 			end = daysLength;
 		}
 
-		dlmReportsInstance.stats = {
-			chartStats  : Object.assign({}, dlmDownloads),
-			summaryStats: dlmReportsInstance.reportsData,
-			daysLength
-		};
+		if (!customChartData) {
+			dlmReportsInstance.stats = {
+				chartStats  : Object.assign({}, dlmDownloads),
+				summaryStats: chartData,
+				daysLength
+			};
+		} else {
+			return {
+				chartStats  : Object.assign({}, dlmDownloads),
+				daysLength
+			};
+		}
+
 	}
 
 	/**
@@ -878,7 +896,7 @@ class DLM_Reports {
 								drawBorder: false,
 							},
 							min  : 0,
-							max  : (0 !== dlmReportsInstance.getMaxDownload()) ? ( Math.ceil(dlmReportsInstance.getMaxDownload() / 10) === 1 ? dlmReportsInstance.getMaxDownload() + 1 : Math.ceil(dlmReportsInstance.getMaxDownload() / 10) * 10 ) : 100,
+							max  : (0 !== dlmReportsInstance.getMaxDownload()) ? (Math.ceil(dlmReportsInstance.getMaxDownload() / 10) === 1 ? dlmReportsInstance.getMaxDownload() + 1 : Math.ceil(dlmReportsInstance.getMaxDownload() / 10) * 10) : 100,
 							ticks: {
 								stepSize: (0 !== dlmReportsInstance.getMaxDownload()) ? Math.ceil(dlmReportsInstance.getMaxDownload() / 4) : 25,
 								callback: (val) => {
@@ -1241,11 +1259,11 @@ class DLM_Reports {
 
 		for (let i = 0; i < dataResponse.length; i++) {
 
-			const $download    = dlmReportsInstance.getDownloadByID(dataResponse[i].id);
+			const $download  = dlmReportsInstance.getDownloadByID(dataResponse[i].id);
 			let $downloadCPT = dlmReportsInstance.getDownloadCPT(dataResponse[i].id);
-			let title = '--';
+			let title        = '--';
 
-			if ( 'undefined' === typeof $downloadCPT) {
+			if ('undefined' === typeof $downloadCPT) {
 				title = dataResponse[i].title;
 			} else {
 				title = $downloadCPT.title.rendered
@@ -1258,7 +1276,7 @@ class DLM_Reports {
 
 			let itemObject = {
 				id             : dataResponse[i].id,
-				title          : dlmReportsInstance.htmlEntities( title ),
+				title          : dlmReportsInstance.htmlEntities(title),
 				edit_link      : dlmAdminUrl + 'post.php?post=' + dataResponse[i].id + '&action=edit',
 				total_downloads: $download.total.toLocaleString()
 			};
@@ -1592,7 +1610,7 @@ class DLM_Reports {
 
 		let endTimestamp = new Date(endDate);
 		endTimestamp.setDate(endTimestamp.getDate() + 1);
-		endTimestamp = endTimestamp.getTime();
+		endTimestamp                     = endTimestamp.getTime();
 		dlmReportsInstance.userDownloads = dlmReportsInstance.userDownloads.filter((element, index) => {
 			let currentElement = dlmReportsInstance.createDateElement(new Date(element.download_date));
 			currentElement     = new Date(currentElement).getTime();
@@ -1647,8 +1665,8 @@ class DLM_Reports {
 		}
 		if ('0' === user_id) {
 			return {
-				role:'Guest',
-				display_name:'Guest',
+				role        : 'Guest',
+				display_name: 'Guest',
 			};
 		}
 
@@ -1766,9 +1784,9 @@ class DLM_Reports {
 		}
 
 		for (let i = 0; i < dataResponse.length; i++) {
-			const user = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
+			const user   = dlmReportsInstance.getUserByID(dataResponse[i].user_id.toString());
 			let download = dlmReportsInstance.getDownloadCPT(parseInt(dataResponse[i].download_id));
-			let title = '--';
+			let title    = '--';
 
 			if ('undefined' === typeof download) {
 				download = dlmReportsInstance.altGetDownloadCPT(dataResponse[i].download_id.toString());
@@ -1786,9 +1804,9 @@ class DLM_Reports {
 				role              : (null !== user && null !== user.role ? user.role : '--'),
 				download          : ('undefined' !== typeof download && null !== download) ? dlmReportsInstance.htmlEntities(title) : '--',
 				valid_user        : ('0' !== dataResponse[i].user_id),
-				edit_link         : ( '0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
+				edit_link         : ('0' !== dataResponse[i].user_id) ? 'user-edit.php?user_id=' + dataResponse[i].user_id : '#',
 				edit_download_link: ('undefined' !== typeof download && null !== download) ? dlmAdminUrl + 'post.php?post=' + download.id + '&action=edit' : '#',
-				status            : ( 'redirect' === dataResponse[i].download_status ) ? 'redirected' : dataResponse[i].download_status,
+				status            : ('redirect' === dataResponse[i].download_status) ? 'redirected' : dataResponse[i].download_status,
 				download_date     : dataResponse[i].display_date,
 			}
 
@@ -1829,7 +1847,7 @@ class DLM_Reports {
 
 			dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
 				let currFilter = filter.on;
-				if ( 'redirected' === filter.on ) {
+				if ('redirected' === filter.on) {
 					return filter.on === element[filter.type] || 'redirect' === element[filter.type];
 				}
 				return filter.on === element[filter.type];
@@ -2043,14 +2061,14 @@ class DLM_Reports {
 	 */
 	getDownloadByID($id) {
 
-		let download = {
-			total     : 0,
-		},
-		currentItem = {};
+		let download    = {
+				total: 0,
+			},
+			currentItem = {};
 		dlmReportsInstance.tempDownloads.forEach(
 			function (item) {
 				if ($id === item.download_id) {
-					currentItem = item;
+					currentItem    = item;
 					download.total = download.total + 1;
 
 					jQuery(document).trigger('dlm_download_by_id', [dlmReportsInstance, download, currentItem]);
@@ -2071,7 +2089,7 @@ class DLM_Reports {
 
 		if (Array.isArray(dlmReportsInstance.downloads)) {
 			download = dlmReportsInstance.downloads.filter((item) => {
-				return parseInt( item.id ) === parseInt( $id );
+				return parseInt(item.id) === parseInt($id);
 			}, 0)[0];
 		}
 
@@ -2096,6 +2114,7 @@ class DLM_Reports {
 	stopSpinner(target) {
 		target.find('.dlm-reports-spinner').remove();
 	}
+
 	eventsFunctions() {
 		jQuery('body').on('click', '.total_downloads_table_filters_total_downloads > a', function (e) {
 			e.preventDefault();
@@ -2139,6 +2158,7 @@ class DLM_Reports {
 			);
 		});
 	}
+
 	/**
 	 * Set order of items
 	 *
@@ -2159,36 +2179,39 @@ class DLM_Reports {
 
 		return items;
 	}
+
 	/**
 	 * Revert the current set order of the Overview tab Top Downloads table
 	 *
 	 * @since 4.6.1
 	 */
-	orderOverviewItemsByTotal(){
+	orderOverviewItemsByTotal() {
 		if ('count' !== dlmReportsInstance.topDownloadsOrder) {
 			dlmReportsInstance.topDownloadsOrder = 'count';
-			dlmReportsInstance.mostDownloaded = dlmReportsInstance.orderItems(dlmReportsInstance.mostDownloaded, 'desc', 'downloads');
+			dlmReportsInstance.mostDownloaded    = dlmReportsInstance.orderItems(dlmReportsInstance.mostDownloaded, 'desc', 'downloads');
 		} else {
 			dlmReportsInstance.mostDownloaded = dlmReportsInstance.mostDownloaded.reverse();
 		}
 
 		dlmReportsInstance.setTopDownloads();
 	}
+
 	/**
 	 * Revert the current set order of the User Reports tab Logs tabel
 	 *
 	 * @since 4.6.1
 	 */
-	orderUserReportsItemsByDate(){
+	orderUserReportsItemsByDate() {
 		dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.reverse();
 		dlmReportsInstance.setUserDownloads();
 	}
+
 	/**
 	 * Revert the current set order of the Overview tab Top Downloads table
 	 *
 	 * @since 4.6.1
 	 */
-	orderOverviewItemsByTitle(){
+	orderOverviewItemsByTitle() {
 		if ('title' !== dlmReportsInstance.topDownloadsOrder) {
 			dlmReportsInstance.topDownloadsOrder = 'title';
 			dlmReportsInstance.mostDownloaded.sort(function (a, b) {
@@ -2211,6 +2234,7 @@ class DLM_Reports {
 
 		dlmReportsInstance.setTopDownloads();
 	}
+
 	/**
 	 * Pagination changing using the input type number
 	 *
@@ -2220,9 +2244,9 @@ class DLM_Reports {
 	 * @param offsetHolder
 	 * @param action
 	 */
-	paginationChange( input, data, main_parent, offsetHolder, action ){
+	paginationChange(input, data, main_parent, offsetHolder, action) {
 
-		let offset  = parseInt(input.val());
+		let offset = parseInt(input.val());
 
 		if (0 === offset) {
 			offset = 1;
@@ -2232,11 +2256,11 @@ class DLM_Reports {
 			offset = Math.ceil(data.length / dlmReportsInstance.perPage);
 		}
 
-		let link         = jQuery(this).next('button[data-action="load-more"]'),
-			nextPage     = offset + 1,
-			prevPage     = offset - 1,
-			prevButton   = main_parent.find('.downloads-block-navigation button').first(),
-			nextButton   = main_parent.find('.downloads-block-navigation button').last();
+		let link       = jQuery(this).next('button[data-action="load-more"]'),
+			nextPage   = offset + 1,
+			prevPage   = offset - 1,
+			prevButton = main_parent.find('.downloads-block-navigation button').first(),
+			nextButton = main_parent.find('.downloads-block-navigation button').last();
 
 		link.attr('disabled', 'disabled');
 
@@ -2255,6 +2279,7 @@ class DLM_Reports {
 
 		dlmReportsInstance.handleSliderNavigation(handleObj);
 	}
+
 	/**
 	 * HTML entities for Download's title
 	 *
@@ -2262,11 +2287,12 @@ class DLM_Reports {
 	 * @returns {string}
 	 */
 	htmlEntities(string) {
-		var textarea = document.getElementById("dlm_reports_decode_area");
+		var textarea       = document.getElementById("dlm_reports_decode_area");
 		textarea.innerHTML = string;
 		return textarea.value;
 
 	}
+
 	/**
 	 * Get existing Downloads
 	 *
@@ -2284,6 +2310,7 @@ class DLM_Reports {
 		// Fetch our users and the logs. Do this first so that we query for users we have data.
 		dlmReportsInstance.fetchUserData();
 	}
+
 	/**
 	 * Get download object based on ID
 	 * @param $id
