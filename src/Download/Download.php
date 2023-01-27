@@ -392,8 +392,8 @@ class DLM_Download {
 	 * @access public
 	 * @return void
 	 */
-	public function the_download_link() {
-		echo esc_url( $this->get_the_download_link() );
+	public function the_download_link( $timestamp = true ) {
+		echo esc_url( $this->get_the_download_link( $timestamp ) );
 	}
 
 	/**
