@@ -444,7 +444,7 @@ class DLM_Download {
 		}
 
 		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts.
-		if ( $timestamp ) {
+		if ( $timestamp && apply_filters( 'dlm_timestamp_link', true ) ) {
 			$timestamp = time();
 			$link      = add_query_arg( 'tmstv', $timestamp, $link );
 		}
