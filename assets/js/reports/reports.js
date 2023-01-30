@@ -514,20 +514,21 @@ class DLM_Reports {
 	 * @param endDateInput
 	 * @returns {*}
 	 */
-	createDataOnDate(startDateInput, endDateInput, customChartData = false) {
+	createDataOnDate(startDateInput, endDateInput, customChartData = {}, pointData = 'downloads') {
 
 		let {startDate, endDate} = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)}, dayDiff,
 			monthDiff,
 			yearDiff, chartDate, dlmDownloads, chartData, chartType;
 
-		if (!customChartData) {
+		if (Object.keys(customChartData).length === 0) {
 			dlmReportsInstance.reportsData = ('undefined' !== typeof dlmReportsInstance.dlmReportsStats) ? JSON.parse(JSON.stringify(dlmReportsInstance.dlmReportsStats)) : {};
-			dlmReportsInstance.chartType   = 'day';
 			chartData                      = dlmReportsInstance.reportsData;
-			chartType                      = dlmReportsInstance.chartType;
 		} else {
-			chartData = customChartData;
+			// We need this to be a deep copy
+			chartData = JSON.parse(JSON.stringify(customChartData));
 		}
+		dlmReportsInstance.chartType = 'day';
+		chartType                    = dlmReportsInstance.chartType;
 
 		monthDiff = moment(endDate, 'YYYY-MM-DD').month() - moment(startDate, 'YYYY-MM-DD').month();
 		yearDiff  = moment(endDate, 'YYYY-MM-DD').year() - moment(startDate, 'YYYY-MM-DD').year();
@@ -553,146 +554,17 @@ class DLM_Reports {
 			}
 		}
 
-		// Get all dates from the startDate to the endDate
-		let dayDownloads = dlmReportsInstance.getDates(new Date(startDate), new Date(endDate)),
-			doubleDays, doubleMonthDownloads, weeksDownloads, weekDownloads, monthDownloads;
+		let {
+				response,
+				doubleDays,
+				doubleMonthDownloads,
+				weekDownloads,
+				weeksDownloads,
+				monthDownloads,
+				dayDownloads
+			} = {...dlmReportsInstance.manipulateData(chartData, dlmDownloads, chartDate, startDate, endDate, pointData, chartType)};
 
-		// Let's initiate our dlmDownloads with something
-		switch (chartType) {
-			case 'months':
-				// Get double selected months
-				doubleMonthDownloads = dlmReportsInstance.getDoubleMonths(dayDownloads);
-				dlmDownloads         = doubleMonthDownloads;
-				break;
-			case 'month':
-				// Get selected months
-				monthDownloads = dlmReportsInstance.getMonths(dayDownloads);
-				dlmDownloads   = monthDownloads;
-				break;
-			case 'weeks':
-				// Get selected dates in 2 weeks grouping
-				weeksDownloads = dlmReportsInstance.getWeeks(dayDownloads);
-				dlmDownloads   = weeksDownloads;
-				break
-			case 'week':
-				// Get selected dates in 2 weeks grouping
-				weekDownloads = dlmReportsInstance.getWeek(dayDownloads);
-				dlmDownloads  = weekDownloads;
-				break
-			case 'days':
-				// Get double days
-				doubleDays   = dlmReportsInstance.getDoubleDays(dayDownloads);
-				dlmDownloads = doubleDays;
-				break
-			case 'day':
-				dlmDownloads = dayDownloads;
-				break;
-		}
-
-		Object.values(chartData).forEach((day, index) => {
-
-			const downloads = JSON.parse(day.download_ids);
-
-			if ('undefined' !== typeof dayDownloads[day.date]) {
-
-				switch (chartType) {
-					case 'months':
-						chartDate      = day.date.substring(0, 7);
-						let chartMonth = parseInt(day.date.substring(5, 7)),
-							chartYear  = day.date.substring(0, 5),
-							prevDateI  = (chartMonth - 1).length > 6 ? chartYear + (chartMonth - 1) : chartYear + '0' + (chartMonth - 1);
-
-						Object.values(downloads).forEach((item, index) => {
-
-							// If it does not exist we attach the downloads to the previous month
-							if ('undefined' === typeof doubleMonthDownloads[chartDate]) {
-								if ('undefined' !== typeof doubleMonthDownloads[prevDateI]) {
-									doubleMonthDownloads[prevDateI] = doubleMonthDownloads[prevDateI] + item.downloads;
-								}
-							} else {
-								doubleMonthDownloads[chartDate] = doubleMonthDownloads[chartDate] + item.downloads;
-							}
-
-						});
-
-						dlmDownloads = doubleMonthDownloads;
-						break;
-					case 'month':
-
-						chartDate = day.date.substring(0, 7);
-
-						Object.values(downloads).forEach((item, index) => {
-							monthDownloads[chartDate] = ('undefined' !== typeof monthDownloads[chartDate]) ? monthDownloads[chartDate] + item.downloads : item.downloads;
-						});
-
-						dlmDownloads = monthDownloads;
-						break;
-					case 'weeks':
-
-						if (moment(day.date).date() > 15) {
-							chartDate = day.date.substring(0, 7) + '-15';
-						} else {
-							chartDate = day.date.substring(0, 7) + '-01';
-						}
-
-						Object.values(downloads).forEach((item, index) => {
-							weeksDownloads[chartDate] = ('undefined' !== typeof weeksDownloads[chartDate]) ? weeksDownloads[chartDate] + item.downloads : item.downloads;
-						});
-
-						dlmDownloads = weeksDownloads;
-						break;
-					case 'week':
-
-						chartDate = day.date;
-						Object.values(downloads).forEach((item, index) => {
-							// If it does not exist we attach the downloads to the previous month
-							if ('undefined' === typeof weekDownloads[chartDate]) {
-								for (let $i = 1; $i < 8; $i++) {
-									let $currentDayOfWeek = moment(day.date).date(moment(day.date).date() - $i).format("YYYY-MM-DD");
-									if ('undefined' !== typeof weekDownloads[$currentDayOfWeek]) {
-										weekDownloads[$currentDayOfWeek] = weekDownloads[$currentDayOfWeek] + item.downloads;
-									}
-								}
-							} else {
-								weekDownloads[chartDate] = weekDownloads[chartDate] + item.downloads;
-							}
-						});
-
-						dlmDownloads = weekDownloads;
-						break;
-					case 'days':
-
-						chartDate    = day.date;
-						let prevDate = moment(day.date).date(moment(day.date).date() - 1).format("YYYY-MM-DD");
-
-						Object.values(downloads).forEach((item, index) => {
-							// If it does not exist we attach the downloads to the previous month
-							if ('undefined' === typeof doubleDays[chartDate]) {
-								if ('undefined' !== typeof doubleDays[prevDate]) {
-									doubleDays[prevDate] = doubleDays[prevDate] + item.downloads;
-								}
-							} else {
-								doubleDays[chartDate] = doubleDays[chartDate] + item.downloads;
-							}
-						});
-
-						dlmDownloads = doubleDays;
-						break;
-					case 'day':
-
-						Object.values(downloads).forEach((item, index) => {
-							dayDownloads[day.date] = dayDownloads[day.date] + item.downloads;
-						});
-
-						dlmDownloads = dayDownloads;
-						break;
-				}
-			} else {
-				delete dlmReportsInstance.reportsData[index];
-				delete chartData[index];
-			}
-		});
-
+		dlmDownloads     = response;
 		// Get number of days, used in summary for daily average downloads
 		const dayKeys    = Object.keys(dayDownloads);
 		const daysLength = dayKeys.length;
@@ -709,7 +581,7 @@ class DLM_Reports {
 
 		dlmReportsInstance.chartType = chartType;
 
-		if (!customChartData && -1 === start && -1 === end) {
+		if (Object.keys(customChartData).length === 0 && -1 === start && -1 === end) {
 
 			dlmReportsInstance.stats = {
 				chartStats  : Object.assign({}, dlmDownloads),
@@ -727,7 +599,7 @@ class DLM_Reports {
 			end = daysLength;
 		}
 
-		if (!customChartData) {
+		if (Object.keys(customChartData).length === 0) {
 			dlmReportsInstance.stats = {
 				chartStats  : Object.assign({}, dlmDownloads),
 				summaryStats: chartData,
@@ -735,7 +607,7 @@ class DLM_Reports {
 			};
 		} else {
 			return {
-				chartStats  : Object.assign({}, dlmDownloads),
+				chartStats: Object.assign({}, dlmDownloads),
 				daysLength
 			};
 		}
@@ -1456,7 +1328,7 @@ class DLM_Reports {
 				  chart, tooltip
 			  } = context;
 
-		const {tooltipEl, tooltipLine} = {...plugin.getOrCreateTooltip(chart)};
+		const {tooltipEl, tooltipLine} = {...dlmReportsInstance.getOrCreateTooltip(chart)};
 		const tooltipWidth             = jQuery(tooltipEl).parent().width();
 
 		// Hide if no tooltip
@@ -2328,5 +2200,168 @@ class DLM_Reports {
 		jQuery(document).trigger('dlm_download_cpt', [dlmReportsInstance, download]);
 
 		return download;
+	}
+
+	/**
+	 * Manipulate chart data in order to display it properly, based on the pointData
+	 *
+	 * @param chartData The chart data
+	 * @param dlmDownloads Current response
+	 * @param chartDate The date to be displayed on the chart
+	 * @param startDate The start date
+	 * @param endDate The end date
+	 * @param pointData The argument with which the data is manipulated
+	 * @param chartType The type of the chart
+	 */
+	manipulateData(chartData, dlmDownloads, chartDate, startDate, endDate, pointData = 'downloads', chartType = 'days') {
+
+		// Get all dates from the startDate to the endDate
+		let dayDownloads = dlmReportsInstance.getDates(new Date(startDate), new Date(endDate)),
+			doubleDays, doubleMonthDownloads, weeksDownloads, weekDownloads, monthDownloads;
+
+		// Let's initiate our dlmDownloads with something
+		switch (chartType) {
+			case 'months':
+				// Get double selected months
+				doubleMonthDownloads = dlmReportsInstance.getDoubleMonths(dayDownloads);
+				dlmDownloads         = doubleMonthDownloads;
+				break;
+			case 'month':
+				// Get selected months
+				monthDownloads = dlmReportsInstance.getMonths(dayDownloads);
+				dlmDownloads   = monthDownloads;
+				break;
+			case 'weeks':
+				// Get selected dates in 2 weeks grouping
+				weeksDownloads = dlmReportsInstance.getWeeks(dayDownloads);
+				dlmDownloads   = weeksDownloads;
+				break
+			case 'week':
+				// Get selected dates in 2 weeks grouping
+				weekDownloads = dlmReportsInstance.getWeek(dayDownloads);
+				dlmDownloads  = weekDownloads;
+				break
+			case 'days':
+				// Get double days
+				doubleDays   = dlmReportsInstance.getDoubleDays(dayDownloads);
+				dlmDownloads = doubleDays;
+				break
+			case 'day':
+				dlmDownloads = dayDownloads;
+				break;
+		}
+		Object.values(chartData).forEach((day, index) => {
+
+			const downloads = JSON.parse(day.download_ids);
+
+			if ('undefined' !== typeof dayDownloads[day.date]) {
+
+				switch (chartType) {
+					case 'months':
+						chartDate      = day.date.substring(0, 7);
+						let chartMonth = parseInt(day.date.substring(5, 7)),
+							chartYear  = day.date.substring(0, 5),
+							prevDateI  = (chartMonth - 1).length > 6 ? chartYear + (chartMonth - 1) : chartYear + '0' + (chartMonth - 1);
+
+						Object.values(downloads).forEach((item, index) => {
+
+							// If it does not exist we attach the downloads to the previous month
+							if ('undefined' === typeof doubleMonthDownloads[chartDate]) {
+								if ('undefined' !== typeof doubleMonthDownloads[prevDateI]) {
+									doubleMonthDownloads[prevDateI] = doubleMonthDownloads[prevDateI] + item[pointData];
+								}
+							} else {
+								doubleMonthDownloads[chartDate] = doubleMonthDownloads[chartDate] + item[pointData];
+							}
+
+						});
+
+						dlmDownloads = doubleMonthDownloads;
+						break;
+					case 'month':
+
+						chartDate = day.date.substring(0, 7);
+
+						Object.values(downloads).forEach((item, index) => {
+							monthDownloads[chartDate] = ('undefined' !== typeof monthDownloads[chartDate]) ? monthDownloads[chartDate] + item[pointData] : item[pointData];
+						});
+
+						dlmDownloads = monthDownloads;
+						break;
+					case 'weeks':
+
+						if (moment(day.date).date() > 15) {
+							chartDate = day.date.substring(0, 7) + '-15';
+						} else {
+							chartDate = day.date.substring(0, 7) + '-01';
+						}
+
+						Object.values(downloads).forEach((item, index) => {
+							weeksDownloads[chartDate] = ('undefined' !== typeof weeksDownloads[chartDate]) ? weeksDownloads[chartDate] + item[pointData] : item[pointData];
+						});
+
+						dlmDownloads = weeksDownloads;
+						break;
+					case 'week':
+
+						chartDate = day.date;
+						Object.values(downloads).forEach((item, index) => {
+							// If it does not exist we attach the downloads to the previous month
+							if ('undefined' === typeof weekDownloads[chartDate]) {
+								for (let $i = 1; $i < 8; $i++) {
+									let $currentDayOfWeek = moment(day.date).date(moment(day.date).date() - $i).format("YYYY-MM-DD");
+									if ('undefined' !== typeof weekDownloads[$currentDayOfWeek]) {
+										weekDownloads[$currentDayOfWeek] = weekDownloads[$currentDayOfWeek] + item[pointData];
+									}
+								}
+							} else {
+								weekDownloads[chartDate] = weekDownloads[chartDate] + item[pointData];
+							}
+						});
+
+						dlmDownloads = weekDownloads;
+						break;
+					case 'days':
+
+						chartDate    = day.date;
+						let prevDate = moment(day.date).date(moment(day.date).date() - 1).format("YYYY-MM-DD");
+
+						Object.values(downloads).forEach((item, index) => {
+							// If it does not exist we attach the downloads to the previous month
+							if ('undefined' === typeof doubleDays[chartDate]) {
+								if ('undefined' !== typeof doubleDays[prevDate]) {
+									doubleDays[prevDate] = doubleDays[prevDate] + item[pointData];
+								}
+							} else {
+								doubleDays[chartDate] = doubleDays[chartDate] + item[pointData];
+							}
+						});
+
+						dlmDownloads = doubleDays;
+						break;
+					case 'day':
+
+						Object.values(downloads).forEach((item, index) => {
+							dayDownloads[day.date] = dayDownloads[day.date] + item[pointData];
+						});
+
+						dlmDownloads = dayDownloads;
+						break;
+				}
+			} else {
+				delete dlmReportsInstance.reportsData[index];
+				delete chartData[index];
+			}
+		});
+
+		return {
+			'response': dlmDownloads,
+			doubleDays,
+			doubleMonthDownloads,
+			weekDownloads,
+			weeksDownloads,
+			monthDownloads,
+			dayDownloads
+		};
 	}
 }
