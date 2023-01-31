@@ -758,6 +758,7 @@ class DLM_Download_Handler {
 		$file_name = rawurlencode( sanitize_file_name( $file_name ) );
 		if ( $this->check_for_xhr() ) {
 			$headers['Content-Disposition'] = "attachment; filename=\"{$file_name}\";";
+			$headers['dlm-file-name']       = "{$file_name}";
 		} else {
 			$headers['Content-Disposition'] = "attachment; filename*=UTF-8''{$file_name};";
 		}
