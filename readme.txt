@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.1
-Stable tag: 4.7.73
+Stable tag: 4.7.74
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -124,6 +124,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 Fixed: Encoded commas in file name ( [#1187](https://github.com/WPChill/download-monitor/issues/1187) )
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
 Fixed: iThemes security and reports REST api ( [#1185](https://github.com/WPChill/download-monitor/issues/1185) )
+Fixed: End js code execution after window.location.href ( [#1203](https://github.com/WPChill/download-monitor/issues/1203) )
 
 = 4.7.73 - 17.01.2023 =
 Fixed: XHR error on <a> tags without href attribute ( [#1188](https://github.com/WPChill/download-monitor/issues/1188) )
