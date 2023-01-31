@@ -135,6 +135,7 @@ class DLM_XHR_Download {
 				if ('undefined' !== typeof responseHeaders['dlm-no-waypoints']) {
 					request.abort();
 					window.location.href = href;
+					return;
 				}
 
 				// If it's an external link we need to redirect.
@@ -152,6 +153,7 @@ class DLM_XHR_Download {
 				if (0 === responseDLM) {
 					request.abort();
 					window.location.href = href;
+					return;
 				}
 
 				if ('undefined' !== typeof responseHeaders['dlm-no-access'] && 'true' === responseHeaders['dlm-no-access']) {
@@ -204,6 +206,7 @@ class DLM_XHR_Download {
 
 			if (status == 401 && readyState == 2) {
 				window.location.href = statusText;
+				return;
 			}
 
 			if (status == 403 && readyState == 2) {
