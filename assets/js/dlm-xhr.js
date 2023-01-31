@@ -117,6 +117,17 @@ class DLM_XHR_Download {
 					return result;
 				}, {});
 
+			let file_name = 'download';
+			if ('undefined' !== typeof responseHeaders['dlm-file-name']) {
+				file_name = responseHeaders['dlm-file-name'].replace(/\"/g, '').replace(';', '');
+				file_name = decodeURI(file_name);
+			} else if ('undefined' !== typeof responseHeaders['content-disposition']) {
+				file_name = responseHeaders['content-disposition'].split('filename=')[1];
+				file_name = file_name.replace(/\"/g, '').replace(';', '');
+				// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
+				file_name = decodeURI(file_name);
+			}
+
 			// Let's check for DLM request headers
 			if (request.readyState === 2) {
 
@@ -129,17 +140,6 @@ class DLM_XHR_Download {
 				// If it's an external link we need to redirect.
 				if ('undefined' !== typeof responseHeaders['dlm-external-download']) {
 					request.abort();
-					let file_name = '';
-					if ('undefined' !== typeof responseHeaders['dlm-file-name']) {
-						file_name = responseHeaders['dlm-file-name'].replace(/\"/g, '').replace(';', '');
-						file_name     = decodeURI(file_name);
-					} else if( 'undefined' !== typeof responseHeaders['content-disposition'] ) {
-						file_name = responseHeaders['content-disposition'].split('filename=')[1];
-						file_name     = file_name.replace(/\"/g, '').replace(';', '');
-						// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
-						file_name     = decodeURI(file_name);
-					}
-
 					dlmXHRinstance.dlmExternalDownload(responseHeaders, button, buttonObj, file_name, href);
 					return;
 				}
@@ -214,10 +214,6 @@ class DLM_XHR_Download {
 
 			if (status == 200 && readyState == 4) {
 				let blob      = request.response;
-				let file_name = responseHeaders['content-disposition'].split('filename=')[1];
-				file_name = file_name.replace(/\"/g, '').replace(';', '');
-				// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
-				file_name = decodeURI( file_name );
 				_OBJECT_URL = URL.createObjectURL(blob);
 				// Remove event listener
 				button.removeEventListener('click', dlmXHRinstance.handleDownloadClick);
