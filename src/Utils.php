@@ -7,6 +7,7 @@
  */
 abstract class DLM_Utils {
 
+	private static $tables = false;
 	/**
 	 * Get visitor's IP address
 	 *
@@ -197,13 +198,21 @@ abstract class DLM_Utils {
 	 * @return bool
 	 */
 	public static function table_checker( $table ) {
-		global $wpdb;
 
-		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) ) {
+		if( ! self::$tables || !isset( self::$tables[$table] ) ){
+			global $wpdb;
 
-			return true;
+			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) ) {
+				
+				self::$tables[$table] = true;
+				return true;
+	
+			}
+		}else{
 
+			return self::$tables[$table];
 		}
+
 
 		return false;
 	}

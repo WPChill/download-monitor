@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 = 4.7.75 - TBD =
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
+Changed: Optimised the number of queries for dlm db tabless check ( [#1206](https://github.com/WPChill/download-monitor/issues/1206) )
 
 = 4.7.74 - 01.02.2023 =
 Fixed: Encoded commas in file name ( [#1187](https://github.com/WPChill/download-monitor/issues/1187) )
