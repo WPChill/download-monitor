@@ -392,8 +392,8 @@ class DLM_Download {
 	 * @access public
 	 * @return void
 	 */
-	public function the_download_link() {
-		echo esc_url( $this->get_the_download_link() );
+	public function the_download_link( $timestamp = true ) {
+		echo esc_url( $this->get_the_download_link( $timestamp ) );
 	}
 
 	/**
@@ -444,7 +444,7 @@ class DLM_Download {
 		}
 
 		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts.
-		if ( $timestamp ) {
+		if ( $timestamp && apply_filters( 'dlm_timestamp_link', true ) ) {
 			$timestamp = time();
 			$link      = add_query_arg( 'tmstv', $timestamp, $link );
 		}

@@ -117,29 +117,34 @@ class DLM_XHR_Download {
 					return result;
 				}, {});
 
+			let file_name = 'download';
+			if ('undefined' !== typeof responseHeaders['dlm-file-name']) {
+				file_name = responseHeaders['dlm-file-name'].replace(/\"/g, '').replace(';', '');
+				file_name = decodeURI(file_name);
+			} else if ('undefined' !== typeof responseHeaders['content-disposition']) {
+				file_name = responseHeaders['content-disposition'].split('filename=')[1];
+				file_name = file_name.replace(/\"/g, '').replace(';', '');
+				// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
+				file_name = decodeURI(file_name);
+			}
+
 			// Let's check for DLM request headers
 			if (request.readyState === 2) {
 
 				// If the dlm-no-waypoints header is set we need to redirect.
 				if ('undefined' !== typeof responseHeaders['dlm-no-waypoints']) {
 					request.abort();
+					if ('undefined' !== typeof responseHeaders['dlm-redirect']) {
+						window.location.href = responseHeaders['dlm-redirect'];
+						return;
+					}
 					window.location.href = href;
+					return;
 				}
 
 				// If it's an external link we need to redirect.
 				if ('undefined' !== typeof responseHeaders['dlm-external-download']) {
 					request.abort();
-					let file_name = '';
-					if ('undefined' !== typeof responseHeaders['dlm-file-name']) {
-						file_name = responseHeaders['dlm-file-name'].replace(/\"/g, '').replace(';', '');
-						file_name     = decodeURI(file_name);
-					} else if( 'undefined' !== typeof responseHeaders['content-disposition'] ) {
-						file_name = responseHeaders['content-disposition'].split('filename=')[1];
-						file_name     = file_name.replace(/\"/g, '').replace(';', '');
-						// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
-						file_name     = decodeURI(file_name);
-					}
-
 					dlmXHRinstance.dlmExternalDownload(responseHeaders, button, buttonObj, file_name, href);
 					return;
 				}
@@ -152,6 +157,7 @@ class DLM_XHR_Download {
 				if (0 === responseDLM) {
 					request.abort();
 					window.location.href = href;
+					return;
 				}
 
 				if ('undefined' !== typeof responseHeaders['dlm-no-access'] && 'true' === responseHeaders['dlm-no-access']) {
@@ -204,6 +210,7 @@ class DLM_XHR_Download {
 
 			if (status == 401 && readyState == 2) {
 				window.location.href = statusText;
+				return;
 			}
 
 			if (status == 403 && readyState == 2) {
@@ -214,10 +221,6 @@ class DLM_XHR_Download {
 
 			if (status == 200 && readyState == 4) {
 				let blob      = request.response;
-				let file_name = responseHeaders['content-disposition'].split('filename=')[1];
-				file_name = file_name.replace(/\"/g, '').replace(';', '');
-				// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
-				file_name = decodeURI( file_name );
 				_OBJECT_URL = URL.createObjectURL(blob);
 				// Remove event listener
 				button.removeEventListener('click', dlmXHRinstance.handleDownloadClick);
