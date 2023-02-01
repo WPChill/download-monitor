@@ -134,6 +134,10 @@ class DLM_XHR_Download {
 				// If the dlm-no-waypoints header is set we need to redirect.
 				if ('undefined' !== typeof responseHeaders['dlm-no-waypoints']) {
 					request.abort();
+					if ('undefined' !== typeof responseHeaders['dlm-redirect']) {
+						window.location.href = responseHeaders['dlm-redirect'];
+						return;
+					}
 					window.location.href = href;
 					return;
 				}

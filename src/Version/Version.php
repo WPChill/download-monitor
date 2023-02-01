@@ -270,7 +270,7 @@ class DLM_Download_Version {
 	 * Get a formatted filesize
 	 */
 	public function get_filesize_formatted() {
-		return size_format( $this->get_filesize() );
+		return size_format( $this->get_filesize(), 2 );
 	}
 
 	/**
