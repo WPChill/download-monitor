@@ -22,19 +22,12 @@ class DLM_Custom_Columns {
 	private function get_download( $post_id ) {
 
 		/** @var DLM_Download $download */
-		$downloads = download_monitor()->service( 'download_repository' )->retrieve(
-			array(
-				'p'           => absint( $post_id ),
-				'post_status' => array( 'any', 'trash' ),
-			),
-			1
-		);
-
-		if ( 0 == count( $downloads ) ) {
-			return;
+		try {
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post_id );
+		} catch ( Exception $e ) {
+			$download = new DLM_Download();
 		}
-
-		return $downloads[0];
+		return $download;
 	}
 
 	/**
@@ -79,7 +72,8 @@ class DLM_Custom_Columns {
 
 		if ( ! isset( $this->column_download ) || $post->ID !== $this->column_download->get_id() ) {
 			// Store our download in a variable so that we won't have to get the column for each column that uses it.
-			$this->column_download = $this->get_download( $post->ID );
+			// First check for global, as data is set for the__post.
+			$this->column_download = isset( $GLOBALS['dlm_download'] ) ? $GLOBALS['dlm_download'] : $this->get_download( $post->ID );
 		}
 
 		switch ( $column ) {
@@ -88,10 +82,6 @@ class DLM_Custom_Columns {
 
 				/** @var DLM_Download_Version $file */
 				$file = $this->column_download->get_version();
-
-				if ( ! $wp_list_table ) {
-					$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
-				}
 
 				if ( ! $wp_list_table ) {
 					$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
