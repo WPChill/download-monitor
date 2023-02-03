@@ -7,7 +7,14 @@
  */
 abstract class DLM_Utils {
 
-	private static $tables = false;
+	/**
+	 * Defined tables
+	 *
+	 * @var array $tables An array of defined tables.
+	 *
+	 * @since 4.7.75
+	 */
+	private static $tables = array();
 	/**
 	 * Get visitor's IP address
 	 *
@@ -199,30 +206,28 @@ abstract class DLM_Utils {
 	 */
 	public static function table_checker( $table ) {
 
-		if( ! self::$tables || !isset( self::$tables[$table] ) ){
+		if ( empty( self::$tables ) || ! in_array( $table, self::$tables ) ) {
 			global $wpdb;
-
+			// If exists, return true.
 			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) ) {
-				
-				self::$tables[$table] = true;
+
+				self::$tables[] = $table;
+
 				return true;
-	
 			}
-		}else{
-
-			return self::$tables[$table];
+			// Doesn't exist, return false.
+			return false;
 		}
-
-
-		return false;
+		// Exists in variable, return true.
+		return true;
 	}
 
 
 	/**
-	 *Check for existing column inside a table
+	 * Check for existing column inside a table
 	 *
 	 * @param string $table_name The table in witch we are checking.
-	 * 
+	 *
 	 * @param string $col_name The column we are checking for.
 	 *
 	 * @return bool
