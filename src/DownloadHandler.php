@@ -408,10 +408,11 @@ class DLM_Download_Handler {
 
 		// Parse file path.
 		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
+		$is_redirect = $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version );
 
 		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
 		// Check for file extension.
-		if ( ! ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) ) {
+		if ( ! $is_redirect ) {
 			$def_restricted        = array( 'php', 'html', 'htm', 'tmp' );
 			$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array(), $download ) );
 
@@ -537,7 +538,7 @@ class DLM_Download_Handler {
 		$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
 
 		// Redirect to the file...
-		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
+		if ( $is_redirect ) {
 			if ( ! $this->check_for_xhr() ) {
 				$this->dlm_logging->log( $download, $version, 'redirected', false, $referrer );
 			}
