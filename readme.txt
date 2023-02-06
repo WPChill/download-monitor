@@ -120,6 +120,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.7.75 - 16.02.2023 =
+Fixed: PHP memory size conversion ( [#1184](https://github.com/WPChill/download-monitor/issues/1184) ) 
 
 = 4.7.75 - 16.02.2023 =
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
