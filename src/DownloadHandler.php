@@ -315,23 +315,6 @@ class DLM_Download_Handler {
 				}
 			}
 
-			if ( ! ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) ) {
-				$def_restricted        = array( 'php', 'html', 'htm', 'tmp' );
-				$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array(), $download ) );
-
-				// Do not allow the download of certain file types.
-				if ( in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
-					if ( $this->check_for_xhr() ) {
-						header( 'DLM-Error: ' . esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) );
-						$restriction_type = 'filetype';
-						$this->set_no_access_modal( __( 'Download is not allowed for this file type.', 'download-monitor' ), $download, $restriction_type );
-						http_response_code( 403 );
-						exit;
-					}
-					wp_die( esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
-				}
-			}
-
 			// Action on found download
 			if ( $download->exists() ) {
 
@@ -425,8 +408,29 @@ class DLM_Download_Handler {
 
 		// Parse file path.
 		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
+		$is_redirect = $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version );
 
 		$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
+		// Check for file extension.
+		if ( ! $is_redirect ) {
+			$def_restricted        = array( 'php', 'html', 'htm', 'tmp' );
+			$restricted_file_types = array_merge( $def_restricted, apply_filters( 'dlm_restricted_file_types', array(), $download ) );
+
+			// Do not allow the download of certain file types.
+			// If user wants, file type checks can be disabled for remote files.
+			$check_file_extension = ( $remote_file && apply_filters( 'dlm_check_remote_extension', true ) ) || ! $remote_file;
+			if ( $check_file_extension && in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
+				if ( $this->check_for_xhr() ) {
+					header( 'DLM-Error: ' . esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) );
+					$restriction_type = 'filetype';
+					$this->set_no_access_modal( __( 'Download is not allowed for this file type.', 'download-monitor' ), $download, $restriction_type );
+					http_response_code( 403 );
+					exit;
+				}
+				wp_die( esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+			}
+		}
+
 		// The return of the get_secure_path function is an array that consists of the path ( string ), remote file ( bool ) and restriction ( bool ).
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( $restriction ) {
@@ -534,7 +538,7 @@ class DLM_Download_Handler {
 		$correct_path = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
 
 		// Redirect to the file...
-		if ( $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
+		if ( $is_redirect ) {
 			if ( ! $this->check_for_xhr() ) {
 				$this->dlm_logging->log( $download, $version, 'redirected', false, $referrer );
 			}
@@ -755,7 +759,7 @@ class DLM_Download_Handler {
 		$headers = array();
 		// We use this method to encode the filename so that file names with characters like
 		// chinese or persian can be named correctly after the download in Safari.
-		$file_name = rawurlencode( $file_name );
+		$file_name = rawurlencode( sanitize_file_name( $file_name ) );
 		if ( $this->check_for_xhr() ) {
 			$headers['Content-Disposition'] = "attachment; filename=\"{$file_name}\";";
 			$headers['dlm-file-name']       = "{$file_name}";

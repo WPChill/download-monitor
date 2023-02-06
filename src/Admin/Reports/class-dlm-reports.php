@@ -312,7 +312,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
 			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 1000;
-			$offset_limit = $offset * 1000;
+			$offset_limit = $offset * $count;
 			$stats        = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} LIMIT {$offset_limit}, {$count};", null ), ARRAY_A );
 
 			return array(
@@ -344,7 +344,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
 			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_rows'];
-			$offset_limit = $offset * $this->php_info['retrieved_rows'];
+			$offset_limit = $offset * $count;
 
 			$table_columns = apply_filters(
 				'dlm_download_log_columns',
@@ -401,7 +401,16 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$users_data = array();
-			$users      = get_users();
+
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 5000;
+			$offset_limit = $offset * $count;
+
+			$args = array(
+				'number' => $count,
+				'offset' => $offset_limit
+			);
+			$users      = get_users( $args );
 			foreach ( $users as $user ) {
 				$user_data    = $user->data;
 				$users_data[] = array(
@@ -415,7 +424,11 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				);
 			}
 
-			return $users_data;
+			return array(
+				'logs'   => $users_data,
+				'offset' => ( absint( $count ) === count( $users ) ) ? $offset + 1 : '',
+				'done'   => $count > count( $users ),
+			);
 		}
 
 		/**

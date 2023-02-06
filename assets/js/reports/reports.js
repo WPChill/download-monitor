@@ -5,6 +5,12 @@ jQuery(function ($) {
 
 	// Let's initiate the reports.
 	const reports = new DLM_Reports();
+
+	// Set spinner so that users know there is something going on.
+	dlmReportsInstance.setSpinner(jQuery('.total_downloads_chart-wrapper'));
+	dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
+	dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2'));
+
 	// Let's get the available Downloads
 	dlmReportsInstance.fetchDownloadsCPT();
 });
@@ -107,10 +113,7 @@ class DLM_Reports {
 	async fetchReportsData(offset = 0, limit = 1000) {
 
 		const pageWrapper          = jQuery('div[data-id="general_info"]');
-		// Set spinner so that users know there is something going on.
-		dlmReportsInstance.setSpinner(jQuery('.total_downloads_chart-wrapper'));
-		dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
-		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2'));
+
 		// Let's see if these are pretty permalinks or plain
 		let fetchingLink = dlmDownloadReportsAPI + '&offset=' + offset + '&limit=' + limit;
 		// Fetch our data
@@ -206,18 +209,31 @@ class DLM_Reports {
 	 * The request for user data
 	 * @returns {Promise<void>}
 	 */
-	async fetchUserData() {
+	async fetchUserData( offset = 0, limit = 5000 ) {
 
-		const fetchedUserData = await fetch(dlmUserDataAPI);
+		// Let's see if these are pretty permalinks or plain
+		let fetchingLink = dlmUserDataAPI + '&offset=' + offset + '&limit=' + limit;
+
+		const fetchedUserData = await fetch(fetchingLink);
 
 		if (!fetchedUserData.ok) {
 			throw new Error('Something went wrong! Reports response did not come OK - ' + fetchedUserData.statusText);
 		}
 
 		let response                           = await fetchedUserData.json();
-		dlmReportsInstance.dlmUsersStats.users = dlmReportsInstance.dlmUsersStats.users.concat(response);
-		// Get the data used for the chart. We get it so that the users are completed and we won't possibly overload the server
-		dlmReportsInstance.fetchReportsData();
+		dlmReportsInstance.dlmUsersStats.users = dlmReportsInstance.dlmUsersStats.users.concat(response.logs);
+
+		if (true === response.done) {
+
+			// Get the data used for the chart. We get it so that the users are completed and we won't possibly overload the server
+			dlmReportsInstance.fetchReportsData();
+
+		} else {
+			
+			dlmReportsInstance.fetchUserData(response.offset);
+		}
+
+
 	}
 
 	/**
@@ -229,8 +245,6 @@ class DLM_Reports {
 		dlmReportsInstance.overViewTab();
 		dlmReportsInstance.togglePageSettings();
 
-		dlmReportsInstance.setSpinner(jQuery('#users_download_log'));
-		dlmReportsInstance.setSpinner(jQuery('#total_downloads_table_wrapper2'));
 		dlmReportsInstance.fetchUsersReportsData();
 		// Trigger action so others can hook into this
 		jQuery(document).trigger('dlm_reports_init', [dlmReportsInstance]);

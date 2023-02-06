@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.1
-Stable tag: 4.7.74
+Stable tag: 4.7.75
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,14 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.7.75 - 16.02.2023 =
+Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
+Changed: Optimised the number of queries for dlm db tabless check ( [#1206](https://github.com/WPChill/download-monitor/issues/1206) )
+Fixed: Downloads not working if the "/" in front of the file path is missing ( [#1207](https://github.com/WPChill/download-monitor/issues/1207) )
+Added: Filter to no check for file extensions if the source is remote ( [#1208](https://github.com/WPChill/download-monitor/issues/1208) )
+Fixed: Sanitize file name on download ( [#1187](https://github.com/WPChill/download-monitor/issues/1187) )
+
 = 4.7.74 - 01.02.2023 =
 Fixed: Encoded commas in file name ( [#1187](https://github.com/WPChill/download-monitor/issues/1187) )
 Fixed: iThemes security and reports REST api ( [#1185](https://github.com/WPChill/download-monitor/issues/1185) )

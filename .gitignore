@@ -16,6 +16,7 @@ sftp-config.json
 cypress
 cypress.json
 download-monitor.zip
+*.zip
 
 
 # Exclude everything in /vendor except our autoload stuff
