@@ -50,8 +50,19 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			$this->date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
+			$memory_limit = ini_get('memory_limit');
+			if (preg_match('/^(\d+)(.)$/', $memory_limit, $matches)) {
+				if ($matches[2] == 'M') {
+					$memory_limit = $matches[1];
+				} else if ($matches[2] == 'K') {
+					$memory_limit = $matches[1] / 1024;
+				} else if ($matches[2] == 'G') {
+					$memory_limit = $matches[1] * 1024; 
+				}
+			}
+
 			$this->php_info = array(
-				'memory_limit'       => ini_get( 'memory_limit' ),
+				'memory_limit'       => absint( $memory_limit ),
 				'max_execution_time' => ini_get( 'max_execution_time' ),
 				'retrieved_rows'     => 10000
 			);
