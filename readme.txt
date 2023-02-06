@@ -122,6 +122,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 = 4.7.75 - 16.02.2023 =
 Fixed: PHP memory size conversion ( [#1184](https://github.com/WPChill/download-monitor/issues/1184) ) 
+Fixed: Settings description escaping function ( [#1194](https://github.com/WPChill/download-monitor/issues/1194) ) 
 
 = 4.7.75 - 16.02.2023 =
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
