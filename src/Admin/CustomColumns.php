@@ -126,8 +126,9 @@ class DLM_Custom_Columns {
 				break;
 			case "locked_download" :
 				$is_locked = apply_filters( 'dlm_download_is_locked', $this->column_download->is_members_only(), $this->column_download );
+				$members_attr = $this->column_download->is_members_only() ? 'data-members_only=Yes' : '' ;
 				if ( $is_locked ) {
-					echo '<span class="yes">' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
+					echo '<span class="yes" ' . esc_attr( $members_attr ) . '>' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
 				} else {
 					echo '<span class="na">&ndash;</span>';
 				}
