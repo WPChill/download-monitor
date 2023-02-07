@@ -1,6 +1,8 @@
-= 4.7.75 - 16.02.2023 =
+= 4.7.76 - TBD =
 Fixed: PHP memory size conversion ( [#1184](https://github.com/WPChill/download-monitor/issues/1184) ) 
 Fixed: Settings description escaping function ( [#1194](https://github.com/WPChill/download-monitor/issues/1194) ) 
+Added: Disabled shop functionality for users that didn't currently use it.  ( [#1199](https://github.com/WPChill/download-monitor/issues/1199) )
+Fixed: PHP warning when updating to 8.1 ( [#1205](https://github.com/WPChill/download-monitor/issues/1205) )
 
 = 4.7.75 - 06.02.2023 =
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
