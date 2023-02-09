@@ -328,8 +328,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			return array(
 				'stats'  => $stats,
-				'offset' => ( 1000 === count( $stats ) ) ? $offset + 1 : '',
-				'done'   => 1000 > count( $stats ),
+				'offset' => ( absint( $count ) === count( $stats ) ) ? $offset + 1 : '',
+				'done'   => absint( $count ) > count( $stats ),
 			);
 		}
 
@@ -374,8 +374,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			return array(
 				'logs'   => $downloads,
-				'offset' => ( $this->php_info['retrieved_rows'] === count( $downloads ) ) ? $offset + 1 : '',
-				'done'   => $this->php_info['retrieved_rows'] > count( $downloads ),
+				'offset' => ( absint( $count ) === count( $downloads ) ) ? $offset + 1 : '',
+				'done'   => absint( $count ) > count( $downloads ),
 			);
 
 		}
@@ -438,7 +438,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			return array(
 				'logs'   => $users_data,
 				'offset' => ( absint( $count ) === count( $users ) ) ? $offset + 1 : '',
-				'done'   => $count > count( $users ),
+				'done'   => absint( $count ) > count( $users ),
 			);
 		}
 
