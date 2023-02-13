@@ -141,6 +141,8 @@ class WP_DLM {
 
 			new DLM_Review();
 			
+			
+			add_action( 'admin_notices', array( $this, 'shop_discontinued_notice' ), 8 );
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.
@@ -740,5 +742,19 @@ class WP_DLM {
 
 		// Return our Download Link instead of the original URL
 		return $url;
+	}
+
+	public function shop_discontinued_notice() {
+		if( ! dlm_is_shop_enabled() ){
+			return;
+		}
+
+		$url = sprintf( $this->link, $this->slug );
+
+		?>
+		<div id="<?php echo esc_attr( $this->slug ) ?>-download-monitor-shop-notice" class="notice notice-error is-dismissible" style="margin-top:30px;">
+			<p><?php echo wp_kses_post( __( '<strong>Attention!</strong> Download Monitor shop functionality will no longer be supported begining <strong>April 2023</strong> and will be disabled in a future update.', 'download-monitor' ) ); ?></p>
+		</div>
+		<?php
 	}
 }

@@ -203,17 +203,9 @@ class DLM_Admin_Writepanels {
 		global $post;
 
 		/** @var DLM_Download $download */
-		$downloads = download_monitor()->service( 'download_repository' )->retrieve(
-			array(
-				'p'           => absint( $post->ID ),
-				'post_status' => array( 'any', 'trash' ),
-			),
-			1
-		);
-
-		if ( count( $downloads ) > 0 ) {
-			$download = $downloads[0];
-		} else {
+		try {
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		} catch ( Exception $e ) {
 			$download = new DLM_Download();
 		}
 

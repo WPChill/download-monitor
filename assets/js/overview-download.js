@@ -26,7 +26,7 @@
 
             // get data
             var featured = ('Yes' == $( '.column-featured', $post_row ).text() );
-            var members_only = ('Yes' == $( '.column-members_only', $post_row ).text() );
+            var members_only = ('Yes' == $( '.column-locked_download span', $post_row ).data('members_only') );
             var redirect_only = ('Yes' == $( '.column-redirect_only', $post_row ).text() );
 
             // populate data

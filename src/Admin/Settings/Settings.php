@@ -419,7 +419,9 @@ class DLM_Admin_Settings {
 				'priority' => 70,
 			),
 		);
-
+		if ( ! apply_filters( 'dlm_enable_shop', dlm_is_shop_enabled() ) ) {
+			unset( $settings['general']['sections']['general']['fields'][2]);
+		}
 		if ( dlm_is_shop_enabled() ) {
 
 			$settings['shop'] = array(

@@ -120,6 +120,14 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.7.76 - TBD =
+Fixed: PHP memory size conversion ( [#1184](https://github.com/WPChill/download-monitor/issues/1184) ) 
+Fixed: Settings description escaping function ( [#1194](https://github.com/WPChill/download-monitor/issues/1194) ) 
+Added: Disabled shop functionality for users that didn't currently use it.  ( [#1199](https://github.com/WPChill/download-monitor/issues/1199) )
+Fixed: PHP warning when updating to 8.1 ( [#1205](https://github.com/WPChill/download-monitor/issues/1205) )
+Fixed: Members only checkbox in quick edit is always empty ( [#1211](https://github.com/WPChill/download-monitor/issues/1211) )
+Fixed: Dashboard top downloads widget disproportional hightlight  ( [#1167](https://github.com/WPChill/download-monitor/issues/1167) )
+Fixed: Bug in reports table rest data retreival  ( [#1214](https://github.com/WPChill/download-monitor/issues/1214) )
 
 = 4.7.75 - 16.02.2023 =
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
