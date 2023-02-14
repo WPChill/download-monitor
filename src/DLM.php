@@ -140,8 +140,7 @@ class WP_DLM {
 			}*/
 
 			new DLM_Review();
-			
-			
+			// Show the shop discontinued notice.
 			add_action( 'admin_notices', array( $this, 'shop_discontinued_notice' ), 8 );
 		}
 
@@ -748,15 +747,20 @@ class WP_DLM {
 		return $url;
 	}
 
+	/**
+	 * Display shop discontinued notice.
+	 *
+	 * @return void
+	 * @since 4.7.76
+	 */
 	public function shop_discontinued_notice() {
-		if( ! dlm_is_shop_enabled() ){
+
+		if ( ! dlm_is_shop_enabled() || 0 != get_option( 'dlm_hide_notice-shop_disabled', 0 ) ) {
 			return;
 		}
 
-		$url = sprintf( $this->link, $this->slug );
-
 		?>
-		<div id="<?php echo esc_attr( $this->slug ) ?>-download-monitor-shop-notice" class="notice notice-error is-dismissible" style="margin-top:30px;">
+		<div class="notice notice-error is-dismissible dlm-notice" id="shop_disabled" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm_hide_notice-shop_disabled' ) );?>" style="margin-top:30px;">
 			<p><?php echo wp_kses_post( __( '<strong>Attention!</strong> Download Monitor shop functionality will no longer be supported begining <strong>April 2023</strong> and will be disabled in a future update.', 'download-monitor' ) ); ?></p>
 		</div>
 		<?php
