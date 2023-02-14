@@ -185,8 +185,8 @@ class DLM_XHR_Download {
 			if ('undefined' !== typeof responseHeaders['x-dlm-no-access-modal']) {
 				dlmNoAccessModalHeader = responseHeaders['x-dlm-no-access-modal'];
 			}
-			if ('undefined' !== typeof responseHeaders['dlm-error']) {
-				dlmErrorHeader = responseHeaders['dlm-error'];
+			if ('undefined' !== typeof responseHeaders['x-dlm-error']) {
+				dlmErrorHeader = responseHeaders['x-dlm-error'];
 			}
 			if ('undefined' !== typeof responseHeaders['x-dlm-download-id']) {
 				dlmDownloadIdHeader = responseHeaders['x-dlm-download-id'];
