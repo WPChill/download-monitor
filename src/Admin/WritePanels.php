@@ -117,7 +117,11 @@ class DLM_Admin_Writepanels {
 		try {
 			/** @var DLM_Download $download */
 			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
-				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+				if ( ! isset( $GLOBALS['dlm_download'] ) ) {
+					$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+				} else {
+					$this->download_post = $GLOBALS['dlm_download'];
+				}
 			}
 
 			do_action( 'dlm_information_start', $this->download_post->get_id(), $this->download_post );
@@ -204,7 +208,11 @@ class DLM_Admin_Writepanels {
 
 		/** @var DLM_Download $download */
 		try {
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			} else {
+				$download = $GLOBALS['dlm_download'];
+			}
 		} catch ( Exception $e ) {
 			$download = new DLM_Download();
 		}

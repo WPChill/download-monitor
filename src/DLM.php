@@ -662,15 +662,19 @@ class WP_DLM {
 	public function archive_filter_download_link( $post_link, $post ) {
 
 		// We exclude the search because there is a specific option for this
-		if ( 'dlm_download' == $post->post_type && !is_search() ) {
-			// fetch download object
-			try{
-				/** @var DLM_Download $download */
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		if ( 'dlm_download' == $post->post_type && ! is_search() ) {
+			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
+				// fetch download object
+				try {
+					/** @var DLM_Download $download */
+					$download                = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+					$GLOBALS['dlm_download'] = $download;
 
-				return $download->get_the_download_link();
-			}
-			catch ( Exception $e ){
+					return $download->get_the_download_link();
+				} catch ( Exception $e ) {
+				}
+			} else {
+				return $GLOBALS['dlm_download']->get_the_download_link();
 			}
 		}
 
