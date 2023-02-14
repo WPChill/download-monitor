@@ -14,14 +14,6 @@ interface DLM_Download_Repository {
 	public function retrieve( $filters = array(), $limit = 0, $offset = 0 );
 
 	/**
-	 * Retreieve the version download count
-	 *
-	 * @param  mixed $version_id
-	 * @return array
-	 */
-	public function retrieve_download_count( $download_id );
-
-	/**
 	 * Retrieve single item
 	 *
 	 * @param int $id
