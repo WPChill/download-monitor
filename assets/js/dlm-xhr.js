@@ -267,6 +267,7 @@ class DLM_XHR_Download {
 						dlmXHRinstance.dlmNoAccessModal(dlmDownloadIdHeader, dlmDownloadVersionHeader, dlmNoAccessModalTextHeader);
 
 					} else {
+						buttonObj.find( '.dlm-xhr-error' ).remove();
 						buttonObj.append('<span class="dlm-xhr-error">' + dlmErrorHeader + '</span>');
 					}
 
@@ -356,6 +357,7 @@ class DLM_XHR_Download {
 			button.removeAttribute('download');
 			button.setAttribute('href', href);
 			buttonObj.removeClass().addClass(buttonClass + ' dlm-no-xhr-download').find('span.dlm-xhr-progress').remove();
+			buttonObj.find( '.dlm-xhr-error' ).remove();
 			buttonObj.append('<span class="dlm-xhr-error">' + dlmXHRtranslations.error + '</span>');
 			console.log('** An error occurred during the transaction');
 		};
@@ -500,6 +502,7 @@ class DLM_XHR_Download {
 			if (403 === status) {
 				dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
 				request.abort();
+				buttonObj.find( '.dlm-xhr-error' ).remove();
 				buttonObj.append('<span class="dlm-xhr-error">Acces Denied to file.</span>');
 				return;
 			}
@@ -559,6 +562,7 @@ class DLM_XHR_Download {
 			button.removeAttribute('download');
 			button.setAttribute('href', href);
 			buttonObj.removeClass().addClass(buttonClass + ' .dlm-no-xhr-download').find('span.dlm-xhr-progress').remove();
+			buttonObj.find( '.dlm-xhr-error' ).remove();
 			buttonObj.append('<span class="dlm-xhr-error">' + dlmXHRtranslations.error + '</span>');
 			console.log('** An error occurred during the transaction');
 		};

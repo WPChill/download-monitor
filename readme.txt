@@ -128,6 +128,7 @@ Fixed: PHP warning when updating to 8.1 ( [#1205](https://github.com/WPChill/dow
 Fixed: Members only checkbox in quick edit is always empty ( [#1211](https://github.com/WPChill/download-monitor/issues/1211) )
 Fixed: Dashboard top downloads widget disproportional hightlight  ( [#1167](https://github.com/WPChill/download-monitor/issues/1167) )
 Fixed: Bug in reports table rest data retreival  ( [#1214](https://github.com/WPChill/download-monitor/issues/1214) )
+Fixed: Duplicate no access XHR message  ( [#1217](https://github.com/WPChill/download-monitor/issues/1217) )
 
 = 4.7.75 - 16.02.2023 =
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
