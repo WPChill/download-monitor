@@ -77,23 +77,6 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	}
 
 	/**
-	 * Retreieve the version download count
-	 *
-	 * @param  mixed $version_id
-	 * @return string
-	 */
-	public function retrieve_download_count( $download_id ) {
-		global $wpdb;
-		$download_count = 0;
-		// Check to see if the table exists first.
-		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
-			$download_count = absint( $wpdb->get_var( $wpdb->prepare( "SELECT download.download_count FROM {$wpdb->dlm_downloads} as download WHERE download_id = %s;", $download_id ) ) );
-		}
-
-		return apply_filters( 'dlm_add_meta_download_count', $download_count, $download_id );
-	}
-
-	/**
 	 * Retreieve the total version download count
 	 *
 	 * @param mixed $version_id
@@ -360,7 +343,8 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 
 			foreach ( $downloads as $post ) {
 
-				$download = download_monitor()->service( 'download_factory' )->make( ( ( 1 == get_post_meta( $post->ID, '_is_purchasable', true ) ) ? 'product' : 'regular' ) );
+				$download   = download_monitor()->service( 'download_factory' )->make( ( ( 1 == get_post_meta( $post->ID, '_is_purchasable', true ) ) ? 'product' : 'regular' ) );
+				$count_info = $download->get_count_info( $post->ID );
 				$download->set_id( $post->ID );
 				$download->set_status( $post->post_status );
 				$download->set_title( $post->post_title );
@@ -371,8 +355,9 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_redirect_only( ( 'yes' === get_post_meta( $post->ID, '_redirect_only', true ) ) );
 				$download->set_featured( ( 'yes' === get_post_meta( $post->ID, '_featured', true ) ) );
 				$download->set_members_only( ( 'yes' === get_post_meta( $post->ID, '_members_only', true ) ) );
-				$download->set_download_count( absint( $this->retrieve_download_count( $post->ID ) ) );
+				$download->set_download_count( apply_filters( 'dlm_add_meta_download_count', ( null !== $count_info && isset( $count_info['download_count'] ) ? absint( $count_info['download_count'] ) : 0 ), $post->ID ) );
 				$download->set_meta_download_count( absint( get_post_meta( $post->ID, '_download_count', true ) ) );
+				$download->set_versions_download_counts( ( null !== $count_info && isset( $count_info['download_versions'] ) ? $count_info['download_versions'] : 0 ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
 				$download->post = $post;
@@ -383,7 +368,5 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		}
 
 		return $items;
-
 	}
-
 }

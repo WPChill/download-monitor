@@ -140,7 +140,8 @@ class WP_DLM {
 			}*/
 
 			new DLM_Review();
-			
+			// Show the shop discontinued notice.
+			add_action( 'admin_notices', array( $this, 'shop_discontinued_notice' ), 8 );
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.
@@ -660,15 +661,19 @@ class WP_DLM {
 	public function archive_filter_download_link( $post_link, $post ) {
 
 		// We exclude the search because there is a specific option for this
-		if ( 'dlm_download' == $post->post_type && !is_search() ) {
-			// fetch download object
-			try{
-				/** @var DLM_Download $download */
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		if ( 'dlm_download' == $post->post_type && ! is_search() ) {
+			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
+				// fetch download object
+				try {
+					/** @var DLM_Download $download */
+					$download                = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+					$GLOBALS['dlm_download'] = $download;
 
-				return $download->get_the_download_link();
-			}
-			catch ( Exception $e ){
+					return $download->get_the_download_link();
+				} catch ( Exception $e ) {
+				}
+			} else {
+				return $GLOBALS['dlm_download']->get_the_download_link();
 			}
 		}
 
@@ -740,5 +745,24 @@ class WP_DLM {
 
 		// Return our Download Link instead of the original URL
 		return $url;
+	}
+
+	/**
+	 * Display shop discontinued notice.
+	 *
+	 * @return void
+	 * @since 4.7.76
+	 */
+	public function shop_discontinued_notice() {
+
+		if ( ! dlm_is_shop_enabled() || 0 != get_option( 'dlm_hide_notice-shop_disabled', 0 ) ) {
+			return;
+		}
+
+		?>
+		<div class="notice notice-error is-dismissible dlm-notice" id="shop_disabled" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm_hide_notice-shop_disabled' ) );?>" style="margin-top:30px;">
+			<p><?php echo wp_kses_post( __( '<strong>Attention!</strong> Download Monitor shop functionality will no longer be supported begining <strong>April 2023</strong> and will be disabled in a future update.', 'download-monitor' ) ); ?></p>
+		</div>
+		<?php
 	}
 }

@@ -179,7 +179,7 @@ abstract class DLM_Utils {
 			$new_path       = implode( DIRECTORY_SEPARATOR, $common_parts );
 			$last_file_path = implode( DIRECTORY_SEPARATOR, $paths[2] );
 
-			if ( false !== strpos( $last_file_path, $new_path ) ) {
+			if ( ! empty( $new_path ) && false !== strpos( $last_file_path, $new_path ) ) {
 				return $new_path;
 			} else {
 				$max = count( $common_parts );

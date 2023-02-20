@@ -56,7 +56,7 @@ class DLM_Admin_Fields_Field_Checkbox extends DLM_Admin_Fields_Field {
 					</svg>
 				</div>
 			</div>
-			<label><?php echo esc_html( $this->get_cb_label() ); ?></label>
+			<label><?php echo wp_kses_post( $this->get_cb_label() ); ?></label>
 		</div>
 		<?php
 	}

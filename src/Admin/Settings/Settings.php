@@ -92,6 +92,7 @@ class DLM_Admin_Settings {
 								'desc'    => __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download-monitor' ),
 								'type'    => 'select',
 								'options' => download_monitor()->service( 'template_handler' )->get_available_templates(),
+								'priority' => 10,
 							),
 							array(
 								'name'  => 'dlm_custom_template',
@@ -99,14 +100,7 @@ class DLM_Admin_Settings {
 								'std'   => '',
 								'label' => __( 'Custom Template', 'download-monitor' ),
 								'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>button</code>, the <code>content-download-button.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' ),
-							),
-							array(
-								'name'     => 'dlm_shop_enabled',
-								'std'      => '',
-								'label'    => __( 'Shop Enabled', 'download-monitor' ),
-								'cb_label' => '',
-								'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
-								'type'     => 'checkbox',
+								'priority' => 10,
 							),
 							array(
 								'name'     => 'dlm_xsendfile_enabled',
@@ -115,6 +109,7 @@ class DLM_Admin_Settings {
 								'cb_label' => '',
 								'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
 								'type'     => 'checkbox',
+								'priority' => 20,
 							),
 							array(
 								'name'     => 'dlm_hotlink_protection_enabled',
@@ -123,6 +118,7 @@ class DLM_Admin_Settings {
 								'cb_label' => '',
 								'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 								'type'     => 'checkbox',
+								'priority' => 30,
 							),
 							array(
 								'name'     => 'dlm_allow_x_forwarded_for',
@@ -131,6 +127,7 @@ class DLM_Admin_Settings {
 								'cb_label' => '',
 								'desc'     => __( 'If enabled, Download Monitor will use the X_FORWARDED_FOR HTTP header set by proxies as the IP address. Note that anyone can set this header, making it less secure.', 'download-monitor' ),
 								'type'     => 'checkbox',
+								'priority' => 40,
 							),
 							array(
 								'name'     => 'dlm_wp_search_enabled',
@@ -139,6 +136,7 @@ class DLM_Admin_Settings {
 								'cb_label' => '',
 								'desc'     => __( "If enabled, downloads will be included in the site's internal search results.", 'download-monitor' ),
 								'type'     => 'checkbox',
+								'priority' => 50,
 							),
 							array(
 								'name'     => 'dlm_turn_off_file_browser',
@@ -147,6 +145,7 @@ class DLM_Admin_Settings {
 								'cb_label' => '',
 								'desc'     => __( 'Disables the directory file browser.', 'download-monitor' ),
 								'type'     => 'checkbox',
+								'priority' => 60,
 							),
 						),
 					),
@@ -419,9 +418,20 @@ class DLM_Admin_Settings {
 				'priority' => 70,
 			),
 		);
-
+		// Only add the setting if shop is enabled or filter is set to true.
+		if ( apply_filters( 'dlm_enable_shop', dlm_is_shop_enabled() ) ) {
+			$settings['general']['sections']['general']['fields'][] = array(
+				'name'     => 'dlm_shop_enabled',
+				'std'      => '',
+				'label'    => __( 'Shop Enabled', 'download-monitor' ),
+				'cb_label' => '',
+				'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
+				'type'     => 'checkbox',
+				'priority' => 20,
+			);
+		}
+		// Only show shop settings if shop is enabled.
 		if ( dlm_is_shop_enabled() ) {
-
 			$settings['shop'] = array(
 				'title'    => __( 'Shop', 'download-monitor' ),
 				'sections' => array(
@@ -521,7 +531,16 @@ class DLM_Admin_Settings {
 		$settings = $this->backwards_compatibility_settings( $old_settings, $settings );
 
 		uasort( $settings, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
-		uasort( $settings['advanced']['sections']['misc']['fields'], array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+		uasort(
+			$settings['advanced']['sections']['misc']['fields'], array(
+			'DLM_Admin_Helper',
+			'sort_data_by_priority'
+		) );
+		uasort(
+			$settings['general']['sections']['general']['fields'], array(
+			'DLM_Admin_Helper',
+			'sort_data_by_priority'
+		) );
 		return $settings;
 	}
 

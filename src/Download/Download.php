@@ -58,19 +58,7 @@ class DLM_Download {
 	private $version_ids = array();
 
 	/** @var int */
-	private $completed_downloads = 0;
-
-	/** @var int */
-	private $failed_downloads = 0;
-
-	/** @var int */
-	private $redirected_downloads = 0;
-
-	/** @var int */
-	private $logged_in_downloads = 0;
-
-	/** @var int */
-	private $non_logged_in_downloads = 0;
+	private $versions_downloads = array();
 	/**
 	 * @var WP_Post
 	 * @deprecated 4.0
@@ -974,92 +962,44 @@ class DLM_Download {
 	}
 
 	/**
-	 * Get completed number of downloads
+	 * Retrieve download count info from the custom table.
 	 *
-	 * @return mixed
+	 * @param int $download_id The download ID.
+	 *
+	 * @return string|void|null
+	 * @since 4.7.76
 	 */
-	public function set_completed_downloads( $completed_downloads ) {
-		$this->completed_downloads = $completed_downloads;
+	public function get_count_info( $download_id ) {
+		global $wpdb;
+		// Check to see if the table exists first.
+		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+			$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_downloads} as download WHERE download_id = %s;", $download_id ), ARRAY_A );
+			if ( null !== $results && ! empty( $results ) ) {
+				return $results[0];
+			}
+
+			return $results;
+		}
 	}
 
 	/**
-	 * Get failed number of downloads
+	 * Set the versions downloads.
 	 *
-	 * @return mixed
+	 * @param array $versions_downloads The versions downloads received from the database.
+	 * @since 4.7.76
+	 *
+	 * @return void
 	 */
-	public function set_failed_downloads( $failed_downloads ) {
-		$this->failed_downloads = $failed_downloads;
+	public function set_versions_download_counts( $versions_downloads ) {
+		$this->versions_downloads = $versions_downloads;
 	}
 
 	/**
-	 * Get redirected number of downloads
+	 * Get the versions downloads.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public function set_redirected_downloads( $redirected_downloads ) {
-		$this->redirected_downloads = $redirected_downloads;
-	}
-
-	/**
-	 * Get completed number of downloads
-	 *
-	 * @return mixed
-	 */
-	public function get_completed_downloads() {
-		return $this->completed_downloads;
-	}
-
-	/**
-	 * Get failed number of downloads
-	 *
-	 * @return mixed
-	 */
-	public function get_failed_downloads() {
-		return $this->failed_downloads;
-	}
-
-	/**
-	 * Get redirected number of downloads
-	 *
-	 * @return mixed
-	 */
-	public function get_redirected_downloads() {
-		return $this->redirected_downloads;
-	}
-
-	/**
-	 * Set logged in number of downloads
-	 *
-	 * @return mixed
-	 */
-	public function set_logged_in_downloads( $logged_in_downloads ) {
-		return $this->logged_in_downloads = $logged_in_downloads;
-	}
-
-	/**
-	 * Set non logged in number of downloads
-	 *
-	 * @return mixed
-	 */
-	public function set_non_logged_in_downloads( $non_logged_in_downloads ) {
-		return $this->non_logged_in_downloads = $non_logged_in_downloads;
-	}
-
-	/**
-	 * Get failed number of downloads
-	 *
-	 * @return mixed
-	 */
-	public function get_logged_in_downloads() {
-		return $this->logged_in_downloads;
-	}
-
-	/**
-	 * Get redirected number of downloads
-	 *
-	 * @return mixed
-	 */
-	public function get_non_logged_in_downloads() {
-		return $this->non_logged_in_downloads;
+	public function get_versions_download_counts() {
+		return $this->versions_downloads;
 	}
 }

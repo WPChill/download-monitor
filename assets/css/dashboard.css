@@ -38,6 +38,9 @@ Dashboard Widget CSS
   padding: 8px;
   display: block;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 #dlm_popular_downloads.postbox .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div {
   text-align: left;
@@ -57,6 +60,6 @@ Dashboard Widget CSS
 #dlm_popular_downloads.postbox .dlm-reports-top-downloads .dlm-reports-top-downloads__line > div:last-of-type {
   text-align: right;
   font-weight: 500;
-  max-width: 20%;
+  max-width: 75px;
   width: 75px;
 }
