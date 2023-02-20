@@ -1,4 +1,4 @@
-= 4.7.76 - TBD =
+= 4.7.76 - 20.02.2023 =
 Fixed: PHP memory size conversion ( [#1184](https://github.com/WPChill/download-monitor/issues/1184) ) 
 Fixed: Settings description escaping function ( [#1194](https://github.com/WPChill/download-monitor/issues/1194) ) 
 Added: Disabled shop functionality for users that didn't currently use it.  ( [#1199](https://github.com/WPChill/download-monitor/issues/1199) )
@@ -7,6 +7,8 @@ Fixed: Members only checkbox in quick edit is always empty ( [#1211](https://git
 Fixed: Dashboard top downloads widget disproportional hightlight  ( [#1167](https://github.com/WPChill/download-monitor/issues/1167) )
 Fixed: Bug in reports table rest data retreival  ( [#1214](https://github.com/WPChill/download-monitor/issues/1214) )
 Fixed: Duplicate no access XHR message  ( [#1217](https://github.com/WPChill/download-monitor/issues/1217) )
+Fixed: Optimized data queries ( [#1209](https://github.com/WPChill/download-monitor/issues/1209) )
+Changed: Custom HTTP/HTTPS headers now start with X- ( [#1202](https://github.com/WPChill/download-monitor/issues/1202) )
 
 = 4.7.75 - 06.02.2023 =
 Changed: Optimised to request chunked user_data for reports table ( [#1192](https://github.com/WPChill/download-monitor/issues/1192) )
