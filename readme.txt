@@ -1,6 +1,6 @@
 === Download Monitor ===
 Contributors: wpchill, silkalns, barrykooij, mikejolley
-Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
+Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
 Tested up to: 6.1
 Stable tag: 4.7.76
@@ -8,11 +8,11 @@ License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
 
-Download Monitor is a plugin for selling, uploading and managing downloads, tracking downloads and displaying links.
+Download Monitor is a plugin for uploading and managing downloads, tracking downloads and displaying links.
 
 == Description ==
 
-Download Monitor provides an interface for uploading and managing downloadable files (including support for multiple versions), inserting download links into posts, logging downloads and selling downloads!
+Download Monitor provides an interface for uploading and managing downloadable files (including support for multiple versions), inserting download links into posts and logging downloads!
 
 = Features =
 
