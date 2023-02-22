@@ -1250,10 +1250,10 @@ table.wp-list-table {
 
       .dlm-insights-header {
 
-        display: flex;
-        justify-content: space-between;
-        background-color: #FFF;
-        border: 1px solid #DDD;
+        margin-top: -40px;
+        margin-right: -20px;
+        margin-left: -20px;
+        border-bottom:0;
 
         .dlm-reports-heading {
           font-weight: bold;
@@ -1268,6 +1268,7 @@ table.wp-list-table {
         }
 
         .dlm-insights-navigation {
+          background-color: #FFF;
 
           .dlm-insights-tab-navigation {
             display: flex;
@@ -1278,24 +1279,19 @@ table.wp-list-table {
             margin: 0;
 
             .dlm-insights-tab-navigation__element {
-              width: 33%;
-              min-width: 200px;
+              display:inline-block;
               height: 100%;
-              padding: 24px;
+              padding: 10px;
               cursor: pointer;
               margin-bottom: 0;
-              background-color: #f8f9fa;
-              border-top: 4px solid;
-              border-top-color: #f1f1f1;
-              border-left: 1px solid #e0e0e0;
-
-              &:last-of-type {
-                border-right: 1px solid #e0e0e0;
-              }
+              border-bottom: 4px solid;
+              border-bottom-color: transparent;
+              border-right: 5px solid #fff;
+              border-left: 5px solid #fff;
 
               &.active {
                 background-color: #FFF;
-                border-top-color: #3858e9;
+                border-bottom-color: #3858e9;
               }
 
               .dlm-insights-tab-navigation__label {
@@ -1324,10 +1320,12 @@ table.wp-list-table {
           }
 
           flex-wrap: wrap;
-          justify-content: space-between;
+          justify-content: flex-start;
           align-items: center;
           align-content: center;
           display: flex;
+          padding: 15px 20px 0 20px;
+          background: #f0f0f1;
 
           &:hover {
             border-color: #4338ca;

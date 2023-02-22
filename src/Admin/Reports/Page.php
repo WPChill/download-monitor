@@ -181,7 +181,7 @@ class DLM_Reports_Page {
 			</div>
 			<div class="dlm-reports-actions">
 				<span><?php esc_html_e( 'Show per page:' ); ?>  </span>
-				<select class="dlm-reports-per-page">
+				<select class="dlm-reports-per-page" name="dlm-reports-per-page">
 					<?php
 					foreach ( $per_page_options as $option ) {
 						echo '<option value="' . absint( $option ) . '" ' . selected( $option, $per_page, false ) . '>' . absint( $option ) . '</option>';
@@ -199,7 +199,7 @@ class DLM_Reports_Page {
 			</div>
 		</div>
 		<!-- Textarea used to decode HTML entities that are retrieved from RESTP API -->
-		<textarea id="dlm_reports_decode_area" class="hidden"></textarea>
+		<textarea id="dlm_reports_decode_area" name="dlm_reports_decode_area" class="hidden"></textarea>
 		<?php
 	}
 
@@ -364,7 +364,7 @@ class DLM_Reports_Page {
 			}
 
 			ob_start();
-			call_user_func( $tab['callback'] );
+			call_user_func( $tab['callback'], $key, $tab );
 
 			/**
 			 *  Hook mainly used to attach extra content to the tab.

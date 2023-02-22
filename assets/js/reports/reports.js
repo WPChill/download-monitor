@@ -2018,6 +2018,7 @@ class DLM_Reports {
 			dlmReportsInstance.perPage = jQuery(this).val();
 			dlmReportsInstance.setTopDownloads();
 			dlmReportsInstance.setUserDownloads();
+			jQuery(document).trigger('dlm_reports_per_page_change', [dlmReportsInstance]);
 			jQuery.post(
 				ajaxurl,
 				{
