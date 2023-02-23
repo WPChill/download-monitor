@@ -192,19 +192,17 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 	 * @return array<DLM_Download>
 	 */
 	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
-
 		// WPML gives original website language in AJAX Requests
 		// So we handle all the languages, as the download will be searched based on the post ID which will be unique
-		// First, let's check if WPML is installed and activated - check for it's class.
-		if ( class_exists( 'SitePress' ) ) {
-			global $sitepress;
+		$wpml_current_lang = apply_filters( 'wpml_current_language', null );
+		if ( ! is_null( $wpml_current_lang ) ) {
 			if ( is_admin() && function_exists( 'get_current_screen' ) ) {
 				$current_screen = get_current_screen();
 				if ( ! isset( $current_screen->post_type ) || 'dlm_download' !== $current_screen->post_type ) {
-					$sitepress->switch_lang( 'all' );
+					do_action( 'wpml_switch_language', 'all' );
 				}
 			} else {
-				$sitepress->switch_lang( 'all' );
+				do_action( 'wpml_switch_language', 'all' );
 			}
 		}
 
@@ -225,6 +223,10 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		$items = $this->create_downloads_from_array( $posts );
 
 		do_action( 'dlm_reset_postdata', $filters );
+
+		if ( ! is_null( $wpml_current_lang ) ) {
+			do_action( 'wpml_switch_language', $wpml_current_lang );
+		}
 
 		return $items;
 	}
