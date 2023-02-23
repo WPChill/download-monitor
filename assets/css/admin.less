@@ -1274,24 +1274,21 @@ table.wp-list-table {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
-            border-bottom: 1px solid #e0e0e0;
             overflow: hidden;
             margin: 0;
 
             .dlm-insights-tab-navigation__element {
               display:inline-block;
               height: 100%;
-              padding: 10px;
+              padding: 10px 20px;
               cursor: pointer;
               margin-bottom: 0;
-              border-bottom: 4px solid;
-              border-bottom-color: transparent;
-              border-right: 5px solid #fff;
-              border-left: 5px solid #fff;
+              border-top: 2px solid;
+              border-top-color: transparent;
 
               &.active {
-                background-color: #FFF;
-                border-bottom-color: #3858e9;
+                background-color: #f0f0f1;
+                border-top-color: #72aee6;
               }
 
               .dlm-insights-tab-navigation__label {
@@ -1999,6 +1996,82 @@ table.wp-list-table {
     display: inline-block;
     width: 75px;
     vertical-align: middle;
+  }
+}
+
+body.dlm_download_page_download-monitor-reports {
+  &.admin-color-light {
+    #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+      .dlm-insights-tab-navigation__element {
+        &.active {
+          border-top-color: #d64e07;
+        }
+      }
+    }
+  }
+
+  &.admin-color-modern {
+    #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+      .dlm-insights-tab-navigation__element {
+        &.active {
+          border-top-color: #3858e9;
+        }
+      }
+    }
+  }
+  &.admin-color-blue {
+    #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+      .dlm-insights-tab-navigation__element {
+        &.active {
+          border-top-color: #52accc;
+        }
+      }
+    }
+  }
+  &.admin-color-coffee {
+    #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+      .dlm-insights-tab-navigation__element {
+        &.active {
+          border-top-color: #c7a589;
+        }
+      }
+    }
+  }
+  &.admin-color-actoplasm {
+    #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+      .dlm-insights-tab-navigation__element {
+        &.active {
+          border-top-color: #a3b745;
+        }
+      }
+    }
+  }
+  &.admin-color-midnight {
+    #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+      .dlm-insights-tab-navigation__element {
+        &.active {
+          border-top-color: #69a8bb;
+        }
+      }
+    }
+  }
+  &.admin-color-ocean {
+    #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+      .dlm-insights-tab-navigation__element {
+        &.active {
+          border-top-color: #9ebaa0;
+        }
+      }
+    }
+  }
+  &.admin-color-sunrise {
+    #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
+      .dlm-insights-tab-navigation__element {
+        &.active {
+          border-top-color: #dd823b;
+        }
+      }
+    }
   }
 }
 

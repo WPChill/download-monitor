@@ -827,7 +827,7 @@ class DLM_Reports {
 				};
 			});
 		});
-
+		dlmReportsInstance.mostDownloaded = [];
 		dlmReportsInstance.mostDownloaded = dlmReportsInstance.orderItems(Object.values(mostDownloaded), 'desc', 'downloads');
 
 		dlmReportsInstance.setTotalDownloads(dlmReportsInstance.totalDownloads);
@@ -1708,7 +1708,7 @@ class DLM_Reports {
 	 * Filter our downloads
 	 */
 	filterDownloads() {
-
+		dlmReportsInstance.tempDownloads = [];
 		dlmReportsInstance.tempDownloads = JSON.parse(JSON.stringify(dlmReportsInstance.userDownloads));
 		if (!dlmReportsInstance.currentFilters.length) {
 			dlmReportsInstance.setUserDownloads();
