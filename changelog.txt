@@ -204,7 +204,6 @@ Changed: Move all Download Monitor's admin_notices actions to prio 8 ( [#984](ht
 Changed: Enhanced Download Monitor's disable survey ( [#881](https://github.com/WPChill/download-monitor/issues/881) )
 Fix: Uninstall process not targeting the components correctly ( [#992](https://github.com/WPChill/download-monitor/issues/992) )
 
-
 = 4.5.94 - 31.05.2022 =
 Changed: Remove Duplicator Upsells ( [#959](https://github.com/WPChill/download-monitor/issues/959) )
 Fixed: Download url not working while permalinks are set to plain ( [#964](https://github.com/WPChill/download-monitor/issues/964) )
