@@ -1254,7 +1254,8 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .reports-block {
   background-color: #FFF;
-  margin-top: 25px;
+  /* margin-top: 15px;*/
+  margin-top: 0;
   border: 1px solid #e0e0e0;
   box-sizing: border-box;
 }
@@ -1297,12 +1298,13 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation {
   background-color: #FFF;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  overflow: hidden;
+  /*overflow: hidden;*/
   margin: 0;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element {
@@ -1313,10 +1315,23 @@ table.wp-list-table .column-thumb img {
   margin-bottom: 0;
   border-top: 2px solid;
   border-top-color: transparent;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  position: relative;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
   background-color: #f0f0f1;
-  border-top-color: #72aee6;
+  /*  box-shadow: 0px 0px 15px rgba(0,0,0,0.3);*/
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: -1px;
+  left: 0;
+  background-color: #f0f0f1;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element .dlm-insights-tab-navigation__label {
   display: block;
@@ -1337,8 +1352,7 @@ table.wp-list-table .column-thumb img {
   align-items: center;
   align-content: center;
   display: flex;
-  padding: 15px 20px 0 20px;
-  background: #f0f0f1;
+  padding: 10px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-per-page {
   margin-left: 10px;
@@ -1362,13 +1376,29 @@ table.wp-list-table .column-thumb img {
   min-height: 32px;
   position: relative;
   font-size: 14px;
-  padding: 0 0.5em 0 5px;
+  /*   padding: 0 .5em 0 5px;*/
   user-select: none;
   cursor: pointer;
-  margin: 0 15px;
+  margin-right: 15px;
   transition: 800ms ease-in;
   opacity: 1;
   min-width: 230px;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .date-range-info {
+  background: #fff;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-right-width: 0;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-arrow {
+  background: #fff;
+  padding: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-left-width: 0;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector.disabled {
   pointer-events: none;
@@ -1376,12 +1406,14 @@ table.wp-list-table .column-thumb img {
   display: none;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector > label {
-  font-size: 12px;
-  font-style: italic;
-  top: -20px;
+  font-size: 13px;
+  /* font-style: italic;*/
+  padding-right: 10px;
+  /* top: -20px;*/
   display: block;
-  width: 100%;
-  position: absolute;
+  /* width: 100%;*/
+  width: auto;
+  /* position: absolute;*/
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm-reports-header-period {
   display: flex;
@@ -1425,7 +1457,7 @@ table.wp-list-table .column-thumb img {
   background: #fff;
   position: absolute;
   top: 30px;
-  right: 0;
+  /* right: 0;*/
   z-index: 10;
   overflow: hidden;
   border-radius: 5px;
@@ -1891,30 +1923,6 @@ table.wp-list-table .column-thumb img {
   display: inline-block;
   width: 75px;
   vertical-align: middle;
-}
-body.dlm_download_page_download-monitor-reports.admin-color-light #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  border-top-color: #d64e07;
-}
-body.dlm_download_page_download-monitor-reports.admin-color-modern #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  border-top-color: #3858e9;
-}
-body.dlm_download_page_download-monitor-reports.admin-color-blue #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  border-top-color: #52accc;
-}
-body.dlm_download_page_download-monitor-reports.admin-color-coffee #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  border-top-color: #c7a589;
-}
-body.dlm_download_page_download-monitor-reports.admin-color-actoplasm #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  border-top-color: #a3b745;
-}
-body.dlm_download_page_download-monitor-reports.admin-color-midnight #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  border-top-color: #69a8bb;
-}
-body.dlm_download_page_download-monitor-reports.admin-color-ocean #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  border-top-color: #9ebaa0;
-}
-body.dlm_download_page_download-monitor-reports.admin-color-sunrise #wpcontent .dlm-reports .dlm-insights-header .dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
-  border-top-color: #dd823b;
 }
 /** Products overview page */
 .post-type-dlm_product table.wp-list-table .column-title {
@@ -2875,7 +2883,7 @@ Toggles
   width: 100%;
   background-color: #FFF;
   border: 1px solid #e0e0e0;
-  margin-top: 30px;
+  margin-top: 15px;
   position: relative;
 }
 #total_downloads_table_wrapper2 .total_downloads_table_header {

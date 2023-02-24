@@ -29,6 +29,7 @@ class DLM_Reports_Page {
 		// Set this action on order for other plugins/themes to tap into our tabs.
 		add_action( 'admin_init', array( $this, 'set_tabs' ) );
 		add_action( 'dlm_page_header_links', array( $this, 'header_reports_settings' ) );
+		add_action( 'admin_head', array( $this, 'header_dynamic_content' ), 15 );
 
 	}
 
@@ -180,6 +181,13 @@ class DLM_Reports_Page {
 				?>
 			</div>
 			<div class="dlm-reports-actions">
+				<div class="dlm-insights-datepicker dlm-reports-actions">
+					<?php
+					$this->date_range_button();
+					do_action( 'dlm_insights_header' );
+					$this->page_settings();
+					?>
+				</div>
 				<span><?php esc_html_e( 'Show per page:' ); ?>  </span>
 				<select class="dlm-reports-per-page" name="dlm-reports-per-page">
 					<?php
@@ -188,14 +196,6 @@ class DLM_Reports_Page {
 					}
 					?>
 				</select>
-
-			<div class="dlm-insights-datepicker dlm-reports-actions">
-				<?php
-				do_action( 'dlm_insights_header' );
-				$this->date_range_button();
-				$this->page_settings();
-				?>
-			</div>
 			</div>
 		</div>
 		<!-- Textarea used to decode HTML entities that are retrieved from RESTP API -->
@@ -444,6 +444,36 @@ class DLM_Reports_Page {
 			<option value=""><?php echo esc_html__( 'Filter by user', 'download-monitor' ); ?></option>
 		</select>
 		<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced-metrics"><span class="dlm-available-with-pro__label">PRO</span></a>
+		<?php
+	}
+
+	/**
+	 * Display dynamic content, like colors for CSS.
+	 *
+	 * @return void
+	 * @since 4.7.77
+	 */
+	public function header_dynamic_content() {
+		$color = DLM_Admin_Helper::get_admin_color();
+		?>
+		<style>
+			body.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header
+			.dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active {
+				border-top-color: <?php echo esc_attr($color) ?>;
+			}
+			<?php
+				if ( 'light' === get_user_option( 'admin_color') ) {
+					?>
+				body.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header
+				.dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active,
+				body.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header
+				.dlm-insights-navigation .dlm-insights-tab-navigation .dlm-insights-tab-navigation__element.active:after{
+					background-color:#f5f5f5;
+				}
+					<?php
+				}
+				?>
+		</style>
 		<?php
 	}
 }

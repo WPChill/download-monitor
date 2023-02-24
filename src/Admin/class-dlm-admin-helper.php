@@ -151,4 +151,17 @@ class DLM_Admin_Helper {
 
 		return true;
 	}
+
+	/**
+	 * Get the admin color palette main color for the current user
+	 *
+	 * @return mixed
+	 * @since 4.7.77
+	 */
+	public static function get_admin_color() {
+		global $_wp_admin_css_colors;
+		$admin_color_palette = get_user_option( 'admin_color' );
+
+		return $_wp_admin_css_colors[ $admin_color_palette ]->colors[ ( count( $_wp_admin_css_colors[ $admin_color_palette ]->colors ) - 2 ) ];
+	}
 }
