@@ -122,7 +122,7 @@ class DLM_XHR_Download {
 				dlmNoWaypoints             = false,
 				dlmRedirectHeader          = false,
 				dlmExternalDownloadHeader  = false,
-				dlmNoAccessHeader          = false,
+				dlmNoAccessHeader          = null,
 				dlmNoAccessModalHeader     = false,
 				dlmErrorHeader             = false,
 				dlmDownloadIdHeader        = false,
@@ -198,7 +198,6 @@ class DLM_XHR_Download {
 				dlmNoAccessModalTextHeader = responseHeaders['x-dlm-no-access-modal-text'];
 			}
 			// End new headers check
-
 
 			if (dlmFilenameHeader) {
 				file_name = dlmFilenameHeader.replace(/\"/g, '').replace(';', '');
