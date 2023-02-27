@@ -44,26 +44,22 @@ class DLM_Reports_Page {
 
 		$this->tabs = apply_filters( 'dlm_insights_navigation', array(
 			'general_info' => array(
-				'tab_label'   => esc_html__( 'Overview', 'download-monitor' ),
-				// Label to be displayed on tab nav.
-				'description' => esc_html__( 'General information about your downloads', 'download-monitor' ),
 				// Description to be displayed on tab nav.
-				'callback'    => array( $this, 'general_info' ),
+				'tab_label' => esc_html__( 'Overview', 'download-monitor' ),
 				// The callback to display the content.
-				'priority'    => 10,
+				'callback'  => array( $this, 'general_info' ),
 				// Tab priority.
+				'priority'  => 10,
 			),
 		) );
 
 		$this->tabs['user_reports'] = array(
-			'tab_label'   => esc_html__( 'User reports', 'download-monitor' ),
 			// Label to be displayed on tab nav.
-			'description' => esc_html__( 'Reports based on user activity', 'download-monitor' ),
-			// Description to be displayed on tab nav.
-			'callback'    => array( $this, 'user_reports' ),
+			'tab_label' => esc_html__( 'User reports', 'download-monitor' ),
 			// The callback to display the content.
-			'priority'    => 20,
+			'callback'  => array( $this, 'user_reports' ),
 			// Tab priority.
+			'priority'  => 20,
 		);
 
 		uasort( $this->tabs, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
@@ -374,7 +370,7 @@ class DLM_Reports_Page {
 			$response = ob_get_clean();
 
 			// $response should be escaped in callback function.
-			echo '<div id="tab_' . esc_attr( $key ) . '" class="dlm-insights-tab-navigation__content ' . esc_attr( $active ) . '" data-id="' . esc_attr( $key ) . '">' . $response . '</div>'; //phpcs:ignore
+			echo '<div id="tab_' . esc_attr( $key ) . '" class="dlm-insights-tab-navigation__content ' . esc_attr( $active ) . '" data-id="' . esc_attr( $key ) . '">' .  $response . '</div>'; //phpcs:ignore
 
 		}
 
@@ -396,7 +392,7 @@ class DLM_Reports_Page {
 			<?php
 		} else {
 			/* Display page */ ?>
-			<div class="wrap dlm-reports wp-clearfix">
+			<div class="wrap dlm-reports wp-clearfix general_info">
 				<hr class="wp-header-end">
 				<div id="icon-edit" class="icon32 icon32-posts-dlm_download"></div>
 				<?php $this->insights_header(); ?>

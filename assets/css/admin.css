@@ -1526,6 +1526,9 @@ table.wp-list-table .column-thumb img {
   color: #4338ca;
   background: rgba(204, 204, 204, 0.3);
 }
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .notice ~ .dlm-insights-header {
+  margin-top: 0;
+}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-chart-icon {
   display: block;
   padding-right: 15px;
