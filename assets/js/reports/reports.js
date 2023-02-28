@@ -514,7 +514,7 @@ class DLM_Reports {
 	 * @param endDateInput
 	 * @returns {*}
 	 */
-	createDataOnDate(startDateInput, endDateInput, customChartData = {}, pointData = 'downloads') {
+	createDataOnDate(startDateInput, endDateInput, customChartData = {}, patchData = 'download_ids', pointData = 'downloads') {
 
 		let {startDate, endDate} = {...dlmReportsInstance.getSetDates(startDateInput, endDateInput)}, dayDiff,
 			monthDiff,
@@ -562,7 +562,7 @@ class DLM_Reports {
 				weeksDownloads,
 				monthDownloads,
 				dayDownloads
-			} = {...dlmReportsInstance.manipulateData(chartData, dlmDownloads, chartDate, startDate, endDate, pointData, chartType)};
+			} = {...dlmReportsInstance.manipulateData(chartData, dlmDownloads, chartDate, startDate, endDate, patchData, pointData, chartType)};
 
 		dlmDownloads     = response;
 		// Get number of days, used in summary for daily average downloads
@@ -1271,6 +1271,9 @@ class DLM_Reports {
 	tabNagivation() {
 		jQuery(document).on('click', '.dlm-reports .dlm-insights-tab-navigation > li', function () {
 			const listClicked     = jQuery(this),
+				  baseClass       = 'wrap dlm-reports wp-clearfix',
+				  listClass       = listClicked.attr('id'),
+				  reportsWRapper  = jQuery('.dlm-reports'),
 				  navLists        = jQuery('.dlm-reports .dlm-insights-tab-navigation > li').not(listClicked),
 				  contentTarget   = jQuery('div.dlm-insights-tab-navigation__content[data-id="' + listClicked.attr('id') + '"]'),
 				  contentWrappers = jQuery('div.dlm-insights-tab-navigation__content').not(contentTarget);
@@ -1281,6 +1284,8 @@ class DLM_Reports {
 				contentTarget.addClass('active');
 				contentWrappers.removeClass('active');
 			}
+			reportsWRapper.removeClass().addClass(baseClass + ' ' + listClass);
+			jQuery(document).trigger('dlm_reports_change_tab', [listClicked, baseClass]);
 		});
 	}
 
@@ -2211,10 +2216,11 @@ class DLM_Reports {
 	 * @param chartDate The date to be displayed on the chart
 	 * @param startDate The start date
 	 * @param endDate The end date
+	 * @param patchData The argument with which the data is selected
 	 * @param pointData The argument with which the data is manipulated
 	 * @param chartType The type of the chart
 	 */
-	manipulateData(chartData, dlmDownloads, chartDate, startDate, endDate, pointData = 'downloads', chartType = 'days') {
+	manipulateData(chartData, dlmDownloads, chartDate, startDate, endDate, patchData = 'download_ids',  pointData = 'downloads', chartType = 'days') {
 
 		// Get all dates from the startDate to the endDate
 		let dayDownloads = dlmReportsInstance.getDates(new Date(startDate), new Date(endDate)),
@@ -2252,8 +2258,15 @@ class DLM_Reports {
 				break;
 		}
 		Object.values(chartData).forEach((day, index) => {
+			let patch = dlmReportsInstance.checkJSON(day[patchData]),
+				downloads = [];
 
-			const downloads = JSON.parse(day.download_ids);
+			// Get the downloads for the current day
+			if (patch) {
+				downloads = JSON.parse(day[patchData]);
+			} else {
+				downloads.push(day[patchData]);
+			}
 
 			if ('undefined' !== typeof dayDownloads[day.date]) {
 
@@ -2265,7 +2278,6 @@ class DLM_Reports {
 							prevDateI  = (chartMonth - 1).length > 6 ? chartYear + (chartMonth - 1) : chartYear + '0' + (chartMonth - 1);
 
 						Object.values(downloads).forEach((item, index) => {
-
 							// If it does not exist we attach the downloads to the previous month
 							if ('undefined' === typeof doubleMonthDownloads[chartDate]) {
 								if ('undefined' !== typeof doubleMonthDownloads[prevDateI]) {
@@ -2323,7 +2335,6 @@ class DLM_Reports {
 						dlmDownloads = weekDownloads;
 						break;
 					case 'days':
-
 						chartDate    = day.date;
 						let prevDate = moment(day.date).date(moment(day.date).date() - 1).format("YYYY-MM-DD");
 
@@ -2341,7 +2352,6 @@ class DLM_Reports {
 						dlmDownloads = doubleDays;
 						break;
 					case 'day':
-
 						Object.values(downloads).forEach((item, index) => {
 							dayDownloads[day.date] = dayDownloads[day.date] + item[pointData];
 						});
@@ -2364,5 +2374,30 @@ class DLM_Reports {
 			monthDownloads,
 			dayDownloads
 		};
+	}
+
+	/**
+	 * Check if the object is a valid JSON
+	 *
+	 * @param item
+	 * @returns {any|boolean}
+	 */
+	checkJSON(item) {
+
+		item = typeof item !== "string"
+			   ? JSON.stringify(item)
+			   : item;
+
+		try {
+			item = JSON.parse(item);
+		} catch (e) {
+			return false;
+		}
+
+		if (typeof item === "object" && item !== null) {
+			return true;
+		}
+
+		return false;
 	}
 }

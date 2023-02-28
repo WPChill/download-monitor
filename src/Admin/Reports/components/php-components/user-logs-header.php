@@ -8,7 +8,11 @@ if ( ! empty( $dlm_top_downloads['user_logs']['table_headers'] ) ) {
 
 	foreach ( $dlm_top_downloads['user_logs']['table_headers'] as $key => $table_header ) {
 		if ( is_array( $table_header ) ) {
-			echo '<th scope="col"  class="total_downloads_table_filters_' . esc_attr( $key ) . '">' . ( isset( $table_header['sort'] ) && $table_header['sort'] ? '<a href="#">' . esc_html( $table_header['title'] ) . '</a><span class="dashicons dashicons-arrow-down"></span>' : esc_html( $table_header['title'] ) ) . '</th>';
+			$class = '';
+			if ( isset( $table_header['class'] ) ) {
+				$class = $table_header['class'];
+			}
+			echo '<th scope="col"  class="total_downloads_table_filters_' . esc_attr( $key ) . ' ' . esc_attr( $class ) . '">' . ( isset( $table_header['sort'] ) && $table_header['sort'] ? '<a href="#">' . esc_html( $table_header['title'] ) . '</a><span class="dashicons dashicons-arrow-down"></span>' : esc_html( $table_header['title'] ) ) . '</th>';
 		} else { // Backwards compatibility for pre-DLM 4.7.6.
 			echo '<th scope="col"  class="total_downloads_table_filters_' . esc_attr( $key ) . '">' . ( 'download_date' === $key ? '<a href="#">' . esc_html( $table_header ) . '</a><span class="dashicons dashicons-arrow-down"></span>' : esc_html( $table_header ) ) . '</th>';
 		}
