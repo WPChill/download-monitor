@@ -438,7 +438,7 @@ class DLM_XHR_Download {
 		}
 		// End of new headers.
 
-		const data = {
+		let data = {
 			download_id: download,
 			version_id : version,
 			modal_text : text,
@@ -447,12 +447,14 @@ class DLM_XHR_Download {
 			nonce      : dlmXHR.nonce
 		};
 
+		jQuery(document).trigger( 'dlm-xhr-modal-data', [ data, headers] );
+
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
 
 			jQuery('#dlm-no-access-modal').remove();
 			jQuery('body').append(response);
 
-			jQuery(document).trigger('dlm_no_access_modal_response', [response, data]);
+			jQuery(document).trigger( data['action'], [response, data]);
 
 		});
 	}
@@ -477,7 +479,7 @@ class DLM_XHR_Download {
 		button.removeAttribute('download');
 		button.setAttribute('disabled', 'disabled');
 
-		// Trigger the `dlm_download_triggered` action
+		// Trigger the `dlm_download_triggered` action 
 		jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL]);
 
 		request.responseType       = 'blob';
