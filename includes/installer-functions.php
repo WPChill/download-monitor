@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param bool $network_wide
  */
 function _download_monitor_install( $network_wide = false ) {
+	
+	download_monitor_delete_cached_scripts();
 
 	// DLM Installer
 	$installer = new DLM_Installer();
@@ -89,4 +91,40 @@ function _download_monitor_mu_delete_blog( $tables ) {
 	$tables[] = $wpdb->prefix . 'download_log';
 
 	return $tables;
+}
+
+/**
+ * Delete cached js and css scripts from optimisation plugins on plugin activation.
+ *
+ * @param $tables
+ *
+ * @return array
+ */
+function download_monitor_delete_cached_scripts() {
+
+	// WP Rocket
+	if ( function_exists( 'rocket_clean_domain' ) ) {
+		rocket_clean_domain();
+	 }
+	if ( function_exists( 'rocket_clean_minify' ) ) {
+		rocket_clean_minify();
+	}
+
+	// WP Optimize
+	if ( class_exists('WP_Optimize_Minify_Commands') ) {
+		$WP_Optimize_Minify = new WP_Optimize_Minify_Commands();
+		$WP_Optimize_Minify->purge_minify_cache();
+	}
+
+	// WP Fastest Cache
+	if ( class_exists('WpFastestCache') ) {
+		$WP_Fastest_Cache = new WpFastestCache();
+		$WP_Fastest_Cache->deleteCache( true );
+	}
+	
+	// WP Super Cache
+	if ( function_exists( 'wp_cache_clear_cache' ) ) {
+		wp_cache_clear_cache();
+	}
+
 }

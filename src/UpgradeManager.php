@@ -29,6 +29,8 @@ class DLM_Upgrade_Manager {
 		// Check if update is required
 		if ( version_compare( DLM_VERSION, $current_version, '>' ) ) {
 
+			download_monitor_delete_cached_scripts();
+
 			// Do update
 			$this->do_upgrade( $current_version );
 
