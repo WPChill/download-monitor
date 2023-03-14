@@ -437,14 +437,14 @@ class DLM_XHR_Download {
 			restriction = headers['x-dlm-no-access-restriction'];
 		}
 		// End of new headers.
-
 		let data = {
-			download_id: download,
-			version_id : version,
-			modal_text : text,
+			download_id       : download,
+			version_id        : version,
+			modal_text        : text,
 			restriction,
-			action     : 'no_access_dlm_xhr_download',
-			nonce      : dlmXHR.nonce
+			action            : 'no_access_dlm_xhr_download',
+			nonce             : dlmXHR.nonce,
+			dlm_modal_response: true
 		};
 
 		jQuery(document).trigger( 'dlm-xhr-modal-data', [ data, headers] );
