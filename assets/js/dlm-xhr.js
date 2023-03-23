@@ -6,8 +6,6 @@ jQuery(function ($) {
 
 class DLM_XHR_Download {
 
-	request = false;
-
 	constructor() {
 		// dlmXHRinstance defined in inline script
 		dlmXHRinstance = this;
@@ -31,12 +29,26 @@ class DLM_XHR_Download {
 		jQuery('html, body').on('click', 'a', function (e) {
 
 			const url = jQuery(this).attr('href');
-
-			// Search to see if we don't have to do XHR on this link
+			// Let's see if we need to do XHR download on this link.
+			let noXHR = false;
 			if (jQuery(this).hasClass('dlm-no-xhr-download')) {
-				return true;
+				noXHR = true;
 			}
 
+			if ('undefined' !== typeof dlmNonXHRGlobalLinks && dlmNonXHRGlobalLinks.length > 0) {
+				if ('undefined' != typeof url) {
+					dlmNonXHRGlobalLinks.forEach((element) => {
+						if (url.indexOf(element) >= 0) {
+							noXHR = true;
+						}
+					});
+				}
+			}
+
+			if (noXHR) { // No XHR so return;
+				jQuery('#dlm-no-access-modal').remove(); // Close the modal also in case we opened it before.
+				return;
+			}
 
 			if ('undefined' != typeof url && url.indexOf(dlmXHRGlobalLinks) >= 0) {
 
@@ -211,6 +223,7 @@ class DLM_XHR_Download {
 				// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
 				file_name = decodeURI(file_name);
 			}
+			console.log(dlmXHRinstance.request);
 
 			// Let's check for DLM request headers
 			if (dlmXHRinstance.request.readyState === 2) {
@@ -221,6 +234,7 @@ class DLM_XHR_Download {
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
 					buttonObj.find('.dlm-xhr-loading-gif').remove();
 					dlmXHRinstance.request.abort();
+					jQuery('#dlm-no-access-modal').remove();
 					return;
 				}
 
@@ -332,7 +346,7 @@ class DLM_XHR_Download {
 
 				// Append the paragraph to the download-contaner
 				// Trigger the `dlm_download_complete` action
-				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL, dlmXHRinstance.request]);
+				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL]);
 				dlmXHRinstance.dlmLogDownload(responseHeaders, 'completed', $setCookie);
 				// Recommended : Revoke the object URL after some time to free up resources
 				window.URL.revokeObjectURL(_OBJECT_URL);
@@ -450,14 +464,14 @@ class DLM_XHR_Download {
 			restriction = headers['x-dlm-no-access-restriction'];
 		}
 		// End of new headers.
+
 		let data = {
-			download_id       : download,
-			version_id        : version,
-			modal_text        : text,
+			download_id: download,
+			version_id : version,
+			modal_text : text,
 			restriction,
-			action            : 'no_access_dlm_xhr_download',
-			nonce             : dlmXHR.nonce,
-			dlm_modal_response: true
+			action     : 'no_access_dlm_xhr_download',
+			nonce      : dlmXHR.nonce
 		};
 
 		jQuery(document).trigger( 'dlm-xhr-modal-data', [ data, headers] );
@@ -473,11 +487,11 @@ class DLM_XHR_Download {
 	}
 
 	dlmExternalDownload(headers, button, buttonObj, file_name, href) {
-		dlmXHRinstance.request = new XMLHttpRequest();
-		const buttonTarget     = buttonObj.attr('target');
-		let buttonClass        = buttonObj.attr('class'),
+		const request      = new XMLHttpRequest(),
+			  buttonTarget = buttonObj.attr('target');
+		let buttonClass    = buttonObj.attr('class'),
 			_OBJECT_URL,
-			uri                = '';
+			uri            = '';
 
 		if ('undefined' !== typeof headers['dlm-external-download']) {
 			uri = headers['dlm-external-download'];
@@ -493,17 +507,17 @@ class DLM_XHR_Download {
 		button.setAttribute('disabled', 'disabled');
 
 		// Trigger the `dlm_download_triggered` action
-		jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL,dlmXHRinstance.request]);
+		jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL,request]);
 
-		dlmXHRinstance.request.responseType       = 'blob';
-		dlmXHRinstance.request.onreadystatechange = function () {
+		request.responseType       = 'blob';
+		request.onreadystatechange = function () {
 			let {
 					status,
 					readyState,
 					statusText
-				} = dlmXHRinstance.request;
+				} = request;
 
-			let responseHeaders = dlmXHRinstance.request
+			let responseHeaders = request
 				.getAllResponseHeaders()
 				.split('\r\n')
 				.reduce((result, current) => {
@@ -515,14 +529,14 @@ class DLM_XHR_Download {
 
 			if (403 === status) {
 				dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
-				dlmXHRinstance.request.abort();
+				request.abort();
 				buttonObj.find( '.dlm-xhr-error' ).remove();
 				buttonObj.append('<span class="dlm-xhr-error">Acces Denied to file.</span>');
 				return;
 			}
 			if (status == 200 && readyState == 4) {
 
-				let blob = dlmXHRinstance.request.response;
+				let blob = request.response;
 
 				_OBJECT_URL = URL.createObjectURL(blob);
 				// Remove event listener
@@ -539,7 +553,7 @@ class DLM_XHR_Download {
 
 				// Append the paragraph to the download-contaner
 				// Trigger the `dlm_download_complete` action
-				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL, dlmXHRinstance.request]);
+				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL]);
 				dlmXHRinstance.dlmLogDownload(responseHeaders, 'completed', false);
 				// Recommended : Revoke the object URL after some time to free up resources
 				window.URL.revokeObjectURL(_OBJECT_URL);
@@ -553,7 +567,7 @@ class DLM_XHR_Download {
 			}
 		};
 
-		dlmXHRinstance.request.addEventListener('progress', function (e) {
+		request.addEventListener('progress', function (e) {
 			let percent_complete = (e.loaded / e.total) * 100;
 			// Force perfect complete to have 2 digits
 			percent_complete     = percent_complete.toFixed();
@@ -572,7 +586,7 @@ class DLM_XHR_Download {
 			jQuery(document).trigger('dlm_download_progress', [this, button, buttonObj, _OBJECT_URL, e, percent_complete]);
 		});
 
-		dlmXHRinstance.request.onerror = function () {
+		request.onerror = function () {
 			button.removeAttribute('download');
 			button.setAttribute('href', href);
 			buttonObj.removeClass().addClass(buttonClass + ' .dlm-no-xhr-download').find('span.dlm-xhr-progress').remove();
@@ -581,8 +595,8 @@ class DLM_XHR_Download {
 			console.log('** An error occurred during the transaction');
 		};
 
-		dlmXHRinstance.request.open('GET', uri, true);
-		dlmXHRinstance.request.setRequestHeader('dlm-xhr-request', 'dlm_XMLHttpRequest');
-		dlmXHRinstance.request.send();
+		request.open('GET', uri, true);
+		request.setRequestHeader('dlm-xhr-request', 'dlm_XMLHttpRequest');
+		request.send();
 	}
 }

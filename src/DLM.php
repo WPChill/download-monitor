@@ -340,6 +340,7 @@ class WP_DLM {
 	 * @return void
 	 */
 	public function frontend_scripts() {
+
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
 			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css', array(), DLM_VERSION );
 		}
@@ -357,12 +358,15 @@ class WP_DLM {
 
 		// Leave this filter here in case XHR is problematic and needs to be disabled.
 		if ( self::do_xhr() ) {
-			wp_enqueue_script(
+			wp_register_script(
 				'dlm-xhr',
 				plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
-				array('jquery'),
-				DLM_VERSION, true
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
 			);
+
+			wp_enqueue_script( 'dlm-xhr' );
 
 			// Add dashicons on the front if popup modal for no access is used.
 			if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
@@ -417,8 +421,9 @@ class WP_DLM {
 			if ( $is_dlm_translated ) {
 				remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
 			}
-
-			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; dlmXHRgif = "' . esc_url( includes_url( '/images/spinner.gif' ) ) .'"', 'before' );
+			$nonXHRGlobalLinks = apply_filters( 'dlm_non_xhr_uri', array() );
+			$nonXHRGlobalLinks = array_map( 'sanitize_text_field', $nonXHRGlobalLinks );
+			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( includes_url( '/images/spinner.gif' ) ) .'"', 'before' );
 			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', array(
 				'error' => __( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' )
 			) );
