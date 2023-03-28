@@ -962,27 +962,6 @@ class DLM_Download {
 	}
 
 	/**
-	 * Retrieve download count info from the custom table.
-	 *
-	 * @param int $download_id The download ID.
-	 *
-	 * @return string|void|null
-	 * @since 4.7.76
-	 */
-	public function get_count_info( $download_id ) {
-		global $wpdb;
-		// Check to see if the table exists first.
-		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
-			$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_downloads} as download WHERE download_id = %s;", $download_id ), ARRAY_A );
-			if ( null !== $results && ! empty( $results ) ) {
-				return $results[0];
-			}
-
-			return $results;
-		}
-	}
-
-	/**
 	 * Set the versions downloads.
 	 *
 	 * @param array $versions_downloads The versions downloads received from the database.
