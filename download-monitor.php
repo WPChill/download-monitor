@@ -7,7 +7,7 @@
 	Author: WPChill
 	Author URI: https://wpchill.com
 	Requires at least: 5.4
-	Tested up to: 6.1
+	Tested up to: 6.2
 	Text Domain: download-monitor
 
 	License: GPL v3
