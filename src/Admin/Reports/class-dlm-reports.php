@@ -185,20 +185,25 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.6.0
 		 */
 		public function create_global_variable() {
-			$current_user_can = '&user_can_view_reports=' . apply_filters( 'dlm_user_can_view_reports', current_user_can( 'dlm_view_reports' ) );
+			$current_user_can    = '&user_can_view_reports=' . apply_filters( 'dlm_user_can_view_reports', current_user_can( 'dlm_view_reports' ) );
+			$permalink_structure = get_option( 'permalink_structure' );
+			$separator           = '?';
+			if ( empty( $permalink_structure ) ) {
+				$separator = '&';
+			}
 
-			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
-			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
-			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
-			$rest_route_templates        = rest_url() . 'download-monitor/v1/templates?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
+			$rest_route_download_reports = rest_url( 'download-monitor/v1/download_reports' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
+			$rest_route_user_reports     = rest_url( 'download-monitor/v1/user_reports' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
+			$rest_route_user_data        = rest_url( 'download-monitor/v1/user_data' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
+			$rest_route_templates        = rest_url( 'download-monitor/v1/templates' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
 
-			$cpt_fields = apply_filters( 'dlm_reports_downloads_cpt', array(
+			$cpt_fields             = apply_filters( 'dlm_reports_downloads_cpt', array(
 				'author',
 				'id',
 				'title',
 				'slug'
 			) );
-			$rest_rout_downloadscpt = rest_url() . 'wp/v2/dlm_download?_fields=' . implode( ',', $cpt_fields ) . '&_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
+			$rest_rout_downloadscpt = rest_url( 'wp/v2/dlm_download' . $separator . '_fields=' . implode( ',', $cpt_fields ) . '&_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
 			// Let's add the global variable that will hold our reporst class and the routes.
 			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; const dlmDownloadsCptApiapi = "' . $rest_rout_downloadscpt . '"; const dlmPHPinfo =  ' . wp_json_encode( $this->php_info ) . ';', 'before' );
 		}
