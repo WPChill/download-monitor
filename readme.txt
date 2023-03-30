@@ -120,6 +120,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.7.78 - 30.03.2023 =
+Fixed: Nonce error for websites with full cache ( [#1245](https://github.com/WPChill/download-monitor/issues/1245) )
 
 = 4.7.77 - 06.03.2023 =
 Added: Trigger in dlm-xhr.js to manipulate data ( [#1230](https://github.com/WPChill/download-monitor/issues/1230) )
