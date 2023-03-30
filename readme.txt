@@ -121,6 +121,12 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
+= 4.8.1 - TBD =
+Added: A filter on [downloads] shortcode content( [#1246](https://github.com/WPChill/download-monitor/issues/1246) )
+
+= 4.8.0 - TBD =
+Added: Clear optimization plugins cache and minified scripts cache on plugin update/activation ( [#1224](https://github.com/WPChill/download-monitor/issues/1224) )
+
 = 4.7.7 - 06.03.2023 =
 Added: Trigger in dlm-xhr.js to manipulate data ( [#1230](https://github.com/WPChill/download-monitor/issues/1230) )
 Fixed: Fatal error when using WPML & Toolset Types ( [#1225](https://github.com/WPChill/download-monitor/issues/1225) ) - thanks to @decodekult
