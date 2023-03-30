@@ -141,7 +141,7 @@ Changed: Removed optional feedback sending ( [#1262](https://github.com/WPChill/
 Added: Show notice if user is not allowed to upload file ( [#1265](https://github.com/WPChill/download-monitor/issues/1265) )
 Added: Warn user if File URLs contain not-allowed paths ( [#1268](https://github.com/WPChill/download-monitor/issues/1268) )
 
-= 4.7.7 - 06.03.2023 =
+= 4.7.77 - 06.03.2023 =
 Added: Trigger in dlm-xhr.js to manipulate data ( [#1230](https://github.com/WPChill/download-monitor/issues/1230) )
 Fixed: Fatal error when using WPML & Toolset Types ( [#1225](https://github.com/WPChill/download-monitor/issues/1225) ) - thanks to @decodekult
 Fixed: Opening in new tab ( [#1227](https://github.com/WPChill/download-monitor/issues/1227) )

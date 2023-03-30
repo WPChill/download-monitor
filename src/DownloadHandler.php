@@ -195,11 +195,6 @@ class DLM_Download_Handler {
 
 		// Check and see if this is an XHR request or a classic request.
 		if ( isset( $_SERVER['HTTP_DLM_XHR_REQUEST'] ) && 'dlm_XMLHttpRequest' === $_SERVER['HTTP_DLM_XHR_REQUEST'] ) {
-
-			if ( ! isset( $_REQUEST['nonce'] ) ) {
-				wp_send_json_error( array( 'error' => 'missing_nonce' ) );
-			}
-			wp_verify_nonce( $_REQUEST['nonce'], 'dlm_ajax_nonce' );
 			define( 'DLM_DOING_XHR', true );
 		}
 
@@ -807,6 +802,7 @@ class DLM_Download_Handler {
 
 		$headers['X-DLM-Download-ID'] = $download->get_id();
 		$headers['X-DLM-Version-ID']  = $version->get_id();
+		$headers['X-DLM-Nonce']       = wp_create_nonce( 'dlm_ajax_nonce' );
 
 		foreach ( $headers as $key => $value ) {
 			header( $key . ': ' . $value );

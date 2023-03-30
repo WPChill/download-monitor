@@ -6,6 +6,8 @@ jQuery(function ($) {
 
 class DLM_XHR_Download {
 
+	xhrNonce = false;
+
 	constructor() {
 		// dlmXHRinstance defined in inline script
 		dlmXHRinstance = this;
@@ -87,6 +89,7 @@ class DLM_XHR_Download {
 	}
 
 	retrieveBlob(triggerObject) {
+		const instance = this;
 		let {
 				button,
 				href,
@@ -109,8 +112,6 @@ class DLM_XHR_Download {
 		const loading_gif = '<img src="' + dlmXHRgif + '" class="dlm-xhr-loading-gif" style="display:inline-block; vertical-align: middle; margin-left:15px;">';
 		button.innerHTML += loading_gif;
 
-		const newHref = (href.indexOf('?') > 0) ? href + '&nonce=' + dlmXHR.nonce : href + '?nonce=' + dlmXHR.nonce;
-
 		// Trigger the `dlm_download_triggered` action
 		jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL, dlmXHRinstance.request]);
 
@@ -130,6 +131,8 @@ class DLM_XHR_Download {
 													result[name]      = value;
 													return result;
 												}, {});
+
+			instance.xhrNonce = responseHeaders['x-dlm-nonce'];
 
 			let file_name                  = 'download';
 			let dlmFilenameHeader          = false,
@@ -393,7 +396,7 @@ class DLM_XHR_Download {
 	}
 
 	dlmLogDownload(headers, status, cookie, redirect_path = null, no_access = null, target = '_self') {
-
+		const instance = this;
 		if (null !== no_access) {
 			window.location.href = redirect_path;
 			return;
@@ -410,7 +413,7 @@ class DLM_XHR_Download {
 			currentURL,
 			action         : 'log_dlm_xhr_download',
 			responseHeaders: headers,
-			nonce          : dlmXHR.nonce
+			nonce          : instance.xhrNonce
 		};
 
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
@@ -425,6 +428,7 @@ class DLM_XHR_Download {
 	}
 
 	dlmNoAccessModal(headers) {
+		const instance = this;
 		let download    = 'empty-download',
 			version     = 'empty-version',
 			restriction = 'empty-restriction',
@@ -470,7 +474,7 @@ class DLM_XHR_Download {
 			modal_text : text,
 			restriction,
 			action     : 'no_access_dlm_xhr_download',
-			nonce      : dlmXHR.nonce
+			nonce      : instance.xhrNonce
 		};
 
 		jQuery(document).trigger( 'dlm-xhr-modal-data', [ data, headers] );
