@@ -1,4 +1,4 @@
-= 4.7.7 - 06.03.2023 =
+= 4.7.77 - 06.03.2023 =
 Added: Trigger in dlm-xhr.js to manipulate data ( [#1230](https://github.com/WPChill/download-monitor/issues/1230) )
 Fixed: Fatal error when using WPML & Toolset Types ( [#1225](https://github.com/WPChill/download-monitor/issues/1225) ) - thanks to @decodekult
 Fixed: Opening in new tab ( [#1227](https://github.com/WPChill/download-monitor/issues/1227) )

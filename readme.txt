@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
 Tested up to: 6.1
-Stable tag: 4.7.77
+Stable tag: 4.7.78
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.7.7 - 06.03.2023 =
+= 4.7.77 - 06.03.2023 =
 Added: Trigger in dlm-xhr.js to manipulate data ( [#1230](https://github.com/WPChill/download-monitor/issues/1230) )
 Fixed: Fatal error when using WPML & Toolset Types ( [#1225](https://github.com/WPChill/download-monitor/issues/1225) ) - thanks to @decodekult
 Fixed: Opening in new tab ( [#1227](https://github.com/WPChill/download-monitor/issues/1227) )
