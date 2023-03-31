@@ -1,5 +1,8 @@
 = 4.8.0 - TBD =
 Added: Clear optimization plugins cache and minified scripts cache on plugin update/activation ( [#1224](https://github.com/WPChill/download-monitor/issues/1224) )
+Changed: No access modal now takes the no access page content ( [#1234](https://github.com/WPChill/download-monitor/issues/1234) )
+Fixed: Reports not working when permalinks set on plain ( [#1243](https://github.com/WPChill/download-monitor/issues/1243) )
+Fixed: Insert Download - Quick-add download in classic editor now removed if current user can't manage downloads ( [#1164](https://github.com/WPChill/download-monitor/issues/1164) )
 
 = 4.7.7 - 06.03.2023 =
 Added: Trigger in dlm-xhr.js to manipulate data ( [#1230](https://github.com/WPChill/download-monitor/issues/1230) )
