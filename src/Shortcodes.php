@@ -564,17 +564,19 @@ class DLM_Shortcodes {
 		// show_message must be a bool
 		$atts['show_message'] = ( 'true' === $atts['show_message'] );
 
-		// return empty string if download-id is not set
-		if ( ! isset( $wp->query_vars['download-id'] ) ) {
+		// return empty string if download-id is not set or action is not no_access_dlm_xhr_download for XHR downloads & modal no access.
+		if ( ! isset( $_REQUEST['action'] ) && 'no_access_dlm_xhr_download' !== $_REQUEST['action'] && ! isset( $wp->query_vars['download-id'] ) ) {
 			return '';
 		}
 
-		// template handler
+		$download_id = isset( $_REQUEST['download_id'] ) ? absint( $_REQUEST['download_id'] ) : absint( $wp->query_vars['download-id'] );
+
+		// template handler.
 		$template_handler = new DLM_Template_Handler();
 
 		try {
 			/** @var \DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $wp->query_vars['download-id'] ) );
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
 
 			$version_id = '';
 
