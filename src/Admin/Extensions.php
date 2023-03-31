@@ -41,6 +41,35 @@ class DLM_Admin_Extensions {
 	 */
 	private $extensions = array();
 
+	// @todo: Maybe gather extensions from the API?
+	private $free_extensions = array(
+				'download-monitor-learndash-integration' => array(
+					'name'        => 'LearnDash Integration',
+					'description' => 'With Download Monitor & LearnDash integration you can allow only certain LearnDash groups users to download from your website.',
+					'slug' => 'dlm-aam-learndash.php'
+				),
+				'download-monitor-restrict-content-integration' => array(
+					'name'        => 'Restrict Content Integration',
+					'description' => 'Allow only certain Restrict Content groups users to download from your website and set a maximum number of downloads based on their subscription duration.',
+					'slug' => 'dlm-aam-restrict-content-pro.php'
+				),
+				'download-monitor-paid-membership-pro-integration' => array(
+					'name'        => 'Paid Memberships Pro Integration',
+					'description' => 'Allow only certain Paid Membership Pro groups users to download from your website and set a maximum number of downloads based on their subscription duration.',
+					'slug' => 'dlm-aam-paid-membership-pro.php'
+				),
+				'download-monitor-cors' => array(
+					'name'        => 'CORS',
+					'description' => 'Adds the possibility for Download Monitor’s XHR requests to be processed from other domains.',
+					'slug' => 'dlm-cors.php'
+				),
+				'download-monitor-migrate-download-counts' => array(
+					'name'        => 'Migrate Download Counts',
+					'description' => 'Migrate DLM download counts. Used for migrating from DLM 4.5.x and below to DLM 4.6.0 and above.',
+					'slug' => 'dlm-migrate-download-counts.php'
+				),
+			);
+
 	/**
 	 * DLM's extensions tabs
 	 *
@@ -100,7 +129,6 @@ class DLM_Admin_Extensions {
 		add_filter( 'dlm_add_edit_tabs', array( $this, 'dlm_cpt_tabs' ) );
 
 		add_filter( 'dlm_settings', array( $this, 'remove_pro_badge' ), 99 );
-
 
 	}
 
@@ -303,13 +331,53 @@ class DLM_Admin_Extensions {
 					echo '<div class="dlm_extensions">';
 					?>
 					<div id="wpchill-welcome">
+
 						<div class="features">
 							<div class="block">
+							<p class="dlm-extension-filtering"><a id="all-extensions">All</a> | <a id="pro-extensions">PRO</a> | <a id="free-extensions">Free</a></p>
 								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
 								<!-- Let's display the extensions.  -->
 								<?php
 								foreach ( $this->extensions as $extension ) {
 									$welcome->display_extension( $extension->name, wp_kses_post( $extension->desc ), $extension->image, true, '#F08232', $extension->name );
+								}
+
+								foreach( $this->free_extensions as $key => $extension ) {
+
+									$action = 'install';
+									$activate_url = '#';
+									$disabled = false;
+									$text = esc_html__( 'Install' , 'download-monitor' );
+									$plugin_path = $key . '/' . $extension['slug'];
+
+									if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_path ) ) {
+										$action = 'activate';
+										$text = esc_html__( 'Activate' , 'download-monitor' );
+										$activate_url = add_query_arg(
+											array(
+												'action'        => 'activate',
+												'plugin'        => rawurlencode( $plugin_path ),
+												'plugin_status' => 'all',
+												'paged'         => '1',
+												'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $plugin_path ),
+											),
+											admin_url( 'plugins.php' )
+										);
+									}
+
+									if ( is_plugin_active( $plugin_path ) ) {
+										$action = 'installed';
+										$disabled = true;
+										$text = esc_html__( 'Installed & Activated' , 'download-monitor' );
+									}
+									echo '<div class="feature-block free-extension">';
+									echo '<div class="feature-block__header">';
+									echo '<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1IiBoZWlnaHQ9IjEwNSIgdmlld0JveD0iMCAwIDEwNSAxMDUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01Mi41IDAuMDAwNTk5Njc0QzM4LjU3NTYgMC4wMDA1OTk2NzQgMjUuMjIxOSA1LjUzMjAzIDE1LjM3NzYgMTUuMzc4MUM1LjUzMTQ2IDI1LjIyMjkgMCAzOC41NzY2IDAgNTIuNTAwM0MwIDY2LjQyNCA1LjUzMTQ2IDc5Ljc3ODMgMTUuMzc3NiA4OS42MjI1QzI1LjIyMjUgOTkuNDY4NiAzOC41NzYyIDEwNSA1Mi41IDEwNUM2Ni40MjM4IDEwNSA3OS43NzgxIDk5LjQ2ODYgODkuNjIyNCA4OS42MjI1Qzk5LjQ2ODUgNzkuNzc3NyAxMDUgNjYuNDI0IDEwNSA1Mi41MDAzQzEwNSA0My4yODQ1IDEwMi41NzQgMzQuMjMwOCA5Ny45NjY0IDI2LjI1MDJDOTMuMzU4NyAxOC4yNjk1IDg2LjczMDQgMTEuNjQxNiA3OC43NDk3IDcuMDMzNTRDNzAuNzY5IDIuNDI1ODEgNjEuNzE1MiAwIDUyLjQ5OTQgMEw1Mi41IDAuMDAwNTk5Njc0Wk00MC40Nzc3IDM4LjI3MThMNDcuMjQ5OSA0NS4wOTY5VjI2LjI0OTZINTcuNzUwMVY0NS4wOTY5TDY0LjUyMjMgMzguMzI0Nkw3MS45MjUyIDQ1LjcyNzVMNTIuNSA2NS4xNTI2TDMzLjAyMiA0NS42NzQ3TDQwLjQ3NzcgMzguMjcxOFpNNzguNzQ5MSA3OC43NTExSDI2LjI0ODVWNjguMjUxSDc4Ljc0OTFWNzguNzUxMVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl8zN184NSkiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhcl8zN184NSIgeDE9Ii0zNy41MjkzIiB5MT0iMS4wOTMzNGUtMDYiIHgyPSI5NS45NzY2IiB5Mj0iMTA3Ljg3MSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMTEwMTEzIiBzdG9wLWNvbG9yPSIjNURERUZCIi8+CjxzdG9wIG9mZnNldD0iMC40NDM1NjgiIHN0b3AtY29sb3I9IiM0MTlCQ0EiLz4KPHN0b3Agb2Zmc2V0PSIwLjYzNjEyMiIgc3RvcC1jb2xvcj0iIzAwOENENSIvPgo8c3RvcCBvZmZzZXQ9IjAuODU1OTk3IiBzdG9wLWNvbG9yPSIjMDI1RUEwIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAyNTM4RCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" style="max-height: 30px;">';
+									echo '<h5>' . esc_html( $extension['name'] ) . '<div style="background-color:#00b894" class="pro-label">FREE</div></h5>';
+									echo '</div>';
+									echo '<p>' . wp_kses_post( $extension['description'] ) . '</p>';
+									echo '<a class="dlm-install-plugin-link" data-activation_url="' . esc_url( $activate_url ) . '" data-action="' . esc_attr( $action ) . '" data-slug="' . esc_attr( $key ) . '" href="#" ' . ( $disabled ? 'style="pointer-events:none;background:grey;"' : '' )  . '>' . esc_html($text) . '</a>';
+									echo '</div>';
 								}
 								?><!-- end extensions display -->
 								<?php $welcome->layout_end(); ?>
@@ -343,7 +411,7 @@ class DLM_Admin_Extensions {
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
 		}
-		
+
 		wp_enqueue_style( array( 'dlm-welcome-style' ) );
 		?>
 		<div class="wrap dlm_extensions_wrap">
@@ -419,8 +487,6 @@ class DLM_Admin_Extensions {
 						</div><!-- .features -->
 					</div><!-- #wpchill-welcome -->
 			<?php
-
-
 			echo '</div>';
 			echo '</div>';
 
@@ -502,7 +568,7 @@ class DLM_Admin_Extensions {
 
 	/**
 	 * Get the available extensions
-	 * 
+	 *
 	 * @since 4.5.8
 	 */
 	public function get_available_extensions() {

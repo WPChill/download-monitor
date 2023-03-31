@@ -8,6 +8,24 @@ jQuery( function ($) {
         return false;
     } );
 
+    // Browse for file
+    jQuery( 'body' ).on( 'click', 'p.dlm-extension-filtering a', function (event) {
+        event.preventDefault();
+        const target = jQuery(this).attr('id'),
+              paidExtensions = jQuery('.dlm_extensions .feature-list > .feature-block').not('.free-extension'),
+              freeExtensions = jQuery('.dlm_extensions .feature-list > .feature-block.free-extension');
+        if ( 'free-extensions' === target ) {
+            freeExtensions.show( );
+            paidExtensions.hide( );
+        } else if ( 'pro-extensions' === target ){
+            freeExtensions.hide( );
+            paidExtensions.show( );
+        } else {
+            freeExtensions.show( );
+            paidExtensions.show( );
+        }
+    } );
+
     $(document).on('click', '#dlm-protect-file', function (e) {
         // Prevent default for form submission
         e.preventDefault();

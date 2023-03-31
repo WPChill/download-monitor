@@ -1,3 +1,6 @@
+.post-type-dlm_download p.dlm-extension-filtering a {
+  cursor: pointer;
+}
 .post-type-dlm_download .dlm-page-header {
   border-bottom: 1px solid #ccc;
   padding: 15px 20px;

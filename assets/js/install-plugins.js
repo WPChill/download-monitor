@@ -29,21 +29,19 @@
 		// Now let's disable the button and show the action text
 		current.attr('disabled', true);
 
-
 		if ( 'install' === plugin_action ) {
 
 			current.after('<span class="dlm-install-plugin-actions">' + dlm_install_plugins_vars.install_plugin + '</span>');
-
 			const args = {
 				slug: plugin_slug,
 				success: (response) => {
 					current.next('span').remove();
 					current.after('<span>' + dlm_install_plugins_vars.activate_plugin + '</span>');
-					activatePlugin( response.data.activateUrl );
+					activatePlugin( response.activateUrl );
 				},
-				error: (response) => {  
+				error: (response) => {
 					current.next('span').remove();
-					current.after('<span>' + dlm_install_plugins_vars.no_install + ' ' + response.data.errorMessage + '</span>');
+					current.after('<span>' + dlm_install_plugins_vars.no_install + ' ' + response.errorMessage + '</span>');
 				}	
 			}
 
@@ -54,11 +52,8 @@
 		}
 
 	});
-
+/*
 	$( document ).on( 'wp-plugin-install-success', function( response, data ) {
-		if ( 'modula-best-grid-gallery' == data.slug ) {
-			event.preventDefault();
-			activatePlugin( data.activateUrl );
-		}
-	} );
+		activatePlugin( data.activateUrl );
+	} );*/
 })( window.wp, jQuery );
