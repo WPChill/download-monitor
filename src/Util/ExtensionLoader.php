@@ -15,7 +15,7 @@ class ExtensionLoader {
 	    if ( false === ( $extension_json = get_transient( 'dlm_extension_json' ) ) ) {
 
 		    // Extension request
-		    $extension_request = wp_remote_get( 'https://download-monitor.com/?dlm-extensions=true&dlm-free-extensions=true' );
+		    $extension_request = wp_remote_get( 'https://download-monitor.com/?dlm-all-extensions=true' );
 
 		    if ( ! is_wp_error( $extension_request ) ) {
 
