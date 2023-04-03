@@ -42,7 +42,7 @@ class DLM_Admin_Extensions {
 	private $extensions = array();
 
 	// @todo: Maybe gather extensions from the API?
-	private $free_extensions = array();
+	public $free_extensions = array();
 
 	/**
 	 * DLM's extensions tabs
@@ -60,7 +60,7 @@ class DLM_Admin_Extensions {
 	 *
 	 * @since 4.4.5
 	 */
-	private $installed_extensions = array();
+	public $installed_extensions = array();
 
 	/**
 	 * DLM Licensed extensions
@@ -427,6 +427,8 @@ class DLM_Admin_Extensions {
 			}
 
 			$welcome = WPChill_Welcome::get_instance();
+			$master_license = json_decode( get_option( 'dlm_master_license', json_encode( array( 'email' => '', 'license_key' => '', 'status' => 'inactive' ) ) ), true );
+
 			echo '<div id="installed-extensions" class="settings_panel">';
 
 			echo '<div class="dlm_extensions">';
@@ -434,6 +436,16 @@ class DLM_Admin_Extensions {
 			<div id="wpchill-welcome">
 						<div class="features">
 							<div class="block">
+								<div class="dlm-master-license">
+									<h4>
+									<label for="dlm-master-license-email"><?php esc_html_e( 'Email', 'download-monitor' ); ?></label>
+									<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php echo esc_attr( $master_license['email'] ) ?>">
+									<label for="dlm-master-license"><?php esc_html_e( 'Master license', 'download-monitor' ); ?></label>
+									<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php echo esc_attr( $master_license['license_key'] ) ?>">
+									<input type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>" />
+									<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php echo ( 'active' === $master_license['status'] ) ? 'activate' : 'deactivate';  ?>"><?php esc_attr_e( 'Activate master license', 'download-monitor' ); ?></button>
+									</h4>
+								</div>
 								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
 								<!-- Let's display the extensions.  -->
 								<?php
