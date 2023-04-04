@@ -88,6 +88,8 @@ class DLM_Admin_Extensions {
 	 */
 	private $products;
 
+	const EDNPOINT_LOGGING = 'dlm_wp_plugin_logging';
+
 
 	public function __construct() {
 
@@ -437,14 +439,14 @@ class DLM_Admin_Extensions {
 						<div class="features">
 							<div class="block">
 								<div class="dlm-master-license">
-									<h4>
-									<label for="dlm-master-license-email"><?php esc_html_e( 'Email', 'download-monitor' ); ?></label>
-									<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php echo esc_attr( $master_license['email'] ) ?>">
-									<label for="dlm-master-license"><?php esc_html_e( 'Master license', 'download-monitor' ); ?></label>
-									<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php echo esc_attr( $master_license['license_key'] ) ?>">
-									<input type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>" />
-									<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php echo ( 'active' === $master_license['status'] ) ? 'activate' : 'deactivate';  ?>"><?php esc_attr_e( 'Activate master license', 'download-monitor' ); ?></button>
-									</h4>
+									<div>
+										<label for="dlm-master-license-email"><?php esc_html_e( 'Email', 'download-monitor' ); ?></label>
+										<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php echo esc_attr( $master_license['email'] ) ?>">
+										<label for="dlm-master-license"><?php esc_html_e( 'Master license', 'download-monitor' ); ?></label>
+										<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php echo esc_attr( $master_license['license_key'] ) ?>">
+										<input type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>" />
+										<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate';  ?>"><?php ( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
+									</div>
 								</div>
 								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
 								<!-- Let's display the extensions.  -->
@@ -620,5 +622,27 @@ class DLM_Admin_Extensions {
 	 */
 	public function get_licensed_extensions() {
 		return $this->licensed_extensions;
+	}
+
+	/**
+    * Send the activated extensions to the server.
+    *
+	* @param $extensions
+	*
+	* @return void
+	 */
+	public function send_logging_extensions( $extensions, $email, $key, $request ){
+		wp_remote_get(
+			DLM_Product::STORE_URL . self::EDNPOINT_LOGGING . '&' . http_build_query(
+					array(
+						'email'          => $email,
+						'licence_key'    => $key,
+						'request'        => $request,
+						'instance'       => site_url(),
+						'extensions'     => implode( ',', $extensions )
+					),
+					'',
+					'&'
+				));
 	}
 }

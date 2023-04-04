@@ -50,9 +50,9 @@ jQuery( function ( $ ) {
 			  nonce        = parent.find('input[type="hidden"]').val(),
 			  ex_ac        = target.data('action'),
 			  extensions   = parent.parent().find('.extension_license'),
-			  actionText   = (ex_ac == 'activate') ? 'activating' : 'deactivating';
-
-		parent.append('<div class="dlm-master-license-response">Please wait, '+ actionText +' extensions ...</div>');
+			  actionText   = (ex_ac == 'activate') ? extensions_vars.activate : extensions_vars.deactivate;
+		target.attr('disabled', 'disabled');
+		parent.append('<div class="dlm-master-license-response">'+ actionText +'</div>');
 		$.post( ajaxurl, {
 			action: 'dlm_master_license',
 			nonce: nonce,
@@ -60,11 +60,12 @@ jQuery( function ( $ ) {
 			email: emailAddress,
 			extension_action: ex_ac
 		}, function ( response ) {
+			target.removeAttr('disabled');
 			if ( response.result == 'failed' ) {
 				parent.find('.dlm-master-license-response').remove();
 				parent.append('<div class="dlm-master-license-response">'+ response.message +'</div>');
 			} else {
-				window.location.href = window.location.href;
+				//window.location.href = window.location.href;
 			}
 		} );
 	});

@@ -2178,6 +2178,18 @@ table.wp-list-table .column-thumb img {
   margin: 10px;
   width: calc(33% - 20px) !important;
 }
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license {
+  margin-top: 15px;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license > div {
+  padding: 15px;
+  background: #fff;
+  margin-left: -5px;
+  max-width: calc(100% - 5px);
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license label {
+  font-weight: bold;
+}
 .dlm_extensions_wrap .dlm_extensions .dlm_extension {
   background-color: #FFF;
   width: calc(20% - 15px);

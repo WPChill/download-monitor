@@ -256,6 +256,11 @@ class DLM_Admin_Scripts {
 				array( 'jquery' ),
 				DLM_VERSION
 			);
+
+			wp_localize_script( 'dlm_extensions', 'extensions_vars', array(
+				'activate'   => esc_html__( 'Please wait, activating extensions...', 'download-monitor' ),
+				'deactivate' => esc_html__( 'Please wait, deactivating extensions....', 'download-monitor' ),
+			) );
 		}
 
 		if ( 'options.php' == $pagenow && isset( $_GET['page'] ) && 'dlm_legacy_upgrade' === $_GET['page'] ) {
