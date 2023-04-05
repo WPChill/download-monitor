@@ -297,6 +297,7 @@ class DLM_Admin_Writepanels {
 			<div class="dlm-metaboxes downloadable_files">
 				<?php
 				$i        = - 1;
+
 				// $versions declared above.
 				if ( $versions ) {
 

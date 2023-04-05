@@ -623,26 +623,4 @@ class DLM_Admin_Extensions {
 	public function get_licensed_extensions() {
 		return $this->licensed_extensions;
 	}
-
-	/**
-    * Send the activated extensions to the server.
-    *
-	* @param $extensions
-	*
-	* @return void
-	 */
-	public function send_logging_extensions( $extensions, $email, $key, $request ){
-		wp_remote_get(
-			DLM_Product::STORE_URL . self::EDNPOINT_LOGGING . '&' . http_build_query(
-					array(
-						'email'          => $email,
-						'licence_key'    => $key,
-						'request'        => $request,
-						'instance'       => site_url(),
-						'extensions'     => implode( ',', $extensions )
-					),
-					'',
-					'&'
-				));
-	}
 }

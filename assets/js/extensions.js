@@ -16,7 +16,8 @@ jQuery( function ( $ ) {
 				product_id: $( wrap ).find( '#product_id' ).val(),
 				key: $( wrap ).find( '#key' ).val(),
 				email: $( wrap ).find( '#email' ).val(),
-				extension_action: ex_ac
+				extension_action: ex_ac,
+				action_trigger: 'extensions page single'
 			}, function ( response ) {
 				if ( response.result == 'failed' ) {
 					$( wrap ).prepend( $( "<div>" ).addClass( "dlm_license_error" ).html( response.message ) );
@@ -58,14 +59,15 @@ jQuery( function ( $ ) {
 			nonce: nonce,
 			key: license,
 			email: emailAddress,
-			extension_action: ex_ac
+			extension_action: ex_ac,
+			action_trigger: 'extensions page master'
 		}, function ( response ) {
 			target.removeAttr('disabled');
 			if ( response.result == 'failed' ) {
 				parent.find('.dlm-master-license-response').remove();
 				parent.append('<div class="dlm-master-license-response">'+ response.message +'</div>');
 			} else {
-				//window.location.href = window.location.href;
+				window.location.href = window.location.href;
 			}
 		} );
 	});

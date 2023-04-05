@@ -265,10 +265,10 @@ class DLM_Ajax_Handler {
 		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
 
 		// Post vars
-		$product_id       = isset( $_POST['product_id'] ) ? sanitize_text_field( wp_unslash($_POST['product_id']) ) : 0;
-		$key              = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash($_POST['key']) ) : '';
-		$email            = isset( $_POST['email'] ) ? sanitize_text_field( wp_unslash($_POST['email']) ) : '';
-		$extension_action = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash($_POST['extension_action']) ) : 'activate';
+		$product_id       = isset( $_POST['product_id'] ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : 0;
+		$key              = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
+		$email            = isset( $_POST['email'] ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
+		$extension_action = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash( $_POST['extension_action'] ) ) : 'activate';
 
 		// Get products
 		$products = DLM_Product_Manager::get()->get_products();
@@ -324,65 +324,67 @@ class DLM_Ajax_Handler {
 		}
 
 		// Post vars.
-		$key                = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
-		$email              = isset( $_POST['email'] ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
-		$request            = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash( $_POST['extension_action'] ) ) : '';
-		$license_extensions = array();
-		$data               = array(
+		$license_key                  = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
+		$email                = isset( $_POST['email'] ) ? sanitize_text_field( wp_unslash( $_POST['email'] ) ) : '';
+		$request              = isset( $_POST['extension_action'] ) ? sanitize_text_field( wp_unslash( $_POST['extension_action'] ) ) : '';
+		$action_trigger       = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
+		$installed_extensions = array();
+		$data                 = array(
 			'email'       => $email,
-			'license_key' => $key,
-			'status'      => 'inactive'
+			'license_key' => $license_key,
+			'status'      => ( 'activate' === $request ) ? 'active' : 'inactive'
 		);
+		$extensions           = DLM_Admin_Extensions::get_instance();
+		foreach ( $extensions->installed_extensions as $extension ) {
+			$installed_extensions[] = $extension->product_id;
 
-		// Only get license if the request is to activate it.
-		if ( 'activate' === $request ) {
-			$data['status'] = 'active';
-			// Do activate request.
-			$api_request = wp_remote_get(
-				DLM_Product::STORE_URL . DLM_Product::ENDPOINT_ACTIVATION . '&' . http_build_query(
-					array(
-						'email'          => $email,
-						'licence_key'    => $key,
-						'api_product_id' => 'master_license ',
-						'request'        => 'activate',
-						'instance'       => site_url()
-					),
-					'',
-					'&'
-				)
-			);
-
-			// Check request.
-			if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
-				update_option( 'dlm_master_license', json_encode( $data ) );
-				wp_send_json_error( array( 'message' => __( 'Could not connect to the license server', 'download-monitor' ) ) );
-			}
-			$license_extensions = json_decode( $api_request['body'], true );
 		}
 
-		update_option( 'dlm_master_license', json_encode( $data ) );
-		$extensions = DLM_Admin_Extensions::get_instance();
+		// Do activate request.
+		$api_request = wp_remote_get(
+			DLM_Product::STORE_URL . DLM_Product::ENDPOINT_ACTIVATION . '&' . http_build_query(
+				array(
+					'email'          => $email,
+					'licence_key'    => $license_key,
+					'api_product_id' => implode( ',', $installed_extensions ),
+					'request'        => $request,
+					'instance'       => site_url(),
+					'action_trigger' => $action_trigger
+				),
+				'',
+				'&'
+			)
+		);
 
-		if ( ! empty( $extensions->installed_extensions ) ) {
-			foreach ( $extensions->installed_extensions as $extension ) {
-				if ( ( ! $license_extensions || ! in_array( $extension->product_id, $license_extensions ) ) && 'activate' === $request ) {
+		// Check request.
+		if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
+			update_option( 'dlm_master_license', json_encode( $data ) );
+			wp_send_json_error( array( 'message' => __( 'Could not connect to the license server', 'download-monitor' ) ) );
+		}
+
+		$activated_extensions = json_decode( wp_remote_retrieve_body( $api_request ), true );
+		update_option( 'dlm_master_license', json_encode( $data ) );
+
+		// Get products.
+		$products = DLM_Product_Manager::get()->get_products();
+
+		if ( ! empty( $activated_extensions ) ) {
+			foreach ( $activated_extensions as $key => $extension ) {
+				if ( ! isset( $products[ $key ] ) ) {
 					continue;
 				}
-				$product = new DLM_Product( $extension->product_id, '', $extension->name );
-
+				$product = new DLM_Product( $key, '', $extension );
 				$license = $product->get_license();
-				$license->set_key( $key );
+				$license->set_key( $license_key );
 				$license->set_email( $email );
 				if ( 'activate' === $request ) {
 					$license->set_status( 'active' );
 				} else {
-					$license_extensions[] = $extension->product_id;
 					$license->set_status( 'inactive' );
 				}
 				$license->store();
 			}
 		}
-		$extensions->send_logging_extensions( $license_extensions, $email, $key, $request );
 
 		// Send JSON.
 		wp_send_json_success( array( 'message' => __( 'Master license updated', 'download-monitor' ) ) );
