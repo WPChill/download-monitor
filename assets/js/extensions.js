@@ -17,7 +17,7 @@ jQuery( function ( $ ) {
 				key: $( wrap ).find( '#key' ).val(),
 				email: $( wrap ).find( '#email' ).val(),
 				extension_action: ex_ac,
-				action_trigger: 'extensions page single'
+				action_trigger: '-ext-license'
 			}, function ( response ) {
 				if ( response.result == 'failed' ) {
 					$( wrap ).prepend( $( "<div>" ).addClass( "dlm_license_error" ).html( response.message ) );
@@ -60,7 +60,7 @@ jQuery( function ( $ ) {
 			key: license,
 			email: emailAddress,
 			extension_action: ex_ac,
-			action_trigger: 'extensions page master'
+			action_trigger: '-master-license'
 		}, function ( response ) {
 			target.removeAttr('disabled');
 			if ( response.result == 'failed' ) {

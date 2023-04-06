@@ -63,7 +63,7 @@ class DLM_Extensions_Handler {
 		$user_license   = json_decode( $user_license, true );
 		$email          = $user_license['email'];
 		$license_key    = $user_license['license_key'];
-		$action_trigger = 'plugin';
+		$action_trigger = '-ext';
 
 		// Do activate request.
 		$api_request = wp_remote_get(

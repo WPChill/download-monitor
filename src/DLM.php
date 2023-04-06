@@ -667,7 +667,6 @@ class WP_DLM {
 	 * @since 4.4.5
 	 */
 	public function archive_filter_download_link( $post_link, $post ) {
-
 		// We exclude the search because there is a specific option for this
 		if ( 'dlm_download' == $post->post_type && ! is_search() ) {
 			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
@@ -806,7 +805,7 @@ class WP_DLM {
 		$user_license         = json_decode( $user_license, true );
 		$email                = $user_license['email'];
 		$license_key          = $user_license['license_key'];
-		$action_trigger       = 'master plugin ';
+		$action_trigger       = '-dlm';
 		$args = array(
 			'key'              => $license_key,
 			'email'            => $email,
