@@ -60,6 +60,7 @@ return array(
     'DLM_Download_Repository' => $baseDir . '/src/Download/DownloadRepository.php',
     'DLM_Download_Version' => $baseDir . '/src/Version/Version.php',
     'DLM_Empty_Table' => $baseDir . '/src/Admin/class-dlm-empty-table.php',
+    'DLM_Extensions_Handler' => $baseDir . '/src/Admin/ExtensionsHandler.php',
     'DLM_File_Manager' => $baseDir . '/src/FileManager.php',
     'DLM_Gutenberg' => $baseDir . '/src/Gutenberg.php',
     'DLM_Hasher' => $baseDir . '/src/Hasher.php',

@@ -61,6 +61,8 @@ class WP_DLM {
 	public function __construct() {
 		global $wpdb;
 
+		register_deactivation_hook( DLM_PLUGIN_FILE, array( $this, 'deactivate_this_plugin' ) );
+
 		// Setup Services
 		$this->services = new DLM_Services();
 
@@ -77,6 +79,7 @@ class WP_DLM {
 		// Setup admin classes.
 		if ( is_admin() ) {
 
+			$extensions_handler = DLM_Extensions_Handler::get_instance();
 			// check if multisite and needs to create DB table
 
 			// Setup admin scripts
@@ -769,5 +772,48 @@ class WP_DLM {
 			<p><?php echo wp_kses_post( __( '<strong>Attention!</strong> Download Monitor shop functionality will no longer be supported begining <strong>April 2023</strong> and will be disabled in a future update.', 'download-monitor' ) ); ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Handle plugin deactivation processes.
+	 *
+	 * @return void
+	 *
+	 * @since 4.8.0
+	 */
+	public function deactivate_this_plugin() {
+		$this->handle_plugin_action();
+	}
+
+
+	/**
+	 * Handle plugin activation/deactivation hook
+	 *
+	 * @param string $request activation/deactivation.
+	 *
+	 * @return void
+	 * @since 4.8.0
+	 */
+	private function handle_plugin_action( $request = 'deactivate' ) {
+
+		$user_license = get_option( 'dlm_master_license', false );
+		// If no license found, skip this.
+		if ( ! $user_license ) {
+			return;
+		}
+
+		$extensions_handler = DLM_Extensions_Handler::get_instance();
+		$user_license         = json_decode( $user_license, true );
+		$email                = $user_license['email'];
+		$license_key          = $user_license['license_key'];
+		$action_trigger       = 'master plugin ';
+		$args = array(
+			'key'              => $license_key,
+			'email'            => $email,
+			'extension_action' => $request,
+			'action_trigger'   => $action_trigger,
+		);
+		$extensions_handler->handle_master_license( $args );
+		return;
 	}
 }

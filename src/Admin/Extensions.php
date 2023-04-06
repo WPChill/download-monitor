@@ -88,8 +88,6 @@ class DLM_Admin_Extensions {
 	 */
 	private $products;
 
-	const EDNPOINT_LOGGING = 'dlm_wp_plugin_logging';
-
 
 	public function __construct() {
 

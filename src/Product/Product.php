@@ -9,7 +9,7 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://www.download-monitor.com/?wc-api=';
+	const STORE_URL = 'https://staging-downloadmonitorcom.kinsta.cloud/?wc-api=';
 
 	/**
 	 * Activation endpoint
@@ -162,14 +162,23 @@ class DLM_Product {
 				throw new Exception( 'Please enter the email address associated with your license.' );
 			}
 
+			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
+
 			// Do activate request
-			$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query( array(
-					'email'          => $license->get_email(),
-					'licence_key'    => $license->get_key(),
-					'api_product_id' => $this->product_id,
-					'request'        => 'activate',
-					'instance'       => site_url()
-				), '', '&' ) );
+			$request = wp_remote_get(
+				self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
+					array(
+						'email'          => $license->get_email(),
+						'licence_key'    => $license->get_key(),
+						'api_product_id' => $this->product_id,
+						'request'        => 'activate',
+						'instance'       => site_url(),
+						'action_trigger' => $action_trigger,
+					),
+					'',
+					'&'
+				)
+			);
 
 			// Check request
 			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
@@ -225,13 +234,20 @@ class DLM_Product {
 				throw new Exception( "Can't deactivate license without a license key." );
 			}
 
+			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
+
 			// The Request
-			$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query( array(
-					'api_product_id' => $this->product_id,
-					'licence_key'    => $license->get_key(),
-					'request'        => 'deactivate',
-					'instance'       => site_url(),
-				), '', '&' ) );
+			$request = wp_remote_get(
+				self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
+					array(
+						'api_product_id' => $this->product_id,
+						'licence_key'    => $license->get_key(),
+						'request'        => 'deactivate',
+						'instance'       => site_url(),
+						'action_trigger' => $action_trigger
+					), '', '&'
+				)
+			);
 
 			// Check request
 			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
@@ -303,5 +319,4 @@ class DLM_Product {
 
 		return 'https://www.download-monitor.com/pricing?' . $query_string;
 	}
-
 }

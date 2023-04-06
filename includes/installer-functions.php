@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param bool $network_wide
  */
 function _download_monitor_install( $network_wide = false ) {
-	
+
 	download_monitor_delete_cached_scripts();
 
 	// DLM Installer
