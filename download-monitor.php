@@ -81,26 +81,3 @@ if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
 	}
 	download_monitor_start_plugin_tracking();
 }
-
-register_activation_hook( DLM_PLUGIN_FILE, function(){
-	$user_license = get_option( 'dlm_master_license', false );
-	// If no license found, skip this.
-	if ( ! $user_license ) {
-		return;
-	}
-	require_once __DIR__ . '/src/Admin/Extensions.php';
-	require_once __DIR__ . '/src/Admin/ExtensionsHandler.php';
-	$extensions_handler = DLM_Extensions_Handler::get_instance();
-	$user_license         = json_decode( $user_license, true );
-	$email                = $user_license['email'];
-	$license_key          = $user_license['license_key'];
-	$action_trigger       = '-dlm';
-	$args = array(
-		'key'              => $license_key,
-		'email'            => $email,
-		'extension_action' => 'activate',
-		'action_trigger'   => $action_trigger,
-	);
-	$extensions_handler->handle_master_license( $args );
-	return;
-});

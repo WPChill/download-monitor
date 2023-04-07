@@ -98,6 +98,7 @@ class DLM_Extensions_Handler {
 		}
 
 		$license->store();
+		$this->handle_master_license_maybe( $user_license, $request, $extension['slug'] );
 	}
 
 
@@ -140,6 +141,8 @@ class DLM_Extensions_Handler {
 				$response = $product->deactivate();
 			}
 		}
+
+		$this->handle_master_license_maybe( false, $extension_action, $product_id );
 
 		// Send JSON
 		wp_send_json( $response );
@@ -240,5 +243,43 @@ class DLM_Extensions_Handler {
 			// Send JSON.
 			wp_send_json_success( array( 'message' => __( 'Master license updated', 'download-monitor' ) ) );
 		}
+	}
+
+	/**
+	 * Activate/Deactivate master license maybe
+	 *
+	 * @param array|bool $master_license The master license.
+	 * @param string     $request Request action.
+	 *
+	 * @return void
+	 */
+	private function handle_master_license_maybe( $master_license, $request, $current_extension = false ) {
+		$extensions          = DLM_Admin_Extensions::get_instance();
+		$all_activated       = true;
+		$licensed_extensions = $extensions->get_licensed_extensions();
+		// Check if master license is set.
+		if ( ! $master_license ) {
+			$master_license = get_option( 'dlm_master_license', false );
+			if ( $master_license ) {
+				$master_license = json_decode( $master_license, true );
+			} else {
+				return;
+			}
+		}
+		if ( 'deactivate' === $request ) {
+			$all_activated = false;
+		} else {
+			foreach ( $extensions->installed_extensions as $extension ) {
+				if ( $current_extension && $current_extension === $extension->product_id ) {
+					continue;
+				}
+				if ( ! in_array( $extension->product_id, $licensed_extensions ) ) {
+					$all_activated = false;
+				}
+			}
+		}
+
+		$master_license['status'] = ( $all_activated ) ? 'active' : 'inactive';
+		update_option( 'dlm_master_license', json_encode( $master_license ) );
 	}
 }
