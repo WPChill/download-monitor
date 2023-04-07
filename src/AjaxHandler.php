@@ -24,6 +24,7 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_dlm_update_file_meta', array( $this, 'save_attachment_meta' ) );
 		add_action( 'wp_ajax_nopriv_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
 		add_action( 'wp_ajax_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
+		add_action( 'wp_ajax_dlm_forgot_license', array( $this, 'forgot_license' ), 15 );
 	}
 
 	/**
@@ -378,5 +379,42 @@ class DLM_Ajax_Handler {
 		// $content variable escaped from extensions as it may include inputs or other HTML elements.
 		echo $modal_template; //phpcs:ignore
 		die();
+	}
+
+	/**
+	 * Forgot license function.
+	 *
+	 * @return void
+	 *
+	 * @since 4.8.0
+	 */
+	public function forgot_license() {
+		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
+		if ( ! isset( $_POST['email'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Email is required', 'download-monitor' ) ) );
+		}
+
+		if ( ! is_email( sanitize_email( wp_unslash( $_POST['email'] ) ) ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid email address.', 'download-monitor' ) ) );
+		}
+
+		// Do activate request.
+		$api_request = wp_remote_get(
+			DLM_Product::STORE_URL . 'dlm_forgotten_license_api' . '&' . http_build_query(
+				array(
+					'email'    => sanitize_email( wp_unslash( $_POST['email'] ) ),
+				),
+				'',
+				'&'
+			)
+		);
+
+		// Check request.
+		if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
+			wp_send_json_error( array( 'message' => __( 'Could not connect to the license server', 'download-monitor' ) ) );
+		}
+
+		wp_send_json( json_decode( $api_request['body'], true ) );
+		wp_die();
 	}
 }

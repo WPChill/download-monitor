@@ -258,8 +258,12 @@ class DLM_Admin_Scripts {
 			);
 
 			wp_localize_script( 'dlm_extensions', 'extensions_vars', array(
-				'activate'   => esc_html__( 'Please wait, activating extensions...', 'download-monitor' ),
-				'deactivate' => esc_html__( 'Please wait, deactivating extensions....', 'download-monitor' ),
+				'activate'               => esc_html__( 'Please wait, activating extensions...', 'download-monitor' ),
+				'deactivate'             => esc_html__( 'Please wait, deactivating extensions....', 'download-monitor' ),
+				'forget_license_success' => __( 'An email has been sent to you with the corresponding licenses.', 'download-monitor' ),
+				'forget_license_error'   => __( 'An error occurred while trying to retrieve your licenses. Please try again later.', 'download-monitor' ),
+				'missing_email'          => __( 'Please enter your email address.', 'download-monitor' ),
+				'reaching_server'        => __( 'Please wait, reaching server...', 'download-monitor' ),
 			) );
 		}
 

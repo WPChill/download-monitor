@@ -2190,6 +2190,9 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license label {
   font-weight: bold;
 }
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license input:required {
+  border-color: #800000;
+}
 .dlm_extensions_wrap .dlm_extensions .dlm_extension {
   background-color: #FFF;
   width: calc(20% - 15px);
