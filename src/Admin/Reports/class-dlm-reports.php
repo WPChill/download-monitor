@@ -88,6 +88,9 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				}
 			}
 
+			// Add this filter here in order for customer to change the limits if needed.
+			$this->php_info = apply_filters( 'dlm_reports_server_limits', $this->php_info );
+
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
