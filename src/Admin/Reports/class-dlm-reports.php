@@ -48,54 +48,12 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public function __construct() {
 
-			$this->date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-
-			$memory_limit = ini_get( 'memory_limit' );
-			if ( preg_match( '/^(\d+)(.)$/', $memory_limit, $matches ) ) {
-				if ( 'M' === $matches[2] ) {
-					$memory_limit = $matches[1];
-				} else if ( 'K' === $matches[2] ) {
-					$memory_limit = $matches[1] / 1024;
-				} else if ( 'G' === $matches[2] ) {
-					$memory_limit = $matches[1] * 1024;
-				}
-			}
-
-			$this->php_info = array(
-				'memory_limit'       => absint( $memory_limit ),
-				'max_execution_time' => ini_get( 'max_execution_time' ),
-				'retrieved_rows'     => 10000
-			);
-
-			if ( 40 < $this->php_info['memory_limit'] ) {
-				if ( 80 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 30000;
-				}
-
-				if ( 120 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 40000;
-				}
-				if ( 150 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 60000;
-				}
-
-				if ( 200 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 100000;
-				}
-
-				if ( 500 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 150000;
-				}
-			}
-
-			// Add this filter here in order for customer to change the limits if needed.
-			$this->php_info = apply_filters( 'dlm_reports_server_limits', $this->php_info );
-
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
 			add_action( 'wp_ajax_dlm_top_downloads_reports', array( $this, 'get_ajax_top_downloads_markup' ) );
 			add_action( 'init', array( $this, 'set_table_headers' ), 30 );
+			add_action( 'init', array( $this, 'set_memory_limit' ) );
 
 		}
 
@@ -573,5 +531,59 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			return true;
 		}
+
+		/**
+		 * Sets php memory limit, execution time and number of retreived rows for reports data.
+		 *
+		 *
+		 * @return void
+		 * @since 4.8.0
+		 */
+		public function set_memory_limit(){
+
+			$this->date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+
+			$memory_limit = ini_get( 'memory_limit' );
+			if ( preg_match( '/^(\d+)(.)$/', $memory_limit, $matches ) ) {
+				if ( 'M' === $matches[2] ) {
+					$memory_limit = $matches[1];
+				} else if ( 'K' === $matches[2] ) {
+					$memory_limit = $matches[1] / 1024;
+				} else if ( 'G' === $matches[2] ) {
+					$memory_limit = $matches[1] * 1024;
+				}
+			}
+
+			$this->php_info = array(
+				'memory_limit'       => absint( $memory_limit ),
+				'max_execution_time' => ini_get( 'max_execution_time' ),
+				'retrieved_rows'     => 10000
+			);
+
+			if ( 40 < $this->php_info['memory_limit'] ) {
+				if ( 80 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 30000;
+				}
+
+				if ( 120 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 40000;
+				}
+				if ( 150 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 60000;
+				}
+
+				if ( 200 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 100000;
+				}
+
+				if ( 500 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 150000;
+				}
+			}
+
+			// Add this filter here in order for customer to change the limits if needed.
+			$this->php_info = apply_filters( 'dlm_reports_server_limits', $this->php_info );
+		}
+
 	}
 }
