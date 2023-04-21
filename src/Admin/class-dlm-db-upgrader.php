@@ -275,7 +275,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 						download_status varchar(200) DEFAULT NULL,
 						download_status_message varchar(200) DEFAULT NULL,
 						download_location varchar(200) DEFAULT NULL,
-						download_category varchar(200) DEFAULT NULL,
+						download_category longtext DEFAULT NULL,
 						meta_data longtext DEFAULT NULL,
 						PRIMARY KEY  (ID),
 						KEY attribute_name (download_id)
@@ -298,7 +298,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			}
 
 			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'download_category' ) ) {
-				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_category VARCHAR(200) AFTER download_status_message' : 'ADD COLUMN download_category VARCHAR(200) AFTER download_status_message';
+				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_category LONGTEXT AFTER download_status_message' : 'ADD COLUMN download_category LONGTEXT AFTER download_status_message';
 			}
 
 			// Let's check if all the required columns are present. If not, let's add them.

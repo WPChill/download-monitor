@@ -220,6 +220,7 @@ class DLM_Installer {
 	 * @return void
 	 */
 	private function install_tables() {
+		
 		global $wpdb;
 
 		$wpdb->hide_errors();
@@ -229,7 +230,7 @@ class DLM_Installer {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		$dlm_log = '
-		CREATE TABLE `' . $wpdb->prefix . "download_log` (
+		CREATE TABLE IF NOT EXISTS `' . $wpdb->prefix . "download_log` (
 			ID bigint(20) NOT NULL auto_increment,
 			user_id bigint(20) NOT NULL,
 			user_ip varchar(200) NOT NULL,
@@ -242,7 +243,7 @@ class DLM_Installer {
 			download_status varchar(200) DEFAULT NULL,
 			download_status_message varchar(200) DEFAULT NULL,
 			download_location varchar(200) DEFAULT NULL,
-			download_category varchar(200) DEFAULT NULL,
+			download_category longtext DEFAULT NULL,
 			meta_data longtext DEFAULT NULL,
 			PRIMARY KEY  (ID),
 			KEY attribute_name (download_id)
@@ -264,6 +265,9 @@ class DLM_Installer {
 		 				PRIMARY KEY (`ID`))
 						ENGINE = InnoDB $collate;";
 
+		if( ! $this->check_column_type( $wpdb->prefix . "download_log", 'download_category', 'longtext' ) ){
+			$wpdb->get_results("ALTER TABLE `" . $wpdb->prefix . "download_log` MODIFY COLUMN `download_category` longtext DEFAULT NULL;");
+		}
 
 		dbDelta( $dlm_log );
 		dbDelta( $dlm_reports );
@@ -316,6 +320,30 @@ class DLM_Installer {
 				}
 			}
 		}
+	}
+
+	public function check_column_type( $table_name, $col_name, $col_type) {
+		global $wpdb;
+	
+		$diffs = 0;
+	
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
+		$results = $wpdb->get_results( "DESC $table_name" );
+	
+		foreach ( $results as $row ) {
+	
+			if ( $row->Field === $col_name ) {
+	
+				// Got our column, check the params.
+				if ( ( null !== $col_type ) && ( $row->Type !== $col_type ) ) {
+					return false;
+				}
+
+				return true;
+			} // End if found our column.
+		}
+	
+		return false;
 	}
 
 }
