@@ -507,13 +507,13 @@ class DLM_Shortcodes {
 				// Allow third party extensions to hijack shortcode
 				$hijacked_content = apply_filters( 'dlm_shortcode_downloads_download_content', '', $download, $atts );
 
-				// If there's hijacked content, return it and be done with it
+				// If there's hijacked content, return it and be done with it.
 				if ( '' !== $hijacked_content ) {
-					echo $hijacked_content;
-				}else{
+					echo wp_kses_post( $hijacked_content );
+				} else {
 					// load the template
 					if ( $download->has_version() ) {
-						$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );  
+						$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
 					} else {
 						$template_handler->get_template_part( 'content-download', 'no-version', '', array( 'dlm_download' => $download ) );
 					}
