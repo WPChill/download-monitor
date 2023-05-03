@@ -101,12 +101,14 @@ class DLM_Custom_Columns {
 
 				break;
 			case "download_cat" :
+				$links = array();
 				if ( ! $terms = get_the_terms( $post->ID, 'dlm_download_category' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
 					foreach ( $terms as $term ) {
-						echo '<a href=' . esc_url( add_query_arg( 'dlm_download_category', esc_attr( $term->slug ) ) ) . '>' . esc_html( $term->name ) . '(#' . absint( $term->term_id ) . ')</a> ';
+						$links[] = '<a href=' . esc_url( add_query_arg( 'dlm_download_category', esc_attr( $term->slug ) ) ) . '>' . esc_html( $term->name ) . '(#' . absint( $term->term_id ) . ')</a> ';
 					}
+					echo wp_kses_post( implode( ', ', $links ) );
 				}
 				break;
 			case 'download_tag':
@@ -134,7 +136,7 @@ class DLM_Custom_Columns {
 				if ( empty( $links ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					echo wp_kses_post( implode( $links ) );
+					echo wp_kses_post( implode( ', ',$links ) );
 				}
 				break;
 			case 'featured':
