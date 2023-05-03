@@ -218,12 +218,11 @@ class DLM_XHR_Download {
 				file_name = dlmFilenameHeader.replace(/\"/g, '').replace(';', '');
 				file_name = decodeURI(file_name);
 			} else if ('undefined' !== typeof responseHeaders['content-disposition']) {
-				file_name = responseHeaders['content-disposition'].split('filename=')[1];
+				file_name = responseHeaders['content-disposition'].split( /(?:filename\*=UTF-8'')|(?:filename=)/ )[1];
 				file_name = file_name.replace(/\"/g, '').replace(';', '');
 				// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
 				file_name = decodeURI(file_name);
 			}
-			console.log(dlmXHRinstance.request);
 
 			// Let's check for DLM request headers
 			if (dlmXHRinstance.request.readyState === 2) {
