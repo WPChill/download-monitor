@@ -52,6 +52,13 @@ jQuery(function ($) {
 			  ex_ac        = target.data('action'),
 			  extensions   = parent.parent().find('.extension_license'),
 			  actionText   = (ex_ac == 'activate') ? extensions_vars.activate : extensions_vars.deactivate;
+
+		// If no license present return.
+		if ('' === license) {
+			parent.find('.dlm-master-license-response').remove();
+			parent.append('<div class="dlm-master-license-response">' + extensions_vars.missing_license + '</div>');
+			return;
+		}
 		target.attr('disabled', 'disabled');
 		parent.append('<div class="dlm-master-license-response">' + actionText + '</div>');
 		$.post(ajaxurl, {

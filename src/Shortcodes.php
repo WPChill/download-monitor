@@ -565,7 +565,7 @@ class DLM_Shortcodes {
 		$atts['show_message'] = ( 'true' === $atts['show_message'] );
 
 		// return empty string if download-id is not set or action is not no_access_dlm_xhr_download for XHR downloads & modal no access.
-		if ( ! isset( $_REQUEST['action'] ) && 'no_access_dlm_xhr_download' !== $_REQUEST['action'] && ! isset( $wp->query_vars['download-id'] ) ) {
+		if ( ( ! isset( $_REQUEST['action'] ) || 'no_access_dlm_xhr_download' !== $_REQUEST['action'] ) && ! isset( $wp->query_vars['download-id'] ) ) {
 			return '';
 		}
 

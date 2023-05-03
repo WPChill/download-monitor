@@ -264,6 +264,7 @@ class DLM_Admin_Scripts {
 				'forget_license_error'   => __( 'An error occurred while trying to retrieve your licenses. Please try again later.', 'download-monitor' ),
 				'missing_email'          => __( 'Please enter your email address.', 'download-monitor' ),
 				'reaching_server'        => __( 'Please wait, reaching server...', 'download-monitor' ),
+				'missing_license'        => __( 'Please enter your license key.', 'download-monitor' ),
 			) );
 		}
 
