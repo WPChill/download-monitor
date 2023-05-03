@@ -265,8 +265,10 @@ class DLM_Installer {
 		 				PRIMARY KEY (`ID`))
 						ENGINE = InnoDB $collate;";
 
-		if( ! $this->check_column_type( $wpdb->prefix . "download_log", 'download_category', 'longtext' ) ){
-			$wpdb->get_results("ALTER TABLE `" . $wpdb->prefix . "download_log` MODIFY COLUMN `download_category` longtext DEFAULT NULL;");
+		$cat_col_type = $this->check_column_type( $wpdb->prefix . 'download_log', 'download_category', 'longtext' );
+		// If null, then the column doesn't exist. If false, then the column is not the correct type.
+		if ( null !== $cat_col_type && ! $cat_col_type ) {
+			$wpdb->get_results( "ALTER TABLE `" . $wpdb->prefix . "download_log` MODIFY COLUMN `download_category` longtext DEFAULT NULL;" );
 		}
 
 		dbDelta( $dlm_log );
@@ -322,18 +324,29 @@ class DLM_Installer {
 		}
 	}
 
-	public function check_column_type( $table_name, $col_name, $col_type) {
+	/**
+	 * Check the column type.
+	 *
+	 * @param string $table_name The table.
+	 * @param string $col_name   The column.
+	 * @param string $col_type   The type.
+	 *
+	 * @return bool|null
+	 * @since 4.8.0
+	 */
+	public function check_column_type( $table_name, $col_name, $col_type ) {
 		global $wpdb;
-	
-		$diffs = 0;
-	
+
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Cannot be prepared. Fetches columns for table names.
 		$results = $wpdb->get_results( "DESC $table_name" );
-	
+		if ( empty( $results ) ) {
+			return null;
+		}
+
 		foreach ( $results as $row ) {
-	
+
 			if ( $row->Field === $col_name ) {
-	
+
 				// Got our column, check the params.
 				if ( ( null !== $col_type ) && ( $row->Type !== $col_type ) ) {
 					return false;
@@ -342,8 +355,7 @@ class DLM_Installer {
 				return true;
 			} // End if found our column.
 		}
-	
-		return false;
-	}
 
+		return null;
+	}
 }
