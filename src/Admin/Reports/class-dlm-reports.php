@@ -288,7 +288,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 1000;
+			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_chart_stats'];
 			$offset_limit = $offset * $count;
 			$stats        = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} LIMIT {$offset_limit}, {$count};", null ), ARRAY_A );
 
@@ -380,7 +380,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$users_data = array();
 
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 5000;
+			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_user_data'];
 			$offset_limit = $offset * $count;
 
 			$args = array(
@@ -555,9 +555,11 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$this->php_info = array(
-				'memory_limit'       => absint( $memory_limit ),
-				'max_execution_time' => ini_get( 'max_execution_time' ),
-				'retrieved_rows'     => 10000
+				'memory_limit'          => absint( $memory_limit ),
+				'max_execution_time'    => ini_get( 'max_execution_time' ),
+				'retrieved_rows'        => 10000,
+				'retrieved_user_data'   => 5000,
+				'retrieved_chart_stats' => 1000
 			);
 
 			if ( 40 < $this->php_info['memory_limit'] ) {
