@@ -13,6 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 function _download_monitor_install( $network_wide = false ) {
 
 	download_monitor_delete_cached_scripts();
+	// Let's delete the extensions transient so that it's refreshed when plugin is installed/activated, this is to ensure
+	// that the extensions list is always up-to-date.
+	delete_transient( 'dlm_extension_json' );
 
 	// DLM Installer
 	$installer = new DLM_Installer();
