@@ -85,3 +85,9 @@
   width: 30px;
   height: auto;
 }
+.dlm-notice-logo {
+  width: auto;
+  max-height: 35px;
+  max-width: 35px;
+  display: inline-block;
+}

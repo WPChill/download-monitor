@@ -25,6 +25,8 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_nopriv_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
 		add_action( 'wp_ajax_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
 		add_action( 'wp_ajax_dlm_forgot_license', array( $this, 'forgot_license' ), 15 );
+		// Update the download_column from table download_log from varchar to longtext.
+		add_Action( 'wp_ajax_dlm_update_download_category', array( $this, 'upgrade_download_category' ), 15 );
 	}
 
 	/**
@@ -416,5 +418,33 @@ class DLM_Ajax_Handler {
 
 		wp_send_json( json_decode( $api_request['body'], true ) );
 		wp_die();
+	}
+
+	/**
+	 * Update the column download_category from table download_log from varchar to longtext
+	 *
+	 * @return void
+	 * @since 4.8.0
+	 */
+	public function upgrade_download_category() {
+		if ( ! isset( $_POST['nonce'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Nonce is required', 'download-monitor' ) ) );
+		}
+
+		// Check ajax referrer.
+		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
+		global $wpdb;
+
+		$cat_col_type = DLM_Admin_Helper::check_column_type( $wpdb->prefix . 'download_log', 'download_category', 'longtext' );
+		// If null, then the column doesn't exist. If false, then the column is not the correct type.
+		if ( null !== $cat_col_type && ! $cat_col_type ) {
+			$result = $wpdb->query( 'ALTER TABLE `' . $wpdb->prefix . 'download_log` MODIFY COLUMN `download_category` longtext DEFAULT NULL;' );
+			if ( ! $result ) {
+				wp_send_json_error( array( 'message' => __( 'Error while updating the column download_category', 'download-monitor' ) ) );
+			}
+			wp_send_json_success( array( 'message' => __( 'Column download_category has been updated', 'download-monitor' ) ) );
+		} else {
+			wp_send_json_success( array( 'message' => __( 'Column download_category is already updated', 'download-monitor' ) ) );
+		}
 	}
 }
