@@ -126,7 +126,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_WordPress_Version_Repository' => __DIR__ . '/../..' . '/src/Version/WordPressVersionRepository.php',
         'DateTimeImmutable' => __DIR__ . '/../..' . '/src/Polyfill/DateTimeImmutable/DateTimeImmutable.php',
         'DateTimeInterface' => __DIR__ . '/../..' . '/src/Polyfill/DateTimeImmutable/DateTimeInterface.php',
-        'Download_Monitor_Usage_Tracker' => __DIR__ . '/../..' . '/includes/tracking/class-download-monitor-usage-tracker.php',
         'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Curl' => __DIR__ . '/../..' . '/src/Dependencies/PayPalHttp/Curl.php',
         'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Encoder' => __DIR__ . '/../..' . '/src/Dependencies/PayPalHttp/Encoder.php',
         'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Environment' => __DIR__ . '/../..' . '/src/Dependencies/PayPalHttp/Environment.php',

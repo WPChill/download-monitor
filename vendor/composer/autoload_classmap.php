@@ -111,7 +111,6 @@ return array(
     'DLM_WordPress_Version_Repository' => $baseDir . '/src/Version/WordPressVersionRepository.php',
     'DateTimeImmutable' => $baseDir . '/src/Polyfill/DateTimeImmutable/DateTimeImmutable.php',
     'DateTimeInterface' => $baseDir . '/src/Polyfill/DateTimeImmutable/DateTimeInterface.php',
-    'Download_Monitor_Usage_Tracker' => $baseDir . '/includes/tracking/class-download-monitor-usage-tracker.php',
     'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Curl' => $baseDir . '/src/Dependencies/PayPalHttp/Curl.php',
     'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Encoder' => $baseDir . '/src/Dependencies/PayPalHttp/Encoder.php',
     'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Environment' => $baseDir . '/src/Dependencies/PayPalHttp/Environment.php',

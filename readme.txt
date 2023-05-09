@@ -126,6 +126,7 @@ Added: A filter on [downloads] shortcode content( [#1246](https://github.com/WPC
 
 = 4.8.0 - TBD =
 Added: Clear optimization plugins cache and minified scripts cache on plugin update/activation ( [#1224](https://github.com/WPChill/download-monitor/issues/1224) )
+Changed: Removed tracking ( [#1262](https://github.com/WPChill/download-monitor/issues/1262) )
 
 = 4.7.7 - 06.03.2023 =
 Added: Trigger in dlm-xhr.js to manipulate data ( [#1230](https://github.com/WPChill/download-monitor/issues/1230) )
