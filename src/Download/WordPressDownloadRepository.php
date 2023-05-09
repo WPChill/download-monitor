@@ -214,9 +214,10 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		 *
 		 * @since 4.6.0
 		 */
-		do_action( 'dlm_query_args', $filters );
 
 		$filters = $this->filter_query_args( $filters, $limit, $offset );
+
+		do_action( 'dlm_query_args', $filters );
 
 		$posts = $q->query( $filters );
 

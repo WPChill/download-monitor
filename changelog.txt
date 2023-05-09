@@ -5,6 +5,7 @@ Fixed: Reports not working when permalinks set on plain ( [#1243](https://github
 Fixed: Insert Download - Quick-add download in classic editor now removed if current user can't manage downloads ( [#1164](https://github.com/WPChill/download-monitor/issues/1164) )
 Changed: Data type for download_category column in _download_log table to longtext ( [#1254](https://github.com/WPChill/download-monitor/issues/1254) )
 Changed: Removed tracking ( [#1262](https://github.com/WPChill/download-monitor/issues/1262) )
+Changed: Moved 'dlm_query_args' action after filter_query_args() method call. ( [#1263](https://github.com/WPChill/download-monitor/issues/1263) )
 
 = 4.7.7 - 06.03.2023 =
 Added: Trigger in dlm-xhr.js to manipulate data ( [#1230](https://github.com/WPChill/download-monitor/issues/1230) )
