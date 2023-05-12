@@ -776,7 +776,7 @@ class WP_DLM {
 	 * @since 4.8.0
 	 */
 	public function deactivate_this_plugin() {
-		$this->handle_plugin_action();
+		self::handle_plugin_action();
 	}
 
 
@@ -788,7 +788,7 @@ class WP_DLM {
 	 * @return void
 	 * @since 4.8.0
 	 */
-	private function handle_plugin_action( $request = 'deactivate' ) {
+	public static function handle_plugin_action( $request = 'deactivate' ) {
 
 		$user_license = get_option( 'dlm_master_license', false );
 		// If no license found, skip this.
@@ -808,6 +808,5 @@ class WP_DLM {
 			'action_trigger'   => $action_trigger,
 		);
 		$extensions_handler->handle_master_license( $args );
-		return;
 	}
 }

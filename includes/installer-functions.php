@@ -51,6 +51,7 @@ function _download_monitor_install( $network_wide = false ) {
 		$installer->install();
 	}
 
+	WP_DLM::handle_plugin_action( 'activate' );
 }
 
 

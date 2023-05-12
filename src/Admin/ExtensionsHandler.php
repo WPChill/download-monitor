@@ -185,10 +185,21 @@ class DLM_Extensions_Handler {
 			'license_key' => $license_key,
 			'status'      => ( 'activate' === $request ) ? 'active' : 'inactive',
 		);
-		$extensions           = DLM_Admin_Extensions::get_instance();
-		foreach ( $extensions->installed_extensions as $extension ) {
-			$installed_extensions[] = $extension->product_id;
+		$extensions = DLM_Admin_Extensions::get_instance();
 
+		if ( empty( $extensions->installed_extensions ) ) {
+			$product_manager = DLM_Product_Manager::get();
+			$product_manager->load_extensions();
+			$extensions->installed_extensions = $product_manager->get_products();
+		}
+
+		foreach ( $extensions->installed_extensions as $extension ) {
+			if ( method_exists( $extension, 'get_product_id' ) ) {
+				$installed_extensions[] = $extension->get_product_id();
+			} else {
+				// On deactivation hook the $extensions->installed_extensions still contains the old product_id.
+				$installed_extensions[] = $extension->product_id;
+			}
 		}
 
 		// Do activate request.
