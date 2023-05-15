@@ -59,6 +59,13 @@ jQuery(function ($) {
 			parent.append('<div class="dlm-master-license-response">' + extensions_vars.missing_license + '</div>');
 			return;
 		}
+
+		if ( '' === emailAddress ) {
+			parent.find('.dlm-master-license-response').remove();
+			parent.append('<div class="dlm-master-license-response">' + extensions_vars.missing_email + '</div>');
+			return;
+		}
+
 		target.attr('disabled', 'disabled');
 		parent.append('<div class="dlm-master-license-response">' + actionText + '</div>');
 		$.post(ajaxurl, {

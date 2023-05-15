@@ -9,7 +9,7 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://www.download-monitor.com/?wc-api=';
+	const STORE_URL = 'https://staging-downloadmonitorcom.kinsta.cloud/?wc-api=';
 
 	/**
 	 * Activation endpoint
@@ -188,14 +188,14 @@ class DLM_Product {
 			// Get activation result
 			$activate_results = json_decode( wp_remote_retrieve_body( $request ), true );
 
-			// Check if response is correct
-			if ( ! empty( $activate_results['activated'] ) ) {
+			// Check if response is correct and the product slug is present in the activated extensions.
+			if ( ! empty( $activate_results ) && isset( $activate_results[ $this->get_product_id() ] ) ) {
 
-				// Set local activation status to true
+				// Set local activation status to true.
 				$license->set_status( 'active' );
 				$this->set_license( $license );
 
-				// Return Message
+				// Return Message.
 				return array(
 					'result'  => 'success',
 					'message' => esc_html__( 'License successfully activated.', 'download-monitor' )
@@ -206,11 +206,9 @@ class DLM_Product {
 			} elseif ( isset( $activate_results['error_code'] ) ) {
 				throw new Exception( $activate_results['error'] );
 			}
-
-
 		} catch ( Exception $e ) {
 
-			// Set local activation status to false
+			// Set local activation status to false.
 			$license->set_status( 'inactivate' );
 			$this->set_license( $license );
 

@@ -55,14 +55,17 @@ class DLM_Extensions_Handler {
 	 */
 	public function handle_extension_action( $request = 'deactivate', $extension = '' ) {
 		$user_license = get_option( 'dlm_master_license', false );
-		// If no license found, skip this.
+
 		if ( ! $user_license ) {
-			return;
+			$user_license = '';
+			$email        = '';
+			$license_key  = '';
+		} else {
+			$user_license = json_decode( $user_license, true );
+			$email        = $user_license['email'];
+			$license_key  = $user_license['license_key'];
 		}
 
-		$user_license   = json_decode( $user_license, true );
-		$email          = $user_license['email'];
-		$license_key    = $user_license['license_key'];
 		$action_trigger = '-ext';
 
 		// Do activate request.
@@ -88,8 +91,13 @@ class DLM_Extensions_Handler {
 
 		$product = new DLM_Product( $extension['slug'], '', $extension['name'] );
 		$license = $product->get_license();
-		$license->set_key( $license_key );
-		$license->set_email( $email );
+
+		if ( ! empty( $license_key ) ) {
+			$license->set_key( $license_key );
+		}
+		if ( ! empty( $email ) ) {
+			$license->set_email( $email );
+		}
 
 		if ( 'deactivate' === $request ) {
 			$license->set_status( 'inactive' );
@@ -154,6 +162,7 @@ class DLM_Extensions_Handler {
 	 * @since 4.8.0
 	 */
 	public function handle_master_license( $data_request = false ) {
+
 		$ajax_request = false;
 		if ( ! $data_request ) {
 			// Check nonce.
