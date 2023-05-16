@@ -3,6 +3,9 @@ jQuery(function ($) {
 	$.each($('.extension_license a'), function (k, v) {
 		$(v).click(function () {
 			var wrap = $(v).closest('.extension_license');
+			const button = $(this);
+			// Stop pointer events after click.
+			button.css('pointer-events', 'none');
 
 			var ex_ac = (
 							'inactive' == $(wrap).find('#status').val()
@@ -36,6 +39,8 @@ jQuery(function ($) {
 						$(wrap).find('#email').attr('disabled', false);
 					}
 				}
+				// Redo pointer events after ajax done.
+				button.css('pointer-events', 'auto');
 			});
 
 		});
@@ -53,14 +58,20 @@ jQuery(function ($) {
 			  extensions   = parent.parent().find('.extension_license'),
 			  actionText   = (ex_ac == 'activate') ? extensions_vars.activate : extensions_vars.deactivate;
 
+		// Stop pointer events after click.
+		target.css('pointer-events', 'none');
 		// If no license present return.
 		if ('' === license) {
+			// Redo pointer events.
+			target.css('pointer-events', 'auto');
 			parent.find('.dlm-master-license-response').remove();
 			parent.append('<div class="dlm-master-license-response">' + extensions_vars.missing_license + '</div>');
 			return;
 		}
 
 		if ( '' === emailAddress ) {
+			// Redo pointer events.
+			target.css('pointer-events', 'auto');
 			parent.find('.dlm-master-license-response').remove();
 			parent.append('<div class="dlm-master-license-response">' + extensions_vars.missing_email + '</div>');
 			return;
@@ -83,6 +94,8 @@ jQuery(function ($) {
 			} else {
 				window.location.href = window.location.href;
 			}
+			// Redo pointer events after ajax done.
+			target.css('pointer-events', 'auto');
 		});
 	});
 
