@@ -385,7 +385,6 @@ class WP_DLM {
 
 			$dlm_xhr_security_data = array(
 				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
-				'nonce'          => wp_create_nonce( 'dlm_ajax_nonce' ),
 			);
 
 			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
