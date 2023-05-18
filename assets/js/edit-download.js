@@ -599,6 +599,31 @@ jQuery(function ($) {
 					jQuery('.dlm-versions-tab .dlm-versions-number').html( '(' + versions.length + ')' );
 				}
 			} );
+
+			// Add other downloads path.
+			jQuery(document).on('click', '#dlm-add-recommended-path', function(e){
+				e.preventDefault();
+				const button = jQuery(this),
+					  path = button.data('path'),
+					  security = button.data('security');
+
+				var data = {
+					action    : 'dlm_update_downloads_path',
+					'path'    : path,
+					'security': security
+				};
+
+				jQuery.post(
+					ajaxurl,
+					data,
+					function (response) {
+						// If successful delete the wrapper
+						if (response.success) {
+							button.parents('.dlm-restricted-path').remove();
+						}
+					}
+				);
+			});
 		}
 
 		/**

@@ -3,6 +3,65 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 ?>
+<?php
+$i                    = 1;
+$already_went_through = false;
+// Go through only the first version.
+if ( ! $already_went_through ) {
+	foreach ( $file_urls as $file_path ) {
+		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
+
+		if ( $restriction ) {
+			$new_path = str_replace( DLM_Utils::basename( $file_path ), '', $file_path );
+			$allowed_path = get_option( 'dlm_downloads_path', false );
+			if ( $allowed_path && '' !== $allowed_path ) {
+				// If there is already an allowed path get the longest common path.
+				$longest_path = trailingslashit(
+					untrailingslashit(
+						DLM_Utils::longest_common_path(
+							array(
+								$allowed_path,
+								$new_path
+							)
+						)
+					)
+				);
+			} else {
+				// If there is no allowed path just use the new path.
+				$longest_path = trailingslashit( untrailingslashit( $new_path ) );
+			}
+
+			echo '<div class="dlm-restricted-path">';
+			echo '<h4 class="dlm-restricted-path__restricted_file_path">' .
+			     sprintf(
+				     esc_html__( 'You\'re trying to serve a file from your server that is not located inside the WordPress 
+			     installation or /wp-content/ folder. Clicking on the "add path" button will create a new file path exception. 
+			     If you want to learn more about this, %sclick here%s', 'download-monitor' ),
+				     '<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
+				     '</a>' ) .
+			     '</h4>';
+
+			echo '</p>';
+			echo '<p class="dlm-restricted-path__recommended_allowed_path" >'
+			     . esc_html__( 'Recommended path:', 'download-monitor' ) .
+			     ' <code>' . esc_html( $longest_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-add-recommended-path" data-path="' . esc_attr( $longest_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce'). '">' .
+			     esc_html__( 'Add path', 'download-monitor' ) . '</button></p>';
+			echo '<p class="dlm-restricted-path__description">';
+			echo esc_html__( 'This will add the download path to the "Other downloads path" setting. ', 'download-monitor' );
+			if ( $allowed_path && '' !== $allowed_path ) {
+				echo sprintf( esc_html__( 'Keep in mind that it will override the previous value entered there: %s.', 'download-monitor' ), '<code>' . esc_html( $allowed_path ) . '</code>' );
+			}
+			echo '</p>';
+			echo '</div>';
+		}
+		if ( $i === count( $file_urls ) ) {
+			$already_went_through = true;
+		}
+		$i ++;
+	}
+}
+//list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
+?>
 <div class="dlm-metabox closed downloadable_file" data-file="<?php echo esc_html( $file_id ); ?>">
 	<h3>
 		<span type="button"
