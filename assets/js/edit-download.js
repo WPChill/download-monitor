@@ -54,8 +54,14 @@ jQuery(function ($) {
 					 * @param {*} up
 					 * @param {*} file
 					 */
-					dlmAddFileToPath: function (up, file) {
-						const fileUrl  = file.attachment.attributes.url;
+					dlmAddFileToPath: function (up, file, response) {
+						// If the response os not successful then we need to show an error and return.
+						const $response = JSON.parse(response.response);
+						if (!$response.success) {
+							dlmUploaderInstance.dlmUploadError(up, $response.data);
+							return;
+						}
+						const fileUrl = file.attachment.attributes.url;
 
 						// Check if is subjective upload or general one
 						if ('plupload-browse-button' !== jQuery(up.settings.browse_button).attr('id')) {
@@ -108,6 +114,7 @@ jQuery(function ($) {
 					 * @param {*} pluploadError
 					 */
 					dlmUploadError: function (up, pluploadError) {
+						jQuery( '.dlm-uploading-file' ).addClass('hidden');
 						jQuery(up.settings.browse_button).parent().append('<p class="error description" style="color:red;">' + pluploadError.message + '</p>');
 						setTimeout(function () {
 							jQuery(up.settings.browse_button).parent().find('.error.description').remove();
