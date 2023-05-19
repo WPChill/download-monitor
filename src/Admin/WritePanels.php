@@ -300,12 +300,13 @@ class DLM_Admin_Writepanels {
 
 				// $versions declared above.
 				if ( $versions ) {
+					$paths = array();
 
 					/** @var DLM_Download_Version $version */
 					foreach ( $versions as $version ) {
 
 						$i ++;
-
+						$paths = array_merge( $paths, $version->get_mirrors() );
 						download_monitor()->service( 'view_manager' )->display(
 							'meta-box/version',
 							array(
@@ -326,7 +327,76 @@ class DLM_Admin_Writepanels {
 				}
 				?>
 			</div>
+			<?php
 
+			// Check if there are any non-allowed paths.
+			if ( ! empty( $paths ) ) {
+				$common_path  = false;
+				$paths_array  = array();
+				$allowed_path = get_option( 'dlm_downloads_path', false );
+				foreach ( $paths as $file_path ) {
+					list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
+					// If remote file don't check for allowed path.
+					if ( $remote_file ) {
+						continue;
+					}
+					if ( $restriction ) {
+						$new_path = str_replace( DLM_Utils::basename( $file_path ), '', $file_path );
+						if ( $allowed_path && '' !== $allowed_path ) {
+							if ( ! $common_path ) {
+								// If there is already an allowed path get the longest common path.
+								$paths_array = array( $allowed_path, $new_path );
+							} else {
+								// If there is already an allowed path get the longest common path.
+								$paths_array = array( $allowed_path, $new_path, $common_path );
+							}
+						} else {
+							if ( ! $common_path ) {
+								// If there is no allowed path just use the new path.
+								$common_path = trailingslashit( untrailingslashit( $new_path ) );
+							} else {
+								// If there is no allowed path just use the new path.
+								$paths_array = array( $new_path, $common_path );
+							}
+						}
+						// If the path array is not empty get the longest common path. If empty most probably the
+						// common path is the new path.
+						if ( ! empty( $paths_array ) ) {
+							$common_path = trailingslashit(
+								untrailingslashit(
+									DLM_Utils::longest_common_path( $paths_array )
+								)
+							);
+						}
+					}
+				}
+				// If there is a common path display a notice.
+				if ( $common_path ) {
+					echo '<div class="dlm-restricted-path notice notice-warning">';
+					echo '<h4 class="dlm-restricted-path__restricted_file_path">' .
+					     sprintf(
+						     esc_html__( 'You\'re trying to serve a file from your server that is not located inside the WordPress 
+			     installation or /wp-content/ folder. Clicking on the "add path" button will create a new file path exception. 
+			     If you want to learn more about this, %sclick here%s', 'download-monitor' ),
+						     '<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
+						     '</a>' ) .
+					     '</h4>';
+
+					echo '</p>';
+					echo '<p class="dlm-restricted-path__recommended_allowed_path" >'
+					     . esc_html__( 'Recommended path:', 'download-monitor' ) .
+					     ' <code>' . esc_html( $common_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-add-recommended-path" data-path="' . esc_attr( $common_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
+					     esc_html__( 'Add path', 'download-monitor' ) . '</button></p>';
+					echo '<p class="dlm-restricted-path__description">';
+					echo esc_html__( 'This will add the download path to the "Other downloads path" setting. ', 'download-monitor' );
+					if ( $allowed_path && '' !== $allowed_path ) {
+						echo sprintf( esc_html__( 'Keep in mind that it will override the previous value entered there: %s.', 'download-monitor' ), '<code>' . esc_html( $allowed_path ) . '</code>' );
+					}
+					echo '</p>';
+					echo '</div>';
+				}
+			}
+			?>
 			<?php do_action( 'dlm_download_monitor_files_writepanel_end', $download ); ?>
 
 		</div>

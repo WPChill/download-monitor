@@ -619,7 +619,8 @@ jQuery(function ($) {
 					function (response) {
 						// If successful delete the wrapper
 						if (response.success) {
-							button.parents('.dlm-restricted-path').remove();
+							// Reload the page.
+							location.reload();
 						}
 					}
 				);
