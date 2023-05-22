@@ -126,7 +126,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 */
 		public static function do_upgrade() {
 
-			if ( ! is_admin() ) {
+			if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
 				return false;
 			}
 

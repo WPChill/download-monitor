@@ -44,10 +44,17 @@ define( 'DLM_FILE', plugin_basename( __FILE__ ) );
 define( 'DLM_BETA', false );
 define( 'DLM_BETA_VERSION', 'x.x.x' );
 
-// Add meta tags to head for DLM Version
-add_action( 'wp_head', function () {
-	echo '<meta name="dlm-version" content="' . esc_attr( DLM_VERSION ) . '">';
-}, 1 );
+// Add meta tags to head for DLM Version.
+add_action(
+	'wp_head',
+	function () {
+		// Add filter to hide plugin version.
+		if ( apply_filters( 'dlm_hide_meta_version', false ) ) {
+			return;
+		}
+		echo '<meta name="dlm-version" content="' . esc_attr( DLM_VERSION ) . '">';
+	},
+	1 );
 
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
