@@ -390,7 +390,7 @@ class DLM_XHR_Download {
 			console.log('** An error occurred during the transaction');
 		};
 
-		dlmXHRinstance.request.open('GET', newHref, true);
+		dlmXHRinstance.request.open('GET', href, true);
 		dlmXHRinstance.request.setRequestHeader('dlm-xhr-request', 'dlm_XMLHttpRequest');
 		dlmXHRinstance.request.send();
 	}
