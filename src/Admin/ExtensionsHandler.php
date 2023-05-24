@@ -99,6 +99,18 @@ class DLM_Extensions_Handler {
 			$license->set_email( $email );
 		}
 
+		if ( ! isset( $api_request['body'] ) ) {
+			$license->set_status( 'inactive' );
+			return;
+		}
+
+		$response_body = json_decode(wp_remote_retrieve_body($api_request), true);
+
+		if ( isset( $response_body['error'] ) ) {
+			$license->set_status( 'inactive' );
+			return;
+		}
+
 		if ( 'deactivate' === $request ) {
 			$license->set_status( 'inactive' );
 		} else {
