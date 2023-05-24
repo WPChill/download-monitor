@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.8.0 - 23.05.2023 =
+= 4.8.0 - 24.05.2023 =
 Added: Clear optimization plugins cache and minified scripts cache on plugin update/activation ( [#1224](https://github.com/WPChill/download-monitor/issues/1224) )
 Changed: No access modal now takes the no access page content ( [#1234](https://github.com/WPChill/download-monitor/issues/1234) )
 Fixed: Reports not working when permalinks set on plain ( [#1243](https://github.com/WPChill/download-monitor/issues/1243) )
