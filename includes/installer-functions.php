@@ -12,6 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function _download_monitor_install( $network_wide = false ) {
 
+	download_monitor_delete_cached_scripts();
+	// Let's delete the extensions transient so that it's refreshed when plugin is installed/activated, this is to ensure
+	// that the extensions list is always up-to-date.
+	delete_transient( 'dlm_extension_json' );
+
 	// DLM Installer
 	$installer = new DLM_Installer();
 
@@ -46,6 +51,7 @@ function _download_monitor_install( $network_wide = false ) {
 		$installer->install();
 	}
 
+	WP_DLM::handle_plugin_action( 'activate' );
 }
 
 
@@ -89,4 +95,39 @@ function _download_monitor_mu_delete_blog( $tables ) {
 	$tables[] = $wpdb->prefix . 'download_log';
 
 	return $tables;
+}
+
+/**
+ * Delete cached js and css scripts from optimisation plugins on plugin activation.
+ *
+ * @return void
+ * @since 4.8.0
+ */
+function download_monitor_delete_cached_scripts() {
+
+	// WP Rocket.
+	if ( function_exists( 'rocket_clean_domain' ) ) {
+		rocket_clean_domain();
+	}
+
+	if ( function_exists( 'rocket_clean_minify' ) ) {
+		rocket_clean_minify();
+	}
+
+	// WP Optimize.
+	if ( class_exists( 'WP_Optimize_Minify_Commands' ) ) {
+		$WP_Optimize_Minify = new WP_Optimize_Minify_Commands();
+		$WP_Optimize_Minify->purge_minify_cache();
+	}
+
+	// WP Fastest Cache.
+	if ( class_exists( 'WpFastestCache' ) ) {
+		$WP_Fastest_Cache = new WpFastestCache();
+		$WP_Fastest_Cache->deleteCache( true );
+	}
+
+	// WP Super Cache.
+	if ( function_exists( 'wp_cache_clear_cache' ) ) {
+		wp_cache_clear_cache();
+	}
 }

@@ -3,7 +3,7 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing and selling downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 4.7.78
+	Version: 4.8.0
 	Author: WPChill
 	Author URI: https://wpchill.com
 	Requires at least: 5.4
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Define DLM Version
 
-define( 'DLM_VERSION', '4.7.78' );
+define( 'DLM_VERSION', '4.8.0' );
 define( 'DLM_UPGRADER_VERSION', '4.6.0' );
 
 // Define DLM FILE
@@ -44,10 +44,17 @@ define( 'DLM_FILE', plugin_basename( __FILE__ ) );
 define( 'DLM_BETA', false );
 define( 'DLM_BETA_VERSION', 'x.x.x' );
 
-// Add meta tags to head for DLM Version
-add_action( 'wp_head', function () {
-	echo '<meta name="dlm-version" content="' . esc_attr( DLM_VERSION ) . '">';
-}, 1 );
+// Add meta tags to head for DLM Version.
+add_action(
+	'wp_head',
+	function () {
+		// Add filter to hide plugin version.
+		if ( apply_filters( 'dlm_hide_meta_version', false ) ) {
+			return;
+		}
+		echo '<meta name="dlm-version" content="' . esc_attr( DLM_VERSION ) . '">';
+	},
+	1 );
 
 if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
@@ -55,29 +62,8 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
 
-
-/**
- * This function allows you to track usage of your plugin
- * Place in your main plugin file
- */
-if( ! class_exists( 'Download_Monitor_Usage_Tracker') ) {
-	require_once dirname( __FILE__ ) . '/includes/tracking/class-download-monitor-usage-tracker.php';
-}
-
 if( ! class_exists( 'DLM_Review') && is_admin() ) {
 	require_once dirname( __FILE__ ) . '/includes/admin/class-dlm-review.php';
 }
 
-if( ! function_exists( 'download_monitor_start_plugin_tracking' ) ) {
-	function download_monitor_start_plugin_tracking() {
-		$wisdom = new Download_Monitor_Usage_Tracker(
-			__FILE__,
-			'https://tracking.download-monitor.com/',
-			array(),
-			true,
-			true,
-			0
-		);
-	}
-	download_monitor_start_plugin_tracking();
-}
+

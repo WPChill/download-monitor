@@ -48,51 +48,12 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public function __construct() {
 
-			$this->date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-
-			$memory_limit = ini_get( 'memory_limit' );
-			if ( preg_match( '/^(\d+)(.)$/', $memory_limit, $matches ) ) {
-				if ( 'M' === $matches[2] ) {
-					$memory_limit = $matches[1];
-				} else if ( 'K' === $matches[2] ) {
-					$memory_limit = $matches[1] / 1024;
-				} else if ( 'G' === $matches[2] ) {
-					$memory_limit = $matches[1] * 1024;
-				}
-			}
-
-			$this->php_info = array(
-				'memory_limit'       => absint( $memory_limit ),
-				'max_execution_time' => ini_get( 'max_execution_time' ),
-				'retrieved_rows'     => 10000
-			);
-
-			if ( 40 < $this->php_info['memory_limit'] ) {
-				if ( 80 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 30000;
-				}
-
-				if ( 120 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 40000;
-				}
-				if ( 150 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 60000;
-				}
-
-				if ( 200 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 100000;
-				}
-
-				if ( 500 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 150000;
-				}
-			}
-
 			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
 			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
 			add_action( 'wp_ajax_dlm_top_downloads_reports', array( $this, 'get_ajax_top_downloads_markup' ) );
 			add_action( 'init', array( $this, 'set_table_headers' ), 30 );
+			add_action( 'init', array( $this, 'set_memory_limit' ) );
 
 		}
 
@@ -185,20 +146,25 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 * @since 4.6.0
 		 */
 		public function create_global_variable() {
-			$current_user_can = '&user_can_view_reports=' . apply_filters( 'dlm_user_can_view_reports', current_user_can( 'dlm_view_reports' ) );
+			$current_user_can    = '&user_can_view_reports=' . apply_filters( 'dlm_user_can_view_reports', current_user_can( 'dlm_view_reports' ) );
+			$permalink_structure = get_option( 'permalink_structure' );
+			$separator           = '?';
+			if ( empty( $permalink_structure ) ) {
+				$separator = '&';
+			}
 
-			$rest_route_download_reports = rest_url() . 'download-monitor/v1/download_reports?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
-			$rest_route_user_reports     = rest_url() . 'download-monitor/v1/user_reports?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
-			$rest_route_user_data        = rest_url() . 'download-monitor/v1/user_data?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
-			$rest_route_templates        = rest_url() . 'download-monitor/v1/templates?_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
+			$rest_route_download_reports = rest_url( 'download-monitor/v1/download_reports' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
+			$rest_route_user_reports     = rest_url( 'download-monitor/v1/user_reports' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
+			$rest_route_user_data        = rest_url( 'download-monitor/v1/user_data' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
+			$rest_route_templates        = rest_url( 'download-monitor/v1/templates' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
 
-			$cpt_fields = apply_filters( 'dlm_reports_downloads_cpt', array(
+			$cpt_fields             = apply_filters( 'dlm_reports_downloads_cpt', array(
 				'author',
 				'id',
 				'title',
 				'slug'
 			) );
-			$rest_rout_downloadscpt = rest_url() . 'wp/v2/dlm_download?_fields=' . implode( ',', $cpt_fields ) . '&_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can;
+			$rest_rout_downloadscpt = rest_url( 'wp/v2/dlm_download' . $separator . '_fields=' . implode( ',', $cpt_fields ) . '&_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
 			// Let's add the global variable that will hold our reporst class and the routes.
 			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; const dlmDownloadsCptApiapi = "' . $rest_rout_downloadscpt . '"; const dlmPHPinfo =  ' . wp_json_encode( $this->php_info ) . ';', 'before' );
 		}
@@ -322,7 +288,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 1000;
+			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_chart_stats'];
 			$offset_limit = $offset * $count;
 			$stats        = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} LIMIT {$offset_limit}, {$count};", null ), ARRAY_A );
 
@@ -414,7 +380,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$users_data = array();
 
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : 5000;
+			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_user_data'];
 			$offset_limit = $offset * $count;
 
 			$args = array(
@@ -565,5 +531,61 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			return true;
 		}
+
+		/**
+		 * Sets php memory limit, execution time and number of retreived rows for reports data.
+		 *
+		 *
+		 * @return void
+		 * @since 4.8.0
+		 */
+		public function set_memory_limit(){
+
+			$this->date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+
+			$memory_limit = ini_get( 'memory_limit' );
+			if ( preg_match( '/^(\d+)(.)$/', $memory_limit, $matches ) ) {
+				if ( 'M' === $matches[2] ) {
+					$memory_limit = $matches[1];
+				} else if ( 'K' === $matches[2] ) {
+					$memory_limit = $matches[1] / 1024;
+				} else if ( 'G' === $matches[2] ) {
+					$memory_limit = $matches[1] * 1024;
+				}
+			}
+
+			$this->php_info = array(
+				'memory_limit'          => absint( $memory_limit ),
+				'max_execution_time'    => ini_get( 'max_execution_time' ),
+				'retrieved_rows'        => 10000,
+				'retrieved_user_data'   => 5000,
+				'retrieved_chart_stats' => 1000
+			);
+
+			if ( 40 < $this->php_info['memory_limit'] ) {
+				if ( 80 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 30000;
+				}
+
+				if ( 120 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 40000;
+				}
+				if ( 150 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 60000;
+				}
+
+				if ( 200 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 100000;
+				}
+
+				if ( 500 <= $this->php_info['memory_limit'] ) {
+					$this->php_info['retrieved_rows'] = 150000;
+				}
+			}
+
+			// Add this filter here in order for customer to change the limits if needed.
+			$this->php_info = apply_filters( 'dlm_reports_server_limits', $this->php_info );
+		}
+
 	}
 }

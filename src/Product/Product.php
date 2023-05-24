@@ -162,14 +162,23 @@ class DLM_Product {
 				throw new Exception( 'Please enter the email address associated with your license.' );
 			}
 
+			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
+
 			// Do activate request
-			$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query( array(
-					'email'          => $license->get_email(),
-					'licence_key'    => $license->get_key(),
-					'api_product_id' => $this->product_id,
-					'request'        => 'activate',
-					'instance'       => site_url()
-				), '', '&' ) );
+			$request = wp_remote_get(
+				self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
+					array(
+						'email'          => $license->get_email(),
+						'licence_key'    => $license->get_key(),
+						'api_product_id' => $this->product_id,
+						'request'        => 'activate',
+						'instance'       => site_url(),
+						'action_trigger' => $action_trigger,
+					),
+					'',
+					'&'
+				)
+			);
 
 			// Check request
 			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
@@ -179,14 +188,14 @@ class DLM_Product {
 			// Get activation result
 			$activate_results = json_decode( wp_remote_retrieve_body( $request ), true );
 
-			// Check if response is correct
-			if ( ! empty( $activate_results['activated'] ) ) {
+			// Check if response is correct and the product slug is present in the activated extensions.
+			if ( ! empty( $activate_results ) && isset( $activate_results[ $this->get_product_id() ] ) ) {
 
-				// Set local activation status to true
+				// Set local activation status to true.
 				$license->set_status( 'active' );
 				$this->set_license( $license );
 
-				// Return Message
+				// Return Message.
 				return array(
 					'result'  => 'success',
 					'message' => esc_html__( 'License successfully activated.', 'download-monitor' )
@@ -197,11 +206,9 @@ class DLM_Product {
 			} elseif ( isset( $activate_results['error_code'] ) ) {
 				throw new Exception( $activate_results['error'] );
 			}
-
-
 		} catch ( Exception $e ) {
 
-			// Set local activation status to false
+			// Set local activation status to false.
 			$license->set_status( 'inactivate' );
 			$this->set_license( $license );
 
@@ -225,13 +232,20 @@ class DLM_Product {
 				throw new Exception( "Can't deactivate license without a license key." );
 			}
 
+			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
+
 			// The Request
-			$request = wp_remote_get( self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query( array(
-					'api_product_id' => $this->product_id,
-					'licence_key'    => $license->get_key(),
-					'request'        => 'deactivate',
-					'instance'       => site_url(),
-				), '', '&' ) );
+			$request = wp_remote_get(
+				self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
+					array(
+						'api_product_id' => $this->product_id,
+						'licence_key'    => $license->get_key(),
+						'request'        => 'deactivate',
+						'instance'       => site_url(),
+						'action_trigger' => $action_trigger
+					), '', '&'
+				)
+			);
 
 			// Check request
 			if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
@@ -303,5 +317,4 @@ class DLM_Product {
 
 		return 'https://www.download-monitor.com/pricing?' . $query_string;
 	}
-
 }

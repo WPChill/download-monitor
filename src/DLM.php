@@ -61,6 +61,8 @@ class WP_DLM {
 	public function __construct() {
 		global $wpdb;
 
+		register_deactivation_hook( DLM_PLUGIN_FILE, array( $this, 'deactivate_this_plugin' ) );
+
 		// Setup Services
 		$this->services = new DLM_Services();
 
@@ -77,6 +79,7 @@ class WP_DLM {
 		// Setup admin classes.
 		if ( is_admin() ) {
 
+			$extensions_handler = DLM_Extensions_Handler::get_instance();
 			// check if multisite and needs to create DB table
 
 			// Setup admin scripts
@@ -340,6 +343,7 @@ class WP_DLM {
 	 * @return void
 	 */
 	public function frontend_scripts() {
+
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
 			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css', array(), DLM_VERSION );
 		}
@@ -357,12 +361,15 @@ class WP_DLM {
 
 		// Leave this filter here in case XHR is problematic and needs to be disabled.
 		if ( self::do_xhr() ) {
-			wp_enqueue_script(
+			wp_register_script(
 				'dlm-xhr',
 				plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
-				array('jquery'),
-				DLM_VERSION, true
+				array( 'jquery' ),
+				DLM_VERSION,
+				true
 			);
+
+			wp_enqueue_script( 'dlm-xhr' );
 
 			// Add dashicons on the front if popup modal for no access is used.
 			if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
@@ -416,8 +423,9 @@ class WP_DLM {
 			if ( $is_dlm_translated ) {
 				remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
 			}
-
-			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; dlmXHRgif = "' . esc_url( includes_url( '/images/spinner.gif' ) ) .'"', 'before' );
+			$nonXHRGlobalLinks = apply_filters( 'dlm_non_xhr_uri', array() );
+			$nonXHRGlobalLinks = array_map( 'sanitize_text_field', $nonXHRGlobalLinks );
+			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( includes_url( '/images/spinner.gif' ) ) .'"', 'before' );
 			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', array(
 				'error' => __( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' )
 			) );
@@ -658,21 +666,15 @@ class WP_DLM {
 	 * @since 4.4.5
 	 */
 	public function archive_filter_download_link( $post_link, $post ) {
-
 		// We exclude the search because there is a specific option for this
 		if ( 'dlm_download' == $post->post_type && ! is_search() ) {
-			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
-				// fetch download object
-				try {
-					/** @var DLM_Download $download */
-					$download                = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
-					$GLOBALS['dlm_download'] = $download;
+			// fetch download object
+			try {
+				/** @var DLM_Download $download */
+				$download                = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
 
-					return $download->get_the_download_link();
-				} catch ( Exception $e ) {
-				}
-			} else {
-				return $GLOBALS['dlm_download']->get_the_download_link();
+				return $download->get_the_download_link();
+			} catch ( Exception $e ) {
 			}
 		}
 
@@ -763,5 +765,47 @@ class WP_DLM {
 			<p><?php echo wp_kses_post( __( '<strong>Attention!</strong> Download Monitor shop functionality will no longer be supported begining <strong>April 2023</strong> and will be disabled in a future update.', 'download-monitor' ) ); ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Handle plugin deactivation processes.
+	 *
+	 * @return void
+	 *
+	 * @since 4.8.0
+	 */
+	public function deactivate_this_plugin() {
+		self::handle_plugin_action();
+	}
+
+
+	/**
+	 * Handle plugin activation/deactivation hook
+	 *
+	 * @param string $request activation/deactivation.
+	 *
+	 * @return void
+	 * @since 4.8.0
+	 */
+	public static function handle_plugin_action( $request = 'deactivate' ) {
+
+		$user_license = get_option( 'dlm_master_license', false );
+		// If no license found, skip this.
+		if ( ! $user_license ) {
+			return;
+		}
+
+		$extensions_handler = DLM_Extensions_Handler::get_instance();
+		$user_license         = json_decode( $user_license, true );
+		$email                = $user_license['email'];
+		$license_key          = $user_license['license_key'];
+		$action_trigger       = '-dlm';
+		$args = array(
+			'key'              => $license_key,
+			'email'            => $email,
+			'extension_action' => $request,
+			'action_trigger'   => $action_trigger,
+		);
+		$extensions_handler->handle_master_license( $args );
 	}
 }

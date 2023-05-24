@@ -220,6 +220,7 @@ class DLM_Installer {
 	 * @return void
 	 */
 	private function install_tables() {
+		
 		global $wpdb;
 
 		$wpdb->hide_errors();
@@ -229,7 +230,7 @@ class DLM_Installer {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		$dlm_log = '
-		CREATE TABLE `' . $wpdb->prefix . "download_log` (
+		CREATE TABLE IF NOT EXISTS `' . $wpdb->prefix . "download_log` (
 			ID bigint(20) NOT NULL auto_increment,
 			user_id bigint(20) NOT NULL,
 			user_ip varchar(200) NOT NULL,
@@ -242,7 +243,7 @@ class DLM_Installer {
 			download_status varchar(200) DEFAULT NULL,
 			download_status_message varchar(200) DEFAULT NULL,
 			download_location varchar(200) DEFAULT NULL,
-			download_category varchar(200) DEFAULT NULL,
+			download_category longtext DEFAULT NULL,
 			meta_data longtext DEFAULT NULL,
 			PRIMARY KEY  (ID),
 			KEY attribute_name (download_id)
@@ -263,7 +264,6 @@ class DLM_Installer {
 						download_versions varchar(200) NOT NULL,
 		 				PRIMARY KEY (`ID`))
 						ENGINE = InnoDB $collate;";
-
 
 		dbDelta( $dlm_log );
 		dbDelta( $dlm_reports );
@@ -317,5 +317,4 @@ class DLM_Installer {
 			}
 		}
 	}
-
 }

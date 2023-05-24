@@ -101,20 +101,42 @@ class DLM_Custom_Columns {
 
 				break;
 			case "download_cat" :
+				$links = array();
 				if ( ! $terms = get_the_terms( $post->ID, 'dlm_download_category' ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
 					foreach ( $terms as $term ) {
-						echo '<a href=' . esc_url( add_query_arg( 'dlm_download_category', esc_attr( $term->slug ) ) ) . '>' . esc_html( $term->name ) . '</a> ';
+						$links[] = '<a href=' . esc_url( add_query_arg( 'dlm_download_category', esc_attr( $term->slug ) ) ) . '>' . esc_html( $term->name ) . '(#' . absint( $term->term_id ) . ')</a> ';
 					}
+					echo wp_kses_post( implode( ', ', $links ) );
 				}
 				break;
 			case 'download_tag':
-				$terms = get_the_term_list( $post->ID, 'dlm_download_tag', '', ', ', '' );
-				if ( ! $terms ) {
+
+				$terms = get_the_terms( $post->ID, 'dlm_download_tag' );
+
+				if ( is_wp_error( $terms ) ) {
+					echo '<span class="na">&ndash;</span>';
+					break;
+				}
+
+				if ( empty( $terms ) ) {
+					echo '<span class="na">&ndash;</span>';
+					break;
+				}
+
+				$links = array();
+				foreach ( $terms as $term ) {
+					$link = get_term_link( $term, 'dlm_download_tag' );
+					if ( is_wp_error( $link ) ) {
+						continue;
+					}
+					$links[] = '<a href="' . esc_url( $link ) . '" rel="tag">' . esc_html( $term->name ) . '(#' . absint( $term->term_id ) . ')</a>';
+				}
+				if ( empty( $links ) ) {
 					echo '<span class="na">&ndash;</span>';
 				} else {
-					echo wp_kses_post( $terms );
+					echo wp_kses_post( implode( ', ',$links ) );
 				}
 				break;
 			case 'featured':

@@ -185,6 +185,14 @@ class DLM_Admin_Settings {
 								'type'    => 'lazy_select',
 								'options' => array(),
 							),
+							array(
+								'name'     => 'dlm_no_access_modal',
+								'std'      => '0',
+								'label'    => __( 'No Access Modal', 'download-monitor' ),
+								'cb_label' => '',
+								'desc' => __( 'Open no access message in a modal (pop-up) window.', 'download-monitor' ),
+								'type'     => 'checkbox',
+							),
 						),
 					),
 					'access'     => array(
@@ -197,14 +205,6 @@ class DLM_Admin_Settings {
 								'label'       => __( 'No access message', 'download-monitor' ),
 								'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
 								'type'        => 'textarea',
-							),
-							array(
-								'name'     => 'dlm_no_access_modal',
-								'std'      => '0',
-								'label'    => __( 'No Access Modal', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Open no access message in a modal (pop-up) window.', 'download-monitor' ),
-								'type'     => 'checkbox',
 							),
 							array(
 								'name'        => 'dlm_ip_blacklist',

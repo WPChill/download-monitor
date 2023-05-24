@@ -110,7 +110,7 @@ class DLM_Reports {
 	 * @param offset Offset used for database query
 	 * @param limit Limit used for database query
 	 */
-	async fetchReportsData(offset = 0, limit = 1000) {
+	async fetchReportsData(offset = 0, limit = dlmPHPinfo['retrieved_chart_stats']) {
 
 		const pageWrapper          = jQuery('div[data-id="general_info"]');
 
@@ -209,7 +209,7 @@ class DLM_Reports {
 	 * The request for user data
 	 * @returns {Promise<void>}
 	 */
-	async fetchUserData( offset = 0, limit = 5000 ) {
+	async fetchUserData( offset = 0, limit = dlmPHPinfo['retrieved_user_data'] ) {
 
 		// Let's see if these are pretty permalinks or plain
 		let fetchingLink = dlmUserDataAPI + '&offset=' + offset + '&limit=' + limit;

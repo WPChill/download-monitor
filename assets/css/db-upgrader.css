@@ -1,4 +1,4 @@
-.dlm-upgrade-db-notice {
+html body .dlm-upgrade-db-notice {
     background: 0 0;
     padding: 0;
     border: 0;
@@ -91,6 +91,10 @@
 
 .dlm-upgrade-db-notice h3 {
     margin: 0
+}
+
+p.dlm-upgrade-notice {
+    color:red;
 }
 
 @keyframes dlm_loading {

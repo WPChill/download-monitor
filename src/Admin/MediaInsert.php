@@ -63,8 +63,13 @@ class DLM_Admin_Media_Insert {
 		?>
 		<h2 class="nav-tab-wrapper">
 			<a href="#insert-shortcode"
-			   class="nav-tab nav-tab-active"><?php echo esc_html__( 'Insert Shortcode', 'download-monitor' ); ?></a><a
-				href="#quick-add" class="nav-tab"><?php echo esc_html__( 'Quick-add download', 'download-monitor' ); ?></a>
+			   class="nav-tab nav-tab-active"><?php echo esc_html__( 'Insert Shortcode', 'download-monitor' ); ?></a>
+			<?php
+			if ( current_user_can( 'manage_downloads' ) ) { ?>
+				<a
+					href="#quick-add"
+					class="nav-tab"><?php echo esc_html__( 'Quick-add download', 'download-monitor' ); ?></a>
+			<?php } ?>
 		</h2>
 		<?php
 

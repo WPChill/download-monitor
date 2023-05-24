@@ -1,3 +1,6 @@
+.post-type-dlm_download p.dlm-extension-filtering a {
+  cursor: pointer;
+}
 .post-type-dlm_download .dlm-page-header {
   border-bottom: 1px solid #ccc;
   padding: 15px 20px;
@@ -2175,6 +2178,21 @@ table.wp-list-table .column-thumb img {
   margin: 10px;
   width: calc(33% - 20px) !important;
 }
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license {
+  margin-top: 15px;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license > div {
+  padding: 15px;
+  background: #fff;
+  margin-left: -5px;
+  max-width: calc(100% - 5px);
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license label {
+  font-weight: bold;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license input:required {
+  border-color: #800000;
+}
 .dlm_extensions_wrap .dlm_extensions .dlm_extension {
   background-color: #FFF;
   width: calc(20% - 15px);
@@ -3041,4 +3059,7 @@ Toggles
 @font-face {
   font-family: 'DM Sans';
   src: url('../font/dm/DMSans-Regular.ttf');
+}
+.dlm-restricted-path .dlm-restricted-path__description {
+  font-style: italic;
 }

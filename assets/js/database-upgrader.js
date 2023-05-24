@@ -86,6 +86,38 @@
 				$.ajax(opts);
 			});
 
+			$(document).on('click', 'button#dlm-upgrade-download_category,a.dlm-download_category-upgrade-link', function (e) {
+				e.preventDefault();
+				$(this).prop('disabled', true);
+				const noticeWrapper = $('body').find('.dlm-upgrade-db-notice');
+				noticeWrapper.find('p.dlm-upgrade-notice').remove();
+				noticeWrapper.append('<p class="dlm-upgrade-notice">' + dlm_upgraderColumn.upgrade_download_category + '</p>');
+
+				const opts = {
+					url     : ajaxurl,
+					type    : 'post',
+					async   : true,
+					cache   : false,
+					dataType: 'json',
+					data    : {
+						action: 'dlm_update_download_category',
+						nonce : dlm_upgraderColumn.nonce,
+					},
+					success : function (response) {
+						if ('undefined' !== response.data) {
+							noticeWrapper.find('p.dlm-upgrade-notice').remove();
+							noticeWrapper.append('<p>' + response.data.message + '</p>');
+						}
+						// Refresh window after 3.5 seconds
+						setTimeout(function () {
+							window.location.reload();
+						}, 3500);
+					}
+				};
+
+				$.ajax(opts);
+			});
+
 		},
 
 		processAjax: function () {

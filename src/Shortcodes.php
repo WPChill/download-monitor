@@ -504,11 +504,19 @@ class DLM_Shortcodes {
 				// display the 'before'
 				echo wp_kses_post( html_entity_decode( $before ) );
 
-				// load the template
-				if ( $download->has_version() ) {
-					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				// Allow third party extensions to hijack shortcode
+				$hijacked_content = apply_filters( 'dlm_shortcode_downloads_download_content', '', $download, $atts );
+
+				// If there's hijacked content, return it and be done with it.
+				if ( '' !== $hijacked_content ) {
+					echo wp_kses_post( $hijacked_content );
 				} else {
-					$template_handler->get_template_part( 'content-download', 'no-version', '', array( 'dlm_download' => $download ) );
+					// load the template
+					if ( $download->has_version() ) {
+						$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+					} else {
+						$template_handler->get_template_part( 'content-download', 'no-version', '', array( 'dlm_download' => $download ) );
+					}
 				}
 
 				// display the 'after'
@@ -556,17 +564,19 @@ class DLM_Shortcodes {
 		// show_message must be a bool
 		$atts['show_message'] = ( 'true' === $atts['show_message'] );
 
-		// return empty string if download-id is not set
-		if ( ! isset( $wp->query_vars['download-id'] ) ) {
+		// return empty string if download-id is not set or action is not no_access_dlm_xhr_download for XHR downloads & modal no access.
+		if ( ( ! isset( $_REQUEST['action'] ) || 'no_access_dlm_xhr_download' !== $_REQUEST['action'] ) && ! isset( $wp->query_vars['download-id'] ) ) {
 			return '';
 		}
 
-		// template handler
+		$download_id = isset( $_REQUEST['download_id'] ) ? absint( $_REQUEST['download_id'] ) : absint( $wp->query_vars['download-id'] );
+
+		// template handler.
 		$template_handler = new DLM_Template_Handler();
 
 		try {
 			/** @var \DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $wp->query_vars['download-id'] ) );
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
 
 			$version_id = '';
 

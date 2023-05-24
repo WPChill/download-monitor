@@ -18,6 +18,10 @@
 
 .post-type-dlm_download {
 
+  p.dlm-extension-filtering a {
+    cursor:pointer;
+  }
+
   .dlm-page-header {
     border-bottom: 1px solid #ccc;
     padding: 15px 20px;
@@ -2418,6 +2422,26 @@ table.wp-list-table {
         margin:10px;
         width:calc(33% - 20px) !important;
       }
+
+      .dlm-master-license {
+
+        margin-top:15px;
+
+        & > div {
+          padding:15px;
+          background:#fff;
+          margin-left: -5px;
+          max-width: calc(100% - 5px);
+        }
+
+        label {
+          font-weight:bold;
+        }
+
+        input:required {
+          border-color: #800000;
+        }
+      }
     }
 
     .dlm_extension {
@@ -3487,4 +3511,10 @@ Toggles
 @font-face {
   font-family: 'DM Sans';
   src: url('../font/dm/DMSans-Regular.ttf');
+}
+
+.dlm-restricted-path {
+  .dlm-restricted-path__description{
+    font-style: italic;
+  }
 }
