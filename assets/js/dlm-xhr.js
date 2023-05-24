@@ -134,6 +134,8 @@ class DLM_XHR_Download {
 
 			instance.xhrNonce = responseHeaders['x-dlm-nonce'];
 
+			instance.xhrNonce = responseHeaders['x-dlm-nonce'];
+
 			let file_name                  = 'download';
 			let dlmFilenameHeader          = false,
 				dlmNoWaypoints             = false,
