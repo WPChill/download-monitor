@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
 Tested up to: 6.2
-Stable tag: 4.8.0
+Stable tag: 4.8.1
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.8.1 - 24.05.2023 =
+Fixed: Error when activating, missing function.
 
 = 4.8.0 - 24.05.2023 =
 Added: Clear optimization plugins cache and minified scripts cache on plugin update/activation ( [#1224](https://github.com/WPChill/download-monitor/issues/1224) )

@@ -18,23 +18,21 @@ class DLM_Upgrade_Manager {
 	 */
 	public function check() {
 
-		// check only on admin
+		// check only on admin.
 		if ( ! is_admin() ) {
 			return;
 		}
 
-		// Get current version
+		// Get current version.
 		$current_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION, 0 );
 
-		// Check if update is required
+		// Check if update is required.
 		if ( version_compare( DLM_VERSION, $current_version, '>' ) ) {
 
-			download_monitor_delete_cached_scripts();
-
-			// Do update
+			// Do update.
 			$this->do_upgrade( $current_version );
 
-			// Update version code
+			// Update version code.
 			$this->update_current_version_code();
 
 			// flush rewrite rules
