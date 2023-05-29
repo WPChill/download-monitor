@@ -188,7 +188,7 @@ class DLM_Admin_Helper {
 	}
 
 	/**
-	 * Check whether the functionality can be used or not.
+	 * Check whether the license is valid or not.
 	 *
 	 * @param string $functionality The functionality.
 	 *
@@ -196,7 +196,7 @@ class DLM_Admin_Helper {
 	 *
 	 * @since 3.8.2
 	 */
-	public function can_do_functionality( $functionality ) {
+	public function check_license_validity( $functionality ) {
 		// Check if license is valid.
 		if ( ! class_exists( 'DLM_Product_License' ) ) {
 			return false;
