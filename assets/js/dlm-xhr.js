@@ -391,6 +391,7 @@ class DLM_XHR_Download {
 		};
 
 		dlmXHRinstance.request.open('GET', href, true);
+		dlmXHRinstance.request.setRequestHeader('Cache-Control', 'no-store, no-cache, no-transform, max-age=0');
 		dlmXHRinstance.request.setRequestHeader('dlm-xhr-request', 'dlm_XMLHttpRequest');
 		dlmXHRinstance.request.send();
 	}
@@ -599,6 +600,7 @@ class DLM_XHR_Download {
 		};
 
 		request.open('GET', uri, true);
+		request.setRequestHeader('Cache-Control', 'no-store, no-cache, no-transform, max-age=0');
 		request.setRequestHeader('dlm-xhr-request', 'dlm_XMLHttpRequest');
 		request.send();
 	}

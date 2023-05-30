@@ -283,9 +283,6 @@ class DLM_Admin_Extensions {
 				}
 
 				// Extensions
-
-				echo '<p>' . sprintf( esc_html__( 'Extend Download Monitor with its powerful free and paid extensions. %sClick here to browse all extensions%s', 'download-monitor' ), '<a href="https://www.download-monitor.com/extensions/?utm_source=plugin&utm_medium=link&utm_campaign=extensions-top" target="_blank">', '</a>' ) . '</p>';
-
 				$active_tab = 'dlm-extensions';
 
 				if ( isset( $_GET['page'] ) && isset( $tabs[ $_GET['page'] ] ) ) {
