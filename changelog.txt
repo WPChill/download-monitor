@@ -1,3 +1,6 @@
+= 4.8.2 - 30.05.2023 =
+Fixed: Vulnerability fix
+
 = 4.8.1 - 24.05.2023 =
 Fixed: Error when activating, missing function.
 
