@@ -612,9 +612,18 @@ class DLM_Admin_Writepanels {
 	 */
 	public function upload_file() {
 
-		$uploadedfile = $_FILES['file'];
+		if ( ! current_user_can( 'upload_file' ) ) {
+			wp_send_json_error( array( 'errorMessage' => esc_html__( 'You are not allowed to upload files.', 'download-monitor' ) ) );
+		}
 
-		$image_url = $uploadedfile['tmp_name'];
+		$uploadedfile         = $_FILES['file'];
+		$image_url            = $uploadedfile['tmp_name'];
+		$wp_allowed           = wp_check_filetype( $image_url );
+		$dlm_denied_filetypes = array( 'php', 'htaccess' );
+		// If not allowed file type, return error.
+		if ( ! $wp_allowed['ext'] || in_array( $wp_allowed['ext'], $dlm_denied_filetypes ) ) {
+			wp_send_json_error( array( 'errorMessage' => esc_html__( 'File type not allowed.', 'download-monitor' ) ) );
+		}
 
 		$upload_dir = wp_upload_dir();
 
@@ -650,5 +659,4 @@ class DLM_Admin_Writepanels {
 		wp_send_json_success( array( 'file_url' => wp_get_attachment_url( $attach_id ) ) );
 
 	}
-
 }
