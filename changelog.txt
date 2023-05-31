@@ -1,3 +1,6 @@
+= 4.8.3 - 31.05.2023 =
+Fixed: External file checking
+
 = 4.8.2 - 30.05.2023 =
 Fixed: Vulnerability fix
 
