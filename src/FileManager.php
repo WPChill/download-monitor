@@ -48,12 +48,16 @@ class DLM_File_Manager {
 
 		$remote_file      = true;
 		$parsed_file_path = parse_url( $file_path );
+		$wp_uploads       = wp_upload_dir();
+		$wp_uploads_dir   = $wp_uploads['basedir'];
+		$wp_uploads_url   = $wp_uploads['baseurl'];
+		$allowed_paths    = $this->get_allowed_paths();
+		$common_path      = DLM_Utils::longest_common_path( $allowed_paths );
 
-		$wp_uploads     = wp_upload_dir();
-		$wp_uploads_dir = $wp_uploads['basedir'];
-		$wp_uploads_url = $wp_uploads['baseurl'];
-		$allowed_paths  = $this->get_allowed_paths();
-		$common_path    = DLM_Utils::longest_common_path( $allowed_paths );
+		if ( false !== strpos( $file_path, '127.0.0.1' ) ) {
+			$file_path        = untrailingslashit( $common_path ) . $parsed_file_path['path'];
+			$parsed_file_path = parse_url( $file_path );
+		}
 
 		// Fix for plugins that modify the uploads dir
 		// add filter in order to return files
@@ -62,7 +66,7 @@ class DLM_File_Manager {
 		}
 
 		// Check if relative path or absolute path, as the file_exists function needs an absolute path
-		// So that we do not trigger warnings/errors with open_basedir restrictions
+		// So that we do not trigger warnings/errors with open_basedir restrictions.
 		$file_check['exists']   = false;
 		$file_check['relative'] = false;
 
