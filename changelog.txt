@@ -1,3 +1,6 @@
+= 4.8.4 - xxx =
+Fixed: Security issue regarding file uploading
+
 = 4.8.3 - 31.05.2023 =
 Fixed: External file checking
 
