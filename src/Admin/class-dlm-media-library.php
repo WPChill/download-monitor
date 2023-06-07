@@ -304,19 +304,23 @@ class DLM_Media_Library {
 	 * @since 4.7.2
 	 */
 	public function protect_file() {
-		// Check if nonce is transmitted
+		// Check if nonce is transmitted.
 		if ( ! isset( $_POST['_ajax_nonce'] ) ) {
 			wp_send_json_error( 'No nonce' );
 		}
-		// Check if nonce is correct
+
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			wp_send_json_error( esc_html__( 'You don\'t have permissions to create Downloads', 'download-monitor' ) );
+		}
+		// Check if nonce is correct.
 		check_ajax_referer( 'dlm_protect_file', '_ajax_nonce' );
-		// Get the data so we can create the download
+		// Get the data so we can create the download.
 		$file = $_POST;
-		// Move the file
+		// Move the file.
 		download_monitor()->service( 'file_manager' )->move_file_to_dlm_uploads( $file['attachment_id'] );
-		// Create the download or update existing one
+		// Create the download or update existing one.
 		$current_url = $this->create_download( $file );
-		// Send the response
+		// Send the response.
 		$data = array(
 			'url'  => $current_url,
 			'text' => esc_html__( 'File protected. Download created', 'download-monitor' )
@@ -334,6 +338,9 @@ class DLM_Media_Library {
 		// Check if nonce is transmitted
 		if ( ! isset( $_POST['_ajax_nonce'] ) ) {
 			wp_send_json_error( 'No nonce' );
+		}
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			wp_send_json_error( esc_html__( 'You don\'t have permissions to unprotect file.', 'download-monitor' ) );
 		}
 		// Check if nonce is correct
 		check_ajax_referer( 'dlm_protect_file', '_ajax_nonce' );
@@ -551,6 +558,11 @@ class DLM_Media_Library {
 	 */
 	public function dlm_ml_handle_bulk( $location, $doaction, $post_ids ) {
 
+		// Only allow admins to do this.
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			return $location;
+		}
+
 		global $pagenow;
 		if ( 'dlm_protect_files' === $doaction ) {
 			return admin_url(
@@ -571,29 +583,33 @@ class DLM_Media_Library {
 	 * @since 4.7.2
 	 */
 	public function dlm_ml_do_bulk() {
-		// If there's no action or posts, bail
+		// If there's no action or posts, bail.
 		if ( ! isset( $_GET['dlm_action'] ) || ! isset( $_GET['posts'] ) ) {
+			return;
+		}
+		// Only allow admins to do this.
+		if ( ! current_user_can( 'manage_downloads' ) ) {
 			return;
 		}
 
 		$action = sanitize_text_field( wp_unslash( $_GET['dlm_action'] ) );
-		$posts = array_map( 'absint', $_GET['posts'] );
+		$posts  = array_map( 'absint', $_GET['posts'] );
 
 		if ( 'dlm_protect_files' === $action ) {
 			foreach ( $posts as $post_id ) {
-				// If it's not an attachment or is already protected, skip it
+				// If it's not an attachment or is already protected, skip it.
 				if ( 'attachment' !== get_post_type( $post_id ) || ( '1' === get_post_meta( $post_id, 'dlm_protected_file', true ) ) ) {
 					continue;
 				}
-				// Create the file object
+				// Create the file object.
 				$file = array(
 					'attachment_id' => $post_id,
 					'user_id'       => get_current_user_id(),
 					'title'         => get_the_title( $post_id ),
 				);
-				// Move the file
+				// Move the file.
 				download_monitor()->service( 'file_manager' )->move_file_to_dlm_uploads( $file['attachment_id'] );
-				// Create the Download
+				// Create the Download.
 				$this->create_download( $file );
 			}
 		}
