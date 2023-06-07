@@ -183,7 +183,9 @@ class DLM_Backwards_Compatibility {
 	public function join_download_count_compatibility( $join ) {
 		global $wpdb;
 
-		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) LEFT JOIN ( SELECT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE {$wpdb->postmeta}.meta_key = '_download_count') as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";
+		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) LEFT JOIN 
+		( SELECT DISTINCT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE 
+		{$wpdb->postmeta}.meta_key = '_download_count') as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";
 
 		return $join;
 	}
@@ -216,9 +218,11 @@ class DLM_Backwards_Compatibility {
 
 		global $wpdb;
 		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
-			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) +   IFNULL( meta_downloads.meta_value, 0 ) ) total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions ";
+			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) + 
+			IFNULL( meta_downloads.meta_value, 0 ) ) total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions ";
 		} else {
-			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions";
+			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) 
+			total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions";
 		}
 
 		return $fields;
