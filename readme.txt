@@ -120,8 +120,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 4.8.4 - xxx =
-Fixed: Security issue regarding file uploading
+= 4.8.4 - 07.06.2023 =
+Fixed: Security issue regarding file uploading ( [#1276](https://github.com/WPChill/download-monitor/issues/1276) )
+Fixed: Cascading downloads ( [#1275](https://github.com/WPChill/download-monitor/issues/1275) )
+Fixed: Duplicate downloads when multiple post meta entries for same download ( [#1279](https://github.com/WPChill/download-monitor/issues/1279) )
 
 = 4.8.3 - 31.05.2023 =
 Fixed: External file checking
