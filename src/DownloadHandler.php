@@ -590,33 +590,26 @@ class DLM_Download_Handler {
 		do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
 		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
-			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
-				if ( ! $this->check_for_xhr() ) {
-					$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
-				}
-
+			if ( ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'Apache' ) ) {
+				$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 				header( "X-Sendfile: $file_path" );
 				exit;
-
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
-
-				if ( ! $this->check_for_xhr() ) {
-					$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
-				}
-
+				$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 				header( "X-LIGHTTPD-send-file: $file_path" );
 				exit;
-
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 				// Log this way as the js doesn't know who the download_id and version_id is
 				$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
-
 				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
 				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
 				$file_path = download_monitor()->service( 'file_manager' )->check_symbolic_links( $file_path, true );
 				$file_path = str_replace( trailingslashit( $correct_path ), '', $file_path );
 
 				header( "X-Accel-Redirect: /$file_path" );
+				exit;
+			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'LiteSpeed' ) ) {
+				header( "X-LiteSpeed-Location: $file_path" );
 				exit;
 			}
 		}
