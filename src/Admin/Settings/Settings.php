@@ -107,7 +107,7 @@ class DLM_Admin_Settings {
 								'std'      => '',
 								'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
 								'cb_label' => '',
-								'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
+								'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>) <br> <strong>Attention!</strong> Enabling this option will disable the XHR functionality!', 'download-monitor' ),
 								'type'     => 'checkbox',
 								'priority' => 20,
 							),
