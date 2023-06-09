@@ -208,7 +208,8 @@ module.exports = function ( grunt ) {
 					'!tests/**',
 					'!codeception.dist.yml',
 					'!regconfig.json',
-					'!nbproject/**'
+					'!nbproject/**',
+					'!SECURITY.md',
 				],
 				dest: 'build/'
 			}
