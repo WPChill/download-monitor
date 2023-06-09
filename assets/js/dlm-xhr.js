@@ -6,8 +6,6 @@ jQuery(function ($) {
 
 class DLM_XHR_Download {
 
-	xhrNonce = false;
-
 	constructor() {
 		// dlmXHRinstance defined in inline script
 		dlmXHRinstance = this;
@@ -132,7 +130,6 @@ class DLM_XHR_Download {
 													return result;
 												}, {});
 
-			instance.xhrNonce = responseHeaders['x-dlm-nonce'];
 
 			let file_name                  = 'download';
 			let dlmFilenameHeader          = false,
@@ -414,7 +411,7 @@ class DLM_XHR_Download {
 			currentURL,
 			action         : 'log_dlm_xhr_download',
 			responseHeaders: headers,
-			nonce          : instance.xhrNonce
+			nonce          : headers['x-dlm-nonce']
 		};
 
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
@@ -475,7 +472,7 @@ class DLM_XHR_Download {
 			modal_text : text,
 			restriction,
 			action     : 'no_access_dlm_xhr_download',
-			nonce      : instance.xhrNonce
+			nonce      : headers['x-dlm-nonce']
 		};
 
 		jQuery(document).trigger( 'dlm-xhr-modal-data', [ data, headers] );
@@ -521,18 +518,8 @@ class DLM_XHR_Download {
 					statusText
 				} = request;
 
-			let responseHeaders = request
-				.getAllResponseHeaders()
-				.split('\r\n')
-				.reduce((result, current) => {
-					let [name, value] = current.split(': ');
-					result[name]      = value;
-					return result;
-				}, {});
-
-
 			if (403 === status) {
-				dlmXHRinstance.dlmLogDownload(responseHeaders, 'failed', false);
+				dlmXHRinstance.dlmLogDownload(headers, 'failed', false);
 				request.abort();
 				buttonObj.find( '.dlm-xhr-error' ).remove();
 				buttonObj.append('<span class="dlm-xhr-error">Acces Denied to file.</span>');
@@ -558,7 +545,7 @@ class DLM_XHR_Download {
 				// Append the paragraph to the download-contaner
 				// Trigger the `dlm_download_complete` action
 				jQuery(document).trigger('dlm_download_complete', [this, button, buttonObj, _OBJECT_URL]);
-				dlmXHRinstance.dlmLogDownload(responseHeaders, 'completed', false);
+				dlmXHRinstance.dlmLogDownload(headers, 'completed', false);
 				// Recommended : Revoke the object URL after some time to free up resources
 				window.URL.revokeObjectURL(_OBJECT_URL);
 				button.removeAttribute('download');
