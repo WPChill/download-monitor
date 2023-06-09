@@ -6,8 +6,6 @@ jQuery(function ($) {
 
 class DLM_XHR_Download {
 
-	xhrNonce = false;
-
 	constructor() {
 		// dlmXHRinstance defined in inline script
 		dlmXHRinstance = this;
