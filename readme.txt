@@ -122,6 +122,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 = 4.8.5 - 09.06.2023 =
 Fixed: External logging download failure ( [#1283](https://github.com/WPChill/download-monitor/issues/1283) )
+Fixed: LiteSpeed server functionality fo X-Accel-Redirect / X-Sendfile option ( [#1282](https://github.com/WPChill/download-monitor/issues/1282) )
 
 = 4.8.4 - 07.06.2023 =
 Fixed: Security issue regarding file uploading ( [#1276](https://github.com/WPChill/download-monitor/issues/1276) )
