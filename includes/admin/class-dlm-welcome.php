@@ -192,7 +192,6 @@ class DLM_Welcome_Page {
 					<?php $welcome->display_extension( esc_html__( 'Content grouping', 'download-monitor' ), esc_html__( 'Easily assign categories, tags or other meta to your downloads.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/content-grouping.png' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Customisable endpoints', 'download-monitor' ), esc_html__( 'For showing appealing download links and engaging buttons.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/customisable-endpoints.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Spam protection', 'download-monitor' ), esc_html__( 'Our smart Captcha extension stops bots from finding, accessing and/or downloading your files without authorization', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/spam-protection.png', true, '#F08232' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Monetize your downloads', 'download-monitor' ), esc_html__( 'Ability to sell your downloads straight from your WordPress website.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/monetize-your-downloads.png' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Instant notifications', 'download-monitor' ), esc_html__( 'Receive instant email notifications whenever someone downloads your content.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/instant-notifications.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Page Addon', 'download-monitor' ), esc_html__( 'Make use of a shortcode to turn a page into a fully featured download listing page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/page-addon.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Downloading Page', 'download-monitor' ), esc_html__( 'Forces your downloads to be served from a separate page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/downloading-page.png', true, '#F08232' ); ?>
@@ -233,51 +232,6 @@ class DLM_Welcome_Page {
 							<a href="javascript:;"
 							   class="button button-primary button-hero dlm-create-page"
 							   data-page="no-access"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
-						<?php
-						endif;
-						?>
-					</div>
-					<?php $welcome->layout_end(); ?>
-					<?php $welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
-					<div class="block text-left">
-						<p style="margin:0 auto;margin-top:5px;"><strong><span class="dashicons  <?php echo 0 != $page_cart ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_cart ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'Cart', 'download-monitor' ); ?></strong></p>
-						<p class="description"><?php echo esc_html__( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></p>
-					</div>
-					<div class="block text-right padding-15">
-						<?php
-						if ( $page_cart != 0 ) :
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
-						<?php
-						else:
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-create-page"
-							   data-page="cart"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
-						<?php
-						endif;
-						?>
-					</div>
-					<?php $welcome->layout_end(); ?>
-					<?php $welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
-					<div class="block text-left">
-						<p style="margin:0 auto;margin-top:5px;"><strong><span class="dashicons  <?php echo 0 != $page_checkout ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_checkout ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'Checkout', 'download-monitor' ); ?></strong></p>
-						<p class="description"><?php echo esc_html__( 'Your shop checkout page if you decide to sell downloads.', 'download-monitor' ); ?></p>
-					</div>
-					<div class="block text-right padding-15">
-						<?php
-
-						if ( 0 !== $page_checkout ) :
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
-						<?php
-						else:
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-create-page"
-							   data-page="checkout"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
 						<?php
 						endif;
 						?>
