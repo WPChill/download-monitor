@@ -306,6 +306,7 @@ class DLM_XHR_Download {
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
 					buttonObj.find('.dlm-xhr-loading-gif').remove();
 					request.abort();
+
 					return;
 				}
 
@@ -395,8 +396,9 @@ class DLM_XHR_Download {
 
 	dlmLogDownload(headers, status, cookie, redirect_path = null, no_access = null, target = '_self') {
 		const instance = this;
+
 		if (null !== no_access) {
-			window.location.href = redirect_path;
+			window.open(redirect_path, target);
 			return;
 		}
 
