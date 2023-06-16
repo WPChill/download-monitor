@@ -230,7 +230,7 @@ class DLM_Installer {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		$dlm_log = '
-		CREATE TABLE IF NOT EXISTS `' . $wpdb->prefix . "download_log` (
+		CREATE TABLE `' . $wpdb->prefix . "download_log` (
 			ID bigint(20) NOT NULL auto_increment,
 			user_id bigint(20) NOT NULL,
 			user_ip varchar(200) NOT NULL,
@@ -250,14 +250,14 @@ class DLM_Installer {
 		) $collate;
 		";
 
-		$dlm_reports = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_reports_log` (
+		$dlm_reports = "CREATE TABLE `{$wpdb->prefix}dlm_reports_log` (
 			`date` DATE NOT NULL,
 			`download_ids` longtext NULL,
 			`revenue` longtext NULL,
 			`refunds` longtext NULL,
 			PRIMARY KEY (`date`)) $collate;";
 
-		$dlm_downloads = "CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}dlm_downloads` (
+		$dlm_downloads = "CREATE TABLE `{$wpdb->prefix}dlm_downloads` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,

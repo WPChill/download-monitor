@@ -186,7 +186,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 				$charset_collate = $wpdb->get_charset_collate();
 
-				$sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->dlm_reports}` (
+				$sql = "CREATE TABLE `{$wpdb->dlm_reports}` (
 					  `date` DATE NOT NULL,
 					  `download_ids` longtext NULL,
 					  `revenue` longtext NULL,
@@ -204,7 +204,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 				$charset_collate = $wpdb->get_charset_collate();
 
-				$sql = "CREATE TABLE IF NOT EXISTS `{$wpdb->dlm_downloads}` (
+				$sql = "CREATE TABLE`{$wpdb->dlm_downloads}` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
@@ -384,7 +384,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// If at this point the table does not exist, we need to create it.
 			if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
 				$charset_collate = $wpdb->get_charset_collate();
-				$sql             = "CREATE TABLE IF NOT EXISTS `{$wpdb->dlm_downloads}` (
+				$sql             = "CREATE TABLE `{$wpdb->dlm_downloads}` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
