@@ -42,6 +42,7 @@ return array(
     'DLM_Ajax_Manager' => $baseDir . '/src/Ajax/Manager.php',
     'DLM_Backwards_Compatibility' => $baseDir . '/includes/backwards-compatibility/class-dlm-backwards-compatibility.php',
     'DLM_Beta_Testers' => $baseDir . '/includes/admin/class-dlm-beta-testers.php',
+    'DLM_CRON_Jobs' => $baseDir . '/src/class-dlm-cron-jobs.php',
     'DLM_Category_Walker' => $baseDir . '/src/Admin/CategoryWalker.php',
     'DLM_Constants' => $baseDir . '/src/Constants.php',
     'DLM_Cookie_Manager' => $baseDir . '/src/CookieManager.php',

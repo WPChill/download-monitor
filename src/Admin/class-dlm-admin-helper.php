@@ -20,10 +20,7 @@ class DLM_Admin_Helper {
 	 * @since 4.4.7
 	 */
 	public function __construct() {
-		// Set the weekly interval.
-		add_filter( 'cron_schedules', array( $this, 'create_weekly_cron_schedule' ) );
-		add_action( 'admin_init', array( $this, 'set_weekly_cron_schedule' ) );
-		add_action( 'dlm_weekly_license', array( $this, 'general_license_validity' ) );
+
 	}
 
 	/**
@@ -211,63 +208,5 @@ class DLM_Admin_Helper {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Create dlm_weekly cron schedule.
-	 *
-	 * @param array $schedule Array of schedules.
-	 *
-	 * @return array
-	 * @since 4.8.6
-	 */
-	public function create_weekly_cron_schedule( $schedule ) {
-		// Set dlm_weekly cron schedule.
-		$schedule['dlm_weekly'] = array(
-			'interval' => WEEK_IN_SECONDS,
-			'display'  => __( 'Once Weekly', 'download-monitor' ),
-		);
-
-		return $schedule;
-	}
-
-	/**
-	 * Set dlm_weekly cron schedule.
-	 *
-	 * @since 4.8.6
-	 */
-	public function set_weekly_cron_schedule() {
-
-		if ( ! wp_next_scheduled( 'dlm_weekly_license' ) ) {
-			wp_schedule_event( time(), 'weekly', 'dlm_weekly_license' );
-		}
-	}
-
-	/**
-	 * Check for license validity - the weekly cron job.
-	 *
-	 * @return void
-	 * @since 4.8.6
-	 */
-	public function general_license_validity() {
-		if ( ! class_exists( 'DLM_Product_Manager' ) || ! class_exists( 'DLM_Product_License' ) ) {
-			return;
-		}
-
-		$product_manager = DLM_Product_Manager::get();
-		$extension_handler = DLM_Extensions_Handler::get_instance();
-		$product_manager->load_extensions();
-		$extensions = $product_manager->get_products();
-
-		if ( ! empty( $extensions ) ) {
-			foreach ( $extensions as $slug => $extension ) {
-				if ( ! $this->check_license_validity( $slug ) ) {
-					$extension_handler->handle_extension_action( 'deactivate', array(
-						'slug' => $slug,
-						'name' => $extension->get_product_name()
-					) );
-				}
-			}
-		}
 	}
 }

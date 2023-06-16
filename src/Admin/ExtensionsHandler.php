@@ -248,8 +248,21 @@ class DLM_Extensions_Handler {
 		}
 
 		$activated_extensions = json_decode( wp_remote_retrieve_body( $api_request ), true );
-		update_option( 'dlm_master_license', json_encode( $data ) );
 
+		// And error has been triggered, maybe license expired or not valid.
+		if ( isset( $activated_extensions['error'] ) ) {
+			foreach ( $installed_extensions as $prod_id ) {
+				$product = new DLM_Product( $prod_id, '', '' );
+				$license = $product->get_license();
+				$license->set_status( 'inactive' );
+				$license->store();
+			}
+			$data['status'] = 'inactive';
+			update_option( 'dlm_master_license', json_encode( $data ) );
+			wp_send_json_error( array( 'message' => $activated_extensions['error'] ) );
+		}
+
+		update_option( 'dlm_master_license', json_encode( $data ) );
 		// Get products.
 		$products = DLM_Product_Manager::get()->get_products();
 

@@ -17,6 +17,11 @@ class DLM_Product {
 	const ENDPOINT_ACTIVATION = 'wp_plugin_licencing_activation_api';
 
 	/**
+	 * Activation endpoint
+	 */
+	const ENDPOINT_STATUS_CHECK = 'license_wp_api_status_check';
+
+	/**
 	 * Update endpoint
 	 */
 	const ENDPOINT_UPDATE = 'wp_plugin_licencing_update_api';
