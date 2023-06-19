@@ -1363,13 +1363,6 @@ table.wp-list-table {
             opacity: 1;
             min-width: 230px;
 
-            &.disabled {
-              pointer-events: none;
-              opacity: 0;
-              display: none;
-
-            }
-
             & > label {
               font-size: 12px;
               font-style: italic;
@@ -1511,6 +1504,22 @@ table.wp-list-table {
                     }
                   }
                 }
+              }
+            }
+            &.disabled{
+              color: #a7aaad !important;
+              border-color: #dcdcde !important;
+              background: #f6f7f7 !important;
+              box-shadow: none !important;
+              cursor: default;
+              transform: none !important;
+
+              .dlm-upsell-badge {
+                font-size: 10px;
+                background: #f4daa4;
+                padding: 2px 5px;
+                display: inline-block;
+                border-radius: 10px;
               }
             }
           }
@@ -2571,19 +2580,33 @@ table.wp-list-table {
   position: relative;
 
   .wpchill-upsell-features {
-    text-align: left;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px 0;
+    text-align: center;
+    padding: 30px 0;
 
     li {
-      width: 33%;
+      display: inline-block;
+      margin: 0px 15px 15px 35px;
+      position: relative;
+      &:before{
+        font-family: Dashicons;
+        content: "\f147";
+        position: absolute;
+        left: -30px;
+        font-size: 14px;
+        color: green;
+        background-color: #FFF;
+        padding: 0 3px;
+        border-radius: 50%;
+        border: 1px solid #DDD;
+        top: -1px;
+      }
     }
-  }
 
-  a:first-child {
+  }
+  a.button {
     margin-right: 10px;
   }
+
 }
 
 .wpchill-upsells-wrapper {
@@ -3516,5 +3539,41 @@ Toggles
 .dlm-restricted-path {
   .dlm-restricted-path__description{
     font-style: italic;
+  }
+}
+
+#dlm-export-settings-upsell {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+div#dlm-export-settings-upsell {
+    span {
+      font-size: 13px;
+      width: 13px;
+      height: 13px;
+    }
+}
+.dlm-csv-export-wrapper{
+  .dlm-upsell-badge {
+    font-size: 10px;
+    background: #f4daa4;
+    padding: 1px 5px;
+    display: inline-block;
+    margin-left: 5px;
+    border-radius: 10px;
+    position: relative;
+    top: -1px;
+  }
+}
+.dlm-csv-export-wrapper {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.postbox-container{
+  .dlm-available-with-pro{
+    display: none;
   }
 }

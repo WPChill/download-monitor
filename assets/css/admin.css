@@ -1375,11 +1375,6 @@ table.wp-list-table .column-thumb img {
   opacity: 1;
   min-width: 230px;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector.disabled {
-  pointer-events: none;
-  opacity: 0;
-  display: none;
-}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector > label {
   font-size: 12px;
   font-style: italic;
@@ -1498,6 +1493,21 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector .dlm_rdrs_overlay .date-picker-wrapper .footer .shortcuts a:hover {
   color: #4338ca;
   background: rgba(204, 204, 204, 0.3);
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector.disabled {
+  color: #a7aaad !important;
+  border-color: #dcdcde !important;
+  background: #f6f7f7 !important;
+  box-shadow: none !important;
+  cursor: default;
+  transform: none !important;
+}
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-reports-header-date-selector.disabled .dlm-upsell-badge {
+  font-size: 10px;
+  background: #f4daa4;
+  padding: 2px 5px;
+  display: inline-block;
+  border-radius: 10px;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-chart-icon {
   display: block;
@@ -2293,15 +2303,28 @@ table.wp-list-table .column-thumb img {
   position: relative;
 }
 .wpchill-upsell .wpchill-upsell-features {
-  text-align: left;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 20px 0;
+  text-align: center;
+  padding: 30px 0;
 }
 .wpchill-upsell .wpchill-upsell-features li {
-  width: 33%;
+  display: inline-block;
+  margin: 0px 15px 15px 35px;
+  position: relative;
 }
-.wpchill-upsell a:first-child {
+.wpchill-upsell .wpchill-upsell-features li:before {
+  font-family: Dashicons;
+  content: "\f147";
+  position: absolute;
+  left: -30px;
+  font-size: 14px;
+  color: green;
+  background-color: #FFF;
+  padding: 0 3px;
+  border-radius: 50%;
+  border: 1px solid #DDD;
+  top: -1px;
+}
+.wpchill-upsell a.button {
   margin-right: 10px;
 }
 .wpchill-upsells-wrapper {
@@ -3062,4 +3085,32 @@ Toggles
 }
 .dlm-restricted-path .dlm-restricted-path__description {
   font-style: italic;
+}
+#dlm-export-settings-upsell {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+div#dlm-export-settings-upsell span {
+  font-size: 13px;
+  width: 13px;
+  height: 13px;
+}
+.dlm-csv-export-wrapper .dlm-upsell-badge {
+  font-size: 10px;
+  background: #f4daa4;
+  padding: 1px 5px;
+  display: inline-block;
+  margin-left: 5px;
+  border-radius: 10px;
+  position: relative;
+  top: -1px;
+}
+.dlm-csv-export-wrapper {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.postbox-container .dlm-available-with-pro {
+  display: none;
 }
