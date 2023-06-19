@@ -258,6 +258,13 @@ class DLM_Extensions_Handler {
 				$license->store();
 			}
 			$data['status'] = 'inactive';
+			$response_error_codes = array(
+				'110' => 'expired',
+				'101' => 'invalid',
+				'111' => 'invalid_order',
+				'104' => 'no_rights'
+			);
+			$data['license_status'] = $response_error_codes[ $activated_extensions['error_code'] ];
 			update_option( 'dlm_master_license', json_encode( $data ) );
 			wp_send_json_error( array( 'message' => $activated_extensions['error'] ) );
 		}

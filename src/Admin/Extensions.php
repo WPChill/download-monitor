@@ -446,6 +446,21 @@ class DLM_Admin_Extensions {
 										<input type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>" />
 										<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate';  ?>"><?php ( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
 										&nbsp;<a href="#" target="_blank" id="dlm-forgot-license" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"><?php esc_html_e( 'Forgot your license?', 'download-monitor' ); ?></a>
+										<?php
+											if ( isset( $master_license['license_status'] ) ) {
+												if ( 'expired' === $master_license['license_status'] ) {
+													// Output the expired message.
+													?>
+													&nbsp;<span style="color:red;"><?php sprintf( esc_html__( 'License expired, please %srenew%s.', 'download-monitor' ), '<a href="https://download-monitor.com/">' ); ?></span>
+													<?php
+												} elseif ( 'invalid' === $master_license['license_status'] ) {
+													// Output the invalid message.
+													?>
+													&nbsp;<span style='color:red;'><?php esc_html_e( 'Invalid license, please check your license key.', 'download-monitor' ); ?></span>
+													<?php
+												}
+											}
+										 ?>
 									</div>
 								</div>
 								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
