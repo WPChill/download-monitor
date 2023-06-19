@@ -122,6 +122,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 = 4.8.6 - TBD =
 Fixed: Check custom tables for columns ( [#1288](https://github.com/WPChill/download-monitor/issues/1288) )
+Added: Upsells in reports page ( [#1290](https://github.com/WPChill/download-monitor/issues/1290) )
 
 = 4.8.5 - 09.06.2023 =
 Fixed: External logging download failure ( [#1283](https://github.com/WPChill/download-monitor/issues/1283) )

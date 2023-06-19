@@ -1390,6 +1390,11 @@ class DLM_Reports {
 				contentTarget.addClass('active');
 				contentWrappers.removeClass('active');
 			}
+			if( 'general_info' != listClicked.attr('id') ){
+				jQuery('.dlm-reports').removeClass('general_info' );
+			}else{
+				jQuery('.dlm-reports').addClass('general_info' );
+			}
 		});
 	}
 
