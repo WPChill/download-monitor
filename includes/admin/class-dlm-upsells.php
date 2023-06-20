@@ -933,7 +933,7 @@ class DLM_Upsells {
 
 		}elseif( 'user_reports' == $key ){
 			$list = array( 
-				array( 'tooltip' => '', 'feature' => 'Compare dates and view chart to see how you’ve done'), 
+				array( 'tooltip' => '', 'feature' => 'See active users and their download information'), 
 				array( 'tooltip' => '', 'feature' => 'Show the location from where in the site the user downloaded') , 
 				array( 'tooltip' => '', 'feature' => 'Show the download\'s category') );
 		}
