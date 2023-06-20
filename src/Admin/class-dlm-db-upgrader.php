@@ -321,6 +321,11 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_category LONGTEXT AFTER download_status_message' : 'ADD COLUMN download_category LONGTEXT AFTER download_status_message';
 			}
 
+
+			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'download_category' ) ) {
+				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_category LONGTEXT AFTER download_status_message' : 'ADD COLUMN download_category LONGTEXT AFTER download_status_message';
+			}
+
 			// Let's check if all the required columns are present. If not, let's add them.
 			if ( ! empty( $columns ) ) {
 				$alter_statement = "ALTER TABLE {$wpdb->download_log} {$columns}";
@@ -329,9 +334,14 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				$wpdb->query( $hash_statement );
 			}
 
-			// SQL to add index for download_log
-			$add_index = "ALTER TABLE {$wpdb->download_log} ADD INDEX download_count (version_id);";
-			$wpdb->query( $add_index );
+			$checkindex = $wpdb->query( "SHOW INDEX FROM {$wpdb->download_log} WHERE Key_name = 'download_count'" );
+
+			if( NULL == $checkindex ){
+				// SQL to add index for download_log
+				$add_index = "ALTER TABLE {$wpdb->download_log} ADD INDEX download_count (version_id);";
+				$wpdb->query( $add_index );
+			}
+
 			// Keep transient deletion here, we are using it to check if the upgrade is total or partial.
 			delete_transient( 'dlm_upgrade_type' );
 			wp_send_json( array( 'success' => true ) );

@@ -183,6 +183,10 @@ class DLM_Backwards_Compatibility {
 	public function join_download_count_compatibility( $join ) {
 		global $wpdb;
 
+		if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+			return $join;
+		}
+
 		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) LEFT JOIN 
 		( SELECT DISTINCT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE 
 		{$wpdb->postmeta}.meta_key = '_download_count') as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";
@@ -217,6 +221,11 @@ class DLM_Backwards_Compatibility {
 	public function select_download_count_compatibility( $fields ) {
 
 		global $wpdb;
+
+		if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+			return $fields;
+		}
+
 		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
 			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) + 
 			IFNULL( meta_downloads.meta_value, 0 ) ) total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions ";
@@ -254,6 +263,10 @@ class DLM_Backwards_Compatibility {
 	 */
 	public function orderby_download_count_compatibility( $orderby ) {
 
+		global $wpdb;
+		if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
+			return $orderby;
+		}
 		$order = 'DESC';
 
 		if ( isset( $this->filters['order'] ) ) {
