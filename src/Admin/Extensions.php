@@ -438,30 +438,36 @@ class DLM_Admin_Extensions {
 						<div class="features">
 							<div class="block">
 								<div class="dlm-master-license">
-									<div>
-										<label for="dlm-master-license-email"><?php esc_html_e( 'Email', 'download-monitor' ); ?></label>
-										<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php echo esc_attr( $master_license['email'] ) ?>">
-										<label for="dlm-master-license"><?php esc_html_e( 'Master license', 'download-monitor' ); ?></label>
-										<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php echo esc_attr( $master_license['license_key'] ) ?>">
+									<div style="padding-top:31px;">
+										<div class="dlm-master-license-email-wrapper">
+											<label for="dlm-master-license-email"><?php esc_html_e( 'Email', 'download-monitor' ); ?></label>
+											<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php echo esc_attr( $master_license['email'] ) ?>">
+										</div>
+										<div class="dlm-master-license-license-wrapper">
+											<label for="dlm-master-license"><?php esc_html_e( 'Master license', 'download-monitor' ); ?></label>
+											<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php echo esc_attr( $master_license['license_key'] ) ?>">
+										</div>
 										<input type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>" />
 										<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate';  ?>"><?php ( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
 										&nbsp;<a href="#" target="_blank" id="dlm-forgot-license" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"><?php esc_html_e( 'Forgot your license?', 'download-monitor' ); ?></a>
-										<?php
-											if ( isset( $master_license['license_status'] ) ) {
-												if ( 'expired' === $master_license['license_status'] ) {
-													// Output the expired message.
-													?>
-													&nbsp;<span style="color:red;"><?php sprintf( esc_html__( 'License expired, please %srenew%s.', 'download-monitor' ), '<a href="https://download-monitor.com/">' ); ?></span>
-													<?php
-												} elseif ( 'invalid' === $master_license['license_status'] ) {
-													// Output the invalid message.
-													?>
-													&nbsp;<span style='color:red;'><?php esc_html_e( 'Invalid license, please check your license key.', 'download-monitor' ); ?></span>
-													<?php
-												}
-											}
-										 ?>
 									</div>
+									<?php
+										if ( isset( $master_license['license_status'] ) && isset( $master_license['license_key'] ) && '' !== $master_license['license_key'] ) {
+											if ( 'expired' === $master_license['license_status'] ) {
+												// Output the expired message.
+												?>
+												<div class="dlm_license_error">
+													<span><strong><?php echo sprintf( esc_html__( 'License expired, please %srenew%s.', 'download-monitor' ), '<a href="https://staging-downloadmonitorcom.kinsta.cloud/cart/?renew_license=' . esc_attr( $master_license['license_key'] ) . '&activation_email=' . esc_attr( $master_license['email'] ) . '" target="_blank">', '</a>' ); ?></strong></span><span> <?php esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
+												</div>
+												<?php
+											} elseif ( 'invalid' === $master_license['license_status'] ) {
+												// Output the invalid message.
+												?>
+												&nbsp;<span class='dlm-red-text'><?php esc_html_e( 'Invalid license, please check your license key.', 'download-monitor' ); ?></span>
+												<?php
+											}
+										}
+									?>
 								</div>
 								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
 								<!-- Let's display the extensions.  -->

@@ -141,6 +141,7 @@ class DLM_Extensions_Handler {
 
 		// Check if product exists
 		$response = '';
+
 		if ( isset( $products[ $product_id ] ) ) {
 
 			// Get correct product

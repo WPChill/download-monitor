@@ -82,6 +82,12 @@ class DLM_CRON_Jobs {
 		$user_license         = get_option( 'dlm_master_license', false );
 		$extensions           = DLM_Admin_Extensions::get_instance();
 		$installed_extensions = array();
+		$prev_license         = array();
+		$do_each              = false;
+		$addon_licenses       = array();
+		$no_licenses          = true;
+		$do_master            = false;
+		$license              = '';
 
 		if ( empty( $extensions->installed_extensions ) ) {
 			$product_manager = DLM_Product_Manager::get();
@@ -89,38 +95,72 @@ class DLM_CRON_Jobs {
 			$extensions->installed_extensions = $product_manager->get_products();
 		}
 
-		foreach ( $extensions->installed_extensions as $extension ) {
-			if ( method_exists( $extension, 'get_product_id' ) ) {
-				$installed_extensions[] = $extension->get_product_id();
-			} else {
-				// On deactivation hook the $extensions->installed_extensions still contains the old product_id.
-				$installed_extensions[] = $extension->product_id;
+		if ( ! empty( $extensions->installed_extensions ) ) {
+			foreach ( $extensions->installed_extensions as $extension ) {
+				if ( method_exists( $extension, 'get_product_id' ) ) {
+					$installed_extensions[] = $extension->get_product_id();
+				} else {
+					// On deactivation hook the $extensions->installed_extensions still contains the old product_id.
+					$installed_extensions[] = $extension->product_id;
+				}
 			}
 		}
-		$do_master = false;
-		$license   = '';
 
 		if ( $user_license ) {
 			$user_license = json_decode( $user_license, true );
 			if ( isset( $user_license['license_key'] ) && '' !== $user_license['license_key'] ) {
-				$do_master = true;
+				$do_master   = true;
+				$no_licenses = false;
 			}
 		}
 
 		if ( $do_master ) {
 			$license = $user_license;
 		} else {
-			$single_license = array( 'license_key' => '', 'email' => '' );
 			if ( ! empty( $installed_extensions ) ) {
-				$single_license_val = get_option( $installed_extensions[0] . '-license', false );
-				if ( $single_license_val ) {
-					$single_license['email']       = $single_license_val['email'];
-					$single_license['license_key'] = $single_license['key'];
+				foreach ( $installed_extensions as $extension ) {
+					$sl = get_option( $extension . '-license', false );
+					if ( $sl ) {
+						$addon_licenses[ $extension ] = $sl;
+						$no_licenses = false;
+						if ( ! empty( $prev_license ) && $prev_license['key'] !== $sl['key'] ) {
+							$do_each = true;
+							break;
+						}
+						$prev_license = $sl;
+					}
 				}
+				$license = $prev_license;
 			}
-			$license = $single_license;
 		}
 
+		// If there are no licenses present then we don't need to check anything.
+		if ( $no_licenses ) {
+			return;
+		}
+
+		// Let's see if we need to check each license or we can check the master license.
+		if ( $do_each ) {
+			if ( ! empty( $addon_licenses ) ) {
+				foreach ( $addon_licenses as $slug => $object ) {
+					$this->check_license( $object, array( $slug ) );
+				}
+			}
+		} else {
+			$this->check_license( $license, $installed_extensions );
+		}
+	}
+
+	/**
+	 * Check license
+	 *
+	 * @param $license
+	 * @param $installed_extensions
+	 *
+	 * @return void
+	 * @since 4.8.6
+	 */
+	private function check_license(  $license, $installed_extensions ){
 		$api_request = wp_remote_get(
 			DLM_Product::STORE_URL . DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
 				array(
@@ -143,7 +183,7 @@ class DLM_CRON_Jobs {
 		$response = json_decode( $api_request['body'], true );
 
 		if ( isset( $response['error'] ) ) {
-			$this->deactivate_license( $user_license, $response, $installed_extensions );
+			$this->deactivate_license( $license, $response, $installed_extensions );
 		}
 	}
 
@@ -152,7 +192,7 @@ class DLM_CRON_Jobs {
 	 *
 	 * @return void
 	 */
-	public function deactivate_license( $user_license, $response, $extensions ) {
+	private function deactivate_license( $user_license, $response, $extensions ) {
 		$response_error_codes = array(
 			'110' => 'expired',
 			'101' => 'invalid',

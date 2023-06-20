@@ -2203,6 +2203,24 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license input:required {
   border-color: #800000;
 }
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm_license_error {
+  background-color: #ffffe0;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm-master-license-email-wrapper,
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm-master-license-license-wrapper {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm-master-license-email-wrapper label,
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm-master-license-license-wrapper label {
+  position: absolute;
+  top: -16px;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  left: 5px;
+}
 .dlm_extensions_wrap .dlm_extensions .dlm_extension {
   background-color: #FFF;
   width: calc(20% - 15px);
@@ -3113,4 +3131,9 @@ div#dlm-export-settings-upsell span {
 }
 .postbox-container .dlm-available-with-pro {
   display: none;
+}
+.dlm-red-text,
+.dlm-red-text:hover {
+  color: red;
+  font-weight: 700;
 }
