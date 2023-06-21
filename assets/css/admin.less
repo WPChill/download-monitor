@@ -2439,7 +2439,7 @@ table.wp-list-table {
         & > div {
           padding:15px;
           background:#fff;
-          margin-left: -5px;
+         /* margin-left: -5px;*/
           max-width: calc(100% - 5px);
         }
 
@@ -2685,16 +2685,28 @@ table.wp-list-table {
     }
   }
 }
+
 #installed-extensions {
+  .dlm_extensions {
+    width:100%;
+  }
   #wpchill-welcome {
+    width: 100%;
+    margin: 0 auto;
+
+    .block {
+      padding: 0;
+    }
+
     .features {
       .feature-list {
         .feature-block {
-          margin:10px;
-          width:calc(33% - 20px) !important;
-          min-height:400px;
+          margin: 10px;
+          width: calc(33% - 18px) !important;
+          min-height: 400px;
         }
-        a{
+
+        a {
           color: #fff;
         }
       }

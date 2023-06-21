@@ -9,7 +9,7 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://www.download-monitor.com/?wc-api=';
+	const STORE_URL = 'https://staging-downloadmonitorcom.kinsta.cloud/?wc-api=';
 
 	/**
 	 * Activation endpoint
@@ -194,10 +194,15 @@ class DLM_Product {
 			$activate_results = json_decode( wp_remote_retrieve_body( $request ), true );
 
 			// Check if response is correct and the product slug is present in the activated extensions.
-			if ( ! empty( $activate_results ) && isset( $activate_results[ $this->get_product_id() ] ) ) {
+			if (
+				! empty( $activate_results ) &&
+				( isset( $activate_results[ $this->get_product_id() ] ) ||
+				  ( isset( $activate_results['success'] ) && isset( $activate_results['activated'] ) && $activate_results['activated'] ) )
+			) {
 
 				// Set local activation status to true.
 				$license->set_status( 'active' );
+				$license->set_license_status( 'active' );
 				$this->set_license( $license );
 
 				// Return Message.
@@ -215,6 +220,7 @@ class DLM_Product {
 
 			// Set local activation status to false.
 			$license->set_status( 'inactivate' );
+			$license->set_license_status( 'inactive' );
 			$this->set_license( $license );
 
 			// Return error message
@@ -264,6 +270,7 @@ class DLM_Product {
 
 			// Set new license status
 			$license->set_status( 'inactive' );
+			$license->set_license_status( 'inactive' );
 			$this->set_license( $license );
 
 			return array( 'result' => 'success' );
@@ -294,6 +301,7 @@ class DLM_Product {
 			if( 'no_activation' == $error_key ) {
 				// remove local activation if there's no license on API side
 				$this->get_license()->set_status( 'inactive' );
+				$this->get_license()->set_license_status( 'inactive' );
 				$this->get_license()->store();
 			}
 		}

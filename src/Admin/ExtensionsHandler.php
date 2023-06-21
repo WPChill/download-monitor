@@ -107,14 +107,23 @@ class DLM_Extensions_Handler {
 		$response_body = json_decode(wp_remote_retrieve_body($api_request), true);
 
 		if ( isset( $response_body['error'] ) ) {
+			$response_error_codes = array(
+				'110' => 'expired',
+				'101' => 'invalid',
+				'111' => 'invalid_order',
+				'104' => 'no_rights'
+			);
+			$license->set_license_status( isset( $response_error_codes[ strval( $response_body['error_code'] ) ] ) ? $response_error_codes[ strval( $response_body['error_code'] ) ] : 'inactive' );
 			$license->set_status( 'inactive' );
 			return;
 		}
 
 		if ( 'deactivate' === $request ) {
 			$license->set_status( 'inactive' );
+			$license->set_license_status( 'inactive' );
 		} else {
 			$license->set_status( 'active' );
+			$license->set_license_status( 'active' );
 		}
 
 		$license->store();
@@ -252,10 +261,18 @@ class DLM_Extensions_Handler {
 
 		// And error has been triggered, maybe license expired or not valid.
 		if ( isset( $activated_extensions['error'] ) ) {
+			$response_error_codes = array(
+				'110' => 'expired',
+				'101' => 'invalid',
+				'111' => 'invalid_order',
+				'104' => 'no_rights'
+			);
+
 			foreach ( $installed_extensions as $prod_id ) {
 				$product = new DLM_Product( $prod_id, '', '' );
 				$license = $product->get_license();
 				$license->set_status( 'inactive' );
+				$license->set_license_status( isset( $response_error_codes[ strval( $activated_extensions['error_code'] ) ] ) ? $response_error_codes[ strval( $activated_extensions['error_code'] ) ] : 'inactive' );
 				$license->store();
 			}
 			$data['status'] = 'inactive';
@@ -285,8 +302,10 @@ class DLM_Extensions_Handler {
 				$license->set_email( $email );
 				if ( 'activate' === $request ) {
 					$license->set_status( 'active' );
+					$license->set_license_status( 'active' );
 				} else {
 					$license->set_status( 'inactive' );
+					$license->set_license_status( 'inactive' );
 				}
 				$license->store();
 			}

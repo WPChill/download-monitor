@@ -125,12 +125,10 @@ class DLM_CRON_Jobs {
 						$no_licenses = false;
 						if ( ! empty( $prev_license ) && $prev_license['key'] !== $sl['key'] ) {
 							$do_each = true;
-							break;
 						}
 						$prev_license = $sl;
 					}
 				}
-				$license = $prev_license;
 			}
 		}
 
@@ -139,14 +137,17 @@ class DLM_CRON_Jobs {
 			return;
 		}
 
-		// Let's see if we need to check each license or we can check the master license.
+		// Let's see if we need to check each license, or we can check the master license.
 		if ( $do_each ) {
 			if ( ! empty( $addon_licenses ) ) {
 				foreach ( $addon_licenses as $slug => $object ) {
-					$this->check_license( $object, array( $slug ) );
+					$object['license_key'] = $object['key'];
+					$this->check_license( $object, array( $slug ), false );
 				}
 			}
 		} else {
+			$license = $prev_license;
+			$license['license_key'] = $license['key'];
 			$this->check_license( $license, $installed_extensions );
 		}
 	}
@@ -154,13 +155,14 @@ class DLM_CRON_Jobs {
 	/**
 	 * Check license
 	 *
-	 * @param $license
-	 * @param $installed_extensions
+	 * @param array $license License data.
+	 * @param array $installed_extensions Array of installed extensions.
+	 * @param bool $save_license Whether to save the license or not.
 	 *
 	 * @return void
 	 * @since 4.8.6
 	 */
-	private function check_license(  $license, $installed_extensions ){
+	private function check_license(  $license, $installed_extensions, $save_license = true ){
 		$api_request = wp_remote_get(
 			DLM_Product::STORE_URL . DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
 				array(
@@ -183,16 +185,22 @@ class DLM_CRON_Jobs {
 		$response = json_decode( $api_request['body'], true );
 
 		if ( isset( $response['error'] ) ) {
-			$this->deactivate_license( $license, $response, $installed_extensions );
+			$this->deactivate_license( $license, $response, $installed_extensions, $save_license );
 		}
 	}
 
 	/**
 	 * Deactivate license
 	 *
+	 * @param array $user_license User license data.
+	 * @param array $response Response data.
+	 * @param array $extensions Array of installed extensions.
+	 * @param bool $save_license Whether to save the license or not.
+	 *
 	 * @return void
+	 * @since 4.8.6
 	 */
-	private function deactivate_license( $user_license, $response, $extensions ) {
+	private function deactivate_license( $user_license, $response, $extensions, $save_license = true ) {
 		$response_error_codes = array(
 			'110' => 'expired',
 			'101' => 'invalid',
@@ -213,10 +221,14 @@ class DLM_CRON_Jobs {
 			$product = new DLM_Product( $prod_id, '', '' );
 			$license = $product->get_license();
 			$license->set_status( 'inactive' );
+			$license->set_license_status( isset( $response_error_codes[ strval( $response['error_code'] ) ] ) ? $response_error_codes[ strval( $response['error_code'] ) ] : 'inactive' );
+			$license->set_key( $license_key );
+			$license->set_email( $email );
 			$license->store();
 		}
 
-		update_option( 'dlm_master_license', json_encode( $data ) );
-		wp_send_json_error( array( 'message' => $response['error'] ) );
+		if ( $save_license ) {
+			update_option( 'dlm_master_license', json_encode( $data ) );
+		}
 	}
 }
