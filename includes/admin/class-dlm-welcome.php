@@ -197,6 +197,7 @@ class DLM_Welcome_Page {
 					<?php $welcome->display_extension( esc_html__( 'Page Addon', 'download-monitor' ), esc_html__( 'Make use of a shortcode to turn a page into a fully featured download listing page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/page-addon.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Downloading Page', 'download-monitor' ), esc_html__( 'Forces your downloads to be served from a separate page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/downloading-page.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Easy data importing/exporting', 'download-monitor' ), esc_html__( ' Import/export all download data including categories, tags and all file versions to and from a CSV file.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/data-importing-exporting.png', true, '#F08232' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Terms & Conditions', 'download-monitor' ), esc_html__( 'Require users to accept the terms & conditions before allowing them to download your files.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/gated-content.png', true, '#F08232'  ); ?>
 					<?php $welcome->layout_end(); ?>
 					<?php $welcome->display_empty_space(); ?>
 					<div class="wpchill-text-center">
