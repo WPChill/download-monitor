@@ -204,7 +204,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 				$charset_collate = $wpdb->get_charset_collate();
 
-				$sql = "CREATE TABLE`{$wpdb->dlm_downloads}` (
+				$sql = "CREATE TABLE `{$wpdb->dlm_downloads}` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
