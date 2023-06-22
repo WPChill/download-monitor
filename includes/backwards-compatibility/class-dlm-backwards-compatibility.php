@@ -95,9 +95,10 @@ class DLM_Backwards_Compatibility {
 
 			$meta_counts = $wpdb->get_var(
 				"
-                SELECT SUM( meta_value ) FROM $wpdb->postmeta
-                LEFT JOIN $wpdb->posts on $wpdb->postmeta.post_id = $wpdb->posts.ID
-                WHERE meta_key = '_download_count'
+               SELECT SUM( meta_value ) FROM 
+                ( SELECT post_id, meta_value, meta_key FROM $wpdb->postmeta WHERE meta_key = '_download_count' GROUP BY post_id ) PM
+                LEFT JOIN $wpdb->posts on PM.post_id = $wpdb->posts.ID
+                WHERE PM.meta_key = '_download_count'
                 AND post_type = 'dlm_download'
                 AND post_status = 'publish'
             "
@@ -188,8 +189,8 @@ class DLM_Backwards_Compatibility {
 		}
 
 		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) LEFT JOIN 
-		( SELECT DISTINCT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE 
-		{$wpdb->postmeta}.meta_key = '_download_count') as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";
+		( SELECT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE 
+		{$wpdb->postmeta}.meta_key = '_download_count' GROUP BY {$wpdb->postmeta}.post_id ) as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";
 
 		return $join;
 	}
