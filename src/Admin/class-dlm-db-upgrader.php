@@ -187,12 +187,12 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 				$charset_collate = $wpdb->get_charset_collate();
 
 				$sql = "CREATE TABLE `{$wpdb->dlm_reports}` (
-					  `date` DATE NOT NULL,
-					  `download_ids` longtext NULL,
-					  `revenue` longtext NULL,
-					  `refunds` longtext NULL,
-					  PRIMARY KEY (`date`))
-					  ENGINE = InnoDB $charset_collate;";
+					  date DATE NOT NULL,
+					  download_ids longtext NULL,
+					  revenue longtext NULL,
+					  refunds longtext NULL,
+					  PRIMARY KEY  (date)
+					  ) ENGINE = InnoDB $charset_collate;";
 
 				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 				dbDelta( $sql );
@@ -209,8 +209,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
 						download_versions varchar(200) NOT NULL,
-		 				PRIMARY KEY (`ID`))
-						ENGINE = InnoDB $charset_collate;";
+		 				PRIMARY KEY  (ID)
+		 				) ENGINE = InnoDB $charset_collate;";
 
 				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 				dbDelta( $sql );
@@ -399,8 +399,8 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
 						download_versions varchar(200) NOT NULL,
-		 				PRIMARY KEY (`ID`))
-						ENGINE = InnoDB $charset_collate;";
+		 				PRIMARY KEY  (ID)
+		 				) ENGINE = InnoDB $charset_collate;";
 
 				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 				dbDelta( $sql );

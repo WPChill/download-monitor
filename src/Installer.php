@@ -251,19 +251,19 @@ class DLM_Installer {
 		";
 
 		$dlm_reports = "CREATE TABLE `{$wpdb->prefix}dlm_reports_log` (
-			`date` DATE NOT NULL,
-			`download_ids` longtext NULL,
-			`revenue` longtext NULL,
-			`refunds` longtext NULL,
-			PRIMARY KEY (`date`)) $collate;";
+			date DATE NOT NULL,
+			download_ids longtext NULL,
+			revenue longtext NULL,
+			refunds longtext NULL,
+			PRIMARY KEY  (date)) $collate;";
 
 		$dlm_downloads = "CREATE TABLE `{$wpdb->prefix}dlm_downloads` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
 						download_versions varchar(200) NOT NULL,
-		 				PRIMARY KEY (`ID`))
-						ENGINE = InnoDB $collate;";
+		 				PRIMARY KEY  (ID)
+		 				) ENGINE = InnoDB $collate;";
 
 		dbDelta( $dlm_log );
 		dbDelta( $dlm_reports );
