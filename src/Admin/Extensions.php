@@ -440,12 +440,7 @@ class DLM_Admin_Extensions {
 			}
 
 			if ( ! empty( $expired_licenses ) ) {
-				$i = 0;
-				$ln = count( $expired_licenses );
-				foreach ( $expired_licenses as $license => $email ) {
-					$expired_licenses_text .= '<a href="https://staging-downloadmonitorcom.kinsta.cloud/cart/?renew_license=' . esc_attr( $license ) . '&activation_email=' . esc_attr( $email ) . '" target="_blank">' . esc_html( $license ) . ( $ln > 1 && $i < $ln - 1 ? ', ' : '' ) . '</a> ';
-					$i++;
-				}
+				$expired_licenses_text .= '<a href="https://www.download-monitor.com/my-account" target="_blank">' . esc_html__( 'renew your license', 'download-monitor' ) . '</a> ';
 			}
 
 			echo '<div id="installed-extensions" class="settings_panel">';
@@ -476,7 +471,7 @@ class DLM_Admin_Extensions {
 												// Output the expired message.
 												?>
 												<div class="dlm_license_error">
-													<span><strong><?php echo sprintf( esc_html__( 'License expired, please %srenew%s.', 'download-monitor' ), '<a href="https://staging-downloadmonitorcom.kinsta.cloud/cart/?renew_license=' . esc_attr( $master_license['license_key'] ) . '&activation_email=' . esc_attr( $master_license['email'] ) . '" target="_blank">', '</a>' ); ?></strong></span><span> <?php esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
+													<span><strong><?php echo sprintf( esc_html__( 'License expired, please %srenew%s.', 'download-monitor' ), '<a href="https://download-monitor.com/cart/?renew_license=' . esc_attr( $master_license['license_key'] ) . '&activation_email=' . esc_attr( $master_license['email'] ) . '" target="_blank">', '</a>' ); ?></strong></span><span> <?php esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
 												</div>
 												<?php
 											} elseif ( 'invalid' === $master_license['license_status'] ) {
@@ -490,7 +485,7 @@ class DLM_Admin_Extensions {
 										} else if( ! empty( $expired_licenses ) ) {
 											?>
 											<div class='dlm_license_error'>
-												<span><strong><?php echo sprintf( esc_html__( 'The following license(s) has(have) expired:  %s, please renew.', 'download-monitor' ), $expired_licenses_text ); ?></strong></span><span> <?php esc_html_e( 'If you already renewed, please activate the license(s).', 'download-monitor' ) ?></span>
+												<span><strong><?php echo sprintf( esc_html__( 'You license has expired,  %s.', 'download-monitor' ), $expired_licenses_text ); ?></strong></span><span> <?php esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
 											</div>
 											<?php
 										}

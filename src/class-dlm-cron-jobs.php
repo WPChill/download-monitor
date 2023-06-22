@@ -129,6 +129,8 @@ class DLM_CRON_Jobs {
 						$prev_license = $sl;
 					}
 				}
+				$license = $prev_license;
+				$license['license_key'] = $license['key'];
 			}
 		}
 
@@ -146,8 +148,6 @@ class DLM_CRON_Jobs {
 				}
 			}
 		} else {
-			$license = $prev_license;
-			$license['license_key'] = $license['key'];
 			$this->check_license( $license, $installed_extensions );
 		}
 	}
@@ -163,6 +163,7 @@ class DLM_CRON_Jobs {
 	 * @since 4.8.6
 	 */
 	private function check_license(  $license, $installed_extensions, $save_license = true ){
+
 		$api_request = wp_remote_get(
 			DLM_Product::STORE_URL . DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
 				array(

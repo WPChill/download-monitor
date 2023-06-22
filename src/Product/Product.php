@@ -9,7 +9,7 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://staging-downloadmonitorcom.kinsta.cloud/?wc-api=';
+	const STORE_URL = 'https://www.download-monitor.com//?wc-api=';
 
 	/**
 	 * Activation endpoint
