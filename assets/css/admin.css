@@ -2505,6 +2505,7 @@ table.wp-list-table .column-thumb img {
   float: none;
   flex-grow: 1;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin: 0;
 }
