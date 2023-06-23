@@ -198,7 +198,6 @@ class DLM_Settings_Page {
 					}
 
 					//echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
-					do_action( 'dlm_tab_section_content_' . $active_section, $settings );
 
 					if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 
@@ -253,9 +252,8 @@ class DLM_Settings_Page {
 					}
 
 					echo '<div class="wpchill-upsells-wrapper">';
-
 					do_action( 'dlm_tab_content_' . $tab, $settings );
-
+					do_action( 'dlm_tab_section_content_' . $active_section, $settings );
 					echo '</div>';
 				}
 

@@ -157,7 +157,7 @@ class DLM_Upsells {
 		}
 
 		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '"><div class="dlm-available-with-pro"><span class="dashicons dashicons-lock"></span><span>' . esc_html__( 'AVAILABLE WITH PRO', 'download-monitor' ) . '</span></div></a>';
-		echo '<div>';
+		echo '<div class="wpchill-upsell-buttons-wrap">';
 			echo '<a target="_blank" href="' . esc_url( admin_url('edit.php?post_type=dlm_download&page=dlm-lite-vs-pro') ) . '" class="button">' . esc_html__( 'Free vs PRO', 'download-monitor' ) . '</a> ';
 			echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html__( 'Get PRO!', 'download-monitor' ) . '</a>';
 		echo '</div>';
