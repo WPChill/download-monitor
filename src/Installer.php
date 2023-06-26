@@ -255,15 +255,18 @@ class DLM_Installer {
 			download_ids longtext NULL,
 			revenue longtext NULL,
 			refunds longtext NULL,
-			PRIMARY KEY  (date)) $collate;";
+			PRIMARY KEY  (date),
+			KEY attribute_name (date)
+            ) $collate;";
 
 		$dlm_downloads = "CREATE TABLE `{$wpdb->prefix}dlm_downloads` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
 						download_versions varchar(200) NOT NULL,
-		 				PRIMARY KEY  (ID)
-		 				) ENGINE = InnoDB $collate;";
+		 				PRIMARY KEY  (ID),
+		 				KEY attribute_name (download_id)
+		 				) $collate;";
 
 		dbDelta( $dlm_log );
 		dbDelta( $dlm_reports );

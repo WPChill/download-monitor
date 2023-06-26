@@ -179,42 +179,35 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			global $wpdb;
 			$posts_table = "{$wpdb->prefix}posts";
-
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			// Made it here, now let's create the table and start migrating.
 			// Let check if table does not exist.
-			if ( ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 
-				$charset_collate = $wpdb->get_charset_collate();
+			$charset_collate = $wpdb->get_charset_collate();
 
-				$sql = "CREATE TABLE `{$wpdb->dlm_reports}` (
+			$sql = "CREATE TABLE `{$wpdb->dlm_reports}` (
 					  date DATE NOT NULL,
 					  download_ids longtext NULL,
 					  revenue longtext NULL,
 					  refunds longtext NULL,
-					  PRIMARY KEY  (date)
-					  ) ENGINE = InnoDB $charset_collate;";
+					  PRIMARY KEY  (date),
+					  KEY attribute_name (date)
+					  ) $charset_collate;";
 
-				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-				dbDelta( $sql );
-			}
+			dbDelta( $sql );
 
 			// Made it here, now let's create the table and start migrating.
 			// Let check if table does not exist.
-			if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
-
-				$charset_collate = $wpdb->get_charset_collate();
-
-				$sql = "CREATE TABLE `{$wpdb->dlm_downloads}` (
+			$sql = "CREATE TABLE `{$wpdb->dlm_downloads}` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
 						download_versions varchar(200) NOT NULL,
-		 				PRIMARY KEY  (ID)
-		 				) ENGINE = InnoDB $charset_collate;";
+		 				PRIMARY KEY  (ID),
+		 				KEY attribute_name (download_id)
+		 				) $charset_collate;";
 
-				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-				dbDelta( $sql );
-			}
+			dbDelta( $sql );
 
 			// Check if the table exists. User might have deleted it in the past.
 			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
@@ -277,11 +270,9 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			// Add extra columns to the table
 			global $wpdb;
 
-			// In the event that the user had previously deleted the downlod_log table, we need to create it again.
-			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
-				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-				$charset_collate = $wpdb->get_charset_collate();
-				$dlm_tables = '
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			$charset_collate = $wpdb->get_charset_collate();
+			$dlm_tables      = '
 					CREATE TABLE `' . $wpdb->prefix . "download_log` (
 						ID bigint(20) NOT NULL auto_increment,
 						user_id bigint(20) NOT NULL,
@@ -302,41 +293,9 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 					) $charset_collate;
 					";
 
-				dbDelta( $dlm_tables );
-				wp_send_json( array( 'success' => true ) );
-				exit;
-			}
-
-			$columns = '';
-
-			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'uuid' ) ) {
-				$columns .= 'ADD COLUMN uuid VARCHAR(200) AFTER USER_IP';
-			}
-
-			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'download_location' ) ) {
-				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_location VARCHAR(200) AFTER download_status_message' : 'ADD COLUMN download_location VARCHAR(200) AFTER download_status_message';
-			}
-
-			if ( ! DLM_Utils::column_checker( $wpdb->download_log, 'download_category' ) ) {
-				$columns .= ( ! empty( $columns ) ) ? ',ADD COLUMN download_category LONGTEXT AFTER download_status_message' : 'ADD COLUMN download_category LONGTEXT AFTER download_status_message';
-			}
-
-			// Let's check if all the required columns are present. If not, let's add them.
-			if ( ! empty( $columns ) ) {
-				$alter_statement = "ALTER TABLE {$wpdb->download_log} {$columns}";
-				$hash_statement  = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE uuid IS NULL;";
-				$wpdb->query( $alter_statement );
-				$wpdb->query( $hash_statement );
-			}
-
-			$checkindex = $wpdb->query( "SHOW INDEX FROM {$wpdb->download_log} WHERE Key_name = 'download_count'" );
-
-			if ( null === $checkindex ) {
-				// SQL to add index for download_log.
-				$add_index = "ALTER TABLE {$wpdb->download_log} ADD INDEX download_count (version_id);";
-				$wpdb->query( $add_index );
-			}
-
+			dbDelta( $dlm_tables );
+			$uuid_query = "UPDATE {$wpdb->download_log} SET uuid = md5(user_ip) WHERE ( uuid IS NULL OR '' = uuid ) AND user_ip IS NOT NULL;";
+			$wpdb->query( $uuid_query );
 			// Keep transient deletion here, we are using it to check if the upgrade is total or partial.
 			delete_transient( 'dlm_upgrade_type' );
 			wp_send_json( array( 'success' => true ) );
@@ -374,32 +333,30 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 
 			global $wpdb;
 			$upgrade_type = get_transient( 'dlm_upgrade_type' );
-
-			$limit = 10000;
+			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+			$charset_collate = $wpdb->get_charset_collate();
+			$limit           = 10000;
 
 			$offset = ( isset( $_POST['offset'] ) ) ? $limit * absint( $_POST['offset'] ) : 0;
 
 			$sql_limit = "LIMIT {$offset},{$limit}";
 
-			$items           = array();
-			$table_1         = "{$wpdb->download_log}";
-			$able_2          = "{$wpdb->posts}";
+			$items   = array();
+			$table_1 = "{$wpdb->download_log}";
+			$able_2  = "{$wpdb->posts}";
 			// Table that contains downlaod counts about each Download and their versions. Used for performance issues introduced in version 4.6.0 of the plugin.
 			$downloads_table = "{$wpdb->dlm_downloads}";
 			// If at this point the table does not exist, we need to create it.
-			if ( ! DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
-				$charset_collate = $wpdb->get_charset_collate();
-				$sql             = "CREATE TABLE `{$wpdb->dlm_downloads}` (
+			$sql = "CREATE TABLE `{$wpdb->dlm_downloads}` (
 					    ID bigint(20) NOT NULL auto_increment,
 						download_id bigint(20) NOT NULL,
 						download_count bigint(20) NOT NULL,
 						download_versions varchar(200) NOT NULL,
-		 				PRIMARY KEY  (ID)
-		 				) ENGINE = InnoDB $charset_collate;";
+		 				PRIMARY KEY  (ID),
+		 				KEY attribute_name (download_id)
+		 				) $charset_collate;";
 
-				require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-				dbDelta( $sql );
-			}
+			dbDelta( $sql );
 			// Check if data has been introduced into table and update it, else we need to populate it.
 			$data = $wpdb->get_results( $wpdb->prepare( "SELECT  dlm_log.download_id as `ID`, dlm_log.version_id as `version`, DATE_FORMAT(dlm_log.download_date, '%%Y-%%m-%%d') AS `date`, dlm_log.download_status as `status`, dlm_posts.post_title AS `title` FROM {$table_1} dlm_log LEFT JOIN {$able_2} dlm_posts ON dlm_log.download_id = dlm_posts.ID WHERE 1=1 {$sql_limit}" ), ARRAY_A );
 
