@@ -247,7 +247,7 @@ class OrderTable extends \WP_List_Table {
 						$m = ! empty( $this->filter_month ) ? $this->filter_month : 0;
 						?>
                         <select name="filter_month">
-                            <option <?php selected( $m, 0 ); ?> value='0'><?php echo esc_html__( 'Show all dates' ); ?></option>
+                            <option <?php selected( $m, 0 ); ?> value='0'><?php echo esc_html__( 'Show all dates', 'download-monitor' ); ?></option>
 							<?php
 							foreach ( $months as $arc_row ) {
 								if ( 0 == $arc_row->year ) {

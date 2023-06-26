@@ -180,7 +180,7 @@ class DLM_Reports_Page {
 				?>
 			</div>
 			<div class="dlm-reports-actions">
-				<span><?php esc_html_e( 'Show per page:' ); ?>  </span>
+				<span><?php esc_html_e( 'Show per page:', 'download-monitor' ); ?>  </span>
 				<select class="dlm-reports-per-page">
 					<?php
 					foreach ( $per_page_options as $option ) {

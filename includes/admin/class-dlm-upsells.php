@@ -755,8 +755,6 @@ class DLM_Upsells {
 				'downloading-page'
 			);
 		}
-
-
 	}
 
 	/**
@@ -775,10 +773,7 @@ class DLM_Upsells {
 				'captcha'
 			);
 		}
-
-
 	}
-
 
 	/**
 	 * Output the Downloadable Files locations in the Downloadable files metabox
@@ -837,7 +832,6 @@ class DLM_Upsells {
 				'captcha'
 			);
 		}
-
 	}
 
 	/**
@@ -848,7 +842,7 @@ class DLM_Upsells {
 	 */
 	public function add_lite_vs_pro_page( $links ) {
 
-		// Settings page
+		// Settings page.
 		$links[] = array(
 			'page_title' => __( 'LITE vs PRO', 'download-monitor' ),
 			'menu_title' => __( 'LITE vs PRO', 'download-monitor' ),
@@ -912,7 +906,7 @@ class DLM_Upsells {
 		<div class="dlm-csv-export-wrapper">
 			<div class="dlm-reports-header-export-button">
 				<button class="button button-primary"
-				        disabled="disabled"><?php echo esc_html__( 'Export', 'dlm-csv-exporter' ); ?> <span
+				        disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <span
 						class="dlm-upsell-badge">PRO</span></button>
 			</div>
 			<div class="dlm-csv-export-wrapper__export_settings">
@@ -941,20 +935,46 @@ class DLM_Upsells {
 		$list = array();
 		if ( 'general_info' == $key ) {
 			$list = array(
-				array( 'tooltip' => '', 'feature' => 'Compare dates and view chart to see how you’ve done' ),
-				array( 'tooltip' => '', 'feature' => 'Show number of completed downloads per download' ),
-				array( 'tooltip' => '', 'feature' => 'Show number of redirected downloads per download' ),
-				array( 'tooltip' => '', 'feature' => 'Show number of failed downloads per download' ),
-				array( 'tooltip' => '', 'feature' => 'Show % of downloads from the total downloads number' ),
-				array( 'tooltip' => '', 'feature' => 'Show number of completed downloads by logged in users' ),
-				array( 'tooltip' => '', 'feature' => 'Show number of completed downloads by logged out users' )
+				array(
+					'tooltip' => '',
+					'feature' => __( 'Compare dates and view chart to see how you’ve done', 'download-monitor' )
+				),
+				array(
+					'tooltip' => '',
+					'feature' => __( 'Show number of completed downloads per download', 'download-monitor' )
+				),
+				array(
+					'tooltip' => '',
+					'feature' => __( 'Show number of redirected downloads per download', 'download-monitor' )
+				),
+				array(
+					'tooltip' => '',
+					'feature' => __( 'Show number of failed downloads per download', 'download-monitor' )
+				),
+				array(
+					'tooltip' => '',
+					'feature' => __( 'Show % of downloads from the total downloads number', 'download-monitor' )
+				),
+				array(
+					'tooltip' => '',
+					'feature' => __( 'Show number of completed downloads by logged in users', 'download-monitor' )
+				),
+				array(
+					'tooltip' => '',
+					'feature' => __( 'Show number of completed downloads by logged out users', 'download-monitor' )
+				)
 			);
-
 		} elseif ( 'user_reports' == $key ) {
 			$list = array(
-				array( 'tooltip' => '', 'feature' => 'See active users and their download information' ),
-				array( 'tooltip' => '', 'feature' => 'Show the location from where in the site the user downloaded' ),
-				array( 'tooltip' => '', 'feature' => 'Show the download\'s category' )
+				array(
+					'tooltip' => '',
+					'feature' => __( 'See active users and their download information', 'download-monitor' )
+				),
+				array(
+					'tooltip' => '',
+					'feature' => __( 'Show the location from where in the site the user downloaded', 'download-monitor' )
+				),
+				array( 'tooltip' => '', 'feature' => __( 'Show the download\'s category', 'download-monitor' ) )
 			);
 		}
 

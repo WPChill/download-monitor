@@ -544,7 +544,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			?>
 			<div class="dlm-upgrade-db-notice notice">
 				<div class="dlm-yellow-band-notice">
-					<?php echo wp_kses_post( __( 'Please <a href="#" class="dlm-db-upgrade-link">upgrade the database</a>.' ) ); ?>
+					<?php echo wp_kses_post( __( 'Please <a href="#" class="dlm-db-upgrade-link">upgrade the database</a>.', 'download-monitor' ) ); ?>
 				</div>
 				<div class="inside">
 					<div class="main">
@@ -577,7 +577,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			?>
 			<div class="dlm-upgrade-db-notice notice">
 				<div class="dlm-yellow-band-notice">
-					<?php echo wp_kses_post( __( 'Please <a href="#" class="dlm-db-download_category-link">upgrade the database</a>.' ) ); ?>
+					<?php echo wp_kses_post( __( 'Please <a href="#" class="dlm-db-download_category-link">upgrade the database</a>.', 'download-monitor' ) ); ?>
 				</div>
 				<div class="inside">
 					<div class="main">

@@ -309,7 +309,7 @@ class DLM_Admin_Media_Insert {
 						'url'                 => admin_url( 'admin-ajax.php' ),
 						'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
 						'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
-						'filters'             => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => '*' ) ),
+						'filters'             => array( array( 'title' => __( 'Allowed Files', 'download-monitor' ), 'extensions' => '*' ) ),
 						'multipart'           => true,
 						'urlstream_upload'    => true,
 

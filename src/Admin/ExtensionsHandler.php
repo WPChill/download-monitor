@@ -276,12 +276,6 @@ class DLM_Extensions_Handler {
 				$license->store();
 			}
 			$data['status']       = 'inactive';
-			$response_error_codes = array(
-				'110' => 'expired',
-				'101' => 'invalid',
-				'111' => 'invalid_order',
-				'104' => 'no_rights'
-			);
 
 			if ( isset( $response_error_codes[ $activated_extensions['error_code'] ] ) ) {
 				$data['license_status'] = $response_error_codes[ $activated_extensions['error_code'] ];
