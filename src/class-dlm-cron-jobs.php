@@ -51,7 +51,7 @@ class DLM_CRON_Jobs {
 		// Set dlm_weekly cron schedule.
 		$schedule['dlm_weekly'] = array(
 			'interval' => WEEK_IN_SECONDS,
-			'display'  => __( 'Once Weekly', 'download-monitor' ),
+			'display'  => __( 'DLM Once Weekly', 'download-monitor' ),
 		);
 
 		return $schedule;
