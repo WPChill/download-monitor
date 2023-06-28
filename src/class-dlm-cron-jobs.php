@@ -79,15 +79,14 @@ class DLM_CRON_Jobs {
 		if ( ! class_exists( 'DLM_Product_Manager' ) || ! class_exists( 'DLM_Product_License' ) || ! class_exists( 'DLM_Admin_Helper' ) ) {
 			return;
 		}
-		$user_license         = get_option( 'dlm_master_license', false );
+		$main_license         = get_option( 'dlm_master_license', false );
 		$extensions           = DLM_Admin_Extensions::get_instance();
 		$installed_extensions = array();
-		$prev_license         = array();
-		$do_each              = false;
-		$addon_licenses       = array();
-		$no_licenses          = true;
-		$do_master            = false;
-		$license              = '';
+
+		// keep the license as key and slug of extensions as value
+		$licenses = array();
+		// keep the license as key and email of license as value
+		$licenses_info = array();
 
 		if ( empty( $extensions->installed_extensions ) ) {
 			$product_manager = DLM_Product_Manager::get();
@@ -97,59 +96,54 @@ class DLM_CRON_Jobs {
 
 		if ( ! empty( $extensions->installed_extensions ) ) {
 			foreach ( $extensions->installed_extensions as $extension ) {
+
+				$extension_slug = '';
+
 				if ( method_exists( $extension, 'get_product_id' ) ) {
-					$installed_extensions[] = $extension->get_product_id();
+					$extension_slug = $extension->get_product_id();
 				} else {
 					// On deactivation hook the $extensions->installed_extensions still contains the old product_id.
-					$installed_extensions[] = $extension->product_id;
+					$extension_slug = $extension->product_id;
 				}
+
+				$installed_extensions[] = $extension_slug;
+
+				$sl = get_option( $extension_slug . '-license', false );
+				$licenses_info[ $sl['key'] ] = $sl['email'];
+
+				if ( $sl && ! isset( $licenses[ $sl['key'] ] ) ) {
+					$licenses[ $sl['key'] ] = array( $extension_slug );
+				}elseif ( isset( $licenses[ $sl ] ) ) {
+					$licenses[ $sl['key'] ][] = $extension_slug;
+				}
+
 			}
 		}
 
-		if ( $user_license ) {
-			$user_license = json_decode( $user_license, true );
-			if ( isset( $user_license['license_key'] ) && '' !== $user_license['license_key'] ) {
-				$do_master   = true;
-				$no_licenses = false;
-			}
-		}
-
-		if ( $do_master ) {
-			$license = $user_license;
-		} else {
-			if ( ! empty( $installed_extensions ) ) {
-				foreach ( $installed_extensions as $extension ) {
-					$sl = get_option( $extension . '-license', false );
-					if ( $sl ) {
-						$addon_licenses[ $extension ] = $sl;
-						$no_licenses = false;
-						if ( ! empty( $prev_license ) && $prev_license['key'] !== $sl['key'] ) {
-							$do_each = true;
-						}
-						$prev_license = $sl;
-					}
-				}
-				$license = $prev_license;
-				$license['license_key'] = $license['key'];
+		$main_license = json_decode( $main_license, true );
+		if ( isset( $main_license['license_key'] ) && '' !== $main_license['license_key'] ) {
+			if ( ! isset( $licenses[ $main_license['license_key'] ] ) ) {
+				$licenses[ $main_license['license_key'] ] = $installed_extensions;
+				$licenses_info[ $main_license['key'] ] = $main_license['email'];
 			}
 		}
 
 		// If there are no licenses present then we don't need to check anything.
-		if ( $no_licenses ) {
+		if ( empty( $licenses ) ) {
 			return;
 		}
 
-		// Let's see if we need to check each license, or we can check the master license.
-		if ( $do_each ) {
-			if ( ! empty( $addon_licenses ) ) {
-				foreach ( $addon_licenses as $slug => $object ) {
-					$object['license_key'] = $object['key'];
-					$this->check_license( $object, array( $slug ), false );
-				}
+		foreach ( $licenses as $license => $slugs ) {
+			$license_obj = array( 'license_key' => $license, 'email' => $licenses_info[ $license ] );
+			if ( isset( $master_license['license_key'] ) && $master_license['license_key'] == $license ) {
+				// if is master license we need to save server response in dlm_master_license option
+				$this->check_license( $license_obj, $slugs );
+			}else{
+				$this->check_license( $license_obj, $slugs, false );
 			}
-		} else {
-			$this->check_license( $license, $installed_extensions );
+
 		}
+
 	}
 
 	/**
