@@ -599,7 +599,7 @@ class DLM_Download_Handler {
 				header( "X-LIGHTTPD-send-file: $file_path" );
 				exit;
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
-				// Log this way as the js doesn't know who the download_id and version_id is
+				// Log this way as the js doesn't know who the download_id and version_id is.
 				$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 				// At this point the $correct_path should have a value of the file path as the verification was made prior to this check
 				// If there are symbolik links the return of the function will be an URL, so the last replace will not be taken into consideration.
@@ -609,6 +609,8 @@ class DLM_Download_Handler {
 				header( "X-Accel-Redirect: /$file_path" );
 				exit;
 			} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'LiteSpeed' ) ) {
+				// Log this way as the js doesn't know who the download_id and version_id is.
+				$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 				header( "X-LiteSpeed-Location: $file_path" );
 				exit;
 			}
