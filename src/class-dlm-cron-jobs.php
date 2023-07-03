@@ -113,10 +113,9 @@ class DLM_CRON_Jobs {
 
 				if ( $sl && ! isset( $licenses[ $sl['key'] ] ) ) {
 					$licenses[ $sl['key'] ] = array( $extension_slug );
-				}elseif ( isset( $licenses[ $sl ] ) ) {
+				}elseif ( isset( $licenses[ $sl['key'] ] ) ) {
 					$licenses[ $sl['key'] ][] = $extension_slug;
 				}
-
 			}
 		}
 
@@ -132,18 +131,16 @@ class DLM_CRON_Jobs {
 		if ( empty( $licenses ) ) {
 			return;
 		}
-
+		$i = 0;
 		foreach ( $licenses as $license => $slugs ) {
 			$license_obj = array( 'license_key' => $license, 'email' => $licenses_info[ $license ] );
-			if ( isset( $master_license['license_key'] ) && $master_license['license_key'] == $license ) {
+			if ( isset( $main_license['license_key'] ) && $main_license['license_key'] == $license ) {
 				// if is master license we need to save server response in dlm_master_license option
 				$this->check_license( $license_obj, $slugs );
 			}else{
 				$this->check_license( $license_obj, $slugs, false );
 			}
-
 		}
-
 	}
 
 	/**
