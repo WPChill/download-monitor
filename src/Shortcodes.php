@@ -40,7 +40,7 @@ class DLM_Shortcodes {
 		$total = 0;
 
 		if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
-			$total = $wpdb->get_results( "SELECT download.download_count FROM {$wpdb->dlm_downloads} as download;",ARRAY_A );
+			$total = $wpdb->get_results( "SELECT downloads.download_count FROM {$wpdb->dlm_downloads} downloads INNER JOIN {$wpdb->posts} posts ON downloads.download_id = posts.ID WHERE 1=1 AND posts.post_status = 'publish';",ARRAY_A );
 			$total = array_sum( array_column( $total, 'download_count' ) );
 		} else {
 

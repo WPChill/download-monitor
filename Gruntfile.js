@@ -247,6 +247,7 @@ module.exports = function ( grunt ) {
 				'!tests/**',
 				'!codeception.dist.yml',
 				'!regconfig.json',
+				'!SECURITY.md',
 				'!nbproject/**' ],
 				dest: '<%= pkg.name %>'
 			}

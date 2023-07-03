@@ -23,6 +23,11 @@ class DLM_Product_License {
 	private $status;
 
 	/**
+	 * @var String empty or server response
+	 */
+	private $license_status;
+
+	/**
 	 * Constructor
 	 *
 	 * @param String $product_id
@@ -36,13 +41,15 @@ class DLM_Product_License {
 		$db_license = wp_parse_args( get_option( $this->product_id . '-license', array() ), array(
 			'key'    => '',
 			'email'  => get_option( 'admin_email', '' ),
-			'status' => 'inactive'
+			'status' => 'inactive',
+			'license_status' => ''
 		) );
 
 		// Set properties
-		$this->key    = $db_license['key'];
-		$this->email  = $db_license['email'];
-		$this->status = $db_license['status'];
+		$this->key            = $db_license['key'];
+		$this->email          = $db_license['email'];
+		$this->status         = $db_license['status'];
+		$this->license_status = $db_license['license_status'];
 	}
 
 	/**
@@ -81,10 +88,24 @@ class DLM_Product_License {
 	}
 
 	/**
+	 * @return String
+	 */
+	public function get_license_status() {
+		return $this->license_status;
+	}
+
+	/**
 	 * @param String $status
 	 */
 	public function set_status( $status ) {
 		$this->status = $status;
+	}
+
+	/**
+	 * @param String $license_status
+	 */
+	public function set_license_status( $license_status ) {
+		$this->license_status = $license_status;
 	}
 
 	/**
@@ -101,10 +122,10 @@ class DLM_Product_License {
 	 */
 	public function store() {
 		update_option( $this->product_id . '-license', array(
-			'key'    => $this->get_key(),
-			'email'  => $this->get_email(),
-			'status' => $this->get_status()
+			'key'            => $this->get_key(),
+			'email'          => $this->get_email(),
+			'status'         => $this->get_status(),
+			'license_status' => $this->get_license_status()
 		) );
 	}
-
 }

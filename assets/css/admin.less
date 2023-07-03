@@ -1363,13 +1363,6 @@ table.wp-list-table {
             opacity: 1;
             min-width: 230px;
 
-            &.disabled {
-              pointer-events: none;
-              opacity: 0;
-              display: none;
-
-            }
-
             & > label {
               font-size: 12px;
               font-style: italic;
@@ -1511,6 +1504,22 @@ table.wp-list-table {
                     }
                   }
                 }
+              }
+            }
+            &.disabled{
+              color: #a7aaad !important;
+              border-color: #dcdcde !important;
+              background: #f6f7f7 !important;
+              box-shadow: none !important;
+              cursor: default;
+              transform: none !important;
+
+              .dlm-upsell-badge {
+                font-size: 10px;
+                background: #f4daa4;
+                padding: 2px 5px;
+                display: inline-block;
+                border-radius: 10px;
               }
             }
           }
@@ -2430,7 +2439,7 @@ table.wp-list-table {
         & > div {
           padding:15px;
           background:#fff;
-          margin-left: -5px;
+         /* margin-left: -5px;*/
           max-width: calc(100% - 5px);
         }
 
@@ -2440,6 +2449,26 @@ table.wp-list-table {
 
         input:required {
           border-color: #800000;
+        }
+
+        .dlm_license_error {
+          background-color:#ffffe0;
+        }
+
+        .dlm-master-license-email-wrapper,
+        .dlm-master-license-license-wrapper {
+          display: inline-block;
+          position: relative;
+          text-align: center;
+
+          label {
+            position: absolute;
+            top: -16px;
+            font-size:12px;
+            font-style:italic;
+            font-weight:400;
+            left:5px;
+          }
         }
       }
     }
@@ -2571,19 +2600,33 @@ table.wp-list-table {
   position: relative;
 
   .wpchill-upsell-features {
-    text-align: left;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 20px 0;
+    text-align: center;
+    padding: 30px 0;
 
     li {
-      width: 33%;
+      display: inline-block;
+      margin: 0px 15px 15px 35px;
+      position: relative;
+      &:before{
+        font-family: Dashicons;
+        content: "\f147";
+        position: absolute;
+        left: -30px;
+        font-size: 14px;
+        color: green;
+        background-color: #FFF;
+        padding: 0 3px;
+        border-radius: 50%;
+        border: 1px solid #DDD;
+        top: -1px;
+      }
     }
-  }
 
-  a:first-child {
+  }
+  a.button {
     margin-right: 10px;
   }
+
 }
 
 .wpchill-upsells-wrapper {
@@ -2642,16 +2685,28 @@ table.wp-list-table {
     }
   }
 }
+
 #installed-extensions {
+  .dlm_extensions {
+    width:100%;
+  }
   #wpchill-welcome {
+    width: 100%;
+    margin: 0 auto;
+
+    .block {
+      padding: 0;
+    }
+
     .features {
       .feature-list {
         .feature-block {
-          margin:10px;
-          width:calc(33% - 20px) !important;
-          min-height:400px;
+          margin: 10px;
+          width: calc(33% - 18px) !important;
+          min-height: 400px;
         }
-        a{
+
+        a {
           color: #fff;
         }
       }
@@ -2765,6 +2820,7 @@ table.wp-list-table {
         float: none;
         flex-grow: 1;
         display: flex;
+        justify-content: space-between;
         align-items: center;
         margin:0;
 
@@ -3517,4 +3573,46 @@ Toggles
   .dlm-restricted-path__description{
     font-style: italic;
   }
+}
+
+#dlm-export-settings-upsell {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+div#dlm-export-settings-upsell {
+    span {
+      font-size: 13px;
+      width: 13px;
+      height: 13px;
+    }
+}
+.dlm-csv-export-wrapper{
+  .dlm-upsell-badge {
+    font-size: 10px;
+    background: #f4daa4;
+    padding: 1px 5px;
+    display: inline-block;
+    margin-left: 5px;
+    border-radius: 10px;
+    position: relative;
+    top: -1px;
+  }
+}
+.dlm-csv-export-wrapper {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.postbox-container{
+  .dlm-available-with-pro{
+    display: none;
+  }
+}
+
+.dlm-red-text,
+.dlm-red-text:hover {
+  color: red;
+  font-weight: 700
 }

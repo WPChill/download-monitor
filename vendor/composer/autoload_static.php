@@ -57,6 +57,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Ajax_Manager' => __DIR__ . '/../..' . '/src/Ajax/Manager.php',
         'DLM_Backwards_Compatibility' => __DIR__ . '/../..' . '/includes/backwards-compatibility/class-dlm-backwards-compatibility.php',
         'DLM_Beta_Testers' => __DIR__ . '/../..' . '/includes/admin/class-dlm-beta-testers.php',
+        'DLM_CRON_Jobs' => __DIR__ . '/../..' . '/src/class-dlm-cron-jobs.php',
         'DLM_Category_Walker' => __DIR__ . '/../..' . '/src/Admin/CategoryWalker.php',
         'DLM_Constants' => __DIR__ . '/../..' . '/src/Constants.php',
         'DLM_Cookie_Manager' => __DIR__ . '/../..' . '/src/CookieManager.php',

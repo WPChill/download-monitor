@@ -180,7 +180,7 @@ class DLM_Reports_Page {
 				?>
 			</div>
 			<div class="dlm-reports-actions">
-				<span><?php esc_html_e( 'Show per page:' ); ?>  </span>
+				<span><?php esc_html_e( 'Show per page:', 'download-monitor' ); ?>  </span>
 				<select class="dlm-reports-per-page">
 					<?php
 					foreach ( $per_page_options as $option ) {
@@ -191,7 +191,7 @@ class DLM_Reports_Page {
 
 			<div class="dlm-insights-datepicker dlm-reports-actions">
 				<?php
-				do_action( 'dlm_insights_header' );
+				do_action( 'dlm_insights_header' ); 
 				$this->date_range_button();
 				$this->page_settings();
 				?>
@@ -369,7 +369,7 @@ class DLM_Reports_Page {
 			/**
 			 *  Hook mainly used to attach extra content to the tab.
 			 */
-			do_action( 'dlm_reports_' . $key, $tab );
+			do_action( 'dlm_reports_' . $key, $tab, $key );
 
 			$response = ob_get_clean();
 
@@ -396,7 +396,7 @@ class DLM_Reports_Page {
 			<?php
 		} else {
 			/* Display page */ ?>
-			<div class="wrap dlm-reports wp-clearfix">
+			<div class="wrap dlm-reports wp-clearfix general_info">
 				<hr class="wp-header-end">
 				<div id="icon-edit" class="icon32 icon32-posts-dlm_download"></div>
 				<?php $this->insights_header(); ?>

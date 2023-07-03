@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
 Tested up to: 6.2
-Stable tag: 4.8.5
+Stable tag: 4.8.6
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,16 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.8.6 - 03.07.2023 =
+Fixed: Check custom tables for columns ( [#1288](https://github.com/WPChill/download-monitor/issues/1288) )
+Added: Upsells in reports page ( [#1290](https://github.com/WPChill/download-monitor/issues/1290) )
+Fixed: Total downloads shortcode ( [#1292](https://github.com/WPChill/download-monitor/issues/1292) )
+Fixed: Recreate upgrade environment hides downloads ( [#1278](https://github.com/WPChill/download-monitor/issues/1278) )
+Added: CRON to check for license validity ( [#1287](https://github.com/WPChill/download-monitor/issues/1287) )
+Changed: Update about page ( [#1285](https://github.com/WPChill/download-monitor/issues/1285) )
+Fixed: Open link in new doesn't work with no access page ( [#1286](https://github.com/WPChill/download-monitor/issues/1286) )
+Fixed: LiteSpeed X-Sendfile doesn't log downloads ( [#1294](https://github.com/WPChill/download-monitor/issues/1294) )
+
 = 4.8.5 - 09.06.2023 =
 Fixed: External logging download failure ( [#1283](https://github.com/WPChill/download-monitor/issues/1283) )
 Fixed: LiteSpeed server functionality fo X-Accel-Redirect / X-Sendfile option ( [#1282](https://github.com/WPChill/download-monitor/issues/1282) )

@@ -192,11 +192,12 @@ class DLM_Welcome_Page {
 					<?php $welcome->display_extension( esc_html__( 'Content grouping', 'download-monitor' ), esc_html__( 'Easily assign categories, tags or other meta to your downloads.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/content-grouping.png' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Customisable endpoints', 'download-monitor' ), esc_html__( 'For showing appealing download links and engaging buttons.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/customisable-endpoints.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Spam protection', 'download-monitor' ), esc_html__( 'Our smart Captcha extension stops bots from finding, accessing and/or downloading your files without authorization', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/spam-protection.png', true, '#F08232' ); ?>
-					<?php $welcome->display_extension( esc_html__( 'Monetize your downloads', 'download-monitor' ), esc_html__( 'Ability to sell your downloads straight from your WordPress website.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/monetize-your-downloads.png' ); ?>
+					<?php //$welcome->display_extension( esc_html__( 'Monetize your downloads', 'download-monitor' ), esc_html__( 'Ability to sell your downloads straight from your WordPress website.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/monetize-your-downloads.png' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Instant notifications', 'download-monitor' ), esc_html__( 'Receive instant email notifications whenever someone downloads your content.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/instant-notifications.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Page Addon', 'download-monitor' ), esc_html__( 'Make use of a shortcode to turn a page into a fully featured download listing page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/page-addon.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Downloading Page', 'download-monitor' ), esc_html__( 'Forces your downloads to be served from a separate page.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/downloading-page.png', true, '#F08232' ); ?>
 					<?php $welcome->display_extension( esc_html__( 'Easy data importing/exporting', 'download-monitor' ), esc_html__( ' Import/export all download data including categories, tags and all file versions to and from a CSV file.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/data-importing-exporting.png', true, '#F08232' ); ?>
+					<?php $welcome->display_extension( esc_html__( 'Terms & Conditions', 'download-monitor' ), esc_html__( 'Require users to accept the terms & conditions before allowing them to download your files.', 'download-monitor' ), esc_url( DLM_URL ) . 'assets/images/features/gated-content.png', true, '#F08232'  ); ?>
 					<?php $welcome->layout_end(); ?>
 					<?php $welcome->display_empty_space(); ?>
 					<div class="wpchill-text-center">
@@ -238,8 +239,8 @@ class DLM_Welcome_Page {
 						?>
 					</div>
 					<?php $welcome->layout_end(); ?>
-					<?php $welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
-					<div class="block text-left">
+					<?php //$welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
+					<?php /* 
 						<p style="margin:0 auto;margin-top:5px;"><strong><span class="dashicons  <?php echo 0 != $page_cart ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_cart ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'Cart', 'download-monitor' ); ?></strong></p>
 						<p class="description"><?php echo esc_html__( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></p>
 					</div>
@@ -282,7 +283,8 @@ class DLM_Welcome_Page {
 						endif;
 						?>
 					</div>
-					<?php $welcome->layout_end(); ?>
+					*/ ?>
+					<?php //$welcome->layout_end(); ?>
 					<?php $welcome->display_empty_space(); ?>
 					<?php $welcome->layout_start( '4', 'pages-creation__buttons' ); ?>
 					<div class="block"></div>

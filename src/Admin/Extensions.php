@@ -429,6 +429,19 @@ class DLM_Admin_Extensions {
 
 			$welcome = WPChill_Welcome::get_instance();
 			$master_license = json_decode( get_option( 'dlm_master_license', json_encode( array( 'email' => '', 'license_key' => '', 'status' => 'inactive' ) ) ), true );
+			$expired_licenses = array();
+			$expired_licenses_text = '';
+			foreach ( $this->installed_extensions  as $extension ) {
+				$sl = get_option( $extension->product_id . '-license', false );
+
+				if ( $sl && isset( $sl['license_status'] ) && 'expired' === $sl['license_status'] ) {
+					$expired_licenses[$sl['key']] = $sl['email'];
+				}
+			}
+
+			if ( ! empty( $expired_licenses ) ) {
+				$expired_licenses_text .= '<a href="https://www.download-monitor.com/my-account" target="_blank">' . esc_html__( 'renew your license', 'download-monitor' ) . '</a> ';
+			}
 
 			echo '<div id="installed-extensions" class="settings_panel">';
 
@@ -438,15 +451,45 @@ class DLM_Admin_Extensions {
 						<div class="features">
 							<div class="block">
 								<div class="dlm-master-license">
-									<div>
-										<label for="dlm-master-license-email"><?php esc_html_e( 'Email', 'download-monitor' ); ?></label>
-										<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php echo esc_attr( $master_license['email'] ) ?>">
-										<label for="dlm-master-license"><?php esc_html_e( 'Master license', 'download-monitor' ); ?></label>
-										<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php echo esc_attr( $master_license['license_key'] ) ?>">
+									<div style="padding-top:31px;">
+										<div class="dlm-master-license-email-wrapper">
+											<label for="dlm-master-license-email"><?php esc_html_e( 'Email', 'download-monitor' ); ?></label>
+											<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php echo esc_attr( $master_license['email'] ) ?>" size="35">
+										</div>
+										<div class="dlm-master-license-license-wrapper">
+											<label for="dlm-master-license"><?php esc_html_e( 'Main license', 'download-monitor' ); ?></label>
+											<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php echo esc_attr( $master_license['license_key'] ) ?>" size="35">
+										</div>
 										<input type="hidden" value="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>" />
 										<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate';  ?>"><?php ( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
 										&nbsp;<a href="#" target="_blank" id="dlm-forgot-license" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"><?php esc_html_e( 'Forgot your license?', 'download-monitor' ); ?></a>
 									</div>
+									<?php
+
+										if ( isset( $master_license['license_status'] ) && isset( $master_license['license_key'] ) && '' !== $master_license['license_key'] ) {
+											if ( 'expired' === $master_license['license_status'] ) {
+												// Output the expired message.
+												?>
+												<div class="dlm_license_error">
+													<span><strong><?php echo sprintf( esc_html__( 'License expired, please %srenew%s.', 'download-monitor' ), '<a href="https://www.download-monitor.com/cart/?renew_license=' . esc_attr( $master_license['license_key'] ) . '&activation_email=' . esc_attr( $master_license['email'] ) . '" target="_blank">', '</a>' ); ?></strong></span><span> <?php esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
+												</div>
+												<?php
+											} elseif ( 'invalid' === $master_license['license_status'] ) {
+												// Output the invalid message.
+												?>
+												<div class='dlm_license_error'>
+													&nbsp;<span class='dlm-red-text'><?php esc_html_e( 'Invalid license, please check your license key.', 'download-monitor' ); ?></span>
+												</div>
+												<?php
+											}
+										} else if( ! empty( $expired_licenses ) ) {
+											?>
+											<div class='dlm_license_error'>
+												<span><strong><?php echo sprintf( esc_html__( 'You license has expired,  %s.', 'download-monitor' ), $expired_licenses_text ); ?></strong></span><span> <?php esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
+											</div>
+											<?php
+										}
+									?>
 								</div>
 								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
 								<!-- Let's display the extensions.  -->
