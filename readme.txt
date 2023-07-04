@@ -120,6 +120,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.8.7 - TBD =
+Fixed: Compatibility with Elementor PRO page transitions
+
 = 4.8.6 - 03.07.2023 =
 Fixed: Check custom tables for columns ( [#1288](https://github.com/WPChill/download-monitor/issues/1288) )
 Added: Upsells in reports page ( [#1290](https://github.com/WPChill/download-monitor/issues/1290) )
