@@ -375,6 +375,7 @@ class WP_DLM {
 			// Add dashicons on the front if popup modal for no access is used.
 			if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
 				wp_enqueue_style( 'dashicons' );
+				wp_enqueue_style( 'dlm-frontend' );
 			}
 			// @todo: delete the xhr_links attribute in the future as it will not be needed. It's only here for backwards
 			// compatibility as extensions might using it. Used prior to 4.7.72.
