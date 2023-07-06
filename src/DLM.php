@@ -428,9 +428,17 @@ class WP_DLM {
 			$nonXHRGlobalLinks = apply_filters( 'dlm_non_xhr_uri', array() );
 			$nonXHRGlobalLinks = array_map( 'sanitize_text_field', $nonXHRGlobalLinks );
 			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( includes_url( '/images/spinner.gif' ) ) .'"', 'before' );
-			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', array(
-				'error' => __( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' )
-			) );
+			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', apply_filters( 'dlm_xhr_error_translations', array(
+				'error'              => esc_html__( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' ),
+				'not_found'          => esc_html__( 'Download does not exist.', 'download-monitor' ),
+				'no_file_path'       => esc_html__( 'No file path defined.', 'download-monitor' ),
+				'no_file_paths'      => esc_html__( 'No file paths defined.', 'download-monitor' ),
+				'filetype'           => esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ),
+				'file_access_denied' => esc_html__( 'Access denied to this file.', 'download-monitor' ),
+				'access_denied'      => esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ),
+				'security_error'     => esc_html__( 'Something is wrong with the file path.', 'download-monitor' ),
+				'file_not_found'     => esc_html__( 'File not found.', 'download-monitor' ),
+			) ) );
 		}
 
 		do_action( 'dlm_frontend_scripts_after' );
