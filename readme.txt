@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 4.8.7 - TBD =
 Fixed: Compatibility with Elementor PRO page transitions
 Fixed: Always load frontend scripts if "No Access Modal" is enabled. ( [#1298](https://github.com/WPChill/download-monitor/issues/1298) )
+Fixed: Escaping error on download button templates. ( [#1277](https://github.com/WPChill/download-monitor/issues/1277) )
 
 = 4.8.6 - 03.07.2023 =
 Fixed: Check custom tables for columns ( [#1288](https://github.com/WPChill/download-monitor/issues/1288) )
