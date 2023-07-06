@@ -916,5 +916,6 @@ class DLM_Download_Handler {
 		if ( ! empty( $text ) ) {
 			header( 'X-DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', $text, $download, $restriction_type ) );
 		}
+		header( 'X-DLM-Nonce: ' . wp_create_nonce( 'dlm_ajax_nonce' ) );
 	}
 }
