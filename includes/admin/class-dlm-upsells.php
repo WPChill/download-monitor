@@ -901,7 +901,7 @@ class DLM_Upsells {
 	 * @since 4.8.6
 	 */
 	public function export_insights_header_upsell() {
-		if ( $this->check_extension( 'dlm-enhanced-metrics' ) ) {
+		if ( $this->check_extension( 'dlm-csv-exporter' ) ) {
 			return;
 		}
 		?>
