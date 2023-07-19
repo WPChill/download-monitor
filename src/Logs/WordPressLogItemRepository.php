@@ -115,7 +115,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 				$log_item->set_download_status( $row->download_status );
 				$log_item->set_download_status_message( $row->download_status_message );
 				$log_item->set_meta_data( json_decode( $row->meta_data ) );
-				$items[] = $log_item;
+				$items[] = apply_filters( 'dlm_retreive_log_item', $log_item, $row );
 			}
 		}
 
