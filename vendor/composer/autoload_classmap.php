@@ -259,7 +259,6 @@ return array(
     'WPChill\\DownloadMonitor\\Shop\\Util\\Redirect' => $baseDir . '/src/Shop/Util/Redirect.php',
     'WPChill\\DownloadMonitor\\Shop\\Util\\TemplateInjector' => $baseDir . '/src/Shop/Util/TemplateInjector.php',
     'WPChill\\DownloadMonitor\\Util\\ExtensionLoader' => $baseDir . '/src/Util/ExtensionLoader.php',
-    'WPChill\\DownloadMonitor\\Util\\Onboarding' => $baseDir . '/src/Util/Onboarding.php',
     'WPChill\\DownloadMonitor\\Util\\PageCreator' => $baseDir . '/src/Util/PageCreator.php',
     'WPChill_Welcome' => $baseDir . '/includes/submodules/banner/class-wpchill-welcome.php',
     'WP_DLM' => $baseDir . '/src/DLM.php',
