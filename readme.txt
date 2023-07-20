@@ -127,6 +127,7 @@ Fixed: Escaping error on download button templates. ( [#1277](https://github.com
 Fixed: Character encoding on ajax error reporting ( [#1258](https://github.com/WPChill/download-monitor/issues/1258) )
 Fixed: No Access Modal error when download does not exist ( [#1300](https://github.com/WPChill/download-monitor/issues/1300) )
 Added: Filter to retreived log item in DLM_WordPress_Log_Item_Repository ( [#1303](https://github.com/WPChill/download-monitor/issues/1303) )
+Fixed: Compatibility with Wp Maximum Upload File Size plugin ( [#1304](https://github.com/WPChill/download-monitor/issues/1304) )
 
 = 4.8.6 - 03.07.2023 =
 Fixed: Check custom tables for columns ( [#1288](https://github.com/WPChill/download-monitor/issues/1288) )
