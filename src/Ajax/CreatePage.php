@@ -31,9 +31,6 @@ class DLM_Ajax_CreatePage extends DLM_Ajax {
 			$new_page_id = 0;
 
 			switch ( $_GET['page'] ) {
-				case 'no-access':
-					$new_page_id = $pc->create_no_access_page();
-					break;
 				case 'cart':
 					$new_page_id = $pc->create_cart_page();
 					break;

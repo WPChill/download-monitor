@@ -28,6 +28,9 @@ class DLM_Installer {
 		// Directory Protection
 		$this->directory_protection();
 
+		// No Access Page
+		$this->add_no_access_page();
+
 		// Add endpoints
 		$dlm_download_handler = new DLM_Download_Handler();
 		$dlm_download_handler->add_endpoint();
@@ -320,4 +323,22 @@ class DLM_Installer {
 			}
 		}
 	}
+
+	/**
+	 * Creates No Access page
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function add_no_access_page() {
+
+		if ( 0 == absint( get_option( 'dlm_no_access_page', 0 ) ) && 0 == absint( get_option( 'dlm_nap_autoinstall', 0 ) ) ) {
+			$pc          = new WPChill\DownloadMonitor\Util\PageCreator();
+			$nap_page_id = $pc->create_no_access_page();
+
+			update_option( 'dlm_no_access_page', $nap_page_id );
+			update_option( 'dlm_nap_autoinstall', $nap_page_id );
+		}
+	}
+
 }
