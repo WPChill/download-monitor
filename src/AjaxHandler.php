@@ -288,6 +288,7 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function xhr_no_access_modal() {
+
 		$settings = download_monitor()->service( 'settings' );
 		if ( ! isset( $_POST['download_id'] ) || ! isset( $_POST['version_id'] ) ) {
 			if ( '1' === $settings->get_option( 'xsendfile_enabled' ) ) {
@@ -358,7 +359,15 @@ class DLM_Ajax_Handler {
 			$content = ob_get_clean();
 		} else {
 			$content = do_shortcode( apply_filters( 'the_content', get_post_field( 'post_content', $no_access_page ) ) );
+			if ( '' === trim( $content ) ) {
+				if ( isset( $_POST['modal_text'] ) && ! empty( $_POST['modal_text'] ) ) {
+					$content = sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
+				} else {
+					$content = '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
+				}
+			}
 		}
+
 		$modal_template = '
 			<div id="dlm-no-access-modal" >
 				<div class="dlm-no-access-modal-overlay">

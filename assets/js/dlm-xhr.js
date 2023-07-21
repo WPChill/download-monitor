@@ -299,7 +299,7 @@ class DLM_XHR_Download {
 					request.abort();
 
 					if (dlmNoAccessModalHeader && 0 != dlmNoAccessModalHeader) {
-						dlmXHRinstance.dlmNoAccessModal(dlmDownloadIdHeader, dlmDownloadVersionHeader, dlmNoAccessModalTextHeader);
+						dlmXHRinstance.dlmNoAccessModal(responseHeaders);
 
 					} else {
 						buttonObj.find( '.dlm-xhr-error' ).remove();
