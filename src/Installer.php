@@ -336,9 +336,7 @@ class DLM_Installer {
 
 		if ( 0 === absint( get_option( 'dlm_no_access_page', 0 ) ) ) {
 			$pc          = new WPChill\DownloadMonitor\Util\PageCreator();
-			$nap_page_id = $pc->create_no_access_page();
-
-			update_option( 'dlm_no_access_page', $nap_page_id );
+			$pc->create_no_access_page();
 		}
 	}
 }
