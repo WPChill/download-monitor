@@ -1125,14 +1125,6 @@ table.wp-list-table .column-thumb img {
   margin-left: 5px;
   border-radius: 10px;
 }
-#download-monitor-options .dlm-upsell-badge {
-  font-size: 10px;
-  background: #f4daa4;
-  padding: 2px 5px;
-  display: inline-block;
-  margin-left: 5px;
-  border-radius: 10px;
-}
 #insert-download {
   padding: 20px 20px;
 }
@@ -1508,6 +1500,8 @@ table.wp-list-table .column-thumb img {
   padding: 2px 5px;
   display: inline-block;
   border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-chart-icon {
   display: block;
@@ -1812,6 +1806,18 @@ table.wp-list-table .column-thumb img {
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .user-downloads-filters .user-downloads-filters__heading,
 .dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .user-downloads-filters .user-downloads-filters__filter {
   display: inline-block;
+}
+.dlm_download_page_download-monitor-reports #wpcontent #users_downloads_table_wrapper .user-downloads-filters .dlm-upsell-badge {
+  font-size: 10px;
+  background: #f4daa4;
+  padding: 1px 5px;
+  display: inline-block;
+  margin-right: 5px;
+  border-radius: 10px;
+  position: relative;
+  top: -1px;
+  cursor: pointer;
+  text-decoration: none;
 }
 .dlm_download_page_download-monitor-reports div[data-id="user_reports"] #user_downloads_summary ul .wpchill-tooltip,
 .dlm_download_page_download-monitor-reports div[data-id="user_reports"] #users_downloads_table_wrapper ul .wpchill-tooltip {
@@ -2990,16 +2996,6 @@ Toggles
 .dlm-available-with-pro__overlay.select {
   margin-left: 10px;
 }
-.dlm-available-with-pro__label {
-  pointer-events: none;
-  background: #80808080;
-  padding: 1px 5px;
-  border-radius: 5px;
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 10px;
-  color: #fff;
-}
 .dlm-copy-shortcode-input {
   border: 0 !important;
   width: 0;
@@ -3135,6 +3131,8 @@ div#dlm-export-settings-upsell span {
   border-radius: 10px;
   position: relative;
   top: -1px;
+  cursor: pointer;
+  text-decoration: none;
 }
 .dlm-csv-export-wrapper {
   display: grid;

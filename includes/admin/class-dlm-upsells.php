@@ -904,12 +904,16 @@ class DLM_Upsells {
 		if ( $this->check_extension( 'dlm-csv-exporter' ) ) {
 			return;
 		}
+
+		$export_upsell_url = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-csv-exporter';
 		?>
 		<div class="dlm-csv-export-wrapper">
 			<div class="dlm-reports-header-export-button">
 				<button class="button button-primary"
-				        disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <span
-						class="dlm-upsell-badge">PRO</span></button>
+						disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <a
+						href="<?php echo esc_url( $export_upsell_url ); ?>" 
+						target="_blank" 
+						class="dlm-upsell-badge">PRO</a></button>
 			</div>
 			<div class="dlm-csv-export-wrapper__export_settings">
 				<div id="dlm-export-settings-upsell" class="button button-secondary" disabled="disabled"><span
@@ -1012,6 +1016,8 @@ class DLM_Upsells {
 
 		$end   = new DateTime( $to );
 		$start = new DateTime( $from );
+
+		$enhanced_m_upsell_url = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced_metrics';
 		?>
 		<div class="dlm-reports-header-date-selector disabled">
 			<label><?php echo esc_html__( 'Select date to compare', 'download-monitor' ); ?></label>
@@ -1019,7 +1025,7 @@ class DLM_Upsells {
 			<span
 				class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
 			<span class="dlm-arrow"></span>
-			<span class="dlm-upsell-badge">PRO</span>
+			<a href="<?php echo esc_url( $enhanced_m_upsell_url ); ?>" target="_blank" class="dlm-upsell-badge">PRO</a>
 		</div>
 		<?php
 	}
