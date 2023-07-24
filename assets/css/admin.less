@@ -391,19 +391,18 @@ table.wp-list-table {
   th.column-members_only,
   th.column-redirect_only,
   th.column-featured {
-    span:first-child {
-      float: none;
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      line-height: 1em;
-      padding: 2px 0 0 0;
-      overflow: hidden;
+    a{
+      & > span:first-child {
+        float: left;
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        line-height: 1em;
+        padding: 2px 0 0 0;
+        overflow: hidden;
+      }
     }
 
-    .sorting-indicator {
-      float: right;
-    }
   }
 
   th.column-thumb {
@@ -419,10 +418,11 @@ table.wp-list-table {
 
   th.column-download_count {
     width: 5em;
-
-    span:first-child {
-      &:before {
-        .iconbefore("\f346");
+    a {
+      & > span:first-child {
+        &:before {
+          .iconbefore("\f346");
+        }
       }
     }
   }
@@ -430,30 +430,33 @@ table.wp-list-table {
   th.column-locked_download,
   th.column-members_only {
     width: 3.5em;
-
-    span:first-child {
-      &:before {
-        .iconbefore("\f160");
+    a {
+      & > span:first-child {
+        &:before {
+          .iconbefore("\f160");
+        }
       }
     }
   }
 
   th.column-redirect_only {
     width: 3.5em;
-
-    span:first-child {
-      &:before {
-        .iconbefore("\f103");
+    a {
+      & > span:first-child {
+        &:before {
+          .iconbefore("\f103");
+        }
       }
     }
   }
 
   th.column-featured {
     width: 3.5em;
-
-    span:first-child {
-      &:before {
-        .iconbefore("\f155");
+    a {
+      & > span:first-child {
+        &:before {
+          .iconbefore("\f155");
+        }
       }
     }
   }
@@ -1694,7 +1697,7 @@ table.wp-list-table {
         justify-content: initial;
 
         li {
-          width: 12.5%;
+          width: 15%;
           padding: 24px;
           margin: 0;
         /*  overflow: hidden;*/

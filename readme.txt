@@ -131,6 +131,7 @@ Fixed: Compatibility with Wp Maximum Upload File Size plugin ( [#1304](https://g
 Fixed: Create No Access Page on plugin install/activate. ( [#1305](https://github.com/WPChill/download-monitor/issues/1305) )
 Fixed: Removed unused onboarding page code. ( [#1306](https://github.com/WPChill/download-monitor/issues/1306) )
 Fixed: Minor upsells update ( [#1308](https://github.com/WPChill/download-monitor/issues/1308) )
+Fixed: Minor admin visual update for wp 6.3 ( [#1310](https://github.com/WPChill/download-monitor/issues/1310) )
 
 = 4.8.6 - 03.07.2023 =
 Fixed: Check custom tables for columns ( [#1288](https://github.com/WPChill/download-monitor/issues/1288) )
