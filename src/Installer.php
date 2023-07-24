@@ -325,20 +325,20 @@ class DLM_Installer {
 	}
 
 	/**
-	 * Creates No Access page
+	 * Creates No Access page automatically if none is set. Is activated on plugin activation.
 	 *
 	 * @access public
 	 * @return void
+	 *
+	 * @since 4.8.7
 	 */
 	public function add_no_access_page() {
 
-		if ( 0 == absint( get_option( 'dlm_no_access_page', 0 ) ) && 0 == absint( get_option( 'dlm_nap_autoinstall', 0 ) ) ) {
+		if ( 0 === absint( get_option( 'dlm_no_access_page', 0 ) ) ) {
 			$pc          = new WPChill\DownloadMonitor\Util\PageCreator();
 			$nap_page_id = $pc->create_no_access_page();
 
 			update_option( 'dlm_no_access_page', $nap_page_id );
-			update_option( 'dlm_nap_autoinstall', $nap_page_id );
 		}
 	}
-
 }

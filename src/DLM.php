@@ -126,7 +126,6 @@ class WP_DLM {
 			$lu_ajax = new DLM_LU_Ajax();
 			$lu_ajax->setup();
 
-
 			// Admin Download Page Options Upsells
 			new DLM_Admin_OptionsUpsells();
 

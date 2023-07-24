@@ -54,5 +54,4 @@ class DLM_Ajax_CreatePage extends DLM_Ajax {
 
 		exit;
 	}
-
 }
