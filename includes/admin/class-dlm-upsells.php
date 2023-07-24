@@ -913,7 +913,7 @@ class DLM_Upsells {
 						disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <a
 						href="<?php echo esc_url( $export_upsell_url ); ?>" 
 						target="_blank" 
-						class="dlm-upsell-badge">PRO</a></button>
+						class="dlm-upsell-badge">PAID</a></button>
 			</div>
 			<div class="dlm-csv-export-wrapper__export_settings">
 				<div id="dlm-export-settings-upsell" class="button button-secondary" disabled="disabled"><span
@@ -1025,7 +1025,7 @@ class DLM_Upsells {
 			<span
 				class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
 			<span class="dlm-arrow"></span>
-			<a href="<?php echo esc_url( $enhanced_m_upsell_url ); ?>" target="_blank" class="dlm-upsell-badge">PRO</a>
+			<a href="<?php echo esc_url( $enhanced_m_upsell_url ); ?>" target="_blank" class="dlm-upsell-badge">PAID</a>
 		</div>
 		<?php
 	}
