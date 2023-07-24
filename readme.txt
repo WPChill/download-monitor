@@ -120,8 +120,8 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 4.8.7 - TBD =
-Fixed: Compatibility with Elementor PRO page transitions
+= 4.8.7 - 24.07.2023 =
+Fixed: Compatibility with Elementor PRO page transitions ( [#1299](https://github.com/WPChill/download-monitor/issues/1299) )
 Fixed: Always load frontend scripts if "No Access Modal" is enabled. ( [#1298](https://github.com/WPChill/download-monitor/issues/1298) )
 Fixed: Escaping error on download button templates. ( [#1277](https://github.com/WPChill/download-monitor/issues/1277) )
 Fixed: Character encoding on ajax error reporting ( [#1258](https://github.com/WPChill/download-monitor/issues/1258) )
@@ -132,6 +132,8 @@ Fixed: Create No Access Page on plugin install/activate. ( [#1305](https://githu
 Fixed: Removed unused onboarding page code. ( [#1306](https://github.com/WPChill/download-monitor/issues/1306) )
 Fixed: Minor upsells update ( [#1308](https://github.com/WPChill/download-monitor/issues/1308) )
 Fixed: Minor admin visual update for wp 6.3 ( [#1310](https://github.com/WPChill/download-monitor/issues/1310) )
+Fixed: Typo ( [#1309](https://github.com/WPChill/download-monitor/issues/1309) )
+Fixed: Upsell still shows even license valid ( [#1301](https://github.com/WPChill/download-monitor/issues/1301) )
 
 = 4.8.6 - 03.07.2023 =
 Fixed: Check custom tables for columns ( [#1288](https://github.com/WPChill/download-monitor/issues/1288) )
