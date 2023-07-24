@@ -3,6 +3,12 @@
 class DLM_Settings_Page {
 
 	/**
+	 * Needs rewrite flush holder.
+	 *
+	 * @var bool
+	 */
+	private $need_rewrite_flush = false;
+	/**
 	 * Setup hooks
 	 */
 	public function setup() {
