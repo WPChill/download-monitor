@@ -26,7 +26,6 @@ class DLM_Welcome_Page {
 		add_filter( 'submenu_file', array( $this, 'remove_about_submenu_item' ) );
 		add_action( 'dlm_after_install_setup', array( $this, 'dlm_on_activation' ), 15 );
 		add_filter( 'dlm_page_header', array( $this, 'welcome_header' ), 15 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'welcome_scripts' ) );
 		add_action( 'admin_footer', array( $this, 'welcome_style' ), 15 );
 	}
 
@@ -259,33 +258,4 @@ class DLM_Welcome_Page {
 
 		return $return;
 	}
-
-	/**
-	 * Enqueue welcome page scripts
-	 *
-	 * @return void
-	 * @since 4.7.4
-	 */
-	public function welcome_scripts() {
-		if ( function_exists( 'get_current_screen' ) ) {
-
-			$current_screen = get_current_screen();
-			if ( 'dlm_download' === $current_screen->post_type && 'dlm_download_page_download-monitor-about-page' === $current_screen->base ) {
-				wp_enqueue_script(
-					'dlm_onboarding',
-					plugins_url( '/assets/js/onboarding' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', download_monitor()->get_plugin_file() ),
-					array( 'jquery' ),
-					DLM_VERSION
-				);
-
-				wp_localize_script( 'dlm_onboarding', 'dlm_onboarding', array(
-					'ajax_url_create_page' => \DLM_Ajax_Manager::get_ajax_url( 'create_page' ),
-					'lbl_creating'         => __( 'Creating', 'download-monitor' ) . '...',
-					'lbl_created'          => __( 'Page Created', 'download-monitor' ),
-					'lbl_create_page'      => __( 'Create Page', 'download-monitor' ),
-				) );
-			}
-		}
-	}
-
 }
