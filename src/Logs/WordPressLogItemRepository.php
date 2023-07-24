@@ -238,7 +238,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		global $wpdb;
 
 		// Let's get the results that contain all the info we need from both tables.
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wbdb->dlm_single_download} dlm_download INNER JOIN {$wpdb->posts} dlm_post ON dlm_download.download_id = dlm_post.ID WHERE dlm_download.download_id = %s", $download_id ), ARRAY_A );
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_single_download} dlm_download INNER JOIN {$wpdb->posts} dlm_post ON dlm_download.download_id = dlm_post.ID WHERE dlm_download.download_id = %s", $download_id ), ARRAY_A );
 
 		if ( null === $result || empty( $result ) ) {
 			return false;
@@ -260,7 +260,7 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		global $wpdb;
 
 		// Let's get the results that contain all the info we need from both tables.
-		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wbdb->dlm_reports} dlm_download WHERE dlm_download.date = %s", $date ), ARRAY_A );
+		$result = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} dlm_download WHERE dlm_download.date = %s", $date ), ARRAY_A );
 
 		if ( null === $result || empty( $result ) ) {
 			return false;
