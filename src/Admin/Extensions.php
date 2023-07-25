@@ -309,7 +309,7 @@ class DLM_Admin_Extensions {
 
 						<div class="features">
 							<div class="block">
-							<p class="dlm-extension-filtering"><a id="all-extensions">All</a> | <a id="pro-extensions">PRO</a> | <a id="free-extensions">Free</a></p>
+							<p class="dlm-extension-filtering"><a id="all-extensions">All</a> | <a id="pro-extensions">Premium</a> | <a id="free-extensions">Free</a></p>
 								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
 								<!-- Let's display the extensions.  -->
 								<?php

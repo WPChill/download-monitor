@@ -224,6 +224,17 @@ class DLM_XHR_Download {
 				file_name = decodeURI(file_name);
 			}
 
+			// Error translations
+			if( dlmErrorHeader ){
+				//var obj = { key: undefined };
+				if( dlmErrorHeader in dlmXHRtranslations ){
+					dlmErrorHeader = dlmXHRtranslations[dlmErrorHeader];
+				}else{
+					dlmErrorHeader = dlmXHRtranslations['error'];
+				}
+				
+			}
+
 			// Let's check for DLM request headers
 			if (request.readyState === 2) {
 				// Add other checks for responseHeaders that can be taken care of from extensions.
@@ -288,7 +299,7 @@ class DLM_XHR_Download {
 					request.abort();
 
 					if (dlmNoAccessModalHeader && 0 != dlmNoAccessModalHeader) {
-						dlmXHRinstance.dlmNoAccessModal(dlmDownloadIdHeader, dlmDownloadVersionHeader, dlmNoAccessModalTextHeader);
+						dlmXHRinstance.dlmNoAccessModal(responseHeaders);
 
 					} else {
 						buttonObj.find( '.dlm-xhr-error' ).remove();

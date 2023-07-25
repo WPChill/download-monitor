@@ -76,7 +76,7 @@ $pro_arguments = array(
 				<!--This is an empty div so that we can have an empty corner-->
 			</div>
 			<div class="wpchill-pricing-package wpchill-title wpchill-modula-grid-gallery-business">
-				<p class="wpchill-name"><strong>PRO</strong></p>
+				<p class="wpchill-name"><strong>PREMIUM</strong></p>
 			</div>
 			<div class="wpchill-pricing-package wpchill-title wpchill-modula-lite">
 				<p class="wpchill-name"><strong>LITE</strong></p>

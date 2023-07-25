@@ -156,10 +156,10 @@ class DLM_Upsells {
 			echo '<p class="wpchill-upsell-description">' . esc_html( $description ) . '</p>';
 		}
 
-		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '"><div class="dlm-available-with-pro"><span class="dashicons dashicons-lock"></span><span>' . esc_html__( 'AVAILABLE WITH PRO', 'download-monitor' ) . '</span></div></a>';
+		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '"><div class="dlm-available-with-pro"><span class="dashicons dashicons-lock"></span><span>' . esc_html__( 'AVAILABLE WITH PREMIUM', 'download-monitor' ) . '</span></div></a>';
 		echo '<div class="wpchill-upsell-buttons-wrap">';
-			echo '<a target="_blank" href="' . esc_url( admin_url('edit.php?post_type=dlm_download&page=dlm-lite-vs-pro') ) . '" class="button">' . esc_html__( 'Free vs PRO', 'download-monitor' ) . '</a> ';
-			echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html__( 'Get PRO!', 'download-monitor' ) . '</a>';
+			echo '<a target="_blank" href="' . esc_url( admin_url('edit.php?post_type=dlm_download&page=dlm-lite-vs-pro') ) . '" class="button">' . esc_html__( 'Free vs Premium', 'download-monitor' ) . '</a> ';
+			echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html__( 'Get Premium!', 'download-monitor' ) . '</a>';
 		echo '</div>';
 		echo '</div>';
 	}
@@ -844,8 +844,8 @@ class DLM_Upsells {
 
 		// Settings page.
 		$links[] = array(
-			'page_title' => __( 'LITE vs PRO', 'download-monitor' ),
-			'menu_title' => __( 'LITE vs PRO', 'download-monitor' ),
+			'page_title' => __( 'LITE vs Premium', 'download-monitor' ),
+			'menu_title' => __( 'LITE vs Premium', 'download-monitor' ),
 			'capability' => 'manage_options',
 			'menu_slug'  => 'dlm-lite-vs-pro',
 			'function'   => array( $this, 'lits_vs_pro_page' ),
@@ -885,7 +885,7 @@ class DLM_Upsells {
 			if ( 0 !== count( $licensed_extensions ) && 0 < count( $installed_extensions ) ) { // If there are any licensed extensions ( active ) we show the Upgrade button, not the upgrade to PRO button.
 				$upgrade = array( '<a target="_blank" style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade!', 'download-monitor' ) . '</a>' );
 			} else { // Show the upgrade to PRO button if no extensions are licensed.
-				$upgrade = array( '<a target="_blank" style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade to PRO!', 'download-monitor' ) . '</a>' );
+				$upgrade = array( '<a target="_blank" style="color: orange;font-weight: bold;" href="https://www.download-monitor.com/pricing/?utm_source=download-monitor&utm_medium=plugins-page&utm_campaign=upsell">' . esc_html__( 'Upgrade to Premium!', 'download-monitor' ) . '</a>' );
 			}
 
 			return array_merge( $upgrade, $links );
@@ -901,13 +901,19 @@ class DLM_Upsells {
 	 * @since 4.8.6
 	 */
 	public function export_insights_header_upsell() {
+		if ( $this->check_extension( 'dlm-csv-exporter' ) ) {
+			return;
+		}
 
+		$export_upsell_url = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-csv-exporter';
 		?>
 		<div class="dlm-csv-export-wrapper">
 			<div class="dlm-reports-header-export-button">
 				<button class="button button-primary"
-				        disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <span
-						class="dlm-upsell-badge">PRO</span></button>
+						disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <a
+						href="<?php echo esc_url( $export_upsell_url ); ?>" 
+						target="_blank" 
+						class="dlm-upsell-badge">PAID</a></button>
 			</div>
 			<div class="dlm-csv-export-wrapper__export_settings">
 				<div id="dlm-export-settings-upsell" class="button button-secondary" disabled="disabled"><span
@@ -1010,6 +1016,8 @@ class DLM_Upsells {
 
 		$end   = new DateTime( $to );
 		$start = new DateTime( $from );
+
+		$enhanced_m_upsell_url = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced_metrics';
 		?>
 		<div class="dlm-reports-header-date-selector disabled">
 			<label><?php echo esc_html__( 'Select date to compare', 'download-monitor' ); ?></label>
@@ -1017,7 +1025,7 @@ class DLM_Upsells {
 			<span
 				class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
 			<span class="dlm-arrow"></span>
-			<span class="dlm-upsell-badge">PRO</span>
+			<a href="<?php echo esc_url( $enhanced_m_upsell_url ); ?>" target="_blank" class="dlm-upsell-badge">PAID</a>
 		</div>
 		<?php
 	}

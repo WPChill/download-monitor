@@ -269,7 +269,7 @@ class DLM_Download_Handler {
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 				} catch ( Exception $e ) {
 					if ( $this->check_for_xhr() ) {
-						header( 'X-DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
+						header( 'X-DLM-Error: not_found'  );
 						$restriction_type = 'not_found';
 						$this->set_no_access_modal( __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type );
 						http_response_code( 404 );
@@ -281,7 +281,7 @@ class DLM_Download_Handler {
 
 			if ( ! $download ) {
 				if ( $this->check_for_xhr() ) {
-					header( 'X-DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
+					header( 'X-DLM-Error: not_found' );
 					$restriction_type = 'not_found';
 					$this->set_no_access_modal( __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type );
 					http_response_code( 404 );
@@ -330,7 +330,7 @@ class DLM_Download_Handler {
 				wp_redirect( $redirect );
 			} else {
 				if ( $this->check_for_xhr() ) {
-					header( 'X-DLM-Error: ' . esc_html__( 'Download does not exist.', 'download-monitor' ) );
+					header( 'X-DLM-Error: not_found' );
 					$restriction_type = 'not_found';
 					$this->set_no_access_modal( __( 'Download does not exist.', 'download-monitor' ), $download, $restriction_type );
 					http_response_code( 404 );
@@ -374,7 +374,7 @@ class DLM_Download_Handler {
 		// Check if we got files in this version.
 		if ( empty( $file_paths ) ) {
 			if ( $this->check_for_xhr() ) {
-				header( 'X-DLM-Error: ' . esc_html__( 'No file paths defined.', 'download-monitor' ) );
+				header( 'X-DLM-Error: no_file_paths' );
 				$restriction_type = 'no_file_paths';
 				$this->set_no_access_modal( __( 'No file paths defined', 'download-monitor' ), $download, $restriction_type );
 				http_response_code( 404 );
@@ -391,7 +391,7 @@ class DLM_Download_Handler {
 		// Check if we actually got a path.
 		if ( ! $file_path ) {
 			if ( $this->check_for_xhr() ) {
-				header( 'X-DLM-Error: ' . esc_html__( 'No file path defined.', 'download-monitor' ) );
+				header( 'X-DLM-Error: no_file_path' );
 				$restriction_type = 'no_file_path';
 				$this->set_no_access_modal( __( 'No file path defined', 'download-monitor' ), $download, $restriction_type );
 				http_response_code( 404 );
@@ -416,7 +416,7 @@ class DLM_Download_Handler {
 			$check_file_extension = ( $remote_file && apply_filters( 'dlm_check_remote_extension', true ) ) || ! $remote_file;
 			if ( $check_file_extension && in_array( $download->get_version()->get_filetype(), $restricted_file_types ) ) {
 				if ( $this->check_for_xhr() ) {
-					header( 'X-DLM-Error: ' . esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ) );
+					header( 'X-DLM-Error: filetype' );
 					$restriction_type = 'filetype';
 					$this->set_no_access_modal( __( 'Download is not allowed for this file type.', 'download-monitor' ), $download, $restriction_type );
 					http_response_code( 403 );
@@ -430,7 +430,7 @@ class DLM_Download_Handler {
 		// If the path is false it means that the file is restricted, so don't download it or redirect to it.
 		if ( $restriction ) {
 			if ( $this->check_for_xhr() ) {
-				header( 'X-DLM-Error: ' . esc_html__( 'Access denied to this file.', 'download-monitor' ) );
+				header( 'X-DLM-Error: file_access_denied' );
 				$restriction_type = 'access_denied';
 				$this->set_no_access_modal( __( 'Access denied to this file.', 'download-monitor' ), $download, $restriction_type );
 				http_response_code( 403 );
@@ -499,7 +499,7 @@ class DLM_Download_Handler {
 				}
 
 				if ( $this->check_for_xhr() ) {
-					header( 'X-DLM-Error: ' . esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ) );
+					header( 'X-DLM-Error: access_denied' );
 					$restriction_type = 'access_denied';
 					$this->set_no_access_modal( __( 'Access denied. You do not have permission to download this file.', 'download-monitor' ), $download, $restriction_type );
 					exit;
@@ -624,7 +624,7 @@ class DLM_Download_Handler {
 
 		if ( ! $safe ) {
 			if ( $this->check_for_xhr() ) {
-				header( 'X-DLM-Error: ' . esc_html__( 'Something is wrong with the file path.', 'download-monitor' ) );
+				header( 'X-DLM-Error: security_error' );
 				$restriction_type = 'security_error';
 				$this->set_no_access_modal( __( 'Something is wrong with the file path.', 'download-monitor' ), $download, $restriction_type );
 				exit;
@@ -683,7 +683,7 @@ class DLM_Download_Handler {
 		} else {
 
 			if ( $this->check_for_xhr() ) {
-				header( 'X-DLM-Error: ' . esc_html__( 'File not found.', 'download-monitor' ) );
+				header( 'X-DLM-Error: file_not_found' );
 				$restriction_type = 'file_not_found';
 				$this->set_no_access_modal( __( 'File not found.', 'download-monitor' ), $download, $restriction_type );
 				exit;
@@ -916,5 +916,6 @@ class DLM_Download_Handler {
 		if ( ! empty( $text ) ) {
 			header( 'X-DLM-No-Access-Modal-Text: ' . apply_filters( 'do_dlm_xhr_access_modal_text', $text, $download, $restriction_type ) );
 		}
+		header( 'X-DLM-Nonce: ' . wp_create_nonce( 'dlm_ajax_nonce' ) );
 	}
 }

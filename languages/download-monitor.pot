@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Download Monitor 4.8.6\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2023-06-26 10:21:16+00:00\n"
+"POT-Creation-Date: 2023-07-21 13:38:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -636,55 +636,55 @@ msgstr ""
 msgid "Upgrade to PRO!"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:909
+#: includes/admin/class-dlm-upsells.php:911
 msgid "Export"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:940
+#: includes/admin/class-dlm-upsells.php:942
 msgid "Compare dates and view chart to see how you’ve done"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:944
+#: includes/admin/class-dlm-upsells.php:946
 msgid "Show number of completed downloads per download"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:948
+#: includes/admin/class-dlm-upsells.php:950
 msgid "Show number of redirected downloads per download"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:952
+#: includes/admin/class-dlm-upsells.php:954
 msgid "Show number of failed downloads per download"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:956
+#: includes/admin/class-dlm-upsells.php:958
 msgid "Show % of downloads from the total downloads number"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:960
+#: includes/admin/class-dlm-upsells.php:962
 msgid "Show number of completed downloads by logged in users"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:964
+#: includes/admin/class-dlm-upsells.php:966
 msgid "Show number of completed downloads by logged out users"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:971
+#: includes/admin/class-dlm-upsells.php:973
 msgid "See active users and their download information"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:975
+#: includes/admin/class-dlm-upsells.php:977
 msgid "Show the location from where in the site the user downloaded"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:977
+#: includes/admin/class-dlm-upsells.php:979
 msgid "Show the download's category"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:984
+#: includes/admin/class-dlm-upsells.php:986
 msgid "Enhanced Metrics"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:1015
+#: includes/admin/class-dlm-upsells.php:1017
 msgid "Select date to compare"
 msgstr ""
 
@@ -709,17 +709,15 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class-dlm-welcome.php:171
-#: includes/admin/class-dlm-welcome.php:292
-#: includes/admin/class-dlm-welcome.php:317 src/Util/Onboarding.php:223
+#: includes/admin/class-dlm-welcome.php:228
 msgid "Create Your First Download"
 msgstr ""
 
 #: includes/admin/class-dlm-welcome.php:172
-#: includes/admin/class-dlm-welcome.php:295
 msgid "Read our getting started guide"
 msgstr ""
 
-#: includes/admin/class-dlm-welcome.php:176 src/Util/Onboarding.php:197
+#: includes/admin/class-dlm-welcome.php:176
 msgid "Watch how to"
 msgstr ""
 
@@ -826,55 +824,15 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class-dlm-welcome.php:206
-#: includes/admin/class-dlm-welcome.php:320
+#: includes/admin/class-dlm-welcome.php:231
 msgid "Upgrade Now"
 msgstr ""
 
-#: includes/admin/class-dlm-welcome.php:212
-msgid "Getting started checklist"
-msgstr ""
-
-#: includes/admin/class-dlm-welcome.php:215 src/Util/Onboarding.php:104
-msgid ""
-"In order to function properly, Download Monitor needs to create some pages "
-"in your WordPress website."
-msgstr ""
-
-#: includes/admin/class-dlm-welcome.php:216 src/Util/Onboarding.php:105
-msgid ""
-"We can create these pages for you here. If you click the 'Create Page' "
-"button we will create that page and add the required shortcode to it. We'll "
-"also make sure the newly created page is set in your settings page."
-msgstr ""
-
-#: includes/admin/class-dlm-welcome.php:221 src/Util/Onboarding.php:112
-#: src/Util/PageCreator.php:14
-msgid "No Access"
-msgstr ""
-
-#: includes/admin/class-dlm-welcome.php:222 src/Util/Onboarding.php:113
-msgid "The page your visitors see when they are not allowed to download a file."
-msgstr ""
-
-#: includes/admin/class-dlm-welcome.php:230
-#: includes/admin/class-dlm-welcome.php:373 src/Util/Onboarding.php:70
-#: src/Util/Onboarding.php:124 src/Util/Onboarding.php:150
-#: src/Util/Onboarding.php:175
-msgid "Page Created"
-msgstr ""
-
-#: includes/admin/class-dlm-welcome.php:236
-#: includes/admin/class-dlm-welcome.php:374 src/Util/Onboarding.php:71
-#: src/Util/Onboarding.php:130 src/Util/Onboarding.php:156
-#: src/Util/Onboarding.php:181
-msgid "Create Page"
-msgstr ""
-
-#: includes/admin/class-dlm-welcome.php:303
+#: includes/admin/class-dlm-welcome.php:214
 msgid "Happy users of Download Monitor"
 msgstr ""
 
-#: includes/admin/class-dlm-welcome.php:307
+#: includes/admin/class-dlm-welcome.php:218
 msgid ""
 "Do not spend any time considering other plugins that may offer the same "
 "bells and whistles. Not only is this full of fantastic functionality, the "
@@ -882,14 +840,22 @@ msgid ""
 "other developer."
 msgstr ""
 
-#: includes/admin/class-dlm-welcome.php:308
+#: includes/admin/class-dlm-welcome.php:219
 msgid ""
 "Download Monitor rocks! It lets me easily implement customized/themed lists "
 "of downloads and offers useful statistics and access logs for my downloads."
 msgstr ""
 
-#: includes/admin/class-dlm-welcome.php:372 src/Util/Onboarding.php:69
+#: includes/admin/class-dlm-welcome.php:283
 msgid "Creating"
+msgstr ""
+
+#: includes/admin/class-dlm-welcome.php:284
+msgid "Page Created"
+msgstr ""
+
+#: includes/admin/class-dlm-welcome.php:285
+msgid "Create Page"
 msgstr ""
 
 #: includes/admin/lite-vs-pro-page.php:14
@@ -1704,7 +1670,7 @@ msgid "Loading"
 msgstr ""
 
 #: src/Admin/Settings/Page.php:29 src/Admin/Settings/Page.php:30
-#: src/Admin/Settings/Settings.php:439 src/DLM.php:334
+#: src/Admin/Settings/Settings.php:439 src/DLM.php:330
 msgid "Settings"
 msgstr ""
 
@@ -1963,7 +1929,7 @@ msgstr ""
 msgid "Access"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:203 src/Installer.php:38
+#: src/Admin/Settings/Settings.php:203 src/Installer.php:41
 msgid "You do not have permission to access this download. %1$sGo to homepage%2$s"
 msgstr ""
 
@@ -2409,33 +2375,33 @@ msgid ""
 "automatically when it's finished."
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:547
+#: src/Admin/class-dlm-db-upgrader.php:504
 msgid "Please <a href=\"#\" class=\"dlm-db-upgrade-link\">upgrade the database</a>."
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:552
+#: src/Admin/class-dlm-db-upgrader.php:509
 msgid ""
 "Hello there! We made some changes on how Download Monitor's data is "
 "structured. Please <a href=\"#\" class=\"dlm-db-upgrade-link\">click "
 "here</a> to upgrade your database"
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:557
+#: src/Admin/class-dlm-db-upgrader.php:514
 msgid "Resume Upgrade"
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:559
-#: src/Admin/class-dlm-db-upgrader.php:588
+#: src/Admin/class-dlm-db-upgrader.php:516
+#: src/Admin/class-dlm-db-upgrader.php:545
 msgid "Upgrade"
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:580
+#: src/Admin/class-dlm-db-upgrader.php:537
 msgid ""
 "Please <a href=\"#\" class=\"dlm-db-download_category-link\">upgrade the "
 "database</a>."
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:585
+#: src/Admin/class-dlm-db-upgrader.php:542
 msgid ""
 "Hello there! We made some changes on how Download Monitor's data is "
 "structured. Please make a backup of your database and click the upgrade "
@@ -2533,11 +2499,11 @@ msgstr ""
 msgid "Download Monitor protect"
 msgstr ""
 
-#: src/Ajax/CreatePage.php:51
+#: src/Ajax/CreatePage.php:48
 msgid "Couldn't create page"
 msgstr ""
 
-#: src/Ajax/CreatePage.php:56
+#: src/Ajax/CreatePage.php:53
 msgid "No page set"
 msgstr ""
 
@@ -2586,30 +2552,57 @@ msgstr ""
 msgid "Column download_category is already updated"
 msgstr ""
 
-#: src/DLM.php:431
+#: src/DLM.php:428
 msgid "An error occurred while trying to download the file. Please try again."
 msgstr ""
 
-#: src/DLM.php:771
+#: src/DLM.php:429 src/DownloadHandler.php:274 src/DownloadHandler.php:278
+#: src/DownloadHandler.php:286 src/DownloadHandler.php:290
+#: src/DownloadHandler.php:335 src/DownloadHandler.php:339
+msgid "Download does not exist."
+msgstr ""
+
+#: src/DLM.php:430
+msgid "No file path defined."
+msgstr ""
+
+#: src/DLM.php:431 src/DownloadHandler.php:384 src/DownloadHandler.php:385
+#: src/DownloadHandler.php:401
+msgid "No file paths defined."
+msgstr ""
+
+#: src/DLM.php:432 src/DownloadHandler.php:421 src/DownloadHandler.php:425
+msgid "Download is not allowed for this file type."
+msgstr ""
+
+#: src/DLM.php:433 src/DownloadHandler.php:435
+msgid "Access denied to this file."
+msgstr ""
+
+#: src/DLM.php:434 src/DownloadHandler.php:504
+msgid "Access denied. You do not have permission to download this file."
+msgstr ""
+
+#: src/DLM.php:435 src/DownloadHandler.php:629 src/DownloadHandler.php:634
+msgid "Something is wrong with the file path."
+msgstr ""
+
+#: src/DLM.php:436 src/DownloadHandler.php:688 src/DownloadHandler.php:693
+msgid "File not found."
+msgstr ""
+
+#: src/DLM.php:776
 msgid ""
 "<strong>Attention!</strong> Download Monitor shop functionality will no "
 "longer be supported begining <strong>April 2023</strong> and will be "
 "disabled in a future update."
 msgstr ""
 
-#: src/DownloadHandler.php:272 src/DownloadHandler.php:274
-#: src/DownloadHandler.php:278 src/DownloadHandler.php:284
-#: src/DownloadHandler.php:286 src/DownloadHandler.php:290
-#: src/DownloadHandler.php:333 src/DownloadHandler.php:335
-#: src/DownloadHandler.php:339
-msgid "Download does not exist."
-msgstr ""
-
 #: src/DownloadHandler.php:278 src/DownloadHandler.php:290
 #: src/DownloadHandler.php:339 src/DownloadHandler.php:385
 #: src/DownloadHandler.php:401 src/DownloadHandler.php:425
-#: src/DownloadHandler.php:440 src/DownloadHandler.php:632
-#: src/DownloadHandler.php:691
+#: src/DownloadHandler.php:440 src/DownloadHandler.php:634
+#: src/DownloadHandler.php:693
 msgid "Go to homepage &rarr;"
 msgstr ""
 
@@ -2617,7 +2610,7 @@ msgstr ""
 #: src/DownloadHandler.php:339 src/DownloadHandler.php:385
 #: src/DownloadHandler.php:401 src/DownloadHandler.php:425
 #: src/DownloadHandler.php:440 src/DownloadHandler.php:509
-#: src/DownloadHandler.php:632 src/DownloadHandler.php:691
+#: src/DownloadHandler.php:634 src/DownloadHandler.php:693
 msgid "Download Error"
 msgstr ""
 
@@ -2625,48 +2618,16 @@ msgstr ""
 msgid "Password Required"
 msgstr ""
 
-#: src/DownloadHandler.php:377 src/DownloadHandler.php:384
-#: src/DownloadHandler.php:385 src/DownloadHandler.php:401
-msgid "No file paths defined."
-msgstr ""
-
 #: src/DownloadHandler.php:379
 msgid "No file paths defined"
-msgstr ""
-
-#: src/DownloadHandler.php:394
-msgid "No file path defined."
 msgstr ""
 
 #: src/DownloadHandler.php:396
 msgid "No file path defined"
 msgstr ""
 
-#: src/DownloadHandler.php:419 src/DownloadHandler.php:421
-#: src/DownloadHandler.php:425
-msgid "Download is not allowed for this file type."
-msgstr ""
-
-#: src/DownloadHandler.php:433 src/DownloadHandler.php:435
-msgid "Access denied to this file."
-msgstr ""
-
 #: src/DownloadHandler.php:440
 msgid "Access denied to this file"
-msgstr ""
-
-#: src/DownloadHandler.php:502 src/DownloadHandler.php:504
-msgid "Access denied. You do not have permission to download this file."
-msgstr ""
-
-#: src/DownloadHandler.php:625 src/DownloadHandler.php:627
-#: src/DownloadHandler.php:632
-msgid "Something is wrong with the file path."
-msgstr ""
-
-#: src/DownloadHandler.php:684 src/DownloadHandler.php:686
-#: src/DownloadHandler.php:691
-msgid "File not found."
 msgstr ""
 
 #: src/DownloadPreview/Preview.php:84
@@ -4599,62 +4560,16 @@ msgstr ""
 msgid "You do not have permission to access this download. %sGo to homepage%s"
 msgstr ""
 
-#: src/Util/Onboarding.php:82
-msgid ""
-"Download Monitor is almost ready for use, %sclick here%s to finish the "
-"installation process."
+#: src/Util/PageCreator.php:14
+msgid "No Access"
 msgstr ""
 
-#: src/Util/Onboarding.php:102
-msgid "Let's Create Your Pages"
-msgstr ""
-
-#: src/Util/Onboarding.php:108
-msgid ""
-"If you don't plan on selling downloads, you do not have to create the cart "
-"and checkout page. We recommend always creating the No Access page."
-msgstr ""
-
-#: src/Util/Onboarding.php:138 src/Util/PageCreator.php:27
+#: src/Util/PageCreator.php:27
 msgid "Cart"
 msgstr ""
 
-#: src/Util/Onboarding.php:139
-msgid "Your shop cart page if you decide to sell downloads."
-msgstr ""
-
-#: src/Util/Onboarding.php:163 src/Util/PageCreator.php:40
+#: src/Util/PageCreator.php:40
 msgid "Checkout"
-msgstr ""
-
-#: src/Util/Onboarding.php:164
-msgid "Your shop checkout page if you decide to sell downloads."
-msgstr ""
-
-#: src/Util/Onboarding.php:200
-msgid "Read our step-by-step guide to get started"
-msgstr ""
-
-#: src/Util/Onboarding.php:210
-msgid "What's Next?"
-msgstr ""
-
-#: src/Util/Onboarding.php:213
-msgid ""
-"Now that your Download Monitor installation is done, it's time to setup "
-"your downloads. You can %sread more about creating your first Download "
-"here%s."
-msgstr ""
-
-#: src/Util/Onboarding.php:214
-msgid ""
-"If you need any help in setting up your downloads or having any other "
-"question about Download Monitor, we'd be happy to help you via our support "
-"forums."
-msgstr ""
-
-#: src/Util/Onboarding.php:216
-msgid "Click here to visit our Support Forum."
 msgstr ""
 
 #: src/Widgets/Downloads.php:28
@@ -4718,7 +4633,7 @@ msgid "Show only members only downloads"
 msgstr ""
 
 #: src/class-dlm-cron-jobs.php:54
-msgid "Once Weekly"
+msgid "DLM Once Weekly"
 msgstr ""
 
 #: templates/content-download-box.php:17

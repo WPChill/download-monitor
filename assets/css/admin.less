@@ -391,19 +391,18 @@ table.wp-list-table {
   th.column-members_only,
   th.column-redirect_only,
   th.column-featured {
-    span:first-child {
-      float: none;
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      line-height: 1em;
-      padding: 2px 0 0 0;
-      overflow: hidden;
+    a{
+      & > span:first-child {
+        float: left;
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        line-height: 1em;
+        padding: 2px 0 0 0;
+        overflow: hidden;
+      }
     }
 
-    .sorting-indicator {
-      float: right;
-    }
   }
 
   th.column-thumb {
@@ -419,10 +418,11 @@ table.wp-list-table {
 
   th.column-download_count {
     width: 5em;
-
-    span:first-child {
-      &:before {
-        .iconbefore("\f346");
+    a {
+      & > span:first-child {
+        &:before {
+          .iconbefore("\f346");
+        }
       }
     }
   }
@@ -430,30 +430,33 @@ table.wp-list-table {
   th.column-locked_download,
   th.column-members_only {
     width: 3.5em;
-
-    span:first-child {
-      &:before {
-        .iconbefore("\f160");
+    a {
+      & > span:first-child {
+        &:before {
+          .iconbefore("\f160");
+        }
       }
     }
   }
 
   th.column-redirect_only {
     width: 3.5em;
-
-    span:first-child {
-      &:before {
-        .iconbefore("\f103");
+    a {
+      & > span:first-child {
+        &:before {
+          .iconbefore("\f103");
+        }
       }
     }
   }
 
   th.column-featured {
     width: 3.5em;
-
-    span:first-child {
-      &:before {
-        .iconbefore("\f155");
+    a {
+      & > span:first-child {
+        &:before {
+          .iconbefore("\f155");
+        }
       }
     }
   }
@@ -1057,15 +1060,6 @@ table.wp-list-table {
     border-radius: 10px;
   }
 
-  .dlm-upsell-badge {
-    font-size: 10px;
-    background: #f4daa4;
-    padding: 2px 5px;
-    display: inline-block;
-    margin-left: 5px;
-    border-radius: 10px;
-  }
-
 }
 
 #insert-download {
@@ -1520,6 +1514,8 @@ table.wp-list-table {
                 padding: 2px 5px;
                 display: inline-block;
                 border-radius: 10px;
+                cursor: pointer;
+                text-decoration: none;
               }
             }
           }
@@ -1701,7 +1697,7 @@ table.wp-list-table {
         justify-content: initial;
 
         li {
-          width: 12.5%;
+          width: 15%;
           padding: 24px;
           margin: 0;
         /*  overflow: hidden;*/
@@ -1896,6 +1892,19 @@ table.wp-list-table {
         .user-downloads-filters__heading,
         .user-downloads-filters__filter {
           display: inline-block;
+        }
+        
+        .dlm-upsell-badge {
+          font-size: 10px;
+          background: #f4daa4;
+          padding: 1px 5px;
+          display: inline-block;
+          margin-right: 5px;
+          border-radius: 10px;
+          position: relative;
+          top: -1px;
+          cursor: pointer;
+          text-decoration: none;
         }
       }
     }
@@ -3411,18 +3420,6 @@ Toggles
   }
 }
 
-
-.dlm-available-with-pro__label {
-  pointer-events: none;
-  background: #80808080;
-  padding: 1px 5px;
-  border-radius: 5px;
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 10px;
-  color: #fff;
-}
-
 .dlm-copy-shortcode-input {
   border: 0 !important;
   width: 0;
@@ -3598,6 +3595,8 @@ div#dlm-export-settings-upsell {
     border-radius: 10px;
     position: relative;
     top: -1px;
+    cursor: pointer;
+    text-decoration: none;
   }
 }
 .dlm-csv-export-wrapper {

@@ -26,7 +26,6 @@ class DLM_Welcome_Page {
 		add_filter( 'submenu_file', array( $this, 'remove_about_submenu_item' ) );
 		add_action( 'dlm_after_install_setup', array( $this, 'dlm_on_activation' ), 15 );
 		add_filter( 'dlm_page_header', array( $this, 'welcome_header' ), 15 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'welcome_scripts' ) );
 		add_action( 'admin_footer', array( $this, 'welcome_style' ), 15 );
 	}
 
@@ -208,95 +207,6 @@ class DLM_Welcome_Page {
 						</div>
 					</div>
 				</div>
-				<div class="block text-left pages-creation">
-					<?php $welcome->display_heading( esc_html__( 'Getting started checklist', 'download-monitor' ), 'left' ); ?>
-					<?php $welcome->horizontal_delimiter(); ?>
-					<?php $welcome->display_empty_space(); ?>
-					<?php $welcome->display_subheading( esc_html__( 'In order to function properly, Download Monitor needs to create some pages in your WordPress website.', 'download-monitor' ), 'left' ); ?>
-					<?php $welcome->display_subheading( esc_html__( 'We can create these pages for you here. If you click the \'Create Page\' button we will create that page and add the required shortcode to it. We\'ll also make sure the newly created page is set in your settings page.', 'download-monitor' ), 'left' ); ?>
-					<?php $welcome->display_empty_space(); ?>
-					<?php $welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
-					<div class="block text-left">
-						<p style="margin:0 auto;margin-top:5px;"><strong>
-								<span class="dashicons <?php echo 0 != $page_no_access ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_no_access ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'No Access', 'download-monitor' ); ?></strong></p>
-						<p class="description"><?php echo esc_html__( 'The page your visitors see when they are not allowed to download a file.', 'download-monitor' ); ?></p>
-					</div>
-					<div class="block text-right padding-15">
-						<?php
-
-						if ( $page_no_access != 0 ) :
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
-						<?php
-						else:
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-create-page"
-							   data-page="no-access"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
-						<?php
-						endif;
-						?>
-					</div>
-					<?php $welcome->layout_end(); ?>
-					<?php //$welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
-					<?php /* 
-						<p style="margin:0 auto;margin-top:5px;"><strong><span class="dashicons  <?php echo 0 != $page_cart ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_cart ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'Cart', 'download-monitor' ); ?></strong></p>
-						<p class="description"><?php echo esc_html__( 'Your shop cart page if you decide to sell downloads.', 'download-monitor' ); ?></p>
-					</div>
-					<div class="block text-right padding-15">
-						<?php
-						if ( $page_cart != 0 ) :
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
-						<?php
-						else:
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-create-page"
-							   data-page="cart"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
-						<?php
-						endif;
-						?>
-					</div>
-					<?php $welcome->layout_end(); ?>
-					<?php $welcome->layout_start( '2', 'white-bg padding-vertical-15' ); ?>
-					<div class="block text-left">
-						<p style="margin:0 auto;margin-top:5px;"><strong><span class="dashicons  <?php echo 0 != $page_checkout ? ' dashicons-yes': ' dashicons-no'; ?>" style="<?php echo 0 != $page_checkout ? 'color:#23A870;opacity:1;': 'color:gray;opacity:0.5;'; ?>"></span><?php echo esc_html__( 'Checkout', 'download-monitor' ); ?></strong></p>
-						<p class="description"><?php echo esc_html__( 'Your shop checkout page if you decide to sell downloads.', 'download-monitor' ); ?></p>
-					</div>
-					<div class="block text-right padding-15">
-						<?php
-
-						if ( 0 !== $page_checkout ) :
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-page-exists"><?php echo esc_html__( 'Page Created', 'download-monitor' ); ?></a>
-						<?php
-						else:
-							?>
-							<a href="javascript:;"
-							   class="button button-primary button-hero dlm-create-page"
-							   data-page="checkout"><?php echo esc_html__( 'Create Page', 'download-monitor' ); ?></a>
-						<?php
-						endif;
-						?>
-					</div>
-					*/ ?>
-					<?php //$welcome->layout_end(); ?>
-					<?php $welcome->display_empty_space(); ?>
-					<?php $welcome->layout_start( '4', 'pages-creation__buttons' ); ?>
-					<div class="block"></div>
-					<div class="block text-right">
-						<?php $welcome->display_button( esc_html__( 'Create Your First Download', 'download-monitor' ), esc_url( admin_url( 'post-new.php?post_type=dlm_download' ) ), 'button-primary', false, '#2271b1' ); ?>
-					</div>
-					<div class="block guide-button">
-						<?php $welcome->display_button( esc_html__( 'Read our getting started guide', 'download-monitor' ), 'https://www.download-monitor.com/kb/add-your-first-download/', 'button-secondary', false, 'transparent', '#2271b1', '#2271b1' ); ?>
-					</div>
-					<div class="block"></div>
-					<?php $welcome->layout_end(); ?>
-				</div>
 				<?php $welcome->display_empty_space(); ?>
 				<?php $welcome->display_empty_space(); ?>
 				<div class="block">
@@ -348,33 +258,4 @@ class DLM_Welcome_Page {
 
 		return $return;
 	}
-
-	/**
-	 * Enqueue welcome page scripts
-	 *
-	 * @return void
-	 * @since 4.7.4
-	 */
-	public function welcome_scripts() {
-		if ( function_exists( 'get_current_screen' ) ) {
-
-			$current_screen = get_current_screen();
-			if ( 'dlm_download' === $current_screen->post_type && 'dlm_download_page_download-monitor-about-page' === $current_screen->base ) {
-				wp_enqueue_script(
-					'dlm_onboarding',
-					plugins_url( '/assets/js/onboarding' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', download_monitor()->get_plugin_file() ),
-					array( 'jquery' ),
-					DLM_VERSION
-				);
-
-				wp_localize_script( 'dlm_onboarding', 'dlm_onboarding', array(
-					'ajax_url_create_page' => \DLM_Ajax_Manager::get_ajax_url( 'create_page' ),
-					'lbl_creating'         => __( 'Creating', 'download-monitor' ) . '...',
-					'lbl_created'          => __( 'Page Created', 'download-monitor' ),
-					'lbl_create_page'      => __( 'Create Page', 'download-monitor' ),
-				) );
-			}
-		}
-	}
-
 }

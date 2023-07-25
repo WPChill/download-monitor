@@ -51,7 +51,7 @@ class DLM_Admin_OptionsUpsells {
         <a href="<?php echo esc_url( 'https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=Terms%20and%20Conditions' ); ?>" class="options_upsell_link" target="_blank">
             <p class="form-field form-field-checkbox not-active">
                 <span class="dashicons dashicons-lock"></span>
-                <span><?php esc_html_e( 'Terms &amp; Conditions Required', 'download-monitor' ); ?><span class="dlm-upsell-badge">PRO</span> </span>
+                <span><?php esc_html_e( 'Terms &amp; Conditions Required', 'download-monitor' ); ?><span class="dlm-upsell-badge">PAID</span> </span>
                 <span class="dlm-description"> <?php esc_html_e( 'This download will only be downloadable after accepting the terms and conditions.', 'download-monitor' ); ?></span>
             </p>
         </a>
@@ -63,7 +63,7 @@ class DLM_Admin_OptionsUpsells {
         <a href="<?php echo esc_url( 'https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=Twitter%20Lock' ); ?>" class="options_upsell_link" target="_blank">
             <p class="form-field form-field-checkbox not-active">
                 <span class="dashicons dashicons-lock"></span>
-                <span><?php esc_html_e( 'Twitter Lock', 'download-monitor' ); ?><span class="dlm-upsell-badge">PRO</span></span>
+                <span><?php esc_html_e( 'Twitter Lock', 'download-monitor' ); ?><span class="dlm-upsell-badge">PAID</span></span>
                 <span class="dlm-description"> <?php esc_html_e( 'Twitter locked downloads will only be available after user tweets a predefined text.', 'download-monitor' ); ?></span>
             </p>
         </a>
@@ -75,7 +75,7 @@ class DLM_Admin_OptionsUpsells {
         <a href="<?php echo esc_url( 'https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=Email%20Lock' ); ?>" class="options_upsell_link" target="_blank">
             <p class="form-field form-field-checkbox not-active">
                 <span class="dashicons dashicons-lock"></span>
-                <span><?php esc_html_e( 'Email Lock', 'download-monitor' ); ?><span class="dlm-upsell-badge">PRO</span></span>
+                <span><?php esc_html_e( 'Email Lock', 'download-monitor' ); ?><span class="dlm-upsell-badge">PAID</span></span>
                 <span class="dlm-description"> <?php esc_html_e( 'Email locked downloads will only be available after user entered their email address.', 'download-monitor' ); ?></span>
             </p>
         </a>
@@ -87,7 +87,7 @@ class DLM_Admin_OptionsUpsells {
         <a href="<?php echo esc_url( 'https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=Captcha' ); ?>" class="options_upsell_link" target="_blank">
             <p class="form-field form-field-checkbox not-active">
                 <span class="dashicons dashicons-lock"></span>
-                <span><?php esc_html_e( 'Require Captcha', 'download-monitor' ); ?><span class="dlm-upsell-badge">PRO</span></span>
+                <span><?php esc_html_e( 'Require Captcha', 'download-monitor' ); ?><span class="dlm-upsell-badge">PAID</span></span>
                 <span class="dlm-description"> <?php esc_html_e( 'User is required to complete a reCAPTCHA before access is granted to the dowload.', 'download-monitor' ); ?></span>
             </p>
         </a>

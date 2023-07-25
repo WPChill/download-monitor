@@ -28,6 +28,9 @@ class DLM_Installer {
 		// Directory Protection
 		$this->directory_protection();
 
+		// No Access Page
+		$this->add_no_access_page();
+
 		// Add endpoints
 		$dlm_download_handler = new DLM_Download_Handler();
 		$dlm_download_handler->add_endpoint();
@@ -318,6 +321,22 @@ class DLM_Installer {
 					fclose( $file_handle );
 				}
 			}
+		}
+	}
+
+	/**
+	 * Creates No Access page automatically if none is set. Is activated on plugin activation.
+	 *
+	 * @access public
+	 * @return void
+	 *
+	 * @since 4.8.7
+	 */
+	public function add_no_access_page() {
+
+		if ( 0 === absint( get_option( 'dlm_no_access_page', 0 ) ) ) {
+			$pc          = new WPChill\DownloadMonitor\Util\PageCreator();
+			$pc->create_no_access_page();
 		}
 	}
 }

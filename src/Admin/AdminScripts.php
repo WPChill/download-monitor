@@ -94,7 +94,7 @@ class DLM_Admin_Scripts {
 
 				// Make JavaScript strings translatable.
 				wp_localize_script( 'dlm_edit_download', 'dlm_ed_strings', $this->get_strings( 'edit-download' ) );
-				wp_add_inline_script( 'dlm_edit_download', 'var dlmUploaderInstance = {}; var dlmEditInstance = {}; let downloadable_files_field; const max_file_size = ' . wp_max_upload_size() . ';', 'before' );
+				wp_add_inline_script( 'dlm_edit_download', 'var dlmUploaderInstance = {}; var dlmEditInstance = {}; let downloadable_files_field; const max_file_size = ' . absint( wp_max_upload_size() ) . ';', 'before' );
 			}
 
 			// Enqueue Downloadable Files Metabox JS

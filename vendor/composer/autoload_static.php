@@ -274,7 +274,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'WPChill\\DownloadMonitor\\Shop\\Util\\Redirect' => __DIR__ . '/../..' . '/src/Shop/Util/Redirect.php',
         'WPChill\\DownloadMonitor\\Shop\\Util\\TemplateInjector' => __DIR__ . '/../..' . '/src/Shop/Util/TemplateInjector.php',
         'WPChill\\DownloadMonitor\\Util\\ExtensionLoader' => __DIR__ . '/../..' . '/src/Util/ExtensionLoader.php',
-        'WPChill\\DownloadMonitor\\Util\\Onboarding' => __DIR__ . '/../..' . '/src/Util/Onboarding.php',
         'WPChill\\DownloadMonitor\\Util\\PageCreator' => __DIR__ . '/../..' . '/src/Util/PageCreator.php',
         'WPChill_Welcome' => __DIR__ . '/../..' . '/includes/submodules/banner/class-wpchill-welcome.php',
         'WP_DLM' => __DIR__ . '/../..' . '/src/DLM.php',
