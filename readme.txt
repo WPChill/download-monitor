@@ -120,7 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 4.8.7 - 24.07.2023 =
+= 4.8.7 - 25.07.2023 =
 Fixed: Compatibility with Elementor PRO page transitions ( [#1299](https://github.com/WPChill/download-monitor/issues/1299) )
 Fixed: Always load frontend scripts if "No Access Modal" is enabled. ( [#1298](https://github.com/WPChill/download-monitor/issues/1298) )
 Fixed: Escaping error on download button templates. ( [#1277](https://github.com/WPChill/download-monitor/issues/1277) )
