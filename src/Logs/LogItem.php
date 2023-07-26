@@ -42,6 +42,14 @@ class DLM_Log_Item {
 	private $meta_data = array();
 
 	/**
+	 * Array that holds dynamically created properties.
+	 *
+	 * @var array
+	 * @since 4.8.8
+	 */
+	private $dynamic_data = array();
+
+	/**
 	 * @return int
 	 */
 	public function get_id() {
@@ -403,5 +411,58 @@ class DLM_Log_Item {
 		}
 
 		do_action( 'dlm_increase_download_count', $this );
+	}
+
+	/**
+	 * Set a dynamically created property.
+	 *
+	 * @param $name
+	 * @param $value
+	 *
+	 * @return void
+	 * @since 4.8.8
+	 */
+	public function __set( $name, $value ) {
+		$this->dynamic_data[ $name ] = $value;
+	}
+
+	/**
+	 * Get a dynamically created property.
+	 *
+	 * @param $name
+	 *
+	 * @return mixed|null
+	 * @since 4.8.8
+	 */
+	public function __get( $name ) {
+		if ( array_key_exists( $name, $this->dynamic_data ) ) {
+			return $this->dynamic_data[ $name ];
+		}
+
+		return null;
+	}
+
+	/**
+	 * Check if a dynamically created property is set.
+	 *
+	 * @param $name
+	 *
+	 * @return bool
+	 * @since 4.8.8
+	 */
+	public function __isset( $name ) {
+		return isset( $this->dynamic_data[ $name ] );
+	}
+
+	/**
+	 * Unset a dynamically created property.
+	 *
+	 * @param $name
+	 *
+	 * @return void
+	 * @since 4.8.8
+	 */
+	public function __unset( $name ) {
+		unset( $this->dynamic_data[ $name ] );
 	}
 }
