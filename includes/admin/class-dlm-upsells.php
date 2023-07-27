@@ -92,14 +92,14 @@ class DLM_Upsells {
 
 		add_action( 'admin_init', array( $this, 'set_extensions' ), 99 );
 
-		add_filter( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) );
+		add_action( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) );
 
 		add_action( 'dlm_reports_general_info', array( $this, 'insights_upsell' ),99, 2 );
 
 		add_action( 'dlm_reports_user_reports', array( $this, 'insights_upsell' ),99, 2 );
 
 		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) );
-		
+
 	}
 
 
