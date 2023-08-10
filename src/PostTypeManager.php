@@ -14,6 +14,16 @@ class DLM_Post_Type_Manager {
 		add_action( 'current_screen', array( $this, 'disable_geditor' ) );
 		// Action to do when a post is deleted.
 		add_action( 'before_delete_post', array( $this, 'delete_post' ), 15, 2 );
+
+		add_filter( 'rest_post_search_query', array( $this, 'teste' ), 10, 2 );
+
+		
+	}
+
+	public function teste( $query_args, $request ){
+		$query_args['post_type'][] = 'dlm_download';
+
+		return $query_args;
 	}
 
 	/**
