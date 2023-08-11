@@ -127,6 +127,8 @@ class DLM_Backwards_Compatibility {
 		if ( 'dlm_download' !== $filters['post_type'] ) {
 			return;
 		}
+		
+		do_action( 'dlm_backwards_compatibility_orderby_meta_before', $filters );
 
 		if ( apply_filters( 'dlm_backwards_compatibility_orderby_meta', false ) ) {
 			add_filter( 'dlm_admin_sort_columns', array( $this, 'no_log_query_args_compatibility' ), 15, 1 );
@@ -170,7 +172,7 @@ class DLM_Backwards_Compatibility {
 		// add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		add_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
-
+		do_action( 'dlm_backwards_compatibility_orderby_meta_after', $filters );
 	}
 
 	/**
@@ -287,6 +289,7 @@ class DLM_Backwards_Compatibility {
 	 * @return void
 	 */
 	public function reset_postdata() {
+		do_action( 'dlm_backwards_compatibility_reset_postdata', $filters );
 
 		remove_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
 		remove_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
