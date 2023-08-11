@@ -106,9 +106,10 @@ class DLM_XHR_Download {
 		button.setAttribute('href', '#');
 		button.removeAttribute('download');
 		button.setAttribute('disabled', 'disabled');
-
-		const loading_gif = '<img src="' + dlmXHRgif + '" class="dlm-xhr-loading-gif" style="display:inline-block; vertical-align: middle; margin-left:15px;">';
-		button.innerHTML += loading_gif;
+		if( !dlmXHRProgress ){
+			const loading_gif = '<img src="' + dlmXHRgif + '" class="dlm-xhr-loading-gif" style="display:inline-block; vertical-align: middle; margin-left:15px;">';
+			button.innerHTML += loading_gif;
+		}
 
 		// Trigger the `dlm_download_triggered` action
 		jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL, request]);
@@ -372,6 +373,9 @@ class DLM_XHR_Download {
 		};
 
 		request.addEventListener('progress', function (e) {
+			if( dlmXHRProgress ){
+				return;
+			}
 			let percent_complete = (e.loaded / e.total) * 100;
 			// Force perfect complete to have 2 digits
 			percent_complete     = percent_complete.toFixed();
@@ -572,6 +576,9 @@ class DLM_XHR_Download {
 		};
 
 		request.addEventListener('progress', function (e) {
+			if( dlmXHRProgress ){
+				return;
+			}
 			let percent_complete = (e.loaded / e.total) * 100;
 			// Force perfect complete to have 2 digits
 			percent_complete     = percent_complete.toFixed();

@@ -422,7 +422,7 @@ class WP_DLM {
 			}
 			$nonXHRGlobalLinks = apply_filters( 'dlm_non_xhr_uri', array() );
 			$nonXHRGlobalLinks = array_map( 'sanitize_text_field', $nonXHRGlobalLinks );
-			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( includes_url( '/images/spinner.gif' ) ) .'"', 'before' );
+			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( includes_url( '/images/spinner.gif' ) ) .'"; const dlmXHRProgress = "' . apply_filters( 'dlm_xhr_disable_progress_display', false ) . '"', 'before' );
 			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', apply_filters( 'dlm_xhr_error_translations', array(
 				'error'              => esc_html__( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' ),
 				'not_found'          => esc_html__( 'Download does not exist.', 'download-monitor' ),

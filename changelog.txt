@@ -12,6 +12,7 @@ Fixed: Minor upsells update ( [#1308](https://github.com/WPChill/download-monito
 Fixed: Minor admin visual update for wp 6.3 ( [#1310](https://github.com/WPChill/download-monitor/issues/1310) )
 Fixed: Typo ( [#1309](https://github.com/WPChill/download-monitor/issues/1309) )
 Fixed: Upsell still shows even license valid ( [#1301](https://github.com/WPChill/download-monitor/issues/1301) )
+Added: Filter to disable download progress indicator ( [#1213](https://github.com/WPChill/download-monitor/issues/1213) )
 
 
 = 4.8.6 - 03.07.2023 =
