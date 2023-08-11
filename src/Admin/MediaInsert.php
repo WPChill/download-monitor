@@ -167,6 +167,15 @@ class DLM_Admin_Media_Insert {
             }
             $d_num_rows = download_monitor()->service( 'download_repository' )->num_rows( $filters );
             $downloads  = download_monitor()->service( 'download_repository' )->retrieve( $filters, $limit, ( ( $page - 1 ) * $limit ) );
+			$templates  = download_monitor()->service( 'template_handler' )->get_available_templates();
+			if ( isset( $templates['custom'] ) ) {
+				unset( $templates['custom'] );
+			}
+			$options_tmpl = '';
+			foreach ( $templates as $key => $tmpl ) {
+				$options_tmpl .= '<option value="' . esc_attr( $key ). '"> ' . esc_html( $tmpl ) . ' </option>';
+			}
+
             ?>
             <fieldset>
                 <legend><?php echo esc_html__( 'Search download', 'download-monitor' ); ?>:</legend>
@@ -203,8 +212,10 @@ class DLM_Admin_Media_Insert {
 
 			<p>
 				<label for="template_name"><?php echo esc_html__( 'Template', 'download-monitor' ); ?>:</label>
-				<input type="text" id="template_name" value="" class="input"
-				       placeholder="<?php echo esc_html__( 'Template Name', 'download-monitor' ); ?>"/>
+
+				<select id="template_name">
+					<?php echo $options_tmpl; ?>
+				</select>
 				<span class="description">
 					<?php wp_kses_post( __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ) ); ?>
 				</span>
