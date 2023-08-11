@@ -209,4 +209,10 @@ class DLM_Admin_Helper {
 
 		return true;
 	}
+
+	public static function get_wp_weekstart(){
+		$week_start = get_option( 'start_of_week', 0 );
+
+		return ( 0 === absint( $week_start ) ? 'sunday' : 'monday' );
+	}
 }
