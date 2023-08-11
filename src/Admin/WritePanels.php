@@ -319,7 +319,7 @@ class DLM_Admin_Writepanels {
 								'file_urls'           => $version->get_mirrors(),
 								'version'             => $version,
 								'date_format'         => get_option( 'date_format' ),
-								'file_browser'        => get_option( 'dlm_turn_off_file_browser', true )
+								'file_browser'        => defined( 'DLM_DISABLE_FILE_BROWSER' ) ? DLM_DISABLE_FILE_BROWSER : get_option( 'dlm_turn_off_file_browser', true ),
 							)
 						);
 

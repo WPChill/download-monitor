@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 4.8.8 - TBD =
 Changed: Changed text input to select for classic editor "Insert Download" popup ( [#1197](https://github.com/WPChill/download-monitor/issues/1197) )
 Fixed: Reports start day to match start day in wordpress settings. ( [#1180](https://github.com/WPChill/download-monitor/issues/1180) )
+Added: Global bool variable to disable File Browser "DLM_DISABLE_FILE_BROWSER" ( [#1259](https://github.com/WPChill/download-monitor/issues/1259) )
 
 = 4.8.7 - 25.07.2023 =
 Fixed: Compatibility with Elementor PRO page transitions ( [#1299](https://github.com/WPChill/download-monitor/issues/1299) )
