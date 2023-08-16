@@ -289,7 +289,7 @@ class DLM_Backwards_Compatibility {
 	 * @return void
 	 */
 	public function reset_postdata() {
-		do_action( 'dlm_backwards_compatibility_reset_postdata', $filters );
+		do_action( 'dlm_backwards_compatibility_reset_postdata' );
 
 		remove_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
 		remove_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
