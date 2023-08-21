@@ -212,7 +212,7 @@ class DLM_Admin_Helper {
 
 	public static function get_wp_weekstart(){
 		$week_start = get_option( 'start_of_week', 0 );
-
+		// It returns either Sunday or Monday because those are the only two options the date-range picker supports.
 		return ( 0 === absint( $week_start ) ? 'sunday' : 'monday' );
 	}
 }
