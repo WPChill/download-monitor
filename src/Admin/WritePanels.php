@@ -301,6 +301,7 @@ class DLM_Admin_Writepanels {
 				// $versions declared above.
 				if ( $versions ) {
 					$paths = array();
+					$file_browser = defined( 'DLM_FILE_BROWSER' ) ? !(bool)DLM_FILE_BROWSER : get_option( 'dlm_turn_off_file_browser', true );
 
 					/** @var DLM_Download_Version $version */
 					foreach ( $versions as $version ) {
@@ -319,7 +320,7 @@ class DLM_Admin_Writepanels {
 								'file_urls'           => $version->get_mirrors(),
 								'version'             => $version,
 								'date_format'         => get_option( 'date_format' ),
-								'file_browser'        => defined( 'DLM_DISABLE_FILE_BROWSER' ) ? DLM_DISABLE_FILE_BROWSER : get_option( 'dlm_turn_off_file_browser', true ),
+								'file_browser'        => $file_browser,
 							)
 						);
 
