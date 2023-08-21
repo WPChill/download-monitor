@@ -170,7 +170,7 @@ class DLM_Logging {
 			return;
 		}
 
-		if ( strstr( $url, admin_url() ) ) {
+		if ( false !== strpos( $url, admin_url() ) ) {
 			return;
 		}
 
