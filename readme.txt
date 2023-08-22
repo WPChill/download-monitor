@@ -120,7 +120,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 4.8.8 - TBD =
+= 4.8.8 - 22.08.2023 =
 Changed: Changed text input to select + input for classic editor "Insert Download" popup ( [#1197](https://github.com/WPChill/download-monitor/issues/1197) )
 Fixed: Reports start day to match start day in wordpress settings - only available for Sunday & Monday. ( [#1180](https://github.com/WPChill/download-monitor/issues/1180) )
 Added: Global bool variable to enable/disable File Browser "DLM_FILE_BROWSER" ( [#1259](https://github.com/WPChill/download-monitor/issues/1259) )
@@ -128,7 +128,6 @@ Fixed: Downloads from admin dashboard are no longer logged. ( [#1239](https://gi
 Added: do_actions hooks to the backwards compatibility methods ( [#1239](https://github.com/WPChill/download-monitor/issues/1239) )
 Added: Filter to disable/change the loading progress indicator ( [#1213](https://github.com/WPChill/download-monitor/issues/1213) )
 Added: Setters & Getters for the logging class ( [#1312](https://github.com/WPChill/download-monitor/issues/1312) )
-Added: Capability to add Download's links from Gutenberg/Classic editor "Insert link" functionality ( [#787](https://github.com/WPChill/download-monitor/issues/787) ) ( [#1316](https://github.com/WPChill/download-monitor/issues/1316) )
 
 = 4.8.7 - 25.07.2023 =
 Fixed: Compatibility with Elementor PRO page transitions ( [#1299](https://github.com/WPChill/download-monitor/issues/1299) )
