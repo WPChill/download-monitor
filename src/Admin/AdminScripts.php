@@ -208,7 +208,7 @@ class DLM_Admin_Scripts {
 			// Make JavaScript strings translatable
 			wp_localize_script( 'dlm_reports', 'dlm_rs', $this->get_strings( 'reports' ) );
 			$per_page = ( $item = get_option('dlm-reports-per-page') ) ? $item : 10;
-			wp_add_inline_script( 'dlm_reports', 'const dlmReportsPerPage = ' . absint($per_page) . ';const dlmReportsNonce = "' . wp_create_nonce( 'dlm_reports_nonce' ) . '"; const dlmAdminUrl = "' . get_admin_url() . '";', 'before' );
+			wp_add_inline_script( 'dlm_reports', 'const dlmReportsPerPage = ' . absint($per_page) . ';const dlmReportsNonce = "' . wp_create_nonce( 'dlm_reports_nonce' ) . '"; const dlmAdminUrl = "' . get_admin_url() . '"; const dlmWeekStart = "' . DLM_Admin_Helper::get_wp_weekstart() . '";', 'before' );
 
 		}
 

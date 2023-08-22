@@ -170,6 +170,10 @@ class DLM_Logging {
 			return;
 		}
 
+		if ( false !== strpos( $url, admin_url() ) ) {
+			return;
+		}
+
 		// setup new log item object.
 		if ( ! DLM_Cookie_Manager::exists( $download ) ) {
 			$ip       = DLM_Utils::get_visitor_ip();

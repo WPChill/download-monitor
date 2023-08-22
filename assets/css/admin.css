@@ -1145,6 +1145,7 @@ table.wp-list-table .column-thumb img {
   display: block;
   width: 100%;
   font-size: 1.1em;
+  margin-top: 15px;
 }
 #insert-download .add_link {
   float: right;

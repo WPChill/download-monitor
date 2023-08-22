@@ -31,6 +31,7 @@ class DLM_Reports {
 	perPage         = dlmReportsPerPage;
 	downloads = [];
 	topDownloadsOrder = 'count';
+	weekstart       = dlmWeekStart;
 
 	/**
 	 * The constructor for our class
@@ -1063,6 +1064,7 @@ class DLM_Reports {
 			showShortcuts  : true,
 			shortcuts      : null,
 			customShortcuts: datepickerShortcuts,
+			startOfWeek    : dlmReportsInstance.weekstart, // sunday or monday
 		};
 
 		element.dateRangePicker(configObject).on('datepicker-change', (event, obj) => {

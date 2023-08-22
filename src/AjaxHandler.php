@@ -143,7 +143,7 @@ class DLM_Ajax_Handler {
 			'file_urls'           => $new_version->get_mirrors(),
 			'version'             => $new_version,
 			'date_format'         => get_option( 'date_format' ),
-			'file_browser'        => get_option( 'dlm_turn_off_file_browser', true ) 
+			'file_browser'        => defined( 'DLM_FILE_BROWSER' ) ? !(bool)DLM_FILE_BROWSER : get_option( 'dlm_turn_off_file_browser', true ),
 		) );
 
 		die();

@@ -157,17 +157,19 @@ class DLM_Admin_Media_Insert {
 		?>
 		<form id="insert-shortcode" method="post">
 
-            <?php
-            $search_query = ( ! empty( $_POST['dlm_search'] ) ? sanitize_text_field( wp_unslash( $_POST['dlm_search'] ) ) : '' );
-            $limit      = 10;
-            $page       = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
-            $filters    = array( 'post_status' => 'publish' );
-            if ( ! empty( $search_query ) ) {
-	            $filters['s'] = $search_query;
-            }
-            $d_num_rows = download_monitor()->service( 'download_repository' )->num_rows( $filters );
-            $downloads  = download_monitor()->service( 'download_repository' )->retrieve( $filters, $limit, ( ( $page - 1 ) * $limit ) );
-            ?>
+			<?php
+			$search_query = ( ! empty( $_POST['dlm_search'] ) ? sanitize_text_field( wp_unslash( $_POST['dlm_search'] ) ) : '' );
+			$limit        = 10;
+			$page         = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1;
+			$filters      = array( 'post_status' => 'publish' );
+			if ( ! empty( $search_query ) ) {
+				$filters['s'] = $search_query;
+			}
+			$d_num_rows   = download_monitor()->service( 'download_repository' )->num_rows( $filters );
+			$downloads    = download_monitor()->service( 'download_repository' )->retrieve( $filters, $limit, ( ( $page - 1 ) * $limit ) );
+			$templates    = download_monitor()->service( 'template_handler' )->get_available_templates();
+
+			?>
             <fieldset>
                 <legend><?php echo esc_html__( 'Search download', 'download-monitor' ); ?>:</legend>
                 <label>
@@ -203,8 +205,16 @@ class DLM_Admin_Media_Insert {
 
 			<p>
 				<label for="template_name"><?php echo esc_html__( 'Template', 'download-monitor' ); ?>:</label>
-				<input type="text" id="template_name" value="" class="input"
-				       placeholder="<?php echo esc_html__( 'Template Name', 'download-monitor' ); ?>"/>
+
+				<select id="template_name">
+					<?php
+					foreach ( $templates as $key => $tmpl ) {
+						echo '<option value="' . esc_attr( $key ) . '"> ' . esc_html( $tmpl ) . ' </option>';
+					}
+					?>
+				</select>
+				<input type='text' id='template_name_input' value='' class='input'
+				       placeholder="<?php echo esc_html__( 'Template Name', 'download-monitor' ); ?>" style="display:none; max-width:"/>
 				<span class="description">
 					<?php wp_kses_post( __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>image</code>, the <code>content-download-image.php</code> template will be used instead.', 'download-monitor' ) ); ?>
 				</span>
@@ -273,12 +283,28 @@ class DLM_Admin_Media_Insert {
 
 				jQuery( '#quick-add' ).hide();
 
+				// Show/hide template name input
+				jQuery( '#template_name' ).change( function () {
+					if ( 'custom' === jQuery( this ).val() ) {
+						jQuery( '#template_name_input' ).show();
+					} else {
+						jQuery( '#template_name_input' ).hide();
+					}
+				} );
+
 				jQuery( 'body' ).on( 'click', '.insert_download', function () {
 
 					var win = window.dialogArguments || opener || parent || top;
 
 					var download_id = jQuery( 'input[name="download_id"]:checked' ).val();
-					var template = jQuery( '#template_name' ).val();
+					var template = '';
+					var tempSelect = jQuery('#template_name').val();
+					if ('custom' !== tempSelect) {
+						template = tempSelect;
+					} else {
+						template = jQuery('#template_name_input').val();
+					}
+
 					var shortcode = '[download id="' + download_id + '"';
 
 					if ( template )

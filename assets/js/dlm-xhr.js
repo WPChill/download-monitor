@@ -106,9 +106,10 @@ class DLM_XHR_Download {
 		button.setAttribute('href', '#');
 		button.removeAttribute('download');
 		button.setAttribute('disabled', 'disabled');
-
-		const loading_gif = '<img src="' + dlmXHRgif + '" class="dlm-xhr-loading-gif" style="display:inline-block; vertical-align: middle; margin-left:15px;">';
-		button.innerHTML += loading_gif;
+		if (dlmXHRProgress) {
+			const loading_gif = '<img src="' + dlmXHRgif + '" class="dlm-xhr-loading-gif" style="display:inline-block; vertical-align: middle; margin-left:15px;">';
+			button.innerHTML += loading_gif;
+		}
 
 		// Trigger the `dlm_download_triggered` action
 		jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL, request]);
@@ -371,24 +372,26 @@ class DLM_XHR_Download {
 			}
 		};
 
-		request.addEventListener('progress', function (e) {
-			let percent_complete = (e.loaded / e.total) * 100;
-			// Force perfect complete to have 2 digits
-			percent_complete     = percent_complete.toFixed();
-			let $class           = 'dlm-download-started';
-			buttonObj.find('span.dlm-xhr-progress').remove();
-			// Comment below lines for the new XHR loader so that we know where to rever
-			$class = $class + ' download-' + Math.ceil(percent_complete / 10) * 10;
+		if (dlmXHRProgress) {
+			request.addEventListener('progress', function (e) {
+				let percent_complete = (e.loaded / e.total) * 100;
+				// Force perfect complete to have 2 digits
+				percent_complete     = percent_complete.toFixed();
+				let $class           = 'dlm-download-started';
+				buttonObj.find('span.dlm-xhr-progress').remove();
+				// Comment below lines for the new XHR loader so that we know where to rever
+				$class = $class + ' download-' + Math.ceil(percent_complete / 10) * 10;
 
-			if (Infinity != percent_complete) {
-				buttonObj.append('<span class="dlm-xhr-progress">&nbsp;' + percent_complete + '%</span>');
-			}
+				if (Infinity != percent_complete) {
+					buttonObj.append('<span class="dlm-xhr-progress">&nbsp;' + percent_complete + '%</span>');
+				}
 
-			// Show spinner
-			buttonObj.removeClass().addClass(buttonClass + ' ' + $class);
-			// Trigger the `dlm_download_progress` action
-			jQuery(document).trigger('dlm_download_progress', [this, button, buttonObj, _OBJECT_URL, e, percent_complete]);
-		});
+				// Show spinner
+				buttonObj.removeClass().addClass(buttonClass + ' ' + $class);
+				// Trigger the `dlm_download_progress` action
+				jQuery(document).trigger('dlm_download_progress', [this, button, buttonObj, _OBJECT_URL, e, percent_complete]);
+			});
+		}
 
 		request.onerror = function () {
 			button.removeAttribute('download');
@@ -571,24 +574,27 @@ class DLM_XHR_Download {
 			}
 		};
 
-		request.addEventListener('progress', function (e) {
-			let percent_complete = (e.loaded / e.total) * 100;
-			// Force perfect complete to have 2 digits
-			percent_complete     = percent_complete.toFixed();
-			let $class           = 'dlm-download-started';
-			buttonObj.find('span.dlm-xhr-progress').remove();
-			// Comment below lines for the new XHR loader so that we know where to rever
-			$class = $class + ' download-' + Math.ceil(percent_complete / 10) * 10;
+		if (dlmXHRProgress) {
+			request.addEventListener('progress', function (e) {
 
-			if (Infinity != percent_complete) {
-				buttonObj.append('<span class="dlm-xhr-progress">&nbsp;' + percent_complete + '%</span>');
-			}
+				let percent_complete = (e.loaded / e.total) * 100;
+				// Force perfect complete to have 2 digits
+				percent_complete     = percent_complete.toFixed();
+				let $class           = 'dlm-download-started';
+				buttonObj.find('span.dlm-xhr-progress').remove();
+				// Comment below lines for the new XHR loader so that we know where to rever
+				$class = $class + ' download-' + Math.ceil(percent_complete / 10) * 10;
 
-			// Show spinner
-			buttonObj.removeClass().addClass(buttonClass + ' ' + $class);
-			// Trigger the `dlm_download_progress` action
-			jQuery(document).trigger('dlm_download_progress', [this, button, buttonObj, _OBJECT_URL, e, percent_complete]);
-		});
+				if (Infinity != percent_complete) {
+					buttonObj.append('<span class="dlm-xhr-progress">&nbsp;' + percent_complete + '%</span>');
+				}
+
+				// Show spinner
+				buttonObj.removeClass().addClass(buttonClass + ' ' + $class);
+				// Trigger the `dlm_download_progress` action
+				jQuery(document).trigger('dlm_download_progress', [this, button, buttonObj, _OBJECT_URL, e, percent_complete]);
+			});
+		}
 
 		request.onerror = function () {
 			button.removeAttribute('download');
