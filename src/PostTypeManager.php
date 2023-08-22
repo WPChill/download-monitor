@@ -41,7 +41,7 @@ class DLM_Post_Type_Manager {
 					'parent'             => __( 'Parent Download', 'download-monitor' )
 				),
 				'description'         => __( 'This is where you can create and manage downloads for your site.', 'download-monitor' ),
-				'public'              => ( 1 === absint( get_option( 'dlm_wp_search_enabled', 0 ) ) ),
+				'public'              => false,
 				'show_ui'             => true,
 				'capability_type'     => 'post',
 				'capabilities'        => array(
