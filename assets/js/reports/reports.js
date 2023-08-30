@@ -1397,6 +1397,7 @@ class DLM_Reports {
 			}else{
 				jQuery('.dlm-reports').addClass('general_info' );
 			}
+			jQuery(document).trigger('dlm_reports_tab_change_' + listClicked.attr('id'), [listClicked, navLists, contentTarget, contentWrappers]);
 		});
 	}
 

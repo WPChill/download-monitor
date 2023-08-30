@@ -3139,3 +3139,80 @@ div#dlm-export-settings-upsell span {
   color: red;
   font-weight: 700;
 }
+/**
+ * Fancy selection dropdown button
+ */
+.dlm-dropdown-select-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+.dlm-dropdown-select-wrapper.right {
+  float: right;
+}
+.dlm-dropdown-select-wrapper.right .dlm-dropdown-select-settings__body {
+  right: 0;
+  left: auto;
+}
+.dlm-dropdown-select-wrapper.left {
+  float: left;
+}
+.dlm-dropdown-select-wrapper.left .dlm-dropdown-select-settings__body {
+  left: 0;
+  right: auto;
+}
+.dlm-dropdown-select-wrapper .dlm-dropdown-select-settings {
+  cursor: poiinter;
+}
+.dlm-dropdown-select-wrapper .dlm-dropdown-select-settings > *:first-child {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  pointer-events: none;
+  cursor: pointer;
+  padding-left: 10px;
+}
+.dlm-dropdown-select-wrapper .dlm-dropdown-select-settings > *:first-child.button-secondary {
+  border-right: 0;
+}
+.dlm-dropdown-select-wrapper .dlm-dropdown-select-settings > *:nth-child(2) {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0px;
+  pointer-events: none;
+  cursor: pointer;
+  padding-right: 10px;
+}
+.dlm-dropdown-select-wrapper .dlm-dropdown-select-settings > *:nth-child(2).button-secondary {
+  border-left: 0;
+}
+.dlm-dropdown-select-wrapper .dlm-dropdown-select-settings__body {
+  display: block;
+  position: absolute;
+  top: calc(100% + 15px);
+  background: #fff;
+  padding: 15px;
+  min-width: 160px;
+  box-shadow: 0px 12px 12px rgba(0, 0, 0, 0.3);
+  left: 0;
+  transition: all 0.45s ease;
+  opacity: 0;
+  z-index: -1;
+}
+.dlm-dropdown-select-wrapper .dlm-dropdown-select-settings__body.dlm-dropdown-select-settings__body--open {
+  opacity: 1;
+  z-index: 9999;
+}
+.dlm-dropdown-select-wrapper ul li {
+  list-style: none;
+}
+.dlm-dropdown-select-wrapper a.dlm-dropdown-select-settings {
+  display: inline-block;
+}
+.dlm-dropdown-select-wrapper a.dlm-dropdown-select-settings span {
+  font-size: 13px;
+  width: 13px;
+  height: 13px;
+  vertical-align: center;
+}
