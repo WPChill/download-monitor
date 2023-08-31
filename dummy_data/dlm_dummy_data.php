@@ -94,7 +94,7 @@ function add_dlm_dummy_logs() {
 
 		foreach ( $dlms as $dlm ) {
 
-			$id     = $structured_dlm[ $dlms[ ARRAY_RAND( $dlms ) ] ];
+			$id     = $structured_dlm[ ARRAY_RAND( $structured_dlm ) ];
 			$agents = array( 'Edge', 'Chrome', 'Firefox', 'Safari' );
 			$status = array( 'completed', 'redirected', 'failed' );
 			$wpdb->insert(
