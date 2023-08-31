@@ -1839,6 +1839,7 @@ class DLM_Reports {
 						if ('redirected' === filter.on) {
 							return filter.on === element[filter.type] || 'redirect' === element[filter.type];
 						}
+						return filter.on === element[filter.type];
 					});
 					break;
 				case 'user_id':
