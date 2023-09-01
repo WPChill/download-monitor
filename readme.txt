@@ -120,6 +120,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.8.9 - 01.09.2023 =
+Added: Security & feature updates notification opt in.
+
 = 4.8.8 - 22.08.2023 =
 Changed: Changed text input to select + input for classic editor "Insert Download" popup ( [#1197](https://github.com/WPChill/download-monitor/issues/1197) )
 Fixed: Reports start day to match start day in wordpress settings - only available for Sunday & Monday. ( [#1180](https://github.com/WPChill/download-monitor/issues/1180) )
