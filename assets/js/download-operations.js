@@ -67,6 +67,46 @@ jQuery( function ($) {
             }
         });
     });
+
+    /**
+     * Display the dropdown select settings
+     */
+    jQuery('.dlm-dropdown-select-settings').on('click', function (e) {
+        e.stopPropagation();
+        jQuery(this).parent().find('.dlm-dropdown-select-settings__body').toggleClass('dlm-dropdown-select-settings__body--open');
+    });
+
+    /**
+     * Save the dropdown select settings
+     */
+    jQuery('.dlm-dropdown-select-wrapper__settings input[type="checkbox"]').on('change', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        const inputs = jQuery(this).parents('.dlm-dropdown-select-wrapper__settings').find('input[type="checkbox"]'),
+              wrapperId     = jQuery(this).parents('.dlm-dropdown-select-wrapper').attr('id');
+        let options  = [];
+
+        Object.values(inputs).forEach((element) => {
+            $element = jQuery(element);
+            if ($element.is(':checked')) {
+                options.push($element.val());
+            }
+        });
+
+        // Get all the values from the inputs
+        const data = {
+            action     : 'dlm_save_dropdown_select_settings_' + wrapperId,
+            _ajax_nonce: dlm_ajax_nonce,
+            options    : options,
+        }
+
+        // Send the data to the server
+        jQuery.post(ajaxurl, data, function (response) {
+            if (response.success) {
+                jQuery(document).trigger('dlm_after_dropdown_select_save_' + wrapperId, [response, options]);
+            }
+        });
+    });
 });
 
 jQuery(document).ready(function () {
