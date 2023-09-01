@@ -92,7 +92,7 @@ class DLM_Welcome_Page {
 	public function dlm_on_activation( $first_install ) {
 
 		if ( $first_install ) {
-			add_action( 'activated_plugin', array( $this, 'redirect_on_activation' ) );
+			//add_action( 'activated_plugin', array( $this, 'redirect_on_activation' ) );
 		}
 	}
 
