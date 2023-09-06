@@ -1,3 +1,6 @@
+= 4.8.10 - TBD =
+Fixed: "Downloading Page" upsell meta box does not hide when the addon is active
+
 = 4.8.9 - 01.09.2023 =
 Added: Security & feature updates notification opt in.
 
