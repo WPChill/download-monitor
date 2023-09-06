@@ -120,6 +120,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.8.10 - TBD =
+Fixed: "Downloading Page" upsell meta box does not hide when the addon is active
+Fixed: Category-Filter not working in Widget “List of Download”
+
 = 4.8.9 - 01.09.2023 =
 Added: Security & feature updates notification opt in.
 

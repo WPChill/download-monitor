@@ -248,7 +248,7 @@ class DLM_Widget_Downloads extends WP_Widget {
 					foreach ( $cats as $cat ) {
 						?>
 						<option
-							value="<?php echo esc_attr( $cat->slug ); ?>>" <?php selected( $category, $cat->slug ); ?>><?php echo esc_html( $cat->name ); ?></option>
+							value="<?php echo esc_attr( $cat->slug ); ?>" <?php selected( $category, $cat->slug ); ?>><?php echo esc_html( $cat->name ); ?></option>
 						<?php
 					}
 				}
