@@ -57,6 +57,7 @@ class DLM_Admin_Scripts {
 			DLM_VERSION
 		);
 
+		wp_add_inline_script( 'dlm_insert_download', 'const dlm_ajax_nonce = "' . wp_create_nonce( 'dlm_ajax_nonce' ) . '";', 'before' );
 		// Notices JS
 		wp_enqueue_script(
 			'dlm_notices',

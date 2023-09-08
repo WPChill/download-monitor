@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
 Tested up to: 6.3
-Stable tag: 4.8.9
+Stable tag: 4.8.10
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,6 +120,12 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.8.10 - 08.09.2023 =
+Fixed: "Downloading Page" upsell meta box does not hide when the addon is active ( [#1329](https://github.com/WPChill/download-monitor/issues/1329) )
+Fixed: Category-Filter not working in Widget “List of Download” ( [#1320](https://github.com/WPChill/download-monitor/issues/1320) )
+Changed: Remake the hooking reports filtering functionality ( [#1324](https://github.com/WPChill/download-monitor/issues/1324) )
+Added: Upsells for the new reports filters ( [#1325](https://github.com/WPChill/download-monitor/issues/1325) )
+
 = 4.8.9 - 01.09.2023 =
 Added: Security & feature updates notification opt in.
 

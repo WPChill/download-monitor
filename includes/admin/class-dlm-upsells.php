@@ -171,7 +171,7 @@ class DLM_Upsells {
 	 */
 	public function add_meta_boxes( $meta_boxes ) {
 
-		if ( ! $this->check_extension( 'dlm-download-page' ) ) {
+		if ( ! $this->check_extension( 'dlm-downloading-page' ) ) {
 
 			$meta_boxes[] = array(
 				'id'       => 'dlm-download-page-upsell',

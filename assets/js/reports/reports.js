@@ -1397,6 +1397,7 @@ class DLM_Reports {
 			}else{
 				jQuery('.dlm-reports').addClass('general_info' );
 			}
+			jQuery(document).trigger('dlm_reports_tab_change_' + listClicked.attr('id'), [listClicked, navLists, contentTarget, contentWrappers]);
 		});
 	}
 
@@ -1832,15 +1833,24 @@ class DLM_Reports {
 		}
 
 		dlmReportsInstance.currentFilters.forEach((filter) => {
-
-			dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
-				let currFilter = filter.on;
-				if ( 'redirected' === filter.on ) {
-					return filter.on === element[filter.type] || 'redirect' === element[filter.type];
-				}
-				return filter.on === element[filter.type];
-
-			});
+			switch (filter.type) {
+				case 'download_status':
+					dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
+						if ('redirected' === filter.on) {
+							return filter.on === element[filter.type] || 'redirect' === element[filter.type];
+						}
+						return filter.on === element[filter.type];
+					});
+					break;
+				case 'user_id':
+					dlmReportsInstance.tempDownloads = dlmReportsInstance.tempDownloads.filter((element) => {
+						return filter.on === element[filter.type];
+					});
+					break;
+				default:
+					jQuery(document).trigger('dlm_reports_filter_downloads_' + filter.type, [dlmReportsInstance, filter, dlmReportsInstance.tempDownloads]);
+					break;
+			}
 		});
 		dlmReportsInstance.setUserDownloads();
 	}

@@ -444,6 +444,18 @@ class DLM_Reports_Page {
 			<option value=""><?php echo esc_html__( 'Filter by user', 'download-monitor' ); ?></option>
 		</select>
 		<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced-metrics"><span class="dlm-upsell-badge">PAID</span></a>
+		<select class='user-downloads-filters__filter dlm-available-with-pro__overlay' data-type='download_category'>
+			<option value=''><?php echo esc_html__( 'Filter by download category', 'download-monitor' ); ?></option>
+		</select>
+		<a target="_blank"
+		   href="https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced-metrics"><span
+				class="dlm-upsell-badge">PAID</span></a>
+		<select class='user-downloads-filters__filter dlm-available-with-pro__overlay' data-type='download'>
+			<option value=''><?php echo esc_html__( 'Filter by download', 'download-monitor' ); ?></option>
+		</select>
+		<a target="_blank"
+		   href="https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced-metrics"><span
+				class="dlm-upsell-badge">PAID</span></a>
 		<?php
 	}
 }
