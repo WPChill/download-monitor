@@ -1286,6 +1286,7 @@ class DLM_Reports {
 			wrapperParent.find('.downloads-block-navigation button').addClass('hidden');
 		}
 		dlmReportsInstance.stopSpinner(jQuery('#total_downloads_table_wrapper2'));
+		jQuery(document).trigger( 'dlm_reports_top_downloads_table_rendered', [wrapperParent, wrapper, dlmReportsInstance, dataResponse] );
 	}
 
 	/**
@@ -1819,6 +1820,7 @@ class DLM_Reports {
 		} else {
 			wrapperParent.find('.user-downloads-block-navigation button').addClass('hidden');
 		}
+		jQuery(document).trigger( 'dlm_reports_user_logs_table_rendered', [dlmReportsInstance, wrapperParent, wrapper, dataResponse] );
 	}
 
 	/**
