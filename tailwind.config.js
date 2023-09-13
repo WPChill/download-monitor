@@ -5,5 +5,6 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  prefix: 'dlm-'
 }
 
