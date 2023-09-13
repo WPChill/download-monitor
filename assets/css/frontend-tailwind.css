@@ -644,6 +644,11 @@ html body a.download-link.dlm-download-complete::before {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity))
 }
 
+.dlm-bg-green-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity))
+}
+
 .dlm-bg-opacity-75 {
   --tw-bg-opacity: 0.75
 }
@@ -801,6 +806,11 @@ html body a.download-link.dlm-download-complete::before {
 
   .sm\:dlm-max-w-lg {
     max-width: 32rem
+  }
+
+  .sm\:dlm-max-w-fit {
+    max-width: -moz-fit-content;
+    max-width: fit-content
   }
 
   .sm\:dlm-flex-row-reverse {

@@ -375,7 +375,8 @@ class DLM_Ajax_Handler {
 			'',
 			array(
 				'title'   => $title,
-				'content' => $content
+				'content' => $content,
+				'icon'    => 'alert'
 			)
 		);
 		$modal_template = ob_get_clean();
