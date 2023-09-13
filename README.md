@@ -18,3 +18,14 @@ This repository is not suitable for support. Please don't use our issue tracker 
 * [Download Monitor Documentation Page](https://www.download-monitor.com/kb/)
 
 Support requests in issues on this repository will be closed.
+
+## Building front-end CSS using Tailwind
+
+In order to only add and update the used Tailwind CSS please use the following command line:
+
+`npx tailwind -i ./assets/src/tailwind.css -o ./assets/css/tailwind.css --watch`
+
+This will search in the `src`, `templates` and `assets/views` for Tailwind CSS and add the required code style to the CSS file. 
+
+Building the front-neede CSS file is done using the following command line: 
+`grunt build-css`. This will combine DLM's front CSS with Tailwind's into a single minified CSS file.
