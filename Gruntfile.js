@@ -294,6 +294,12 @@ module.exports = function ( grunt ) {
 		'makepot'
 	] );
 
+	grunt.registerTask( 'build-css', [
+		'less',
+		'concat',
+		'cssmin'
+	] );
+
 	// Build task
 	grunt.registerTask( 'build-archive', [
 		'clean',
