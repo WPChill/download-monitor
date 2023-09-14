@@ -46,7 +46,7 @@
 							<div class='dlm-mt-3 dlm-text-center sm:dlm-ml-4 sm:dlm-mt-0 sm:dlm-text-left'>
 								<h3 class='dlm-text-base dlm-font-semibold dlm-leading-6 dlm-text-gray-900'
 								    id='modal-title'>
-									<?php echo esc_html( $title[ $restriction_type ] ) ?></h3>
+									<?php echo esc_html( $title ) ?></h3>
 								<div class='dlm-mt-2'>
 									<p class='dlm-text-sm dlm-text-gray-500'><?php echo $content; ?></p>
 								</div>

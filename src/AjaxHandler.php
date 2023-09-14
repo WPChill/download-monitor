@@ -374,7 +374,7 @@ class DLM_Ajax_Handler {
 			'',
 			'',
 			array(
-				'title'   => $title,
+				'title'   => $title[$restriction_type],
 				'content' => $content,
 				'icon'    => 'alert'
 			)
