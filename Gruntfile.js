@@ -37,7 +37,6 @@ module.exports = function ( grunt ) {
 				} ]
 			}
 		},
-
 		// Minify all .css files.
 		cssmin: {
 			minify: {
@@ -46,6 +45,17 @@ module.exports = function ( grunt ) {
 				src: [ '*.css', '!*.min.css' ],
 				dest: '<%= dirs.css %>/',
 				ext: '.min.css'
+			},
+
+		},
+
+		concat: {
+			css: {
+				src : [
+					'assets/css/frontend.css',
+					'assets/css/tailwind.css'
+				],
+				dest: 'assets/css/frontend-tailwind.css'
 			}
 		},
 
@@ -269,6 +279,7 @@ module.exports = function ( grunt ) {
 	// Register tasks
 	grunt.registerTask( 'default', [
 		'less',
+		'concat',
 		'cssmin',
 		'uglify'
 	] );
@@ -281,6 +292,12 @@ module.exports = function ( grunt ) {
 	grunt.registerTask( 'dev', [
 		'default',
 		'makepot'
+	] );
+
+	grunt.registerTask( 'build-css', [
+		'less',
+		'concat',
+		'cssmin'
 	] );
 
 	// Build task

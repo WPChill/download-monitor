@@ -367,25 +367,19 @@ class DLM_Ajax_Handler {
 				}
 			}
 		}
-
-		$modal_template = '
-			<div id="dlm-no-access-modal" >
-				<div class="dlm-no-access-modal-overlay">
-
-				</div>
-				<div class="dlm-no-access-modal-window">
-					<div class="dlm-no-access-modal__header">
-						<span class="dlm-no-access-modal__title">' . esc_html( $title[ $restriction_type ] ) . ' </span>
-						<span class="dlm-no-access-modal-close" title="' . esc_attr__( 'Close Modal', 'download-monitor' ) . '"> <span class="dashicons dashicons-no"></span>
-					</div>
-					<div class="dlm-no-access-modal__body">						
-						' . $content . '			
-					</div>	
-					<div class="dlm-no-access-modal__footer">
-						<button class="dlm-no-access-modal-close">' . esc_html__( 'Close', 'download-monitor' ) . '</button>
-					</div>
-				</div>			
-			</div>';
+		$template_handler = new DLM_Template_Handler();
+		ob_start();
+		$template_handler->get_template_part(
+			'no-access-modal',
+			'',
+			'',
+			array(
+				'title'   => $title,
+				'content' => $content,
+				'icon'    => 'alert'
+			)
+		);
+		$modal_template = ob_get_clean();
 		// Content and variables escaped above.
 		// $content variable escaped from extensions as it may include inputs or other HTML elements.
 		echo $modal_template; //phpcs:ignore
