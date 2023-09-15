@@ -120,6 +120,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.8.11 - TBD =
+Added: Included Tailwind CSS ( [#1335](https://github.com/WPChill/download-monitor/issues/1335) )
+Changed: Separate template for the No Access Modal functionality ( [#1336](https://github.com/WPChill/download-monitor/issues/1336) )
+Added: Filter to better extend the download button click functionality in other extensions ( [#1332](https://github.com/WPChill/download-monitor/issues/1332) )
+
 = 4.8.10 - 08.09.2023 =
 Fixed: "Downloading Page" upsell meta box does not hide when the addon is active ( [#1329](https://github.com/WPChill/download-monitor/issues/1329) )
 Fixed: Category-Filter not working in Widget “List of Download” ( [#1320](https://github.com/WPChill/download-monitor/issues/1320) )
