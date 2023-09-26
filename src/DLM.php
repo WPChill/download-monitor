@@ -325,6 +325,12 @@ class WP_DLM {
 	 * @return array
 	 */
 	public function plugin_links( $links ) {
+		// Check to see if this is a Freemius activation mode. If true, don't set the Settings link.
+		$freemius = dm_fs();
+		if ( $freemius->is_activation_mode() ) {
+			return $links;
+		}
+
 		$plugin_links = array(
 			'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings', 'download-monitor' ) . '</a>'
 		);
