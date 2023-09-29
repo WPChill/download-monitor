@@ -159,6 +159,11 @@ class WP_DLM {
 		$ajax_manager = new DLM_Ajax_Manager();
 		$ajax_manager->setup();
 
+		// Setup Modal
+		if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
+			DLM_Modal::get_instance();
+		}
+
 		// Functions
 		require_once( $this->get_plugin_path() . 'includes/download-functions.php' );
 
