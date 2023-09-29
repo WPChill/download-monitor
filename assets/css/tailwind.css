@@ -14,17 +14,21 @@
   z-index: 10
 }
 
+.dlm-m-2 {
+  margin: 0.5rem
+}
+
 .dlm-mx-auto {
   margin-left: auto;
   margin-right: auto
 }
 
-.dlm-mt-2 {
-  margin-top: 0.5rem
-}
-
 .dlm-mt-3 {
   margin-top: 0.75rem
+}
+
+.dlm-mt-2 {
+  margin-top: 0.5rem
 }
 
 .dlm-flex {
@@ -55,12 +59,12 @@
   width: 1.5rem
 }
 
-.dlm-w-full {
-  width: 100%
-}
-
 .dlm-w-screen {
   width: 100vw
+}
+
+.dlm-w-full {
+  width: 100%
 }
 
 .dlm-flex-shrink-0 {
@@ -108,6 +112,11 @@
   background-color: rgb(107 114 128 / var(--tw-bg-opacity))
 }
 
+.dlm-bg-green-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity))
+}
+
 .dlm-bg-red-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity))
@@ -116,11 +125,6 @@
 .dlm-bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity))
-}
-
-.dlm-bg-green-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 252 231 / var(--tw-bg-opacity))
 }
 
 .dlm-bg-opacity-75 {
@@ -185,11 +189,6 @@
   line-height: 1.5rem
 }
 
-.dlm-text-gray-500 {
-  --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity))
-}
-
 .dlm-text-gray-900 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity))
@@ -198,6 +197,11 @@
 .dlm-text-red-600 {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity))
+}
+
+.dlm-text-gray-500 {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity))
 }
 
 .dlm-shadow-sm {
@@ -276,10 +280,6 @@
 
   .sm\:dlm-w-full {
     width: 100%
-  }
-
-  .sm\:dlm-max-w-lg {
-    max-width: 32rem
   }
 
   .sm\:dlm-max-w-fit {

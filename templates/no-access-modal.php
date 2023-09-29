@@ -1,3 +1,29 @@
+<?php
+/**
+ * No Access Modal template, used to display the no access modal. This template can be overridden by copying it to
+ * yourtheme/download-monitor/no-access-modal.php. Please note that this template is used for all no access modals and
+ * locked downloads.
+ *
+ * @param string $title   The title of the modal.
+ *                        Default: __( 'No Access', 'download-monitor' )
+ *                        Filters: 'dlm_modal_title'
+ *                        Example: add_filter( 'dlm_modal_title', function( $title ) { return 'My Custom Title'; } );
+ * @param string $content The content of the modal.
+ *                        Default: __( 'You do not have permission to download this file.', 'download-monitor' )
+ * @param string $icon    The icon to display in the modal.
+ *                        Default: 'alert'
+ *                        action: 'dlm_modal_icon_' . $icon
+ *                        Example: add_action( 'dlm_modal_icon_warning', function( $title, $content ) { echo 'My Warning Icon'; } );
+ *
+ *
+ * @since 4.8.11
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
+?>
+
 <div id='dlm-no-access-modal'>
 	<div class='dlm-relative dlm-z-10' aria-labelledby='modal-title' role='dialog' aria-modal='true'>
 		<div class='dlm-fixed dlm-inset-0 dlm-bg-gray-500 dlm-bg-opacity-75 dlm-transition-opacity'></div>
@@ -38,7 +64,7 @@
 										<?php
 										break;
 									default:
-										do_action( 'dlm_modal_icon', $icon, $title );
+										do_action( 'dlm_modal_icon_' . $icon, $title, $content );
 										break;
 								}
 							}
@@ -47,15 +73,15 @@
 								<h3 class='dlm-text-base dlm-font-semibold dlm-leading-6 dlm-text-gray-900'
 								    id='modal-title'>
 									<?php echo esc_html( $title ) ?></h3>
-								<div class='dlm-mt-2'>
-									<p class='dlm-text-sm dlm-text-gray-500'><?php echo $content; ?></p>
-								</div>
 							</div>
 						</div>
 					</div>
+					<div class='dlm-m-2'>
+						<?php echo wp_kses_post( $content ); ?>
+					</div>
 					<div class='dlm-px-4 dlm-py-3 sm:dlm-flex sm:dlm-flex-row-reverse sm:dlm-px-6'>
 						<button type='button'
-						        class='dlm-mt-3 dlm-inline-flex dlm-w-full dlm-justify-center dlm-rounded-md dlm-bg-white dlm-px-3 dlm-py-2 dlm-text-sm dlm-font-semibold dlm-text-gray-900 dlm-shadow-sm dlm-ring-1 dlm-ring-inset dlm-ring-gray-300 hover:dlm-bg-grey-50 sm:dlm-mt-0 sm:dlm-w-auto dlm-no-access-modal-close'><?php echo esc_html__( 'Close', 'download-monitor' ) ?>
+						        class='dlm-mt-3 dlm-inline-flex dlm-justify-center dlm-rounded-md dlm-bg-white dlm-px-3 dlm-py-2 dlm-text-sm dlm-font-semibold dlm-text-gray-900 dlm-shadow-sm dlm-ring-1 dlm-ring-inset dlm-ring-gray-300 hover:dlm-bg-grey-50 sm:dlm-mt-0 sm:dlm-w-auto dlm-no-access-modal-close'><?php echo esc_html__( 'Close', 'download-monitor' ) ?>
 						</button>
 					</div>
 				</div>

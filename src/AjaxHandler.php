@@ -58,7 +58,7 @@ class DLM_Ajax_Handler {
 			$data = array(
 				'error' => $attachment_id->get_error_message()
 			);
-			wp_send_json_error($data);
+			wp_send_json_error( $data );
 		}
 
 		die();
@@ -141,7 +141,7 @@ class DLM_Ajax_Handler {
 			'file_urls'           => $new_version->get_mirrors(),
 			'version'             => $new_version,
 			'date_format'         => get_option( 'date_format' ),
-			'file_browser'        => defined( 'DLM_FILE_BROWSER' ) ? !(bool)DLM_FILE_BROWSER : get_option( 'dlm_turn_off_file_browser', true ),
+			'file_browser'        => defined( 'DLM_FILE_BROWSER' ) ? ! (bool) DLM_FILE_BROWSER : get_option( 'dlm_turn_off_file_browser', true ),
 		) );
 
 		die();
@@ -218,7 +218,7 @@ class DLM_Ajax_Handler {
 		}
 
 		// the notice
-		$notice = sanitize_text_field( wp_unslash($_POST['notice']) );
+		$notice = sanitize_text_field( wp_unslash( $_POST['notice'] ) );
 
 		// check nonce
 		check_ajax_referer( 'dlm_hide_notice-' . $notice, 'nonce' );
@@ -244,10 +244,10 @@ class DLM_Ajax_Handler {
 		}
 
 		// settings key
-		$option_key = sanitize_text_field( wp_unslash($_POST['option']) );
+		$option_key = sanitize_text_field( wp_unslash( $_POST['option'] ) );
 
 		// get options
-		$options = apply_filters( 'dlm_settings_lazy_select_'.$option_key, array() );
+		$options = apply_filters( 'dlm_settings_lazy_select_' . $option_key, array() );
 
 		// send options
 		wp_send_json( $options );
@@ -300,7 +300,7 @@ class DLM_Ajax_Handler {
 		$api_request = wp_remote_get(
 			DLM_Product::STORE_URL . 'dlm_forgotten_license_api' . '&' . http_build_query(
 				array(
-					'email'    => sanitize_email( wp_unslash( $_POST['email'] ) ),
+					'email' => sanitize_email( wp_unslash( $_POST['email'] ) ),
 				),
 				'',
 				'&'
