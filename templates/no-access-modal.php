@@ -77,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</div>
 					</div>
 					<div class='dlm-m-2'>
-						<?php echo wp_kses_post( $content ); ?>
+						<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped - Content is escaped in the extensions ?>
 					</div>
 					<div class='dlm-px-4 dlm-py-3 sm:dlm-flex sm:dlm-flex-row-reverse sm:dlm-px-6'>
 						<button type='button'

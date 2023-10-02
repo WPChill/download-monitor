@@ -40,7 +40,6 @@ class DLM_Modal {
 
 		add_action( 'wp_ajax_nopriv_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
 		add_action( 'wp_ajax_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
-		add_action( 'wp_print_scripts', array( $this, 'inspect_scripts' ) );
 	}
 
 	/**
@@ -57,17 +56,6 @@ class DLM_Modal {
 
 		return self::$instance;
 
-	}
-
-	/**
-	 * Set scripts
-	 *
-	 * @return void
-	 * @since 4.8.11
-	 */
-	public function inspect_scripts() {
-		global $wp_scripts;
-		self::$enqueued_scripts = $wp_scripts->queue;
 	}
 
 	/**
@@ -188,54 +176,24 @@ class DLM_Modal {
 			'icon'    => '',
 		);
 		// Ensure all keys are set.
-		$data = wp_parse_args( $data, $default_args );
-
-		$scripts = apply_filters( 'dlm_modal_template_scripts', array() );
-
-		// Check Scripts & Dependencies if already enqueued
-		$scripts_to_print = array();
-		foreach ( $scripts as $script => $script_data ) {
-
-			//also check the main script
-			if ( in_array( $script, self::$enqueued_scripts, true ) ) {
-				continue;
-			}
-
-			// add the script to the enq list.
-			$scripts_to_print[] = $script;
-
-			// check if the dependencies are enqueued already.
-			foreach ( $script_data['dep'] as $dep => $value ) {
-
-				if ( in_array( $value, self::$enqueued_scripts, true ) ) {
-					unset( $scripts[ $script ]['dep'][ $dep ] );
-				}
-			}
-
-			//enqueue clean script
-			wp_enqueue_script(
-				$script,
-				$script_data['path'],
-				$script_data['dep'],
-				$script_data['version'],
-				true
-			);
-		}
-
+		$data             = wp_parse_args( $data, $default_args );
 		$template_handler = new DLM_Template_Handler();
+		// Print scripts, dependencies and inline scripts in an object, so we can attach it to the modal.
 		ob_start();
-
+		wp_print_scripts();
+		$scripts = ob_get_clean();
+		// Start the modal template.
+		ob_start();
 		$template_handler->get_template_part(
 			'no-access-modal',
 			'',
 			'',
 			array(
 				'title'   => $data['title'],
-				'content' => '<div class="dlm-modal-content">' . $data['content'] . '</div>',
+				'content' => '<div class="dlm-modal-content">' . $data['content'] . '</div>' . $scripts,
 				'icon'    => $data['icon']
 			)
 		);
-		wp_print_scripts( $scripts_to_print );
 		$modal_template = ob_get_clean();
 		// Content and variables escaped above.
 		// $content variable escaped from extensions as it may include inputs or other HTML elements.
