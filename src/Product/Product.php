@@ -12,6 +12,12 @@ class DLM_Product {
 	const STORE_URL = 'https://www.download-monitor.com/?wc-api=';
 
 	/**
+	 * Alternative store URL
+	 * @since 4.8.11
+	 */
+	const ALT_STORE_URL = 'https://license.wpchill.com/dlm/?wc-api=';
+
+	/**
 	 * Activation endpoint
 	 */
 	const ENDPOINT_ACTIVATION = 'wp_plugin_licencing_activation_api';
@@ -168,10 +174,11 @@ class DLM_Product {
 			}
 
 			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
-
+			$store_url      = ( '1' === sanitize_text_field( $_POST['alt_store'] ) ) ? self::ALT_STORE_URL : self::STORE_URL;
+			update_option( 'dlm_alt_store', sanitize_text_field( $_POST['alt_store'] ) );
 			// Do activate request
 			$request = wp_remote_get(
-				self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
+				$store_url . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
 					array(
 						'email'          => $license->get_email(),
 						'licence_key'    => $license->get_key(),
@@ -244,10 +251,11 @@ class DLM_Product {
 			}
 
 			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
-
+			$store_url      = ( '1' === sanitize_text_field( $_POST['alt_store'] ) ) ? self::ALT_STORE_URL : self::STORE_URL;
+			update_option( 'dlm_alt_store', sanitize_text_field( $_POST['alt_store'] ) );
 			// The Request
 			$request = wp_remote_get(
-				self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
+				$store_url . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
 					array(
 						'api_product_id' => $this->product_id,
 						'licence_key'    => $license->get_key(),
