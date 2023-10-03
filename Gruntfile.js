@@ -53,7 +53,8 @@ module.exports = function ( grunt ) {
 			css: {
 				src : [
 					'assets/css/frontend.css',
-					'assets/css/tailwind.css'
+					'assets/css/tailwind.css',
+					'assets/css/tailwind-base.css'
 				],
 				dest: 'assets/css/frontend-tailwind.css'
 			}

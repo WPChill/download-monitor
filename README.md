@@ -23,7 +23,7 @@ Support requests in issues on this repository will be closed.
 
 In order to only add and update the used Tailwind CSS please use the following command line:
 
-`npx tailwind -i ./assets/src/tailwind.css -o ./assets/css/tailwind.css --watch`
+`npx tailwind -i ./assets/src/tailwind.less -o ./assets/css/tailwind.less --watch`
 
 This will search in the `src`, `templates` and `assets/views` for Tailwind CSS and add the required code style to the CSS file. 
 

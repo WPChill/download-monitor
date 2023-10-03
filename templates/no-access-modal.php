@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class='dlm-fixed dlm-inset-0 dlm-bg-gray-500 dlm-bg-opacity-75 dlm-transition-opacity'></div>
 		<div class='dlm-fixed dlm-inset-0 dlm-z-10 dlm-w-screen dlm-overflow-y-auto'>
 			<div
-				class='dlm-no-access-modal-window dlm-flex dlm-min-h-full dlm-items-end dlm-justify-center dlm-p-4 dlm-text-center sm:dlm-items-center sm:dlm-p-0'>
+				class='dlm-no-access-modal-window dlm-flex dlm-min-h-full dlm-items-center dlm-justify-center dlm-p-4 dlm-text-center sm:dlm-items-center sm:dlm-p-0'>
 				<div
 					class='dlm-relative dlm-transform dlm-overflow-hidden dlm-rounded-lg dlm-bg-white dlm-text-left dlm-shadow-xl dlm-transition-all sm:dlm-my-8 sm:dlm-w-full sm:dlm-max-w-fit'>
 					<div class='dlm-bg-white dlm-px-4 dlm-pb-4 dlm-pt-5 sm:dlm-p-6 sm:dlm-pb-4'>
