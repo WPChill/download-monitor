@@ -180,6 +180,7 @@ class DLM_Modal {
 		$template_handler = new DLM_Template_Handler();
 		// Print scripts, dependencies and inline scripts in an object, so we can attach it to the modal.
 		ob_start();
+		wp_print_styles();
 		wp_print_scripts();
 		$scripts = ob_get_clean();
 		// Start the modal template.
