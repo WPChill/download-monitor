@@ -418,18 +418,15 @@ class DLM_Admin_Settings {
 				'priority' => 70,
 			),
 		);
-		// Only add the setting if shop is enabled or filter is set to true.
-		if ( apply_filters( 'dlm_enable_shop', dlm_is_shop_enabled() ) ) {
-			$settings['general']['sections']['general']['fields'][] = array(
-				'name'     => 'dlm_shop_enabled',
-				'std'      => '',
-				'label'    => __( 'Shop Enabled', 'download-monitor' ),
-				'cb_label' => '',
-				'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
-				'type'     => 'checkbox',
-				'priority' => 20,
-			);
-		}
+		$settings['general']['sections']['general']['fields'][] = array(
+			'name'     => 'dlm_shop_enabled',
+			'std'      => '',
+			'label'    => __( 'Shop Enabled', 'download-monitor' ),
+			'cb_label' => '',
+			'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
+			'type'     => 'checkbox',
+			'priority' => 20,
+		);
 		// Only show shop settings if shop is enabled.
 		if ( dlm_is_shop_enabled() ) {
 			$settings['shop'] = array(

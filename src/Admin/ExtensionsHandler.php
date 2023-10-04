@@ -68,8 +68,7 @@ class DLM_Extensions_Handler {
 
 		$action_trigger = '-ext';
 
-		$store_url = ( ( isset( $_POST['alt_store'] ) && '1' === sanitize_text_field( $_POST['alt_store'] ) ) ? DLM_Product::ALT_STORE_URL : DLM_Product::STORE_URL ) . '?wc-api=';
-		update_option( 'dlm_alt_store', absint( $_POST['alt_store'] ) );
+		$store_url = ( ( '1' === get_option( 'dlm_alt_store' ) ) ? DLM_Product::ALT_STORE_URL : DLM_Product::STORE_URL ) . '?wc-api=';
 
 		// Do activate request.
 		$api_request = wp_remote_get(
