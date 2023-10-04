@@ -9,13 +9,13 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://www.download-monitor.com/?wc-api=';
+	const STORE_URL = 'https://www.download-monitor.com/';
 
 	/**
 	 * Alternative store URL
 	 * @since 4.8.11
 	 */
-	const ALT_STORE_URL = 'https://license.wpchill.com/dlm/?wc-api=';
+	const ALT_STORE_URL = 'https://license.wpchill.com/dlm/';
 
 	/**
 	 * Activation endpoint
@@ -174,7 +174,7 @@ class DLM_Product {
 			}
 
 			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
-			$store_url      = ( '1' === sanitize_text_field( $_POST['alt_store'] ) ) ? self::ALT_STORE_URL : self::STORE_URL;
+			$store_url      = ( ( '1' === sanitize_text_field( $_POST['alt_store'] ) ) ? self::ALT_STORE_URL : self::STORE_URL ) . '?wc-api=';
 			update_option( 'dlm_alt_store', sanitize_text_field( $_POST['alt_store'] ) );
 			// Do activate request
 			$request = wp_remote_get(
@@ -251,7 +251,7 @@ class DLM_Product {
 			}
 
 			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
-			$store_url      = ( '1' === sanitize_text_field( $_POST['alt_store'] ) ) ? self::ALT_STORE_URL : self::STORE_URL;
+			$store_url      = ( ( '1' === sanitize_text_field( $_POST['alt_store'] ) ) ? self::ALT_STORE_URL : self::STORE_URL ) . '?wc-api=';
 			update_option( 'dlm_alt_store', sanitize_text_field( $_POST['alt_store'] ) );
 			// The Request
 			$request = wp_remote_get(
