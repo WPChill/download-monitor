@@ -126,6 +126,7 @@ Changed: Separate template for the No Access Modal functionality ( [#1336](https
 Added: Filter to better extend the download button click functionality in other extensions ( [#1332](https://github.com/WPChill/download-monitor/issues/1332) )
 Changed: Created modal class and move the modal functionality to it ( [#1340](https://github.com/WPChill/download-monitor/issues/1340) )
 Added: Alternative license activation server ( [#1341](https://github.com/WPChill/download-monitor/issues/1341) )
+Fixed: Download ID prepended to the Download title ( [#1342](https://github.com/WPChill/download-monitor/issues/1342) )
 
 
 = 4.8.10 - 08.09.2023 =
