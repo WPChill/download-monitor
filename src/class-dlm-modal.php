@@ -198,7 +198,7 @@ class DLM_Modal {
 		$modal_template = ob_get_clean();
 		// Content and variables escaped above.
 		// $content variable escaped from extensions as it may include inputs or other HTML elements.
-		echo $modal_template; //phpcs:ignore
+		echo apply_filters( 'dlm_modal_content_output', $modal_template ); //phpcs:ignore
 		wp_die();
 	}
 }
