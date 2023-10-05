@@ -22,7 +22,8 @@ module.exports = function ( grunt ) {
 			compile: {
 				options: {
 					// These paths are searched for @imports
-					paths: [ '<%= dirs.css %>/'  ]
+					paths: [ '<%= dirs.css %>/'  ],
+					emptyValue: 'empty', // Set this option to 'empty'
 				},
 				files: [ {
 					expand: true,

@@ -191,7 +191,7 @@ class DLM_Modal {
 			'',
 			array(
 				'title'   => $data['title'],
-				'content' => '<div class="dlm-modal-content">' . $data['content'] . '</div>' . $scripts,
+				'content' => '<div class="dlm-modal-content">' . $scripts . $data['content'] . '</div>',
 				'icon'    => $data['icon']
 			)
 		);
