@@ -296,8 +296,7 @@ class DLM_Ajax_Handler {
 			wp_send_json_error( array( 'message' => __( 'Invalid email address.', 'download-monitor' ) ) );
 		}
 
-		$store_url = ( ( '1' === sanitize_text_field( $_POST['alt_store'] ) ) ? DLM_Product::ALT_STORE_URL : DLM_Product::STORE_URL ) . '?wc-api=';
-		update_option( 'dlm_alt_store', sanitize_text_field( $_POST['alt_store'] ) );
+		$store_url = DLM_Product::STORE_URL . '?wc-api=';
 		// Do activate request.
 		$api_request = wp_remote_get(
 			$store_url . 'dlm_forgotten_license_api' . '&' . http_build_query(

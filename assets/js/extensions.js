@@ -12,7 +12,7 @@ jQuery(function ($) {
 						) ? 'activate' : 'deactivate';
 
 			$(wrap).find('.dlm_license_error').remove();
-			const alt_store = $('input[name="dlm_alt_store"]').is(':checked') ? 1 : 0;
+
 			$.post(ajaxurl, {
 				action          : 'dlm_extension',
 				nonce           : $('#dlm-ajax-nonce').val(),
@@ -21,7 +21,6 @@ jQuery(function ($) {
 				email           : $(wrap).find('#email').val(),
 				extension_action: ex_ac,
 				action_trigger  : '-ext-license',
-				alt_store       : alt_store,
 			}, function (response) {
 				if (response.result == 'failed') {
 					$(wrap).prepend($("<div>").addClass("dlm_license_error").html(response.message));
@@ -80,7 +79,6 @@ jQuery(function ($) {
 
 		target.attr('disabled', 'disabled');
 		parent.append('<div class="dlm-master-license-response">' + actionText + '</div>');
-		const alt_store = $('input[name="dlm_alt_store"]').is(':checked') ? 1 : 0;
 		$.post(ajaxurl, {
 			action          : 'dlm_master_license',
 			nonce           : nonce,
@@ -88,7 +86,6 @@ jQuery(function ($) {
 			email           : emailAddress,
 			extension_action: ex_ac,
 			action_trigger  : '-master-license',
-			alt_store       : alt_store,
 		}, function (response) {
 			target.removeAttr('disabled');
 			if (response.result == 'failed') {
@@ -122,12 +119,10 @@ jQuery(function ($) {
 			target.css('pointer-events', 'auto');
 			return;
 		}
-		const alt_store = $('input[name="dlm_alt_store"]').is(':checked') ? 1 : 0;
 		$.post(ajaxurl, {
 			action: 'dlm_forgot_license',
 			nonce : nonce,
 			email : emailAddress,
-			alt_store: alt_store,
 		}, function (response) {
 			target.removeAttr('disabled');
 

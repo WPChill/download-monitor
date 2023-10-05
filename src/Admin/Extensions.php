@@ -464,26 +464,6 @@ class DLM_Admin_Extensions {
 										<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate';  ?>"><?php ( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
 										&nbsp;<a href="#" target="_blank" id="dlm-forgot-license" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"><?php esc_html_e( 'Forgot your license?', 'download-monitor' ); ?></a>
 										<p>&nbsp;</p>
-										<div>
-											<div class='wpchill-toggle'>
-												<input class='wpchill-toggle__input' id="dlm_alt_server"
-												       name="dlm_alt_store" type='checkbox'
-												       value='1' <?php checked( '1', get_option('dlm_alt_store', '0' ) ); ?>>
-												<div class="wpchill-toggle__items">
-													<span class="wpchill-toggle__track"></span>
-													<span class="wpchill-toggle__thumb"></span>
-													<svg class="wpchill-toggle__off" width="6" height="6" aria-hidden="true" role="img"
-													     focusable="false" viewBox="0 0 6 6">
-														<path d="M3 1.5c.8 0 1.5.7 1.5 1.5S3.8 4.5 3 4.5 1.5 3.8 1.5 3 2.2 1.5 3 1.5M3 0C1.3 0 0 1.3 0 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"></path>
-													</svg>
-													<svg class="wpchill-toggle__on" width="2" height="6" aria-hidden="true" role="img"
-													     focusable="false" viewBox="0 0 2 6">
-														<path d="M0 0h2v6H0z"></path>
-													</svg>
-												</div>
-											</div>
-											<span><?php esc_html_e( 'Use alternative server', 'download-monitor' ) ?></span>
-										</div>
 									</div>
 									<?php
 

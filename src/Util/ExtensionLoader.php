@@ -18,7 +18,7 @@ class ExtensionLoader {
 
 		// Load extension json
 		if ( false === ( $extension_json = get_transient( 'dlm_extension_json' ) ) ) {
-			$store_url = ( '1' === get_option( 'dlm_alt_store', '0' ) ) ? \DLM_Product::ALT_STORE_URL : \DLM_Product::STORE_URL;
+			$store_url = \DLM_Product::STORE_URL;
 			// Extension request
 			$extension_request = wp_remote_get( $store_url . '?dlm-all-extensions=true' );
 
