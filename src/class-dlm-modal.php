@@ -186,7 +186,7 @@ class DLM_Modal {
 		// Start the modal template.
 		ob_start();
 		$template_handler->get_template_part(
-			'no-access-modal',
+			DLM_Constants::DLM_MODAL_TEMPLATE,
 			'',
 			'',
 			array(

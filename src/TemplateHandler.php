@@ -102,5 +102,4 @@ class DLM_Template_Handler {
 			//load_template( $template, false );
 		}
 	}
-
 }
