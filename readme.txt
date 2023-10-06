@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
 Tested up to: 6.3
-Stable tag: 4.8.10
+Stable tag: 4.9.0
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,13 +120,16 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 4.8.11 - TBD =
+= 4.9.0 - TBD =
 Added: Included Tailwind CSS ( [#1335](https://github.com/WPChill/download-monitor/issues/1335) )
-Changed: Separate template for the No Access Modal functionality ( [#1336](https://github.com/WPChill/download-monitor/issues/1336) )
+Changed: Separate template & new function for the No Access Modal functionality ( [#1336](https://github.com/WPChill/download-monitor/issues/1336) )
 Added: Filter to better extend the download button click functionality in other extensions ( [#1332](https://github.com/WPChill/download-monitor/issues/1332) )
 Changed: Created modal class and move the modal functionality to it ( [#1340](https://github.com/WPChill/download-monitor/issues/1340) )
-Added: Alternative license activation server ( [#1341](https://github.com/WPChill/download-monitor/issues/1341) )
+Changed: License activation server ( [#1341](https://github.com/WPChill/download-monitor/issues/1341) )
 Fixed: Download ID prepended to the Download title ( [#1342](https://github.com/WPChill/download-monitor/issues/1342) )
+Fixed: Removed Support Forum menu item ( [#1344](https://github.com/WPChill/download-monitor/issues/1344) )
+Fixed: Error not allowed page in certain Freemius conditions ( [#1339](https://github.com/WPChill/download-monitor/issues/1339) )
+Changed: Restored the Shop functionality ( [#1343](https://github.com/WPChill/download-monitor/issues/1343) )
 
 
 = 4.8.10 - 08.09.2023 =
