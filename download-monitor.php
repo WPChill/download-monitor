@@ -61,10 +61,20 @@ if ( ! function_exists( 'dm_fs' ) ) {
         return $dm_fs;
     }
 
-    // Init Freemius.
-    dm_fs();
-    // Signal that SDK was initiated.
-    do_action( 'dm_fs_loaded' );
+	// Init Freemius.
+	dm_fs();
+	// Signal that SDK was initiated.
+	do_action( 'dm_fs_loaded' );
+
+	function dlm_remove_support_menu( $is_visible, $menu_id ) {
+		if ( 'support' === $menu_id ) {
+			return false;
+		}
+
+		return $is_visible;
+	}
+
+	dm_fs()->add_filter( 'is_submenu_visible', 'dlm_remove_support_menu', 10, 2 );
 }
 
 // Define DLM Version
@@ -99,5 +109,3 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 if( ! class_exists( 'DLM_Review') && is_admin() ) {
 	require_once dirname( __FILE__ ) . '/includes/admin/class-dlm-review.php';
 }
-
-
