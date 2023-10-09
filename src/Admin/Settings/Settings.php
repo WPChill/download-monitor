@@ -416,7 +416,7 @@ class DLM_Admin_Settings {
 				'title'    => __( 'Shop', 'download-monitor' ),
 				'sections' => array(
 					'shop' => array(
-						'title'  => __( 'Settings', 'download-monitor' ),
+						'title'  => __( 'General', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'    => 'dlm_base_country',
@@ -465,36 +465,35 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_disable_cart',
 								'std'      => '',
 								'label'    => __( 'Disable Cart', 'download-monitor' ),
-								'cb_label' => __( 'Disable', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
 								'type'     => 'checkbox',
+							),
+							array(
+								'name'  => '',
+								'type'  => 'title',
+								'title' => __( 'Pages', 'download-monitor' )
+							),
+							array(
+								'name'    => 'dlm_page_cart',
+								'std'     => '',
+								'label'   => __( 'Cart page', 'download-monitor' ),
+								'desc'    => __( 'Your cart page, make sure it has the <code>[dlm_cart]</code> shortcode.', 'download-monitor' ),
+								'type'    => 'lazy_select',
+								'options' => array(),
+							),
+							array(
+								'name'    => 'dlm_page_checkout',
+								'std'     => '',
+								'label'   => __( 'Checkout page', 'download-monitor' ),
+								'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
+								'type'    => 'lazy_select',
+								'options' => array(),
 							),
 						),
 					),
 				),
 				'priority' => 15,
-			);
-
-			$settings['shop']['sections']['page_setup'] = array(
-				'title'    => __( 'Pages', 'download-monitor' ),
-				'fields'   => array(
-					array(
-						'name'    => 'dlm_page_cart',
-						'std'     => '',
-						'label'   => __( 'Cart page', 'download-monitor' ),
-						'desc'    => __( 'Your cart page, make sure it has the <code>[dlm_cart]</code> shortcode.', 'download-monitor' ),
-						'type'    => 'lazy_select',
-						'options' => array(),
-					),
-					array(
-						'name'    => 'dlm_page_checkout',
-						'std'     => '',
-						'label'   => __( 'Checkout page', 'download-monitor' ),
-						'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
-						'type'    => 'lazy_select',
-						'options' => array(),
-					),
-				),
 			);
 
 			$settings['shop']['sections'] = array_merge( $settings['shop']['sections'], $this->get_payment_methods_sections() );
@@ -736,7 +735,7 @@ class DLM_Admin_Settings {
 		/** Generate the overview sections */
 		$sections = array(
 			'overview' => array(
-				'title'  => __( 'Payment overview', 'download-monitor' ),
+				'title'  => __( 'Payment Gateways', 'download-monitor' ),
 				'fields' => array(
 					array(
 						'name'     => '',
@@ -763,7 +762,7 @@ class DLM_Admin_Settings {
 			/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
 
-				// Option to enable gateways already exists in the Payment Overview. We should not add it again.
+				// Option to enable gateways already exists in the Payment Gateways. We should not add it again.
 				$fields = array();
 
 				$gateway_settings = $gateway->get_settings();
