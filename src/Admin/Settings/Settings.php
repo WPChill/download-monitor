@@ -13,6 +13,10 @@ class DLM_Admin_Settings {
 		return admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' );
 	}
 
+	public function __construct(){
+		add_action( 'update_option_dlm_no_access_page', array( $this, 'access_page_shortcode_to_page'), 20, 2 );
+	}
+
 	/**
 	 * register_settings function.
 	 *
@@ -131,7 +135,7 @@ class DLM_Admin_Settings {
 				'title'    => __( 'Advanced', 'download-monitor' ),
 				'sections' => array(
 					'page_setup' => array(
-						'title'  => __( 'Pages Setup', 'download-monitor' ),
+						'title'  => __( 'Pages', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'        => 'dlm_download_endpoint',
@@ -787,5 +791,30 @@ class DLM_Admin_Settings {
 		}
 
 		return $sections;
+	}
+
+	public function access_page_shortcode_to_page( $old, $new ){
+		$page_id = absint( $new );
+
+		// 1. Get the unformatted post(page) content.
+		$page = get_post( $page_id  );
+
+		// 2. Just checking to be sure we got content.
+		if ( ! isset( $page->post_content ) ) {
+			return;
+		}
+
+		// 3. Search the content for the existance of our [dlm_no_access] shortcode.
+		if ( strpos( $page->post_content, '[dlm_no_access]' ) ){
+			// The page has the no access shortcode, return;
+			return;
+		}
+
+		// 4. If we got here it means we need to add our shortcode to the page's content.
+		$page->post_content .= '[dlm_no_access]';
+
+		// 5. Finally, we update the post.
+		wp_update_post( $page );
+		
 	}
 }
