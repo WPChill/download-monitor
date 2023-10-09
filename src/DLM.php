@@ -722,12 +722,7 @@ class WP_DLM {
 	 * @since 4.6.0
 	 */
 	public static function do_xhr() {
-		$return = true;
-		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
-			$return = false;
-		}
-
-		return apply_filters( 'dlm_do_xhr', $return );
+		return apply_filters( 'dlm_do_xhr', true );
 	}
 
 	/**
