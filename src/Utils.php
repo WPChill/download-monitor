@@ -36,12 +36,6 @@ abstract class DLM_Utils {
 		if ( isset( $_SERVER["HTTP_CF_CONNECTING_IP"] ) ) {
 			$ip = sanitize_text_field( wp_unslash( $_SERVER["HTTP_CF_CONNECTING_IP"] ) );
 		}
-		
-		if (  ( '1' == get_option( 'dlm_allow_x_forwarded_for', 0 ) ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-			// phpcs:ignore
-			$parts = explode( ",", $_SERVER['HTTP_X_FORWARDED_FOR'] );
-			$ip    = trim( array_shift( $parts ) );
-		}
 
 		return sanitize_text_field( $ip );
 	}
