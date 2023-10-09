@@ -1,4 +1,4 @@
-= 4.8.11 - TBD =
+= 4.9.0 - TBD =
 Added: Included Tailwind CSS ( [#1335](https://github.com/WPChill/download-monitor/issues/1335) )
 Changed: Separate template for the No Access Modal functionality ( [#1336](https://github.com/WPChill/download-monitor/issues/1336) )
 Added: Filter to better extend the download button click functionality in other extensions ( [#1332](https://github.com/WPChill/download-monitor/issues/1332) )

@@ -9,14 +9,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Class that handles the No Access Modal and what it implies.
  *
- * @since 4.8.11
+ * @since 4.9.0
  */
 class DLM_Modal {
 
 	/**
 	 * Holds the class object.
 	 *
-	 * @since 4.8.11
+	 * @since 4.9.0
 	 *
 	 * @var object
 	 */
@@ -25,7 +25,7 @@ class DLM_Modal {
 	/**
 	 * Holds the enqueued scripts.
 	 *
-	 * @since 4.8.11
+	 * @since 4.9.0
 	 *
 	 * @var array
 	 */
@@ -34,10 +34,10 @@ class DLM_Modal {
 	/**
 	 * __construct function.
 	 *
-	 * @since 4.8.11
+	 * @since 4.9.0
 	 */
 	private function __construct() {
-
+		// The AJAX request for the No Access Modal.
 		add_action( 'wp_ajax_nopriv_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
 		add_action( 'wp_ajax_no_access_dlm_xhr_download', array( $this, 'xhr_no_access_modal' ), 15 );
 	}
@@ -46,7 +46,7 @@ class DLM_Modal {
 	 * Returns the singleton instance of the class.
 	 *
 	 * @return object The DLM_Modal object.
-	 * @since 4.8.11
+	 * @since 4.9.0
 	 */
 	public static function get_instance() {
 
@@ -62,11 +62,14 @@ class DLM_Modal {
 	 * Display the XHR no access modal
 	 *
 	 * @return void
-	 * @since 4.8.11 - moved from AjaxHandle.php
+	 * @since 4.9.0 - moved from AjaxHandle.php
 	 */
 	public function xhr_no_access_modal() {
 
+		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
+
 		$settings = download_monitor()->service( 'settings' );
+
 		if ( ! isset( $_POST['download_id'] ) || ! isset( $_POST['version_id'] ) ) {
 			if ( '1' === $settings->get_option( 'xsendfile_enabled' ) ) {
 				wp_send_json_error( 'Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.' );
@@ -74,9 +77,7 @@ class DLM_Modal {
 			wp_send_json_error( 'Missing download_id or version_id' );
 		}
 
-		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
-
-		// Action to allow the adition of extra scripts and code related to the shortcode.
+		// Action to allow the addition of extra scripts and code related to the shortcode.
 		do_action( 'dlm_dlm_no_access_shortcode_scripts' );
 
 		$atts           = array(
@@ -162,7 +163,7 @@ class DLM_Modal {
 	 * Displays modal template based on the data passed. Should be used by other extensions to preserve the modal style.
 	 *
 	 * @return void
-	 * @since 4.8.11
+	 * @since 4.9.0
 	 */
 	public static function display_modal_template( $data = array() ) {
 
@@ -182,6 +183,7 @@ class DLM_Modal {
 		ob_start();
 		wp_print_styles();
 		wp_print_scripts();
+		// Get the scripts and styles needed so we can attach them to the modal content.
 		$scripts = ob_get_clean();
 		// Start the modal template.
 		ob_start();
@@ -198,7 +200,7 @@ class DLM_Modal {
 		$modal_template = ob_get_clean();
 		// Content and variables escaped above.
 		// $content variable escaped from extensions as it may include inputs or other HTML elements.
-		echo apply_filters( 'dlm_modal_content_output', $modal_template ); //phpcs:ignore
+		echo apply_filters( 'dlm_modal_content_output', $modal_template ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		wp_die();
 	}
 }

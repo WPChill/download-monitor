@@ -42,7 +42,7 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * 'total_downloads' column check.
 	 *
-	 * @since 4.8.11
+	 * @since 4.9.0
 	 *
 	 * @var mixed
 	 */

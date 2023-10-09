@@ -16,7 +16,7 @@
  *                        Example: add_action( 'dlm_modal_icon_warning', function( $title, $content ) { echo 'My Warning Icon'; } );
  *
  *
- * @since 4.8.11
+ * @since 4.9.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
