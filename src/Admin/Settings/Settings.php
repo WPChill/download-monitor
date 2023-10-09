@@ -102,6 +102,7 @@ class DLM_Admin_Settings {
 								'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>button</code>, the <code>content-download-button.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' ),
 								'priority' => 10,
 							),
+							/*
 							array(
 								'name'     => 'dlm_hotlink_protection_enabled',
 								'std'      => '',
@@ -111,6 +112,7 @@ class DLM_Admin_Settings {
 								'type'     => 'checkbox',
 								'priority' => 30,
 							),
+							*/
 							array(
 								'name'     => 'dlm_turn_off_file_browser',
 								'std'      => '',
