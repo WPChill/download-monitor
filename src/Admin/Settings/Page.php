@@ -58,13 +58,6 @@ class DLM_Settings_Page {
 			}
 
 			switch ( $action ) {
-				case 'dlm_clear_transients':
-					$result = download_monitor()->service( 'transient_manager' )->clear_all_version_transients();
-					if ( $result ) {
-						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
-						exit;
-					}
-					break;
 				case 'dlm_regenerate_protection':
 					if ( $this->regenerate_protection() ) {
 						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
@@ -76,13 +69,6 @@ class DLM_Settings_Page {
 						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
 						exit;
 					}
-					break;
-				case 'dlm_redo_upgrade':
-					if ( DLM_Admin_Helper::redo_upgrade() ) {
-						wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=misc' ) ) );
-						exit;
-					}
-					break;
 			}
 		}
 
@@ -117,17 +103,11 @@ class DLM_Settings_Page {
 		<div class="notice notice-success">
 			<?php
 			switch ( $_GET['dlm_action_done'] ) {
-				case 'dlm_clear_transients':
-					echo "<p>" . esc_html__( 'Download Monitor Transients successfully cleared!', 'download-monitor' ) . "</p>";
-					break;
 				case 'dlm_regenerate_protection':
 					echo "<p>" . esc_html__( '.htaccess file successfully regenerated!', 'download-monitor' ) . "</p>";
 					break;
 				case 'dlm_regenerate_robots':
 					echo "<p>" . esc_html__( 'Robots.txt file successfully regenerated!', 'download-monitor' ) . "</p>";
-					break;
-				case 'dlm_redo_upgrade':
-					echo "<p>" . esc_html__( 'Environment set for Download Monitor database upgrade!', 'download-monitor' ) . "</p>";
 					break;
 				default:
 					echo "<p>" . esc_html__( 'Download Monitor action completed!', 'download-monitor' ) . "</p>";
