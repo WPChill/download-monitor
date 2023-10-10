@@ -124,6 +124,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 Changed: Moved, removed and updated admin settings for "General" section ( [#1346](https://github.com/WPChill/download-monitor/issues/1346) )
 Changed: Moved, renamed and updated admin settings for "Shop" section ( [#1347](https://github.com/WPChill/download-monitor/issues/1347) )
 Changed: Moved, removed and updated admin settings for "Advanced" section ( [#1348](https://github.com/WPChill/download-monitor/issues/1348) )
+Changed: Prevent Duplicate Downloads ON by default on production(live) websites.  ( [#1350](https://github.com/WPChill/download-monitor/issues/1350) )
 
 = 4.9.0 - TBD =
 Added: Included Tailwind CSS ( [#1335](https://github.com/WPChill/download-monitor/issues/1335) )

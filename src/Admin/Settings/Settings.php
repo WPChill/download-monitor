@@ -257,14 +257,6 @@ class DLM_Admin_Settings {
 						'title'  => __( 'Reports', 'download-monitor' ),
 						'fields' => array(
 							array(
-								'name'     => 'dlm_enable_window_logging',
-								'cb_label' => '',
-								'std'      => '1',
-								'label'    => __( 'No duplicate download', 'download-monitor' ),
-								'desc'     => __( 'Don\'t add download to reports if user downloads same file multiple times in a 60 seconds download window.', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
 								'name'    => 'dlm_logging_ip_type',
 								'std'     => '',
 								'label'   => __( 'IP Address Logging', 'download-monitor' ),

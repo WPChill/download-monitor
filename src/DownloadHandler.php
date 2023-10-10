@@ -519,7 +519,7 @@ class DLM_Download_Handler {
 			do_action( 'dlm_downloading', $download, $version, $file_path );
 			// Set the cookie to prevent multiple download logs in download window of 60 seconds.
 			// Do this only for non-XHR downloads as XHR downloads are logged through AJAX request
-			if ( '1' === get_option( 'dlm_enable_window_logging', '0' ) && ! $this->check_for_xhr() ) {
+			if ( DLM_Settings_Helper::no_duplicate_download() && ! $this->check_for_xhr() ) {
 				// Set cookie here to prevent "Cannot modify header information - headers already sent" error
 				// in non-XHR downloads.
 				DLM_Cookie_Manager::set_cookie( $download );

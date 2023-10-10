@@ -28,7 +28,6 @@ class DLM_Settings_Helper {
 			'default_gateway'           => 'paypal',
 			'disable_cart'              => '0',
 			'gateway_paypal_enabled'    => '1',
-			'dlm_enable_window_logging' => 0,
 		) );
 	}
 
@@ -43,6 +42,15 @@ class DLM_Settings_Helper {
 	public function get_option( $key ) {
 		// get option from DB
 		return apply_filters( 'dlm_get_option', get_option( 'dlm_' . $key, ( isset( $this->defaults[ $key ] ) ? $this->defaults[ $key ] : null ) ), $key );
+	}
+
+	/**
+	 * Check if 'dlm_count_unique_ips' is enabled
+	 *
+	 * @return bool
+	 */
+	public static function no_duplicate_download() {
+		return apply_filters( 'dlm_no_duplicate_download', ( 'production' == wp_get_environment_type() ) );
 	}
 
 }
