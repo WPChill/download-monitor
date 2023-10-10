@@ -74,7 +74,7 @@ class DLM_Logging {
 	}
 
 	public function is_ua_logging_enabled() {
-		return (1==get_option('dlm_logging_ua', 1));
+		return apply_filters( 'dlm_logging_user_agent', true );
 	}
 
 	/**

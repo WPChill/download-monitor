@@ -284,14 +284,6 @@ class DLM_Admin_Settings {
 								'desc'     => sprintf( __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address. Note that this option only works if %1$s is set to %2$s.', 'download-monitor' ), '<strong>' . __( 'IP Address Logging', 'download-monitor' ) . '</strong>', '<strong>' . __( 'Store full IP address', 'download-monitor' ) . '</strong>' ),
 								'type'     => 'checkbox',
 							),
-							array(
-								'name'     => 'dlm_logging_ua',
-								'std'      => '1',
-								'label'    => __( 'User Agent Logging', 'download-monitor' ),
-								'cb_label' => '',
-								'desc'     => __( 'If enabled, the user agent (browser) the user uses to download the file will be stored in your logs.', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
 						),
 					),
 					'misc'       => array(
