@@ -83,7 +83,7 @@ class DLM_Logging {
 	 * @return bool
 	 */
 	public function is_count_unique_ips_only() {
-		return ( '1' == get_option( 'dlm_count_unique_ips', 0 ) );
+		return ( '1' == get_option( 'dlm_count_unique_ips', 0 ) && 'full' == get_option( 'dlm_logging_ip_type', 'full' ) );
 	}
 
 	/**
