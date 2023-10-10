@@ -16,6 +16,14 @@ jQuery(function ($) {
 		}
 	}).change();
 	
+	$('#setting-dlm_logging_ip_type').change(function () {
+		if ($(this).val() === 'full') {
+			$('#setting-dlm_count_unique_ips').closest('tr').show();
+		} else {
+			$('#setting-dlm_count_unique_ips').closest('tr').hide();
+		}
+	}).change();
+
 	$(document).ready(function () {
 		
 		// load lazy-select elements
