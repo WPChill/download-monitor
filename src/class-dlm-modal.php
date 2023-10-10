@@ -185,6 +185,32 @@ class DLM_Modal {
 		wp_print_scripts();
 		// Get the scripts and styles needed so we can attach them to the modal content.
 		$scripts = ob_get_clean();
+
+		// Non allowed scripts.
+		$non_allowed_scripts = apply_filters( 'dlm_modal_non_allowed_scripts', array( 'jquery' ) );
+
+		// Let's search in the string if we have a form/input or not.
+		$pattern              = '/<(form|input).*?>/i';
+		$form_input_existence = preg_match( $pattern, $data['content'], $matches );
+
+		// Only manipulate the HTML if we need to.
+		if ( $form_input_existence || ! empty( $non_allowed_scripts ) ) {
+			// Let's manipulate the retrieved content
+			$dom_parser = DLM_DOM_Manipulation::get_instance();
+			$dom_parser->load_dom( $data['content'] );
+			// If there are non-allowed scripts, let's remove them.
+			if ( ! empty( $non_allowed_scripts ) ) {
+				$dom_parser->remove_scripts( $non_allowed_scripts );
+			}
+			if ( $form_input_existence ) {
+				$dom_parser->set_form_elements_classes();
+			}
+
+			$content = $dom_parser->get_html();
+		} else {
+			$content = $data['content'];
+		}
+
 		// Start the modal template.
 		ob_start();
 		$template_handler->get_template_part(
@@ -193,10 +219,11 @@ class DLM_Modal {
 			'',
 			array(
 				'title'   => $data['title'],
-				'content' => '<div class="dlm-modal-content">' . $scripts . $data['content'] . '</div>',
+				'content' => '<div class="dlm-modal-content">' . $scripts . $content . '</div>',
 				'icon'    => $data['icon']
 			)
 		);
+
 		$modal_template = ob_get_clean();
 		// Content and variables escaped above.
 		// $content variable escaped from extensions as it may include inputs or other HTML elements.
