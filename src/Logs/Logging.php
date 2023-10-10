@@ -125,8 +125,7 @@ class DLM_Logging {
 		}
 
 		// Don't log if admin hit does not need to be logged
-		$admin_log = get_option( 'dlm_log_admin_download_count' );
-		if ( '1' === $admin_log && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
+		if ( apply_filters( 'dlm_log_admin_download_count', true ) && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
 			die();
 		}
 		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
