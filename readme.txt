@@ -120,6 +120,11 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.9.1 - TBD =
+Changed: Moved, removed and updated admin settings for "General" section ( [#1346](https://github.com/WPChill/download-monitor/issues/1346) )
+Changed: Moved, renamed and updated admin settings for "Shop" section ( [#1347](https://github.com/WPChill/download-monitor/issues/1347) )
+Changed: Moved, removed and updated admin settings for "Advanced" section ( [#1348](https://github.com/WPChill/download-monitor/issues/1348) )
+
 = 4.9.0 - TBD =
 Added: Included Tailwind CSS ( [#1335](https://github.com/WPChill/download-monitor/issues/1335) )
 Changed: Separate template & new function for the No Access Modal functionality ( [#1336](https://github.com/WPChill/download-monitor/issues/1336) )
@@ -130,7 +135,6 @@ Fixed: Download ID prepended to the Download title ( [#1342](https://github.com/
 Fixed: Removed Support Forum menu item ( [#1344](https://github.com/WPChill/download-monitor/issues/1344) )
 Fixed: Error not allowed page in certain Freemius conditions ( [#1339](https://github.com/WPChill/download-monitor/issues/1339) )
 Changed: Restored the Shop functionality ( [#1343](https://github.com/WPChill/download-monitor/issues/1343) )
-
 
 = 4.8.10 - 08.09.2023 =
 Fixed: "Downloading Page" upsell meta box does not hide when the addon is active ( [#1329](https://github.com/WPChill/download-monitor/issues/1329) )
