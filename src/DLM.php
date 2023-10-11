@@ -723,7 +723,7 @@ class WP_DLM {
 	 */
 	public static function do_xhr() {
 		$return = true;
-		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+		if ( WP_DLM::dlm_x_sendfile() ) {
 			$return = false;
 		}
 
@@ -815,5 +815,15 @@ class WP_DLM {
 			'action_trigger'   => $action_trigger,
 		);
 		$extensions_handler->handle_master_license( $args );
+	}
+
+	/**
+	 * Enable/disable X-Sendfile functionality
+	 *
+	 * @return mixed|null
+	 * @since 4.9.1
+	 */
+	public static function dlm_x_sendfile() {
+		return apply_filters( 'dlm_x_sendfile', false );
 	}
 }

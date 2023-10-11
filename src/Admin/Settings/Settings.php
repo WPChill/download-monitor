@@ -106,26 +106,6 @@ class DLM_Admin_Settings {
 								'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>button</code>, the <code>content-download-button.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' ),
 								'priority' => 10,
 							),
-							/*
-							array(
-								'name'     => 'dlm_xsendfile_enabled',
-								'std'      => '',
-								'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
-								'cb_label' => '',
-								'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>) <br> <strong>Attention!</strong> Enabling this option will disable the XHR functionality!', 'download-monitor' ),
-								'type'     => 'checkbox',
-								'priority' => 20,
-							),
-							array(
-								'name'     => 'dlm_hotlink_protection_enabled',
-								'std'      => '',
-								'label'    => __( 'Prevent hotlinking', 'download-monitor' ),
-								'cb_label' => '',
-								'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
-								'type'     => 'checkbox',
-								'priority' => 30,
-							),
-							*/
 							array(
 								'name'     => 'dlm_turn_off_file_browser',
 								'std'      => '',

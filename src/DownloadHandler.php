@@ -589,7 +589,7 @@ class DLM_Download_Handler {
 
 		do_action( 'dlm_start_download_process', $download, $version, $file_path, $remote_file );
 
-		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+		if ( WP_DLM::dlm_x_sendfile() ) {
 			if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 				$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 				header( "X-Sendfile: $file_path" );
