@@ -210,7 +210,7 @@ class DLM_Admin_Settings {
 								'type'        => 'textarea',
 							),
 						),
-					),
+					), /*
 					'hash'       => array(
 						'title'  => __( 'Hashes', 'download-monitor' ),
 						'fields' => array(
@@ -252,7 +252,7 @@ class DLM_Admin_Settings {
 								'type'     => 'checkbox',
 							),
 						),
-					),
+					), */
 					'logging'    => array(
 						'title'  => __( 'Reports', 'download-monitor' ),
 						'fields' => array(
