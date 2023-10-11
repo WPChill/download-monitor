@@ -362,7 +362,7 @@ class DLM_Admin_Settings {
 						array(
 							'name'     => 'dlm_shop_enabled',
 							'std'      => '',
-							'label'    => __( 'Shop', 'download-monitor' ),
+							'label'    => __( 'Enable Shop', 'download-monitor' ),
 							'cb_label' => '',
 							'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
 							'type'     => 'checkbox',
