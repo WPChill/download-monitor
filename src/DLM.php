@@ -826,4 +826,14 @@ class WP_DLM {
 	public static function dlm_x_sendfile() {
 		return apply_filters( 'dlm_x_sendfile', false );
 	}
+
+	/**
+	 * Enable/disable Proxy IP Override functionality
+	 *
+	 * @return mixed|null
+	 * @since 4.9.1
+	 */
+	public static function dlm_proxy_ip_override() {
+		return apply_filters( 'dlm_allow_x_forwarded_for', false );
+	}
 }

@@ -116,15 +116,6 @@ class DLM_Admin_Settings {
 								'priority' => 30,
 							),
 							array(
-								'name'     => 'dlm_allow_x_forwarded_for',
-								'std'      => '0',
-								'label'    => __( 'Allow Proxy IP Override', 'download-monitor' ),
-								'cb_label' => '',
-								'desc'     => __( 'If enabled, Download Monitor will use the X_FORWARDED_FOR HTTP header set by proxies as the IP address. Note that anyone can set this header, making it less secure.', 'download-monitor' ),
-								'type'     => 'checkbox',
-								'priority' => 40,
-							),
-							array(
 								'name'     => 'dlm_turn_off_file_browser',
 								'std'      => '',
 								'label'    => __( 'Disable file browser', 'download-monitor' ),
