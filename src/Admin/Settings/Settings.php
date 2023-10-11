@@ -107,15 +107,6 @@ class DLM_Admin_Settings {
 								'priority' => 10,
 							),
 							array(
-								'name'     => 'dlm_hotlink_protection_enabled',
-								'std'      => '',
-								'label'    => __( 'Prevent hotlinking', 'download-monitor' ),
-								'cb_label' => '',
-								'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
-								'type'     => 'checkbox',
-								'priority' => 30,
-							),
-							array(
 								'name'     => 'dlm_turn_off_file_browser',
 								'std'      => '',
 								'label'    => __( 'Disable file browser', 'download-monitor' ),

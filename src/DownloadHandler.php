@@ -230,7 +230,7 @@ class DLM_Download_Handler {
 			}
 
 			// Prevent hotlinking
-			if ( '1' == get_option( 'dlm_hotlink_protection_enabled' ) ) {
+			if ( WP_DLM::dlm_prevent_hotlinking() ) {
 
 				// Get referer
 				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
