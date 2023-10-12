@@ -82,7 +82,7 @@ class DLM_Admin_Settings {
 	 */
 	public function get_settings() {
 
-		$settings = array(
+		$settings                                               = array(
 			'general'              => array(
 				'title'    => __( 'General', 'download-monitor' ),
 				'sections' => array(
@@ -90,21 +90,48 @@ class DLM_Admin_Settings {
 						'title'  => __( 'Download', 'download-monitor' ),
 						'fields' => array(
 							array(
-								'name'    => 'dlm_default_template',
-								'std'     => '',
-								'label'   => __( 'Default Template', 'download-monitor' ),
-								'desc'    => __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download-monitor' ),
+								'name'        => 'dlm_download_endpoint',
+								'type'        => 'text',
+								'std'         => 'download',
+								'placeholder' => __( 'download', 'download-monitor' ),
+								'label'       => __( 'Download Endpoint', 'download-monitor' ),
+								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code> ( %s ).', 'download-monitor' ), 'download', esc_url( home_url() ) . '<code>/download/</code>' ),
+							),
+							array(
+								'name'    => 'dlm_download_endpoint_value',
+								'std'     => 'ID',
+								'label'   => __( 'Endpoint Value', 'download-monitor' ),
+								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>10</code> ( %s%s )', 'download-monitor' ), home_url( '/download/' ), '<code>10/</code>' ),
 								'type'    => 'select',
-								'options' => download_monitor()->service( 'template_handler' )->get_available_templates(),
+								'options' => array(
+									'ID'   => __( 'Download ID', 'download-monitor' ),
+									'slug' => __( 'Download slug', 'download-monitor' ),
+								),
+							),
+							array(
+								'name'     => 'dlm_default_template',
+								'std'      => '',
+								'label'    => __( 'Default Template', 'download-monitor' ),
+								'desc'     => __( 'Choose which template is used for <code>[download]</code> shortcodes by default (this can be overridden by the <code>format</code> argument).', 'download-monitor' ),
+								'type'     => 'select',
+								'options'  => download_monitor()->service( 'template_handler' )->get_available_templates(),
 								'priority' => 10,
 							),
 							array(
-								'name'  => 'dlm_custom_template',
-								'type'  => 'text',
-								'std'   => '',
-								'label' => __( 'Custom Template', 'download-monitor' ),
-								'desc'  => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>button</code>, the <code>content-download-button.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' ),
+								'name'     => 'dlm_custom_template',
+								'type'     => 'text',
+								'std'      => '',
+								'label'    => __( 'Custom Template', 'download-monitor' ),
+								'desc'     => __( 'Leaving this blank will use the default <code>content-download.php</code> template file. If you enter, for example, <code>button</code>, the <code>content-download-button.php</code> template will be used instead. You can add custom templates inside your theme folder.', 'download-monitor' ),
 								'priority' => 10,
+							),
+							array(
+								'name'     => 'dlm_wp_search_enabled',
+								'std'      => '',
+								'label'    => __( 'Include in Search', 'download-monitor' ),
+								'cb_label' => '',
+								'desc'     => __( "If enabled, downloads will be included in the site's internal search results.", 'download-monitor' ),
+								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_turn_off_file_browser',
@@ -127,25 +154,6 @@ class DLM_Admin_Settings {
 						'title'  => __( 'Pages', 'download-monitor' ),
 						'fields' => array(
 							array(
-								'name'        => 'dlm_download_endpoint',
-								'type'        => 'text',
-								'std'         => 'download',
-								'placeholder' => __( 'download', 'download-monitor' ),
-								'label'       => __( 'Download Endpoint', 'download-monitor' ),
-								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code> ( %s ).', 'download-monitor' ), 'download', esc_url( home_url( ) ) . '<code>/download/</code>' ),
-							),
-							array(
-								'name'    => 'dlm_download_endpoint_value',
-								'std'     => 'ID',
-								'label'   => __( 'Endpoint Value', 'download-monitor' ),
-								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>10</code> ( %s%s )', 'download-monitor' ), home_url( '/download/' ), '<code>10/</code>' ),
-								'type'    => 'select',
-								'options' => array(
-									'ID'   => __( 'Download ID', 'download-monitor' ),
-									'slug' => __( 'Download slug', 'download-monitor' ),
-								),
-							),
-							array(
 								'name'    => 'dlm_no_access_page',
 								'std'     => '',
 								'label'   => __( 'No Access Page', 'download-monitor' ),
@@ -158,15 +166,7 @@ class DLM_Admin_Settings {
 								'std'      => '0',
 								'label'    => __( 'No Access Modal', 'download-monitor' ),
 								'cb_label' => '',
-								'desc' => __( 'Open no access message in a modal (pop-up) window.', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
-								'name'     => 'dlm_wp_search_enabled',
-								'std'      => '',
-								'label'    => __( 'Include in Search', 'download-monitor' ),
-								'cb_label' => '',
-								'desc'     => __( "If enabled, downloads will be included in the site's internal search results.", 'download-monitor' ),
+								'desc'     => __( 'Open no access message in a modal (pop-up) window.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 						),
@@ -352,103 +352,108 @@ class DLM_Admin_Settings {
 				'priority' => 70,
 			),
 		);
-		$settings['general']['sections']['general']['fields'][] = array(
-			'name'     => 'dlm_shop_enabled',
-			'std'      => '',
-			'label'    => __( 'Shop Enabled', 'download-monitor' ),
-			'cb_label' => '',
-			'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
-			'type'     => 'checkbox',
-			'priority' => 20,
-		);
-		// Only show shop settings if shop is enabled.
-		if ( dlm_is_shop_enabled() ) {
-			$settings['shop'] = array(
-				'title'    => __( 'Shop', 'download-monitor' ),
-				'sections' => array(
-					'shop' => array(
-						'title'  => __( 'General', 'download-monitor' ),
-						'fields' => array(
-							array(
-								'name'    => 'dlm_base_country',
-								'std'     => 'US',
-								'label'   => __( 'Base Country', 'download-monitor' ),
-								'desc'    => __( 'Where is your store located?', 'download-monitor' ),
-								'type'    => 'select',
-								'options' => Services::get()->service( 'country' )->get_countries(),
-							),
-							array(
-								'name'    => 'dlm_currency',
-								'std'     => 'USD',
-								'label'   => __( 'Currency', 'download-monitor' ),
-								'desc'    => __( 'In what currency are you selling?', 'download-monitor' ),
-								'type'    => 'select',
-								'options' => $this->get_currency_list_with_symbols(),
-							),
-							array(
-								'name'    => 'dlm_currency_pos',
-								'std'     => 'left',
-								'label'   => __( 'Currency Position', 'download-monitor' ),
-								'desc'    => __( 'The position of the currency symbol.', 'download-monitor' ),
-								'type'    => 'select',
-								'options' => array(
-									'left'        => sprintf( __( 'Left (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left' ) ) ),
-									'right'       => sprintf( __( 'Right (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right' ) ) ),
-									'left_space'  => sprintf( __( 'Left with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left_space' ) ) ),
-									'right_space' => sprintf( __( 'Right with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right_space' ) ) ),
-								),
-							),
-							array(
-								'name'  => 'dlm_decimal_separator',
-								'type'  => 'text',
-								'std'   => '.',
-								'label' => __( 'Decimal Separator', 'download-monitor' ),
-								'desc'  => __( 'The decimal separator of displayed prices.', 'download-monitor' ),
-							),
-							array(
-								'name'  => 'dlm_thousand_separator',
-								'type'  => 'text',
-								'std'   => ',',
-								'label' => __( 'Thousand Separator', 'download-monitor' ),
-								'desc'  => __( 'The thousand separator of displayed prices.', 'download-monitor' ),
-							),
-							array(
-								'name'     => 'dlm_disable_cart',
-								'std'      => '',
-								'label'    => __( 'Disable Cart', 'download-monitor' ),
-								'cb_label' => '',
-								'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
-								'name'  => '',
-								'type'  => 'title',
-								'title' => __( 'Pages', 'download-monitor' )
-							),
-							array(
-								'name'    => 'dlm_page_cart',
-								'std'     => '',
-								'label'   => __( 'Cart page', 'download-monitor' ),
-								'desc'    => __( 'Your cart page, make sure it has the <code>[dlm_cart]</code> shortcode.', 'download-monitor' ),
-								'type'    => 'lazy_select',
-								'options' => array(),
-							),
-							array(
-								'name'    => 'dlm_page_checkout',
-								'std'     => '',
-								'label'   => __( 'Checkout page', 'download-monitor' ),
-								'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
-								'type'    => 'lazy_select',
-								'options' => array(),
-							),
-						),
+
+		$settings['shop'] = array(
+			'title'    => __( 'Shop', 'download-monitor' ),
+			'sections' => array(
+				'general' => array(
+					'title'  => __( 'General', 'download-monitor' ),
+					'fields' => array(
+						array(
+							'name'     => 'dlm_shop_enabled',
+							'std'      => '',
+							'label'    => __( 'Enable Shop', 'download-monitor' ),
+							'cb_label' => '',
+							'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
+							'type'     => 'checkbox',
+							'priority' => 20,
+						)
 					),
 				),
-				'priority' => 15,
+			),
+			'priority' => 15,
+		);
+
+		if ( dlm_is_shop_enabled() ) {
+			$settings['shop']['sections']['general']['fields'] = array_merge(
+				$settings['shop']['sections']['general']['fields'],
+				array(
+					array(
+						'name'    => 'dlm_base_country',
+						'std'     => 'US',
+						'label'   => __( 'Base Country', 'download-monitor' ),
+						'desc'    => __( 'Where is your store located?', 'download-monitor' ),
+						'type'    => 'select',
+						'options' => Services::get()->service( 'country' )->get_countries(),
+					),
+					array(
+						'name'    => 'dlm_currency',
+						'std'     => 'USD',
+						'label'   => __( 'Currency', 'download-monitor' ),
+						'desc'    => __( 'In what currency are you selling?', 'download-monitor' ),
+						'type'    => 'select',
+						'options' => $this->get_currency_list_with_symbols(),
+					),
+					array(
+						'name'    => 'dlm_currency_pos',
+						'std'     => 'left',
+						'label'   => __( 'Currency Position', 'download-monitor' ),
+						'desc'    => __( 'The position of the currency symbol.', 'download-monitor' ),
+						'type'    => 'select',
+						'options' => array(
+							'left'        => sprintf( __( 'Left (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left' ) ) ),
+							'right'       => sprintf( __( 'Right (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right' ) ) ),
+							'left_space'  => sprintf( __( 'Left with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'left_space' ) ) ),
+							'right_space' => sprintf( __( 'Right with space (%s)', 'download-monitor' ), Services::get()->service( 'format' )->money( 9.99, array( 'currency_position' => 'right_space' ) ) ),
+						),
+					),
+					array(
+						'name'  => 'dlm_decimal_separator',
+						'type'  => 'text',
+						'std'   => '.',
+						'label' => __( 'Decimal Separator', 'download-monitor' ),
+						'desc'  => __( 'The decimal separator of displayed prices.', 'download-monitor' ),
+					),
+					array(
+						'name'  => 'dlm_thousand_separator',
+						'type'  => 'text',
+						'std'   => ',',
+						'label' => __( 'Thousand Separator', 'download-monitor' ),
+						'desc'  => __( 'The thousand separator of displayed prices.', 'download-monitor' ),
+					),
+					array(
+						'name'     => 'dlm_disable_cart',
+						'std'      => '',
+						'label'    => __( 'Disable Cart', 'download-monitor' ),
+						'cb_label' => '',
+						'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
+						'type'     => 'checkbox',
+					),
+					array(
+						'name'  => '',
+						'type'  => 'title',
+						'title' => __( 'Pages', 'download-monitor' )
+					),
+					array(
+						'name'    => 'dlm_page_cart',
+						'std'     => '',
+						'label'   => __( 'Cart page', 'download-monitor' ),
+						'desc'    => __( 'Your cart page, make sure it has the <code>[dlm_cart]</code> shortcode.', 'download-monitor' ),
+						'type'    => 'lazy_select',
+						'options' => array(),
+					),
+					array(
+						'name'    => 'dlm_page_checkout',
+						'std'     => '',
+						'label'   => __( 'Checkout page', 'download-monitor' ),
+						'desc'    => __( 'Your checkout page, make sure it has the <code>[dlm_checkout]</code> shortcode.', 'download-monitor' ),
+						'type'    => 'lazy_select',
+						'options' => array(),
+					),
+				)
 			);
 
 			$settings['shop']['sections'] = array_merge( $settings['shop']['sections'], $this->get_payment_methods_sections() );
-
 		}
 
 		// this is here to maintain backwards compatibility, use 'dlm_settings' instead
