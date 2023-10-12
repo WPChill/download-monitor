@@ -125,6 +125,7 @@ Changed: Moved, removed and updated admin settings for "General" section ( [#134
 Changed: Moved, renamed and updated admin settings for "Shop" section ( [#1347](https://github.com/WPChill/download-monitor/issues/1347) )
 Changed: Moved, removed and updated admin settings for "Advanced" section ( [#1348](https://github.com/WPChill/download-monitor/issues/1348) )
 Changed: Prevent Duplicate Downloads ON by default on production(live) websites.  ( [#1350](https://github.com/WPChill/download-monitor/issues/1350) )
+Changed: Reports - don't get users without downloads. ( [#1313](https://github.com/WPChill/download-monitor/issues/1313) )
 
 = 4.9.0 - TBD =
 Added: Included Tailwind CSS ( [#1335](https://github.com/WPChill/download-monitor/issues/1335) )

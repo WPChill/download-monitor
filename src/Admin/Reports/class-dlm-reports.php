@@ -381,23 +381,25 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
 			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_user_data'];
+			$start_date        = isset( $_REQUEST['start_date'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['start_date'] ) ) : date( 'Y-m-d g:i', strtotime( '-30 days' ) );
 			$offset_limit = $offset * $count;
 
-			$args = array(
-				'number' => $count,
-				'offset' => $offset_limit
-			);
-			$users      = get_users( $args );
+			$users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT dlm_logs.user_id as ID, wp_users.ID as wp_users_id, wp_users.user_nicename as user_nicename, wp_users.user_url as user_url, wp_users.user_registered as user_registered, wp_users.display_name as display_name, wp_users.user_email as user_email, wp_users_meta.meta_value as roles FROM {$wpdb->download_log} dlm_logs 
+			LEFT JOIN {$wpdb->users} wp_users ON dlm_logs.user_id = wp_users.ID AND wp_users.ID IS NOT NULL 
+			LEFT JOIN {$wpdb->usermeta} wp_users_meta ON dlm_logs.user_id=wp_users_meta.user_id 
+			WHERE dlm_logs.user_id != 0 AND wp_users_meta.meta_key = 'wp_capabilities' AND dlm_logs.download_date >= '{$start_date}'
+			ORDER BY dlm_logs.user_id desc LIMIT {$offset_limit}, {$count};" ) );
+
 			foreach ( $users as $user ) {
-				$user_data    = $user->data;
+				$user_roles   = array_keys( unserialize( $user->roles ) );
 				$users_data[] = array(
-					'id'           => $user_data->ID,
-					'nicename'     => $user_data->user_nicename,
-					'url'          => $user_data->user_url,
-					'registered'   => $user_data->user_registered,
-					'display_name' => $user_data->display_name,
-					'email'        => $user_data->user_email,
-					'role'         => ( ( ! in_array( 'administrator', $user->roles, true ) ) ? $user->roles : '' ),
+					'id'           => $user->ID,
+					'nicename'     => $user->user_nicename,
+					'url'          => $user->user_url,
+					'registered'   => $user->user_registered,
+					'display_name' => $user->display_name,
+					'email'        => $user->user_email,
+					'role'         => ( ( is_array( $user_roles ) && ! in_array( 'administrator', $user_roles, true ) ) ? $user_roles : '' ),
 				);
 			}
 
