@@ -45,12 +45,20 @@ class DLM_Settings_Helper {
 	}
 
 	/**
-	 * Check if 'dlm_count_unique_ips' is enabled
+	 * Prevent duplicate downloads/logs
 	 *
 	 * @return bool
+	 *
+	 * @since 4.9.1
 	 */
-	public static function no_duplicate_download() {
-		return apply_filters( 'dlm_no_duplicate_download', ( 'production' == wp_get_environment_type() ) );
+	public static function no_duplicate_download(): bool {
+		/**
+		 * Filter to disable the no duplicate download feature
+		 *
+		 * @hook dlm_no_duplicate_download
+		 *
+		 * @since 4.9.1
+		 */
+		return apply_filters( 'dlm_no_duplicate_download', 'production' === wp_get_environment_type() );
 	}
-
 }
