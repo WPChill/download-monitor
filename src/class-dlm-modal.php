@@ -65,25 +65,25 @@ class DLM_Modal {
 	 * @since 4.9.0 - moved from AjaxHandle.php
 	 */
 	public function xhr_no_access_modal() {
-
+		// Check nonce.
 		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
-
+		// Get settings.
 		$settings = download_monitor()->service( 'settings' );
-
+		// Check if the download_id and version_id are set.
 		if ( ! isset( $_POST['download_id'] ) || ! isset( $_POST['version_id'] ) ) {
 			if ( '1' === $settings->get_option( 'xsendfile_enabled' ) ) {
 				wp_send_json_error( 'Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.' );
 			}
 			wp_send_json_error( 'Missing download_id or version_id' );
 		}
-
 		// Action to allow the addition of extra scripts and code related to the shortcode.
 		do_action( 'dlm_dlm_no_access_shortcode_scripts' );
 
-		$atts           = array(
+		$atts    = array(
 			'show_message' => 'true',
 		);
-		$content        = '';
+		$content = '';
+		// Check if the no_access_page is set.
 		$no_access_page = $settings->get_option( 'no_access_page' );
 		if ( ! $no_access_page ) {
 			ob_start();
@@ -133,7 +133,12 @@ class DLM_Modal {
 		}
 
 		$restriction_type = isset( $_POST['restriction'] ) && 'restriction-empty' !== $_POST['restriction'] ? sanitize_text_field( wp_unslash( $_POST['restriction'] ) ) : 'no_access_page';
-
+		/**
+		 * Filter the title of the modal.
+		 *
+		 * @hook dlm_modal_title
+		 *
+		 */
 		$title = apply_filters(
 			'dlm_modal_title',
 			array(
@@ -146,16 +151,16 @@ class DLM_Modal {
 				'no_access_page' => __( 'No access!', 'download-monitor' ),
 			)
 		);
-
+		// Create our data.
 		$data = array(
 			'title'   => $title[ $restriction_type ],
 			'content' => $content,
 			'icon'    => 'alert'
 		);
-
+		// Dispaly the modal template.
 		self::display_modal_template( $data );
 
-		die();
+		wp_die();
 	}
 
 
@@ -166,7 +171,7 @@ class DLM_Modal {
 	 * @since 4.9.0
 	 */
 	public static function display_modal_template( $data = array() ) {
-
+		// Return if we have no data.
 		if ( empty( $data ) ) {
 			return;
 		}
@@ -197,6 +202,7 @@ class DLM_Modal {
 				'icon'    => $data['icon']
 			)
 		);
+		// Get the modal template markup.
 		$modal_template = ob_get_clean();
 		// Content and variables escaped above.
 		// $content variable escaped from extensions as it may include inputs or other HTML elements.
