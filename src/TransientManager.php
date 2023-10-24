@@ -29,5 +29,4 @@ class DLM_Transient_Manager {
 
 		return true;
 	}
-
 }

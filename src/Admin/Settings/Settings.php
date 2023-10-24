@@ -745,11 +745,20 @@ class DLM_Admin_Settings {
 		return $sections;
 	}
 
-	public function access_page_shortcode_to_page( $old, $new ){
+	/**
+	 * Add the required shortcode to the page content
+	 *
+	 * @param $old
+	 * @param $new
+	 *
+	 * @return void
+	 * @since 4.9.1
+	 */
+	public function access_page_shortcode_to_page( $old, $new ) {
 		$page_id = absint( $new );
 
 		// 1. Get the unformatted post(page) content.
-		$page = get_post( $page_id  );
+		$page = get_post( $page_id );
 
 		// 2. Just checking to be sure we got content.
 		if ( ! isset( $page->post_content ) ) {
@@ -757,7 +766,7 @@ class DLM_Admin_Settings {
 		}
 
 		// 3. Search the content for the existance of our [dlm_no_access] shortcode.
-		if ( strpos( $page->post_content, '[dlm_no_access]' ) ){
+		if ( false !== strpos( $page->post_content, '[dlm_no_access]' ) ) {
 			// The page has the no access shortcode, return;
 			return;
 		}
@@ -767,6 +776,5 @@ class DLM_Admin_Settings {
 
 		// 5. Finally, we update the post.
 		wp_update_post( $page );
-		
 	}
 }
