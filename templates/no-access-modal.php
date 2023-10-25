@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div id='dlm-no-access-modal'>
+<div id='dlm-no-access-modal' class="dlm-no-access-modal">
 	<div class='dlm-relative dlm-z-10' aria-labelledby='modal-title' role='dialog' aria-modal='true'>
 		<div class='dlm-fixed dlm-inset-0 dlm-bg-gray-500 dlm-bg-opacity-75 dlm-transition-opacity'></div>
 		<div class='dlm-fixed dlm-inset-0 dlm-z-10 dlm-w-screen dlm-overflow-y-auto'>

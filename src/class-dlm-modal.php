@@ -23,15 +23,6 @@ class DLM_Modal {
 	public static $instance;
 
 	/**
-	 * Holds the enqueued scripts.
-	 *
-	 * @since 4.9.0
-	 *
-	 * @var array
-	 */
-	public static $enqueued_scripts;
-
-	/**
 	 * __construct function.
 	 *
 	 * @since 4.9.0
@@ -91,11 +82,11 @@ class DLM_Modal {
 			// template handler.
 			$template_handler = new DLM_Template_Handler();
 
-			if ( 'empty-download' === $_POST['download_id'] || ( isset( $_POST['modal_text'] ) && ! empty( $_POST['modal_text'] ) ) ) {
-				if ( isset( $_POST['modal_text'] ) && ! empty( $_POST['modal_text'] ) ) {
-					echo sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
+			if ( 'empty-download' === $_POST['download_id'] || ( ! empty( $_POST['modal_text'] ) ) ) {
+				if ( ! empty( $_POST['modal_text'] ) ) {
+					echo wp_kses_post( sanitize_text_field( wp_unslash( $_POST['modal_text'] ) ) );
 				} else {
-					echo '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
+					echo '<p>' . esc_html__( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
 				}
 			} else {
 
@@ -162,7 +153,6 @@ class DLM_Modal {
 
 		wp_die();
 	}
-
 
 	/**
 	 * Displays modal template based on the data passed. Should be used by other extensions to preserve the modal style.
