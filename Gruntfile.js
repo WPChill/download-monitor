@@ -260,6 +260,8 @@ module.exports = function ( grunt ) {
 				'!codeception.dist.yml',
 				'!regconfig.json',
 				'!SECURITY.md',
+				'!tailwind.config.js',
+				'!phpunit.xml',
 				'!nbproject/**' ],
 				dest: '<%= pkg.name %>'
 			}
