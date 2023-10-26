@@ -418,18 +418,15 @@ class DLM_Admin_Settings {
 				'priority' => 70,
 			),
 		);
-		// Only add the setting if shop is enabled or filter is set to true.
-		if ( apply_filters( 'dlm_enable_shop', dlm_is_shop_enabled() ) ) {
-			$settings['general']['sections']['general']['fields'][] = array(
-				'name'     => 'dlm_shop_enabled',
-				'std'      => '',
-				'label'    => __( 'Shop Enabled', 'download-monitor' ),
-				'cb_label' => '',
-				'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
-				'type'     => 'checkbox',
-				'priority' => 20,
-			);
-		}
+		$settings['general']['sections']['general']['fields'][] = array(
+			'name'     => 'dlm_shop_enabled',
+			'std'      => '',
+			'label'    => __( 'Shop Enabled', 'download-monitor' ),
+			'cb_label' => '',
+			'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
+			'type'     => 'checkbox',
+			'priority' => 20,
+		);
 		// Only show shop settings if shop is enabled.
 		if ( dlm_is_shop_enabled() ) {
 			$settings['shop'] = array(
@@ -783,17 +780,8 @@ class DLM_Admin_Settings {
 			/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
 
-				// all gateways have an 'enabled' option by default
-				$fields = array(
-					array(
-						'name'     => 'dlm_gateway_' . esc_attr( $gateway->get_id() ) . '_enabled',
-						'std'      => ( $gateway->is_enabled() ) ? '1' : '0',
-						'label'    => __( 'Enabled', 'download-monitor' ),
-						'cb_label' => __( 'Enable Gateway', 'download-monitor' ),
-						'desc'     => __( 'Check this to allow your customers to use this payment method to pay at your checkout page.', 'download-monitor' ),
-						'type'     => 'checkbox',
-					),
-				);
+				// Option to enable gateways already exists in the Payment Overview. We should not add it again.
+				$fields = array();
 
 				$gateway_settings = $gateway->get_settings();
 				if ( ! empty( $gateway_settings ) ) {
@@ -818,5 +806,4 @@ class DLM_Admin_Settings {
 
 		return $sections;
 	}
-
 }

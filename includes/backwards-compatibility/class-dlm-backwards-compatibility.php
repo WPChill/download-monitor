@@ -38,13 +38,23 @@ class DLM_Backwards_Compatibility {
 	 */
 	private $upgrade_option;
 
+
+	/**
+	 * 'total_downloads' column check.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @var mixed
+	 */
+	private $total_downloads;
+
 	/**
 	 * Class constructor
 	 *
 	 * @return void
 	 */
 	public function __construct() {
-
+		$this->total_downloads = false;
 		// Add post meta count to total downloads.
 		add_filter( 'dlm_shortcode_total_downloads', array( $this, 'total_downloads_shortcode' ) );
 		// Add orderby postmeta compatibility.
@@ -232,9 +242,11 @@ class DLM_Backwards_Compatibility {
 		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
 			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) + 
 			IFNULL( meta_downloads.meta_value, 0 ) ) total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions ";
+			$this->total_downloads = true;
 		} else {
 			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) 
 			total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions";
+			$this->total_downloads = true;
 		}
 
 		return $fields;
@@ -277,7 +289,12 @@ class DLM_Backwards_Compatibility {
 			$order = $this->filters['order'];
 		}
 
-		return ' total_downloads ' . $order;
+		if( $this->total_downloads ){
+			return ' total_downloads ' . $order;
+		}else{
+			return ' wp_posts.ID ' . $order;
+		}
+
 
 	}
 

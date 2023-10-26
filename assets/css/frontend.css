@@ -452,7 +452,7 @@ html body a.download-link.dlm-download-complete::before {
   position: relative;
 }
 .dlm-no-access-modal-window {
-  position: fixed;
+  /*  position: fixed;
   top: 50%;
   left: 50%;
   color: inherit;
@@ -462,16 +462,16 @@ html body a.download-link.dlm-download-complete::before {
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  width: auto;
+  width:auto;
   min-width: 600px;
   height: auto;
   min-height: 250px;
-  box-shadow: rgba(0, 0, 0, 0.45) 0 25px 20px -20px;
+  box-shadow: rgba(0,0,0,.45) 0 25px 20px -20px;
   border-radius: 10px;
   max-width: 80%;
   max-height: 90%;
   overflow-y: auto;
-  z-index: 99;
+  z-index: 99;*/
 }
 .dlm-no-access-modal-window > * {
   padding: 20px;

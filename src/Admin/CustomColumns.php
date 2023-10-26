@@ -218,6 +218,10 @@ class DLM_Custom_Columns {
 	 */
 	public function prepend_id_to_title( $title, $id = null ) {
 
+		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+			return $title;
+		}
+
 		if ( ! isset( $id ) ) {
 			$id = get_the_ID();
 		}

@@ -68,9 +68,11 @@ class DLM_Extensions_Handler {
 
 		$action_trigger = '-ext';
 
+		$store_url = DLM_Product::STORE_URL . '?wc-api=';
+
 		// Do activate request.
 		$api_request = wp_remote_get(
-			DLM_Product::STORE_URL . DLM_Product::ENDPOINT_ACTIVATION . '&' . http_build_query(
+			$store_url . DLM_Product::ENDPOINT_ACTIVATION . '&' . http_build_query(
 				array(
 					'email'          => $email,
 					'licence_key'    => $license_key,
@@ -233,9 +235,10 @@ class DLM_Extensions_Handler {
 			}
 		}
 
+		$store_url = DLM_Product::STORE_URL . '?wc-api=';
 		// Do activate request.
 		$api_request = wp_remote_get(
-			DLM_Product::STORE_URL . DLM_Product::ENDPOINT_ACTIVATION . '&' . http_build_query(
+			$store_url . DLM_Product::ENDPOINT_ACTIVATION . '&' . http_build_query(
 				array(
 					'email'          => $email,
 					'licence_key'    => $license_key,

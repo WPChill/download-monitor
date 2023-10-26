@@ -50,6 +50,8 @@ class DLM_XHR_Download {
 				return;
 			}
 
+			jQuery(document).trigger( 'dlm-xhr-download-button-click', [ url, this, dlmXHRGlobalLinks ] );
+
 			if ('undefined' != typeof url && url.indexOf(dlmXHRGlobalLinks) >= 0) {
 
 				dlmXHRinstance.handleDownloadClick(this, e);
@@ -498,8 +500,11 @@ class DLM_XHR_Download {
 			jQuery('#dlm-no-access-modal').remove();
 			jQuery('body').append(response);
 
-			jQuery(document).trigger( data['action'], [response, data]);
+			jQuery(document).trigger(data['action'], [response, data]);
 
+			document.dispatchEvent(
+				new CustomEvent(data['action'], {detail: [response, data]})
+			);
 		});
 	}
 

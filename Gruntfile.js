@@ -22,7 +22,8 @@ module.exports = function ( grunt ) {
 			compile: {
 				options: {
 					// These paths are searched for @imports
-					paths: [ '<%= dirs.css %>/'  ]
+					paths: [ '<%= dirs.css %>/'  ],
+					emptyValue: 'empty', // Set this option to 'empty'
 				},
 				files: [ {
 					expand: true,
@@ -37,7 +38,6 @@ module.exports = function ( grunt ) {
 				} ]
 			}
 		},
-
 		// Minify all .css files.
 		cssmin: {
 			minify: {
@@ -46,6 +46,18 @@ module.exports = function ( grunt ) {
 				src: [ '*.css', '!*.min.css' ],
 				dest: '<%= dirs.css %>/',
 				ext: '.min.css'
+			},
+
+		},
+
+		concat: {
+			css: {
+				src : [
+					'assets/css/frontend.css',
+					'assets/css/tailwind.css',
+					'assets/css/dlm-tailwind-base.css'
+				],
+				dest: 'assets/css/frontend-tailwind.css'
 			}
 		},
 
@@ -248,6 +260,8 @@ module.exports = function ( grunt ) {
 				'!codeception.dist.yml',
 				'!regconfig.json',
 				'!SECURITY.md',
+				'!tailwind.config.js',
+				'!phpunit.xml',
 				'!nbproject/**' ],
 				dest: '<%= pkg.name %>'
 			}
@@ -269,6 +283,7 @@ module.exports = function ( grunt ) {
 	// Register tasks
 	grunt.registerTask( 'default', [
 		'less',
+		'concat',
 		'cssmin',
 		'uglify'
 	] );
@@ -281,6 +296,12 @@ module.exports = function ( grunt ) {
 	grunt.registerTask( 'dev', [
 		'default',
 		'makepot'
+	] );
+
+	grunt.registerTask( 'build-css', [
+		'less',
+		'concat',
+		'cssmin'
 	] );
 
 	// Build task

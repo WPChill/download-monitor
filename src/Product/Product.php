@@ -9,7 +9,7 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://www.download-monitor.com/?wc-api=';
+	const STORE_URL = 'https://license.wpchill.com/dlm/';
 
 	/**
 	 * Activation endpoint
@@ -168,10 +168,10 @@ class DLM_Product {
 			}
 
 			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
-
+			$store_url      = self::STORE_URL . '?wc-api=';
 			// Do activate request
 			$request = wp_remote_get(
-				self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
+				$store_url . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
 					array(
 						'email'          => $license->get_email(),
 						'licence_key'    => $license->get_key(),
@@ -244,10 +244,10 @@ class DLM_Product {
 			}
 
 			$action_trigger = isset( $_POST['action_trigger'] ) ? sanitize_text_field( wp_unslash( $_POST['action_trigger'] ) ) : '';
-
+			$store_url      = self::STORE_URL . '?wc-api=';
 			// The Request
 			$request = wp_remote_get(
-				self::STORE_URL . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
+				$store_url . self::ENDPOINT_ACTIVATION . '&' . http_build_query(
 					array(
 						'api_product_id' => $this->product_id,
 						'licence_key'    => $license->get_key(),

@@ -859,7 +859,7 @@ class DLM_Download_Handler {
 		$chunksize = 1 * ( 1024 * 1024 );
 		$buffer    = '';
 		$cnt       = 0;
-		$handle    = fopen( $file, 'r' );
+		$handle    = fopen( $file, 'rb' );
 
 		if ( $handle === false ) {
 			return false;
@@ -877,6 +877,8 @@ class DLM_Download_Handler {
 			if ( $retbytes ) {
 				$cnt += strlen( $buffer );
 			}
+			ob_flush();
+			flush();
 		}
 
 		$status = fclose( $handle );

@@ -154,9 +154,9 @@ class DLM_CRON_Jobs {
 	 * @since 4.8.6
 	 */
 	private function check_license(  $license, $installed_extensions, $save_license = true ){
-
+		$store_url = DLM_Product::STORE_URL . '?wc-api=';
 		$api_request = wp_remote_get(
-			DLM_Product::STORE_URL . DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
+			$store_url. DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
 				array(
 					'email'          => $license['email'],
 					'license_key'    => $license['license_key'],

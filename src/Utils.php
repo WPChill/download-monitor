@@ -310,5 +310,4 @@ abstract class DLM_Utils {
 
 		return $url;
 	}
-
 }

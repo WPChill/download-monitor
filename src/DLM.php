@@ -139,8 +139,6 @@ class WP_DLM {
 			}*/
 
 			new DLM_Review();
-			// Show the shop discontinued notice.
-			add_action( 'admin_notices', array( $this, 'shop_discontinued_notice' ), 8 );
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.
@@ -158,6 +156,11 @@ class WP_DLM {
 		// Setup new AJAX handler
 		$ajax_manager = new DLM_Ajax_Manager();
 		$ajax_manager->setup();
+
+		// Setup Modal
+		if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
+			DLM_Modal::get_instance();
+		}
 
 		// Functions
 		require_once( $this->get_plugin_path() . 'includes/download-functions.php' );
@@ -325,6 +328,12 @@ class WP_DLM {
 	 * @return array
 	 */
 	public function plugin_links( $links ) {
+		// Check to see if this is a Freemius activation mode. If true, don't set the Settings link.
+		$freemius = dm_fs();
+		if ( $freemius->is_activation_mode() ) {
+			return $links;
+		}
+
 		$plugin_links = array(
 			'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings', 'download-monitor' ) . '</a>'
 		);
@@ -341,7 +350,7 @@ class WP_DLM {
 	public function frontend_scripts() {
 
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend.min.css', array(), DLM_VERSION );
+			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend-tailwind.min.css', array(), DLM_VERSION );
 		}
 
 		// only enqueue preview stylesheet when we're in the preview.
@@ -764,25 +773,6 @@ class WP_DLM {
 
 		// Return our Download Link instead of the original URL
 		return $url;
-	}
-
-	/**
-	 * Display shop discontinued notice.
-	 *
-	 * @return void
-	 * @since 4.7.76
-	 */
-	public function shop_discontinued_notice() {
-
-		if ( ! dlm_is_shop_enabled() || 0 != get_option( 'dlm_hide_notice-shop_disabled', 0 ) ) {
-			return;
-		}
-
-		?>
-		<div class="notice notice-error is-dismissible dlm-notice" id="shop_disabled" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dlm_hide_notice-shop_disabled' ) );?>" style="margin-top:30px;">
-			<p><?php echo wp_kses_post( __( '<strong>Attention!</strong> Download Monitor shop functionality will no longer be supported begining <strong>April 2023</strong> and will be disabled in a future update.', 'download-monitor' ) ); ?></p>
-		</div>
-		<?php
 	}
 
 	/**

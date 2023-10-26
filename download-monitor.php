@@ -3,7 +3,7 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing and selling downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 4.8.10
+	Version: 4.9.0
 	Author: WPChill
 	Author URI: https://wpchill.com
 	Requires at least: 5.4
@@ -61,14 +61,24 @@ if ( ! function_exists( 'dm_fs' ) ) {
         return $dm_fs;
     }
 
-    // Init Freemius.
-    dm_fs();
-    // Signal that SDK was initiated.
-    do_action( 'dm_fs_loaded' );
+	// Init Freemius.
+	dm_fs();
+	// Signal that SDK was initiated.
+	do_action( 'dm_fs_loaded' );
+
+	function dlm_remove_support_menu( $is_visible, $menu_id ) {
+		if ( 'support' === $menu_id ) {
+			return false;
+		}
+
+		return $is_visible;
+	}
+
+	dm_fs()->add_filter( 'is_submenu_visible', 'dlm_remove_support_menu', 10, 2 );
 }
 
 // Define DLM Version
-define( 'DLM_VERSION', '4.8.10' );
+define( 'DLM_VERSION', '4.9.0' );
 define( 'DLM_UPGRADER_VERSION', '4.6.0' );
 
 // Define DLM FILE
@@ -99,5 +109,3 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) >= 0 ) {
 if( ! class_exists( 'DLM_Review') && is_admin() ) {
 	require_once dirname( __FILE__ ) . '/includes/admin/class-dlm-review.php';
 }
-
-
