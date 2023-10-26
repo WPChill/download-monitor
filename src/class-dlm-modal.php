@@ -23,6 +23,21 @@ class DLM_Modal {
 	public static $instance;
 
 	/**
+	 * Holds the modal defaults.
+	 * Used to ensure that all required keys are set.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @var array
+	 */
+	public static $modal_defaults = array(
+		'title'    => '', // The title of the modal.
+		'content'  => '', // The content of the modal.
+		'icon'     => '', // The icon of the modal.
+		'tailwind' => false // Defaults to false, but can be set to true by extensions that permit the use of tailwind.
+	);
+
+	/**
 	 * __construct function.
 	 *
 	 * @since 4.9.0
@@ -76,20 +91,20 @@ class DLM_Modal {
 		$content = '';
 		// Check if the no_access_page is set.
 		$no_access_page = $settings->get_option( 'no_access_page' );
+		$download       = false;
 		if ( ! $no_access_page ) {
 			ob_start();
 
 			// template handler.
 			$template_handler = new DLM_Template_Handler();
 
-			if ( 'empty-download' === $_POST['download_id'] || ( ! empty( $_POST['modal_text'] ) ) ) {
+			if ( 'empty-download' === $_POST['download_id'] || ! empty( $_POST['modal_text'] ) ) {
 				if ( ! empty( $_POST['modal_text'] ) ) {
 					echo wp_kses_post( sanitize_text_field( wp_unslash( $_POST['modal_text'] ) ) );
 				} else {
 					echo '<p>' . esc_html__( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
 				}
 			} else {
-
 				try {
 					/** @var \DLM_Download $download */
 					$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $_POST['download_id'] ) );
@@ -115,7 +130,7 @@ class DLM_Modal {
 		} else {
 			$content = do_shortcode( apply_filters( 'the_content', get_post_field( 'post_content', $no_access_page ) ) );
 			if ( '' === trim( $content ) ) {
-				if ( isset( $_POST['modal_text'] ) && ! empty( $_POST['modal_text'] ) ) {
+				if ( ! empty( $_POST['modal_text'] ) ) {
 					$content = sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
 				} else {
 					$content = '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
@@ -142,11 +157,37 @@ class DLM_Modal {
 				'no_access_page' => __( 'No access!', 'download-monitor' ),
 			)
 		);
-		// Create our data.
-		$data = array(
-			'title'   => $title[ $restriction_type ],
-			'content' => $content,
-			'icon'    => 'alert'
+
+		/**
+		 * Filter the data of the modal.
+		 *
+		 * @hook  dlm_modal_data
+		 *
+		 * @param array        $data     The data of the modal.
+		 *                               $data structure:
+		 *                               string title - The title of the modal.
+		 *                               string content - The content of the modal.
+		 *                               string icon - The icon of the modal. This is used in combination with the 'dlm_modal_icon_' . $icon hook set in the no-access-modal template.
+		 *                               bool tailwind - Whether to use tailwind or not.
+		 * @param DLM_Download $download The download object. It may be false if the true download_id is not sent.
+		 * @param array        $settings The settings of the plugin.
+		 *
+		 * @since 4.9.0
+		 */
+		$data = apply_filters(
+			'dlm_modal_data',
+			array(
+				// The title of the modal
+				'title'    => $title[ $restriction_type ],
+				// The content of the modal
+				'content'  => $content,
+				// The icon of the modal
+				'icon'     => 'alert',
+				// set false for tailwind. this will be modified from extensions that permit the use of tailwind.
+				'tailwind' => false
+			),
+			$download,
+			$settings
 		);
 		// Dispaly the modal template.
 		self::display_modal_template( $data );
@@ -166,13 +207,8 @@ class DLM_Modal {
 			return;
 		}
 
-		$default_args = array(
-			'title'   => '',
-			'content' => '',
-			'icon'    => '',
-		);
 		// Ensure all keys are set.
-		$data             = wp_parse_args( $data, $default_args );
+		$data             = wp_parse_args( $data, self::$modal_defaults );
 		$template_handler = new DLM_Template_Handler();
 		// Print scripts, dependencies and inline scripts in an object, so we can attach it to the modal.
 		ob_start();
@@ -188,7 +224,7 @@ class DLM_Modal {
 			'',
 			array(
 				'title'   => $data['title'],
-				'content' => '<div class="dlm-modal-content">' . $scripts . $data['content'] . '</div>',
+				'content' => '<div class="dlm-modal-content' . ( ! $data['tailwind'] ? ' dlm-no-tailwind' : '' ) . '">' . $scripts . $data['content'] . '</div>',
 				'icon'    => $data['icon']
 			)
 		);
