@@ -289,13 +289,11 @@ class DLM_Backwards_Compatibility {
 			$order = $this->filters['order'];
 		}
 
-		if( $this->total_downloads ){
+		if ( $this->total_downloads ) {
 			return ' total_downloads ' . $order;
-		}else{
-			return ' wp_posts.ID ' . $order;
+		} else {
+			return $wpdb->posts . '.ID ' . $order;
 		}
-
-
 	}
 
 	/**

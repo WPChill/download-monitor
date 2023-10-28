@@ -1,3 +1,6 @@
+= 4.9.1 - 28.10.2023 =
+Fixed: DB Error regarding table prefix
+
 = 4.9.0 - 26.10.2023 =
 Added: Included Tailwind CSS ( [#1335](https://github.com/WPChill/download-monitor/issues/1335) )
 Changed: Separate template for the No Access Modal functionality ( [#1336](https://github.com/WPChill/download-monitor/issues/1336) )
