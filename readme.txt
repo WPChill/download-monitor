@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
 Tested up to: 6.3
-Stable tag: 4.9.1
+Stable tag: 4.9.2
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 = 4.9.2 - 30.10.2023 =
-Fixed: Ordering by download count doesn't work anymore ( [#1360](https://github.com/WPChill/download-monitor/issues/1360) ) 
+Fixed: Ordering by download count doesn't work anymore ( [#1360](https://github.com/WPChill/download-monitor/issues/1360) )
 
 = 4.9.1 - 28.10.2023 =
 Fixed: DB Error regarding table prefix
