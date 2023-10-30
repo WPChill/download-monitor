@@ -120,6 +120,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.9.2 - 30.10.2023 =
+Fixed: Ordering by download count doesn't work anymore ( [#1360](https://github.com/WPChill/download-monitor/issues/1360) ) 
+
 = 4.9.1 - 28.10.2023 =
 Fixed: DB Error regarding table prefix
 

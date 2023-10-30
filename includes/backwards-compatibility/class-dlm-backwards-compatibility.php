@@ -38,23 +38,12 @@ class DLM_Backwards_Compatibility {
 	 */
 	private $upgrade_option;
 
-
-	/**
-	 * 'total_downloads' column check.
-	 *
-	 * @since 4.9.0
-	 *
-	 * @var mixed
-	 */
-	private $total_downloads;
-
 	/**
 	 * Class constructor
 	 *
 	 * @return void
 	 */
 	public function __construct() {
-		$this->total_downloads = false;
 		// Add post meta count to total downloads.
 		add_filter( 'dlm_shortcode_total_downloads', array( $this, 'total_downloads_shortcode' ) );
 		// Add orderby postmeta compatibility.
@@ -63,7 +52,7 @@ class DLM_Backwards_Compatibility {
 		add_action( 'dlm_reset_postdata', array( $this, 'reset_postdata' ), 15, 1 );
 		// Add version postmeta downloads to the version download count.
 		add_filter( 'dlm_add_version_meta_download_count', array( $this, 'add_meta_download_count' ), 15, 2 );
-		// Add Download postmeta downloads to the Download download count.
+		// Add Download postmeta downloads to the Download's download count.
 		add_filter( 'dlm_add_meta_download_count', array( $this, 'add_meta_download_count' ), 30, 2 );
 		// If the DB upgrade functionality did not take place we won't have the option stored.
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
@@ -137,7 +126,7 @@ class DLM_Backwards_Compatibility {
 		if ( 'dlm_download' !== $filters['post_type'] ) {
 			return;
 		}
-		
+
 		do_action( 'dlm_backwards_compatibility_orderby_meta_before', $filters );
 
 		if ( apply_filters( 'dlm_backwards_compatibility_orderby_meta', false ) ) {
@@ -177,7 +166,7 @@ class DLM_Backwards_Compatibility {
 	// @todo: Think the below filters are not useful anymore as we changed the SQL query.
 	//	add_filter( 'dlm_admin_sort_columns', array( $this, 'query_args_download_count_compatibility' ), 60 );
 	//	add_filter( 'dlm_query_args_filter', array( $this, 'query_args_download_count_compatibility' ), 60 );
-	
+
 		// @todo: delete this filter and function after feedback, as version 4.7.0 doesn't need it.
 		// add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
@@ -242,13 +231,10 @@ class DLM_Backwards_Compatibility {
 		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
 			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) + 
 			IFNULL( meta_downloads.meta_value, 0 ) ) total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions ";
-			$this->total_downloads = true;
 		} else {
 			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) 
 			total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions";
-			$this->total_downloads = true;
 		}
-
 		return $fields;
 	}
 
@@ -289,10 +275,11 @@ class DLM_Backwards_Compatibility {
 			$order = $this->filters['order'];
 		}
 
-		if ( $this->total_downloads ) {
-			return ' total_downloads ' . $order;
+		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
+			return " (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) + 
+			IFNULL( meta_downloads.meta_value, 0 ) ) {$order}";
 		} else {
-			return $wpdb->posts . '.ID ' . $order;
+			return "(  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) {$order}";
 		}
 	}
 
