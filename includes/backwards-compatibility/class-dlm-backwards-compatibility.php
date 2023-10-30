@@ -279,7 +279,7 @@ class DLM_Backwards_Compatibility {
 			return " (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) + 
 			IFNULL( meta_downloads.meta_value, 0 ) ) {$order}";
 		} else {
-			return "(  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) {$order}";
+			return " (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) {$order}";
 		}
 	}
 
