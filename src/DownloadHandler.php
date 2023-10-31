@@ -877,8 +877,6 @@ class DLM_Download_Handler {
 			if ( $retbytes ) {
 				$cnt += strlen( $buffer );
 			}
-			ob_flush();
-			flush();
 		}
 
 		$status = fclose( $handle );
