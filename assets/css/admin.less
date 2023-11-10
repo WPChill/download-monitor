@@ -66,6 +66,44 @@
       }
     }
   }
+  .wp-list-table{
+    thead{
+      #shortcode,
+      #download_link {
+        text-align :center;
+        width: 7em;
+      }
+      .column-featured_image{
+        &:before {
+          .iconbefore("\f128");
+        }
+      }
+    }
+    tbody{
+      .type-dlm_download{
+        .column-shortcode,
+        .column-download_link {
+          text-align: center;
+        }
+        th,
+        td {
+          vertical-align: middle;
+        }
+        .column-featured_image{
+          img {
+            max-width: 40px;
+            max-height: 40px;
+          }
+        }
+
+      }
+    }
+    .column-featured_image {
+      width: 52px;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
 }
 
 /** Settings */

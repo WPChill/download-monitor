@@ -30,6 +30,45 @@
 .post-type-dlm_download .inline-edit-row .inline-edit-col-dlm .inline-edit-col-dlm-inner {
   margin-top: 10px;
 }
+.post-type-dlm_download .wp-list-table thead #shortcode,
+.post-type-dlm_download .wp-list-table thead #download_link {
+  text-align: center;
+  width: 7em;
+}
+.post-type-dlm_download .wp-list-table thead .column-featured_image:before {
+  font-family: "dashicons" !important;
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 4px 0 0;
+  content: "\f128";
+  top: 1px;
+  left: -1px;
+  font-size: 1em;
+  line-height: inherit;
+  position: relative;
+  vertical-align: top;
+}
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-shortcode,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-download_link {
+  text-align: center;
+}
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download th,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download td {
+  vertical-align: middle;
+}
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-featured_image img {
+  max-width: 40px;
+  max-height: 40px;
+}
+.post-type-dlm_download .wp-list-table .column-featured_image {
+  width: 52px;
+  text-align: center;
+  white-space: nowrap;
+}
 /** Settings */
 .dlm-settings-sub-nav {
   margin: 0 0 10px 0;
