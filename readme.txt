@@ -2,7 +2,7 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
-Tested up to: 6.3
+Tested up to: 6.4
 Stable tag: 4.9.3
 License: GPLv3
 Text Domain: -
