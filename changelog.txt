@@ -3,6 +3,7 @@ Changed: Download CPT admin list table design and alignment. ( [#1152](https://g
 Added: Download CPT admin list table featured download image. ( [#1351](https://github.com/WPChill/download-monitor/issues/1351) )
 Fixed: Polylang no access page redirect compatibility. ( [#1353](https://github.com/WPChill/download-monitor/issues/1353) )
 Added: Filter to hide the "Insert Download" button in classic editor. ( [#1356](https://github.com/WPChill/download-monitor/issues/1356) )
+Fixed: Stop creating image sub-sizes for non-image mime types uploaded to DLM ( [#1366](https://github.com/WPChill/download-monitor/issues/1366) )
 
 = 4.9.2 - 31.10.2023 =
 Fixed: Ordering by download count doesn't work anymore ( [#1360](https://github.com/WPChill/download-monitor/issues/1360) )
