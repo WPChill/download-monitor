@@ -43,7 +43,7 @@ class DLM_Custom_Columns {
 		$columns = array();
 
 		$columns["cb"]              = "<input type=\"checkbox\" />";
-		$columns["featured_image"]  = '';
+		$columns["featured_image"]  = '<span class="hidden">' . __( 'Featured image', 'download-monitor' ) . '</span>';
 		$columns["download_title"]  = __( "Download Title", 'download-monitor' );
 		$columns["download_cat"]    = __( "Categories", 'download-monitor' );
 		$columns["version"]         = __( "Version", 'download-monitor' );
