@@ -69,7 +69,7 @@ class DLM_Upsells {
 		$month = date('m');
 		$this->offer = array( 'class' => '', 'column' => '', 'label' => __( 'Get Premium', 'download-monitor' ) );
 		if ( 11 == $month ) { $this->offer = array( 'class' => 'wpchill-bf-upsell', 'column' => 'bf-upsell-columns', 'label' => __( 'See BLACK FRIDAY offer', 'download-monitor' ) ); }
-		if ( 11 == $month ) { $this->offer = array( 'class' => 'wpchill-xmas-upsell', 'column' => 'xmas-upsell-columns', 'label' => __( 'See Christmas offer', 'download-monitor' ) ); }
+		if ( 12 == $month ) { $this->offer = array( 'class' => 'wpchill-xmas-upsell', 'column' => 'xmas-upsell-columns', 'label' => __( 'See Christmas offer', 'download-monitor' ) ); }
 	}
 
 	/**
