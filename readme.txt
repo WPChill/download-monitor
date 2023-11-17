@@ -120,6 +120,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.9.4 - TBD =
+Added: Upsells seasonal offers.
+
 = 4.9.3 - 13.11.2023 =
 Changed: Download CPT admin list table design and alignment. ( [#1152](https://github.com/WPChill/download-monitor/issues/1152) )
 Added: Download CPT admin list table featured download image. ( [#1351](https://github.com/WPChill/download-monitor/issues/1351) )
