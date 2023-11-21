@@ -29,7 +29,7 @@ class DLM_Admin_Media_Insert {
 	public function media_buttons( $editor_id = 'content' ) {
 		global $post;
 
-		if ( isset( $post ) && isset( $post->post_type ) && 'dlm_download' === $post->post_type ) {
+		if ( ( isset( $post ) && isset( $post->post_type ) && 'dlm_download' === $post->post_type ) || apply_filters( 'dlm_hide_insert_download_classic_editor', false, $post ) ) {
 			return;
 		}
 

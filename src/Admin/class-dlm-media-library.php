@@ -43,6 +43,8 @@ class DLM_Media_Library {
 		add_filter( 'wp_get_attachment_image_src', array( $this, 'filter_thumbnails_protected_files_list' ), 10, 1 );
 		// Do not make sub-sizes for images uploaded in dlm_uploads
 		add_filter( 'file_is_displayable_image', array( $this, 'no_image_subsizes' ), 15, 2 );
+		add_filter( 'fallback_intermediate_image_sizes', array( $this, 'no_image_subsizes_files' ), 15 );
+		
 		add_filter( 'ajax_query_attachments_args', array( $this, 'no_media_library_display' ), 15 );
 		// Add a Media Library filter to list view so that we can filter out dlm_uploads
 		add_action( 'restrict_manage_posts', array( $this, 'add_dlm_uploads_filter' ), 15, 2 );
@@ -114,7 +116,7 @@ class DLM_Media_Library {
 	}
 
 	/**
-	 * Don't display or create sub-sizes for DLM uploads
+	 * Don't display or create sub-sizes for DLM image uploads
 	 *
 	 * @param $result
 	 * @param $path
@@ -131,6 +133,24 @@ class DLM_Media_Library {
 		}
 
 		return $result;
+	}
+
+
+	/**
+	 * Don't display or create sub-sizes for DLM non-image mime types uploads
+	 *
+	 * @param $fallback_sizes
+	 *
+	 * @return array
+	 * @since 4.9.3
+	 */
+	public function no_image_subsizes_files( $fallback_sizes ) {
+
+		if( isset( $_POST['type'] ) && 'dlm_download' === $_POST['type'] ){
+			return array();
+		}
+
+		return $fallback_sizes;
 	}
 
 	/**

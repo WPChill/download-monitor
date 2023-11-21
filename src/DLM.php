@@ -6,814 +6,814 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use \WPChill\DownloadMonitor\Util;
 
-/**
- * WP_DLM class.
- *
- * Main plugin class
- */
-class WP_DLM {
-
-	private $services = null;
-
 	/**
-	 * Get the plugin file
+	 * WP_DLM class.
 	 *
-	 * @return String
+	 * Main plugin class
 	 */
-	public function get_plugin_file() {
-		return DLM_PLUGIN_FILE;
-	}
+	class WP_DLM {
 
-	/**
-	 * Get plugin path
-	 *
-	 * @return string
-	 */
-	public function get_plugin_path() {
-		return plugin_dir_path( $this->get_plugin_file() );
-	}
+		private $services = null;
 
-	/**
-	 * Get plugin URL
-	 *
-	 * @return string
-	 */
-	public function get_plugin_url() {
-		return plugins_url( basename( plugin_dir_path( $this->get_plugin_file() ) ), basename( $this->get_plugin_file() ) );
-	}
+		/**
+		 * Get the plugin file
+		 *
+		 * @return String
+		 */
+		public function get_plugin_file() {
+			return DLM_PLUGIN_FILE;
+		}
 
-	/**
-	 * Return requested service
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	public function service( $key ) {
-		return $this->services->get( $key );
-	}
+		/**
+		 * Get plugin path
+		 *
+		 * @return string
+		 */
+		public function get_plugin_path() {
+			return plugin_dir_path( $this->get_plugin_file() );
+		}
 
-	/**
-	 * __construct function.
-	 *z
-	 * @access public
-	 */
-	public function __construct() {
-		global $wpdb;
+		/**
+		 * Get plugin URL
+		 *
+		 * @return string
+		 */
+		public function get_plugin_url() {
+			return plugins_url( basename( plugin_dir_path( $this->get_plugin_file() ) ), basename( $this->get_plugin_file() ) );
+		}
 
-		register_deactivation_hook( DLM_PLUGIN_FILE, array( $this, 'deactivate_this_plugin' ) );
-		$cron_jobs = DLM_CRON_Jobs::get_instance();
+		/**
+		 * Return requested service
+		 *
+		 * @param string $key
+		 *
+		 * @return mixed
+		 */
+		public function service( $key ) {
+			return $this->services->get( $key );
+		}
 
-		// Setup Services
-		$this->services = new DLM_Services();
+		/**
+		 * __construct function.
+		 *z
+		* @access public
+		*/
+		public function __construct() {
+			global $wpdb;
 
-		// Load plugin text domain.
-		$this->load_textdomain();
+			register_deactivation_hook( DLM_PLUGIN_FILE, array( $this, 'deactivate_this_plugin' ) );
+			$cron_jobs = DLM_CRON_Jobs::get_instance();
 
-		// Table for Download Infos.
-		$wpdb->download_log = "{$wpdb->prefix}download_log";
-		// New Table for reports.
-		$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
-		// New Table for individual Downloads.
-		$wpdb->dlm_downloads = "{$wpdb->prefix}dlm_downloads";
+			// Setup Services
+			$this->services = new DLM_Services();
 
-		// Setup admin classes.
-		if ( is_admin() ) {
+			// Load plugin text domain.
+			$this->load_textdomain();
 
-			$extensions_handler = DLM_Extensions_Handler::get_instance();
-			// check if multisite and needs to create DB table
+			// Table for Download Infos.
+			$wpdb->download_log = "{$wpdb->prefix}download_log";
+			// New Table for reports.
+			$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
+			// New Table for individual Downloads.
+			$wpdb->dlm_downloads = "{$wpdb->prefix}dlm_downloads";
 
-			// Setup admin scripts
-			$admin_scripts = new DLM_Admin_Scripts();
-			$admin_scripts->setup();
+			// Setup admin classes.
+			if ( is_admin() ) {
 
-			// Setup Main Admin Class
-			$dlm_admin = new DLM_Admin();
-			$dlm_admin->setup();
+				$extensions_handler = DLM_Extensions_Handler::get_instance();
+				// check if multisite and needs to create DB table
 
-			// setup custom labels
-			$custom_labels = new DLM_Custom_Labels();
-			$custom_labels->setup();
+				// Setup admin scripts
+				$admin_scripts = new DLM_Admin_Scripts();
+				$admin_scripts->setup();
 
-			// setup custom columns
-			$custom_columns = new DLM_Custom_Columns();
-			$custom_columns->setup();
+				// Setup Main Admin Class
+				$dlm_admin = new DLM_Admin();
+				$dlm_admin->setup();
 
-			// setup custom actions
-			$custom_actions = new DLM_Custom_Actions();
-			$custom_actions->setup();
+				// setup custom labels
+				$custom_labels = new DLM_Custom_Labels();
+				$custom_labels->setup();
 
-			// Admin Write Panels
-			new DLM_Admin_Writepanels();
+				// setup custom columns
+				$custom_columns = new DLM_Custom_Columns();
+				$custom_columns->setup();
 
-			// Admin Media Browser
-			new DLM_Admin_Media_Browser();
+				// setup custom actions
+				$custom_actions = new DLM_Custom_Actions();
+				$custom_actions->setup();
 
-			// Admin Media Insert
-			new DLM_Admin_Media_Insert();
+				// Admin Write Panels
+				new DLM_Admin_Writepanels();
 
-			// Upgrade Manager
-			$upgrade_manager = new DLM_Upgrade_Manager();
-			$upgrade_manager->setup();
+				// Admin Media Browser
+				new DLM_Admin_Media_Browser();
 
-			// DLM Welcome page
-			DLM_Welcome_Page::get_instance();
+				// Admin Media Insert
+				new DLM_Admin_Media_Insert();
 
-			// Legacy Upgrader
-			$lu_page = new DLM_LU_Page();
-			$lu_page->setup();
+				// Upgrade Manager
+				$upgrade_manager = new DLM_Upgrade_Manager();
+				$upgrade_manager->setup();
 
-			$lu_ajax = new DLM_LU_Ajax();
-			$lu_ajax->setup();
+				// DLM Welcome page
+				DLM_Welcome_Page::get_instance();
 
-			// Admin Download Page Options Upsells
-			new DLM_Admin_OptionsUpsells();
+				// Legacy Upgrader
+				$lu_page = new DLM_LU_Page();
+				$lu_page->setup();
 
-			if( class_exists('DLM_Download_Duplicator') ) {
-				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
+				$lu_ajax = new DLM_LU_Ajax();
+				$lu_ajax->setup();
+
+				// Admin Download Page Options Upsells
+				new DLM_Admin_OptionsUpsells();
+
+				if( class_exists('DLM_Download_Duplicator') ) {
+					deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
+				}
+
+				// The beta testers class
+				/*if ( defined( 'DLM_BETA' ) && DLM_BETA && class_exists( 'DLM_Beta_Testers') ) {
+					new DLM_Beta_Testers();
+				}*/
+
+				new DLM_Review();
 			}
 
-			// The beta testers class
-			/*if ( defined( 'DLM_BETA' ) && DLM_BETA && class_exists( 'DLM_Beta_Testers') ) {
-				new DLM_Beta_Testers();
-			}*/
+			// Set the DB Upgrader class to see if we need to upgrade the table or not.
+			// This is mainly to move to version 4.6.x from 4.5.x and below.
+			$upgrader = DLM_DB_Upgrader::get_instance();
 
-			new DLM_Review();
+			// Set Reports. We set them here in order to also create the REST Api calls.
+			$reports = DLM_Reports::get_instance();
+
+			// Setup AJAX handler if doing AJAX
+			if ( defined( 'DOING_AJAX' ) ) {
+				new DLM_Ajax_Handler();
+			}
+
+			// Setup new AJAX handler
+			$ajax_manager = new DLM_Ajax_Manager();
+			$ajax_manager->setup();
+
+			// Setup Modal
+			if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
+				DLM_Modal::get_instance();
+			}
+
+			// Functions
+			require_once( $this->get_plugin_path() . 'includes/download-functions.php' );
+
+			// Deprecated
+			require_once( $this->get_plugin_path() . 'includes/deprecated.php' );
+
+			// Setup DLM Download Handler
+			$download_handler = new DLM_Download_Handler();
+			$download_handler->setup();
+
+			// setup no access page endpoints
+			$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
+			$no_access_page_endpoint->setup();
+
+			// Setup shortcodes
+			$dlm_shortcodes = new DLM_Shortcodes();
+			$dlm_shortcodes->setup();
+
+			// Setup Widgets
+			$widget_manager = new DLM_Widget_Manager();
+			$widget_manager->setup();
+
+			// Setup Taxonomies
+			$taxonomy_manager = new DLM_Taxonomy_Manager();
+			$taxonomy_manager->setup();
+
+			// Setup Post Types
+			$post_type_manager = new DLM_Post_Type_Manager();
+			$post_type_manager->setup();
+
+			// Setup Log Filters
+			$log_filters = new DLM_Log_Filters();
+			$log_filters->setup();
+
+			// Setup actions
+			$this->setup_actions();
+
+			// Setup Search support
+			$search = new DLM_Search();
+			$search->setup();
+
+			// Setup Gutenberg
+			$gutenberg = new DLM_Gutenberg();
+			$gutenberg->setup();
+
+			// Setup Gutenberg Download Preview
+			$gb_download_preview = new DLM_DownloadPreview_Preview();
+			$gb_download_preview->setup();
+
+			// Backwards Compatibility.
+			$dlm_backwards_compatibility = DLM_Backwards_Compatibility::get_instance();
+
+			// Setup integrations
+			$this->setup_integrations();
+
+			// check if we need to bootstrap E-Commerce
+			if ( apply_filters( 'dlm_shop_load_bootstrap', true ) ) {
+				require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
+			}
+
+			// Fix to whitelist our function for PolyLang.
+			add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
+			// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front.
+			add_filter( 'wp_get_attachment_url', array( $this, 'generate_attachment_url' ), 15, 2 );
 		}
 
-		// Set the DB Upgrader class to see if we need to upgrade the table or not.
-		// This is mainly to move to version 4.6.x from 4.5.x and below.
-		$upgrader = DLM_DB_Upgrader::get_instance();
+		/**
+		 * Load Textdomain
+		 *
+		 * @since 4.7.72
+		 */
+		private function load_textdomain() {
+			$dlm_lang = dirname( DLM_FILE ) . '/languages/';
 
-		// Set Reports. We set them here in order to also create the REST Api calls.
-		$reports = DLM_Reports::get_instance();
+			if ( get_user_locale() !== get_locale() ) {
 
-		// Setup AJAX handler if doing AJAX
-		if ( defined( 'DOING_AJAX' ) ) {
-			new DLM_Ajax_Handler();
-		}
+				unload_textdomain( 'download-monitor' );
+				$locale = apply_filters( 'plugin_locale', get_user_locale(), 'download-monitor' );
 
-		// Setup new AJAX handler
-		$ajax_manager = new DLM_Ajax_Manager();
-		$ajax_manager->setup();
+				$lang_ext  = sprintf( '%1$s-%2$s.mo', 'download-monitor', $locale );
+				$lang_ext1 = WP_LANG_DIR . "/download-monitor/download-monitor-{$locale}.mo";
+				$lang_ext2 = WP_LANG_DIR . "/plugins/download-monitor/{$lang_ext}";
 
-		// Setup Modal
-		if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
-			DLM_Modal::get_instance();
-		}
+				if ( file_exists( $lang_ext1 ) ) {
+					load_textdomain( 'download-monitor', $lang_ext1 );
 
-		// Functions
-		require_once( $this->get_plugin_path() . 'includes/download-functions.php' );
+				} elseif ( file_exists( $lang_ext2 ) ) {
+					load_textdomain( 'download-monitor', $lang_ext2 );
 
-		// Deprecated
-		require_once( $this->get_plugin_path() . 'includes/deprecated.php' );
-
-		// Setup DLM Download Handler
-		$download_handler = new DLM_Download_Handler();
-		$download_handler->setup();
-
-		// setup no access page endpoints
-		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
-		$no_access_page_endpoint->setup();
-
-		// Setup shortcodes
-		$dlm_shortcodes = new DLM_Shortcodes();
-		$dlm_shortcodes->setup();
-
-		// Setup Widgets
-		$widget_manager = new DLM_Widget_Manager();
-		$widget_manager->setup();
-
-		// Setup Taxonomies
-		$taxonomy_manager = new DLM_Taxonomy_Manager();
-		$taxonomy_manager->setup();
-
-		// Setup Post Types
-		$post_type_manager = new DLM_Post_Type_Manager();
-		$post_type_manager->setup();
-
-		// Setup Log Filters
-		$log_filters = new DLM_Log_Filters();
-		$log_filters->setup();
-
-		// Setup actions
-		$this->setup_actions();
-
-		// Setup Search support
-		$search = new DLM_Search();
-		$search->setup();
-
-		// Setup Gutenberg
-		$gutenberg = new DLM_Gutenberg();
-		$gutenberg->setup();
-
-		// Setup Gutenberg Download Preview
-		$gb_download_preview = new DLM_DownloadPreview_Preview();
-		$gb_download_preview->setup();
-
-		// Backwards Compatibility.
-		$dlm_backwards_compatibility = DLM_Backwards_Compatibility::get_instance();
-
-		// Setup integrations
-		$this->setup_integrations();
-
-		// check if we need to bootstrap E-Commerce
-		if ( apply_filters( 'dlm_shop_load_bootstrap', true ) ) {
-			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
-		}
-
-		// Fix to whitelist our function for PolyLang.
-		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
-		// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front.
-		add_filter( 'wp_get_attachment_url', array( $this, 'generate_attachment_url' ), 15, 2 );
-	}
-
-	/**
-	 * Load Textdomain
-	 *
-	 * @since 4.7.72
-	 */
-	private function load_textdomain() {
-		$dlm_lang = dirname( DLM_FILE ) . '/languages/';
-
-		if ( get_user_locale() !== get_locale() ) {
-
-			unload_textdomain( 'download-monitor' );
-			$locale = apply_filters( 'plugin_locale', get_user_locale(), 'download-monitor' );
-
-			$lang_ext  = sprintf( '%1$s-%2$s.mo', 'download-monitor', $locale );
-			$lang_ext1 = WP_LANG_DIR . "/download-monitor/download-monitor-{$locale}.mo";
-			$lang_ext2 = WP_LANG_DIR . "/plugins/download-monitor/{$lang_ext}";
-
-			if ( file_exists( $lang_ext1 ) ) {
-				load_textdomain( 'download-monitor', $lang_ext1 );
-
-			} elseif ( file_exists( $lang_ext2 ) ) {
-				load_textdomain( 'download-monitor', $lang_ext2 );
-
+				} else {
+					load_plugin_textdomain( 'download-monitor', false, $dlm_lang );
+				}
 			} else {
 				load_plugin_textdomain( 'download-monitor', false, $dlm_lang );
 			}
-		} else {
-			load_plugin_textdomain( 'download-monitor', false, $dlm_lang );
-		}
-	}
-
-	/**
-	 * Setup actions
-	 */
-	private function setup_actions() {
-
-		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ), array( $this, 'plugin_links' ) );
-		add_action( 'init', array( $this, 'register_globals' ) );
-		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
-		add_action( 'the_post', array( $this, 'setup_download_data' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
-
-		// Get the correct download link in archive pages or when retrieving download permalink
-		add_filter( 'post_type_link', array( $this, 'archive_filter_download_link' ), 20, 2 );
-
-		// setup product manager
-		DLM_Product_Manager::get()->setup();
-	}
-
-	/**
-	 * Setup 3rd party integrations
-	 */
-	private function setup_integrations() {
-		$yoast = new DLM_Integrations_YoastSEO();
-		$yoast->setup();
-
-		$post_types_order = new DLM_Integrations_PostTypesOrder();
-		$post_types_order->setup();
-	}
-
-	/**
-	 * Add Theme Compatibility
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function compatibility() {
-
-		// Post thumbnail support
-		if ( ! current_theme_supports( 'post-thumbnails' ) ) {
-			add_theme_support( 'post-thumbnails' );
-			remove_post_type_support( 'post', 'thumbnail' );
-			remove_post_type_support( 'page', 'thumbnail' );
-		} else {
-
-			// Get current supported
-			$current_support = get_theme_support( 'post-thumbnails' );
-
-			// fix current support for some themes
-			if ( is_array( $current_support ) && is_array( $current_support[0] ) ) {
-				$current_support = $current_support[0];
-			}
-
-			// This can be a bool or array. If array we merge our post type in, if bool ignore because it's like a global theme setting.
-			if ( is_array( $current_support ) ) {
-				add_theme_support( 'post-thumbnails', array_merge( $current_support, array( 'dlm_download' ) ) );
-			}
-
-			add_post_type_support( 'download', 'thumbnail' );
-		}
-	}
-
-	/**
-	 * Add links to admin plugins page.
-	 *
-	 * @param  array $links
-	 *
-	 * @return array
-	 */
-	public function plugin_links( $links ) {
-		// Check to see if this is a Freemius activation mode. If true, don't set the Settings link.
-		$freemius = dm_fs();
-		if ( $freemius->is_activation_mode() ) {
-			return $links;
 		}
 
-		$plugin_links = array(
-			'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings', 'download-monitor' ) . '</a>'
-		);
+		/**
+		 * Setup actions
+		 */
+		private function setup_actions() {
 
-		return array_merge( $plugin_links, $links );
-	}
+			add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ), array( $this, 'plugin_links' ) );
+			add_action( 'init', array( $this, 'register_globals' ) );
+			add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
+			add_action( 'the_post', array( $this, 'setup_download_data' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 
-	/**
-	 * frontend_scripts function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function frontend_scripts() {
+			// Get the correct download link in archive pages or when retrieving download permalink
+			add_filter( 'post_type_link', array( $this, 'archive_filter_download_link' ), 20, 2 );
 
-		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend-tailwind.min.css', array(), DLM_VERSION );
+			// setup product manager
+			DLM_Product_Manager::get()->setup();
 		}
 
-		// only enqueue preview stylesheet when we're in the preview.
-		if ( isset( $_GET['dlm_gutenberg_download_preview'] ) ) {
-			// Enqueue admin css
-			wp_enqueue_style(
-				'dlm_preview',
-				plugins_url( '/assets/css/preview.min.css', $this->get_plugin_file() ),
-				array(),
-				DLM_VERSION
-			);
+		/**
+		 * Setup 3rd party integrations
+		 */
+		private function setup_integrations() {
+			$yoast = new DLM_Integrations_YoastSEO();
+			$yoast->setup();
+
+			$post_types_order = new DLM_Integrations_PostTypesOrder();
+			$post_types_order->setup();
 		}
 
-		// Leave this filter here in case XHR is problematic and needs to be disabled.
-		if ( self::do_xhr() ) {
-			wp_register_script(
-				'dlm-xhr',
-				plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
-				array( 'jquery' ),
-				DLM_VERSION,
-				true
-			);
+		/**
+		 * Add Theme Compatibility
+		 *
+		 * @access public
+		 * @return void
+		 */
+		public function compatibility() {
 
-			wp_enqueue_script( 'dlm-xhr' );
-
-			// Add dashicons on the front if popup modal for no access is used.
-			if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
-				wp_enqueue_style( 'dashicons' );
-				wp_enqueue_style( 'dlm-frontend' );
-			}
-			// @todo: delete the xhr_links attribute in the future as it will not be needed. It's only here for backwards
-			// compatibility as extensions might using it. Used prior to 4.7.72.
-			$dlm_xhr_data = apply_filters(
-				'dlm_xhr_data',
-				array(
-					'xhr_links'          => array(
-						'class' => array(
-							'download-link',
-							'download-button'
-						)
-					),
-					'prevent_duplicates' => '1' === get_option( 'dlm_enable_window_logging' )
-				)
-			);
-
-			$dlm_xhr_security_data = array(
-				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
-			);
-
-			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
-			// Let's create the URL pointer for the download link. It will be used as a global variable in the xhr.js file
-			// and will be used to check if is a true download request or not.
-			$scheme            = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-			$endpoint          = get_option( 'dlm_download_endpoint' );
-			$endpoint          = $endpoint ? $endpoint : 'download';
-			$wpml_options      = get_option( 'icl_sitepress_settings', false );
-			$is_dlm_translated = false;
-			if ( $wpml_options && isset( $wpml_options['custom_posts_sync_option'] ) && in_array( 'dlm_download', $wpml_options['custom_posts_sync_option'] ) ) {
-				$is_dlm_translated = true;
-			}
-
-			if ( $is_dlm_translated ) {
-				add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
-			}
-
-			if ( get_option( 'permalink_structure' ) ) {
-				// Fix for translation plugins that modify the home_url.
-				$download_pointing_url = get_home_url( null, '', $scheme );
-				$download_pointing_url = $download_pointing_url . '/' . $endpoint . '/';
+			// Post thumbnail support
+			if ( ! current_theme_supports( 'post-thumbnails' ) ) {
+				add_theme_support( 'post-thumbnails' );
+				remove_post_type_support( 'post', 'thumbnail' );
+				remove_post_type_support( 'page', 'thumbnail' );
 			} else {
-				$download_pointing_url = add_query_arg( $endpoint, '', home_url( '', $scheme ) );
+
+				// Get current supported
+				$current_support = get_theme_support( 'post-thumbnails' );
+
+				// fix current support for some themes
+				if ( is_array( $current_support ) && is_array( $current_support[0] ) ) {
+					$current_support = $current_support[0];
+				}
+
+				// This can be a bool or array. If array we merge our post type in, if bool ignore because it's like a global theme setting.
+				if ( is_array( $current_support ) ) {
+					add_theme_support( 'post-thumbnails', array_merge( $current_support, array( 'dlm_download' ) ) );
+				}
+
+				add_post_type_support( 'download', 'thumbnail' );
+			}
+		}
+
+		/**
+		 * Add links to admin plugins page.
+		 *
+		 * @param  array $links
+		 *
+		 * @return array
+		 */
+		public function plugin_links( $links ) {
+			// Check to see if this is a Freemius activation mode. If true, don't set the Settings link.
+			$freemius = dm_fs();
+			if ( $freemius->is_activation_mode() ) {
+				return $links;
 			}
 
-			// Now we can remove the filter as the link is generated.
-			//@todo: If Downloads will be made translatable in the future then this should be removed.
-			if ( $is_dlm_translated ) {
-				remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
-			}
-			$nonXHRGlobalLinks = apply_filters( 'dlm_non_xhr_uri', array() );
-			$nonXHRGlobalLinks = array_map( 'sanitize_text_field', $nonXHRGlobalLinks );
-			// The dlmXHRprogress is used to display the progress bar on the front end.
-			$dlmXHRprogress = apply_filters(
-				'dlm_xhr_progress',
-				array(
-					'display'  => true,
-					'animation' => includes_url( '/images/spinner.gif' ),
-				)
+			$plugin_links = array(
+				'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings', 'download-monitor' ) . '</a>'
 			);
-			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( $dlmXHRprogress['animation'] ) .'"; const dlmXHRProgress = "' . $dlmXHRprogress['display'] . '"', 'before' );
-			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', apply_filters( 'dlm_xhr_error_translations', array(
-				'error'              => esc_html__( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' ),
-				'not_found'          => esc_html__( 'Download does not exist.', 'download-monitor' ),
-				'no_file_path'       => esc_html__( 'No file path defined.', 'download-monitor' ),
-				'no_file_paths'      => esc_html__( 'No file paths defined.', 'download-monitor' ),
-				'filetype'           => esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ),
-				'file_access_denied' => esc_html__( 'Access denied to this file.', 'download-monitor' ),
-				'access_denied'      => esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ),
-				'security_error'     => esc_html__( 'Something is wrong with the file path.', 'download-monitor' ),
-				'file_not_found'     => esc_html__( 'File not found.', 'download-monitor' ),
-			) ) );
+
+			return array_merge( $plugin_links, $links );
 		}
 
-		do_action( 'dlm_frontend_scripts_after' );
+		/**
+		 * frontend_scripts function.
+		 *
+		 * @access public
+		 * @return void
+		 */
+		public function frontend_scripts() {
 
-	}
+			if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
+				wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend-tailwind.min.css', array(), DLM_VERSION );
+			}
 
-	/**
-	 * Register environment globals
-	 *
-	 * @access private
-	 * @return void
-	 */
-	public function register_globals() {
-		$GLOBALS['dlm_download'] = null;
-	}
+			// only enqueue preview stylesheet when we're in the preview.
+			if ( isset( $_GET['dlm_gutenberg_download_preview'] ) ) {
+				// Enqueue admin css
+				wp_enqueue_style(
+					'dlm_preview',
+					plugins_url( '/assets/css/preview.min.css', $this->get_plugin_file() ),
+					array(),
+					DLM_VERSION
+				);
+			}
 
-	/**
-	 * When the_post is called, get download data too
-	 *
-	 * @access public
-	 *
-	 * @param mixed $post
-	 *
-	 * @return void
-	 */
-	public function setup_download_data( $post ) {
-		if ( is_int( $post ) ) {
-			$post = get_post( $post );
+			// Leave this filter here in case XHR is problematic and needs to be disabled.
+			if ( self::do_xhr() ) {
+				wp_register_script(
+					'dlm-xhr',
+					plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
+					array( 'jquery' ),
+					DLM_VERSION,
+					true
+				);
+
+				wp_enqueue_script( 'dlm-xhr' );
+
+				// Add dashicons on the front if popup modal for no access is used.
+				if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
+					wp_enqueue_style( 'dashicons' );
+					wp_enqueue_style( 'dlm-frontend' );
+				}
+				// @todo: delete the xhr_links attribute in the future as it will not be needed. It's only here for backwards
+				// compatibility as extensions might using it. Used prior to 4.7.72.
+				$dlm_xhr_data = apply_filters(
+					'dlm_xhr_data',
+					array(
+						'xhr_links'          => array(
+							'class' => array(
+								'download-link',
+								'download-button'
+							)
+						),
+						'prevent_duplicates' => '1' === get_option( 'dlm_enable_window_logging' )
+					)
+				);
+
+				$dlm_xhr_security_data = array(
+					'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+				);
+
+				$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
+				// Let's create the URL pointer for the download link. It will be used as a global variable in the xhr.js file
+				// and will be used to check if is a true download request or not.
+				$scheme            = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+				$endpoint          = get_option( 'dlm_download_endpoint' );
+				$endpoint          = $endpoint ? $endpoint : 'download';
+				$wpml_options      = get_option( 'icl_sitepress_settings', false );
+				$is_dlm_translated = false;
+				if ( $wpml_options && isset( $wpml_options['custom_posts_sync_option'] ) && in_array( 'dlm_download', $wpml_options['custom_posts_sync_option'] ) ) {
+					$is_dlm_translated = true;
+				}
+
+				if ( $is_dlm_translated ) {
+					add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+				}
+
+				if ( get_option( 'permalink_structure' ) ) {
+					// Fix for translation plugins that modify the home_url.
+					$download_pointing_url = get_home_url( null, '', $scheme );
+					$download_pointing_url = $download_pointing_url . '/' . $endpoint . '/';
+				} else {
+					$download_pointing_url = add_query_arg( $endpoint, '', home_url( '', $scheme ) );
+				}
+
+				// Now we can remove the filter as the link is generated.
+				//@todo: If Downloads will be made translatable in the future then this should be removed.
+				if ( $is_dlm_translated ) {
+					remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+				}
+				$nonXHRGlobalLinks = apply_filters( 'dlm_non_xhr_uri', array() );
+				$nonXHRGlobalLinks = array_map( 'sanitize_text_field', $nonXHRGlobalLinks );
+				// The dlmXHRprogress is used to display the progress bar on the front end.
+				$dlmXHRprogress = apply_filters(
+					'dlm_xhr_progress',
+					array(
+						'display'  => true,
+						'animation' => includes_url( '/images/spinner.gif' ),
+					)
+				);
+				wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( $dlmXHRprogress['animation'] ) .'"; const dlmXHRProgress = "' . $dlmXHRprogress['display'] . '"', 'before' );
+				wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', apply_filters( 'dlm_xhr_error_translations', array(
+					'error'              => esc_html__( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' ),
+					'not_found'          => esc_html__( 'Download does not exist.', 'download-monitor' ),
+					'no_file_path'       => esc_html__( 'No file path defined.', 'download-monitor' ),
+					'no_file_paths'      => esc_html__( 'No file paths defined.', 'download-monitor' ),
+					'filetype'           => esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ),
+					'file_access_denied' => esc_html__( 'Access denied to this file.', 'download-monitor' ),
+					'access_denied'      => esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ),
+					'security_error'     => esc_html__( 'Something is wrong with the file path.', 'download-monitor' ),
+					'file_not_found'     => esc_html__( 'File not found.', 'download-monitor' ),
+				) ) );
+			}
+
+			do_action( 'dlm_frontend_scripts_after' );
+
 		}
 
-		if ( $post->post_type !== 'dlm_download' ) {
-			return;
+		/**
+		 * Register environment globals
+		 *
+		 * @access private
+		 * @return void
+		 */
+		public function register_globals() {
+			$GLOBALS['dlm_download'] = null;
 		}
 
-		try {
-			$download                = $this->service( 'download_repository' )->retrieve_single( $post->ID );
-			$GLOBALS['dlm_download'] = $download;
-		} catch ( Exception $e ) {
+		/**
+		 * When the_post is called, get download data too
+		 *
+		 * @access public
+		 *
+		 * @param mixed $post
+		 *
+		 * @return void
+		 */
+		public function setup_download_data( $post ) {
+			if ( is_int( $post ) ) {
+				$post = get_post( $post );
+			}
 
+			if ( $post->post_type !== 'dlm_download' ) {
+				return;
+			}
+
+			try {
+				$download                = $this->service( 'download_repository' )->retrieve_single( $post->ID );
+				$GLOBALS['dlm_download'] = $download;
+			} catch ( Exception $e ) {
+
+			}
 		}
-	}
 
-	/** Deprecated methods **************************************************/
+		/** Deprecated methods **************************************************/
 
-	/**
-	 * get_template_part function.
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @access public
-	 *
-	 * @param mixed $slug
-	 * @param string $name (default: '')
-	 *
-	 * @return void
-	 */
-	public function get_template_part( $slug, $name = '', $custom_dir = '' ) {
+		/**
+		 * get_template_part function.
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @access public
+		 *
+		 * @param mixed $slug
+		 * @param string $name (default: '')
+		 *
+		 * @return void
+		 */
+		public function get_template_part( $slug, $name = '', $custom_dir = '' ) {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		// Load template part
-		$template_handler = new DLM_Template_Handler();
-		$template_handler->get_template_part( $slug, $name, $custom_dir );
-	}
+			// Load template part
+			$template_handler = new DLM_Template_Handler();
+			$template_handler->get_template_part( $slug, $name, $custom_dir );
+		}
 
-	/**
-	 * Get the plugin url
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function plugin_url() {
+		/**
+		 * Get the plugin url
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @access public
+		 * @return string
+		 */
+		public function plugin_url() {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		return $this->get_plugin_url();
-	}
+			return $this->get_plugin_url();
+		}
 
-	/**
-	 * Get the plugin path
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @access public
-	 * @return string
-	 */
-	public function plugin_path() {
+		/**
+		 * Get the plugin path
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @access public
+		 * @return string
+		 */
+		public function plugin_path() {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		return $this->get_plugin_path();
-	}
+			return $this->get_plugin_path();
+		}
 
-	/**
-	 * Returns a listing of all files in the specified folder and all subdirectories up to 100 levels deep.
-	 * The depth of the recursiveness can be controlled by the $levels param.
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @access public
-	 *
-	 * @param string $folder (default: '')
-	 *
-	 * @return array|bool
-	 */
-	public function list_files( $folder = '' ) {
+		/**
+		 * Returns a listing of all files in the specified folder and all subdirectories up to 100 levels deep.
+		 * The depth of the recursiveness can be controlled by the $levels param.
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @access public
+		 *
+		 * @param string $folder (default: '')
+		 *
+		 * @return array|bool
+		 */
+		public function list_files( $folder = '' ) {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		// File Manger
-		$file_manager = new DLM_File_Manager();
+			// File Manger
+			$file_manager = new DLM_File_Manager();
 
-		// Return files
-		return $file_manager->list_files( $folder );
-	}
+			// Return files
+			return $file_manager->list_files( $folder );
+		}
 
-	/**
-	 * Parse a file path and return the new path and whether or not it's remote
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @param  string $file_path
-	 *
-	 * @return array
-	 */
-	public function parse_file_path( $file_path ) {
+		/**
+		 * Parse a file path and return the new path and whether or not it's remote
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @param  string $file_path
+		 *
+		 * @return array
+		 */
+		public function parse_file_path( $file_path ) {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		// File Manger
-		$file_manager = new DLM_File_Manager();
+			// File Manger
+			$file_manager = new DLM_File_Manager();
 
-		// Return files
-		return $file_manager->parse_file_path( $file_path );
-	}
+			// Return files
+			return $file_manager->parse_file_path( $file_path );
+		}
 
-	/**
-	 * Gets the filesize of a path or URL.
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @param string $file_path
-	 *
-	 * @access public
-	 * @return string size on success, -1 on failure
-	 */
-	public function get_filesize( $file_path ) {
+		/**
+		 * Gets the filesize of a path or URL.
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @param string $file_path
+		 *
+		 * @access public
+		 * @return string size on success, -1 on failure
+		 */
+		public function get_filesize( $file_path ) {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		// File Manger
-		$file_manager = new DLM_File_Manager();
+			// File Manger
+			$file_manager = new DLM_File_Manager();
 
-		// Return files
-		return $file_manager->get_file_size( $file_path );
-	}
+			// Return files
+			return $file_manager->get_file_size( $file_path );
+		}
 
-	/**
-	 * Gets md5, sha1 and crc32 hashes for a file and store it.
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @string $file_path
-	 *
-	 * @access public
-	 * @return array of sizes
-	 */
-	public function get_file_hashes( $file_path ) {
+		/**
+		 * Gets md5, sha1 and crc32 hashes for a file and store it.
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @string $file_path
+		 *
+		 * @access public
+		 * @return array of sizes
+		 */
+		public function get_file_hashes( $file_path ) {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		// Return files
-		return $this->service( 'hasher' )->get_file_hashes( $file_path );
-	}
+			// Return files
+			return $this->service( 'hasher' )->get_file_hashes( $file_path );
+		}
 
-	/**
-	 * Encode files for storage
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @param  array $files
-	 *
-	 * @return string
-	 */
-	public function json_encode_files( $files ) {
+		/**
+		 * Encode files for storage
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @param  array $files
+		 *
+		 * @return string
+		 */
+		public function json_encode_files( $files ) {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		// File Manger
-		$file_manager = new DLM_File_Manager();
+			// File Manger
+			$file_manager = new DLM_File_Manager();
 
-		// Return files
-		return $file_manager->json_encode_files( $files );
-	}
+			// Return files
+			return $file_manager->json_encode_files( $files );
+		}
 
-	/**
-	 * Fallback for PHP < 5.4 where JSON_UNESCAPED_UNICODE does not exist.
-	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @param  array $matches
-	 *
-	 * @return string
-	 */
-	public function json_unscaped_unicode_fallback( $matches ) {
+		/**
+		 * Fallback for PHP < 5.4 where JSON_UNESCAPED_UNICODE does not exist.
+		 *
+		 * @deprecated 1.6.0
+		 *
+		 * @param  array $matches
+		 *
+		 * @return string
+		 */
+		public function json_unscaped_unicode_fallback( $matches ) {
 
-		// Deprecated
-		DLM_Debug_Logger::deprecated( __METHOD__ );
+			// Deprecated
+			DLM_Debug_Logger::deprecated( __METHOD__ );
 
-		// File Manger
-		$file_manager = new DLM_File_Manager();
+			// File Manger
+			$file_manager = new DLM_File_Manager();
 
-		// Return files
-		return $file_manager->json_unscaped_unicode_fallback( $matches );
-	}
+			// Return files
+			return $file_manager->json_unscaped_unicode_fallback( $matches );
+		}
 
-	/**
-	 * Filter the download link so that it retrieves the corresponding download link in archive pages
-	 *
-	 * @param $post_link
-	 * @param $post
-	 *
-	 * @return mixed|String
-	 *
-	 * @since 4.4.5
-	 */
-	public function archive_filter_download_link( $post_link, $post ) {
-		// We exclude the search because there is a specific option for this
-		if ( 'dlm_download' == $post->post_type && ! is_search() ) {
-			// fetch download object
+		/**
+		 * Filter the download link so that it retrieves the corresponding download link in archive pages
+		 *
+		 * @param $post_link
+		 * @param $post
+		 *
+		 * @return mixed|String
+		 *
+		 * @since 4.4.5
+		 */
+		public function archive_filter_download_link( $post_link, $post ) {
+			// We exclude the search because there is a specific option for this
+			if ( 'dlm_download' == $post->post_type && ! is_search() ) {
+				// fetch download object
+				try {
+					/** @var DLM_Download $download */
+					$download                = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+
+					return $download->get_the_download_link();
+				} catch ( Exception $e ) {
+				}
+			}
+
+			return $post_link;
+		}
+
+		/**
+		 * Whitelist  class DLM_Download's method get_the_download_link
+		 */
+		public function whitelist_polylang( $list ) {
+
+			$download = new DLM_Download();
+			// We add our download link to polylang's whitelist functions, to be able to retrieve the language in the link
+			$list[] = array('function' => 'get_the_download_link' );
+
+			return $list;
+		}
+
+		/**
+		 * Check if we can do XHR download
+		 *
+		 * @return mixed|null
+		 * @since 4.6.0
+		 */
+		public static function do_xhr() {
+			$return = true;
+			if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+				$return = false;
+			}
+
+			return apply_filters( 'dlm_do_xhr', $return );
+		}
+
+		/**
+		 * Return the Download Link for a given file if that file was protected by DLM
+		 *
+		 * @param $url
+		 * @param $attachment_id
+		 *
+		 * @return mixed|String
+		 * @since 4.7.2
+		 */
+		public function generate_attachment_url( $url, $attachment_id ) {
+			// Get the Download ID, if exists
+			$known_download = get_post_meta( $attachment_id, 'dlm_download', true );
+			$protected      = get_post_meta( $attachment_id, 'dlm_protected_file', true );
+			// If it doesn't exist, return the original URL
+			if ( empty( $known_download ) || '1' !== $protected ) {
+				return $url;
+			}
+
+			$known_download = json_decode( $known_download, true );
+			$download_id    = isset( $known_download['download_id'] ) ? $known_download['download_id'] : false;
+			$version_id     = isset( $known_download['version_id'] ) ? $known_download['version_id'] : false;
+
+			if ( ! $download_id ) {
+				return $url;
+			}
+
+			$download = false;
+			// Try to find our Download
 			try {
 				/** @var DLM_Download $download */
-				$download                = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
-
-				return $download->get_the_download_link();
-			} catch ( Exception $e ) {
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
+			} catch ( Exception $exception ) {
+				return $url;
 			}
-		}
 
-		return $post_link;
-	}
+			$url = $download->get_the_download_link();
+			// Set version also to the URL as the user might add another version to that Download that could download another file
+			if ( $version_id ) {
+				$url = add_query_arg( 'v', $version_id, $url );
+			}
 
-	/**
-	 * Whitelist  class DLM_Download's method get_the_download_link
-	 */
-	public function whitelist_polylang( $list ) {
-
-		$download = new DLM_Download();
-		// We add our download link to polylang's whitelist functions, to be able to retrieve the language in the link
-		$list[] = array('function' => 'get_the_download_link' );
-
-		return $list;
-	}
-
-	/**
-	 * Check if we can do XHR download
-	 *
-	 * @return mixed|null
-	 * @since 4.6.0
-	 */
-	public static function do_xhr() {
-		$return = true;
-		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
-			$return = false;
-		}
-
-		return apply_filters( 'dlm_do_xhr', $return );
-	}
-
-	/**
-	 * Return the Download Link for a given file if that file was protected by DLM
-	 *
-	 * @param $url
-	 * @param $attachment_id
-	 *
-	 * @return mixed|String
-	 * @since 4.7.2
-	 */
-	public function generate_attachment_url( $url, $attachment_id ) {
-		// Get the Download ID, if exists
-		$known_download = get_post_meta( $attachment_id, 'dlm_download', true );
-		$protected      = get_post_meta( $attachment_id, 'dlm_protected_file', true );
-		// If it doesn't exist, return the original URL
-		if ( empty( $known_download ) || '1' !== $protected ) {
+			// Return our Download Link instead of the original URL
 			return $url;
 		}
 
-		$known_download = json_decode( $known_download, true );
-		$download_id    = isset( $known_download['download_id'] ) ? $known_download['download_id'] : false;
-		$version_id     = isset( $known_download['version_id'] ) ? $known_download['version_id'] : false;
-
-		if ( ! $download_id ) {
-			return $url;
+		/**
+		 * Handle plugin deactivation processes.
+		 *
+		 * @return void
+		 *
+		 * @since 4.8.0
+		 */
+		public function deactivate_this_plugin() {
+			self::handle_plugin_action();
 		}
 
-		$download = false;
-		// Try to find our Download
-		try {
-			/** @var DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
-		} catch ( Exception $exception ) {
-			return $url;
-		}
 
-		$url = $download->get_the_download_link();
-		// Set version also to the URL as the user might add another version to that Download that could download another file
-		if ( $version_id ) {
-			$url = add_query_arg( 'v', $version_id, $url );
-		}
+		/**
+		 * Handle plugin activation/deactivation hook
+		 *
+		 * @param string $request activation/deactivation.
+		 *
+		 * @return void
+		 * @since 4.8.0
+		 */
+		public static function handle_plugin_action( $request = 'deactivate' ) {
 
-		// Return our Download Link instead of the original URL
-		return $url;
+			$user_license = get_option( 'dlm_master_license', false );
+			// If no license found, skip this.
+			if ( ! $user_license ) {
+				return;
+			}
+
+			$extensions_handler = DLM_Extensions_Handler::get_instance();
+			$user_license         = json_decode( $user_license, true );
+			$email                = $user_license['email'];
+			$license_key          = $user_license['license_key'];
+			$action_trigger       = '-dlm';
+			$args = array(
+				'key'              => $license_key,
+				'email'            => $email,
+				'extension_action' => $request,
+				'action_trigger'   => $action_trigger,
+			);
+			$extensions_handler->handle_master_license( $args );
+		}
 	}
-
-	/**
-	 * Handle plugin deactivation processes.
-	 *
-	 * @return void
-	 *
-	 * @since 4.8.0
-	 */
-	public function deactivate_this_plugin() {
-		self::handle_plugin_action();
-	}
-
-
-	/**
-	 * Handle plugin activation/deactivation hook
-	 *
-	 * @param string $request activation/deactivation.
-	 *
-	 * @return void
-	 * @since 4.8.0
-	 */
-	public static function handle_plugin_action( $request = 'deactivate' ) {
-
-		$user_license = get_option( 'dlm_master_license', false );
-		// If no license found, skip this.
-		if ( ! $user_license ) {
-			return;
-		}
-
-		$extensions_handler = DLM_Extensions_Handler::get_instance();
-		$user_license         = json_decode( $user_license, true );
-		$email                = $user_license['email'];
-		$license_key          = $user_license['license_key'];
-		$action_trigger       = '-dlm';
-		$args = array(
-			'key'              => $license_key,
-			'email'            => $email,
-			'extension_action' => $request,
-			'action_trigger'   => $action_trigger,
-		);
-		$extensions_handler->handle_master_license( $args );
-	}
-}

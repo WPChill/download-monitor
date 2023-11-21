@@ -2,8 +2,8 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.4
-Tested up to: 6.3
-Stable tag: 4.9.2
+Tested up to: 6.4
+Stable tag: 4.9.3
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,7 +120,15 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 4.9.2 - 30.10.2023 =
+= 4.9.3 - 21.11.2023 =
+Changed: Download CPT admin list table design and alignment. ( [#1152](https://github.com/WPChill/download-monitor/issues/1152) )
+Added: Download CPT admin list table featured download image. ( [#1351](https://github.com/WPChill/download-monitor/issues/1351) )
+Fixed: Polylang no access page redirect compatibility. ( [#1353](https://github.com/WPChill/download-monitor/issues/1353) )
+Added: Filter to hide the "Insert Download" button in classic editor. ( [#1356](https://github.com/WPChill/download-monitor/issues/1356) )
+Fixed: Stop creating image sub-sizes for non-image mime types uploaded to DLM ( [#1366](https://github.com/WPChill/download-monitor/issues/1366) )
+Added: Upsells seasonal offers.
+
+= 4.9.2 - 31.10.2023 =
 Fixed: Ordering by download count doesn't work anymore ( [#1360](https://github.com/WPChill/download-monitor/issues/1360) )
 
 = 4.9.1 - 28.10.2023 =
