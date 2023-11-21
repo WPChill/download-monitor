@@ -132,7 +132,7 @@ class DLM_Upsells {
 	 */
 	public function generate_upsell_box( $title, $description, $tab, $extension, $features = array(), $utm_source = null, $icon = false ) {
 
-		echo '<div class="wpchill-upsell ' . $this->offer['class'] . '">';
+		echo '<div class="wpchill-upsell ' . esc_attr( $this->offer['class'] ) . '">';
 		if ( $icon ) {
 			echo '<img src="' . esc_url( DLM_URL . 'assets/images/upsells/' . $icon ) . '">';
 		}
@@ -794,7 +794,7 @@ class DLM_Upsells {
 	 */
 	public function files_metabox_upsells( $download ) {
 
-		echo '<div class="upsells-columns '. $this->offer['column'] .'">';
+		echo '<div class="upsells-columns '. esc_attr( $this->offer['column'] ) .'">';
 
 		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
 
