@@ -84,7 +84,7 @@ class DLM_Logging {
 		 *
 		 * @hook  dlm_logging_user_agent
 		 *
-		 * @since 4.9.1
+		 * @since 4.9.4
 		 */
 		return apply_filters( 'dlm_logging_user_agent', true );
 	}
@@ -145,7 +145,7 @@ class DLM_Logging {
 		 *
 		 * @hook  dlm_log_admin_download_count
 		 *
-		 * @since 4.9.1
+		 * @since 4.9.4
 		 */
 		if ( apply_filters( 'dlm_log_admin_download_count', true ) && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
 			die();

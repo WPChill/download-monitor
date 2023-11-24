@@ -49,7 +49,7 @@ class DLM_Settings_Helper {
 	 *
 	 * @return bool
 	 *
-	 * @since 4.9.1
+	 * @since 4.9.4
 	 */
 	public static function no_duplicate_download(): bool {
 		/**
@@ -57,7 +57,7 @@ class DLM_Settings_Helper {
 		 *
 		 * @hook dlm_no_duplicate_download
 		 *
-		 * @since 4.9.1
+		 * @since 4.9.4
 		 */
 		return apply_filters( 'dlm_no_duplicate_download', 'production' === wp_get_environment_type() );
 	}

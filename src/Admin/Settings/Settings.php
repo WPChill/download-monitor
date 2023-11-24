@@ -752,7 +752,7 @@ class DLM_Admin_Settings {
 	 * @param $new
 	 *
 	 * @return void
-	 * @since 4.9.1
+	 * @since 4.9.4
 	 */
 	public function access_page_shortcode_to_page( $old, $new ) {
 		$page_id = absint( $new );
