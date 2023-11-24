@@ -56,6 +56,7 @@ class WP_DLM {
 	/**
 	 * __construct function.
 	 *z
+	 *
 	 * @access public
 	 */
 	public function __construct() {
@@ -129,7 +130,7 @@ class WP_DLM {
 			// Admin Download Page Options Upsells
 			new DLM_Admin_OptionsUpsells();
 
-			if( class_exists('DLM_Download_Duplicator') ) {
+			if ( class_exists( 'DLM_Download_Duplicator' ) ) {
 				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
 			}
 
@@ -323,7 +324,7 @@ class WP_DLM {
 	/**
 	 * Add links to admin plugins page.
 	 *
-	 * @param  array $links
+	 * @param array $links
 	 *
 	 * @return array
 	 */
@@ -392,12 +393,12 @@ class WP_DLM {
 							'download-button'
 						)
 					),
-					'prevent_duplicates' => DLM_Settings_Helper::no_duplicate_download()
+					'prevent_duplicates' => '1' === get_option( 'dlm_enable_window_logging' )
 				)
 			);
 
 			$dlm_xhr_security_data = array(
-				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			);
 
 			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
@@ -435,11 +436,11 @@ class WP_DLM {
 			$dlmXHRprogress = apply_filters(
 				'dlm_xhr_progress',
 				array(
-					'display'  => true,
+					'display'   => true,
 					'animation' => includes_url( '/images/spinner.gif' ),
 				)
 			);
-			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( $dlmXHRprogress['animation'] ) .'"; const dlmXHRProgress = "' . $dlmXHRprogress['display'] . '"', 'before' );
+			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( $dlmXHRprogress['animation'] ) . '"; const dlmXHRProgress = "' . $dlmXHRprogress['display'] . '"', 'before' );
 			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', apply_filters( 'dlm_xhr_error_translations', array(
 				'error'              => esc_html__( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' ),
 				'not_found'          => esc_html__( 'Download does not exist.', 'download-monitor' ),
@@ -498,14 +499,14 @@ class WP_DLM {
 	/**
 	 * get_template_part function.
 	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @access public
-	 *
-	 * @param mixed $slug
+	 * @param mixed  $slug
 	 * @param string $name (default: '')
 	 *
 	 * @return void
+	 * @deprecated 1.6.0
+	 *
+	 * @access     public
+	 *
 	 */
 	public function get_template_part( $slug, $name = '', $custom_dir = '' ) {
 
@@ -520,10 +521,10 @@ class WP_DLM {
 	/**
 	 * Get the plugin url
 	 *
+	 * @return string
 	 * @deprecated 1.6.0
 	 *
-	 * @access public
-	 * @return string
+	 * @access     public
 	 */
 	public function plugin_url() {
 
@@ -536,10 +537,10 @@ class WP_DLM {
 	/**
 	 * Get the plugin path
 	 *
+	 * @return string
 	 * @deprecated 1.6.0
 	 *
-	 * @access public
-	 * @return string
+	 * @access     public
 	 */
 	public function plugin_path() {
 
@@ -553,13 +554,13 @@ class WP_DLM {
 	 * Returns a listing of all files in the specified folder and all subdirectories up to 100 levels deep.
 	 * The depth of the recursiveness can be controlled by the $levels param.
 	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @access public
-	 *
 	 * @param string $folder (default: '')
 	 *
 	 * @return array|bool
+	 * @deprecated 1.6.0
+	 *
+	 * @access     public
+	 *
 	 */
 	public function list_files( $folder = '' ) {
 
@@ -576,11 +577,11 @@ class WP_DLM {
 	/**
 	 * Parse a file path and return the new path and whether or not it's remote
 	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @param  string $file_path
+	 * @param string $file_path
 	 *
 	 * @return array
+	 * @deprecated 1.6.0
+	 *
 	 */
 	public function parse_file_path( $file_path ) {
 
@@ -597,12 +598,12 @@ class WP_DLM {
 	/**
 	 * Gets the filesize of a path or URL.
 	 *
-	 * @deprecated 1.6.0
-	 *
 	 * @param string $file_path
 	 *
-	 * @access public
+	 * @access     public
 	 * @return string size on success, -1 on failure
+	 * @deprecated 1.6.0
+	 *
 	 */
 	public function get_filesize( $file_path ) {
 
@@ -619,12 +620,12 @@ class WP_DLM {
 	/**
 	 * Gets md5, sha1 and crc32 hashes for a file and store it.
 	 *
+	 * @return array of sizes
 	 * @deprecated 1.6.0
 	 *
 	 * @string $file_path
 	 *
-	 * @access public
-	 * @return array of sizes
+	 * @access     public
 	 */
 	public function get_file_hashes( $file_path ) {
 
@@ -638,11 +639,11 @@ class WP_DLM {
 	/**
 	 * Encode files for storage
 	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @param  array $files
+	 * @param array $files
 	 *
 	 * @return string
+	 * @deprecated 1.6.0
+	 *
 	 */
 	public function json_encode_files( $files ) {
 
@@ -659,11 +660,11 @@ class WP_DLM {
 	/**
 	 * Fallback for PHP < 5.4 where JSON_UNESCAPED_UNICODE does not exist.
 	 *
-	 * @deprecated 1.6.0
-	 *
-	 * @param  array $matches
+	 * @param array $matches
 	 *
 	 * @return string
+	 * @deprecated 1.6.0
+	 *
 	 */
 	public function json_unscaped_unicode_fallback( $matches ) {
 
@@ -693,7 +694,7 @@ class WP_DLM {
 			// fetch download object
 			try {
 				/** @var DLM_Download $download */
-				$download                = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
 
 				return $download->get_the_download_link();
 			} catch ( Exception $e ) {
@@ -710,7 +711,7 @@ class WP_DLM {
 
 		$download = new DLM_Download();
 		// We add our download link to polylang's whitelist functions, to be able to retrieve the language in the link
-		$list[] = array('function' => 'get_the_download_link' );
+		$list[] = array( 'function' => 'get_the_download_link' );
 
 		return $list;
 	}
@@ -723,7 +724,7 @@ class WP_DLM {
 	 */
 	public static function do_xhr() {
 		$return = true;
-		if ( WP_DLM::dlm_x_sendfile() ) {
+		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
 			$return = false;
 		}
 
@@ -804,11 +805,11 @@ class WP_DLM {
 		}
 
 		$extensions_handler = DLM_Extensions_Handler::get_instance();
-		$user_license         = json_decode( $user_license, true );
-		$email                = $user_license['email'];
-		$license_key          = $user_license['license_key'];
-		$action_trigger       = '-dlm';
-		$args = array(
+		$user_license       = json_decode( $user_license, true );
+		$email              = $user_license['email'];
+		$license_key        = $user_license['license_key'];
+		$action_trigger     = '-dlm';
+		$args               = array(
 			'key'              => $license_key,
 			'email'            => $email,
 			'extension_action' => $request,

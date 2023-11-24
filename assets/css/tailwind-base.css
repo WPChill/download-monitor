@@ -1,106 +1,6 @@
-#dlm-no-access-modal {
-  /*
-1. Add the correct height in Firefox.
-2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
-3. Ensure horizontal rules are visible by default.
-*/
-  /*
-Add the correct text decoration in Chrome, Edge, and Safari.
-*/
-  /*
-Remove the default font size and weight for headings.
-*/
-  /*
-Reset links to optimize for opt-in styling instead of opt-out.
-*/
-  /*
-Add the correct font weight in Edge and Safari.
-*/
-  /*
-1. Use the user's configured `mono` font family by default.
-2. Correct the odd `em` font sizing in all browsers.
-*/
-  /*
-Add the correct font size in all browsers.
-*/
-  /*
-Prevent `sub` and `sup` elements from affecting the line height in all browsers.
-*/
-  /*
-1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
-2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
-3. Remove gaps between table borders by default.
-*/
-  /*
-1. Change the font styles in all browsers.
-2. Remove the margin in Firefox and Safari.
-3. Remove default padding in all browsers.
-*/
-  /*
-Remove the inheritance of text transform in Edge and Firefox.
-*/
-  /*
-1. Correct the inability to style clickable types in iOS and Safari.
-2. Remove default button styles.
-*/
-  /*
-Use the modern Firefox focus style for all focusable elements.
-*/
-  /*
-Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
-*/
-  /*
-Add the correct vertical alignment in Chrome and Firefox.
-*/
-  /*
-Correct the cursor style of increment and decrement buttons in Safari.
-*/
-  /*
-1. Correct the odd appearance in Chrome and Safari.
-2. Correct the outline style in Safari.
-*/
-  /*
-Remove the inner padding in Chrome and Safari on macOS.
-*/
-  /*
-1. Correct the inability to style clickable types in iOS and Safari.
-2. Change font properties to `inherit` in Safari.
-*/
-  /*
-Add the correct display in Chrome and Safari.
-*/
-  /*
-Removes the default spacing and border for appropriate elements.
-*/
-  /*
-Reset default styling for dialogs.
-*/
-  /*
-Prevent resizing textareas horizontally by default.
-*/
-  /*
-1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
-2. Set the default placeholder color to the user's configured gray 400 color.
-*/
-  /*
-Set the default cursor for buttons.
-*/
-  /*
-Make sure disabled buttons don't get the pointer cursor.
-*/
-  /*
-1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
-2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
- This can trigger a poorly considered lint error in some tools but is included by design.
-*/
-  /*
-Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
-*/
-  /* Make elements with the HTML hidden attribute stay hidden by default */
-}
-#dlm-no-access-modal *,
-#dlm-no-access-modal ::before,
-#dlm-no-access-modal ::after {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::before,
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::after {
   box-sizing: border-box;
   /* 1 */
   border-width: 0;
@@ -110,11 +10,11 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
   border-color: #e5e7eb;
   /* 2 */
 }
-#dlm-no-access-modal ::before,
-#dlm-no-access-modal ::after {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::before,
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::after {
   --tw-content: '';
 }
-#dlm-no-access-modal hr {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) hr:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   height: 0;
   /* 1 */
   color: inherit;
@@ -122,53 +22,53 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
   border-top-width: 1px;
   /* 3 */
 }
-#dlm-no-access-modal abbr:where([title]) {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) abbr:where([title]):not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
 }
-#dlm-no-access-modal h1,
-#dlm-no-access-modal h2,
-#dlm-no-access-modal h3,
-#dlm-no-access-modal h4,
-#dlm-no-access-modal h5,
-#dlm-no-access-modal h6 {
+h1:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h2:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h3:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h4:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h5:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h6:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   font-size: inherit;
   font-weight: inherit;
 }
-#dlm-no-access-modal a {
+a:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   color: inherit;
   text-decoration: inherit;
 }
-#dlm-no-access-modal b,
-#dlm-no-access-modal strong {
+b:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+strong:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   font-weight: bolder;
 }
-#dlm-no-access-modal code,
-#dlm-no-access-modal kbd,
-#dlm-no-access-modal samp,
-#dlm-no-access-modal pre {
+code:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+kbd:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+samp:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+pre:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   /* 1 */
   font-size: 1em;
   /* 2 */
 }
-#dlm-no-access-modal small {
+small:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   font-size: 80%;
 }
-#dlm-no-access-modal sub,
-#dlm-no-access-modal sup {
+sub:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+sup:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline;
 }
-#dlm-no-access-modal sub {
+sub:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   bottom: -0.25em;
 }
-#dlm-no-access-modal sup {
+sup:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   top: -0.5em;
 }
-#dlm-no-access-modal table {
+table:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   text-indent: 0;
   /* 1 */
   border-color: inherit;
@@ -176,11 +76,11 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
   border-collapse: collapse;
   /* 3 */
 }
-#dlm-no-access-modal button,
-#dlm-no-access-modal input,
-#dlm-no-access-modal optgroup,
-#dlm-no-access-modal select,
-#dlm-no-access-modal textarea {
+button:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+input:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+optgroup:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+select:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+textarea:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   font-family: inherit;
   /* 1 */
   font-feature-settings: inherit;
@@ -200,14 +100,14 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
   padding: 0;
   /* 3 */
 }
-#dlm-no-access-modal button,
-#dlm-no-access-modal select {
+button:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+select:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   text-transform: none;
 }
-#dlm-no-access-modal button,
-#dlm-no-access-modal [type='button'],
-#dlm-no-access-modal [type='reset'],
-#dlm-no-access-modal [type='submit'] {
+button:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+[type='button']:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+[type='reset']:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+[type='submit']:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   -webkit-appearance: button;
   /* 1 */
   background-color: transparent;
@@ -215,117 +115,117 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
   background-image: none;
   /* 2 */
 }
-#dlm-no-access-modal :-moz-focusring {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  ):-moz-focusring {
   outline: auto;
 }
-#dlm-no-access-modal :-moz-ui-invalid {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  ):-moz-ui-invalid {
   box-shadow: none;
 }
-#dlm-no-access-modal progress {
+progress:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   vertical-align: baseline;
 }
-#dlm-no-access-modal ::-webkit-inner-spin-button,
-#dlm-no-access-modal ::-webkit-outer-spin-button {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-webkit-inner-spin-button,
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-webkit-outer-spin-button {
   height: auto;
 }
-#dlm-no-access-modal [type='search'] {
+[type='search']:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   -webkit-appearance: textfield;
   /* 1 */
   outline-offset: -2px;
   /* 2 */
 }
-#dlm-no-access-modal ::-webkit-search-decoration {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-webkit-search-decoration {
   -webkit-appearance: none;
 }
-#dlm-no-access-modal ::-webkit-file-upload-button {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-webkit-file-upload-button {
   -webkit-appearance: button;
   /* 1 */
   font: inherit;
   /* 2 */
 }
-#dlm-no-access-modal summary {
+summary:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   display: list-item;
 }
-#dlm-no-access-modal blockquote,
-#dlm-no-access-modal dl,
-#dlm-no-access-modal dd,
-#dlm-no-access-modal h1,
-#dlm-no-access-modal h2,
-#dlm-no-access-modal h3,
-#dlm-no-access-modal h4,
-#dlm-no-access-modal h5,
-#dlm-no-access-modal h6,
-#dlm-no-access-modal hr,
-#dlm-no-access-modal figure,
-#dlm-no-access-modal p,
-#dlm-no-access-modal pre {
+blockquote:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+dl:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+dd:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h1:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h2:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h3:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h4:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h5:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+h6:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+hr:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+figure:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+p:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+pre:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   margin: 0;
 }
-#dlm-no-access-modal fieldset {
+fieldset:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   margin: 0;
   padding: 0;
 }
-#dlm-no-access-modal legend {
+legend:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   padding: 0;
 }
-#dlm-no-access-modal ol,
-#dlm-no-access-modal ul,
-#dlm-no-access-modal menu {
+ol:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+ul:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+menu:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-#dlm-no-access-modal dialog {
+dialog:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   padding: 0;
 }
-#dlm-no-access-modal textarea {
+textarea:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   resize: vertical;
 }
-#dlm-no-access-modal input::-moz-placeholder,
-#dlm-no-access-modal textarea::-moz-placeholder {
+input:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-moz-placeholder,
+textarea:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-moz-placeholder {
   opacity: 1;
   /* 1 */
   color: #9ca3af;
   /* 2 */
 }
-#dlm-no-access-modal input::placeholder,
-#dlm-no-access-modal textarea::placeholder {
+input:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::placeholder,
+textarea:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::placeholder {
   opacity: 1;
   /* 1 */
   color: #9ca3af;
   /* 2 */
 }
-#dlm-no-access-modal button,
-#dlm-no-access-modal [role="button"] {
+button:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+[role="button"]:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   cursor: pointer;
 }
-#dlm-no-access-modal :disabled {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  ):disabled {
   cursor: default;
 }
-#dlm-no-access-modal img,
-#dlm-no-access-modal svg,
-#dlm-no-access-modal video,
-#dlm-no-access-modal canvas,
-#dlm-no-access-modal audio,
-#dlm-no-access-modal iframe,
-#dlm-no-access-modal embed,
-#dlm-no-access-modal object {
+img:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+svg:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+video:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+canvas:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+audio:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+iframe:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+embed:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+object:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   display: block;
   /* 1 */
   vertical-align: middle;
   /* 2 */
 }
-#dlm-no-access-modal img,
-#dlm-no-access-modal video {
+img:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+video:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   max-width: 100%;
   height: auto;
 }
-#dlm-no-access-modal [hidden] {
+[hidden]:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
   display: none;
 }
-#dlm-no-access-modal *,
-#dlm-no-access-modal ::before,
-#dlm-no-access-modal ::after {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::before,
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -374,7 +274,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
   --tw-backdrop-saturate: ;
   --tw-backdrop-sepia: ;
 }
-#dlm-no-access-modal ::backdrop {
+*:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::backdrop {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;

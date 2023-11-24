@@ -500,8 +500,11 @@ class DLM_XHR_Download {
 			jQuery('#dlm-no-access-modal').remove();
 			jQuery('body').append(response);
 
-			jQuery(document).trigger( data['action'], [response, data]);
+			jQuery(document).trigger(data['action'], [response, data]);
 
+			document.dispatchEvent(
+				new CustomEvent(data['action'], {detail: [response, data]})
+			);
 		});
 	}
 

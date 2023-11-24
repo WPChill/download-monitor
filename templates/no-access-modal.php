@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div id='dlm-no-access-modal'>
+<div id='dlm-no-access-modal' class="dlm-no-access-modal">
 	<div class='dlm-relative dlm-z-10' aria-labelledby='modal-title' role='dialog' aria-modal='true'>
 		<div class='dlm-fixed dlm-inset-0 dlm-bg-gray-500 dlm-bg-opacity-75 dlm-transition-opacity'></div>
 		<div class='dlm-fixed dlm-inset-0 dlm-z-10 dlm-w-screen dlm-overflow-y-auto'>
@@ -40,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									case 'alert':
 										?>
 										<div
-											class='dlm-mx-auto dlm-flex dlm-h-12 dlm-w-12 dlm-flex-shrink-0 dlm-items-center dlm-justify-center dlm-rounded-full dlm-bg-red-100 sm:dlm-mx-0 sm:dlm-h-10 sm:dlm-w-10'>
+											class='dlm-flex dlm-h-12 dlm-w-12 dlm-flex-shrink-0 dlm-items-center dlm-justify-center dlm-rounded-full dlm-bg-red-100 sm:dlm-mx-0 sm:dlm-h-10 sm:dlm-w-10'>
 											<svg class='dlm-h-6 dlm-w-6 dlm-text-red-600' fill='none'
 											     viewBox='0 0 24 24'
 											     stroke-width='1.5'
@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									case 'success':
 										?>
 										<div
-											class='dlm-mx-auto dlm-flex dlm-h-12 dlm-w-12 dlm-flex-shrink-0 dlm-items-center dlm-justify-center dlm-rounded-full dlm-bg-green-100 sm:dlm-mx-0 sm:dlm-h-10 sm:dlm-w-10'>
+											class='dlm-flex dlm-h-12 dlm-w-12 dlm-flex-shrink-0 dlm-items-center dlm-justify-center dlm-rounded-full dlm-bg-green-100 sm:dlm-mx-0 sm:dlm-h-10 sm:dlm-w-10'>
 											<svg class='h-6 w-6 text-green-600' fill='none' viewBox='0 0 24 24'
 											     stroke-width='1.5' stroke='currentColor' aria-hidden='true'>
 												<path stroke-linecap='round' stroke-linejoin='round'

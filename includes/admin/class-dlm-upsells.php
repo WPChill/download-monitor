@@ -24,12 +24,16 @@ class DLM_Upsells {
 
 	private $upsell_tabs = array();
 
+	private $offer = array();
+
 	/**
 	 * DLM_Upsells constructor.
 	 *
 	 * @since 4.4.5
 	 */
 	public function __construct() {
+
+		$this->set_offer();
 
 		$this->set_hooks();
 
@@ -59,6 +63,13 @@ class DLM_Upsells {
 
 		return self::$instance;
 
+	}
+
+	private function set_offer(){
+		$month = date('m');
+		$this->offer = array( 'class' => '', 'column' => '', 'label' => __( 'Get Premium', 'download-monitor' ) );
+		if ( 11 == $month ) { $this->offer = array( 'class' => 'wpchill-bf-upsell', 'column' => 'bf-upsell-columns', 'label' => __( '40% OFF for Black Friday', 'download-monitor' ), 'description' => '40% OFF on new purchases, early renewals or upgrades.' ); }
+		if ( 12 == $month ) { $this->offer = array( 'class' => 'wpchill-xmas-upsell', 'column' => 'xmas-upsell-columns', 'label' => __( '25% OFF for Christmas', 'download-monitor' ) ); }
 	}
 
 	/**
@@ -121,8 +132,7 @@ class DLM_Upsells {
 	 */
 	public function generate_upsell_box( $title, $description, $tab, $extension, $features = array(), $utm_source = null, $icon = false ) {
 
-		echo '<div class="wpchill-upsell">';
-
+		echo '<div class="wpchill-upsell ' . esc_attr( $this->offer['class'] ) . '">';
 		if ( $icon ) {
 			echo '<img src="' . esc_url( DLM_URL . 'assets/images/upsells/' . $icon ) . '">';
 		}
@@ -159,7 +169,7 @@ class DLM_Upsells {
 		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '"><div class="dlm-available-with-pro"><span class="dashicons dashicons-lock"></span><span>' . esc_html__( 'AVAILABLE WITH PREMIUM', 'download-monitor' ) . '</span></div></a>';
 		echo '<div class="wpchill-upsell-buttons-wrap">';
 			echo '<a target="_blank" href="' . esc_url( admin_url('edit.php?post_type=dlm_download&page=dlm-lite-vs-pro') ) . '" class="button">' . esc_html__( 'Free vs Premium', 'download-monitor' ) . '</a> ';
-			echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html__( 'Get Premium!', 'download-monitor' ) . '</a>';
+			echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html( $this->offer['label'] ) . '</a>';
 		echo '</div>';
 		echo '</div>';
 	}
@@ -784,7 +794,7 @@ class DLM_Upsells {
 	 */
 	public function files_metabox_upsells( $download ) {
 
-		echo '<div class="upsells-columns">';
+		echo '<div class="upsells-columns '. esc_attr( $this->offer['column'] ) .'">';
 
 		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
 

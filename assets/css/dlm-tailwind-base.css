@@ -1,0 +1,325 @@
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::before,
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::after {
+  box-sizing: border-box;
+  /* 1 */
+  border-width: 0;
+  /* 2 */
+  border-style: solid;
+  /* 2 */
+  border-color: #e5e7eb;
+  /* 2 */
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::before,
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::after {
+  --tw-content: '';
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) hr:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  height: 0;
+  /* 1 */
+  color: inherit;
+  /* 2 */
+  border-top-width: 1px;
+  /* 3 */
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) abbr:where([title]):not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline dotted;
+}
+.dlm-no-access-modal h1:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h2:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h3:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h4:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h5:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h6:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  font-size: inherit;
+  font-weight: inherit;
+}
+.dlm-no-access-modal a:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  color: inherit;
+  text-decoration: inherit;
+}
+.dlm-no-access-modal b:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal strong:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  font-weight: bolder;
+}
+.dlm-no-access-modal code:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal kbd:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal samp:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal pre:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+.dlm-no-access-modal small:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  font-size: 80%;
+}
+.dlm-no-access-modal sub:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal sup:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.dlm-no-access-modal sub:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  bottom: -0.25em;
+}
+.dlm-no-access-modal sup:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  top: -0.5em;
+}
+.dlm-no-access-modal table:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  text-indent: 0;
+  /* 1 */
+  border-color: inherit;
+  /* 2 */
+  border-collapse: collapse;
+  /* 3 */
+}
+.dlm-no-access-modal button:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal input:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal optgroup:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal select:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal textarea:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  font-family: inherit;
+  /* 1 */
+  font-feature-settings: inherit;
+  /* 1 */
+  font-variation-settings: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  font-weight: inherit;
+  /* 1 */
+  line-height: inherit;
+  /* 1 */
+  color: inherit;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+  padding: 0;
+  /* 3 */
+}
+.dlm-no-access-modal button:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal select:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  text-transform: none;
+}
+.dlm-no-access-modal button:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal [type='button']:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal [type='reset']:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal [type='submit']:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  -webkit-appearance: button;
+  /* 1 */
+  background-color: transparent;
+  /* 2 */
+  background-image: none;
+  /* 2 */
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  ):-moz-focusring {
+  outline: auto;
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  ):-moz-ui-invalid {
+  box-shadow: none;
+}
+.dlm-no-access-modal progress:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  vertical-align: baseline;
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-webkit-inner-spin-button,
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-webkit-outer-spin-button {
+  height: auto;
+}
+.dlm-no-access-modal [type='search']:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+}
+.dlm-no-access-modal summary:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  display: list-item;
+}
+.dlm-no-access-modal blockquote:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal dl:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal dd:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h1:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h2:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h3:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h4:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h5:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal h6:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal hr:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal figure:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal p:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal pre:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  margin: 0;
+}
+.dlm-no-access-modal fieldset:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  margin: 0;
+  padding: 0;
+}
+.dlm-no-access-modal legend:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  padding: 0;
+}
+.dlm-no-access-modal ol:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal ul:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal menu:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dlm-no-access-modal dialog:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  padding: 0;
+}
+.dlm-no-access-modal textarea:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  resize: vertical;
+}
+.dlm-no-access-modal input:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-moz-placeholder,
+.dlm-no-access-modal textarea:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::-moz-placeholder {
+  opacity: 1;
+  /* 1 */
+  color: #9ca3af;
+  /* 2 */
+}
+.dlm-no-access-modal input:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::placeholder,
+.dlm-no-access-modal textarea:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::placeholder {
+  opacity: 1;
+  /* 1 */
+  color: #9ca3af;
+  /* 2 */
+}
+.dlm-no-access-modal button:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal [role="button"]:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  cursor: pointer;
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  ):disabled {
+  cursor: default;
+}
+.dlm-no-access-modal img:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal svg:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal video:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal canvas:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal audio:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal iframe:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal embed:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal object:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  display: block;
+  /* 1 */
+  vertical-align: middle;
+  /* 2 */
+}
+.dlm-no-access-modal img:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal video:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  max-width: 100%;
+  height: auto;
+}
+.dlm-no-access-modal [hidden]:not( .dlm-no-tailwind, .dlm-no-tailwind *  ) {
+  display: none;
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::before,
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::after {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x: ;
+  --tw-pan-y: ;
+  --tw-pinch-zoom: ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position: ;
+  --tw-gradient-via-position: ;
+  --tw-gradient-to-position: ;
+  --tw-ordinal: ;
+  --tw-slashed-zero: ;
+  --tw-numeric-figure: ;
+  --tw-numeric-spacing: ;
+  --tw-numeric-fraction: ;
+  --tw-ring-inset: ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgba(59, 130, 246, 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur: ;
+  --tw-brightness: ;
+  --tw-contrast: ;
+  --tw-grayscale: ;
+  --tw-hue-rotate: ;
+  --tw-invert: ;
+  --tw-saturate: ;
+  --tw-sepia: ;
+  --tw-drop-shadow: ;
+  --tw-backdrop-blur: ;
+  --tw-backdrop-brightness: ;
+  --tw-backdrop-contrast: ;
+  --tw-backdrop-grayscale: ;
+  --tw-backdrop-hue-rotate: ;
+  --tw-backdrop-invert: ;
+  --tw-backdrop-opacity: ;
+  --tw-backdrop-saturate: ;
+  --tw-backdrop-sepia: ;
+}
+.dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::backdrop {
+  --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x: ;
+  --tw-pan-y: ;
+  --tw-pinch-zoom: ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position: ;
+  --tw-gradient-via-position: ;
+  --tw-gradient-to-position: ;
+  --tw-ordinal: ;
+  --tw-slashed-zero: ;
+  --tw-numeric-figure: ;
+  --tw-numeric-spacing: ;
+  --tw-numeric-fraction: ;
+  --tw-ring-inset: ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgba(59, 130, 246, 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur: ;
+  --tw-brightness: ;
+  --tw-contrast: ;
+  --tw-grayscale: ;
+  --tw-hue-rotate: ;
+  --tw-invert: ;
+  --tw-saturate: ;
+  --tw-sepia: ;
+  --tw-drop-shadow: ;
+  --tw-backdrop-blur: ;
+  --tw-backdrop-brightness: ;
+  --tw-backdrop-contrast: ;
+  --tw-backdrop-grayscale: ;
+  --tw-backdrop-hue-rotate: ;
+  --tw-backdrop-invert: ;
+  --tw-backdrop-opacity: ;
+  --tw-backdrop-saturate: ;
+  --tw-backdrop-sepia: ;
+}
