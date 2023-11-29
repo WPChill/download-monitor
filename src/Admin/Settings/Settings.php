@@ -305,6 +305,12 @@ class DLM_Admin_Settings {
 						'sections' => array(),
 						'badge'    => true,
 					),
+					'cf7_lock' => array(
+						'title'    => esc_html__( 'Contact Form 7', 'download-monitor' ),
+						'fields'   => array(),
+						'sections' => array(),
+						'badge'    => true,
+					),
 					'twitter_lock'  => array(
 						'title'    => esc_html__( 'Twitter Lock', 'download-monitor' ),
 						'fields'   => array(),
@@ -522,6 +528,7 @@ class DLM_Admin_Settings {
 			'captcha',
 			'downloading_page',
 			'email_lock',
+			'cf7_lock',
 			'email_notification',
 			'gravity_forms',
 			'ninja_forms',
@@ -557,7 +564,7 @@ class DLM_Admin_Settings {
 						$tab_title   = true;
 					}
 
-					if ( 'email_lock' == $tab_key || 'twitter_lock' == $tab_key || 'gravity_forms' == $tab_key || 'ninja_forms' == $tab_key ) {
+					if ( 'email_lock' == $tab_key || 'twitter_lock' == $tab_key || 'gravity_forms' == $tab_key || 'ninja_forms' == $tab_key || 'cf7_lock' == $tab_key ) {
 						$tab_parent = 'lead_generation';
 					}
 

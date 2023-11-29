@@ -39,6 +39,10 @@ class DLM_Admin_OptionsUpsells {
             $this->render_email_lock_upsell();
         }
 
+	    if( !array_key_exists( 'dlm-cf7-lock', $active_addons ) ){
+		    $this->render_cf7_lock_upsell();
+	    }
+
         if( !array_key_exists( 'dlm-captcha', $active_addons ) ){
             $this->render_captcha_upsell();
         }
@@ -82,6 +86,18 @@ class DLM_Admin_OptionsUpsells {
         <?php        
     }
 
+	public function render_cf7_lock_upsell(){
+		?>
+		<a href="<?php echo esc_url( 'https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=CF7%20Lock' ); ?>" class="options_upsell_link" target="_blank">
+			<p class="form-field form-field-checkbox not-active">
+				<span class="dashicons dashicons-lock"></span>
+				<span><?php esc_html_e( 'Contact Form 7 Lock', 'download-monitor' ); ?><span class="dlm-upsell-badge">PAID</span></span>
+				<span class="dlm-description"> <?php esc_html_e( 'Contact Form 7 locked downloads will only be available after user complated a Contact Form 7 form.', 'download-monitor' ); ?></span>
+			</p>
+		</a>
+		<?php
+	}
+
     public function render_captcha_upsell(){
         ?>
         <a href="<?php echo esc_url( 'https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=Captcha' ); ?>" class="options_upsell_link" target="_blank">
@@ -93,4 +109,5 @@ class DLM_Admin_OptionsUpsells {
         </a>
         <?php        
     }
+
 }

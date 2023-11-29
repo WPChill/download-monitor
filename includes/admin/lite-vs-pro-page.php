@@ -65,6 +65,10 @@ $pro_arguments = array(
 		'title'       => esc_html__( 'Email Lock', 'download-monitor' ),
 		'description' => esc_html__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ),
 	),
+	'cf7_lock'              => array(
+		'title'       => esc_html__( 'Contact Form 7 Lock', 'download-monitor' ),
+		'description' => esc_html__( 'The Contact Form 7 Lock extension for Download Monitor allows you to require users to fill out a Contact Form 7 form before they gain access to a download.', 'download-monitor' ),
+	),
 );
 ?>
 <div class="wrap rsvp-lite-vs-premium">

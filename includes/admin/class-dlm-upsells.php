@@ -274,6 +274,10 @@ class DLM_Upsells {
 							'title'    => __( 'Twitter lock', 'download-monitor' ),
 							'sections' => array(), // Need to put sections here for backwards compatibility
 						),
+						'cf7_lock' => array(
+							'title'    => __( 'Contact Form 7 lock', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
 					),
 				),
 				'external_hosting' => array(
@@ -467,6 +471,15 @@ class DLM_Upsells {
 			);
 		}
 
+		if ( ! $this->check_extension( 'dlm-cf7-lock' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'Contact Form 7 Lock', 'download-monitor' ),
+				__( 'Ask users to fill in a form created on Contact Form 7 before they start downloading your files.', 'download-monitor' ),
+				'access',
+				'cf7-lock'
+			);
+		}
 	}
 
 	/**
@@ -699,6 +712,25 @@ class DLM_Upsells {
 			);
 		}
 	}
+
+	/**
+	 * Upsell for Email Lock sub-tab
+	 *
+	 * @since 4.9.4
+	 */
+	public function upsell_tab_section_content_cf7_lock() {
+
+		if ( ! $this->check_extension( 'dlm-cf7-lock' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'Contact form 7 Lock', 'download-monitor' ),
+				__( 'The Contact Form 7 - content locking extension for Download Monitor allows you to require users to fill in a Contact Form 7 form before they gain access to a download.', 'download-monitor' ),
+				'cf7_lock',
+				'cf7-lock'
+			);
+		}
+	}
+
 
 	/**
 	 * Upsell for Amazon S3 setting sub-tab
