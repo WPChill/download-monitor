@@ -278,6 +278,10 @@ class DLM_Upsells {
 							'title'    => __( 'Contact Form 7 lock', 'download-monitor' ),
 							'sections' => array(), // Need to put sections here for backwards compatibility
 						),
+						'wpforms_lock' => array(
+							'title'    => __( 'WPForms lock', 'download-monitor' ),
+							'sections' => array(), // Need to put sections here for backwards compatibility
+						),
 					),
 				),
 				'external_hosting' => array(
@@ -478,6 +482,16 @@ class DLM_Upsells {
 				__( 'Ask users to fill in a form created on Contact Form 7 before they start downloading your files.', 'download-monitor' ),
 				'access',
 				'cf7-lock'
+			);
+		}
+
+		if ( ! $this->check_extension( 'dlm-wpforms-lock' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'WPForms Lock', 'download-monitor' ),
+				__( 'Ask users to fill in a form created on WPForms before they start downloading your files.', 'download-monitor' ),
+				'access',
+				'wpforms-lock'
 			);
 		}
 	}
@@ -727,6 +741,24 @@ class DLM_Upsells {
 				__( 'The Contact Form 7 - content locking extension for Download Monitor allows you to require users to fill in a Contact Form 7 form before they gain access to a download.', 'download-monitor' ),
 				'cf7_lock',
 				'cf7-lock'
+			);
+		}
+	}
+
+	/**
+	 * Upsell for Email Lock sub-tab
+	 *
+	 * @since 4.9.4
+	 */
+	public function upsell_tab_section_content_wpforms_lock() {
+
+		if ( ! $this->check_extension( 'dlm-wpforms-lock' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'WPForms Lock', 'download-monitor' ),
+				__( 'The WPForms - content locking extension for Download Monitor allows you to require users to fill in a WPForms form before they gain access to a download.', 'download-monitor' ),
+				'wpforms_lock',
+				'wpforms-lock'
 			);
 		}
 	}

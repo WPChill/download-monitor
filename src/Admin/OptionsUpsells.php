@@ -43,11 +43,13 @@ class DLM_Admin_OptionsUpsells {
 		    $this->render_cf7_lock_upsell();
 	    }
 
+	    if( !array_key_exists( 'dlm-wpforms-lock', $active_addons ) ){
+		    $this->render_wpforms_lock_upsell();
+	    }
+
         if( !array_key_exists( 'dlm-captcha', $active_addons ) ){
             $this->render_captcha_upsell();
         }
- 
-
     }
 
     public function render_terms_and_conditions_upsell(){
@@ -93,6 +95,18 @@ class DLM_Admin_OptionsUpsells {
 				<span class="dashicons dashicons-lock"></span>
 				<span><?php esc_html_e( 'Contact Form 7 Lock', 'download-monitor' ); ?><span class="dlm-upsell-badge">PAID</span></span>
 				<span class="dlm-description"> <?php esc_html_e( 'Contact Form 7 locked downloads will only be available after user complated a Contact Form 7 form.', 'download-monitor' ); ?></span>
+			</p>
+		</a>
+		<?php
+	}
+
+	public function render_wpforms_lock_upsell(){
+		?>
+		<a href="<?php echo esc_url( 'https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=CF7%20Lock' ); ?>" class="options_upsell_link" target="_blank">
+			<p class="form-field form-field-checkbox not-active">
+				<span class="dashicons dashicons-lock"></span>
+				<span><?php esc_html_e( 'WPForms Lock', 'download-monitor' ); ?><span class="dlm-upsell-badge">PAID</span></span>
+				<span class="dlm-description"> <?php esc_html_e( 'WPForms locked downloads will only be available after user complated a WPForms form.', 'download-monitor' ); ?></span>
 			</p>
 		</a>
 		<?php

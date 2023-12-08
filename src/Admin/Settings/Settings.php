@@ -311,6 +311,12 @@ class DLM_Admin_Settings {
 						'sections' => array(),
 						'badge'    => true,
 					),
+					'wpforms_lock' => array(
+						'title'    => esc_html__( 'WPForms', 'download-monitor' ),
+						'fields'   => array(),
+						'sections' => array(),
+						'badge'    => true,
+					),
 					'twitter_lock'  => array(
 						'title'    => esc_html__( 'Twitter Lock', 'download-monitor' ),
 						'fields'   => array(),
@@ -529,6 +535,7 @@ class DLM_Admin_Settings {
 			'downloading_page',
 			'email_lock',
 			'cf7_lock',
+			'wpforms_lock',
 			'email_notification',
 			'gravity_forms',
 			'ninja_forms',
@@ -563,8 +570,16 @@ class DLM_Admin_Settings {
 						$tab_section = 'page_setup';
 						$tab_title   = true;
 					}
+					$lead_generation_tabs = array(
+						'email_lock',
+						'cf7_lock',
+						'gravity_forms',
+						'ninja_forms',
+						'wpforms_lock',
+						'twitter_lock',
+					);
 
-					if ( 'email_lock' == $tab_key || 'twitter_lock' == $tab_key || 'gravity_forms' == $tab_key || 'ninja_forms' == $tab_key || 'cf7_lock' == $tab_key ) {
+					if ( in_array( $tab_key, $lead_generation_tabs ) ) {
 						$tab_parent = 'lead_generation';
 					}
 
