@@ -1102,11 +1102,11 @@ class DLM_Upsells {
 
 		$return = false;
 		// First let's check the master license
-		$master_license = get_option( 'dlm_master_license', true );
+		$master_license = get_option( 'dlm_master_license', false );
 		if ( ! empty( $master_license ) ) {
 			$data = json_decode( $master_license, true );
 			// If the license is active, we return true
-			if ( 'active' === $data['status'] ) {
+			if ( ! empty( $data ) && 'active' === $data['status'] ) {
 				$return = true;
 			}
 		}
