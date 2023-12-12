@@ -398,7 +398,7 @@ class DLM_Backwards_Compatibility {
 	 *
 	 * @return array
 	 *
-	 * @since 4.6.0
+	 * @since 4.9.4
 	 */
 	public function dlm_terms_and_conditions_placement( $settings ) {
 		// Set plugin
