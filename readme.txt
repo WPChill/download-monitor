@@ -122,6 +122,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 = 4.9.4 - 12.12.2023 =
 Changed: Remove upsells when a license is present and active ( [#1375](https://github.com/WPChill/download-monitor/issues/1375) )
+Added: Echo Download content method ( [#1376](https://github.com/WPChill/download-monitor/issues/1376) )
 
 = 4.9.3 - 21.11.2023 =
 Changed: Download CPT admin list table design and alignment. ( [#1152](https://github.com/WPChill/download-monitor/issues/1152) )
