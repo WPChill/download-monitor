@@ -538,6 +538,27 @@ class DLM_Admin_Settings {
 			'DLM_Admin_Helper',
 			'sort_data_by_priority'
 		) );
+		// If upsells are not removed, we need to remove empty tabs/sections
+		if ( apply_filters( 'dlm_remove_upsells', false ) ) {
+			// Cycle through all settings and unset tabs/sections that have no fields
+			foreach ( $settings as $key => $setting ) {
+				// If there are no sections, unset the tab
+				if ( empty( $setting['sections'] ) ) {
+					unset( $settings[ $key ] );
+				} else {
+					foreach ( $setting['sections'] as $s_key => $section ) {
+						// IF there are no fields, unset the section
+						if ( empty( $section['fields'] ) ) {
+							unset( $settings[ $key ]['sections'][ $s_key ] );
+						}
+					}
+				}
+
+				if ( empty( $settings[ $key ]['sections'] ) ) {
+					unset( $settings[ $key ] );
+				}
+			}
+		}
 		return $settings;
 	}
 

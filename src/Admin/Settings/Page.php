@@ -192,10 +192,21 @@ class DLM_Settings_Page {
                             <ul class="subsubsub dlm-settings-sub-nav">
 								<?php foreach ( $settings[ $tab ]['sections'] as $section_key => $section ) : ?>
 									<?php echo "<li" . ( ( $active_section == $section_key ) ? " class='active-section'" : "" ) . ">"; ?>
-                                    <a href="<?php echo esc_url( add_query_arg( array(
-										'tab'     => $tab,
-										'section' => $section_key
-									), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?><?php echo isset( $section['badge'] ) ? '<span class="dlm-upsell-badge">PAID</span>' : ''; ?></a></li>
+									<?php
+									/**
+									 * @hook   dlm_remove_upsells
+									 *
+									 * Remove upsells hook
+									 * @since  4.9.4
+									 *
+									 * @hooked DLM_Upsells check_license_validity - 10
+									 */ ?>
+									<a href="<?php echo esc_url(
+										add_query_arg(
+											array(
+												'tab' => $tab,
+												                                 'section' => $section_key
+											), DLM_Admin_Settings::get_url() ) ); ?>"><?php echo esc_html( $section['title'] ); ?><?php echo isset( $section['badge'] ) && ! apply_filters( 'dlm_remove_upsells', false ) ? '<span class="dlm-upsell-badge">PAID</span>' : ''; ?></a></li>
 								<?php endforeach; ?>
                             </ul>
                         </div><!--.wp-clearfix-->
@@ -378,7 +389,6 @@ class DLM_Settings_Page {
 	private
 	function generate_tabs( $settings ) {
 
-
 		?>
 		<h2 class="nav-tab-wrapper">
 			<?php
@@ -386,8 +396,15 @@ class DLM_Settings_Page {
 
 				// backwards compatibility for when $section did not have 'title' index yet (it simply had the title set at 0)
 				$title = ( isset( $section['title'] ) ? $section['title'] : $section[0] );
-
-				echo '<a href="' . esc_url( add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . ( ( isset( $section['badge'] ) && true === $section['badge'] ) ? ' <span class="dlm-upsell-badge">PAID</span>' : '' ) . '</a>';
+				/**
+				 * @hook dlm_remove_upsells
+				 *
+				 * Remove upsells hook
+				 * @since 4.9.4
+				 *
+				 * @hooked DLM_Upsells check_license_validity - 10
+				 */
+				echo '<a href="' . esc_url( add_query_arg( 'tab', $key, DLM_Admin_Settings::get_url() ) ) . '" class="nav-tab' . ( ( $this->get_active_tab() === $key ) ? ' nav-tab-active' : '' ) . '">' . esc_html( $title ) . ( ( isset( $section['badge'] ) && true === $section['badge'] && ! apply_filters( 'dlm_remove_upsells', false ) ) ? ' <span class="dlm-upsell-badge">PAID</span>' : '' ) . '</a>';
 			}
 			?>
 		</h2>
@@ -435,7 +452,7 @@ class DLM_Settings_Page {
 	 * Function used to regenerate the .htaccess for the dlm_uploads folder
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since 4.5.5
 	 */
 	private function regenerate_protection(){
@@ -468,7 +485,7 @@ class DLM_Settings_Page {
 	 *
 	 * @param Array $settings
 	 * @return void
-	 * 
+	 *
 	 * @since 4.5.5
 	 */
 	public function access_files_checker_field( $settings ){
@@ -523,7 +540,7 @@ class DLM_Settings_Page {
 	 *
 	 * @access public
 	 * @return void
-	 * 
+	 *
 	 * @since 4.5.5 // Copied from Installer.php
 	 */
 	private function directory_protection() {
@@ -662,7 +679,7 @@ Deny from all
 	 * Function used to regenerate the robots.txt for the dlm_uploads folder
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since 4.5.9
 	 */
 	private function regenerate_robots(){
