@@ -407,7 +407,7 @@ class DLM_Backwards_Compatibility {
 		if ( is_plugin_active( $plugin ) ) {
 			// Get plugin data
 			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
-			var_dump(version_compare( $plugin_data['Version'], '4.1.2', '>' ));
+
 			if ( version_compare( $plugin_data['Version'], '4.1.2', '>' ) ) {
 				unset( $settings['terns_and_conditions'] );
 			} else {
