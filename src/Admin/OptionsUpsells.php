@@ -54,8 +54,6 @@ class DLM_Admin_OptionsUpsells {
         if( !array_key_exists( 'dlm-captcha', $active_addons ) ){
             $this->render_captcha_upsell();
         }
-
-
     }
 
     public function render_terms_and_conditions_upsell(){

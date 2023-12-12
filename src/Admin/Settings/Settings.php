@@ -353,29 +353,36 @@ class DLM_Admin_Settings {
 				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(
-					'email_lock'    => array(
+					'email_lock'           => array(
 						'title'    => esc_html__( 'Email Lock', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'ninja_forms'   => array(
+					'ninja_forms'          => array(
 						'title'    => esc_html__( 'Ninja Forms', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'gravity_forms' => array(
+					'gravity_forms'        => array(
 						'title'    => esc_html__( 'Gravity Forms', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'twitter_lock'  => array(
+					'twitter_lock'         => array(
 						'title'    => esc_html__( 'Twitter Lock', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
+					),
+					'terns_and_conditions' => array(
+						'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+						'badge'    => true,
+						'sections' => array(),
+						'fields'   => array(),
+						'priority' => 70,
 					),
 				),
 				'priority' => 30,
@@ -410,12 +417,6 @@ class DLM_Admin_Settings {
 				'badge'    => true,
 				'sections' => array(),
 				'priority' => 60,
-			),
-			'terns_and_conditions' => array(
-				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
-				'badge'    => true,
-				'sections' => array(),
-				'priority' => 70,
 			),
 		);
 		$settings['general']['sections']['general']['fields'][] = array(
@@ -608,7 +609,7 @@ class DLM_Admin_Settings {
 			'email_notification',
 			'gravity_forms',
 			'ninja_forms',
-			'terns_and_conditions',
+			//'terns_and_conditions',
 			'twitter_lock',
 			'page_addon',
 		);
@@ -655,10 +656,10 @@ class DLM_Admin_Settings {
 
 					}
 
-					if ( 'terns_and_conditions' == $tab_key ) {
+				/*	if ( 'terns_and_conditions' == $tab_key ) {
 						$tab_parent = 'terns_and_conditions';
 						$tab_title  = true;
-					}
+					}*/
 
 					if ( isset( $tab[0] ) && ! $tab_title ) {
 

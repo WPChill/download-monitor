@@ -112,7 +112,7 @@ class DLM_Upsells {
 
 		add_action( 'dlm_tab_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
+		//add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
 
 		add_action( 'dlm_tab_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
 
@@ -304,6 +304,11 @@ class DLM_Upsells {
 						),
 						'twitter_lock'  => array(
 							'title'    => __( 'Twitter lock', 'download-monitor' ),
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
+						),
+						'terns_and_conditions'  => array(
+							'title'    => __( 'Terms and Conditions', 'download-monitor' ),
 							'sections' => array(),
 							// Need to put sections here for backwards compatibility
 						),
@@ -537,7 +542,7 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function terms_and_conditions_tab_upsell() {
+	public function upsell_tab_section_content_terns_and_conditions() {
 
 		if ( ! $this->check_extension( 'dlm-terms-and-conditions' ) ) {
 
