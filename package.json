@@ -7,7 +7,7 @@
   "devDependencies": {
     "@floatwork/grunt-po2mo": "^0.3.0",
     "@wordpress/scripts": "^23.7.2",
-    "cypress": "^10.3.0",
+    "cypress": "^13.1.0",
     "grunt": "^1.5.3",
     "grunt-checktextdomain": "^1.0.1",
     "grunt-contrib-clean": "^2.0.1",
