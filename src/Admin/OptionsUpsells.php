@@ -15,6 +15,18 @@ class DLM_Admin_OptionsUpsells {
 	 * @access public
 	 */
 	public function __construct() {
+		/**
+		 * @hook dlm_remove_upsells
+		 *
+		 * Remove upsells hook
+		 * @since 4.9.4
+		 *
+		 * @hooked DLM_Upsells check_license_validity - 10
+		 */
+		if ( apply_filters( 'dlm_remove_upsells', false ) ) {
+			return;
+		}
+
 		add_action( 'dlm_options_end', array( $this, 'add_upsells_products' ), 99 );
 	}
 
@@ -42,8 +54,6 @@ class DLM_Admin_OptionsUpsells {
         if( !array_key_exists( 'dlm-captcha', $active_addons ) ){
             $this->render_captcha_upsell();
         }
- 
-
     }
 
     public function render_terms_and_conditions_upsell(){
@@ -55,7 +65,7 @@ class DLM_Admin_OptionsUpsells {
                 <span class="dlm-description"> <?php esc_html_e( 'This download will only be downloadable after accepting the terms and conditions.', 'download-monitor' ); ?></span>
             </p>
         </a>
-        <?php        
+        <?php
     }
 
     public function render_twitter_lock_upsell(){
@@ -67,7 +77,7 @@ class DLM_Admin_OptionsUpsells {
                 <span class="dlm-description"> <?php esc_html_e( 'Twitter locked downloads will only be available after user tweets a predefined text.', 'download-monitor' ); ?></span>
             </p>
         </a>
-        <?php        
+        <?php
     }
 
     public function render_email_lock_upsell(){
@@ -79,7 +89,7 @@ class DLM_Admin_OptionsUpsells {
                 <span class="dlm-description"> <?php esc_html_e( 'Email locked downloads will only be available after user entered their email address.', 'download-monitor' ); ?></span>
             </p>
         </a>
-        <?php        
+        <?php
     }
 
     public function render_captcha_upsell(){
@@ -91,6 +101,6 @@ class DLM_Admin_OptionsUpsells {
                 <span class="dlm-description"> <?php esc_html_e( 'User is required to complete a reCAPTCHA before access is granted to the dowload.', 'download-monitor' ); ?></span>
             </p>
         </a>
-        <?php        
+        <?php
     }
 }
