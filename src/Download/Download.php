@@ -206,6 +206,15 @@ class DLM_Download {
 	}
 
 	/**
+	 * Prints the post content
+	 *
+	 * @since 4.9.4
+	 */
+	public function the_description() {
+		echo wp_kses_post( wpautop( do_shortcode( $this->get_description() ) ) );
+	}
+
+	/**
 	 * Prints the excerpt
 	 */
 	public function the_excerpt() {

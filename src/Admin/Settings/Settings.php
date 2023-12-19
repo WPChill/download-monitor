@@ -287,19 +287,19 @@ class DLM_Admin_Settings {
 				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(
-					'email_lock'    => array(
+					'email_lock'           => array(
 						'title'    => esc_html__( 'Email Lock', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'ninja_forms'   => array(
+					'ninja_forms'          => array(
 						'title'    => esc_html__( 'Ninja Forms', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'gravity_forms' => array(
+					'gravity_forms'        => array(
 						'title'    => esc_html__( 'Gravity Forms', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
@@ -322,6 +322,13 @@ class DLM_Admin_Settings {
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
+					),
+					'terns_and_conditions' => array(
+						'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+						'badge'    => true,
+						'sections' => array(),
+						'fields'   => array(),
+						'priority' => 70,
 					),
 				),
 				'priority' => 30,
@@ -356,12 +363,6 @@ class DLM_Admin_Settings {
 				'badge'    => true,
 				'sections' => array(),
 				'priority' => 60,
-			),
-			'terns_and_conditions' => array(
-				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
-				'badge'    => true,
-				'sections' => array(),
-				'priority' => 70,
 			),
 		);
 
@@ -488,6 +489,27 @@ class DLM_Admin_Settings {
 			'DLM_Admin_Helper',
 			'sort_data_by_priority'
 		) );
+		// If upsells are not removed, we need to remove empty tabs/sections
+		if ( apply_filters( 'dlm_remove_upsells', false ) ) {
+			// Cycle through all settings and unset tabs/sections that have no fields
+			foreach ( $settings as $key => $setting ) {
+				// If there are no sections, unset the tab
+				if ( empty( $setting['sections'] ) ) {
+					unset( $settings[ $key ] );
+				} else {
+					foreach ( $setting['sections'] as $s_key => $section ) {
+						// IF there are no fields, unset the section
+						if ( empty( $section['fields'] ) ) {
+							unset( $settings[ $key ]['sections'][ $s_key ] );
+						}
+					}
+				}
+
+				if ( empty( $settings[ $key ]['sections'] ) ) {
+					unset( $settings[ $key ] );
+				}
+			}
+		}
 		return $settings;
 	}
 
@@ -539,7 +561,7 @@ class DLM_Admin_Settings {
 			'email_notification',
 			'gravity_forms',
 			'ninja_forms',
-			'terns_and_conditions',
+			//'terns_and_conditions',
 			'twitter_lock',
 			'page_addon',
 		);
@@ -594,10 +616,10 @@ class DLM_Admin_Settings {
 
 					}
 
-					if ( 'terns_and_conditions' == $tab_key ) {
+				/*	if ( 'terns_and_conditions' == $tab_key ) {
 						$tab_parent = 'terns_and_conditions';
 						$tab_title  = true;
-					}
+					}*/
 
 					if ( isset( $tab[0] ) && ! $tab_title ) {
 
