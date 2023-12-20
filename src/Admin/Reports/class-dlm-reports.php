@@ -164,7 +164,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				'title',
 				'slug'
 			) );
-			$rest_rout_downloadscpt = rest_url( 'wp/v2/dlm_download' . $separator . '_fields=' . implode( ',', $cpt_fields ) . '&_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
+			$rest_rout_downloadscpt = rest_url( 'wp/v2/dlm_download' . $separator . '_fields=' . implode( ',', $cpt_fields ) . $current_user_can );
 			// Let's add the global variable that will hold our reporst class and the routes.
 			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; const dlmDownloadsCptApiapi = "' . $rest_rout_downloadscpt . '"; const dlmPHPinfo =  ' . wp_json_encode( $this->php_info ) . ';', 'before' );
 		}
