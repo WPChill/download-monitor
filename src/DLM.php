@@ -878,4 +878,34 @@ class WP_DLM {
 		);
 		$extensions_handler->handle_master_license( $args );
 	}
+
+	/**
+	 * Enable/disable X-Sendfile functionality
+	 *
+	 * @return mixed|null
+	 * @since 4.9.4
+	 */
+	public static function dlm_x_sendfile() {
+		return apply_filters( 'dlm_x_sendfile', false );
+	}
+
+	/**
+	 * Enable/disable Proxy IP Override functionality
+	 *
+	 * @return mixed|null
+	 * @since 4.9.4
+	 */
+	public static function dlm_proxy_ip_override() {
+		return apply_filters( 'dlm_allow_x_forwarded_for', false );
+	}
+
+	/**
+	 * Enable/disable Hotlink prevention functionality
+	 *
+	 * @return mixed|null
+	 * @since 4.9.4
+	 */
+	public static function dlm_prevent_hotlinking() {
+		return apply_filters( 'dlm_hotlink_protection', false );
+	}
 }
