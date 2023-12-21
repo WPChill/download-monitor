@@ -1,6 +1,10 @@
 <?php
 /**
  * Default output for a download via the [download] shortcode
+ *
+ * More info on overriding template files can be found here: https://www.download-monitor.com/kb/overriding-content-templates/
+ *
+ * @version 4.9.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -140,6 +140,9 @@ class WP_DLM {
 			}*/
 
 			new DLM_Review();
+
+			// Load the templates action class
+			$plugin_status = DLM_Plugin_Status::get_instance();
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.

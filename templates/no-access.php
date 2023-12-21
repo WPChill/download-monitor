@@ -1,6 +1,10 @@
 <?php
 /**
  * Download No Access
+ *
+ * More info on overriding template files can be found here: https://www.download-monitor.com/kb/overriding-content-templates/
+ *
+ * @version 4.9.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

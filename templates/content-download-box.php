@@ -1,6 +1,8 @@
 <?php
 /**
  * Detailed download output
+ *
+ * @version 4.9.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

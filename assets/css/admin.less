@@ -283,6 +283,25 @@
       }
     }
   }
+
+  .dlm-template-override {
+    width:100%;
+    max-width: 1200px;
+    border-collapse: collapse;
+    thead {
+      tr {
+        font-weight:bold;
+        border-bottom:1px solid #ccc;
+      }
+    }
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background: #f9f9f9;
+        }
+      }
+    }
+  }
 }
 
 /* File lists */
