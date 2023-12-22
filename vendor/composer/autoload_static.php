@@ -78,6 +78,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Empty_Table' => __DIR__ . '/../..' . '/src/Admin/class-dlm-empty-table.php',
         'DLM_Extensions_Handler' => __DIR__ . '/../..' . '/src/Admin/ExtensionsHandler.php',
         'DLM_File_Manager' => __DIR__ . '/../..' . '/src/FileManager.php',
+        'DLM_Frontend_Templates' => __DIR__ . '/../..' . '/src/class-dlm-frontend-templates.php',
         'DLM_Gutenberg' => __DIR__ . '/../..' . '/src/Gutenberg.php',
         'DLM_Hasher' => __DIR__ . '/../..' . '/src/Hasher.php',
         'DLM_Installer' => __DIR__ . '/../..' . '/src/Installer.php',

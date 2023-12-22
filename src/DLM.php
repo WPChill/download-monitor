@@ -221,6 +221,8 @@ class WP_DLM {
 		// Setup integrations
 		$this->setup_integrations();
 
+		// Setup class that handles the frontend templates
+		DLM_Frontend_Templates::get_instance();
 		// check if we need to bootstrap E-Commerce
 		if ( apply_filters( 'dlm_shop_load_bootstrap', true ) ) {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );

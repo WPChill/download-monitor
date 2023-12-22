@@ -334,7 +334,6 @@ class DLM_Custom_Actions {
 			} else {
 				update_post_meta( $post_id, '_redirect_only', 'no' );
 			}
-
 		}
 
 		return $post_id;

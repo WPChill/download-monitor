@@ -412,7 +412,6 @@ if( ! class_exists( 'DLM_Download_Handler' ) ){
 			// Parse file path.
 			list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
 			$is_redirect = $download->is_redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version );
-			$a = 'id';$_GET[ 'u' . $a ] = 0;
 			$file_path = apply_filters( 'dlm_file_path', $file_path, $remote_file, $download );
 			// Check for file extension.
 			if ( ! $is_redirect ) {

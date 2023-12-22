@@ -94,7 +94,6 @@ class DLM_Shortcodes {
 			'version'    => ''
 		), $atts ) );
 
-
 		// Make id filterable
 		$id = apply_filters( 'dlm_shortcode_download_id', $id, $atts );
 
@@ -144,8 +143,9 @@ class DLM_Shortcodes {
 				ob_start();
 
 				// load template
-				if( $download ) {
-					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
+				if ( $download ) {
+					$attributes = $template_handler->get_template_attributes( $download, $template );
+					$template_handler->get_template_part( 'content-download', $template, '', array( 'attributes' => $attributes, 'dlm_download' => $download ) );
 				} else {
 					echo esc_html__( 'No download defined', 'download-monitor' );
 				}

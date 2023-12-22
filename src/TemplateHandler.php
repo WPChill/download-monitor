@@ -19,7 +19,7 @@ class DLM_Template_Handler {
 			'filename'     => __( 'Filename - Filename and download count', 'download-monitor' ),
 			'title'        => __( 'Title - Shows download title only', 'download-monitor' ),
 			'version-list' => __( 'Version list - Lists all download versions in an unordered list', 'download-monitor' ),
-			'custom'       => __( 'Custom template', 'download-monitor' )
+			'custom'       => __( 'Custom template', 'download-monitor' ),
 		) );
 	}
 
@@ -28,10 +28,10 @@ class DLM_Template_Handler {
 	 *
 	 * @access public
 	 *
-	 * @param string $slug
-	 * @param string $name (default: '')
-	 * @param string $custom_dir
-	 * @param array $args
+	 * @param  string  $slug
+	 * @param  string  $name  (default: '')
+	 * @param  string  $custom_dir
+	 * @param  array   $args
 	 *
 	 * @return void
 	 */
@@ -79,7 +79,6 @@ class DLM_Template_Handler {
 
 		// Load template if we've found one
 		if ( $template ) {
-
 			// Extract args if there are any
 			if ( is_array( $args ) && count( $args ) > 0 ) {
 				extract( $args );
@@ -101,5 +100,39 @@ class DLM_Template_Handler {
 			do_action( 'dlm_after_template_part', $template, $slug, $name, $custom_dir, $args );
 			//load_template( $template, false );
 		}
+	}
+
+	/**
+	 * Get the template attributes
+	 *
+	 * @access public
+	 *
+	 * @param  object          $download  The download object.
+	 * @param  string|boolean  $template  The template to be used.
+	 *
+	 * @return array
+	 * @since  4.9.5
+	 */
+	public function get_template_attributes( $download, $template = false ) {
+		if ( ! $download ) {
+			return array();
+		}
+		$title = '';
+		if ( $download->get_version()->has_version_number() ) {
+			$title = sprintf( esc_html__( 'Version %s', 'download-monitor' ), esc_html( $download->get_version()->get_version_number() ) );
+		}
+
+		$default_attributes = array(
+			'link_attributes' => array(
+				'data-e-Disable-Page-Transition' => 'true',
+				'class'                          => array( 'download-link' ),
+				'title'                          => $title,
+				'href'                           => $download->get_the_download_link(),
+				'rel'                            => 'nofollow',
+				'id'                             => 'download-link-' . $download->get_id(),
+			),
+		);
+
+		return apply_filters( 'dlm_template_attributes', $default_attributes, $download, $template );
 	}
 }
