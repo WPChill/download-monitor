@@ -287,8 +287,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				);
 			}
 
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_chart_stats'];
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_chart_stats'];
 			$offset_limit = $offset * $count;
 			$stats        = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} LIMIT {$offset_limit}, {$count};", null ), ARRAY_A );
 
@@ -319,8 +319,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				);
 			}
 
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_rows'];
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_rows'];
 			$offset_limit = $offset * $count;
 
 			$table_columns = apply_filters(
@@ -377,11 +377,10 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				return array();
 			}
 
-			$users_data = array();
-
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_user_data'];
-			$start_date        = isset( $_REQUEST['start_date'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['start_date'] ) ) : date( 'Y-m-d g:i', strtotime( '-30 days' ) );
+			$users_data   = array();
+			$start_date   = isset( $_REQUEST['start_date'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['start_date'] ) ) : date( 'Y-m-d g:i', strtotime( '-30 days' ) );
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_user_data'];
 			$offset_limit = $offset * $count;
 
 			$users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT dlm_logs.user_id as ID, wp_users.ID as wp_users_id, wp_users.user_nicename as user_nicename, wp_users.user_url as user_url, wp_users.user_registered as user_registered, wp_users.display_name as display_name, wp_users.user_email as user_email, wp_users_meta.meta_value as roles FROM {$wpdb->download_log} dlm_logs 

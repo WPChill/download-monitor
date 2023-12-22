@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.5
 Tested up to: 6.4
-Stable tag: 4.9.4
+Stable tag: 4.9.5
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -126,6 +126,14 @@ Changed: Moved, renamed and updated admin settings for "Shop" section ( [#1347](
 Changed: Moved, removed and updated admin settings for "Advanced" section ( [#1348](https://github.com/WPChill/download-monitor/issues/1348) )
 Changed: Prevent Duplicate Downloads ON by default on production(live) websites.  ( [#1350](https://github.com/WPChill/download-monitor/issues/1350) )
 Changed: Reports - don't get users without downloads. ( [#1313](https://github.com/WPChill/download-monitor/issues/1313) )
+
+= 4.9.5 - 22.12.2023 =
+Fixed: Security issue
+
+= 4.9.4 - 13.12.2023 =
+Changed: Remove upsells when a license is present and active ( [#1375](https://github.com/WPChill/download-monitor/issues/1375) )
+Added: Echo Download content method ( [#1376](https://github.com/WPChill/download-monitor/issues/1376) )
+Changed: Minor settings placement update ( [#1379](https://github.com/WPChill/download-monitor/issues/1379) )
 
 = 4.9.3 - 21.11.2023 =
 Changed: Download CPT admin list table design and alignment. ( [#1152](https://github.com/WPChill/download-monitor/issues/1152) )
