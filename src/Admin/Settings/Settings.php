@@ -267,19 +267,6 @@ class DLM_Admin_Settings {
 							),
 						),
 					),
-					'misc'       => array(
-						'title'  => __( 'Miscellaneous', 'download-monitor' ),
-						'fields' => array(
-							array(
-								'name'     => 'dlm_downloads_path',
-								'std'      => '',
-								'label'    => __( 'Other downloads path', 'download-monitor' ),
-								'desc'     => __( '<strong>!!ATTENTION!! ONLY</strong> modify this setting if you know and are certain of what you are doing. This can cause problems on the download/saving Downloads process if not specified correctly. Prior to modifying this it is advised to <strong>BACKUP YOU DATABASE</strong> in case something goes wrong.<br><br> By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify the path or a more higher path.<br><br>A full documentation can be seen <a href="https://www.download-monitor.com/kb/add-path/" target="_blank">here</a>.', 'download-monitor' ),
-								'type'     => 'text',
-								'priority' => 60
-							),
-						),
-					),
 				),
 				'priority' => 20,
 			),
@@ -466,16 +453,26 @@ class DLM_Admin_Settings {
 		$settings = $this->backwards_compatibility_settings( $old_settings, $settings );
 
 		uasort( $settings, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
-		uasort(
-			$settings['advanced']['sections']['misc']['fields'], array(
-			'DLM_Admin_Helper',
-			'sort_data_by_priority'
-		) );
-		uasort(
-			$settings['general']['sections']['general']['fields'], array(
-			'DLM_Admin_Helper',
-			'sort_data_by_priority'
-		) );
+		// Let's sort the fields by priority
+		foreach ( $settings as $key => $setting ) {
+			// Check if we have sections
+			if ( ! empty( $setting['sections'] ) ) {
+				foreach ( $setting['sections'] as $s_key => $section ) {
+					// Check if we have fields
+					if ( ! empty( $section['fields'] ) ) {
+						// Sort the fields by priority
+						uasort(
+							$settings[ $key ]['sections'][ $s_key ]['fields'],
+							array(
+								'DLM_Admin_Helper',
+								'sort_data_by_priority',
+							)
+						);
+					}
+				}
+			}
+		}
+
 		return $settings;
 	}
 

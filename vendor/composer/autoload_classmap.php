@@ -82,7 +82,7 @@ return array(
     'DLM_Logging' => $baseDir . '/src/Logs/Logging.php',
     'DLM_Media_Library' => $baseDir . '/src/Admin/class-dlm-media-library.php',
     'DLM_Modal' => $baseDir . '/src/class-dlm-modal.php',
-    'DLM_Plugin_Status' => $baseDir . '/src/Admin/class-dlm-templates-actions.php',
+    'DLM_Plugin_Status' => $baseDir . '/src/Admin/class-dlm-plugin-status.php',
     'DLM_Post_Type_Manager' => $baseDir . '/src/PostTypeManager.php',
     'DLM_Product' => $baseDir . '/src/Product/Product.php',
     'DLM_Product_Error_Handler' => $baseDir . '/src/Product/ProductErrorHandler.php',

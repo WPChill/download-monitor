@@ -79,21 +79,21 @@ class DLM_Upsells {
 	 */
 	public function set_hooks(){
 
-		add_action( 'dlm_tab_content_general', array( $this, 'general_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_general', array( $this, 'general_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_access', array( $this, 'access_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_access', array( $this, 'access_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
 
 		add_filter( 'dlm_download_metaboxes', array( $this, 'add_meta_boxes' ), 30 );
 
@@ -364,15 +364,14 @@ class DLM_Upsells {
 		foreach ( $this->upsell_tabs as $key => $tab ) {
 
 			if ( method_exists( 'DLM_Upsells', 'upsell_tab_content_' . $key ) ) {
-				add_action( 'dlm_tab_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
+				add_action( 'dlm_tab_upsell_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
 			}
 
 			foreach ( $tab['sections'] as $sub_key => $section ) {
 				if ( method_exists( 'DLM_Upsells', 'upsell_tab_section_content_' . $sub_key ) ) {
-					add_action( 'dlm_tab_section_content_' . $sub_key, array( $this, 'upsell_tab_section_content_' . $sub_key ), 30, 1 );
+					add_action( 'dlm_tab_upsell_section_content_' . $sub_key, array( $this, 'upsell_tab_section_content_' . $sub_key ), 30, 1 );
 				}
 			}
-
 		}
 	}
 
@@ -745,7 +744,6 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function upsell_tab_content_advanced() {
-
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
 			$this->generate_upsell_box(

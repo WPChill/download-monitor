@@ -164,7 +164,6 @@ class DLM_Settings_Page {
 
 				// loop fields for this tab
 				if ( isset( $settings[ $tab ] ) ) {
-
 					if ( count( $settings[ $tab ]['sections'] ) > 1 ) {
 
 						?>
@@ -179,17 +178,21 @@ class DLM_Settings_Page {
 								<?php endforeach; ?>
                             </ul>
                         </div><!--.wp-clearfix-->
-                        <h2><?php echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
+						<h2>
+							<?php
+							echo ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ? esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ) : '';
+							?>
+						</h2>
 						<?php
 					}
-
-					//echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
+					// Begin tab content
+					echo '<div class="dlm-content-tab">';
 
 					if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 
 						// output correct settings_fields
 						// We change the output location so that it won't interfere with our upsells
-						$option_name = "dlm_" . $tab . "_" . $active_section;
+						$option_name = 'dlm_' . $tab . '_' . $active_section;
 						settings_fields( $option_name );
 
 						echo '<table class="form-table">';
@@ -209,7 +212,6 @@ class DLM_Settings_Page {
 							} else {
 								$cs ++;
 							}
-
 
 							echo '<td colspan="' . esc_attr( $cs ) . '">';
 
@@ -237,9 +239,43 @@ class DLM_Settings_Page {
 						echo '</table>';
 					}
 
-					echo '<div class="wpchill-upsells-wrapper">';
+					/**
+					 * Hook to add content to the tab
+					 *
+					 * @param  array  $settings  The settings array
+					 */
 					do_action( 'dlm_tab_content_' . $tab, $settings );
+
+					/**
+					 * Hook to add content to the tab section
+					 *
+					 * @param  array  $settings  The settings array
+					 */
 					do_action( 'dlm_tab_section_content_' . $active_section, $settings );
+
+					echo '</div>';
+					// Check if we need to display the upsells on the right or full-width
+					$has_content = ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] );
+					echo '<div class="wpchill-upsells-wrapper ' . ( $has_content ? 'wpchill-right-upsells' : '' ) . '">';
+
+					/**
+					 * Hook to add content to the right side of tab. Used for upsells
+					 *
+					 * @param  array  $settings  The settings array
+					 *
+					 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
+					 */
+					do_action( 'dlm_tab_upsell_content_' . $tab, $settings );
+
+					/**
+					 * Hook to add content to the right side of the tab section. Used for upsells
+					 *
+					 * @param  array  $settings  The settings array
+					 *
+					 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
+					 */
+					do_action( 'dlm_tab_upsell_section_content_' . $active_section, $settings );
+
 					echo '</div>';
 				}
 
@@ -296,9 +332,9 @@ class DLM_Settings_Page {
 
 		add_filter( 'dlm_page_header', array( $this, 'page_header_locations' ) );
 
-		add_filter( 'dlm_settings', array( $this, 'access_files_checker_field' ) );
+		add_filter( 'dlm_settings', array( $this, 'access_files_checker_field' ), 30 );
 
-		add_filter( 'dlm_settings', array( $this, 'robots_files_checker_field' ) );
+		add_filter( 'dlm_settings', array( $this, 'robots_files_checker_field' ), 30 );
 	}
 
 	/**
@@ -357,7 +393,6 @@ class DLM_Settings_Page {
 	 */
 	private
 	function generate_tabs( $settings ) {
-
 
 		?>
 		<h2 class="nav-tab-wrapper">
@@ -482,7 +517,7 @@ class DLM_Settings_Page {
 			$disabled   = true;
 		}
 
-		$settings['advanced']['sections']['misc']['fields'][] = array(
+		$settings['status']['sections']['misc']['fields'][] = array(
 			'name'       => 'dlm_regenerate_protection',
 			'label'      => __( 'Regenerate protection for uploads folder', 'download-monitor' ),
 			'desc'       => __( 'Regenerates the .htaccess file.', 'download-monitor' ),
@@ -621,7 +656,7 @@ Deny from all
 			'text'       => __( 'Robots.txt is missing.', 'download-monitor' ),
 		) );
 
-		$settings['advanced']['sections']['misc']['fields'][] = array(
+		$settings['status']['sections']['misc']['fields'][] = array(
 			'name'       => 'dlm_regenerate_robots',
 			'label'      => __( 'Regenerate crawler protection for uploads folder', 'download-monitor' ),
 			'desc'       => __( 'Regenerates the robots.txt file.', 'download-monitor' ),

@@ -47,7 +47,7 @@ class DLM_Plugin_Status {
 		// Add Templates tab in the Download Monitor's settings page.
 		add_filter( 'dlm_settings', array( $this, 'status_tab' ), 15, 1 );
 		// Show the templates tab content.
-		add_action( 'dlm_tab_content_status', array( $this, 'status_tab_content' ) );
+		add_action( 'dlm_tab_section_content_templates', array( $this, 'templates_content' ) );
 	}
 
 	/**
@@ -59,12 +59,28 @@ class DLM_Plugin_Status {
 	 * @since 4.9.5
 	 */
 	public function status_tab( $settings ) {
-		if ( ! isset( $settings['status'] ) ) {
-			$settings['status'] = array(
-				'title'    => __( 'Status', 'download-monitor' ),
-				'sections' => array(),
-			);
-		}
+		$settings['status'] = array(
+			'title'    => __( 'Status', 'download-monitor' ),
+			'sections' => array(
+				'misc'      => array(
+					'title'  => __( 'Miscellaneous', 'download-monitor' ),
+					'fields' => array(
+						array(
+							'name'     => 'dlm_downloads_path',
+							'std'      => '',
+							'label'    => __( 'Other downloads path', 'download-monitor' ),
+							'desc'     => __( '<strong>!!ATTENTION!! ONLY</strong> modify this setting if you know and are certain of what you are doing. This can cause problems on the download/saving Downloads process if not specified correctly. Prior to modifying this it is advised to <strong>BACKUP YOU DATABASE</strong> in case something goes wrong.<br><br> By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify the path or a more higher path.<br><br>A full documentation can be seen <a href="https://www.download-monitor.com/kb/add-path/" target="_blank">here</a>.', 'download-monitor' ),
+							'type'     => 'text',
+							'priority' => 60,
+						),
+					),
+				),
+				'templates' => array(
+					'title'  => __( 'Templates', 'download-monitor' ),
+					'fields' => array(),
+				),
+			),
+		);
 
 		return $settings;
 	}
@@ -74,8 +90,8 @@ class DLM_Plugin_Status {
 	 *
 	 * @since 4.9.5
 	 */
-	public function status_tab_content() {
-		echo '<h1>' . esc_html__( 'Templates', 'download-monitor' ) . '</h1>';
+	public function templates_content() {
+		echo '<div class="wp-clearfix">';
 		$theme_info = $this->get_theme_info();
 
 		if ( empty( $theme_info['overrides'] ) ) {
@@ -181,7 +197,7 @@ class DLM_Plugin_Status {
 			</tbody>
 		</table>
 		<?php
-		echo '<hl>';
+		echo '</div>';
 	}
 
 	/**
