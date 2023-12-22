@@ -96,6 +96,7 @@ class DLM_Plugin_Status {
 
 		if ( empty( $theme_info['overrides'] ) ) {
 			echo '<h3>' . esc_html__( 'There are no overridden templates', 'download-monitor' ) . '</h3>';
+			return;
 		}
 
 		echo '<h3>' . sprintf( esc_html__( 'There are %s overriden templates!', 'download-monitor' ), count( $theme_info['overrides'] ) ) . '</h3>';
