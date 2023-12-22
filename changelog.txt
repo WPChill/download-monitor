@@ -1,3 +1,6 @@
+= 4.9.5 - 22.12.2023 =
+Fixed: Security issue
+
 = 4.9.4 - 13.12.2023 =
 Changed: Remove upsells when a license is present and active ( [#1375](https://github.com/WPChill/download-monitor/issues/1375) )
 Added: Echo Download content method ( [#1376](https://github.com/WPChill/download-monitor/issues/1376) )

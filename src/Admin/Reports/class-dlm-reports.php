@@ -287,8 +287,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				);
 			}
 
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_chart_stats'];
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_chart_stats'];
 			$offset_limit = $offset * $count;
 			$stats        = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} LIMIT {$offset_limit}, {$count};", null ), ARRAY_A );
 
@@ -319,8 +319,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				);
 			}
 
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_rows'];
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_rows'];
 			$offset_limit = $offset * $count;
 
 			$table_columns = apply_filters(
@@ -379,8 +379,8 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			$users_data = array();
 
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( sanitize_text_field( wp_unslash( $_REQUEST['offset'] ) ) ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['limit'] ) ) : $this->php_info['retrieved_user_data'];
+			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
+			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_user_data'];
 			$offset_limit = $offset * $count;
 
 			$args = array(
