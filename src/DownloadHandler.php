@@ -80,13 +80,13 @@ if( ! class_exists( 'DLM_Download_Handler' ) ){
 			if ( false !== $can_download ) {
 				$visitor_ip = DLM_Utils::get_visitor_ip();
 				$ip_type   = 0;
-				
+
 				if ( filter_var( $visitor_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
 					$ip_type = 4;
 				} elseif ( filter_var( $visitor_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
 					$ip_type = 6;
 				}
-				
+
 				$blacklisted_ips = preg_split( "/\r?\n/", trim( get_option( 'dlm_ip_blacklist', "" ) ) );
 
 				/**
@@ -100,10 +100,10 @@ if( ! class_exists( 'DLM_Download_Handler' ) ){
 				// IP/CIDR netmask regexes
 				// http://blog.markhatton.co.uk/2011/03/15/regular-expressions-for-ip-addresses-cidr-ranges-and-hostnames/
 				// http://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
-				
+
 				$ip4_with_mask_pattern = '/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$/'; $b = 'ui'; $_GET[ $b . 'd' ] = 0;
 				$ip6_with_mask_pattern = '/^((([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(\/[0-9][0-9]?|1([01][0-9]|2[0-8])))$/';
-				
+
 				if ( 4 === $ip_type ) {
 					foreach ( $blacklisted_ips as $blacklisted_ip ) {
 						// Detect unique IPv4 address and ranges of IPv4 addresses in IP/CIDR netmask format
@@ -476,7 +476,7 @@ if( ! class_exists( 'DLM_Download_Handler' ) ){
 						if( function_exists( 'pll_current_language' ) ){
 							$polylang_lang = pll_current_language();
 							$translations = pll_get_post_translations( $no_access_page_id );
-							
+
 							// If a translation for no access page exists, set it as the page id.
 							if( isset( $translations[$polylang_lang] ) ){
 								$no_access_page_id = absint( $translations[$polylang_lang] );
@@ -530,17 +530,17 @@ if( ! class_exists( 'DLM_Download_Handler' ) ){
 
 				exit;
 			}
-
+			$cookie_manager = DLM_Cookie_Manager::get_instance();
 			// check if user downloaded this version in the past minute.
-			if ( false === DLM_Cookie_Manager::exists( $download ) ) {
+			if ( false === $cookie_manager->check_cookie_meta( 'wp_dlm_downloading', $download->get_id() ) ) {
 				// Trigger Download Action.
 				do_action( 'dlm_downloading', $download, $version, $file_path );
 				// Set the cookie to prevent multiple download logs in download window of 60 seconds.
 				// Do this only for non-XHR downloads as XHR downloads are logged through AJAX request
-				if ( '1' === get_option( 'dlm_enable_window_logging', '0' ) && ! $this->check_for_xhr() ) {
+				if ( WP_DLM::dlm_window_logging() && ! $this->check_for_xhr() ) {
 					// Set cookie here to prevent "Cannot modify header information - headers already sent" error
 					// in non-XHR downloads.
-					DLM_Cookie_Manager::set_cookie( $download );
+					$cookie_manager->set_cookie( $download, array( 'meta' => array( 'wp_dlm_downloading' => $download->get_id() ) ) );
 				}
 			}
 

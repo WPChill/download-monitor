@@ -223,7 +223,7 @@ class DLM_Installer {
 	 * @return void
 	 */
 	private function install_tables() {
-		
+
 		global $wpdb;
 
 		$wpdb->hide_errors();
@@ -271,9 +271,35 @@ class DLM_Installer {
 		 				KEY attribute_name (download_id)
 		 				) $collate;";
 
+		/**
+		 * Cookies table
+		 */
+		$dlm_cookie = "CREATE TABLE `{$wpdb->prefix}dlm_cookies` (
+		 	ID bigint(20) NOT NULL auto_increment,
+			hash longtext NULL,
+			creation_date datetime DEFAULT NULL,
+			expiration_date datetime DEFAULT NULL,
+			PRIMARY KEY  (ID),
+			KEY attribute_name (ID)
+            ) $collate;";
+
+		/**
+		 * Cookie meta table
+		 */
+		$dlm_cookie_meta = "CREATE TABLE `{$wpdb->prefix}dlm_cookiemeta` (
+		 	ID bigint(20) NOT NULL auto_increment,
+			cookie_id bigint(20) NULL,
+			meta_key longtext NULL,
+			meta_data longtext NULL,
+			PRIMARY KEY  (ID),
+			KEY attribute_name (ID)
+            ) $collate;";
+
 		dbDelta( $dlm_log );
 		dbDelta( $dlm_reports );
 		dbDelta( $dlm_downloads );
+		dbDelta( $dlm_cookie );
+		dbDelta( $dlm_cookie_meta );
 
 		// install shop tables.
 		$this->create_shop_tables();

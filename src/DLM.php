@@ -398,7 +398,7 @@ class WP_DLM {
 							'download-button'
 						)
 					),
-					'prevent_duplicates' => '1' === get_option( 'dlm_enable_window_logging' )
+					'prevent_duplicates' => WP_DLM::dlm_window_logging()
 				)
 			);
 
@@ -831,6 +831,16 @@ class WP_DLM {
 	 */
 	public static function dlm_x_sendfile() {
 		return apply_filters( 'dlm_x_sendfile', false );
+	}
+
+	/**
+	 * Enable/disable window logging functionality. Only permit one download log per 60 seconds.
+	 *
+	 * @return mixed|null
+	 * @since 4.9.4
+	 */
+	public static function dlm_window_logging() {
+		return apply_filters( 'dlm_enable_window_logging', true );
 	}
 
 	/**

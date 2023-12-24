@@ -191,9 +191,9 @@ class DLM_Logging {
 		if ( false !== strpos( $url, admin_url() ) ) {
 			return;
 		}
-
+		$cookie_manager = DLM_Cookie_Manager::get_instance();
 		// setup new log item object.
-		if ( ! DLM_Cookie_Manager::exists( $download ) ) {
+		if ( false === $cookie_manager->check_cookie_meta( 'wp_dlm_downloading', $download->get_id() ) ) {
 			$ip       = DLM_Utils::get_visitor_ip();
 			$log_item = new DLM_Log_Item();
 			$log_item->set_user_id( absint( get_current_user_id() ) );
@@ -207,7 +207,7 @@ class DLM_Logging {
 			$log_item->set_current_url( $url );
 
 			if ( $cookie ) {
-				DLM_Cookie_Manager::set_cookie( $download );
+			$cookie_manager->set_cookie( $download, array( 'meta' => array( 'wp_dlm_downloading' => $download->get_id() ) ) );
 			}
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );
