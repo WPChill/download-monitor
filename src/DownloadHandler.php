@@ -531,7 +531,8 @@ if( ! class_exists( 'DLM_Download_Handler' ) ){
 				exit;
 			}
 			$cookie_manager = DLM_Cookie_Manager::get_instance();
-			// check if user downloaded this version in the past minute.
+			// check if user downloaded this version in the past minute. This checks if the cookie exists and if it's
+			// value is the same as the download id.
 			if ( false === $cookie_manager->check_cookie_meta( 'wp_dlm_downloading', $download->get_id() ) ) {
 				// Trigger Download Action.
 				do_action( 'dlm_downloading', $download, $version, $file_path );

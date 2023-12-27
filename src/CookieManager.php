@@ -52,7 +52,8 @@ class DLM_Cookie_Manager {
 
 
 	/**
-	 * Check if the cookie is exists for this download & version. If it does exists the requester has requested the exact same download & version in the past minute.
+	 * Check if the cookie exists for this download & version. If it does exist the requester has requested the exact
+	 * same download & version in the past minute.
 	 *
 	 * Deprecated since 4.9.5
 	 *
@@ -167,6 +168,77 @@ class DLM_Cookie_Manager {
 	}
 
 	/**
+	 * Set cookie
+	 *
+	 * @param  DLM_Download  $download
+	 */
+	public function update_cookie( $hash, $download, $cookie_data = array() ) {
+		$secure      = is_ssl();
+		$cookie_data = wp_parse_args(
+			$cookie_data,
+			array(
+				'expires'  => time() + 60,
+				'secure'   => $secure,
+				'httponly' => true,
+				'meta'     => array(),
+			)
+		);
+
+		/**
+		 * Filter cookie data
+		 * Old hook used to set cookie data for the wp_dlm_downloading cookie.
+		 * Deprecated since 4.9.5
+		 *
+		 * @hook  wp_dlm_set_downloading_cookie
+		 *
+		 * @param  array  $cookie_data
+		 *
+		 * @since 4.0
+		 *
+		 */
+		$cookie_data = apply_filters(
+			'wp_dlm_set_downloading_cookie',
+			$cookie_data
+		);
+
+		/**
+		 * Filter cookie data
+		 * New hook used to set cookie data for the general _dlm_cookie cookie.
+		 * The cookie_data should contain the following:
+		 * - expires: The expiration time of the cookie
+		 * - secure: Whether the cookie should be secure or not
+		 * - httponly: Whether the cookie should be httponly or not
+		 * - meta: An array of meta data to be stored in the database in the cookie meta table. Each meta item should be
+		 * an array and will be stored as a separate row in the database similar to post meta.
+		 *
+		 * @hook  _dlm_cookie_data
+		 *
+		 * @param  array  $cookie_data
+		 *
+		 * @since 4.9.5
+		 *
+		 */
+		$cookie_data = apply_filters(
+			'_dlm_cookie_data',
+			$cookie_data
+		);
+
+		// Insert cookie into database
+		$this->update_cookie_db( $hash, $download, $cookie_data );
+
+		// Set the cookie
+		setcookie(
+			self::$key,
+			$hash,
+			$cookie_data['expires'],
+			COOKIEPATH,
+			COOKIE_DOMAIN,
+			$cookie_data['secure'],
+			$cookie_data['httponly']
+		);
+	}
+
+	/**
 	 * Insert cookie into database
 	 * The cookie_data should contain the following:
 	 *  - expires: The expiration time of the cookie
@@ -191,7 +263,7 @@ class DLM_Cookie_Manager {
 			array(
 				'hash'            => $hash,
 				'creation_date'   => current_time( 'mysql' ),
-				'expiration_date' => wp_date( $cookie_data['expires'] ),
+				'expiration_date' => wp_date( 'Y-m-d H:i:s', $cookie_data['expires'] ),
 			),
 			array(
 				'%s',
@@ -222,6 +294,47 @@ class DLM_Cookie_Manager {
 		}
 
 		return $cookie_id;
+	}
+
+	/**
+	 * Update cookie from database
+	 * The cookie_data should contain the following:
+	 *  - expires: The expiration time of the cookie
+	 *  - secure: Whether the cookie should be secure or not
+	 *  - httponly: Whether the cookie should be httponly or not
+	 *  - meta: An array of meta data to be stored in the database in the cookie meta table. Each meta item should be
+	 *  an array and will be stored as a separate row in the database similar to post meta.
+	 *
+	 * @param $hash        string Cookie hash
+	 * @param $download    DLM_Download Download object
+	 * @param $cookie_data array Cookie data
+	 *
+	 *
+	 * @since 4.9.5
+	 */
+	private function update_cookie_db( $hash, $download, $cookie_data ) {
+		global $wpdb;
+
+		$cookie_id = $this->get_cookie_id( $hash );
+		// Check if cookie meta is set
+		if ( ! empty( $cookie_data['meta'] ) ) {
+			// Cycle through meta and insert into database
+			foreach ( $cookie_data['meta'] as $meta_key => $meta_value ) {
+				$wpdb->insert(
+					$wpdb->prefix . 'dlm_cookiemeta',
+					array(
+						'cookie_id' => $cookie_id,
+						'meta_key'  => $meta_key,
+						'meta_data' => $meta_value,
+					),
+					array(
+						'%d',
+						'%s',
+						'%s',
+					)
+				);
+			}
+		}
 	}
 
 	/**
@@ -313,7 +426,7 @@ class DLM_Cookie_Manager {
 	private function get_cookie( $hash ) {
 		global $wpdb;
 
-		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}dlm_cookies WHERE `hash` = %s", $hash ) );
+		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}dlm_cookies WHERE `hash` = %s;", $hash ) );
 	}
 
 	/**
@@ -341,6 +454,10 @@ class DLM_Cookie_Manager {
 		if ( ! $cookie_id ) {
 			return false;
 		}
+		// Check if cookie has expired
+		if ( $this->check_expired_cookie( $cookie_id ) ) {
+			return false;
+		}
 		// Get cookie meta data from database
 		$meta = $this->get_cookie_meta_data( $cookie_id, $meta_key );
 
@@ -357,5 +474,49 @@ class DLM_Cookie_Manager {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Delete cookie from database by ID
+	 *
+	 * @param $cookie_id int Cookie hash
+	 *
+	 * @since 4.9.5
+	 */
+	public function delete_cookie( $cookie_id ) {
+		global $wpdb;
+		// Delete entry from dlm_cookies table
+		$wpdb->delete( $wpdb->prefix . 'dlm_cookies', array( 'id' => absint( $cookie_id ) ) );
+		// Delete entry from dlm_cookiemeta table
+		$wpdb->delete( $wpdb->prefix . 'dlm_cookiemeta', array( 'cookie_id' => absint( $cookie_id ) ) );
+	}
+
+	/**
+	 * Check expired cookie by ID
+	 *
+	 * @param $cookie_id int Cookie ID
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.5
+	 */
+	public function check_expired_cookie( $cookie_id ) {
+		$expiration_date = $this->get_cookie_expiration_date( $cookie_id );
+		// Check if cookie has expired
+		if ( $expiration_date < current_time( 'mysql' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Delete expired cookies
+	 *
+	 * @since 4.9.5
+	 */
+	public function delete_expired_cookies() {
+		global $wpdb;
+		$wpdb->query( "DELETE FROM {$wpdb->prefix}dlm_cookies WHERE `expiration_date` < NOW()" );
 	}
 }
