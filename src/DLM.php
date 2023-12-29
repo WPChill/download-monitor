@@ -140,6 +140,8 @@ class WP_DLM {
 			}*/
 
 			new DLM_Review();
+			// Set cookie manager so we can add cleanup CRON jobs
+			DLM_Cookie_Manager::get_instance();
 
 			// Load the templates action class
 			$plugin_status = DLM_Plugin_Status::get_instance();

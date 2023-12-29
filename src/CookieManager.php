@@ -33,6 +33,8 @@ class DLM_Cookie_Manager {
 	 * @since 4.9.5
 	 */
 	private function __construct() {
+		// Delete expired cookies
+		add_action( 'dlm_monthly_event', array( $this, 'delete_expired_cookies' ) );
 	}
 
 	/**
@@ -432,48 +434,83 @@ class DLM_Cookie_Manager {
 	/**
 	 * Check the cookie meta data
 	 *
-	 * @param $meta_key  string Meta key
-	 * @param $value     string Meta value to check
+	 * @param $meta_key    string Meta key
+	 * @param $value       string Meta value to check
+	 * @param $check_type  string Check type. Can be 'per_download', 'grouped' or 'global'. Default is 'individual'
+	 * @param $check_array array Array of meta keys to check. Default is empty array
 	 *
 	 * @return bool
 	 *
 	 * @since 4.9.5
 	 */
-	public function check_cookie_meta( $meta_key, $value ) {
+	public function check_cookie_meta( $meta_key, $value, $check_type = 'per_download', $check_array = array() ) {
 		// Get cookie hash
-		$hash = $this->get_cookie_hash();
-
+		$hash   = $this->get_cookie_hash();
+		$return = false;
 		// No hash found. Return false
 		if ( ! $hash ) {
-			return false;
+			return $return;
 		}
 		// Get cookie ID from database
 		$cookie_id = $this->get_cookie_id( $hash );
 		//var_dump($cookie_id);
 		// No cookie ID found. Return false
 		if ( ! $cookie_id ) {
-			return false;
+			return $return;
 		}
 		// Check if cookie has expired
 		if ( $this->check_expired_cookie( $cookie_id ) ) {
-			return false;
+			return $return;
 		}
 		// Get cookie meta data from database
 		$meta = $this->get_cookie_meta_data( $cookie_id, $meta_key );
 
 		// Check if meta data is set
 		if ( ! empty( $meta ) ) {
-			// Cycle through meta data and check if value exists
-			foreach ( $meta as $meta_item ) {
-				// Check if value exists. Do not use strict comparison here as the meta data is stored as
-				// a string in the database and the value might be an integer.
-				if ( $meta_item->meta_data == $value ) {
-					return true;
+			// If check type is 'all' return true because meta data exists, so an unlock was previously made
+			if ( 'global' === $check_type ) {
+				$return = true;
+			} else {
+				// Cycle through meta data and check if value exists or if value is in group of values
+				foreach ( $meta as $meta_item ) {
+					switch ( $check_type ) {
+						case 'per_download':
+							// Check if value exists. Do not use strict comparison here as the meta data is stored as
+							// a string in the database and the value might be an integer.
+							if ( $meta_item->meta_data == $value ) {
+								$return = true;
+							}
+							break;
+						case 'grouped':
+							if ( ! empty( $check_array ) ) {
+								if ( in_array( $meta_item->meta_data, $check_array ) ) {
+									$return = true;
+								}
+							}
+							break;
+						default:
+							/**
+							 * Filter cookie meta check. Allow other plugins to add their own check types based on the
+							 * check type
+							 *
+							 * @hook  dlm_cookie_meta_check
+							 *
+							 * @param  bool    $return       Return value
+							 * @param  object  $meta_item    Meta item object
+							 * @param  string  $value        Value to check
+							 * @param  array   $check_array  Array of values to check
+							 *
+							 * @since 4.9.5
+							 *
+							 */
+							$return = apply_filters( 'dlm_cookie_meta_check_' . $check_type, $return, $meta_item, $value, $check_array );
+							break;
+					}
 				}
 			}
 		}
 
-		return false;
+		return $return;
 	}
 
 	/**
