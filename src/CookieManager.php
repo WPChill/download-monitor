@@ -97,11 +97,14 @@ class DLM_Cookie_Manager {
 	}
 
 	/**
-	 * Set cookie
+	 * Add new cookie
 	 *
-	 * @param  DLM_Download  $download
+	 * @param  DLM_Download  $download     Download object
+	 * @param  array         $cookie_data  Cookie data
+	 *
+	 * @since 4.9.5
 	 */
-	public function set_cookie( $download, $cookie_data = array() ) {
+	private function add_cookie( $download, $cookie_data ) {
 		$secure      = is_ssl();
 		$cookie_data = wp_parse_args(
 			$cookie_data,
@@ -151,9 +154,18 @@ class DLM_Cookie_Manager {
 			'_dlm_cookie_data',
 			$cookie_data
 		);
+		// This is used for the cookie expiration date difference for session cookies as we can't set the cookie to expire
+		// at the end of the session in the DB.
+		$cookie_expires = $cookie_data['expires'];
+
+		// If set to 0, set cookie to expire in 1 day from the set date. This is used for session cookies.
+		if ( 0 === $cookie_data['expires'] ) {
+			$cookie_data['expires'] = time() + DAY_IN_SECONDS;
+		}
 
 		// Create cookie hash using download ID, site name, 'dlm' string and cookie ID
 		$hash = wp_hash( $download->get_id() . 'dlm' . get_bloginfo( 'name' ) . wp_rand() );
+
 		// Insert cookie into database
 		$this->insert_cookie( $hash, $download, $cookie_data );
 
@@ -161,7 +173,7 @@ class DLM_Cookie_Manager {
 		setcookie(
 			self::$key,
 			$hash,
-			$cookie_data['expires'],
+			$cookie_expires,
 			COOKIEPATH,
 			COOKIE_DOMAIN,
 			$cookie_data['secure'],
@@ -174,7 +186,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @param  DLM_Download  $download
 	 */
-	public function update_cookie( $hash, $download, $cookie_data = array() ) {
+	private function update_cookie( $hash, $download, $cookie_data = array() ) {
 		$secure      = is_ssl();
 		$cookie_data = wp_parse_args(
 			$cookie_data,
@@ -227,17 +239,41 @@ class DLM_Cookie_Manager {
 
 		// Insert cookie into database
 		$this->update_cookie_db( $hash, $download, $cookie_data );
+		$cookie_id         = $this->get_cookie_id( $hash );
+		$cookie_expiration = $this->get_cookie_expiration_date( $cookie_id );
 
-		// Set the cookie
-		setcookie(
-			self::$key,
-			$hash,
-			$cookie_data['expires'],
-			COOKIEPATH,
-			COOKIE_DOMAIN,
-			$cookie_data['secure'],
-			$cookie_data['httponly']
-		);
+		// Check if cookie expiration date is less than the new expiration date. If so, update the cookie expiration date
+		if ( strtotime( $cookie_expiration ) < $cookie_data['expires'] ) {
+			// Set the cookie only if the cookie expiration date is less than the new expiration date
+			setcookie(
+				self::$key,
+				$hash,
+				$cookie_data['expires'],
+				COOKIEPATH,
+				COOKIE_DOMAIN,
+				$cookie_data['secure'],
+				$cookie_data['httponly']
+			);
+		}
+	}
+
+	/**
+	 * Set cookie
+	 *
+	 * @param  DLM_Download  $download     Download object
+	 * @param  array         $cookie_data  Optional cookie data
+	 *
+	 * @since 4.9.5
+	 */
+	public function set_cookie( $download, $cookie_data = array() ) {
+		// Check if cookie hash is set
+		$hash = $this->get_cookie_hash();
+		// If hash is not set, create a new cookie, else update the cookie
+		if ( ! $hash ) {
+			$this->add_cookie( $download, $cookie_data );
+		} else {
+			$this->update_cookie( $hash, $download, $cookie_data );
+		}
 	}
 
 	/**
@@ -278,7 +314,9 @@ class DLM_Cookie_Manager {
 		// Check if cookie meta is set
 		if ( ! empty( $cookie_data['meta'] ) ) {
 			// Cycle through meta and insert into database
-			foreach ( $cookie_data['meta'] as $meta_key => $meta_value ) {
+			foreach ( $cookie_data['meta'] as $meta ) {
+				$meta_key   = key( $meta );
+				$meta_value = $meta[ $meta_key ];
 				$wpdb->insert(
 					$wpdb->prefix . 'dlm_cookiemeta',
 					array(
@@ -316,12 +354,32 @@ class DLM_Cookie_Manager {
 	 */
 	private function update_cookie_db( $hash, $download, $cookie_data ) {
 		global $wpdb;
-
-		$cookie_id = $this->get_cookie_id( $hash );
+		$cookie_id         = $this->get_cookie_id( $hash );
+		$cookie_expiration = $this->get_cookie_expiration_date( $cookie_id );
+		// Check if cookie expiration date is less than the new expiration date. If so, update the cookie expiration date
+		if ( strtotime( $cookie_expiration ) < $cookie_data['expires'] ) {
+			$wpdb->update(
+				$wpdb->prefix . 'dlm_cookies',
+				array(
+					'expiration_date' => wp_date( 'Y-m-d H:i:s', $cookie_data['expires'] ),
+				),
+				array(
+					'id' => $cookie_id,
+				),
+				array(
+					'%s',
+				),
+				array(
+					'%d',
+				)
+			);
+		}
 		// Check if cookie meta is set
 		if ( ! empty( $cookie_data['meta'] ) ) {
 			// Cycle through meta and insert into database
-			foreach ( $cookie_data['meta'] as $meta_key => $meta_value ) {
+			foreach ( $cookie_data['meta'] as $meta ) {
+				$meta_key   = key( $meta );
+				$meta_value = $meta[ $meta_key ];
 				$wpdb->insert(
 					$wpdb->prefix . 'dlm_cookiemeta',
 					array(

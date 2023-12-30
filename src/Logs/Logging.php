@@ -207,7 +207,7 @@ class DLM_Logging {
 			$log_item->set_current_url( $url );
 
 			if ( $cookie ) {
-			$cookie_manager->set_cookie( $download, array( 'meta' => array( 'wp_dlm_downloading' => $download->get_id() ) ) );
+				$cookie_manager->set_cookie( $download, array( 'meta' => array( array( 'wp_dlm_downloading' => $download->get_id() ) ) ) );
 			}
 			// persist log item.
 			download_monitor()->service( 'log_item_repository' )->persist( $log_item );

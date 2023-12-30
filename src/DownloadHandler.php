@@ -541,7 +541,7 @@ if( ! class_exists( 'DLM_Download_Handler' ) ){
 				if ( WP_DLM::dlm_window_logging() && ! $this->check_for_xhr() ) {
 					// Set cookie here to prevent "Cannot modify header information - headers already sent" error
 					// in non-XHR downloads.
-					$cookie_manager->set_cookie( $download, array( 'meta' => array( 'wp_dlm_downloading' => $download->get_id() ) ) );
+					$cookie_manager->set_cookie( $download, array( 'meta' => array( array( 'wp_dlm_downloading' => $download->get_id() ) ) ) );
 				}
 			}
 
