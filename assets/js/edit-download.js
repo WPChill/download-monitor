@@ -625,6 +625,19 @@ jQuery(function ($) {
 					}
 				);
 			});
+
+			/**
+			 * Show/hide the new tab option
+			 */
+			jQuery('input#_redirect_only').on('change', function () {
+				const redirect_only = jQuery(this),
+					  new_tab       = jQuery('input#_new_tab');
+				if (redirect_only.is(':checked')) {
+					new_tab.parent().show()
+				} else {
+					new_tab.parent().hide()
+				}
+			});
 		}
 
 		/**

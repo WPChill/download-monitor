@@ -91,11 +91,6 @@ class DLM_Upgrade_Manager {
 
 		}
 
-		// upgrade to version 4.1
-		if ( version_compare( $current_version, '4.1.0', '<' ) ) {
-			update_option( 'dlm_logging_ua', 1 );
-		}
-
 		// upgrade to version 4.3
 		if ( version_compare( $current_version, '4.3.0', '<' ) ) {
 			$installer->create_shop_tables();

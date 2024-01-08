@@ -278,11 +278,45 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 							echo '</table>';
 						}
 
-						echo '<div class="wpchill-upsells-wrapper">';
-						do_action( 'dlm_tab_content_' . $tab, $settings );
-						do_action( 'dlm_tab_section_content_' . $active_section, $settings );
-						echo '</div>';
-					}
+            /**
+             * Hook to add content to the tab
+             *
+             * @param  array  $settings  The settings array
+             */
+            do_action( 'dlm_tab_content_' . $tab, $settings );
+
+            /**
+             * Hook to add content to the tab section
+             *
+             * @param  array  $settings  The settings array
+             */
+            do_action( 'dlm_tab_section_content_' . $active_section, $settings );
+
+            echo '</div>';
+            // Check if we need to display the upsells on the right or full-width
+            $has_content = ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] );
+            echo '<div class="wpchill-upsells-wrapper ' . ( $has_content ? 'wpchill-right-upsells' : '' ) . '">';
+
+            /**
+             * Hook to add content to the right side of tab. Used for upsells
+             *
+             * @param  array  $settings  The settings array
+             *
+             * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
+             */
+            do_action( 'dlm_tab_upsell_content_' . $tab, $settings );
+
+            /**
+             * Hook to add content to the right side of the tab section. Used for upsells
+             *
+             * @param  array  $settings  The settings array
+             *
+             * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
+             */
+            do_action( 'dlm_tab_upsell_section_content_' . $active_section, $settings );
+
+            echo '</div>';
+          }
 					?>
 					<div class="wp-clearfix"></div>
 					<?php
@@ -332,14 +366,15 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 		 */
 		public function load_admin_hooks() {
 
+
 			add_action( 'in_admin_header', array( $this, 'dlm_page_header' ) );
 
 			add_filter( 'dlm_page_header', array( $this, 'page_header_locations' ) );
 
-			add_filter( 'dlm_settings', array( $this, 'access_files_checker_field' ) );
+      add_filter( 'dlm_settings', array( $this, 'access_files_checker_field' ), 30 );
 
-			add_filter( 'dlm_settings', array( $this, 'robots_files_checker_field' ) );
-		}
+      add_filter( 'dlm_settings', array( $this, 'robots_files_checker_field' ), 30 );
+	}
 
 		/**
 		 * Display the Download Monitor Admin Page Header

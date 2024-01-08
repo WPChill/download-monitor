@@ -220,7 +220,9 @@ class WP_DLM {
 
 		// Setup integrations
 		$this->setup_integrations();
-
+    
+		// Setup class that handles the frontend templates
+		DLM_Frontend_Templates::get_instance();
 		// check if we need to bootstrap E-Commerce
 		if ( apply_filters( 'dlm_shop_load_bootstrap', true ) ) {
 			require_once( $this->get_plugin_path() . 'src/Shop/bootstrap.php' );
@@ -245,6 +247,7 @@ class WP_DLM {
 		if ( get_user_locale() !== get_locale() ) {
 
 			unload_textdomain( 'download-monitor' );
+
 			$locale = apply_filters( 'plugin_locale', get_user_locale(),
 				'download-monitor' );
 
@@ -467,6 +470,7 @@ class WP_DLM {
 					'animation' => includes_url( '/images/spinner.gif' ),
 				)
 			);
+
 			// Add the global variables for the XHR script.
 			wp_add_inline_script( 'dlm-xhr',
 				'const dlmXHR = ' . json_encode( $xhr_data )
@@ -848,7 +852,6 @@ class WP_DLM {
 		self::handle_plugin_action();
 	}
 
-
 	/**
 	 * Handle plugin activation/deactivation hook
 	 *
@@ -877,5 +880,35 @@ class WP_DLM {
 			'action_trigger'   => $action_trigger,
 		);
 		$extensions_handler->handle_master_license( $args );
+	}
+
+	/**
+	 * Enable/disable X-Sendfile functionality
+	 *
+	 * @return mixed|null
+	 * @since 4.9.4
+	 */
+	public static function dlm_x_sendfile() {
+		return apply_filters( 'dlm_x_sendfile', false );
+	}
+
+	/**
+	 * Enable/disable Proxy IP Override functionality
+	 *
+	 * @return mixed|null
+	 * @since 4.9.4
+	 */
+	public static function dlm_proxy_ip_override() {
+		return apply_filters( 'dlm_allow_x_forwarded_for', false );
+	}
+
+	/**
+	 * Enable/disable Hotlink prevention functionality
+	 *
+	 * @return mixed|null
+	 * @since 4.9.4
+	 */
+	public static function dlm_prevent_hotlinking() {
+		return apply_filters( 'dlm_hotlink_protection', false );
 	}
 }

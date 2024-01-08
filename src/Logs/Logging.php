@@ -73,8 +73,20 @@ class DLM_Logging {
 		return $type;
 	}
 
+	/**
+	 * Check if user agent logging is enabled.
+	 *
+	 * @return mixed|null
+	 */
 	public function is_ua_logging_enabled() {
-		return (1==get_option('dlm_logging_ua', 1));
+		/**
+		 * Hook to disable logging of user agents
+		 *
+		 * @hook  dlm_logging_user_agent
+		 *
+		 * @since 4.9.4
+		 */
+		return apply_filters( 'dlm_logging_user_agent', true );
 	}
 
 	/**
@@ -83,7 +95,7 @@ class DLM_Logging {
 	 * @return bool
 	 */
 	public function is_count_unique_ips_only() {
-		return ( '1' == get_option( 'dlm_count_unique_ips', 0 ) );
+		return ( '1' === get_option( 'dlm_count_unique_ips', 0 ) && 'full' === get_option( 'dlm_logging_ip_type', 'full' ) );
 	}
 
 	/**
@@ -121,15 +133,21 @@ class DLM_Logging {
 	public function xhr_log_download() {
 
 		if ( ! isset( $_POST['download_id']  ) || ! isset( $_POST['version_id']  ) ) {
-			if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+			if ( WP_DLM::dlm_x_sendfile() ) {
 				wp_send_json_error('Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.');
 			}
 			wp_send_json_error('Missing download_id or version_id');
 		}
 
 		// Don't log if admin hit does not need to be logged
-		$admin_log = get_option( 'dlm_log_admin_download_count' );
-		if ( '1' === $admin_log && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
+		/**
+		 * Hook to disable logging of admin hits
+		 *
+		 * @hook  dlm_log_admin_download_count
+		 *
+		 * @since 4.9.4
+		 */
+		if ( apply_filters( 'dlm_log_admin_download_count', true ) && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
 			die();
 		}
 		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );

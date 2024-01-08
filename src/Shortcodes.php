@@ -29,7 +29,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 
 			add_shortcode( 'dlm_no_access', array( $this, 'no_access_page' ) );
 		}
-
+    
 		/**
 		 * Total downloads function
 		 * Will be based on the download_log table and not meta.
@@ -178,21 +178,13 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 
 					// buffer
 					ob_start();
-
-					// load template
-					if ( $download ) {
-						$template_handler->get_template_part(
-							'content-download',
-							$template,
-							'',
-							array( 'dlm_download' => $download )
-						);
-					} else {
-						echo esc_html__(
-							'No download defined',
-							'download-monitor'
-						);
-					}
+        // Load template
+				if ( $download ) {
+             $attributes = $template_handler->get_template_attributes( $download, $template );
+             $template_handler->get_template_part( 'content-download', $template, '', array( 'attributes' => $attributes, 'dlm_download' => $download ) );
+          } else {
+            echo esc_html__( 'No download defined', 'download-monitor' );
+        }
 
 					// get output
 					$output .= ob_get_clean();

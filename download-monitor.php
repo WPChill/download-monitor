@@ -6,7 +6,7 @@
 	Version: 4.9.5
 	Author: WPChill
 	Author URI: https://wpchill.com
-	Requires at least: 5.4
+	Requires at least: 5.5
 	Tested up to: 6.3
 	Text Domain: download-monitor
 

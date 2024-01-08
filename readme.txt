@@ -1,7 +1,7 @@
 === Download Monitor ===
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
-Requires at least: 5.4
+Requires at least: 5.5
 Tested up to: 6.4
 Stable tag: 4.9.5
 License: GPLv3
@@ -120,6 +120,15 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 4.9.6 - TBD =
+Changed: Moved, removed and updated admin settings for "General" section ( [#1346](https://github.com/WPChill/download-monitor/issues/1346) )
+Changed: Moved, renamed and updated admin settings for "Shop" section ( [#1347](https://github.com/WPChill/download-monitor/issues/1347) )
+Changed: Moved, removed and updated admin settings for "Advanced" section ( [#1348](https://github.com/WPChill/download-monitor/issues/1348) )
+Changed: Prevent Duplicate Downloads ON by default on production(live) websites.  ( [#1350](https://github.com/WPChill/download-monitor/issues/1350) )
+Changed: Reports - don't get users without downloads. ( [#1313](https://github.com/WPChill/download-monitor/issues/1313) )
+
+
 = 4.9.5 - 22.12.2023 =
 Fixed: Security issue
 
@@ -152,7 +161,6 @@ Fixed: Download ID prepended to the Download title ( [#1342](https://github.com/
 Changed: Removed the "Support Forum" menu entry ( [#1344]( https://github.com/WPChill/download-monitor/issues/1344) )
 Changed: Restored the Shop functionality ( [#1343]( https://github.com/WPChill/download-monitor/issues/1343) )
 Fixed: Error not allowed page if Freemius is not skipped or Allowed ( [#1339]( https://github.com/WPChill/download-monitor/issues/1339) )
-
 
 = 4.8.10 - 08.09.2023 =
 Fixed: "Downloading Page" upsell meta box does not hide when the addon is active ( [#1329](https://github.com/WPChill/download-monitor/issues/1329) )

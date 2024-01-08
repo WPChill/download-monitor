@@ -164,7 +164,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				'title',
 				'slug'
 			) );
-			$rest_rout_downloadscpt = rest_url( 'wp/v2/dlm_download' . $separator . '_fields=' . implode( ',', $cpt_fields ) . '&_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
+			$rest_rout_downloadscpt = rest_url( 'wp/v2/dlm_download' . $separator . '_fields=' . implode( ',', $cpt_fields ) . $current_user_can );
 			// Let's add the global variable that will hold our reporst class and the routes.
 			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; const dlmDownloadsCptApiapi = "' . $rest_rout_downloadscpt . '"; const dlmPHPinfo =  ' . wp_json_encode( $this->php_info ) . ';', 'before' );
 		}
@@ -377,27 +377,28 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				return array();
 			}
 
-			$users_data = array();
-
+			$users_data   = array();
+			$start_date   = isset( $_REQUEST['start_date'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['start_date'] ) ) : date( 'Y-m-d g:i', strtotime( '-30 days' ) );
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
 			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_user_data'];
 			$offset_limit = $offset * $count;
 
-			$args = array(
-				'number' => $count,
-				'offset' => $offset_limit
-			);
-			$users      = get_users( $args );
+			$users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT dlm_logs.user_id as ID, wp_users.ID as wp_users_id, wp_users.user_nicename as user_nicename, wp_users.user_url as user_url, wp_users.user_registered as user_registered, wp_users.display_name as display_name, wp_users.user_email as user_email, wp_users_meta.meta_value as roles FROM {$wpdb->download_log} dlm_logs 
+			LEFT JOIN {$wpdb->users} wp_users ON dlm_logs.user_id = wp_users.ID AND wp_users.ID IS NOT NULL 
+			LEFT JOIN {$wpdb->usermeta} wp_users_meta ON dlm_logs.user_id=wp_users_meta.user_id 
+			WHERE dlm_logs.user_id != 0 AND wp_users_meta.meta_key = 'wp_capabilities' AND dlm_logs.download_date >= '{$start_date}'
+			ORDER BY dlm_logs.user_id desc LIMIT {$offset_limit}, {$count};" ) );
+
 			foreach ( $users as $user ) {
-				$user_data    = $user->data;
+				$user_roles   = array_keys( unserialize( $user->roles ) );
 				$users_data[] = array(
-					'id'           => $user_data->ID,
-					'nicename'     => $user_data->user_nicename,
-					'url'          => $user_data->user_url,
-					'registered'   => $user_data->user_registered,
-					'display_name' => $user_data->display_name,
-					'email'        => $user_data->user_email,
-					'role'         => ( ( ! in_array( 'administrator', $user->roles, true ) ) ? $user->roles : '' ),
+					'id'           => $user->ID,
+					'nicename'     => $user->user_nicename,
+					'url'          => $user->user_url,
+					'registered'   => $user->user_registered,
+					'display_name' => $user->display_name,
+					'email'        => $user->user_email,
+					'role'         => ( ( is_array( $user_roles ) && ! in_array( 'administrator', $user_roles, true ) ) ? $user_roles : '' ),
 				);
 			}
 

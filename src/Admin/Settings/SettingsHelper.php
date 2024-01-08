@@ -28,7 +28,6 @@ class DLM_Settings_Helper {
 			'default_gateway'           => 'paypal',
 			'disable_cart'              => '0',
 			'gateway_paypal_enabled'    => '1',
-			'dlm_enable_window_logging' => 0,
 		) );
 	}
 
@@ -45,4 +44,21 @@ class DLM_Settings_Helper {
 		return apply_filters( 'dlm_get_option', get_option( 'dlm_' . $key, ( isset( $this->defaults[ $key ] ) ? $this->defaults[ $key ] : null ) ), $key );
 	}
 
+	/**
+	 * Prevent duplicate downloads/logs
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.4
+	 */
+	public static function no_duplicate_download(): bool {
+		/**
+		 * Filter to disable the no duplicate download feature
+		 *
+		 * @hook dlm_no_duplicate_download
+		 *
+		 * @since 4.9.4
+		 */
+		return apply_filters( 'dlm_no_duplicate_download', 'production' === wp_get_environment_type() );
+	}
 }

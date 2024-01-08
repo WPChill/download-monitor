@@ -212,6 +212,26 @@
 .dlm-admin-settings .dlm_group_setting .dlm-accordeon-group__content .dlm-accordeon-group__setting .description {
   font-style: italic;
 }
+.dlm-admin-settings .dlm-template-override {
+  width: 100%;
+  max-width: 1200px;
+  border-collapse: collapse;
+}
+.dlm-admin-settings .dlm-template-override thead tr {
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+.dlm-admin-settings .dlm-template-override tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+.dlm-admin-settings .dlm-content-tab {
+  width: 65%;
+  float: left;
+}
+.dlm-admin-settings .wpchill-upsells-wrapper.wpchill-right-upsells {
+  width: 30%;
+  float: right;
+}
 /* File lists */
 ul.download_monitor_file_browser {
   list-style: none outside;
@@ -2396,14 +2416,6 @@ table.wp-list-table .column-thumb img {
   max-height: 100px;
   height: auto;
   width: auto;
-}
-.wrap.dlm-admin-settings .form-table {
-  width: 65%;
-  float: left;
-}
-.wrap.dlm-admin-settings .form-table + .wpchill-upsells-wrapper {
-  width: 30%;
-  float: right;
 }
 .wrap.dlm-admin-settings .form-table .dlm_htaccess_notice {
   margin-bottom: 5px;

@@ -307,8 +307,9 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 						break;
 				}
 
-				// Prevent hotlinking
-				if ( '1' == get_option( 'dlm_hotlink_protection_enabled' ) ) {
+			// Prevent hotlinking
+			if ( WP_DLM::dlm_prevent_hotlinking() ) {
+
 					// Get referer
 					$referer = ! empty( $_SERVER['HTTP_REFERER'] )
 						? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) )
@@ -875,15 +876,9 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			           $file_path,
 			           $remote_file );
 
-			if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
-				if ( function_exists( 'apache_get_modules' )
-				     && in_array( 'mod_xsendfile', apache_get_modules() )
-				) {
-					$this->dlm_logging->log( $download,
-					                         $version,
-					                         'completed',
-					                         false,
-					                         $referrer );
+			if ( WP_DLM::dlm_x_sendfile() ) {
+				if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
+					$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 					header( "X-Sendfile: $file_path" );
 					exit;
 				} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ),

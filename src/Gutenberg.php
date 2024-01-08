@@ -24,8 +24,23 @@ if ( ! class_exists( 'DLM_Gutenberg' ) ) {
 		 */
 		public function load() {
 
-			if ( ! function_exists( 'register_block_type' ) ) {
-				// Gutenberg is not active.
+	/**
+	 * Render the download button
+	 *
+	 * @param array $attributes
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public function render_download_button( $attributes, $content ) {
+		$download = null;
+		$template = dlm_get_default_download_template();
+
+		// try fetching the download from the attributes
+		if ( ! isset( $attributes['download_id'] ) ) {
+			if ( current_user_can( 'manage_options' ) ) {
+				return esc_html__( 'Please select a download id', 'download-monitor' );
+			} else {
 				return;
 			}
 
@@ -135,20 +150,20 @@ if ( ! class_exists( 'DLM_Gutenberg' ) ) {
 				// no download found, don't do anything.
 			}
 
-			if ( isset( $attributes['template'] ) ) {
-				$template = $attributes['template'];
-			}
+		if ( isset( $attributes['template'] ) ) {
+			$template = $attributes['template'];
+		}
 
-			if ( isset( $attributes['custom_template'] ) ) {
-				$template = $attributes['custom_template'];
-			}
+		if ( isset( $attributes['custom_template'] ) ) {
+			$template = $attributes['custom_template'];
+		}
 
-			$template_handler = new DLM_Template_Handler();
-			// enqueue style only on shortcode use
-			wp_enqueue_style( 'dlm-frontend' );
+		$template_handler = new DLM_Template_Handler();
+		// enqueue style only on shortcode use
+		wp_enqueue_style( 'dlm-frontend' );
 
-			// Action to allow the adition of extra scripts and code related to the shortcode
-			do_action( 'dlm_download_shortcode_scripts' );
+		// Action to allow the adition of extra scripts and code related to the shortcode
+		do_action( 'dlm_download_shortcode_scripts' );
 
 			// do the output
 			ob_start();
@@ -169,5 +184,7 @@ if ( ! class_exists( 'DLM_Gutenberg' ) ) {
 
 			return $output;
 		}
+
+		return $output;
 	}
 }
