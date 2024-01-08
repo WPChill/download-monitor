@@ -66,6 +66,24 @@ class DLM_Plugin_Status {
 					'title'  => __( 'Miscellaneous', 'download-monitor' ),
 					'fields' => array(
 						array(
+							'name'     => 'dlm_clear_transients',
+							'std'      => '0',
+							'label'    => __( 'Clear all transients', 'download-monitor' ),
+							'desc'     => __( 'Remove all Download Monitor transients, this can solve version caching issues.', 'download-monitor' ),
+							'type'     => 'action_button',
+							'link'     => DLM_Admin_Settings::get_url() . '&tab=advanced&section=misc',
+							'priority' => 10,
+						),
+						array(
+							'name'     => 'dlm_redo_upgrade',
+							'std'      => '0',
+							'label'    => __( 'Recreate upgrade environment', 'download-monitor' ),
+							'desc'     => __( 'Delete the new "dlm_reports_log" table and set the environment for database upgrade. This will not redo the upgrade process but recreate the environment requirements for the upgrade process so you can do the upgrade yourself when you consider.', 'download-monitor' ),
+							'type'     => 'action_button',
+							'link'     => DLM_Admin_Settings::get_url() . '&tab=advanced&section=misc',
+							'priority' => 15,
+						),
+						array(
 							'name'     => 'dlm_downloads_path',
 							'std'      => '',
 							'label'    => __( 'Other downloads path', 'download-monitor' ),
@@ -96,6 +114,7 @@ class DLM_Plugin_Status {
 
 		if ( empty( $theme_info['overrides'] ) ) {
 			echo '<h3>' . esc_html__( 'There are no overridden templates', 'download-monitor' ) . '</h3>';
+
 			return;
 		}
 

@@ -1122,7 +1122,7 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-options .form-field-checkbox label {
   display: inline;
-  padding: 0 0 4px;
+  padding: 0;
 }
 #download-monitor-options .form-field-checkbox input {
   display: inline-block;

@@ -13,8 +13,8 @@ class DLM_Admin_Settings {
 		return admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' );
 	}
 
-	public function __construct(){
-		add_action( 'update_option_dlm_no_access_page', array( $this, 'access_page_shortcode_to_page'), 20, 2 );
+	public function __construct() {
+		add_action( 'update_option_dlm_no_access_page', array( $this, 'access_page_shortcode_to_page' ), 20, 2 );
 	}
 
 	/**
@@ -28,25 +28,20 @@ class DLM_Admin_Settings {
 
 		// register our options and settings
 		foreach ( $settings as $tab_key => $tab ) {
-
 			foreach ( $tab['sections'] as $section_key => $section ) {
-
 				$option_group = 'dlm_' . $tab_key . '_' . $section_key;
 
 				// Check to see if $section['fields'] is set, we could be using it for upsells
 				if ( isset( $section['fields'] ) ) {
 					foreach ( $section['fields'] as $field ) {
-
-						if( $field['type']  == 'group' ){
-							foreach( $field['options'] as $group_field ){
-
-								if ( ! empty( $group_field['name'] )  ) {
+						if ( $field['type'] == 'group' ) {
+							foreach ( $field['options'] as $group_field ) {
+								if ( ! empty( $group_field['name'] ) ) {
 									if ( isset( $group_field['std'] ) ) {
 										add_option( $group_field['name'], $group_field['std'] );
 									}
 									register_setting( $option_group, $group_field['name'] );
 								}
-
 							}
 							continue;
 						}
@@ -71,7 +66,6 @@ class DLM_Admin_Settings {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -81,9 +75,8 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	public function get_settings() {
-
-		$settings                                               = array(
-			'general'              => array(
+		$settings = array(
+			'general'            => array(
 				'title'    => __( 'General', 'download-monitor' ),
 				'sections' => array(
 					'general' => array(
@@ -147,7 +140,7 @@ class DLM_Admin_Settings {
 				),
 				'priority' => 10,
 			),
-			'advanced'             => array(
+			'advanced'           => array(
 				'title'    => __( 'Advanced', 'download-monitor' ),
 				'sections' => array(
 					'page_setup' => array(
@@ -270,7 +263,7 @@ class DLM_Admin_Settings {
 				),
 				'priority' => 20,
 			),
-			'lead_generation'      => array(
+			'lead_generation'    => array(
 				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(
@@ -308,7 +301,7 @@ class DLM_Admin_Settings {
 				),
 				'priority' => 30,
 			),
-			'external_hosting'     => array(
+			'external_hosting'   => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(
@@ -327,13 +320,13 @@ class DLM_Admin_Settings {
 				),
 				'priority' => 40,
 			),
-			'integration'          => array(
+			'integration'        => array(
 				'title'    => esc_html__( 'Integration', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(),
 				'priority' => 50,
 			),
-			'email_notification'   => array(
+			'email_notification' => array(
 				'title'    => esc_html__( 'Emails', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(),
@@ -355,7 +348,7 @@ class DLM_Admin_Settings {
 							'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
 							'type'     => 'checkbox',
 							'priority' => 20,
-						)
+						),
 					),
 				),
 			),
@@ -420,7 +413,7 @@ class DLM_Admin_Settings {
 					array(
 						'name'  => '',
 						'type'  => 'title',
-						'title' => __( 'Pages', 'download-monitor' )
+						'title' => __( 'Pages', 'download-monitor' ),
 					),
 					array(
 						'name'    => 'dlm_page_cart',
@@ -453,18 +446,26 @@ class DLM_Admin_Settings {
 		// Backwards compatibility for 4.3 and 4.4.4
 		$settings = $this->backwards_compatibility_settings( $old_settings, $settings );
 
-		uasort( $settings, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+		// Let's sort the fields by priority
+		foreach ( $settings as $key => $setting ) {
+			// Check if we have sections
+			if ( ! empty( $setting['sections'] ) ) {
+				foreach ( $setting['sections'] as $s_key => $section ) {
+					// Check if we have fields
+					if ( ! empty( $section['fields'] ) ) {
+						// Sort the fields by priority
+						uasort(
+							$settings[ $key ]['sections'][ $s_key ]['fields'],
+							array(
+								'DLM_Admin_Helper',
+								'sort_data_by_priority',
+							)
+						);
+					}
+				}
+			}
+		}
 
-		uasort(
-			$settings['advanced']['sections']['misc']['fields'], array(
-			'DLM_Admin_Helper',
-			'sort_data_by_priority'
-		) );
-		uasort(
-			$settings['general']['sections']['general']['fields'], array(
-			'DLM_Admin_Helper',
-			'sort_data_by_priority'
-		) );
 		// If upsells are not removed, we need to remove empty tabs/sections
 		if ( apply_filters( 'dlm_remove_upsells', false ) ) {
 			// Cycle through all settings and unset tabs/sections that have no fields
@@ -502,7 +503,7 @@ class DLM_Admin_Settings {
 	/**
 	 * Fetch and returns pages on lazy select for dlm_no_access_page option
 	 *
-	 * @param array $options
+	 * @param  array  $options
 	 *
 	 * @return array
 	 */
@@ -520,10 +521,8 @@ class DLM_Admin_Settings {
 	 * @since 4.4.5
 	 */
 	public function backwards_compatibility_settings( $old_settings, $settings ) {
-
 		// First we check if there is info in $old_settings
 		if ( empty( $old_settings ) ) {
-
 			return $settings;
 		}
 
@@ -544,9 +543,7 @@ class DLM_Admin_Settings {
 		foreach ( $old_settings as $tab_key => $tab ) {
 			// $tab[1] contains the fields inside the setting, not being set means it doesn't have any fields
 			if ( ! empty( $tab[1] ) ) {
-
 				if ( in_array( $tab_key, $compatibility_tabs ) ) {
-
 					$tab_title   = false;
 					$tab_section = $tab_key;
 
@@ -580,16 +577,14 @@ class DLM_Admin_Settings {
 						$settings['email_notification'] = array(
 							'title' => esc_html__( 'Emails', 'download-monitor' ),
 						);
-
 					}
 
-				/*	if ( 'terns_and_conditions' == $tab_key ) {
-						$tab_parent = 'terns_and_conditions';
-						$tab_title  = true;
-					}*/
+					/*	if ( 'terns_and_conditions' == $tab_key ) {
+							$tab_parent = 'terns_and_conditions';
+							$tab_title  = true;
+						}*/
 
 					if ( isset( $tab[0] ) && ! $tab_title ) {
-
 						$settings[ $tab_parent ]['sections'][ $tab_section ] = array(
 							'title'    => $tab[0],
 							'sections' => array(),
@@ -598,7 +593,6 @@ class DLM_Admin_Settings {
 
 					// Let's check if there are sections or fields so we can add other fields and not overwrite them
 					if ( isset( $settings[ $tab_parent ]['sections'] ) && isset( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] ) ) {
-
 						$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = array_merge( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'], $tab[1] );
 					} else {
 						$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = $tab[1];
@@ -609,9 +603,7 @@ class DLM_Admin_Settings {
 						unset( $settings[ $tab_key ] );
 					}
 				} else {
-
 					foreach ( $tab[1] as $other_tab_fields ) {
-
 						$settings['other']['sections']['other']['fields'][] = $other_tab_fields;
 					}
 				}
@@ -633,7 +625,6 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	private function get_pages() {
-
 		// pages
 		$pages = array(
 			array(
@@ -665,7 +656,6 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	private function get_currency_list_with_symbols() {
-
 		/** @var \WPChill\DownloadMonitor\Shop\Helper\Currency $currency_helper */
 		$currency_helper = Services::get()->service( "currency" );
 
@@ -688,7 +678,6 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	private function get_payment_methods_sections() {
-
 		$gateways = Services::get()->service( 'payment_gateway' )->get_all_gateways();
 
 		// formatted array of gateways with id=>title map (used in select fields)
@@ -728,7 +717,6 @@ class DLM_Admin_Settings {
 		if ( ! empty( $gateways ) ) {
 			/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
-
 				// Option to enable gateways already exists in the Payment Gateways. We should not add it again.
 				$fields = array();
 

@@ -94,7 +94,7 @@ class DLM_Template_Handler {
 			}
 
 			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );
-
+			$attributes = $this->get_template_attributes( $dlm_download, $template );
 			include( $template );
 
 			do_action( 'dlm_after_template_part', $template, $slug, $name, $custom_dir, $args );
@@ -113,7 +113,7 @@ class DLM_Template_Handler {
 	 * @return array
 	 * @since  4.9.5
 	 */
-	public function get_template_attributes( $download, $template = false ) {
+	private function get_template_attributes( $download, $template = false ) {
 		if ( ! $download ) {
 			return array();
 		}

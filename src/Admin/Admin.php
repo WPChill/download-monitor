@@ -30,6 +30,7 @@ class DLM_Admin {
 
 		add_action( 'init', array( $this, 'required_classes' ), 30 );
 
+		add_action( 'admin_notices', array( $this, 'disabled_functions_notices' ), 8 );
 		// Remove admin notices from DLM pages
 		add_action( 'admin_notices', array(  $this, 'remove_admin_notices' ), 9 );
 
@@ -334,4 +335,21 @@ class DLM_Admin {
 
 	}
 
+	/**
+	 * Display a notice if functions from PHP are disabled
+	 *
+	 * @return void
+	 * @since 4.9.6
+	 */
+	public function disabled_functions_notices() {
+		if ( ! function_exists( 'set_time_limit' ) ) {
+			?>
+			<div
+				class="notice notice-error">
+				<p><?php
+					echo sprintf(esc_html__( 'The %sset_time_limit%s function is disabled on your server. This will cause errors with file downloads.', 'download-monitor' ), '<code>', '</code>' ); ?></p>
+			</div>
+			<?php
+		}
+	}
 }
