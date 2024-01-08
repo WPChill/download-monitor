@@ -51,6 +51,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			add_action( 'parse_request', array( $this, 'handler' ), 0 );
 			add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
 			add_filter( 'dlm_can_download', array( $this, 'check_blacklist' ), 10, 2 );
+			add_action( 'dlm_extra_download_checks', array( $this, 'check_requirements' ), 10, 2 );
 		}
 
 		/**
@@ -556,6 +557,21 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				                      'download-monitor' ) . '</a>',
 				        esc_html__( 'Download Error', 'download-monitor' ) );
 			}
+
+			/**
+			 * Action used for extra checks before download.
+			 *
+			 * @hook  dlm_extra_download_checks
+			 *
+			 * @param  DLM_Download  $download   The download.
+			 * @param  string        $file_path  The download file path.
+			 *
+			 * @since 4.9.6
+			 *
+			 * @hooked $this->check_requirements() - 10
+			 *
+			 */
+			do_action( 'dlm_extra_download_checks', $download, $file_path );
 
 			// Parse file path.
 			list( $file_path, $remote_file, $restriction ) = download_monitor()
@@ -1283,6 +1299,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			                         $access_modal,
 			                         $download ) );
 			header( 'X-DLM-No-Access-Restriction: ' . $restriction_type );
+
 			if ( ! empty( $text ) ) {
 				header( 'X-DLM-No-Access-Modal-Text: '
 				        . apply_filters( 'do_dlm_xhr_access_modal_text',
@@ -1291,6 +1308,41 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				                         $restriction_type ) );
 			}
 			header( 'X-DLM-Nonce: ' . wp_create_nonce( 'dlm_ajax_nonce' ) );
+		}
+
+		/**
+		 * Check if the download meets the requirements to be downloaded.
+		 *
+		 * @param  DLM_Download  $download   The download.
+		 * @param  string        $file_path  The download file path.
+		 *
+		 * @return void
+		 * @since 4.9.6
+		 *
+		 */
+		public function check_requirements( $download, $file_path ) {
+			// Check if the set_time_limit function exists. If not, send error.
+			if ( ! function_exists( 'set_time_limit' ) ) {
+				// IF XHR, send error header.
+				if ( $this->check_for_xhr() ) {
+					header( 'X-DLM-Error: not_found_module' );
+					$restriction_type = 'not_found_module';
+					// Set no access modal.
+					$this->set_no_access_modal( __( 'Function set_time_limit does not exist or is disabled by the host. Please contact the website administrator.',
+					                                'download-monitor' ),
+					                            $download,
+					                            $restriction_type );
+					http_response_code( 404 );
+					exit;
+				}
+				wp_die( esc_html__( 'Function set_time_limit does not exist or is disabled by the host. Please contact the website administrator.',
+				                    'download-monitor' ) . ' <a href="'
+				        . esc_url( home_url() ) . '">'
+				        . esc_html__( 'Go to homepage &rarr;',
+				                      'download-monitor' ) . '</a>',
+				        esc_html__( 'Download Error', 'download-monitor' ),
+				        array( 'response' => 404 ) );
+			}
 		}
 	}
 }
