@@ -1133,6 +1133,12 @@ table.wp-list-table .column-thumb img {
   padding: 4px 0 0 0;
   display: block;
 }
+#download-monitor-options .form-field-checkbox .dlm-open-in-new-tab {
+  margin-top: 10px;
+}
+#download-monitor-options .form-field-checkbox .dlm-open-in-new-tab input#_new_tab {
+  margin-left: 15px;
+}
 #download-monitor-options .access_permissions {
   margin: 0 !important;
   border-top: 1px solid white;

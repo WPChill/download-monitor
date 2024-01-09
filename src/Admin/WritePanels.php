@@ -189,8 +189,7 @@ class DLM_Admin_Writepanels {
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( true, $this->download_post->is_redirect_only(), false ) . ' />
 			<label for="_redirect_only">' . esc_html__( 'Redirect to file', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . wp_kses_post( __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) ) . '</span>
-			&nbsp;&nbsp;&nbsp;<span class="dlm-open-in-new-tab" style="margin-top:10px;' . ( $this->download_post->is_redirect_only() ? 'display:inline-block;' : 'display:none;' ) . '"><input type="checkbox" name="_new_tab" id="_new_tab" ' . checked( true, $this->download_post->is_new_tab(), false ) . ' /><label for="_new_tab">' . esc_html__( 'Open in new tab', 'download-monitor' ) . '</label></span>
+			<span class="dlm-description">' . wp_kses_post( __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) ) . '</span><span class="dlm-open-in-new-tab" style="' . ( $this->download_post->is_redirect_only() ? 'display:inline-block;' : 'display:none;' ) . '"><input type="checkbox" name="_new_tab" id="_new_tab" ' . checked( true, $this->download_post->is_new_tab(), false ) . ' /><label for="_new_tab">' . esc_html__( 'Open in new tab', 'download-monitor' ) . '</label></span>
 		</p>';
 
 		do_action( 'dlm_options_end', $this->download_post->get_id(), $this->download_post );

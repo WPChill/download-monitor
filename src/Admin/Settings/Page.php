@@ -233,11 +233,15 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 									endforeach; ?>
 								</ul>
 							</div><!--.wp-clearfix-->
-							<h2><?php
-								echo esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ); ?></h2>
+							<h2>
+								<?php
+								echo ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ? esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ) : '';
+								?>
+							</h2>
 							<?php
 						}
-
+						// Begin tab content
+						echo '<div class="dlm-content-tab">';
 						if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 							// output correct settings_fields
 							// We change the output location so that it won't interfere with our upsells
