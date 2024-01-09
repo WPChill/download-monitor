@@ -58,6 +58,8 @@ class DLM_Backwards_Compatibility {
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
 		// Terms and Conditions extension placement inside the settings page.
 		add_filter( 'dlm_settings', array( $this, 'dlm_terms_and_conditions_placement' ), 5, 1 );
+		// Hashes backwards compatibility.
+		$this->hashes_compatibility();
 
 	}
 
@@ -421,5 +423,24 @@ class DLM_Backwards_Compatibility {
 		}
 
 		return $settings;
+	}
+
+	/**
+	 * Hashes backwards compatibility.
+	 *
+	 * @return void
+	 *
+	 * @since 4.9.6
+	 */
+	private function hashes_compatibility() {
+		// Create the used hashes array.
+		$hashes = array( 'md5', 'sha1', 'crc32b', 'sha256' );
+		// Cycle through hash types and add filter if option exists.
+		foreach ( $hashes as $hash ) {
+			if ( '1' == get_option( 'dlm_generate_hash_' . $hash, 0 ) ) {
+				// Return true to enable hash generation.
+				add_filter( 'dlm_generate_hash_' . $hash, '__return_true', 5 );
+			}
+		}
 	}
 }

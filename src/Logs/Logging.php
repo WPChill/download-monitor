@@ -77,6 +77,8 @@ class DLM_Logging {
 	 * Check if user agent logging is enabled.
 	 *
 	 * @return mixed|null
+	 *
+	 * @since 4.9.6
 	 */
 	public function is_ua_logging_enabled() {
 		/**
@@ -84,7 +86,7 @@ class DLM_Logging {
 		 *
 		 * @hook  dlm_logging_user_agent
 		 *
-		 * @since 4.9.4
+		 * @since 4.9.6
 		 */
 		return apply_filters( 'dlm_logging_user_agent', true );
 	}
@@ -145,7 +147,7 @@ class DLM_Logging {
 		 *
 		 * @hook  dlm_log_admin_download_count
 		 *
-		 * @since 4.9.4
+		 * @since 4.9.6
 		 */
 		if ( apply_filters( 'dlm_log_admin_download_count', true ) && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
 			die();

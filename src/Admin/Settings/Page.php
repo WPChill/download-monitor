@@ -64,13 +64,6 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				}
 
 				switch ( $action ) {
-					case 'dlm_clear_transients':
-						$result = download_monitor()->service( 'transient_manager' )->clear_all_version_transients();
-						if ( $result ) {
-							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=status&section=misc' ) ) );
-							exit;
-						}
-						break;
 					case 'dlm_regenerate_protection':
 						if ( $this->regenerate_protection() ) {
 							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=status&section=misc' ) ) );
@@ -79,12 +72,6 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 						break;
 					case 'dlm_regenerate_robots':
 						if ( $this->regenerate_robots() ) {
-							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=status&section=misc' ) ) );
-							exit;
-						}
-						break;
-					case 'dlm_redo_upgrade':
-						if ( DLM_Admin_Helper::redo_upgrade() ) {
 							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=status&section=misc' ) ) );
 							exit;
 						}
@@ -124,17 +111,11 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				<?php
 				// Cycle through actions and echo correct message
 				switch ( $_GET['dlm_action_done'] ) {
-					case 'dlm_clear_transients':
-						echo "<p>" . esc_html__( 'Download Monitor Transients successfully cleared!', 'download-monitor' ) . "</p>";
-						break;
 					case 'dlm_regenerate_protection':
 						echo "<p>" . esc_html__( '.htaccess file successfully regenerated!', 'download-monitor' ) . "</p>";
 						break;
 					case 'dlm_regenerate_robots':
 						echo "<p>" . esc_html__( 'Robots.txt file successfully regenerated!', 'download-monitor' ) . "</p>";
-						break;
-					case 'dlm_redo_upgrade':
-						echo "<p>" . esc_html__( 'Environment set for Download Monitor database upgrade!', 'download-monitor' ) . "</p>";
 						break;
 					default:
 						echo "<p>" . esc_html__( 'Download Monitor action completed!', 'download-monitor' ) . "</p>";

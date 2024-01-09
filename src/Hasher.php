@@ -114,7 +114,17 @@ if ( ! class_exists( 'DLM_Hasher' ) ) {
 		 * @return bool
 		 */
 		public function is_hash_enabled( $type ) {
-			return ( "1" == get_option( 'dlm_generate_hash_' . $type, 0 ) );
+
+			/**
+			 * Hook to disable generation of hash
+			 *
+			 * @hook  dlm_generate_hash
+			 *
+			 * @hooked: DLM_Backwards_Compatibility->hashes_compatibility() - 5
+			 *
+			 * @since 4.9.6
+			 */
+			return apply_filters( 'dlm_generate_hash_' . $type, false );
 		}
 
 		/**

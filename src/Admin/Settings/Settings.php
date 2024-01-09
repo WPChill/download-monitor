@@ -192,49 +192,7 @@ class DLM_Admin_Settings {
 								'type'        => 'textarea',
 							),
 						),
-					), /*
-					'hash'       => array(
-						'title'  => __( 'Hashes', 'download-monitor' ),
-						'fields' => array(
-							array(
-								'name' => 'dlm_hash_desc',
-								'text' => sprintf( __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files. %1$sYou can read more about hashes here%2$s', 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/download-hashes/" target="_blank">', '</a>' ),
-								'type' => 'desc',
-							),
-							array(
-								'name'     => 'dlm_generate_hash_md5',
-								'std'      => '0',
-								'label'    => __( 'MD5 hashes', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
-								'name'     => 'dlm_generate_hash_sha1',
-								'std'      => '0',
-								'label'    => __( 'SHA1 hashes', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
-								'name'     => 'dlm_generate_hash_sha256',
-								'std'      => '0',
-								'label'    => __( 'SHA256 hashes', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Generate SHA256 hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
-								'name'     => 'dlm_generate_hash_crc32b',
-								'std'      => '0',
-								'label'    => __( 'CRC32B hashes', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-						),
-					), */
+					),
 					'logging'    => array(
 						'title'  => __( 'Reports', 'download-monitor' ),
 						'fields' => array(
@@ -751,7 +709,7 @@ class DLM_Admin_Settings {
 	 * @param $new
 	 *
 	 * @return void
-	 * @since 4.9.4
+	 * @since 4.9.6
 	 */
 	public function access_page_shortcode_to_page( $old, $new ) {
 		$page_id = absint( $new );
@@ -759,21 +717,16 @@ class DLM_Admin_Settings {
 		// 1. Get the unformatted post(page) content.
 		$page = get_post( $page_id );
 
-		// 2. Just checking to be sure we got content.
-		if ( ! isset( $page->post_content ) ) {
-			return;
-		}
-
-		// 3. Search the content for the existance of our [dlm_no_access] shortcode.
+		// 2. Search the content for the existance of our [dlm_no_access] shortcode.
 		if ( false !== strpos( $page->post_content, '[dlm_no_access]' ) ) {
 			// The page has the no access shortcode, return;
 			return;
 		}
 
-		// 4. If we got here it means we need to add our shortcode to the page's content.
+		// 3. If we got here it means we need to add our shortcode to the page's content.
 		$page->post_content .= '[dlm_no_access]';
 
-		// 5. Finally, we update the post.
+		// 4. Finally, we update the post.
 		wp_update_post( $page );
 	}
 }
