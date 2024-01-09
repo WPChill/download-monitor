@@ -787,7 +787,7 @@ class WP_DLM {
 	 */
 	public static function do_xhr() {
 		$return = true;
-		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+		if ( self::dlm_x_sendfile() ) {
 			$return = false;
 		}
 
