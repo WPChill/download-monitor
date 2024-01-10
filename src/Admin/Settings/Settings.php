@@ -5,6 +5,15 @@ use WPChill\DownloadMonitor\Shop\Services\Services;
 class DLM_Admin_Settings {
 
 	/**
+	 * Array used for preloading shortcodes to required pages
+	 *
+	 * @var array
+	 *
+	 * @since 4.9.6
+	 */
+	public $page_preloaders = array();
+
+	/**
 	 * Get settings URL
 	 *
 	 * @return string
@@ -14,7 +23,8 @@ class DLM_Admin_Settings {
 	}
 
 	public function __construct() {
-		add_action( 'update_option_dlm_no_access_page', array( $this, 'access_page_shortcode_to_page' ), 20, 2 );
+		// Add shortcodes to required pages
+		$this->preload_shortcodes();
 	}
 
 	/**
@@ -301,7 +311,7 @@ class DLM_Admin_Settings {
 						array(
 							'name'     => 'dlm_shop_enabled',
 							'std'      => '',
-							'label'    => __( 'Enable Shop', 'download-monitor' ),
+							'label'    => __( 'Shop', 'download-monitor' ),
 							'cb_label' => '',
 							'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
 							'type'     => 'checkbox',
@@ -365,7 +375,7 @@ class DLM_Admin_Settings {
 						'std'      => '',
 						'label'    => __( 'Disable Cart', 'download-monitor' ),
 						'cb_label' => '',
-						'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
+						'desc'     => __( 'If enabled, your customers will be sent to your checkout page directly.', 'download-monitor' ),
 						'type'     => 'checkbox',
 					),
 					array(
@@ -703,28 +713,62 @@ class DLM_Admin_Settings {
 	}
 
 	/**
+	 * Preload shortcodes to required pages
+	 *
+	 * @return void
+	 */
+	private function preload_shortcodes() {
+		/**
+		 * Filter the shortcodes to preload to the required pages
+		 *
+		 * Array should consist of key => value pairs where the key is the option and the value is the shortcode to preload
+		 *
+		 * @hook  dlm_preload_shortcodes
+		 *
+		 * @param  array $page_preloaders  The array of page preloaders.
+		 *
+		 * @return array
+		 * @since 4.9.6
+		 */
+		$this->page_preloaders = apply_filters(
+			'dlm_preload_shortcodes',
+			array(
+				'dlm_no_access_page' => '[dlm_no_access]',
+				'dlm_page_cart'      => '[dlm_cart]',
+				'dlm_page_checkout'  => '[dlm_checkout]',
+			)
+		);
+		if ( ! empty( $this->page_preloaders ) ) {
+			foreach ( $this->page_preloaders as $option => $shortcode ) {
+				add_action( 'update_option_' . $option, array( $this, 'preload_shortcode_to_page' ), 15, 3 );
+			}
+		}
+	}
+
+	/**
 	 * Add the required shortcode to the page content
 	 *
-	 * @param $old
-	 * @param $new
+	 * @param  mixed   $old     The old page ID.
+	 * @param  mixed   $new     The new page ID.
+	 * @param  string  $option  The option name.
 	 *
 	 * @return void
 	 * @since 4.9.6
 	 */
-	public function access_page_shortcode_to_page( $old, $new ) {
+	public function preload_shortcode_to_page( $old, $new, $option ) {
 		$page_id = absint( $new );
 
 		// 1. Get the unformatted post(page) content.
 		$page = get_post( $page_id );
 
-		// 2. Search the content for the existance of our [dlm_no_access] shortcode.
-		if ( false !== strpos( $page->post_content, '[dlm_no_access]' ) ) {
+		// 2. Search the content for the existence of our shortcode.
+		if ( false !== strpos( $page->post_content, $this->page_preloaders[ $option ] ) ) {
 			// The page has the no access shortcode, return;
 			return;
 		}
 
 		// 3. If we got here it means we need to add our shortcode to the page's content.
-		$page->post_content .= '[dlm_no_access]';
+		$page->post_content .= $this->page_preloaders[ $option ];
 
 		// 4. Finally, we update the post.
 		wp_update_post( $page );
