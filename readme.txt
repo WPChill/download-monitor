@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.5
 Tested up to: 6.4
-Stable tag: 4.9.5
+Stable tag: 4.9.6
 License: GPLv3
 Text Domain: download-monitor
 Requires PHP: 5.6
@@ -127,6 +127,12 @@ Changed: Moved, renamed and updated admin settings for "Shop" section ( [#1347](
 Changed: Moved, removed and updated admin settings for "Advanced" section ( [#1348](https://github.com/WPChill/download-monitor/issues/1348) )
 Changed: Prevent Duplicate Downloads ON by default on production(live) websites.  ( [#1350](https://github.com/WPChill/download-monitor/issues/1350) )
 Changed: Reports - don't get users without downloads. ( [#1313](https://github.com/WPChill/download-monitor/issues/1313) )
+Fixed: Removed nonce check on reports for WordPress' own requests ( [#1383](https://github.com/WPChill/download-monitor/issues/1383) )
+Added: Status tab, where the user can see overridden templates. Also, moved the Misc section here ( [#1389](https://github.com/WPChill/download-monitor/issues/1389) )
+Added: Dynamic data to plugin's templates, now offering way to add attributes to the link without needing to override the template ( [#1385]( https://github.com/WPChill/download-monitor/issues/1385) )
+Added: Open in new tab option when selecting "Redirect to file" option ( [#1386]( https://github.com/WPChill/download-monitor/issues/1386 ) )
+Added: Alert if some PHP functions are disabled ( [#1392]( https://github.com/WPChill/download-monitor/issues/1392 ) )
+Changed: Do not take into consideration the 60s window for unique downloads ( [#1350]( https://github.com/WPChill/download-monitor/issues/1350 ) )
 
 
 = 4.9.5 - 22.12.2023 =

@@ -77,7 +77,16 @@ class DLM_Plugin_Status {
 				),
 				'templates' => array(
 					'title'  => __( 'Templates', 'download-monitor' ),
-					'fields' => array(),
+					'fields' => array(
+						// Add empty title field to show the templates tab, otherwise it won't show because of the
+						// "Hide empty sections" setting when having a license.
+						array(
+							'name'     => '',
+							'type'     => 'title',
+							'title'    => __( '', 'download-monitor' ),
+							'priority' => 10,
+						),
+					),
 				),
 			),
 		);
