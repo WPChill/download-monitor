@@ -314,7 +314,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 					<div
 						class="wp-clearfix"></div>
 					<?php
-					if ( isset( $settings[ $tab ] ) && ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) ) {
+					if ( isset( $settings[ $tab ] ) && ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) && 'templates' !== $active_section ) {
 						?>
 						<p class="submit">
 							<input
