@@ -416,7 +416,7 @@ class WP_DLM {
 							'download-button',
 						),
 					),
-					'prevent_duplicates' => '1' === get_option( 'dlm_enable_window_logging' ),
+					'prevent_duplicates' => DLM_Utils::no_duplicate_download(),
 				)
 			);
 
