@@ -570,7 +570,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				$disabled   = true;
 			}
 
-			$settings['status']['sections']['misc']['fields'][] = array(
+			$settings['general']['sections']['misc']['fields'][] = array(
 				'name'       => 'dlm_regenerate_protection',
 				'label'      => __( 'Regenerate protection for uploads folder', 'download-monitor' ),
 				'desc'       => __( 'Regenerates the .htaccess file.', 'download-monitor' ),
@@ -704,7 +704,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				'text'       => __( 'Robots.txt is missing.', 'download-monitor' ),
 			) );
 
-			$settings['status']['sections']['misc']['fields'][] = array(
+			$settings['general']['sections']['misc']['fields'][] = array(
 				'name'       => 'dlm_regenerate_robots',
 				'label'      => __( 'Regenerate crawler protection for uploads folder', 'download-monitor' ),
 				'desc'       => __( 'Regenerates the robots.txt file.', 'download-monitor' ),

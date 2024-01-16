@@ -90,7 +90,7 @@ class DLM_Admin_Settings {
 				'title'    => __( 'General', 'download-monitor' ),
 				'sections' => array(
 					'general' => array(
-						'title'  => __( 'Download', 'download-monitor' ),
+						'title'  => __( 'General settings', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'        => 'dlm_download_endpoint',

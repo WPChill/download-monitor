@@ -59,34 +59,30 @@ class DLM_Plugin_Status {
 	 * @since 4.9.5
 	 */
 	public function status_tab( $settings ) {
-		$settings['status'] = array(
-			'title'    => __( 'Status', 'download-monitor' ),
-			'sections' => array(
-				'misc'      => array(
-					'title'  => __( 'Miscellaneous', 'download-monitor' ),
-					'fields' => array(
-						array(
-							'name'     => 'dlm_downloads_path',
-							'std'      => '',
-							'label'    => __( 'Other downloads path', 'download-monitor' ),
-							'desc'     => __( '<strong>!!ATTENTION!! ONLY</strong> modify this setting if you know and are certain of what you are doing. This can cause problems on the download/saving Downloads process if not specified correctly. Prior to modifying this it is advised to <strong>BACKUP YOU DATABASE</strong> in case something goes wrong.<br><br> By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify the path or a more higher path.<br><br>A full documentation can be seen <a href="https://www.download-monitor.com/kb/add-path/" target="_blank">here</a>.', 'download-monitor' ),
-							'type'     => 'text',
-							'priority' => 60,
-						),
-					),
+		$settings['general']['sections']['misc'] = array(
+			'title'  => __( 'Miscellaneous', 'download-monitor' ),
+			'fields' => array(
+				array(
+					'name'     => 'dlm_downloads_path',
+					'std'      => '',
+					'label'    => __( 'Other downloads path', 'download-monitor' ),
+					'desc'     => __( '<strong>!!ATTENTION!! ONLY</strong> modify this setting if you know and are certain of what you are doing. This can cause problems on the download/saving Downloads process if not specified correctly. Prior to modifying this it is advised to <strong>BACKUP YOU DATABASE</strong> in case something goes wrong.<br><br> By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify the path or a more higher path.<br><br>A full documentation can be seen <a href="https://www.download-monitor.com/kb/add-path/" target="_blank">here</a>.', 'download-monitor' ),
+					'type'     => 'text',
+					'priority' => 60,
 				),
-				'templates' => array(
-					'title'  => __( 'Templates', 'download-monitor' ),
-					'fields' => array(
-						// Add empty title field to show the templates tab, otherwise it won't show because of the
-						// "Hide empty sections" setting when having a license.
-						array(
-							'name'     => '',
-							'type'     => 'title',
-							'title'    => __( '', 'download-monitor' ),
-							'priority' => 10,
-						),
-					),
+			),
+		);
+
+		$settings['general']['sections']['templates'] = array(
+			'title'  => __( 'Templates', 'download-monitor' ),
+			'fields' => array(
+				// Add empty title field to show the templates tab, otherwise it won't show because of the
+				// "Hide empty sections" setting when having a license.
+				array(
+					'name'     => '',
+					'type'     => 'title',
+					'title'    => __( '', 'download-monitor' ),
+					'priority' => 10,
 				),
 			),
 		);
@@ -105,7 +101,7 @@ class DLM_Plugin_Status {
 
 		if ( empty( $theme_info['overrides'] ) ) {
 			echo '<h3>' . esc_html__( 'There are no overridden templates', 'download-monitor' ) . '</h3>';
-
+			echo '</div>';
 			return;
 		}
 
