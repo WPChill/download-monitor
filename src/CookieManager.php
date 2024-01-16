@@ -105,6 +105,13 @@ class DLM_Cookie_Manager {
 	 * @since 4.9.5
 	 */
 	private function add_cookie( $download, $cookie_data ) {
+
+		// If Download object or object id.
+		if( ! is_object( $download ) ){
+			// No object? let's get it!
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download ) );
+		}
+
 		$secure      = is_ssl();
 		$cookie_data = wp_parse_args(
 			$cookie_data,
@@ -179,6 +186,8 @@ class DLM_Cookie_Manager {
 			$cookie_data['secure'],
 			$cookie_data['httponly']
 		);
+
+		return $hash;
 	}
 
 	/**
@@ -270,10 +279,12 @@ class DLM_Cookie_Manager {
 		$hash = $this->get_cookie_hash();
 		// If hash is not set, create a new cookie, else update the cookie
 		if ( ! $hash ) {
-			$this->add_cookie( $download, $cookie_data );
+			$hash = $this->add_cookie( $download, $cookie_data );
 		} else {
 			$this->update_cookie( $hash, $download, $cookie_data );
 		}
+
+		return $hash;
 	}
 
 	/**
@@ -511,7 +522,7 @@ class DLM_Cookie_Manager {
 		}
 		// Get cookie ID from database
 		$cookie_id = $this->get_cookie_id( $hash );
-		//var_dump($cookie_id);
+
 		// No cookie ID found. Return false
 		if ( ! $cookie_id ) {
 			return $return;

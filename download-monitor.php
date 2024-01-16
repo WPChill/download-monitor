@@ -78,7 +78,7 @@ if ( ! function_exists( 'dm_fs' ) ) {
 }
 
 // Define DLM Version
-define( 'DLM_VERSION', '4.9.5' );
+define( 'DLM_VERSION', '4.9.6' );
 define( 'DLM_UPGRADER_VERSION', '4.6.0' );
 
 // Define DLM FILE
