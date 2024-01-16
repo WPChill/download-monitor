@@ -328,6 +328,13 @@ class DLM_Admin_Settings {
 				$settings['shop']['sections']['general']['fields'],
 				array(
 					array(
+						'name'  => 'dlm_invoice_prefix',
+						'type'  => 'text',
+						'std'   => '',
+						'label' => __( 'Invoice Prefix', 'download-monitor' ),
+						'desc'  => __( 'This prefix is added to the invoice ID. Enter an unique prefix here.', 'download-monitor' )
+					),
+					array(
 						'name'    => 'dlm_base_country',
 						'std'     => 'US',
 						'label'   => __( 'Base Country', 'download-monitor' ),
