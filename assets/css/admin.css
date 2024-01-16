@@ -224,6 +224,9 @@
 .dlm-admin-settings .dlm-template-override tbody tr:nth-child(even) {
   background: #f9f9f9;
 }
+.dlm-admin-settings .dlm-template-override .wpchill-tooltip {
+  float: none;
+}
 .dlm-admin-settings .dlm-content-tab {
   width: 65%;
   float: left;

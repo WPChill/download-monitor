@@ -159,6 +159,18 @@ class DLM_Plugin_Status {
 							esc_html_e( 'Action status. If core version is bigger than the overridden file version it is recommended to update the overridden file.', 'download-monitor' ); ?></div>
 					</div>
 				</td>
+				<td>
+					<?php
+					esc_html_e( 'Edit', 'download-monitor' );
+					?>
+					<div
+						class='wpchill-tooltip'>
+						<i>[?]</i>
+						<div
+							class='wpchill-tooltip-content'><?php
+							esc_html_e( 'Edit the file using the theme editor.', 'download-monitor' ); ?></div>
+					</div>
+				</td>
 			</tr>
 			</thead>
 			<tbody>
@@ -195,6 +207,17 @@ class DLM_Plugin_Status {
 						} else {
 							echo '<span class="dashicons dashicons-yes" style="color:green;"></span>';
 						}
+						?>
+					</td>
+					<td class='dlm-template-core-version'>
+						<?php
+						$edit_url = http_build_query(
+							array(
+								'file'  => str_replace( $theme_info['template'] . '/' , '', $override['file'] ),
+								'theme' => $theme_info['template'],
+							)
+						);
+						echo '<a href="' . esc_url( admin_url( 'theme-editor.php?' ) . $edit_url ) . '" class="button button-secondary" target="_blank">' . esc_html__( 'Edit', 'download-monitor' ) . '</a>';
 						?>
 					</td>
 				</tr>
@@ -294,6 +317,7 @@ class DLM_Plugin_Status {
 		$active_theme_info = array(
 			'name'                   => $active_theme->name,
 			'version'                => $active_theme->version,
+			'template'               => $active_theme->template,
 			'version_latest'         => self::get_latest_theme_version( $active_theme ),
 			'author_url'             => esc_url_raw( $active_theme->{'Author URI'} ),
 			'is_child_theme'         => is_child_theme(),
