@@ -265,8 +265,13 @@ class DLM_Admin_Writepanels {
 									)
 								);
 
-								if( !get_option( 'dlm_turn_off_file_browser', true ) ){
+								if ( ! get_option( 'dlm_turn_off_file_browser', true ) ) {
 									$buttons['browse_for_file'] = array( 'text' => __( 'Browse for file', 'download-monitor' ) );
+								}
+
+								// Unset the browse for file button if the constant is defined and set to false.
+								if ( defined( 'DLM_FILE_BROWSER' ) && ! DLM_FILE_BROWSER ) {
+									unset( $buttons['browse_for_file'] );
 								}
 
 								$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', $buttons );
