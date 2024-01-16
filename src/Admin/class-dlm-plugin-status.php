@@ -100,7 +100,7 @@ class DLM_Plugin_Status {
 		$theme_info = $this->get_theme_info();
 
 		if ( empty( $theme_info['overrides'] ) ) {
-			echo '<h3>' . esc_html__( 'There are no overridden templates', 'download-monitor' ) . '</h3>';
+			echo '<h3>' . esc_html__( 'None of Download Monitor\'s output templates are being overridden by your theme.', 'download-monitor' ) . '</h3>';
 			echo '</div>';
 			return;
 		}
