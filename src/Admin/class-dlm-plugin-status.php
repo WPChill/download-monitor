@@ -7,14 +7,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * DLM_Plugin_Status class.
  *
- * @since 4.9.5
+ * @since 4.9.6
  */
 class DLM_Plugin_Status {
 
 	/**
 	 * Holds the class object.
 	 *
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 *
 	 * @var object
 	 */
@@ -28,7 +28,7 @@ class DLM_Plugin_Status {
 	 * Returns the singleton instance of the class.
 	 *
 	 * @return object The DLM_Plugin_Status object.
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Plugin_Status ) ) {
@@ -41,13 +41,15 @@ class DLM_Plugin_Status {
 	/**
 	 * Set required hooks
 	 *
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	private function set_hooks() {
 		// Add Templates tab in the Download Monitor's settings page.
 		add_filter( 'dlm_settings', array( $this, 'status_tab' ), 15, 1 );
 		// Show the templates tab content.
 		add_action( 'dlm_tab_section_content_templates', array( $this, 'templates_content' ) );
+		// Add tests to the Site Health Info page.
+		add_filter( 'site_status_tests', array( $this, 'add_wp_tests' ), 30, 1 );
 	}
 
 	/**
@@ -56,7 +58,7 @@ class DLM_Plugin_Status {
 	 * @param  array  $settings  Array of settings.
 	 *
 	 * @return array
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public function status_tab( $settings ) {
 		$settings['general']['sections']['misc'] = array(
@@ -93,7 +95,7 @@ class DLM_Plugin_Status {
 	/**
 	 * Show the templates tab content.
 	 *
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public function templates_content() {
 		echo '<div class="wp-clearfix">';
@@ -102,6 +104,7 @@ class DLM_Plugin_Status {
 		if ( empty( $theme_info['overrides'] ) ) {
 			echo '<h3>' . esc_html__( 'None of Download Monitor\'s output templates are being overridden by your theme.', 'download-monitor' ) . '</h3>';
 			echo '</div>';
+
 			return;
 		}
 
@@ -213,7 +216,7 @@ class DLM_Plugin_Status {
 						<?php
 						$edit_url = http_build_query(
 							array(
-								'file'  => str_replace( $theme_info['template'] . '/' , '', $override['file'] ),
+								'file'  => str_replace( $theme_info['template'] . '/', '', $override['file'] ),
 								'theme' => $theme_info['template'],
 							)
 						);
@@ -236,7 +239,7 @@ class DLM_Plugin_Status {
 	 *
 	 * @return array
 	 *
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public function get_theme_info() {
 		$theme_info = get_transient( 'dlm_templates_info' );
@@ -276,7 +279,7 @@ class DLM_Plugin_Status {
 		 *
 		 * @param  array  $scan_files  Array of template files to scan.
 		 *
-		 * @since 4.9.5
+		 * @since 4.9.6
 		 */
 		$scan_files = apply_filters( 'dlm_template_files', self::scan_template_files( plugin_dir_path( DLM_PLUGIN_FILE ) . '/templates' ) );
 
@@ -339,7 +342,7 @@ class DLM_Plugin_Status {
 	 * @param  string  $file  Path to the file.
 	 *
 	 * @return string
-	 * @since  4.9.5
+	 * @since  4.9.6
 	 */
 	public static function get_file_version( $file ) {
 		// Avoid notices if file does not exist.
@@ -373,7 +376,7 @@ class DLM_Plugin_Status {
 	 * @param  string  $template_path  Path to the template directory.
 	 *
 	 * @return array
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public static function scan_template_files( $template_path ) {
 		$files  = @scandir( $template_path ); // @codingStandardsIgnoreLine.
@@ -404,7 +407,7 @@ class DLM_Plugin_Status {
 	 * @param  object  $theme  WP_Theme object.
 	 *
 	 * @return string Version number if found.
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public static function get_latest_theme_version( $theme ) {
 		include_once ABSPATH . 'wp-admin/includes/theme.php';
@@ -434,9 +437,140 @@ class DLM_Plugin_Status {
 	 * Get the path to the templates directory.
 	 *
 	 * @return string
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public function templates_path() {
 		return apply_filters( 'dlm_template_path', 'download-monitor/' ); // phpcs:ignore WooCommerce.Commenting.CommentHooks.MissingSinceComment
+	}
+
+	/**
+	 * Add tests to the Site Health Info page.
+	 *
+	 * @param  array  $tests  Array of tests.
+	 *
+	 * @return array
+	 * @since 4.9.6
+	 */
+	public function add_wp_tests( $tests ) {
+		$tests['direct']['dlm_required_modules'] = array(
+			'label' => __( 'Download Monitor required modules / functions' ),
+			'test'  => array( $this, 'dlm_required_modules' ),
+		);
+
+		return $tests;
+	}
+
+	/**
+	 * Check if the download meets the requirements to be downloaded.
+	 *
+	 * @return array
+	 * @since 4.9.6
+	 *
+	 */
+	public function dlm_required_modules() {
+		$errors = $this->check_requirements();
+		// Default good result.
+		$result = array(
+			'label'       => __( 'DLM - All required modules/functions are active!', 'download-monitor' ),
+			'status'      => 'good',
+			'badge'       => array(
+				'label' => __( 'Plugin functionality' ),
+				'color' => 'blue',
+			),
+			'description' => sprintf(
+				'<p>%s</p>',
+				__( 'Modules and functions help Download Monitor achieve the functionality you desire, and to do that we require that functions and modules, that Download Monitor depends on, be enabled.' )
+			),
+			'actions'     => '',
+			'test'        => 'dlm_required_modules',
+		);
+		// Check if there are any errors.
+		if ( ! empty( $errors ) ) {
+			$result = array(
+				'label'       => __( 'DLM - One or more modules/functions are missing!', 'download-monitor' ),
+				'status'      => 'critical',
+				'badge'       => array(
+					'label' => __( 'Plugin functionality' ),
+					'color' => 'blue',
+				),
+				'description' => sprintf(
+					'<p>%s</p>',
+					__( 'Modules and functions help Download Monitor achieve the functionality you desire, and to do that we require that functions and modules, that Download Monitor depends on, be enabled.' )
+				),
+				'actions'     => sprintf(
+					'<p>%s</p>',
+					__( 'Ask your hosting service to enable the following required modules/functions!', 'download-monitor' )
+				),
+				'test'        => 'dlm_required_modules',
+			);
+
+			// Show functions errors.
+			if ( ! empty( $errors['functions'] ) ) {
+				$result['actions'] .= '<strong>' . __( 'Functions:', 'download-monitor' ) . '</strong><ul>';
+				foreach ( $errors['functions'] as $function ) {
+					$result['actions'] .= '<li>' . $function . '</li>';
+				}
+				$result['actions'] .= '</ul>';
+			}
+
+			// Show modules errors.
+			if ( ! empty( $errors['modules'] ) ) {
+				$result['actions'] .= '<strong>' . __( 'Modules:', 'download-monitor' ) . '</strong><ul>';
+				foreach ( $errors['modules'] as $module ) {
+					$result['actions'] .= '<li>' . $module . '</li>';
+				}
+				$result['actions'] .= '</ul>';
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Check if the download meets the requirements to be downloaded.
+	 *
+	 *
+	 * @return array
+	 * @since 4.9.6
+	 *
+	 */
+	private function check_requirements() {
+		$errors = array();
+		/**
+		 * Filter the requirements to be checked. Will be completed with more requirements in the future if needed.
+		 *
+		 * @hook  dlm_health_check_requirements
+		 *
+		 * @param  array  $checks  Array of requirements to be checked.
+		 *
+		 * @since 4.9.6
+		 */
+		$checks = apply_filters(
+			'dlm_health_check_requirements',
+			array(
+				'functions' => array( 'set_time_limit', 'session_write_close', 'ini_set', 'error_reporting' ),
+				'modules'   => array(),
+			)
+		);
+		// Let's do the checks for functions.
+		if ( ! empty( $checks['functions'] ) ) {
+			foreach ( $checks['functions'] as $function ) {
+				if ( ! function_exists( $function ) ) {
+					$errors['functions'][] = $function;
+				}
+			}
+		}
+
+		// Let's do the checks for modules.
+		if ( ! empty( $checks['modules'] ) ) {
+			$installed_modules = get_loaded_extensions();
+			foreach ( $checks['modules'] as $module ) {
+				if ( ! in_array( $module, $installed_modules, true ) ) {
+					$errors['modules'][] = $module;
+				}
+			}
+		}
+
+		return $errors;
 	}
 }
