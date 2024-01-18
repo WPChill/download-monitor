@@ -144,8 +144,7 @@ class DLM_Shortcodes {
 
 				// load template
 				if ( $download ) {
-					$attributes = $template_handler->get_template_attributes( $download, $template );
-					$template_handler->get_template_part( 'content-download', $template, '', array( 'attributes' => $attributes, 'dlm_download' => $download ) );
+					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
 				} else {
 					echo esc_html__( 'No download defined', 'download-monitor' );
 				}
@@ -495,7 +494,6 @@ class DLM_Shortcodes {
 
 				// make download filterable
 				$download = apply_filters( 'dlm_shortcode_downloads_loop_download', $download );
-				$attributes = $template_handler->get_template_attributes( $download, $template );
 				// check if filtered download is still a DLM_Download instance
 				if ( ! $download instanceof DLM_Download ) {
 					continue;
@@ -513,9 +511,9 @@ class DLM_Shortcodes {
 				} else {
 					// load the template
 					if ( $download->has_version() ) {
-						$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download, 'attributes' => $attributes ) );
+						$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
 					} else {
-						$template_handler->get_template_part( 'content-download', 'no-version', '', array( 'dlm_download' => $download, 'attributes' => $attributes ) );
+						$template_handler->get_template_part( 'content-download', 'no-version', '', array( 'dlm_download' => $download ) );
 					}
 				}
 

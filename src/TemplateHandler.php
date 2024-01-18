@@ -93,6 +93,8 @@ class DLM_Template_Handler {
 				}
 			}
 
+			$attributes = $this->get_template_attributes( $download, $template );
+
 			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );
 
 			include( $template );
@@ -111,9 +113,9 @@ class DLM_Template_Handler {
 	 * @param  string|boolean  $template  The template to be used.
 	 *
 	 * @return array
-	 * @since  4.9.5
+	 * @since  5.0.0
 	 */
-	public function get_template_attributes( $download, $template = false ) {
+	private function get_template_attributes( $download, $template = false ) {
 		if ( ! $download ) {
 			return array();
 		}
