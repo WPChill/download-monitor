@@ -128,11 +128,12 @@ Changed: Moved, removed and updated admin settings for "Advanced" section ( [#13
 Changed: Prevent Duplicate Downloads ON by default on production(live) websites.  ( [#1350](https://github.com/WPChill/download-monitor/issues/1350) )
 Changed: Reports - don't get users without downloads. ( [#1313](https://github.com/WPChill/download-monitor/issues/1313) )
 Fixed: Removed nonce check on reports for WordPress' own requests ( [#1383](https://github.com/WPChill/download-monitor/issues/1383) )
-Added: Status tab, where the user can see overridden templates. Also, moved the Misc section here ( [#1389](https://github.com/WPChill/download-monitor/issues/1389) )
+Added: Templates section where the user can see overridden templates. Also, moved the Misc section in the General tab ( [#1389](https://github.com/WPChill/download-monitor/issues/1389) )
 Added: Dynamic data to plugin's templates, now offering way to add attributes to the link without needing to override the template ( [#1385]( https://github.com/WPChill/download-monitor/issues/1385) )
 Added: Open in new tab option when selecting "Redirect to file" option ( [#1386]( https://github.com/WPChill/download-monitor/issues/1386 ) )
-Added: Alert if some PHP functions are disabled ( [#1392]( https://github.com/WPChill/download-monitor/issues/1392 ) )
-Changed: Do not take into consideration the 60s window for unique downloads ( [#1350]( https://github.com/WPChill/download-monitor/issues/1350 ) )
+Added: Alert if some PHP functions/modules are disabled ( [#1392]( https://github.com/WPChill/download-monitor/issues/1392 ) )
+Changed: Do not take into consideration the 60s window for unique downloads on localhost or staging ( [#1350]( https://github.com/WPChill/download-monitor/issues/1350 ) )
+Fixed: Disabling file browser from wp-config.php ( [#1259]( https://github.com/WPChill/download-monitor/issues/1259 ) )
 
 
 = 4.9.5 - 22.12.2023 =
