@@ -94,7 +94,7 @@ class DLM_Template_Handler {
 			}
 
 			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );
-			$attributes = $this->get_template_attributes( $dlm_download, $template );
+			$attributes = $this->get_template_attributes( $dlm_download, $template, $slug, $name );
 			include( $template );
 
 			do_action( 'dlm_after_template_part', $template, $slug, $name, $custom_dir, $args );
@@ -113,7 +113,7 @@ class DLM_Template_Handler {
 	 * @return array
 	 * @since  4.9.5
 	 */
-	private function get_template_attributes( $download, $template = false ) {
+	private function get_template_attributes( $download, $template = false, $slug = 'content-download', $name = '' ) {
 		if ( ! $download ) {
 			return array();
 		}
@@ -122,10 +122,22 @@ class DLM_Template_Handler {
 			$title = sprintf( esc_html__( 'Version %s', 'download-monitor' ), esc_html( $download->get_version()->get_version_number() ) );
 		}
 
+		// Make the default_class variable as we have a different class link for buttons
+		$default_class = array();
+		switch ( $name ) {
+			case 'button':
+			case 'box':
+				$default_class = array( 'download-button' );
+				break;
+			default:
+				$default_class = array( 'download-link' );
+				break;
+		}
+
 		$default_attributes = array(
 			'link_attributes' => array(
 				'data-e-Disable-Page-Transition' => 'true',
-				'class'                          => array( 'download-link' ),
+				'class'                          => $default_class,
 				'title'                          => $title,
 				'href'                           => $download->get_the_download_link(),
 				'rel'                            => 'nofollow',
