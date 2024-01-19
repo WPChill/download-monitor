@@ -50,6 +50,8 @@ class DLM_Plugin_Status {
 		add_action( 'dlm_tab_section_content_templates', array( $this, 'templates_content' ) );
 		// Add tests to the Site Health Info page.
 		add_filter( 'site_status_tests', array( $this, 'add_wp_tests' ), 30, 1 );
+		// Add required modules to the Site Health Info page.
+		add_filter( 'site_status_test_php_modules', array( $this, 'check_modules' ), 30, 1 );
 	}
 
 	/**
@@ -467,7 +469,7 @@ class DLM_Plugin_Status {
 	 * @since 4.9.6
 	 *
 	 */
-	public function dlm_required_modules() {
+	public function dlm_required_functions() {
 		$errors = $this->check_requirements();
 		// Default good result.
 		$result = array(
@@ -482,12 +484,12 @@ class DLM_Plugin_Status {
 				__( 'Modules and functions help Download Monitor achieve the functionality you desire, and to do that we require that functions and modules, that Download Monitor depends on, be enabled.' )
 			),
 			'actions'     => '',
-			'test'        => 'dlm_required_modules',
+			'test'        => 'dlm_required_functions',
 		);
 		// Check if there are any errors.
 		if ( ! empty( $errors ) ) {
 			$result = array(
-				'label'       => __( 'DLM - One or more modules/functions are missing!', 'download-monitor' ),
+				'label'       => __( 'DLM - One or more functions are missing!', 'download-monitor' ),
 				'status'      => 'critical',
 				'badge'       => array(
 					'label' => __( 'Plugin functionality' ),
@@ -501,26 +503,15 @@ class DLM_Plugin_Status {
 					'<p>%s</p>',
 					__( 'Ask your hosting service to enable the following required modules/functions!', 'download-monitor' )
 				),
-				'test'        => 'dlm_required_modules',
+				'test'        => 'dlm_required_functions',
 			);
 
 			// Show functions errors.
-			if ( ! empty( $errors['functions'] ) ) {
-				$result['actions'] .= '<strong>' . __( 'Functions:', 'download-monitor' ) . '</strong><ul>';
-				foreach ( $errors['functions'] as $function ) {
-					$result['actions'] .= '<li>' . $function . '</li>';
-				}
-				$result['actions'] .= '</ul>';
+			$result['actions'] .= '<strong>' . __( 'Functions:', 'download-monitor' ) . '</strong><ul>';
+			foreach ( $errors as $function ) {
+				$result['actions'] .= '<li>' . $function . '</li>';
 			}
-
-			// Show modules errors.
-			if ( ! empty( $errors['modules'] ) ) {
-				$result['actions'] .= '<strong>' . __( 'Modules:', 'download-monitor' ) . '</strong><ul>';
-				foreach ( $errors['modules'] as $module ) {
-					$result['actions'] .= '<li>' . $module . '</li>';
-				}
-				$result['actions'] .= '</ul>';
-			}
+			$result['actions'] .= '</ul>';
 		}
 
 		return $result;
@@ -539,38 +530,37 @@ class DLM_Plugin_Status {
 		/**
 		 * Filter the requirements to be checked. Will be completed with more requirements in the future if needed.
 		 *
-		 * @hook  dlm_health_check_requirements
+		 * @hook  dlm_health_check_requirements_functions
 		 *
 		 * @param  array  $checks  Array of requirements to be checked.
 		 *
 		 * @since 4.9.6
 		 */
 		$checks = apply_filters(
-			'dlm_health_check_requirements',
-			array(
-				'functions' => array( 'set_time_limit', 'session_write_close', 'ini_set', 'error_reporting' ),
-				'modules'   => array(),
-			)
+			'dlm_health_check_requirements_functions',
+			array( 'set_time_limit', 'session_write_close', 'ini_set', 'error_reporting' )
 		);
 		// Let's do the checks for functions.
-		if ( ! empty( $checks['functions'] ) ) {
-			foreach ( $checks['functions'] as $function ) {
+		if ( ! empty( $checks ) ) {
+			foreach ( $checks as $function ) {
 				if ( ! function_exists( $function ) ) {
-					$errors['functions'][] = $function;
-				}
-			}
-		}
-
-		// Let's do the checks for modules.
-		if ( ! empty( $checks['modules'] ) ) {
-			$installed_modules = get_loaded_extensions();
-			foreach ( $checks['modules'] as $module ) {
-				if ( ! in_array( $module, $installed_modules, true ) ) {
-					$errors['modules'][] = $module;
+					$errors[] = $function;
 				}
 			}
 		}
 
 		return $errors;
+	}
+
+	/**
+	 * Check if all the required modules are active.
+	 *
+	 * @return array
+	 * @since 4.9.6
+	 *
+	 */
+	public function check_modules( $modules ) {
+		// For the moment we only return the modules from WordPress. Placed here for future use.
+		return $modules;
 	}
 }
