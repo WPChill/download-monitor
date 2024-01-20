@@ -124,8 +124,6 @@ class DLM_Upsells {
 
 		add_filter( 'dlm_download_metaboxes', array( $this, 'add_meta_boxes' ), 30 );
 
-		add_action( 'dlm_download_monitor_files_writepanel_start', array( $this, 'files_metabox_upsells' ), 30, 1 );
-
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
 
 		add_action( 'admin_init', array( $this, 'set_extensions' ), 99 );
@@ -229,6 +227,17 @@ class DLM_Upsells {
 				'screen'   => 'dlm_download',
 				'context'  => 'side',
 				'priority' => 40
+			);
+		}
+
+		if ( ! $this->check_extension( 'dlm-amazons-s3' ) || ! $this->check_extension( 'dlm-google-drive' ) ) {
+			$meta_boxes[] = array(
+				'id'       => 'dlm-external-hosting',
+				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
+				'callback' => array( $this, 'output_external_hosting_upsell' ),
+				'screen'   => 'dlm_download',
+				'context'  => 'normal',
+				'priority' => 10,
 			);
 		}
 
@@ -834,12 +843,10 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function files_metabox_upsells( $download ) {
-
+	public function output_external_hosting_upsell() {
 		echo '<div class="upsells-columns ' . esc_attr( $this->offer['column'] ) . '">';
 
 		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
-
 			echo '<div class="upsells-column"><span class="dashicons dashicons-amazon"></span>';
 			echo '<h3>' . esc_html__( 'Amazon S3', 'download-monitor' ) . '</h3>';
 			$this->generate_upsell_box(
@@ -852,7 +859,6 @@ class DLM_Upsells {
 		}
 
 		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
-
 			echo '<div class="upsells-column"><span class="dashicons dashicons-google"></span>';
 			echo '<h3>' . esc_html__( 'Google Drive', 'download-monitor' ) . '</h3>';
 			$this->generate_upsell_box(
@@ -865,7 +871,6 @@ class DLM_Upsells {
 		}
 
 		echo '</div>';
-
 	}
 
 	/**
