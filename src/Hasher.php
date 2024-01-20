@@ -109,16 +109,15 @@ if ( ! class_exists( 'DLM_Hasher' ) ) {
 		/**
 		 * Check if generation of given hash $type is enabled
 		 *
-		 * @param  string  $type
+		 * @param  string  $type  The type of hash taken into consideration
 		 *
 		 * @return bool
 		 */
 		public function is_hash_enabled( $type ) {
-
 			/**
 			 * Hook to disable generation of hash
 			 *
-			 * @hook  dlm_generate_hash
+			 * @hook  dlm_generate_hash_ . $type
 			 *
 			 * @hooked: DLM_Backwards_Compatibility->hashes_compatibility() - 5
 			 *
