@@ -889,9 +889,19 @@ class WP_DLM {
 	 * Enable/disable X-Sendfile functionality
 	 *
 	 * @return mixed|null
-	 * @since 4.9.4
+	 * @since 4.9.6
 	 */
 	public static function dlm_x_sendfile() {
+		/**
+		 * Hook to enable or disable the X-Sendfile functionality
+		 * 
+		 * 
+		 * @hook dlm_x_sendfile
+		 * 
+		 * @hooked DLM_Backwards_Compatibility->x_sendfile_compatibility() - 5
+		 * 
+		 * @since 4.9.6
+		 */
 		return apply_filters( 'dlm_x_sendfile', false );
 	}
 
@@ -899,9 +909,18 @@ class WP_DLM {
 	 * Enable/disable Proxy IP Override functionality
 	 *
 	 * @return mixed|null
-	 * @since 4.9.4
+	 * @since 4.9.6
 	 */
 	public static function dlm_proxy_ip_override() {
+		/**
+		 * Hook to enable or disable the Proxy IP Override functionality
+		 * 
+		 * @hook dlm_allow_x_forwarded_for
+		 * 
+		 * @hooked DLM_Backwards_Compatibility->allow_x_forwarded_compatibility() - 5
+		 * 
+		 * @since 4.9.6
+		 */
 		return apply_filters( 'dlm_allow_x_forwarded_for', false );
 	}
 
@@ -909,9 +928,18 @@ class WP_DLM {
 	 * Enable/disable Hotlink prevention functionality
 	 *
 	 * @return mixed|null
-	 * @since 4.9.4
+	 * @since 4.9.6
 	 */
 	public static function dlm_prevent_hotlinking() {
+		/**
+		 * Hook to enable or disable the Hotlink prevention functionality
+		 * 
+		 * @hook dlm_hotlink_protection
+		 * 
+		 * @hooked DLM_Backwards_Compatibility->hotlink_protection_compatibility() - 5
+		 * 
+		 * @since 4.9.6
+		 */
 		return apply_filters( 'dlm_hotlink_protection', false );
 	}
 }
