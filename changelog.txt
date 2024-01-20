@@ -11,6 +11,7 @@ Added: Open in new tab option when selecting "Redirect to file" option ( [#1386]
 Added: Alert if some PHP functions/modules are disabled ( [#1392]( https://github.com/WPChill/download-monitor/issues/1392 ) )
 Changed: Do not take into consideration the 60s window for unique downloads on localhost or staging ( [#1350]( https://github.com/WPChill/download-monitor/issues/1350 ) )
 Fixed: Disabling file browser from wp-config.php ( [#1259]( https://github.com/WPChill/download-monitor/issues/1259 ) )
+Changed: Moved external hosting upsell to its own metabox ( [#1405](https://github.com/WPChill/download-monitor/issues/1405) )
 
 = 4.9.5 - 22.12.2023 =
 Fixed: Security issue
