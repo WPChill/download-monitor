@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 
-= 4.9.6 - TBD =
+= 4.9.6 - 22.01.2024 =
 Changed: Moved, removed and updated admin settings for "General" section ( [#1346](https://github.com/WPChill/download-monitor/issues/1346) )
 Changed: Moved, renamed and updated admin settings for "Shop" section ( [#1347](https://github.com/WPChill/download-monitor/issues/1347) )
 Changed: Moved, removed and updated admin settings for "Advanced" section ( [#1348](https://github.com/WPChill/download-monitor/issues/1348) )
