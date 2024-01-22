@@ -111,7 +111,7 @@ class DLM_Template_Handler {
 	 * @param  string|boolean  $template  The template to be used.
 	 *
 	 * @return array
-	 * @since  4.9.5
+	 * @since  4.9.6
 	 */
 	private function get_template_attributes( $download, $template = false, $slug = 'content-download', $name = '' ) {
 		if ( ! $download ) {
