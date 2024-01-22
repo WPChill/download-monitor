@@ -28,7 +28,6 @@ class DLM_Settings_Helper {
 			'default_gateway'           => 'paypal',
 			'disable_cart'              => '0',
 			'gateway_paypal_enabled'    => '1',
-			'dlm_enable_window_logging' => 0,
 		) );
 	}
 
@@ -44,5 +43,4 @@ class DLM_Settings_Helper {
 		// get option from DB
 		return apply_filters( 'dlm_get_option', get_option( 'dlm_' . $key, ( isset( $this->defaults[ $key ] ) ? $this->defaults[ $key ] : null ) ), $key );
 	}
-
 }

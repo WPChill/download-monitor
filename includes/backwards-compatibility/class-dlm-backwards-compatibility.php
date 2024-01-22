@@ -58,6 +58,14 @@ class DLM_Backwards_Compatibility {
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
 		// Terms and Conditions extension placement inside the settings page.
 		add_filter( 'dlm_settings', array( $this, 'dlm_terms_and_conditions_placement' ), 5, 1 );
+		// Hashes backwards compatibility.
+		$this->hashes_compatibility();
+		// Compatibility mode for X-Sendfile.
+		add_filter( 'dlm_x_sendfile', array( $this, 'x_sendfile_compatibility' ), 5 );
+		// Compatibility mode for X-Forwarded-For.
+		add_filter( 'dlm_allow_x_forwarded_for', array( $this, 'allow_x_forwarded_compatibility' ), 5 );
+		// Compatibility mode for hotlink protection.
+		add_filter( 'dlm_hotlink_protection', array( $this, 'hotlink_protection_compatibility' ), 5 );
 
 	}
 
@@ -340,7 +348,7 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
-	 * Backwards compatiblity for query args if user wants to still order by post meta
+	 * Backwards compatibility for query args if user wants to still order by post meta
 	 *
 	 * @param [type] $query_args
 	 *
@@ -421,5 +429,78 @@ class DLM_Backwards_Compatibility {
 		}
 
 		return $settings;
+	}
+
+	/**
+	 * Hashes backwards compatibility.
+	 *
+	 * @return void
+	 *
+	 * @since 4.9.6
+	 */
+	private function hashes_compatibility() {
+		// Create the used hashes array.
+		$hashes = array( 'md5', 'sha1', 'crc32b', 'sha256' );
+		// Cycle through hash types and add filter if option exists.
+		foreach ( $hashes as $hash ) {
+			if ( '1' == get_option( 'dlm_generate_hash_' . $hash, 0 ) ) {
+				// Return true to enable hash generation.
+				add_filter( 'dlm_generate_hash_' . $hash, '__return_true', 5 );
+			}
+		}
+	}
+
+	/**
+	 * Compatibility mode for X-Sendfile.
+	 *
+	 * @param  bool  $return  The return value.
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.6
+	 */
+	public function x_sendfile_compatibility( $return ) {
+		// Check if the X-Sendfile option exists in the DB. IF exists, most likely the user had it enabled.
+		if ( '1' === get_option( 'dlm_xsendfile_enabled', '0' ) ) {
+			$return = true;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Compatibility mode for X-Forwarded-For.
+	 *
+	 * @param  bool  $return  The return value.
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.6
+	 */
+	public function allow_x_forwarded_compatibility( $return ) {
+		// Check if the X-Forwarded-For option exists in the DB. IF exists, most likely the user had it enabled.
+		if ( '1' === get_option( 'dlm_allow_x_forwarded_for', '0' ) ) {
+			$return = true;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Compatibility mode for hotlink protection.
+	 *
+	 * @param  bool  $return  The return value.
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.6
+	 */
+	public function hotlink_protection_compatibility( $return ) {
+		// Check if the hotlink protection option exists in the DB. IF exists, most likely the user had it enabled.
+		if ( '1' === get_option( 'dlm_hotlink_protection_enabled', '0' ) ) {
+			$return = true;
+		}
+
+		return $return;
 	}
 }

@@ -285,6 +285,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		update_post_meta( $download_id, '_featured', ( ( $download->is_featured() ) ? 'yes' : 'no' ) );
 		update_post_meta( $download_id, '_members_only', ( ( $download->is_members_only() ) ? 'yes' : 'no' ) );
 		update_post_meta( $download_id, '_redirect_only', ( ( $download->is_redirect_only() ) ? 'yes' : 'no' ) );
+		update_post_meta( $download_id, '_new_tab', ( ( $download->is_new_tab() ) ? 'yes' : 'no' ) );
 		// other download meta.
 		update_post_meta( $download_id, '_download_count', absint( $download->get_meta_download_count() ) );
 
@@ -343,10 +344,8 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		$items = array();
 
 		if ( null !== $downloads && ! empty( $downloads ) ) {
-
 			foreach ( $downloads as $post ) {
-
-				$download   = download_monitor()->service( 'download_factory' )->make( ( ( 1 == get_post_meta( $post->ID, '_is_purchasable', true ) ) ? 'product' : 'regular' ) );
+				$download = download_monitor()->service( 'download_factory' )->make( ( ( 1 == get_post_meta( $post->ID, '_is_purchasable', true ) ) ? 'product' : 'regular' ) );
 				$download->set_id( $post->ID );
 				$download->set_status( $post->post_status );
 				$download->set_title( $post->post_title );
@@ -360,6 +359,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_download_count( apply_filters( 'dlm_add_meta_download_count', ( isset( $post->download_count ) ? absint( $post->download_count ) : 0 ), $post->ID ) );
 				$download->set_meta_download_count( absint( get_post_meta( $post->ID, '_download_count', true ) ) );
 				$download->set_versions_download_counts( ( isset( $post->download_versions ) ? $post->download_versions : 0 ) );
+				$download->set_new_tab( ( 'yes' === get_post_meta( $post->ID, '_new_tab', true ) ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
 				$download->post = $post;

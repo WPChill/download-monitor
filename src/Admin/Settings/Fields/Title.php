@@ -22,9 +22,12 @@ class DLM_Admin_Fields_Field_Title extends DLM_Admin_Fields_Field {
 	 * Renders field
 	 */
 	public function render() {
+		if ( empty( $this->title ) ) {
+			return;
+		}
 		?>
-        <h3><?php echo esc_html( $this->title ); ?></h3>
+		<h3><?php
+			echo esc_html( $this->title ); ?></h3>
 		<?php
 	}
-
 }

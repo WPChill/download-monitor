@@ -36,8 +36,8 @@ abstract class DLM_Utils {
 		if ( isset( $_SERVER["HTTP_CF_CONNECTING_IP"] ) ) {
 			$ip = sanitize_text_field( wp_unslash( $_SERVER["HTTP_CF_CONNECTING_IP"] ) );
 		}
-		
-		if (  ( '1' == get_option( 'dlm_allow_x_forwarded_for', 0 ) ) && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+
+		if ( WP_DLM::dlm_proxy_ip_override() && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 			// phpcs:ignore
 			$parts = explode( ",", $_SERVER['HTTP_X_FORWARDED_FOR'] );
 			$ip    = trim( array_shift( $parts ) );
@@ -253,7 +253,7 @@ abstract class DLM_Utils {
 	*
 	* Generate html attributes based on array
 	*
-	* @param array atributes
+	* @param array $attributes Array of attributes to generate
 	*
 	* @return string
 	* @since 4.6.0
@@ -268,10 +268,9 @@ abstract class DLM_Utils {
 		}
 
 		foreach ( $attributes as $name => $value ) {
-
 			if ( is_array( $value ) && 'class' == $name ) {
 				$value = implode( ' ', $value );
-			}elseif ( is_array( $value ) ) {
+			} elseif ( is_array( $value ) ) {
 				$value = json_encode( $value );
 			}
 
@@ -309,5 +308,23 @@ abstract class DLM_Utils {
 	public static function wpml_download_link( $home_url, $url ) {
 
 		return $url;
+	}
+
+	/**
+	 * Prevent duplicate downloads/logs
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.6
+	 */
+	public static function no_duplicate_download(): bool {
+		/**
+		 * Filter to disable the no duplicate download feature
+		 *
+		 * @hook dlm_no_duplicate_download
+		 *
+		 * @since 4.9.4
+		 */
+		return apply_filters( 'dlm_no_duplicate_download', 'production' === wp_get_environment_type() );
 	}
 }

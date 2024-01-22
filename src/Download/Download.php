@@ -59,6 +59,10 @@ class DLM_Download {
 
 	/** @var int */
 	private $versions_downloads = array();
+
+	/** @var bool */
+	private $new_tab = false;
+
 	/**
 	 * @var WP_Post
 	 * @deprecated 4.0
@@ -250,6 +254,29 @@ class DLM_Download {
 	 */
 	public function set_redirect_only( $redirect_only ) {
 		$this->redirect_only = $redirect_only;
+	}
+
+	/**
+	 * new_tab function.
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function is_new_tab() {
+		return $this->new_tab;
+	}
+
+	/**
+	 * set new_tab function.
+	 *
+	 * @access public
+	 *
+	 * @param  bool  $new_tab
+	 *
+	 * @return bool
+	 */
+	public function set_new_tab( $new_tab ) {
+		$this->new_tab = $new_tab;
 	}
 
 	/**

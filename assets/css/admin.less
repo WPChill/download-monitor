@@ -283,6 +283,37 @@
       }
     }
   }
+
+  .dlm-template-override {
+    width:100%;
+    max-width: 1200px;
+    border-collapse: collapse;
+    thead {
+      tr {
+        font-weight:bold;
+        border-bottom:1px solid #ccc;
+      }
+    }
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background: #f9f9f9;
+        }
+      }
+    }
+    .wpchill-tooltip {
+      float: none;
+    }
+  }
+
+  .dlm-content-tab {
+    width:65%;
+    float:left;
+  }
+  .wpchill-upsells-wrapper.wpchill-right-upsells {
+    width: 30%;
+    float: right;
+  }
 }
 
 /* File lists */
@@ -1033,7 +1064,7 @@ table.wp-list-table {
   .form-field-checkbox {
     label {
       display: inline;
-      padding: 0 0 4px;
+      padding: 0;
     }
 
     input {
@@ -1045,6 +1076,13 @@ table.wp-list-table {
     .dlm-description {
       padding: 4px 0 0 0;
       display: block;
+    }
+
+    .dlm-open-in-new-tab {
+      margin-top:10px;
+      input#_new_tab {
+        margin-left:15px;
+      }
     }
   }
 
@@ -2696,14 +2734,6 @@ table.wp-list-table {
 
 .wrap.dlm-admin-settings {
   .form-table {
-    width: 65%;
-    float: left;
-
-    & + .wpchill-upsells-wrapper {
-      width: 30%;
-      float: right;
-    }
-
     .dlm_htaccess_notice {
       margin-bottom: 5px;
     }
