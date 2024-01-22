@@ -122,22 +122,10 @@ class DLM_Template_Handler {
 			$title = sprintf( esc_html__( 'Version %s', 'download-monitor' ), esc_html( $download->get_version()->get_version_number() ) );
 		}
 
-		// Make the default_class variable as we have a different class link for buttons
-		$default_class = array();
-		switch ( $name ) {
-			case 'button':
-			case 'box':
-				$default_class = array( 'download-button' );
-				break;
-			default:
-				$default_class = array( 'download-link' );
-				break;
-		}
-
 		$default_attributes = array(
 			'link_attributes' => array(
 				'data-e-Disable-Page-Transition' => 'true',
-				'class'                          => $default_class,
+				'class'                          => array( 'download-link' ),
 				'title'                          => $title,
 				'href'                           => $download->get_the_download_link(),
 				'rel'                            => 'nofollow',
@@ -145,6 +133,6 @@ class DLM_Template_Handler {
 			),
 		);
 
-		return apply_filters( 'dlm_template_attributes', $default_attributes, $download, $template );
+		return apply_filters( 'dlm_template_attributes', $default_attributes, $download, $name );
 	}
 }
