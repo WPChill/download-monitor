@@ -251,9 +251,10 @@ class DLM_LU_Download_Upgrader {
 		$download->set_excerpt( "" );
 
 		// set download options
-		$download->set_featured( false ); // there was no featured in legacy
+		$download->set_featured( false );      // there was no featured in legacy
 		$download->set_redirect_only( false ); // there was no redirect only in legacy
 		$download->set_members_only( ( 1 === absint( $legacy_download->members ) ) );
+		$download->set_new_tab( false );
 
 		// set download count
 		$download->set_download_count( absint( $legacy_download->hits ) );

@@ -106,25 +106,23 @@ class DLM_Upsells {
 	 */
 	public function set_hooks() {
 
-		add_action( 'dlm_tab_content_general', array( $this, 'general_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_general', array( $this, 'general_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_access', array( $this, 'access_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_access', array( $this, 'access_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
 
 		//add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
 
 		add_filter( 'dlm_download_metaboxes', array( $this, 'add_meta_boxes' ), 30 );
-
-		add_action( 'dlm_download_monitor_files_writepanel_start', array( $this, 'files_metabox_upsells' ), 30, 1 );
 
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
 
@@ -229,6 +227,17 @@ class DLM_Upsells {
 				'screen'   => 'dlm_download',
 				'context'  => 'side',
 				'priority' => 40
+			);
+		}
+
+		if ( ! $this->check_extension( 'dlm-amazons-s3' ) || ! $this->check_extension( 'dlm-google-drive' ) ) {
+			$meta_boxes[] = array(
+				'id'       => 'dlm-external-hosting',
+				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
+				'callback' => array( $this, 'output_external_hosting_upsell' ),
+				'screen'   => 'dlm_download',
+				'context'  => 'normal',
+				'priority' => 10,
 			);
 		}
 
@@ -408,18 +417,14 @@ class DLM_Upsells {
 		foreach ( $this->upsell_tabs as $key => $tab ) {
 
 			if ( method_exists( 'DLM_Upsells', 'upsell_tab_content_' . $key ) ) {
-				add_action( 'dlm_tab_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
+				add_action( 'dlm_tab_upsell_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
 			}
 
 			foreach ( $tab['sections'] as $sub_key => $section ) {
 				if ( method_exists( 'DLM_Upsells', 'upsell_tab_section_content_' . $sub_key ) ) {
-					add_action( 'dlm_tab_section_content_' . $sub_key, array(
-						$this,
-						'upsell_tab_section_content_' . $sub_key
-					),          30, 1 );
+					add_action( 'dlm_tab_upsell_section_content_' . $sub_key, array( $this, 'upsell_tab_section_content_' . $sub_key ), 30, 1 );
 				}
 			}
-
 		}
 	}
 
@@ -792,7 +797,6 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function upsell_tab_content_advanced() {
-
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
 			$this->generate_upsell_box(
@@ -839,12 +843,10 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function files_metabox_upsells( $download ) {
-
+	public function output_external_hosting_upsell() {
 		echo '<div class="upsells-columns ' . esc_attr( $this->offer['column'] ) . '">';
 
 		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
-
 			echo '<div class="upsells-column"><span class="dashicons dashicons-amazon"></span>';
 			echo '<h3>' . esc_html__( 'Amazon S3', 'download-monitor' ) . '</h3>';
 			$this->generate_upsell_box(
@@ -857,7 +859,6 @@ class DLM_Upsells {
 		}
 
 		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
-
 			echo '<div class="upsells-column"><span class="dashicons dashicons-google"></span>';
 			echo '<h3>' . esc_html__( 'Google Drive', 'download-monitor' ) . '</h3>';
 			$this->generate_upsell_box(
@@ -870,7 +871,6 @@ class DLM_Upsells {
 		}
 
 		echo '</div>';
-
 	}
 
 	/**

@@ -4,6 +4,8 @@
  * yourtheme/download-monitor/no-access-modal.php. Please note that this template is used for all no access modals and
  * locked downloads.
  *
+ * More info on overriding template files can be found here: https://www.download-monitor.com/kb/overriding-content-templates/
+ *
  * @param string $title   The title of the modal.
  *                        Default: __( 'No Access', 'download-monitor' )
  *                        Filters: 'dlm_modal_title'
@@ -17,6 +19,7 @@
  *
  *
  * @since 4.9.0
+ * @version 4.9.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

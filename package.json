@@ -1,12 +1,12 @@
 {
   "name": "download-monitor",
   "title": "Download Monitor",
-  "version": "4.9.5",
+  "version": "4.9.6",
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
     "@floatwork/grunt-po2mo": "^0.3.0",
-    "@wordpress/scripts": "^23.7.2",
+    "@wordpress/scripts": "^26.19.0",
     "cypress": "^10.3.0",
     "grunt": "^1.5.3",
     "grunt-checktextdomain": "^1.0.1",

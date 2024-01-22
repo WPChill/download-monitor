@@ -29,7 +29,6 @@ class DLM_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 		add_action( 'init', array( $this, 'required_classes' ), 30 );
-
 		// Remove admin notices from DLM pages
 		add_action( 'admin_notices', array(  $this, 'remove_admin_notices' ), 9 );
 
@@ -333,5 +332,4 @@ class DLM_Admin {
 		}
 
 	}
-
 }

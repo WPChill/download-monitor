@@ -15,9 +15,17 @@ jQuery(function ($) {
 			$('#setting-dlm_count_unique_ips').closest('tr').hide();
 		}
 	}).change();
-	
+
+	$('#setting-dlm_logging_ip_type').change(function () {
+		if ($(this).val() === 'full') {
+			$('#setting-dlm_count_unique_ips').closest('tr').show();
+		} else {
+			$('#setting-dlm_count_unique_ips').closest('tr').hide();
+		}
+	}).change();
+
 	$(document).ready(function () {
-		
+
 		// load lazy-select elements
 		$.each($('.dlm-lazy-select'), function () {
 
@@ -31,7 +39,7 @@ jQuery(function ($) {
 			// load data
 			$.post(ajaxurl, {
 				action: 'dlm_settings_lazy_select',
-				nonce: dlm_settings_vars.lazy_select_nonce,
+				nonce : dlm_settings_vars.lazy_select_nonce,
 				option: lazy_select_el.attr('name')
 			}, function (response) {
 
@@ -56,10 +64,10 @@ jQuery(function ($) {
 			});
 		});
 
-		$('tr.dlm_group_setting').on( 'click', '.postbox-header', (event) => {
+		$('tr.dlm_group_setting').on('click', '.postbox-header', (event) => {
 			event.preventDefault();
 			event.stopPropagation();
 			$(event.currentTarget).parent().toggleClass('closed');
-		} );
+		});
 	});
 });

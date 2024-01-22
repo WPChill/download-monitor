@@ -307,8 +307,9 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 						break;
 				}
 
-				// Prevent hotlinking
-				if ( '1' == get_option( 'dlm_hotlink_protection_enabled' ) ) {
+			// Prevent hotlinking
+			if ( WP_DLM::dlm_prevent_hotlinking() ) {
+
 					// Get referer
 					$referer = ! empty( $_SERVER['HTTP_REFERER'] )
 						? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) )
@@ -556,6 +557,21 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				        esc_html__( 'Download Error', 'download-monitor' ) );
 			}
 
+			/**
+			 * Action used for extra checks before download.
+			 *
+			 * @hook  dlm_extra_download_checks
+			 *
+			 * @param  DLM_Download  $download   The download.
+			 * @param  string        $file_path  The download file path.
+			 *
+			 * @since 4.9.6
+			 *
+			 * @hooked $this->check_requirements() - 10
+			 *
+			 */
+			do_action( 'dlm_extra_download_checks', $download, $file_path );
+
 			// Parse file path.
 			list( $file_path, $remote_file, $restriction ) = download_monitor()
 				->service( 'file_manager' )->get_secure_path( $file_path );
@@ -751,9 +767,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				do_action( 'dlm_downloading', $download, $version, $file_path );
 				// Set the cookie to prevent multiple download logs in download window of 60 seconds.
 				// Do this only for non-XHR downloads as XHR downloads are logged through AJAX request
-				if ( '1' === get_option( 'dlm_enable_window_logging', '0' )
-				     && ! $this->check_for_xhr()
-				) {
+				if ( DLM_Utils::no_duplicate_download() && ! $this->check_for_xhr() ) {
 					// Set cookie here to prevent "Cannot modify header information - headers already sent" error
 					// in non-XHR downloads.
 					DLM_Cookie_Manager::set_cookie( $download );
@@ -875,15 +889,9 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			           $file_path,
 			           $remote_file );
 
-			if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
-				if ( function_exists( 'apache_get_modules' )
-				     && in_array( 'mod_xsendfile', apache_get_modules() )
-				) {
-					$this->dlm_logging->log( $download,
-					                         $version,
-					                         'completed',
-					                         false,
-					                         $referrer );
+			if ( WP_DLM::dlm_x_sendfile() ) {
+				if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
+					$this->dlm_logging->log( $download, $version, 'completed', false, $referrer );
 					header( "X-Sendfile: $file_path" );
 					exit;
 				} elseif ( stristr( getenv( 'SERVER_SOFTWARE' ),
@@ -1288,6 +1296,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			                         $access_modal,
 			                         $download ) );
 			header( 'X-DLM-No-Access-Restriction: ' . $restriction_type );
+
 			if ( ! empty( $text ) ) {
 				header( 'X-DLM-No-Access-Modal-Text: '
 				        . apply_filters( 'do_dlm_xhr_access_modal_text',

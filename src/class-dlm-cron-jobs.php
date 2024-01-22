@@ -26,7 +26,7 @@ class DLM_CRON_Jobs {
 	/**
 	 * Returns the singleton instance of the class.
 	 *
-	 * @return object The DLM_Admin_Helper object.
+	 * @return object The DLM_CRON_Jobs object.
 	 * @since 4.4.7
 	 */
 	public static function get_instance() {

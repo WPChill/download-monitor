@@ -34,9 +34,13 @@ class DLM_Admin_Media_Browser {
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . esc_html__( 'Browse for a file', 'download-monitor' ) . '</title>';
 
 		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.min.css', array( 'dashicons' ), DLM_VERSION );
+		// print_emoji_styles is deprecated and triggers a PHP warning
+		remove_action( 'admin_print_styles', 'print_emoji_styles' );
 		do_action( 'admin_print_styles' );
 		do_action( 'admin_print_scripts' );
 		do_action( 'admin_head' );
+		// re-add print_emoji_styles
+		add_action( 'admin_print_styles', 'print_emoji_styles' );
 
 		echo '<meta charset="utf-8" /></head><body>';
 

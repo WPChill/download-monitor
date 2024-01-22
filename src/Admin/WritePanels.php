@@ -189,7 +189,7 @@ class DLM_Admin_Writepanels {
 		echo '<p class="form-field form-field-checkbox">
 			<input type="checkbox" name="_redirect_only" id="_redirect_only" ' . checked( true, $this->download_post->is_redirect_only(), false ) . ' />
 			<label for="_redirect_only">' . esc_html__( 'Redirect to file', 'download-monitor' ) . '</label>
-			<span class="dlm-description">' . wp_kses_post( __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) ) . '</span>
+			<span class="dlm-description">' . wp_kses_post( __( 'Don\'t force download. If the <code>dlm_uploads</code> folder is protected you may need to move your file.', 'download-monitor' ) ) . '</span><span class="dlm-open-in-new-tab" style="' . ( $this->download_post->is_redirect_only() ? 'display:inline-block;' : 'display:none;' ) . '"><input type="checkbox" name="_new_tab" id="_new_tab" ' . checked( true, $this->download_post->is_new_tab(), false ) . ' /><label for="_new_tab">' . esc_html__( 'Open in new tab', 'download-monitor' ) . '</label></span>
 		</p>';
 
 		do_action( 'dlm_options_end', $this->download_post->get_id(), $this->download_post );
@@ -265,8 +265,13 @@ class DLM_Admin_Writepanels {
 									)
 								);
 
-								if( !get_option( 'dlm_turn_off_file_browser', true ) ){
+								if ( ! get_option( 'dlm_turn_off_file_browser', true ) ) {
 									$buttons['browse_for_file'] = array( 'text' => __( 'Browse for file', 'download-monitor' ) );
+								}
+
+								// Unset the browse for file button if the constant is defined and set to false.
+								if ( defined( 'DLM_FILE_BROWSER' ) && ! DLM_FILE_BROWSER ) {
+									unset( $buttons['browse_for_file'] );
 								}
 
 								$buttons = apply_filters( 'dlm_downloadable_file_version_buttons', $buttons );
@@ -506,6 +511,7 @@ class DLM_Admin_Writepanels {
 		$this->download_post->set_featured( ( isset( $_POST['_featured'] ) ) );
 		$this->download_post->set_members_only( ( isset( $_POST['_members_only'] ) ) );
 		$this->download_post->set_redirect_only( ( isset( $_POST['_redirect_only'] ) ) );
+		$this->download_post->set_new_tab( ( isset( $_POST['_new_tab'] ) ) );
 		$total_meta_download_count = 0;
 
 		// Process files

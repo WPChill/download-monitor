@@ -45,10 +45,10 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 			// Check if table exists and get totals from the new table, it is much faster
 			if ( DLM_Utils::table_checker( $wpdb->dlm_downloads ) ) {
 				$total
-					= $wpdb->get_results(
-						"SELECT downloads.download_count FROM {$wpdb->dlm_downloads} downloads INNER JOIN {$wpdb->posts} posts ON downloads.download_id = posts.ID WHERE 1=1 AND posts.post_status = 'publish';",
-						ARRAY_A
-					);
+					   = $wpdb->get_results(
+					"SELECT downloads.download_count FROM {$wpdb->dlm_downloads} downloads INNER JOIN {$wpdb->posts} posts ON downloads.download_id = posts.ID WHERE 1=1 AND posts.post_status = 'publish';",
+					ARRAY_A
+				);
 				$total = array_sum( array_column( $total, 'download_count' ) );
 			} else {
 				if ( ! DLM_Logging::is_logging_enabled() ) {
@@ -69,7 +69,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 			 *
 			 * @hooked DLM_Backwards_Compatibility::total_downloads_shortcode - 10
 			 *
-			 * @param int $total Total downloads
+			 * @param  int  $total  Total downloads
 			 */
 			return apply_filters( 'dlm_shortcode_total_downloads', $total );
 		}
@@ -91,7 +91,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 		 *
 		 * @access public
 		 *
-		 * @param  array  $atts
+		 * @param  array   $atts
 		 * @param  string  $content
 		 *
 		 * @return string
@@ -149,7 +149,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 			try {
 				/** @var DLM_Download $download */
 				$download = download_monitor()->service( 'download_repository' )
-											  ->retrieve_single( $id );
+				                              ->retrieve_single( $id );
 
 				// check if version is set
 				if ( ! empty( $version ) ) {
@@ -171,27 +171,18 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 				// if we have content, wrap in a link only
 				if ( $content ) {
 					$output = '<a href="' . $download->get_the_download_link()
-							  . '">' . $content . '</a>';
+					          . '">' . $content . '</a>';
 				} else {
 					// template handler
 					$template_handler = new DLM_Template_Handler();
 
 					// buffer
 					ob_start();
-
-					// load template
+					// Load template
 					if ( $download ) {
-						$template_handler->get_template_part(
-							'content-download',
-							$template,
-							'',
-							array( 'dlm_download' => $download )
-						);
+						$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download ) );
 					} else {
-						echo esc_html__(
-							'No download defined',
-							'download-monitor'
-						);
+						echo esc_html__( 'No download defined', 'download-monitor' );
 					}
 
 					// get output
@@ -203,7 +194,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 				}
 			} catch ( Exception $e ) {
 				$output = '[' . __( 'Download not found', 'download-monitor' )
-						  . ']';
+				          . ']';
 			}
 
 			return $output;
@@ -246,7 +237,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 			try {
 				/** @var DLM_Download $download */
 				$download = download_monitor()->service( 'download_repository' )
-											  ->retrieve_single( $id );
+				                              ->retrieve_single( $id );
 
 				if ( ! empty( $version ) ) {
 					$version_id
@@ -271,7 +262,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 						return $download->get_version()->get_filetype();
 					case 'filesize':
 						return $download->get_version()
-										->get_filesize_formatted();
+						                ->get_filesize_formatted();
 					case 'md5':
 						return $download->get_version()->get_md5();
 					case 'sha1':
@@ -300,7 +291,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 						return date_i18n(
 							get_option( 'date_format' ),
 							$download->get_version()->get_date()
-									 ->format( 'U' )
+							         ->format( 'U' )
 						);
 					case 'author':
 						return $download->get_the_author();
@@ -342,7 +333,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 				}
 			} catch ( Exception $e ) {
 				return '[' . __( 'Download not found', 'download-monitor' )
-					   . ']';
+				       . ']';
 			}
 		}
 
@@ -460,7 +451,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 
 				// check if we include category children
 				$include_children = ( $category_include_children === 'true'
-									  || $category_include_children === true );
+				                      || $category_include_children === true );
 
 				if ( ! empty( $category ) ) {
 					if ( preg_match( '/\+/', $category ) ) {
@@ -545,7 +536,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 			);
 
 			$offset = $paginate ? ( max( 1, get_query_var( 'paged' ) ) - 1 )
-								  * $per_page : $offset;
+			                      * $per_page : $offset;
 
 			// set offset to 0 if empty
 			if ( '' === $offset ) {
@@ -554,11 +545,11 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 
 			// fetch downloads
 			$downloads = download_monitor()->service( 'download_repository' )
-										->retrieve(
-											$args,
-											$per_page,
-											$offset
-										);
+			                               ->retrieve(
+				                               $args,
+				                               $per_page,
+				                               $offset
+			                               );
 
 			// make all downloads filterable
 			$downloads = apply_filters(
@@ -571,8 +562,8 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 			if ( $paginate ) {
 				$pages = ceil(
 					download_monitor()
-								   ->service( 'download_repository' )
-								   ->num_rows( $args ) / $per_page
+						->service( 'download_repository' )
+						->num_rows( $args ) / $per_page
 				);
 			}
 
@@ -587,9 +578,9 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 					// make download filterable
 					$download
 						= apply_filters(
-							'dlm_shortcode_downloads_loop_download',
-							$download
-						);
+						'dlm_shortcode_downloads_loop_download',
+						$download
+					);
 
 					// check if filtered download is still a DLM_Download instance
 					if ( ! $download instanceof DLM_Download ) {
@@ -602,11 +593,11 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 					// Allow third party extensions to hijack shortcode
 					$hijacked_content
 						= apply_filters(
-							'dlm_shortcode_downloads_download_content',
-							'',
-							$download,
-							$atts
-						);
+						'dlm_shortcode_downloads_download_content',
+						'',
+						$download,
+						$atts
+					);
 
 					// If there's hijacked content, return it and be done with it.
 					if ( '' !== $hijacked_content ) {
@@ -688,8 +679,8 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 
 			// return empty string if download-id is not set or action is not no_access_dlm_xhr_download for XHR downloads & modal no access.
 			if ( ( ! isset( $_REQUEST['action'] )
-				   || 'no_access_dlm_xhr_download' !== $_REQUEST['action'] )
-				 && ! isset( $wp->query_vars['download-id'] )
+			       || 'no_access_dlm_xhr_download' !== $_REQUEST['action'] )
+			     && ! isset( $wp->query_vars['download-id'] )
 			) {
 				return '';
 			}
@@ -704,7 +695,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 			try {
 				/** @var \DLM_Download $download */
 				$download = download_monitor()->service( 'download_repository' )
-											  ->retrieve_single( absint( $download_id ) );
+				                              ->retrieve_single( absint( $download_id ) );
 
 				$version_id = '';
 
