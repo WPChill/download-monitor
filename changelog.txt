@@ -1,3 +1,7 @@
+= 4.9.7 - 23.01.2024 =
+Fixed: [] operator not supported for strings error. ( [#1409](https://github.com/WPChill/download-monitor/issues/1409) )
+Fixed: User reports not showing user name & role. ( [#1410](https://github.com/WPChill/download-monitor/issues/1410) )
+
 = 4.9.6 - 22.01.2024 =
 Changed: Moved, removed and updated admin settings for "General" section ( [#1346](https://github.com/WPChill/download-monitor/issues/1346) )
 Changed: Moved, renamed and updated admin settings for "Shop" section ( [#1347](https://github.com/WPChill/download-monitor/issues/1347) )
