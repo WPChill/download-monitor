@@ -377,7 +377,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			$users_data   = array();
-			$start_date   = isset( $_REQUEST['start_date'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['start_date'] ) ) : wp_date( 'Y-m-d g:i', strtotime( '-30 days' ) );
 			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
 			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_user_data'];
 			$offset_limit = $offset * $count;
@@ -385,7 +384,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			$users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT dlm_logs.user_id as ID, wp_users.user_nicename as user_nicename, wp_users.user_url as user_url, wp_users.user_registered as user_registered, wp_users.display_name as display_name, wp_users.user_email as user_email, wp_users_meta.meta_value as roles FROM {$wpdb->download_log} dlm_logs 
 			LEFT JOIN {$wpdb->users} wp_users ON dlm_logs.user_id = wp_users.ID AND wp_users.ID IS NOT NULL 
 			LEFT JOIN {$wpdb->usermeta} wp_users_meta ON dlm_logs.user_id = wp_users_meta.user_id 
-			WHERE dlm_logs.user_id != 0 AND wp_users_meta.meta_key = 'wp_capabilities' AND dlm_logs.download_date >= '{$start_date}'
+			WHERE dlm_logs.user_id != 0 AND wp_users_meta.meta_key = '{$wpdb->prefix}capabilities'
 			ORDER BY dlm_logs.user_id desc LIMIT {$offset_limit}, {$count};" ) );
 
 			if ( ! empty( $users ) ) {

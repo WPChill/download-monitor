@@ -80,7 +80,7 @@ class DLM_Frontend_Templates {
 				break;
 			case 'no-version':
 				$attributes['link_attributes']['title']  = esc_html__( 'Please set a version in your WordPress admin', 'download-monitor' );
-				$attributes['link_attributes']['href'][] = '#';
+				$attributes['link_attributes']['href'] = '#';
 				break;
 			case 'title':
 				break;
