@@ -53,6 +53,8 @@ class DLM_Installer {
 		}
 
 		update_option( DLM_Constants::OPTION_CURRENT_VERSION, DLM_VERSION );
+		// Update options that may have been moved
+		$this->update_options();
 
 		// add rewrite rules
 		add_rewrite_endpoint( 'download-id', EP_ALL );
@@ -363,6 +365,20 @@ class DLM_Installer {
 		if ( 0 === absint( get_option( 'dlm_no_access_page', 0 ) ) ) {
 			$pc          = new WPChill\DownloadMonitor\Util\PageCreator();
 			$pc->create_no_access_page();
+		}
+	}
+
+	/**
+	 * Update options that may have been moved
+	 *
+	 * @return void
+	 */
+	private function update_options() {
+		// Update the invoice prefix, that was moved from PayPal to the main settings in the Shop tab
+		$paypal_invoice = download_monitor()->service( 'settings' )->get_option( 'gateway_paypal_invoice_prefix' );
+		if ( $paypal_invoice ) {
+			update_option( 'dlm_invoice_prefix', $paypal_invoice );
+			delete_option( 'gateway_paypal_invoice_prefix' );
 		}
 	}
 }

@@ -224,6 +224,9 @@
 .dlm-admin-settings .dlm-template-override tbody tr:nth-child(even) {
   background: #f9f9f9;
 }
+.dlm-admin-settings .dlm-template-override .wpchill-tooltip {
+  float: none;
+}
 .dlm-admin-settings .dlm-content-tab {
   width: 65%;
   float: left;
@@ -1122,7 +1125,7 @@ table.wp-list-table .column-thumb img {
 }
 #download-monitor-options .form-field-checkbox label {
   display: inline;
-  padding: 0 0 4px;
+  padding: 0;
 }
 #download-monitor-options .form-field-checkbox input {
   display: inline-block;
@@ -1132,6 +1135,12 @@ table.wp-list-table .column-thumb img {
 #download-monitor-options .form-field-checkbox .dlm-description {
   padding: 4px 0 0 0;
   display: block;
+}
+#download-monitor-options .form-field-checkbox .dlm-open-in-new-tab {
+  margin-top: 10px;
+}
+#download-monitor-options .form-field-checkbox .dlm-open-in-new-tab input#_new_tab {
+  margin-left: 15px;
 }
 #download-monitor-options .access_permissions {
   margin: 0 !important;

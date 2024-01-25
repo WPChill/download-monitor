@@ -309,4 +309,22 @@ abstract class DLM_Utils {
 
 		return $url;
 	}
+
+	/**
+	 * Prevent duplicate downloads/logs
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.6
+	 */
+	public static function no_duplicate_download(): bool {
+		/**
+		 * Filter to disable the no duplicate download feature
+		 *
+		 * @hook dlm_no_duplicate_download
+		 *
+		 * @since 4.9.4
+		 */
+		return apply_filters( 'dlm_no_duplicate_download', 'production' === wp_get_environment_type() );
+	}
 }

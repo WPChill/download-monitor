@@ -77,6 +77,8 @@ class DLM_Logging {
 	 * Check if user agent logging is enabled.
 	 *
 	 * @return mixed|null
+	 *
+	 * @since 4.9.6
 	 */
 	public function is_ua_logging_enabled() {
 		/**
@@ -84,7 +86,7 @@ class DLM_Logging {
 		 *
 		 * @hook  dlm_logging_user_agent
 		 *
-		 * @since 4.9.4
+		 * @since 4.9.6
 		 */
 		return apply_filters( 'dlm_logging_user_agent', true );
 	}
@@ -131,25 +133,13 @@ class DLM_Logging {
 	 * @return void
 	 */
 	public function xhr_log_download() {
-
-		if ( ! isset( $_POST['download_id']  ) || ! isset( $_POST['version_id']  ) ) {
+		if ( ! isset( $_POST['download_id'] ) || ! isset( $_POST['version_id'] ) ) {
 			if ( WP_DLM::dlm_x_sendfile() ) {
-				wp_send_json_error('Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.');
+				wp_send_json_error( 'Missing download_id or version_id. X-Sendfile is enabled, so this is a problem.' );
 			}
-			wp_send_json_error('Missing download_id or version_id');
+			wp_send_json_error( 'Missing download_id or version_id' );
 		}
 
-		// Don't log if admin hit does not need to be logged
-		/**
-		 * Hook to disable logging of admin hits
-		 *
-		 * @hook  dlm_log_admin_download_count
-		 *
-		 * @since 4.9.4
-		 */
-		if ( apply_filters( 'dlm_log_admin_download_count', true ) && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
-			die();
-		}
 		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
 
 		// Let's make sure the DLM_DOING_XHR is defined
@@ -183,6 +173,10 @@ class DLM_Logging {
 	 * @param string $url
 	 */
 	public function log( $download, $version, $status = 'completed', $cookie = true, $url = '-' ) {
+		// Don't log if admin hit does not need to be logged
+		if ( self::ignore_admin_log() ) {
+			return;
+		}
 
 		if ( $this->is_count_unique_ips_only() && true === $this->has_uuid_downloaded_version( $version ) ) {
 			return;
@@ -266,6 +260,27 @@ class DLM_Logging {
 		}
 
 		return $entries;
+	}
+
+	/**
+	 * Check if admin log should be ignored
+	 *
+	 * @return bool
+	 * @since 4.9.6
+	 */
+	public static function ignore_admin_log() {
+		/**
+		 * Hook to disable logging of admin hits
+		 *
+		 * @hook  dlm_log_ignore_admin_download_count
+		 *
+		 * @since 4.9.6
+		 */
+		if ( apply_filters( 'dlm_log_ignore_admin_download_count', true ) && is_user_logged_in() && in_array( 'administrator', wp_get_current_user()->roles, true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

@@ -213,7 +213,7 @@ class DLM_Reports {
 	async fetchUserData( offset = 0, limit = dlmPHPinfo['retrieved_user_data'] ) {
 
 		// Let's see if these are pretty permalinks or plain
-		let fetchingLink = dlmUserDataAPI + '&offset=' + offset + '&limit=' + limit + '&start_date=' + dlmReportsInstance.createDateElement(dlmReportsInstance.dates.downloads.start_date);
+		let fetchingLink = dlmUserDataAPI + '&offset=' + offset + '&limit=' + limit;
 
 		const fetchedUserData = await fetch(fetchingLink);
 

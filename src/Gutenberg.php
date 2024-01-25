@@ -72,8 +72,8 @@ class DLM_Gutenberg {
 	/**
 	 * Render the download button
 	 *
-	 * @param array $attributes
-	 * @param string $content
+	 * @param  array   $attributes
+	 * @param  string  $content
 	 *
 	 * @return string
 	 */
@@ -121,15 +121,14 @@ class DLM_Gutenberg {
 		// Action to allow the adition of extra scripts and code related to the shortcode
 		do_action( 'dlm_download_shortcode_scripts' );
 
-			// do the output
-			ob_start();
-			if($download)
-			{
-				$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download, 'dlm_attributes' => $attributes ) );
-			}
-			$output = ob_get_clean();
+		// do the output
+		ob_start();
+		if ( $download ) {
+			$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => $download, 'dlm_attributes' => $attributes ) );
+		}
+		$output = ob_get_clean();
 
-		if ( isset( $attributes['autop'] ) && $attributes['autop'] == "1" ) {
+		if ( isset( $attributes['autop'] ) && $attributes['autop'] == '1' ) {
 			$output = wpautop( $output );
 		}
 

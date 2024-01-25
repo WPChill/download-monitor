@@ -56,6 +56,16 @@ class DLM_Backwards_Compatibility {
 		add_filter( 'dlm_add_meta_download_count', array( $this, 'add_meta_download_count' ), 30, 2 );
 		// If the DB upgrade functionality did not take place we won't have the option stored.
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
+		// Terms and Conditions extension placement inside the settings page.
+		add_filter( 'dlm_settings', array( $this, 'dlm_terms_and_conditions_placement' ), 5, 1 );
+		// Hashes backwards compatibility.
+		$this->hashes_compatibility();
+		// Compatibility mode for X-Sendfile.
+		add_filter( 'dlm_x_sendfile', array( $this, 'x_sendfile_compatibility' ), 5 );
+		// Compatibility mode for X-Forwarded-For.
+		add_filter( 'dlm_allow_x_forwarded_for', array( $this, 'allow_x_forwarded_compatibility' ), 5 );
+		// Compatibility mode for hotlink protection.
+		add_filter( 'dlm_hotlink_protection', array( $this, 'hotlink_protection_compatibility' ), 5 );
 
 	}
 
@@ -110,7 +120,8 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Order by post meta download_count compatibility
 	 *
-	 * @param  mixed $filters Filters for the query.
+	 * @param mixed $filters Filters for the query.
+	 *
 	 * @return void
 	 *
 	 * @since 4.6.0
@@ -163,9 +174,9 @@ class DLM_Backwards_Compatibility {
 		}
 
 		$this->filters = $filters;
-	// @todo: Think the below filters are not useful anymore as we changed the SQL query.
-	//	add_filter( 'dlm_admin_sort_columns', array( $this, 'query_args_download_count_compatibility' ), 60 );
-	//	add_filter( 'dlm_query_args_filter', array( $this, 'query_args_download_count_compatibility' ), 60 );
+		// @todo: Think the below filters are not useful anymore as we changed the SQL query.
+		//	add_filter( 'dlm_admin_sort_columns', array( $this, 'query_args_download_count_compatibility' ), 60 );
+		//	add_filter( 'dlm_query_args_filter', array( $this, 'query_args_download_count_compatibility' ), 60 );
 
 		// @todo: delete this filter and function after feedback, as version 4.7.0 doesn't need it.
 		// add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
@@ -177,10 +188,11 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Add custom table to query JOIN
 	 *
+	 * @param mixed $join The join query part.
+	 *
+	 * @return string
 	 * @since 4.6.0
 	 *
-	 * @param  mixed $join The join query part.
-	 * @return string
 	 */
 	public function join_download_count_compatibility( $join ) {
 		global $wpdb;
@@ -215,10 +227,11 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Add select from custom table to the query fields part
 	 *
+	 * @param mixed $fields The fields query part.
+	 *
+	 * @return string
 	 * @since 4.6.0
 	 *
-	 * @param  mixed $fields The fields query part.
-	 * @return string
 	 */
 	public function select_download_count_compatibility( $fields ) {
 
@@ -235,6 +248,7 @@ class DLM_Backwards_Compatibility {
 			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) 
 			total_downloads, {$wpdb->dlm_downloads}.download_versions as download_versions";
 		}
+
 		return $fields;
 	}
 
@@ -242,6 +256,7 @@ class DLM_Backwards_Compatibility {
 	 * Group by download_id from download_log in order to properly return our downloads
 	 *
 	 * @param [type] $group_by
+	 *
 	 * @return void
 	 *
 	 * @since 4.6.0
@@ -257,10 +272,11 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Add orderby custom table count value
 	 *
+	 * @param mixed $orderby The orderby string which we overwrite.
+	 *
+	 * @return string
 	 * @since 4.6.0
 	 *
-	 * @param  mixed $orderby The orderby string which we overwrite.
-	 * @return string
 	 */
 	public function orderby_download_count_compatibility( $orderby ) {
 
@@ -286,9 +302,9 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Let's reset the query if we have completed our display of downloads, removing our added filters.
 	 *
+	 * @return void
 	 * @since 4.6.0
 	 *
-	 * @return void
 	 */
 	public function reset_postdata() {
 		do_action( 'dlm_backwards_compatibility_reset_postdata' );
@@ -305,6 +321,7 @@ class DLM_Backwards_Compatibility {
 	 * Backwards compatiblity for query args if using custom functionality
 	 *
 	 * @param [type] $query_args
+	 *
 	 * @return void
 	 *
 	 * @since 4.6.0
@@ -331,9 +348,10 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
-	 * Backwards compatiblity for query args if user wants to still order by post meta
+	 * Backwards compatibility for query args if user wants to still order by post meta
 	 *
 	 * @param [type] $query_args
+	 *
 	 * @return void
 	 *
 	 * @since 4.6.0
@@ -354,6 +372,7 @@ class DLM_Backwards_Compatibility {
 	 *
 	 * @param [type] $count
 	 * @param [type] $download_id
+	 *
 	 * @return void
 	 *
 	 * @since 4.6.0
@@ -378,5 +397,110 @@ class DLM_Backwards_Compatibility {
 		}
 
 		return $counts;
+	}
+
+	/**
+	 * Backwards compatibility for Terms and Conditions extension placement inside the settings page.
+	 *
+	 * @param array $settings The settings array.
+	 *
+	 * @return array
+	 *
+	 * @since 4.9.4
+	 */
+	public function dlm_terms_and_conditions_placement( $settings ) {
+		// Set plugin
+		$plugin = 'dlm-terms-and-conditions/dlm-terms-and-conditions.php';
+		// Check if active
+		if ( is_plugin_active( $plugin ) ) {
+			// Get plugin data
+			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+
+			if ( version_compare( $plugin_data['Version'], '4.1.2', '>' ) ) {
+				unset( $settings['terns_and_conditions'] );
+			} else {
+				$settings['terns_and_conditions'] = array(
+					'title'    => __( 'Terms and Conditions', 'download-monitor' ),
+					'sections' => array(),
+					// Need to put sections here for backwards compatibility
+				);
+				unset( $settings['lead_generation']['sections']['terns_and_conditions'] );
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Hashes backwards compatibility.
+	 *
+	 * @return void
+	 *
+	 * @since 4.9.6
+	 */
+	private function hashes_compatibility() {
+		// Create the used hashes array.
+		$hashes = array( 'md5', 'sha1', 'crc32b', 'sha256' );
+		// Cycle through hash types and add filter if option exists.
+		foreach ( $hashes as $hash ) {
+			if ( '1' == get_option( 'dlm_generate_hash_' . $hash, 0 ) ) {
+				// Return true to enable hash generation.
+				add_filter( 'dlm_generate_hash_' . $hash, '__return_true', 5 );
+			}
+		}
+	}
+
+	/**
+	 * Compatibility mode for X-Sendfile.
+	 *
+	 * @param  bool  $return  The return value.
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.6
+	 */
+	public function x_sendfile_compatibility( $return ) {
+		// Check if the X-Sendfile option exists in the DB. IF exists, most likely the user had it enabled.
+		if ( '1' === get_option( 'dlm_xsendfile_enabled', '0' ) ) {
+			$return = true;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Compatibility mode for X-Forwarded-For.
+	 *
+	 * @param  bool  $return  The return value.
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.6
+	 */
+	public function allow_x_forwarded_compatibility( $return ) {
+		// Check if the X-Forwarded-For option exists in the DB. IF exists, most likely the user had it enabled.
+		if ( '1' === get_option( 'dlm_allow_x_forwarded_for', '0' ) ) {
+			$return = true;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Compatibility mode for hotlink protection.
+	 *
+	 * @param  bool  $return  The return value.
+	 *
+	 * @return bool
+	 *
+	 * @since 4.9.6
+	 */
+	public function hotlink_protection_compatibility( $return ) {
+		// Check if the hotlink protection option exists in the DB. IF exists, most likely the user had it enabled.
+		if ( '1' === get_option( 'dlm_hotlink_protection_enabled', '0' ) ) {
+			$return = true;
+		}
+
+		return $return;
 	}
 }

@@ -95,13 +95,6 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 
 		$this->set_settings( array(
 			array(
-				'name'  => 'invoice_prefix',
-				'type'  => 'text',
-				'std'   => '',
-				'label' => __( 'Invoice Prefix', 'download-monitor' ),
-				'desc'  => __( "This prefix is added to the paypal invoice ID. If you run multiple stores with the same PayPal account, enter an unique prefix per store here.", 'download-monitor' )
-			),
-			array(
 				'name'  => '',
 				'type'  => 'title',
 				'title' => __( 'Application Details', 'download-monitor' )
@@ -317,10 +310,10 @@ class PayPalGateway extends PaymentGateway\PaymentGateway {
 		       ->setDetails( $details );
 
 		// setup transactions
-		$invoiceStr = $order->get_id();
-		$invoice_prefix = $this->get_option( 'invoice_prefix' );
+		$invoiceStr     = $order->get_id();
+		$invoice_prefix = download_monitor()->service( 'settings' )->get_option( 'dlm_invoice_prefix' );
 		if ( ! empty( $invoice_prefix ) ) {
-			$invoiceStr = $this->get_option( 'invoice_prefix' ) . $invoiceStr;
+			$invoiceStr = $invoice_prefix . $invoiceStr;
 		}
 
 		// setup transaction object

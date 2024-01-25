@@ -39,7 +39,8 @@ class WP_DLM {
 	 * @return string
 	 */
 	public function get_plugin_url() {
-		return plugins_url( basename( plugin_dir_path( $this->get_plugin_file() ) ), basename( $this->get_plugin_file() ) );
+		return plugins_url( basename( plugin_dir_path( $this->get_plugin_file() ) ),
+			basename( $this->get_plugin_file() ) );
 	}
 
 	/**
@@ -169,7 +170,8 @@ class WP_DLM {
 		}
 
 		// Functions
-		require_once( $this->get_plugin_path() . 'includes/download-functions.php' );
+		require_once( $this->get_plugin_path()
+		              . 'includes/download-functions.php' );
 
 		// Deprecated
 		require_once( $this->get_plugin_path() . 'includes/deprecated.php' );
@@ -218,11 +220,12 @@ class WP_DLM {
 		$gb_download_preview->setup();
 
 		// Backwards Compatibility.
-		$dlm_backwards_compatibility = DLM_Backwards_Compatibility::get_instance();
+		$dlm_backwards_compatibility
+			= DLM_Backwards_Compatibility::get_instance();
 
 		// Setup integrations
 		$this->setup_integrations();
-
+    
 		// Setup class that handles the frontend templates
 		DLM_Frontend_Templates::get_instance();
 		// check if we need to bootstrap E-Commerce
@@ -231,9 +234,11 @@ class WP_DLM {
 		}
 
 		// Fix to whitelist our function for PolyLang.
-		add_filter( 'pll_home_url_white_list', array( $this, 'whitelist_polylang' ), 15, 1 );
+		add_filter( 'pll_home_url_white_list',
+			array( $this, 'whitelist_polylang' ), 15, 1 );
 		// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front.
-		add_filter( 'wp_get_attachment_url', array( $this, 'generate_attachment_url' ), 15, 2 );
+		add_filter( 'wp_get_attachment_url',
+			array( $this, 'generate_attachment_url' ), 15, 2 );
 	}
 
 	/**
@@ -247,10 +252,13 @@ class WP_DLM {
 		if ( get_user_locale() !== get_locale() ) {
 
 			unload_textdomain( 'download-monitor' );
-			$locale = apply_filters( 'plugin_locale', get_user_locale(), 'download-monitor' );
+
+			$locale = apply_filters( 'plugin_locale', get_user_locale(),
+				'download-monitor' );
 
 			$lang_ext  = sprintf( '%1$s-%2$s.mo', 'download-monitor', $locale );
-			$lang_ext1 = WP_LANG_DIR . "/download-monitor/download-monitor-{$locale}.mo";
+			$lang_ext1 = WP_LANG_DIR
+			             . "/download-monitor/download-monitor-{$locale}.mo";
 			$lang_ext2 = WP_LANG_DIR . "/plugins/download-monitor/{$lang_ext}";
 
 			if ( file_exists( $lang_ext1 ) ) {
@@ -272,14 +280,16 @@ class WP_DLM {
 	 */
 	private function setup_actions() {
 
-		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ), array( $this, 'plugin_links' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ),
+			array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 
 		// Get the correct download link in archive pages or when retrieving download permalink
-		add_filter( 'post_type_link', array( $this, 'archive_filter_download_link' ), 20, 2 );
+		add_filter( 'post_type_link',
+			array( $this, 'archive_filter_download_link' ), 20, 2 );
 
 		// setup product manager
 		DLM_Product_Manager::get()->setup();
@@ -315,13 +325,16 @@ class WP_DLM {
 			$current_support = get_theme_support( 'post-thumbnails' );
 
 			// fix current support for some themes
-			if ( is_array( $current_support ) && is_array( $current_support[0] ) ) {
+			if ( is_array( $current_support )
+			     && is_array( $current_support[0] )
+			) {
 				$current_support = $current_support[0];
 			}
 
 			// This can be a bool or array. If array we merge our post type in, if bool ignore because it's like a global theme setting.
 			if ( is_array( $current_support ) ) {
-				add_theme_support( 'post-thumbnails', array_merge( $current_support, array( 'dlm_download' ) ) );
+				add_theme_support( 'post-thumbnails',
+					array_merge( $current_support, array( 'dlm_download' ) ) );
 			}
 
 			add_post_type_support( 'download', 'thumbnail' );
@@ -343,7 +356,8 @@ class WP_DLM {
 		}
 
 		$plugin_links = array(
-			'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings', 'download-monitor' ) . '</a>'
+			'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings',
+				'download-monitor' ) . '</a>',
 		);
 
 		return array_merge( $plugin_links, $links );
@@ -358,7 +372,9 @@ class WP_DLM {
 	public function frontend_scripts() {
 
 		if ( apply_filters( 'dlm_frontend_scripts', true ) ) {
-			wp_register_style( 'dlm-frontend', $this->get_plugin_url() . '/assets/css/frontend-tailwind.min.css', array(), DLM_VERSION );
+			wp_register_style( 'dlm-frontend', $this->get_plugin_url()
+			                                   . '/assets/css/frontend-tailwind.min.css',
+				array(), DLM_VERSION );
 		}
 
 		// only enqueue preview stylesheet when we're in the preview.
@@ -366,7 +382,8 @@ class WP_DLM {
 			// Enqueue admin css
 			wp_enqueue_style(
 				'dlm_preview',
-				plugins_url( '/assets/css/preview.min.css', $this->get_plugin_file() ),
+				plugins_url( '/assets/css/preview.min.css',
+					$this->get_plugin_file() ),
 				array(),
 				DLM_VERSION
 			);
@@ -376,7 +393,8 @@ class WP_DLM {
 		if ( self::do_xhr() ) {
 			wp_register_script(
 				'dlm-xhr',
-				plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $this->get_plugin_file() ),
+				plugins_url( '/assets/js/dlm-xhr' . ( ( ! SCRIPT_DEBUG )
+						? '.min' : '' ) . '.js', $this->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION,
 				true
@@ -397,8 +415,8 @@ class WP_DLM {
 					'xhr_links'          => array(
 						'class' => array(
 							'download-link',
-							'download-button'
-						)
+							'download-button',
+						),
 					),
 					'prevent_duplicates' => WP_DLM::dlm_window_logging()
 				)
@@ -411,34 +429,44 @@ class WP_DLM {
 			$xhr_data = array_merge( $dlm_xhr_data, $dlm_xhr_security_data );
 			// Let's create the URL pointer for the download link. It will be used as a global variable in the xhr.js file
 			// and will be used to check if is a true download request or not.
-			$scheme            = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+			$scheme            = parse_url( get_option( 'home' ),
+				PHP_URL_SCHEME );
 			$endpoint          = get_option( 'dlm_download_endpoint' );
 			$endpoint          = $endpoint ? $endpoint : 'download';
 			$wpml_options      = get_option( 'icl_sitepress_settings', false );
 			$is_dlm_translated = false;
-			if ( $wpml_options && isset( $wpml_options['custom_posts_sync_option'] ) && in_array( 'dlm_download', $wpml_options['custom_posts_sync_option'] ) ) {
+			if ( $wpml_options
+			     && isset( $wpml_options['custom_posts_sync_option'] )
+			     && in_array( 'dlm_download',
+					$wpml_options['custom_posts_sync_option'] )
+			) {
 				$is_dlm_translated = true;
 			}
 
 			if ( $is_dlm_translated ) {
-				add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+				add_filter( 'wpml_get_home_url',
+					array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
 			}
 
 			if ( get_option( 'permalink_structure' ) ) {
 				// Fix for translation plugins that modify the home_url.
 				$download_pointing_url = get_home_url( null, '', $scheme );
-				$download_pointing_url = $download_pointing_url . '/' . $endpoint . '/';
+				$download_pointing_url = $download_pointing_url . '/'
+				                         . $endpoint . '/';
 			} else {
-				$download_pointing_url = add_query_arg( $endpoint, '', home_url( '', $scheme ) );
+				$download_pointing_url = add_query_arg( $endpoint, '',
+					home_url( '', $scheme ) );
 			}
 
 			// Now we can remove the filter as the link is generated.
 			//@todo: If Downloads will be made translatable in the future then this should be removed.
 			if ( $is_dlm_translated ) {
-				remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+				remove_filter( 'wpml_get_home_url',
+					array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
 			}
 			$nonXHRGlobalLinks = apply_filters( 'dlm_non_xhr_uri', array() );
-			$nonXHRGlobalLinks = array_map( 'sanitize_text_field', $nonXHRGlobalLinks );
+			$nonXHRGlobalLinks = array_map( 'sanitize_text_field',
+				$nonXHRGlobalLinks );
 			// The dlmXHRprogress is used to display the progress bar on the front end.
 			$dlmXHRprogress = apply_filters(
 				'dlm_xhr_progress',
@@ -447,20 +475,46 @@ class WP_DLM {
 					'animation' => includes_url( '/images/spinner.gif' ),
 				)
 			);
-			wp_add_inline_script( 'dlm-xhr', 'const dlmXHR = ' . json_encode( $xhr_data ) . '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "' . esc_url( $download_pointing_url ) . '"; const dlmNonXHRGlobalLinks = ' . json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "' . esc_url( $dlmXHRprogress['animation'] ) . '"; const dlmXHRProgress = "' . $dlmXHRprogress['display'] . '"', 'before' );
-			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations', apply_filters( 'dlm_xhr_error_translations', array(
-				'error'              => esc_html__( 'An error occurred while trying to download the file. Please try again.', 'download-monitor' ),
-				'not_found'          => esc_html__( 'Download does not exist.', 'download-monitor' ),
-				'no_file_path'       => esc_html__( 'No file path defined.', 'download-monitor' ),
-				'no_file_paths'      => esc_html__( 'No file paths defined.', 'download-monitor' ),
-				'filetype'           => esc_html__( 'Download is not allowed for this file type.', 'download-monitor' ),
-				'file_access_denied' => esc_html__( 'Access denied to this file.', 'download-monitor' ),
-				'access_denied'      => esc_html__( 'Access denied. You do not have permission to download this file.', 'download-monitor' ),
-				'security_error'     => esc_html__( 'Something is wrong with the file path.', 'download-monitor' ),
-				'file_not_found'     => esc_html__( 'File not found.', 'download-monitor' ),
-			) ) );
+
+			// Add the global variables for the XHR script.
+			wp_add_inline_script( 'dlm-xhr',
+				'const dlmXHR = ' . json_encode( $xhr_data )
+				. '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "'
+				. esc_url( $download_pointing_url )
+				. '"; const dlmNonXHRGlobalLinks = '
+				. json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "'
+				. esc_url( $dlmXHRprogress['animation'] )
+				. '"; const dlmXHRProgress = "' . $dlmXHRprogress['display']
+				. '"', 'before' );
+			// Add translations for the error messages.
+			wp_localize_script( 'dlm-xhr', 'dlmXHRtranslations',
+				apply_filters( 'dlm_xhr_error_translations', array(
+					'error'              => esc_html__( 'An error occurred while trying to download the file. Please try again.',
+						'download-monitor' ),
+					'not_found'          => esc_html__( 'Download does not exist.',
+						'download-monitor' ),
+					'no_file_path'       => esc_html__( 'No file path defined.',
+						'download-monitor' ),
+					'no_file_paths'      => esc_html__( 'No file paths defined.',
+						'download-monitor' ),
+					'filetype'           => esc_html__( 'Download is not allowed for this file type.',
+						'download-monitor' ),
+					'file_access_denied' => esc_html__( 'Access denied to this file.',
+						'download-monitor' ),
+					'access_denied'      => esc_html__( 'Access denied. You do not have permission to download this file.',
+						'download-monitor' ),
+					'security_error'     => esc_html__( 'Something is wrong with the file path.',
+						'download-monitor' ),
+					'file_not_found'     => esc_html__( 'File not found.',
+						'download-monitor' ),
+				) ) );
 		}
 
+		/**
+		 * Fires after frontend scripts are enqueued
+		 *
+		 * @hooked WPChill\DownloadMonitor\Shop\Util\Assets::enqueue_assets - 10
+		 */
 		do_action( 'dlm_frontend_scripts_after' );
 
 	}
@@ -494,7 +548,8 @@ class WP_DLM {
 		}
 
 		try {
-			$download                = $this->service( 'download_repository' )->retrieve_single( $post->ID );
+			$download                = $this->service( 'download_repository' )
+			                                ->retrieve_single( $post->ID );
 			$GLOBALS['dlm_download'] = $download;
 		} catch ( Exception $e ) {
 
@@ -558,8 +613,9 @@ class WP_DLM {
 	}
 
 	/**
-	 * Returns a listing of all files in the specified folder and all subdirectories up to 100 levels deep.
-	 * The depth of the recursiveness can be controlled by the $levels param.
+	 * Returns a listing of all files in the specified folder and all
+	 * subdirectories up to 100 levels deep. The depth of the recursiveness can
+	 * be controlled by the $levels param.
 	 *
 	 * @param string $folder (default: '')
 	 *
@@ -686,7 +742,8 @@ class WP_DLM {
 	}
 
 	/**
-	 * Filter the download link so that it retrieves the corresponding download link in archive pages
+	 * Filter the download link so that it retrieves the corresponding download
+	 * link in archive pages
 	 *
 	 * @param $post_link
 	 * @param $post
@@ -701,7 +758,8 @@ class WP_DLM {
 			// fetch download object
 			try {
 				/** @var DLM_Download $download */
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+				$download = download_monitor()->service( 'download_repository' )
+				                              ->retrieve_single( $post->ID );
 
 				return $download->get_the_download_link();
 			} catch ( Exception $e ) {
@@ -731,7 +789,7 @@ class WP_DLM {
 	 */
 	public static function do_xhr() {
 		$return = true;
-		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+		if ( self::dlm_x_sendfile() ) {
 			$return = false;
 		}
 
@@ -739,7 +797,8 @@ class WP_DLM {
 	}
 
 	/**
-	 * Return the Download Link for a given file if that file was protected by DLM
+	 * Return the Download Link for a given file if that file was protected by
+	 * DLM
 	 *
 	 * @param $url
 	 * @param $attachment_id
@@ -750,15 +809,18 @@ class WP_DLM {
 	public function generate_attachment_url( $url, $attachment_id ) {
 		// Get the Download ID, if exists
 		$known_download = get_post_meta( $attachment_id, 'dlm_download', true );
-		$protected      = get_post_meta( $attachment_id, 'dlm_protected_file', true );
+		$protected      = get_post_meta( $attachment_id, 'dlm_protected_file',
+			true );
 		// If it doesn't exist, return the original URL
 		if ( empty( $known_download ) || '1' !== $protected ) {
 			return $url;
 		}
 
 		$known_download = json_decode( $known_download, true );
-		$download_id    = isset( $known_download['download_id'] ) ? $known_download['download_id'] : false;
-		$version_id     = isset( $known_download['version_id'] ) ? $known_download['version_id'] : false;
+		$download_id    = isset( $known_download['download_id'] )
+			? $known_download['download_id'] : false;
+		$version_id     = isset( $known_download['version_id'] )
+			? $known_download['version_id'] : false;
 
 		if ( ! $download_id ) {
 			return $url;
@@ -768,7 +830,8 @@ class WP_DLM {
 		// Try to find our Download
 		try {
 			/** @var DLM_Download $download */
-			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download_id ) );
+			$download = download_monitor()->service( 'download_repository' )
+			                              ->retrieve_single( absint( $download_id ) );
 		} catch ( Exception $exception ) {
 			return $url;
 		}
@@ -793,7 +856,6 @@ class WP_DLM {
 	public function deactivate_this_plugin() {
 		self::handle_plugin_action();
 	}
-
 
 	/**
 	 * Handle plugin activation/deactivation hook
@@ -829,9 +891,19 @@ class WP_DLM {
 	 * Enable/disable X-Sendfile functionality
 	 *
 	 * @return mixed|null
-	 * @since 4.9.4
+	 * @since 4.9.6
 	 */
 	public static function dlm_x_sendfile() {
+		/**
+		 * Hook to enable or disable the X-Sendfile functionality
+		 *
+		 *
+		 * @hook   dlm_x_sendfile
+		 *
+		 * @hooked DLM_Backwards_Compatibility->x_sendfile_compatibility() - 5
+		 *
+		 * @since  4.9.6
+		 */
 		return apply_filters( 'dlm_x_sendfile', false );
 	}
 
@@ -849,9 +921,18 @@ class WP_DLM {
 	 * Enable/disable Proxy IP Override functionality
 	 *
 	 * @return mixed|null
-	 * @since 4.9.4
+	 * @since 4.9.6
 	 */
 	public static function dlm_proxy_ip_override() {
+		/**
+		 * Hook to enable or disable the Proxy IP Override functionality
+		 *
+		 * @hook   dlm_allow_x_forwarded_for
+		 *
+		 * @hooked DLM_Backwards_Compatibility->allow_x_forwarded_compatibility() - 5
+		 *
+		 * @since  4.9.6
+		 */
 		return apply_filters( 'dlm_allow_x_forwarded_for', false );
 	}
 
@@ -859,9 +940,18 @@ class WP_DLM {
 	 * Enable/disable Hotlink prevention functionality
 	 *
 	 * @return mixed|null
-	 * @since 4.9.4
+	 * @since 4.9.6
 	 */
 	public static function dlm_prevent_hotlinking() {
+		/**
+		 * Hook to enable or disable the Hotlink prevention functionality
+		 *
+		 * @hook   dlm_hotlink_protection
+		 *
+		 * @hooked DLM_Backwards_Compatibility->hotlink_protection_compatibility() - 5
+		 *
+		 * @since  4.9.6
+		 */
 		return apply_filters( 'dlm_hotlink_protection', false );
 	}
 }

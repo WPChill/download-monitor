@@ -8,14 +8,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class DLM_Frontend_Templates
  * Class used to handle frontend templates.
  *
- * @since 4.9.5
+ * @since 4.9.6
  */
 class DLM_Frontend_Templates {
 
 	/**
 	 * Holds the class object.
 	 *
-	 * @since 4.4.7
+	 * @since 4.9.6
 	 *
 	 * @var object
 	 */
@@ -25,7 +25,7 @@ class DLM_Frontend_Templates {
 	 * Class constructor
 	 *
 	 * @return void
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	private function __construct() {
 		// Set required hooks
@@ -36,7 +36,7 @@ class DLM_Frontend_Templates {
 	 * Sets the hooks
 	 *
 	 * @return void
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	private function set_hooks() {
 		add_filter( 'dlm_template_attributes', array( $this, 'add_template_attributes' ), 15, 3 );
@@ -46,7 +46,7 @@ class DLM_Frontend_Templates {
 	 * Returns the singleton instance of the class.
 	 *
 	 * @return object The DLM_Frontend_Templates object.
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Frontend_Templates ) ) {
@@ -64,7 +64,7 @@ class DLM_Frontend_Templates {
 	 * @param  string  $template    The template to be used.
 	 *
 	 * @return array
-	 * @since 4.9.5
+	 * @since 4.9.6
 	 */
 	public function add_template_attributes( $attributes, $download, $template ) {
 		switch ( $template ) {
@@ -80,7 +80,7 @@ class DLM_Frontend_Templates {
 				break;
 			case 'no-version':
 				$attributes['link_attributes']['title']  = esc_html__( 'Please set a version in your WordPress admin', 'download-monitor' );
-				$attributes['link_attributes']['href'][] = '#';
+				$attributes['link_attributes']['href'] = '#';
 				break;
 			case 'title':
 				break;

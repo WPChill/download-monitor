@@ -5,6 +5,15 @@ use WPChill\DownloadMonitor\Shop\Services\Services;
 class DLM_Admin_Settings {
 
 	/**
+	 * Array used for preloading shortcodes to required pages
+	 *
+	 * @var array
+	 *
+	 * @since 4.9.6
+	 */
+	public $page_preloaders = array();
+
+	/**
 	 * Get settings URL
 	 *
 	 * @return string
@@ -13,8 +22,9 @@ class DLM_Admin_Settings {
 		return admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' );
 	}
 
-	public function __construct(){
-		add_action( 'update_option_dlm_no_access_page', array( $this, 'access_page_shortcode_to_page'), 20, 2 );
+	public function __construct() {
+		// Add shortcodes to required pages
+		$this->preload_shortcodes();
 	}
 
 	/**
@@ -28,25 +38,20 @@ class DLM_Admin_Settings {
 
 		// register our options and settings
 		foreach ( $settings as $tab_key => $tab ) {
-
 			foreach ( $tab['sections'] as $section_key => $section ) {
-
 				$option_group = 'dlm_' . $tab_key . '_' . $section_key;
 
 				// Check to see if $section['fields'] is set, we could be using it for upsells
 				if ( isset( $section['fields'] ) ) {
 					foreach ( $section['fields'] as $field ) {
-
-						if( $field['type']  == 'group' ){
-							foreach( $field['options'] as $group_field ){
-
-								if ( ! empty( $group_field['name'] )  ) {
+						if ( $field['type'] == 'group' ) {
+							foreach ( $field['options'] as $group_field ) {
+								if ( ! empty( $group_field['name'] ) ) {
 									if ( isset( $group_field['std'] ) ) {
 										add_option( $group_field['name'], $group_field['std'] );
 									}
 									register_setting( $option_group, $group_field['name'] );
 								}
-
 							}
 							continue;
 						}
@@ -71,7 +76,6 @@ class DLM_Admin_Settings {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -81,13 +85,12 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	public function get_settings() {
-
-		$settings                                               = array(
-			'general'              => array(
+		$settings = array(
+			'general'            => array(
 				'title'    => __( 'General', 'download-monitor' ),
 				'sections' => array(
 					'general' => array(
-						'title'  => __( 'Download', 'download-monitor' ),
+						'title'  => __( 'General settings', 'download-monitor' ),
 						'fields' => array(
 							array(
 								'name'        => 'dlm_download_endpoint',
@@ -147,7 +150,7 @@ class DLM_Admin_Settings {
 				),
 				'priority' => 10,
 			),
-			'advanced'             => array(
+			'advanced'           => array(
 				'title'    => __( 'Advanced', 'download-monitor' ),
 				'sections' => array(
 					'page_setup' => array(
@@ -199,49 +202,7 @@ class DLM_Admin_Settings {
 								'type'        => 'textarea',
 							),
 						),
-					), /*
-					'hash'       => array(
-						'title'  => __( 'Hashes', 'download-monitor' ),
-						'fields' => array(
-							array(
-								'name' => 'dlm_hash_desc',
-								'text' => sprintf( __( 'Hashes can optionally be output via shortcodes, but may cause performance issues with large files. %1$sYou can read more about hashes here%2$s', 'download-monitor' ), '<a href="https://www.download-monitor.com/kb/download-hashes/" target="_blank">', '</a>' ),
-								'type' => 'desc',
-							),
-							array(
-								'name'     => 'dlm_generate_hash_md5',
-								'std'      => '0',
-								'label'    => __( 'MD5 hashes', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
-								'name'     => 'dlm_generate_hash_sha1',
-								'std'      => '0',
-								'label'    => __( 'SHA1 hashes', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
-								'name'     => 'dlm_generate_hash_sha256',
-								'std'      => '0',
-								'label'    => __( 'SHA256 hashes', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Generate SHA256 hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-							array(
-								'name'     => 'dlm_generate_hash_crc32b',
-								'std'      => '0',
-								'label'    => __( 'CRC32B hashes', 'download-monitor' ),
-								'cb_label' => '',
-								'desc' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
-								'type'     => 'checkbox',
-							),
-						),
-					), */
+					),
 					'logging'    => array(
 						'title'  => __( 'Reports', 'download-monitor' ),
 						'fields' => array(
@@ -270,38 +231,45 @@ class DLM_Admin_Settings {
 				),
 				'priority' => 20,
 			),
-			'lead_generation'      => array(
+			'lead_generation'    => array(
 				'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(
-					'email_lock'    => array(
+					'email_lock'           => array(
 						'title'    => esc_html__( 'Email Lock', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'ninja_forms'   => array(
+					'ninja_forms'          => array(
 						'title'    => esc_html__( 'Ninja Forms', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'gravity_forms' => array(
+					'gravity_forms'        => array(
 						'title'    => esc_html__( 'Gravity Forms', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'twitter_lock'  => array(
+					'twitter_lock'         => array(
 						'title'    => esc_html__( 'Twitter Lock', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
+					'terns_and_conditions' => array(
+						'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+						'badge'    => true,
+						'sections' => array(),
+						'fields'   => array(),
+						'priority' => 70,
+					),
 				),
 				'priority' => 30,
 			),
-			'external_hosting'     => array(
+			'external_hosting'   => array(
 				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(
@@ -320,23 +288,17 @@ class DLM_Admin_Settings {
 				),
 				'priority' => 40,
 			),
-			'integration'          => array(
+			'integration'        => array(
 				'title'    => esc_html__( 'Integration', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(),
 				'priority' => 50,
 			),
-			'email_notification'   => array(
+			'email_notification' => array(
 				'title'    => esc_html__( 'Emails', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(),
 				'priority' => 60,
-			),
-			'terns_and_conditions' => array(
-				'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
-				'badge'    => true,
-				'sections' => array(),
-				'priority' => 70,
 			),
 		);
 
@@ -349,12 +311,12 @@ class DLM_Admin_Settings {
 						array(
 							'name'     => 'dlm_shop_enabled',
 							'std'      => '',
-							'label'    => __( 'Enable Shop', 'download-monitor' ),
+							'label'    => __( 'Shop', 'download-monitor' ),
 							'cb_label' => '',
 							'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
 							'type'     => 'checkbox',
 							'priority' => 20,
-						)
+						),
 					),
 				),
 			),
@@ -365,6 +327,13 @@ class DLM_Admin_Settings {
 			$settings['shop']['sections']['general']['fields'] = array_merge(
 				$settings['shop']['sections']['general']['fields'],
 				array(
+					array(
+						'name'  => 'dlm_invoice_prefix',
+						'type'  => 'text',
+						'std'   => '',
+						'label' => __( 'Invoice Prefix', 'download-monitor' ),
+						'desc'  => __( 'This prefix is added to the invoice ID. Enter an unique prefix here.', 'download-monitor' )
+					),
 					array(
 						'name'    => 'dlm_base_country',
 						'std'     => 'US',
@@ -413,13 +382,13 @@ class DLM_Admin_Settings {
 						'std'      => '',
 						'label'    => __( 'Disable Cart', 'download-monitor' ),
 						'cb_label' => '',
-						'desc'     => __( 'If checked, your customers will be sent to your checkout page directly.', 'download-monitor' ),
+						'desc'     => __( 'If enabled, your customers will be sent to your checkout page directly.', 'download-monitor' ),
 						'type'     => 'checkbox',
 					),
 					array(
 						'name'  => '',
 						'type'  => 'title',
-						'title' => __( 'Pages', 'download-monitor' )
+						'title' => __( 'Pages', 'download-monitor' ),
 					),
 					array(
 						'name'    => 'dlm_page_cart',
@@ -452,7 +421,6 @@ class DLM_Admin_Settings {
 		// Backwards compatibility for 4.3 and 4.4.4
 		$settings = $this->backwards_compatibility_settings( $old_settings, $settings );
 
-		uasort( $settings, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
 		// Let's sort the fields by priority
 		foreach ( $settings as $key => $setting ) {
 			// Check if we have sections
@@ -473,6 +441,28 @@ class DLM_Admin_Settings {
 			}
 		}
 
+		// If upsells are not removed, we need to remove empty tabs/sections
+		if ( apply_filters( 'dlm_remove_upsells', false ) ) {
+			// Cycle through all settings and unset tabs/sections that have no fields
+			foreach ( $settings as $key => $setting ) {
+				// If there are no sections, unset the tab
+				if ( empty( $setting['sections'] ) ) {
+					unset( $settings[ $key ] );
+				} else {
+					foreach ( $setting['sections'] as $s_key => $section ) {
+						// IF there are no fields, unset the section
+						if ( empty( $section['fields'] ) ) {
+							unset( $settings[ $key ]['sections'][ $s_key ] );
+						}
+					}
+				}
+
+				if ( empty( $settings[ $key ]['sections'] ) ) {
+					unset( $settings[ $key ] );
+				}
+			}
+		}
+
 		return $settings;
 	}
 
@@ -488,7 +478,7 @@ class DLM_Admin_Settings {
 	/**
 	 * Fetch and returns pages on lazy select for dlm_no_access_page option
 	 *
-	 * @param array $options
+	 * @param  array  $options
 	 *
 	 * @return array
 	 */
@@ -506,10 +496,8 @@ class DLM_Admin_Settings {
 	 * @since 4.4.5
 	 */
 	public function backwards_compatibility_settings( $old_settings, $settings ) {
-
 		// First we check if there is info in $old_settings
 		if ( empty( $old_settings ) ) {
-
 			return $settings;
 		}
 
@@ -522,7 +510,7 @@ class DLM_Admin_Settings {
 			'email_notification',
 			'gravity_forms',
 			'ninja_forms',
-			'terns_and_conditions',
+			//'terns_and_conditions',
 			'twitter_lock',
 			'page_addon',
 		);
@@ -530,9 +518,7 @@ class DLM_Admin_Settings {
 		foreach ( $old_settings as $tab_key => $tab ) {
 			// $tab[1] contains the fields inside the setting, not being set means it doesn't have any fields
 			if ( ! empty( $tab[1] ) ) {
-
 				if ( in_array( $tab_key, $compatibility_tabs ) ) {
-
 					$tab_title   = false;
 					$tab_section = $tab_key;
 
@@ -566,16 +552,14 @@ class DLM_Admin_Settings {
 						$settings['email_notification'] = array(
 							'title' => esc_html__( 'Emails', 'download-monitor' ),
 						);
-
 					}
 
-					if ( 'terns_and_conditions' == $tab_key ) {
-						$tab_parent = 'terns_and_conditions';
-						$tab_title  = true;
-					}
+					/*	if ( 'terns_and_conditions' == $tab_key ) {
+							$tab_parent = 'terns_and_conditions';
+							$tab_title  = true;
+						}*/
 
 					if ( isset( $tab[0] ) && ! $tab_title ) {
-
 						$settings[ $tab_parent ]['sections'][ $tab_section ] = array(
 							'title'    => $tab[0],
 							'sections' => array(),
@@ -584,7 +568,6 @@ class DLM_Admin_Settings {
 
 					// Let's check if there are sections or fields so we can add other fields and not overwrite them
 					if ( isset( $settings[ $tab_parent ]['sections'] ) && isset( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] ) ) {
-
 						$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = array_merge( $settings[ $tab_parent ]['sections'][ $tab_section ]['fields'], $tab[1] );
 					} else {
 						$settings[ $tab_parent ]['sections'][ $tab_section ]['fields'] = $tab[1];
@@ -595,9 +578,7 @@ class DLM_Admin_Settings {
 						unset( $settings[ $tab_key ] );
 					}
 				} else {
-
 					foreach ( $tab[1] as $other_tab_fields ) {
-
 						$settings['other']['sections']['other']['fields'][] = $other_tab_fields;
 					}
 				}
@@ -619,7 +600,6 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	private function get_pages() {
-
 		// pages
 		$pages = array(
 			array(
@@ -651,7 +631,6 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	private function get_currency_list_with_symbols() {
-
 		/** @var \WPChill\DownloadMonitor\Shop\Helper\Currency $currency_helper */
 		$currency_helper = Services::get()->service( "currency" );
 
@@ -674,7 +653,6 @@ class DLM_Admin_Settings {
 	 * @return array
 	 */
 	private function get_payment_methods_sections() {
-
 		$gateways = Services::get()->service( 'payment_gateway' )->get_all_gateways();
 
 		// formatted array of gateways with id=>title map (used in select fields)
@@ -714,7 +692,6 @@ class DLM_Admin_Settings {
 		if ( ! empty( $gateways ) ) {
 			/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
-
 				// Option to enable gateways already exists in the Payment Gateways. We should not add it again.
 				$fields = array();
 
@@ -743,35 +720,64 @@ class DLM_Admin_Settings {
 	}
 
 	/**
-	 * Add the required shortcode to the page content
-	 *
-	 * @param $old
-	 * @param $new
+	 * Preload shortcodes to required pages
 	 *
 	 * @return void
-	 * @since 4.9.4
 	 */
-	public function access_page_shortcode_to_page( $old, $new ) {
+	private function preload_shortcodes() {
+		/**
+		 * Filter the shortcodes to preload to the required pages
+		 *
+		 * Array should consist of key => value pairs where the key is the option and the value is the shortcode to preload
+		 *
+		 * @hook  dlm_preload_shortcodes
+		 *
+		 * @param  array $page_preloaders  The array of page preloaders.
+		 *
+		 * @return array
+		 * @since 4.9.6
+		 */
+		$this->page_preloaders = apply_filters(
+			'dlm_preload_shortcodes',
+			array(
+				'dlm_no_access_page' => '[dlm_no_access]',
+				'dlm_page_cart'      => '[dlm_cart]',
+				'dlm_page_checkout'  => '[dlm_checkout]',
+			)
+		);
+		if ( ! empty( $this->page_preloaders ) ) {
+			foreach ( $this->page_preloaders as $option => $shortcode ) {
+				add_action( 'update_option_' . $option, array( $this, 'preload_shortcode_to_page' ), 15, 3 );
+			}
+		}
+	}
+
+	/**
+	 * Add the required shortcode to the page content
+	 *
+	 * @param  mixed   $old     The old page ID.
+	 * @param  mixed   $new     The new page ID.
+	 * @param  string  $option  The option name.
+	 *
+	 * @return void
+	 * @since 4.9.6
+	 */
+	public function preload_shortcode_to_page( $old, $new, $option ) {
 		$page_id = absint( $new );
 
 		// 1. Get the unformatted post(page) content.
 		$page = get_post( $page_id );
 
-		// 2. Just checking to be sure we got content.
-		if ( ! isset( $page->post_content ) ) {
-			return;
-		}
-
-		// 3. Search the content for the existance of our [dlm_no_access] shortcode.
-		if ( false !== strpos( $page->post_content, '[dlm_no_access]' ) ) {
+		// 2. Search the content for the existence of our shortcode.
+		if ( false !== strpos( $page->post_content, $this->page_preloaders[ $option ] ) ) {
 			// The page has the no access shortcode, return;
 			return;
 		}
 
-		// 4. If we got here it means we need to add our shortcode to the page's content.
-		$page->post_content .= '[dlm_no_access]';
+		// 3. If we got here it means we need to add our shortcode to the page's content.
+		$page->post_content .= $this->page_preloaders[ $option ];
 
-		// 5. Finally, we update the post.
+		// 4. Finally, we update the post.
 		wp_update_post( $page );
 	}
 }
