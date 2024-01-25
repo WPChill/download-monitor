@@ -92,6 +92,10 @@ class DLM_Template_Handler {
 					$dlm_download = $download;
 				}
 			}
+			// Check if $dlm_download is set, if not set it to false. This happens to shortcodes where the Download is not set.
+			if ( ! isset( $dlm_download ) ) {
+				$dlm_download = false;
+			}
 
 			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );
 			$attributes = $this->get_template_attributes( $dlm_download, $template, $slug, $name );
