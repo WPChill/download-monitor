@@ -120,6 +120,9 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.0 - TBD =
+Fixed: File Browser not working on installations that return '//' ( double slashed ) paths ( [#1412](https://github.com/WPChill/download-monitor/issues/1412) )
+
 = 4.9.7 - 23.01.2024 =
 Fixed: [] operator not supported for strings error. ( [#1409](https://github.com/WPChill/download-monitor/issues/1409) )
 Fixed: User reports not showing user name & role. ( [#1410](https://github.com/WPChill/download-monitor/issues/1410) )

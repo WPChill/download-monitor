@@ -167,12 +167,12 @@ class DLM_Ajax_Handler {
 			die();
 		}
 
+		$path = sanitize_text_field( wp_unslash( $_POST['path'] ) );
+
 		// If searched path is not a child of ABSPATH die - prevents directory traversal
-		if ( false === strpos( $_POST['path'], ABSPATH ) ) {
+		if ( false === strpos( $path , ABSPATH ) ) {
 			die();
 		}
-
-		$path = sanitize_text_field( wp_unslash( $_POST['path'] ) );
 
 		// List all files
 		$files = download_monitor()->service( 'file_manager' )->list_files( $path );
