@@ -174,6 +174,14 @@ class DLM_Ajax_Handler {
 			die();
 		}
 
+		// Set $deny to false, we will use this later to check if we should hide a folder.
+		// Used to deny access in multisite environments to secondary sites uploads folder.
+		$deny = false;
+		// Check if it's a multisite installation & it's main site.
+		if( defined( 'MULTISITE' ) && MULTISITE && is_main_site()){
+			$deny = 'sites';
+		}
+
 		// List all files
 		$files = download_monitor()->service( 'file_manager' )->list_files( $path );
 
@@ -184,6 +192,10 @@ class DLM_Ajax_Handler {
 
 			if ( $found_file['type'] == 'folder' ) {
 
+				// Deny access to this folder?
+				if( $deny && $file['basename'] === $deny ){
+					continue;
+				}
 				echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
 
 			} else {

@@ -28,8 +28,15 @@ class DLM_Admin_Media_Browser {
 		// File Manager
 		$file_manager = new DLM_File_Manager();
 
-		// Files
-		$files = $file_manager->list_files( ABSPATH, 1 );
+		// Check if it's a multisite installation and we are on a secondary site.
+		if( ( defined( 'MULTISITE' ) && MULTISITE ) && ! is_main_site() ){
+			// This is a secondary site. Get all files from it's own upload dir.
+			$upload_dir = wp_upload_dir();
+			$files = $file_manager->list_files( $upload_dir['basedir'], 1 );
+		}else{
+			// Not a multisite or it is main site so get all files.
+			$files = $file_manager->list_files( ABSPATH, 1 );
+		}
 
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . esc_html__( 'Browse for a file', 'download-monitor' ) . '</title>';
 
