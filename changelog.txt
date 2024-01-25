@@ -1,3 +1,7 @@
+= 4.9.8 - 25.01.2024 =
+Fixed: Products update problem ( [#1415](https://github.com/WPChill/download-monitor/issues/1415) )
+Fixed: PHP Warnings on non-defined Download templates ( [#1413](https://github.com/WPChill/download-monitor/issues/1413) )
+
 = 4.9.7 - 23.01.2024 =
 Fixed: [] operator not supported for strings error. ( [#1409](https://github.com/WPChill/download-monitor/issues/1409) )
 Fixed: User reports not showing user name & role. ( [#1410](https://github.com/WPChill/download-monitor/issues/1410) )
