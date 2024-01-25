@@ -24,7 +24,7 @@ class DLM_Product {
 	/**
 	 * Update endpoint
 	 */
-	const ENDPOINT_UPDATE = 'wp_plugin_licencing_update_api';
+	const ENDPOINT_UPDATE = '?wc-api=wp_plugin_licencing_update_api';
 
 	/**
 	 * @var String
