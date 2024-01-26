@@ -28,15 +28,24 @@ class DLM_Admin_Media_Browser {
 		// File Manager
 		$file_manager = new DLM_File_Manager();
 
+		// Define path as default ABSPATH.
+		$path = ABSPATH;
+
 		// Check if it's a multisite installation and we are on a secondary site.
 		if( ( defined( 'MULTISITE' ) && MULTISITE ) && ! is_main_site() ){
-			// This is a secondary site. Get all files from it's own upload dir.
-			$upload_dir = wp_upload_dir();
-			$files = $file_manager->list_files( $upload_dir['basedir'], 1 );
-		}else{
-			// Not a multisite or it is main site so get all files.
-			$files = $file_manager->list_files( ABSPATH, 1 );
+			// Getting network-wide DLM settings.
+			$settings = get_site_option( 'dlm_network_settings', array() );
+
+			// Check if we allow cross-site browsing of wp_uploads.
+			if( ! isset( $settings['dlm_crossite_file_browse'] ) || '0' == $settings['dlm_crossite_file_browse'] ){
+				// This is a secondary site & cross-browse NOT allowed. Get all files from it's own upload dir.
+				$upload_dir = wp_upload_dir();
+				$path = $upload_dir['basedir'];
+			}
 		}
+
+		// Get files based on path.
+		$files = $file_manager->list_files( $path, 1 );
 
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . esc_html__( 'Browse for a file', 'download-monitor' ) . '</title>';
 

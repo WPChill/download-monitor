@@ -168,7 +168,7 @@ class DLM_Admin {
 			$enqueue = true;
 		}
 
-		if ( isset( $_GET['page'] ) && 'download-monitor-orders' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && ( 'download-monitor-orders' === $_GET['page'] || 'download-monitor-settings' === $_GET['page'] ) ) {
 			$enqueue = true;
 		}
 

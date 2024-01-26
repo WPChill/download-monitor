@@ -339,7 +339,23 @@ class DLM_Admin_Writepanels {
 			if ( ! empty( $paths ) ) {
 				$common_path  = false;
 				$paths_array  = array();
-				$allowed_path = get_option( 'dlm_downloads_path', false );
+
+				if( is_multisite() ){
+					$allowed_path = false;
+					$settings = get_site_option( 'dlm_network_settings', array() );
+					if( isset( $settings['dlm_downloads_path'] ) && '' != $settings['dlm_downloads_path'] ){
+						if( is_main_site() ){
+							// This is main site, we replace placeholders with blank.
+							$allowed_path = str_replace( '{site_id}', '', $settings['dlm_downloads_path'] );
+						}else{
+							// This is sub site, we replace placeholders with site id.
+							$allowed_path = str_replace( '{site_id}', get_current_blog_id(), $settings['dlm_downloads_path'] );
+						}
+					}
+				}else{
+					$allowed_path = get_option( 'dlm_downloads_path', false );
+				}
+
 				foreach ( $paths as $file_path ) {
 					list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
 					// If remote file don't check for allowed path.

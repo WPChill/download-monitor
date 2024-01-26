@@ -462,10 +462,28 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			$abspath_sub       = str_replace( DIRECTORY_SEPARATOR,
 				'/',
 				untrailingslashit( ABSPATH ) );
+
+			$path = false;
 			// Get user defined path
+			if( is_multisite() ){
+				$settings = get_site_option( 'dlm_network_settings', array() );
+				if( isset( $settings['dlm_downloads_path'] ) && '' != $settings['dlm_downloads_path'] ){
+					if( is_main_site() ){
+						// This is main site, we replace placeholders with blank.
+						$path = str_replace( '{site_id}', '', $settings['dlm_downloads_path'] );
+						
+					}else{
+						// This is sub site, we replace placeholders with site id.
+						$path = str_replace( '{site_id}', get_current_blog_id(), $settings['dlm_downloads_path'] );
+					}
+				}
+			}else{
+				$path = get_option( 'dlm_downloads_path' );
+			}
+
 			$user_defined_path = str_replace( DIRECTORY_SEPARATOR,
 				'/',
-				get_option( 'dlm_downloads_path' ) );
+				$path );
 			// Create the allowed paths array
 			$allowed_paths     = array();
 			// Check if the ABSPATH is in the WP_CONTENT_DIR

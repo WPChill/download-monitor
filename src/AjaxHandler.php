@@ -177,9 +177,18 @@ class DLM_Ajax_Handler {
 		// Set $deny to false, we will use this later to check if we should hide a folder.
 		// Used to deny access in multisite environments to secondary sites uploads folder.
 		$deny = false;
+		
 		// Check if it's a multisite installation & it's main site.
 		if( defined( 'MULTISITE' ) && MULTISITE && is_main_site()){
-			$deny = 'sites';
+
+			// Getting network-wide DLM settings.
+			$settings = get_site_option( 'dlm_network_settings', array() );
+
+			// Check if we allow cross-site browsing of wp_uploads.
+			if( ! isset( $settings['dlm_crossite_file_browse'] ) || '0' == $settings['dlm_crossite_file_browse'] ){
+				// This is a secondary site & cross-browse NOT allowed. Deny acces to 'sites' directory.
+				$deny = 'sites';
+			}
 		}
 
 		// List all files

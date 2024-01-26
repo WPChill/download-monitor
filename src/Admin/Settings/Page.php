@@ -570,6 +570,10 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				$disabled   = true;
 			}
 
+			if( ! isset( $settings['general']['sections']['misc']['title'] ) ){
+				$settings['general']['sections']['misc']['title'] =  __( 'Miscellaneous', 'download-monitor' );
+			}
+
 			$settings['general']['sections']['misc']['fields'][] = array(
 				'name'       => 'dlm_regenerate_protection',
 				'label'      => __( 'Regenerate protection for uploads folder', 'download-monitor' ),

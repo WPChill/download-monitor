@@ -246,6 +246,24 @@ class DLM_Admin_Scripts {
 			wp_enqueue_style( 'common');
 
 		}
+		
+		// This handles network wide settings js.
+		if ( isset($_GET['page']) && 'download-monitor-settings' === $_GET['page'] ) {
+
+			// Enqueue Settings JS
+			wp_enqueue_script(
+				'dlm_settings',
+				plugins_url( '/assets/js/settings' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION
+			);
+
+			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array(
+				'img_path'          => download_monitor()->get_plugin_url() . '/assets/images/',
+				'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ),
+				'settings_url'      => DLM_Admin_Settings::get_url(),
+			) );
+		}
 
 		// This should handle all extensions activation and deactivation single-handed
 		if ( isset($_GET['page']) && 'dlm-installed-extensions' === $_GET['page'] ) {

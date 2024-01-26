@@ -24,6 +24,14 @@ jQuery(function ($) {
 		}
 	}).change();
 
+	$('#setting-dlm_turn_off_file_browser').change(function () {
+		if ($(this).is(":checked") === true) {
+			$('#setting-dlm_crossite_file_browse').closest('tr').hide();
+		} else {
+			$('#setting-dlm_crossite_file_browse').closest('tr').show();
+		}
+	}).change();
+
 	$(document).ready(function () {
 
 		// load lazy-select elements
