@@ -121,7 +121,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 
 == Changelog ==
 = 4.9.9 - 30.01.2024 =
-Fixed: Performance issue, wrongfully doing api call on frontend
+Fixed: Performance issue fix
 
 = 4.9.8 - 25.01.2024 =
 Fixed: Products update problem ( [#1415](https://github.com/WPChill/download-monitor/issues/1415) )
