@@ -259,6 +259,7 @@ class DLM_Admin_Extensions {
 		// Allow user to reload extensions
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
+			delete_transient( 'dlm_extension_json_error' );
 		}
 
 		// WPChill Welcome Class
@@ -396,6 +397,7 @@ class DLM_Admin_Extensions {
 		// Allow user to reload extensions
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
+			delete_transient( 'dlm_extension_json_error' );
 		}
 
 		wp_enqueue_style( array( 'dlm-welcome-style' ) );

@@ -42,11 +42,6 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function __construct() {
-		// Only add the upsells if we're in the admin screen.
-		if ( ! is_admin() ) {
-			return;
-		}
-
 		if ( $this->check_license_validity() ) {
 			return;
 		}
@@ -129,8 +124,6 @@ class DLM_Upsells {
 		add_filter( 'dlm_download_metaboxes', array( $this, 'add_meta_boxes' ), 30 );
 
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
-
-		add_action( 'admin_init', array( $this, 'set_extensions' ), 99 );
 
 		add_action( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) );
 
@@ -253,7 +246,7 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function set_extensions() {
+	private function set_extensions() {
 
 		$dlm_Extensions = DLM_Admin_Extensions::get_instance();
 
@@ -262,7 +255,19 @@ class DLM_Upsells {
 		foreach ( $extensions as $extension ) {
 			$this->extensions[] = $extension->product_id;
 		}
+	}
 
+	/**
+	 * Get existing extensions
+	 *
+	 * @since 4.9.9
+	 */
+	private function get_extensions() {
+		if ( empty( $this->extensions ) ) {
+			$this->set_extensions();
+		}
+
+		return $this->extensions;
 	}
 
 	/**
@@ -275,8 +280,9 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function check_extension( $extension ) {
+		$extensions = $this->get_extensions();
 
-		if ( empty( $this->extensions ) || ! in_array( $extension, $this->extensions ) ) {
+		if ( empty( $extensions ) || ! in_array( $extension, $extensions ) ) {
 			return false;
 		}
 
@@ -1159,5 +1165,3 @@ class DLM_Upsells {
 		return $return;
 	}
 }
-
-DLM_Upsells::get_instance();

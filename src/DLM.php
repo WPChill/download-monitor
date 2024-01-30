@@ -223,7 +223,7 @@ class WP_DLM {
 
 		// Setup integrations
 		$this->setup_integrations();
-    
+
 		// Setup class that handles the frontend templates
 		DLM_Frontend_Templates::get_instance();
 		// check if we need to bootstrap E-Commerce
@@ -237,6 +237,8 @@ class WP_DLM {
 		// Generate attachment URL as Download link for protected files. Adding this here because we need it both in admin and in front.
 		add_filter( 'wp_get_attachment_url',
 			array( $this, 'generate_attachment_url' ), 15, 2 );
+
+		add_action( 'admin_init', array( $this, 'init_upsells' ) );
 	}
 
 	/**
@@ -941,5 +943,14 @@ class WP_DLM {
 		 * @since  4.9.6
 		 */
 		return apply_filters( 'dlm_hotlink_protection', false );
+	}
+
+	/**
+	 * Initialize the Upsells
+	 *
+	 * @since 4.9.9
+	 */
+	public function init_upsells() {
+		DLM_Upsells::get_instance();
 	}
 }
