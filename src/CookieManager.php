@@ -30,7 +30,7 @@ class DLM_Cookie_Manager {
 	/**
 	 * Class constructor
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	private function __construct() {
 		// Delete expired cookies
@@ -42,7 +42,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return object The DLM_Cookie_Manager object.
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Cookie_Manager ) ) {
@@ -57,7 +57,7 @@ class DLM_Cookie_Manager {
 	 * Check if the cookie exists for this download & version. If it does exist the requester has requested the exact
 	 * same download & version in the past minute.
 	 *
-	 * Deprecated since 4.9.5
+	 * Deprecated since 5.0.0
 	 *
 	 * @param  DLM_Download  $download
 	 *
@@ -83,7 +83,7 @@ class DLM_Cookie_Manager {
 	/**
 	 * Get cookie data
 	 *
-	 * Deprecated since 4.9.5
+	 * Deprecated since 5.0.0
 	 *
 	 * @return array|null
 	 */
@@ -102,7 +102,7 @@ class DLM_Cookie_Manager {
 	 * @param  DLM_Download  $download     Download object
 	 * @param  array         $cookie_data  Cookie data
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	private function add_cookie( $download, $cookie_data ) {
 
@@ -126,7 +126,7 @@ class DLM_Cookie_Manager {
 		/**
 		 * Filter cookie data
 		 * Old hook used to set cookie data for the wp_dlm_downloading cookie.
-		 * Deprecated since 4.9.5
+		 * Deprecated since 5.0.0
 		 *
 		 * @hook  wp_dlm_set_downloading_cookie
 		 *
@@ -154,7 +154,7 @@ class DLM_Cookie_Manager {
 		 *
 		 * @param  array  $cookie_data
 		 *
-		 * @since 4.9.5
+		 * @since 5.0.0
 		 *
 		 */
 		$cookie_data = apply_filters(
@@ -210,7 +210,7 @@ class DLM_Cookie_Manager {
 		/**
 		 * Filter cookie data
 		 * Old hook used to set cookie data for the wp_dlm_downloading cookie.
-		 * Deprecated since 4.9.5
+		 * Deprecated since 5.0.0
 		 *
 		 * @hook  wp_dlm_set_downloading_cookie
 		 *
@@ -238,7 +238,7 @@ class DLM_Cookie_Manager {
 		 *
 		 * @param  array  $cookie_data
 		 *
-		 * @since 4.9.5
+		 * @since 5.0.0
 		 *
 		 */
 		$cookie_data = apply_filters(
@@ -272,7 +272,7 @@ class DLM_Cookie_Manager {
 	 * @param  DLM_Download  $download     Download object
 	 * @param  array         $cookie_data  Optional cookie data
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function set_cookie( $download, $cookie_data = array() ) {
 		// Check if cookie hash is set
@@ -302,7 +302,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return int Cookie ID
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	private function insert_cookie( $hash, $download, $cookie_data ) {
 		global $wpdb;
@@ -361,7 +361,7 @@ class DLM_Cookie_Manager {
 	 * @param $cookie_data array Cookie data
 	 *
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	private function update_cookie_db( $hash, $download, $cookie_data ) {
 		global $wpdb;
@@ -413,7 +413,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return bool|string
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function get_cookie_hash() {
 		if ( ! empty( $_COOKIE[ self::$key ] ) ) {
@@ -430,7 +430,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function get_cookie_id( $hash ) {
 		global $wpdb;
@@ -445,7 +445,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return string|null
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function get_cookie_set_date( $id ) {
 		global $wpdb;
@@ -460,7 +460,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function get_cookie_expiration_date( $id ) {
 		global $wpdb;
@@ -476,7 +476,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return array|object|stdClass[]|null
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function get_cookie_meta_data( $id, $meta_key ) {
 		global $wpdb;
@@ -492,7 +492,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return array|object|stdClass|null
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	private function get_cookie( $hash ) {
 		global $wpdb;
@@ -510,7 +510,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return bool
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function check_cookie_meta( $meta_key, $value, $check_type = 'per_download', $check_array = array() ) {
 		// Get cookie hash
@@ -587,7 +587,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @param $cookie_id int Cookie hash
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function delete_cookie( $cookie_id ) {
 		global $wpdb;
@@ -604,7 +604,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @return bool
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function check_expired_cookie( $cookie_id ) {
 		$expiration_date = $this->get_cookie_expiration_date( $cookie_id );
@@ -619,7 +619,7 @@ class DLM_Cookie_Manager {
 	/**
 	 * Delete expired cookies
 	 *
-	 * @since 4.9.5
+	 * @since 5.0.0
 	 */
 	public function delete_expired_cookies() {
 		global $wpdb;
