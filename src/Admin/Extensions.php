@@ -221,6 +221,10 @@ class DLM_Admin_Extensions {
 	 */
 	public function set_response() {
 
+		if ( is_array( $this->json ) && isset( $this->json['success'] ) && ! $this->json['success'] ) {
+			return;
+		}
+
 		$this->response = json_decode( $this->json );
 
 		if ( ! isset( $this->response ) ) {
@@ -298,7 +302,9 @@ class DLM_Admin_Extensions {
 					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
 				</a>
 				<?php
-
+				if ( is_array( $this->json ) && isset( $this->json['success'] ) && ! $this->json['success'] ) {
+					echo $this->json['message'];
+				}
 				// Available Extensions
 				if ( count( $this->extensions ) > 0 ) {
 

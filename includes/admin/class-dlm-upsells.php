@@ -1120,7 +1120,19 @@ class DLM_Upsells {
 			require_once DLM_PATH . 'src/Util/ExtensionLoader.php';
 		}
 		$loader   = new Util\ExtensionLoader();
-		$response = json_decode( $loader->fetch(), true );
+		$response = $loader->fetch();
+		// If we have an error, we return false
+		if ( is_array( $response ) && isset( $response['success'] ) && ! $response['success'] ) {
+			// Remove other upsells also by returning true
+			if ( $return ) {
+				add_filter( 'dlm_remove_upsells', '__return_true' );
+				// If the master license is active, and we have an error, we return true
+				return true;
+			}
+
+			return false;
+		}
+		$response = json_decode( $response, true );
 		// Cycle through the extensions
 		if ( ! empty( $response ) && ! empty( $response['extensions'] ) ) {
 			foreach ( $response['extensions'] as $extension ) {
@@ -1143,7 +1155,6 @@ class DLM_Upsells {
 		}
 		// Set class variable. Can be used in other functions so that we don't have to check again.
 		$this->active_license = $return;
-
 		// Return the value
 		return $return;
 	}
