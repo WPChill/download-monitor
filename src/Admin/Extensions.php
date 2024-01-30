@@ -220,7 +220,7 @@ class DLM_Admin_Extensions {
 	 * @since 4.4.5
 	 */
 	public function set_response() {
-
+		// Check and see if the connection to the server has failed or not.
 		if ( is_array( $this->json ) && isset( $this->json['success'] ) && ! $this->json['success'] ) {
 			return;
 		}
@@ -302,6 +302,7 @@ class DLM_Admin_Extensions {
 					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
 				</a>
 				<?php
+				// Check and see if the connection to the server has failed or not.
 				if ( is_array( $this->json ) && isset( $this->json['success'] ) && ! $this->json['success'] ) {
 					echo $this->json['message'];
 				}

@@ -15,7 +15,7 @@ class ExtensionLoader {
 		if ( ! class_exists( '\DLM_Product' ) ) {
 			require_once DLM_PLUGIN_DIR . '/src/Product/Product.php';
 		}
-
+		// Check and see if the connection to the server has failed or not.
 		if ( false !== get_transient( 'dlm_extension_json_error' ) ) {
 			return array( 'success' => false, 'message' => __( 'Could not connect to the Download Monitor server. Please try again later.', 'download-monitor' ) );
 		}
