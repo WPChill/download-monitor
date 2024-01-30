@@ -42,6 +42,10 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function __construct() {
+		// Only add the upsells if we're in the admin screen.
+		if ( ! is_admin() ) {
+			return;
+		}
 
 		if ( $this->check_license_validity() ) {
 			return;
