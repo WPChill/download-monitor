@@ -42,7 +42,6 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function __construct() {
-
 		if ( $this->check_license_validity() ) {
 			return;
 		}
@@ -125,8 +124,6 @@ class DLM_Upsells {
 		add_filter( 'dlm_download_metaboxes', array( $this, 'add_meta_boxes' ), 30 );
 
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
-
-		add_action( 'admin_init', array( $this, 'set_extensions' ), 99 );
 
 		add_action( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) );
 
@@ -249,7 +246,7 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function set_extensions() {
+	private function set_extensions() {
 
 		$dlm_Extensions = DLM_Admin_Extensions::get_instance();
 
@@ -258,7 +255,19 @@ class DLM_Upsells {
 		foreach ( $extensions as $extension ) {
 			$this->extensions[] = $extension->product_id;
 		}
+	}
 
+	/**
+	 * Get existing extensions
+	 *
+	 * @since 4.9.9
+	 */
+	private function get_extensions() {
+		if ( empty( $this->extensions ) ) {
+			$this->set_extensions();
+		}
+
+		return $this->extensions;
 	}
 
 	/**
@@ -271,8 +280,9 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function check_extension( $extension ) {
+		$extensions = $this->get_extensions();
 
-		if ( empty( $this->extensions ) || ! in_array( $extension, $this->extensions ) ) {
+		if ( empty( $extensions ) || ! in_array( $extension, $extensions ) ) {
 			return false;
 		}
 
@@ -1116,7 +1126,19 @@ class DLM_Upsells {
 			require_once DLM_PATH . 'src/Util/ExtensionLoader.php';
 		}
 		$loader   = new Util\ExtensionLoader();
-		$response = json_decode( $loader->fetch(), true );
+		$response = $loader->fetch();
+		// If we have an error, we return false
+		if ( is_array( $response ) && isset( $response['success'] ) && ! $response['success'] ) {
+			// Remove other upsells also by returning true
+			if ( $return ) {
+				add_filter( 'dlm_remove_upsells', '__return_true' );
+				// If the master license is active, and we have an error, we return true
+				return true;
+			}
+
+			return false;
+		}
+		$response = json_decode( $response, true );
 		// Cycle through the extensions
 		if ( ! empty( $response ) && ! empty( $response['extensions'] ) ) {
 			foreach ( $response['extensions'] as $extension ) {
@@ -1139,10 +1161,7 @@ class DLM_Upsells {
 		}
 		// Set class variable. Can be used in other functions so that we don't have to check again.
 		$this->active_license = $return;
-
 		// Return the value
 		return $return;
 	}
 }
-
-DLM_Upsells::get_instance();

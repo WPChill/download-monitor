@@ -220,6 +220,10 @@ class DLM_Admin_Extensions {
 	 * @since 4.4.5
 	 */
 	public function set_response() {
+		// Check and see if the connection to the server has failed or not.
+		if ( is_array( $this->json ) && isset( $this->json['success'] ) && ! $this->json['success'] ) {
+			return;
+		}
 
 		$this->response = json_decode( $this->json );
 
@@ -255,6 +259,7 @@ class DLM_Admin_Extensions {
 		// Allow user to reload extensions
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
+			delete_transient( 'dlm_extension_json_error' );
 		}
 
 		// WPChill Welcome Class
@@ -298,7 +303,10 @@ class DLM_Admin_Extensions {
 					<?php esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
 				</a>
 				<?php
-
+				// Check and see if the connection to the server has failed or not.
+				if ( is_array( $this->json ) && isset( $this->json['success'] ) && ! $this->json['success'] ) {
+					echo $this->json['message'];
+				}
 				// Available Extensions
 				if ( count( $this->extensions ) > 0 ) {
 
@@ -389,6 +397,7 @@ class DLM_Admin_Extensions {
 		// Allow user to reload extensions
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
+			delete_transient( 'dlm_extension_json_error' );
 		}
 
 		wp_enqueue_style( array( 'dlm-welcome-style' ) );
