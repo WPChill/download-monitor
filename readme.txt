@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.5
 Tested up to: 6.4
-Stable tag: 4.9.7
+Stable tag: 4.9.9
 License: GPLv3
 Text Domain: download-monitor
 Requires PHP: 5.6
@@ -123,6 +123,13 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 5.0.0 - TBD =
 Fixed: File Browser not working on installations that return '//' ( double slashed ) paths. ( [#1412](https://github.com/WPChill/download-monitor/issues/1412) )
 Changed: File Browser no longer displays cross-site folders in multisite environments. ( [#1402](https://github.com/WPChill/download-monitor/issues/1402) )
+
+= 4.9.9 - 30.01.2024 =
+Fixed: Performance issue fix
+
+= 4.9.8 - 25.01.2024 =
+Fixed: Products update problem ( [#1415](https://github.com/WPChill/download-monitor/issues/1415) )
+Fixed: PHP Warnings on non-defined Download templates ( [#1413](https://github.com/WPChill/download-monitor/issues/1413) )
 
 = 4.9.7 - 23.01.2024 =
 Fixed: [] operator not supported for strings error. ( [#1409](https://github.com/WPChill/download-monitor/issues/1409) )
