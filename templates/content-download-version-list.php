@@ -37,6 +37,7 @@ if ( $versions ) : ?>
 		foreach ( $versions as $version ) {
 			// set loop version as current version
 			$dlm_download->set_version( $version );
+			$attributes['link_attributes']['href'] = $dlm_download->get_the_download_link();
 			?>
 			<li>
 				<?php
