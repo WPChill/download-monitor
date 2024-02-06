@@ -214,7 +214,6 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 		 *
 		 * @since 4.6.0
 		 */
-
 		$filters = $this->filter_query_args( $filters, $limit, $offset );
 
 		do_action( 'dlm_query_args', $filters );
@@ -345,6 +344,11 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 
 		if ( null !== $downloads && ! empty( $downloads ) ) {
 			foreach ( $downloads as $post ) {
+				// Check if the download is already in the array, if not skip it.
+				if ( isset( $items[ $post->ID ] ) ) {
+					continue;
+				}
+
 				$download = download_monitor()->service( 'download_factory' )->make( ( ( 1 == get_post_meta( $post->ID, '_is_purchasable', true ) ) ? 'product' : 'regular' ) );
 				$download->set_id( $post->ID );
 				$download->set_status( $post->post_status );
@@ -365,7 +369,7 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->post = $post;
 
 				// add download to return array.
-				$items[] = $download;
+				$items[ $post->ID ] = $download;
 			}
 		}
 

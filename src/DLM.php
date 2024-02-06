@@ -97,10 +97,6 @@ class WP_DLM {
 			$custom_labels = new DLM_Custom_Labels();
 			$custom_labels->setup();
 
-			// setup custom columns
-			$custom_columns = new DLM_Custom_Columns();
-			$custom_columns->setup();
-
 			// setup custom actions
 			$custom_actions = new DLM_Custom_Actions();
 			$custom_actions->setup();
@@ -755,8 +751,9 @@ class WP_DLM {
 	 * @since 4.4.5
 	 */
 	public function archive_filter_download_link( $post_link, $post ) {
-		// We exclude the search because there is a specific option for this
-		if ( 'dlm_download' == $post->post_type && ! is_search() ) {
+		// We exclude the search because there is a specific option for this.
+		// Also, this should not be done in the admin.
+		if ( ! is_admin() && 'dlm_download' == $post->post_type && ! is_search() ) {
 			// fetch download object
 			try {
 				/** @var DLM_Download $download */

@@ -26,6 +26,25 @@ if ( ! class_exists( 'DLM_Post_Type_Manager' ) ) {
 			// Action to do when a post is deleted.
 			add_action( 'before_delete_post', array( $this, 'delete_post' ), 15,
 				2 );
+			// Route to custom list table for the Downloads CPT.
+			add_filter( 'wp_list_table_class_name', array( $this, 'custom_list_table' ), 15, 2 );
+		}
+
+		/**
+		 * Custom Admin List Table for the Downloads CPT. Used to improve performance.
+		 *
+		 * @param  string  $class_name  The class name of the list table.
+		 * @array $args  The arguments passed to the filter.
+		 *
+		 * @return string
+		 * @since 5.0.0
+		 */
+		public function custom_list_table( $class_name, $args ) {
+			if ( 'dlm_download' === $args['screen']->post_type && 'edit' === $args['screen']->base ) {
+				$class_name = 'DLM_Admin_List_Table';
+			}
+
+			return $class_name;
 		}
 
 		/**
@@ -196,21 +215,10 @@ if ( ! class_exists( 'DLM_Post_Type_Manager' ) ) {
 		 */
 		public function add_extensions_tab( $views ) {
 			$this->display_extension_tab();
-			$posts = count(
-				get_posts(
-					array(
-						'post_type'   => 'dlm_download',
-						'post_status' => array(
-							'publish',
-							'future',
-							'trash',
-							'draft',
-							'inherit',
-							'pending',
-						),
-					)
-				)
-			);
+			global $wpdb;
+			// Create query to check if there are any downloads.
+			$sql   = "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_type = 'dlm_download' AND post_status IN ('publish', 'future', 'trash', 'draft', 'inherit', 'pending')";
+			$posts = $wpdb->get_var( $sql );
 
 			if ( 0 === $posts ) {
 				global $wp_list_table;

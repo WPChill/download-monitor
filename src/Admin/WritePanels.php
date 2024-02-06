@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * DLM_Admin class.
+ *
+ * Class that handles the edit.php page for the download post type.
  */
 class DLM_Admin_Writepanels {
 
@@ -35,9 +37,17 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function add_meta_boxes() {
-
 		// We remove the Publish metabox and add to our queue
 		remove_meta_box( 'submitdiv', 'dlm_download', 'side' );
+		global $post;
+
+		if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
+			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
+				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			} else {
+				$this->download_post = $GLOBALS['dlm_download'];
+			}
+		}
 
 		$meta_boxes = apply_filters(
 			'dlm_download_metaboxes',
@@ -164,7 +174,11 @@ class DLM_Admin_Writepanels {
 		try {
 			/** @var DLM_Download $download */
 			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
-				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+				if ( ! isset( $GLOBALS['dlm_download'] ) ) {
+					$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+				} else {
+					$this->download_post = $GLOBALS['dlm_download'];
+				}
 			}
 		} catch ( Exception $e ) {
 			$this->download_post = new DLM_Download();
@@ -208,10 +222,12 @@ class DLM_Admin_Writepanels {
 
 		/** @var DLM_Download $download */
 		try {
-			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
-				$download = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
-			} else {
-				$download = $GLOBALS['dlm_download'];
+			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
+				if ( ! isset( $GLOBALS['dlm_download'] ) ) {
+					$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+				} else {
+					$this->download_post = $GLOBALS['dlm_download'];
+				}
 			}
 		} catch ( Exception $e ) {
 			$download = new DLM_Download();
@@ -229,9 +245,9 @@ class DLM_Admin_Writepanels {
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file"
 				   value="<?php echo esc_attr( wp_create_nonce( 'remove-file' ) ); ?>"/>
 
-			<?php do_action( 'dlm_download_monitor_files_writepanel_start', $download ); ?>
+			<?php do_action( 'dlm_download_monitor_files_writepanel_start', $this->download_post ); ?>
 			<?php
-			$versions             = $download->get_versions();
+			$versions             = $this->download_post->get_versions();
 			$upload_handler_class = ( ! empty( $versions ) ) ? 'hidden' : '';
 			?>
 			<div id="dlm-new-upload" class="<?php echo esc_attr( $upload_handler_class ); ?>">
@@ -419,7 +435,7 @@ class DLM_Admin_Writepanels {
 				}
 			}
 			?>
-			<?php do_action( 'dlm_download_monitor_files_writepanel_end', $download ); ?>
+			<?php do_action( 'dlm_download_monitor_files_writepanel_end', $this->download_post ); ?>
 
 		</div>
 		<?php
