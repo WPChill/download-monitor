@@ -136,6 +136,10 @@ class DLM_Admin_Extensions {
 	 */
 	public function load_data() {
 
+		if ( ! DLM_Admin_Helper::is_dlm_admin_page() ) {
+			return;
+		}
+
 		$loader     = new Util\ExtensionLoader();
 		$this->json = $loader->fetch();
 
@@ -654,6 +658,10 @@ class DLM_Admin_Extensions {
 	 */
 	public function set_licensed_extensions() {
 		global $wpdb;
+
+		if ( ! DLM_Admin_Helper::is_dlm_admin_page() ) {
+			return;
+		}
 		// Let's retrieve extensions that have a license key.
 		$extensions = $wpdb->get_results( $wpdb->prepare( "SELECT `option_name`, `option_value` FROM {$wpdb->prefix}options WHERE `option_name` LIKE %s AND `option_name` LIKE %s;", $wpdb->esc_like( 'dlm-' ) . '%', '%' . $wpdb->esc_like( '-license' ) ), ARRAY_A );
 

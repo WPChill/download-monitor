@@ -42,6 +42,11 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function __construct() {
+
+		if ( ! DLM_Admin_Helper::is_dlm_admin_page() ) {
+			return;
+		}
+
 		if ( $this->check_license_validity() ) {
 			return;
 		}

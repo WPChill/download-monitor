@@ -18,7 +18,7 @@ class DLM_Custom_Actions {
 		add_action( 'save_post', array( $this, 'bulk_and_quick_edit_save_post' ), 10, 2 );
 
 		// duplicate download
-		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
+		//add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
 		add_action( 'wp_ajax_dlm_download_duplicator_duplicate', array( $this, 'ajax_duplicate_download' ) );
 		add_action( 'wp_ajax_dlm_update_downloads_path', array( $this, 'update_downloads_path' ) );
 

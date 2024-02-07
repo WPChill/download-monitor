@@ -204,7 +204,7 @@ class DLM_Backwards_Compatibility {
 		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id)";
 		/*$join .= " LEFT JOIN ( SELECT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE
 		{$wpdb->postmeta}.meta_key = '_download_count' GROUP BY {$wpdb->postmeta}.post_id ) as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";*/
-		$join .= "LEFT JOIN {$wpdb->postmeta} AS meta_downloads ON ({$wpdb->posts}.ID = meta_downloads.post_id AND meta_downloads.meta_key = '_download_count')";
+		$join .= " LEFT JOIN {$wpdb->postmeta} AS meta_downloads ON ({$wpdb->posts}.ID = meta_downloads.post_id AND meta_downloads.meta_key = '_download_count')";
 
 		return $join;
 	}
@@ -440,6 +440,14 @@ class DLM_Backwards_Compatibility {
 	 * @since 4.9.6
 	 */
 	private function hashes_compatibility() {
+		$do_hashes = true;
+		if ( is_admin() && ! DLM_Admin_Helper::is_dlm_admin_page() ) {
+			$do_hashes = false;
+		}
+		if ( ! $do_hashes ) {
+			return;
+		}
+
 		// Create the used hashes array.
 		$hashes = array( 'md5', 'sha1', 'crc32b', 'sha256' );
 		// Cycle through hash types and add filter if option exists.

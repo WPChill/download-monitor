@@ -8,16 +8,15 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
  * @extends WP_List_Table
  */
 class DLM_Admin_List_Table extends WP_List_Table {
-	private $items_per_page = 20;
 
 	private $is_trash;
-
-	private $downloads;
 
 	/**
 	 * __construct function.
 	 *
 	 * @access public
+	 *
+	 * @since  5.0.0
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -26,52 +25,37 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
 			)
 		);
-
-		$this->items_per_page = ! empty( $_REQUEST["items_per_page"] )
-			? intval( $_REQUEST["items_per_page"] )
-			: 20;
-
-		if ( $this->items_per_page < 1 ) {
-			$this->items_per_page = 9999999999999;
-		}
-
-		add_action( 'admin_init', array( $this, 'catch_request' ), 1 );
 	}
-
 
 	/**
 	 * Gets the name of the primary column.
 	 *
-	 * @return    str        Name of the primary column.
+	 * @return    string        Name of the primary column.
 	 * @since     5.0.0
 	 * @access    protected
 	 *
 	 */
 	protected function get_primary_column_name() {
-		return 'id';
+		return 'download_title';
 	} // get_primary_column_name
 
 
 	/**
 	 * column_default function.
 	 *
+	 * @param  object  $item         The current item
+	 * @param  string  $column_name  The current column name
+	 *
+	 * @since 5.0.0
 	 */
-	public function column_default( $item, $column ) {
-		switch ( $column ) {
+	public function column_default( $item, $column_name ) {
+		switch ( $column_name ) {
 			case 'download_title':
-				global $wp_list_table;
-
 				/** @var DLM_Download_Version $file */
 				$file = $item->get_version();
 
-				if ( ! $wp_list_table ) {
-					$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
-				}
-
-				$wp_list_table->column_title( $item->get_id() );
-
 				if ( $file->get_filename() ) {
-					echo '<strong><a class="dlm-file-link row-title" href="' . esc_url( admin_url( 'post.php?post=' . absint( $item->get_id() ) . '&action=edit' ) ) . '">' . esc_html( $item->get_title() ) . '</a></strong>';
+					echo '<strong><a class="dlm-file-link row-title" href="' . esc_url( admin_url( 'post.php?post=' . absint( $item->get_id() ) . '&action=edit' ) ) . '">#' . $item->get_id() . ' - ' . esc_html( $item->get_title() ) . '</a></strong>';
 					echo '<a class="dlm-file-link" href="' . esc_url( $item->get_the_download_link() ) . '"><code>' . esc_html( $file->get_filename() );
 					if ( $size = $item->get_version()->get_filesize_formatted() ) {
 						echo ' &ndash; ' . esc_html( $size );
@@ -82,7 +66,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				}
 
 				break;
-			case 'download_cat' :
+			case 'download_cat':
 				$links = array();
 				if ( ! $terms = get_the_terms( $item->get_id(), 'dlm_download_category' ) ) {
 					echo '<span class="na">&ndash;</span>';
@@ -94,7 +78,6 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				}
 				break;
 			case 'download_tag':
-
 				$terms = get_the_terms( $item->get_id(), 'dlm_download_tag' );
 
 				if ( is_wp_error( $terms ) ) {
@@ -128,7 +111,15 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					echo '<span class="na">&ndash;</span>';
 				}
 				break;
-			case 'locked_download' :
+			case 'locked_download':
+				/**
+				 * Filters whether the download is locked or not.
+				 *
+				 * @param  bool          $is_locked  Whether the download is locked or not using members only. Other extensions tap into this filter to check if the download is locked.
+				 * @param  DLM_Download  $item       The download object. Needs to be DLM_Download object.
+				 *
+				 * @moved 5.0.0 Moved here from CustomColumns.php
+				 */
 				$is_locked = apply_filters( 'dlm_download_is_locked', $item->is_members_only(), $item );
 				if ( $is_locked ) {
 					echo '<span class="yes" ' . ( $item->is_members_only() ? 'data-members_only="Yes"' : '' ) . '>' . esc_html__( 'Yes', 'download-monitor' ) . '</span>';
@@ -143,7 +134,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					echo '<span class="na">&ndash;</span>';
 				}
 				break;
-			case 'version' :
+			case 'version':
 				/** @var DLM_Download_Version $file */
 				$file = $item->get_version();
 				if ( $file && $file->get_version() ) {
@@ -153,19 +144,14 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				}
 				break;
 
-			case 'shortcode' :
+			case 'shortcode':
 				echo '<button class="wpchill-tooltip-button copy-dlm-shortcode button button-primary dashicons dashicons-shortcode" style="width:40px;"><div class="wpchill-tooltip-content"><span class="dlm-copy-text">' . esc_html__( 'Copy shortcode', 'download-monitor' ) . '</span><div class="dl-shortcode-copy"><code>[download id="' . absint( $item->get_id() ) . '"]</code><input type="text" readonly value="[download id=\'' . absint( $item->get_id() ) . '\']" class="dlm-copy-shortcode-input"></div></div></button>';
 				break;
-			case 'download_link' :
+			case 'download_link':
 				echo '<button class="wpchill-tooltip-button copy-dlm-shortcode button button-primary dashicons dashicons-admin-links" style="width:40px;"><div class="wpchill-tooltip-content"><span class="dlm-copy-text">' . esc_html__( 'Copy download link', 'download-monitor' ) . '</span><div class="dl-shortcode-copy">' . esc_url( $item->get_the_download_link() ) . '<input type="text" readonly value="' . esc_url( $item->get_the_download_link() ) . '" class="dlm-copy-shortcode-input"></div></div></button>';
 				break;
-			case 'download_count' :
+			case 'download_count':
 				echo number_format( $item->get_download_count(), 0, '.', ',' );
-				break;
-			case 'featured_image' :
-				/*echo '<a href="' . esc_attr( get_edit_post_link( $item->get_id() ) ) . '">';
-				$item->the_image( 'thumbnail' );
-				echo '</a>';*/
 				break;
 		}
 	}
@@ -175,11 +161,51 @@ class DLM_Admin_List_Table extends WP_List_Table {
 	 *
 	 *
 	 * @return string
+	 *
+	 * @since 5.0.0
 	 */
 	public function column_cb( $item ) {
-		return sprintf(
-			'<input type="checkbox" name="email_log[]" value="%s" />', absint( $item->get_id() )
-		);
+		$show = current_user_can( 'edit_post', $item->get_id() );
+
+		/**
+		 * Filters whether to show the bulk edit checkbox for a dlm_download in its list table.
+		 *
+		 * By default, the checkbox is only shown if the current user can edit the post.
+		 *
+		 * @param  bool          $show  Whether to show the checkbox.
+		 * @param  DLM_Download  $post  The current DLM_Download object.
+		 *
+		 * @since 5.0.0
+		 *
+		 */
+		if ( apply_filters( 'wp_list_table_show_dlm_download_checkbox', $show, $item ) ) :
+			?>
+			<input id="cb-select-<?php
+			echo absint( $item->get_id() ); ?>" type="checkbox" name="dlm_download[]" value="<?php
+			echo absint( $item->get_id() ); ?>"/>
+			<label for="cb-select-<?php
+			echo absint( $item->get_id() ); ?>">
+				<span class="screen-reader-text">
+				<?php
+				/* translators: %s: Post title. */
+				printf( __( 'Select %s' ), _draft_or_post_title() );
+				?>
+				</span>
+			</label>
+			<div class="locked-indicator">
+				<span class="locked-indicator-icon" aria-hidden="true"></span>
+				<span class="screen-reader-text">
+				<?php
+				printf(
+				/* translators: Hidden accessibility text. %s: Post title. */
+					__( '&#8220;%s&#8221; is locked' ),
+					_draft_or_post_title()
+				);
+				?>
+				</span>
+			</div>
+		<?php
+		endif;
 	}
 
 	/**
@@ -187,12 +213,13 @@ class DLM_Admin_List_Table extends WP_List_Table {
 	 *
 	 * @access public
 	 * @return array
+	 *
+	 * @since  5.0.0
 	 */
 	public function get_columns() {
 		$columns = array();
 
-		$columns['cb']              = "<input type=\"checkbox\" />";
-		$columns['featured_image']  = '<span class="hidden">' . __( 'Featured image', 'download-monitor' ) . '</span>';
+		$columns['cb']              = '<input type="checkbox" />';
 		$columns['download_title']  = __( 'Download Title', 'download-monitor' );
 		$columns['download_cat']    = __( 'Categories', 'download-monitor' );
 		$columns['version']         = __( 'Version', 'download-monitor' );
@@ -205,6 +232,14 @@ class DLM_Admin_List_Table extends WP_List_Table {
 		$columns['redirect_only']   = __( 'Redirect only', 'download-monitor' );
 		$columns['date']            = __( 'Date posted', 'download-monitor' );
 
+		/**
+		 * Filters the columns displayed in the DLM downloads list table.
+		 *
+		 * @param  array  $columns  The columns to be displayed in the list table.
+		 *
+		 * @since 5.0.0
+		 *
+		 */
 		return apply_filters( 'dlm_admin_page_list_columns', $columns );
 	}
 
@@ -212,6 +247,8 @@ class DLM_Admin_List_Table extends WP_List_Table {
 	 * Sortable columns
 	 *
 	 * @return array
+	 *
+	 * @since 5.0.0
 	 */
 	public function get_sortable_columns() {
 		$columns = array(
@@ -223,6 +260,14 @@ class DLM_Admin_List_Table extends WP_List_Table {
 			'redirect_only'   => 'redirect_only',
 		);
 
+		/**
+		 * Filters the sortable columns for the DLM downloads list table.
+		 *
+		 * @param  array  $columns  The sortable columns.
+		 *
+		 * @since 5.0.0
+		 *
+		 */
 		return apply_filters( 'dlm_admin_page_list_sortable_columns', $columns );
 	}
 
@@ -231,11 +276,11 @@ class DLM_Admin_List_Table extends WP_List_Table {
 	 *
 	 * @param  string  $which
 	 *
-	 * @since 3.1.0
+	 * @since 5.0.0
 	 */
 	protected function display_tablenav( $which ) {
 		if ( 'top' === $which ) {
-			wp_nonce_field( 'bulk-dlm-el-logs' );
+			wp_nonce_field( 'bulk-dlm-actions' );
 			$this->display_extension_tab();
 		}
 		?>
@@ -264,6 +309,8 @@ class DLM_Admin_List_Table extends WP_List_Table {
 
 	/**
 	 * Prepare the table with different parameters, pagination, columns and table elements
+	 *
+	 * @since 5.0.0
 	 */
 	public function prepare_items() {
 		global $wpdb, $_wp_column_headers;
@@ -314,6 +361,8 @@ class DLM_Admin_List_Table extends WP_List_Table {
 	 * Add bulk actions
 	 *
 	 * @return array
+	 *
+	 * @since 5.0.0
 	 */
 	protected function get_bulk_actions() {
 		$actions       = array();
@@ -335,166 +384,128 @@ class DLM_Admin_List_Table extends WP_List_Table {
 			}
 		}
 
+		/**
+		 * Filters the list of bulk actions available on the DLM downloads list table.
+		 *
+		 * @param  array  $actions  An array of the available bulk actions.
+		 *
+		 * @since 5.0.0
+		 *
+		 */
 		return apply_filters( 'dlm_admin_page_list_bulk_actions', $actions );
-	}
-
-
-	/**
-	 * Add export all actions
-	 *
-	 * @return void
-	 */
-	public function export_all_form() {
-		//Check if table is empty.
-		if ( empty( $this->items ) ) {
-			return;
-		}
-
-		$exports = apply_filters(
-			'dlm_el_admin_page_list_exports',
-			array(
-				'dlm_export'    => __( 'Default', 'dlm-email-lock' ),
-				'dlm_export_mc' => __( 'Mailchimp', 'dlm-email-lock' ),
-				'dlm_export_ml' => __( 'MailerLite', 'dlm-email-lock' ),
-				'dlm_export_aw' => __( 'Aweber', 'dlm-email-lock' ),
-			)
-		);
-
-		echo '<label for="dlm-el-export-all">' . __( 'Export all: ', 'dlm-email-lock' ) . '</label>';
-
-		echo '<select name="dlm-el-export-all">';
-		// Default option for the select.
-		echo '<option value="none" selected="selected">' . __( 'Select provider', 'dlm-email-lock' ) . '</option>';
-		foreach ( $exports as $key => $export ) {
-			echo '<option  value=' . esc_attr( $key ) . '> ' . esc_html( $export ) . '</option>';
-		}
-
-		echo '</select>';
-
-		echo ' <button class="button" type="submit" value="Submit">' . __( 'Export', 'dlm-email-lock' ) . '</button>';
 	}
 
 	/**
 	 * Handles the post date column output.
 	 *
-	 * @param  WP_Post  $post  The current WP_Post object.
+	 * @param  DLM_Download  $item  The current DLm_Download object.
 	 *
-	 * @global string   $mode  List table view mode.
+	 * @global string        $mode  List table view mode.
 	 *
-	 * @since 4.3.0
+	 * @since 5.0.0
 	 *
 	 */
 	public function column_date( $item ) {
 		global $mode;
-
-		if ( '0000-00-00 00:00:00' === get_the_date( $item->get_id() ) ) {
-			$t_time    = __( 'Unpublished' );
+		$id = $item->get_id();
+		if ( '0000-00-00 00:00:00' === get_the_date( $id ) ) {
+			$t_time    = __( 'Unpublished', 'download-monitor' );
 			$time_diff = 0;
 		} else {
 			$t_time = sprintf(
 			/* translators: 1: Post date, 2: Post time. */
 				__( '%1$s at %2$s' ),
 				/* translators: Post date format. See https://www.php.net/manual/datetime.format.php */
-				get_the_time( __( 'Y/m/d' ), $item ),
+				get_the_time( __( 'Y/m/d' ), $id ),
 				/* translators: Post time format. See https://www.php.net/manual/datetime.format.php */
-				get_the_time( __( 'g:i a' ), $item )
+				get_the_time( __( 'g:i a' ), $id )
 			);
 
-			$time      = get_post_timestamp( $item );
+			$time      = get_post_timestamp( $id );
 			$time_diff = time() - $time;
 		}
 
 		if ( 'publish' === $item->get_status() ) {
-			$status = __( 'Published' );
+			$status = __( 'Published', 'download-monitor' );
 		} elseif ( 'future' === $item->get_status() ) {
 			if ( $time_diff > 0 ) {
-				$status = '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
+				$status = '<strong class="error-message">' . __( 'Missed schedule', 'download-monitor' ) . '</strong>';
 			} else {
 				$status = __( 'Scheduled' );
 			}
 		} else {
-			$status = __( 'Last Modified' );
+			$status = __( 'Last Modified', 'download-monitor' );
 		}
 
 		/**
 		 * Filters the status text of the post.
 		 *
-		 * @param  string   $status       The status text.
-		 * @param  WP_Post  $post         Post object.
-		 * @param  string   $column_name  The column name.
-		 * @param  string   $mode         The list display mode ('excerpt' or 'list').
+		 * @param  string        $status       The status text.
+		 * @param  DLM_Download  $post         Post object.
+		 * @param  string        $column_name  The column name.
+		 * @param  string        $mode         The list display mode ('excerpt' or 'list').
 		 *
-		 * @since 4.8.0
+		 * @since 5.0.0
 		 *
 		 */
-		$status = apply_filters( 'post_date_column_status', $status, $item, 'date', $mode );
+		$status = apply_filters( 'dlm_download_date_column_status', $status, $item, 'date', $mode );
 
 		if ( $status ) {
 			echo $status . '<br />';
 		}
-
 		/**
 		 * Filters the published, scheduled, or unpublished time of the post.
 		 *
-		 * @param  string   $t_time       The published time.
-		 * @param  WP_Post  $item         Download object.
-		 * @param  string   $column_name  The column name.
-		 * @param  string   $mode         The list display mode ('excerpt' or 'list').
+		 * @param  string        $t_time       The published time.
+		 * @param  DLM_Download  $item         Download object.
+		 * @param  string        $column_name  The column name.
+		 * @param  string        $mode         The list display mode ('excerpt' or 'list').
 		 *
-		 * @since       2.5.1
-		 * @since       5.5.0 Removed the difference between 'excerpt' and 'list' modes.
-		 *              The published time and date are both displayed now,
-		 *              which is equivalent to the previous 'excerpt' mode.
-		 *
+		 * @since       5.0.0
 		 */
-		echo apply_filters( 'post_date_column_time', $t_time, $item, 'date', $mode );
+		echo apply_filters( 'dlm_download_date_column_time', $t_time, $item, 'date', $mode );
 	}
 
 	/**
-	 * Extra controls to be displayed between bulk actions and pagination.
+	 * Check if there are items or not.
 	 *
-	 * @param  string  $which
-	 *
-	 * @since 3.4.7
-	 *
-	 */
-	protected function extra_tablenav( $which ) {
-		$this->export_all_form();
-	}
-
-	/**
 	 * @return bool
+	 *
+	 * @since 5.0.0
 	 */
 	public function has_items() {
 		return count( $this->items ) > 0;
 	}
 
 	/**
-	 * @param  array    $posts
-	 * @param  int      $level
+	 * Set rows
 	 *
-	 * @global WP_Query $wp_query WordPress Query object.
-	 * @global int      $per_page
+	 * @param  array  $posts
+	 * @param  int    $level
+	 *
+	 * @since 5.0.0
 	 */
 	public function display_rows( $posts = array(), $level = 0 ) {
 		foreach ( $this->items as $item ) {
+			// Set the global download object.
+			$GLOBALS['dlm_download'] = $item;
 			$this->single_row( $item );
 		}
 	}
 
 	/**
-	 * @param  int|WP_Post  $post
-	 * @param  int          $level
+	 * Single row display
 	 *
-	 * @global WP_Post      $post Global post object.
+	 * @param  DLM_Download  $item  The current DLM_Download object.
 	 *
+	 * @since 5.0.0
 	 */
-	public function single_row( $post ) {
+	public function single_row( $item ) {
 		?>
 		<tr id="post-<?php
-		echo absint( $post->get_id() ); ?>">
+		echo absint( $item->get_id() ); ?>">
 			<?php
-			$this->single_row_columns( $post ); ?>
+			$this->single_row_columns( $item ); ?>
 		</tr>
 		<?php
 	}
@@ -502,14 +513,13 @@ class DLM_Admin_List_Table extends WP_List_Table {
 	/**
 	 * Generates and displays row action links.
 	 *
-	 * @param  WP_Post  $item         Post being acted upon.
-	 * @param  string   $column_name  Current column name.
-	 * @param  string   $primary      Primary column name.
+	 * @param  DLM_Download  $item         Download being acted upon.
+	 * @param  string        $column_name  Current column name.
+	 * @param  string        $primary      Primary column name.
 	 *
 	 * @return string Row actions output for posts, or an empty string
 	 *                if the current column is not the primary column.
-	 * @since 4.3.0
-	 * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
+	 * @since 5.0.0
 	 *
 	 */
 	protected function handle_row_actions( $item, $column_name, $primary ) {
@@ -518,7 +528,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 		}
 
 		// Restores the more descriptive, specific name for use within this method.
-		$post = $item;
+		$post = get_post( $item->get_id() );
 
 		$post_type_object = get_post_type_object( $post->post_type );
 		$can_edit_post    = current_user_can( 'edit_post', $post->ID );
@@ -540,7 +550,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 			 * @param  bool    $enable     Whether to enable the Quick Edit functionality. Default true.
 			 * @param  string  $post_type  Post type name.
 			 *
-			 * @since 6.4.0
+			 * @since 5.0.0
 			 *
 			 */
 			$quick_edit_enabled = apply_filters( 'quick_edit_enabled_for_post_type', true, $post->post_type );
@@ -549,7 +559,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				$actions['inline hide-if-no-js'] = sprintf(
 					'<button type="button" class="button-link editinline" aria-label="%s" aria-expanded="false">%s</button>',
 					/* translators: %s: Post title. */
-					esc_attr( sprintf( __( 'Quick edit &#8220;%s&#8221; inline' ), $title ) ),
+					esc_attr( sprintf( __( 'Quick edit &#8220;%s&#8221; inline', 'download-monitor' ), $title ) ),
 					__( 'Quick&nbsp;Edit' )
 				);
 			}
@@ -561,7 +571,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					'<a href="%s" aria-label="%s">%s</a>',
 					wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ),
 					/* translators: %s: Post title. */
-					esc_attr( sprintf( __( 'Restore &#8220;%s&#8221; from the Trash' ), $title ) ),
+					esc_attr( sprintf( __( 'Restore &#8220;%s&#8221; from the Trash', 'download-monitor' ), $title ) ),
 					__( 'Restore' )
 				);
 			} elseif ( EMPTY_TRASH_DAYS ) {
@@ -569,7 +579,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
 					get_delete_post_link( $post->ID ),
 					/* translators: %s: Post title. */
-					esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), $title ) ),
+					esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash', 'download-monitor' ), $title ) ),
 					_x( 'Trash', 'verb' )
 				);
 			}
@@ -579,8 +589,8 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
 					get_delete_post_link( $post->ID, '', true ),
 					/* translators: %s: Post title. */
-					esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently' ), $title ) ),
-					__( 'Delete Permanently' )
+					esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently', 'download-monitor' ), $title ) ),
+					__( 'Delete Permanently', 'download-monitor' )
 				);
 			}
 		}
@@ -593,7 +603,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 						'<a href="%s" rel="bookmark" aria-label="%s">%s</a>',
 						esc_url( $preview_link ),
 						/* translators: %s: Post title. */
-						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ),
+						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;', 'download-monitor' ), $title ) ),
 						__( 'Preview' )
 					);
 				}
@@ -602,7 +612,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					'<a href="%s" rel="bookmark" aria-label="%s">%s</a>',
 					get_permalink( $post->ID ),
 					/* translators: %s: Post title. */
-					esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ),
+					esc_attr( sprintf( __( 'View &#8220;%s&#8221;', 'download-monitor' ), $title ) ),
 					__( 'View' )
 				);
 			}
@@ -613,9 +623,13 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				'<button type="button" class="wp-list-reusable-blocks__export button-link" data-id="%s" aria-label="%s">%s</button>',
 				$post->ID,
 				/* translators: %s: Post title. */
-				esc_attr( sprintf( __( 'Export &#8220;%s&#8221; as JSON' ), $title ) ),
+				esc_attr( sprintf( __( 'Export &#8220;%s&#8221; as JSON', 'download-monitor' ), $title ) ),
 				__( 'Export as JSON' )
 			);
+		}
+
+		if ( 'trash' !== $post->post_status ) {
+			$actions['dlm_duplicate_download'] = '<a href="javascript:;" class="dlm-duplicate-download" rel="' . $post->ID . '" data-value="' . wp_create_nonce( 'dlm_duplicate_download_nonce' ) . '">' . __( 'Duplicate Download', 'download-monitor' ) . '</a>';
 		}
 
 		if ( is_post_type_hierarchical( $post->post_type ) ) {
@@ -624,30 +638,32 @@ class DLM_Admin_List_Table extends WP_List_Table {
 			 *
 			 * The filter is evaluated only for hierarchical post types.
 			 *
-			 * @param  string[]  $actions  An array of row action links. Defaults are
-			 *                             'Edit', 'Quick Edit', 'Restore', 'Trash',
-			 *                             'Delete Permanently', 'Preview', and 'View'.
-			 * @param  WP_Post   $post     The post object.
+			 * @param  string[]      $actions  An array of row action links. Defaults are
+			 *                                 'Edit', 'Quick Edit', 'Restore', 'Trash',
+			 *                                 'Delete Permanently', 'Preview', and 'View'.
+			 * @param  WP_Post       $post     The post object.
+			 * @param  DLM_Download  $item     The download object.
 			 *
-			 * @since 2.8.0
+			 * @since 5.0.0
 			 *
 			 */
-			$actions = apply_filters( 'page_row_actions', $actions, $post );
+			$actions = apply_filters( 'page_row_actions', $actions, $post, $item );
 		} else {
 			/**
 			 * Filters the array of row action links on the Posts list table.
 			 *
 			 * The filter is evaluated only for non-hierarchical post types.
 			 *
-			 * @param  string[]  $actions  An array of row action links. Defaults are
-			 *                             'Edit', 'Quick Edit', 'Restore', 'Trash',
-			 *                             'Delete Permanently', 'Preview', and 'View'.
-			 * @param  WP_Post   $post     The post object.
+			 * @param  string[]      $actions  An array of row action links. Defaults are
+			 *                                 'Edit', 'Quick Edit', 'Restore', 'Trash',
+			 *                                 'Delete Permanently', 'Preview', and 'View'.
+			 * @param  WP_Post       $post     The post object.
+			 * @param  DLM_Download  $item     The download object.
 			 *
-			 * @since 2.8.0
+			 * @since 5.0.0
 			 *
 			 */
-			$actions = apply_filters( 'post_row_actions', $actions, $post );
+			$actions = apply_filters( 'post_row_actions', $actions, $post, $item );
 		}
 
 		return $this->row_actions( $actions );
@@ -656,9 +672,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 	/**
 	 * No items display
 	 *
-	 *
 	 * @since 5.0.0
-	 *
 	 */
 	public function no_items() {
 		global $wp_list_table;
@@ -667,6 +681,8 @@ class DLM_Admin_List_Table extends WP_List_Table {
 
 	/**
 	 * Display the extension tab.
+	 *
+	 * @since 5.0.0
 	 */
 	public function display_extension_tab() {
 		?>
@@ -701,11 +717,12 @@ class DLM_Admin_List_Table extends WP_List_Table {
 			 * Hook for DLM CPT table view tabs
 			 *
 			 * @hooked DLM_Admin_Extensions dlm_cpt_tabs()
+			 *
+			 * @moved 5.0.0 Moved here from CustomColumns.php
 			 */
 			$tabs = apply_filters( 'dlm_add_edit_tabs', $tabs );
 
-			uasort( $tabs,
-			        array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
+			uasort( $tabs, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
 
 			DLM_Admin_Helper::dlm_tab_navigation( $tabs, 'downloads' );
 			?>
