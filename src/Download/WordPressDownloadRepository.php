@@ -359,13 +359,13 @@ class DLM_WordPress_Download_Repository implements DLM_Download_Repository {
 				$download->set_author( $post->post_author );
 				$download->set_description( $post->post_content );
 				$download->set_excerpt( wpautop( do_shortcode( $post->post_excerpt ) ) );
-				$download->set_redirect_only( isset( $download_meta['_redirect_ony'] ) && 'yes' === $download_meta( '_redirect_only' ) );
-				$download->set_featured( isset( $download_meta['_redirect_ony'] ) && 'yes' === $download_meta( '_featured' ) );
-				$download->set_members_only( isset( $download_meta['_redirect_ony'] ) && 'yes' === $download_meta( '_members_only' ) );
+				$download->set_redirect_only( 'yes' === DLM_Utils::meta_checker( $download_meta, '_redirect_only' ) );
+				$download->set_featured( 'yes' === DLM_Utils::meta_checker( $download_meta, '_featured' ) );
+				$download->set_members_only( 'yes' === DLM_Utils::meta_checker( $download_meta, '_members_only' ) );
 				$download->set_download_count( apply_filters( 'dlm_add_meta_download_count', ( isset( $post->download_count ) ? absint( $post->download_count ) : 0 ), $post->ID ) );
-				$download->set_meta_download_count( absint( $download_meta['_download_count'] ) );
+				$download->set_meta_download_count( absint( DLM_Utils::meta_checker( $download_meta, '_download_count' ) ) );
 				$download->set_versions_download_counts( ( isset( $post->download_versions ) ? $post->download_versions : 0 ) );
-				$download->set_new_tab( isset( $download_meta['_redirect_ony'] ) && 'yes' === $download_meta( '_new_tab' ) );
+				$download->set_new_tab( 'yes' === DLM_Utils::meta_checker( $download_meta, '_new_tab' ) );
 
 				// This is added for backwards compatibility but will be removed in a later version!
 				$download->post = $post;

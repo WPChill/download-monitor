@@ -41,6 +41,10 @@ class DLM_Admin_Writepanels {
 		remove_meta_box( 'submitdiv', 'dlm_download', 'side' );
 		global $post;
 
+		if ( 'dlm_download' !== $post->post_type ) {
+			return;
+		}
+
 		if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
 			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
 				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
@@ -518,6 +522,9 @@ class DLM_Admin_Writepanels {
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
 
+		if ( 'dlm_download' !== $post->post_type ) {
+			return;
+		}
 		/**
 		 * Fetch old download object
 		 * There are certain props we don't need to manually persist here because WP does this automatically for us.
@@ -531,14 +538,15 @@ class DLM_Admin_Writepanels {
 		 */
 		/** @var DLM_Download $download */
 		try {
-			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
-				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			if ( isset( $GLOBALS['dlm_download'] ) ) {
+				$this->download_post = $GLOBALS['dlm_download'];
+			} elseif ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
+				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post_id );
 			}
 		} catch ( Exception $e ) {
 			// download not found, no point in continuing
 			return;
 		}
-
 		// set the 'Download Options'
 		$this->download_post->set_featured( ( isset( $_POST['_featured'] ) ) );
 		$this->download_post->set_members_only( ( isset( $_POST['_members_only'] ) ) );
