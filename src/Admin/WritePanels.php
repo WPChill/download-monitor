@@ -44,12 +44,15 @@ class DLM_Admin_Writepanels {
 		if ( 'dlm_download' !== $post->post_type ) {
 			return;
 		}
-
-		if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
-			if ( ! isset( $GLOBALS['dlm_download'] ) ) {
-				$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
-			} else {
-				$this->download_post = $GLOBALS['dlm_download'];
+		global $pagenow;
+		// If we are not on the new post page, we need to retrieve the download post, else it will trigger Exception
+		if ( 'post-new.php' !== $pagenow ) {
+			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
+				if ( ! isset( $GLOBALS['dlm_download'] ) ) {
+					$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+				} else {
+					$this->download_post = $GLOBALS['dlm_download'];
+				}
 			}
 		}
 

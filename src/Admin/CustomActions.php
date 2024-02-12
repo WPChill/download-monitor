@@ -281,7 +281,6 @@ class DLM_Custom_Actions {
 
 		// handle bulk
 		if ( isset( $_REQUEST['dlm_bulk_edit_nonce'] ) ) {
-
 			// check nonce
 			// phpcs:ignore
 			if ( ! wp_verify_nonce( $_REQUEST['dlm_bulk_edit_nonce'], 'dlm_bulk_edit_nonce' ) ) {
@@ -302,7 +301,6 @@ class DLM_Custom_Actions {
 			if ( isset( $_REQUEST['_redirect_only'] ) ) {
 				update_post_meta( $post_id, '_redirect_only', 'yes' );
 			}
-
 		}
 
 		// handle quick
