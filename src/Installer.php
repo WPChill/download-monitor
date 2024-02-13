@@ -87,6 +87,10 @@ class DLM_Installer {
 			$wp_roles->add_cap( 'administrator', 'manage_downloads' );
 			$wp_roles->add_cap( 'administrator', 'dlm_manage_logs' );
 			$wp_roles->add_cap( 'administrator', 'dlm_view_reports' );
+			$wp_roles->add_cap( 'administrator', 'dlm_use_rest_api_get' );
+			$wp_roles->add_cap( 'administrator', 'dlm_use_rest_api_post' );
+			$wp_roles->add_cap( 'administrator', 'dlm_use_rest_api_patch' );
+			$wp_roles->add_cap( 'administrator', 'dlm_use_rest_api_delete' );
 		}
 	}
 
