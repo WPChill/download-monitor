@@ -50,6 +50,7 @@ return array(
     'DLM_Custom_Actions' => $baseDir . '/src/Admin/CustomActions.php',
     'DLM_Custom_Labels' => $baseDir . '/src/Admin/CustomLabels.php',
     'DLM_DB_Upgrader' => $baseDir . '/src/Admin/class-dlm-db-upgrader.php',
+    'DLM_Debug' => $baseDir . '/src/Admin/class-dlm-admin-debug.php',
     'DLM_Debug_Logger' => $baseDir . '/src/DebugLogger.php',
     'DLM_Download' => $baseDir . '/src/Download/Download.php',
     'DLM_DownloadPreview_Config' => $baseDir . '/src/DownloadPreview/Config.php',

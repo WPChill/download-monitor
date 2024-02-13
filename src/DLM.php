@@ -142,6 +142,9 @@ class WP_DLM {
 
 			// Load the templates action class
 			$plugin_status = DLM_Plugin_Status::get_instance();
+
+			// Set Reports. We set them here in order to also create the REST Api calls.
+			$debugger = DLM_Debug::get_instance();
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.

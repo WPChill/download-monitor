@@ -65,6 +65,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Custom_Actions' => __DIR__ . '/../..' . '/src/Admin/CustomActions.php',
         'DLM_Custom_Labels' => __DIR__ . '/../..' . '/src/Admin/CustomLabels.php',
         'DLM_DB_Upgrader' => __DIR__ . '/../..' . '/src/Admin/class-dlm-db-upgrader.php',
+        'DLM_Debug' => __DIR__ . '/../..' . '/src/Admin/class-dlm-admin-debug.php',
         'DLM_Debug_Logger' => __DIR__ . '/../..' . '/src/DebugLogger.php',
         'DLM_Download' => __DIR__ . '/../..' . '/src/Download/Download.php',
         'DLM_DownloadPreview_Config' => __DIR__ . '/../..' . '/src/DownloadPreview/Config.php',

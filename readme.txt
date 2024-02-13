@@ -123,6 +123,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 = 5.0.0 - TBD =
 Fixed: File Browser not working on installations that return '//' ( double slashed ) paths. ( [#1412](https://github.com/WPChill/download-monitor/issues/1412) )
 Changed: File Browser no longer displays cross-site folders in multisite environments. ( [#1402](https://github.com/WPChill/download-monitor/issues/1402) )
+Added: Download debug export metabox ( [#1387](https://github.com/WPChill/download-monitor/issues/1387) )
 
 = 4.9.10 - 05.02.2024 =
 Fixed: Versions download link for the "Version list" template ( [#1422](https://github.com/WPChill/download-monitor/issues/1422) )
