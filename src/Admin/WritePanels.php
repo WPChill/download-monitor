@@ -28,6 +28,7 @@ class DLM_Admin_Writepanels {
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
 		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_boxes' ), 1, 2 );
 		add_action( 'wp_ajax_dlm_upload_file', array( $this, 'upload_file' ) );
+		add_filter( 'hidden_meta_boxes' , array( $this, 'hide_meta_box' ), 10, 2 );
 	}
 
 	/**
@@ -708,5 +709,30 @@ class DLM_Admin_Writepanels {
 
 		wp_send_json_success( array( 'file_url' => wp_get_attachment_url( $attach_id ) ) );
 
+	}
+
+	/**
+	 * Hides the short description metabox if the current default template does not use it.
+	 *
+	 * @since 5.0.0
+	 */
+	public function hide_meta_box( $hidden, $screen ) {
+		
+		//make sure we are dealing with the correct screen
+		if ( ( 'post' === $screen->base ) && ( 'dlm_download' === $screen->id ) ) {
+			$no_excerpt_templates = apply_filters( 'dlm_hidden_excerpt_cpt_templates', array(
+					'button',
+					'filename',
+					'title',
+					'version-list'
+				)
+			);
+			$used_tempalte = dlm_get_default_download_template();
+			if( empty( $used_tempalte ) || in_array( $used_tempalte, $no_excerpt_templates ) ){
+				$hidden[] = 'postexcerpt';
+			}
+		}
+
+		return $hidden;
 	}
 }
