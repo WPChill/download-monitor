@@ -500,7 +500,6 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				ob_start();
 
 				$this->months_dropdown( $this->screen->post_type );
-
 				/**
 				 * Fires before the Filter button on the Posts and Pages list tables.
 				 *
@@ -922,10 +921,14 @@ class DLM_Admin_List_Table extends WP_List_Table {
 	 */
 	public function column_default( $post, $column_name ) {
 		// Set the DLM download object.
-		if ( empty( $this->downloads ) ) {
-			$item = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+		if ( isset( $GLOBALS['dlm_download'] ) && $post->ID === $GLOBALS['dlm_download']->get_id() ) {
+			$item = $GLOBALS['dlm_download'];
 		} else {
-			$item = $this->downloads[ $post->ID ];
+			if ( ! empty( $this->downloads ) && isset( $this->downloads[ $post->ID ] ) ) {
+				$item = $this->downloads[ $post->ID ];
+			} else {
+				$item = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+			}
 		}
 
 		switch ( $column_name ) {
