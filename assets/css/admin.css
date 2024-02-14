@@ -1162,7 +1162,8 @@ table.wp-list-table .column-thumb img {
   padding: 0.5em 0.9em;
   margin: 0;
 }
-#download-monitor-options p {
+#download-monitor-options p,
+#download-monitor-options .dlm_product_locked_downloads {
   margin: 0 !important;
   border-top: 1px solid white;
   border-bottom: 1px solid #DFDFDF;
@@ -1184,6 +1185,70 @@ table.wp-list-table .column-thumb img {
   display: inline-block;
   margin-left: 5px;
   border-radius: 10px;
+}
+
+#download-monitor-options .dlm_product_locked_product a {
+  text-decoration: none;
+}
+
+#download-monitor-options .dlm_product_locked_product .dlm_product_locked_product_edit {
+  float: right;
+  font-size: 12px;
+  opacity: 0;
+}
+
+#download-monitor-options .dlm_product_locked_product:hover .dlm_product_locked_product_edit {
+  opacity: 1;
+}
+
+#download-monitor-options .dlm_product_locked_product {
+  margin: 0;
+  padding: 2px 5px;
+  display: inline-flex;
+}
+
+#download-monitor-options .dlm_product_locked_product:hover {
+  background-color: #f6f7f7;
+}
+
+#download-monitor-options .dlm_product_locked_downloads ul{
+  margin: 3px 0;
+}
+
+#download-monitor-options .dlm_product_locked_downloads .dlm_product_locked_description{
+  padding: 4px 0 0 0;
+  display: block;
+}
+
+#download-monitor-options .dlm_product_locked_downloads .dlm_product_locked_label .dashicons{
+  margin-right: 4px;
+  width: 17px;
+  height: 17px;
+  font-size: 17px;
+}
+
+#download-monitor-options .dlm_product_locked_downloads  #dlm_view_locked_products {
+  margin: 0 -12px;
+  display: block;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+#download-monitor-options .dlm_product_locked_downloads  #dlm_view_locked_products .dashicons {
+  float: right;
+}
+
+#download-monitor-options .dlm_product_locked_downloads:not(.open) .dlm_product_locked_list{
+  display: none;
+}
+#download-monitor-options .dlm_product_locked_downloads .dlm_product_locked_product_dot {
+  width: 5px;
+  height: 5px;
+  margin-right: 5px;
+  background-color: #2271b1;
+  position: relative;
+  bottom: -7px;
+  border-radius: 50%;
+  min-width: 5px;
 }
 #insert-download {
   padding: 20px 20px;
