@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
 /**
  * Interaction with the version repository of the download plugin.
  *
@@ -8,33 +12,6 @@
  * @since   5.0.0
  */
 class DLM_Version_REST {
-
-	/**
-	 * Download plugin repository for version.
-	 *
-	 * @var Object
-	 *
-	 * @since 5.0.0
-	 */
-	private $version_repository;
-
-	/**
-	 * Download plugin manager for transients.
-	 *
-	 * @var Object
-	 *
-	 * @since 5.0.0
-	 */
-	private $transient_manager;
-
-	/**
-	 * DMR Rest API ref.
-	 *
-	 * @var DLM_Rest_API
-	 *
-	 * @since 5.0.0
-	 */
-	private $mda_api;
 
 	/**
 	 * Holds the class object.
@@ -46,28 +23,21 @@ class DLM_Version_REST {
 	/**
 	 * Constructor.
 	 *
-	 * @param  DLM_Rest_API  $api  DMR Rest API ref.
 	 *
 	 * @since 5.0.0
 	 */
-	private function __construct( $api ) {
-		$this->mda_api            = $api;
-		$this->version_repository = download_monitor()->service( 'version_repository' );
-		$this->transient_manager  = download_monitor()->service( 'transient_manager' );
+	private function __construct() {
 	}
 
 	/**
 	 * Returns the singleton instance of the class.
 	 *
-	 * @param  DLM_Rest_API  $args  DMR Rest API ref.
-	 *
-	 * @return object The DLM_Version_REST object.
 	 *
 	 * @since 5.0.0
 	 */
-	public static function get_instance( $args ) {
+	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Version_REST ) ) {
-			self::$instance = new DLM_Version_REST( $args );
+			self::$instance = new DLM_Version_REST();
 		}
 
 		return self::$instance;
@@ -82,7 +52,6 @@ class DLM_Version_REST {
 	 */
 	public function get_endpoints() {
 		return array(
-
 			// Fetch all versions from a download id.
 			'/versions'                    => array(
 				array(
@@ -98,8 +67,7 @@ class DLM_Version_REST {
 
 				),
 			),
-
-			// Fetch, update and delete a version.
+			// Fetch single version.
 			'/version/(?P<version_id>\d+)' => array(
 				array(
 					'methods'  => 'GET',
@@ -112,7 +80,7 @@ class DLM_Version_REST {
 						),
 					),
 				),
-
+				// Delete a version.
 				array(
 					'methods'  => 'DELETE',
 					'callback' => array( $this, 'delete_version' ),
@@ -124,7 +92,7 @@ class DLM_Version_REST {
 						),
 					),
 				),
-
+				// Update a version.
 				array(
 					'methods'  => 'PATCH',
 					'callback' => array( $this, 'update_version' ),
@@ -147,7 +115,6 @@ class DLM_Version_REST {
 					),
 				),
 			),
-
 			// Create a new version.
 			'/version'                     => array(
 				array(
@@ -172,7 +139,6 @@ class DLM_Version_REST {
 					),
 				),
 			),
-
 		);
 	}
 
@@ -190,11 +156,11 @@ class DLM_Version_REST {
 
 		$args = array( 'post_parent' => $params['download_id'] );
 
-		$total_versions = $this->version_repository->num_rows( $args );
-		$fetch_versions = $this->version_repository->retrieve( $args );
+		$total_versions = download_monitor()->service( 'version_repository' )->num_rows( $args );
+		$fetch_versions = download_monitor()->service( 'version_repository' )->retrieve( $args );
 
 		if ( count( $fetch_versions ) <= 0 ) {
-			return new WP_Error( 'download_not_found', __( 'Download does not exist.', 'download-monitor' ), array( 'status' => 404 ) );
+			return new WP_Error( 'download_not_found', __( 'Download does not exist or does not have any versions.', 'download-monitor' ), array( 'status' => 404 ) );
 		}
 
 		// Let's get the versions.
@@ -226,9 +192,9 @@ class DLM_Version_REST {
 		$params = $req->get_params();
 
 		try {
-			$version = $this->version_repository->retrieve_single( $params['version_id'] );
+			$version = download_monitor()->service( 'version_repository' )->retrieve_single( $params['version_id'] );
 		} catch ( Exception $e ) {
-			return new WP_Error( 'version_not_found', __( 'Download does not exist.', 'download-monitor' ), array( 'status' => 404 ) );
+			return new WP_Error( 'version_not_found', __( 'Version does not exist.', 'download-monitor' ), array( 'status' => 404 ) );
 		}
 
 		return new WP_REST_Response(
@@ -254,7 +220,7 @@ class DLM_Version_REST {
 			return new WP_Error( 'version_not_found', __( 'Version does not exist.', 'download-monitor' ), array( 'status' => 404 ) );
 		}
 
-		$this->transient_manager->clear_versions_transient( $version->post_parent );
+		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $version->post_parent );
 		wp_delete_post( $version->ID, true );
 
 		return new WP_REST_Response( null, 204 );
@@ -273,21 +239,19 @@ class DLM_Version_REST {
 		$params = $req->get_params();
 
 		if ( ! empty( $params['download_id'] ) ) {
-			$download_id = intval( $params['download_id'] );
-
-			$version = new DLM_Download_Version();
+			$download_id = absint( $params['download_id'] );
+			$version     = new DLM_Download_Version();
 			$version->set_download_id( $download_id );
-			$version->set_version( $params['version'] );
-			$version->set_mirrors( array( $params['url'] ) );
-			$version->set_author( $this->mda_api->author_id );
+			$version->set_version( isset( $params['version'] ) ? $params['version'] : '' );
+			$version->set_mirrors( isset( $params['url'] ) ? array( $params['url'] ) : array() );
 			$version->set_date( new DateTime( current_time( 'mysql' ) ) );
 
 			try {
-				$this->version_repository->persist( $version );
-				$this->transient_manager->clear_versions_transient( $download_id );
+				download_monitor()->service( 'version_repository' )->persist( $version );
+				download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );
 
 				// Get latest data.
-				$version = $this->version_repository->retrieve_single( $version->get_id() );
+				$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version->get_id() );
 			} catch ( Exception $e ) {
 				return new WP_Error( 'version_error', __( 'Unable to create a version item.', 'download-monitor' ), array( 'status' => 400 ) );
 			}
@@ -315,21 +279,24 @@ class DLM_Version_REST {
 		if ( ! empty( $params['version_id'] ) ) {
 			// Let's check if version exists first.
 			try {
-				$version = $this->version_repository->retrieve_single( $params['version_id'] );
+				$version = download_monitor()->service( 'version_repository' )->retrieve_single( $params['version_id'] );
 			} catch ( Exception $e ) {
 				return new WP_Error( 'version_not_found', __( 'Version does not exist.', 'download-monitor' ), array( 'status' => 404 ) );
 			}
 
-			$version->set_version( $params['version'] );
-			$version->set_mirrors( array( $params['url'] ) );
-			$version->set_date( new DateTime( current_time( 'mysql' ) ) );
+			$version->set_version( isset( $params['version'] ) ? $params['version'] : $version->get_version() );
+			$version->set_mirrors( isset( $params['url'] ) ? array( $params['url'] ) : $version->get_mirrors() );
+
+			if ( isset( $params['date'] ) ) {
+				$version->set_date( new DateTime( $params['date'] ) );
+			}
 
 			try {
-				$this->version_repository->persist( $version );
-				$this->transient_manager->clear_versions_transient( $version->get_download_id() );
+				download_monitor()->service( 'version_repository' )->persist( $version );
+				download_monitor()->service( 'transient_manager' )->clear_versions_transient( $version->get_download_id() );
 
 				// Get latest data.
-				$version = $this->version_repository->retrieve_single( $version->get_id() );
+				$version = download_monitor()->service( 'version_repository' )->retrieve_single( $version->get_id() );
 			} catch ( Exception $e ) {
 				return new WP_Error( 'version_error', __( 'Unable to update the version item.', 'download-monitor' ), array( 'status' => 400 ) );
 			}

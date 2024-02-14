@@ -163,7 +163,7 @@ class WP_DLM {
 		$ajax_manager = new DLM_Ajax_Manager();
 		$ajax_manager->setup();
 
-		//DLM_Rest_API::get_instance();
+		DLM_Rest_API::get_instance();
 
 		// Setup Modal
 		if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {

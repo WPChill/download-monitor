@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
 /**
  * Handles WP Rest API endpoints
  *
@@ -53,8 +57,8 @@ class DLM_Rest_API {
 	 */
 	private function __construct() {
 		$this->namespace           = 'download-monitor/v1';
-		$this->download_repository = DLM_Download_REST::get_instance( $this );
-		$this->version_repository  = DLM_Version_REST::get_instance( $this );
+		$this->download_repository = DLM_Download_REST::get_instance();
+		$this->version_repository  = DLM_Version_REST::get_instance();
 		$this->endpoints           = array();
 
 		add_action( 'rest_api_init', array( $this, 'register_endpoints' ) );
@@ -104,7 +108,7 @@ class DLM_Rest_API {
 			foreach ( $handlers as &$handler ) {
 				// Basic authentication.
 				if ( ! isset( $handler['permission_callback'] ) ) {
-					$method                         = $handler['method'];
+					$method                         = $handler['methods'];
 					$handler['permission_callback'] = array( $this, 'is_user_allowed_' . strtolower( $method ) );
 				}
 
@@ -182,6 +186,13 @@ class DLM_Rest_API {
 			case 'is_user_allowed_delete':
 				$can_do = current_user_can( 'dlm_use_rest_api_delete' );
 				break;
+		}
+
+		// Check if the request is authorized by the API key.
+		$request       = $args[0];
+		$authorization = $request->get_header( 'X-DLM-AUTHORIZATION' );
+		if ( md5( get_option( 'dlm_rest_api_key' ) ) === $authorization ) {
+			$can_do = true;
 		}
 
 		return $can_do;

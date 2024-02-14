@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
 /**
  * Interaction with the download repository of the download plugin.
  *
@@ -8,32 +12,6 @@
  * @since   5.0.0
  */
 class DLM_Download_REST {
-	/**
-	 * Download plugin repository for downloads.
-	 *
-	 * @var Object
-	 *
-	 * @since 5.0.0
-	 */
-	private $download_repository;
-
-	/**
-	 * Version plugin repository for downloads.
-	 *
-	 * @var Object
-	 *
-	 * @since 5.0.0
-	 */
-	private $version_repository;
-
-	/**
-	 * DLM Rest API ref.
-	 *
-	 * @var DLM_Rest_API
-	 *
-	 * @since 5.0.0
-	 */
-	private $mda_api;
 
 	/**
 	 * Holds the class object.
@@ -45,28 +23,23 @@ class DLM_Download_REST {
 	/**
 	 * Constructor.
 	 *
-	 * @param  DLM_Rest_API  $api  DMR Rest API ref.
 	 *
 	 * @since 5.0.0
 	 */
-	private function __construct( $api ) {
-		$this->mda_api             = $api;
-		$this->download_repository = download_monitor()->service( 'download_repository' );
-		$this->version_repository  = download_monitor()->service( 'version_repository' );
+	private function __construct() {
 	}
 
 	/**
 	 * Returns the singleton instance of the class.
 	 *
-	 * @param  DLM_Rest_API  $args  DMR Rest API ref.
 	 *
-	 * @return object The DLM_REST_API object.
+	 * @return object The DLM_Download_REST object.
 	 *
 	 * @since 5.0.0
 	 */
-	public static function get_instance( $args ) {
+	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Download_REST ) ) {
-			self::$instance = new DLM_Download_REST( $args );
+			self::$instance = new DLM_Download_REST();
 		}
 
 		return self::$instance;
@@ -81,7 +54,6 @@ class DLM_Download_REST {
 	 */
 	public function get_endpoints() {
 		return array(
-
 			// Fetch all downloads.
 			'/downloads'                     => array(
 				array(
@@ -89,9 +61,9 @@ class DLM_Download_REST {
 					'callback' => array( $this, 'get_downloads' ),
 				),
 			),
-
 			// Fetch, update and delete a download.
 			'/download/(?P<download_id>\d+)' => array(
+				// Get a single download.
 				array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'get_download' ),
@@ -103,7 +75,7 @@ class DLM_Download_REST {
 						),
 					),
 				),
-
+				// Delete a single download.
 				array(
 					'methods'  => 'DELETE',
 					'callback' => array( $this, 'delete_download' ),
@@ -115,7 +87,7 @@ class DLM_Download_REST {
 						),
 					),
 				),
-
+				// Update a single download.
 				array(
 					'methods'  => 'PATCH',
 					'callback' => array( $this, 'update_download' ),
@@ -125,15 +97,9 @@ class DLM_Download_REST {
 							'type'        => 'integer',
 							'description' => __( 'The download\'s ID', 'download-monitor' ),
 						),
-						'title'       => array(
-							'required'    => false,
-							'type'        => 'string',
-							'description' => __( 'The download\'s title', 'download-monitor' ),
-						),
 					),
 				),
 			),
-
 			// Create a new download.
 			'/download'                      => array(
 				array(
@@ -148,7 +114,6 @@ class DLM_Download_REST {
 					),
 				),
 			),
-
 		);
 	}
 
@@ -162,12 +127,17 @@ class DLM_Download_REST {
 	 * @since 5.0.0
 	 */
 	public function get_downloads( $req ) {
-		$total_downloads = $this->download_repository->num_rows();
-		$fetch_downloads = $this->download_repository->retrieve(
+		$total_downloads = download_monitor()->service( 'download_repository' )->num_rows();
+		$per_page        = $req->get_param( 'per_page' ) ? $req->get_param( 'per_page' ) : 10;
+		$page            = $req->get_param( 'page' ) ? $req->get_param( 'page' ) : 1;
+		$offset          = absint( ( $page - 1 ) * $per_page );
+		$fetch_downloads = download_monitor()->service( 'download_repository' )->retrieve(
 			array(
 				'orderby' => 'date',
 				'order'   => 'DESC',
-			)
+			),
+			$per_page,
+			$offset
 		);
 
 		$download_items = array_map(
@@ -195,10 +165,10 @@ class DLM_Download_REST {
 	 * @since 5.0.0
 	 */
 	public function get_download( $req ) {
-		$params = $req->get_params();
+		$download_id = $req->get_param( 'download_id' );
 
 		try {
-			$download = $this->download_repository->retrieve_single( $params['download_id'] );
+			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 		} catch ( Exception $e ) {
 			return new WP_Error( 'download_not_found', __( 'Download does not exist.', 'download-monitor' ), array( 'status' => 404 ) );
 		}
@@ -245,12 +215,10 @@ class DLM_Download_REST {
 
 		if ( ! empty( $params['title'] ) ) {
 			$download = new DLM_Download();
-			$download->set_title( $params['title'] );
-			$download->set_author( $this->mda_api->author_id );
-			$download->set_status( 'publish' );
+			$download = $this->create_download_object( $download, $params );
 
 			try {
-				$this->download_repository->persist( $download );
+				download_monitor()->service( 'download_repository' )->persist( $download );
 			} catch ( Exception $e ) {
 				return new WP_Error( 'download_error', __( 'Unable to create a download item.', 'download-monitor' ), array( 'status' => 400 ) );
 			}
@@ -278,23 +246,43 @@ class DLM_Download_REST {
 	public function update_download( $req ) {
 		$params = $req->get_params();
 
+		$download_id = absint( $params['download_id'] );
+		unset( $params['download_id'] );
+
 		// Let's check if download exists first.
 		try {
-			$this->download_repository->retrieve_single( $params['download_id'] );
+			$old_download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 		} catch ( Exception $e ) {
 			return new WP_Error( 'download_not_found', __( 'Download does not exist.', 'download-monitor' ), array( 'status' => 404 ) );
 		}
 
 		$download = new DLM_Download();
-		$download->set_id( $params['download_id'] );
-		$download->set_title( $params['title'] );
-		$download->set_author( $this->mda_api->author_id );
-		$download->set_status( 'publish' );
+		$download->set_id( $download_id );
+		$download = $this->create_download_object( $download, $params, $old_download );
+
+		/**
+		 * Filters the download item before it is updated. Allow to modify the download item before it is updated.
+		 *
+		 * @hook  dlm_download_rest_api_update
+		 *
+		 * @param  DLM_Download  $download  The download item.
+		 * @param  Array         $params    The parameters.
+		 *
+		 * @return DLM_Download  The download item.
+		 *
+		 * @since 5.0.0
+		 */
+		$download = apply_filters( 'dlm_download_rest_api_update', $download, $params );
 
 		try {
-			$this->download_repository->persist( $download );
+			download_monitor()->service( 'download_repository' )->persist( $download );
 		} catch ( Exception $e ) {
 			return new WP_Error( 'download_error', __( 'Unable to update the download item.', 'download-monitor' ), array( 'status' => 400 ) );
+		}
+
+		// Handle the post meta, assuming that what is left from the params are post meta.
+		foreach ( $params as $key => $param ) {
+			update_post_meta( $download_id, $key, $param );
 		}
 
 		$download_data = $this->get_download_item( $download );
@@ -317,8 +305,8 @@ class DLM_Download_REST {
 
 		// Let's get the versions.
 		$args                    = array( 'post_parent' => $download->get_id() );
-		$download_versions       = $this->version_repository->retrieve( $args );
-		$total_download_versions = $this->version_repository->num_rows( $args );
+		$download_versions       = download_monitor()->service( 'version_repository' )->retrieve( $args );
+		$total_download_versions = download_monitor()->service( 'version_repository' )->num_rows( $args );
 
 		if ( count( $download_versions ) > 0 ) {
 			$download_data['versions'] = array(
@@ -342,5 +330,29 @@ class DLM_Download_REST {
 		}
 
 		return $download_data;
+	}
+
+	/**
+	 * Create a download object.
+	 *
+	 * @param  DLM_Download  $download  The download object.
+	 * @param  Array         $params    The parameters.
+	 *
+	 * @return  DLM_Download  The download object.
+	 *
+	 * @since 5.0.0
+	 */
+	private function create_download_object( $download, $params, $old_download = null ) {
+		isset( $params['title'] ) ? $download->set_title( $params['title'] ) : $download->set_title( null !== $old_download ? $old_download->get_title() : 'Download' );
+		isset( $params['status'] ) ? $download->set_status( $params['status'] ) : $download->set_status( null !== $old_download ? $old_download->get_status() : 'publish' );
+		isset( $params['author'] ) ? $download->set_author( $params['author'] ) : $download->set_author( null !== $old_download ? $old_download->get_author() : '1' );
+		isset( $params['description'] ) ? $download->set_description( $params['description'] ) : $download->set_description( null !== $old_download ? $old_download->get_description() : '' );
+		isset( $params['excerpt'] ) ? $download->set_excerpt( $params['excerpt'] ) : $download->set_excerpt( null !== $old_download ? $old_download->get_excerpt() : '' );
+		isset( $params['_members_only'] ) ? $download->set_members_only( $params['_members_only'] ) : $download->set_members_only( null !== $old_download ? $old_download->is_members_only() : 'no' );
+		isset( $params['_featured'] ) ? $download->set_featured( $params['_featured'] ) : $download->set_featured( null !== $old_download ? $old_download->is_featured() : 'no' );
+		isset( $params['_redirect_only'] ) ? $download->set_redirect_only( $params['_redirect_only'] ) : $download->set_redirect_only( null !== $old_download ? $old_download->is_redirect_only() : 'no' );
+		isset( $params['_new_tab'] ) ? $download->set_new_tab( $params['_new_tab'] ) : $download->set_new_tab( null !== $old_download ? $old_download->is_new_tab() : 'no' );
+
+		return $download;
 	}
 }
