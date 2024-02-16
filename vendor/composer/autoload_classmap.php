@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'DLM_API_Key' => $baseDir . '/src/KeyGeneration/class-dlm-api-key.php',
+    'DLM_API_Keys_Table' => $baseDir . '/src/KeyGeneration/admin/class-dlm-api-keys-table.php',
     'DLM_Admin' => $baseDir . '/src/Admin/Admin.php',
     'DLM_Admin_Dashboard' => $baseDir . '/src/Admin/Dashboard.php',
     'DLM_Admin_Extensions' => $baseDir . '/src/Admin/Extensions.php',
@@ -71,6 +73,7 @@ return array(
     'DLM_Installer' => $baseDir . '/src/Installer.php',
     'DLM_Integrations_PostTypesOrder' => $baseDir . '/src/Integrations/PostTypesOrder.php',
     'DLM_Integrations_YoastSEO' => $baseDir . '/src/Integrations/YoastSEO.php',
+    'DLM_Key_Generation' => $baseDir . '/src/KeyGeneration/class-dlm-key-generation.php',
     'DLM_LU_Ajax' => $baseDir . '/src/LegacyUpgrader/Ajax.php',
     'DLM_LU_Checker' => $baseDir . '/src/LegacyUpgrader/Checker.php',
     'DLM_LU_Content_Queue' => $baseDir . '/src/LegacyUpgrader/ContentQueue.php',

@@ -78,6 +78,8 @@ class WP_DLM {
 		$wpdb->dlm_reports = "{$wpdb->prefix}dlm_reports_log";
 		// New Table for individual Downloads.
 		$wpdb->dlm_downloads = "{$wpdb->prefix}dlm_downloads";
+		// New Table for API Keys.
+		$wpdb->dlm_api_keys = "{$wpdb->prefix}dlm_api_keys";
 
 		// Setup admin classes.
 		if ( is_admin() ) {
@@ -142,6 +144,9 @@ class WP_DLM {
 
 			// Set Reports. We set them here in order to also create the REST Api calls.
 			$debugger = DLM_Debug::get_instance();
+
+			// Load the API Key Generation class
+			$key_generation = DLM_Key_Generation::get_instance();
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.

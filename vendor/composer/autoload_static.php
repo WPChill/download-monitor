@@ -22,6 +22,8 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'DLM_API_Key' => __DIR__ . '/../..' . '/src/KeyGeneration/class-dlm-api-key.php',
+        'DLM_API_Keys_Table' => __DIR__ . '/../..' . '/src/KeyGeneration/admin/class-dlm-api-keys-table.php',
         'DLM_Admin' => __DIR__ . '/../..' . '/src/Admin/Admin.php',
         'DLM_Admin_Dashboard' => __DIR__ . '/../..' . '/src/Admin/Dashboard.php',
         'DLM_Admin_Extensions' => __DIR__ . '/../..' . '/src/Admin/Extensions.php',
@@ -86,6 +88,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Installer' => __DIR__ . '/../..' . '/src/Installer.php',
         'DLM_Integrations_PostTypesOrder' => __DIR__ . '/../..' . '/src/Integrations/PostTypesOrder.php',
         'DLM_Integrations_YoastSEO' => __DIR__ . '/../..' . '/src/Integrations/YoastSEO.php',
+        'DLM_Key_Generation' => __DIR__ . '/../..' . '/src/KeyGeneration/class-dlm-key-generation.php',
         'DLM_LU_Ajax' => __DIR__ . '/../..' . '/src/LegacyUpgrader/Ajax.php',
         'DLM_LU_Checker' => __DIR__ . '/../..' . '/src/LegacyUpgrader/Checker.php',
         'DLM_LU_Content_Queue' => __DIR__ . '/../..' . '/src/LegacyUpgrader/ContentQueue.php',
