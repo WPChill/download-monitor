@@ -341,7 +341,6 @@ class DLM_Admin_Scripts {
 	 */
 	public function add_footer_styles() {
 		if ( isset( $_GET['post_type'] ) && 'dlm_download' === sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) {
-			wp_register_style( 'dlm-welcome-style', plugins_url( '/assets/css/welcome.css', DLM_PLUGIN_FILE ), null, DLM_VERSION );
 			wp_enqueue_style( 'dlm-welcome-style' );
 		}
 	}
