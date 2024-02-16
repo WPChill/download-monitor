@@ -13,6 +13,7 @@ class DLM_Admin_Scripts {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_enqueue_scripts' ) );
 		add_action( 'admin_footer', array( $this, 'print_dlm_js_templates' ) );
+		add_action( 'admin_footer', array( $this, 'add_footer_styles' ), 99 );
 	}
 
 	/**
@@ -48,7 +49,7 @@ class DLM_Admin_Scripts {
 		global $pagenow, $post;
 
 		$dlm = download_monitor();
-
+		wp_register_style( 'dlm-welcome-style', plugins_url( '/assets/css/welcome.css', DLM_PLUGIN_FILE ), null, DLM_VERSION );
 		// Enqueue Edit Post JS
 		wp_enqueue_script(
 			'dlm_insert_download',
@@ -333,4 +334,15 @@ class DLM_Admin_Scripts {
 		include __DIR__ . '/Reports/templates/dlm-js-templates.php';
 	}
 
+	/**
+	 * Add footer styles
+	 *
+	 * @since 4.9.11
+	 */
+	public function add_footer_styles() {
+		if ( isset( $_GET['post_type'] ) && 'dlm_download' === sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) {
+			wp_register_style( 'dlm-welcome-style', plugins_url( '/assets/css/welcome.css', DLM_PLUGIN_FILE ), null, DLM_VERSION );
+			wp_enqueue_style( 'dlm-welcome-style' );
+		}
+	}
 }

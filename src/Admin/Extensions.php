@@ -270,7 +270,6 @@ class DLM_Admin_Extensions {
 		}
 
 		$welcome = WPChill_Welcome::get_instance();
-		wp_enqueue_style( array( 'dlm-welcome-style' ) );
 
 		?>
 		<div class="wrap dlm_extensions_wrap">
@@ -317,7 +316,13 @@ class DLM_Admin_Extensions {
 
 						<div class="features">
 							<div class="block">
-							<p class="dlm-extension-filtering"><a id="all-extensions">All</a> | <a id="pro-extensions">Premium</a> | <a id="free-extensions">Free</a></p>
+							<div class='wp-clearfix'>
+								<ul class='subsubsub dlm-settings-sub-nav dlm-extension-filtering'>
+									<li class='active-section'><a id='all-extensions'>All</a></li>
+									<li><a id='pro-extensions'>Premium</a></li>
+									<li><a id='free-extensions'>Free</a></li>
+								</ul>
+							</div>
 								<?php $welcome->layout_start( 3, 'feature-list clear' ); ?>
 								<!-- Let's display the extensions.  -->
 								<?php
@@ -400,7 +405,6 @@ class DLM_Admin_Extensions {
 			delete_transient( 'dlm_extension_json_error' );
 		}
 
-		wp_enqueue_style( array( 'dlm-welcome-style' ) );
 		?>
 		<div class="wrap dlm_extensions_wrap">
 		<div class="icon32 icon32-posts-dlm_download" id="icon-edit"><br/></div>
@@ -566,7 +570,7 @@ class DLM_Admin_Extensions {
 						'icon'     => 'dashicons dashicons-external',
 						'target'   => '_blank',
 						'priority' => '90',
-				)
+				),
 		);
 
 		if ( count( $this->installed_extensions ) > 0 ) {
