@@ -1125,7 +1125,77 @@ table.wp-list-table {
       opacity: 0.7;
     }
   }
+  .dlm_product_locked_downloads{
+    margin: 0 !important;
+    border-top: 1px solid white;
+    border-bottom: 1px solid #DFDFDF;
+    padding: 7px 12px !important;
+    overflow: hidden;
+    zoom: 1;
 
+    ul{
+      margin: 3px 0;
+    }
+    .dlm_product_locked_description{
+      padding: 4px 0 0 0;
+      display: block;
+    }
+    .dlm_product_locked_label{
+      .dashicons{
+        margin-right: 4px;
+        width: 17px;
+        height: 17px;
+        font-size: 17px;
+      }
+    }
+    #dlm_view_locked_products {
+      margin: 0 -12px;
+      display: block;
+      padding: 5px 12px;
+      cursor: pointer;
+      .dashicons {
+        float: right;
+      }
+    }
+    &:not(.open){
+      .dlm_product_locked_list{
+        display: none;
+      }
+    }
+    .dlm_product_locked_product_dot {
+      width: 5px;
+      height: 5px;
+      margin-right: 5px;
+      background-color: #2271b1;
+      position: relative;
+      bottom: -7px;
+      border-radius: 50%;
+      min-width: 5px;
+    }
+  }
+  .dlm_product_locked_product{
+    margin: 0;
+    padding: 2px 5px;
+    display: inline-flex;
+
+    a{
+      text-decoration: none;
+    }
+
+    &:hover {
+      background-color: #f6f7f7;
+
+      .dlm_product_locked_product_edit {
+        opacity: 1;
+      }
+    }
+
+    .dlm_product_locked_product_edit {
+      float: right;
+      font-size: 12px;
+      opacity: 0;
+    }
+  }
   .options_upsell_link {
     color: unset;
     text-decoration: none;
