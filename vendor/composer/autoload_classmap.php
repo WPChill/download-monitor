@@ -107,7 +107,6 @@ return array(
     'DLM_Version_Manager' => $baseDir . '/src/Version/VersionManager.php',
     'DLM_Version_Repository' => $baseDir . '/src/Version/VersionRepository.php',
     'DLM_View_Manager' => $baseDir . '/src/Admin/ViewManager.php',
-    'DLM_Welcome_Page' => $baseDir . '/includes/admin/class-dlm-welcome.php',
     'DLM_Widget_Downloads' => $baseDir . '/src/Widgets/Downloads.php',
     'DLM_Widget_Manager' => $baseDir . '/src/Widgets/Manager.php',
     'DLM_WordPress_Download_Repository' => $baseDir . '/src/Download/WordPressDownloadRepository.php',

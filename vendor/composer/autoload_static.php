@@ -122,7 +122,6 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Version_Manager' => __DIR__ . '/../..' . '/src/Version/VersionManager.php',
         'DLM_Version_Repository' => __DIR__ . '/../..' . '/src/Version/VersionRepository.php',
         'DLM_View_Manager' => __DIR__ . '/../..' . '/src/Admin/ViewManager.php',
-        'DLM_Welcome_Page' => __DIR__ . '/../..' . '/includes/admin/class-dlm-welcome.php',
         'DLM_Widget_Downloads' => __DIR__ . '/../..' . '/src/Widgets/Downloads.php',
         'DLM_Widget_Manager' => __DIR__ . '/../..' . '/src/Widgets/Manager.php',
         'DLM_WordPress_Download_Repository' => __DIR__ . '/../..' . '/src/Download/WordPressDownloadRepository.php',
