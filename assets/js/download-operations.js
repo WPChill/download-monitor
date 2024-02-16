@@ -9,11 +9,15 @@ jQuery( function ($) {
     } );
 
     // Browse for file
-    jQuery( 'body' ).on( 'click', 'p.dlm-extension-filtering a', function (event) {
+    jQuery( 'body' ).on( 'click', '.dlm-extension-filtering a', function (event) {
         event.preventDefault();
+
         const target = jQuery(this).attr('id'),
               paidExtensions = jQuery('.dlm_extensions .feature-list > .feature-block').not('.free-extension'),
-              freeExtensions = jQuery('.dlm_extensions .feature-list > .feature-block.free-extension');
+              freeExtensions = jQuery('.dlm_extensions .feature-list > .feature-block.free-extension'),
+            tabs = jQuery(this).parents('.dlm-extension-filtering').find('li').not(jQuery(this).parent());
+        jQuery(this).parent().addClass('active-section');
+        tabs.removeClass('active-section');
         if ( 'free-extensions' === target ) {
             freeExtensions.show( );
             paidExtensions.hide( );

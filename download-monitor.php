@@ -3,7 +3,7 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing and selling downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 4.9.10
+	Version: 4.9.11
 	Author: WPChill
 	Author URI: https://wpchill.com
 	Requires at least: 5.5
@@ -32,53 +32,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-if ( ! function_exists( 'dm_fs' ) ) {
-    // Create a helper function for easy SDK access.
-    function dm_fs() {
-        global $dm_fs;
-
-        if ( ! isset( $dm_fs ) ) {
-            // Include Freemius SDK.
-            require_once plugin_dir_path(__FILE__) . '/includes/submodules/freemius/start.php';
-
-            $dm_fs = fs_dynamic_init( array(
-                'id'                  => '13516',
-                'slug'                => 'download-monitor',
-                'type'                => 'plugin',
-                'public_key'          => 'pk_a967cb31e904cf6065501bfda5138',
-                'is_premium'          => false,
-                'has_addons'          => false,
-                'has_paid_plans'      => false,
-                'menu'                => array(
-                    'slug'           => 'edit.php?post_type=dlm_download',
-                    'first-path'     => 'edit.php?post_type=dlm_download&page=download-monitor-about-page',
-                    'account'        => false,
-                    'contact'        => false,
-                ),
-            ) );
-        }
-
-        return $dm_fs;
-    }
-
-	// Init Freemius.
-	dm_fs();
-	// Signal that SDK was initiated.
-	do_action( 'dm_fs_loaded' );
-
-	function dlm_remove_support_menu( $is_visible, $menu_id ) {
-		if ( 'support' === $menu_id ) {
-			return false;
-		}
-
-		return $is_visible;
-	}
-
-	dm_fs()->add_filter( 'is_submenu_visible', 'dlm_remove_support_menu', 10, 2 );
-}
-
 // Define DLM Version
-define( 'DLM_VERSION', '4.9.10' );
+define( 'DLM_VERSION', '4.9.11' );
 define( 'DLM_UPGRADER_VERSION', '4.6.0' );
 
 // Define DLM FILE

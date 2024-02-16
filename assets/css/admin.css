@@ -1,5 +1,9 @@
-.post-type-dlm_download p.dlm-extension-filtering a {
+.post-type-dlm_download .dlm-extension-filtering a {
   cursor: pointer;
+  padding-bottom: 9px;
+  margin-bottom: -2px;
+  font-weight: 600;
+  border-bottom: 4px solid transparent;
 }
 .post-type-dlm_download .dlm-page-header {
   border-bottom: 1px solid #ccc;
@@ -2234,7 +2238,7 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap a.dlm-reload-button {
   float: right;
   position: relative;
-  top: -40px;
+  margin-top: -40px;
 }
 .dlm_extensions_wrap #available-extensions {
   clear: both;
