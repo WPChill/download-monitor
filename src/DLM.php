@@ -118,9 +118,6 @@ class WP_DLM {
 			$upgrade_manager = new DLM_Upgrade_Manager();
 			$upgrade_manager->setup();
 
-			// DLM Welcome page
-			DLM_Welcome_Page::get_instance();
-
 			// Legacy Upgrader
 			$lu_page = new DLM_LU_Page();
 			$lu_page->setup();
@@ -349,12 +346,6 @@ class WP_DLM {
 	 * @return array
 	 */
 	public function plugin_links( $links ) {
-		// Check to see if this is a Freemius activation mode. If true, don't set the Settings link.
-		$freemius = dm_fs();
-		if ( $freemius->is_activation_mode() ) {
-			return $links;
-		}
-
 		$plugin_links = array(
 			'<a href="' . DLM_Admin_Settings::get_url() . '">' . __( 'Settings',
 				'download-monitor' ) . '</a>',
