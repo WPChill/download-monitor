@@ -126,6 +126,10 @@ Changed: File Browser no longer displays cross-site folders in multisite environ
 Added: Download debug export metabox ( [#1387](https://github.com/WPChill/download-monitor/issues/1387) )
 Changed: Admin download edit view ( [#1398](https://github.com/WPChill/download-monitor/issues/1398) )
 
+= 4.9.11 - 16.02.2024 =
+Changed: Removed Freemius
+Fixed: Slight UI fixes
+
 = 4.9.10 - 05.02.2024 =
 Fixed: Versions download link for the "Version list" template ( [#1422](https://github.com/WPChill/download-monitor/issues/1422) )
 

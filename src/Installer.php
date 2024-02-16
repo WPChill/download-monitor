@@ -62,11 +62,6 @@ class DLM_Installer {
 		// flush rewrite rules
 		flush_rewrite_rules(false);
 		flush_rewrite_rules();
-
-		// We need this class here also so that we can use it in the activation hook.
-		// DLM Welcome page
-		DLM_Welcome_Page::get_instance();
-
 		do_action( 'dlm_after_install_setup', $first_install );
 	}
 
