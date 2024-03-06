@@ -82,17 +82,26 @@ class DLM_Template_Handler {
 			// Extract args if there are any
 			if ( is_array( $args ) && count( $args ) > 0 ) {
 				extract( $args );
-
-				// Compatibility between extensions and templates.
-				if ( ! isset( $download ) && isset( $dlm_download ) ) {
-					$download = $dlm_download;
-				}
-
-				if ( ! isset( $dlm_download ) && isset( $download ) ) {
-					$dlm_download = $download;
-				}
 			}
+
+			// Compatibility between extensions and templates.
+			if ( ! isset( $download ) && isset( $dlm_download ) ) {
+				$download = $dlm_download;
+			}
+
+			if ( ! isset( $dlm_download ) && isset( $download ) ) {
+				$dlm_download = $download;
+			}
+
 			// Check if $dlm_download is set, if not set it to false. This happens to shortcodes where the Download is not set.
+			if ( ! isset( $dlm_download ) ) {
+				$dlm_download = false;
+			}
+
+			if ( ! isset( $download ) ) {
+				$download = false;
+			}
+
 			if ( ! isset( $dlm_download ) ) {
 				$dlm_download = false;
 			}
