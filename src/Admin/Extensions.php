@@ -44,6 +44,8 @@ class DLM_Admin_Extensions {
 	// @todo: Maybe gather extensions from the API?
 	public $free_extensions = array();
 
+	public $pro_extensions = array();
+
 	/**
 	 * DLM's extensions tabs
 	 *
@@ -104,6 +106,12 @@ class DLM_Admin_Extensions {
 
 		add_filter( 'dlm_settings', array( $this, 'remove_pro_badge' ), 99 );
 
+		// Add ajax action in order to install our addons
+		add_action( 'wp_ajax_dlm-extensions-install-addons', array( $this, 'install_addons' ), 20 );
+		add_action( 'wp_ajax_dlm-extensions-activate-addon', array( $this, 'activate_addon' ), 30 );
+		add_action( 'wp_ajax_dlm-extensions-activate-addon-license', array( $this, 'activate_addon_license' ), 30 );
+		
+		//add_action( 'admin_init', array( $this, 'activate_addon_license' ), 15 );
 	}
 
 	/**
@@ -144,6 +152,8 @@ class DLM_Admin_Extensions {
 		$this->json = $loader->fetch();
 
 		$this->products = DLM_Product_Manager::get()->get_products();
+
+		$this->pro_extensions = $this->get_extensions_package();
 
 		// Set the extensions
 		$this->set_response();
@@ -238,6 +248,21 @@ class DLM_Admin_Extensions {
 		// Get all extensions
 		$this->extensions = $this->response->extensions;
 
+		
+		$this->pro_extensions = array();
+		$this->pro_extensions[$this->response->extensions[6]->product_id] = $this->response->extensions[6];
+		$this->pro_extensions[$this->response->extensions[6]->product_id]->download_link = 'https://dev.tamewp.com/dlm-buttons-4.1.5.zip';
+
+
+		$this->pro_extensions[$this->response->extensions[2]->product_id] = $this->response->extensions[2];
+		$this->pro_extensions[$this->response->extensions[2]->product_id]->download_link = 'https://dev.tamewp.com/dlm-buttons-4.1.5.zip';
+
+		$this->pro_extensions[$this->response->extensions[5]->product_id] = $this->response->extensions[5];
+		$this->pro_extensions[$this->response->extensions[5]->product_id]->download_link = 'https://dev.tamewp.com/dlm-buttons-4.1.5.zip';
+
+		$this->pro_extensions[$this->response->extensions[1]->product_id] = $this->response->extensions[1];
+		$this->pro_extensions[$this->response->extensions[1]->product_id]->download_link = 'https://dev.tamewp.com/dlm-buttons-4.1.5.zip';
+
 		// Loop through extensions
 		foreach ( $this->extensions as $extension_key => $extension ) {
 			if ( isset( $extension->free_extension ) && $extension->free_extension ) {
@@ -331,7 +356,12 @@ class DLM_Admin_Extensions {
 								<!-- Let's display the extensions.  -->
 								<?php
 								foreach ( $this->extensions as $extension ) {
-									$welcome->display_extension( $extension->name, wp_kses_post( $extension->desc ), $extension->image, true, '#F08232', $extension->name );
+									$packaged_extension = $this->is_extension_in_package( $extension->product_id );
+									if ( $packaged_extension ) {
+										$this->display_included_extension( $packaged_extension );
+									}else{
+										$welcome->display_extension( $extension->name, wp_kses_post( $extension->desc ), $extension->image, true, '#F08232', $extension->name );
+									}
 								}
 
 								foreach( $this->free_extensions as $key => $extension ) {
@@ -679,6 +709,136 @@ class DLM_Admin_Extensions {
 		}
 	}
 
+	public function get_extensions_package(){
+		if ( false !== $extensions = get_transient( 'dlm_pro_extensions' ) ) {
+			return $extensions;
+		}
+
+		$license_data = get_option( 'dlm_master_license', false );
+
+		if( ! $license_data ){
+			return array();
+		}
+
+		$license_data = json_decode( $license_data, true );
+
+		if ( ! isset( $license_data['license_key'] ) ) {
+			return array();
+		}
+
+		$store_url = DLM_Product::STORE_URL . '?wc-api=';
+		$api_request = wp_remote_get(
+			$store_url. DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
+				array(
+					'email'          => $license_data['email'],
+					'license_key'    => $license_data['license_key'],
+					'api_product_id' => 'dlm-captcha',
+					'instance'       => site_url(),
+					'request'        => 'status_check'
+				),
+				'',
+				'&'
+			)
+		);
+
+		// Check request.
+		if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
+			return;
+		}
+
+		$pro_extensions = json_decode( $api_request['body'], true );
+
+
+
+		set_transient( 'dlm_pro_extensions', $pro_extensions, 14 * DAY_IN_SECONDS );
+
+		return $pro_extensions;
+	}
+
+	private function is_extension_in_package( $slug ){
+		foreach ( $this->pro_extensions as $pro_ext ) {
+			if( $slug === $pro_ext->product_id ) {
+
+				return $pro_ext;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @since 1.0.0
+	 * Renders extension html
+	 *
+	 * @param string $title
+	 *
+	 * @param string $description
+	 *
+	 * @param string $icon (icon URL)
+	 *
+	 * @param bool   $pro
+	 * @param string $link The URL to unlock the extension
+	 */
+	public function display_included_extension( $extension ) {
+		$button = false;
+		$plugin_path = $extension->product_id . '/' . $extension->product_id . '.php';
+
+		if ( ! $this->is_active( $plugin_path ) ) {
+			
+			if ( $this->is_installed( $plugin_path ) ) {
+				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="activate" class="dlm-plugin-install-action" data-url="' .$extension->download_link . '">' . esc_html__( 'Activate', 'revive-so' ) . '</button>';
+			} else {
+				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="install" class="dlm-plugin-install-action" data-url="' . $extension->download_link . '">' . esc_html__( 'Install', 'revive-so' ) . '</button>';
+			}
+		}
+
+		echo '<div class="feature-block">';
+		echo '<div class="feature-block__header">';
+		if ( '' != $extension->image ) {
+			echo '<img src="' . esc_attr( $extension->image ) . '">';
+		}
+		echo '</div>';
+		echo '<p>' . wp_kses_post( $extension->desc ) . '</p>';
+		echo $button ? '<span class="dlm-install-plugin-actions">' . $button . '</span>' : '';
+		echo '</div>';
+	}
+
+	/**
+	 * Check if the extension is active.
+	 *
+	 * @retun bool
+	 *
+	 * @since 1.0.4
+	 */
+	public function is_active( $plugin_path ) {
+		$active  = false;
+		$plugins = get_option( 'active_plugins' );
+		foreach ( $plugins as $plugin ) {
+			if ( $plugin === $plugin_path ) {
+				$active = true;
+				break;
+			}
+		}
+
+		return $active;
+	}
+
+	/**
+	 * Check if the extension is installed.
+	 *
+	 * @retun bool
+	 *
+	 * @since 1.0.4
+	 */
+	public function is_installed( $plugin_path ) {
+		$installed   = false;
+		$plugin_path = WP_PLUGIN_DIR . '/' . $plugin_path;
+		if ( file_exists( $plugin_path ) ) {
+			$installed = true;
+		}
+
+		return $installed;
+	}
 	/**
 	 * Get the licensed extensions
 	 *
@@ -687,5 +847,169 @@ class DLM_Admin_Extensions {
 	 */
 	public function get_licensed_extensions() {
 		return $this->licensed_extensions;
+	}
+
+	/**
+	 * Install Revive.so's Addons
+	 *
+	 * @since 5.0.0
+	 */
+	public function install_addons() {
+		// Run a security check first.
+		check_admin_referer( 'dlm-install-plugin', 'nonce' );
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			echo json_encode( array( 'error' => esc_html__( 'You are not allowed to install plugins.', 'download-monitor' ) ) );
+			die;
+		}
+
+		if ( ! isset( $_POST['plugin'] ) ) {
+			echo json_encode( array( 'error' => esc_html__( 'There is no plugin to install.', 'download-monitor' ) ) );
+			die;
+		}
+
+		$download_url = esc_url( $_POST['plugin'] );
+		if ( false === strpos( $download_url, DLM_Product::PRODUCT_DOWNLOAD_URL ) ) {
+			echo json_encode( array( 'error' => esc_html__( 'Wrong download link.', 'download-monitor' ) ) );
+			die;
+		}
+
+		// Set the current screen to avoid undefined notices.
+		set_current_screen();
+
+		// Prepare variables.
+		$method = '';
+		$url    = add_query_arg(
+			array(
+				'page' => 'dlm-extensions',
+				'post_type' => 'dlm_download',
+			),
+			admin_url( 'edit.php' )
+		);
+		$url    = esc_url( $url );
+
+		// Start output bufferring to catch the filesystem form if credentials are needed.
+		ob_start();
+		if ( false === ( $creds = request_filesystem_credentials( $url, $method, false, false, null ) ) ) {
+			$form = ob_get_clean();
+			echo json_encode( array( 'form' => $form ) );
+			die;
+		}
+
+		// If we are not authenticated, make it happen now.
+		if ( ! WP_Filesystem( $creds ) ) {
+			ob_start();
+			request_filesystem_credentials( $url, $method, true, false, null );
+			$form = ob_get_clean();
+			echo json_encode( array( 'form' => $form ) );
+			die;
+		}
+
+		// We do not need any extra credentials if we have gotten this far, so let's install the plugin.
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		//require_once DLM_PLUGIN_FILE . 'src/admin/class-dlm-upgrader-skin.php';
+
+		// Create the plugin upgrader with our custom skin.
+		$installer = new Plugin_Upgrader( new DLM_Upgrader_Skin() );
+		$installer->install( $download_url );
+
+		// Flush the cache and return the newly installed plugin basename.
+		wp_cache_flush();
+		if ( $installer->plugin_info() ) {
+			$plugin_basename = $installer->plugin_info();
+			echo json_encode(
+				array(
+					'plugin' => $plugin_basename,
+				)
+			);
+			die;
+		}
+
+		// Send back a response.
+		echo json_encode( true );
+		die;
+	}
+
+	/**
+	 * Activate Revive.so's Addons
+	 *
+	 * @since 5.0.0
+	 */
+	public function activate_addon() {
+		check_admin_referer( 'dlm-install-plugin', 'nonce' );
+
+		if ( ! isset( $_POST['plugin_path'] ) ) {
+			echo json_encode( array( 'error' => esc_html__( 'No such addons exists.', 'download-monitor' ) ) );
+			die;
+		}
+
+		activate_plugin( $_POST['plugin_path'] );
+
+		echo json_encode(
+			array(
+				'text' => esc_html__( 'Addon activated', 'download-monitor' ),
+			)
+		);
+
+		die;
+	}
+
+	/**
+	 * Activate Revive.so's Addon License
+	 *
+	 * @since 5.0.0
+	 */
+	public function activate_addon_license() {
+		check_admin_referer( 'dlm-install-plugin', 'nonce' );
+
+		if( ! isset( $_POST['api_product_id'] ) ){
+			wp_send_json_error( array( 'message' => __( 'Could not activate plugin. Product id is missing.', 'download-monitor' ) ) );
+			die();
+		}
+
+		$main_license = get_option( 'dlm_master_license', false );
+		if( ! $main_license ){
+			wp_send_json_error( array( 'message' => __( 'Could not activate plugin. Master license is missing.', 'download-monitor' ) ) );
+			die();
+		}
+
+		$main_license = json_decode( $main_license, true );
+
+		$api_product_id = sanitize_text_field( wp_unslash( $_POST['api_product_id'] ) );
+
+		$store_url = DLM_Product::STORE_URL . '?wc-api=';
+		// Do activate request.
+		$api_request = wp_remote_get(
+			$store_url . DLM_Product::ENDPOINT_ACTIVATION . '&' . http_build_query(
+				array(
+					'email'          => $main_license['email'],
+					'licence_key'    => $main_license['license_key'],
+					'api_product_id' => $api_product_id,
+					'request'        => 'activate',
+					'instance'       => site_url(),
+					'action_trigger' => '-master-license',
+				),
+				'',
+				'&'
+			)
+		);
+
+		// Check request.
+		if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
+
+			wp_send_json_error( array( 'message' => __( 'Could not connect to the license server', 'download-monitor' ) ) );
+		}
+
+		$activated_extensions = json_decode( wp_remote_retrieve_body( $api_request ), true );
+
+		$product = new DLM_Product( $api_product_id, '', $activated_extensions[$api_product_id] );
+		$license = $product->get_license();
+		$license->set_key( $main_license['license_key'] );
+		$license->set_email( $main_license['email'] );
+		$license->set_status( 'active' );
+		$license->set_license_status( 'active' );
+
+		$license->store();
+
+		wp_send_json_success( array( 'message' => __( 'Plugin\'s license activated.', 'download-monitor' ) ) );
 	}
 }

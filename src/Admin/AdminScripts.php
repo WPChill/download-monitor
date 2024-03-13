@@ -236,11 +236,14 @@ class DLM_Admin_Scripts {
 				'dlm_install_plugins',
 				'dlm_install_plugins_vars',
 				array(
-					'install_plugin'   => esc_html__( 'Installing plugin...', 'download-monitor' ),
-					'activate_plugin'  => esc_html__( 'Activating plugin...', 'download-monitor' ),
-					'no_install'       => esc_html__( 'Plugin could not be installed.', 'download-monitor' ),
-					'no_activated'     => esc_html__( 'Something went wrong, plugin could not be activated.', 'download-monitor' ),
-					'activated_plugin' => esc_html__( 'Plugin activated successfully.', 'download-monitor' ),
+					'install_nonce'     => wp_create_nonce( 'dlm-install-plugin' ),
+					'install_plugin'    => esc_html__( 'Installing plugin...', 'download-monitor' ),
+					'activate_plugin'   => esc_html__( 'Activating plugin...', 'download-monitor' ),
+					'activate_license'  => esc_html__( 'Activating license...', 'download-monitor' ),
+					'no_install'        => esc_html__( 'Plugin could not be installed.', 'download-monitor' ),
+					'no_activated'      => esc_html__( 'Something went wrong, plugin could not be activated.', 'download-monitor' ),
+					'activated_plugin'  => esc_html__( 'Plugin activated successfully.', 'download-monitor' ),
+					'activated_license' => esc_html__( 'Plugin license activated successfully.', 'download-monitor' ),
 				)
 			);
 

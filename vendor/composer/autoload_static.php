@@ -123,6 +123,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Transient_Manager' => __DIR__ . '/../..' . '/src/TransientManager.php',
         'DLM_Uninstall' => __DIR__ . '/../..' . '/includes/admin/uninstall/class-dlm-uninstall.php',
         'DLM_Upgrade_Manager' => __DIR__ . '/../..' . '/src/UpgradeManager.php',
+        'DLM_Upgrader_Skin' => __DIR__ . '/../..' . '/src/Admin/class-dlm-upgrader-skin.php',
         'DLM_Upsells' => __DIR__ . '/../..' . '/includes/admin/class-dlm-upsells.php',
         'DLM_Utils' => __DIR__ . '/../..' . '/src/Utils.php',
         'DLM_Version_Manager' => __DIR__ . '/../..' . '/src/Version/VersionManager.php',

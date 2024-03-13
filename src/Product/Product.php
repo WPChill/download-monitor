@@ -12,6 +12,11 @@ class DLM_Product {
 	const STORE_URL = 'https://license.wpchill.com/dlm/';
 
 	/**
+	 * The store URL
+	 */
+	const PRODUCT_DOWNLOAD_URL = 'https://dev.tamewp.com/';
+
+	/**
 	 * Activation endpoint
 	 */
 	const ENDPOINT_ACTIVATION = 'wp_plugin_licencing_activation_api';

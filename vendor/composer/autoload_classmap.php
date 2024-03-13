@@ -108,6 +108,7 @@ return array(
     'DLM_Transient_Manager' => $baseDir . '/src/TransientManager.php',
     'DLM_Uninstall' => $baseDir . '/includes/admin/uninstall/class-dlm-uninstall.php',
     'DLM_Upgrade_Manager' => $baseDir . '/src/UpgradeManager.php',
+    'DLM_Upgrader_Skin' => $baseDir . '/src/Admin/class-dlm-upgrader-skin.php',
     'DLM_Upsells' => $baseDir . '/includes/admin/class-dlm-upsells.php',
     'DLM_Utils' => $baseDir . '/src/Utils.php',
     'DLM_Version_Manager' => $baseDir . '/src/Version/VersionManager.php',
