@@ -46,7 +46,7 @@ class DLM_Admin_Media_Browser {
 
 		// Get files based on path.
 		$files = $file_manager->list_files( $path, 1 );
-
+		$disallowed_dirs = apply_filters( 'DLM_restricted_admin_folders', array( 'wp-admin', 'wp-includes' ) );
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . esc_html__( 'Browse for a file', 'download-monitor' ) . '</title>';
 
 		wp_enqueue_style( 'download_monitor_admin_css', download_monitor()->get_plugin_url() . '/assets/css/admin.min.css', array( 'dashicons' ), DLM_VERSION );
@@ -65,9 +65,17 @@ class DLM_Admin_Media_Browser {
 		foreach ( $files as $found_file ) {
 
 			$file = pathinfo( $found_file['path'] );
-
+			$allow = true;
 			if ( $found_file['type'] == 'folder' ) {
-
+				foreach ( $disallowed_dirs as $disallowed_dir ) {
+					if ( strpos( trailingslashit( $file['dirname'] . "\\" . $file['basename'] ), $disallowed_dir ) ) {
+						$allow = false;
+						break;
+					}
+				}
+				if ( ! $allow ){
+					continue;
+				}
 				echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_html( $file['basename'] ) . '</a></li>';
 
 			} else {

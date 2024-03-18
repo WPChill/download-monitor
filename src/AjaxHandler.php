@@ -193,12 +193,21 @@ class DLM_Ajax_Handler {
 
 		// List all files
 		$files = download_monitor()->service( 'file_manager' )->list_files( $path );
-
+		$disallowed_dirs = apply_filters( 'DLM_restricted_admin_folders', array( 'wp-admin', 'wp-includes' ) );
 		foreach ( $files as $found_file ) {
+			$allow = true;
 
 			// Multi-byte-safe pathinfo
 			$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
-
+			foreach ( $disallowed_dirs as $disallowed_dir ) {
+				if ( strpos( trailingslashit( $file['dirname'] . "\\" . $file['basename'] ), $disallowed_dir ) ) {
+					$allow = false;
+					break;
+				}
+			}
+			if ( ! $allow ){
+				continue;
+			}
 			if ( $found_file['type'] == 'folder' ) {
 
 				// Deny access to this folder?
