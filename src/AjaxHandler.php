@@ -192,8 +192,10 @@ class DLM_Ajax_Handler {
 		}
 
 		// List all files
-		$files = download_monitor()->service( 'file_manager' )->list_files( $path );
-		$disallowed_dirs = apply_filters( 'DLM_restricted_admin_folders', array( 'wp-admin', 'wp-includes' ) );
+		$files                 = download_monitor()->service( 'file_manager' )->list_files( $path );
+		$extra_disallowed_dirs = apply_filters( 'DLM_restricted_admin_folders', array() );
+		$base_dissalowed_dirs  = array( 'wp-admin', 'wp-includes' );
+		$disallowed_dirs       = array_merge( $base_dissalowed_dirs, $extra_disallowed_dirs );
 		foreach ( $files as $found_file ) {
 			$allow = true;
 
