@@ -16,7 +16,7 @@ class DLM_Cookie_Manager {
 	 *
 	 * @var string
 	 */
-	public static $key = '_dlm_cookie';
+	public static $key = 'wp-dlm_cookie';
 
 	/**
 	 * Holds the class object.
@@ -142,7 +142,7 @@ class DLM_Cookie_Manager {
 
 		/**
 		 * Filter cookie data
-		 * New hook used to set cookie data for the general _dlm_cookie cookie.
+		 * New hook used to set cookie data for the general wp-dlm_cookie cookie.
 		 * The cookie_data should contain the following:
 		 * - expires: The expiration time of the cookie
 		 * - secure: Whether the cookie should be secure or not
@@ -226,7 +226,7 @@ class DLM_Cookie_Manager {
 
 		/**
 		 * Filter cookie data
-		 * New hook used to set cookie data for the general _dlm_cookie cookie.
+		 * New hook used to set cookie data for the general wp-dlm_cookie cookie.
 		 * The cookie_data should contain the following:
 		 * - expires: The expiration time of the cookie
 		 * - secure: Whether the cookie should be secure or not
