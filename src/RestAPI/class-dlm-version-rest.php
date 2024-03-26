@@ -51,12 +51,15 @@ class DLM_Version_REST {
 	 * @since 5.0.0
 	 */
 	public function get_endpoints() {
+		$dlm_rest_api = DLM_Rest_API::get_instance();
+
 		return array(
 			// Fetch all versions from a download id.
 			'/versions'                    => array(
 				array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'get_versions' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'download_id' => array(
 							'required'    => true,
@@ -72,6 +75,7 @@ class DLM_Version_REST {
 				array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'get_version' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'version_id' => array(
 							'required'    => true,
@@ -84,6 +88,7 @@ class DLM_Version_REST {
 				array(
 					'methods'  => 'DELETE',
 					'callback' => array( $this, 'delete_version' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'version_id' => array(
 							'required'    => true,
@@ -96,6 +101,7 @@ class DLM_Version_REST {
 				array(
 					'methods'  => 'PATCH',
 					'callback' => array( $this, 'update_version' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'version_id' => array(
 							'required'    => true,
@@ -120,6 +126,7 @@ class DLM_Version_REST {
 				array(
 					'methods'  => 'POST',
 					'callback' => array( $this, 'store_version' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'download_id' => array(
 							'required'    => true,

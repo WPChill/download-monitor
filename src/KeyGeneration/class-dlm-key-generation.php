@@ -52,7 +52,8 @@ class DLM_Key_Generation {
 		// Add admin menu item.
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 		// Add AJAX action to generate API key.
-		add_action( 'wp_ajax_create_api_key', array( $this, '' ) );
+		add_action( 'wp_ajax_dlm_action_api_key', array( $this, 'ajax_handle_api_key_actions' ) );
+		add_action( 'wp_ajax_dlm_keygen_search_users', array( $this, 'ajax_search_users' ) );
 	}
 
 	/**
@@ -86,14 +87,17 @@ class DLM_Key_Generation {
 	 * @since 5.0.0
 	 */
 	public function render_api_keys_page() {
+		$current_user = wp_get_current_user();
 		?>
 		<div class='wrap'>
 			<h1 class='wp-heading-inline'><?php
 				echo esc_html__( 'API Keys', 'download-monitor' ); ?></h1>
 			<div class="dlm-api-keys-generator">
 				<br>
-				<input type="text" value="" placeholder="Search user">
-				<button class="button button-secondary">Generate API Key</button>
+				<select class="dlm-keygen-user-select">
+					<option selected="selected" value="<?php echo esc_attr( $current_user->data->ID ); ?>"> <?php echo esc_html( $current_user->data->display_name . '(' . $current_user->data->user_email . ')' ); ?> </option>;
+				</select>
+				<button class="dlm-keygen-generate button button-secondary">Generate API Key</button>
 			</div>
 			<?php
 			// Add your code here.
@@ -204,8 +208,10 @@ class DLM_Key_Generation {
 		$public_key = $this->get_user_public_key( $user_id );
 		if ( ! empty( $public_key ) ) {
 			$api_key = new DLM_API_Key();
-			if ( $api_key->get_key( $public_key ) ) {
+			if ( $api_key->get_key_by_public_key( $public_key ) ) {
 				$api_key->delete_key();
+				delete_transient( md5( 'edd_api_user_public_key' . $user_id ) );
+				delete_transient( md5( 'edd_api_user_secret_key' . $user_id ) );
 			}
 		} else {
 			return false;
@@ -227,9 +233,11 @@ class DLM_Key_Generation {
 		if ( empty( $user_id ) ) {
 			return '';
 		}
-
+		$cache_key       = md5( 'edd_api_user_public_key' . $user_id );
+		$user_public_key = get_transient( $cache_key );
 		if ( empty( $user_public_key ) ) {
-			$user_public_key = $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->usermeta WHERE meta_value = 'edd_user_public_key' AND user_id = %d", $user_id ) );
+			$sql  = $wpdb->prepare( "SELECT public_key FROM {$wpdb->prefix}dlm_api_keys WHERE user_id = %s", absint( $user_id ) );
+			$user_public_key = $wpdb->get_var( $sql  );
 			set_transient( $cache_key, $user_public_key, HOUR_IN_SECONDS );
 		}
 
@@ -254,10 +262,86 @@ class DLM_Key_Generation {
 		$user_secret_key = get_transient( $cache_key );
 
 		if ( empty( $user_secret_key ) ) {
-			$user_secret_key = $wpdb->get_var( $wpdb->prepare( "SELECT meta_key FROM $wpdb->usermeta WHERE meta_value = 'edd_user_secret_key' AND user_id = %d", $user_id ) );
+			$sql  = $wpdb->prepare( "SELECT secret_key FROM {$wpdb->prefix}dlm_api_keys WHERE user_id = %s", absint( $user_id ) );
+			$user_secret_key = $wpdb->get_var( $sql  );
 			set_transient( $cache_key, $user_secret_key, HOUR_IN_SECONDS );
 		}
 
 		return $user_secret_key;
+	}
+
+	/**
+	 * Get users for keygen select
+	 *
+	 *
+	 * @return json array
+	 */
+	public function ajax_search_users() {
+		$term = isset($_GET['q']) ? trim(wp_unslash($_GET['q'])) : '';
+
+		check_ajax_referer( 'dlm_ajax_nonce', '_ajax_nonce' );
+		
+		$args = array(
+			'search' => '*' . esc_attr($term) . '*',
+			'search_columns' => array('user_login', 'user_nicename', 'user_email', 'display_name'),
+			'number' => 10, // Limit the number of results
+		);
+	
+		$user_query = new WP_User_Query($args);
+		$users = $user_query->get_results();
+	
+		$results = array();
+	
+		if (!empty($users)) {
+			foreach ($users as $user) {
+				$results[] = array(
+					'id' => $user->ID,
+					'text' => $user->display_name . '(' . $user->user_email . ')',
+				);
+			}
+		}
+	
+		wp_send_json($results);
+	}
+
+	
+	/**
+	 * Ajax handler to generate/regenerate/revoke API keys
+	 *
+	 *
+	 * @return bool
+	 */
+	public function ajax_handle_api_key_actions() {
+
+		if( ! isset( $_POST['dlm_action'] ) || '' == $_POST['dlm_action'] ){
+			wp_send_json_error( 'No action given.');
+		}
+
+		$user_id = isset( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : 0;
+
+		if( 0 === $user_id ){
+			wp_send_json_error( 'User id not set.');
+		}
+
+		check_ajax_referer( 'dlm_ajax_nonce', '_ajax_nonce' );
+
+		switch ( $_POST['dlm_action']) {
+			case 'generate':
+			case 'regenerate':
+
+				$results = $this->generate_api_key( $user_id, true );
+			
+				if( $results ){
+					wp_send_json_success( $results );
+				}
+				wp_send_json_error( 'API key generation failed.' );
+				break;
+			case 'revoke':
+				if( $this->revoke_api_key( $user_id ) ){
+					wp_send_json_success( 'API key revoked successfully'  );
+				}
+				wp_send_json_error( 'API key revocation failed.' );
+				break;
+		}
 	}
 }

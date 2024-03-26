@@ -309,6 +309,29 @@ class DLM_Admin_Scripts {
 			wp_enqueue_style( 'dlm_legacy_upgrader_css', download_monitor()->get_plugin_url() . '/assets/js/legacy-upgrader/build/style.css' );
 		}
 
+		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'dlm-api-keys' === $_GET['page'] ) {
+
+			// Enqueue Select2
+			wp_enqueue_script(
+				'dlm_select2',
+				plugins_url( '/assets/js/select2/select2.min.js', $dlm->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION
+			);
+
+			wp_enqueue_style( 'dlm_select2_css', download_monitor()->get_plugin_url() . '/assets/js/select2/select2.min.css' );
+
+			wp_enqueue_script(
+				'dlm_api_key_generator',
+				plugins_url( '/assets/js/api-keys-generator' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery', 'dlm_select2' ),
+				DLM_VERSION
+			);
+	
+			wp_add_inline_script( 'dlm_api_key_generator', 'const dlm_ajax = ' . json_encode( array( 'nonce' => wp_create_nonce( 'dlm_ajax_nonce' ), 'ajaxurl' => admin_url('admin-ajax.php') ) ) . ';', 'before' );
+		}
+
+
 		do_action( 'dlm_admin_scripts_after' );
 
 	}

@@ -53,12 +53,15 @@ class DLM_Download_REST {
 	 * @since 5.0.0
 	 */
 	public function get_endpoints() {
+
+		$dlm_rest_api = DLM_Rest_API::get_instance();
 		return array(
 			// Fetch all downloads.
 			'/downloads'                     => array(
 				array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'get_downloads' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 				),
 			),
 			// Fetch, update and delete a download.
@@ -67,6 +70,7 @@ class DLM_Download_REST {
 				array(
 					'methods'  => 'GET',
 					'callback' => array( $this, 'get_download' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'download_id' => array(
 							'required'    => true,
@@ -79,6 +83,7 @@ class DLM_Download_REST {
 				array(
 					'methods'  => 'DELETE',
 					'callback' => array( $this, 'delete_download' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'download_id' => array(
 							'required'    => true,
@@ -91,6 +96,7 @@ class DLM_Download_REST {
 				array(
 					'methods'  => 'PATCH',
 					'callback' => array( $this, 'update_download' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'download_id' => array(
 							'required'    => true,
@@ -105,6 +111,7 @@ class DLM_Download_REST {
 				array(
 					'methods'  => 'POST',
 					'callback' => array( $this, 'store_download' ),
+					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
 					'args'     => array(
 						'title' => array(
 							'required'    => true,

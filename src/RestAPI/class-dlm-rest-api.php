@@ -210,4 +210,31 @@ class DLM_Rest_API {
 	public function sanitize_arg( $value ) {
 		return sanitize_text_field( $value );
 	}
+
+	/**
+	 * Check permissions to display data
+	 *
+	 * @param array $request The request.
+	 *
+	 * @return bool|WP_Error
+	 * @since 5.0.0
+	 */
+	public function check_api_rights( $request ) {
+		$key    = $request->get_header('x_dlm_api_key');
+		$secret = $request->get_header('x_dlm_api_secret');
+		
+		if( NULL == $key || NULL == $secret ){
+			return new WP_Error('rest_forbidden', __('Authentication failed', 'download-monitor'), array('status' => 403));
+		}
+
+		global $wpdb;
+		$sql  = $wpdb->prepare( "SELECT user_id FROM {$wpdb->prefix}dlm_api_keys WHERE secret_key = %s AND public_key = %s", sanitize_key( $secret ), sanitize_key( $key ) );
+		$res  = $wpdb->get_row( $sql );
+		
+		if( NULL == $res || ! isset( $res->user_id )){
+			return new WP_Error('rest_forbidden', __('No user found for authentication keys.', 'download-monitor'), array('status' => 403));
+		}
+
+		return true;
+	}
 }

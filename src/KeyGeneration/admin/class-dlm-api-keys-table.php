@@ -177,7 +177,7 @@ class DLM_API_Keys_Table extends WP_List_Table {
 		$screen = get_current_screen();
 
 		// Set the main SQL query.
-		$query = "SELECT * FROM {$wpdb->dlm_api_keys} api_keys LEFT JOIN {$wpdb->users} users ON api_keys.user_id = users.ID WHERE 1 = 1";
+		$query = "SELECT api_keys.ID as ID, api_keys.user_id, api_keys.public_key, api_keys.token, api_keys.secret_key FROM {$wpdb->dlm_api_keys} api_keys LEFT JOIN {$wpdb->users} users ON api_keys.user_id = users.ID WHERE 1 = 1";
 
 		// Add the search form field to the query.
 		if ( isset( $_GET['s'] ) ) {
@@ -212,9 +212,13 @@ class DLM_API_Keys_Table extends WP_List_Table {
 			$key->set_data( $item );
 			$this->items[] = $key;
 		}
-
-		$totalitems = count( $this->items );
-		$totalpages = ceil( $totalitems / $perpage );
+		if( ! empty( $this->items ) ){
+			$totalitems = count( $this->items );
+			$totalpages = ceil( $totalitems / $perpage );
+		}else{
+			$totalitems = 0;
+			$totalpages = 0;
+		}
 
 		$this->set_pagination_args(
 			array(
@@ -284,8 +288,8 @@ class DLM_API_Keys_Table extends WP_List_Table {
 		}
 
 		$actions                       = array();
-		$actions['dlm_regenerate_key'] = '<a href="javascript:;" class="dlm-regenerate-key" rel="' . $item->get_id() . '" data-value="' . wp_create_nonce( 'dlm_regenerate_key' ) . '">' . __( 'Regenerate key', 'download-monitor' ) . '</a>';
-		$actions['dlm_revoke_key']     = '<a href="javascript:;" class="dlm-revoke-key" rel="' . $item->get_id() . '" data-value="' . wp_create_nonce( 'dlm_revoke_key' ) . '" style="color:red;">' . __( 'Revoke key', 'download-monitor' ) . '</a>';
+		$actions['dlm_regenerate_key'] = '<a href="javascript:;" class="dlm-regenerate-key" data-user-id="' . $item->get_user_id() . '">' . __( 'Regenerate key', 'download-monitor' ) . '</a>';
+		$actions['dlm_revoke_key']     = '<a href="javascript:;" class="dlm-revoke-key" data-user-id="' . $item->get_user_id() . '" style="color:red;">' . __( 'Revoke key', 'download-monitor' ) . '</a>';
 
 		return $this->row_actions( $actions );
 	}
