@@ -18,9 +18,6 @@ class DLM_Debug {
 	 */
 	function __construct() {
 
-		// Add Modula's debug information
-		add_filter( 'debug_information', array( $this, 'dlm_debug_information' ), 60, 1 );
-
 		add_action( 'admin_init', array( $this, 'dlm_export_download' ) );
 
 		/* Fire our meta box setup function on the post editor screen. */
