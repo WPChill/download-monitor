@@ -153,8 +153,6 @@ class DLM_Admin_Extensions {
 
 		$this->products = DLM_Product_Manager::get()->get_products();
 
-		$this->pro_extensions = $this->get_extensions_package();
-
 		// Set the extensions
 		$this->set_response();
 
@@ -248,20 +246,7 @@ class DLM_Admin_Extensions {
 		// Get all extensions
 		$this->extensions = $this->response->extensions;
 
-		
-		$this->pro_extensions = array();
-		$this->pro_extensions[$this->response->extensions[6]->product_id] = $this->response->extensions[6];
-		$this->pro_extensions[$this->response->extensions[6]->product_id]->download_link = 'https://dev.tamewp.com/dlm-buttons-4.1.5.zip';
-
-
-		$this->pro_extensions[$this->response->extensions[2]->product_id] = $this->response->extensions[2];
-		$this->pro_extensions[$this->response->extensions[2]->product_id]->download_link = 'https://dev.tamewp.com/dlm-buttons-4.1.5.zip';
-
-		$this->pro_extensions[$this->response->extensions[5]->product_id] = $this->response->extensions[5];
-		$this->pro_extensions[$this->response->extensions[5]->product_id]->download_link = 'https://dev.tamewp.com/dlm-buttons-4.1.5.zip';
-
-		$this->pro_extensions[$this->response->extensions[1]->product_id] = $this->response->extensions[1];
-		$this->pro_extensions[$this->response->extensions[1]->product_id]->download_link = 'https://dev.tamewp.com/dlm-buttons-4.1.5.zip';
+		$this->pro_extensions = $this->get_extensions_package();
 
 		// Loop through extensions
 		foreach ( $this->extensions as $extension_key => $extension ) {
@@ -289,6 +274,7 @@ class DLM_Admin_Extensions {
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
 			delete_transient( 'dlm_extension_json_error' );
+			delete_transient( 'dlm_pro_extensions' );
 		}
 
 		// WPChill Welcome Class
@@ -358,7 +344,9 @@ class DLM_Admin_Extensions {
 								foreach ( $this->extensions as $extension ) {
 									$packaged_extension = $this->is_extension_in_package( $extension->product_id );
 									if ( $packaged_extension ) {
-										$this->display_included_extension( $packaged_extension );
+										// Merging pro packages with default packages so we can have a backup for all fields.
+										$pack_merged = (object) array_merge( (array) $packaged_extension, (array) $extension );
+										$this->display_included_extension( $pack_merged );
 									}else{
 										$welcome->display_extension( $extension->name, wp_kses_post( $extension->desc ), $extension->image, true, '#F08232', $extension->name );
 									}
@@ -437,6 +425,7 @@ class DLM_Admin_Extensions {
 		if ( isset( $_GET['dlm-force-recheck'] ) ) {
 			delete_transient( 'dlm_extension_json' );
 			delete_transient( 'dlm_extension_json_error' );
+			delete_transient( 'dlm_pro_extensions' );
 		}
 
 		?>
@@ -725,30 +714,26 @@ class DLM_Admin_Extensions {
 		if ( ! isset( $license_data['license_key'] ) ) {
 			return array();
 		}
-
+		
 		$store_url = DLM_Product::STORE_URL . '?wc-api=';
 		$api_request = wp_remote_get(
-			$store_url. DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
+			$store_url. DLM_Product::ENDPOINT_GET_PACKAGES . '&' . http_build_query(
 				array(
-					'email'          => $license_data['email'],
-					'license_key'    => $license_data['license_key'],
-					'api_product_id' => 'dlm-captcha',
-					'instance'       => site_url(),
-					'request'        => 'status_check'
+					'license_key' => $license_data['license_key'],
 				),
 				'',
 				'&'
-			)
+			),
+			array( 'timeout' => 120 )
 		);
-
+		
 		// Check request.
 		if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
-			return;
+			
+			return array();
 		}
 
-		$pro_extensions = json_decode( $api_request['body'], true );
-
-
+		$pro_extensions = json_decode( $api_request['body'] );
 
 		set_transient( 'dlm_pro_extensions', $pro_extensions, 14 * DAY_IN_SECONDS );
 
@@ -756,11 +741,10 @@ class DLM_Admin_Extensions {
 	}
 
 	private function is_extension_in_package( $slug ){
-		foreach ( $this->pro_extensions as $pro_ext ) {
-			if( $slug === $pro_ext->product_id ) {
 
-				return $pro_ext;
-			}
+		if( isset( $this->pro_extensions->$slug ) ) {
+			
+			return $this->pro_extensions->$slug;
 		}
 
 		return false;
@@ -794,9 +778,10 @@ class DLM_Admin_Extensions {
 
 		echo '<div class="feature-block">';
 		echo '<div class="feature-block__header">';
-		if ( '' != $extension->image ) {
+		if ( isset( $extension->image ) && '' != $extension->image ) {
 			echo '<img src="' . esc_attr( $extension->image ) . '">';
 		}
+		echo '<h5>' . esc_html( $extension->name ) . '</h5>';
 		echo '</div>';
 		echo '<p>' . wp_kses_post( $extension->desc ) . '</p>';
 		echo $button ? '<span class="dlm-install-plugin-actions">' . $button . '</span>' : '';
@@ -906,7 +891,7 @@ class DLM_Admin_Extensions {
 
 		// We do not need any extra credentials if we have gotten this far, so let's install the plugin.
 		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		//require_once DLM_PLUGIN_FILE . 'src/admin/class-dlm-upgrader-skin.php';
+		require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'src/admin/class-dlm-upgrader-skin.php';
 
 		// Create the plugin upgrader with our custom skin.
 		$installer = new Plugin_Upgrader( new DLM_Upgrader_Skin() );
