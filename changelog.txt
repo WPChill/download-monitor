@@ -4,6 +4,9 @@ Changed: File Browser no longer displays cross-site folders in multisite environ
 Added: Download debug export metabox ( [#1387](https://github.com/WPChill/download-monitor/issues/1387) )
 Changed: Admin download edit view ( [#1398](https://github.com/WPChill/download-monitor/issues/1398) )
 
+= 4.9.12 - 11.04.2024 =
+Fixed: Lite vs Premium page not showing when a license is not added.( [#1441](https://github.com/WPChill/download-monitor/issues/1441) )
+
 = 4.9.11 - 16.02.2024 =
 Changed: Removed Freemius
 Fixed: Slight UI fixes

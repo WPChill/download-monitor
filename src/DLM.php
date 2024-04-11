@@ -243,7 +243,7 @@ class WP_DLM {
 		add_filter( 'wp_get_attachment_url',
 			array( $this, 'generate_attachment_url' ), 15, 2 );
 
-		add_action( 'admin_init', array( $this, 'init_upsells' ) );
+		add_action( 'admin_menu', array( $this, 'init_upsells' ) );
 	}
 
 	/**
