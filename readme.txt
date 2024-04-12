@@ -120,6 +120,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.9.13 - TBD =
+Fixed: Enforce on what pages should the ID pe appended in the title ( [#1443](https://github.com/WPChill/download-monitor/issues/1443) )
+Fixed: Included the Terms and Conditions premium plugin in the LITE version ( [#1445](https://github.com/WPChill/download-monitor/issues/1445) )
+
 = 4.9.12 - 11.04.2024 =
 Fixed: Lite vs Premium page not showing when a license is not added.( [#1441](https://github.com/WPChill/download-monitor/issues/1441) )
 

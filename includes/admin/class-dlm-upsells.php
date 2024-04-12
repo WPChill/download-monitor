@@ -111,8 +111,6 @@ class DLM_Upsells {
 
 		add_action( 'dlm_tab_upsell_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
 
-		//add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
-
 		add_action( 'dlm_tab_upsell_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
 
 		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
@@ -323,11 +321,6 @@ class DLM_Upsells {
 						),
 						'twitter_lock'  => array(
 							'title'    => __( 'Twitter lock', 'download-monitor' ),
-							'sections' => array(),
-							// Need to put sections here for backwards compatibility
-						),
-						'terns_and_conditions'  => array(
-							'title'    => __( 'Terms and Conditions', 'download-monitor' ),
 							'sections' => array(),
 							// Need to put sections here for backwards compatibility
 						),
@@ -552,26 +545,6 @@ class DLM_Upsells {
 	}
 
 	/**
-	 * Settings Terms and conditions tab upsell
-	 *
-	 *
-	 * @since 4.4.5
-	 */
-	public function upsell_tab_section_content_terns_and_conditions() {
-
-		if ( ! $this->check_extension( 'dlm-terms-and-conditions' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Terms and conditions', 'download-monitor' ),
-				__( 'Require your users to accept your terms and conditions before they can download your files.', 'download-monitor' ),
-				'terns_and_conditions',
-				'terms-and-conditions'
-			);
-		}
-
-	}
-
-	/**
 	 * Settings Emails tab upsell
 	 *
 	 *
@@ -598,16 +571,6 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function pages_tab_upsell() {
-
-		if ( ! $this->check_extension( 'dlm-terms-conditions' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Terms & Conditions', 'download-monitor' ),
-				__( 'Easily require your visitors to agree to your terms and conditions before downloading files.', 'download-monitor' ),
-				'pages',
-				'terms-conditions'
-			);
-		}
 
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
