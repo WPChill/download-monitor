@@ -38,11 +38,6 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 	// Activation hook
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '_download_monitor_install' );
 
-	// Compat fix for wp 6.5
-	if( ! get_option( 'dlm_current_version', false ) ){
-		_download_monitor_install();
-	}
-	
 	// Multisite new blog hook
 	add_action( 'wpmu_new_blog', '_download_monitor_mu_new_blog', 10, 6 );
 
