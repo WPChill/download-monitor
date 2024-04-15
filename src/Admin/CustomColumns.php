@@ -223,6 +223,10 @@ class DLM_Custom_Columns {
 	 * @return string
 	 */
 	public function prepend_id_to_title( $title, $id = null ) {
+		// Return if the filter is set to false.
+		if ( ! apply_filters( 'dlm_prepend_id_to_title', true ) ) {
+			return $title;
+		}
 
 		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			return $title;
@@ -231,8 +235,10 @@ class DLM_Custom_Columns {
 		if ( ! isset( $id ) ) {
 			$id = get_the_ID();
 		}
-
-		if ( 'dlm_download' === get_post_type( $id ) ) {
+		// Check if we are on the edit page for downloads.
+		global $pagenow;
+		// Only add the ID to the title if we are on the edit page for downloads.
+		if ( 'dlm_download' === get_post_type( $id ) && 'edit.php' === $pagenow ) {
 			return '#' . $id . ' - ' . $title;
 		}
 

@@ -2,8 +2,8 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.5
-Tested up to: 6.4
-Stable tag: 4.9.12
+Tested up to: 6.5
+Stable tag: 4.9.13
 License: GPLv3
 Text Domain: download-monitor
 Requires PHP: 5.6
@@ -120,6 +120,10 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 4.9.13 - 15.04.2024 =
+Fixed: Enforce on what pages should the ID pe appended in the title ( [#1443](https://github.com/WPChill/download-monitor/issues/1443) )
+Fixed: IDs in title, added a filter to disable it ( [#1443](https://github.com/WPChill/download-monitor/issues/1443) )
+
 = 4.9.12 - 11.04.2024 =
 Fixed: Lite vs Premium page not showing when a license is not added.( [#1441](https://github.com/WPChill/download-monitor/issues/1441) )
 Fixed: Compatibility with wordpress 6.5 ( [#1442](https://github.com/WPChill/download-monitor/issues/1442) )
