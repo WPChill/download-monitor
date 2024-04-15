@@ -126,6 +126,7 @@ Changed: File Browser no longer displays cross-site folders in multisite environ
 Added: Download debug export metabox ( [#1387](https://github.com/WPChill/download-monitor/issues/1387) )
 Changed: Admin download edit view ( [#1398](https://github.com/WPChill/download-monitor/issues/1398) )
 Fixed: Included the Terms and Conditions premium plugin in the LITE version ( [#1445](https://github.com/WPChill/download-monitor/issues/1445) )
+Changed: Enhanced display of settings descriptions. ( [#1444](https://github.com/WPChill/download-monitor/issues/1444) )
 
 = 4.9.12 - 11.04.2024 =
 Fixed: Lite vs Premium page not showing when a license is not added.( [#1441](https://github.com/WPChill/download-monitor/issues/1441) )

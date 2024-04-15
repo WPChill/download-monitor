@@ -233,6 +233,13 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 
 							foreach ( $settings[ $tab ]['sections'][ $active_section ]['fields'] as $option ) {
 								$cs = 1;
+								$tooltip = '';
+								if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
+									$tooltip = '
+									<div class="wpchill-tooltip"><span>[?]</span>
+										<div class="wpchill-tooltip-content">' . wp_kses_post( $option['desc'] ) . '</div>
+									</div>';
+								}
 
 								if ( ! isset( $option['type'] ) ) {
 									$option['type'] = '';
@@ -241,16 +248,12 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 								$tr_class = 'dlm_settings dlm_' . $option['type'] . '_setting';
 								echo '<tr valign="top" data-setting="' . ( isset( $option['name'] ) ? esc_attr( $option['name'] ) : '' ) . '" class="' . esc_attr( $tr_class ) . '">';
 								if ( isset( $option['label'] ) && '' !== $option['label'] ) {
-									echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
+									echo '<th scope="row">' . $tooltip . '<label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
 								} else {
 									$cs ++;
 								}
 
 								echo '<td colspan="' . esc_attr( $cs ) . '">';
-
-								if ( ! isset( $option['type'] ) ) {
-									$option['type'] = '';
-								}
 
 								// make new field object
 								$field = DLM_Admin_Fields_Field_Factory::make( $option );
@@ -259,10 +262,6 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 								if ( null !== $field ) {
 									// render field
 									$field->render();
-
-									if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
-										echo ' <p class="dlm-description description">' . wp_kses_post( $option['desc'] ) . '</p>';
-									}
 								}
 
 								echo '</td></tr>';
