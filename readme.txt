@@ -122,7 +122,7 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 == Changelog ==
 = 4.9.13 - 15.04.2024 =
 Fixed: Enforce on what pages should the ID pe appended in the title ( [#1443](https://github.com/WPChill/download-monitor/issues/1443) )
-Fixed: IDs in title, added a filter to disable it ( [#1443](https://github.com/WPChill/download-monitor/issues/1443) )
+Fixed: WP 6.5 compatibility for fresh installs ( [#1442](https://github.com/WPChill/download-monitor/issues/1442) )
 
 = 4.9.12 - 11.04.2024 =
 Fixed: Lite vs Premium page not showing when a license is not added.( [#1441](https://github.com/WPChill/download-monitor/issues/1441) )
