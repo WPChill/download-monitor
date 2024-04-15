@@ -54,6 +54,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		 * @return false|void
 		 */
 		public function check_upgrade_necessity() {
+			// Filter to allow disabling the upgrade process.
+			if ( ! apply_filters( 'dlm_do_upgrade', false ) ) {
+				return;
+			}
 			global $wpdb;
 			if ( ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
 				DLM_Admin_Helper::redo_upgrade();

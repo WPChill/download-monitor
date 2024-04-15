@@ -43,5 +43,11 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 
 	// Multisite blog delete
 	add_filter( 'wpmu_drop_tables', '_download_monitor_mu_delete_blog' );
-
+	// Compat fix for wp 6.5 for fresh installs
+	add_action( 'wp_loaded', function () {
+		// Compat fix for wp 6.5
+		if ( ! get_option( 'dlm_current_version', false ) ) {
+			_download_monitor_install();
+		}
+	} );
 }
