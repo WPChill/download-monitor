@@ -259,6 +259,13 @@ class DLM_Admin_Settings {
 						'sections' => array(),
 						'badge'    => true,
 					),
+					'terns_and_conditions' => array(
+						'title'    => esc_html__( 'Terms and Conditions', 'download-monitor' ),
+						'badge'    => true,
+						'sections' => array(),
+						'fields'   => array(),
+						'priority' => 70,
+					),
 				),
 				'priority' => 30,
 			),
@@ -503,6 +510,7 @@ class DLM_Admin_Settings {
 			'email_notification',
 			'gravity_forms',
 			'ninja_forms',
+			//'terns_and_conditions',
 			'twitter_lock',
 			'page_addon',
 		);
@@ -545,6 +553,11 @@ class DLM_Admin_Settings {
 							'title' => esc_html__( 'Emails', 'download-monitor' ),
 						);
 					}
+
+					/*	if ( 'terns_and_conditions' == $tab_key ) {
+							$tab_parent = 'terns_and_conditions';
+							$tab_title  = true;
+						}*/
 
 					if ( isset( $tab[0] ) && ! $tab_title ) {
 						$settings[ $tab_parent ]['sections'][ $tab_section ] = array(

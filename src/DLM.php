@@ -132,12 +132,6 @@ class WP_DLM {
 				deactivate_plugins( 'dlm-download-duplicator/dlm-download-duplicator.php' );
 			}
 
-			//deactivate DLM Terms & Conditions and add notice.
-			if ( class_exists( 'DLM_Terms_And_Conditions' ) ) {
-				deactivate_plugins( 'dlm-terms-and-conditions/dlm-terms-and-conditions.php' );
-				add_action('admin_notices', array( $this, 'deactivation_admin_notice' ) );
-			}
-
 			// The beta testers class
 			/*if ( defined( 'DLM_BETA' ) && DLM_BETA && class_exists( 'DLM_Beta_Testers') ) {
 				new DLM_Beta_Testers();
@@ -219,9 +213,6 @@ class WP_DLM {
 		// Setup Gutenberg Download Preview
 		$gb_download_preview = new DLM_DownloadPreview_Preview();
 		$gb_download_preview->setup();
-
-		// Load the integrated Terms and Conditions functionality.
-		new DLM_Inegrated_Terms_And_Conditions();
 
 		// Backwards Compatibility.
 		$dlm_backwards_compatibility
@@ -952,13 +943,5 @@ class WP_DLM {
 	 */
 	public function init_upsells() {
 		DLM_Upsells::get_instance();
-	}
-
-	public function deactivation_admin_notice() {
-		?>
-		<div class="notice notice-success is-dismissible">
-			<p><?php esc_html_e('DLM - Terms & Conditions plugin was deactivated because it is now integrated within Download Monitor.', 'download-monitor'); ?></p>
-		</div>
-		<?php
 	}
 }

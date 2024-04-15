@@ -47,6 +47,9 @@ class DLM_Product_Manager {
 				'dlm-google-drive'            => array(
 					'version' => '4.0.4',
 				),
+				'dlm-terms-and-conditions'    => array(
+					'version' => '4.0.4',
+				),
 				'dlm-twitter-lock'            => array(
 					'version' => '4.1.1',
 				),

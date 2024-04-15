@@ -39,6 +39,10 @@ class DLM_Admin_OptionsUpsells {
 
        $active_addons = $this->get_active_addons();
 
+       if( !array_key_exists( 'dlm-terms-and-conditions', $active_addons ) ){
+        $this->render_terms_and_conditions_upsell();
+        }
+
         if( !array_key_exists( 'dlm-twitter-lock', $active_addons ) ){
             $this->render_twitter_lock_upsell();
         }
@@ -50,6 +54,18 @@ class DLM_Admin_OptionsUpsells {
         if( !array_key_exists( 'dlm-captcha', $active_addons ) ){
             $this->render_captcha_upsell();
         }
+    }
+
+    public function render_terms_and_conditions_upsell(){
+        ?>
+        <a href="<?php echo esc_url( 'https://www.download-monitor.com/pricing/?utm_source=plugin&utm_medium=extension-block&utm_campaign=Terms%20and%20Conditions' ); ?>" class="options_upsell_link" target="_blank">
+            <p class="form-field form-field-checkbox not-active">
+                <span class="dashicons dashicons-lock"></span>
+                <span><?php esc_html_e( 'Terms &amp; Conditions Required', 'download-monitor' ); ?><span class="dlm-upsell-badge">PAID</span> </span>
+                <span class="dlm-description"> <?php esc_html_e( 'This download will only be downloadable after accepting the terms and conditions.', 'download-monitor' ); ?></span>
+            </p>
+        </a>
+        <?php
     }
 
     public function render_twitter_lock_upsell(){
