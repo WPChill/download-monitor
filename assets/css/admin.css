@@ -73,6 +73,9 @@
   text-align: center;
   white-space: nowrap;
 }
+.post-type-dlm_download .wp-list-table.otherdownloadspath th #title {
+  width: 200px;
+}
 /** Settings */
 .dlm-settings-sub-nav {
   margin: 0 0 10px 0;

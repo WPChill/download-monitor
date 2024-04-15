@@ -89,6 +89,8 @@ return array(
     'DLM_Logging' => $baseDir . '/src/Logs/Logging.php',
     'DLM_Media_Library' => $baseDir . '/src/Admin/class-dlm-media-library.php',
     'DLM_Modal' => $baseDir . '/src/class-dlm-modal.php',
+    'DLM_Other_Downloads_Path' => $baseDir . '/src/Admin/Download Paths/page.php',
+    'DLM_Other_Downloads_Table' => $baseDir . '/src/Admin/Download Paths/downloads-path-table.php',
     'DLM_Plugin_Status' => $baseDir . '/src/Admin/class-dlm-plugin-status.php',
     'DLM_Post_Type_Manager' => $baseDir . '/src/PostTypeManager.php',
     'DLM_Product' => $baseDir . '/src/Product/Product.php',

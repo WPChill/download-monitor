@@ -153,6 +153,10 @@ class WP_DLM {
 
 			// Load the API Key Generation class
 			$key_generation = DLM_Key_Generation::get_instance();
+
+			
+			// Load the other downloads path option table
+			DLM_Other_Downloads_Path::get_instance();
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.

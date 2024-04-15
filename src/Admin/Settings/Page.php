@@ -214,11 +214,13 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 									endforeach; ?>
 								</ul>
 							</div><!--.wp-clearfix-->
+							<?php if( ! isset( $settings[ $tab ]['sections'][ $active_section ]['show_title'] ) || $settings[ $tab ]['sections'][ $active_section ]['show_title'] ) : ?>
 							<h2>
 								<?php
 								echo ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ? esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ) : '';
 								?>
 							</h2>
+							<?php endif; ?>
 							<?php
 						}
 						// Begin tab content
