@@ -141,7 +141,9 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				$version->set_download_id( $post->post_parent );
 				$version->set_menu_order( $post->menu_order );
 				$version->set_date( new DateTime( $post->post_date ) );
-				$version->set_version( strtolower( DLM_Utils::meta_checker( $meta_data, '_version' ) ) );
+				if ( DLM_Utils::meta_checker( $meta_data, '_version' ) ) {
+					$version->set_version( strtolower( DLM_Utils::meta_checker( $meta_data, '_version' ) ) );
+				}
 				$version->set_download_count( absint( $this->retrieve_version_download_count( $version->get_id() ) ) );
 				$version->set_meta_download_count( absint( DLM_Utils::meta_checker( $meta_data, '_download_count' ) ) );
 				$version->set_filesize( DLM_Utils::meta_checker( $meta_data, '_filesize' ) );
