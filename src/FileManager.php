@@ -463,27 +463,6 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				'/',
 				untrailingslashit( ABSPATH ) );
 
-			$path = false;
-			// Get user defined path
-			if( is_multisite() ){
-				$settings = get_site_option( 'dlm_network_settings', array() );
-				if( isset( $settings['dlm_downloads_path'] ) && '' != $settings['dlm_downloads_path'] ){
-					if( is_main_site() ){
-						// This is main site, we replace placeholders with blank.
-						$path = str_replace( '{site_id}', '', $settings['dlm_downloads_path'] );
-						
-					}else{
-						// This is sub site, we replace placeholders with site id.
-						$path = str_replace( '{site_id}', get_current_blog_id(), $settings['dlm_downloads_path'] );
-					}
-				}
-			}else{
-				$path = get_option( 'dlm_downloads_path' );
-			}
-
-			$user_defined_path = str_replace( DIRECTORY_SEPARATOR,
-				'/',
-				$path );
 			// Create the allowed paths array
 			$allowed_paths     = array();
 			// Check if the ABSPATH is in the WP_CONTENT_DIR
@@ -498,8 +477,9 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				$allowed_paths = array( $abspath_sub );
 			}
 			// Add the user defined path to the allowed paths array
-			if ( $user_defined_path ) {
-				$allowed_paths[] = $user_defined_path;
+			$user_defined_allowed_paths = DLM_Downloads_Path_Helper::get_allowed_paths();
+			if ( ! empty( $user_defined_allowed_paths ) && is_array( $user_defined_allowed_paths ) ) {
+				$allowed_paths = array_merge( $allowed_paths, $user_defined_allowed_paths );
 			}
 
 			return $allowed_paths;

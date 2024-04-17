@@ -7,14 +7,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * DLM_Other_Downloads_Path class.
  *
- * @since 4.9.6
+ * @since 5.0.0
  */
 class DLM_Other_Downloads_Path {
 
 	/**
 	 * Holds the class object.
 	 *
-	 * @since 4.9.6
+	 * @since 5.0.0
 	 *
 	 * @var object
 	 */
@@ -36,7 +36,7 @@ class DLM_Other_Downloads_Path {
 	 * Returns the singleton instance of the class.
 	 *
 	 * @return object The DLM_Other_Downloads_Path object.
-	 * @since 4.9.6
+	 * @since 5.0.0
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Other_Downloads_Path ) ) {
@@ -46,177 +46,181 @@ class DLM_Other_Downloads_Path {
 		return self::$instance;
 	}
 
-	/**
-	 * Set required hooks
-	 *
-	 * @since 4.9.6
-	 */
-	private function set_hooks() {
-		// Add Templates tab in the Download Monitor's settings page.
-		add_filter( 'dlm_settings', array( $this, 'status_tab' ), 15, 1 );
-		// Show the templates tab content.
-		add_action( 'dlm_tab_section_content_download_path', array( $this, 'templates_content' ) );
+    /**
+     * Set required hooks for the Download Monitor settings.
+     *
+     * @since 5.0.0
+     */
+    private function set_hooks() {
+        // Add Templates tab in the Download Monitor's settings page.
+        add_filter( 'dlm_settings', array( $this, 'status_tab' ), 15, 1 );
+        // Show the approved downloads path tab content.
+        add_action( 'dlm_tab_section_content_download_path', array( $this, 'templates_content' ) );
+        // Show the approved downloads path tab content for multisite.
+        add_action( 'dlm_network_admin_settings_form_start', array( $this, 'templates_content' ) );
+        // Add table columns.
         add_filter( 'manage_dlm_download_page_download-monitor-settings_columns', array( $this, 'get_columns' ) );
+        // Add table columns for multisite.
+        add_filter( 'manage_toplevel_page_download-monitor-settings-network_columns', array( $this, 'get_columns' ) );
         add_action( 'admin_init', array( $this, 'register_setting' ) );
         add_filter( 'pre_update_option', array( $this, 'update_action' ), 10, 3 );
         add_action( 'admin_init', array( $this, 'actions_handler' ) );
         add_action( 'admin_init', array( $this, 'bulk_actions_handler' ) );
+    }
 
-	}
-    public function register_setting(){
+    /**
+     * Register settings for advanced download path.
+     *
+     * @since 5.0.0
+     */
+    public function register_setting() {
         register_setting( 'dlm_advanced_download_path','dlm_downloads_path' );
     }
-	/**
-	 * Get list columns.
-	 *
-	 * @return array
-	 */
-	public function get_columns() {
 
-		return array(
-			'cb'    => '<input type="checkbox" />',
-			'path_val' => __( 'URL', 'woocommerce' ),
-			'enabled' => __( 'Enabled','woocommerce' ),
-		);
-	}
-	/**
-	 * Add Status tab in the Download Monitor's settings page.
-	 *
-	 * @param  array  $settings  Array of settings.
-	 *
-	 * @return array
-	 * @since 4.9.6
-	 */
-	public function status_tab( $settings ) {
+    /**
+     * Get list columns for the download monitor settings page.
+     *
+     * @return array List columns.
+     * @since 5.0.0
+     */
+    public function get_columns() {
+        return array(
+            'cb'       => '<input type="checkbox" />',
+            'path_val' => __( 'URL', 'download-monitor' ),
+            'enabled'  => __( 'Enabled', 'download-monitor' ),
+        );
+    }
 
-		$settings['advanced']['sections']['download_path'] = array(
-			'title'  => __( 'Other Downloads Path', 'download-monitor' ),
-            'fields' => array(
-				// Add empty title field to show the templates tab, otherwise it won't show because of the
-				// "Hide empty sections" setting when having a license.
-				array(
-					'name'     => '',
-					'type'     => 'title',
-					'title'    => __( '', 'download-monitor' ),
-					'priority' => 10,
-				),
-			),
-            'show_title' => false,
-            'show_fields' => false,
-		);
+    /**
+     * Add Status tab in the Download Monitor's settings page.
+     *
+     * @param array $settings Array of settings.
+     * @return array Updated array of settings.
+     * @since 5.0.0
+     */
+    public function status_tab( $settings ) {
+        // Only add this option to single-site environments.
+        if( ! defined( 'MULTISITE' ) || ! MULTISITE ){
+            $settings['advanced']['sections']['download_path'] = array(
+                'title'         => __( 'Approved Download Paths', 'download-monitor' ),
+                'fields'        => array(
+                    // Add empty title field to show the templates tab, otherwise it won't show because of the
+                    // "Hide empty sections" setting when having a license.
+                    array(
+                        'name'     => '',
+                        'type'     => 'title',
+                        'title'    => __( '', 'download-monitor' ),
+                        'priority' => 10,
+                    ),
+                ),
+                'show_upsells'  => false,
+                'contend_class' => 'dlm-content-tab-full',
+            );
+        }
+        return $settings;
+    }
 
-		return $settings;
-	}
-
-
-	/**
-	 * Show the templates tab content.
-	 *
-	 * @since 4.9.6
-	 */
-	public function templates_content() {
+    /**
+     * Show the templates tab content.
+     *
+     * @since 5.0.0
+     */
+    public function templates_content() {
         $this->table = new DLM_Other_Downloads_Table();
-		if ( null === $this->table ) {
-			return;
-		}
+        if ( null === $this->table ) {
+            return;
+        }
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_REQUEST['url'] ) ) {
-			$this->edit_screen( (int) $_REQUEST['url'] );
-			return;
-		}
-		// phpcs:enable
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_REQUEST['url'] ) ) {
+            $this->edit_screen( (int) $_REQUEST['url'] );
+            return;
+        }
+        // phpcs:enable
 
-		// Show list table.
-		$this->table->prepare_items();
-        $this->display_title();
-		$this->table->render_views();
-		$this->table->display();
-	}
-	/**
-	 * Renders the editor screen for approved directory URLs.
-	 *
-	 * @param int $url_id The ID of the rule to be edited (may be zero for new rules).
-	 */
-	private function edit_screen( int $url_id ) {
+        // Show list table.
+        $this->table->prepare_items();
+        //$this->display_title();
+        $this->table->render_views();
+        $this->table->display();
+    }
 
-		$paths = get_option( 'dlm_downloads_path', false );
+    /**
+     * Renders the editor screen for approved directory URLs.
+     *
+     * @param int $url_id The ID of the rule to be edited (may be zero for new rules).
+     * @since 5.0.0
+     */
+    private function edit_screen( int $url_id ) {
+        $paths = DLM_Downloads_Path_Helper::get_all_paths();
         $existing = false;
         foreach( $paths as $path ) {
-
             if(  $url_id == $path['id'] ){
                 $existing = $path;
                 break;
             }
         }
 
-		$title = $existing
-			? __( 'Edit Approved Directory', 'woocommerce' )
-			: __( 'Add New Approved Directory', 'woocommerce' );
+        $title = $existing
+            ? __( 'Edit Approved Directory', 'download-monitor' )
+            : __( 'Add New Approved Directory', 'download-monitor' );
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		$submitted    = sanitize_text_field( wp_unslash( $_GET['submitted-url'] ?? '' ) );
-		$existing_url = $existing ? $existing['title'] : '';
-		$enabled      = $existing ? 'enabled' == $existing['enabled'] : true;
-		// phpcs:enable
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
+        $submitted    = sanitize_text_field( wp_unslash( $_GET['submitted-url'] ?? '' ) );
+        $existing_url = $existing ? $existing['path_val'] : '';
+        $enabled      = $existing ? 'enabled' == $existing['enabled'] : true;
+        // phpcs:enable
 
-		?>
-			<h2 class='wc-table-list-header'>
-				<?php echo esc_html( $title ); ?>
-				<?php if ( $existing ) : ?>
-					<a href="<?php echo esc_url( $this->table->get_action_url( 'edit', 0 ) ); ?>" class="page-title-action"><?php esc_html_e( 'Add New', 'woocommerce' ); ?></a>
-				<?php endif; ?>
-				<a href="<?php echo esc_url( $this->table->get_base_url() ); ?> " class="page-title-action"><?php esc_html_e( 'Cancel', 'woocommerce' ); ?></a>
-			</h2>
-			<table class='form-table'>
-				<tbody>
-					<tr valign='top'>
-						<th scope='row' class='titledesc'>
-							<label for='dlm_downloads_path'> <?php echo esc_html_x( 'Directory URL', 'Approved product download directories', 'woocommerce' ); ?> </label>
-						</th>
-						<td class='forminp'>
-							<input name='dlm_downloads_path' id='dlm_downloads_path' type='text' class='input-text regular-input' value='<?php echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>'>
-						</td>
-					</tr>
-					<tr valign='top'>
-						<th scope='row' class='titledesc'>
-							<label for='dlm_downloads_path_enabled'> <?php echo esc_html_x( 'Enabled', 'Approved product download directories', 'woocommerce' ); ?> </label>
-						</th>
-						<td class='forminp'>
-							<input name='dlm_downloads_path_enabled' id='dlm_downloads_path_enabled' type='checkbox' value='1' <?php checked( true, $enabled ); ?>'>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<input name='id' type='hidden' value='<?php echo esc_attr( $url_id ); ?>'>
+        ?>
+            <h2 class='wc-table-list-header'>
+                <?php echo esc_html( $title ); ?>
+                <?php if ( $existing ) : ?>
+                    <a href="<?php echo esc_url( $this->table->get_action_url( 'edit', 0 ) ); ?>" class="page-title-action"><?php esc_html_e( 'Add New', 'download-monitor' ); ?></a>
+                <?php endif; ?>
+                <a href="<?php echo esc_url( DLM_Downloads_Path_Helper::get_base_url() ); ?> " class="page-title-action"><?php esc_html_e( 'Cancel', 'download-monitor' ); ?></a>
+            </h2>
+            <table class='form-table'>
+                <tbody>
+                    <tr valign='top'>
+                        <th scope='row' class='titledesc'>
+                            <label for='dlm_downloads_path'> <?php echo esc_html__( 'Directory URL', 'download-monitor' ); ?> </label>
+                        </th>
+                        <td class='forminp'>
+                            <input name='dlm_downloads_path' id='dlm_downloads_path' type='text' class='input-text regular-input' value='<?php echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>'>
+                        </td>
+                    </tr>
+                    <tr valign='top'>
+                        <th scope='row' class='titledesc'>
+                            <label for='dlm_downloads_path_enabled'> <?php echo esc_html__( 'Enabled', 'download-monitor' ); ?> </label>
+                        </th>
+                        <td class='forminp'>
+                            <input name='dlm_downloads_path_enabled' id='dlm_downloads_path_enabled' type='checkbox' value='1' <?php checked( true, $enabled ); ?>>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input name='id' type='hidden' value='<?php echo esc_attr( $url_id ); ?>'>
             <input name='path_action' type='hidden' value='edit'>
-		<?php
-	}
+        <?php
+    }
 
-	/**
-	 * Displays the screen title, etc.
-	 */
-	private function display_title() {
-		$turn_on_off = get_option( 'dlm_enforce_download_paths', true )
-			? '<a href="' . esc_url( $this->table->get_action_url( 'turn-off', 0 ) ) . '" class="page-title-action">' . esc_html_x( 'Stop Enforcing Rules', 'Approved product download directories', 'woocommerce' ) . '</a>'
-			: '<a href="' . esc_url( $this->table->get_action_url( 'turn-on', 0 ) ) . '" class="page-title-action">' . esc_html_x( 'Start Enforcing Rules', 'Approved product download directories', 'woocommerce' ) . '</a>';
-
-		?>
-			<h2 class='wc-table-list-header'>
-				<?php esc_html_e( 'Approved Download Directories', 'woocommerce' ); ?>
-				<a href='<?php echo esc_url( $this->table->get_action_url( 'edit', 0 ) ); ?>' class='page-title-action'><?php esc_html_e( 'Add New', 'woocommerce' ); ?></a>
-				<?php echo $turn_on_off; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			</h2>
-		<?php
-	}
-
-    public function update_action( $value, $option, $old_value ){
+    /**
+     * Updates the action for the download path.
+     *
+     * @param mixed $value     The new value of the option.
+     * @param string $option   The option name.
+     * @param mixed $old_value The old value of the option.
+     * @return mixed Updated value.
+     * @since 5.0.0
+     */
+    public function update_action( $value, $option, $old_value ) {
         if( 'dlm_downloads_path' != $option || ! isset( $_POST['path_action'] ) ){
             return $value;
         }
-
+        
         if( ! isset( $_POST['id'] ) || 0 == $_POST['id'] ){
-            $newval = array( 'id' => array_key_last( $old_value ) + 1, 'path_val' => $value, 'enabled' => isset( $_POST['dlm_downloads_path_enabled'] ) );
+            $lastkey = array_key_last( $old_value );
+            $newval = array( 'id' => absint( $old_value[$lastkey]['id'] ) + 1, 'path_val' => $value, 'enabled' => isset( $_POST['dlm_downloads_path_enabled'] ) );
             $old_value[] = $newval;
             return $old_value;
         }
@@ -227,24 +231,29 @@ class DLM_Other_Downloads_Path {
                     $old_value[$key]['path_val'] = $_POST['dlm_downloads_path'];
                     $old_value[$key]['enabled'] = isset( $_POST['dlm_downloads_path_enabled'] );
                 }
-
                 return $old_value;
             }
         }
-       
-       return $value;
+    return $value;
     }
 
-    public function actions_handler(){
+    /**
+     * Handles actions related to download paths.
+     *
+     * @since 5.0.0
+     */
+    public function actions_handler() {
         if( ! isset( $_GET['url'] ) ){
             return;
         }
-        if( isset( $_GET['post_type'] ) && 'dlm_download' == $_GET['post_type'] && isset( $_GET['page'] ) && 'download-monitor-settings' == $_GET['page'] ){
-            $paths = get_option( 'dlm_downloads_path', false );
+        $change = false;
+        if( isset( $_GET['page'] ) && 'download-monitor-settings' == $_GET['page'] ){
+            $paths = DLM_Downloads_Path_Helper::get_all_paths();
             if( isset( $_GET['action'] ) && 'enable' == $_GET['action'] ) {
                 foreach ( $paths as $key => $path ){
                     if( $path['id'] == absint( $_GET['url'] ) ){
                         $paths[$key]['enabled'] = true;
+                        $change = true;
                         break;
                     }
                 }
@@ -253,6 +262,7 @@ class DLM_Other_Downloads_Path {
                 foreach ( $paths as $key => $path ){
                     if( $path['id'] == absint( $_GET['url'] ) ){
                         $paths[$key]['enabled'] = false;
+                        $change = true;
                         break;
                     }
                 }
@@ -262,6 +272,7 @@ class DLM_Other_Downloads_Path {
                 foreach ( $paths as $key => $path ){
                     if( $path['id'] == absint( $_GET['url'] ) ){
                         unset( $paths[$key] );
+                        $change = true;
                         break;
                     }
                 }
@@ -270,27 +281,36 @@ class DLM_Other_Downloads_Path {
             if( isset( $_GET['action'] ) && 'enable-all' == $_GET['action'] ) {
                 foreach ( $paths as $key => $path ){
                     $paths[$key]['enabled'] = true;
+                    $change = true;
                 }
             }
             
             if( isset( $_GET['action'] ) && 'disable-all' == $_GET['action'] ) {
                 foreach ( $paths as $key => $path ){
                     $paths[$key]['enabled'] = false;
+                    $change = true;
                 }
             }
+            if( $change ) {
+                DLM_Downloads_Path_Helper::save_paths( $paths );
+                wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
+            }
         }
-
-        update_option( 'dlm_downloads_path', $paths );
+    
     }
 
-
-    public function bulk_actions_handler(){
-        $changes = false;
-        if( isset( $_GET['option_page'] ) && 'dlm_advanced_download_path' == $_GET['option_page'] ){
-     
-            $paths = get_option( 'dlm_downloads_path', false );
-            foreach ( $_GET['otherdownloadpath'] as $id ){
-                if( isset( $_GET['action'] ) && 'enable' == $_GET['action'] ) {
+    /**
+     * Handles bulk actions related to download paths.
+     *
+     * @since 5.0.0
+     */
+    public function bulk_actions_handler() {
+    
+        if( isset( $_POST['option_page'] ) && 'dlm_advanced_download_path' == $_POST['option_page']  && isset( $_POST['otherdownloadpath'] ) ){
+            $changes = false;
+            $paths = DLM_Downloads_Path_Helper::get_all_paths();
+            foreach ( $_POST['otherdownloadpath'] as $id ){
+                if( isset( $_POST['action'] ) && 'enable' == $_POST['action'] ) {
                     foreach ( $paths as $key => $path ){
                         if( $path['id'] == absint( $id ) ){
                             $paths[$key]['enabled'] = true;
@@ -299,7 +319,7 @@ class DLM_Other_Downloads_Path {
                         }
                     }
                 }
-                if( isset( $_GET['action'] ) && 'disable' == $_GET['action'] ) {
+                if( isset( $_POST['action'] ) && 'disable' == $_POST['action'] ) {
                     foreach ( $paths as $key => $path ){
                         if( $path['id'] == absint( $id ) ){
                             $paths[$key]['enabled'] = false;
@@ -308,31 +328,22 @@ class DLM_Other_Downloads_Path {
                         }
                     }
                 }
+                if( isset( $_POST['action'] ) && 'delete' == $_POST['action'] ) {
+                    foreach ( $paths as $key => $path ){
+                        if( $path['id'] == absint( $id ) ){
+                            unset( $paths[$key] );
+                            $changes = true;
+                            break;
+                        }
+                    }
+                }
             }
-        }
 
-        if( $changes ){
-            update_option( 'dlm_downloads_path', $paths );
-        
-            wp_safe_redirect( $this->get_base_url() );
+            if( $changes ){
+                DLM_Downloads_Path_Helper::save_paths( $paths ); 
+            }
+            wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
         }
 
     }
-
-    /**
-	 * Supplies the 'base' admin URL for this admin table.
-	 *
-	 * @return string
-	 */
-	public function get_base_url(): string {
-		return add_query_arg(
-			array(
-				'post_type'    => 'dlm_download',
-                'page' => 'download-monitor-settings',
-				'tab'     => 'advanced',
-				'section' => 'download_path',
-			),
-			admin_url( 'edit.php' )
-		);
-	}
 }

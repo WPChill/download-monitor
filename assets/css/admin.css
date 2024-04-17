@@ -242,6 +242,21 @@
   width: 30%;
   float: right;
 }
+.dlm-admin-settings .dlm-content-tab-full {
+  width: 100%;
+}
+.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath mark {
+  background-color: unset;
+}
+.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath mark.yes {
+  color: #7ad03a;
+}
+.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath mark.no {
+  color: #999;
+}
+.dlm-admin-settings .dlm-content-tab-full #dlm_downloads_path {
+  min-width: 400px;
+}
 /* File lists */
 ul.download_monitor_file_browser {
   list-style: none outside;

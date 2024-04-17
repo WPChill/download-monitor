@@ -325,6 +325,25 @@
     width: 30%;
     float: right;
   }
+  .dlm-content-tab-full {
+    width: 100%;
+    .wp-list-table{
+      &.otherdownloadspath{
+        mark{
+          background-color: unset;
+          &.yes{
+            color: #7ad03a;
+          }
+          &.no{
+            color: #999;
+          }
+        }
+      }
+    }
+    #dlm_downloads_path{
+      min-width: 400px;
+    }
+  }
 }
 
 /* File lists */

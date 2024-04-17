@@ -64,6 +64,7 @@ return array(
     'DLM_Download_REST' => $baseDir . '/src/RestAPI/class-dlm-download-rest.php',
     'DLM_Download_Repository' => $baseDir . '/src/Download/DownloadRepository.php',
     'DLM_Download_Version' => $baseDir . '/src/Version/Version.php',
+    'DLM_Downloads_Path_Helper' => $baseDir . '/src/Admin/Download Paths/downloads-path-helper.php',
     'DLM_Empty_Table' => $baseDir . '/src/Admin/class-dlm-empty-table.php',
     'DLM_Extensions_Handler' => $baseDir . '/src/Admin/ExtensionsHandler.php',
     'DLM_File_Manager' => $baseDir . '/src/FileManager.php',
