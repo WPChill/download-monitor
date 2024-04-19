@@ -73,7 +73,9 @@
   .wp-list-table{
     thead{
       #shortcode,
-      #download_link {
+      #download_link,
+      #file_location,
+      #file_type {
         text-align :center;
         width: 7em;
       }
@@ -86,12 +88,36 @@
     tbody{
       .type-dlm_download{
         .column-shortcode,
-        .column-download_link {
+        .column-download_link,
+        .column-file_location,
+        .column-file_type {
           text-align: center;
         }
         th,
         td {
-          vertical-align: middle;
+            vertical-align: middle;
+            .dlm_file_path_unknown,
+            .dlm_file_path_remote,
+            .dlm_file_path_local {
+              display: inline-block;
+              font-size: 13px;
+              line-height: 2.15384615;
+              min-height: 30px;
+              margin: 0;
+              padding: 0 10px;
+              border-radius: 3px;
+              color: #fff;
+          }
+          .dlm_file_path_local {
+            background-color: #009999;
+          }
+          .dlm_file_path_remote {
+            background-color: #666699;
+          }
+          .dlm_file_path_unknown {
+            color: #b32d2e;
+            background-color: #00000012;
+          }
         }
         .column-featured_image{
           img {

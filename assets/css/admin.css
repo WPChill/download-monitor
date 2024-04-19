@@ -35,7 +35,9 @@
   margin-top: 10px;
 }
 .post-type-dlm_download .wp-list-table thead #shortcode,
-.post-type-dlm_download .wp-list-table thead #download_link {
+.post-type-dlm_download .wp-list-table thead #download_link,
+.post-type-dlm_download .wp-list-table thead #file_location,
+.post-type-dlm_download .wp-list-table thead #file_type {
   text-align: center;
   width: 7em;
 }
@@ -57,12 +59,42 @@
   vertical-align: top;
 }
 .post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-shortcode,
-.post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-download_link {
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-download_link,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-file_location,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-file_type {
   text-align: center;
 }
 .post-type-dlm_download .wp-list-table tbody .type-dlm_download th,
 .post-type-dlm_download .wp-list-table tbody .type-dlm_download td {
   vertical-align: middle;
+}
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download th .dlm_file_path_unknown,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download td .dlm_file_path_unknown,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download th .dlm_file_path_remote,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download td .dlm_file_path_remote,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download th .dlm_file_path_local,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download td .dlm_file_path_local {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 2.15384615;
+  min-height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  border-radius: 3px;
+  color: #fff;
+}
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download th .dlm_file_path_local,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download td .dlm_file_path_local {
+  background-color: #009999;
+}
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download th .dlm_file_path_remote,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download td .dlm_file_path_remote {
+  background-color: #666699;
+}
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download th .dlm_file_path_unknown,
+.post-type-dlm_download .wp-list-table tbody .type-dlm_download td .dlm_file_path_unknown {
+  color: #b32d2e;
+  background-color: #00000012;
 }
 .post-type-dlm_download .wp-list-table tbody .type-dlm_download .column-featured_image img {
   max-width: 40px;

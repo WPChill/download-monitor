@@ -128,6 +128,7 @@ Changed: Admin download edit view ( [#1398](https://github.com/WPChill/download-
 Fixed: Included the Terms and Conditions premium plugin in the LITE version ( [#1445](https://github.com/WPChill/download-monitor/issues/1445) )
 Changed: Enhanced display of settings descriptions. ( [#1444](https://github.com/WPChill/download-monitor/issues/1444) )
 Changed: Multiple allowed uploads path and setting redesign ( [#1447](https://github.com/WPChill/download-monitor/issues/1447) )
+Added: File type & location column to the admin list table ( [#1450](https://github.com/WPChill/download-monitor/issues/1450) )
 
 = 4.9.12 - 11.04.2024 =
 Fixed: Lite vs Premium page not showing when a license is not added.( [#1441](https://github.com/WPChill/download-monitor/issues/1441) )
