@@ -685,7 +685,6 @@ class DLM_Admin_List_Table extends WP_List_Table {
 			'featured'        => array( 'featured' ),
 			'locked_download' => array( 'locked_download' ),
 			'redirect_only'   => array( 'redirect_only' ),
-			'file_type'       => array( 'file_type' ),
 		);
 
 		/**
