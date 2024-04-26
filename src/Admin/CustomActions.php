@@ -472,7 +472,8 @@ class DLM_Custom_Actions {
 		if ( ! isset( $_POST['path'] ) ) {
 			wp_send_json_error( array( 'message' => __( 'No path provided', 'download-monitor' ) ) );
 		}
-		update_option( 'dlm_downloads_path', sanitize_text_field( $_POST['path'] ) );
+		// Save the new path in the Allowed Paths Table
+		DLM_Downloads_Path_Helper::save_unique_path( sanitize_text_field( $_POST['path'] ) );
 		wp_send_json_success( array( 'message' => __( 'Path updated', 'download-monitor' ) ) );
 	}
 }

@@ -361,23 +361,14 @@ class DLM_Admin_Writepanels {
 
 			// Check if there are any non-allowed paths.
 			if ( ! empty( $paths ) ) {
-				$common_path  = false;
 				$paths_array  = array();
-
-				if( is_multisite() ){
-					$allowed_path = false;
-					$settings = get_site_option( 'dlm_network_settings', array() );
-					if( isset( $settings['dlm_downloads_path'] ) && '' != $settings['dlm_downloads_path'] ){
-						if( is_main_site() ){
-							// This is main site, we replace placeholders with blank.
-							$allowed_path = str_replace( '{site_id}', '', $settings['dlm_downloads_path'] );
-						}else{
-							// This is sub site, we replace placeholders with site id.
-							$allowed_path = str_replace( '{site_id}', get_current_blog_id(), $settings['dlm_downloads_path'] );
-						}
-					}
-				}else{
-					$allowed_path = get_option( 'dlm_downloads_path', false );
+				$allowed_paths = false;
+				$new_path = false;
+				// Add the user defined path to the allowed paths array
+				$user_defined_allowed_paths = DLM_Downloads_Path_Helper::get_allowed_paths();
+				if ( ! empty( $user_defined_allowed_paths ) && is_array( $user_defined_allowed_paths ) ) {
+					$allowed_paths = $user_defined_allowed_paths;
+					$paths_array = $allowed_paths;
 				}
 
 				foreach ( $paths as $file_path ) {
@@ -388,36 +379,12 @@ class DLM_Admin_Writepanels {
 					}
 					if ( $restriction ) {
 						$new_path = str_replace( DLM_Utils::basename( $file_path ), '', $file_path );
-						if ( $allowed_path && '' !== $allowed_path ) {
-							if ( ! $common_path ) {
-								// If there is already an allowed path get the longest common path.
-								$paths_array = array( $allowed_path, $new_path );
-							} else {
-								// If there is already an allowed path get the longest common path.
-								$paths_array = array( $allowed_path, $new_path, $common_path );
-							}
-						} else {
-							if ( ! $common_path ) {
-								// If there is no allowed path just use the new path.
-								$common_path = trailingslashit( untrailingslashit( $new_path ) );
-							} else {
-								// If there is no allowed path just use the new path.
-								$paths_array = array( $new_path, $common_path );
-							}
-						}
-						// If the path array is not empty get the longest common path. If empty most probably the
-						// common path is the new path.
-						if ( ! empty( $paths_array ) ) {
-							$common_path = trailingslashit(
-								untrailingslashit(
-									DLM_Utils::longest_common_path( $paths_array )
-								)
-							);
-						}
+						// If there is already an allowed path get the longest common path.
+						$paths_array[] =  $new_path;
 					}
 				}
 				// If there is a common path display a notice.
-				if ( $common_path ) {
+				if ( $new_path ) {
 					echo '<div class="dlm-restricted-path notice notice-warning">';
 					echo '<h4 class="dlm-restricted-path__restricted_file_path">' .
 					     sprintf(
@@ -431,13 +398,10 @@ class DLM_Admin_Writepanels {
 					echo '</p>';
 					echo '<p class="dlm-restricted-path__recommended_allowed_path" >'
 					     . esc_html__( 'Recommended path:', 'download-monitor' ) .
-					     ' <code>' . esc_html( $common_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-add-recommended-path" data-path="' . esc_attr( $common_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
+					     ' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-add-recommended-path" data-path="' . esc_attr( $new_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
 					     esc_html__( 'Add path', 'download-monitor' ) . '</button></p>';
 					echo '<p class="dlm-restricted-path__description">';
-					echo esc_html__( 'This will add the download path to the "Other downloads path" setting. ', 'download-monitor' );
-					if ( $allowed_path && '' !== $allowed_path ) {
-						echo sprintf( esc_html__( 'Keep in mind that it will override the previous value entered there: %s.', 'download-monitor' ), '<code>' . esc_html( $allowed_path ) . '</code>' );
-					}
+					echo esc_html__( 'This will add the download path to the "Other downloads path" list. ', 'download-monitor' );
 					echo '</p>';
 					echo '</div>';
 				}

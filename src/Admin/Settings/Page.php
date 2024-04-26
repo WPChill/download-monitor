@@ -214,17 +214,17 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 									endforeach; ?>
 								</ul>
 							</div><!--.wp-clearfix-->
-							<?php if( ! isset( $settings[ $tab ]['sections'][ $active_section ]['show_title'] ) || $settings[ $tab ]['sections'][ $active_section ]['show_title'] ) : ?>
 							<h2>
 								<?php
 								echo ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ? esc_html( $settings[ $tab ]['sections'][ $active_section ]['title'] ) : '';
 								?>
 							</h2>
-							<?php endif; ?>
 							<?php
 						}
+
+						$class =  isset( $settings[ $tab ]['sections'][ $active_section ]['contend_class'] ) ? $settings[ $tab ]['sections'][ $active_section ]['contend_class'] : 'dlm-content-tab';
 						// Begin tab content
-						echo '<div class="dlm-content-tab">';
+						echo '<div class="' . esc_attr( $class ) . '">';
 						if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 							// output correct settings_fields
 							// We change the output location so that it won't interfere with our upsells
@@ -287,29 +287,33 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 						do_action( 'dlm_tab_section_content_' . $active_section, $settings );
 
 						echo '</div>';
-						// Check if we need to display the upsells on the right or full-width
-						$has_content = ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] );
-						echo '<div class="wpchill-upsells-wrapper ' . ( $has_content ? 'wpchill-right-upsells' : '' ) . '">';
 
-						/**
-						 * Hook to add content to the right side of tab. Used for upsells
-						 *
-						 * @param  array  $settings  The settings array
-						 *
-						 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
-						 */
-						do_action( 'dlm_tab_upsell_content_' . $tab, $settings );
+						// Check if we should display the upsells.
+						if( ! isset( $settings[ $tab ]['sections'][ $active_section ]['show_upsells'] ) || $settings[ $tab ]['sections'][ $active_section ]['show_upsells'] ){
+							// Check if we need to display the upsells on the right or full-width
+							$has_content = ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] );
+							echo '<div class="wpchill-upsells-wrapper ' . ( $has_content ? 'wpchill-right-upsells' : '' ) . '">';
 
-						/**
-						 * Hook to add content to the right side of the tab section. Used for upsells
-						 *
-						 * @param  array  $settings  The settings array
-						 *
-						 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
-						 */
-						do_action( 'dlm_tab_upsell_section_content_' . $active_section, $settings );
+							/**
+							 * Hook to add content to the right side of tab. Used for upsells
+							 *
+							 * @param  array  $settings  The settings array
+							 *
+							 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
+							 */
+							do_action( 'dlm_tab_upsell_content_' . $tab, $settings );
 
-						echo '</div>';
+							/**
+							 * Hook to add content to the right side of the tab section. Used for upsells
+							 *
+							 * @param  array  $settings  The settings array
+							 *
+							 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
+							 */
+							do_action( 'dlm_tab_upsell_section_content_' . $active_section, $settings );
+
+							echo '</div>';
+						}
 					}
 					?>
 					<div

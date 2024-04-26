@@ -12,6 +12,8 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class DLM_Other_Downloads_Table extends WP_List_Table {
 	/**
 	 * Initialize the webhook table list.
+     * 
+	 * @since 5.0.0
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -25,13 +27,17 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 
 	/**
 	 * No items found text.
+     * 
+	 * @since 5.0.0
 	 */
 	public function no_items() {
-		esc_html_e( 'No approved directory URLs found.', 'woocommerce' );
+		esc_html_e( 'No approved directory URLs found.', 'download-monitor' );
 	}
 
 	/**
 	 * Displays the list of views available on this table.
+     * 
+	 * @since 5.0.0
 	 */
 	public function render_views() {
 
@@ -41,7 +47,7 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$selected_view = isset( $_REQUEST['view'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['view'] ) ) : 'all';
 
-		$all_url   = esc_url( add_query_arg( 'view', 'all', $this->get_base_url() ) );
+		$all_url   = esc_url( add_query_arg( 'view', 'all', DLM_Downloads_Path_Helper::get_base_url() ) );
 		$all_class = 'all' === $selected_view ? 'class="current"' : '';
 		$all_text  = sprintf(
 			/* translators: %s is the count of approved directory list entries. */
@@ -50,12 +56,12 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 				'All <span class="count">(%s)</span>',
 				$all_count,
 				'Approved product download directory views',
-				'woocommerce'
+				'download-monitor'
 			),
 			$all_count
 		);
 
-		$enabled_url   = esc_url( add_query_arg( 'view', 'enabled', $this->get_base_url() ) );
+		$enabled_url   = esc_url( add_query_arg( 'view', 'enabled', DLM_Downloads_Path_Helper::get_base_url() ) );
 		$enabled_class = 'enabled' === $selected_view ? 'class="current"' : '';
 		$enabled_text  = sprintf(
 			/* translators: %s is the count of enabled approved directory list entries. */
@@ -64,12 +70,12 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 				'Enabled <span class="count">(%s)</span>',
 				$enabled_count,
 				'Approved product download directory views',
-				'woocommerce'
+				'download-monitor'
 			),
 			$enabled_count
 		);
 
-		$disabled_url   = esc_url( add_query_arg( 'view', 'disabled', $this->get_base_url() ) );
+		$disabled_url   = esc_url( add_query_arg( 'view', 'disabled', DLM_Downloads_Path_Helper::get_base_url() ) );
 		$disabled_class = 'disabled' === $selected_view ? 'class="current"' : '';
 		$disabled_text  = sprintf(
 			/* translators: %s is the count of disabled directory list entries. */
@@ -78,7 +84,7 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 				'Disabled <span class="count">(%s)</span>',
 				$disabled_count,
 				'Approved product download directory views',
-				'woocommerce'
+				'download-monitor'
 			),
 			$disabled_count
 		);
@@ -102,6 +108,8 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 
 	/**
 	 * Get list columns.
+     * 
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
@@ -109,8 +117,8 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 
 		return array(
 			'cb'    => '<input type="checkbox" />',
-			'path_val' => __( 'URL', 'woocommerce' ),
-			'enabled' => __( 'Enabled','woocommerce' ),
+			'path_val' => __( 'URL', 'download-monitor' ),
+			'enabled' => __( 'Enabled','download-monitor' ),
 		);
 	}
 
@@ -118,6 +126,8 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 	 * Checklist column, used for selecting items for processing by a bulk action.
 	 *
 	 * @param StoredUrl $item The approved directory information for the current row.
+     * 
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -130,6 +140,8 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 	 * URL column.
 	 *
 	 * @param StoredUrl $item The approved directory information for the current row.
+     * 
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -141,11 +153,11 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 
 		$edit_url            = esc_url( $this->get_action_url( 'edit', $id ) );
 		$enable_disable_url  = esc_url( $enabled ? $this->get_action_url( 'disable', $id ) : $this->get_action_url( 'enable', $id ) );
-		$enable_disable_text = esc_html( $enabled ? __( 'Disable', 'woocommerce' ) : __( 'Enable', 'woocommerce' ) );
+		$enable_disable_text = esc_html( $enabled ? __( 'Disable', 'download-monitor' ) : __( 'Enable', 'download-monitor' ) );
 		$delete_url          = esc_url( $this->get_action_url( 'delete', $id ) );
-		$edit_link           = "<a href='{$edit_url}'>" . esc_html_x( 'Edit', 'Product downloads list', 'woocommerce' ) . '</a>';
+		$edit_link           = "<a href='{$edit_url}'>" . esc_html__( 'Edit', 'download-monitor' ) . '</a>';
 		$enable_disable_link = "<a href='{$enable_disable_url}'>{$enable_disable_text}</a>";
-		$delete_link         = "<a href='{$delete_url}' class='submitdelete wc-confirm-delete'>" . esc_html_x( 'Delete permanently', 'Product downloads list', 'woocommerce' ) . '</a>';
+		$delete_link         = "<a href='{$delete_url}' class='submitdelete wc-confirm-delete'>" . esc_html__( 'Delete permanently', 'download-monitor' ) . '</a>';
 		$url_link            = "<a href='{$edit_url}'>{$url}</a>";
 
 		return "
@@ -163,26 +175,30 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 	 * Rule-is-enabled column.
 	 *
 	 * @param StoredUrl $item The approved directory information for the current row.
+     * 
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
 	public function column_enabled( $item ): string {
         
 		return 'enabled' == $item['enabled']
-			? '<mark class="yes" title="' . esc_html__( 'Enabled', 'woocommerce' ) . '"><span class="dashicons dashicons-yes"></span></mark>'
-			: '<mark class="no" title="' . esc_html__( 'Disabled', 'woocommerce' ) . '">&ndash;</mark>';
+			? '<mark class="yes" title="' . esc_html__( 'Enabled', 'download-monitor' ) . '"><span class="dashicons dashicons-yes"></span></mark>'
+			: '<mark class="no" title="' . esc_html__( 'Disabled', 'download-monitor' ) . '">&ndash;</mark>';
 	}
 
 	/**
 	 * Get bulk actions.
+     * 
+	 * @since 5.0.0
 	 *
 	 * @return array
 	 */
 	protected function get_bulk_actions() {
 		return array(
-			'enable'  => __( 'Enable rule', 'woocommerce' ),
-			'disable' => __( 'Disable rule', 'woocommerce' ),
-			'delete'  => __( 'Delete permanently', 'woocommerce' ),
+			'enable'  => __( 'Enable rule', 'download-monitor' ),
+			'disable' => __( 'Disable rule', 'download-monitor' ),
+			'delete'  => __( 'Delete permanently', 'download-monitor' ),
 		);
 	}
 
@@ -192,6 +208,8 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 	 * @param string $action       The action to be created.
 	 * @param int    $id           The ID that is the subject of the action.
 	 * @param string $nonce_action Action used to add a nonce to the URL.
+     * 
+	 * @since 5.0.0
 	 *
 	 * @return string
 	 */
@@ -202,52 +220,39 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 				'action' => $action,
 				'url'    => $id,
 			),
-			$this->get_base_url()
-		);
-	}
-
-	/**
-	 * Supplies the 'base' admin URL for this admin table.
-	 *
-	 * @return string
-	 */
-	public function get_base_url(): string {
-		return add_query_arg(
-			array(
-				'post_type'    => 'dlm_download',
-                'page' => 'download-monitor-settings',
-				'tab'     => 'advanced',
-				'section' => 'download_path',
-			),
-			admin_url( 'edit.php' )
+            DLM_Downloads_Path_Helper::get_base_url()
 		);
 	}
 
 	/**
 	 * Generate the table navigation above or below the table.
 	 * Included to remove extra nonce input.
+     * 
+	 * @since 5.0.0
 	 *
 	 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
 	 */
 	protected function display_tablenav( $which ) {
 
 		echo '<div class="tablenav ' . esc_attr( $which ) . '">';
-
+        echo '<div class="alignleft actions bulkactions">';
 		if ( $this->has_items() ) {
-			echo '<div class="alignleft actions bulkactions">';
+
 			$this->bulk_actions( $which );
 
-			if ( true ) {
-				echo '<a href="' . esc_url( $this->get_action_url( 'enable-all', 0 ) ) . '" class="wp-core-ui button">' . esc_html_x( 'Enable All', 'Approved product download directories', 'woocommerce' ) . '</a> ';
+			if ( $this->get_count_disabled() > 0 ) {
+				echo '<a href="' . esc_url( $this->get_action_url( 'enable-all', 0 ) ) . '" class="wp-core-ui button">' . esc_html__( 'Enable All', 'download-monitor' ) . '</a> ';
 			}
 
-			if ( true ) {
-				echo '<a href="' . esc_url( $this->get_action_url( 'disable-all', 0 ) ) . '" class="wp-core-ui button">' . esc_html_x( 'Disable All', 'Approved product download directories', 'woocommerce' ) . '</a>';
+			if ( $this->get_count_enabled() > 0 ) {
+				echo '<a href="' . esc_url( $this->get_action_url( 'disable-all', 0 ) ) . '" class="wp-core-ui button">' . esc_html__( 'Disable All', 'download-monitor' ) . '</a> ';
 			}
 
-			echo '</div>';
 		}
 
+        echo '<a href="'. esc_url( $this->get_action_url( 'edit', 0 ) ) .'" class="wp-core-ui button">' . esc_html__( 'Add New', 'download-monitor' ) . '</a>';
+
+        echo '</div>';
 		$this->pagination( $which );
 		echo '<br class="clear" />';
 		echo '</div>';
@@ -255,6 +260,8 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 
 	/**
 	 * Prepare table list items.
+     * 
+	 * @since 5.0.0
 	 */
 	public function prepare_items() {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -276,13 +283,9 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 				break;
 		}
 
-        $paths = get_option( 'dlm_downloads_path' );
-
-        if( ! is_array( $paths ) ){
-            $paths = array( array( 'id' => 1, 'path_val' => $paths, 'enabled' => true ) );
-            update_option( 'dlm_downloads_path', $paths );
-        }
-
+        $paths = DLM_Downloads_Path_Helper::get_all_paths();
+        
+        $res = array();
         if( 'all' != $enabled ){
             foreach( $paths as $path ){
                 if( 'enabled' == $enabled && $path['enabled'] ){
@@ -316,13 +319,15 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 * Returns the count of the enabled paths.
+     * 
+	 * @since 5.0.0
+	 */
     private function get_count_enabled(){
-        $paths = get_option( 'dlm_downloads_path' );
+        $paths = DLM_Downloads_Path_Helper::get_all_paths();
         $res   = array();
-        if( ! is_array( $paths ) ){
-            $paths = array( array( 'id' => 1, 'path_val' => $paths, 'enabled' => true ) );
-            update_option( 'dlm_downloads_path', $paths );
-        }
+
         foreach( $paths as $path ){
             if( $path['enabled'] ){
                 $res[] = $path;
@@ -332,14 +337,15 @@ class DLM_Other_Downloads_Table extends WP_List_Table {
         return count( $res );
     }
 
-    
+	/**
+	 * Returns the count of the disabled paths.
+     * 
+	 * @since 5.0.0
+	 */
     private function get_count_disabled(){
-        $paths = get_option( 'dlm_downloads_path' );
+        $paths = DLM_Downloads_Path_Helper::get_all_paths();
         $res   = array();
-        if( ! is_array( $paths ) ){
-            $paths = array( array( 'id' => 1, 'path_val' => $paths, 'enabled' => true ) );
-            update_option( 'dlm_downloads_path', $paths );
-        }
+
         foreach( $paths as $path ){
             if( ! $path['enabled'] ){
                 $res[] = $path;

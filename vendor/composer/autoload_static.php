@@ -79,6 +79,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Download_REST' => __DIR__ . '/../..' . '/src/RestAPI/class-dlm-download-rest.php',
         'DLM_Download_Repository' => __DIR__ . '/../..' . '/src/Download/DownloadRepository.php',
         'DLM_Download_Version' => __DIR__ . '/../..' . '/src/Version/Version.php',
+        'DLM_Downloads_Path_Helper' => __DIR__ . '/../..' . '/src/Admin/Download Paths/downloads-path-helper.php',
         'DLM_Empty_Table' => __DIR__ . '/../..' . '/src/Admin/class-dlm-empty-table.php',
         'DLM_Extensions_Handler' => __DIR__ . '/../..' . '/src/Admin/ExtensionsHandler.php',
         'DLM_File_Manager' => __DIR__ . '/../..' . '/src/FileManager.php',
