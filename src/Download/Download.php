@@ -440,18 +440,8 @@ class DLM_Download {
 				$value = $this->id;
 				break;
 		}
-		// If WPML is active we should return the original home_url to avoid 404 pages.
-		//@todo: If Downloads will be made translatable in the future then this should be removed.
-		// First we need to make sure they are not translated.
-		$wpml_options      = get_option( 'icl_sitepress_settings', false );
-		$is_dlm_translated = false;
-		if ( $wpml_options && isset( $wpml_options['custom_posts_sync_option'] ) && in_array( 'dlm_download', $wpml_options['custom_posts_sync_option'] ) ) {
-			$is_dlm_translated = true;
-		}
-
-		if ( $is_dlm_translated ) {
-			add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
-		}
+		// Fix for WPML home url problem
+		add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
 
 		if ( get_option( 'permalink_structure' ) ) {
 			// Fix for translation plugins that modify the home_url
@@ -461,11 +451,7 @@ class DLM_Download {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
 		}
 
-		// Now we can remove the filter as the link is generated.
-		//@todo: If Downloads will be made translatable in the future then this should be removed.
-		if ( $is_dlm_translated ) {
-			remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
-		}
+		remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
 
 		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts.
 		if ( $timestamp && apply_filters( 'dlm_timestamp_link', true ) ) {
