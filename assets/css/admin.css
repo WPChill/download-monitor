@@ -75,7 +75,7 @@
 .post-type-dlm_download .wp-list-table tbody .type-dlm_download th .dlm_file_path_local,
 .post-type-dlm_download .wp-list-table tbody .type-dlm_download td .dlm_file_path_local {
   display: inline-block;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 2.15384615;
   min-height: 30px;
   margin: 0;
@@ -3475,4 +3475,10 @@ div#dlm-export-settings-upsell span {
 }
 .xmas-upsell-columns .wpchill-xmas-upsell * {
   z-index: 2;
+}
+.wpchill-tooltip-button.copy-dlm-shortcode {
+  line-height: 13px;
+}
+.wpchill-tooltip-button.copy-dlm-shortcode .dashicons {
+  font-size: 17px;
 }
