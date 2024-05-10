@@ -234,9 +234,9 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 							echo '<table class="form-table">';
 
 							foreach ( $settings[ $tab ]['sections'][ $active_section ]['fields'] as $option ) {
-								$cs = 1;
+								$cs      = 1;
 								$tooltip = '';
-								if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
+								if ( ! empty( $option['desc'] ) ) {
 									$tooltip = '
 									<div class="wpchill-tooltip"><span>[?]</span>
 										<div class="wpchill-tooltip-content">' . wp_kses_post( $option['desc'] ) . '</div>
@@ -250,7 +250,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 								$tr_class = 'dlm_settings dlm_' . $option['type'] . '_setting';
 								echo '<tr valign="top" data-setting="' . ( isset( $option['name'] ) ? esc_attr( $option['name'] ) : '' ) . '" class="' . esc_attr( $tr_class ) . '">';
 								if ( isset( $option['label'] ) && '' !== $option['label'] ) {
-									echo '<th scope="row">' . $tooltip . '<label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
+									echo '<th scope="row">' . wp_kses_post( $tooltip ) . '<label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
 								} else {
 									$cs ++;
 								}

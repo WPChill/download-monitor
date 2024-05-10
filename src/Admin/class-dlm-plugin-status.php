@@ -347,7 +347,7 @@ class DLM_Plugin_Status {
 						// render field
 						$field->render();
 
-						if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
+						if ( ! empty( $option['desc'] ) ) {
 							echo ' <p class="dlm-description description">' . wp_kses_post( $option['desc'] ) . '</p>';
 						}
 					}
