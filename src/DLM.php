@@ -148,13 +148,15 @@ class WP_DLM {
 			// Load the templates action class
 			$plugin_status = DLM_Plugin_Status::get_instance();
 
-			// Set Reports. We set them here in order to also create the REST Api calls.
-			$debugger = DLM_Debug::get_instance();
+			global $pagenow;
+			// Single Download edit screen debugger.
+			if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
+				$debugger = DLM_Debug::get_instance();
+			}
 
 			// Load the API Key Generation class
 			$key_generation = DLM_Key_Generation::get_instance();
 
-			
 			// Load the other downloads path option table
 			DLM_Other_Downloads_Path::get_instance();
 		}
