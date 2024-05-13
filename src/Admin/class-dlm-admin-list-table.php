@@ -599,8 +599,8 @@ class DLM_Admin_List_Table extends WP_List_Table {
 		$posts_columns['version']         = __( 'Version', 'download-monitor' );
 		$posts_columns['shortcode']       = __( 'Shortcode', 'download-monitor' );
 		$posts_columns['download_link']   = __( 'Download link', 'download-monitor' );
-		$posts_columns['file_location']   = __( 'File Location', 'download-monitor' );
-		$posts_columns['file_type']       = __( 'File Type', 'download-monitor' );
+		$posts_columns['file_location']    = __( 'File Location', 'download-monitor' );
+		$posts_columns['file_type']        = __( 'File Type', 'download-monitor' );
 		$posts_columns['download_tag']    = __( 'Tags', 'download-monitor' );
 		$posts_columns['download_count']  = __( 'Download count', 'download-monitor' );
 		$posts_columns['featured']        = __( 'Featured', 'download-monitor' );
@@ -1048,25 +1048,26 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				$path  = $file->get_url();
 				$loc   = __( 'Unknown', 'download_monitor' );
 				$class = 'dlm_file_path_unknown';
-				if ( NULL != $path ) {
-					$file_manager = new DLM_File_Manager();
+
+				if ( null != $path ) {
+					$file_manager                   = new DLM_File_Manager();
 					list( $file_path, $remote_file ) = $file_manager->parse_file_path( $path );
 					if ( $remote_file ) {
 						$loc   = __( 'Remote', 'download_monitor' );
 						$class = 'dlm_file_path_remote';
-					}else{
+					} else {
 						$loc   = __( 'Local', 'download_monitor' );
 						$class = 'dlm_file_path_local';
 					}
 				}
 
-				echo '<span class="'. esc_attr( $class ) .'">' . esc_html( $loc ) . '</span>';
+				echo '<span class="' . esc_attr( $class ) . '">' . esc_html( $loc ) . '</span>';
 				break;
 			case 'file_type':
-				$file  = $item->get_version();
-				$type  = $file->get_filetype();
+				$file = $item->get_version();
+				$type = $file->get_filetype();
 
-				echo '<span class="dlm_file_type_info">' . strtoupper( esc_html( $type ) ) . '</span>';
+				echo '<span class="dlm_file_type_info "><span class="file filetype-icon filetype-' . esc_attr( sanitize_title( $type ) ) . '"></span>' . strtoupper( esc_html( $type ) ) . '</span>';
 				break;
 		}
 	}
