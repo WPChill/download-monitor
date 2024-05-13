@@ -44,10 +44,8 @@ do_action( 'dlm_template_content_before_link', $dlm_download, $attributes, $temp
 <a <?php
 echo
 DLM_Utils::generate_attributes( $attributes['link_attributes'] ) // phpcs:ignore WordPress.Security.EscapeOutput ?> >
-	<p>
-		<?php
-		printf( esc_html__( 'Download &ldquo;%s&rdquo;', 'download-monitor' ), wp_kses_post( $dlm_download->get_title() ) ); ?>
-	</p>
+	<?php
+	printf( esc_html__( 'Download &ldquo;%s&rdquo;', 'download-monitor' ), wp_kses_post( $dlm_download->get_title() ) ); ?>
 	<small><?php
 		echo esc_html( $dlm_download->get_version()->get_filename() ); ?>
 		&ndash; <?php
