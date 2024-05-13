@@ -230,48 +230,6 @@ class DLM_Admin_Scripts {
 				'settings_url'      => DLM_Admin_Settings::get_url(),
 			) );
 
-			// Script used to install plugins
-			wp_enqueue_script( 'dlm_install_plugins', plugins_url( '/assets/js/install-plugins' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ), array( 'jquery', 'updates' ), DLM_VERSION, true );
-			wp_localize_script(
-				'dlm_install_plugins',
-				'dlm_install_plugins_vars',
-				array(
-					'install_nonce'     => wp_create_nonce( 'dlm-install-plugin' ),
-					'install_plugin'    => esc_html__( 'Installing plugin...', 'download-monitor' ),
-					'activate_plugin'   => esc_html__( 'Activating plugin...', 'download-monitor' ),
-					'activate_license'  => esc_html__( 'Activating license...', 'download-monitor' ),
-					'no_install'        => esc_html__( 'Plugin could not be installed.', 'download-monitor' ),
-					'no_activated'      => esc_html__( 'Something went wrong, plugin could not be activated.', 'download-monitor' ),
-					'activated_plugin'  => esc_html__( 'Plugin activated successfully.', 'download-monitor' ),
-					'activated_license' => esc_html__( 'Plugin license activated successfully.', 'download-monitor' ),
-				)
-			);
-
-			wp_enqueue_style( 'common');
-
-		}
-		
-		// This handles network wide settings js.
-		if ( isset($_GET['page']) && 'download-monitor-settings' === $_GET['page'] ) {
-
-			// Enqueue Settings JS
-			wp_enqueue_script(
-				'dlm_settings',
-				plugins_url( '/assets/js/settings' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery' ),
-				DLM_VERSION
-			);
-
-			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array(
-				'img_path'          => download_monitor()->get_plugin_url() . '/assets/images/',
-				'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ),
-				'settings_url'      => DLM_Admin_Settings::get_url(),
-			) );
-		}
-
-		// This should handle all extensions activation and deactivation single-handed
-		if ( isset($_GET['page']) && 'dlm-installed-extensions' === $_GET['page'] ) {
-
 			// Enqueue Extesions JS
 			wp_enqueue_script(
 				'dlm_extensions',
@@ -288,6 +246,44 @@ class DLM_Admin_Scripts {
 				'missing_email'          => __( 'Please enter your email address.', 'download-monitor' ),
 				'reaching_server'        => __( 'Please wait, reaching server...', 'download-monitor' ),
 				'missing_license'        => __( 'Please enter your license key.', 'download-monitor' ),
+			) );
+
+			// Script used to install plugins
+			wp_enqueue_script( 'dlm_install_plugins', plugins_url( '/assets/js/install-plugins' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ), array( 'jquery', 'updates' ), DLM_VERSION, true );
+			wp_localize_script(
+				'dlm_install_plugins',
+				'dlm_install_plugins_vars',
+				array(
+					'install_nonce'     => wp_create_nonce( 'dlm-install-plugin' ),
+					'install_plugin'    => esc_html__( 'Installing plugin...', 'download-monitor' ),
+					'activate_plugin'   => esc_html__( 'Activating plugin...', 'download-monitor' ),
+					'activate_license'  => esc_html__( 'Activating license...', 'download-monitor' ),
+					'no_install'        => esc_html__( 'Plugin could not be installed.', 'download-monitor' ),
+					'no_activated'      => esc_html__( 'Something went wrong, plugin could not be activated.', 'download-monitor' ),
+					'activated_plugin'  => esc_html__( 'Plugin activated successfully.', 'download-monitor' ),
+					'activated_license' => esc_html__( 'Plugin license activated successfully.', 'download-monitor' ),
+					'active'            => esc_html__( 'Active', 'download-monitor' ),
+				)
+			);
+
+			wp_enqueue_style( 'common');
+
+		}
+
+		// This handles network wide settings js.
+		if ( isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'] ) {
+			// Enqueue Settings JS
+			wp_enqueue_script(
+				'dlm_settings',
+				plugins_url( '/assets/js/settings' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				array( 'jquery' ),
+				DLM_VERSION
+			);
+
+			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array(
+				'img_path'          => download_monitor()->get_plugin_url() . '/assets/images/',
+				'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ),
+				'settings_url'      => DLM_Admin_Settings::get_url(),
 			) );
 		}
 
