@@ -575,8 +575,8 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				$disabled   = true;
 			}
 
-			if( ! isset( $settings['general']['sections']['misc']['title'] ) ){
-				$settings['general']['sections']['misc']['title'] =  __( 'Miscellaneous', 'download-monitor' );
+			if ( ! isset( $settings['general']['sections']['misc']['title'] ) ) {
+				$settings['general']['sections']['misc']['title']    = __( 'Miscellaneous', 'download-monitor' );
 			}
 
 			$settings['general']['sections']['misc']['fields'][] = array(

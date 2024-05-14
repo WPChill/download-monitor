@@ -84,6 +84,7 @@ return array(
     'DLM_LU_Download_Upgrader' => $baseDir . '/src/LegacyUpgrader/DownloadUpgrader.php',
     'DLM_LU_Message' => $baseDir . '/src/LegacyUpgrader/Message.php',
     'DLM_LU_Page' => $baseDir . '/src/LegacyUpgrader/Page.php',
+    'DLM_License' => $baseDir . '/src/Admin/class-dlm-license.php',
     'DLM_Log_Filters' => $baseDir . '/src/Logs/LogFilters.php',
     'DLM_Log_Item' => $baseDir . '/src/Logs/LogItem.php',
     'DLM_Log_Item_Repository' => $baseDir . '/src/Logs/LogItemRepository.php',

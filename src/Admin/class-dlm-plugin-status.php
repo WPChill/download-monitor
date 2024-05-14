@@ -57,7 +57,6 @@ class DLM_Plugin_Status {
 		add_action( 'update_wpmu_options', array( $this, 'save_network_downloads_settings' ) );
 		//add_action( 'dlm_after_install_setup', array( $this, 'download_path_backwards_compat' ) );
 		add_filter( 'dlm_downloadable_file_version_buttons', array( $this, 'browse_files_button' ) );
-		
 	}
 
 	/**

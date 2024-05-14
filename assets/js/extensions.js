@@ -2,8 +2,10 @@ jQuery(function ($) {
 
 	$.each($('.extension_license a'), function (k, v) {
 		$(v).click(function () {
-			var wrap = $(v).closest('.extension_license');
+			var wrap     = $(v).closest('.extension_license'),
+				status   = wrap.next('.license-status');
 			const button = $(this);
+			$('body').addClass('loading');
 			// Stop pointer events after click.
 			button.css('pointer-events', 'none');
 
@@ -22,17 +24,18 @@ jQuery(function ($) {
 				extension_action: ex_ac,
 				action_trigger  : '-ext-license',
 			}, function (response) {
+				$('body').removeClass('loading');
 				if (response.result == 'failed') {
 					$(wrap).prepend($("<div>").addClass("dlm_license_error").html(response.message));
 				} else {
 					if ('activate' == ex_ac) {
-						$(wrap).find('.license-status').addClass('active').html('ACTIVE');
+						status.addClass('active').html('ACTIVE');
 						$(wrap).find('.button').html('Deactivate');
 						$(wrap).find('#status').val('active');
 						$(wrap).find('#key').attr('disabled', true);
 						$(wrap).find('#email').attr('disabled', true);
 					} else {
-						$(wrap).find('.license-status').removeClass('active').html('INACTIVE');
+						status.removeClass('active').html('INACTIVE');
 						$(wrap).find('.button').html('Activate');
 						$(wrap).find('#status').val('inactive');
 						$(wrap).find('#key').attr('disabled', false);
@@ -69,7 +72,7 @@ jQuery(function ($) {
 			return;
 		}
 
-		if ( '' === emailAddress ) {
+		if ('' === emailAddress) {
 			// Redo pointer events.
 			target.css('pointer-events', 'auto');
 			parent.find('.dlm-master-license-response').remove();

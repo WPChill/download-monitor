@@ -159,6 +159,9 @@ class WP_DLM {
 
 			// Load the other downloads path option table
 			DLM_Other_Downloads_Path::get_instance();
+
+			// Load the license class
+			$license = DLM_License::get_instance();
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.

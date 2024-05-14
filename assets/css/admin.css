@@ -890,13 +890,13 @@ table.wp-list-table .column-thumb img {
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox {
   /*background: #ececec;*/
   border: 1px solid #cecece;
-  margin: 10px 0!important;
+  margin: 10px 0 !important;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 #download-monitor-file .dlm-metaboxes-wrapper .dlm-metabox h3 {
-  margin: 0!important;
-  padding: 10px 10px 8px 10px!important;
-  font-size: 1em!important;
+  margin: 0 !important;
+  padding: 10px 10px 8px 10px !important;
+  font-size: 1em !important;
   overflow: hidden;
   zoom: 1;
   cursor: pointer;
@@ -1394,8 +1394,8 @@ table.wp-list-table .column-thumb img {
   margin: 40px 20px 0 0;
   position: relative;
   /**
-      Reports header and actions
-       */
+	  Reports header and actions
+	   */
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-reports-spinner {
   position: absolute;
@@ -2379,127 +2379,6 @@ table.wp-list-table .column-thumb img {
   display: inline-block;
   border: none;
   cursor: pointer;
-}
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license {
-  margin-top: 15px;
-}
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license > div {
-  padding: 15px;
-  background: #fff;
-  /* margin-left: -5px;*/
-  max-width: calc(100% - 5px);
-}
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license label {
-  font-weight: bold;
-}
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license input:required {
-  border-color: #800000;
-}
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm_license_error {
-  background-color: #ffffe0;
-}
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm-master-license-email-wrapper,
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm-master-license-license-wrapper {
-  display: inline-block;
-  position: relative;
-  text-align: center;
-}
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm-master-license-email-wrapper label,
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .dlm-master-license .dlm-master-license-license-wrapper label {
-  position: absolute;
-  top: -16px;
-  font-size: 12px;
-  font-style: italic;
-  font-weight: 400;
-  left: 5px;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension {
-  background-color: #FFF;
-  width: calc(20% - 15px);
-  margin: 0 15px 15px 0;
-  display: inline-block;
-  vertical-align: top;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension p {
-  margin: 0;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension a {
-  color: #444;
-  text-decoration: none;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .dlm_extension_img_wrapper {
-  width: 100%;
-  background: #419CCB;
-  text-align: center;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .dlm_extension_img_wrapper img {
-  max-width: 100%;
-  margin: 0 auto;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension h3 {
-  min-height: 40px;
-  padding: 0 20px;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension div.extension-desc {
-  min-height: 120px;
-  padding: 0 20px;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer {
-  padding: 15px 15px 15px 0;
-  text-align: right;
-  background-color: #FAFAFA;
-  border-top: 1px solid #dcdcde;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer .loop_price {
-  font-weight: bold;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer .loop_price.sale {
-  color: #008000;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer .loop_price.sale strike {
-  color: #444;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .product_footer .button .dashicons {
-  vertical-align: middle;
-  font-size: 16px;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license {
-  padding: 0 20px 20px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license div.dlm_license_error {
-  padding: 0.5em;
-  margin-bottom: 15px;
-  background: lightYellow;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license div.dlm_license_error a {
-  color: blue;
-  text-decoration: underline;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license p.license-status {
-  padding: 5px 0;
-  margin: 5px 0;
-  background: red;
-  font-weight: bold;
-  font-size: 1.2em;
-  color: #fff;
-  text-align: center;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license p.license-status.active {
-  background: #008000;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license input {
-  width: 100%;
-  margin: 7px 0;
-  padding: 7px;
-}
-.dlm_extensions_wrap .dlm_extensions .dlm_extension .extension_license a.button-primary {
-  width: 100%;
-  margin: 5px auto 0;
-  color: #fff;
-  text-align: center;
 }
 /* Fix Datepicker's UI bug */
 #ui-datepicker-div {
@@ -3608,4 +3487,144 @@ div#dlm-export-settings-upsell span {
   border-radius: 3px;
   /*color: #fff;*/
   background-color: rgba(202, 138, 4, 0.2);
+}
+.dlm-master-license .dlm-master-license__wrapper {
+  background: #fff;
+  padding: 30px 15px;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  align-items: center;
+}
+.dlm-master-license .dlm-master-license__inputs {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  align-items: center;
+  gap: 5px;
+}
+.dlm-master-license .dlm-master-license__action_buttons {
+  text-align: center;
+}
+.dlm-master-license label {
+  font-weight: bold;
+}
+.dlm-master-license input:required {
+  border-color: #800000;
+}
+.dlm-master-license .dlm_license_error {
+  background-color: #ffffe0;
+}
+.dlm-master-license .dlm-master-license-email-wrapper,
+.dlm-master-license .dlm-master-license-license-wrapper {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+.dlm-master-license .dlm-master-license-email-wrapper label,
+.dlm-master-license .dlm-master-license-license-wrapper label {
+  position: absolute;
+  top: -16px;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  left: 5px;
+}
+.dlm-master-license p.error-display {
+  margin: 0;
+}
+.dlm_extensions .dlm_extension {
+  background-color: #FFF;
+  width: calc(100% - 20px);
+  display: grid;
+  grid-template-columns: 1fr 4.5fr 0.5fr;
+  margin: 10px 0;
+  padding: 10px;
+  align-items: center;
+}
+.dlm_extensions .dlm_extension p {
+  margin: 0;
+}
+.dlm_extensions .dlm_extension a {
+  color: #444;
+  text-decoration: none;
+}
+.dlm_extensions .dlm_extension .dlm_extension_img_wrapper {
+  width: 100%;
+  background: #419CCB;
+  text-align: center;
+}
+.dlm_extensions .dlm_extension .dlm_extension_img_wrapper img {
+  max-width: 100%;
+  margin: 0 auto;
+}
+.dlm_extensions .dlm_extension h3 {
+  min-height: 40px;
+  padding: 0 20px;
+}
+.dlm_extensions .dlm_extension div.extension-desc {
+  min-height: 120px;
+  padding: 0 20px;
+}
+.dlm_extensions .dlm_extension .product_footer {
+  padding: 15px 15px 15px 0;
+  text-align: right;
+  background-color: #FAFAFA;
+  border-top: 1px solid #dcdcde;
+}
+.dlm_extensions .dlm_extension .product_footer .loop_price {
+  font-weight: bold;
+}
+.dlm_extensions .dlm_extension .product_footer .loop_price.sale {
+  color: #008000;
+}
+.dlm_extensions .dlm_extension .product_footer .loop_price.sale strike {
+  color: #444;
+}
+.dlm_extensions .dlm_extension .product_footer .button .dashicons {
+  vertical-align: middle;
+  font-size: 16px;
+}
+.dlm_extensions .dlm_extension .extension_license {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  align-items: center;
+  gap: 5px;
+}
+.dlm_extensions .dlm_extension .extension_license div.dlm_license_error {
+  padding: 0.5em;
+  margin-bottom: 15px;
+  background: lightYellow;
+}
+.dlm_extensions .dlm_extension .extension_license div.dlm_license_error a {
+  color: blue;
+  text-decoration: underline;
+}
+.dlm_extensions .dlm_extension .extension_license input {
+  width: 100%;
+  margin: 7px 0;
+  padding: 7px;
+}
+.dlm_extensions .dlm_extension .extension_license a.button-primary {
+  width: auto;
+  display: inline-block;
+  margin: 5px auto 0;
+  color: #fff;
+  text-align: center;
+}
+.dlm_extensions .dlm_extension p.license-status {
+  padding: 5px 0;
+  margin: 5px 0;
+  background: #fef2f2;
+  font-size: 13px;
+  color: #b91c1c;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px solid #b91c1c;
+}
+.dlm_extensions .dlm_extension p.license-status.active {
+  border-color: #15803d;
+  color: #15803d;
+  background: #f0fdf4;
+}
+body.loading {
+  cursor: wait;
 }

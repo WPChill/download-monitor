@@ -101,8 +101,6 @@ class DLM_Admin_Extensions {
 		// Load our required data
 		add_action( 'admin_init', array( $this, 'load_data' ), 15 );
 
-		add_filter( 'dlm_add_edit_tabs', array( $this, 'dlm_cpt_tabs' ) );
-
 		add_filter( 'dlm_settings', array( $this, 'remove_pro_badge' ), 99 );
 
 		// Add ajax action in order to install our addons
@@ -112,25 +110,6 @@ class DLM_Admin_Extensions {
 		// Add ajax action in order to activate addon license
 		add_action( 'wp_ajax_dlm-extensions-activate-addon-license', array( $this, 'activate_addon_license' ), 30 );
 	}
-
-	/**
-	 * Add the installed extensions tab to DLM CPT
-	 *
-	 * @param $tabs
-	 *
-	 * @since 4.4.5
-	 */
-	public function dlm_cpt_tabs( $tabs ) {
-		$tabs['dlm-installed-extensions'] = array(
-			'name'     => esc_html__( 'Installed Extensions', 'download-monitor' ),
-			'url'      => admin_url( 'edit.php?post_type=dlm_download&page=dlm-installed-extensions' ),
-			'target'   => '',
-			'priority' => '20',
-		);
-
-		return $tabs;
-	}
-
 
 	/**
 	 * Loads required data and sets tabs
@@ -185,15 +164,6 @@ class DLM_Admin_Extensions {
 			'menu_slug'  => 'dlm-extensions',
 			'function'   => array( $this, 'available_extensions' ),
 			'priority'   => 50,
-		);
-
-		$links[] = array(
-			'page_title' => __( 'Download Monitor Installed Extensions', 'download-monitor' ),
-			'menu_title' => __( 'Installed Extensions', 'download-monitor' ),
-			'capability' => 'manage_options',
-			'menu_slug'  => 'dlm-installed-extensions',
-			'function'   => array( $this, 'installed_extensions_page' ),
-			'priority'   => 65,
 		);
 
 		return $links;
@@ -294,14 +264,6 @@ class DLM_Admin_Extensions {
 					$active_tab = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 				}
 
-				$master_license        = json_decode( get_option( 'dlm_master_license', json_encode( array( 'email' => '', 'license_key' => '', 'status' => 'inactive' ) ) ), true );
-				$expired_licenses      = array();
-				$expired_licenses_text = '';
-
-				if ( ! empty( $expired_licenses ) ) {
-					$expired_licenses_text .= '<a href="https://www.download-monitor.com/my-account" target="_blank">' . esc_html__( 'renew your license', 'download-monitor' ) . '</a> ';
-				}
-
 				?>
 				<h2 class="nav-tab-wrapper">
 					<?php
@@ -326,62 +288,6 @@ class DLM_Admin_Extensions {
 					<div id="wpchill-welcome">
 						<div class="features">
 							<div class="block">
-								<div class='dlm-master-license'>
-									<div style='padding-top:31px;'>
-										<div class='dlm-master-license-email-wrapper'>
-											<label for='dlm-master-license-email'><?php
-												esc_html_e( 'Email', 'download-monitor' ); ?></label>
-											<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php
-											echo esc_attr( $master_license['email'] ) ?>" size="35">
-										</div>
-										<div class="dlm-master-license-license-wrapper">
-											<label for="dlm-master-license"><?php
-												esc_html_e( 'Main license', 'download-monitor' ); ?></label>
-											<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php
-											echo esc_attr( $master_license['license_key'] ) ?>" size="35">
-										</div>
-										<input type="hidden" value="<?php
-										echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"/>
-										<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php
-										echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate'; ?>"><?php
-											( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
-										&nbsp;<a href="#" target="_blank" id="dlm-forgot-license" data-nonce="<?php
-										echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"><?php
-											esc_html_e( 'Forgot your license?', 'download-monitor' ); ?></a>
-										<p>&nbsp;</p>
-									</div>
-									<?php
-
-									if ( isset( $master_license['license_status'] ) && isset( $master_license['license_key'] ) && '' !== $master_license['license_key'] ) {
-										if ( 'expired' === $master_license['license_status'] ) {
-											// Output the expired message.
-											?>
-											<div class="dlm_license_error">
-									<span><strong><?php
-											echo sprintf( esc_html__( 'License expired, please %srenew%s.', 'download-monitor' ), '<a href="https://www.download-monitor.com/cart/?renew_license=' . esc_attr( $master_license['license_key'] ) . '&activation_email=' . esc_attr( $master_license['email'] ) . '" target="_blank">', '</a>' ); ?></strong></span><span> <?php
-													esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
-											</div>
-											<?php
-										} elseif ( 'invalid' === $master_license['license_status'] ) {
-											// Output the invalid message.
-											?>
-											<div class='dlm_license_error'>
-												&nbsp;<span class='dlm-red-text'><?php
-													esc_html_e( 'Invalid license, please check your license key.', 'download-monitor' ); ?></span>
-											</div>
-											<?php
-										}
-									} elseif ( ! empty( $expired_licenses ) ) {
-										?>
-										<div class='dlm_license_error'>
-								<span><strong><?php
-										echo sprintf( esc_html__( 'You license has expired,  %s.', 'download-monitor' ), $expired_licenses_text ); ?></strong></span><span> <?php
-												esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
-										</div>
-										<?php
-									}
-									?>
-								</div>
 								<div class='wp-clearfix'>
 									<ul class='subsubsub dlm-settings-sub-nav dlm-extension-filtering'>
 										<li class='active-section'>
@@ -475,176 +381,6 @@ class DLM_Admin_Extensions {
 	}
 
 	/**
-	 * Output installed extensions page
-	 *
-	 * @since 4.4.5
-	 */
-	public function installed_extensions_page() {
-		// Allow user to reload extensions
-		if ( isset( $_GET['dlm-force-recheck'] ) ) {
-			delete_transient( 'dlm_extension_json' );
-			delete_transient( 'dlm_extension_json_error' );
-			delete_transient( 'dlm_pro_extensions' );
-		}
-
-		?>
-		<div class="wrap dlm_extensions_wrap">
-		<div class="icon32 icon32-posts-dlm_download" id="icon-edit">
-			<br/>
-		</div>
-		<h1>
-			<?php
-			esc_html_e( 'Download Monitor Installed Extensions', 'download-monitor' ); ?>
-
-		</h1>
-		<?php
-
-		$active_tab = 'dlm-installed-extensions';
-
-		if ( isset( $_GET['page'] ) && isset( $this->tabs[ $_GET['page'] ] ) ) {
-			$active_tab = sanitize_text_field( wp_unslash( $_GET['page'] ) );
-		}
-
-		echo '<h2 class="nav-tab-wrapper">';
-
-		DLM_Admin_Helper::dlm_tab_navigation( $this->tabs, $active_tab );
-
-		echo '</h2>';
-		?>
-		<a href="<?php
-		echo esc_url( add_query_arg( 'dlm-force-recheck', '1', admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ) ); ?>"
-		   class="button dlm-reload-button">
-			<?php
-			esc_html_e( 'Reload Extensions', 'download-monitor' ); ?>
-		</a>
-		<?php
-		// Installed Extensions
-		// WPChill Welcome Class.
-		require_once plugin_dir_path( DLM_PLUGIN_FILE ) . '/includes/submodules/banner/class-wpchill-welcome.php';
-
-		if ( ! class_exists( 'WPChill_Welcome' ) ) {
-			return;
-		}
-
-		$welcome               = WPChill_Welcome::get_instance();
-		$master_license        = json_decode( get_option( 'dlm_master_license', json_encode( array( 'email' => '', 'license_key' => '', 'status' => 'inactive' ) ) ), true );
-		$expired_licenses      = array();
-		$expired_licenses_text = '';
-		foreach ( $this->installed_extensions as $extension ) {
-			$sl = get_option( $extension->product_id . '-license', false );
-
-			if ( $sl && isset( $sl['license_status'] ) && 'expired' === $sl['license_status'] ) {
-				$expired_licenses[ $sl['key'] ] = $sl['email'];
-			}
-		}
-
-		if ( ! empty( $expired_licenses ) ) {
-			$expired_licenses_text .= '<a href="https://www.download-monitor.com/my-account" target="_blank">' . esc_html__( 'renew your license', 'download-monitor' ) . '</a> ';
-		}
-
-		echo '<div id="installed-extensions" class="settings_panel">';
-
-		echo '<div class="dlm_extensions">';
-		?>
-		<div id="wpchill-welcome">
-			<div class="features">
-				<div class="block">
-					<div class="dlm-master-license">
-						<div style="padding-top:31px;">
-							<div class="dlm-master-license-email-wrapper">
-								<label for="dlm-master-license-email"><?php
-									esc_html_e( 'Email', 'download-monitor' ); ?></label>
-								<input type="email" id="dlm-master-license-email" name="dlm_master_license_email" value="<?php
-								echo esc_attr( $master_license['email'] ) ?>" size="35">
-							</div>
-							<div class="dlm-master-license-license-wrapper">
-								<label for="dlm-master-license"><?php
-									esc_html_e( 'Main license', 'download-monitor' ); ?></label>
-								<input type="text" id="dlm-master-license" name="dlm_master_license" value="<?php
-								echo esc_attr( $master_license['license_key'] ) ?>" size="35">
-							</div>
-							<input type="hidden" value="<?php
-							echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"/>
-							<button class="button button-primary" id="dlm-master-license-btn" data-action="<?php
-							echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate'; ?>"><?php
-								( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
-							&nbsp;<a href="#" target="_blank" id="dlm-forgot-license" data-nonce="<?php
-							echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"><?php
-								esc_html_e( 'Forgot your license?', 'download-monitor' ); ?></a>
-							<p>&nbsp;</p>
-						</div>
-						<?php
-
-						if ( isset( $master_license['license_status'] ) && isset( $master_license['license_key'] ) && '' !== $master_license['license_key'] ) {
-							if ( 'expired' === $master_license['license_status'] ) {
-								// Output the expired message.
-								?>
-								<div class="dlm_license_error">
-									<span><strong><?php
-											echo sprintf( esc_html__( 'License expired, please %srenew%s.', 'download-monitor' ), '<a href="https://www.download-monitor.com/cart/?renew_license=' . esc_attr( $master_license['license_key'] ) . '&activation_email=' . esc_attr( $master_license['email'] ) . '" target="_blank">', '</a>' ); ?></strong></span><span> <?php
-										esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
-								</div>
-								<?php
-							} elseif ( 'invalid' === $master_license['license_status'] ) {
-								// Output the invalid message.
-								?>
-								<div class='dlm_license_error'>
-									&nbsp;<span class='dlm-red-text'><?php
-										esc_html_e( 'Invalid license, please check your license key.', 'download-monitor' ); ?></span>
-								</div>
-								<?php
-							}
-						} elseif ( ! empty( $expired_licenses ) ) {
-							?>
-							<div class='dlm_license_error'>
-								<span><strong><?php
-										echo sprintf( esc_html__( 'You license has expired,  %s.', 'download-monitor' ), $expired_licenses_text ); ?></strong></span><span> <?php
-									esc_html_e( 'If you already renewed, please activate the license.', 'download-monitor' ) ?></span>
-							</div>
-							<?php
-						}
-						?>
-					</div>
-					<?php
-					$welcome->layout_start( 3, 'feature-list clear' ); ?>
-					<!-- Let's display the extensions.  -->
-					<?php
-					foreach ( $this->installed_extensions as $extension ) {
-						// Get the product
-						$license = $this->products[ $extension->product_id ]->get_license();
-						echo '<div class="feature-block dlm_extension">';
-						echo '<div class="feature-block__header">';
-						if ( '' != $extension->image ) {
-							echo '<img src="' . esc_attr( $extension->image ) . '">';
-						}
-						echo '<h5>' . esc_html( $extension->name ) . '</h5>';
-						echo '</div>';
-						echo '<p>' . wp_kses_post( $extension->desc ) . '</p>';
-						echo '<div class="extension_license">';
-						echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>';
-						echo '<input type="hidden" id="dlm-ajax-nonce" value="' . esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ) . '" />';
-						echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />';
-						echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />';
-						echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
-						echo '<input type="text" name="email" id="email" value="' . esc_attr( $license->get_email() ) . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
-						echo '<a href="javascript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
-						echo '</div>';
-						echo '</div>';
-					}
-					?><!-- end extensions display -->
-					<?php
-					$welcome->layout_end(); ?>
-				</div><!-- .block -->
-			</div><!-- .features -->
-		</div><!-- #wpchill-welcome -->
-		<?php
-		echo '</div>';
-		echo '</div>';
-
-		echo '</div>';
-	}
-
-	/**
 	 * Set DLM's extensions tabs
 	 *
 	 * @since 4.4.5
@@ -670,13 +406,6 @@ class DLM_Admin_Extensions {
 				'target'   => '_blank',
 				'priority' => '90',
 			),
-		);
-
-		$tabs['dlm-installed-extensions'] = array(
-			'name'     => esc_html__( 'Installed Extensions', 'download-monitor' ),
-			'url'      => admin_url( 'edit.php?post_type=dlm_download&page=dlm-installed-extensions' ),
-			'target'   => '',
-			'priority' => '20',
 		);
 
 		/**
@@ -717,6 +446,17 @@ class DLM_Admin_Extensions {
 	 */
 	public function get_available_extensions() {
 		return $this->extensions;
+	}
+
+	/**
+	 * Get extensions
+	 *
+	 * @return array
+	 *
+	 * @since 4.4.5
+	 */
+	public function get_products() {
+		return $this->products;
 	}
 
 	/**
@@ -846,19 +586,6 @@ class DLM_Admin_Extensions {
 		echo '<h5>' . esc_html( $extension->name ) . '</h5>';
 		echo '</div>';
 		echo '<p>' . wp_kses_post( $extension->desc ) . '</p>';
-
-		if ( ! empty( $this->products[ $extension->product_id ] ) ) {
-			$license = $this->products[ $extension->product_id ]->get_license();
-			echo '<div class="extension_license">';
-			echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>';
-			echo '<input type="hidden" id="dlm-ajax-nonce" value="' . esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ) . '" />';
-			echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />';
-			echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />';
-			echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
-			echo '<input type="text" name="email" id="email" value="' . esc_attr( $license->get_email() ) . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
-			echo '<a href="javascript:;" class="button button-primary" style="padding:0 16px;">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
-			echo '</div>';
-		}
 		echo $button ? '<span class="dlm-install-plugin-actions">' . wp_kses_post( $button ) . '</span>' : '';
 		echo '</div>';
 	}
