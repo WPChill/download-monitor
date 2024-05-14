@@ -305,7 +305,7 @@ class DLM_Admin_Extensions {
 									</ul>
 								</div>
 								<?php
-								$welcome->layout_start( 3, 'feature-list clear' ); ?>
+								$welcome->layout_start( 4, 'feature-list' ); ?>
 								<!-- Let's display the extensions.  -->
 								<?php
 								// Cycle through the PRO extensions

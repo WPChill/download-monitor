@@ -2367,10 +2367,6 @@ table.wp-list-table .column-thumb img {
   margin-left: -15px;
   margin-right: -15px;
 }
-.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-block {
-  margin: 10px;
-  width: calc(33% - 20px) !important;
-}
 .dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-block .dlm-install-plugin-actions .dlm-plugin-install-action {
   background-color: #2271B1;
   color: #FFFFFF;

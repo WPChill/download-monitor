@@ -44,10 +44,7 @@
 }
 
 #wpchill-welcome .features .feature-block {
-	margin-bottom: 30px;
 	background: #fff;
-	width: calc(33% - 10px) !important;
-	margin-bottom: 10px !important;
 	min-height: 200px;
 	padding: 15px;
 	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
