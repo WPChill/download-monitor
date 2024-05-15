@@ -3360,6 +3360,9 @@ div#dlm-export-settings-upsell span {
 .wpchill-tooltip-button.copy-dlm-shortcode .dashicons {
   font-size: 17px;
 }
+.file {
+  background-repeat: no-repeat;
+}
 .filetype-icon {
   padding-left: 19px;
   background-repeat: no-repeat;
