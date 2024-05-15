@@ -34,7 +34,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function insert_panel_upload() {
-
 		check_ajax_referer( 'file-upload' );
 
 		// Check user rights
@@ -56,7 +55,7 @@ class DLM_Ajax_Handler {
 			}
 		} else {
 			$data = array(
-				'error' => $attachment_id->get_error_message()
+				'error' => $attachment_id->get_error_message(),
 			);
 			wp_send_json_error( $data );
 		}
@@ -71,7 +70,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function remove_file() {
-
 		check_ajax_referer( 'remove-file', 'security' );
 
 		// Check user rights
@@ -102,7 +100,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function add_file() {
-
 		// check nonce
 		check_ajax_referer( 'add-file', 'security' );
 
@@ -154,7 +151,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function list_files() {
-
 		// Check Nonce
 		check_ajax_referer( 'list-files', 'security' );
 
@@ -170,22 +166,21 @@ class DLM_Ajax_Handler {
 		$path = sanitize_text_field( wp_unslash( $_POST['path'] ) );
 
 		// If searched path is not a child of ABSPATH die - prevents directory traversal
-		if ( false === strpos( $path , ABSPATH ) ) {
+		if ( false === strpos( $path, ABSPATH ) ) {
 			die();
 		}
 
 		// Set $deny to false, we will use this later to check if we should hide a folder.
 		// Used to deny access in multisite environments to secondary sites uploads folder.
 		$deny = false;
-		
-		// Check if it's a multisite installation & it's main site.
-		if( defined( 'MULTISITE' ) && MULTISITE && is_main_site()){
 
+		// Check if it's a multisite installation & it's main site.
+		if ( defined( 'MULTISITE' ) && MULTISITE && is_main_site() ) {
 			// Getting network-wide DLM settings.
 			$settings = get_site_option( 'dlm_network_settings', array() );
 
 			// Check if we allow cross-site browsing of wp_uploads.
-			if( ! isset( $settings['dlm_crossite_file_browse'] ) || '0' == $settings['dlm_crossite_file_browse'] ){
+			if ( ! isset( $settings['dlm_crossite_file_browse'] ) || '0' == $settings['dlm_crossite_file_browse'] ) {
 				// This is a secondary site & cross-browse NOT allowed. Deny acces to 'sites' directory.
 				$deny = 'sites';
 			}
@@ -193,7 +188,7 @@ class DLM_Ajax_Handler {
 
 		// List all files
 		$files                 = download_monitor()->service( 'file_manager' )->list_files( $path );
-		$extra_disallowed_dirs = apply_filters( 'DLM_restricted_admin_folders', array() );
+		$extra_disallowed_dirs = apply_filters( 'dlm_restricted_admin_folders', array() );
 		$base_dissalowed_dirs  = array( 'wp-admin', 'wp-includes' );
 		$disallowed_dirs       = array_merge( $base_dissalowed_dirs, $extra_disallowed_dirs );
 		foreach ( $files as $found_file ) {
@@ -202,24 +197,22 @@ class DLM_Ajax_Handler {
 			// Multi-byte-safe pathinfo
 			$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
 			foreach ( $disallowed_dirs as $disallowed_dir ) {
-				if ( strpos( trailingslashit( $file['dirname'] . "\\" . $file['basename'] ), $disallowed_dir ) ) {
+				var_dump($disallowed_dir);wp_die();
+				if ( strpos( trailingslashit( $file['dirname'] . '\\' . $file['basename'] ), $disallowed_dir ) ) {
 					$allow = false;
 					break;
 				}
 			}
-			if ( ! $allow ){
+			if ( ! $allow ) {
 				continue;
 			}
 			if ( $found_file['type'] == 'folder' ) {
-
 				// Deny access to this folder?
-				if( $deny && $file['basename'] === $deny ){
+				if ( $deny && $file['basename'] === $deny ) {
 					continue;
 				}
 				echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
-
 			} else {
-
 				$filename  = $file['basename'];
 				$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
 
@@ -231,9 +224,7 @@ class DLM_Ajax_Handler {
 				} // Ignored file types
 
 				echo '<li><a href="#" class="file filetype-' . esc_attr( sanitize_title( $extension ) ) . '" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
-
 			}
-
 		}
 
 		die();
@@ -243,7 +234,6 @@ class DLM_Ajax_Handler {
 	 * Handle notice dismissal
 	 */
 	public function dismiss_notice() {
-
 		// check notice
 		if ( ! isset( $_POST['notice'] ) || empty( $_POST['notice'] ) ) {
 			exit;
@@ -266,7 +256,6 @@ class DLM_Ajax_Handler {
 	 * Handle lazy select AJAX calls
 	 */
 	public function handle_settings_lazy_select() {
-
 		// check nonce
 		check_ajax_referer( 'dlm-settings-lazy-select-nonce', 'nonce' );
 
@@ -284,7 +273,6 @@ class DLM_Ajax_Handler {
 		// send options
 		wp_send_json( $options );
 		exit;
-
 	}
 
 
@@ -304,7 +292,7 @@ class DLM_Ajax_Handler {
 		$meta = json_encode(
 			array(
 				'download_id' => absint( $_POST['download_id'] ),
-				'version_id'  => absint( $_POST['version_id'] )
+				'version_id'  => absint( $_POST['version_id'] ),
 			)
 		);
 		update_post_meta( absint( $_POST['file_id'] ), 'dlm_download', $meta );
