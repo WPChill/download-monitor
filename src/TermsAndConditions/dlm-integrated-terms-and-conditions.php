@@ -1,9 +1,19 @@
 <?php
-
-class DLM_Inegrated_Terms_And_Conditions {
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+/**
+ * Class DLM_Integrated_Terms_And_Conditions
+ *
+ * Class to handle the Terms and Conditions integration with Download Monitor.
+ * Former Download Monitor Terms & Conditions has been integrated into the core plugin.
+ *
+ * @since 5.0.0
+ */
+class DLM_Integrated_Terms_And_Conditions {
 
 	public function __construct() {
-
 		// Download Access Manager.
 		$access_manager = new DLM_TC_Access_Manager();
 		$access_manager->setup();
@@ -30,7 +40,6 @@ class DLM_Inegrated_Terms_And_Conditions {
 
 		// Admin only classes.
 		if ( is_admin() ) {
-
 			// Download Option.
 			$download_option = new DLM_TC_Download_Option();
 			$download_option->setup();
@@ -55,12 +64,10 @@ class DLM_Inegrated_Terms_And_Conditions {
 	/**
 	 * Add tweet button to no access page
 	 *
-	 * @param DLM_Download $download
+	 * @param  DLM_Download  $download
 	 */
 	public function add_to_no_access_page( $download ) {
-		
 		if ( DLM_TC_Access_Manager::is_tc_locked( $download->get_id() ) ) {
-			
 			wp_enqueue_style( 'dlm-frontend' );
 
 			// template handler
@@ -71,21 +78,19 @@ class DLM_Inegrated_Terms_And_Conditions {
 
 			// unlock text
 			$terms_page_id = get_option( 'dlm_tc_content_page', false );
-			$unlock_text = apply_filters( 'dlm_tc_unlock_text', get_option( 'dlm_tc_text', __( 'I accept the terms & conditions', 'dlm-terms-and-conditions' ) ), $download );
+			$unlock_text   = apply_filters( 'dlm_tc_unlock_text', get_option( 'dlm_tc_text', __( 'I accept the terms & conditions', 'dlm-terms-and-conditions' ) ), $download );
 
 			$terms_page = ( $terms_page_id && '0' !== $terms_page_id ) ? '<a href="' . esc_url( get_permalink( $terms_page_id ) ) . '" target="_blank">' . wp_kses_post( get_the_title( $terms_page_id ) ) . '</a>' : '';
 
-			$unlock_text = str_replace ( '%%terms_conditions%%', $terms_page, $unlock_text );
+			$unlock_text = str_replace( '%%terms_conditions%%', $terms_page, $unlock_text );
 
 			// load template
-			$template_handler->get_template_part( 'tc-form', '', DLM_Inegrated_Terms_And_Conditions::get_plugin_file() . 'templates/', array(
+			$template_handler->get_template_part( 'tc-form', '', DLM_Integrated_Terms_And_Conditions::get_plugin_file() . 'templates/', array(
 				'download'    => $download,
 				'unlock_text' => $unlock_text,
-				'tmpl'        => $template_handler
+				'tmpl'        => $template_handler,
 			) );
-
 		}
-
 	}
 
 	/**
@@ -95,7 +100,7 @@ class DLM_Inegrated_Terms_And_Conditions {
 	 */
 	public function add_scripts_to_no_access_page() {
 		if ( isset( $_REQUEST['action'] ) && 'no_access_dlm_xhr_download' === sanitize_Text_field( wp_unslash( $_REQUEST['action'] ) ) ) {
-			echo "<script src=" . esc_url( plugins_url( '/TermsAndConditions/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Inegrated_Terms_And_Conditions::get_plugin_file() ) ) . "></script>";
+			echo "<script src=" . esc_url( plugins_url( '/TermsAndConditions/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ) ) . "></script>";
 		}
 	}
 }

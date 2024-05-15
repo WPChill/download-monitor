@@ -65,7 +65,7 @@ class DLM_TC_Shortcodes {
 
 			// load template
 			ob_start();
-			$template_handler->get_template_part( 'tc-form', '', DLM_Inegrated_Terms_And_Conditions::get_plugin_file() . 'templates/', array(
+			$template_handler->get_template_part( 'tc-form', '', DLM_Integrated_Terms_And_Conditions::get_plugin_file() . 'templates/', array(
 				'download'    => $download,
 				'unlock_text' => $unlock_text,
 				'tmpl'        => $template_handler

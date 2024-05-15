@@ -27,7 +27,7 @@ class DLM_TC_Assets {
 			// enqueue listings script.
 			wp_enqueue_script(
 				'dlm_tl_js',
-				plugins_url( '/TermsAndConditions/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Inegrated_Terms_And_Conditions::get_plugin_file() ),
+				plugins_url( '/TermsAndConditions/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ),
 				$dependencies,
 				DLM_VERSION,
 				true

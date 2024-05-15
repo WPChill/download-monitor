@@ -238,7 +238,7 @@ class WP_DLM {
 		$gb_download_preview->setup();
 
 		// Load the integrated Terms and Conditions functionality.
-		new DLM_Inegrated_Terms_And_Conditions();
+		new DLM_Integrated_Terms_And_Conditions();
 
 		// Backwards Compatibility.
 		$dlm_backwards_compatibility
@@ -982,6 +982,11 @@ class WP_DLM {
 		DLM_Upsells::get_instance();
 	}
 
+	/**
+	 * Display admin notice when DLM Terms & Conditions is deactivated.
+	 *
+	 * @since 5.0.0
+	 */
 	public function deactivation_admin_notice() {
 		?>
 		<div class="notice notice-success is-dismissible">
