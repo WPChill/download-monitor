@@ -1,8 +1,10 @@
 <?php
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * Class DLM_Integrated_Terms_And_Conditions
  *
@@ -37,7 +39,6 @@ class DLM_Integrated_Terms_And_Conditions {
 		add_action( 'dlm_no_access_after_message', array( $this, 'add_to_no_access_page' ) );
 		// add shortcode scripts to the no access page.
 		add_action( 'dlm_no_access_after_message', array( $this, 'add_scripts_to_no_access_page' ) );
-
 		// Admin only classes.
 		if ( is_admin() ) {
 			// Download Option.
@@ -58,7 +59,7 @@ class DLM_Integrated_Terms_And_Conditions {
 	 * @return String
 	 */
 	public static function get_plugin_file() {
-		return plugin_dir_path( DLM_PLUGIN_FILE ) . 'src/TermsAndConditions/';
+		return __FILE__;
 	}
 
 	/**
@@ -85,7 +86,7 @@ class DLM_Integrated_Terms_And_Conditions {
 			$unlock_text = str_replace( '%%terms_conditions%%', $terms_page, $unlock_text );
 
 			// load template
-			$template_handler->get_template_part( 'tc-form', '', DLM_Integrated_Terms_And_Conditions::get_plugin_file() . 'templates/', array(
+			$template_handler->get_template_part( 'tc-form', '', plugin_dir_path( DLM_Integrated_Terms_And_Conditions::get_plugin_file() ) . 'templates/', array(
 				'download'    => $download,
 				'unlock_text' => $unlock_text,
 				'tmpl'        => $template_handler,
@@ -100,7 +101,7 @@ class DLM_Integrated_Terms_And_Conditions {
 	 */
 	public function add_scripts_to_no_access_page() {
 		if ( isset( $_REQUEST['action'] ) && 'no_access_dlm_xhr_download' === sanitize_Text_field( wp_unslash( $_REQUEST['action'] ) ) ) {
-			echo "<script src=" . esc_url( plugins_url( '/TermsAndConditions/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ) ) . "></script>";
+			echo '<script src=' . esc_url( plugins_url( '/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ) ) . '></script>';
 		}
 	}
 }

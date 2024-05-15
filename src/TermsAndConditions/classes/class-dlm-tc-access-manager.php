@@ -68,27 +68,29 @@ class DLM_TC_Access_Manager {
 		if ( ! isset( $post_data ) ) {
 			$post_data = $_POST;
 		}
-
+		// New cookie management system, starting from DLM 4.9.6
+		$cookie_manager = DLM_Cookie_Manager::get_instance();
 		if ( ! isset( $post_data['tc_accepted'] ) || '1' !== $post_data['tc_accepted'] ) {
-			if ( ! isset( $_COOKIE[ 'dlm_tc_access_' . $download->get_id() ] ) ) {
-				$has_access = false;
-			} else {
-				$cookie_data = json_decode( base64_decode( $_COOKIE[ 'dlm_tc_access_' . $download->get_id() ] ), true );
-				if ( empty( $cookie_data['hash'] ) || md5( $download->get_id() . DLM_Utils::get_visitor_ip() ) !== $cookie_data['hash'] ) {
-					$has_access = false;
-				}
+			$has_access = false;
+			// Check for pre-DLM 4.9.5 set cookies
+			$has_access = apply_filters( 'dlm_tc_cookie_access', $has_access, $download );
+
+			// New cookie management system check
+			if ( $cookie_manager->check_cookie_meta( DLM_TC_Constants::COOKIE_META, $download->get_id() ) ) {
+				$has_access = true;
 			}
 		} else {
-			setcookie(
-				'dlm_tc_access_' . $download->get_id(),
-				base64_encode(
-					json_encode(
-						array(
-							'hash' => md5( $download->get_id() . DLM_Utils::get_visitor_ip() )
-						)
-					)
+			// Create cookie data
+			$cookie_data = array(
+				'expires' => time() + 300,
+				'meta'    => array(
+					array(
+						DLM_TC_Constants::COOKIE_META => $download->get_id(),
+					),
 				),
-				time() + 300, COOKIEPATH, COOKIE_DOMAIN, false, true );
+			);
+			// Set cookie
+			$cookie_manager->set_cookie( $download, $cookie_data );
 		}
 
 		if ( ! $has_access && get_option( 'dlm_no_access_modal', false ) && apply_filters( 'do_dlm_xhr_access_modal', true, $download ) && defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
@@ -114,9 +116,9 @@ class DLM_TC_Access_Manager {
 	 * Check if the download post is locked for the admin downloads list table
 	 *
 	 * @param bool $is_locked
-	 * 
+	 *
 	 * @param DLM_Download $download
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function admin_list_table_locked_download( $is_locked, $download ){

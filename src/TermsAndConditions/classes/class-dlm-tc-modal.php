@@ -94,10 +94,12 @@ class DLM_TC_Modal {
 		// Template handler.
 		$template_handler = new DLM_Template_Handler();
 
+		// enqueue CSS
+		wp_enqueue_style( 'dlm_tc_front', plugins_url( '/assets/css/tailwind' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.css', DLM_Terms_And_Conditions::get_plugin_file() ), array(), DLM_Terms_And_Conditions::VERSION );
 		// enqueue js
 		wp_enqueue_script(
 			'dlm_tc_frontend',
-			plugins_url( '/TermsAndConditions/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ),
+			plugins_url( '/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Terms_And_Conditions::get_plugin_file() ),
 			/**
 			 * Check if we need to load the dependency scripts for our scripts. Loading multiple times same script, jquery in our case,
 			 * can cause unwanted behavior. This should be used in every add-on that has a dependency script when using the
@@ -125,7 +127,7 @@ class DLM_TC_Modal {
 		ob_start();
 
 		// Load template
-		$template_handler->get_template_part( 'tc-form-modal', '', DLM_Integrated_Terms_And_Conditions::get_plugin_file() . 'templates/', array(
+		$template_handler->get_template_part( 'tc-form-modal', '', plugin_dir_path( DLM_Terms_And_Conditions::get_plugin_file() ) . 'templates/', array(
 			'download'    => $download,
 			'unlock_text' => $unlock_text,
 			'tmpl'        => $template_handler
