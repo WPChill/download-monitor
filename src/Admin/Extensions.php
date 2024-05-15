@@ -214,6 +214,10 @@ class DLM_Admin_Extensions {
 				$this->free_extensions[] = $extension;
 				continue;
 			}
+			// Remove the legacy importer from the extensions list. We don't want to show it.
+			if ( 'dlm-legacy-importer' === $extension->product_id ) {
+				unset( $this->extensions[ $extension_key ] );
+			}
 		}
 	}
 
@@ -329,10 +333,13 @@ class DLM_Admin_Extensions {
 									// We use the extension dir for WP repository plugins because of the way the plugin
 									// is named in the repository and the way the main file is named.
 									$wp_org_path = $extension->dir;
-
+									$label_text  = esc_html__( 'free', 'download-monitor' );
+									$badge       = 'free';
 									if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_path ) ) {
-										$action       = 'activate';
-										$text         = esc_html__( 'Activate', 'download-monitor' );
+										$action     = 'activate';
+										$text       = esc_html__( 'Activate', 'download-monitor' );
+										$label_text = esc_html__( 'installed', 'download-monitor' );
+										$badge      = 'installed';
 										$activate_url = add_query_arg(
 											array(
 												'action'        => 'activate',
@@ -347,6 +354,8 @@ class DLM_Admin_Extensions {
 
 									if ( is_plugin_active( $plugin_path ) ) {
 										$action   = 'installed';
+										$badge    = 'active';
+										$label_text = esc_html__( 'active', 'download-monitor' );
 										$disabled = true;
 										$text     = esc_html__( 'Installed & Activated', 'download-monitor' );
 									}
@@ -354,10 +363,10 @@ class DLM_Admin_Extensions {
 									echo '<div class="feature-block free-extension">';
 									echo '<div class="feature-block__header">';
 									echo '<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1IiBoZWlnaHQ9IjEwNSIgdmlld0JveD0iMCAwIDEwNSAxMDUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01Mi41IDAuMDAwNTk5Njc0QzM4LjU3NTYgMC4wMDA1OTk2NzQgMjUuMjIxOSA1LjUzMjAzIDE1LjM3NzYgMTUuMzc4MUM1LjUzMTQ2IDI1LjIyMjkgMCAzOC41NzY2IDAgNTIuNTAwM0MwIDY2LjQyNCA1LjUzMTQ2IDc5Ljc3ODMgMTUuMzc3NiA4OS42MjI1QzI1LjIyMjUgOTkuNDY4NiAzOC41NzYyIDEwNSA1Mi41IDEwNUM2Ni40MjM4IDEwNSA3OS43NzgxIDk5LjQ2ODYgODkuNjIyNCA4OS42MjI1Qzk5LjQ2ODUgNzkuNzc3NyAxMDUgNjYuNDI0IDEwNSA1Mi41MDAzQzEwNSA0My4yODQ1IDEwMi41NzQgMzQuMjMwOCA5Ny45NjY0IDI2LjI1MDJDOTMuMzU4NyAxOC4yNjk1IDg2LjczMDQgMTEuNjQxNiA3OC43NDk3IDcuMDMzNTRDNzAuNzY5IDIuNDI1ODEgNjEuNzE1MiAwIDUyLjQ5OTQgMEw1Mi41IDAuMDAwNTk5Njc0Wk00MC40Nzc3IDM4LjI3MThMNDcuMjQ5OSA0NS4wOTY5VjI2LjI0OTZINTcuNzUwMVY0NS4wOTY5TDY0LjUyMjMgMzguMzI0Nkw3MS45MjUyIDQ1LjcyNzVMNTIuNSA2NS4xNTI2TDMzLjAyMiA0NS42NzQ3TDQwLjQ3NzcgMzguMjcxOFpNNzguNzQ5MSA3OC43NTExSDI2LjI0ODVWNjguMjUxSDc4Ljc0OTFWNzguNzUxMVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl8zN184NSkiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhcl8zN184NSIgeDE9Ii0zNy41MjkzIiB5MT0iMS4wOTMzNGUtMDYiIHgyPSI5NS45NzY2IiB5Mj0iMTA3Ljg3MSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMTEwMTEzIiBzdG9wLWNvbG9yPSIjNURERUZCIi8+CjxzdG9wIG9mZnNldD0iMC40NDM1NjgiIHN0b3AtY29sb3I9IiM0MTlCQ0EiLz4KPHN0b3Agb2Zmc2V0PSIwLjYzNjEyMiIgc3RvcC1jb2xvcj0iIzAwOENENSIvPgo8c3RvcCBvZmZzZXQ9IjAuODU1OTk3IiBzdG9wLWNvbG9yPSIjMDI1RUEwIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAyNTM4RCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" style="max-height: 30px;">';
-									echo '<h5>' . esc_html( $extension->name ) . '<div style="background-color:#00b894" class="pro-label">' . esc_html__( 'FREE', 'download-monitor' ) . '</div></h5>';
+									echo '<h5>' . esc_html( $extension->name ) . '<div class="pro-label ' . esc_attr( $badge ) . '">' . esc_html( $label_text ) . '</div></h5>';
 									echo '</div>';
 									echo '<p>' . wp_kses_post( $extension->desc ) . '</p>';
-									echo '<a class="dlm-install-plugin-link" data-activation_url="' . esc_url( $activate_url ) . '" data-action="' . esc_attr( $action ) . '" data-slug="' . esc_attr( $wp_org_path ) . '" href="#" ' . ( $disabled ? 'style="pointer-events:none;background:grey;"' : '' ) . '>' . esc_html( $text ) . '</a>';
+									echo '<div class="dlm-install-plugin-actions"><a class="dlm-install-plugin-link button button-primary" data-activation_url="' . esc_url( $activate_url ) . '" data-action="' . esc_attr( $action ) . '" data-slug="' . esc_attr( $wp_org_path ) . '" href="#" ' . ( $disabled ? 'disabled="disabled"' : '' ) . '>' . esc_html( $text ) . '</a></div>';
 									echo '</div>';
 								}
 								?><!-- end extensions display -->
@@ -569,13 +578,20 @@ class DLM_Admin_Extensions {
 	public function display_included_extension( $extension ) {
 		$button      = false;
 		$plugin_path = $extension->product_id . '/' . $extension->product_id . '.php';
-
+		$badge       = 'inactive';
+		$text        = esc_html__( 'not installed', 'download-monitor' );
 		if ( ! $this->is_active( $plugin_path ) ) {
 			if ( $this->is_installed( $plugin_path ) ) {
-				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="activate" class="dlm-plugin-install-action" data-url="' . esc_url( $extension->download_link ) . '">' . esc_html__( 'Activate', 'download-monitor' ) . '</button>';
+				$badge  = 'installed';
+				$text   = esc_html__( 'installed', 'download-monitor' );
+				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="activate" class="dlm-plugin-install-action button button-primary" data-url="' . esc_url( $extension->download_link ) . '">' . esc_html__( 'Activate', 'download-monitor' ) . '</button>';
 			} else {
-				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="install" class="dlm-plugin-install-action" data-url="' . esc_url( $extension->download_link ) . '">' . esc_html__( 'Install', 'download-monitor' ) . '</button>';
+				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="install" class="dlm-plugin-install-action button button-primary" data-url="' . esc_url( $extension->download_link ) . '">' . esc_html__( 'Install', 'download-monitor' ) . '</button>';
 			}
+		} else {
+			$badge  = 'active';
+			$text   = esc_html__( 'active', 'download-monitor' );
+			$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" disabled="disabled" class="dlm-plugin-install-action button button-primary" data-url="' . esc_url( $extension->download_link ) . '">' . esc_html__( 'Installed & Active', 'download-monitor' ) . '</button>';
 		}
 
 		echo '<div class="feature-block">';
@@ -583,10 +599,10 @@ class DLM_Admin_Extensions {
 		if ( ! empty( $extension->image ) ) {
 			echo '<img src="' . esc_url( $extension->image ) . '">';
 		}
-		echo '<h5>' . esc_html( $extension->name ) . '</h5>';
+		echo '<h5>' . esc_html( $extension->name ) . '<div class="pro-label ' . esc_attr( $badge ) . '">' . esc_html( $text ) . '</div></h5>';
 		echo '</div>';
 		echo '<p>' . wp_kses_post( $extension->desc ) . '</p>';
-		echo $button ? '<span class="dlm-install-plugin-actions">' . wp_kses_post( $button ) . '</span>' : '';
+		echo $button ? '<div class="dlm-install-plugin-actions">' . wp_kses_post( $button ) . '</div>' : '';
 		echo '</div>';
 	}
 

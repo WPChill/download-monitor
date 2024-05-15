@@ -37,21 +37,19 @@
 
 		if ('install' === plugin_action) {
 
-			current.after('<span class="dlm-install-plugin-actions">' + dlm_install_plugins_vars.install_plugin + '</span>');
+			current.text(dlm_install_plugins_vars.install_plugin);
 			const args = {
 				slug    : plugin_slug, success: (response) => {
-					current.next('span').remove();
-					current.after('<span>' + dlm_install_plugins_vars.activate_plugin + '</span>');
+					current.text(dlm_install_plugins_vars.activate_plugin);
 					activatePlugin(response.activateUrl);
 				}, error: (response) => {
-					current.next('span').remove();
-					current.after('<span>' + dlm_install_plugins_vars.no_install + ' ' + response.errorMessage + '</span>');
+					current.text(dlm_install_plugins_vars.no_install + ' ' + response.errorMessage);
 				}
 			}
 
 			wp.updates.installPlugin(args);
 		} else if ('activate' === plugin_action) {
-			current.after('<span class="dlm-install-plugin-actions">' + dlm_install_plugins_vars.activate_plugin + '</span>');
+			current.text(dlm_install_plugins_vars.activate_plugin);
 			activatePlugin(activate_url);
 		}
 	});

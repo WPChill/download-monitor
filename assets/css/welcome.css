@@ -36,17 +36,16 @@
 }
 
 #wpchill-welcome .features .feature-list a {
-	background-color: #2271B1;
+	/*background-color: #2271B1;
 	color: #FFFFFF;
 	text-decoration: none;
 	padding: 8px 16px;
-	display: inline-block;
+	display: inline-block;*/
 }
 
 #wpchill-welcome .features .feature-block {
 	background: #fff;
 	min-height: 200px;
-	padding: 15px;
 	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 	position: relative;
 }

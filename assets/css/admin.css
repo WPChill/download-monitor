@@ -2356,7 +2356,7 @@ table.wp-list-table .column-thumb img {
   clear: both;
 }
 .dlm_extensions_wrap #available-extensions .features .feature-list .feature-block a {
-  color: #fff;
+  /*color: #fff;*/
 }
 .dlm_extensions_wrap .dlm_extensions {
   padding: 0;
@@ -2367,14 +2367,17 @@ table.wp-list-table .column-thumb img {
   margin-left: -15px;
   margin-right: -15px;
 }
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-block .dlm-install-plugin-actions {
+  text-align: center;
+}
 .dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-block .dlm-install-plugin-actions .dlm-plugin-install-action {
-  background-color: #2271B1;
-  color: #FFFFFF;
-  text-decoration: none;
-  padding: 8px 16px;
-  display: inline-block;
-  border: none;
-  cursor: pointer;
+  /*background-color: #2271B1;
+			color: #FFFFFF;
+			text-decoration: none;
+			padding: 8px 16px;
+			display: inline-block;
+			border: none;
+			cursor: pointer;*/
 }
 /* Fix Datepicker's UI bug */
 #ui-datepicker-div {
@@ -2462,7 +2465,7 @@ table.wp-list-table .column-thumb img {
   min-height: 400px;
 }
 #installed-extensions #wpchill-welcome .features .feature-list a {
-  color: #fff;
+  /* color: #fff;*/
 }
 #total_downloads_browser_table a.nav-tab {
   text-transform: capitalize;
