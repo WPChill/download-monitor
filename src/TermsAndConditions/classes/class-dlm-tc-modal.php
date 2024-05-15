@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class DLM_TC_Modal
  * used to handle the modal functionality for the Email Lock extension.
  *
- * @since 4.1.2
+ * @since 5.0.0
  */
 class DLM_TC_Modal {
 
@@ -24,7 +24,7 @@ class DLM_TC_Modal {
 	 * Add required scripts to footer.
 	 *
 	 * @return void
-	 * @since 4.1.2
+	 * @since 5.0.0
 	 */
 	public function add_footer_scripts() {
 		// Only add the script if the modal template exists.
@@ -49,7 +49,7 @@ class DLM_TC_Modal {
 	 * Renders the modal contents.
 	 *
 	 * @return void
-	 * @since 4.1.2
+	 * @since 5.0.0
 	 */
 	public function xhr_no_access_modal() {
 		// Check nonce.
@@ -77,7 +77,7 @@ class DLM_TC_Modal {
 	 * @param int $download_id The download ID.
 	 *
 	 * @return false|string
-	 * @since 4.1.2
+	 * @since 5.0.0
 	 */
 	public function modal_content( $download_id ) {
 		// Check for set template before we parse the args as the template might be from Buttons or other addons,

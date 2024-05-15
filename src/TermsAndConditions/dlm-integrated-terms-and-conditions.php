@@ -97,7 +97,7 @@ class DLM_Integrated_Terms_And_Conditions {
 	/**
 	 * Add terms and conditions shortcode scripts to no access modal
 	 *
-	 * @since 4.0.5
+	 * @since 5.0.0
 	 */
 	public function add_scripts_to_no_access_page() {
 		if ( isset( $_REQUEST['action'] ) && 'no_access_dlm_xhr_download' === sanitize_Text_field( wp_unslash( $_REQUEST['action'] ) ) ) {

@@ -53,7 +53,7 @@ class DLM_TC_Access_Manager {
 		 * @param  int     $download_id  The download ID.
 		 * @param  string  $plugin_slug  The plugin slug.
 		 *
-		 * @since 4.1.3
+		 * @since 5.0.0
 		 *
 		 * @hook  dlm_skip_access_check
 		 */
@@ -136,7 +136,7 @@ class DLM_TC_Access_Manager {
 	 * @param array $vars
 	 * 
 	 * @return array
-	 * @since
+	 * @since 5.0.0
 	 */
 	public function admin_list_table_sort_locked_download( $vars ) {
 		if ( isset( $_GET['post_type'] ) && isset( $_GET['orderby'] ) && 'locked_download' === $_GET['orderby'] && 'dlm_download' === $_GET['post_type'] ) {

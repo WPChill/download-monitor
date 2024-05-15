@@ -32,7 +32,7 @@ class DLM_TC_Shortcodes {
 		 * @param  int     $download_id  The download ID.
 		 * @param  string  $plugin_slug  The plugin slug.
 		 *
-		 * @since 4.1.3
+		 * @since 5.0.0
 		 *
 		 * @hook  dlm_skip_access_check
 		 */

@@ -7,14 +7,14 @@ class DLM_TC_Backwards_Compatibility {
 	 *
 	 * @var object
 	 *
-	 * @since 4.1.4
+	 * @since 5.0.0
 	 */
 	public static $instance;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 4.1.4
+	 * @since 5.0.0
 	 */
 	private function __construct() {
 		add_filter( 'dlm_tc_cookie_access', array( $this, 'check_access' ), 30, 2 );
@@ -25,7 +25,7 @@ class DLM_TC_Backwards_Compatibility {
 	 *
 	 * @return object The DLM_TC_Backwards_Compatibility object.
 	 *
-	 * @since 4.1.4
+	 * @since 5.0.0
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_TC_Backwards_Compatibility ) ) {
@@ -42,7 +42,7 @@ class DLM_TC_Backwards_Compatibility {
 	 * @param  DLM_Download  $download
 	 *
 	 * @return bool
-	 * @since 4.1.4
+	 * @since 5.0.0
 	 */
 	public function check_access( $has_access, $download ) {
 		if ( ! isset( $_COOKIE[ 'dlm_tc_access_' . $download->get_id() ] ) ) {

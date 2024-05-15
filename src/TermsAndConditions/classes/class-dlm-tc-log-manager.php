@@ -7,14 +7,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class DLM_TC_Log_Manager
  *
- * @since 4.0.6
+ * @since 5.0.0
  */
 class DLM_TC_Log_Manager {
 
 	/**
 	 * Setup class
 	 *
-	 *  @since 4.0.6
+	 *  @since 5.0.0
 	 */
 	public function setup() {
 		// Filter the download to redirect regular download buttons of mail locked downloads
@@ -32,7 +32,7 @@ class DLM_TC_Log_Manager {
 	 * @param $post_data
 	 *
 	 * @return mixed
-	 * @since 4.0.6
+	 * @since 5.0.0
 	 */
 	public function add_request_headers( $headers, $file_path, $download, $version, $post_data ) {
 
@@ -51,7 +51,7 @@ class DLM_TC_Log_Manager {
 	 * @param DLM_Download_Version $version
 	 *
 	 * @return DLM_Log_Item $log_item
-	 *  @since 4.0.6
+	 * @since 5.0.0
 	 */
 	public function filter_log( $log_item, $download, $version ) {
 
