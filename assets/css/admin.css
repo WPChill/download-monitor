@@ -2364,8 +2364,8 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-list {
   margin-top: 10px;
-  margin-left: -15px;
-  margin-right: -15px;
+  /*	margin-left: -15px;
+		margin-right: -15px;*/
 }
 .dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-block .dlm-install-plugin-actions {
   text-align: center;
