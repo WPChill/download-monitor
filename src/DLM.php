@@ -158,7 +158,7 @@ class WP_DLM {
 			$key_generation = DLM_Key_Generation::get_instance();
 
 			// Load the other downloads path option table
-			DLM_Other_Downloads_Path::get_instance();
+			DLM_Downloads_Path::get_instance();
 
 			// Load the license class
 			$license = DLM_License::get_instance();
