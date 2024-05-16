@@ -751,7 +751,9 @@ class DLM_Admin_Settings {
 	 */
 	public function preload_shortcode_to_page( $old, $new, $option ) {
 		$page_id = absint( $new );
-
+		if ( 0 === $page_id ) {
+			return;
+		}
 		// 1. Get the unformatted post(page) content.
 		$page = get_post( $page_id );
 

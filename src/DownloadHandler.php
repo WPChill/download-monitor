@@ -575,6 +575,29 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			// Parse file path.
 			list( $file_path, $remote_file, $restriction ) = download_monitor()
 				->service( 'file_manager' )->get_secure_path( $file_path );
+			// Check if $file_path exists, as it can be false if the file was deleted or moved.
+			if ( ! $file_path ) {
+				// IF XHR, send error header.
+				if ( $this->check_for_xhr() ) {
+					header( 'X-DLM-Error: filetype' );
+					$restriction_type = 'filetype';
+					// Set no access modal.
+					$this->set_no_access_modal( __( 'File has been deleted or moved.',
+					                                'download-monitor' ),
+					                            $download,
+					                            $restriction_type );
+					http_response_code( 404 );
+					exit;
+				}
+				wp_die( esc_html__( 'File has been deleted or moved.',
+				                    'download-monitor' ) . ' <a href="'
+				        . esc_url( home_url() ) . '">'
+				        . esc_html__( 'Go to homepage &rarr;',
+				                      'download-monitor' ) . '</a>',
+				        esc_html__( 'Download Error', 'download-monitor' ),
+				        array( 'response' => 404 ) );
+			}
+
 			$is_redirect = $download->is_redirect_only()
 			               || apply_filters( 'dlm_do_not_force',
 			                                 false,
@@ -620,7 +643,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 					        . esc_html__( 'Go to homepage &rarr;',
 					                      'download-monitor' ) . '</a>',
 					        esc_html__( 'Download Error', 'download-monitor' ),
-					        array( 'response' => 404 ) );
+					        array( 'response' => 403 ) );
 				}
 			}
 

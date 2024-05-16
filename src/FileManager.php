@@ -58,9 +58,8 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			$wp_uploads_dir   = $wp_uploads['basedir'];
 			$wp_uploads_url   = $wp_uploads['baseurl'];
 			$allowed_paths    = $this->get_allowed_paths();
-			$common_path
-			                  = DLM_Utils::longest_common_path( $allowed_paths );
-
+			$common_path      = DLM_Utils::longest_common_path( $allowed_paths );
+			$condition_met    = false;
 			if ( false !== strpos( $file_path, '127.0.0.1' ) ) {
 				$file_path        = untrailingslashit( $common_path )
 				                    . $parsed_file_path['path'];
@@ -87,7 +86,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				// or it is a non-allowed file.
 				if ( $common_path && strlen( $common_path ) > 1
 				     && false === strpos( $parsed_file_path['path'],
-						$common_path )
+				                          $common_path )
 				) {
 					if ( is_file( realpath( trailingslashit( $common_path )
 					                        . $parsed_file_path['path'] ) )
@@ -106,14 +105,9 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			}
 
 			// Check file path
-			if ( ( ! isset( $parsed_file_path['scheme'] )
-			       || ! in_array( $parsed_file_path['scheme'], array(
-						'http',
-						'https',
-						'ftp',
-					) ) )
-			     && $file_check['exists']
-			) {
+			if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp', ) ) ) && $file_check['exists'] ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** The file lies in the server */
 				$remote_file = false;
 				// If it's relative we need to make it absolute.
@@ -123,9 +117,11 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 					$file_path = realpath( $file_path );
 				}
 			} elseif ( strpos( $wp_uploads_dir, '://' ) !== false ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/**
 				 * This is a file located on a network drive.
-				 * WordPress VIP is a providor that uses network drive paths
+				 * WordPress VIP is a provider that uses network drive paths
 				 * Only allow if root (vip://) is predefined in Settings > Misc > Other downloads path
 				 * Example of path: vip://wp-content/upload...
 				 **/
@@ -149,6 +145,8 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				$file_path = file_exists( $path ) ? $path
 					: realpath( $file_path );
 			} elseif ( strpos( $file_path, $wp_uploads_url ) !== false ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** This is a local file given by URL, so we need to figure out the path */
 				$remote_file = false;
 				$file_path   = trim( str_replace( $wp_uploads_url,
@@ -161,6 +159,8 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			                || ( strpos( $file_path,
 							network_site_url( '/', 'https' ) ) !== false ) )
 			) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** This is a local file outside wp-content so figure out the path */
 				$remote_file = false;
 				// Try to replace network url
@@ -179,6 +179,8 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			           || strpos( $file_path, site_url( '/', 'https' ) )
 			              !== false
 			) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** This is a local file outside wp-content so figure out the path */
 				$remote_file = false;
 				$file_path   = str_replace( site_url( '/', 'https' ),
@@ -189,11 +191,15 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 					$file_path );
 				$file_path   = realpath( $file_path );
 			} elseif ( file_exists( ABSPATH . $file_path ) ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** Path needs an abspath to work */
 				$remote_file = false;
 				$file_path   = ABSPATH . $file_path;
 				$file_path   = realpath( $file_path );
 			} elseif ( '' === $common_path || strlen( $common_path ) === 1 ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				foreach ( $allowed_paths as $path ) {
 					if ( file_exists( $path . $file_path ) ) {
 						$remote_file = false;
@@ -202,6 +208,10 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 						break;
 					}
 				}
+			}
+			// File not found on server, nor it's a remote file.
+			if ( ! $condition_met ) {
+				return array( false, false );
 			}
 
 			return array(
