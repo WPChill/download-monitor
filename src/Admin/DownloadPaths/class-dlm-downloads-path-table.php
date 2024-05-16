@@ -18,8 +18,8 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	public function __construct() {
 		parent::__construct(
 			array(
-				'singular' => __( 'Other Download Path', 'reviveso-pro' ),
-				'plural'   => __( 'Other Downloads Path', 'reviveso-pro' ),
+				'singular' => __( 'Other Download Path', 'download-monitor' ),
+				'plural'   => __( 'Other Downloads Path', 'download-monitor' ),
 				'ajax'     => false,
 			)
 		);
@@ -121,9 +121,55 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Default columns
+	 *
+	 * @param  array   $item         The current item.
+	 * @param  string  $column_name  The current column name.
+	 *
+	 * @since 5.0.0
+	 *
+	 */
+	public function column_default( $item, $column_name ) {
+		$html = '';
+		switch ( $column_name ) {
+			case 'path_val':
+				$id      = (int) $item['id'];
+				$url     = esc_html( $item['path_val'] );
+
+				$edit_url            = esc_url( $this->get_action_url( 'edit', $id ) );
+				$enable_disable_url  = esc_url( $item['enabled'] ? $this->get_action_url( 'disable', $id ) : $this->get_action_url( 'enable', $id ) );
+				$enable_disable_text = esc_html( $item['enabled'] ? __( 'Disable', 'download-monitor' ) : __( 'Enable', 'download-monitor' ) );
+				$delete_url          = esc_url( $this->get_action_url( 'delete', $id ) );
+				$edit_link           = "<a href='{$edit_url}'>" . esc_html__( 'Edit', 'download-monitor' ) . '</a>';
+				$enable_disable_link = "<a href='{$enable_disable_url}'>{$enable_disable_text}</a>";
+				$delete_link         = "<a href='{$delete_url}' class='submitdelete wc-confirm-delete'>" . esc_html__( 'Delete permanently', 'download-monitor' ) . '</a>';
+				$url_link            = "<a href='{$edit_url}'>{$url}</a>";
+
+				$html .= "<div><strong>{$url_link}</strong></div>
+						<div class='row-actions'>
+							<span class='id'>ID: {$id}</span> |
+							<span class='edit'>{$edit_link}</span> |
+							<span class='enable-disable'>{$enable_disable_link}</span> |
+							<span class='delete'><a class='submitdelete'>{$delete_link}</a></span>
+						</div>";
+				break;
+			case 'enabled':
+				$html .= 'enabled' == $item['enabled']
+					? '<mark class="yes" title="' . esc_html__( 'Enabled', 'download-monitor' ) . '"><span class="dashicons dashicons-yes"></span></mark>'
+					: '<mark class="no" title="' . esc_html__( 'Disabled', 'download-monitor' ) . '">&ndash;</mark>';
+				break;
+			default:
+				$html .= '';
+				break;
+		}
+
+		echo $html;
+	}
+
+	/**
 	 * Checklist column, used for selecting items for processing by a bulk action.
 	 *
-	 * @param  StoredUrl  $item  The approved directory information for the current row.
+	 * @param  array  $item  The approved directory information for the current row.
 	 *
 	 * @return string
 	 * @since 5.0.0
@@ -131,56 +177,6 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" />', esc_attr( $this->_args['singular'] ), esc_attr( $item['id'] ) );
-	}
-
-	/**
-	 * URL column.
-	 *
-	 * @param  StoredUrl  $item  The approved directory information for the current row.
-	 *
-	 * @return string
-	 * @since 5.0.0
-	 *
-	 */
-	public function column_path_val( $item ) {
-		$id      = (int) $item['id'];
-		$url     = esc_html( $item['path_val'] );
-		$enabled = 'enabled' == $item['enabled'];
-
-		$edit_url            = esc_url( $this->get_action_url( 'edit', $id ) );
-		$enable_disable_url  = esc_url( $enabled ? $this->get_action_url( 'disable', $id ) : $this->get_action_url( 'enable', $id ) );
-		$enable_disable_text = esc_html( $enabled ? __( 'Disable', 'download-monitor' ) : __( 'Enable', 'download-monitor' ) );
-		$delete_url          = esc_url( $this->get_action_url( 'delete', $id ) );
-		$edit_link           = "<a href='{$edit_url}'>" . esc_html__( 'Edit', 'download-monitor' ) . '</a>';
-		$enable_disable_link = "<a href='{$enable_disable_url}'>{$enable_disable_text}</a>";
-		$delete_link         = "<a href='{$delete_url}' class='submitdelete wc-confirm-delete'>" . esc_html__( 'Delete permanently', 'download-monitor' ) . '</a>';
-		$url_link            = "<a href='{$edit_url}'>{$url}</a>";
-
-		return "
-			<div><strong>{$url_link}</strong></div>
-			<div class='row-actions'>
-				<span class='id'>ID: {$id}</span> |
-				<span class='edit'>{$edit_link}</span> |
-				<span class='enable-disable'>{$enable_disable_link}</span> |
-				<span class='delete'><a class='submitdelete'>{$delete_link}</a></span>
-			</div>
-		";
-	}
-
-	/**
-	 * Rule-is-enabled column.
-	 *
-	 * @param  StoredUrl  $item  The approved directory information for the current row.
-	 *
-	 * @return string
-	 * @since 5.0.0
-	 *
-	 */
-	public function column_enabled( $item )
-	: string {
-		return 'enabled' == $item['enabled']
-			? '<mark class="yes" title="' . esc_html__( 'Enabled', 'download-monitor' ) . '"><span class="dashicons dashicons-yes"></span></mark>'
-			: '<mark class="no" title="' . esc_html__( 'Disabled', 'download-monitor' ) . '">&ndash;</mark>';
 	}
 
 	/**
@@ -246,7 +242,6 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 		}
 
 		echo '<a href="' . esc_url( $this->get_action_url( 'edit', 0 ) ) . '" class="wp-core-ui button">' . esc_html__( 'Add New', 'download-monitor' ) . '</a>';
-
 		echo '</div>';
 		$this->pagination( $which );
 		echo '<br class="clear" />';
@@ -259,6 +254,8 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 * @since 5.0.0
 	 */
 	public function prepare_items() {
+		global $_wp_column_headers;
+		$screen                            = get_current_screen();
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		$current_page = $this->get_pagenum();
@@ -281,15 +278,14 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 		$paths = DLM_Downloads_Path_Helper::get_all_paths();
 
 		$res = array();
-		if ( 'all' != $enabled ) {
+		if ( 'all' !== $enabled ) {
 			foreach ( $paths as $path ) {
-				if ( 'enabled' == $enabled && $path['enabled'] ) {
+				if ( 'enabled' === $enabled && $path['enabled'] ) {
 					$res[] = $path;
 					continue;
 				}
-				if ( 'disabled' == $enabled && ! $path['enabled'] ) {
+				if ( 'disabled' === $enabled && ! $path['enabled'] ) {
 					$res[] = $path;
-					continue;
 				}
 			}
 		} else {
@@ -312,6 +308,21 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 				'per_page'    => $per_page,
 			)
 		);
+		// Set the columns.
+		$columns                           = $this->get_columns();
+		$_wp_column_headers[ $screen->id ] = $columns;
+		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
+	}
+
+	/**
+	 * Gets the name of the default primary column.
+	 *
+	 * @return string Name of the default primary column, in this case, 'title'.
+	 * @since 5.0.0
+	 *
+	 */
+	protected function get_default_primary_column_name() {
+		return 'cb';
 	}
 
 	/**

@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * DLM_Downloads_Path class.
  *
+ * The main class that handles the download paths.
+ *
  * @since 5.0.0
  */
 class DLM_Downloads_Path {
@@ -54,13 +56,9 @@ class DLM_Downloads_Path {
 		// Add Templates tab in the Download Monitor's settings page.
 		add_filter( 'dlm_settings', array( $this, 'status_tab' ), 15, 1 );
 		// Show the approved downloads path tab content.
-		add_action( 'dlm_tab_section_content_download_path', array( $this, 'templates_content' ) );
+		add_action( 'dlm_tab_section_content_download_path', array( $this, 'paths_content' ) );
 		// Show the approved downloads path tab content for multisite.
-		add_action( 'dlm_network_admin_settings_form_start', array( $this, 'templates_content' ) );
-		// Add table columns.
-		add_filter( 'manage_dlm_download_page_download-monitor-settings_columns', array( $this, 'get_columns' ) );
-		// Add table columns for multisite.
-		add_filter( 'manage_toplevel_page_download-monitor-settings-network_columns', array( $this, 'get_columns' ) );
+		add_action( 'dlm_network_admin_settings_form_start', array( $this, 'paths_content' ) );
 		add_action( 'admin_init', array( $this, 'register_setting' ) );
 		add_filter( 'pre_update_option', array( $this, 'update_action' ), 10, 3 );
 		add_action( 'admin_init', array( $this, 'actions_handler' ) );
@@ -74,20 +72,6 @@ class DLM_Downloads_Path {
 	 */
 	public function register_setting() {
 		register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path' );
-	}
-
-	/**
-	 * Get list columns for the download monitor settings page.
-	 *
-	 * @return array List columns.
-	 * @since 5.0.0
-	 */
-	public function get_columns() {
-		return array(
-			'cb'       => '<input type="checkbox" />',
-			'path_val' => __( 'URL', 'download-monitor' ),
-			'enabled'  => __( 'Enabled', 'download-monitor' ),
-		);
 	}
 
 	/**
@@ -109,7 +93,7 @@ class DLM_Downloads_Path {
 					array(
 						'name'     => '',
 						'type'     => 'title',
-						'title'    => __( '', 'download-monitor' ),
+						'title'    => '',
 						'priority' => 10,
 					),
 				),
@@ -126,11 +110,8 @@ class DLM_Downloads_Path {
 	 *
 	 * @since 5.0.0
 	 */
-	public function templates_content() {
+	public function paths_content() {
 		$this->table = new DLM_Downloads_Path_Table();
-		if ( null === $this->table ) {
-			return;
-		}
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_REQUEST['url'] ) ) {
@@ -142,7 +123,6 @@ class DLM_Downloads_Path {
 
 		// Show list table.
 		$this->table->prepare_items();
-		//$this->display_title();
 		$this->table->render_views();
 		$this->table->display();
 	}
@@ -165,13 +145,13 @@ class DLM_Downloads_Path {
 		}
 
 		$title = $existing
-			? __( 'Edit Approved Directory', 'download-monitor' )
-			: __( 'Add New Approved Directory', 'download-monitor' );
+			? __( 'Edit Approved Path', 'download-monitor' )
+			: __( 'Add New Approved Path', 'download-monitor' );
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$submitted    = sanitize_text_field( wp_unslash( $_GET['submitted-url'] ?? '' ) );
 		$existing_url = $existing ? $existing['path_val'] : '';
-		$enabled      = $existing ? 'enabled' == $existing['enabled'] : true;
+		$enabled      = $existing ? 'enabled' === $existing['enabled'] : true;
 		// phpcs:enable
 
 		?>
@@ -199,6 +179,8 @@ class DLM_Downloads_Path {
 				<td class='forminp'>
 					<input name='dlm_downloads_path' id='dlm_downloads_path' type='text' class='input-text regular-input' value='<?php
 					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>'>
+					<p class='description'><?php
+						echo sprintf( __( 'WordPress installation directory is <code>%s</code>', 'download-monitor' ), esc_html( ABSPATH ) ); ?></p>
 				</td>
 			</tr>
 			<tr valign='top'>
@@ -230,13 +212,21 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function update_action( $value, $option, $old_value ) {
-		if ( 'dlm_downloads_path' != $option || ! isset( $_POST['path_action'] ) ) {
+		if ( 'dlm_downloads_path' !== $option || ! isset( $_POST['path_action'] ) ) {
+			return $value;
+		}
+
+		if ( empty( $old_value ) ) {
 			return $value;
 		}
 
 		if ( ! isset( $_POST['id'] ) || 0 == $_POST['id'] ) {
 			$lastkey     = array_key_last( $old_value );
-			$newval      = array( 'id' => absint( $old_value[ $lastkey ]['id'] ) + 1, 'path_val' => $value, 'enabled' => isset( $_POST['dlm_downloads_path_enabled'] ) );
+			$newval      = array(
+				'id'       => absint( $old_value[ $lastkey ]['id'] ) + 1,
+				'path_val' => $value,
+				'enabled'  => isset( $_POST['dlm_downloads_path_enabled'] ),
+			);
 			$old_value[] = $newval;
 
 			return $old_value;
@@ -268,48 +258,55 @@ class DLM_Downloads_Path {
 		$change = false;
 		if ( isset( $_GET['page'] ) && 'download-monitor-settings' == $_GET['page'] ) {
 			$paths = DLM_Downloads_Path_Helper::get_all_paths();
-			if ( isset( $_GET['action'] ) && 'enable' == $_GET['action'] ) {
-				foreach ( $paths as $key => $path ) {
-					if ( $path['id'] == absint( $_GET['url'] ) ) {
-						$paths[ $key ]['enabled'] = true;
-						$change                   = true;
+			if ( ! empty( $_GET['action'] ) ) {
+				$action = sanitize_text_field( wp_unslash( $_GET['action'] ) );
+				switch ( $action ) {
+					case 'enable':
+						foreach ( $paths as $key => $path ) {
+							if ( $path['id'] == absint( $_GET['url'] ) ) {
+								$paths[ $key ]['enabled'] = true;
+								$change                   = true;
+								break;
+							}
+						}
 						break;
-					}
-				}
-			}
-			if ( isset( $_GET['action'] ) && 'disable' == $_GET['action'] ) {
-				foreach ( $paths as $key => $path ) {
-					if ( $path['id'] == absint( $_GET['url'] ) ) {
-						$paths[ $key ]['enabled'] = false;
-						$change                   = true;
+					case 'disable':
+						foreach ( $paths as $key => $path ) {
+							if ( $path['id'] == absint( $_GET['url'] ) ) {
+								$paths[ $key ]['enabled'] = false;
+								$change                   = true;
+								break;
+							}
+						}
 						break;
-					}
+					case 'delete':
+						foreach ( $paths as $key => $path ) {
+							if ( $path['id'] == absint( $_GET['url'] ) ) {
+								unset( $paths[ $key ] );
+								$change = true;
+								break;
+							}
+						}
+						break;
+					case 'enable-all':
+						foreach ( $paths as $key => $path ) {
+							$paths[ $key ]['enabled'] = true;
+							$change                   = true;
+						}
+						break;
+					case 'disable-all':
+						foreach ( $paths as $key => $path ) {
+							$paths[ $key ]['enabled'] = false;
+							$change                   = true;
+						}
+						break;
+					default:
+						$paths  = apply_filters( 'dlm_download_paths_action_' . $action, $paths );
+						$change = apply_filters( 'dlm_download_paths_change_' . $action, false, $paths );
+						break;
 				}
 			}
 
-			if ( isset( $_GET['action'] ) && 'delete' == $_GET['action'] ) {
-				foreach ( $paths as $key => $path ) {
-					if ( $path['id'] == absint( $_GET['url'] ) ) {
-						unset( $paths[ $key ] );
-						$change = true;
-						break;
-					}
-				}
-			}
-
-			if ( isset( $_GET['action'] ) && 'enable-all' == $_GET['action'] ) {
-				foreach ( $paths as $key => $path ) {
-					$paths[ $key ]['enabled'] = true;
-					$change                   = true;
-				}
-			}
-
-			if ( isset( $_GET['action'] ) && 'disable-all' == $_GET['action'] ) {
-				foreach ( $paths as $key => $path ) {
-					$paths[ $key ]['enabled'] = false;
-					$change                   = true;
-				}
-			}
 			if ( $change ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
 				wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
@@ -327,31 +324,40 @@ class DLM_Downloads_Path {
 			$changes = false;
 			$paths   = DLM_Downloads_Path_Helper::get_all_paths();
 			foreach ( $_POST['otherdownloadpath'] as $id ) {
-				if ( isset( $_POST['action'] ) && 'enable' == $_POST['action'] ) {
-					foreach ( $paths as $key => $path ) {
-						if ( $path['id'] == absint( $id ) ) {
-							$paths[ $key ]['enabled'] = true;
-							$changes                  = true;
+				if ( ! empty( $_GET['action'] ) ) {
+					$action = sanitize_text_field( wp_unslash( $_GET['action'] ) );
+					switch ( $action ) {
+						case 'enable':
+							foreach ( $paths as $key => $path ) {
+								if ( $path['id'] == absint( $id ) ) {
+									$paths[ $key ]['enabled'] = true;
+									$changes                  = true;
+									break;
+								}
+							}
 							break;
-						}
-					}
-				}
-				if ( isset( $_POST['action'] ) && 'disable' == $_POST['action'] ) {
-					foreach ( $paths as $key => $path ) {
-						if ( $path['id'] == absint( $id ) ) {
-							$paths[ $key ]['enabled'] = false;
-							$changes                  = true;
+						case 'disable':
+							foreach ( $paths as $key => $path ) {
+								if ( $path['id'] == absint( $id ) ) {
+									$paths[ $key ]['enabled'] = false;
+									$changes                  = true;
+									break;
+								}
+							}
 							break;
-						}
-					}
-				}
-				if ( isset( $_POST['action'] ) && 'delete' == $_POST['action'] ) {
-					foreach ( $paths as $key => $path ) {
-						if ( $path['id'] == absint( $id ) ) {
-							unset( $paths[ $key ] );
-							$changes = true;
+						case 'delete':
+							foreach ( $paths as $key => $path ) {
+								if ( $path['id'] == absint( $id ) ) {
+									unset( $paths[ $key ] );
+									$changes = true;
+									break;
+								}
+							}
 							break;
-						}
+						default:
+							$paths   = apply_filters( 'dlm_download_paths_bulk_actions_' . $action, $paths );
+							$changes = apply_filters( 'dlm_download_paths_bulk_change_' . $action, false, $paths );
+							break;
 					}
 				}
 			}

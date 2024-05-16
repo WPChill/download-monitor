@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Downloads_Path_Helper {
 
 	/**
-	 * Saves the download paths if not allready existing either for single site or multisite setup.
+	 * Saves the download paths if not already existing either for single site or multisite setup.
 	 *
 	 * @param  array  $path  string of download path.
 	 *
@@ -28,9 +28,15 @@ class DLM_Downloads_Path_Helper {
 				break;
 			}
 		}
+
 		if ( $add_file ) {
 			$lastkey       = array_key_last( $saved_paths );
-			$saved_paths[] = array( 'id' => absint( $saved_paths[ $lastkey ]['id'] ) + 1, 'path_val' => $path, 'enabled' => true );
+			$saved_paths[] = array(
+				'id'       => absint( $saved_paths[ $lastkey ]['id'] ) + 1,
+				'path_val' => $path,
+				'enabled'  => true,
+			);
+
 			if ( is_multisite() ) {
 				$settings = get_site_option( 'dlm_network_settings', array() );
 				if ( isset( $settings['dlm_downloads_path'] ) ) {
@@ -85,7 +91,13 @@ class DLM_Downloads_Path_Helper {
 			if ( is_string( $option ) ) {
 				if ( '' != $option ) {
 					// Not empty string, save as new format since 5.0.0
-					$paths = array( array( 'id' => 1, 'path_val' => $option, 'enabled' => true ) );
+					$paths = array(
+						array(
+							'id'       => 1,
+							'path_val' => $option,
+							'enabled'  => true,
+						),
+					);
 					self::save_paths( $paths );
 
 					return $paths;
@@ -125,9 +137,7 @@ class DLM_Downloads_Path_Helper {
 					} else {
 						$path = $user_path['path_val'];
 					}
-					$return[] = str_replace( DIRECTORY_SEPARATOR,
-					                         '/',
-					                         $path );
+					$return[] = str_replace( DIRECTORY_SEPARATOR, '/', $path );
 				}
 			}
 		}
