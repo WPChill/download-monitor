@@ -188,16 +188,13 @@ class DLM_Ajax_Handler {
 
 		// List all files
 		$files                 = download_monitor()->service( 'file_manager' )->list_files( $path );
-		$extra_disallowed_dirs = apply_filters( 'dlm_restricted_admin_folders', array() );
-		$base_dissalowed_dirs  = array( 'wp-admin', 'wp-includes' );
-		$disallowed_dirs       = array_merge( $base_dissalowed_dirs, $extra_disallowed_dirs );
+		$disallowed_dirs = download_monitor()->service( 'file_manager' )->disallowed_wp_directories();
 		foreach ( $files as $found_file ) {
 			$allow = true;
 
 			// Multi-byte-safe pathinfo
 			$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
 			foreach ( $disallowed_dirs as $disallowed_dir ) {
-				var_dump($disallowed_dir);wp_die();
 				if ( strpos( trailingslashit( $file['dirname'] . '\\' . $file['basename'] ), $disallowed_dir ) ) {
 					$allow = false;
 					break;
