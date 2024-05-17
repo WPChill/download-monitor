@@ -33,7 +33,7 @@ class DLM_Downloads_Path_Helper {
 			$lastkey       = array_key_last( $saved_paths );
 			$saved_paths[] = array(
 				'id'       => absint( $saved_paths[ $lastkey ]['id'] ) + 1,
-				'path_val' => $path,
+				'path_val' => trailingslashit( $path),
 				'enabled'  => true,
 			);
 
@@ -47,6 +47,7 @@ class DLM_Downloads_Path_Helper {
 
 				update_site_option( 'dlm_network_settings', $settings );
 			} else {
+				wp_die();
 				update_option( 'dlm_downloads_path', $saved_paths );
 			}
 		}
@@ -86,7 +87,7 @@ class DLM_Downloads_Path_Helper {
 
 			return isset( $settings['dlm_downloads_path'] ) ? $settings['dlm_downloads_path'] : array();
 		} else {
-			$option = get_option( 'dlm_downloads_path', array() );
+			$option = get_option( 'dlm_downloads_path' );
 			// Check if it's string & do combatiblility for < 5.0.0
 			if ( is_string( $option ) ) {
 				if ( '' != $option ) {

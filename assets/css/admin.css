@@ -277,14 +277,13 @@
 .dlm-admin-settings .dlm-content-tab-full {
   width: 100%;
 }
-.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath mark {
-  background-color: unset;
+.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath .dlm-path-enabled {
+  color: green;
+  padding: 8px 10px;
 }
-.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath mark.yes {
-  color: #7ad03a;
-}
-.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath mark.no {
-  color: #999;
+.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath .dlm-path-disabled {
+  color: red;
+  padding: 8px 10px;
 }
 .dlm-admin-settings .dlm-content-tab-full #dlm_downloads_path {
   min-width: 400px;

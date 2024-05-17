@@ -319,7 +319,18 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 					<div
 						class="wp-clearfix"></div>
 					<?php
-					if ( isset( $settings[ $tab ] ) && ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) && 'templates' !== $active_section ) {
+					/**
+					 * Hook to show the save settings button
+					 *
+					 * @hook dlm_show_save_settings_button
+					 *
+					 * @param  bool  $show  Show the save settings button
+					 * @param  array  $settings  The settings array
+					 * @param  string  $active_section  The active section
+					 *
+					 * @since 5.0.0
+					 */
+					if ( isset( $settings[ $tab ] ) && ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) && apply_filters( 'dlm_show_save_settings_button', true, $settings, $active_section ) ) {
 						?>
 						<p class="submit">
 							<input

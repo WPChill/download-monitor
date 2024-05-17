@@ -491,34 +491,8 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @since 4.5.92
 		 */
 		public function get_allowed_paths() {
-			// Create the allowed paths array
-			$allowed_paths = array();
-
-			if ( ! apply_filters( 'dlm_force_defined_paths', true ) ) {
-				// Get ABSPATH
-				$abspath_sub = str_replace( DIRECTORY_SEPARATOR,
-				                            '/',
-				                            untrailingslashit( ABSPATH ) );
-				// Check if the ABSPATH is in the WP_CONTENT_DIR
-				if ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) {
-					$content_dir   = str_replace( DIRECTORY_SEPARATOR,
-					                              '/',
-					                              str_replace( 'wp-content',
-					                                           '',
-					                                           untrailingslashit( WP_CONTENT_DIR ) ) );
-					$allowed_paths = array( $abspath_sub, $content_dir );
-				} else {
-					$allowed_paths = array( $abspath_sub );
-				}
-			}
-
 			// Add the user defined path to the allowed paths array
-			$user_defined_allowed_paths = DLM_Downloads_Path_Helper::get_allowed_paths();
-			if ( ! empty( $user_defined_allowed_paths ) && is_array( $user_defined_allowed_paths ) ) {
-				$allowed_paths = array_merge( $allowed_paths, $user_defined_allowed_paths );
-			}
-
-			return $allowed_paths;
+			return DLM_Downloads_Path_Helper::get_allowed_paths();
 		}
 
 		/**

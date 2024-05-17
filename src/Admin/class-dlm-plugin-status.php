@@ -57,6 +57,8 @@ class DLM_Plugin_Status {
 		add_action( 'update_wpmu_options', array( $this, 'save_network_downloads_settings' ) );
 		//add_action( 'dlm_after_install_setup', array( $this, 'download_path_backwards_compat' ) );
 		add_filter( 'dlm_downloadable_file_version_buttons', array( $this, 'browse_files_button' ) );
+		// Hide the save button in the Templates tab.
+		add_filter( 'dlm_show_save_settings_button', array( $this, 'hide_save_button' ), 15, 3 );
 	}
 
 	/**
@@ -96,7 +98,7 @@ class DLM_Plugin_Status {
 			return;
 		}
 		// Get the site's current dlm_downloads_path value.
-		$site_option = get_option( 'dlm_downloads_path', false );
+		$site_option = get_option( 'dlm_downloads_path' );
 
 		// Only do backwards for multisite that have dlm_downloads_path values.
 		if ( is_multisite() && $site_option && '' != $site_option ) {
@@ -850,5 +852,21 @@ class DLM_Plugin_Status {
 	public function check_modules( $modules ) {
 		// For the moment we only return the modules from WordPress. Placed here for future use.
 		return $modules;
+	}
+
+	/**
+	 * Add the templates tab to the settings page.
+	 *
+	 * @param  array  $settings  Array of settings.
+	 *
+	 * @return bool
+	 * @since 5.0.0
+	 */
+	public function hide_save_button( $return, $settings, $active_section ) {
+		if ( 'templates' === $active_section ) {
+			return false;
+		}
+
+		return $return;
 	}
 }

@@ -63,6 +63,8 @@ class DLM_Downloads_Path {
 		add_filter( 'pre_update_option', array( $this, 'update_action' ), 10, 3 );
 		add_action( 'admin_init', array( $this, 'actions_handler' ) );
 		add_action( 'admin_init', array( $this, 'bulk_actions_handler' ) );
+		// Hide the save button in the Approved Download Paths tab.
+		add_filter( 'dlm_show_save_settings_button', array( $this, 'hide_save_button' ), 15, 3 );
 	}
 
 	/**
@@ -71,7 +73,24 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function register_setting() {
-		register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path' );
+		$default = array(
+			array(
+				'id'       => 1,
+				'path_val' => trailingslashit( ABSPATH ),
+				'enabled'  => true,
+			),
+			array(
+				'id'       => 2,
+				'path_val' => trailingslashit( WP_CONTENT_DIR ),
+				'enabled'  => true,
+			),
+		);
+		$args    = array(
+			'type'    => 'array',
+			'default' => $default,
+		);
+
+		register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
 	}
 
 	/**
@@ -116,6 +135,8 @@ class DLM_Downloads_Path {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_REQUEST['url'] ) ) {
 			$this->edit_screen( (int) $_REQUEST['url'] );
+			// Echo the referer field so that after submitting the form, the user is redirected to the correct page.
+			echo '<input type="hidden" name="_wp_http_referer" value="' . esc_url( admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=download_path' ) ) . '">';
 
 			return;
 		}
@@ -215,11 +236,29 @@ class DLM_Downloads_Path {
 		if ( 'dlm_downloads_path' !== $option || ! isset( $_POST['path_action'] ) ) {
 			return $value;
 		}
-
+		// If there were no previous values, then we are adding a new path.
 		if ( empty( $old_value ) ) {
-			return $value;
+			return array(
+				'id'       => 1,
+				'path_val' => trailingslashit( $value ),
+				'enabled'  => isset( $_POST['dlm_downloads_path_enabled'] ),
+			);
 		}
-
+		// Add a trailing slash to the path.
+		$value    = trailingslashit( $value );
+		$add_file = true;
+		// Check and see if the path already exists.
+		foreach ( $old_value as $save_path ) {
+			if ( trailingslashit( $save_path['path_val'] ) === $value ) {
+				$add_file = false;
+				break;
+			}
+		}
+		// Path already exists, so return the old value.
+		if ( ! $add_file ) {
+			return $old_value;
+		}
+		// From this point on, we are adding a new path.
 		if ( ! isset( $_POST['id'] ) || 0 == $_POST['id'] ) {
 			$lastkey     = array_key_last( $old_value );
 			$newval      = array(
@@ -306,7 +345,6 @@ class DLM_Downloads_Path {
 						break;
 				}
 			}
-
 			if ( $change ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
 				wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
@@ -320,14 +358,15 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function bulk_actions_handler() {
-		if ( isset( $_POST['option_page'] ) && 'dlm_advanced_download_path' == $_POST['option_page'] && isset( $_POST['otherdownloadpath'] ) ) {
+		if ( isset( $_POST['option_page'] ) && 'dlm_advanced_download_path' === $_POST['option_page'] && isset( $_POST['otherdownloadpath'] ) ) {
 			$changes = false;
 			$paths   = DLM_Downloads_Path_Helper::get_all_paths();
 			foreach ( $_POST['otherdownloadpath'] as $id ) {
-				if ( ! empty( $_GET['action'] ) ) {
-					$action = sanitize_text_field( wp_unslash( $_GET['action'] ) );
+				if ( ! empty( $_POST['action'] ) ) {
+					$action = sanitize_text_field( wp_unslash( $_POST['action'] ) );
 					switch ( $action ) {
 						case 'enable':
+
 							foreach ( $paths as $key => $path ) {
 								if ( $path['id'] == absint( $id ) ) {
 									$paths[ $key ]['enabled'] = true;
@@ -367,5 +406,21 @@ class DLM_Downloads_Path {
 			}
 			wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
 		}
+	}
+
+	/**
+	 * Add the templates tab to the settings page.
+	 *
+	 * @param  array  $settings  Array of settings.
+	 *
+	 * @return bool
+	 * @since 5.0.0
+	 */
+	public function hide_save_button( $return, $settings, $active_section ) {
+		if ( 'download_path' === $active_section && empty( $_GET['action'] ) ) {
+			return false;
+		}
+
+		return $return;
 	}
 }

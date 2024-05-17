@@ -155,8 +155,8 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 				break;
 			case 'enabled':
 				$html .= 'enabled' == $item['enabled']
-					? '<mark class="yes" title="' . esc_html__( 'Enabled', 'download-monitor' ) . '"><span class="dashicons dashicons-yes"></span></mark>'
-					: '<mark class="no" title="' . esc_html__( 'Disabled', 'download-monitor' ) . '">&ndash;</mark>';
+					? '<span class="dashicons dashicons-saved dlm-path-enabled"></span>'
+					: '<span class="dashicons dashicons-no-alt dlm-path-disabled"></span>';
 				break;
 			default:
 				$html .= '';

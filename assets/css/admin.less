@@ -372,16 +372,13 @@
 
 	.wp-list-table {
 	  &.otherdownloadspath {
-		mark {
-		  background-color: unset;
-
-		  &.yes {
-			color: #7ad03a;
-		  }
-
-		  &.no {
-			color: #999;
-		  }
+		.dlm-path-enabled {
+		  color:green;
+		  padding: 8px 10px;
+		}
+		.dlm-path-disabled {
+		  color: red;
+		  padding: 8px 10px;
 		}
 	  }
 	}
