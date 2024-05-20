@@ -47,7 +47,6 @@ class DLM_Downloads_Path_Helper {
 
 				update_site_option( 'dlm_network_settings', $settings );
 			} else {
-				wp_die();
 				update_option( 'dlm_downloads_path', $saved_paths );
 			}
 		}

@@ -158,8 +158,9 @@ class DLM_Downloads_Path {
 	private function edit_screen( int $url_id ) {
 		$paths    = DLM_Downloads_Path_Helper::get_all_paths();
 		$existing = false;
+
 		foreach ( $paths as $path ) {
-			if ( $url_id == $path['id'] ) {
+			if ( absint( $url_id ) === absint( $path['id'] ) ) {
 				$existing = $path;
 				break;
 			}
@@ -172,7 +173,7 @@ class DLM_Downloads_Path {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$submitted    = sanitize_text_field( wp_unslash( $_GET['submitted-url'] ?? '' ) );
 		$existing_url = $existing ? $existing['path_val'] : '';
-		$enabled      = $existing ? 'enabled' === $existing['enabled'] : true;
+		$enabled      = $existing && $existing['enabled'];
 		// phpcs:enable
 
 		?>
@@ -236,24 +237,30 @@ class DLM_Downloads_Path {
 		if ( 'dlm_downloads_path' !== $option || ! isset( $_POST['path_action'] ) ) {
 			return $value;
 		}
+		$enable = isset( $_POST['dlm_downloads_path_enabled'] ) && '1' === $_POST['dlm_downloads_path_enabled'] ? true : false;
 		// If there were no previous values, then we are adding a new path.
 		if ( empty( $old_value ) ) {
 			return array(
 				'id'       => 1,
 				'path_val' => trailingslashit( $value ),
-				'enabled'  => isset( $_POST['dlm_downloads_path_enabled'] ),
+				'enabled'  => $enable,
 			);
 		}
+
 		// Add a trailing slash to the path.
 		$value    = trailingslashit( $value );
 		$add_file = true;
 		// Check and see if the path already exists.
-		foreach ( $old_value as $save_path ) {
+		foreach ( $old_value as $key => $save_path ) {
 			if ( trailingslashit( $save_path['path_val'] ) === $value ) {
+				if ( $save_path['enabled'] !== $enable ) {
+					$old_value[ $key ]['enabled'] = $enable;
+				}
 				$add_file = false;
 				break;
 			}
 		}
+
 		// Path already exists, so return the old value.
 		if ( ! $add_file ) {
 			return $old_value;
@@ -264,7 +271,7 @@ class DLM_Downloads_Path {
 			$newval      = array(
 				'id'       => absint( $old_value[ $lastkey ]['id'] ) + 1,
 				'path_val' => $value,
-				'enabled'  => isset( $_POST['dlm_downloads_path_enabled'] ),
+				'enabled'  => $enable,
 			);
 			$old_value[] = $newval;
 
@@ -345,6 +352,7 @@ class DLM_Downloads_Path {
 						break;
 				}
 			}
+
 			if ( $change ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
 				wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
