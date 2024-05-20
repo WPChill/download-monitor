@@ -1688,6 +1688,12 @@ table.wp-list-table .column-thumb img {
   cursor: pointer;
   text-decoration: none;
 }
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions .dlm-csv-export-wrapper__export_settings #dlm-export-settings-upsell {
+  max-width: 30px;
+  position: relative;
+  margin-right: 15px;
+  float: right;
+}
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-chart-icon {
   display: block;
   padding-right: 15px;
@@ -3509,8 +3515,14 @@ div#dlm-export-settings-upsell span {
   background: #fff;
   padding: 30px 15px;
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr;
+  grid-template-columns: 1fr 4.5fr 0.5fr;
+  width: calc(100% - 20px);
   align-items: center;
+}
+@media (max-width: 1200px) {
+  .dlm-master-license .dlm-master-license__wrapper {
+    grid-template-columns: 1fr;
+  }
 }
 .dlm-master-license .dlm-master-license__inputs {
   display: grid;
@@ -3518,8 +3530,26 @@ div#dlm-export-settings-upsell span {
   align-items: center;
   gap: 5px;
 }
+@media (max-width: 1200px) {
+  .dlm-master-license .dlm-master-license__inputs {
+    grid-template-columns: 1fr;
+  }
+}
 .dlm-master-license .dlm-master-license__action_buttons {
   text-align: center;
+}
+@media (max-width: 1200px) {
+  .dlm-master-license .dlm-master-license__action_buttons {
+    text-align: left;
+  }
+}
+.dlm-master-license .dlm-master-license__action_buttons #dlm-master-license-btn {
+  min-width: 100px;
+}
+@media (max-width: 1200px) {
+  .dlm-master-license .dlm-master-license__action_buttons #dlm-master-license-btn {
+    margin-top: 10px;
+  }
 }
 .dlm-master-license label {
   font-weight: bold;
@@ -3530,11 +3560,17 @@ div#dlm-export-settings-upsell span {
 .dlm-master-license .dlm_license_error {
   background-color: #ffffe0;
 }
-.dlm-master-license .dlm-master-license-email-wrapper,
-.dlm-master-license .dlm-master-license-license-wrapper {
-  display: inline-block;
-  position: relative;
-  text-align: center;
+@media (max-width: 1200px) {
+  .dlm-master-license .dlm-master-license-email-wrapper,
+  .dlm-master-license .dlm-master-license-license-wrapper {
+    text-align: left;
+  }
+}
+.dlm-master-license .dlm-master-license-email-wrapper input,
+.dlm-master-license .dlm-master-license-license-wrapper input {
+  width: 100%;
+  margin: 7px 0;
+  padding: 7px;
 }
 .dlm-master-license .dlm-master-license-email-wrapper label,
 .dlm-master-license .dlm-master-license-license-wrapper label {
@@ -3556,6 +3592,11 @@ div#dlm-export-settings-upsell span {
   margin: 10px 0;
   padding: 10px;
   align-items: center;
+}
+@media (max-width: 1200px) {
+  .dlm_extensions .dlm_extension {
+    grid-template-columns: 1fr;
+  }
 }
 .dlm_extensions .dlm_extension p {
   margin: 0;
@@ -3626,6 +3667,7 @@ div#dlm-export-settings-upsell span {
   margin: 5px auto 0;
   color: #fff;
   text-align: center;
+  min-width: 100px;
 }
 .dlm_extensions .dlm_extension p.license-status {
   padding: 5px 0;

@@ -88,13 +88,13 @@ class DLM_License {
 						echo esc_attr( $master_license['email'] ) ?>" size='35' placeholder="<?php
 						esc_attr_e( 'Email', 'download-monitor' ); ?>">
 					</div>
-				</div>
-				<div class="dlm-master-license__action_buttons">
-					<input type='hidden' value="<?php
-					echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"/>
-					<button class='button button-primary' id='dlm-master-license-btn' data-action="<?php
-					echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate'; ?>"><?php
-						( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
+					<div class='dlm-master-license__action_buttons'>
+						<input type='hidden' value="<?php
+						echo esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ); ?>"/>
+						<button class='button button-primary' id='dlm-master-license-btn' data-action="<?php
+						echo ( 'inactive' === $master_license['status'] ) ? 'activate' : 'deactivate'; ?>"><?php
+							( 'inactive' === $master_license['status'] ) ? esc_html_e( 'Activate', 'download-monitor' ) : esc_html_e( 'Deactivate', 'download-monitor' ); ?></button>
+					</div>
 				</div>
 			</div>
 			<p class='error-display'>&nbsp;</p>
