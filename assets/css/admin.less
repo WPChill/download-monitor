@@ -1509,7 +1509,6 @@ table.wp-list-table {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: flex-start;
-			border-bottom: 1px solid #e0e0e0;
 			overflow: hidden;
 			margin: 0;
 
@@ -1580,6 +1579,12 @@ table.wp-list-table {
 			margin: 0;
 		  }
 
+		  #dlm-date-range-picker {
+			@media (max-width: 1064px) {
+			  margin-top:35px;
+			}
+		  }
+
 		  .dlm-reports-header-date-selector {
 
 			display: flex;
@@ -1594,6 +1599,10 @@ table.wp-list-table {
 			transition: 800ms ease-in;
 			opacity: 1;
 			min-width: 230px;
+
+			@media (max-width: 1550px) {
+			 margin:0;
+			}
 
 			& > label {
 			  font-size: 12px;
@@ -3656,6 +3665,12 @@ div#dlm-export-settings-upsell {
 	top: -1px;
 	cursor: pointer;
 	text-decoration: none;
+  }
+
+  @media (max-width: 1550px) {
+	width:100%;
+	margin-top:5px;
+	margin-bottom:35px;
   }
 }
 
