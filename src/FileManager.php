@@ -457,6 +457,18 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 					return array( $file_path, $remote_file, $restriction );
 				}
 			}
+
+			// Restricted directories
+			$restricted_directories = download_monitor()->service( 'file_manager' )->disallowed_wp_directories();
+			// Check if the file is in one of the restricted directories
+			foreach ( $restricted_directories as $restricted_directory ) {
+				if ( false !== strpos( $file_path, $restricted_directory ) ) {
+					$restriction = true;
+
+					return array( $file_path, $remote_file, $restriction );
+				}
+			}
+
 			// Get allowed paths
 			$allowed_paths = $this->get_allowed_paths();
 			// Create the correct path using the file path and the allowed paths
