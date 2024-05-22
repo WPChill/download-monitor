@@ -162,6 +162,10 @@ class WP_DLM {
 
 			// Load the license class
 			$license = DLM_License::get_instance();
+
+			if ( ( defined( 'MULTISITE' ) && MULTISITE ) ) {
+				$multisite = DLM_Network_Settings::get_instance();
+			}
 		}
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.

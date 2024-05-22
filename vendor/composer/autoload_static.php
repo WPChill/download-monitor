@@ -108,6 +108,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_Logging' => __DIR__ . '/../..' . '/src/Logs/Logging.php',
         'DLM_Media_Library' => __DIR__ . '/../..' . '/src/Admin/class-dlm-media-library.php',
         'DLM_Modal' => __DIR__ . '/../..' . '/src/class-dlm-modal.php',
+        'DLM_Network_Settings' => __DIR__ . '/../..' . '/src/Admin/class-dlm-network-settings.php',
         'DLM_Plugin_Status' => __DIR__ . '/../..' . '/src/Admin/class-dlm-plugin-status.php',
         'DLM_Post_Type_Manager' => __DIR__ . '/../..' . '/src/PostTypeManager.php',
         'DLM_Product' => __DIR__ . '/../..' . '/src/Product/Product.php',
