@@ -67,7 +67,7 @@ class DLM_Admin_Media_Browser {
 			$allow = true;
 			if ( $found_file['type'] == 'folder' ) {
 				foreach ( $disallowed_dirs as $disallowed_dir ) {
-					if ( strpos( trailingslashit( $file['dirname'] . "\\" . $file['basename'] ), $disallowed_dir ) ) {
+					if ( strpos( trailingslashit( $file['dirname'] . DIRECTORY_SEPARATOR . $file['basename'] ), $disallowed_dir ) ) {
 						$allow = false;
 						break;
 					}

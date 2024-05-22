@@ -955,7 +955,16 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 */
 		public function disallowed_wp_directories() {
 			$extra_disallowed_dirs = apply_filters( 'dlm_restricted_admin_folders', array() );
-			$base_disalowed_dirs   = array( 'wp-admin', 'wp-includes' );
+			$base_disalowed_dirs = array(
+				'wp-admin',
+				'wp-includes',
+				'mail',
+				'etc',
+			);
+
+			foreach ( $base_disalowed_dirs as $key => $dir ) {
+				$base_disalowed_dirs[ $key ] = DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR;
+			}
 
 			return array_merge( $base_disalowed_dirs, $extra_disallowed_dirs );
 		}
