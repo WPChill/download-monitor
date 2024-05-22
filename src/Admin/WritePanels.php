@@ -28,7 +28,7 @@ class DLM_Admin_Writepanels {
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
 		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_boxes' ), 1, 2 );
 		add_action( 'wp_ajax_dlm_upload_file', array( $this, 'upload_file' ) );
-		add_filter( 'hidden_meta_boxes' , array( $this, 'hide_meta_box' ), 10, 2 );
+		add_filter( 'hidden_meta_boxes', array( $this, 'hide_meta_box' ), 10, 2 );
 	}
 
 	/**
@@ -684,6 +684,7 @@ class DLM_Admin_Writepanels {
 		
 		//make sure we are dealing with the correct screen
 		if ( ( 'post' === $screen->base ) && ( 'dlm_download' === $screen->id ) ) {
+			// Specify the templates that do not use the excerpt
 			$no_excerpt_templates = apply_filters( 'dlm_hidden_excerpt_cpt_templates', array(
 					'button',
 					'filename',
@@ -691,8 +692,10 @@ class DLM_Admin_Writepanels {
 					'version-list'
 				)
 			);
-			$used_tempalte = dlm_get_default_download_template();
-			if( empty( $used_tempalte ) || in_array( $used_tempalte, $no_excerpt_templates ) ){
+			// Get the current template
+			$used_template = dlm_get_default_download_template();
+			// If the current template is empty or in the no_excerpt_templates array, hide the excerpt metabox
+			if( empty( $used_template ) || in_array( $used_template, $no_excerpt_templates ) ){
 				$hidden[] = 'postexcerpt';
 			}
 		}

@@ -1286,7 +1286,9 @@ table.wp-list-table .column-thumb img {
 #download-monitor-options .dlm_product_locked_product .dlm_product_locked_product_edit {
   float: right;
   font-size: 12px;
+  line-height: 19px;
   opacity: 0;
+  margin-left: 5px;
 }
 #download-monitor-options .options_upsell_link {
   color: unset;

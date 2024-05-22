@@ -42,22 +42,30 @@ class DownloadOption {
 		echo '</div>';
 	}
 
-	public static function get_download_products( $download_id = 0 ){
-		if( 0 == $download_id ){
+	/**
+	 * Get products that lock a download
+	 *
+	 * @param  int  $download_id
+	 *
+	 * @return array|bool
+	 * @since 5.0.0
+	 */
+	public static function get_download_products( $download_id = 0 ) {
+		if ( 0 == $download_id ) {
 			return false;
 		}
 		global $wpdb;
 
 		// SQL query to retrieve post IDs with the specified meta_key and meta_value
-		$query = $wpdb->prepare("
+		$query = $wpdb->prepare( "
 			SELECT post_id
 			FROM $wpdb->postmeta
 			WHERE meta_key = '_downloads'
 			AND meta_value = %d
-		", $download_id);
-		
+		", $download_id );
+
 		// Execute the query
-		$results = $wpdb->get_col($query );
+		$results = $wpdb->get_col( $query );
 
 		// Check if there are any results
 		if ( ! empty( $results ) ) {
