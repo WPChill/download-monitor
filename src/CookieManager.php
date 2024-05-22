@@ -170,7 +170,7 @@ class DLM_Cookie_Manager {
 			$cookie_data['expires'] = time() + DAY_IN_SECONDS;
 		}
 
-		// Create cookie hash using download ID, site name, 'dlm' string and cookie ID
+		// Create cookie hash using download ID, site name, 'dlm' string and random number
 		$hash = wp_hash( $download->get_id() . 'dlm' . get_bloginfo( 'name' ) . wp_rand() );
 
 		// Insert cookie into database
@@ -435,7 +435,7 @@ class DLM_Cookie_Manager {
 	public function get_cookie_id( $hash ) {
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT `id` FROM {$wpdb->prefix}dlm_cookies WHERE `hash` = %s", $hash ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT `id` FROM {$wpdb->prefix}dlm_cookies WHERE `hash` = %s", sanitize_text_field( $hash ) ) );
 	}
 
 	/**
@@ -450,7 +450,7 @@ class DLM_Cookie_Manager {
 	public function get_cookie_set_date( $id ) {
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT `creation_date` FROM {$wpdb->prefix}dlm_cookies WHERE `id` = %s", $id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT `creation_date` FROM {$wpdb->prefix}dlm_cookies WHERE `id` = %s", absint( $id ) ) );
 	}
 
 	/**
@@ -465,7 +465,7 @@ class DLM_Cookie_Manager {
 	public function get_cookie_expiration_date( $id ) {
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT `expiration_date` FROM {$wpdb->prefix}dlm_cookies WHERE `id` = %s", $id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT `expiration_date` FROM {$wpdb->prefix}dlm_cookies WHERE `id` = %s", absint( $id ) ) );
 	}
 
 	/**
@@ -481,7 +481,7 @@ class DLM_Cookie_Manager {
 	public function get_cookie_meta_data( $id, $meta_key ) {
 		global $wpdb;
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT `meta_data` FROM {$wpdb->prefix}dlm_cookiemeta WHERE `cookie_id` = %d AND `meta_key` = %s", $id, $meta_key ) );
+		return $wpdb->get_results( $wpdb->prepare( "SELECT `meta_data` FROM {$wpdb->prefix}dlm_cookiemeta WHERE `cookie_id` = %d AND `meta_key` = %s", absint( $id ), sanitize_text_field( $meta_key ) ) );
 	}
 
 
@@ -497,7 +497,7 @@ class DLM_Cookie_Manager {
 	private function get_cookie( $hash ) {
 		global $wpdb;
 
-		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}dlm_cookies WHERE `hash` = %s;", $hash ) );
+		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}dlm_cookies WHERE `hash` = %s;", sanitize_text_field( $hash ) ) );
 	}
 
 	/**

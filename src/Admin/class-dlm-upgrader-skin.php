@@ -82,7 +82,6 @@ class DLM_Upgrader_Skin extends WP_Upgrader_Skin {
 	function error( $errors ) {
 
 		if ( ! empty( $errors ) ) {
-            var_dump($errors); 
 			echo json_encode( array( 'error' => __( 'There was an error installing the addon. Please try again.', 'download-monitor' ) ) );
 			/* log this for API issues */
 			die;
