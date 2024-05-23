@@ -36,7 +36,8 @@ class DLM_Admin_Scripts {
 			'dlm_notices',
 			plugins_url( '/assets/js/notices' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
-			DLM_VERSION
+			DLM_VERSION,
+			true
 		);
 
 		// Make JavaScript strings translatable
@@ -55,7 +56,8 @@ class DLM_Admin_Scripts {
 			'dlm_insert_download',
 			plugins_url( '/assets/js/download-operations' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
-			DLM_VERSION
+			DLM_VERSION,
+			true
 		);
 
 		wp_add_inline_script( 'dlm_insert_download', 'const dlm_ajax_nonce = "' . wp_create_nonce( 'dlm_ajax_nonce' ) . '";', 'before' );
@@ -64,7 +66,8 @@ class DLM_Admin_Scripts {
 			'dlm_notices',
 			plugins_url( '/assets/js/notices' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
-			DLM_VERSION
+			DLM_VERSION,
+			true
 		);
 
 		// Make JavaScript strings translatable
@@ -111,7 +114,8 @@ class DLM_Admin_Scripts {
 					'dlm_select2',
 					plugins_url( '/assets/js/select2/select2.min.js', $dlm->get_plugin_file() ),
 					array( 'jquery' ),
-					DLM_VERSION
+					DLM_VERSION,
+					true
 				);
 
 				wp_enqueue_style( 'dlm_select2_css', download_monitor()->get_plugin_url() . '/assets/js/select2/select2.min.css' );
@@ -121,7 +125,8 @@ class DLM_Admin_Scripts {
 					'dlm_edit_product',
 					plugins_url( '/assets/js/shop/edit-product' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 					array( 'jquery', 'dlm_select2' ),
-					DLM_VERSION
+					DLM_VERSION,
+					true
 				);
 
 				// Make JavaScript strings translatable
@@ -174,7 +179,6 @@ class DLM_Admin_Scripts {
 				true
 			);
 
-
 			wp_enqueue_script(
 				'dlm_reports_moment',
 				plugins_url( '/assets/js/reports/moment' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
@@ -221,7 +225,8 @@ class DLM_Admin_Scripts {
 				'dlm_settings',
 				plugins_url( '/assets/js/settings' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
-				DLM_VERSION
+				DLM_VERSION,
+				true
 			);
 
 			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array(
@@ -235,7 +240,8 @@ class DLM_Admin_Scripts {
 				'dlm_extensions',
 				plugins_url( '/assets/js/extensions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
-				DLM_VERSION
+				DLM_VERSION,
+				true
 			);
 
 			wp_localize_script( 'dlm_extensions', 'extensions_vars', array(
@@ -277,7 +283,8 @@ class DLM_Admin_Scripts {
 				'dlm_settings',
 				plugins_url( '/assets/js/settings' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
-				DLM_VERSION
+				DLM_VERSION,
+				true
 			);
 
 			wp_localize_script( 'dlm_settings', 'dlm_settings_vars', array(
@@ -294,7 +301,8 @@ class DLM_Admin_Scripts {
 				'dlm_legacy_upgrader',
 				plugins_url( '/assets/js/legacy-upgrader/build/bundle.js', $dlm->get_plugin_file() ),
 				array(),
-				DLM_VERSION
+				DLM_VERSION,
+				true
 			);
 
 			wp_localize_script( 'dlm_legacy_upgrader', 'dlm_lu_vars', array(
@@ -312,7 +320,8 @@ class DLM_Admin_Scripts {
 				'dlm_select2',
 				plugins_url( '/assets/js/select2/select2.min.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
-				DLM_VERSION
+				DLM_VERSION,
+				true
 			);
 
 			wp_enqueue_style( 'dlm_select2_css', download_monitor()->get_plugin_url() . '/assets/js/select2/select2.min.css' );
@@ -321,12 +330,12 @@ class DLM_Admin_Scripts {
 				'dlm_api_key_generator',
 				plugins_url( '/assets/js/api-keys-generator' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 				array( 'jquery', 'dlm_select2' ),
-				DLM_VERSION
+				DLM_VERSION,
+				true
 			);
-	
+
 			wp_add_inline_script( 'dlm_api_key_generator', 'const dlm_ajax = ' . json_encode( array( 'nonce' => wp_create_nonce( 'dlm_ajax_nonce' ), 'ajaxurl' => admin_url('admin-ajax.php') ) ) . ';', 'before' );
 		}
-
 
 		do_action( 'dlm_admin_scripts_after' );
 

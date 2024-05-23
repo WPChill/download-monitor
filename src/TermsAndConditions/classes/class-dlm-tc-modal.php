@@ -115,7 +115,8 @@ class DLM_TC_Modal {
 				'jquery',
 				'dlm_progress_bar'
 			) : array() ),
-			DLM_VERSION
+			DLM_VERSION,
+			true
 		);
 
 		// unlock text
