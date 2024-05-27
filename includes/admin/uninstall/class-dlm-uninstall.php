@@ -39,12 +39,16 @@ class DLM_Uninstall {
 		$plugin_url = download_monitor()->get_plugin_url();
 
 		$current_screen = get_current_screen();
+		// Check if current user can manage options
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 		if ( in_array( $current_screen->base, array( 'plugins', 'plugins-network' ) ) ) {
 			wp_enqueue_style( 'dlm-uninstall', $plugin_url . '/assets/css/dlm-uninstall.min.css', array(), DLM_VERSION );
 			wp_enqueue_script( 'dlm-uninstall', $plugin_url . '/assets/js/dlm-uninstall.js', array( 'jquery' ), DLM_VERSION, true );
 			wp_localize_script( 'dlm-uninstall', 'wpDLMUninstall', array(
-					'redirect_url' => admin_url( '/plugins.php' ),
-					'nonce'        => wp_create_nonce( 'dlm_uninstall_plugin' )
+				'redirect_url' => admin_url( '/plugins.php' ),
+				'nonce'        => wp_create_nonce( 'dlm_uninstall_plugin' ),
 			) );
 		}
 	}
@@ -168,6 +172,10 @@ class DLM_Uninstall {
 
 		global $wpdb;
 		check_ajax_referer( 'dlm_uninstall_plugin', 'security' );
+		// Check if the user can delete data
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to delete data from this plugin', 'download-monitor' ) ) );
+		}
 
 		// we can't unslash an array
 		$uninstall_option = isset( $_POST['options'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['options'] ) ) : false;

@@ -2,7 +2,7 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.5
-Tested up to: 6.4
+Tested up to: 6.5
 Stable tag: 5.0.0
 License: GPLv3
 Text Domain: download-monitor
@@ -129,6 +129,13 @@ Fixed: Included the Terms and Conditions premium plugin in the LITE version ( [#
 Changed: Enhanced display of settings descriptions. ( [#1444](https://github.com/WPChill/download-monitor/issues/1444) )
 Changed: Multiple allowed uploads path and setting redesign ( [#1447](https://github.com/WPChill/download-monitor/issues/1447) )
 Added: File type & location column to the admin list table ( [#1450](https://github.com/WPChill/download-monitor/issues/1450) )
+
+= 4.9.14 - 27.05.2024 =
+Fixed: Security issue, thanks to Arkadiusz Hydzik for reporting it.
+
+= 4.9.13 - 15.04.2024 =
+Fixed: Enforce on what pages should the ID pe appended in the title ( [#1443](https://github.com/WPChill/download-monitor/issues/1443) )
+Fixed: WP 6.5 compatibility for fresh installs ( [#1442](https://github.com/WPChill/download-monitor/issues/1442) )
 
 = 4.9.12 - 11.04.2024 =
 Fixed: Lite vs Premium page not showing when a license is not added.( [#1441](https://github.com/WPChill/download-monitor/issues/1441) )
