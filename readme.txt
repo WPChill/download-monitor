@@ -129,7 +129,6 @@ Fixed: WP 6.5 compatibility for fresh installs ( [#1442](https://github.com/WPCh
 
 = 4.9.12 - 11.04.2024 =
 Fixed: Lite vs Premium page not showing when a license is not added.( [#1441](https://github.com/WPChill/download-monitor/issues/1441) )
-Fixed: Compatibility with wordpress 6.5 ( [#1442](https://github.com/WPChill/download-monitor/issues/1442) )
 
 = 4.9.11 - 16.02.2024 =
 Changed: Removed Freemius
