@@ -16,16 +16,19 @@ class DLM_API_Key {
 	private $token;
 	private $user_id;
 	private $id;
+	private $create_date;
 
 	/**
 	 * Constructor.
 	 *
-	 *
-	 * @throws Exception If the key is not found.
+	 * @param  array  $data  The key data.
 	 *
 	 * @since 5.0.0
 	 */
-	public function __construct() {
+	public function __construct( $data = array() ) {
+		if ( ! empty( $data ) ) {
+			$this->set_data( $data );
+		}
 	}
 
 	/**
@@ -135,6 +138,7 @@ class DLM_API_Key {
 		$this->set_token();
 		$this->set_user_id( $data->user_id );
 		$this->set_id( $data->ID );
+		$this->set_creation_date( $data->create_date );
 	}
 
 	/**
@@ -159,9 +163,9 @@ class DLM_API_Key {
 	}
 
 	/**
-	 * Set the key ID.
+	 * Set the public key.
 	 *
-	 * @param  string  $id  The key ID.
+	 * @param  string  $public_key  The public key.
 	 *
 	 * @since 5.0.0
 	 */
@@ -170,9 +174,9 @@ class DLM_API_Key {
 	}
 
 	/**
-	 * Get the key ID.
+	 * Get the public key.
 	 *
-	 * @return string The key.
+	 * @return string The public key.
 	 * @since 5.0.0
 	 */
 	public function get_public_key() {
@@ -191,6 +195,17 @@ class DLM_API_Key {
 	}
 
 	/**
+	 * Set the creation date.
+	 *
+	 * @param  string  $creation_date  The creation date.
+	 *
+	 * @since 5.0.0
+	 */
+	public function set_creation_date( $creation_date ) {
+		$this->create_date = $creation_date;
+	}
+
+	/**
 	 * Get the secret key.
 	 *
 	 * @return string The secret key.
@@ -201,8 +216,17 @@ class DLM_API_Key {
 	}
 
 	/**
-	 * Set the token.
+	 * Get the creation date.
 	 *
+	 * @return string The creation date.
+	 * @since 5.0.0
+	 */
+	public function get_creation_date() {
+		return $this->create_date;
+	}
+
+	/**
+	 * Set the token.
 	 *
 	 * @since 5.0.0
 	 */
@@ -297,10 +321,11 @@ class DLM_API_Key {
 		}
 		$this->set_token();
 		$data = array(
-			'public_key' => $this->public_key,
-			'secret_key' => $this->secret_key,
-			'token'      => $this->token,
-			'user_id'    => $this->user_id,
+			'public_key'  => $this->public_key,
+			'secret_key'  => $this->secret_key,
+			'token'       => $this->token,
+			'user_id'     => $this->user_id,
+			'create_date' => current_time( 'mysql' ),
 		);
 
 		// Insert the data and return the ID.

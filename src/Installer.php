@@ -302,6 +302,7 @@ class DLM_Installer {
 			public_key longtext NULL,
 			token longtext NULL,
 			secret_key longtext NULL,
+			create_date datetime DEFAULT NULL,
 			PRIMARY KEY  (ID),
 			KEY attribute_name (ID)
             ) $collate;";

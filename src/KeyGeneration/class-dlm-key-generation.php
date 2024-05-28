@@ -94,13 +94,12 @@ class DLM_Key_Generation {
 				echo esc_html__( 'API Keys', 'download-monitor' ); ?></h1>
 			<div class="dlm-api-keys-generator">
 				<br>
-				<select class="dlm-keygen-user-select">
+				<select name="dlm-keygen-user-select" class="dlm-keygen-user-select">
 					<option selected="selected" value="<?php
 					echo esc_attr( $current_user->data->ID ); ?>"> <?php
 						echo esc_html( $current_user->data->display_name . '(' . $current_user->data->user_email . ')' ); ?> </option>
-					;
 				</select>
-				<button class="dlm-keygen-generate button button-secondary">Generate API Key</button>
+				<button class="dlm-keygen-generate button button-secondary"><?php echo esc_html__( 'Generate API Key', 'download-monitor' ); ?></button>
 			</div>
 			<?php
 			// Add your code here.
@@ -229,6 +228,7 @@ class DLM_Key_Generation {
 	 * @param  int  $user_id  User ID.
 	 *
 	 * @return string
+	 * @since 5.0.0
 	 */
 	public function get_user_public_key( $user_id = 0 ) {
 		global $wpdb;
@@ -248,11 +248,12 @@ class DLM_Key_Generation {
 	}
 
 	/**
-	 * Get a users's secret key.
+	 * Get a user's secret key.
 	 *
 	 * @param  int  $user_id  User ID.
 	 *
 	 * @return string
+	 * @since 5.0.0
 	 */
 	public function get_user_secret_key( $user_id = 0 ) {
 		global $wpdb;
@@ -261,7 +262,7 @@ class DLM_Key_Generation {
 			return '';
 		}
 
-		$cache_key       = md5( 'edd_api_user_secret_key' . $user_id );
+		$cache_key       = md5( 'dlm_api_user_secret_key' . $user_id );
 		$user_secret_key = get_transient( $cache_key );
 
 		if ( empty( $user_secret_key ) ) {
@@ -276,8 +277,7 @@ class DLM_Key_Generation {
 	/**
 	 * Get users for keygen select
 	 *
-	 *
-	 * @return json array
+	 * @since 5.0.0
 	 */
 	public function ajax_search_users() {
 		$term = isset( $_GET['q'] ) ? trim( wp_unslash( $_GET['q'] ) ) : '';
@@ -307,12 +307,10 @@ class DLM_Key_Generation {
 		wp_send_json( $results );
 	}
 
-
 	/**
 	 * Ajax handler to generate/regenerate/revoke API keys
 	 *
-	 *
-	 * @return bool
+	 * @since 5.0.0
 	 */
 	public function ajax_handle_api_key_actions() {
 		if ( ! isset( $_POST['dlm_action'] ) || '' == $_POST['dlm_action'] ) {

@@ -21,11 +21,11 @@ class DLM_API_Keys_Table extends WP_List_Table {
 	 */
 	public function __construct() {
 		parent::__construct(
-			[
+			array(
 				'singular' => 'api_key',
 				'plural'   => 'api_keys',
 				'ajax'     => false,
-			]
+			)
 		);
 
 		$this->items_per_page = ! empty( $_REQUEST['items_per_page'] )
@@ -39,11 +39,10 @@ class DLM_API_Keys_Table extends WP_List_Table {
 		add_action( 'admin_init', array( $this, 'catch_request' ), 1 );
 	}
 
-
 	/**
 	 * Gets the name of the primary column.
 	 *
-	 * @return    str        Name of the primary column.
+	 * @return    string        Name of the primary column.
 	 * @since     5.0.0
 	 * @access    protected
 	 *
@@ -51,7 +50,6 @@ class DLM_API_Keys_Table extends WP_List_Table {
 	protected function get_primary_column_name() {
 		return 'username';
 	} // get_primary_column_name
-
 
 	/**
 	 * column_default function.
@@ -61,9 +59,8 @@ class DLM_API_Keys_Table extends WP_List_Table {
 	protected function column_default( $item, $column_name ) {
 		switch ( $column_name ) {
 			case 'username':
-				$user_id = $item->get_user_id();
-				$user    = get_user_by( 'id', $item->get_user_id() );
-				echo '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . absint( $user_id ) ) ) . '" target="_blank">' . esc_html( $user->user_login ) . '</a>';
+				$user = $item->get_user();
+				echo '<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . absint( $user->ID ) ) ) . '" target="_blank">' . esc_html( $user->user_login ) . '</a>';
 				break;
 			case 'public_key':
 				echo esc_html( $item->get_public_key() );
@@ -73,6 +70,9 @@ class DLM_API_Keys_Table extends WP_List_Table {
 				break;
 			case 'secret_key':
 				echo esc_html( $item->get_secret_key() );
+				break;
+			case 'create_date':
+				echo esc_html( $item->get_creation_date() );
 				break;
 			default:
 				/**
@@ -94,7 +94,7 @@ class DLM_API_Keys_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item ) {
 		return sprintf(
-			'<input type="checkbox" name="email_log[]" value="%s" />', absint( $item->get_id() )
+			'<input type="checkbox" name="api_key_id[]" value="%s" />', absint( $item->get_id() )
 		);
 	}
 
@@ -108,11 +108,12 @@ class DLM_API_Keys_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'         => '<input type="checkbox" />',
-			'username'   => __( 'Username', 'download-monitor' ),
-			'public_key' => __( 'Public key', 'download-monitor' ),
-			'token'      => __( 'Token', 'download-monitor' ),
-			'secret_key' => __( 'Secret key', 'download-monitor' ),
+			'cb'          => '<input type="checkbox" />',
+			'username'    => __( 'Username', 'download-monitor' ),
+			'public_key'  => __( 'Public key', 'download-monitor' ),
+			'token'       => __( 'Token', 'download-monitor' ),
+			'secret_key'  => __( 'Secret key', 'download-monitor' ),
+			'create_date' => __( 'Creation date', 'download-monitor' ),
 		);
 
 		return apply_filters( 'dlm_api_keys_list_columns', $columns );
@@ -177,7 +178,7 @@ class DLM_API_Keys_Table extends WP_List_Table {
 		$screen = get_current_screen();
 
 		// Set the main SQL query.
-		$query = "SELECT api_keys.ID as ID, api_keys.user_id, api_keys.public_key, api_keys.token, api_keys.secret_key FROM {$wpdb->dlm_api_keys} api_keys LEFT JOIN {$wpdb->users} users ON api_keys.user_id = users.ID WHERE 1 = 1";
+		$query = "SELECT * FROM {$wpdb->dlm_api_keys} api_keys LEFT JOIN {$wpdb->users} users ON api_keys.user_id = users.ID WHERE 1 = 1";
 
 		// Add the search form field to the query.
 		if ( isset( $_GET['s'] ) ) {
@@ -186,8 +187,8 @@ class DLM_API_Keys_Table extends WP_List_Table {
 		}
 
 		// Set orderby and order.
-		$orderby = ! empty( $_GET['orderby'] ) ? sanitize_sql_orderby( wp_unslash( $_GET['orderby'] ) ) : 'ASC';
-		$order   = ! empty( $_GET['order'] ) ? sanitize_sql_orderby( wp_unslash( $_GET['order'] ) ) : '';
+		$orderby = ! empty( $_GET['orderby'] ) ? sanitize_sql_orderby( wp_unslash( $_GET['orderby'] ) ) : 'api_keys.create_date';
+		$order   = ! empty( $_GET['order'] ) ? sanitize_sql_orderby( wp_unslash( $_GET['order'] ) ) : 'DESC';
 
 		if ( ! empty( $orderby ) & ! empty( $order ) ) {
 			$query .= ' ORDER BY ' . $orderby . ' ' . $order;
@@ -207,15 +208,16 @@ class DLM_API_Keys_Table extends WP_List_Table {
 		}
 
 		$items = $wpdb->get_results( $query );
+
 		foreach ( $items as $item ) {
-			$key = new DLM_API_Key();
-			$key->set_data( $item );
+			$key           = new DLM_API_Key( $item );
 			$this->items[] = $key;
 		}
-		if( ! empty( $this->items ) ){
+
+		if ( ! empty( $this->items ) ) {
 			$totalitems = count( $this->items );
 			$totalpages = ceil( $totalitems / $perpage );
-		}else{
+		} else {
 			$totalitems = 0;
 			$totalpages = 0;
 		}
@@ -273,9 +275,9 @@ class DLM_API_Keys_Table extends WP_List_Table {
 	/**
 	 * Generates and displays row action links.
 	 *
-	 * @param  WP_Post  $item         Post being acted upon.
-	 * @param  string   $column_name  Current column name.
-	 * @param  string   $primary      Primary column name.
+	 * @param  DLM_API_Key  $item         API Key being acted upon.
+	 * @param  string       $column_name  Current column name.
+	 * @param  string       $primary      Primary column name.
 	 *
 	 * @return string Row actions output for API Keys, or an empty string
 	 *                if the current column is not the primary column.
@@ -288,8 +290,8 @@ class DLM_API_Keys_Table extends WP_List_Table {
 		}
 
 		$actions                       = array();
-		$actions['dlm_regenerate_key'] = '<a href="javascript:;" class="dlm-regenerate-key" data-user-id="' . $item->get_user_id() . '">' . __( 'Regenerate key', 'download-monitor' ) . '</a>';
-		$actions['dlm_revoke_key']     = '<a href="javascript:;" class="dlm-revoke-key" data-user-id="' . $item->get_user_id() . '" style="color:red;">' . __( 'Revoke key', 'download-monitor' ) . '</a>';
+		$actions['dlm_regenerate_key'] = '<a href="javascript:;" class="dlm-regenerate-key" data-user-id="' . absint( $item->get_user_id() ) . '">' . __( 'Regenerate key', 'download-monitor' ) . '</a>';
+		$actions['dlm_revoke_key']     = '<a href="javascript:;" class="dlm-revoke-key" data-user-id="' . absint( $item->get_user_id() ) . '" style="color:red;">' . __( 'Revoke key', 'download-monitor' ) . '</a>';
 
 		return $this->row_actions( $actions );
 	}
