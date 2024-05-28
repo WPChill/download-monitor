@@ -195,7 +195,7 @@ class DLM_Downloads_Path {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$submitted    = sanitize_text_field( wp_unslash( $_GET['submitted-url'] ?? '' ) );
-		$existing_url = $existing ? $existing['path_val'] : '';
+		$existing_url = $existing ? $existing['path_val'] : ABSPATH;
 		$enabled      = $existing && $existing['enabled'];
 		// phpcs:enable
 
@@ -223,7 +223,7 @@ class DLM_Downloads_Path {
 				</th>
 				<td class='forminp'>
 					<input name='dlm_downloads_path' id='dlm_downloads_path' type='text' class='input-text regular-input' value='<?php
-					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>'>
+					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php echo esc_attr( ABSPATH ); ?>">
 					<p class='description'><?php
 						echo sprintf( __( 'WordPress installation directory is <code>%s</code>', 'download-monitor' ), esc_html( ABSPATH ) ); ?></p>
 				</td>
