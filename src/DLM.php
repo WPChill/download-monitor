@@ -157,9 +157,6 @@ class WP_DLM {
 			// Load the API Key Generation class
 			$key_generation = DLM_Key_Generation::get_instance();
 
-			// Load the other downloads path option table
-			DLM_Downloads_Path::get_instance();
-
 			// Load the license class
 			$license = DLM_License::get_instance();
 
@@ -167,6 +164,9 @@ class WP_DLM {
 				$multisite = DLM_Network_Settings::get_instance();
 			}
 		}
+
+		// Load the other downloads path option table
+		DLM_Downloads_Path::get_instance();
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.
 		// This is mainly to move to version 4.6.x from 4.5.x and below.

@@ -468,9 +468,15 @@ class DLM_Custom_Actions {
 	 * @since 4.8.0
 	 */
 	public function update_downloads_path() {
+		// Check if the request is valid
 		check_ajax_referer( 'dlm-ajax-nonce', 'security' );
+		// Check if the path is provided
 		if ( ! isset( $_POST['path'] ) ) {
 			wp_send_json_error( array( 'message' => __( 'No path provided', 'download-monitor' ) ) );
+		}
+		// Check if the user has permission to update the path
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to update the path', 'download-monitor' ) ) );
 		}
 		// Save the new path in the Allowed Paths Table
 		DLM_Downloads_Path_Helper::save_unique_path( sanitize_text_field( $_POST['path'] ) );

@@ -30,7 +30,8 @@ class DLM_Downloads_Path {
 	private $table;
 
 	private function __construct() {
-		$this->set_hooks();
+		$this->set_frontend_hooks();
+		$this->set_admin_hooks();
 	}
 
 	/**
@@ -48,11 +49,14 @@ class DLM_Downloads_Path {
 	}
 
 	/**
-	 * Set required hooks for the Download Monitor settings.
+	 * Set required admin hooks for the Download Monitor settings.
 	 *
 	 * @since 5.0.0
 	 */
-	private function set_hooks() {
+	private function set_admin_hooks() {
+		if ( ! is_admin() ) {
+			return;
+		}
 		// Add Templates tab in the Download Monitor's settings page.
 		add_filter( 'dlm_settings', array( $this, 'status_tab' ), 15, 1 );
 		// Show the approved downloads path tab content.
@@ -65,6 +69,19 @@ class DLM_Downloads_Path {
 		add_action( 'admin_init', array( $this, 'bulk_actions_handler' ) );
 		// Hide the save button in the Approved Download Paths tab.
 		add_filter( 'dlm_show_save_settings_button', array( $this, 'hide_save_button' ), 15, 3 );
+	}
+
+	/**
+	 * Set required admin hooks for the Download Monitor settings.
+	 *
+	 * @since 5.0.0
+	 */
+	private function set_frontend_hooks() {
+		if ( is_admin() ) {
+			return;
+		}
+		// We need to set the setting for the frontend as well, as we need the default return value.
+		add_action( 'init', array( $this, 'register_setting' ) );
 	}
 
 	/**
@@ -130,8 +147,14 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function paths_content() {
-		$this->table = new DLM_Downloads_Path_Table();
+		// Only show this tab to users with manage_options capability.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			echo '<h3>' . esc_html__( 'You do not have permission to access this page.', 'download-monitor' ) . '</h3>';
 
+			return;
+		}
+
+		$this->table = new DLM_Downloads_Path_Table();
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_REQUEST['url'] ) ) {
 			$this->edit_screen( (int) $_REQUEST['url'] );

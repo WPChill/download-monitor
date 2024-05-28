@@ -14,7 +14,7 @@ class DLM_Downloads_Path_Helper {
 	/**
 	 * Saves the download paths if not already existing either for single site or multisite setup.
 	 *
-	 * @param  array  $path  string of download path.
+	 * @param  string  $path  string of download path.
 	 *
 	 * @since 5.0.0
 	 */
@@ -120,6 +120,7 @@ class DLM_Downloads_Path_Helper {
 	: array {
 		$user_paths = self::get_all_paths();
 		$return     = array();
+
 		if ( ! empty( $user_paths ) && is_array( $user_paths ) ) {
 			foreach ( $user_paths as $user_path ) {
 				if ( isset( $user_path['enabled'] ) && $user_path['enabled'] ) {
