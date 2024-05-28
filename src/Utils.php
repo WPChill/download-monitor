@@ -160,6 +160,10 @@ abstract class DLM_Utils {
 
 		array_multisort( array_map( 'count', $paths ), SORT_ASC, $paths );
 
+		if ( empty( $paths ) ) {
+			return false;
+		}
+
 		$count        = min( array_map( 'count', $paths ) );
 		$common_parts = array();
 		// If there is only 1 path it means it is a standard WordPress installation, so return standard ABSPATH path
