@@ -441,12 +441,33 @@ class DLM_Download {
 				break;
 		}
 		// Fix for WPML home url problem
-		add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+		// @todo: See if users come with the same problem when using WPML, and remove the fix if
+		// the fix is the one that causes problems. This fix seems to not depend on the WPML plugin, but
+		// rather on something else. Previously, with same WPML version, fix was working, now is not.
+		/**
+		 * Filter to disable the WPML home url fix.
+		 * Added this because there are some cases where the home url fix actually breaks the download link.
+		 *
+		 * @hook  dlm_wpml_home_url_filter
+		 *
+		 * @param  bool  $return
+		 *
+		 * @since 5.0.0
+		 */
+		if ( apply_filters( 'dlm_wpml_home_url_filter', true ) ) {
+			add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+		}
 
 		if ( get_option( 'permalink_structure' ) ) {
 			// Fix for translation plugins that modify the home_url
 			$link = get_home_url( null, '', $scheme );
-			$link = $link . '/' . $endpoint . '/' . $value . '/';
+			// Fix for URLs where params are added to the end of the URL. This is the case for translation functionality.
+			$parsed_url = parse_url( $link );
+			if ( ! empty( $parsed_url['query'] ) ) {
+				$link = add_query_arg( $endpoint, $value, $link );
+			} else {
+				$link = untrailingslashit( $link ) . '/' . $endpoint . '/' . $value . '/';
+			}
 		} else {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
 		}
