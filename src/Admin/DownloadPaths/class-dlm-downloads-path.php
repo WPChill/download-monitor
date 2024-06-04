@@ -61,8 +61,6 @@ class DLM_Downloads_Path {
 		add_filter( 'dlm_settings', array( $this, 'status_tab' ), 15, 1 );
 		// Show the approved downloads path tab content.
 		add_action( 'dlm_tab_section_content_download_path', array( $this, 'paths_content' ) );
-		// Show the approved downloads path tab content for multisite.
-		add_action( 'dlm_network_admin_settings_form_start', array( $this, 'paths_content' ) );
 		add_action( 'admin_init', array( $this, 'register_setting' ) );
 		add_filter( 'pre_update_option', array( $this, 'update_action' ), 10, 3 );
 		add_action( 'admin_init', array( $this, 'actions_handler' ) );
@@ -89,38 +87,69 @@ class DLM_Downloads_Path {
 	 *
 	 * @since 5.0.0
 	 */
-	public function register_setting() {
-		$default = array(
-			array(
-				'id'       => 1,
-				'path_val' => trailingslashit( ABSPATH ),
-				'enabled'  => true,
-			),
-			array(
-				'id'       => 2,
-				'path_val' => trailingslashit( WP_CONTENT_DIR ),
-				'enabled'  => true,
-			),
-		);
-
+	public function register_setting()
+	{
+		
 		// Register the setting for multisite.
-		if ( is_multisite() ) {
-			$args = array(
+		if (is_multisite()) {
+			$multi_args = array(
 				'type'    => 'array',
 				'default' => array(
-					'dlm_downloads_path'        => $default,
 					'dlm_crossite_file_browse'  => '0',
 					'dlm_turn_off_file_browser' => '0',
 				),
 			);
-			register_setting( 'dlm_advanced_download_path', 'dlm_network_settings', $args );
+			register_setting('dlm_advanced_download_path', 'dlm_network_settings', $multi_args);
+
+			if ( ! empty( $_GET['id'] ) && ! empty( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
+				$site_id = absint( $_GET['id'] );
+				// Create the uploads path for the site.
+				$uploads = WP_CONTENT_DIR . '/uploads/sites/' . $site_id;
+
+				$default = array(
+					array(
+						'id'       => 2,
+						'path_val' => trailingslashit($uploads),
+						'enabled'  => true,
+					),
+				);
+				$args = array(
+					'type'    => 'array',
+					'default' => $default,
+				);
+
+				register_setting('dlm_advanced_download_path', 'dlm_downloads_path', $args);
+			} else {
+				$site_id = get_current_blog_id();
+				// Create the uploads path for the site.
+				$uploads = WP_CONTENT_DIR . '/uploads/sites/' . $site_id;
+
+				$default = array(
+					array(
+						'id'       => 2,
+						'path_val' => trailingslashit($uploads),
+						'enabled'  => true,
+					),
+				);
+				$args = array(
+					'type'    => 'array',
+					'default' => $default,
+				);
+				register_setting('dlm_advanced_download_path', 'dlm_downloads_path', $args);
+			}
 		} else {
+			$default[] = array(
+				'id'       => 1,
+				'path_val' => trailingslashit(ABSPATH),
+				'enabled'  => true,
+			);
 			$args = array(
 				'type'    => 'array',
 				'default' => $default,
 			);
-			register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
-		}
+	
+			register_setting('dlm_advanced_download_path', 'dlm_downloads_path', $args);
+		}		
 	}
 
 	/**
@@ -270,6 +299,7 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function update_action( $value, $option, $old_value ) {
+
 		if ( 'dlm_downloads_path' !== $option || ! isset( $_POST['path_action'] ) ) {
 			return $value;
 		}

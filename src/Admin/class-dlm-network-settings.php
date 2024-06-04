@@ -66,10 +66,11 @@ class DLM_Network_Settings {
 			esc_html__( 'Custom Paths', 'download-monitor' ),
 			'manage_network',
 			'download-monitor-paths',
-			array( $this, 'site_edit_custom_paths' ),
+			array( $this, 'render_network_subpage' ),
 			'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1IiBoZWlnaHQ9IjEwNSIgdmlld0JveD0iMCAwIDEwNSAxMDUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01Mi41IDAuMDAwNTk5Njc0QzM4LjU3NTYgMC4wMDA1OTk2NzQgMjUuMjIxOSA1LjUzMjAzIDE1LjM3NzYgMTUuMzc4MUM1LjUzMTQ2IDI1LjIyMjkgMCAzOC41NzY2IDAgNTIuNTAwM0MwIDY2LjQyNCA1LjUzMTQ2IDc5Ljc3ODMgMTUuMzc3NiA4OS42MjI1QzI1LjIyMjUgOTkuNDY4NiAzOC41NzYyIDEwNSA1Mi41IDEwNUM2Ni40MjM4IDEwNSA3OS43NzgxIDk5LjQ2ODYgODkuNjIyNCA4OS42MjI1Qzk5LjQ2ODUgNzkuNzc3NyAxMDUgNjYuNDI0IDEwNSA1Mi41MDAzQzEwNSA0My4yODQ1IDEwMi41NzQgMzQuMjMwOCA5Ny45NjY0IDI2LjI1MDJDOTMuMzU4NyAxOC4yNjk1IDg2LjczMDQgMTEuNjQxNiA3OC43NDk3IDcuMDMzNTRDNzAuNzY5IDIuNDI1ODEgNjEuNzE1MiAwIDUyLjQ5OTQgMEw1Mi41IDAuMDAwNTk5Njc0Wk00MC40Nzc3IDM4LjI3MThMNDcuMjQ5OSA0NS4wOTY5VjI2LjI0OTZINTcuNzUwMVY0NS4wOTY5TDY0LjUyMjMgMzguMzI0Nkw3MS45MjUyIDQ1LjcyNzVMNTIuNSA2NS4xNTI2TDMzLjAyMiA0NS42NzQ3TDQwLjQ3NzcgMzguMjcxOFpNNzguNzQ5MSA3OC43NTExSDI2LjI0ODVWNjguMjUxSDc4Ljc0OTFWNzguNzUxMVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=',
-			35
+			10
 		);
+
 		remove_menu_page( 'download-monitor-paths' );
 	}
 
@@ -151,7 +152,7 @@ class DLM_Network_Settings {
 		$settings = array( 'dlm_downloads_path' => $downloads_paths, 'dlm_crossite_file_browse' => $cross_browse, 'dlm_turn_off_file_browser' => $browse_button );
 		$settings = apply_filters( 'dlm_saving_network_settings', $settings );
 
-		update_site_option( 'dlm_network_settings', $settings );
+		update_option( 'dlm_network_settings', $settings );
 
 		wp_redirect( add_query_arg( 'page', 'download-monitor-settings', network_admin_url( 'admin.php' ) ) );
 		exit;
@@ -360,14 +361,116 @@ class DLM_Network_Settings {
 		return $tabs;
 	}
 
-	/**
-	 * Render the site edit custom paths
-	 *
-	 * @return void
-	 * @since 5.0.0
-	 */
-	public function site_edit_custom_paths() {
+	public function render_network_subpage() {
 		include __DIR__ . '/network/site-edit.php';
 	}
 
+	/**
+	 * Renders the editor screen for approved directory URLs.
+	 *
+	 * @param  int  $url_id  The ID of the rule to be edited (may be zero for new rules).
+	 *
+	 * @since 5.0.0
+	 */
+	private function edit_screen( int $url_id ) {
+		$paths    = DLM_Downloads_Path_Helper::get_all_paths();
+		$existing = false;
+
+		foreach ( $paths as $path ) {
+			if ( absint( $url_id ) === absint( $path['id'] ) ) {
+				$existing = $path;
+				break;
+			}
+		}
+
+		$title = $existing
+			? __( 'Edit Approved Path', 'download-monitor' )
+			: __( 'Add New Approved Path', 'download-monitor' );
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		$submitted    = sanitize_text_field( wp_unslash( $_GET['submitted-url'] ?? '' ) );
+		$existing_url = $existing ? $existing['path_val'] : ABSPATH;
+		$enabled      = $existing && $existing['enabled'];
+		// phpcs:enable
+
+		?>
+		<h2 class='wc-table-list-header'>
+			<?php
+			echo esc_html( $title ); ?>
+			<?php
+			if ( $existing ) : ?>
+				<a href="<?php
+				echo esc_url( $this->table->get_action_url( 'edit', 0 ) ); ?>" class="page-title-action"><?php
+					esc_html_e( 'Add New', 'download-monitor' ); ?></a>
+			<?php
+			endif; ?>
+			<a href="<?php
+			echo esc_url( network_admin_url( 'admin.php?page=download-monitor-paths&id=' . absint( $_GET['id'] ) ) ); ?> " class="page-title-action"><?php
+				esc_html_e( 'Cancel', 'download-monitor' ); ?></a>
+		</h2>
+		<table class='form-table'>
+			<tbody>
+			<tr valign='top'>
+				<th scope='row' class='titledesc'>
+					<label for='dlm_downloads_path'> <?php
+						echo esc_html__( 'Directory URL', 'download-monitor' ); ?> </label>
+				</th>
+				<td class='forminp'>
+					<input name='dlm_downloads_path' id='dlm_downloads_path' type='text' class='input-text regular-input' value='<?php
+					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php
+					echo esc_attr( ABSPATH ); ?>">
+					<p class='description'><?php
+						echo sprintf( __( 'WordPress installation directory is <code>%s</code>', 'download-monitor' ), esc_html( ABSPATH ) ); ?></p>
+				</td>
+			</tr>
+			<tr valign='top'>
+				<th scope='row' class='titledesc'>
+					<label for='dlm_downloads_path_enabled'> <?php
+						echo esc_html__( 'Enabled', 'download-monitor' ); ?> </label>
+				</th>
+				<td class='forminp'>
+					<input name='dlm_downloads_path_enabled' id='dlm_downloads_path_enabled' type='checkbox' value='1' <?php
+					checked( true, $enabled ); ?>>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<input name='path_action' type='hidden' value='edit'>
+		<input type="hidden" name="multisite_update_site" value="true">
+		<?php
+	}
+
+	/**
+	 * Handles the form submission for the approved directory URLs.
+	 *
+	 * @since 5.0.0
+	 */
+	public function handle_form_submission() {
+		if ( empty( $_REQUEST['multisite_update_site'] ) || 'true' !== $_REQUEST['multisite_update_site'] || empty( $_REQUEST['dlm_downloads_path'] ) ) {
+			return;
+		}
+		$site_id = absint( $_GET['id'] );
+		switch_to_blog( $site_id );
+		$saved_paths = DLM_Downloads_Path_Helper::get_all_paths();
+		$add_file    = true;
+		$path        = sanitize_text_field( $_REQUEST['dlm_downloads_path'] );
+
+		foreach ( $saved_paths as $save_path ) {
+			if ( $path === $save_path['path_val'] ) {
+				$add_file = false;
+				break;
+			}
+		}
+
+		if ( $add_file ) {
+			$lastkey       = array_key_last( $saved_paths );
+			$saved_paths[] = array(
+				'id'       => absint( $saved_paths[ $lastkey ]['id'] ) + 1,
+				'path_val' => trailingslashit( $path ),
+				'enabled'  => true,
+			);
+		}
+		update_option( 'dlm_downloads_path', $saved_paths );
+		restore_current_blog();
+	}
 }

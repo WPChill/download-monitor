@@ -33,20 +33,11 @@ class DLM_Downloads_Path_Helper {
 			$lastkey       = array_key_last( $saved_paths );
 			$saved_paths[] = array(
 				'id'       => absint( $saved_paths[ $lastkey ]['id'] ) + 1,
-				'path_val' => trailingslashit( $path),
+				'path_val' => trailingslashit( $path ),
 				'enabled'  => true,
 			);
-
-			if ( is_multisite() ) {
-				$settings = get_site_option( 'dlm_network_settings' );
-				if ( isset( $settings['dlm_downloads_path'] ) ) {
-					$settings['dlm_downloads_path'] = $saved_paths;
-				} else {
-					$settings = array( 'dlm_downloads_path' => $saved_paths, 'dlm_crossite_file_browse' => '0', 'dlm_turn_off_file_browser' => '0' );
-				}
-
-				update_site_option( 'dlm_network_settings', $settings );
-			} else {
+			// Only allow network admin to add paths
+			if ( ! is_multisite() ) {
 				update_option( 'dlm_downloads_path', $saved_paths );
 			}
 		}
@@ -61,14 +52,14 @@ class DLM_Downloads_Path_Helper {
 	 */
 	public static function save_paths( $paths ) {
 		if ( is_multisite() ) {
-			$settings = get_site_option( 'dlm_network_settings' );
-			if ( isset( $settings['dlm_downloads_path'] ) ) {
-				$settings['dlm_downloads_path'] = $paths;
-			} else {
-				$settings = array( 'dlm_downloads_path' => $paths, 'dlm_crossite_file_browse' => '0', 'dlm_turn_off_file_browser' => '0' );
+			if ( ! empty( $_GET['id'] ) && ! empty( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
+				$site_id = absint( $_GET['id'] );
+				switch_to_blog( $site_id );
+				update_option( 'dlm_downloads_path', $paths );
+				restore_current_blog();
 			}
 
-			update_site_option( 'dlm_network_settings', $settings );
+			update_site_option( 'dlm_network_settings', $paths );
 		} else {
 			update_option( 'dlm_downloads_path', $paths );
 		}
@@ -82,9 +73,7 @@ class DLM_Downloads_Path_Helper {
 	 */
 	public static function get_all_paths() {
 		if ( is_multisite() ) {
-			$settings = get_site_option( 'dlm_network_settings' );
-
-			return isset( $settings['dlm_downloads_path'] ) ? $settings['dlm_downloads_path'] : array();
+			return get_option( 'dlm_downloads_path' );
 		} else {
 			$option = get_option( 'dlm_downloads_path' );
 			// Check if it's string & do combatiblility for < 5.0.0
@@ -165,7 +154,7 @@ class DLM_Downloads_Path_Helper {
 				admin_url( 'edit.php' )
 			);
 		} else {
-			return add_query_arg( 'page', 'download-monitor-settings', network_admin_url( 'admin.php' ) );
+			return add_query_arg( 'page', 'download-monitor-paths', network_admin_url( 'admin.php' ) );
 		}
 	}
 }

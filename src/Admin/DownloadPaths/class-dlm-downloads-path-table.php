@@ -207,14 +207,17 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 */
 	public function get_action_url( string $action, int $id, string $nonce_action = 'modify_approved_directories' )
 	: string {
-		return add_query_arg(
-			array(
-				'check'  => wp_create_nonce( $nonce_action ),
-				'action' => $action,
-				'url'    => $id,
-			),
-			DLM_Downloads_Path_Helper::get_base_url()
+		$params = array(
+			'check'  => wp_create_nonce( $nonce_action ),
+			'action' => $action,
+			'url'    => $id,
 		);
+
+		if ( is_multisite() ) {
+			$params['id'] = get_current_blog_id();
+		}
+
+		return add_query_arg( $params, DLM_Downloads_Path_Helper::get_base_url() );
 	}
 
 	/**
@@ -253,7 +256,7 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 *
 	 * @since 5.0.0
 	 */
-	public function prepare_items() {
+	public function prepare_items( $defined_paths = array() ) {
 		global $_wp_column_headers;
 		$screen                            = get_current_screen();
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
@@ -275,9 +278,14 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 				break;
 		}
 
-		$paths = DLM_Downloads_Path_Helper::get_all_paths();
+		if ( empty( $defined_paths ) ) {
+			$paths = DLM_Downloads_Path_Helper::get_all_paths();
+		} else {
+			$paths = $defined_paths;
+		}
 
 		$res = array();
+
 		if ( 'all' !== $enabled ) {
 			foreach ( $paths as $path ) {
 				if ( 'enabled' === $enabled && $path['enabled'] ) {
