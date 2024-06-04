@@ -38,7 +38,7 @@ class DLM_Downloads_Path_Helper {
 			);
 
 			if ( is_multisite() ) {
-				$settings = get_site_option( 'dlm_network_settings', array() );
+				$settings = get_site_option( 'dlm_network_settings' );
 				if ( isset( $settings['dlm_downloads_path'] ) ) {
 					$settings['dlm_downloads_path'] = $saved_paths;
 				} else {
@@ -61,7 +61,7 @@ class DLM_Downloads_Path_Helper {
 	 */
 	public static function save_paths( $paths ) {
 		if ( is_multisite() ) {
-			$settings = get_site_option( 'dlm_network_settings', array() );
+			$settings = get_site_option( 'dlm_network_settings' );
 			if ( isset( $settings['dlm_downloads_path'] ) ) {
 				$settings['dlm_downloads_path'] = $paths;
 			} else {
@@ -82,7 +82,7 @@ class DLM_Downloads_Path_Helper {
 	 */
 	public static function get_all_paths() {
 		if ( is_multisite() ) {
-			$settings = get_site_option( 'dlm_network_settings', array() );
+			$settings = get_site_option( 'dlm_network_settings' );
 
 			return isset( $settings['dlm_downloads_path'] ) ? $settings['dlm_downloads_path'] : array();
 		} else {

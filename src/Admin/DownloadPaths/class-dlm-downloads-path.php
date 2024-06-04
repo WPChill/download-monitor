@@ -102,12 +102,25 @@ class DLM_Downloads_Path {
 				'enabled'  => true,
 			),
 		);
-		$args    = array(
-			'type'    => 'array',
-			'default' => $default,
-		);
 
-		register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
+		// Register the setting for multisite.
+		if ( is_multisite() ) {
+			$args = array(
+				'type'    => 'array',
+				'default' => array(
+					'dlm_downloads_path'        => $default,
+					'dlm_crossite_file_browse'  => '0',
+					'dlm_turn_off_file_browser' => '0',
+				),
+			);
+			register_setting( 'dlm_advanced_download_path', 'dlm_network_settings', $args );
+		} else {
+			$args = array(
+				'type'    => 'array',
+				'default' => $default,
+			);
+			register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
+		}
 	}
 
 	/**

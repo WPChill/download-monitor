@@ -39,6 +39,8 @@ class DLM_Network_Settings {
 		add_action( 'update_wpmu_options', array( $this, 'save_network_downloads_settings' ) );
 		//add_action( 'dlm_after_install_setup', array( $this, 'download_path_backwards_compat' ) );
 		add_filter( 'dlm_downloadable_file_version_buttons', array( $this, 'browse_files_button' ) );
+		// Add Custom Paths tab to MS site editing
+		add_filter( 'network_edit_site_nav_links', array( $this, 'add_ms_site_edit' ), 15 );
 	}
 
 	/**
@@ -48,6 +50,7 @@ class DLM_Network_Settings {
 	 */
 	public function network_downloads_settings() {
 		$settings = new DLM_Settings_Page();
+
 		add_menu_page(
 			esc_html__( 'Downloads', 'download-monitor' ),
 			esc_html__( 'Downloads', 'download-monitor' ),
@@ -57,6 +60,17 @@ class DLM_Network_Settings {
 			'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1IiBoZWlnaHQ9IjEwNSIgdmlld0JveD0iMCAwIDEwNSAxMDUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01Mi41IDAuMDAwNTk5Njc0QzM4LjU3NTYgMC4wMDA1OTk2NzQgMjUuMjIxOSA1LjUzMjAzIDE1LjM3NzYgMTUuMzc4MUM1LjUzMTQ2IDI1LjIyMjkgMCAzOC41NzY2IDAgNTIuNTAwM0MwIDY2LjQyNCA1LjUzMTQ2IDc5Ljc3ODMgMTUuMzc3NiA4OS42MjI1QzI1LjIyMjUgOTkuNDY4NiAzOC41NzYyIDEwNSA1Mi41IDEwNUM2Ni40MjM4IDEwNSA3OS43NzgxIDk5LjQ2ODYgODkuNjIyNCA4OS42MjI1Qzk5LjQ2ODUgNzkuNzc3NyAxMDUgNjYuNDI0IDEwNSA1Mi41MDAzQzEwNSA0My4yODQ1IDEwMi41NzQgMzQuMjMwOCA5Ny45NjY0IDI2LjI1MDJDOTMuMzU4NyAxOC4yNjk1IDg2LjczMDQgMTEuNjQxNiA3OC43NDk3IDcuMDMzNTRDNzAuNzY5IDIuNDI1ODEgNjEuNzE1MiAwIDUyLjQ5OTQgMEw1Mi41IDAuMDAwNTk5Njc0Wk00MC40Nzc3IDM4LjI3MThMNDcuMjQ5OSA0NS4wOTY5VjI2LjI0OTZINTcuNzUwMVY0NS4wOTY5TDY0LjUyMjMgMzguMzI0Nkw3MS45MjUyIDQ1LjcyNzVMNTIuNSA2NS4xNTI2TDMzLjAyMiA0NS42NzQ3TDQwLjQ3NzcgMzguMjcxOFpNNzguNzQ5MSA3OC43NTExSDI2LjI0ODVWNjguMjUxSDc4Ljc0OTFWNzguNzUxMVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=',
 			35
 		);
+
+		add_menu_page(
+			esc_html__( 'Custom Paths', 'download-monitor' ),
+			esc_html__( 'Custom Paths', 'download-monitor' ),
+			'manage_network',
+			'download-monitor-paths',
+			array( $this, 'site_edit_custom_paths' ),
+			'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTA1IiBoZWlnaHQ9IjEwNSIgdmlld0JveD0iMCAwIDEwNSAxMDUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik01Mi41IDAuMDAwNTk5Njc0QzM4LjU3NTYgMC4wMDA1OTk2NzQgMjUuMjIxOSA1LjUzMjAzIDE1LjM3NzYgMTUuMzc4MUM1LjUzMTQ2IDI1LjIyMjkgMCAzOC41NzY2IDAgNTIuNTAwM0MwIDY2LjQyNCA1LjUzMTQ2IDc5Ljc3ODMgMTUuMzc3NiA4OS42MjI1QzI1LjIyMjUgOTkuNDY4NiAzOC41NzYyIDEwNSA1Mi41IDEwNUM2Ni40MjM4IDEwNSA3OS43NzgxIDk5LjQ2ODYgODkuNjIyNCA4OS42MjI1Qzk5LjQ2ODUgNzkuNzc3NyAxMDUgNjYuNDI0IDEwNSA1Mi41MDAzQzEwNSA0My4yODQ1IDEwMi41NzQgMzQuMjMwOCA5Ny45NjY0IDI2LjI1MDJDOTMuMzU4NyAxOC4yNjk1IDg2LjczMDQgMTEuNjQxNiA3OC43NDk3IDcuMDMzNTRDNzAuNzY5IDIuNDI1ODEgNjEuNzE1MiAwIDUyLjQ5OTQgMEw1Mi41IDAuMDAwNTk5Njc0Wk00MC40Nzc3IDM4LjI3MThMNDcuMjQ5OSA0NS4wOTY5VjI2LjI0OTZINTcuNzUwMVY0NS4wOTY5TDY0LjUyMjMgMzguMzI0Nkw3MS45MjUyIDQ1LjcyNzVMNTIuNSA2NS4xNTI2TDMzLjAyMiA0NS42NzQ3TDQwLjQ3NzcgMzguMjcxOFpNNzguNzQ5MSA3OC43NTExSDI2LjI0ODVWNjguMjUxSDc4Ljc0OTFWNzguNzUxMVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=',
+			35
+		);
+		remove_menu_page( 'download-monitor-paths' );
 	}
 
 
@@ -76,7 +90,7 @@ class DLM_Network_Settings {
 		if ( ! current_user_can( 'manage_network_options' ) ) {
 			wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'download-monitor' ), 403 );
 		}
-		$settings = get_site_option( 'dlm_network_settings', array() );
+		$settings = get_site_option( 'dlm_network_settings' );
 
 		$downloads_paths = isset( $settings['dlm_downloads_path'] ) ? $settings['dlm_downloads_path'] : array();
 		$downloads_path  = isset( $_POST['dlm_downloads_path'] ) ? sanitize_text_field( $_POST['dlm_downloads_path'] ) : '';
@@ -316,7 +330,7 @@ class DLM_Network_Settings {
 	 */
 	public function browse_files_button( $buttons ) {
 		// Getting network-wide DLM settings.
-		$settings = get_site_option( 'dlm_network_settings', array() );
+		$settings = get_site_option( 'dlm_network_settings' );
 
 		// Check if we should remove file browser button.
 		if ( isset( $settings['dlm_turn_off_file_browser'] ) && '1' == $settings['dlm_turn_off_file_browser'] ) {
@@ -325,4 +339,35 @@ class DLM_Network_Settings {
 
 		return $buttons;
 	}
+
+	/**
+	 * Add Custom Paths tab to MS site editing.
+	 *
+	 * @param  array  $tabs  Array of tabs.
+	 *
+	 * @return array
+	 * @since 5.0.0
+	 */
+	public function add_ms_site_edit( $tabs ) {
+		if ( ! isset( $tabs['dlm-paths'] ) ) {
+			$tabs['dlm-paths'] = array(
+				'label' => __( 'DLM Downloads Paths', 'download-monitor' ),
+				'url'   => 'admin.php?page=download-monitor-paths',
+				'cap'   => 'manage_sites',
+			);
+		}
+
+		return $tabs;
+	}
+
+	/**
+	 * Render the site edit custom paths
+	 *
+	 * @return void
+	 * @since 5.0.0
+	 */
+	public function site_edit_custom_paths() {
+		include __DIR__ . '/network/site-edit.php';
+	}
+
 }

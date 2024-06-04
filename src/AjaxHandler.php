@@ -177,7 +177,7 @@ class DLM_Ajax_Handler {
 		// Check if it's a multisite installation & it's main site.
 		if ( defined( 'MULTISITE' ) && MULTISITE && is_main_site() ) {
 			// Getting network-wide DLM settings.
-			$settings = get_site_option( 'dlm_network_settings', array() );
+			$settings = get_site_option( 'dlm_network_settings' );
 
 			// Check if we allow cross-site browsing of wp_uploads.
 			if ( ! isset( $settings['dlm_crossite_file_browse'] ) || '0' == $settings['dlm_crossite_file_browse'] ) {
