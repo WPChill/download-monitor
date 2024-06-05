@@ -88,7 +88,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		?>
 		<form method='post' action='<?php
-		echo 'admin.php?page=download-monitor-paths&id=' . absint( $_GET['id'] ); ?>&action=update-site'>
+		echo 'admin.php?page=download-monitor-paths&id=' . absint( $_GET['id'] ); ?>'>
 			<?php
 			wp_nonce_field( 'edit-site' ); ?>
 			<input type="hidden" name="id" value="<?php
@@ -99,7 +99,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			$this->table = new DLM_Downloads_Path_Table();
 			if ( isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] && isset( $_REQUEST['url'] ) ) {
 				$this->edit_screen( (int) $_REQUEST['url'] );
+				// Action to edit the path.
+				echo '<input type="hidden" name="action" value="edit-path">';
 			} else {
+				// Action to update the site.
+				echo '<input type="hidden" name="action" value="update-site">';
 				// Show list table.
 				$this->table->prepare_items();
 				$this->table->render_views();

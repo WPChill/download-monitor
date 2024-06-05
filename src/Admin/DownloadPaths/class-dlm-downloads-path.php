@@ -87,11 +87,9 @@ class DLM_Downloads_Path {
 	 *
 	 * @since 5.0.0
 	 */
-	public function register_setting()
-	{
-		
+	public function register_setting() {
 		// Register the setting for multisite.
-		if (is_multisite()) {
+		if ( is_multisite() ) {
 			$multi_args = array(
 				'type'    => 'array',
 				'default' => array(
@@ -99,7 +97,7 @@ class DLM_Downloads_Path {
 					'dlm_turn_off_file_browser' => '0',
 				),
 			);
-			register_setting('dlm_advanced_download_path', 'dlm_network_settings', $multi_args);
+			register_setting( 'dlm_advanced_download_path', 'dlm_network_settings', $multi_args );
 
 			if ( ! empty( $_GET['id'] ) && ! empty( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
 				$site_id = absint( $_GET['id'] );
@@ -109,16 +107,16 @@ class DLM_Downloads_Path {
 				$default = array(
 					array(
 						'id'       => 2,
-						'path_val' => trailingslashit($uploads),
+						'path_val' => trailingslashit( $uploads ),
 						'enabled'  => true,
 					),
 				);
-				$args = array(
+				$args    = array(
 					'type'    => 'array',
 					'default' => $default,
 				);
 
-				register_setting('dlm_advanced_download_path', 'dlm_downloads_path', $args);
+				register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
 			} else {
 				$site_id = get_current_blog_id();
 				// Create the uploads path for the site.
@@ -127,29 +125,29 @@ class DLM_Downloads_Path {
 				$default = array(
 					array(
 						'id'       => 2,
-						'path_val' => trailingslashit($uploads),
+						'path_val' => trailingslashit( $uploads ),
 						'enabled'  => true,
 					),
 				);
-				$args = array(
+				$args    = array(
 					'type'    => 'array',
 					'default' => $default,
 				);
-				register_setting('dlm_advanced_download_path', 'dlm_downloads_path', $args);
+				register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
 			}
 		} else {
 			$default[] = array(
 				'id'       => 1,
-				'path_val' => trailingslashit(ABSPATH),
+				'path_val' => trailingslashit( ABSPATH ),
 				'enabled'  => true,
 			);
-			$args = array(
+			$args      = array(
 				'type'    => 'array',
 				'default' => $default,
 			);
-	
-			register_setting('dlm_advanced_download_path', 'dlm_downloads_path', $args);
-		}		
+
+			register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
+		}
 	}
 
 	/**
@@ -265,7 +263,8 @@ class DLM_Downloads_Path {
 				</th>
 				<td class='forminp'>
 					<input name='dlm_downloads_path' id='dlm_downloads_path' type='text' class='input-text regular-input' value='<?php
-					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php echo esc_attr( ABSPATH ); ?>">
+					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php
+					echo esc_attr( ABSPATH ); ?>">
 					<p class='description'><?php
 						echo sprintf( __( 'WordPress installation directory is <code>%s</code>', 'download-monitor' ), esc_html( ABSPATH ) ); ?></p>
 				</td>
@@ -299,7 +298,6 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function update_action( $value, $option, $old_value ) {
-
 		if ( 'dlm_downloads_path' !== $option || ! isset( $_POST['path_action'] ) ) {
 			return $value;
 		}
@@ -367,10 +365,19 @@ class DLM_Downloads_Path {
 		if ( ! isset( $_GET['url'] ) ) {
 			return;
 		}
+
 		$change = false;
-		if ( isset( $_GET['page'] ) && 'download-monitor-settings' == $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
 			$paths = DLM_Downloads_Path_Helper::get_all_paths();
 			if ( ! empty( $_GET['action'] ) ) {
+				// IF we're on multisite, switch to the desired blog.
+				if ( is_multisite() ) {
+					$site_id = get_current_blog_id();
+					if ( ! empty( $_GET['id'] ) ) {
+						$site_id = absint( $_GET['id'] );
+						switch_to_blog( $site_id );
+					}
+				}
 				$action = sanitize_text_field( wp_unslash( $_GET['action'] ) );
 				switch ( $action ) {
 					case 'enable':
@@ -392,6 +399,7 @@ class DLM_Downloads_Path {
 						}
 						break;
 					case 'delete':
+
 						foreach ( $paths as $key => $path ) {
 							if ( $path['id'] == absint( $_GET['url'] ) ) {
 								unset( $paths[ $key ] );
@@ -421,7 +429,14 @@ class DLM_Downloads_Path {
 
 			if ( $change ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
-				wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
+				// If we're on multisite, switch back to the original blog.
+				if ( is_multisite() ) {
+					restore_current_blog();
+					wp_safe_redirect( network_admin_url( 'admin.php?page=download-monitor-paths&id=' . $site_id ) );
+				} else {
+					wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
+				}
+				exit;
 			}
 		}
 	}
@@ -432,53 +447,72 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function bulk_actions_handler() {
-		if ( isset( $_POST['option_page'] ) && 'dlm_advanced_download_path' === $_POST['option_page'] && isset( $_POST['otherdownloadpath'] ) ) {
+		if ( ( ! empty( $_POST['bulk-action'] ) || ! empty( $_POST['bulk-action2'] ) ) && isset( $_POST['otherdownloadpath'] ) ) {
 			$changes = false;
 			$paths   = DLM_Downloads_Path_Helper::get_all_paths();
+			// Get the action. It's one or the other, so we can just check one.
+			if ( ! empty( $_POST['bulk-action'] ) ) {
+				$action = sanitize_text_field( wp_unslash( $_POST['bulk-action'] ) );
+			} else {
+				$action = sanitize_text_field( wp_unslash( $_POST['bulk-action2'] ) );
+			}
+			// IF we're on multisite, switch to the desired blog.
+			if ( is_multisite() ) {
+				$site_id = get_current_blog_id();
+				if ( ! empty( $_GET['id'] ) ) {
+					$site_id = absint( $_GET['id'] );
+					switch_to_blog( $site_id );
+				}
+			}
+			// Cycle through the selected paths.
 			foreach ( $_POST['otherdownloadpath'] as $id ) {
-				if ( ! empty( $_POST['action'] ) ) {
-					$action = sanitize_text_field( wp_unslash( $_POST['action'] ) );
-					switch ( $action ) {
-						case 'enable':
+				switch ( $action ) {
+					case 'enable':
 
-							foreach ( $paths as $key => $path ) {
-								if ( $path['id'] == absint( $id ) ) {
-									$paths[ $key ]['enabled'] = true;
-									$changes                  = true;
-									break;
-								}
+						foreach ( $paths as $key => $path ) {
+							if ( $path['id'] == absint( $id ) ) {
+								$paths[ $key ]['enabled'] = true;
+								$changes                  = true;
+								break;
 							}
-							break;
-						case 'disable':
-							foreach ( $paths as $key => $path ) {
-								if ( $path['id'] == absint( $id ) ) {
-									$paths[ $key ]['enabled'] = false;
-									$changes                  = true;
-									break;
-								}
+						}
+						break;
+					case 'disable':
+						foreach ( $paths as $key => $path ) {
+							if ( $path['id'] == absint( $id ) ) {
+								$paths[ $key ]['enabled'] = false;
+								$changes                  = true;
+								break;
 							}
-							break;
-						case 'delete':
-							foreach ( $paths as $key => $path ) {
-								if ( $path['id'] == absint( $id ) ) {
-									unset( $paths[ $key ] );
-									$changes = true;
-									break;
-								}
+						}
+						break;
+					case 'delete':
+						foreach ( $paths as $key => $path ) {
+							if ( $path['id'] == absint( $id ) ) {
+								unset( $paths[ $key ] );
+								$changes = true;
+								break;
 							}
-							break;
-						default:
-							$paths   = apply_filters( 'dlm_download_paths_bulk_actions_' . $action, $paths );
-							$changes = apply_filters( 'dlm_download_paths_bulk_change_' . $action, false, $paths );
-							break;
-					}
+						}
+						break;
+					default:
+						$paths   = apply_filters( 'dlm_download_paths_bulk_actions_' . $action, $paths );
+						$changes = apply_filters( 'dlm_download_paths_bulk_change_' . $action, false, $paths );
+						break;
 				}
 			}
 
 			if ( $changes ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
 			}
-			wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
+			// If we're on multisite, switch back to the original blog.
+			if ( is_multisite() ) {
+				restore_current_blog();
+				wp_safe_redirect( network_admin_url( 'admin.php?page=download-monitor-paths&id=' . $site_id ) );
+			} else {
+				wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
+			}
+			exit;
 		}
 	}
 

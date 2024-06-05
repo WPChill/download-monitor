@@ -389,7 +389,13 @@ class DLM_Network_Settings {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$submitted    = sanitize_text_field( wp_unslash( $_GET['submitted-url'] ?? '' ) );
-		$existing_url = $existing ? $existing['path_val'] : ABSPATH;
+		$default_path = ABSPATH;
+		// Default path change if multisite.
+		if ( is_multisite() ) {
+			$default_path = WP_CONTENT_DIR . '/uploads/sites/' . get_current_blog_id();
+		}
+
+		$existing_url = $existing ? $existing['path_val'] : $default_path;
 		$enabled      = $existing && $existing['enabled'];
 		// phpcs:enable
 
@@ -420,7 +426,7 @@ class DLM_Network_Settings {
 					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php
 					echo esc_attr( ABSPATH ); ?>">
 					<p class='description'><?php
-						echo sprintf( __( 'WordPress installation directory is <code>%s</code>', 'download-monitor' ), esc_html( ABSPATH ) ); ?></p>
+						echo sprintf( __( 'Default download path is <code>%s</code>', 'download-monitor' ), esc_html( $default_path ) ); ?></p>
 				</td>
 			</tr>
 			<tr valign='top'>
@@ -435,8 +441,9 @@ class DLM_Network_Settings {
 			</tr>
 			</tbody>
 		</table>
-		<input name='path_action' type='hidden' value='edit'>
 		<input type="hidden" name="multisite_update_site" value="true">
+		<input type="hidden" name="old_value" value="<?php
+		echo $existing ? $existing['path_val'] : ''; ?>">
 		<?php
 	}
 
@@ -452,24 +459,57 @@ class DLM_Network_Settings {
 		$site_id = absint( $_GET['id'] );
 		switch_to_blog( $site_id );
 		$saved_paths = DLM_Downloads_Path_Helper::get_all_paths();
-		$add_file    = true;
 		$path        = sanitize_text_field( $_REQUEST['dlm_downloads_path'] );
-
-		foreach ( $saved_paths as $save_path ) {
-			if ( $path === $save_path['path_val'] ) {
-				$add_file = false;
-				break;
+		$add_file    = true;
+		$old_path    = '';
+		// verify if old path is set.
+		if ( ! empty( $_REQUEST['old_value'] ) ) {
+			$old_path = sanitize_text_field( $_REQUEST['old_value'] );
+		}
+		$old_path_index = false;
+		// Cycle through the saved paths.
+		foreach ( $saved_paths as $key => $save_path ) {
+			// It's a new path.
+			if ( empty( $old_path ) ) {
+				// Check to see if the path already exists.
+				if ( $path === $save_path['path_val'] ) {
+					$add_file = false;
+					break;
+				}
+			} else { // Old path is set, means we need to edit an existing path.
+				// Check to see if indeed the path has changed.
+				if ( $old_path !== $path ) {
+					// Get old path index.
+					if ( $old_path === $save_path['path_val'] ) {
+						$old_path_index = $key;
+					}
+					// Check to see if the path already exists.
+					if ( $path === $save_path['path_val'] ) {
+						$add_file = false;
+						break;
+					}
+				} else { // Path is the same, we do not need to do anything.
+					$add_file = false;
+					break;
+				}
+			}
+		}
+		// Check and see if we need to update the path or add a new one.
+		if ( $add_file ) {
+			if ( $old_path_index !== false ) {
+				// Update the path.
+				$saved_paths[ $old_path_index ]['path_val'] = $path;
+			} else {
+				// Add new path
+				$lastkey       = array_key_last( $saved_paths );
+				$saved_paths[] = array(
+					'id'       => absint( $saved_paths[ $lastkey ]['id'] ) + 1,
+					'path_val' => trailingslashit( $path ),
+					'enabled'  => true,
+				);
 			}
 		}
 
-		if ( $add_file ) {
-			$lastkey       = array_key_last( $saved_paths );
-			$saved_paths[] = array(
-				'id'       => absint( $saved_paths[ $lastkey ]['id'] ) + 1,
-				'path_val' => trailingslashit( $path ),
-				'enabled'  => true,
-			);
-		}
 		update_option( 'dlm_downloads_path', $saved_paths );
 		restore_current_blog();
 	}

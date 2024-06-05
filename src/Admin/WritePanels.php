@@ -385,25 +385,41 @@ class DLM_Admin_Writepanels {
 				}
 				// If there is a common path display a notice.
 				if ( $new_path ) {
-					echo '<div class="dlm-restricted-path notice notice-warning">';
-					echo '<h4 class="dlm-restricted-path__restricted_file_path">' .
-					     sprintf(
-						     esc_html__( 'You\'re trying to serve a file from your server that is not located inside the WordPress 
-			     installation or /wp-content/ folder. Clicking on the "add path" button will create a new file path exception. 
+					if ( ! is_multisite() ) {
+						echo '<div class="dlm-restricted-path notice notice-warning">';
+						echo '<h4 class="dlm-restricted-path__restricted_file_path">' .
+						     sprintf(
+							     esc_html__( 'You\'re trying to serve a file from your server that is located outside of the allowed paths. Clicking on the "add path" button will create a new file path exception. 
 			     If you want to learn more about this, %sclick here%s', 'download-monitor' ),
-						     '<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
-						     '</a>' ) .
-					     '</h4>';
+							     '<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
+							     '</a>' ) .
+						     '</h4>';
 
-					echo '</p>';
-					echo '<p class="dlm-restricted-path__recommended_allowed_path" >'
-					     . esc_html__( 'Recommended path:', 'download-monitor' ) .
-					     ' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-add-recommended-path" data-path="' . esc_attr( $new_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
-					     esc_html__( 'Add path', 'download-monitor' ) . '</button></p>';
-					echo '<p class="dlm-restricted-path__description">';
-					echo esc_html__( 'This will add the download path to the "Other downloads path" list. ', 'download-monitor' );
-					echo '</p>';
-					echo '</div>';
+						echo '</p>';
+						echo '<p class="dlm-restricted-path__recommended_allowed_path" >'
+						     . esc_html__( 'Recommended path:', 'download-monitor' ) .
+						     ' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-add-recommended-path" data-path="' . esc_attr( $new_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
+						     esc_html__( 'Add path', 'download-monitor' ) . '</button></p>';
+						echo '<p class="dlm-restricted-path__description">';
+						echo esc_html__( 'This will add the download path to the "Other downloads path" list. ', 'download-monitor' );
+						echo '</p>';
+						echo '</div>';
+					} else {
+						echo '<div class="dlm-restricted-path notice notice-warning">';
+						echo '<h4 class="dlm-restricted-path__restricted_file_path">' .
+						     sprintf(
+							     esc_html__( 'You\'re trying to serve a file from your server that is located outside of the allowed paths. Please contact the network administrator to add the path to the allowed paths for your website. 
+			     If you want to learn more about this, %sclick here%s', 'download-monitor' ),
+							     '<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
+							     '</a>' ) .
+						     '</h4>';
+
+						echo '</p>';
+						echo '<p class="dlm-restricted-path__recommended_allowed_path" >'
+						     . esc_html__( 'Recommended path:', 'download-monitor' ) .
+						     ' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;</p>';
+						echo '</div>';
+					}
 				}
 			}
 			?>

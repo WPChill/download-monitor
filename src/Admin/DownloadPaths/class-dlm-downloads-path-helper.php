@@ -45,28 +45,19 @@ class DLM_Downloads_Path_Helper {
 
 	/**
 	 * Saves the download paths either for single site or multisite setup.
+	 * In case of multisite, the blog should be switched to the desired blog before calling this function.
 	 *
 	 * @param  array  $paths  Array of download paths.
 	 *
 	 * @since 5.0.0
 	 */
 	public static function save_paths( $paths ) {
-		if ( is_multisite() ) {
-			if ( ! empty( $_GET['id'] ) && ! empty( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
-				$site_id = absint( $_GET['id'] );
-				switch_to_blog( $site_id );
-				update_option( 'dlm_downloads_path', $paths );
-				restore_current_blog();
-			}
-
-			update_site_option( 'dlm_network_settings', $paths );
-		} else {
-			update_option( 'dlm_downloads_path', $paths );
-		}
+		update_option( 'dlm_downloads_path', $paths );
 	}
 
 	/**
 	 * Retrieves all download paths either for single site or multisite setup.
+	 * In case of multisite, the blog should be switched to the desired blog before calling this function.
 	 *
 	 * @return array Array of download paths.
 	 * @since 5.0.0
@@ -113,21 +104,7 @@ class DLM_Downloads_Path_Helper {
 		if ( ! empty( $user_paths ) && is_array( $user_paths ) ) {
 			foreach ( $user_paths as $user_path ) {
 				if ( isset( $user_path['enabled'] ) && $user_path['enabled'] ) {
-					// Get user defined path
-					if ( is_multisite() ) {
-						if ( isset( $user_path['path_val'] ) && '' != $user_path['path_val'] ) {
-							if ( is_main_site() ) {
-								// This is main site, we replace placeholders with blank.
-								$path = str_replace( '{site_id}', '', $user_path['path_val'] );
-							} else {
-								// This is sub site, we replace placeholders with site id.
-								$path = str_replace( '{site_id}', get_current_blog_id(), $user_path['path_val'] );
-							}
-						}
-					} else {
-						$path = $user_path['path_val'];
-					}
-					$return[] = str_replace( DIRECTORY_SEPARATOR, '/', $path );
+					$return[] = str_replace( DIRECTORY_SEPARATOR, '/', $user_path['path_val'] );
 				}
 			}
 		}
