@@ -367,7 +367,14 @@ class DLM_Downloads_Path {
 		}
 
 		$change = false;
-		if ( isset( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
+		$check  = false;
+		// The check is different for multisite, as the page is different.
+		if ( is_multisite() ) {
+			$check = isset( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'];
+		} else {
+			$check = isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'];
+		}
+		if ( $check ) {
 			$paths = DLM_Downloads_Path_Helper::get_all_paths();
 			if ( ! empty( $_GET['action'] ) ) {
 				// IF we're on multisite, switch to the desired blog.
@@ -399,7 +406,6 @@ class DLM_Downloads_Path {
 						}
 						break;
 					case 'delete':
-
 						foreach ( $paths as $key => $path ) {
 							if ( $path['id'] == absint( $_GET['url'] ) ) {
 								unset( $paths[ $key ] );

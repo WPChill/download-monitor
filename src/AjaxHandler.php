@@ -163,37 +163,23 @@ class DLM_Ajax_Handler {
 			die();
 		}
 
-		$path = sanitize_text_field( wp_unslash( $_POST['path'] ) );
-
-		// If searched path is not a child of ABSPATH die - prevents directory traversal
-		if ( false === strpos( $path, ABSPATH ) ) {
-			die();
-		}
-
-		// Set $deny to false, we will use this later to check if we should hide a folder.
-		// Used to deny access in multisite environments to secondary sites uploads folder.
-		$deny = false;
-
-		// Check if it's a multisite installation & it's main site.
-		if ( defined( 'MULTISITE' ) && MULTISITE && is_main_site() ) {
-			// Getting network-wide DLM settings.
-			$settings = get_site_option( 'dlm_network_settings' );
-
-			// Check if we allow cross-site browsing of wp_uploads.
-			if ( ! isset( $settings['dlm_crossite_file_browse'] ) || '0' == $settings['dlm_crossite_file_browse'] ) {
-				// This is a secondary site & cross-browse NOT allowed. Deny acces to 'sites' directory.
-				$deny = 'sites';
-			}
+		$path         = sanitize_text_field( wp_unslash( $_POST['path'] ) );
+		$file_manager = download_monitor()->service( 'file_manager' );
+		// Parse file path.
+		list( $file_path, $remote_file, $restriction ) = $file_manager->get_secure_path( $path );
+		// Check if we have a restriction.
+		if ( $restriction ) {
+			echo __( 'You are not allowed in this directory', 'download-monitor' );
+			wp_die();
 		}
 
 		// List all files
-		$files                 = download_monitor()->service( 'file_manager' )->list_files( $path );
-		$disallowed_dirs = download_monitor()->service( 'file_manager' )->disallowed_wp_directories();
+		$files           = $file_manager->list_files( $path );
+		$disallowed_dirs = $file_manager->disallowed_wp_directories();
 		foreach ( $files as $found_file ) {
 			$allow = true;
-
 			// Multi-byte-safe pathinfo
-			$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
+			$file = $file_manager->mb_pathinfo( $found_file['path'] );
 			foreach ( $disallowed_dirs as $disallowed_dir ) {
 				if ( strpos( trailingslashit( $file['dirname'] . DIRECTORY_SEPARATOR . $file['basename'] ), $disallowed_dir ) ) {
 					$allow = false;
@@ -204,10 +190,6 @@ class DLM_Ajax_Handler {
 				continue;
 			}
 			if ( $found_file['type'] == 'folder' ) {
-				// Deny access to this folder?
-				if ( $deny && $file['basename'] === $deny ) {
-					continue;
-				}
 				echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
 			} else {
 				$filename  = $file['basename'];
