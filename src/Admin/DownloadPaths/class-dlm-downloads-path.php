@@ -93,7 +93,6 @@ class DLM_Downloads_Path {
 			$multi_args = array(
 				'type'    => 'array',
 				'default' => array(
-					'dlm_crossite_file_browse'  => '0',
 					'dlm_turn_off_file_browser' => '0',
 				),
 			);

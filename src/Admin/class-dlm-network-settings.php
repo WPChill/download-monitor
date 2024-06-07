@@ -49,8 +49,6 @@ class DLM_Network_Settings {
 	 * @since 5.0.0
 	 */
 	public function network_downloads_settings() {
-		$settings = new DLM_Settings_Page();
-
 		add_menu_page(
 			esc_html__( 'Downloads', 'download-monitor' ),
 			esc_html__( 'Downloads', 'download-monitor' ),
@@ -91,68 +89,10 @@ class DLM_Network_Settings {
 		if ( ! current_user_can( 'manage_network_options' ) ) {
 			wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'download-monitor' ), 403 );
 		}
-		$settings = get_site_option( 'dlm_network_settings' );
+		$browse_button = isset( $_POST['dlm_turn_off_file_browser'] ) ? absint( $_POST['dlm_turn_off_file_browser'] ) : 0;
+		$settings      = apply_filters( 'dlm_saving_network_settings', array( 'dlm_turn_off_file_browser' => $browse_button ) );
 
-		$downloads_paths = isset( $settings['dlm_downloads_path'] ) ? $settings['dlm_downloads_path'] : array();
-		$downloads_path  = isset( $_POST['dlm_downloads_path'] ) ? sanitize_text_field( $_POST['dlm_downloads_path'] ) : '';
-
-		// Handle Edit/Add
-		if ( isset( $_POST['path_action'] ) && 'edit' == $_POST['path_action'] ) {
-			if ( ! isset( $_POST['id'] ) || 0 == $_POST['id'] ) {
-				$lastkey           = array_key_last( $downloads_paths );
-				$newval            = array( 'id' => absint( $downloads_paths[ $lastkey ]['id'] ) + 1, 'path_val' => $downloads_path, 'enabled' => isset( $_POST['dlm_downloads_path_enabled'] ) );
-				$downloads_paths[] = $newval;
-			}
-
-			if ( isset( $_POST['id'] ) && 0 != $_POST['id'] ) {
-				foreach ( $downloads_paths as $key => $val ) {
-					if ( $val['id'] == absint( $_POST['id'] ) ) {
-						$downloads_paths[ $key ]['path_val'] = $downloads_path;
-						$downloads_paths[ $key ]['enabled']  = isset( $_POST['dlm_downloads_path_enabled'] );
-					}
-				}
-			}
-			$cross_browse  = isset( $settings['dlm_crossite_file_browse'] ) ? absint( $settings['dlm_crossite_file_browse'] ) : 0;
-			$browse_button = isset( $settings['dlm_turn_off_file_browser'] ) ? absint( $settings['dlm_turn_off_file_browser'] ) : 0;
-		} else {
-			$cross_browse  = isset( $_POST['dlm_crossite_file_browse'] ) ? absint( $_POST['dlm_crossite_file_browse'] ) : 0;
-			$browse_button = isset( $_POST['dlm_turn_off_file_browser'] ) ? absint( $_POST['dlm_turn_off_file_browser'] ) : 0;
-		}
-
-		// Handle Bulk
-		if ( isset( $_POST['otherdownloadpath'] ) ) {
-			foreach ( $_POST['otherdownloadpath'] as $id ) {
-				if ( isset( $_POST['action'] ) && 'enable' == $_POST['action'] ) {
-					foreach ( $downloads_paths as $key => $path ) {
-						if ( $path['id'] == absint( $id ) ) {
-							$downloads_paths[ $key ]['enabled'] = true;
-							break;
-						}
-					}
-				}
-				if ( isset( $_POST['action'] ) && 'disable' == $_POST['action'] ) {
-					foreach ( $downloads_paths as $key => $path ) {
-						if ( $path['id'] == absint( $id ) ) {
-							$downloads_paths[ $key ]['enabled'] = false;
-							break;
-						}
-					}
-				}
-				if ( isset( $_POST['action'] ) && 'delete' == $_POST['action'] ) {
-					foreach ( $downloads_paths as $key => $path ) {
-						if ( $path['id'] == absint( $id ) ) {
-							unset( $downloads_paths[ $key ] );
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		$settings = array( 'dlm_downloads_path' => $downloads_paths, 'dlm_crossite_file_browse' => $cross_browse, 'dlm_turn_off_file_browser' => $browse_button );
-		$settings = apply_filters( 'dlm_saving_network_settings', $settings );
-
-		update_option( 'dlm_network_settings', $settings );
+		update_site_option( 'dlm_network_settings', $settings );
 
 		wp_redirect( add_query_arg( 'page', 'download-monitor-settings', network_admin_url( 'admin.php' ) ) );
 		exit;
@@ -177,14 +117,6 @@ class DLM_Network_Settings {
 					'label'    => __( 'Global disable file browser', 'download-monitor' ),
 					'cb_label' => '',
 					'desc'     => __( 'Disables the directory file browser.', 'download-monitor' ),
-					'type'     => 'checkbox',
-				),
-				'dlm_crossite_file_browse'  => array(
-					'name'     => 'dlm_crossite_file_browse',
-					'std'      => '',
-					'label'    => __( 'Allow cross-site file browse', 'download-monitor' ),
-					'cb_label' => '',
-					'desc'     => __( 'Allows the cross-site browsing of uploads folder for all sites in this network.', 'download-monitor' ),
 					'type'     => 'checkbox',
 				),
 			);
@@ -247,6 +179,8 @@ class DLM_Network_Settings {
 				default:
 					/**
 					 * do_filter: dlm_network_setting_field_$type: (null) $field, (array) $network_options, (array) $network_settings.
+					 *
+					 * @since 5.0.0
 					 */
 					$field = apply_filters( 'dlm_network_setting_field_' . $option['type'], null, $network_options, $network_settings );
 					break;
@@ -311,7 +245,7 @@ class DLM_Network_Settings {
 		// Only do backwards for multisite that have dlm_downloads_path values.
 		if ( is_multisite() && $site_option && '' != $site_option ) {
 			// Create the network settings array.
-			$settings = array( 'dlm_downloads_path' => array( array( 'id' => 1, 'path_val' => $site_option, 'enabled' => true ) ), 'dlm_crossite_file_browse' => '0', 'dlm_turn_off_file_browser' => '0' );
+			$settings = array( 'dlm_turn_off_file_browser' => '0' );
 
 			// Save the network wide option.
 			update_site_option( 'dlm_network_settings', $settings );

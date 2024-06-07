@@ -28,20 +28,7 @@ class DLM_Admin_Media_Browser {
 		// File Manager
 		$file_manager  = new DLM_File_Manager();
 		$allowed_paths = $file_manager->get_allowed_paths();
-		$paths         = array();
-
-		// Check if it's a multisite installation
-		if ( ( defined( 'MULTISITE' ) && MULTISITE ) ) {
-			// Getting network-wide DLM settings.
-			$settings = get_site_option( 'dlm_network_settings' );
-
-			// Check if we allow cross-site browsing of wp_uploads.
-			if ( ! isset( $settings['dlm_crossite_file_browse'] ) || '0' === $settings['dlm_crossite_file_browse'] ) {
-				$paths = $allowed_paths;
-			}
-		} else { // Not a multisite installation, so we allow browsing in all allowed paths.
-			$paths = $allowed_paths;
-		}
+		$paths         = $allowed_paths;
 		// If we have paths, show them in the file browser
 		if ( ! empty( $paths ) ) {
 			echo '<!DOCTYPE html><html lang="en"><head><title>' . esc_html__( 'Browse for a file', 'download-monitor' ) . '</title>';
