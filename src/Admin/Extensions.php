@@ -580,18 +580,34 @@ class DLM_Admin_Extensions {
 		$plugin_path = $extension->product_id . '/' . $extension->product_id . '.php';
 		$badge       = 'inactive';
 		$text        = esc_html__( 'not installed', 'download-monitor' );
+
+		$license_data = get_option( 'dlm_master_license', false );
+
+		if ( ! $license_data ) {
+			return;
+		}
+
+		$license_data = json_decode( $license_data, true );
+		
+		$download_link = add_query_arg( array(
+			'download_api_product' => $extension->download_id,
+			'license_key'          => urlencode( $license_data['license_key'] ),
+			'activation_email'     => urlencode( $license_data['email'] )
+		), DLM_Product::PRODUCT_DOWNLOAD_URL );
+
+
 		if ( ! $this->is_active( $plugin_path ) ) {
 			if ( $this->is_installed( $plugin_path ) ) {
 				$badge  = 'installed';
 				$text   = esc_html__( 'installed', 'download-monitor' );
-				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="activate" class="dlm-plugin-install-action button button-primary" data-url="' . esc_url( $extension->download_link ) . '">' . esc_html__( 'Activate', 'download-monitor' ) . '</button>';
+				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="activate" class="dlm-plugin-install-action button button-primary ssss" data-url="' . esc_url( $download_link ) . '">' . esc_html__( 'Activate', 'download-monitor' ) . '</button>';
 			} else {
-				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="install" class="dlm-plugin-install-action button button-primary" data-url="' . esc_url( $extension->download_link ) . '">' . esc_html__( 'Install', 'download-monitor' ) . '</button>';
+				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="install" class="dlm-plugin-install-action button button-primary ddddd" data-url="' . esc_url( $download_link ) . '">' . esc_html__( 'Install', 'download-monitor' ) . '</button>';
 			}
 		} else {
 			$badge  = 'active';
 			$text   = esc_html__( 'active', 'download-monitor' );
-			$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" disabled="disabled" class="dlm-plugin-install-action button button-primary" data-url="' . esc_url( $extension->download_link ) . '">' . esc_html__( 'Installed & Active', 'download-monitor' ) . '</button>';
+			$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" disabled="disabled" class="dlm-plugin-install-action button button-primary xcxxxx" data-url="' . esc_url( $download_link ) . '">' . esc_html__( 'Installed & Active', 'download-monitor' ) . '</button>';
 		}
 
 		echo '<div class="feature-block">';
@@ -714,7 +730,7 @@ class DLM_Admin_Extensions {
 
 		// Create the plugin upgrader with our custom skin.
 		$installer = new Plugin_Upgrader( new DLM_Upgrader_Skin() );
-		$installer->install( $download_url );
+		$installer->install( htmlspecialchars_decode( $download_url ) );
 
 		// Flush the cache and return the newly installed plugin basename.
 		wp_cache_flush();
