@@ -9,12 +9,12 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://staging-dlm.mystagingwebsite.com/';
+	const STORE_URL = 'https://download-monitor.com/';
 
 	/**
 	 * The store URL
 	 */
-	const PRODUCT_DOWNLOAD_URL = 'https://staging-dlm.mystagingwebsite.com/';
+	const PRODUCT_DOWNLOAD_URL = 'https://download-monitor.com/';
 
 	/**
 	 * Activation endpoint

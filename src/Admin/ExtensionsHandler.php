@@ -235,14 +235,20 @@ class DLM_Extensions_Handler {
 			}
 		}
 
-		$store_url = DLM_Product::STORE_URL . '?wc-api=';
+		$store_url       = DLM_Product::STORE_URL . '?wc-api=';
+		$api_product_ids = implode( ',', $installed_extensions );
+		if ( empty( $api_product_ids ) ) {
+			// Add default to Terms and Conditions, as it is present in every package.
+			// @todo: This should be removed when we have a better way to handle this.
+			$api_product_ids = 'dlm-terms-and-conditions';
+		}
 		// Do activate request.
 		$api_request = wp_remote_get(
 			$store_url . DLM_Product::ENDPOINT_ACTIVATION . '&' . http_build_query(
 				array(
 					'email'          => $email,
 					'licence_key'    => $license_key,
-					'api_product_id' => implode( ',', $installed_extensions ),
+					'api_product_id' => $api_product_ids,
 					'request'        => $request,
 					'instance'       => site_url(),
 					'action_trigger' => $action_trigger,
