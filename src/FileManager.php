@@ -23,7 +23,13 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @return array|bool
 		 */
 		public function list_files( $folder = '' ) {
+			// If no folder is specified, return false
 			if ( empty( $folder ) ) {
+				return false;
+			}
+			// If the folder does not exist, return false
+			$files_folders = scandir( $folder );
+			if ( ! $files_folders ) {
 				return false;
 			}
 
@@ -289,7 +295,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @return string
 		 */
 		public function json_encode_files( $files ) {
-			if ( version_compare( phpversion(), "5.4.0", ">=" ) ) {
+			if ( version_compare( phpversion(), '5.4.0', '>=' ) ) {
 				$files = json_encode( $files, JSON_UNESCAPED_UNICODE );
 			} else {
 				$files = json_encode( $files );
@@ -371,7 +377,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @return string
 		 */
 		public function get_file_type( $file_name ) {
-			return strtolower( substr( strrchr( $file_name, "." ), 1 ) );
+			return strtolower( substr( strrchr( $file_name, '.' ), 1 ) );
 		}
 
 		/**
@@ -762,7 +768,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			) {
 				$pattern       = $result['pattern'];
 				$replace       = $result['replace'];
-				$separator     = "#";
+				$separator     = '#';
 				$orig_basename = ltrim(
 					str_replace( $pattern,
 					             $replace,
@@ -822,10 +828,10 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		) {
 			$conflict     = true;
 			$number       = 1;
-			$separator    = "#";
+			$separator    = '#';
 			$med_filename = $orig_file_name;
-			$pattern      = "";
-			$replace      = "";
+			$pattern      = '';
+			$replace      = '';
 
 			while ( $conflict ) {
 				$conflict = false;
@@ -967,7 +973,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 */
 		public function disallowed_wp_directories() {
 			$extra_disallowed_dirs = apply_filters( 'dlm_restricted_admin_folders', array() );
-			$base_disalowed_dirs = array(
+			$base_disalowed_dirs   = array(
 				'wp-admin',
 				'wp-includes',
 				'mail',
