@@ -345,7 +345,7 @@ if ( ! class_exists( 'DLM_Post_Type_Manager' ) ) {
 				// The retrieved download is an array of downloads. We only need the first and only one, as it's a query
 				// based on ID.
 				if ( ! empty( $download ) ) {
-					$download = $download[0];
+					$download  = reset($download);
 				}
 
 				$versions = $download->get_versions();
