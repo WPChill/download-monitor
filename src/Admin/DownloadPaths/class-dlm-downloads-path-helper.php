@@ -38,7 +38,7 @@ class DLM_Downloads_Path_Helper {
 			);
 			// Only allow network admin to add paths
 			if ( ! is_multisite() ) {
-				update_option( 'dlm_downloads_path', $saved_paths );
+				update_option( 'dlm_allowed_paths', $saved_paths );
 			}
 		}
 	}
@@ -52,7 +52,7 @@ class DLM_Downloads_Path_Helper {
 	 * @since 5.0.0
 	 */
 	public static function save_paths( $paths ) {
-		update_option( 'dlm_downloads_path', $paths );
+		update_option( 'dlm_allowed_paths', $paths );
 	}
 
 	/**
@@ -64,9 +64,9 @@ class DLM_Downloads_Path_Helper {
 	 */
 	public static function get_all_paths() {
 		if ( is_multisite() ) {
-			return get_option( 'dlm_downloads_path' );
+			return get_option( 'dlm_allowed_paths' );
 		} else {
-			$option = get_option( 'dlm_downloads_path' );
+			$option = get_option( 'dlm_allowed_paths' );
 			// Check if it's string & do combatiblility for < 5.0.0
 			if ( is_string( $option ) ) {
 				if ( '' != $option ) {

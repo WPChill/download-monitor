@@ -58,6 +58,7 @@ return array(
     'DLM_DownloadPreview_Config' => $baseDir . '/src/DownloadPreview/Config.php',
     'DLM_DownloadPreview_Preview' => $baseDir . '/src/DownloadPreview/Preview.php',
     'DLM_Download_Duplicator_AAM' => $baseDir . '/src/Admin/Duplicate/DownloadDuplicatorAAM.php',
+    'DLM_Download_Error_Handler' => $baseDir . '/src/class-dlm-download-error-handler.php',
     'DLM_Download_Factory' => $baseDir . '/src/Download/DownloadFactory.php',
     'DLM_Download_Handler' => $baseDir . '/src/DownloadHandler.php',
     'DLM_Download_No_Access_Page_Endpoint' => $baseDir . '/src/DownloadNoAccessPageEndpoint.php',

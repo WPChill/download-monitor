@@ -115,7 +115,7 @@ class DLM_Downloads_Path {
 					'default' => $default,
 				);
 
-				register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
+				register_setting( 'dlm_advanced_download_path', 'dlm_allowed_paths', $args );
 			} else {
 				$site_id = get_current_blog_id();
 				// Create the uploads path for the site.
@@ -132,20 +132,39 @@ class DLM_Downloads_Path {
 					'type'    => 'array',
 					'default' => $default,
 				);
-				register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
+				register_setting( 'dlm_advanced_download_path', 'dlm_allowed_paths', $args );
 			}
 		} else {
+			// Add the ABSPATH path to the default array.
 			$default[] = array(
 				'id'       => 1,
 				'path_val' => trailingslashit( ABSPATH ),
 				'enabled'  => true,
 			);
-			$args      = array(
+			// Add the WP_CONTENT_DIR path to the default array.
+			$default[] = array(
+				'id'       => 2,
+				'path_val' => trailingslashit( WP_CONTENT_DIR ),
+				'enabled'  => true,
+			);
+
+			// Backwards compatibility for the uploads path
+			$old_user_path = get_option( 'dlm_downloads_path', '' );
+
+			if ( ! empty( $old_user_path ) ) {
+				$default[] = array(
+					'id'       => 3,
+					'path_val' => trailingslashit( $old_user_path ),
+					'enabled'  => true,
+				);
+			}
+			// Register the setting for single site.
+			$args = array(
 				'type'    => 'array',
 				'default' => $default,
 			);
 
-			register_setting( 'dlm_advanced_download_path', 'dlm_downloads_path', $args );
+			register_setting( 'dlm_advanced_download_path', 'dlm_allowed_paths', $args );
 		}
 	}
 
@@ -257,11 +276,11 @@ class DLM_Downloads_Path {
 			<tbody>
 			<tr valign='top'>
 				<th scope='row' class='titledesc'>
-					<label for='dlm_downloads_path'> <?php
+					<label for='dlm_allowed_paths'> <?php
 						echo esc_html__( 'Directory URL', 'download-monitor' ); ?> </label>
 				</th>
 				<td class='forminp'>
-					<input name='dlm_downloads_path' id='dlm_downloads_path' type='text' class='input-text regular-input' value='<?php
+					<input name='dlm_allowed_paths' id='dlm_allowed_paths' type='text' class='input-text regular-input' value='<?php
 					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php
 					echo esc_attr( ABSPATH ); ?>">
 					<p class='description'><?php
@@ -297,7 +316,7 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function update_action( $value, $option, $old_value ) {
-		if ( 'dlm_downloads_path' !== $option || ! isset( $_POST['path_action'] ) ) {
+		if ( 'dlm_allowed_paths' !== $option || ! isset( $_POST['path_action'] ) ) {
 			return $value;
 		}
 		$enable = isset( $_POST['dlm_downloads_path_enabled'] ) && '1' === $_POST['dlm_downloads_path_enabled'] ? true : false;
@@ -344,7 +363,7 @@ class DLM_Downloads_Path {
 		if ( isset( $_POST['id'] ) && 0 != $_POST['id'] ) {
 			foreach ( $old_value as $key => $val ) {
 				if ( $val['id'] == absint( $_POST['id'] ) ) {
-					$old_value[ $key ]['path_val'] = $_POST['dlm_downloads_path'];
+					$old_value[ $key ]['path_val'] = $_POST['dlm_allowed_paths'];
 					$old_value[ $key ]['enabled']  = isset( $_POST['dlm_downloads_path_enabled'] );
 				}
 

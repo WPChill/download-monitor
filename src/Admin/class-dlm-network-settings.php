@@ -240,7 +240,7 @@ class DLM_Network_Settings {
 			return;
 		}
 		// Get the site's current dlm_downloads_path value.
-		$site_option = get_option( 'dlm_downloads_path' );
+		$site_option = get_option( 'dlm_allowed_paths' );
 
 		// Only do backwards for multisite that have dlm_downloads_path values.
 		if ( is_multisite() && $site_option && '' != $site_option ) {
@@ -251,7 +251,7 @@ class DLM_Network_Settings {
 			update_site_option( 'dlm_network_settings', $settings );
 
 			// Delete the site specific option.
-			delete_option( 'dlm_downloads_path' );
+			delete_option( 'dlm_allowed_paths' );
 		}
 	}
 
@@ -352,11 +352,11 @@ class DLM_Network_Settings {
 			<tbody>
 			<tr valign='top'>
 				<th scope='row' class='titledesc'>
-					<label for='dlm_downloads_path'> <?php
+					<label for='dlm_allowed_paths'> <?php
 						echo esc_html__( 'Directory URL', 'download-monitor' ); ?> </label>
 				</th>
 				<td class='forminp'>
-					<input name='dlm_downloads_path' id='dlm_downloads_path' type='text' class='input-text regular-input' value='<?php
+					<input name='dlm_allowed_paths' id='dlm_allowed_paths' type='text' class='input-text regular-input' value='<?php
 					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php
 					echo esc_attr( ABSPATH ); ?>">
 					<p class='description'><?php
@@ -387,13 +387,13 @@ class DLM_Network_Settings {
 	 * @since 5.0.0
 	 */
 	public function handle_form_submission() {
-		if ( empty( $_REQUEST['multisite_update_site'] ) || 'true' !== $_REQUEST['multisite_update_site'] || empty( $_REQUEST['dlm_downloads_path'] ) ) {
+		if ( empty( $_REQUEST['multisite_update_site'] ) || 'true' !== $_REQUEST['multisite_update_site'] || empty( $_REQUEST['dlm_allowed_paths'] ) ) {
 			return;
 		}
 		$site_id = absint( $_GET['id'] );
 		switch_to_blog( $site_id );
 		$saved_paths = DLM_Downloads_Path_Helper::get_all_paths();
-		$path        = sanitize_text_field( $_REQUEST['dlm_downloads_path'] );
+		$path        = sanitize_text_field( $_REQUEST['dlm_allowed_paths'] );
 		$add_file    = true;
 		$old_path    = '';
 		// verify if old path is set.
@@ -444,7 +444,7 @@ class DLM_Network_Settings {
 			}
 		}
 
-		update_option( 'dlm_downloads_path', $saved_paths );
+		update_option( 'dlm_allowed_paths', $saved_paths );
 		restore_current_blog();
 	}
 }

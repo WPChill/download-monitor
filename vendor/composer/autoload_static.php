@@ -73,6 +73,7 @@ class ComposerStaticInit80ce4473100edd20fd6c17775a76ce9a
         'DLM_DownloadPreview_Config' => __DIR__ . '/../..' . '/src/DownloadPreview/Config.php',
         'DLM_DownloadPreview_Preview' => __DIR__ . '/../..' . '/src/DownloadPreview/Preview.php',
         'DLM_Download_Duplicator_AAM' => __DIR__ . '/../..' . '/src/Admin/Duplicate/DownloadDuplicatorAAM.php',
+        'DLM_Download_Error_Handler' => __DIR__ . '/../..' . '/src/class-dlm-download-error-handler.php',
         'DLM_Download_Factory' => __DIR__ . '/../..' . '/src/Download/DownloadFactory.php',
         'DLM_Download_Handler' => __DIR__ . '/../..' . '/src/DownloadHandler.php',
         'DLM_Download_No_Access_Page_Endpoint' => __DIR__ . '/../..' . '/src/DownloadNoAccessPageEndpoint.php',

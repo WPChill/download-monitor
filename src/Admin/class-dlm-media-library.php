@@ -380,7 +380,7 @@ class DLM_Media_Library {
 		// Get current URL so we can update the Version files.
 		$current_url = wp_get_attachment_url( $file['attachment_id'] );
 		// Get secure path and update the file path in the Download
-		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $current_url, 'relative' );
+		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $current_url );
 
 		if ( $version_id ) {
 			// Update the Version meta.
@@ -407,7 +407,7 @@ class DLM_Media_Library {
 	public function create_download( $file ) {
 
 		// Get new path
-		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( wp_get_attachment_url( $file['attachment_id'] ), 'relative' );
+		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( wp_get_attachment_url( $file['attachment_id'] ) );
 
 		// Check if the file has been previously protected
 		$known_download = get_post_meta( $file['attachment_id'], 'dlm_download', true );

@@ -573,7 +573,7 @@ class DLM_Admin_Writepanels {
 				$file_manager        = new DLM_File_Manager();
 
 				foreach ( $files as $file ) {
-					list( $file_path ) = $file_manager->get_secure_path( $file, true );
+					list( $file_path ) = $file_manager->get_secure_path( $file );
 					$secured_files[] = addslashes( $file_path );
 				}
 

@@ -64,66 +64,26 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			$wp_uploads_dir   = $wp_uploads['basedir'];
 			$wp_uploads_url   = $wp_uploads['baseurl'];
 			$allowed_paths    = $this->get_allowed_paths();
-
-			$common_path = DLM_Utils::longest_common_path( $allowed_paths );
-
-			$condition_met = false;
+			$condition_met    = false;
+			$allowed_path     = false;
 			if ( false !== strpos( $file_path, '127.0.0.1' ) ) {
-				$file_path        = untrailingslashit( $common_path )
+				$file_path        = untrailingslashit( ABSPATH )
 				                    . $parsed_file_path['path'];
 				$parsed_file_path = parse_url( $file_path );
 			}
 
 			// Fix for plugins that modify the uploads dir
 			// add filter in order to return files
-			if ( apply_filters( 'dlm_check_file_paths',
-			                    false,
-			                    $file_path,
-			                    $remote_file )
-			) {
+			if ( apply_filters( 'dlm_check_file_paths', false, $file_path, $remote_file ) ) {
 				return array( $file_path, $remote_file );
 			}
 
-			// Check if relative path or absolute path, as the file_exists function needs an absolute path
-			// So that we do not trigger warnings/errors with open_basedir restrictions.
-			$file_check['exists']   = false;
-			$file_check['relative'] = false;
-
-			if ( isset( $parsed_file_path['path'] ) ) {
-				// Check if common path is contained within the file path, if it doesn't it is a relative path,
-				// or it is a non-allowed file.
-				if ( $common_path && strlen( $common_path ) > 1
-				     && false === strpos( $parsed_file_path['path'],
-				                          $common_path )
-				) {
-					if ( is_file( realpath( trailingslashit( $common_path )
-					                        . $parsed_file_path['path'] ) )
-					) { // Check if it's a relative path, so add the common path to it.
-						$file_check['exists']   = true;
-						$file_check['relative'] = true;
-					} elseif ( file_exists( $parsed_file_path['path'] ) ) { // Check if it's an absolute path, most probably a non-allowed file.
-						$file_check['exists'] = true;
-					}
-				} else {
-					// If common path is included in the file path, check if the file exists.
-					if ( file_exists( $parsed_file_path['path'] ) ) {
-						$file_check['exists'] = true;
-					}
-				}
-			}
-
 			// Check file path
-			if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp', ) ) ) && $file_check['exists'] ) {
+			if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp', ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path['path'] ) ) {
 				// File existence found, weathers it's relative, absolute or remote.
 				$condition_met = true;
 				/** The file lies in the server */
 				$remote_file = false;
-				// If it's relative we need to make it absolute.
-				if ( $file_check['relative'] ) {
-					$file_path = trailingslashit( $common_path )
-					             . $parsed_file_path['path'];
-					$file_path = realpath( $file_path );
-				}
 			} elseif ( strpos( $wp_uploads_dir, '://' ) !== false ) {
 				// File existence found, weathers it's relative, absolute or remote.
 				$condition_met = true;
@@ -150,23 +110,15 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 					                         false );
 
 				// realpath() will return false on network drive paths, so just check if exists
-				$file_path = file_exists( $path ) ? $path
-					: realpath( $file_path );
+				$file_path = file_exists( $path ) ? $path : realpath( $file_path );
 			} elseif ( strpos( $file_path, $wp_uploads_url ) !== false ) {
 				// File existence found, weathers it's relative, absolute or remote.
 				$condition_met = true;
 				/** This is a local file given by URL, so we need to figure out the path */
 				$remote_file = false;
-				$file_path   = trim( str_replace( $wp_uploads_url,
-				                                  $wp_uploads_dir,
-				                                  $file_path ) );
+				$file_path   = trim( str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path ) );
 				$file_path   = realpath( $file_path );
-			} elseif ( is_multisite()
-			           && ( ( strpos( $file_path,
-			                          network_site_url( '/', 'http' ) ) !== false )
-			                || ( strpos( $file_path,
-			                             network_site_url( '/', 'https' ) ) !== false ) )
-			) {
+			} elseif ( is_multisite() && ( ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false ) || ( strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) ) {
 				// File existence found, weathers it's relative, absolute or remote.
 				$condition_met = true;
 				/** This is a local file outside wp-content so figure out the path */
@@ -183,10 +135,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				                          $wp_uploads_dir,
 				                          $file_path );
 				$file_path = realpath( $file_path );
-			} elseif ( strpos( $file_path, site_url( '/', 'http' ) ) !== false
-			           || strpos( $file_path, site_url( '/', 'https' ) )
-			              !== false
-			) {
+			} elseif ( false !== strpos( $file_path, site_url( '/', 'http' ) ) || false !== strpos( $file_path, site_url( '/', 'https' ) ) ) {
 				// File existence found, weathers it's relative, absolute or remote.
 				$condition_met = true;
 				/** This is a local file outside wp-content so figure out the path */
@@ -205,32 +154,43 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				$remote_file = false;
 				$file_path   = ABSPATH . $file_path;
 				$file_path   = realpath( $file_path );
-			} elseif ( '' === $common_path || strlen( $common_path ) === 1 ) {
-				// File existence found, weathers it's relative, absolute or remote.
-				$condition_met = true;
+			}
+
+			// File not remote, so we need to check if it's in the allowed paths
+			if ( ! empty( $allowed_paths ) ) {
+				// Cycle through the allowed paths and check if one of the allowed paths are in the file path.
 				foreach ( $allowed_paths as $path ) {
-					if ( file_exists( $path . $file_path ) ) {
-						$remote_file = false;
-						$file_path   = $path . $file_path;
-						$file_path   = realpath( $file_path );
-						break;
-					}
-				}
-			} else {
-				// Backwards compatibility for multiple file paths
-				if ( ! empty( $allowed_paths ) ) {
-					// Cycle through the allowed paths and check if one of the allowed paths are in the file path.
-					foreach ( $allowed_paths as $path ) {
-						$dirname = dirname( $parsed_file_path['path'] );
-						$file    = basename( $parsed_file_path['path'] );
-						if ( false !== strpos( $path, $dirname ) ) {
-							$check_path    = substr( $path, 0, strpos( $path, $dirname ) );
-							$check_path    = trailingslashit( untrailingslashit( $check_path ) ) . trailingslashit( ltrim( $dirname, DIRECTORY_SEPARATOR ) );
-							$complete_path = $check_path . $file;
-							if ( file_exists( $complete_path ) ) {
+					// Condition already met in the above checks, so we need to check if the file is in one of the allowed paths
+					if ( $condition_met ) {
+						if ( false !== strpos( $file_path, $path ) ) {
+							$remote_file  = false;
+							$allowed_path = true;
+							break;
+						}
+					} else { // No conditions prior met, so we need to backwards construct the path
+						// Check if the file is a child of the allowed path
+						if ( file_exists( $path . $file_path ) ) {
+							$allowed_path  = true;
+							$condition_met = true;
+							$remote_file   = false;
+							$file_path     = untrailingslashit( $path ) . '/' . ltrim( $file_path, '/' );
+							break;
+						}
+						// File might be a child of the allowed path but has a common directory, so it might not detect a direct $path . $file_path match
+						$base_file_path     = $this->mb_pathinfo( $file_path )['dirname'];
+						$path_directories   = array_filter( explode( '/', trim( $path ) ) );
+						$file_directories   = array_filter( explode( '/', trim( $base_file_path ) ) );
+						$common_directories = array_intersect( $file_directories, $path_directories );
+						// Check if there are common directories between the file and the allowed path
+						if ( ! empty( $common_directories ) ) {
+							foreach ( $common_directories as $common_directory ) {
+								$file_path = str_replace( $common_directory, '', $file_path );
+							}
+							if ( file_exists( $path . $file_path ) ) {
+								$allowed_path  = true;
 								$condition_met = true;
 								$remote_file   = false;
-								$file_path     = $complete_path;
+								$file_path     = untrailingslashit( $path ) . '/' . ltrim( $file_path, '/' );
 								break;
 							}
 						}
@@ -238,8 +198,16 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				}
 			}
 
-			// File not found on server, nor it's a remote file.
-			if ( ! $condition_met ) {
+			// If the file is remote, return the file path
+			if ( $remote_file ) {
+				return array(
+					$file_path,
+					$remote_file,
+				);
+			}
+
+			// File not found on server or is not in the allowed paths
+			if ( ! $condition_met || ! $allowed_path ) {
 				return array( false, false );
 			}
 
@@ -408,8 +376,13 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			if ( ! defined( 'ABSPATH' ) ) {
 				die;
 			}
+			$restriction = true;
 			// Get file path and remote file status
 			list( $file_path, $remote_file ) = $this->parse_file_path( $file );
+
+			if ( ! $file_path ) {
+				return array( $file_path, $remote_file, $restriction );
+			}
 
 			// Let's see if the file path is dirty
 			$file_scheme = parse_url( $file_path, PHP_URL_SCHEME );
@@ -424,8 +397,6 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			);
 			// Check restricted schemes
 			if ( in_array( $file_scheme, $restricted_schemes ) ) {
-				$restriction = true;
-
 				return array( $file_path, $remote_file, $restriction );
 			}
 
@@ -457,9 +428,6 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			// Loop through the restricted files and return empty string if found.
 			foreach ( $restricted_files as $restricted_file ) {
 				if ( basename( $file_path ) === $restricted_file ) {
-					// If the file is restricted.
-					$restriction = true;
-
 					return array( $file_path, $remote_file, $restriction );
 				}
 			}
@@ -469,31 +437,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			// Check if the file is in one of the restricted directories
 			foreach ( $restricted_directories as $restricted_directory ) {
 				if ( false !== strpos( $file_path, $restricted_directory ) ) {
-					$restriction = true;
-
 					return array( $file_path, $remote_file, $restriction );
-				}
-			}
-
-			// Get allowed paths
-			$allowed_paths = $this->get_allowed_paths();
-			// Create the correct path using the file path and the allowed paths
-			$correct_path = $this->get_correct_path( $file_path,
-			                                         $allowed_paths );
-
-			// If the file is not in one of the allowed paths, return restriction
-			if ( ! $correct_path || empty( $correct_path ) ) {
-				$restriction = true;
-
-				return array( $file_path, $remote_file, $restriction );
-			}
-			// Check if the file has a relative path
-			if ( $relative ) {
-				// Now we should get longest commont path from the allowed paths.
-				$common_path = DLM_Utils::longest_common_path( $allowed_paths );
-				// If there is no common path, or is emtpy or is just a slash, return the file path, else do the replacement.
-				if ( strlen( $common_path ) > 1 ) {
-					$file_path = str_replace( $common_path, '', $file_path );
 				}
 			}
 
@@ -523,7 +467,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @since 4.5.92
 		 */
 		public function get_correct_path( $file_path, $allowed_paths ) {
-			/* We assume first assume that the path is false, as the ABSPATH is always allowed asnd should always be in the
+			/* We assume first assume that the path is false, as the ABSPATH is always allowed and should always be in the
 			* allowed paths.
 			*/
 			$correct_path = false;
