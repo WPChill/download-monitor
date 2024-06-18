@@ -163,11 +163,19 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 					// Condition already met in the above checks, so we need to check if the file is in one of the allowed paths
 					if ( $condition_met ) {
 						if ( false !== strpos( $file_path, $path ) ) {
-							$remote_file  = false;
 							$allowed_path = true;
 							break;
 						}
 					} else { // No conditions prior met, so we need to backwards construct the path
+						// Check if it's a remote file
+						// Check if the scheme is allowed
+						$scheme_check = isset( $parsed_file_path['scheme'] ) && in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp', ) );
+						// Check if the domain is the same as the site
+						$domain_check = false !== strpos( $file_path, site_url( '/', 'http' ) ) || false !== strpos( $file_path, site_url( '/', 'https' ) );
+						// If has scheme but not domain, break
+						if ( $scheme_check && ! $domain_check ) {
+							break;
+						}
 						// Check if the file is a child of the allowed path
 						if ( file_exists( $path . $file_path ) ) {
 							$allowed_path  = true;
