@@ -88,9 +88,15 @@ class DLM_Frontend_Templates {
 				$attributes['link_attributes']['title'] = sprintf( esc_attr( _n( 'Downloaded 1 time', 'Downloaded %d times', $download->get_download_count(), 'download-monitor' ) ), esc_html( $download->get_download_count() ) );
 				break;
 		}
+		$attributes['link_attributes']['data-redirect'] = 'false';
 		// Check if the download is redirect only and if we need to open the download in a new tab
 		if ( $download->is_redirect_only() && $download->is_new_tab() ) {
-			$attributes['link_attributes']['target'] = '_blank';
+			// Add the data-redirect attribute to the link, so we can check it with JavaScript if we need to redirect the user
+			$attributes['link_attributes']['data-redirect'] = 'true';
+			if ( $download->is_new_tab() ) {
+				// Add the target attribute to the link
+				$attributes['link_attributes']['target'] = '_blank';
+			}
 		}
 
 		return $attributes;

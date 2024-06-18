@@ -53,7 +53,13 @@ class DLM_XHR_Download {
 			jQuery(document).trigger( 'dlm-xhr-download-button-click', [ url, this, dlmXHRGlobalLinks ] );
 
 			if ('undefined' != typeof url && url.indexOf(dlmXHRGlobalLinks) >= 0) {
-
+				const redirect_link = jQuery(this).data('redirect'),
+					  target        = jQuery(this).attr('target');
+				// Check if the link has a target attribute, and if it does, we need to open it in a new window.
+				if ('undefined' !== typeof redirect_link && true === redirect_link && '_blank' === target) {
+					// If we need to redirect/open in a new tab, then we do not need to do XHR, so return.
+					return;
+				}
 				dlmXHRinstance.handleDownloadClick(this, e);
 			}
 		});
