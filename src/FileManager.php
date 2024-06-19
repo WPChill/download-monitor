@@ -66,6 +66,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			$allowed_paths    = $this->get_allowed_paths();
 			$condition_met    = false;
 			$allowed_path     = false;
+			$restriction      = false;
 			if ( false !== strpos( $file_path, '127.0.0.1' ) ) {
 				$file_path        = untrailingslashit( ABSPATH )
 				                    . $parsed_file_path['path'];
@@ -211,17 +212,21 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				return array(
 					$file_path,
 					$remote_file,
+					$restriction,
 				);
 			}
 
 			// File not found on server or is not in the allowed paths
 			if ( ! $condition_met || ! $allowed_path ) {
-				return array( false, false );
+				$restriction = true;
+
+				return array( $file_path, false, $restriction );
 			}
 
 			return array(
 				str_replace( DIRECTORY_SEPARATOR, '/', $file_path ),
 				$remote_file,
+				$restriction,
 			);
 		}
 
@@ -386,7 +391,11 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			}
 			$restriction = true;
 			// Get file path and remote file status
-			list( $file_path, $remote_file ) = $this->parse_file_path( $file );
+			list( $file_path, $remote_file, $parser_restriction ) = $this->parse_file_path( $file );
+			// Return the file path if the parser restriction is true, most likely the file is not in the allowed paths
+			if ( $parser_restriction ) {
+				return array( $file_path, $remote_file, $restriction );
+			}
 
 			if ( ! $file_path ) {
 				return array( $file_path, $remote_file, $restriction );
