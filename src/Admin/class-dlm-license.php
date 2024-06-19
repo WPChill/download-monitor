@@ -34,6 +34,7 @@ class DLM_License {
 		// Add License tab content
 		// Show the templates tab content.
 		add_action( 'dlm_tab_section_content_license', array( $this, 'license_page' ) );
+		add_filter( 'dlm_show_save_settings_button', array( $this, 'hide_save_button' ), 15, 3 );
 	}
 
 	/**
@@ -168,33 +169,39 @@ class DLM_License {
 		echo '<div class="dlm_extensions">';
 		?>
 		<div class="clear">
-			<h2><?php esc_html_e( 'Main License', 'download-monitor' ); ?></h2>
+			<h2><?php
+				esc_html_e( 'Main License', 'download-monitor' ); ?></h2>
 			<?php
 			$this->master_license();
-			?>
-			<!-- Let's display the extensions.  -->
-			<h2><?php esc_html_e( 'Single extension licenses', 'download-monitor' ); ?></h2>
-			<p class="description"><?php esc_html_e( 'Used if you have purchased a license for a single extension.', 'download-monitor' ); ?></p>
-			<?php
 
-			foreach ( $installed_extensions as $extension ) {
-				if ( empty( $products[ $extension->product_id ] ) ) {
-					continue;
+			if ( ! empty( $installed_extensions ) ) {
+			?>
+				<!-- Let's display the extensions.  -->
+				<h2><?php
+					esc_html_e( 'Single extension licenses', 'download-monitor' ); ?></h2>
+				<p class="description"><?php
+					esc_html_e( 'Used if you have purchased a license for a single extension.', 'download-monitor' ); ?></p>
+				<?php
+
+				foreach ( $installed_extensions as $extension ) {
+					if ( empty( $products[ $extension->product_id ] ) ) {
+						continue;
+					}
+					// Get the product
+					$license = $products[ $extension->product_id ]->get_license();
+					echo '<div class="dlm_extension">';
+					echo '<span class="dlm_extension__title">' . esc_html( $extension->name ) . '</span>';
+					echo '<div class="extension_license">';
+					echo '<input type="hidden" id="dlm-ajax-nonce" value="' . esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ) . '" />';
+					echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />';
+					echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />';
+					echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
+					echo '<input type="text" name="email" id="email" value="' . esc_attr( $license->get_email() ) . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
+					echo '<a href="javascript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
+					echo '</div>';
+					echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>';
+					echo '</div>';
 				}
-				// Get the product
-				$license = $products[ $extension->product_id ]->get_license();
-				echo '<div class="dlm_extension">';
-				echo '<span class="dlm_extension__title">' . esc_html( $extension->name ) . '</span>';
-				echo '<div class="extension_license">';
-				echo '<input type="hidden" id="dlm-ajax-nonce" value="' . esc_attr( wp_create_nonce( 'dlm-ajax-nonce' ) ) . '" />';
-				echo '<input type="hidden" id="status" value="' . esc_attr( $license->get_status() ) . '" />';
-				echo '<input type="hidden" id="product_id" value="' . esc_attr( $extension->product_id ) . '" />';
-				echo '<input type="text" name="key" id="key" value="' . esc_attr( $license->get_key() ) . '" placeholder="License Key"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
-				echo '<input type="text" name="email" id="email" value="' . esc_attr( $license->get_email() ) . '" placeholder="License Email"' . ( ( $license->is_active() ) ? ' disabled="disabled"' : '' ) . ' />';
-				echo '<a href="javascript:;" class="button button-primary">' . ( ( $license->is_active() ) ? 'Deactivate' : 'Activate' ) . '</a>';
-				echo '</div>';
-				echo '<p class="license-status' . ( ( $license->is_active() ) ? ' active' : '' ) . '">' . esc_html( strtoupper( $license->get_status() ) ) . '</p>';
-				echo '</div>';
 			}
 			?><!-- end extensions display -->
 		</div><!-- .block -->
@@ -230,5 +237,21 @@ class DLM_License {
 		);
 
 		return $settings;
+	}
+
+	/**
+	 * Hide the save button on the license page.
+	 *
+	 * @param  array  $settings  Array of settings.
+	 *
+	 * @return bool
+	 * @since 5.0.0
+	 */
+	public function hide_save_button( $return, $settings, $active_section ) {
+		if ( 'license' === $active_section && empty( $_GET['action'] ) ) {
+			return false;
+		}
+
+		return $return;
 	}
 }

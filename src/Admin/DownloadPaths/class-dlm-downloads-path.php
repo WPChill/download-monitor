@@ -541,7 +541,7 @@ class DLM_Downloads_Path {
 	}
 
 	/**
-	 * Add the templates tab to the settings page.
+	 * Hide the save button in the Approved Download Paths tab.
 	 *
 	 * @param  array  $settings  Array of settings.
 	 *
