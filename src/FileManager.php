@@ -27,6 +27,10 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			if ( empty( $folder ) ) {
 				return false;
 			}
+			// If not dir, return false
+			if ( ! is_dir( $folder ) ) {
+				return false;
+			}
 			// If the folder does not exist, return false
 			$files_folders = scandir( $folder );
 			if ( ! $files_folders ) {

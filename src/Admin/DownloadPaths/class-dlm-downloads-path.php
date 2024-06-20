@@ -360,14 +360,15 @@ class DLM_Downloads_Path {
 			return $old_value;
 		}
 
+		// This is an edit action.
 		if ( isset( $_POST['id'] ) && 0 != $_POST['id'] ) {
 			foreach ( $old_value as $key => $val ) {
-				if ( $val['id'] == absint( $_POST['id'] ) ) {
+				if ( absint( $val['id'] ) == absint( $_POST['id'] ) ) {
 					$old_value[ $key ]['path_val'] = $_POST['dlm_allowed_paths'];
 					$old_value[ $key ]['enabled']  = isset( $_POST['dlm_downloads_path_enabled'] );
-				}
 
-				return $old_value;
+					return $old_value;
+				}
 			}
 		}
 

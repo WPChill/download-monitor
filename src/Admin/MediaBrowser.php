@@ -51,33 +51,35 @@ class DLM_Admin_Media_Browser {
 			foreach ( $paths as $path ) {
 				// Get files based on path.
 				$files = $file_manager->list_files( $path, 1 );
-				// Cycle through files.
-				foreach ( $files as $found_file ) {
-					$file  = pathinfo( $found_file['path'] );
-					$allow = true;
-					if ( $found_file['type'] == 'folder' ) {
-						foreach ( $disallowed_dirs as $disallowed_dir ) {
-							if ( strpos( trailingslashit( $file['dirname'] . DIRECTORY_SEPARATOR . $file['basename'] ), $disallowed_dir ) ) {
-								$allow = false;
-								break;
+				if ( ! empty( $files ) ) {
+					// Cycle through files.
+					foreach ( $files as $found_file ) {
+						$file  = pathinfo( $found_file['path'] );
+						$allow = true;
+						if ( $found_file['type'] == 'folder' ) {
+							foreach ( $disallowed_dirs as $disallowed_dir ) {
+								if ( strpos( trailingslashit( $file['dirname'] . DIRECTORY_SEPARATOR . $file['basename'] ), $disallowed_dir ) ) {
+									$allow = false;
+									break;
+								}
 							}
-						}
-						if ( ! $allow ) {
-							continue;
-						}
-						echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_html( $file['basename'] ) . '</a></li>';
-					} else {
-						$filename  = $file['basename'];
-						$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
+							if ( ! $allow ) {
+								continue;
+							}
+							echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_html( $file['basename'] ) . '</a></li>';
+						} else {
+							$filename  = $file['basename'];
+							$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
 
-						if ( substr( $filename, 0, 1 ) == '.' ) {
-							continue;
-						} // Ignore files starting with . like htaccess
-						if ( in_array( $extension, array( '', 'php', 'html', 'htm', 'tmp' ) ) ) {
-							continue;
-						} // Ignored file types
+							if ( substr( $filename, 0, 1 ) == '.' ) {
+								continue;
+							} // Ignore files starting with . like htaccess
+							if ( in_array( $extension, array( '', 'php', 'html', 'htm', 'tmp' ) ) ) {
+								continue;
+							} // Ignored file types
 
-						echo '<li><a href="#" class="file filetype-' . esc_attr( sanitize_title( $extension ) ) . '" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_html( $file['basename'] ) . '</a></li>';
+							echo '<li><a href="#" class="file filetype-' . esc_attr( sanitize_title( $extension ) ) . '" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_html( $file['basename'] ) . '</a></li>';
+						}
 					}
 				}
 			}
