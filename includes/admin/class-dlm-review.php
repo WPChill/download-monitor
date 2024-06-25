@@ -96,7 +96,7 @@ class DLM_Review {
 
 		if ( 'download-monitor-rate' == $_POST['check'] ) {
 			$time = time() + YEAR_IN_SECONDS * 1;
-		}elseif ( 'download-monitor-later' == ['check'] ) {
+		}elseif ( 'download-monitor-later' == $_POST['check'] ) {
 			$time = time() + WEEK_IN_SECONDS;
 		}elseif ( 'download-monitor-no-rate' == $_POST['check'] ) {
 			$time = time() + YEAR_IN_SECONDS * 1;

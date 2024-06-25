@@ -18,7 +18,7 @@ class DLM_Custom_Actions {
 		add_action( 'save_post', array( $this, 'bulk_and_quick_edit_save_post' ), 10, 2 );
 
 		// duplicate download
-		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
+		//add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
 		add_action( 'wp_ajax_dlm_download_duplicator_duplicate', array( $this, 'ajax_duplicate_download' ) );
 		add_action( 'wp_ajax_dlm_update_downloads_path', array( $this, 'update_downloads_path' ) );
 
@@ -281,7 +281,6 @@ class DLM_Custom_Actions {
 
 		// handle bulk
 		if ( isset( $_REQUEST['dlm_bulk_edit_nonce'] ) ) {
-
 			// check nonce
 			// phpcs:ignore
 			if ( ! wp_verify_nonce( $_REQUEST['dlm_bulk_edit_nonce'], 'dlm_bulk_edit_nonce' ) ) {
@@ -302,7 +301,6 @@ class DLM_Custom_Actions {
 			if ( isset( $_REQUEST['_redirect_only'] ) ) {
 				update_post_meta( $post_id, '_redirect_only', 'yes' );
 			}
-
 		}
 
 		// handle quick
@@ -470,11 +468,18 @@ class DLM_Custom_Actions {
 	 * @since 4.8.0
 	 */
 	public function update_downloads_path() {
+		// Check if the request is valid
 		check_ajax_referer( 'dlm-ajax-nonce', 'security' );
+		// Check if the path is provided
 		if ( ! isset( $_POST['path'] ) ) {
 			wp_send_json_error( array( 'message' => __( 'No path provided', 'download-monitor' ) ) );
 		}
-		update_option( 'dlm_downloads_path', sanitize_text_field( $_POST['path'] ) );
+		// Check if the user has permission to update the path
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to update the path', 'download-monitor' ) ) );
+		}
+		// Save the new path in the Allowed Paths Table
+		DLM_Downloads_Path_Helper::save_unique_path( sanitize_text_field( $_POST['path'] ) );
 		wp_send_json_success( array( 'message' => __( 'Path updated', 'download-monitor' ) ) );
 	}
 }

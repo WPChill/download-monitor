@@ -24,7 +24,10 @@ class ExtensionLoader {
 		if ( false === ( $extension_json = get_transient( 'dlm_extension_json' ) ) ) {
 			$store_url = \DLM_Product::STORE_URL;
 			// Extension request
-			$extension_request = wp_remote_get( $store_url . '?dlm-all-extensions=true' );
+			$extension_request = wp_remote_get( 
+				$store_url . '?dlm-all-extensions=true', 
+				array( 'timeout' => 120 ) 
+			);
 
 			if ( ! is_wp_error( $extension_request ) ) {
 				// The extension json from server

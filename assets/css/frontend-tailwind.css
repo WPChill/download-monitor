@@ -539,12 +539,14 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-m-2 {
   margin: 0.5rem;
 }
-#dlm-no-access-modal .dlm-mx-auto {
-  margin-left: auto;
-  margin-right: auto;
+#dlm-no-access-modal .dlm-ml-3 {
+  margin-left: 0.75rem;
 }
 #dlm-no-access-modal .dlm-mt-3 {
   margin-top: 0.75rem;
+}
+#dlm-no-access-modal .dlm-mt-4 {
+  margin-top: 1rem;
 }
 #dlm-no-access-modal .dlm-flex {
   display: flex;
@@ -555,6 +557,9 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-h-12 {
   height: 3rem;
 }
+#dlm-no-access-modal .dlm-h-4 {
+  height: 1rem;
+}
 #dlm-no-access-modal .dlm-h-6 {
   height: 1.5rem;
 }
@@ -563,6 +568,9 @@ html body a.download-link.dlm-download-complete::before {
 }
 #dlm-no-access-modal .dlm-w-12 {
   width: 3rem;
+}
+#dlm-no-access-modal .dlm-w-4 {
+  width: 1rem;
 }
 #dlm-no-access-modal .dlm-w-6 {
   width: 1.5rem;
@@ -576,6 +584,9 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
+#dlm-no-access-modal .dlm-items-start {
+  align-items: flex-start;
+}
 #dlm-no-access-modal .dlm-items-center {
   align-items: center;
 }
@@ -588,6 +599,9 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-overflow-y-auto {
   overflow-y: auto;
 }
+#dlm-no-access-modal .dlm-rounded {
+  border-radius: 0.25rem;
+}
 #dlm-no-access-modal .dlm-rounded-full {
   border-radius: 9999px;
 }
@@ -596,6 +610,10 @@ html body a.download-link.dlm-download-complete::before {
 }
 #dlm-no-access-modal .dlm-rounded-md {
   border-radius: 0.375rem;
+}
+#dlm-no-access-modal .dlm-border-gray-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 #dlm-no-access-modal .dlm-bg-gray-500 {
   --tw-bg-opacity: 1;
@@ -655,6 +673,9 @@ html body a.download-link.dlm-download-complete::before {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+#dlm-no-access-modal .dlm-font-medium {
+  font-weight: 500;
+}
 #dlm-no-access-modal .dlm-font-semibold {
   font-weight: 600;
 }
@@ -664,6 +685,10 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-text-gray-900 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+#dlm-no-access-modal .dlm-text-indigo-600 {
+  --tw-text-opacity: 1;
+  color: rgb(79 70 229 / var(--tw-text-opacity));
 }
 #dlm-no-access-modal .dlm-text-red-600 {
   --tw-text-opacity: 1;
@@ -700,6 +725,10 @@ html body a.download-link.dlm-download-complete::before {
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+.focus\:dlm-ring-indigo-600:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(79 70 229 / var(--tw-ring-opacity));
 }
 @media (min-width: 640px) {
   .sm\:dlm-mx-0 {

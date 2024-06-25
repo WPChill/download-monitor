@@ -181,10 +181,14 @@ class DLM_Log_Item {
 	}
 
 	/**
-	 * @param string $version
+	 * @param  string  $version
 	 */
 	public function set_version( $version ) {
-		$this->version = $version;
+		if ( null === $version ) {
+			$this->version = '';
+		} else {
+			$this->version = $version;
+		}
 	}
 
 	/**

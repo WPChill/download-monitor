@@ -424,7 +424,7 @@ class DLM_Download_Version {
 
 		if ( ! empty( $this->mirrors ) ) {
 			foreach ( $this->mirrors as $mirror ) {
-				list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $mirror, true );
+				list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $mirror );
 				if ( $remote_file || $restriction || ! $file_path ) {
 					continue;
 				}

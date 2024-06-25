@@ -34,7 +34,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function insert_panel_upload() {
-
 		check_ajax_referer( 'file-upload' );
 
 		// Check user rights
@@ -56,7 +55,7 @@ class DLM_Ajax_Handler {
 			}
 		} else {
 			$data = array(
-				'error' => $attachment_id->get_error_message()
+				'error' => $attachment_id->get_error_message(),
 			);
 			wp_send_json_error( $data );
 		}
@@ -71,7 +70,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function remove_file() {
-
 		check_ajax_referer( 'remove-file', 'security' );
 
 		// Check user rights
@@ -102,7 +100,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function add_file() {
-
 		// check nonce
 		check_ajax_referer( 'add-file', 'security' );
 
@@ -154,7 +151,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function list_files() {
-
 		// Check Nonce
 		check_ajax_referer( 'list-files', 'security' );
 
@@ -167,27 +163,35 @@ class DLM_Ajax_Handler {
 			die();
 		}
 
-		// If searched path is not a child of ABSPATH die - prevents directory traversal
-		if ( false === strpos( $_POST['path'], ABSPATH ) ) {
-			die();
+		$path         = sanitize_text_field( wp_unslash( $_POST['path'] ) );
+		$file_manager = download_monitor()->service( 'file_manager' );
+		// Parse file path.
+		list( $file_path, $remote_file, $restriction ) = $file_manager->get_secure_path( $path );
+		// Check if we have a restriction.
+		if ( $restriction ) {
+			echo __( 'You are not allowed in this directory', 'download-monitor' );
+			wp_die();
 		}
 
-		$path = sanitize_text_field( wp_unslash( $_POST['path'] ) );
-
 		// List all files
-		$files = download_monitor()->service( 'file_manager' )->list_files( $path );
-
+		$files           = $file_manager->list_files( $path );
+		$disallowed_dirs = $file_manager->disallowed_wp_directories();
 		foreach ( $files as $found_file ) {
-
+			$allow = true;
 			// Multi-byte-safe pathinfo
-			$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
-
+			$file = $file_manager->mb_pathinfo( $found_file['path'] );
+			foreach ( $disallowed_dirs as $disallowed_dir ) {
+				if ( strpos( trailingslashit( $file['dirname'] . DIRECTORY_SEPARATOR . $file['basename'] ), $disallowed_dir ) ) {
+					$allow = false;
+					break;
+				}
+			}
+			if ( ! $allow ) {
+				continue;
+			}
 			if ( $found_file['type'] == 'folder' ) {
-
 				echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
-
 			} else {
-
 				$filename  = $file['basename'];
 				$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
 
@@ -199,9 +203,7 @@ class DLM_Ajax_Handler {
 				} // Ignored file types
 
 				echo '<li><a href="#" class="file filetype-' . esc_attr( sanitize_title( $extension ) ) . '" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
-
 			}
-
 		}
 
 		die();
@@ -211,7 +213,6 @@ class DLM_Ajax_Handler {
 	 * Handle notice dismissal
 	 */
 	public function dismiss_notice() {
-
 		// check notice
 		if ( ! isset( $_POST['notice'] ) || empty( $_POST['notice'] ) ) {
 			exit;
@@ -234,7 +235,6 @@ class DLM_Ajax_Handler {
 	 * Handle lazy select AJAX calls
 	 */
 	public function handle_settings_lazy_select() {
-
 		// check nonce
 		check_ajax_referer( 'dlm-settings-lazy-select-nonce', 'nonce' );
 
@@ -252,7 +252,6 @@ class DLM_Ajax_Handler {
 		// send options
 		wp_send_json( $options );
 		exit;
-
 	}
 
 
@@ -272,7 +271,7 @@ class DLM_Ajax_Handler {
 		$meta = json_encode(
 			array(
 				'download_id' => absint( $_POST['download_id'] ),
-				'version_id'  => absint( $_POST['version_id'] )
+				'version_id'  => absint( $_POST['version_id'] ),
 			)
 		);
 		update_post_meta( absint( $_POST['file_id'] ), 'dlm_download', $meta );

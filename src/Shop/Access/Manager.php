@@ -26,7 +26,7 @@ class Manager {
 	public function check_access( $has_access, $download, $version ) {
 
 		// check if request still has access at this point this is a purchasable download
-		if ( true === $has_access && 1 == get_post_meta( $download->get_id(), DownloadOption::OPTION_KEY, true ) ) {
+		if ( true === $has_access && DownloadOption::get_download_products( $download->get_id() ) ) {
 
 			/**
 			 * This is a download that requires a purchase.

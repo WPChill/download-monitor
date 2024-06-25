@@ -638,6 +638,15 @@ jQuery(function ($) {
 					new_tab.parent().hide()
 				}
 			});
+
+			/**
+			 * Show/hide the products locking the download
+			 */
+			jQuery('#dlm_view_locked_products').on('click', function (e) {
+
+				jQuery( this ).parents( '.dlm_product_locked_downloads' ).toggleClass('open');
+				jQuery( this ).find( '.dashicons' ).toggleClass('dashicons-arrow-down dashicons-arrow-up');
+			});
 		}
 
 		/**

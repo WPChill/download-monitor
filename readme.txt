@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.5
 Tested up to: 6.5
-Stable tag: 4.9.14
+Stable tag: 5.0.0
 License: GPLv3
 Text Domain: download-monitor
 Requires PHP: 5.6
@@ -120,6 +120,16 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.0 - TBD =
+Fixed: File Browser not working on installations that return '//' ( double slashed ) paths. ( [#1412](https://github.com/WPChill/download-monitor/issues/1412) )
+Changed: File Browser no longer displays cross-site folders in multisite environments. ( [#1402](https://github.com/WPChill/download-monitor/issues/1402) )
+Added: Download debug export metabox ( [#1387](https://github.com/WPChill/download-monitor/issues/1387) )
+Changed: Admin download edit view ( [#1398](https://github.com/WPChill/download-monitor/issues/1398) )
+Fixed: Included the Terms and Conditions premium plugin in the LITE version ( [#1445](https://github.com/WPChill/download-monitor/issues/1445) )
+Changed: Enhanced display of settings descriptions. ( [#1444](https://github.com/WPChill/download-monitor/issues/1444) )
+Changed: Multiple allowed uploads path and setting redesign ( [#1447](https://github.com/WPChill/download-monitor/issues/1447) )
+Added: File type & location column to the admin list table ( [#1450](https://github.com/WPChill/download-monitor/issues/1450) )
+
 = 4.9.14 - 27.05.2024 =
 Fixed: Security issue, thanks to Arkadiusz Hydzik for reporting it.
 
