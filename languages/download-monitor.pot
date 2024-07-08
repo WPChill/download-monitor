@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Download Monitor 5.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2024-07-08 11:12:12+00:00\n"
+"POT-Creation-Date: 2024-07-08 12:17:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1090,11 +1090,12 @@ msgid "See more"
 msgstr ""
 
 #: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:21
-msgid "Other Download Path"
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:183
+msgid "Approved Download Paths"
 msgstr ""
 
 #: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:22
-msgid "Other Downloads Path"
+msgid "Approved Download Path"
 msgstr ""
 
 #: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:34
@@ -1170,10 +1171,6 @@ msgstr ""
 
 #: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:433
 msgid "Apply"
-msgstr ""
-
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:183
-msgid "Approved Download Paths"
 msgstr ""
 
 #: src/Admin/DownloadPaths/class-dlm-downloads-path.php:210
@@ -2136,7 +2133,7 @@ msgid "Add path"
 msgstr ""
 
 #: src/Admin/WritePanels.php:414
-msgid "This will add the download path to the \"Other downloads path\" list. "
+msgid "This will add the download path to the \"Approved Download Path\" list. "
 msgstr ""
 
 #: src/Admin/WritePanels.php:421

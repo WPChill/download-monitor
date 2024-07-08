@@ -411,7 +411,7 @@ class DLM_Admin_Writepanels {
 							     esc_html__( 'Add path', 'download-monitor' ) . '</button></p>';
 						}
 						echo '<p class="dlm-restricted-path__description">';
-						echo esc_html__( 'This will add the download path to the "Other downloads path" list. ', 'download-monitor' );
+						echo esc_html__( 'This will add the download path to the "Approved Download Path" list. ', 'download-monitor' );
 						echo '</p>';
 						echo '</div>';
 					} else {

@@ -165,7 +165,7 @@ class WP_DLM {
 			}
 		}
 
-		// Load the other downloads path option table
+		// Load the Approved Download Path option table
 		DLM_Downloads_Path::get_instance();
 
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.

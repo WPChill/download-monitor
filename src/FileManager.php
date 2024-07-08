@@ -95,7 +95,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				/**
 				 * This is a file located on a network drive.
 				 * WordPress VIP is a provider that uses network drive paths
-				 * Only allow if root (vip://) is predefined in Settings > Misc > Other downloads path
+				 * Only allow if root (vip://) is predefined in Settings > Advanced > Approved Download Paths
 				 * Example of path: vip://wp-content/upload...
 				 **/
 				$remote_file = false;

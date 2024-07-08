@@ -18,8 +18,8 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	public function __construct() {
 		parent::__construct(
 			array(
-				'singular' => __( 'Other Download Path', 'download-monitor' ),
-				'plural'   => __( 'Other Downloads Path', 'download-monitor' ),
+				'singular' => __( 'Approved Download Paths', 'download-monitor' ),
+				'plural'   => __( 'Approved Download Path', 'download-monitor' ),
 				'ajax'     => false,
 			)
 		);
