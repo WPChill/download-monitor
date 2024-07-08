@@ -609,7 +609,7 @@ jQuery(function ($) {
 
 				var data = {
 					action    : 'dlm_update_downloads_path',
-					'path'    : path,
+					'path'    : encodeURI(path),
 					'security': security
 				};
 

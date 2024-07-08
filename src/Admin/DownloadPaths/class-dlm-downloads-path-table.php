@@ -342,10 +342,11 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	private function get_count_enabled() {
 		$paths = DLM_Downloads_Path_Helper::get_all_paths();
 		$res   = array();
-
-		foreach ( $paths as $path ) {
-			if ( $path['enabled'] ) {
-				$res[] = $path;
+		if ( ! empty( $paths ) ) {
+			foreach ( $paths as $path ) {
+				if ( isset( $path['enabled'] ) && $path['enabled'] ) {
+					$res[] = $path;
+				}
 			}
 		}
 
@@ -360,10 +361,11 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	private function get_count_disabled() {
 		$paths = DLM_Downloads_Path_Helper::get_all_paths();
 		$res   = array();
-
-		foreach ( $paths as $path ) {
-			if ( ! $path['enabled'] ) {
-				$res[] = $path;
+		if ( ! empty( $paths ) ) {
+			foreach ( $paths as $path ) {
+				if ( isset( $path['enabled'] ) && ! $path['enabled'] ) {
+					$res[] = $path;
+				}
 			}
 		}
 

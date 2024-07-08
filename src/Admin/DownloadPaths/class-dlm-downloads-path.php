@@ -322,10 +322,13 @@ class DLM_Downloads_Path {
 		$enable = isset( $_POST['dlm_downloads_path_enabled'] ) && '1' === $_POST['dlm_downloads_path_enabled'] ? true : false;
 		// If there were no previous values, then we are adding a new path.
 		if ( empty( $old_value ) ) {
+			// The allowed paths are in a multidimensional array.
 			return array(
-				'id'       => 1,
-				'path_val' => trailingslashit( $value ),
-				'enabled'  => $enable,
+				array(
+					'id'       => 1,
+					'path_val' => trailingslashit( $value ),
+					'enabled'  => $enable,
+				),
 			);
 		}
 
