@@ -218,6 +218,10 @@ class DLM_Admin_Extensions {
 			if ( 'dlm-legacy-importer' === $extension->product_id ) {
 				unset( $this->extensions[ $extension_key ] );
 			}
+			// Remove the Terms and Conditions extension from the extensions list, as from 5.0.0 it will be included in the core.
+			if ( 'dlm-terms-and-conditions' === $extension->product_id ) {
+				unset( $this->extensions[ $extension_key ] );
+			}
 		}
 	}
 
