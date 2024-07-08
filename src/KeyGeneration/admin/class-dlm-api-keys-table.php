@@ -141,9 +141,6 @@ class DLM_API_Keys_Table extends WP_List_Table {
 	 * @since 5.0.0
 	 */
 	protected function display_tablenav( $which ) {
-		if ( 'top' === $which ) {
-			wp_nonce_field( 'bulk-dlm-api_keys' );
-		}
 		?>
 		<div class="tablenav <?php
 		echo esc_attr( $which ); ?>">

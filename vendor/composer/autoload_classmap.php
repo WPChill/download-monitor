@@ -15,6 +15,7 @@ return array(
     'DLM_Admin_Fields_Field' => $baseDir . '/src/Admin/Settings/Fields/Field.php',
     'DLM_Admin_Fields_Field_Accordion' => $baseDir . '/src/Admin/Settings/Fields/Accordion.php',
     'DLM_Admin_Fields_Field_ActionButton' => $baseDir . '/src/Admin/Settings/Fields/ActionButton.php',
+    'DLM_Admin_Fields_Field_Callback' => $baseDir . '/src/Admin/Settings/Fields/Callback.php',
     'DLM_Admin_Fields_Field_Checkbox' => $baseDir . '/src/Admin/Settings/Fields/Checkbox.php',
     'DLM_Admin_Fields_Field_Desc' => $baseDir . '/src/Admin/Settings/Fields/Desc.php',
     'DLM_Admin_Fields_Field_Editor' => $baseDir . '/src/Admin/Settings/Fields/Editor.php',

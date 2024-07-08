@@ -49,8 +49,8 @@ class DLM_Key_Generation {
 	 * @since 5.0.0
 	 */
 	private function load_admin_hooks() {
-		// Add admin menu item.
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+		// Add the API keys section to the settings page.
+		add_filter( 'dlm_settings', array( $this, 'add_api_section' ) );
 		// Add AJAX action to generate API key.
 		add_action( 'wp_ajax_dlm_action_api_key', array( $this, 'ajax_handle_api_key_actions' ) );
 		add_action( 'wp_ajax_dlm_keygen_search_users', array( $this, 'ajax_search_users' ) );
@@ -65,35 +65,6 @@ class DLM_Key_Generation {
 	}
 
 	/**
-	 * Add submenu item.
-	 *
-	 * @since 5.0.0
-	 */
-	public function add_admin_menu() {
-		/**
-		 * Filter to enable API keys menu entry
-		 *
-		 * @hook  dlm_enable_api_keys
-		 *
-		 * @param  bool  $enable_api_keys  True to enable API keys, false to disable.
-		 *
-		 * @since 5.0.0
-		 *
-		 */
-		if ( apply_filters( 'dlm_enable_api_keys', false ) ) {
-			// Add submenu page.
-			add_submenu_page(
-				'edit.php?post_type=dlm_download',
-				__( 'API Keys', 'download-monitor' ),
-				__( 'API Keys', 'download-monitor' ),
-				'manage_options',
-				'dlm-api-keys',
-				array( $this, 'render_api_keys_page' )
-			);
-		}
-	}
-
-	/**
 	 * Render API Keys page.
 	 *
 	 * @since 5.0.0
@@ -101,9 +72,9 @@ class DLM_Key_Generation {
 	public function render_api_keys_page() {
 		$current_user = wp_get_current_user();
 		?>
-		<div class='wrap'>
-			<h1 class='wp-heading-inline'><?php
-				echo esc_html__( 'API Keys', 'download-monitor' ); ?></h1>
+		<div class='dlm-api-keys'>
+			<h2 class='wp-heading-inline'><?php
+				echo esc_html__( 'API Keys', 'download-monitor' ); ?></h2>
 			<div class="dlm-api-keys-generator">
 				<br>
 				<select name="dlm-keygen-user-select" class="dlm-keygen-user-select">
@@ -356,5 +327,40 @@ class DLM_Key_Generation {
 				wp_send_json_error( 'API key revocation failed.' );
 				break;
 		}
+	}
+
+	/**
+	 * Add setting field.
+	 *
+	 * @param  array  $settings  Array of settings.
+	 *
+	 * @since 5.0.0
+	 */
+	public function add_api_section( $settings ) {
+		/**
+		 * Filter to enable API keys menu entry
+		 *
+		 * @hook  dlm_enable_api_keys
+		 *
+		 * @param  bool  $enable_api_keys  True to enable API keys, false to disable.
+		 *
+		 * @since 5.0.0
+		 *
+		 */
+		if ( ! apply_filters( 'dlm_enable_api_keys', false ) ) {
+			return $settings;
+		}
+
+		$settings['general']['sections']['misc']['fields'][] = array(
+			'name'     => 'dlm_api_keys_section',
+			'label'    => '',
+			'desc'     => '',
+			'link'     => admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '&tab=advanced&section=misc',
+			'type'     => 'callback',
+			'callback' => array( $this, 'render_api_keys_page' ),
+			'priority' => 90,
+		);
+
+		return $settings;
 	}
 }

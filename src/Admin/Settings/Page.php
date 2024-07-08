@@ -553,7 +553,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 		 *
 		 * @param  Array  $settings
 		 *
-		 * @return void
+		 * @return array
 		 *
 		 * @since 4.5.5
 		 */
