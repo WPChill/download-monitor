@@ -239,7 +239,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 								if ( ! empty( $option['desc'] ) ) {
 									$tooltip = '
 									<div class="wpchill-tooltip"><span>[?]</span>
-										<div class="wpchill-tooltip-content">' . wp_kses_post( $option['desc'] ) . '</div>
+										<div class="wpchill-tooltip-content"><p>' . wp_kses_post( $option['desc'] ) . '</p></div>
 									</div>';
 								}
 
