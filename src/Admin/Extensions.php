@@ -726,7 +726,7 @@ class DLM_Admin_Extensions {
 
 		// We do not need any extra credentials if we have gotten this far, so let's install the plugin.
 		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-		require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'src/admin/class-dlm-upgrader-skin.php';
+		require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'src/Admin/class-dlm-upgrader-skin.php';
 
 		// Create the plugin upgrader with our custom skin.
 		$installer = new Plugin_Upgrader( new DLM_Upgrader_Skin() );
