@@ -31,8 +31,8 @@ class DLM_TC_Download_Option {
 		<p class="form-field form-field-checkbox">
 			<?php wp_nonce_field( __FILE__, '_dlm_tc_nonce' ); ?>
 			<input type="checkbox" name="<?php echo DLM_TC_Constants::META_LOCKED_KEY; ?>" id="<?php echo DLM_TC_Constants::META_LOCKED_KEY; ?>" <?php checked( $locked, 'yes' ); ?> />
-			<label for="<?php echo DLM_TC_Constants::META_LOCKED_KEY; ?>"><?php _e( 'Terms & Conditions Required', 'dlm-terms-and-condition' ); ?></label>
-			<span class="dlm-description"><?php _e( 'This download will only be downloadable after accepting the terms and conditions.', 'dlm-terms-and-condition' ); ?></span>
+			<label for="<?php echo DLM_TC_Constants::META_LOCKED_KEY; ?>"><?php _e( 'Terms & Conditions Required', 'download-monitor' ); ?></label>
+			<span class="dlm-description"><?php _e( 'This download will only be downloadable after accepting the terms and conditions.', 'download-monitor' ); ?></span>
 		</p>
 		<?php
 	}

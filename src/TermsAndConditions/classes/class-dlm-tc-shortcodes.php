@@ -54,7 +54,7 @@ class DLM_TC_Shortcodes {
 
 			// unlock text
 			$terms_page_id = get_option( 'dlm_tc_content_page', false );
-			$unlock_text = apply_filters( 'dlm_tc_unlock_text', get_option( 'dlm_tc_text', __( 'I accept the terms & conditions', 'dlm-terms-and-conditions' ) ), $download );
+			$unlock_text = apply_filters( 'dlm_tc_unlock_text', get_option( 'dlm_tc_text', __( 'I accept the terms & conditions', 'download-monitor' ) ), $download );
 
 			if( $terms_page_id && 0 != $terms_page_id ){
 				$terms_page  = '<a href="' . esc_url( get_permalink( $terms_page_id ) ) . '" target="_blank">' . wp_kses_post( get_the_title( $terms_page_id ) ) . '</a>';

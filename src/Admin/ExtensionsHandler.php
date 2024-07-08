@@ -240,7 +240,7 @@ class DLM_Extensions_Handler {
 		if ( empty( $api_product_ids ) ) {
 			// Add default to Terms and Conditions, as it is present in every package.
 			// @todo: This should be removed when we have a better way to handle this.
-			$api_product_ids = 'dlm-terms-and-conditions';
+			$api_product_ids = 'dlm-captcha';
 		}
 		// Do activate request.
 		$api_request = wp_remote_get(
