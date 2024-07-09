@@ -601,14 +601,15 @@ jQuery(function ($) {
 			} );
 
 			// Add other downloads path.
-			jQuery(document).on('click', '#dlm-add-recommended-path', function(e){
+			jQuery(document).on('click', '#dlm-add-recommended-path, #dlm-enable-path', function (e) {
 				e.preventDefault();
-				const button = jQuery(this),
-					  path = button.data('path'),
-					  security = button.data('security');
+				const button   = jQuery(this),
+					  path     = button.data('path'),
+					  security = button.data('security'),
+					  $action  = 'dlm-add-recommended-path' === button.attr('id') ? 'dlm_update_downloads_path' : 'dlm_enable_download_path';
 
 				var data = {
-					action    : 'dlm_update_downloads_path',
+					action    : $action,
 					'path'    : encodeURI(path),
 					'security': security
 				};

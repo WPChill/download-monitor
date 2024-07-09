@@ -30,6 +30,10 @@ class DLM_Downloads_Path {
 	private $table;
 
 	private function __construct() {
+		// Set AJAX hooks.
+		add_action( 'wp_ajax_dlm_update_downloads_path', array( $this, 'update_downloads_path' ) );
+		add_action( 'wp_ajax_dlm_enable_download_path', array( $this, 'enable_download_path' ) );
+		// Set the rest of the hooks.
 		$this->set_frontend_hooks();
 		$this->set_admin_hooks();
 	}
@@ -558,5 +562,52 @@ class DLM_Downloads_Path {
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Update downloads path.
+	 *
+	 * @return void
+	 * @since 4.8.0
+	 */
+	public function update_downloads_path() {
+		// Check if the request is valid
+		check_ajax_referer( 'dlm-ajax-nonce', 'security' );
+		// Check if the path is provided
+		if ( ! isset( $_POST['path'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'No path provided', 'download-monitor' ) ) );
+		}
+		// Check if the user has permission to update the path
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to update the path', 'download-monitor' ) ) );
+		}
+		// Save the new path in the Allowed Paths Table
+		DLM_Downloads_Path_Helper::save_unique_path( urldecode( $_POST['path'] ) );
+		wp_send_json_success( array( 'message' => __( 'Path updated', 'download-monitor' ) ) );
+	}
+
+	/**
+	 * Update downloads path.
+	 *
+	 * @return void
+	 * @since 4.8.0
+	 */
+	public function enable_download_path() {
+
+		// Check if the request is valid
+		check_ajax_referer( 'dlm-ajax-nonce', 'security' );
+		// Check if the path is provided
+		if ( ! isset( $_POST['path'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'No path provided', 'download-monitor' ) ) );
+		}
+		// Check if the user has permission to update the path
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to update the path', 'download-monitor' ) ) );
+		}
+
+		$path = urldecode( $_POST['path'] );
+		// Save the new path in the Allowed Paths Table
+		DLM_Downloads_Path_Helper::enable_download_path( $path );
+		wp_send_json_success( array( 'message' => __( 'Path enabled', 'download-monitor' ) ) );
 	}
 }

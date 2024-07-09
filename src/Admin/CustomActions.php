@@ -20,7 +20,6 @@ class DLM_Custom_Actions {
 		// duplicate download
 		//add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
 		add_action( 'wp_ajax_dlm_download_duplicator_duplicate', array( $this, 'ajax_duplicate_download' ) );
-		add_action( 'wp_ajax_dlm_update_downloads_path', array( $this, 'update_downloads_path' ) );
 
 		// duplicate Admin Notice
 		if ( isset( $_GET['dlm-download-duplicator-success'] ) ) {
@@ -459,27 +458,5 @@ class DLM_Custom_Actions {
 	 */
 	public function admin_notice() {
 		echo '<div class="updated"><p>' . esc_html__( 'Download succesfully duplicated!', 'download-monitor' ) . '</p></div>' . PHP_EOL;
-	}
-
-	/**
-	 * Update downloads path.
-	 *
-	 * @return void
-	 * @since 4.8.0
-	 */
-	public function update_downloads_path() {
-		// Check if the request is valid
-		check_ajax_referer( 'dlm-ajax-nonce', 'security' );
-		// Check if the path is provided
-		if ( ! isset( $_POST['path'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'No path provided', 'download-monitor' ) ) );
-		}
-		// Check if the user has permission to update the path
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'You do not have permission to update the path', 'download-monitor' ) ) );
-		}
-		// Save the new path in the Allowed Paths Table
-		DLM_Downloads_Path_Helper::save_unique_path( urldecode( $_POST['path'] ) );
-		wp_send_json_success( array( 'message' => __( 'Path updated', 'download-monitor' ) ) );
 	}
 }
