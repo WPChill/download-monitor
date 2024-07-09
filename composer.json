@@ -22,7 +22,7 @@
   "require-dev": {
     "pimple/pimple": "*",
     "paypal/paypalhttp": "*",
-    "phpunit/phpunit": "^6.4",
+    "phpunit/phpunit": "^10",
     "coenjacobs/mozart": "^0.7.1"
   },
   "minimum-stability": "dev",
