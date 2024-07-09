@@ -233,6 +233,7 @@ class DLM_Admin_Scripts {
 				'img_path'          => download_monitor()->get_plugin_url() . '/assets/images/',
 				'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ),
 				'settings_url'      => DLM_Admin_Settings::get_url(),
+				'shop_enabled'      => dlm_is_shop_enabled(),
 			) );
 
 			// Enqueue Extesions JS
@@ -291,6 +292,7 @@ class DLM_Admin_Scripts {
 				'img_path'          => download_monitor()->get_plugin_url() . '/assets/images/',
 				'lazy_select_nonce' => wp_create_nonce( 'dlm-settings-lazy-select-nonce' ),
 				'settings_url'      => DLM_Admin_Settings::get_url(),
+				'shop_enabled'      => dlm_is_shop_enabled(),
 			) );
 		}
 

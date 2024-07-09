@@ -2795,6 +2795,7 @@ WPCHill Tooltips
   color: #fff;
   padding: 10px;
   box-sizing: border-box;
+  font-weight:300;
 }
 .wpchill-tooltip:hover .wpchill-tooltip-content {
   opacity: 1;

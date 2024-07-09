@@ -69,5 +69,39 @@ jQuery(function ($) {
 			event.stopPropagation();
 			$(event.currentTarget).parent().toggleClass('closed');
 		});
+
+		shop_settings();
+		shop_settings_change();
 	});
+
+	// Hide show shop settings based on shop enabled/disabled
+	function shop_settings() {
+		const shop_button = $('#setting-dlm_shop_enabled'),
+			  settings    = $('.dlm-admin-settings.shop table tr:not( [data-setting="dlm_shop_enabled"] )'),
+			  tabs        = $('.dlm-admin-settings.shop .dlm-settings-sub-nav li:not(:first-child)');
+
+		if (!dlm_settings_vars.shop_enabled) {
+			settings.hide();
+			tabs.hide();
+		}
+	}
+
+	// Hide show shop settings based on shop enabled/disabled change
+	function shop_settings_change() {
+		const shop_button = $('#setting-dlm_shop_enabled'),
+			  settings    = $('.dlm-admin-settings.shop table tr:not( [data-setting="dlm_shop_enabled"] )'),
+			  tabs        = $('.dlm-admin-settings.shop .dlm-settings-sub-nav li:not(:first-child)');;
+
+		// Hide show shop settings based on shop enabled/disabled change
+		shop_button.on('change', function () {
+			let shop_value = $(this).is(':checked');
+			if (!shop_value) {
+				settings.hide();
+				tabs.hide();
+			} else {
+				settings.show();
+				tabs.show();
+			}
+		});
+	}
 });
