@@ -163,6 +163,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 
 			// File not remote, so we need to check if it's in the allowed paths
 			if ( ! empty( $allowed_paths ) ) {
+				$file_path = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
 				// Cycle through the allowed paths and check if one of the allowed paths are in the file path.
 				foreach ( $allowed_paths as $path ) {
 					// Condition already met in the above checks, so we need to check if the file is in one of the allowed paths
