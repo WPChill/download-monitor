@@ -24,7 +24,9 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_dlm_update_file_meta', array( $this, 'save_attachment_meta' ) );
 		add_action( 'wp_ajax_dlm_forgot_license', array( $this, 'forgot_license' ), 15 );
 		// Update the download_column from table download_log from varchar to longtext.
-		add_Action( 'wp_ajax_dlm_update_download_category', array( $this, 'upgrade_download_category' ), 15 );
+		add_action( 'wp_ajax_dlm_update_download_category', array( $this, 'upgrade_download_category' ), 15 );
+		// Action to save the Enable Shop setting.
+		add_action( 'wp_ajax_dlm_enable_shop', array( $this, 'enable_shop' ) );
 	}
 
 	/**
@@ -342,5 +344,24 @@ class DLM_Ajax_Handler {
 		} else {
 			wp_send_json_success( array( 'message' => __( 'Column download_category is already updated', 'download-monitor' ) ) );
 		}
+	}
+
+	/**
+	 * Enable Shop function.
+	 *
+	 * @return void
+	 *
+	 * @since 5.0.0
+	 */
+	public function enable_shop() {
+		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
+		if ( empty( $_POST['value'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'No data submitted', 'download-monitor' ) ) );
+		}
+
+		$enable_shop = 'true' === sanitize_text_field( wp_unslash( $_POST['value'] ) ) ? '1' : '0';
+
+		update_option( 'dlm_shop_enabled', $enable_shop );
+		wp_send_json_success();
 	}
 }
