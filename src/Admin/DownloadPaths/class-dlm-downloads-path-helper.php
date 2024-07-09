@@ -145,7 +145,7 @@ class DLM_Downloads_Path_Helper {
 	public static function enable_download_path( $path ) {
 		$paths = self::get_all_paths();
 		foreach ( $paths as $key => $a_path ) {
-			if ( $a_path['path_val'] === $path ) {
+			if ( str_replace( DIRECTORY_SEPARATOR, '/', $a_path['path_val'] ) === str_replace( DIRECTORY_SEPARATOR, '/', $path ) ) {
 				$paths[ $key ]['enabled'] = true;
 				self::save_paths( $paths );
 				break;
@@ -163,7 +163,7 @@ class DLM_Downloads_Path_Helper {
 	public static function disable_download_path( $path ) {
 		$paths = self::get_all_paths();
 		foreach ( $paths as $key => $a_path ) {
-			if ( $a_path['path_val'] === $path ) {
+			if ( str_replace( DIRECTORY_SEPARATOR, '/', $a_path['path_val'] ) === str_replace( DIRECTORY_SEPARATOR, '/', $path ) ) {
 				$paths[ $key ]['enabled'] = false;
 				self::save_paths( $paths );
 				break;

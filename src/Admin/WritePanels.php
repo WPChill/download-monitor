@@ -379,9 +379,11 @@ class DLM_Admin_Writepanels {
 
 			// Check if there are any non-allowed paths.
 			if ( ! empty( $paths ) ) {
-				$new_path  = false;
-				$new_paths = array();
+				$new_path      = false;
+				$new_paths 	   = array();
+				$allowed_paths = DLM_Downloads_Path_Helper::get_all_paths();
 				foreach ( $paths as $file_path ) {
+
 					list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $file_path );
 					// If remote file don't check for allowed path.
 					if ( $remote_file ) {
@@ -391,8 +393,7 @@ class DLM_Admin_Writepanels {
 						$new_paths[] = str_replace( DLM_Utils::basename( $file_path ), '', $file_path );
 					}
 				}
-
-				$allowed_paths = DLM_Downloads_Path_Helper::get_all_paths();
+				
 				// If there is a common path display a notice.
 				if ( ! empty( $new_paths ) ) {
 					if ( ! is_multisite() ) {
@@ -409,7 +410,7 @@ class DLM_Admin_Writepanels {
 							$exists = false;
 							// Check if the path is already in the allowed paths but is disabled.
 							foreach ( $allowed_paths as $a_path ) {
-								if ( $a_path['path_val'] === $new_path ) {
+								if ( str_replace( DIRECTORY_SEPARATOR, '/', $a_path['path_val'] ) ===  str_replace( DIRECTORY_SEPARATOR, '/', $new_path ) ) {
 									$exists = true;
 								}
 							}
