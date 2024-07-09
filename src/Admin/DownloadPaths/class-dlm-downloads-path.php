@@ -284,7 +284,7 @@ class DLM_Downloads_Path {
 						echo esc_html__( 'Directory URL', 'download-monitor' ); ?> </label>
 				</th>
 				<td class='forminp'>
-					<input name='dlm_allowed_paths' id='dlm_allowed_paths' type='text' class='input-text regular-input' value='<?php
+					<input name='dlm_allowed_paths' id='dlm_allowed_paths' type='text' class='input-text regular-input large-text' value='<?php
 					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php
 					echo esc_attr( ABSPATH ); ?>">
 					<p class='description'><?php
