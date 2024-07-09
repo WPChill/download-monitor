@@ -46,7 +46,7 @@ class DLM_TC_Options {
 				'title' => __( 'Global setting', 'download-monitor' ),
 				'name'     => 'dlm_tc_global',
 				'std'      => '',
-				'cb_label' => __( 'All downloads require Terms & Conditions', 'download-monitor' ),
+				'cb_label' => __( '', 'download-monitor' ),
 				'label'    => __( 'All downloads require Terms & Conditions', 'download-monitor' ),
 				'desc'     => __( 'Require all of your downloads to have your terms & conditions checked.', 'download-monitor' ),
 				'type'     => 'checkbox'
