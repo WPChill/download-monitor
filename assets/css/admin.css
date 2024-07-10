@@ -277,11 +277,11 @@
 .dlm-admin-settings .dlm-content-tab-full {
   width: 100%;
 }
-.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath .dlm-path-enabled {
+.dlm-admin-settings .dlm-content-tab-full .wp-list-table.approveddownloadpath .dlm-path-enabled {
   color: green;
   padding: 8px 10px;
 }
-.dlm-admin-settings .dlm-content-tab-full .wp-list-table.otherdownloadspath .dlm-path-disabled {
+.dlm-admin-settings .dlm-content-tab-full .wp-list-table.approveddownloadpath .dlm-path-disabled {
   color: red;
   padding: 8px 10px;
 }
@@ -2371,12 +2371,12 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap #available-extensions {
   clear: both;
 }
-.dlm_extensions_wrap #available-extensions .dlm_extensions .feature-block .feature-block__header h5 {
-  max-width:calc(100% - 125px);
-  word-wrap:break-word;
-}
 .dlm_extensions_wrap #available-extensions .features .feature-list .feature-block a {
   /*color: #fff;*/
+}
+.dlm_extensions_wrap #available-extensions .dlm_extensions .feature-block .feature-block__header h5 {
+  max-width: calc(100% - 125px);
+  word-wrap: break-word;
 }
 .dlm_extensions_wrap .dlm_extensions {
   padding: 0;
@@ -2799,7 +2799,7 @@ WPCHill Tooltips
   color: #fff;
   padding: 10px;
   box-sizing: border-box;
-  font-weight:300;
+  font-weight: 300;
 }
 .wpchill-tooltip:hover .wpchill-tooltip-content {
   opacity: 1;

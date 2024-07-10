@@ -371,7 +371,7 @@
 	width: 100%;
 
 	.wp-list-table {
-	  &.otherdownloadspath {
+	  &.approveddownloadpath {
 		.dlm-path-enabled {
 		  color:green;
 		  padding: 8px 10px;
@@ -2683,6 +2683,10 @@ table.wp-list-table {
 		}
 	  }
 	}
+	.dlm_extensions .feature-block .feature-block__header h5 {
+	  max-width:calc(100% - 125px);
+	  word-wrap:break-word;
+	}
   }
 
   .dlm_extensions {
@@ -3216,6 +3220,7 @@ WPCHill Tooltips
 	color: #fff;
 	padding: 10px;
 	box-sizing: border-box;
+	font-weight:300;
   }
 
   &:hover .wpchill-tooltip-content {
