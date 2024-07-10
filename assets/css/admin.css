@@ -2371,6 +2371,10 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap #available-extensions {
   clear: both;
 }
+.dlm_extensions_wrap #available-extensions .dlm_extensions .feature-block .feature-block__header h5 {
+  max-width:calc(100% - 125px);
+  word-wrap:break-word;
+}
 .dlm_extensions_wrap #available-extensions .features .feature-list .feature-block a {
   /*color: #fff;*/
 }
