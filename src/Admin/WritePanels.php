@@ -400,13 +400,13 @@ class DLM_Admin_Writepanels {
 					$html = '';
 					// Default notice to be shown.
 					$notice = sprintf(
-						esc_html__( 'You\'re trying to serve a file from your server that is not in the enabled allowed paths. If you want to learn more about this, %sclick here%s', 'download-monitor' ),
+						esc_html__( 'You\'re trying to serve files from your server that are not in the enabled allowed paths. If you want to learn more about this, %sclick here%s', 'download-monitor' ),
 						'<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
 						'</a>' );
 					if ( is_multisite() ) {
 						// Notice to be shown if the installation is a multisite.
 						$notice = sprintf(
-							esc_html__( 'You\'re trying to serve a file from your server that is not in the enabled allowed paths. Please contact the network administrator to add or enable the path(s) for your website. 
+							esc_html__( 'You\'re trying to serve files from your server that are not in the enabled allowed paths. Please contact the network administrator to add or enable the path(s) for your website. 
 			     If you want to learn more about this, %sclick here%s', 'download-monitor' ),
 							'<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
 							'</a>' );
