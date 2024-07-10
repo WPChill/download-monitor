@@ -161,6 +161,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 				$file_path   = realpath( $file_path );
 			}
 
+
 			// File not remote, so we need to check if it's in the allowed paths
 			if ( ! empty( $allowed_paths ) ) {
 				$file_path = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
@@ -195,11 +196,29 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 						$path_directories   = array_filter( explode( '/', trim( $path ) ) );
 						$file_directories   = array_filter( explode( '/', trim( $base_file_path ) ) );
 						$common_directories = array_intersect( $file_directories, $path_directories );
+
 						// Check if there are common directories between the file and the allowed path
 						if ( ! empty( $common_directories ) ) {
-							foreach ( $common_directories as $common_directory ) {
-								$file_path = str_replace( $common_directory, '', $file_path );
+							// Get the file extension and remove it from the file path, in case the common directories have the same name as the file extension
+							$file_extension = $this->mb_pathinfo( $file_path )['extension'];
+							if ( ! empty( $file_extension ) ) {
+								$file_path = str_replace( '.' . $file_extension, '', $file_path );
 							}
+							// Replace the directory separator with a forward slash
+							$file_path = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
+							// Cycle through the common directories and remove them from the file path
+							foreach ( $common_directories as $key => $common_directory ) {
+								// Check if the common directory is the last in the array, and if so, remove the forward slash from before the common directory
+								if ( count( $common_directories ) === ( $key - 1 ) ) {
+									$replace = '/' . $common_directory;
+								} else { // Otherwise, remove the forward slash from after the common directory
+									$replace = $common_directory . '/';
+								}
+								$file_path = str_replace( $replace, '', $file_path );
+							}
+							// Add the file extension back to the file path
+							$file_path = $file_path . '.' . $file_extension;
+							// Check if the file exists in the allowed path
 							if ( file_exists( $path . $file_path ) ) {
 								$allowed_path  = true;
 								$condition_met = true;
