@@ -1453,10 +1453,15 @@ table.wp-list-table .column-thumb img {
   z-index: 30;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
   background-color: #FFF;
   border: 1px solid #DDD;
+  grid-template-columns: 1fr 2fr;
+}
+@media (max-width: 1600px) {
+  .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header {
+    grid-template-columns: 1fr 3fr;
+  }
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-heading {
   font-weight: bold;
@@ -1509,7 +1514,7 @@ table.wp-list-table .column-thumb img {
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-insights-header .dlm-reports-actions {
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   align-content: center;
   display: flex;
@@ -3173,11 +3178,14 @@ div#dlm-export-settings-upsell span {
   cursor: pointer;
   text-decoration: none;
 }
-@media (max-width: 1550px) {
-  .dlm-csv-export-wrapper {
-    width: 100%;
-    margin-top: 5px;
-    margin-bottom: 35px;
+@media (max-width: 1490px) {
+  .dlm-csv-export-wrapper > div {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+  }
+  .dlm-csv-export-wrapper .dlm-csv-export-wrapper__export_settings {
+    left: -4px;
   }
 }
 .dlm-csv-export-wrapper {

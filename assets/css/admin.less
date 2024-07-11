@@ -1488,10 +1488,14 @@ table.wp-list-table {
 
 	  .dlm-insights-header {
 
-		display: flex;
-		justify-content: space-between;
+		display: grid;
 		background-color: #FFF;
 		border: 1px solid #DDD;
+		grid-template-columns: 1fr 2fr;
+
+		@media (max-width: 1600px) {
+		  grid-template-columns: 1fr 3fr;
+		}
 
 		.dlm-reports-heading {
 		  font-weight: bold;
@@ -1561,7 +1565,7 @@ table.wp-list-table {
 		  }
 
 		  flex-wrap: wrap;
-		  justify-content: space-between;
+		  justify-content: flex-end;
 		  align-items: center;
 		  align-content: center;
 		  display: flex;
@@ -3683,10 +3687,17 @@ div#dlm-export-settings-upsell {
 	text-decoration: none;
   }
 
-  @media (max-width: 1550px) {
-	width:100%;
-	margin-top:5px;
-	margin-bottom:35px;
+  @media (max-width: 1490px) {
+
+	> div {
+	  display:inline-block;
+	  vertical-align:middle;
+	  position:relative;
+	}
+
+	.dlm-csv-export-wrapper__export_settings {
+	  left:-4px;
+	}
   }
 }
 
