@@ -352,6 +352,8 @@ class DLM_Downloads_Path {
 
 		// Path already exists, so return the old value.
 		if ( ! $add_file ) {
+			set_transient( 'dlm_allowed_paths_settings', __( 'Path already exists.', 'download-monitor' ), HOUR_IN_SECONDS );
+
 			return $old_value;
 		}
 		// From this point on, we are adding a new path.

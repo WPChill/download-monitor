@@ -173,8 +173,15 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 					<?php
 
 					if ( ! empty( $_GET['settings-updated'] ) ) {
+						$setting_transient = get_transient( 'dlm_allowed_paths_settings', false );
+						if ( $setting_transient ) {
+							echo '<div class="warning notice is-dismissible"><p>' . esc_html( $setting_transient ) . '</p></div>';
+							delete_transient( 'dlm_allowed_paths_settings' );
+						} else {
+							echo '<div class="updated notice is-dismissible"><p>' . esc_html__( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+						}
 						$this->need_rewrite_flush = true;
-						echo '<div class="updated notice is-dismissible"><p>' . esc_html__( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+
 
 						$dlm_settings_tab_saved = get_option( 'dlm_settings_tab_saved', 'general' );
 
