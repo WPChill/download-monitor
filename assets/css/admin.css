@@ -138,6 +138,9 @@
 .dlm-admin-settings #setting-dlm_thousand_separator {
   width: 50px;
 }
+.dlm-admin-settings table.api_keys td {
+  padding: 15px 10px;
+}
 .dlm-admin-settings table td {
   padding: 15px 0;
 }
