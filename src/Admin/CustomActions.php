@@ -17,8 +17,6 @@ class DLM_Custom_Actions {
 		add_action( 'quick_edit_custom_box',  array( $this, 'quick_edit' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'bulk_and_quick_edit_save_post' ), 10, 2 );
 
-		// duplicate download
-		//add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
 		add_action( 'wp_ajax_dlm_download_duplicator_duplicate', array( $this, 'ajax_duplicate_download' ) );
 
 		// duplicate Admin Notice
@@ -335,25 +333,6 @@ class DLM_Custom_Actions {
 
 		return $post_id;
 	}
-
-	/**
-	 * Add 'Duplicate Download' to row actions
-	 *
-	 * @param $actions
-	 * @param $post
-	 *
-	 * @return array
-	 */
-	public function row_actions( $actions, $post ) {
-
-		// Only for downloads
-		if ( 'dlm_download' === $post->post_type && 'trash' !== $post->post_status ) {
-			$actions['dlm_duplicate_download'] = '<a href="javascript:;" class="dlm-duplicate-download" rel="' . $post->ID . '" data-value="' . wp_create_nonce( 'dlm_duplicate_download_nonce' ) . '">' . __( 'Duplicate Download', 'download-monitor' ) . '</a>';
-		}
-
-		return $actions;
-	}
-
 
 	/**
 	 * AJAX callback, duplicate download

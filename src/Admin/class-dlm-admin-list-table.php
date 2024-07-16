@@ -2015,7 +2015,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 				$tabs['extensions'] = array(
 					'name'     => esc_html__( 'Extensions',
 					                          'download-monitor' ),
-					'url'      => admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ),
+					'url'      => esc_url( admin_url( 'edit.php?post_type=dlm_download&page=dlm-extensions' ) ),
 					'priority' => '5',
 				);
 			}

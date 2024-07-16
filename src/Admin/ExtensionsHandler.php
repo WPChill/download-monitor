@@ -238,9 +238,9 @@ class DLM_Extensions_Handler {
 		$store_url       = DLM_Product::STORE_URL . '?wc-api=';
 		$api_product_ids = implode( ',', $installed_extensions );
 		if ( empty( $api_product_ids ) ) {
-			// Add default to Terms and Conditions, as it is present in every package.
+			// Add default to Captcha, as it is present in every package.
 			// @todo: This should be removed when we have a better way to handle this.
-			$api_product_ids = 'dlm-captcha';
+			$api_product_ids = array( 'dlm-captcha' );
 		}
 		// Do activate request.
 		$api_request = wp_remote_get(

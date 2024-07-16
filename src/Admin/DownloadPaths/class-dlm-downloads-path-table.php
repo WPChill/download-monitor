@@ -159,7 +159,6 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 					: '<span class="dashicons dashicons-no-alt dlm-path-disabled"></span>';
 				break;
 			default:
-				$html .= '';
 				break;
 		}
 
@@ -205,8 +204,7 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 * @since 5.0.0
 	 *
 	 */
-	public function get_action_url( string $action, int $id, string $nonce_action = 'modify_approved_directories' )
-	: string {
+	public function get_action_url( string $action, int $id, string $nonce_action = 'modify_approved_directories' ) {
 		$params = array(
 			'check'  => wp_create_nonce( $nonce_action ),
 			'action' => $action,

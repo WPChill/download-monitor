@@ -23,7 +23,7 @@ class DLM_Downloads_Path_Helper {
 		$add_file    = true;
 
 		foreach ( $saved_paths as $save_path ) {
-			if ( $path == $save_path['path_val'] ) {
+			if ( $path === $save_path['path_val'] ) {
 				$add_file = false;
 				break;
 			}
@@ -65,29 +65,29 @@ class DLM_Downloads_Path_Helper {
 	public static function get_all_paths() {
 		if ( is_multisite() ) {
 			return get_option( 'dlm_allowed_paths' );
-		} else {
-			$option = get_option( 'dlm_allowed_paths' );
-			// Check if it's string & do compatibility for < 5.0.0
-			if ( is_string( $option ) ) {
-				if ( '' != $option ) {
-					// Not empty string, save as new format since 5.0.0
-					$paths = array(
-						array(
-							'id'       => 1,
-							'path_val' => $option,
-							'enabled'  => true,
-						),
-					);
-					self::save_paths( $paths );
+		}
 
-					return $paths;
-				}
+		$option = get_option( 'dlm_allowed_paths' );
+		// Check if it's string & do compatibility for < 5.0.0
+		if ( is_string( $option ) ) {
+			if ( '' != $option ) {
+				// Not empty string, save as new format since 5.0.0
+				$paths = array(
+					array(
+						'id'       => 1,
+						'path_val' => $option,
+						'enabled'  => true,
+					),
+				);
+				self::save_paths( $paths );
 
-				return array();
+				return $paths;
 			}
 
-			return $option;
+			return array();
 		}
+
+		return $option;
 	}
 
 	/**
@@ -96,8 +96,7 @@ class DLM_Downloads_Path_Helper {
 	 * @return array Array of allowed download paths.
 	 * @since 5.0.0
 	 */
-	public static function get_allowed_paths()
-	: array {
+	public static function get_allowed_paths() {
 		$user_paths = self::get_all_paths();
 		$return     = array();
 
@@ -118,8 +117,7 @@ class DLM_Downloads_Path_Helper {
 	 * @return string Base admin URL.
 	 * @since 5.0.0
 	 */
-	public static function get_base_url()
-	: string {
+	public static function get_base_url() {
 		if ( ! defined( 'MULTISITE' ) || ! MULTISITE ) {
 			return add_query_arg(
 				array(
@@ -130,9 +128,9 @@ class DLM_Downloads_Path_Helper {
 				),
 				admin_url( 'edit.php' )
 			);
-		} else {
-			return add_query_arg( 'page', 'download-monitor-paths', network_admin_url( 'admin.php' ) );
 		}
+
+		return add_query_arg( 'page', 'download-monitor-paths', network_admin_url( 'admin.php' ) );
 	}
 
 	/**
