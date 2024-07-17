@@ -133,7 +133,6 @@
 		const addon = $('.dlm-plugin-install-action[data-path="' + plugin_path + '"]'), pid = addon.data('pid');
 		addon.text(dlm_install_plugins_vars.activate_license);
 		addon.parents('.dlm-install-plugin-actions').find('button.dlm-plugin-install-action').attr('disabled', 'disabled');
-
 		jQuery.ajax(
 			{
 				url     : ajaxurl,

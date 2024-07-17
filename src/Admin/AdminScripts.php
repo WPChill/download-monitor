@@ -112,7 +112,7 @@ class DLM_Admin_Scripts {
 				// Enqueue Select2
 				wp_enqueue_script(
 					'dlm_select2',
-					plugins_url( '/assets/js/select2/select2' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+					plugins_url( '/assets/js/select2/select2.min.js', $dlm->get_plugin_file() ),
 					array( 'jquery' ),
 					DLM_VERSION,
 					true
@@ -322,7 +322,7 @@ class DLM_Admin_Scripts {
 			// Enqueue Select2
 			wp_enqueue_script(
 				'dlm_select2',
-				plugins_url( '/assets/js/select2/select2' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
+				plugins_url( '/assets/js/select2/select2.min.js', $dlm->get_plugin_file() ),
 				array( 'jquery' ),
 				DLM_VERSION,
 				true

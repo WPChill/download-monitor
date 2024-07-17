@@ -147,12 +147,7 @@ class DLM_Download_REST {
 			$offset
 		);
 
-		$download_items = array_map(
-			function ( $download ) {
-				return $this->get_download_item( $download );
-			},
-			$fetch_downloads
-		);
+		$download_items = array_map( array( $this, 'get_download_item' ), $fetch_downloads );
 
 		return new WP_REST_Response(
 			array(

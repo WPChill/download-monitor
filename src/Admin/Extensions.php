@@ -832,7 +832,7 @@ class DLM_Admin_Extensions {
 		$license->set_license_status( 'active' );
 
 		$license->store();
-
-		wp_send_json_success( array( 'message' => __( 'Plugin\'s license activated.', 'download-monitor' ) ) );
+		echo wp_json_encode(array( 'message' => __( 'Plugin\'s license activated.', 'download-monitor' ) ) );
+		wp_die();
 	}
 }
