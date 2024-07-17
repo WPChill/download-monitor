@@ -361,8 +361,9 @@ class DLM_Debug {
 	 * @since 5.0.0
 	 */
 	public function hide_meta_box( $hidden, $screen ) {
+		$hidden_metaboxes = get_user_meta( get_current_user_id(), 'metaboxhidden_dlm_download', true );
 		//make sure we are dealing with the correct screen
-		if ( ( 'post' === $screen->base ) && ( 'dlm_download' === $screen->id ) ) {
+		if ( ( 'post' === $screen->base ) && ( 'dlm_download' === $screen->id ) && in_array( 'dlm-debug', $hidden_metaboxes ) ) {
 			$hidden[] = 'dlm-debug';
 		}
 
