@@ -83,8 +83,6 @@ class WP_DLM {
 
 		// Setup admin classes.
 		if ( is_admin() ) {
-
-			$extensions_handler = DLM_Extensions_Handler::get_instance();
 			// check if multisite and needs to create DB table
 
 			// Setup admin scripts
@@ -895,7 +893,11 @@ class WP_DLM {
 			return;
 		}
 
-		$extensions_handler = DLM_Extensions_Handler::get_instance();
+		if ( ! class_exists( 'DLM_PRO_Extensions_Handler' ) ) {
+			return;
+		}
+
+		$extensions_handler = DLM_PRO_Extensions_Handler::get_instance();
 		$user_license       = json_decode( $user_license, true );
 		$email              = $user_license['email'];
 		$license_key        = $user_license['license_key'];

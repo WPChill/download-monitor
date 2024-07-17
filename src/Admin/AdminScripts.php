@@ -237,25 +237,6 @@ class DLM_Admin_Scripts {
 				'nonce'             => wp_create_nonce( 'dlm_ajax_nonce' ),
 			) );
 
-			// Enqueue Extesions JS
-			wp_enqueue_script(
-				'dlm_extensions',
-				plugins_url( '/assets/js/extensions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery' ),
-				DLM_VERSION,
-				true
-			);
-
-			wp_localize_script( 'dlm_extensions', 'extensions_vars', array(
-				'activate'               => esc_html__( 'Please wait, activating extensions...', 'download-monitor' ),
-				'deactivate'             => esc_html__( 'Please wait, deactivating extensions....', 'download-monitor' ),
-				'forget_license_success' => __( 'An email has been sent to you with the corresponding licenses.', 'download-monitor' ),
-				'forget_license_error'   => __( 'An error occurred while trying to retrieve your licenses. Please try again later.', 'download-monitor' ),
-				'missing_email'          => __( 'Please enter your email address.', 'download-monitor' ),
-				'reaching_server'        => __( 'Please wait, reaching server...', 'download-monitor' ),
-				'missing_license'        => __( 'Please enter your license key.', 'download-monitor' ),
-			) );
-
 			// Script used to install plugins
 			wp_enqueue_script( 'dlm_install_plugins', plugins_url( '/assets/js/install-plugins' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ), array( 'jquery', 'updates' ), DLM_VERSION, true );
 			wp_localize_script(
