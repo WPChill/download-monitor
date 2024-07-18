@@ -16,6 +16,7 @@ function _download_monitor_install( $network_wide = false ) {
 	// Let's delete the extensions transient so that it's refreshed when plugin is installed/activated, this is to ensure
 	// that the extensions list is always up-to-date.
 	delete_transient( 'dlm_extension_json' );
+	delete_transient( 'dlm_pro_extensions' );
 
 	// DLM Installer
 	$installer = new DLM_Installer();

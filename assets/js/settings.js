@@ -69,5 +69,52 @@ jQuery(function ($) {
 			event.stopPropagation();
 			$(event.currentTarget).parent().toggleClass('closed');
 		});
+
+		dlm_shop_settings();
+		dlm_shop_settings_change();
 	});
+
+	// Hide show shop settings based on shop enabled/disabled
+	function dlm_shop_settings() {
+		const shop_button = $('#setting-dlm_shop_enabled'),
+			  settings    = $('.dlm-admin-settings.shop table tr:not( [data-setting="dlm_shop_enabled"] )'),
+			  tabs        = $('.dlm-admin-settings.shop .dlm-settings-sub-nav li:not(:first-child)');
+
+		if (!dlm_settings_vars.shop_enabled) {
+			settings.hide();
+			tabs.hide();
+		}
+	}
+
+	// Hide show shop settings based on shop enabled/disabled change
+	function dlm_shop_settings_change() {
+		const shop_button = $('#setting-dlm_shop_enabled'),
+			  settings    = $('.dlm-admin-settings.shop table tr:not( [data-setting="dlm_shop_enabled"] )'),
+			  tabs        = $('.dlm-admin-settings.shop .dlm-settings-sub-nav li:not(:first-child)');
+		;
+
+		// Hide show shop settings based on shop enabled/disabled change
+		shop_button.on('change', function () {
+			let shop_value = $(this).is(':checked');
+			if (!shop_value) {
+				settings.hide();
+				tabs.hide();
+			} else {
+				settings.show();
+				tabs.show();
+			}
+			dlm_ajax_save_shop(shop_value);
+		});
+	}
+
+	// Save the Enable Shop setting
+	function dlm_ajax_save_shop(value) {
+		// Save the Enable Shop settings using AJAX
+		$.post(ajaxurl, {
+			action: 'dlm_enable_shop',
+			nonce : dlm_settings_vars.nonce,
+			value : value
+		}, function (response) {
+		});
+	}
 });

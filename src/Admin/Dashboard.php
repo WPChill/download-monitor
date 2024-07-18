@@ -47,23 +47,17 @@ class DLM_Admin_Dashboard {
 				'post_type'      => 'dlm_download',
 			)
 		);
-
-		// @todo: Seems like from 4.6.x the below "add_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );" & "remove_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );" are not
-		// needed anymore, it seems to break order if used. Leaving them here for a while.
-
-		// This is a fix for Custom Posts ordering plugins
-		//add_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
+		// $downloads from version 5.0.0 will have different array keys, as each array key will be the download ID. This is used
+		// to improve performance and reduce the number of queries.
 		$downloads = download_monitor()->service( 'download_repository' )->retrieve( $filters, 10 );
-		// This is a fix for Custom Posts ordering plugins
-		//remove_action( 'pre_get_posts', array( $this, 'orderby_fix' ), 15 );
 
 		if ( empty( $downloads ) ) {
 			echo '<p>' . esc_html__( 'There are no stats available yet!', 'download-monitor' ) . '</p>';
 
 			return;
 		}
-
-		$max_count = absint( $downloads[0]->get_download_count() );
+		// So, to find the max count, we need to get the first download and get the download count from it.
+		$max_count = absint( $downloads[ array_key_first( $downloads ) ]->get_download_count() );
 		if ( $max_count < 1 ) {
 			$max_count = 1;
 		}

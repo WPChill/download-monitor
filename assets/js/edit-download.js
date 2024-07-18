@@ -601,15 +601,16 @@ jQuery(function ($) {
 			} );
 
 			// Add other downloads path.
-			jQuery(document).on('click', '#dlm-add-recommended-path', function(e){
+			jQuery(document).on('click', '#dlm-add-recommended-path, #dlm-enable-path', function (e) {
 				e.preventDefault();
-				const button = jQuery(this),
-					  path = button.data('path'),
-					  security = button.data('security');
+				const button   = jQuery(this),
+					  path     = button.data('path'),
+					  security = button.data('security'),
+					  $action  = 'dlm-add-recommended-path' === button.attr('id') ? 'dlm_update_downloads_path' : 'dlm_enable_download_path';
 
 				var data = {
-					action    : 'dlm_update_downloads_path',
-					'path'    : path,
+					action    : $action,
+					'path'    : encodeURI(path),
 					'security': security
 				};
 
@@ -637,6 +638,15 @@ jQuery(function ($) {
 				} else {
 					new_tab.parent().hide()
 				}
+			});
+
+			/**
+			 * Show/hide the products locking the download
+			 */
+			jQuery('#dlm_view_locked_products').on('click', function (e) {
+
+				jQuery( this ).parents( '.dlm_product_locked_downloads' ).toggleClass('open');
+				jQuery( this ).find( '.dashicons' ).toggleClass('dashicons-arrow-down dashicons-arrow-up');
 			});
 		}
 

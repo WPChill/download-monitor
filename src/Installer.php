@@ -10,7 +10,6 @@ class DLM_Installer {
 	 * Install all requirements for Download Monitor
 	 */
 	public function install() {
-
 		// Init User Roles
 		$this->init_user_roles();
 
@@ -60,7 +59,7 @@ class DLM_Installer {
 		add_rewrite_endpoint( 'download-id', EP_ALL );
 
 		// flush rewrite rules
-		flush_rewrite_rules(false);
+		flush_rewrite_rules( false );
 		flush_rewrite_rules();
 		do_action( 'dlm_after_install_setup', $first_install );
 	}
@@ -82,6 +81,10 @@ class DLM_Installer {
 			$wp_roles->add_cap( 'administrator', 'manage_downloads' );
 			$wp_roles->add_cap( 'administrator', 'dlm_manage_logs' );
 			$wp_roles->add_cap( 'administrator', 'dlm_view_reports' );
+			$wp_roles->add_cap( 'administrator', 'dlm_use_rest_api_get' );
+			$wp_roles->add_cap( 'administrator', 'dlm_use_rest_api_post' );
+			$wp_roles->add_cap( 'administrator', 'dlm_use_rest_api_patch' );
+			$wp_roles->add_cap( 'administrator', 'dlm_use_rest_api_delete' );
 		}
 	}
 
@@ -189,7 +192,6 @@ class DLM_Installer {
 		foreach ( $tables_sql as $sql ) {
 			$wpdb->query( $sql );
 		}
-
 	}
 
 	/**
@@ -220,7 +222,6 @@ class DLM_Installer {
 	 * @return void
 	 */
 	private function install_tables() {
-		
 		global $wpdb;
 
 		$wpdb->hide_errors();
@@ -268,9 +269,50 @@ class DLM_Installer {
 		 				KEY attribute_name (download_id)
 		 				) $collate;";
 
+		/**
+		 * Cookies table
+		 */
+		$dlm_cookie = "CREATE TABLE `{$wpdb->prefix}dlm_cookies` (
+		 	ID bigint(20) NOT NULL auto_increment,
+			hash longtext NULL,
+			creation_date datetime DEFAULT NULL,
+			expiration_date datetime DEFAULT NULL,
+			PRIMARY KEY  (ID),
+			KEY attribute_name (ID)
+            ) $collate;";
+
+		/**
+		 * Cookie meta table
+		 */
+		$dlm_cookie_meta = "CREATE TABLE `{$wpdb->prefix}dlm_cookiemeta` (
+		 	ID bigint(20) NOT NULL auto_increment,
+			cookie_id bigint(20) NULL,
+			meta_key longtext NULL,
+			meta_data longtext NULL,
+			PRIMARY KEY  (ID),
+			KEY attribute_name (ID)
+            ) $collate;";
+
+		/**
+		 * Cookie meta table
+		 */
+		$api_table = "CREATE TABLE `{$wpdb->prefix}dlm_api_keys` (
+		 	ID bigint(20) NOT NULL auto_increment,
+			user_id bigint(20) NULL,
+			public_key longtext NULL,
+			token longtext NULL,
+			secret_key longtext NULL,
+			create_date datetime DEFAULT NULL,
+			PRIMARY KEY  (ID),
+			KEY attribute_name (ID)
+            ) $collate;";
+
 		dbDelta( $dlm_log );
 		dbDelta( $dlm_reports );
 		dbDelta( $dlm_downloads );
+		dbDelta( $dlm_cookie );
+		dbDelta( $dlm_cookie_meta );
+		dbDelta( $api_table );
 
 		// install shop tables.
 		$this->create_shop_tables();
@@ -283,7 +325,6 @@ class DLM_Installer {
 	 * @return void
 	 */
 	public function directory_protection() {
-
 		// Install files and folders for uploading files and prevent hotlinking
 		$upload_dir = wp_upload_dir();
 
@@ -327,12 +368,11 @@ class DLM_Installer {
 	 * @access public
 	 * @return void
 	 *
-	 * @since 4.8.7
+	 * @since  4.8.7
 	 */
 	public function add_no_access_page() {
-
 		if ( 0 === absint( get_option( 'dlm_no_access_page', 0 ) ) ) {
-			$pc          = new WPChill\DownloadMonitor\Util\PageCreator();
+			$pc = new WPChill\DownloadMonitor\Util\PageCreator();
 			$pc->create_no_access_page();
 		}
 	}

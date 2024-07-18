@@ -66,6 +66,9 @@ class DLM_Admin_Fields_Field_Factory {
 			case 'group':
 				$field = new DLM_Admin_Fields_Field_Accordion( $option['name'], $option['options'], $option['title'] );
 				break;
+			case 'callback':
+				$field = new DLM_Admin_Fields_Field_Callback( $option );
+				break;
 			default:
 				/**
 				 * do_filter: dlm_setting_field_$type: (null) $field, (array) $option, (String) $value, (String) $placeholder
