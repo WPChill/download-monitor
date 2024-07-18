@@ -100,8 +100,6 @@ class DLM_Admin_Extensions {
 
 		// Load our required data
 		add_action( 'admin_init', array( $this, 'load_data' ), 15 );
-
-		add_filter( 'dlm_settings', array( $this, 'remove_pro_badge' ), 99 );
 	}
 
 	/**
@@ -135,11 +133,11 @@ class DLM_Admin_Extensions {
 	 *
 	 */
 	public static function get_instance() {
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Admin_Extensions ) ) {
-			self::$instance = new DLM_Admin_Extensions();
+		if ( ! isset( DLM_Admin_Extensions::$instance ) && ! ( DLM_Admin_Extensions::$instance instanceof DLM_Admin_Extensions ) ) {
+			DLM_Admin_Extensions::$instance = new DLM_Admin_Extensions();
 		}
 
-		return self::$instance;
+		return DLM_Admin_Extensions::$instance;
 	}
 
 	/**
@@ -311,14 +309,7 @@ class DLM_Admin_Extensions {
 								<?php
 								// Cycle through the PRO extensions
 								foreach ( $this->extensions as $extension ) {
-									$packaged_extension = $this->is_extension_in_package( $extension->product_id );
-									if ( $packaged_extension ) {
-										// Merging pro packages with default packages, so we can have a backup for all fields.
-										$pack_merged = (object) array_merge( (array) $packaged_extension, (array) $extension );
-										$this->display_included_extension( $pack_merged );
-									} else {
-										$welcome->display_extension( $extension->name, wp_kses_post( $extension->desc ), $extension->image, true, '#F08232', $extension->name );
-									}
+									$welcome->display_extension( $extension->name, wp_kses_post( $extension->desc ), $extension->image, true, '#F08232', $extension->name );
 								}
 
 								foreach ( $this->free_extensions as $key => $extension ) {
@@ -333,10 +324,10 @@ class DLM_Admin_Extensions {
 									$label_text  = esc_html__( 'free', 'download-monitor' );
 									$badge       = 'free';
 									if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_path ) ) {
-										$action     = 'activate';
-										$text       = esc_html__( 'Activate', 'download-monitor' );
-										$label_text = esc_html__( 'installed', 'download-monitor' );
-										$badge      = 'installed';
+										$action       = 'activate';
+										$text         = esc_html__( 'Activate', 'download-monitor' );
+										$label_text   = esc_html__( 'installed', 'download-monitor' );
+										$badge        = 'installed';
 										$activate_url = add_query_arg(
 											array(
 												'action'        => 'activate',
@@ -350,11 +341,11 @@ class DLM_Admin_Extensions {
 									}
 
 									if ( is_plugin_active( $plugin_path ) ) {
-										$action   = 'installed';
-										$badge    = 'active';
+										$action     = 'installed';
+										$badge      = 'active';
 										$label_text = esc_html__( 'active', 'download-monitor' );
-										$disabled = true;
-										$text     = esc_html__( 'Installed & Activated', 'download-monitor' );
+										$disabled   = true;
+										$text       = esc_html__( 'Installed & Activated', 'download-monitor' );
 									}
 
 									echo '<div class="feature-block free-extension">';
@@ -466,23 +457,6 @@ class DLM_Admin_Extensions {
 	}
 
 	/**
-	 * Removes pro badge if the section has any extension installed
-	 *
-	 * @return array
-	 *
-	 * @since 4.4.14
-	 */
-	public function remove_pro_badge( $settings ) {
-		foreach ( $settings as $key => $setting ) {
-			if ( ! empty( $setting['sections'] ) && isset( $setting['badge'] ) ) {
-				$settings[ $key ]['badge'] = false;
-			}
-		}
-
-		return $settings;
-	}
-
-	/**
 	 * Get the installed extensions
 	 *
 	 * @return array
@@ -557,68 +531,6 @@ class DLM_Admin_Extensions {
 		return $pro_extensions;
 	}
 
-	private function is_extension_in_package( $slug ) {
-		if ( isset( $this->pro_extensions->$slug ) ) {
-			return $this->pro_extensions->$slug;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Renders extension html
-	 *
-	 * @param  object  $extension  The extension object
-	 *
-	 * @since 5.0.0
-	 */
-	public function display_included_extension( $extension ) {
-		$button      = false;
-		$plugin_path = $extension->product_id . '/' . $extension->product_id . '.php';
-		$badge       = 'inactive';
-		$text        = esc_html__( 'not installed', 'download-monitor' );
-
-		$license_data = get_option( 'dlm_master_license', false );
-
-		if ( ! $license_data ) {
-			return;
-		}
-
-		$license_data = json_decode( $license_data, true );
-		
-		$download_link = add_query_arg( array(
-			'download_api_product' => $extension->download_id,
-			'license_key'          => urlencode( $license_data['license_key'] ),
-			'activation_email'     => urlencode( $license_data['email'] )
-		), DLM_Product::PRODUCT_DOWNLOAD_URL );
-
-
-		if ( ! $this->is_active( $plugin_path ) ) {
-			if ( $this->is_installed( $plugin_path ) ) {
-				$badge  = 'installed';
-				$text   = esc_html__( 'installed', 'download-monitor' );
-				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="activate" class="dlm-plugin-install-action button button-primary ssss" data-url="' . esc_url( $download_link ) . '">' . esc_html__( 'Activate', 'download-monitor' ) . '</button>';
-			} else {
-				$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" data-action="install" class="dlm-plugin-install-action button button-primary ddddd" data-url="' . esc_url( $download_link ) . '">' . esc_html__( 'Install', 'download-monitor' ) . '</button>';
-			}
-		} else {
-			$badge  = 'active';
-			$text   = esc_html__( 'active', 'download-monitor' );
-			$button = '<button data-pid="' . esc_attr( $extension->product_id ) . '" data-path="' . esc_attr( $plugin_path ) . '" disabled="disabled" class="dlm-plugin-install-action button button-primary xcxxxx" data-url="' . esc_url( $download_link ) . '">' . esc_html__( 'Installed & Active', 'download-monitor' ) . '</button>';
-		}
-
-		echo '<div class="feature-block">';
-		echo '<div class="feature-block__header">';
-		if ( ! empty( $extension->image ) ) {
-			echo '<img src="' . esc_url( $extension->image ) . '">';
-		}
-		echo '<h5>' . esc_html( $extension->name ) . '<div class="pro-label ' . esc_attr( $badge ) . '">' . esc_html( $text ) . '</div></h5>';
-		echo '</div>';
-		echo '<p>' . wp_kses_post( $extension->desc ) . '</p>';
-		echo $button ? '<div class="dlm-install-plugin-actions">' . wp_kses_post( $button ) . '</div>' : '';
-		echo '</div>';
-	}
-
 	/**
 	 * Check if the extension is active.
 	 *
@@ -664,5 +576,38 @@ class DLM_Admin_Extensions {
 	 */
 	public function get_licensed_extensions() {
 		return $this->licensed_extensions;
+	}
+
+	/**
+	 * Get DLM's json
+	 *
+	 * @return array
+	 *
+	 * @since 5.0.0
+	 */
+	public function get_json() {
+		return $this->json;
+	}
+
+	/**
+	 * Get DLM's response
+	 *
+	 * @return array
+	 *
+	 * @since 5.0.0
+	 */
+	public function get_response() {
+		return $this->response;
+	}
+
+	/**
+	 * Get DLM's free extensions
+	 *
+	 * @return array
+	 *
+	 * @since 5.0.0
+	 */
+	public function get_free_extensions() {
+		return $this->free_extensions;
 	}
 }

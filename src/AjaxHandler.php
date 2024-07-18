@@ -22,7 +22,6 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_dlm_settings_lazy_select', array( $this, 'handle_settings_lazy_select' ) );
 		add_action( 'wp_ajax_dlm_dismiss_notice', array( $this, 'dismiss_notice' ) );
 		add_action( 'wp_ajax_dlm_update_file_meta', array( $this, 'save_attachment_meta' ) );
-		add_action( 'wp_ajax_dlm_forgot_license', array( $this, 'forgot_license' ), 15 );
 		// Update the download_column from table download_log from varchar to longtext.
 		add_action( 'wp_ajax_dlm_update_download_category', array( $this, 'upgrade_download_category' ), 15 );
 		// Action to save the Enable Shop setting.
@@ -278,44 +277,6 @@ class DLM_Ajax_Handler {
 		);
 		update_post_meta( absint( $_POST['file_id'] ), 'dlm_download', $meta );
 		wp_send_json_success();
-	}
-
-	/**
-	 * Forgot license function.
-	 *
-	 * @return void
-	 *
-	 * @since 4.8.0
-	 */
-	public function forgot_license() {
-		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
-		if ( ! isset( $_POST['email'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Email is required', 'download-monitor' ) ) );
-		}
-
-		if ( ! is_email( sanitize_email( wp_unslash( $_POST['email'] ) ) ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid email address.', 'download-monitor' ) ) );
-		}
-
-		$store_url = DLM_Product::STORE_URL . '?wc-api=';
-		// Do activate request.
-		$api_request = wp_remote_get(
-			$store_url . 'dlm_forgotten_license_api' . '&' . http_build_query(
-				array(
-					'email' => sanitize_email( wp_unslash( $_POST['email'] ) ),
-				),
-				'',
-				'&'
-			)
-		);
-
-		// Check request.
-		if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
-			wp_send_json_error( array( 'message' => __( 'Could not connect to the license server', 'download-monitor' ) ) );
-		}
-
-		wp_send_json( json_decode( $api_request['body'], true ) );
-		wp_die();
 	}
 
 	/**
