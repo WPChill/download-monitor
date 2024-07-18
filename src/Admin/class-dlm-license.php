@@ -99,27 +99,22 @@ class DLM_License {
 	 * @since 5.0.0
 	 */
 	public function add_license_tab( $settings ) {
-		$extensions = DLM_Admin_Extensions::get_instance();
-		$extensions->load_data();
-		$products             = $extensions->get_products();
-		if ( ! empty( $products ) ) {
-			$settings['license'] = array(
-				'title'    => __( 'License', 'download-monitor' ),
-				'sections' => array(
-					'license' => array(
-						'title'  => __( 'License', 'download-monitor' ),
-						'fields' => array(
-							array(
-								'name'     => '',
-								'type'     => 'title',
-								'title'    => __( '', 'download-monitor' ),
-								'priority' => 30,
-							),
+		$settings['license'] = array(
+			'title'    => __( 'License', 'download-monitor' ),
+			'sections' => array(
+				'license' => array(
+					'title'  => __( 'License', 'download-monitor' ),
+					'fields' => array(
+						array(
+							'name'     => '',
+							'type'     => 'title',
+							'title'    => __( '', 'download-monitor' ),
+							'priority' => 30,
 						),
 					),
 				),
-			);
-		}
+			),
+		);
 
 		return $settings;
 	}
