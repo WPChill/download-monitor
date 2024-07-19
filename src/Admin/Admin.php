@@ -38,8 +38,6 @@ class DLM_Admin {
 		// setup settings
 		$settings = new DLM_Admin_Settings();
 		add_action( 'admin_init', array( $settings, 'register_settings' ) );
-		// Redirect to license page when entering former installed extensions page
-		add_action( 'init', array( $this, 'redirect_to_license_page' ) );
 
 		$settings->register_lazy_load_callbacks();
 
@@ -333,20 +331,5 @@ class DLM_Admin {
 			remove_all_actions( 'admin_notices' );
 		}
 
-	}
-
-	/**
-	 * Redirect to license page when entering former installed extensions page
-	 * This is a backwards compatibility fix for pre-5.0.0 extensions, as the
-	 * extensions have a notice to activate the license in the installed extensions page.
-	 *
-	 * @return void
-	 * @since 5.0.0
-	 */
-	public function redirect_to_license_page() {
-		if ( isset( $_GET['page'] ) && 'dlm-installed-extensions' === $_GET['page'] ) {
-			wp_safe_redirect( admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=license' ) );
-			exit;
-		}
 	}
 }

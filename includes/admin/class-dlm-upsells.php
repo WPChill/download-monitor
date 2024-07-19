@@ -120,6 +120,8 @@ class DLM_Upsells {
 
 		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
+		add_action( 'dlm_tab_upsell_content_license', array( $this, 'license_tab_upsell' ), 15 );
+
 		add_action( 'dlm_tab_upsell_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
 
 		add_action( 'dlm_tab_upsell_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
@@ -135,6 +137,8 @@ class DLM_Upsells {
 		add_action( 'dlm_reports_user_reports', array( $this, 'insights_upsell' ), 99, 2 );
 
 		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) );
+
+		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
 	}
 
@@ -1131,5 +1135,25 @@ class DLM_Upsells {
 		$this->active_license = $return;
 		// Return the value
 		return $return;
+	}
+
+	/**
+	 * Settings Logging tab upsell
+	 *
+	 *
+	 * @since 5.0.0
+	 */
+	public function license_tab_upsell() {
+
+		if ( ! $this->check_extension( 'dlm-pro' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'DLM PRO', 'download-monitor' ),
+				__( 'Manage license activation and deactivation, and install extensions seamlessly on-the-go.', 'download-monitor' ),
+				'license',
+				'dlm-pro'
+			);
+		}
+
 	}
 }

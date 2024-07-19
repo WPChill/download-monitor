@@ -155,9 +155,6 @@ class WP_DLM {
 			// Load the API Key Generation class
 			$key_generation = DLM_Key_Generation::get_instance();
 
-			// Load the license class
-			$license = DLM_License::get_instance();
-
 			if ( ( defined( 'MULTISITE' ) && MULTISITE ) ) {
 				$multisite = DLM_Network_Settings::get_instance();
 			}
