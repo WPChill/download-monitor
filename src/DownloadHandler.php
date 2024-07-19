@@ -971,6 +971,8 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				// FTP or other File Manager, or sometimes using  an optimization service it may cause unwanted results.
 				$headers['Content-Length'] = $file_size;
 				$headers['Accept-Ranges']  = 'bytes';
+				// Set custom filesize header.
+				$headers['X-DLM-Filesize'] = $file_size;
 			}
 
 			$headers = apply_filters( 'dlm_download_headers',
