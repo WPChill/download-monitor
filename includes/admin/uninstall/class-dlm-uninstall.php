@@ -65,7 +65,7 @@ class DLM_Uninstall {
 	public function filter_action_links( $links ) {
 
 		$links = array_merge( $links, array(
-				'<a onclick="javascript:event.preventDefault();" id="dlm-uninstall-link"  class="uninstall-dlm dlm-red-text" href="#">' . esc_html__( 'Uninstall', 'download-monitor' ) . '</a>',
+				'<a onclick="javascript:event.preventDefault();" id="dlm-uninstall-link"  class="uninstall-dlm" href="#">' . esc_html__( 'Uninstall', 'download-monitor' ) . '</a>',
 		) );
 
 		return $links;
