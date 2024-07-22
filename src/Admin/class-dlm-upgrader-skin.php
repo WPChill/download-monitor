@@ -80,13 +80,14 @@ class DLM_Upgrader_Skin extends WP_Upgrader_Skin {
 	 * @param array $errors Array of errors with the install process.
 	 */
 	function error( $errors ) {
-
-		if ( ! empty( $errors ) ) {
+		// Handle AJAX and non-AJAX requests.
+		if ( ! empty( $errors ) && ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			echo json_encode( array( 'error' => __( 'There was an error installing the addon. Please try again.', 'download-monitor' ) ) );
 			/* log this for API issues */
 			die;
+		} else {
+			do_action( 'dlm_installer_error', $errors );
 		}
-
 	}
 
 	/**

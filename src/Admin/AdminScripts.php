@@ -322,7 +322,8 @@ class DLM_Admin_Scripts {
 			wp_add_inline_script( 'dlm_api_key_generator', 'const dlm_ajax = ' . json_encode( array( 'nonce' => wp_create_nonce( 'dlm_ajax_nonce' ), 'ajaxurl' => admin_url('admin-ajax.php') ) ) . ';', 'before' );
 		}
 
-		if ( isset( $_GET['page'] ) && 'edit.php' == $pagenow && ( isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'] && ! empty( $_GET['tab'] ) && 'license' === $_GET['tab'] ) || ( isset( $_GET['page'] ) && 'dlm-installed-extensions' === $_GET['page'] ) ) {
+		if ( isset( $_GET['page'] ) && 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'dlm-installed-extensions' === $_GET['page'] ) {
+
 			wp_register_script( 'dlm-lite-extensions', DLM_URL . 'assets/js/extensions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', array( 'jquery' ), DLM_VERSION, true );
 			wp_enqueue_script( 'dlm-lite-extensions' );
 
@@ -335,7 +336,6 @@ class DLM_Admin_Scripts {
 				'reaching_server'        => __( 'Please wait, reaching server...', 'download-monitor' ),
 				'missing_license'        => __( 'Please enter your license key.', 'download-monitor' ),
 			) );
-
 		}
 
 		do_action( 'dlm_admin_scripts_after' );
