@@ -109,7 +109,6 @@ return array(
     'DLM_Media_Library' => $baseDir . '/src/Admin/class-dlm-media-library.php',
     'DLM_Modal' => $baseDir . '/src/class-dlm-modal.php',
     'DLM_Network_Settings' => $baseDir . '/src/Admin/class-dlm-network-settings.php',
-    'DLM_PRO_Install' => $baseDir . '/src/Admin/PROInstall/class-dlm-pro-install.php',
     'DLM_Plugin_Status' => $baseDir . '/src/Admin/class-dlm-plugin-status.php',
     'DLM_Post_Type_Manager' => $baseDir . '/src/PostTypeManager.php',
     'DLM_Product' => $baseDir . '/src/Product/Product.php',

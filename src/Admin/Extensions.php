@@ -222,7 +222,6 @@ class DLM_Admin_Extensions {
 
 			if ( isset( $this->products[ $extension->product_id ] ) ) {
 				$this->installed_extensions[] = $extension;
-				unset( $this->extensions[ $extension_key ] );
 			}
 
 			// Remove the legacy importer from the extensions list. We don't want to show it.

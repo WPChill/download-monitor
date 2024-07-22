@@ -158,8 +158,6 @@ class WP_DLM {
 			if ( ( defined( 'MULTISITE' ) && MULTISITE ) ) {
 				$multisite = DLM_Network_Settings::get_instance();
 			}
-			// The DLM PRO installer
-			DLM_PRO_Install::get_instance();
 		}
 
 		// Load the Approved Download Path option table

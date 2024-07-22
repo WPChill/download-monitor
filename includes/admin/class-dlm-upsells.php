@@ -288,7 +288,6 @@ class DLM_Upsells {
 	 */
 	public function check_extension( $extension ) {
 		$extensions = $this->get_extensions();
-
 		if ( empty( $extensions ) || ! in_array( $extension, $extensions ) ) {
 			return false;
 		}
