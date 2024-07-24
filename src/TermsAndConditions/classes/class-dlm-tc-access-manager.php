@@ -57,7 +57,7 @@ class DLM_TC_Access_Manager {
 		 *
 		 * @hook  dlm_skip_access_check
 		 */
-		if ( apply_filters( 'dlm_skip_extension', false, $download->get_id(), DLM_TC_Constants::SLUG ) ) {
+		if ( apply_filters( 'dlm_skip_extension_' . DLM_TC_Constants::SLUG, false, $download->get_id() ) ) {
 			return $has_access;
 		}
 

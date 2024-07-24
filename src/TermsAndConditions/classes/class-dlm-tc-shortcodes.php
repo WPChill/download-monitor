@@ -36,7 +36,7 @@ class DLM_TC_Shortcodes {
 		 *
 		 * @hook  dlm_skip_access_check
 		 */
-		if ( apply_filters( 'dlm_skip_extension', false, $atts['id'], DLM_TC_Constants::SLUG ) ) {
+		if ( apply_filters( 'dlm_skip_extension_' . DLM_TC_Constants::SLUG, false, $atts['id'] ) ) {
 			return do_shortcode( '[download id="' . $atts['id'] . '"]' );
 		}
 
