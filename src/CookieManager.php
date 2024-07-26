@@ -269,7 +269,7 @@ class DLM_Cookie_Manager {
 	/**
 	 * Set cookie
 	 *
-	 * @param  DLM_Download  $download     Download object
+	 * @param  int|DLM_Download  $download     Download object
 	 * @param  array         $cookie_data  Optional cookie data
 	 *
 	 * @since 5.0.0
