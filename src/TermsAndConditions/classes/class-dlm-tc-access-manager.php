@@ -10,7 +10,7 @@ class DLM_TC_Access_Manager {
 	 * Setup class
 	 */
 	public function setup() {
-		add_filter( 'dlm_can_download', array( $this, 'check_access' ), 30, 4 );
+		add_filter( 'dlm_can_download', array( $this, 'check_access' ), 140, 4 );
 		add_filter( 'dlm_download_is_locked', array( $this, 'admin_list_table_locked_download' ), 10, 2 );
 		add_filter( 'dlm_admin_sort_columns', array( $this, 'admin_list_table_sort_locked_download' ) );
 	}
