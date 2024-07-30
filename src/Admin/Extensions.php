@@ -1048,4 +1048,13 @@ class DLM_Admin_Extensions {
 
 		return $tabs;
 	}
+
+	/**
+	 * Deprecated method to handle extensions actions, now moved to PRO version
+	 *
+	 * @since 5.0.0
+	 */
+	public function handle_extension_action(){
+		return;
+	}
 }
