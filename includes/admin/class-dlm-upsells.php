@@ -327,11 +327,6 @@ class DLM_Upsells {
 							'sections' => array(),
 							// Need to put sections here for backwards compatibility
 						),
-						'twitter_lock'  => array(
-							'title'    => __( 'Twitter lock', 'download-monitor' ),
-							'sections' => array(),
-							// Need to put sections here for backwards compatibility
-						),
 					),
 				),
 				'external_hosting' => array(
@@ -477,16 +472,6 @@ class DLM_Upsells {
 				__( 'Limit access to your downloads by setting advanced access rules and restrictions with this extension.', 'download-monitor' ),
 				'access',
 				'advanced-access-manager'
-			);
-		}
-
-		if ( ! $this->check_extension( 'dlm-twitter-lock' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Twitter lock', 'download-monitor' ),
-				__( 'Allow your users to tweet a pre-defined text before accessing a download.', 'download-monitor' ),
-				'access',
-				'twitter-lock'
 			);
 		}
 
@@ -693,24 +678,6 @@ class DLM_Upsells {
 				__( 'The Ninja Forms - content locking extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.', 'download-monitor' ),
 				'ninja_forms',
 				'ninja-forms'
-			);
-		}
-	}
-
-	/**
-	 * Upsell for Twitter Lock sub-tab
-	 *
-	 * @since 4.5.3
-	 */
-	public function upsell_tab_section_content_twitter_lock() {
-
-		if ( ! $this->check_extension( 'dlm-twitter-lock' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Twitter Lock', 'download-monitor' ),
-				__( 'The Twitter Lock extension for Download Monitor allows you to require users to tweet your pre-defined text before they gain access to a download.', 'download-monitor' ),
-				'gravity_forms',
-				'gravity-forms'
 			);
 		}
 	}

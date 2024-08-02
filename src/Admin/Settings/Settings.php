@@ -253,12 +253,6 @@ class DLM_Admin_Settings {
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'twitter_lock'  => array(
-						'title'    => esc_html__( 'Twitter Lock', 'download-monitor' ),
-						'fields'   => array(),
-						'sections' => array(),
-						'badge'    => true,
-					),
 				),
 				'priority' => 30,
 			),
@@ -507,7 +501,6 @@ class DLM_Admin_Settings {
 			'email_notification',
 			'gravity_forms',
 			'ninja_forms',
-			'twitter_lock',
 			'page_addon',
 		);
 
