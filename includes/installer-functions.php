@@ -51,8 +51,6 @@ function _download_monitor_install( $network_wide = false ) {
 		// no multisite so do normal install
 		$installer->install();
 	}
-
-	WP_DLM::handle_plugin_action( 'activate' );
 }
 
 

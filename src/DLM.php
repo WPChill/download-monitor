@@ -63,7 +63,6 @@ class WP_DLM {
 	public function __construct() {
 		global $wpdb;
 
-		register_deactivation_hook( DLM_PLUGIN_FILE, array( $this, 'deactivate_this_plugin' ) );
 		$cron_jobs = DLM_CRON_Jobs::get_instance();
 
 		// Setup Services
@@ -861,51 +860,6 @@ class WP_DLM {
 
 		// Return our Download Link instead of the original URL
 		return $url;
-	}
-
-	/**
-	 * Handle plugin deactivation processes.
-	 *
-	 * @return void
-	 *
-	 * @since 4.8.0
-	 */
-	public function deactivate_this_plugin() {
-		self::handle_plugin_action();
-	}
-
-	/**
-	 * Handle plugin activation/deactivation hook
-	 *
-	 * @param string $request activation/deactivation.
-	 *
-	 * @return void
-	 * @since 4.8.0
-	 */
-	public static function handle_plugin_action( $request = 'deactivate' ) {
-
-		$user_license = get_option( 'dlm_master_license', false );
-		// If no license found, skip this.
-		if ( ! $user_license ) {
-			return;
-		}
-
-		if ( ! class_exists( 'DLM_PRO_Extensions_Handler' ) ) {
-			return;
-		}
-
-		$extensions_handler = DLM_PRO_Extensions_Handler::get_instance();
-		$user_license       = json_decode( $user_license, true );
-		$email              = $user_license['email'];
-		$license_key        = $user_license['license_key'];
-		$action_trigger     = '-dlm';
-		$args               = array(
-			'key'              => $license_key,
-			'email'            => $email,
-			'extension_action' => $request,
-			'action_trigger'   => $action_trigger,
-		);
-		$extensions_handler->handle_master_license( $args );
 	}
 
 	/**
