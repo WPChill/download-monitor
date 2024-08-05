@@ -29,7 +29,6 @@ class DLM_Installer {
 
 		// No Access Page
 		$this->add_no_access_page();
-
 		// Add endpoints
 		$dlm_download_handler = new DLM_Download_Handler();
 		$dlm_download_handler->add_endpoint();
@@ -389,5 +388,14 @@ class DLM_Installer {
 			update_option( 'dlm_invoice_prefix', $paypal_invoice );
 			delete_option( 'gateway_paypal_invoice_prefix' );
 		}
+	}
+
+	/**
+	 * Recreate tables in case plugin activation did not work as expected
+	 *
+	 * @since 5.0.0
+	 */
+	public function recreate_tables(){
+		$this->install_tables();
 	}
 }

@@ -130,3 +130,46 @@ function download_monitor_delete_cached_scripts() {
 		wp_cache_clear_cache();
 	}
 }
+
+/**
+ * Check if the Download Monitor tables are installed
+ *
+ * return bool
+ *
+ * @since 5.0.0
+ *
+ */
+function dlm_check_tables() {
+	global $wpdb;
+	$transient = get_transient( 'dlm_tables_check' );
+	if ( get_transient( 'dlm_tables_check' ) ) {
+		return $transient;
+	}
+	$return = true;
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}download_log'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_reports_log'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_downloads'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_cookies'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_cookiemeta'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_api_keys'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	set_transient( 'dlm_tables_check', $return, 30 * DAY_IN_SECONDS );
+	return $return;
+}
