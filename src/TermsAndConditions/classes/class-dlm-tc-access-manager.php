@@ -80,6 +80,8 @@ class DLM_TC_Access_Manager {
 				$has_access = true;
 			}
 		} else {
+			// User accepted terms and conditions, grant access
+			$has_access = true;
 			// Create cookie data
 			$cookie_data = array(
 				'expires' => time() + 300,
