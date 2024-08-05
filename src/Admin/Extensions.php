@@ -328,6 +328,9 @@ class DLM_Admin_Extensions {
 								<?php
 								// Cycle through the PRO extensions
 								foreach ( $this->extensions as $extension ) {
+									if ( 'dlm-pro' === $extension->product_id ) {
+										continue;
+									}
 									$welcome->display_extension( $extension->name, wp_kses_post( $extension->desc ), $extension->image, true, '#F08232', $extension->name );
 								}
 
@@ -671,7 +674,6 @@ class DLM_Admin_Extensions {
 
 			// Set new email in license object
 			$product->get_license()->set_email( $email );
-
 			if ( 'activate' === $extension_action ) {
 				// Try to activate the license
 				$response = $product->activate();
