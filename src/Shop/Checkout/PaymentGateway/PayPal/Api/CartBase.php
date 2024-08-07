@@ -25,6 +25,11 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class CartBase
 {
+	public $amount;
+	public $items;
+	public $description;
+	public $invoice_number;
+
     /**
      * Merchant identifier to the purchase unit. Optional parameter
      *

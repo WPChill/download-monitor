@@ -10,6 +10,7 @@ namespace WPChill\DownloadMonitor\Dependencies\PayPalHttp;
  */
 class HttpClient
 {
+	public $curlCls;
     /**
      * @var Environment
      */

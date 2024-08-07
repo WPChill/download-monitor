@@ -17,6 +17,7 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class Payer
 {
+	public $payer_info;
 
     /**
      * Status of payer's PayPal Account.

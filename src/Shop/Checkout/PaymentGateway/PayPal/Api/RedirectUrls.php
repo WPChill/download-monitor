@@ -14,6 +14,9 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class RedirectUrls
 {
+
+	public $return_url;
+	public $cancel_url;
     /**
      * Url where the payer would be redirected to after approving the payment. **Required for PayPal account payments.**
      *
