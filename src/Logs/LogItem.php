@@ -95,6 +95,10 @@ class DLM_Log_Item {
 	 * @return string
 	 */
 	public function get_user_uuid() {
+		if ( empty( $this->user_uuid ) ) {
+			$this->set_user_uuid( $this->get_user_ip() );
+		}
+
 		return $this->user_uuid;
 	}
 
