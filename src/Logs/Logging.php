@@ -173,18 +173,7 @@ class DLM_Logging {
 	 * @param string $url
 	 */
 	public function log( $download, $version, $status = 'completed', $cookie = true, $url = '-' ) {
-		// Don't log if admin hit does not need to be logged
-		if ( self::ignore_admin_log() ) {
-			return;
-		}
 
-		if ( $this->is_count_unique_ips_only() && true === $this->has_uuid_downloaded_version( $version ) ) {
-			return;
-		}
-
-		if ( false !== strpos( $url, admin_url() ) ) {
-			return;
-		}
 		$cookie_manager = DLM_Cookie_Manager::get_instance();
 		// setup new log item object.
 		if ( false === $cookie_manager->check_cookie_meta( 'wp_dlm_downloading', $download->get_id() ) ) {
