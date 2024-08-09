@@ -5,6 +5,7 @@ jQuery(function ($) {
 
 
 class DLM_XHR_Download {
+	responsHeaders = {};
 
 	constructor() {
 		// dlmXHRinstance defined in inline script
@@ -121,16 +122,15 @@ class DLM_XHR_Download {
 
 		// Trigger the `dlm_download_triggered` action
 		jQuery(document).trigger('dlm_download_triggered', [this, button, buttonObj, _OBJECT_URL, request]);
-
+		let check_headers          = false;
 		request.responseType       = 'blob';
 		request.onreadystatechange = function () {
 			let {
 					status,
 					readyState,
 					statusText
-				}                    = request;
-			// Set the response headers to the instance so that we can use it later.
-			instance.responseHeaders = request
+				}       = request;
+			let headers = request
 				.getAllResponseHeaders()
 				.split('\r\n')
 				.reduce((result, current) => {
@@ -139,6 +139,12 @@ class DLM_XHR_Download {
 					return result;
 				}, {});
 
+
+			if (Object.keys(headers).length > 1) {
+				check_headers            = true;
+				// Set the response headers to the instance so that we can use it later.
+				instance.responseHeaders = headers;
+			}
 
 			let file_name                  = 'download';
 			let dlmFilenameHeader          = false,
@@ -155,34 +161,34 @@ class DLM_XHR_Download {
 			/**
 			 * Old headers check
 			 */
-			if ('undefined' !== typeof instance.responseHeaders['dlm-file-name']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-file-name']) {
 				dlmFilenameHeader = instance.responseHeaders['dlm-file-name'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-no-waypoints']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-no-waypoints']) {
 				dlmNoWaypoints = true;
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-redirect']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-redirect']) {
 				dlmRedirectHeader = instance.responseHeaders['dlm-redirect'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-external-download']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-external-download']) {
 				dlmExternalDownloadHeader = true;
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-no-access']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-no-access']) {
 				dlmNoAccessHeader = instance.responseHeaders['dlm-no-access'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-no-access-modal']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-no-access-modal']) {
 				dlmNoAccessModalHeader = instance.responseHeaders['dlm-no-access-modal'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-error']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-error']) {
 				dlmErrorHeader = instance.responseHeaders['dlm-error'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-download-id']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-download-id']) {
 				dlmDownloadIdHeader = instance.responseHeaders['dlm-download-id'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-version-id']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-version-id']) {
 				dlmDownloadVersionHeader = instance.responseHeaders['dlm-version-id'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['dlm-no-access-modal-text']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['dlm-no-access-modal-text']) {
 				dlmNoAccessModalTextHeader = instance.responseHeaders['dlm-no-access-modal-text'];
 			}
 			// End old headers check
@@ -190,34 +196,34 @@ class DLM_XHR_Download {
 			/**
 			 * New headers check
 			 */
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-file-name']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-file-name']) {
 				dlmFilenameHeader = instance.responseHeaders['x-dlm-file-name'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-no-waypoints']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-no-waypoints']) {
 				dlmNoWaypoints = true;
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-redirect']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-redirect']) {
 				dlmRedirectHeader = instance.responseHeaders['x-dlm-redirect'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-external-download']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-external-download']) {
 				dlmExternalDownloadHeader = true;
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-no-access']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-no-access']) {
 				dlmNoAccessHeader = instance.responseHeaders['x-dlm-no-access'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-no-access-modal']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-no-access-modal']) {
 				dlmNoAccessModalHeader = instance.responseHeaders['x-dlm-no-access-modal'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-error']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-error']) {
 				dlmErrorHeader = instance.responseHeaders['x-dlm-error'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-download-id']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-download-id']) {
 				dlmDownloadIdHeader = instance.responseHeaders['x-dlm-download-id'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-version-id']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-version-id']) {
 				dlmDownloadVersionHeader = instance.responseHeaders['x-dlm-version-id'];
 			}
-			if ('undefined' !== typeof instance.responseHeaders['x-dlm-no-access-modal-text']) {
+			if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-no-access-modal-text']) {
 				dlmNoAccessModalTextHeader = instance.responseHeaders['x-dlm-no-access-modal-text'];
 			}
 
@@ -226,7 +232,7 @@ class DLM_XHR_Download {
 			if (dlmFilenameHeader) {
 				file_name = dlmFilenameHeader.replace(/\"/g, '').replace(';', '');
 				file_name = decodeURI(file_name);
-			} else if ('undefined' !== typeof instance.responseHeaders['content-disposition']) {
+			} else if (check_headers && 'undefined' !== typeof instance.responseHeaders['content-disposition']) {
 				file_name = instance.responseHeaders['content-disposition'].split(/(?:filename\*=UTF-8'')|(?:filename=)/)[1];
 				file_name = file_name.replace(/\"/g, '').replace(';', '');
 				// We use this method because we urlencoded it on the server so that characters like chinese or persian are not broken
@@ -247,7 +253,7 @@ class DLM_XHR_Download {
 			// Let's check for DLM request headers
 			if (request.readyState === 2) {
 				// Add other checks for responseHeaders that can be taken care of from extensions.
-				if ('undefined' !== typeof instance.responseHeaders['x-dlm-force-abort'] && '' !== instance.responseHeaders['x-dlm-force-abort']) {
+				if (check_headers && 'undefined' !== typeof instance.responseHeaders['x-dlm-force-abort'] && '' !== instance.responseHeaders['x-dlm-force-abort']) {
 					button.removeAttribute('download');
 					button.setAttribute('href', href);
 					buttonObj.removeClass().addClass(buttonClass).find('span.dlm-xhr-progress').remove();
