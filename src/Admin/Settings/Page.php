@@ -72,7 +72,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 						break;
 					case 'dlm_regenerate_robots':
 						if ( $this->regenerate_robots() ) {
-							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=status&section=misc' ) ) );
+							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=general&section=misc' ) ) );
 							exit;
 						}
 						break;
