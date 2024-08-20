@@ -2,7 +2,7 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker
 Requires at least: 5.5
-Tested up to: 6.5
+Tested up to: 6.6
 Stable tag: 5.0.0
 License: GPLv3
 Text Domain: download-monitor
@@ -120,26 +120,28 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 5.0.0 - TBD =
+= 5.0.0 - 21.08.2024 =
 Fixed: File Browser not working on installations that return '//' ( double slashed ) paths. ( [#1412](https://github.com/WPChill/download-monitor/issues/1412) )
 Fixed: File Browser no longer displays cross-site folders in multisite environments. ( [#1402](https://github.com/WPChill/download-monitor/issues/1402) )
 Fixed: Performance issues that were affecting websites with a large number of downloads or a large postmeta table. ( [#1421](https://github.com/WPChill/download-monitor/issues/1421) )( [#1425](https://github.com/WPChill/download-monitor/issues/1425) )
 Fixed: Error when trying to delete files on Download deletion ( [#1468](https://github.com/WPChill/download-monitor/issues/1468) )
 Fixed: When using XHR to download files, some browsers would block redirecting a Download file in a new tab ( [#1467](https://github.com/WPChill/download-monitor/issues/1467) )
-Fixed: Incompatibility with thr WPML plugin ( [#1453](https://github.com/WPChill/download-monitor/issues/1453) )
+Fixed: Incompatibility with the WPML plugin ( [#1453](https://github.com/WPChill/download-monitor/issues/1453) )
 Fixed: Certain UI bugs in the admin area
 Fixed: Filetype was not showing the icon ( [#1426](https://github.com/WPChill/download-monitor/issues/1426) )
 Fixed: Multiple downloads bug when on the same page using the "Button" template ( [#1449](https://github.com/WPChill/download-monitor/issues/1449) )
+Fixed: PayPal payment gateway PHP 8.x compatibility
+Fixed: UUID column from download_log can not be null ( [#1506](https://github.com/WPChill/download-monitor/issues/1506) )
+Fixed: External file Downloads might not register downloads ( [#1508](https://github.com/WPChill/download-monitor/issues/1508) )
 Changed: Admin download edit view ( [#1398](https://github.com/WPChill/download-monitor/issues/1398) )
 Changed: Enhanced display of settings descriptions. ( [#1444](https://github.com/WPChill/download-monitor/issues/1444) )
-Changed: Multiple allowed uploads path and setting redesign ( [#1447](https://github.com/WPChill/download-monitor/issues/1447) )
-Changed: License tab moved to Settings ( [#1484](https://github.com/WPChill/download-monitor/issues/1484) )
-Changed: Switched to DLM-globaly used cookie for Download Monitor and its extensions ( [#1384](https://github.com/WPChill/download-monitor/issues/1384) )
+Changed: Major change, multiple allowed uploads paths and setting redesign ( [#1447](https://github.com/WPChill/download-monitor/issues/1447) )
+Changed: Major change, switched to DLM-globaly used cookie for Download Monitor and its extensions ( [#1384](https://github.com/WPChill/download-monitor/issues/1384) )
 Changed: File restriction, search and placement now based on allowed paths, and now is absolute
+Chaged: Removed Twitter Lock upsells, extension meets the end of life ( [#1497](https://github.com/WPChill/download-monitor/issues/1497) )
 Added: File type & location column to the admin list table ( [#1450](https://github.com/WPChill/download-monitor/issues/1450) )
 Added: REST API endpoints for creating, updating, and deleting downloads and versions ( [#1215](https://github.com/WPChill/download-monitor/issues/1215) )
 Added: REST API Keys, to allow access to the REST API endpoint functionality
-Added: Possibility to install and activate extensions from the Extensions page ( [#1381](https://github.com/WPChill/download-monitor/issues/1381) )
 Added: Included the Terms and Conditions premium plugin in the LITE version ( [#1445](https://github.com/WPChill/download-monitor/issues/1445) )
 Added: Download debug export metabox ( [#1387](https://github.com/WPChill/download-monitor/issues/1387) )
 Added: Possibility in Multisite to specify the uploads folder for each site ( [#1403](https://github.com/WPChill/download-monitor/issues/1403) )

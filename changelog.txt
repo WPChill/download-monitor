@@ -1,4 +1,4 @@
-= 5.0.0 - TBD =
+= 5.0.0 - 21.08.2024 =
 Fixed: File Browser not working on installations that return '//' ( double slashed ) paths. ( [#1412](https://github.com/WPChill/download-monitor/issues/1412) )
 Fixed: File Browser no longer displays cross-site folders in multisite environments. ( [#1402](https://github.com/WPChill/download-monitor/issues/1402) )
 Fixed: Performance issues that were affecting websites with a large number of downloads or a large postmeta table. ( [#1421](https://github.com/WPChill/download-monitor/issues/1421) )( [#1425](https://github.com/WPChill/download-monitor/issues/1425) )
