@@ -14,6 +14,15 @@ jobs:
                 submodules: 'recursive'
                 token: ${{ secrets.ACCESS_TOKEN }}
 
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
+                  tools: composer
+  
+            - name: Install Composer dependencies
+              run: composer install --no-dev --prefer-dist --no-scripts --no-progress
+
             - name: Update submodules
               run: |
                 git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
@@ -25,3 +34,4 @@ jobs:
                   SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
                   SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
                   SLUG: download-monitor
+                  DRY_RUN: 'true'
