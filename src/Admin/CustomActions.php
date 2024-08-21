@@ -17,10 +17,7 @@ class DLM_Custom_Actions {
 		add_action( 'quick_edit_custom_box',  array( $this, 'quick_edit' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'bulk_and_quick_edit_save_post' ), 10, 2 );
 
-		// duplicate download
-		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
 		add_action( 'wp_ajax_dlm_download_duplicator_duplicate', array( $this, 'ajax_duplicate_download' ) );
-		add_action( 'wp_ajax_dlm_update_downloads_path', array( $this, 'update_downloads_path' ) );
 
 		// duplicate Admin Notice
 		if ( isset( $_GET['dlm-download-duplicator-success'] ) ) {
@@ -281,7 +278,6 @@ class DLM_Custom_Actions {
 
 		// handle bulk
 		if ( isset( $_REQUEST['dlm_bulk_edit_nonce'] ) ) {
-
 			// check nonce
 			// phpcs:ignore
 			if ( ! wp_verify_nonce( $_REQUEST['dlm_bulk_edit_nonce'], 'dlm_bulk_edit_nonce' ) ) {
@@ -302,7 +298,6 @@ class DLM_Custom_Actions {
 			if ( isset( $_REQUEST['_redirect_only'] ) ) {
 				update_post_meta( $post_id, '_redirect_only', 'yes' );
 			}
-
 		}
 
 		// handle quick
@@ -338,25 +333,6 @@ class DLM_Custom_Actions {
 
 		return $post_id;
 	}
-
-	/**
-	 * Add 'Duplicate Download' to row actions
-	 *
-	 * @param $actions
-	 * @param $post
-	 *
-	 * @return array
-	 */
-	public function row_actions( $actions, $post ) {
-
-		// Only for downloads
-		if ( 'dlm_download' === $post->post_type && 'trash' !== $post->post_status ) {
-			$actions['dlm_duplicate_download'] = '<a href="javascript:;" class="dlm-duplicate-download" rel="' . $post->ID . '" data-value="' . wp_create_nonce( 'dlm_duplicate_download_nonce' ) . '">' . __( 'Duplicate Download', 'download-monitor' ) . '</a>';
-		}
-
-		return $actions;
-	}
-
 
 	/**
 	 * AJAX callback, duplicate download
@@ -461,20 +437,5 @@ class DLM_Custom_Actions {
 	 */
 	public function admin_notice() {
 		echo '<div class="updated"><p>' . esc_html__( 'Download succesfully duplicated!', 'download-monitor' ) . '</p></div>' . PHP_EOL;
-	}
-
-	/**
-	 * Update downloads path.
-	 *
-	 * @return void
-	 * @since 4.8.0
-	 */
-	public function update_downloads_path() {
-		check_ajax_referer( 'dlm-ajax-nonce', 'security' );
-		if ( ! isset( $_POST['path'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'No path provided', 'download-monitor' ) ) );
-		}
-		update_option( 'dlm_downloads_path', sanitize_text_field( $_POST['path'] ) );
-		wp_send_json_success( array( 'message' => __( 'Path updated', 'download-monitor' ) ) );
 	}
 }

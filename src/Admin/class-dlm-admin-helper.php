@@ -20,7 +20,6 @@ class DLM_Admin_Helper {
 	 * @since 4.4.7
 	 */
 	public function __construct() {
-
 	}
 
 	/**
@@ -30,31 +29,27 @@ class DLM_Admin_Helper {
 	 * @since 4.4.7
 	 */
 	public static function get_instance() {
-
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Admin_Helper ) ) {
 			self::$instance = new DLM_Admin_Helper();
 		}
 
 		return self::$instance;
-
 	}
 
 	/**
 	 * Tab navigation display
 	 *
-	 * @param  mixed $tabs Tabs used for settings navigation.
-	 * @param  mixed $active_tab The active tab.
+	 * @param  mixed  $tabs        Tabs used for settings navigation.
+	 * @param  mixed  $active_tab  The active tab.
+	 *
 	 * @return void
 	 */
 	public static function dlm_tab_navigation( $tabs, $active_tab ) {
-
 		if ( $tabs ) {
-
 			$i = count( $tabs );
 			$j = 1;
 
 			foreach ( $tabs as $tab_id => $tab ) {
-
 				$last_tab = ( $i == $j ) ? ' last_tab' : '';
 				$active   = $active_tab == $tab_id ? ' nav-tab-active' : '';
 				$j ++;
@@ -95,8 +90,9 @@ class DLM_Admin_Helper {
 	/**
 	 * Callback to sort tabs/fields on priority.
 	 *
-	 * @param  mixed $a Current element from array.
-	 * @param  mixed $b Next element from array.
+	 * @param  mixed  $a  Current element from array.
+	 * @param  mixed  $b  Next element from array.
+	 *
 	 * @return array
 	 */
 	public static function sort_data_by_priority( $a, $b ) {
@@ -114,11 +110,10 @@ class DLM_Admin_Helper {
 	 * Checks if this is one of Download Monitor's page or not
 	 *
 	 * @return bool
-	 * 
+	 *
 	 * @since 4.5.4
 	 */
 	public static function check_if_dlm_page() {
-
 		if ( ! isset( $_GET['post_type'] ) || ( 'dlm_download' !== $_GET['post_type'] && 'dlm_product' !== $_GET['post_type'] ) ) {
 			return false;
 		}
@@ -133,7 +128,6 @@ class DLM_Admin_Helper {
 	 * @since 4.6.4
 	 */
 	public static function redo_upgrade() {
-
 		global $wp, $wpdb, $pagenow;
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
@@ -146,7 +140,7 @@ class DLM_Admin_Helper {
 
 		// Delete upgrade history and set the need DB pgrade
 		delete_option( 'dlm_db_upgraded' );
-		delete_transient('dlm_db_upgrade_offset');
+		delete_transient( 'dlm_db_upgrade_offset' );
 		set_transient( 'dlm_needs_upgrade', '1', 30 * DAY_IN_SECONDS );
 
 		return true;
@@ -155,9 +149,9 @@ class DLM_Admin_Helper {
 	/**
 	 * Check the column type.
 	 *
-	 * @param string $table_name The table.
-	 * @param string $col_name   The column.
-	 * @param string $col_type   The type.
+	 * @param  string  $table_name  The table.
+	 * @param  string  $col_name    The column.
+	 * @param  string  $col_type    The type.
 	 *
 	 * @return bool|null
 	 * @since 4.8.0
@@ -172,9 +166,7 @@ class DLM_Admin_Helper {
 		}
 
 		foreach ( $results as $row ) {
-
 			if ( $row->Field === $col_name ) {
-
 				// Got our column, check the params.
 				if ( ( null !== $col_type ) && ( $row->Type !== $col_type ) ) {
 					return false;
@@ -190,7 +182,7 @@ class DLM_Admin_Helper {
 	/**
 	 * Check whether the license is valid or not.
 	 *
-	 * @param string $functionality The functionality.
+	 * @param  string  $functionality  The functionality.
 	 *
 	 * @return bool
 	 *
@@ -210,9 +202,47 @@ class DLM_Admin_Helper {
 		return true;
 	}
 
-	public static function get_wp_weekstart(){
+	/**
+	 * Get the week start day.
+	 *
+	 * @return string
+	 *
+	 * @since 4.8.8
+	 */
+	public static function get_wp_weekstart() {
 		$week_start = get_option( 'start_of_week', 0 );
+
 		// It returns either Sunday or Monday because those are the only two options the date-range picker supports.
 		return ( 0 === absint( $week_start ) ? 'sunday' : 'monday' );
+	}
+
+	/**
+	 * Check if the current page is a DLM admin page.
+	 *
+	 * @return bool
+	 *
+	 * @since 5.0.0
+	 */
+	public static function is_dlm_admin_page() {
+		global $pagenow;
+		$dlm_admin_page = false;
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+
+			// Check to see if it's a page for a download or product.
+			if ( isset( $screen->post_type ) && 'dlm_download' === $screen->post_type ) {
+				$dlm_admin_page = true;
+			}
+		}
+
+		if ( 'edit.php' === $pagenow || 'post.php' === $pagenow ) {
+			if ( isset( $_GET['post_type'] ) && 'dlm_download' === $_GET['post_type'] ) {
+				$dlm_admin_page = true;
+			} elseif ( isset( $_GET['post'] ) && 'dlm_download' === get_post_type( $_GET['post'] ) ) {
+				$dlm_admin_page = true;
+			}
+		}
+
+		return $dlm_admin_page;
 	}
 }

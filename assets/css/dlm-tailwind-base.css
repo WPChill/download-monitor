@@ -1,3 +1,7 @@
+.dlm-no-access-modal {
+  z-index: 9999;
+  position: fixed;
+}
 .dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  ),
 .dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::before,
 .dlm-no-access-modal *:not( .dlm-no-tailwind, .dlm-no-tailwind *  )::after {

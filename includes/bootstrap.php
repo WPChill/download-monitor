@@ -42,6 +42,12 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 	if( ! get_option( 'dlm_current_version', false ) ){
 		_download_monitor_install();
 	}
+	// Check if tables are installed
+	if ( ! dlm_check_tables() ) {
+		// DLM Installer
+		$installer = new DLM_Installer();
+		$installer->recreate_tables();
+	}
 	
 	// Multisite new blog hook
 	add_action( 'wpmu_new_blog', '_download_monitor_mu_new_blog', 10, 6 );

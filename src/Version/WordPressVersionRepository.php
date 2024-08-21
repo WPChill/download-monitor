@@ -129,6 +129,11 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 
 			foreach ( $posts as $post ) {
 
+				if ( isset( $items[ $post->ID ] ) ) {
+					continue;
+				}
+				// Get all meta data.
+				$meta_data = get_post_meta( $post->ID );
 				// create download object.
 				$version = new DLM_Download_Version();
 				$version->set_id( $post->ID );
@@ -136,14 +141,16 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				$version->set_download_id( $post->post_parent );
 				$version->set_menu_order( $post->menu_order );
 				$version->set_date( new DateTime( $post->post_date ) );
-				$version->set_version( strtolower( get_post_meta( $version->get_id(), '_version', true ) ) );
+				if ( DLM_Utils::meta_checker( $meta_data, '_version' ) ) {
+					$version->set_version( strtolower( DLM_Utils::meta_checker( $meta_data, '_version' ) ) );
+				}
 				$version->set_download_count( absint( $this->retrieve_version_download_count( $version->get_id() ) ) );
-				$version->set_meta_download_count( absint( get_post_meta( $version->get_id(), '_download_count', true ) ) );
-				$version->set_filesize( get_post_meta( $version->get_id(), '_filesize', true ) );
-				$version->set_md5( get_post_meta( $version->get_id(), '_md5', true ) );
-				$version->set_sha1( get_post_meta( $version->get_id(), '_sha1', true ) );
-				$version->set_sha256( get_post_meta( $version->get_id(), '_sha256', true ) );
-				$version->set_crc32b( get_post_meta( $version->get_id(), '_crc32', true ) );
+				$version->set_meta_download_count( absint( DLM_Utils::meta_checker( $meta_data, '_download_count' ) ) );
+				$version->set_filesize( DLM_Utils::meta_checker( $meta_data, '_filesize' ) );
+				$version->set_md5( DLM_Utils::meta_checker( $meta_data, '_md5' ) );
+				$version->set_sha1( DLM_Utils::meta_checker( $meta_data, '_sha1' ) );
+				$version->set_sha256( DLM_Utils::meta_checker( $meta_data, '_sha256' ) );
+				$version->set_crc32b( DLM_Utils::meta_checker( $meta_data, '_crc32' ) );
 
 				// mirrors
 				$mirrors = get_post_meta( $version->get_id(), '_files', true );
@@ -177,7 +184,7 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 				}
 
 				// add download to return array
-				$items[] = $version;
+				$items[ $post->ID ] = $version;
 			}
 		}
 

@@ -38,8 +38,6 @@ If applicable, add screenshots to help explain your problem.
 - [ ] Mailchimp
 - [ ] Ninja Forms
 - [ ] Page Addon
-- [ ] Terms & Conditions
-- [ ] Twitter Lock
 
 **Additional context**
 Add any other context about the problem here.

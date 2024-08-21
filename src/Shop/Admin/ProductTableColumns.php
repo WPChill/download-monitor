@@ -167,7 +167,7 @@ class ProductTableColumns {
 			return;
 		}
 
-		return $downloads[0];
+		return reset( $downloads );
 	}
 
 

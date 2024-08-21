@@ -72,7 +72,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 						break;
 					case 'dlm_regenerate_robots':
 						if ( $this->regenerate_robots() ) {
-							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=status&section=misc' ) ) );
+							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=general&section=misc' ) ) );
 							exit;
 						}
 						break;
@@ -173,8 +173,15 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 					<?php
 
 					if ( ! empty( $_GET['settings-updated'] ) ) {
+						$setting_transient = get_transient( 'dlm_allowed_paths_settings', false );
+						if ( $setting_transient ) {
+							echo '<div class="warning notice is-dismissible"><p>' . esc_html( $setting_transient ) . '</p></div>';
+							delete_transient( 'dlm_allowed_paths_settings' );
+						} else {
+							echo '<div class="updated notice is-dismissible"><p>' . esc_html__( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+						}
 						$this->need_rewrite_flush = true;
-						echo '<div class="updated notice is-dismissible"><p>' . esc_html__( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+
 
 						$dlm_settings_tab_saved = get_option( 'dlm_settings_tab_saved', 'general' );
 
@@ -221,8 +228,10 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 							</h2>
 							<?php
 						}
+
+						$class =  isset( $settings[ $tab ]['sections'][ $active_section ]['contend_class'] ) ? $settings[ $tab ]['sections'][ $active_section ]['contend_class'] : 'dlm-content-tab';
 						// Begin tab content
-						echo '<div class="dlm-content-tab">';
+						echo '<div class="' . esc_attr( $class ) . '">';
 						if ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) {
 							// output correct settings_fields
 							// We change the output location so that it won't interfere with our upsells
@@ -232,7 +241,14 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 							echo '<table class="form-table">';
 
 							foreach ( $settings[ $tab ]['sections'][ $active_section ]['fields'] as $option ) {
-								$cs = 1;
+								$cs      = 1;
+								$tooltip = '';
+								if ( ! empty( $option['desc'] ) ) {
+									$tooltip = '
+									<div class="wpchill-tooltip"><span>[?]</span>
+										<div class="wpchill-tooltip-content"><p>' . wp_kses_post( $option['desc'] ) . '</p></div>
+									</div>';
+								}
 
 								if ( ! isset( $option['type'] ) ) {
 									$option['type'] = '';
@@ -241,16 +257,12 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 								$tr_class = 'dlm_settings dlm_' . $option['type'] . '_setting';
 								echo '<tr valign="top" data-setting="' . ( isset( $option['name'] ) ? esc_attr( $option['name'] ) : '' ) . '" class="' . esc_attr( $tr_class ) . '">';
 								if ( isset( $option['label'] ) && '' !== $option['label'] ) {
-									echo '<th scope="row"><label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
+									echo '<th scope="row">' . wp_kses_post( $tooltip ) . '<label for="setting-' . esc_attr( $option['name'] ) . '">' . esc_attr( $option['label'] ) . '</a></th>';
 								} else {
 									$cs ++;
 								}
 
 								echo '<td colspan="' . esc_attr( $cs ) . '">';
-
-								if ( ! isset( $option['type'] ) ) {
-									$option['type'] = '';
-								}
 
 								// make new field object
 								$field = DLM_Admin_Fields_Field_Factory::make( $option );
@@ -259,10 +271,6 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 								if ( null !== $field ) {
 									// render field
 									$field->render();
-
-									if ( isset( $option['desc'] ) && '' !== $option['desc'] ) {
-										echo ' <p class="dlm-description description">' . wp_kses_post( $option['desc'] ) . '</p>';
-									}
 								}
 
 								echo '</td></tr>';
@@ -286,35 +294,50 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 						do_action( 'dlm_tab_section_content_' . $active_section, $settings );
 
 						echo '</div>';
-						// Check if we need to display the upsells on the right or full-width
-						$has_content = ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] );
-						echo '<div class="wpchill-upsells-wrapper ' . ( $has_content ? 'wpchill-right-upsells' : '' ) . '">';
 
-						/**
-						 * Hook to add content to the right side of tab. Used for upsells
-						 *
-						 * @param  array  $settings  The settings array
-						 *
-						 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
-						 */
-						do_action( 'dlm_tab_upsell_content_' . $tab, $settings );
+						// Check if we should display the upsells.
+						if( ! isset( $settings[ $tab ]['sections'][ $active_section ]['show_upsells'] ) || $settings[ $tab ]['sections'][ $active_section ]['show_upsells'] ){
+							// Check if we need to display the upsells on the right or full-width
+							$has_content = ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] );
+							echo '<div class="wpchill-upsells-wrapper ' . ( $has_content ? 'wpchill-right-upsells' : '' ) . '">';
 
-						/**
-						 * Hook to add content to the right side of the tab section. Used for upsells
-						 *
-						 * @param  array  $settings  The settings array
-						 *
-						 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
-						 */
-						do_action( 'dlm_tab_upsell_section_content_' . $active_section, $settings );
+							/**
+							 * Hook to add content to the right side of tab. Used for upsells
+							 *
+							 * @param  array  $settings  The settings array
+							 *
+							 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
+							 */
+							do_action( 'dlm_tab_upsell_content_' . $tab, $settings );
 
-						echo '</div>';
+							/**
+							 * Hook to add content to the right side of the tab section. Used for upsells
+							 *
+							 * @param  array  $settings  The settings array
+							 *
+							 * @hooked DLM_Upsells - multiple methods on different tabs, attached on priorities 15 and 30
+							 */
+							do_action( 'dlm_tab_upsell_section_content_' . $active_section, $settings );
+
+							echo '</div>';
+						}
 					}
 					?>
 					<div
 						class="wp-clearfix"></div>
 					<?php
-					if ( isset( $settings[ $tab ] ) && ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) && 'templates' !== $active_section ) {
+					/**
+					 * Hook to show the save settings button
+					 *
+					 * @hook dlm_show_save_settings_button
+					 *
+					 * @param  bool  $show  Show the save settings button
+					 * @param  array  $settings  The settings array
+					 * @param  string  $active_section  The active section
+					 *
+					 * @since 5.0.0
+					 */
+					if ( isset( $settings[ $tab ] ) && ( isset( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) && ! empty( $settings[ $tab ]['sections'][ $active_section ]['fields'] ) ) && apply_filters( 'dlm_show_save_settings_button', true, $settings, $active_section ) ) {
 						?>
 						<p class="submit">
 							<input
@@ -537,7 +560,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 		 *
 		 * @param  Array  $settings
 		 *
-		 * @return void
+		 * @return array
 		 *
 		 * @since 4.5.5
 		 */
@@ -568,6 +591,10 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				$icon_color = '#f00';
 				$icon_text  = sprintf( __( 'Because your server is running on nginx, our .htaccess file can\'t protect your downloads. %s', 'download-monitor' ), $nginx_text );
 				$disabled   = true;
+			}
+
+			if ( ! isset( $settings['general']['sections']['misc']['title'] ) ) {
+				$settings['general']['sections']['misc']['title']    = __( 'Miscellaneous', 'download-monitor' );
 			}
 
 			$settings['general']['sections']['misc']['fields'][] = array(

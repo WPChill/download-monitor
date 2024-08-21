@@ -52,6 +52,8 @@ class DLM_Plugin_Status {
 		add_filter( 'site_status_tests', array( $this, 'add_wp_tests' ), 30, 1 );
 		// Add required modules to the Site Health Info page.
 		add_filter( 'site_status_test_php_modules', array( $this, 'check_modules' ), 30, 1 );
+		// Hide the save button in the Templates tab.
+		add_filter( 'dlm_show_save_settings_button', array( $this, 'hide_save_button' ), 15, 3 );
 	}
 
 	/**
@@ -63,20 +65,6 @@ class DLM_Plugin_Status {
 	 * @since 4.9.6
 	 */
 	public function status_tab( $settings ) {
-		$settings['general']['sections']['misc'] = array(
-			'title'  => __( 'Miscellaneous', 'download-monitor' ),
-			'fields' => array(
-				array(
-					'name'     => 'dlm_downloads_path',
-					'std'      => '',
-					'label'    => __( 'Other downloads path', 'download-monitor' ),
-					'desc'     => __( '<strong>!!ATTENTION!! ONLY</strong> modify this setting if you know and are certain of what you are doing. This can cause problems on the download/saving Downloads process if not specified correctly. Prior to modifying this it is advised to <strong>BACKUP YOU DATABASE</strong> in case something goes wrong.<br><br> By default, due to some security issues and restrictions, we only allow downloads from root folder and uploads folder, depending on how your WordPress installation in configured. To be able to download files from somewhere else please specify the path or a more higher path.<br><br>A full documentation can be seen <a href="https://www.download-monitor.com/kb/add-path/" target="_blank">here</a>.', 'download-monitor' ),
-					'type'     => 'text',
-					'priority' => 60,
-				),
-			),
-		);
-
 		$settings['general']['sections']['templates'] = array(
 			'title'  => __( 'Templates', 'download-monitor' ),
 			'fields' => array(
@@ -562,5 +550,21 @@ class DLM_Plugin_Status {
 	public function check_modules( $modules ) {
 		// For the moment we only return the modules from WordPress. Placed here for future use.
 		return $modules;
+	}
+
+	/**
+	 * Add the templates tab to the settings page.
+	 *
+	 * @param  array  $settings  Array of settings.
+	 *
+	 * @return bool
+	 * @since 5.0.0
+	 */
+	public function hide_save_button( $return, $settings, $active_section ) {
+		if ( 'templates' === $active_section ) {
+			return false;
+		}
+
+		return $return;
 	}
 }

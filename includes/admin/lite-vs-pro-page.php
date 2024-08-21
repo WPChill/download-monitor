@@ -1,10 +1,6 @@
 <?php
 // Set the PROs
 $pro_arguments = array(
-	'twitter_lock'            => array(
-		'title'       => esc_html__( 'Twitter lock', 'download-monitor' ),
-		'description' => esc_html__( 'The Twitter Lock extension for Download Monitor allows you to require users to tweet your pre-defined text before they gain access to a download.', 'download-monitor' ),
-	),
 	'captcha'                 => array(
 		'title'       => esc_html__( 'Captcha', 'download-monitor' ),
 		'description' => esc_html__( 'The Captcha extension for Download Monitor allows you to require users to complete a Google reCAPTCHA before they gain access to a download.', 'download-monitor' ),

@@ -15,6 +15,10 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class Amount
 {
+	public $currency_code;
+	public $value;
+	public $breakdown;
+
     /**
      * 3-letter [currency code](https://developer.paypal.com/docs/integration/direct/rest_api_payment_country_currency_support/). PayPal does not support all currencies.
      *

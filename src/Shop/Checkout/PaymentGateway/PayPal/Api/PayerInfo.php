@@ -29,6 +29,10 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class PayerInfo
 {
+
+	public $email_address;
+	public $name;
+	public $billing_address;
     /**
      * Email address representing the payer. 127 characters max.
      *

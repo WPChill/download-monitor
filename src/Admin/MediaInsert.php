@@ -123,7 +123,7 @@ class DLM_Admin_Media_Insert {
 					// File Manager
 					$file_manager = new DLM_File_Manager();
 					
-					list( $file_path )  = $file_manager->get_secure_path( $url, true );
+					list( $file_path )  = $file_manager->get_secure_path( $url );
 
 					// Meta
 					update_post_meta( $file_id, '_version', $version );

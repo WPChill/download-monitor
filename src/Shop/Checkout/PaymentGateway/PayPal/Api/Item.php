@@ -20,6 +20,14 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class Item
 {
+
+	public $name;
+	public $currency_code;
+	public $quantity;
+	public $sku;
+	public $price;
+	public $unit_amount;
+
     public function setUnitAmount() {
 		$this->unit_amount = array( 'currency_code' => $this->currency_code, 'value' => $this->price );
 	}

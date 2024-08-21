@@ -168,7 +168,7 @@ class DLM_Admin {
 			$enqueue = true;
 		}
 
-		if ( isset( $_GET['page'] ) && 'download-monitor-orders' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && ( 'download-monitor-orders' === $_GET['page'] || 'download-monitor-settings' === $_GET['page'] ) ) {
 			$enqueue = true;
 		}
 
@@ -180,7 +180,7 @@ class DLM_Admin {
 			return;
 		}
 
-		wp_enqueue_script( 'jquery-blockui', download_monitor()->get_plugin_url() . '/assets/js/blockui.min.js', array( 'jquery' ), '2.61' );
+		wp_enqueue_script( 'jquery-blockui', download_monitor()->get_plugin_url() . '/assets/js/blockui' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', array( 'jquery' ), '2.61', true );
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_style( 'jquery-ui-style', download_monitor()->get_plugin_url() . '/assets/css/jquery-ui.min.css', array(), DLM_VERSION );

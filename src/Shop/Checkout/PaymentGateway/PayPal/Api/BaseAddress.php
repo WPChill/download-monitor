@@ -25,6 +25,11 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class BaseAddress
 {
+
+	public $address_line_1;
+	public $postal_code;
+	public $admin_area_2;
+	public $country_code;
     /**
      * Line 1 of the Address (eg. number, street, etc).
      *

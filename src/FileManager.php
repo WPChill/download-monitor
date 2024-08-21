@@ -23,7 +23,17 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @return array|bool
 		 */
 		public function list_files( $folder = '' ) {
+			// If no folder is specified, return false
 			if ( empty( $folder ) ) {
+				return false;
+			}
+			// If not dir, return false
+			if ( ! is_dir( $folder ) ) {
+				return false;
+			}
+			// If the folder does not exist, return false
+			$files_folders = scandir( $folder );
+			if ( ! $files_folders ) {
 				return false;
 			}
 
@@ -58,75 +68,34 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			$wp_uploads_dir   = $wp_uploads['basedir'];
 			$wp_uploads_url   = $wp_uploads['baseurl'];
 			$allowed_paths    = $this->get_allowed_paths();
-			$common_path
-			                  = DLM_Utils::longest_common_path( $allowed_paths );
-
+			$condition_met    = false;
+			$allowed_path     = false;
+			$restriction      = false;
 			if ( false !== strpos( $file_path, '127.0.0.1' ) ) {
-				$file_path        = untrailingslashit( $common_path )
+				$file_path        = untrailingslashit( ABSPATH )
 				                    . $parsed_file_path['path'];
 				$parsed_file_path = parse_url( $file_path );
 			}
 
 			// Fix for plugins that modify the uploads dir
 			// add filter in order to return files
-			if ( apply_filters( 'dlm_check_file_paths',
-				false,
-				$file_path,
-				$remote_file )
-			) {
+			if ( apply_filters( 'dlm_check_file_paths', false, $file_path, $remote_file ) ) {
 				return array( $file_path, $remote_file );
 			}
 
-			// Check if relative path or absolute path, as the file_exists function needs an absolute path
-			// So that we do not trigger warnings/errors with open_basedir restrictions.
-			$file_check['exists']   = false;
-			$file_check['relative'] = false;
-
-			if ( isset( $parsed_file_path['path'] ) ) {
-				// Check if common path is contained within the file path, if it doesn't it is a relative path,
-				// or it is a non-allowed file.
-				if ( $common_path && strlen( $common_path ) > 1
-				     && false === strpos( $parsed_file_path['path'],
-						$common_path )
-				) {
-					if ( is_file( realpath( trailingslashit( $common_path )
-					                        . $parsed_file_path['path'] ) )
-					) { // Check if it's a relative path, so add the common path to it.
-						$file_check['exists']   = true;
-						$file_check['relative'] = true;
-					} elseif ( file_exists( $parsed_file_path['path'] ) ) { // Check if it's an absolute path, most probably a non-allowed file.
-						$file_check['exists'] = true;
-					}
-				} else {
-					// If common path is included in the file path, check if the file exists.
-					if ( file_exists( $parsed_file_path['path'] ) ) {
-						$file_check['exists'] = true;
-					}
-				}
-			}
-
 			// Check file path
-			if ( ( ! isset( $parsed_file_path['scheme'] )
-			       || ! in_array( $parsed_file_path['scheme'], array(
-						'http',
-						'https',
-						'ftp',
-					) ) )
-			     && $file_check['exists']
-			) {
+			if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp', ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path['path'] ) ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** The file lies in the server */
 				$remote_file = false;
-				// If it's relative we need to make it absolute.
-				if ( $file_check['relative'] ) {
-					$file_path = trailingslashit( $common_path )
-					             . $parsed_file_path['path'];
-					$file_path = realpath( $file_path );
-				}
 			} elseif ( strpos( $wp_uploads_dir, '://' ) !== false ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/**
 				 * This is a file located on a network drive.
-				 * WordPress VIP is a providor that uses network drive paths
-				 * Only allow if root (vip://) is predefined in Settings > Misc > Other downloads path
+				 * WordPress VIP is a provider that uses network drive paths
+				 * Only allow if root (vip://) is predefined in Settings > Advanced > Approved Download Paths
 				 * Example of path: vip://wp-content/upload...
 				 **/
 				$remote_file = false;
@@ -139,74 +108,149 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 						return strpos( $path, '://' ) !== false
 						       && strpos( $wp_uploads_dir, $path ) !== false
 							? trim( str_replace( $wp_uploads_url,
-								$wp_uploads_dir,
-								$file_path ) )
+							                     $wp_uploads_dir,
+							                     $file_path ) )
 							: $carry;
 					},
-					false );
+					                         false );
 
 				// realpath() will return false on network drive paths, so just check if exists
-				$file_path = file_exists( $path ) ? $path
-					: realpath( $file_path );
+				$file_path = file_exists( $path ) ? $path : realpath( $file_path );
 			} elseif ( strpos( $file_path, $wp_uploads_url ) !== false ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** This is a local file given by URL, so we need to figure out the path */
 				$remote_file = false;
-				$file_path   = trim( str_replace( $wp_uploads_url,
-					$wp_uploads_dir,
-					$file_path ) );
+				$file_path   = trim( str_replace( $wp_uploads_url, $wp_uploads_dir, $file_path ) );
 				$file_path   = realpath( $file_path );
-			} elseif ( is_multisite()
-			           && ( ( strpos( $file_path,
-							network_site_url( '/', 'http' ) ) !== false )
-			                || ( strpos( $file_path,
-							network_site_url( '/', 'https' ) ) !== false ) )
-			) {
+			} elseif ( is_multisite() && ( ( strpos( $file_path, network_site_url( '/', 'http' ) ) !== false ) || ( strpos( $file_path, network_site_url( '/', 'https' ) ) !== false ) ) ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** This is a local file outside wp-content so figure out the path */
 				$remote_file = false;
 				// Try to replace network url
 				$file_path = str_replace( network_site_url( '/', 'https' ),
-					ABSPATH,
-					$file_path );
+				                          ABSPATH,
+				                          $file_path );
 				$file_path = str_replace( network_site_url( '/', 'http' ),
-					ABSPATH,
-					$file_path );
+				                          ABSPATH,
+				                          $file_path );
 				// Try to replace upload URL
 				$file_path = str_replace( $wp_uploads_url,
-					$wp_uploads_dir,
-					$file_path );
+				                          $wp_uploads_dir,
+				                          $file_path );
 				$file_path = realpath( $file_path );
-			} elseif ( strpos( $file_path, site_url( '/', 'http' ) ) !== false
-			           || strpos( $file_path, site_url( '/', 'https' ) )
-			              !== false
-			) {
+			} elseif ( false !== strpos( $file_path, site_url( '/', 'http' ) ) || false !== strpos( $file_path, site_url( '/', 'https' ) ) ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** This is a local file outside wp-content so figure out the path */
 				$remote_file = false;
 				$file_path   = str_replace( site_url( '/', 'https' ),
-					ABSPATH,
-					$file_path );
+				                            ABSPATH,
+				                            $file_path );
 				$file_path   = str_replace( site_url( '/', 'http' ),
-					ABSPATH,
-					$file_path );
+				                            ABSPATH,
+				                            $file_path );
 				$file_path   = realpath( $file_path );
 			} elseif ( file_exists( ABSPATH . $file_path ) ) {
+				// File existence found, weathers it's relative, absolute or remote.
+				$condition_met = true;
 				/** Path needs an abspath to work */
 				$remote_file = false;
 				$file_path   = ABSPATH . $file_path;
 				$file_path   = realpath( $file_path );
-			} elseif ( '' === $common_path || strlen( $common_path ) === 1 ) {
+			}
+
+
+			// File not remote, so we need to check if it's in the allowed paths
+			if ( ! empty( $allowed_paths ) ) {
+				$file_path = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
+				// Cycle through the allowed paths and check if one of the allowed paths are in the file path.
 				foreach ( $allowed_paths as $path ) {
-					if ( file_exists( $path . $file_path ) ) {
-						$remote_file = false;
-						$file_path   = $path . $file_path;
-						$file_path   = realpath( $file_path );
-						break;
+					// Condition already met in the above checks, so we need to check if the file is in one of the allowed paths
+					if ( $condition_met ) {
+						if ( false !== strpos( $file_path, $path ) ) {
+							$allowed_path = true;
+							break;
+						}
+					} else { // No conditions prior met, so we need to backwards construct the path
+						// Check if it's a remote file
+						// Check if the scheme is allowed
+						$scheme_check = isset( $parsed_file_path['scheme'] ) && in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp', ) );
+						// Check if the domain is the same as the site
+						$domain_check = false !== strpos( $file_path, site_url( '/', 'http' ) ) || false !== strpos( $file_path, site_url( '/', 'https' ) );
+						// If has scheme but not domain, break
+						if ( $scheme_check && ! $domain_check ) {
+							break;
+						}
+						// Check if the file is a child of the allowed path
+						if ( file_exists( $path . $file_path ) ) {
+							$allowed_path  = true;
+							$condition_met = true;
+							$remote_file   = false;
+							$file_path     = untrailingslashit( $path ) . '/' . ltrim( $file_path, '/' );
+							break;
+						}
+						// File might be a child of the allowed path but has a common directory, so it might not detect a direct $path . $file_path match
+						$base_file_path     = $this->mb_pathinfo( $file_path )['dirname'];
+						$path_directories   = array_filter( explode( '/', trim( $path ) ) );
+						$file_directories   = array_filter( explode( '/', trim( $base_file_path ) ) );
+						$common_directories = array_intersect( $file_directories, $path_directories );
+
+						// Check if there are common directories between the file and the allowed path
+						if ( ! empty( $common_directories ) ) {
+							// Get the file extension and remove it from the file path, in case the common directories have the same name as the file extension
+							$file_extension = $this->mb_pathinfo( $file_path )['extension'];
+							if ( ! empty( $file_extension ) ) {
+								$file_path = str_replace( '.' . $file_extension, '', $file_path );
+							}
+							// Replace the directory separator with a forward slash
+							$file_path = str_replace( DIRECTORY_SEPARATOR, '/', $file_path );
+							// Cycle through the common directories and remove them from the file path
+							foreach ( $common_directories as $key => $common_directory ) {
+								// Check if the common directory is the last in the array, and if so, remove the forward slash from before the common directory
+								if ( count( $common_directories ) === ( $key - 1 ) ) {
+									$replace = '/' . $common_directory;
+								} else { // Otherwise, remove the forward slash from after the common directory
+									$replace = $common_directory . '/';
+								}
+								$file_path = str_replace( $replace, '', $file_path );
+							}
+							// Add the file extension back to the file path
+							$file_path = $file_path . '.' . $file_extension;
+							// Check if the file exists in the allowed path
+							if ( file_exists( $path . $file_path ) ) {
+								$allowed_path  = true;
+								$condition_met = true;
+								$remote_file   = false;
+								$file_path     = untrailingslashit( $path ) . '/' . ltrim( $file_path, '/' );
+								break;
+							}
+						}
 					}
 				}
+			}
+
+			// If the file is remote, return the file path
+			if ( $remote_file ) {
+				return array(
+					$file_path,
+					$remote_file,
+					$restriction,
+				);
+			}
+
+			// File not found on server or is not in the allowed paths
+			if ( ! $condition_met || ! $allowed_path ) {
+				$restriction = true;
+
+				return array( $file_path, false, $restriction );
 			}
 
 			return array(
 				str_replace( DIRECTORY_SEPARATOR, '/', $file_path ),
 				$remote_file,
+				$restriction,
 			);
 		}
 
@@ -256,17 +300,17 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @return string
 		 */
 		public function json_encode_files( $files ) {
-			if ( version_compare( phpversion(), "5.4.0", ">=" ) ) {
+			if ( version_compare( phpversion(), '5.4.0', '>=' ) ) {
 				$files = json_encode( $files, JSON_UNESCAPED_UNICODE );
 			} else {
 				$files = json_encode( $files );
 				if ( function_exists( 'mb_convert_encoding' ) ) {
 					$files = preg_replace_callback( '/\\\\u([0-9a-f]{4})/i',
-						array(
-							$this,
-							'json_unscaped_unicode_fallback',
-						),
-						$files );
+					                                array(
+						                                $this,
+						                                'json_unscaped_unicode_fallback',
+					                                ),
+					                                $files );
 				}
 			}
 
@@ -300,8 +344,8 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		public function mb_pathinfo( $filepath ) {
 			$ret = array();
 			preg_match( '%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im',
-				$filepath,
-				$m );
+			            $filepath,
+			            $m );
 			if ( isset( $m[1] ) ) {
 				$ret['dirname'] = $m[1];
 			}
@@ -327,7 +371,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 */
 		public function get_file_name( $file_path ) {
 			return apply_filters( 'dlm_filemanager_get_file_name',
-				current( explode( '?', DLM_Utils::basename( $file_path ) ) ) );
+			                      current( explode( '?', DLM_Utils::basename( $file_path ) ) ) );
 		}
 
 		/**
@@ -338,7 +382,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @return string
 		 */
 		public function get_file_type( $file_name ) {
-			return strtolower( substr( strrchr( $file_name, "." ), 1 ) );
+			return strtolower( substr( strrchr( $file_name, '.' ), 1 ) );
 		}
 
 		/**
@@ -358,8 +402,8 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		/**
 		 * Return the secured file path or url of the downloadable file. Should not let restricted files or out of root files to be downloaded.
 		 *
-		 * @param  string  $file  The file path/url
-		 * @param  bool  $relative  Wheter or not to return a relative path. Default is false
+		 * @param  string  $file      The file path/url
+		 * @param  bool    $relative  Wheter or not to return a relative path. Default is false
 		 *
 		 * @return array The secured file path/url and restriction status
 		 * @since 4.5.9
@@ -369,8 +413,17 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			if ( ! defined( 'ABSPATH' ) ) {
 				die;
 			}
+			$restriction = true;
 			// Get file path and remote file status
-			list( $file_path, $remote_file ) = $this->parse_file_path( $file );
+			list( $file_path, $remote_file, $parser_restriction ) = $this->parse_file_path( $file );
+			// Return the file path if the parser restriction is true, most likely the file is not in the allowed paths
+			if ( $parser_restriction ) {
+				return array( $file_path, $remote_file, $restriction );
+			}
+
+			if ( ! $file_path ) {
+				return array( $file_path, $remote_file, $restriction );
+			}
 
 			// Let's see if the file path is dirty
 			$file_scheme = parse_url( $file_path, PHP_URL_SCHEME );
@@ -385,8 +438,6 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			);
 			// Check restricted schemes
 			if ( in_array( $file_scheme, $restricted_schemes ) ) {
-				$restriction = true;
-
 				return array( $file_path, $remote_file, $restriction );
 			}
 
@@ -418,31 +469,16 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			// Loop through the restricted files and return empty string if found.
 			foreach ( $restricted_files as $restricted_file ) {
 				if ( basename( $file_path ) === $restricted_file ) {
-					// If the file is restricted.
-					$restriction = true;
-
 					return array( $file_path, $remote_file, $restriction );
 				}
 			}
-			// Get allowed paths
-			$allowed_paths = $this->get_allowed_paths();
-			// Create the correct path using the file path and the allowed paths
-			$correct_path  = $this->get_correct_path( $file_path,
-				$allowed_paths );
 
-			// If the file is not in one of the allowed paths, return restriction
-			if ( ! $correct_path || empty( $correct_path ) ) {
-				$restriction = true;
-
-				return array( $file_path, $remote_file, $restriction );
-			}
-			// Check if the file has a relative path
-			if ( $relative ) {
-				// Now we should get longest commont path from the allowed paths.
-				$common_path = DLM_Utils::longest_common_path( $allowed_paths );
-				// If there is no common path, or is emtpy or is just a slash, return the file path, else do the replacement.
-				if ( strlen( $common_path ) > 1 ) {
-					$file_path = str_replace( $common_path, '', $file_path );
+			// Restricted directories
+			$restricted_directories = download_monitor()->service( 'file_manager' )->disallowed_wp_directories();
+			// Check if the file is in one of the restricted directories
+			foreach ( $restricted_directories as $restricted_directory ) {
+				if ( false !== strpos( $file_path, $restricted_directory ) ) {
+					return array( $file_path, $remote_file, $restriction );
 				}
 			}
 
@@ -458,46 +494,21 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * @since 4.5.92
 		 */
 		public function get_allowed_paths() {
-			// Get ABSPATH
-			$abspath_sub       = str_replace( DIRECTORY_SEPARATOR,
-				'/',
-				untrailingslashit( ABSPATH ) );
-			// Get user defined path
-			$user_defined_path = str_replace( DIRECTORY_SEPARATOR,
-				'/',
-				get_option( 'dlm_downloads_path' ) );
-			// Create the allowed paths array
-			$allowed_paths     = array();
-			// Check if the ABSPATH is in the WP_CONTENT_DIR
-			if ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) {
-				$content_dir   = str_replace( DIRECTORY_SEPARATOR,
-					'/',
-					str_replace( 'wp-content',
-						'',
-						untrailingslashit( WP_CONTENT_DIR ) ) );
-				$allowed_paths = array( $abspath_sub, $content_dir );
-			} else {
-				$allowed_paths = array( $abspath_sub );
-			}
 			// Add the user defined path to the allowed paths array
-			if ( $user_defined_path ) {
-				$allowed_paths[] = $user_defined_path;
-			}
-
-			return $allowed_paths;
+			return DLM_Downloads_Path_Helper::get_allowed_paths();
 		}
 
 		/**
 		 * Return the correct path for the file by comparing the file path string with the allowed paths.
 		 *
-		 * @param  string  $file_path  The current path of the file
-		 * @param  array  $allowed_paths  The allowed paths of the files
+		 * @param  string  $file_path      The current path of the file
+		 * @param  array   $allowed_paths  The allowed paths of the files
 		 *
 		 * @return string The correct path of the file
 		 * @since 4.5.92
 		 */
 		public function get_correct_path( $file_path, $allowed_paths ) {
-			/* We assume first assume that the path is false, as the ABSPATH is always allowed asnd should always be in the
+			/* We assume first assume that the path is false, as the ABSPATH is always allowed and should always be in the
 			* allowed paths.
 			*/
 			$correct_path = false;
@@ -520,7 +531,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		 * Check for symbolik links in the file path.
 		 *
 		 * @param  string  $file_path  The file's path
-		 * @param  bool  $redirect  Whether to redirect the user to the correct path. Default is false.
+		 * @param  bool    $redirect   Whether to redirect the user to the correct path. Default is false.
 		 *
 		 * @return array|mixed|string|string[]
 		 */
@@ -528,17 +539,17 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			// On Pantheon hosted sites the upload dir is a symbolic link to another location.
 			// Make a filter of all shortcuts/symbolik links so that users can attach to them because we do not know what/how the server
 			// is configured.
-			$shortcuts     = apply_filters( 'dlm_upload_shortcuts',
-				array( wp_get_upload_dir()['basedir'] ) );
-			$scheme        = wp_parse_url( get_option( 'home' ),
-				PHP_URL_SCHEME );
+			$shortcuts = apply_filters( 'dlm_upload_shortcuts',
+			                            array( wp_get_upload_dir()['basedir'] ) );
+			$scheme    = wp_parse_url( get_option( 'home' ),
+			                           PHP_URL_SCHEME );
 			// Get allowed paths
 			$allowed_paths = download_monitor()->service( 'file_manager' )
 			                                   ->get_allowed_paths();
 			// Get the correct path
-			$correct_path  = download_monitor()->service( 'file_manager' )
-			                                   ->get_correct_path( $file_path,
-				                                   $allowed_paths );
+			$correct_path = download_monitor()->service( 'file_manager' )
+			                                  ->get_correct_path( $file_path,
+			                                                      $allowed_paths );
 
 			if ( ! empty( $shortcuts ) ) {
 				foreach ( $shortcuts as $shortcut ) {
@@ -546,12 +557,12 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 					     && readlink( $shortcut ) === $correct_path
 					) {
 						$file_path = str_replace( $correct_path,
-							$shortcut,
-							$file_path );
+						                          $shortcut,
+						                          $file_path );
 						if ( $redirect ) {
 							$file_path = str_replace( ABSPATH,
-								site_url( '/', $scheme ),
-								$file_path );
+							                          site_url( '/', $scheme ),
+							                          $file_path );
 						}
 					}
 				}
@@ -575,9 +586,9 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			if ( 0 === stripos( $file, $this->dlm_upload_dir( '/' ) ) ) {
 				return new WP_Error( 'protected_file_existed', sprintf(
 					__( 'This file is already protected. Please reload your page.',
-						'download-monitor' ),
+					    'download-monitor' ),
 					$file
-				), array( 'status' => 500 ) );
+				),                   array( 'status' => 500 ) );
 			}
 
 			$reldir = dirname( $file );
@@ -589,7 +600,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			$protected_dir = path_join( $this->dlm_upload_dir(), $reldir );
 
 			return $this->move_attachment_to_protected( $post_id,
-				$protected_dir );
+			                                            $protected_dir );
 		}
 
 		/**
@@ -609,10 +620,10 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			}
 
 			$protected_dir = ltrim( dirname( $file ),
-				$this->dlm_upload_dir( '/' ) );
+			                        $this->dlm_upload_dir( '/' ) );
 
 			return $this->move_attachment_to_protected( $post_id,
-				$protected_dir );
+			                                            $protected_dir );
 		}
 
 		/**
@@ -647,17 +658,17 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			if ( 'attachment' !== get_post_type( $attachment_id ) ) {
 				return new WP_Error( 'not_attachment', sprintf(
 					__( 'The post with ID: %d is not an attachment post type.',
-						'download-monitor' ),
+					    'download-monitor' ),
 					$attachment_id
-				), array( 'status' => 404 ) );
+				),                   array( 'status' => 404 ) );
 			}
 			// Check if the path is relative to the WP uploads directory
 			if ( path_is_absolute( $protected_dir ) ) {
 				return new WP_Error( 'protected_dir_not_relative', sprintf(
 					__( 'The new path provided: %s is absolute. The new path must be a path relative to the WP uploads directory.',
-						'download-monitor' ),
+					    'download-monitor' ),
 					$protected_dir
-				), array( 'status' => 404 ) );
+				),                   array( 'status' => 404 ) );
 			}
 
 			$meta = empty( $meta_input )
@@ -665,11 +676,11 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			$meta = is_array( $meta ) ? $meta : array();
 
 			$file       = get_post_meta( $attachment_id,
-				'_wp_attached_file',
-				true );
+			                             '_wp_attached_file',
+			                             true );
 			$backups    = get_post_meta( $attachment_id,
-				'_wp_attachment_backup_sizes',
-				true );
+			                             '_wp_attachment_backup_sizes',
+			                             true );
 			$upload_dir = wp_upload_dir();
 			$old_dir    = dirname( $file );
 
@@ -682,16 +693,16 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			}
 
 			$old_full_path       = path_join( $upload_dir['basedir'],
-				$old_dir );
+			                                  $old_dir );
 			$protected_full_path = path_join( $upload_dir['basedir'],
-				$protected_dir );
+			                                  $protected_dir );
 			// Try to make the directory if it doesn't exist
 			if ( ! wp_mkdir_p( $protected_full_path ) ) {
 				return new WP_Error( 'wp_mkdir_p_error', sprintf(
 					__( 'There was an error making or verifying the directory at: %s',
-						'download-monitor' ),
+					    'download-monitor' ),
 					$protected_full_path
-				), array( 'status' => 500 ) );
+				),                   array( 'status' => 500 ) );
 			}
 
 			//Get all files
@@ -717,14 +728,14 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			$orig_filename = $orig_filename['filename'];
 
 			$result        = $this->resolve_name_conflict( $new_basenames,
-				$protected_full_path,
-				$orig_filename );
+			                                               $protected_full_path,
+			                                               $orig_filename );
 			$new_basenames = $result['new_basenames'];
 
 			$this->rename_files( $old_basenames,
-				$new_basenames,
-				$old_full_path,
-				$protected_full_path );
+			                     $new_basenames,
+			                     $old_full_path,
+			                     $protected_full_path );
 
 			$base_file_name = 0;
 
@@ -734,31 +745,31 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 			}
 			// Update attached file
 			update_post_meta( $attachment_id,
-				'_wp_attached_file',
-				$new_attached_file );
+			                  '_wp_attached_file',
+			                  $new_attached_file );
 
 			if ( $new_basenames[ $base_file_name ]
 			     != $old_basenames[ $base_file_name ]
 			) {
 				$pattern       = $result['pattern'];
 				$replace       = $result['replace'];
-				$separator     = "#";
+				$separator     = '#';
 				$orig_basename = ltrim(
 					str_replace( $pattern,
-						$replace,
-						$separator . $orig_basename ),
+					             $replace,
+					             $separator . $orig_basename ),
 					$separator
 				);
 				$meta          = $this->update_meta_sizes_file( $meta,
-					$new_basenames );
+				                                                $new_basenames );
 				$this->update_backup_files( $attachment_id,
-					$backups,
-					$new_basenames );
+				                            $backups,
+				                            $new_basenames );
 			}
 			// Update meta
 			update_post_meta( $attachment_id,
-				'_wp_attachment_metadata',
-				$meta );
+			                  '_wp_attachment_metadata',
+			                  $meta );
 			$guid = path_join( $protected_full_path, $orig_basename );
 			// Set new guid
 			wp_update_post( array( 'ID' => $attachment_id, 'guid' => $guid ) );
@@ -802,16 +813,16 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 		) {
 			$conflict     = true;
 			$number       = 1;
-			$separator    = "#";
+			$separator    = '#';
 			$med_filename = $orig_file_name;
-			$pattern      = "";
-			$replace      = "";
+			$pattern      = '';
+			$replace      = '';
 
 			while ( $conflict ) {
 				$conflict = false;
 				foreach ( $new_basenames as $basename ) {
 					if ( is_file( path_join( $protected_full_path,
-						$basename ) )
+					                         $basename ) )
 					) {
 						$conflict = true;
 						break;
@@ -827,9 +838,9 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 						$separator,
 						ltrim(
 							str_replace( $pattern,
-								$replace,
-								$separator . implode( $separator,
-									$new_basenames ) ),
+							             $replace,
+							             $separator . implode( $separator,
+							                                   $new_basenames ) ),
 							$separator
 						)
 					);
@@ -868,9 +879,9 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 
 			while ( $i -- ) {
 				$old_fullpath = path_join( $old_dir,
-					$unique_old_basenames[ $i ] );
+				                           $unique_old_basenames[ $i ] );
 				$new_fullpath = path_join( $protected_dir,
-					$unique_new_basenames[ $i ] );
+				                           $unique_new_basenames[ $i ] );
 				if ( is_file( $old_fullpath ) ) {
 					rename( $old_fullpath, $new_fullpath );
 
@@ -879,7 +890,7 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 							'rename_failed',
 							sprintf(
 								__( 'Rename failed when trying to move file from: %s, to: %s',
-									'download-monitor' ),
+								    'download-monitor' ),
 								$old_fullpath,
 								$new_fullpath
 							)
@@ -934,9 +945,31 @@ if ( ! class_exists( 'DLM_File_Manager' ) ) {
 					$backups[ $size ]['file'] = $new_backup_sizes[ $i ++ ];
 				}
 				update_post_meta( $attachment_id,
-					'_wp_attachment_backup_sizes',
-					$backups );
+				                  '_wp_attachment_backup_sizes',
+				                  $backups );
 			}
+		}
+
+		/**
+		 * Disallowed WP directories
+		 *
+		 * @return array
+		 * @since 5.0.0
+		 */
+		public function disallowed_wp_directories() {
+			$extra_disallowed_dirs = apply_filters( 'dlm_restricted_admin_folders', array() );
+			$base_disalowed_dirs   = array(
+				'wp-admin',
+				'wp-includes',
+				'mail',
+				'etc',
+			);
+
+			foreach ( $base_disalowed_dirs as $key => $dir ) {
+				$base_disalowed_dirs[ $key ] = DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR;
+			}
+
+			return array_merge( $base_disalowed_dirs, $extra_disallowed_dirs );
 		}
 	}
 }

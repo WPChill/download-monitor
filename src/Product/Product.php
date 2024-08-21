@@ -9,7 +9,12 @@ class DLM_Product {
 	/**
 	 * The store URL
 	 */
-	const STORE_URL = 'https://license.wpchill.com/dlm/';
+	const STORE_URL = 'https://download-monitor.com/';
+
+	/**
+	 * The store URL
+	 */
+	const PRODUCT_DOWNLOAD_URL = 'https://download-monitor.com/';
 
 	/**
 	 * Activation endpoint
@@ -20,6 +25,11 @@ class DLM_Product {
 	 * Activation endpoint
 	 */
 	const ENDPOINT_STATUS_CHECK = 'license_wp_api_status_check';
+
+	/**
+	 * Get Packages endpoint
+	 */
+	const ENDPOINT_GET_PACKAGES = 'get_packages_request';
 
 	/**
 	 * Update endpoint

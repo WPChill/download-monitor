@@ -42,6 +42,11 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function __construct() {
+
+		if ( ! DLM_Admin_Helper::is_dlm_admin_page() ) {
+			return;
+		}
+
 		if ( $this->check_license_validity() ) {
 			return;
 		}
@@ -111,11 +116,11 @@ class DLM_Upsells {
 
 		add_action( 'dlm_tab_upsell_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
 
-		//add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
-
 		add_action( 'dlm_tab_upsell_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
 
 		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
+
+		add_action( 'dlm_tab_upsell_content_license', array( $this, 'license_tab_upsell' ), 15 );
 
 		add_action( 'dlm_tab_upsell_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
 
@@ -132,6 +137,8 @@ class DLM_Upsells {
 		add_action( 'dlm_reports_user_reports', array( $this, 'insights_upsell' ), 99, 2 );
 
 		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) );
+
+		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
 	}
 
@@ -281,7 +288,6 @@ class DLM_Upsells {
 	 */
 	public function check_extension( $extension ) {
 		$extensions = $this->get_extensions();
-
 		if ( empty( $extensions ) || ! in_array( $extension, $extensions ) ) {
 			return false;
 		}
@@ -318,16 +324,6 @@ class DLM_Upsells {
 						),
 						'email_lock'    => array(
 							'title'    => __( 'Email lock', 'download-monitor' ),
-							'sections' => array(),
-							// Need to put sections here for backwards compatibility
-						),
-						'twitter_lock'  => array(
-							'title'    => __( 'Twitter lock', 'download-monitor' ),
-							'sections' => array(),
-							// Need to put sections here for backwards compatibility
-						),
-						'terns_and_conditions'  => array(
-							'title'    => __( 'Terms and Conditions', 'download-monitor' ),
 							'sections' => array(),
 							// Need to put sections here for backwards compatibility
 						),
@@ -479,16 +475,6 @@ class DLM_Upsells {
 			);
 		}
 
-		if ( ! $this->check_extension( 'dlm-twitter-lock' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Twitter lock', 'download-monitor' ),
-				__( 'Allow your users to tweet a pre-defined text before accessing a download.', 'download-monitor' ),
-				'access',
-				'twitter-lock'
-			);
-		}
-
 		if ( ! $this->check_extension( 'dlm-email-lock' ) ) {
 
 			$this->generate_upsell_box(
@@ -552,26 +538,6 @@ class DLM_Upsells {
 	}
 
 	/**
-	 * Settings Terms and conditions tab upsell
-	 *
-	 *
-	 * @since 4.4.5
-	 */
-	public function upsell_tab_section_content_terns_and_conditions() {
-
-		if ( ! $this->check_extension( 'dlm-terms-and-conditions' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Terms and conditions', 'download-monitor' ),
-				__( 'Require your users to accept your terms and conditions before they can download your files.', 'download-monitor' ),
-				'terns_and_conditions',
-				'terms-and-conditions'
-			);
-		}
-
-	}
-
-	/**
 	 * Settings Emails tab upsell
 	 *
 	 *
@@ -598,16 +564,6 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function pages_tab_upsell() {
-
-		if ( ! $this->check_extension( 'dlm-terms-conditions' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Terms & Conditions', 'download-monitor' ),
-				__( 'Easily require your visitors to agree to your terms and conditions before downloading files.', 'download-monitor' ),
-				'pages',
-				'terms-conditions'
-			);
-		}
 
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
@@ -722,24 +678,6 @@ class DLM_Upsells {
 				__( 'The Ninja Forms - content locking extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.', 'download-monitor' ),
 				'ninja_forms',
 				'ninja-forms'
-			);
-		}
-	}
-
-	/**
-	 * Upsell for Twitter Lock sub-tab
-	 *
-	 * @since 4.5.3
-	 */
-	public function upsell_tab_section_content_twitter_lock() {
-
-		if ( ! $this->check_extension( 'dlm-twitter-lock' ) ) {
-
-			$this->generate_upsell_box(
-				__( 'Twitter Lock', 'download-monitor' ),
-				__( 'The Twitter Lock extension for Download Monitor allows you to require users to tweet your pre-defined text before they gain access to a download.', 'download-monitor' ),
-				'gravity_forms',
-				'gravity-forms'
 			);
 		}
 	}
@@ -1163,5 +1101,25 @@ class DLM_Upsells {
 		$this->active_license = $return;
 		// Return the value
 		return $return;
+	}
+
+	/**
+	 * Settings Logging tab upsell
+	 *
+	 *
+	 * @since 5.0.0
+	 */
+	public function license_tab_upsell() {
+
+		if ( ! $this->check_extension( 'dlm-pro' ) ) {
+
+			$this->generate_upsell_box(
+				__( 'DLM PRO', 'download-monitor' ),
+				__( 'Manage license activation and deactivation, and install extensions seamlessly on-the-go.', 'download-monitor' ),
+				'license',
+				'dlm-pro'
+			);
+		}
+
 	}
 }

@@ -16,6 +16,7 @@ function _download_monitor_install( $network_wide = false ) {
 	// Let's delete the extensions transient so that it's refreshed when plugin is installed/activated, this is to ensure
 	// that the extensions list is always up-to-date.
 	delete_transient( 'dlm_extension_json' );
+	delete_transient( 'dlm_pro_extensions' );
 
 	// DLM Installer
 	$installer = new DLM_Installer();
@@ -50,8 +51,6 @@ function _download_monitor_install( $network_wide = false ) {
 		// no multisite so do normal install
 		$installer->install();
 	}
-
-	WP_DLM::handle_plugin_action( 'activate' );
 }
 
 
@@ -130,4 +129,47 @@ function download_monitor_delete_cached_scripts() {
 	if ( function_exists( 'wp_cache_clear_cache' ) ) {
 		wp_cache_clear_cache();
 	}
+}
+
+/**
+ * Check if the Download Monitor tables are installed
+ *
+ * return bool
+ *
+ * @since 5.0.0
+ *
+ */
+function dlm_check_tables() {
+	global $wpdb;
+	$transient = get_transient( 'dlm_tables_check' );
+	if ( get_transient( 'dlm_tables_check' ) ) {
+		return $transient;
+	}
+	$return = true;
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}download_log'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_reports_log'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_downloads'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_cookies'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_cookiemeta'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	$tables = $wpdb->get_results( "SHOW TABLES LIKE '{$wpdb->prefix}dlm_api_keys'" );
+	if ( empty( $tables ) ) {
+		$return = false;
+	}
+	set_transient( 'dlm_tables_check', $return, 30 * DAY_IN_SECONDS );
+	return $return;
 }

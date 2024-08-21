@@ -95,6 +95,10 @@ class DLM_Log_Item {
 	 * @return string
 	 */
 	public function get_user_uuid() {
+		if ( empty( $this->user_uuid ) ) {
+			$this->set_user_uuid( $this->get_user_ip() );
+		}
+
 		return $this->user_uuid;
 	}
 
@@ -181,10 +185,14 @@ class DLM_Log_Item {
 	}
 
 	/**
-	 * @param string $version
+	 * @param  string  $version
 	 */
 	public function set_version( $version ) {
-		$this->version = $version;
+		if ( null === $version ) {
+			$this->version = '';
+		} else {
+			$this->version = $version;
+		}
 	}
 
 	/**
@@ -342,6 +350,7 @@ class DLM_Log_Item {
 				array(
 					'user_id'                 => absint( $this->get_user_id() ),
 					'user_ip'                 => $this->get_user_ip(),
+					'uuid'                    => $this->get_user_uuid(),
 					'user_agent'              => $this->get_user_agent(),
 					'download_id'             => absint( $this->get_download_id() ),
 					'version_id'              => absint( $this->get_version_id() ),
@@ -349,7 +358,7 @@ class DLM_Log_Item {
 					'download_date'           => sanitize_text_field( $download_date ),
 					'download_status'         => $download_status,
 					'download_status_message' => $this->get_download_status_message(),
-					'meta_data'               => $meta_data
+					'meta_data'               => $meta_data,
 				),
 				$this
 			);
@@ -362,6 +371,7 @@ class DLM_Log_Item {
 				'dlm_log_values',
 				array(
 					'%d',
+					'%s',
 					'%s',
 					'%s',
 					'%d',

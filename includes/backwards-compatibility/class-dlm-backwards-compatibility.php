@@ -56,8 +56,6 @@ class DLM_Backwards_Compatibility {
 		add_filter( 'dlm_add_meta_download_count', array( $this, 'add_meta_download_count' ), 30, 2 );
 		// If the DB upgrade functionality did not take place we won't have the option stored.
 		$this->upgrade_option = get_option( 'dlm_db_upgraded' );
-		// Terms and Conditions extension placement inside the settings page.
-		add_filter( 'dlm_settings', array( $this, 'dlm_terms_and_conditions_placement' ), 5, 1 );
 		// Hashes backwards compatibility.
 		$this->hashes_compatibility();
 		// Compatibility mode for X-Sendfile.
@@ -202,10 +200,7 @@ class DLM_Backwards_Compatibility {
 		}
 
 		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id)";
-		/*$join .= "LEFT JOIN
-		( SELECT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE 
-		{$wpdb->postmeta}.meta_key = '_download_count' GROUP BY {$wpdb->postmeta}.post_id ) as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";*/
-		$join .= "LEFT JOIN {$wpdb->postmeta} AS meta_downloads ON ({$wpdb->posts}.ID = meta_downloads.post_id AND meta_downloads.meta_key = '_download_count')";
+		$join .= " LEFT JOIN {$wpdb->postmeta} AS meta_downloads ON ({$wpdb->posts}.ID = meta_downloads.post_id AND meta_downloads.meta_key = '_download_count')";
 
 		return $join;
 	}
@@ -402,38 +397,6 @@ class DLM_Backwards_Compatibility {
 	}
 
 	/**
-	 * Backwards compatibility for Terms and Conditions extension placement inside the settings page.
-	 *
-	 * @param array $settings The settings array.
-	 *
-	 * @return array
-	 *
-	 * @since 4.9.4
-	 */
-	public function dlm_terms_and_conditions_placement( $settings ) {
-		// Set plugin
-		$plugin = 'dlm-terms-and-conditions/dlm-terms-and-conditions.php';
-		// Check if active
-		if ( is_plugin_active( $plugin ) ) {
-			// Get plugin data
-			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
-
-			if ( version_compare( $plugin_data['Version'], '4.1.2', '>' ) ) {
-				unset( $settings['terns_and_conditions'] );
-			} else {
-				$settings['terns_and_conditions'] = array(
-					'title'    => __( 'Terms and Conditions', 'download-monitor' ),
-					'sections' => array(),
-					// Need to put sections here for backwards compatibility
-				);
-				unset( $settings['lead_generation']['sections']['terns_and_conditions'] );
-			}
-		}
-
-		return $settings;
-	}
-
-	/**
 	 * Hashes backwards compatibility.
 	 *
 	 * @return void
@@ -441,6 +404,10 @@ class DLM_Backwards_Compatibility {
 	 * @since 4.9.6
 	 */
 	private function hashes_compatibility() {
+		if ( is_admin() && ! DLM_Admin_Helper::is_dlm_admin_page() ) {
+			return;
+		}
+
 		// Create the used hashes array.
 		$hashes = array( 'md5', 'sha1', 'crc32b', 'sha256' );
 		// Cycle through hash types and add filter if option exists.

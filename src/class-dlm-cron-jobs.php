@@ -20,6 +20,7 @@ class DLM_CRON_Jobs {
 		// Set the weekly interval.
 		add_filter( 'cron_schedules', array( $this, 'create_weekly_cron_schedule' ) );
 		add_action( 'admin_init', array( $this, 'set_weekly_cron_schedule' ) );
+		add_action( 'admin_init', array( $this, 'set_monthly_cron_schedule' ) );
 		add_action( 'dlm_weekly_license', array( $this, 'general_license_validity' ) );
 	}
 
@@ -54,6 +55,12 @@ class DLM_CRON_Jobs {
 			'display'  => __( 'DLM Once Weekly', 'download-monitor' ),
 		);
 
+		// Set dlm_weekly cron schedule.
+		$schedule['dlm_monthly'] = array(
+			'interval' => MONTH_IN_SECONDS,
+			'display'  => __( 'DLM Once Monthly', 'download-monitor' ),
+		);
+
 		return $schedule;
 	}
 
@@ -66,6 +73,17 @@ class DLM_CRON_Jobs {
 
 		if ( ! wp_next_scheduled( 'dlm_weekly_license' ) ) {
 			wp_schedule_event( time(), 'dlm_weekly', 'dlm_weekly_license' );
+		}
+	}
+
+	/**
+	 * Set dlm_monthly cron schedule.
+	 *
+	 * @since 4.9.5
+	 */
+	public function set_monthly_cron_schedule() {
+		if ( ! wp_next_scheduled( 'dlm_monthly_event' ) ) {
+			wp_schedule_event( time(), 'dlm_monthly', 'dlm_monthly_event' );
 		}
 	}
 

@@ -20,6 +20,10 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class Details
 {
+
+	public $tax;
+	public $subtotal;
+
     /**
      * Amount of the subtotal of the items. **Required** if line items are specified. 10 characters max, with support for 2 decimal places.
      *

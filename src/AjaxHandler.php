@@ -22,9 +22,10 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_dlm_settings_lazy_select', array( $this, 'handle_settings_lazy_select' ) );
 		add_action( 'wp_ajax_dlm_dismiss_notice', array( $this, 'dismiss_notice' ) );
 		add_action( 'wp_ajax_dlm_update_file_meta', array( $this, 'save_attachment_meta' ) );
-		add_action( 'wp_ajax_dlm_forgot_license', array( $this, 'forgot_license' ), 15 );
 		// Update the download_column from table download_log from varchar to longtext.
-		add_Action( 'wp_ajax_dlm_update_download_category', array( $this, 'upgrade_download_category' ), 15 );
+		add_action( 'wp_ajax_dlm_update_download_category', array( $this, 'upgrade_download_category' ), 15 );
+		// Action to save the Enable Shop setting.
+		add_action( 'wp_ajax_dlm_enable_shop', array( $this, 'enable_shop' ) );
 	}
 
 	/**
@@ -34,7 +35,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function insert_panel_upload() {
-
 		check_ajax_referer( 'file-upload' );
 
 		// Check user rights
@@ -56,7 +56,7 @@ class DLM_Ajax_Handler {
 			}
 		} else {
 			$data = array(
-				'error' => $attachment_id->get_error_message()
+				'error' => $attachment_id->get_error_message(),
 			);
 			wp_send_json_error( $data );
 		}
@@ -71,7 +71,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function remove_file() {
-
 		check_ajax_referer( 'remove-file', 'security' );
 
 		// Check user rights
@@ -102,7 +101,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function add_file() {
-
 		// check nonce
 		check_ajax_referer( 'add-file', 'security' );
 
@@ -154,7 +152,6 @@ class DLM_Ajax_Handler {
 	 * @return void
 	 */
 	public function list_files() {
-
 		// Check Nonce
 		check_ajax_referer( 'list-files', 'security' );
 
@@ -167,27 +164,35 @@ class DLM_Ajax_Handler {
 			die();
 		}
 
-		// If searched path is not a child of ABSPATH die - prevents directory traversal
-		if ( false === strpos( $_POST['path'], ABSPATH ) ) {
-			die();
+		$path         = sanitize_text_field( wp_unslash( $_POST['path'] ) );
+		$file_manager = download_monitor()->service( 'file_manager' );
+		// Parse file path.
+		list( $file_path, $remote_file, $restriction ) = $file_manager->get_secure_path( $path );
+		// Check if we have a restriction.
+		if ( $restriction ) {
+			echo __( 'You are not allowed in this directory', 'download-monitor' );
+			wp_die();
 		}
 
-		$path = sanitize_text_field( wp_unslash( $_POST['path'] ) );
-
 		// List all files
-		$files = download_monitor()->service( 'file_manager' )->list_files( $path );
-
+		$files           = $file_manager->list_files( $path );
+		$disallowed_dirs = $file_manager->disallowed_wp_directories();
 		foreach ( $files as $found_file ) {
-
+			$allow = true;
 			// Multi-byte-safe pathinfo
-			$file = download_monitor()->service( 'file_manager' )->mb_pathinfo( $found_file['path'] );
-
+			$file = $file_manager->mb_pathinfo( $found_file['path'] );
+			foreach ( $disallowed_dirs as $disallowed_dir ) {
+				if ( strpos( trailingslashit( $file['dirname'] . DIRECTORY_SEPARATOR . $file['basename'] ), $disallowed_dir ) ) {
+					$allow = false;
+					break;
+				}
+			}
+			if ( ! $allow ) {
+				continue;
+			}
 			if ( $found_file['type'] == 'folder' ) {
-
 				echo '<li><a href="#" class="folder" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
-
 			} else {
-
 				$filename  = $file['basename'];
 				$extension = ( empty( $file['extension'] ) ) ? '' : $file['extension'];
 
@@ -199,9 +204,7 @@ class DLM_Ajax_Handler {
 				} // Ignored file types
 
 				echo '<li><a href="#" class="file filetype-' . esc_attr( sanitize_title( $extension ) ) . '" data-path="' . esc_attr( trailingslashit( $file['dirname'] ) ) . esc_attr( $file['basename'] ) . '">' . esc_attr( $file['basename'] ) . '</a></li>';
-
 			}
-
 		}
 
 		die();
@@ -211,7 +214,6 @@ class DLM_Ajax_Handler {
 	 * Handle notice dismissal
 	 */
 	public function dismiss_notice() {
-
 		// check notice
 		if ( ! isset( $_POST['notice'] ) || empty( $_POST['notice'] ) ) {
 			exit;
@@ -234,7 +236,6 @@ class DLM_Ajax_Handler {
 	 * Handle lazy select AJAX calls
 	 */
 	public function handle_settings_lazy_select() {
-
 		// check nonce
 		check_ajax_referer( 'dlm-settings-lazy-select-nonce', 'nonce' );
 
@@ -252,7 +253,6 @@ class DLM_Ajax_Handler {
 		// send options
 		wp_send_json( $options );
 		exit;
-
 	}
 
 
@@ -272,49 +272,11 @@ class DLM_Ajax_Handler {
 		$meta = json_encode(
 			array(
 				'download_id' => absint( $_POST['download_id'] ),
-				'version_id'  => absint( $_POST['version_id'] )
+				'version_id'  => absint( $_POST['version_id'] ),
 			)
 		);
 		update_post_meta( absint( $_POST['file_id'] ), 'dlm_download', $meta );
 		wp_send_json_success();
-	}
-
-	/**
-	 * Forgot license function.
-	 *
-	 * @return void
-	 *
-	 * @since 4.8.0
-	 */
-	public function forgot_license() {
-		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
-		if ( ! isset( $_POST['email'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Email is required', 'download-monitor' ) ) );
-		}
-
-		if ( ! is_email( sanitize_email( wp_unslash( $_POST['email'] ) ) ) ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid email address.', 'download-monitor' ) ) );
-		}
-
-		$store_url = DLM_Product::STORE_URL . '?wc-api=';
-		// Do activate request.
-		$api_request = wp_remote_get(
-			$store_url . 'dlm_forgotten_license_api' . '&' . http_build_query(
-				array(
-					'email' => sanitize_email( wp_unslash( $_POST['email'] ) ),
-				),
-				'',
-				'&'
-			)
-		);
-
-		// Check request.
-		if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
-			wp_send_json_error( array( 'message' => __( 'Could not connect to the license server', 'download-monitor' ) ) );
-		}
-
-		wp_send_json( json_decode( $api_request['body'], true ) );
-		wp_die();
 	}
 
 	/**
@@ -343,5 +305,24 @@ class DLM_Ajax_Handler {
 		} else {
 			wp_send_json_success( array( 'message' => __( 'Column download_category is already updated', 'download-monitor' ) ) );
 		}
+	}
+
+	/**
+	 * Enable Shop function.
+	 *
+	 * @return void
+	 *
+	 * @since 5.0.0
+	 */
+	public function enable_shop() {
+		check_ajax_referer( 'dlm_ajax_nonce', 'nonce' );
+		if ( empty( $_POST['value'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'No data submitted', 'download-monitor' ) ) );
+		}
+
+		$enable_shop = 'true' === sanitize_text_field( wp_unslash( $_POST['value'] ) ) ? '1' : '0';
+
+		update_option( 'dlm_shop_enabled', $enable_shop );
+		wp_send_json_success();
 	}
 }

@@ -15,17 +15,17 @@ abstract class DLM_Utils {
 	 * @since 4.7.75
 	 */
 	private static $tables = array();
+
 	/**
 	 * Get visitor's IP address
 	 *
 	 * @return string
 	 */
 	public static function get_visitor_ip() {
-
 		// Fix for CloudFlare IPs
 		$ip = '';
 
-		if ( isset( $_SERVER['REMOTE_ADDR'] ) ){
+		if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 			$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 		}
 
@@ -52,7 +52,7 @@ abstract class DLM_Utils {
 	 * @return string
 	 */
 	public static function get_visitor_ua() {
-		$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '' ;
+		$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '';
 
 		if ( strlen( $ua ) > 200 ) {
 			$ua = substr( $ua, 0, 199 );
@@ -65,8 +65,9 @@ abstract class DLM_Utils {
 	 * Check if a given ip is in a network (IPv4)
 	 * https://gist.github.com/tott/7684443
 	 *
-	 * @param  string $ip    IP to check in IPv4 format eg. 127.0.0.1
-	 * @param  string $range IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed
+	 * @param  string  $ip     IP to check in IPv4 format eg. 127.0.0.1
+	 * @param  string  $range  IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed
+	 *
 	 * @return boolean true if the ip is in this range / false if not.
 	 */
 	public static function ipv4_in_range( $ip, $range ) {
@@ -75,10 +76,11 @@ abstract class DLM_Utils {
 		}
 
 		list( $range, $netmask ) = explode( '/', $range, 2 );
-		$range_decimal = ip2long( $range );
-		$ip_decimal = ip2long( $ip );
+		$range_decimal    = ip2long( $range );
+		$ip_decimal       = ip2long( $ip );
 		$wildcard_decimal = pow( 2, ( 32 - $netmask ) ) - 1;
-		$netmask_decimal = ~ $wildcard_decimal;
+		$netmask_decimal  = ~$wildcard_decimal;
+
 		return ( ( $ip_decimal & $netmask_decimal ) == ( $range_decimal & $netmask_decimal ) );
 	}
 
@@ -102,8 +104,9 @@ abstract class DLM_Utils {
 	 * Check if a given ip is in a network (IPv6)
 	 * http://stackoverflow.com/questions/7951061/matching-ipv6-address-to-a-cidr-subnet
 	 *
-	 * @param  string $ip    IP to check in IPv6 format eg. 2001:db8::1
-	 * @param  string $range IP/CIDR netmask eg. 2001:db8::/32, also 2001:db8::1 is accepted and /128 assumed
+	 * @param  string  $ip     IP to check in IPv6 format eg. 2001:db8::1
+	 * @param  string  $range  IP/CIDR netmask eg. 2001:db8::/32, also 2001:db8::1 is accepted and /128 assumed
+	 *
 	 * @return boolean true if the ip is in this range / false if not.
 	 */
 	public static function ipv6_in_range( $ip, $range ) {
@@ -116,15 +119,15 @@ abstract class DLM_Utils {
 			$range .= '/128';
 		}
 
-		$ip = inet_pton( $ip );
+		$ip       = inet_pton( $ip );
 		$binaryip = self::inet_to_bits( $ip );
 
 		list( $net, $maskbits ) = explode( '/', $range, 3 );
-		$net = inet_pton( $net );
+		$net       = inet_pton( $net );
 		$binarynet = self::inet_to_bits( $net );
 
 		$ip_net_bits = substr( $binaryip, 0, $maskbits );
-		$net_bits = substr( $binarynet, 0, $maskbits );
+		$net_bits    = substr( $binarynet, 0, $maskbits );
 
 		return ( $ip_net_bits === $net_bits );
 	}
@@ -132,7 +135,7 @@ abstract class DLM_Utils {
 	/**
 	 * Local independent basename
 	 *
-	 * @param string $filepath
+	 * @param  string  $filepath
 	 *
 	 * @return string
 	 */
@@ -143,20 +146,23 @@ abstract class DLM_Utils {
 	/**
 	 * Retrieves the longes common substring from a list of strings
 	 *
-	 * @param array $file_paths
-	 * 
+	 * @param  array  $file_paths
+	 *
 	 * @return string Longest common substring
 	 * @since 4.5.92
 	 */
 	public static function longest_common_path( $file_paths ) {
+		$paths = array();
 
-		$paths     = array();
-
-		for ( $i = 0; $i < count( $file_paths ); $i++ ) {
+		for ( $i = 0; $i < count( $file_paths ); $i ++ ) {
 			$paths[ $i ] = explode( DIRECTORY_SEPARATOR, $file_paths[ $i ] );
 		}
 
 		array_multisort( array_map( 'count', $paths ), SORT_ASC, $paths );
+
+		if ( empty( $paths ) ) {
+			return false;
+		}
 
 		$count        = min( array_map( 'count', $paths ) );
 		$common_parts = array();
@@ -167,7 +173,7 @@ abstract class DLM_Utils {
 
 		// The other 2 scenarios we have are with 2 or 3 paths, where the WP_CONTENT_DIR and ABPSPATH have different paths
 		// Plus the scenario where the user has included another path for the downloads
-		for ( $i = 0; $i < $count; $i++ ) {
+		for ( $i = 0; $i < $count; $i ++ ) {
 			if ( $paths[0][ $i ] === $paths[1][ $i ] ) {
 				$common_parts[] = $paths[0][ $i ];
 			} else {
@@ -183,7 +189,7 @@ abstract class DLM_Utils {
 				return $new_path;
 			} else {
 				$max = count( $common_parts );
-				for ( $i = $max - 1; $i > 0; $i-- ) {
+				for ( $i = $max - 1; $i > 0; $i -- ) {
 					if ( $common_parts[ $i ] !== $paths[2][ $i ] ) {
 						unset( $common_parts[ $i ] );
 					} else {
@@ -194,30 +200,29 @@ abstract class DLM_Utils {
 		}
 
 		return implode( DIRECTORY_SEPARATOR, $common_parts );
-
 	}
 
 	/**
 	 *Check for existing table
 	 *
-	 * @param string $table The table we are checking.
+	 * @param  string  $table  The table we are checking.
 	 *
 	 * @return bool
 	 */
 	public static function table_checker( $table ) {
-
 		if ( empty( self::$tables ) || ! in_array( $table, self::$tables ) ) {
 			global $wpdb;
 			// If exists, return true.
 			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) ) {
-
 				self::$tables[] = $table;
 
 				return true;
 			}
+
 			// Doesn't exist, return false.
 			return false;
 		}
+
 		// Exists in variable, return true.
 		return true;
 	}
@@ -226,26 +231,24 @@ abstract class DLM_Utils {
 	/**
 	 * Check for existing column inside a table
 	 *
-	 * @param string $table_name The table in witch we are checking.
+	 * @param  string  $table_name  The table in witch we are checking.
 	 *
-	 * @param string $col_name The column we are checking for.
+	 * @param  string  $col_name    The column we are checking for.
 	 *
 	 * @return bool
 	 */
 	public static function column_checker( $table_name, $col_name ) {
 		global $wpdb;
-	 
+
 		$diffs   = 0;
 		$results = $wpdb->get_results( "DESC $table_name" );
-	 
+
 		foreach ( $results as $row ) {
-	 
 			if ( $row->Field === $col_name ) {
-	 
 				return true;
 			} // End if found our column.
 		}
-	 
+
 		return false;
 	}
 
@@ -284,7 +287,6 @@ abstract class DLM_Utils {
 		}
 
 		return $return;
-
 	}
 
 	/**
@@ -300,13 +302,12 @@ abstract class DLM_Utils {
 	/**
 	 * Fix for WPML setting language for download links. IF the downloads are made trasnlatable this will need to be deleted.
 	 *
-	 * @param string $home_url Home URL made by WPML.
-	 * @param string $url Original URL.
+	 * @param  string  $home_url  Home URL made by WPML.
+	 * @param  string  $url       Original URL.
 	 *
 	 * @return string $home_url The correct home URL for Download Monitor.
 	 */
 	public static function wpml_download_link( $home_url, $url ) {
-
 		return $url;
 	}
 
@@ -317,14 +318,34 @@ abstract class DLM_Utils {
 	 *
 	 * @since 4.9.6
 	 */
-	public static function no_duplicate_download(): bool {
+	public static function no_duplicate_download()
+	: bool {
 		/**
 		 * Filter to disable the no duplicate download feature
 		 *
-		 * @hook dlm_no_duplicate_download
+		 * @hook  dlm_no_duplicate_download
 		 *
 		 * @since 4.9.4
 		 */
 		return apply_filters( 'dlm_no_duplicate_download', 'production' === wp_get_environment_type() );
+	}
+
+	/**
+	 * Check if a specific meta key exists for a post's meta
+	 *
+	 * @param  array   $post_meta  The post's meta.
+	 * @param  string  $meta_key   The meta key.
+	 *
+	 * @return bool|mixed
+	 * @since 5.0.0
+	 */
+	public static function meta_checker( $post_meta, $meta_key ) {
+		if ( isset( $post_meta[ $meta_key ] ) ) {
+			$array = array_reverse( $post_meta[ $meta_key ] );
+
+			return array_pop( $array );
+		}
+
+		return false;
 	}
 }

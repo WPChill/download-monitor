@@ -16,6 +16,8 @@ namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PayPal\Api;
  */
 class ItemList
 {
+	public $items;
+
     /**
      * List of items.
      *
