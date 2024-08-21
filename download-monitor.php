@@ -8,6 +8,7 @@
 	Author URI: https://wpchill.com
 	Requires at least: 5.5
 	Tested up to: 6.6
+	Requires PHP: 7.4
 	Text Domain: download-monitor
 
 	License: GPL v3

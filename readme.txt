@@ -5,7 +5,7 @@ Requires at least: 5.5
 Tested up to: 6.6
 Stable tag: 5.0.0
 License: GPLv3
-Requires PHP: 5.6
+Requires PHP: 7.6
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads and displaying links.
 
