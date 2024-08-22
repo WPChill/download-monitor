@@ -17,8 +17,6 @@ return array(
     'Symfony\\Component\\String\\' => array($vendorDir . '/symfony/string'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
-    'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
-    'PayPalHttp\\' => array($vendorDir . '/paypal/paypalhttp/lib/PayPalHttp'),
     'League\\MimeTypeDetection\\' => array($vendorDir . '/league/mime-type-detection/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'CoenJacobs\\Mozart\\' => array($vendorDir . '/coenjacobs/mozart/src'),
