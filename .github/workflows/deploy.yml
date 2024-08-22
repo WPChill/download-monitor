@@ -1,37 +1,28 @@
 name: Download Monitor Deploy
 on:
-    push:
-        tags:
-            - '*'
+  push:
+    tags:
+      - "*"
 jobs:
-    tag:
-        name: New tag
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-              with:
-                submodules: 'recursive'
-                token: ${{ secrets.ACCESS_TOKEN }}
+  tag:
+    name: New tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+          token: ${{ secrets.ACCESS_TOKEN }}
 
-            - name: Set up PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '7.4'
-                  tools: composer
-  
-            - name: Install Composer dependencies
-              run: composer install --no-dev --prefer-dist --no-scripts --no-progress
+      - name: Update submodules
+        run: |
+          git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git submodule update --init --recursive
 
-            - name: Update submodules
-              run: |
-                git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
-                git submodule update --init --recursive
-
-            - name: Download Monitor Deploy
-              uses: 10up/action-wordpress-plugin-deploy@stable
-              env:
-                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-                  SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-                  SLUG: download-monitor
-                  DRY_RUN: 'true'
+      - name: Download Monitor Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: download-monitor
+          DRY_RUN: "true"
