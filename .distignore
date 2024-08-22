@@ -1,8 +1,5 @@
 /reg
 /bin
-postcss.config.js
-webpack2.config.js
-webpack.config.js
 /.wordpress-org
 /.husky
 /.git
@@ -12,6 +9,9 @@ webpack.config.js
 /node_modules
 /deploy.sh
 /.idea
+/dummy_data
+/tests
+/tmp
 .DS_Store
 .distignore
 .eslintignore
@@ -24,12 +24,13 @@ package-lock.json
 README.md
 .php-cs-fixer.cache
 SECURITY.md
-/dummy_data
 .codecov.yml
-/tests
 .scrutinizer.yml
 .travis.yml
 composer.json
 composer.lock
 phpunit.xml
 tailwind.config.js
+postcss.config.js
+webpack2.config.js
+webpack.config.js
