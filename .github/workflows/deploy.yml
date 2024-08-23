@@ -28,7 +28,15 @@ jobs:
           git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git submodule update --init --recursive
 
-      - name: Install dependencies
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Install composer dependencies
         run: npm run composer:install
 
       - name: Get version from package.json
