@@ -1,7 +1,7 @@
 {
   "name": "download-monitor",
   "title": "Download Monitor",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
