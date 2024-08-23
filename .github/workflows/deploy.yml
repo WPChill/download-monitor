@@ -37,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Install composer dependencies
-        run: npm run composer:install
+        run: npm run composer:update
 
       - name: Get version from package.json
         id: package-version
