@@ -1,3 +1,6 @@
+= 5.0.5 - 22.08.2024 =
+Fixed: Dev bugfixes
+
 = 5.0.4 - 22.08.2024 =
 Fixed: Dev files included
 
