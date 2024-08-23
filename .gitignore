@@ -20,7 +20,7 @@ download-monitor.zip
 
 
 # Exclude everything in /vendor except our autoload stuff
-# vendor/*
+vendor/*
 # !vendor/composer
 # !vendor/autoload_*
 

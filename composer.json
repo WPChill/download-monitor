@@ -17,11 +17,10 @@
       "includes/"
     ]
   },
-  "require": {
-    "pimple/pimple": "*",
-    "paypal/paypalhttp": "*"
-  },
+  "require": {},
   "require-dev": {
+    "pimple/pimple": "*",
+    "paypal/paypalhttp": "*",
     "coenjacobs/mozart": "^0.7.1"
   },
   "minimum-stability": "dev",
