@@ -6,7 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'DLM_API_Key' => $baseDir . '/src/KeyGeneration/class-dlm-api-key.php',
     'DLM_API_Keys_Table' => $baseDir . '/src/KeyGeneration/admin/class-dlm-api-keys-table.php',
@@ -138,12 +137,6 @@ return array(
     'DLM_WordPress_Version_Repository' => $baseDir . '/src/Version/WordPressVersionRepository.php',
     'DateTimeImmutable' => $baseDir . '/src/Polyfill/DateTimeImmutable/DateTimeImmutable.php',
     'DateTimeInterface' => $baseDir . '/src/Polyfill/DateTimeImmutable/DateTimeInterface.php',
-    'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
-    'Normalizer' => $vendorDir . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
-    'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
-    'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
-    'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
-    'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Curl' => $baseDir . '/src/Dependencies/PayPalHttp/Curl.php',
     'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Encoder' => $baseDir . '/src/Dependencies/PayPalHttp/Encoder.php',
     'WPChill\\DownloadMonitor\\Dependencies\\PayPalHttp\\Environment' => $baseDir . '/src/Dependencies/PayPalHttp/Environment.php',

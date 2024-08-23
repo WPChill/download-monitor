@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 5.5
 Tested up to: 6.6
-Stable tag: 5.0.1
+Stable tag: 5.0.4
 License: GPLv3
 Requires PHP: 7.6
 
@@ -128,7 +128,7 @@ Admin hits are not counted, log out and try again!
 
 == Changelog ==
 
-= 5.0.1 - 22.08.2024 =
+= 5.0.4 - 23.08.2024 =
 Fixed: Dev files included
 
 = 5.0.0 - 21.08.2024 =
