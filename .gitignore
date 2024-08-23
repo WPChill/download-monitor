@@ -20,9 +20,9 @@ download-monitor.zip
 
 
 # Exclude everything in /vendor except our autoload stuff
-vendor/*
-!vendor/composer
-!vendor/autoload_*
+# vendor/*
+# !vendor/composer
+# !vendor/autoload_*
 
 # Ignore all log files except for .htaccess
 /logs/*

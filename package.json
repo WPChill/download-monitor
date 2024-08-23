@@ -1,7 +1,7 @@
 {
   "name": "download-monitor",
   "title": "Download Monitor",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
@@ -31,7 +31,9 @@
     "build": "wp-scripts build ./assets/blocks/src/blocks.js --output-path=./assets/blocks/dist",
     "start": "wp-scripts start ./assets/blocks/src/blocks.js --output-path=./assets/blocks/dist",
     "packages-update": "wp-scripts packages-update",
-    "cypress:open": "./node_modules/.bin/cypress open"
+    "cypress:open": "./node_modules/.bin/cypress open",
+    "composer:install": "composer install && \"vendor/bin/mozart\" compose && composer update --no-dev composer dump-autoload",
+    "composer:update": "composer update && \"vendor/bin/mozart\" compose && composer update --no-dev composer dump-autoload"
   },
   "dependencies": {
     "react-select": "^5.3.2",
