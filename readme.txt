@@ -128,6 +128,9 @@ Admin hits are not counted, log out and try again!
 
 == Changelog ==
 
+= 5.0.5 - 23.08.2024 =
+Fixed: Dev fixes
+
 = 5.0.4 - 23.08.2024 =
 Fixed: Dev files included
 
