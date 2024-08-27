@@ -128,7 +128,7 @@ Admin hits are not counted, log out and try again!
 
 == Changelog ==
 
-= 5.0.7 - 26.08.2024 =
+= 5.0.7 - 27.08.2024 =
 Fixed: Versions order not following menu order ( [#1511](https://github.com/WPChill/download-monitor/issues/1511) )
 Fixed: Undefined variable ( [#1523](https://github.com/WPChill/download-monitor/issues/1523) )
 Fixed: Not logging downloads in some conditions ( [#1522](https://github.com/WPChill/download-monitor/issues/1522) )
