@@ -116,11 +116,8 @@ class DLM_WordPress_Version_Repository implements DLM_Version_Repository {
 	 * @return array<DLM_Download>
 	 */
 	public function retrieve( $filters = array(), $limit = 0, $offset = 0 ) {
-
 		$items = array();
-
-		$q     = new WP_Query();
-		$posts = $q->query( $this->filter_query_args( $filters, $limit, $offset ) );
+		$posts = get_posts( $this->filter_query_args( $filters, $limit, $offset ) );
 
 		if ( count( $posts ) > 0 ) {
 
