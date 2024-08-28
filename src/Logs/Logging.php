@@ -116,15 +116,21 @@ class DLM_Logging {
 	/**
 	 * Check if visitor has downloaded version
 	 *
-	 * @param DLM_Download_Version $version Version object.
+	 * @param mixed $version Version object or version ID.
 	 *
 	 * @return bool
 	 * @since 4.6.0
 	 */
 	public function has_uuid_downloaded_version( $version ) {
 		global $wpdb;
+		// Check if version ID is passed or object
+		if ( is_int( $version ) ) {
+			$version_id = $version;
+		} else {
+			$version_id = $version->get_id();
+		}
 
-		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE `version_id` = %d AND `uuid` = %s AND `download_status` IN ('completed','redirected')", $version->get_id(), DLM_Utils::get_visitor_uuid() ) ) ) > 0 );
+		return ( absint( $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->download_log} WHERE `version_id` = %d AND `uuid` = %s AND `download_status` IN ('completed','redirected')", $version_id, DLM_Utils::get_visitor_uuid() ) ) ) > 0 );
 	}
 
 	/**

@@ -142,10 +142,9 @@ class DLM_WordPress_Log_Item_Repository implements DLM_Log_Item_Repository {
 		global $wpdb;
 		$download_id = $log_item->get_download_id();
 		$version_id  = $log_item->get_version_id();
-		$version     = download_monitor()->service( 'version_manager' )->get_version( $version_id );
 		$url         = $log_item->get_current_url();
 		// Don't count if only unique IPs are counted and the IP has already downloaded the version.
-		if ( $logging->is_count_unique_ips_only() && true === $logging->has_uuid_downloaded_version( $version ) ) {
+		if ( $logging->is_count_unique_ips_only() && true === $logging->has_uuid_downloaded_version( absint( $version_id ) ) ) {
 			return;
 		}
 		// Don't count if in the admin area.

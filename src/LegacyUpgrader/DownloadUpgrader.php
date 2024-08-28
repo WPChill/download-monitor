@@ -247,7 +247,7 @@ class DLM_LU_Download_Upgrader {
 
 		// set title & description
 		$download->set_title( $legacy_download->title );
-		$download->set_description( $legacy_download->file_description );
+		$download->set_description( null === $legacy_download->file_description ? '' : $legacy_download->file_description );
 		$download->set_excerpt( "" );
 
 		// set download options
