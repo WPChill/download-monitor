@@ -128,7 +128,7 @@ Admin hits are not counted, log out and try again!
 
 == Changelog ==
 
-= 5.0.7 - 27.08.2024 =
+= 5.0.8 - 28.08.2024 =
 Fixed: Logging bug in some conditions ( [#1527](https://github.com/WPChill/download-monitor/issues/1527) )
 Fixed: Legacy importer null content bug ( [#1528](https://github.com/WPChill/download-monitor/issues/1528) )
 
