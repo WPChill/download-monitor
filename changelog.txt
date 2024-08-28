@@ -1,4 +1,8 @@
 = 5.0.7 - 27.08.2024 =
+Fixed: Logging bug in some conditions ( [#1527](https://github.com/WPChill/download-monitor/issues/1527) )
+Fixed: Legacy importer null content bug ( [#1528](https://github.com/WPChill/download-monitor/issues/1528) )
+
+= 5.0.7 - 27.08.2024 =
 Fixed: Versions order not following menu order ( [#1511](https://github.com/WPChill/download-monitor/issues/1511) )
 Fixed: Undefined variable ( [#1523](https://github.com/WPChill/download-monitor/issues/1523) )
 Fixed: Not logging downloads in some conditions ( [#1522](https://github.com/WPChill/download-monitor/issues/1522) )
