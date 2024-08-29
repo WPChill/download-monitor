@@ -48,8 +48,21 @@ class DLM_Debug {
 	 * @since 5.0.0
 	 */
 	public function dlm_export_download() {
+		// Check if nonce is set.
+		if ( ! isset( $_GET['nonce'] ) ) {
+			return;
+		}
+		// Check if nonce is valid.
+		if ( ! wp_verify_nonce( $_GET['nonce'], 'dlm_single_download' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			return;
+		}
+		// Check if user has edit permissions.
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
+
 		if ( isset( $_GET['dlm_single_download'] ) ) {
-			// WXR_VERSION is declared here
+			// WXR_VERSION is declared here.
 			require_once ABSPATH . 'wp-admin/includes/export.php';
 
 			$download_id = absint( $_GET['dlm_single_download'] );
@@ -61,7 +74,7 @@ class DLM_Debug {
 			header( 'Content-Type: text/csv' );
 			header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 
-			echo $this->get_csv_string( $download_id );
+			echo $this->get_csv_string( $download_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			die();
 		}
 	}
@@ -384,9 +397,15 @@ class DLM_Debug {
 						echo esc_html__( 'Export the download and send it to Download Monitor\'s support team so that we can debug your problem much easier.', 'download-monitor' ); ?></p>
 					<p>
 						<a href="<?php
-						echo esc_url( add_query_arg( array(
-							                             'dlm_single_download' => absint( get_the_ID() ),
-						                             ) ) ); ?>"
+						echo esc_url(
+							add_query_arg(
+								array(
+									'dlm_single_download' => absint( get_the_ID() ),
+									'nonce'               => wp_create_nonce( 'dlm_single_download' ),
+								)
+							)
+						);
+						?>"
 						   class="button"><?php
 							esc_html_e( 'Export download', 'download-monitor' ) ?></a>
 
