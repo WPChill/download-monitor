@@ -599,11 +599,6 @@ class DLM_Admin_Writepanels {
 				$secured_files       = array();
 				$file_manager        = new DLM_File_Manager();
 
-				foreach ( $files as $file ) {
-					list( $file_path ) = $file_manager->get_secure_path( $file );
-					$secured_files[] = addslashes( $file_path );
-				}
-
 				// only continue if there's a file_id
 				if ( ! $file_id ) {
 					continue;
@@ -630,7 +625,7 @@ class DLM_Admin_Writepanels {
 					$version->set_menu_order( $file_menu_order );
 					$version->set_version( $file_version );
 					$version->set_date( $file_date_obj );
-					$version->set_mirrors( $secured_files );
+					$version->set_mirrors( $files );
 
 					// only set download count if is posted
 					if ( '' !== $file_download_count ) {

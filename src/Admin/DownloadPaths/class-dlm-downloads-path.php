@@ -29,6 +29,11 @@ class DLM_Downloads_Path {
 	 */
 	private $table;
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 5.0.0
+	 */
 	private function __construct() {
 		// Set AJAX hooks.
 		add_action( 'wp_ajax_dlm_update_downloads_path', array( $this, 'update_downloads_path' ) );
