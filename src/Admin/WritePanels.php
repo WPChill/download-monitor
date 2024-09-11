@@ -267,7 +267,10 @@ class DLM_Admin_Writepanels {
 			<?php
 			do_action( 'dlm_download_monitor_files_writepanel_start', $this->download_post ); ?>
 			<?php
-			$versions             = $this->download_post->get_versions();
+			$versions = array();
+			if ( null !== $this->download_post ) {
+				$versions = $this->download_post->get_versions();
+			}
 			$upload_handler_class = ( ! empty( $versions ) ) ? 'hidden' : '';
 			?>
 			<div id="dlm-new-upload" class="<?php
