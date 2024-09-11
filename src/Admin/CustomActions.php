@@ -240,6 +240,7 @@ class DLM_Custom_Actions {
 				<label for="_featured"><input type="checkbox" name="_featured" id="_featured" value="1"/><?php echo esc_html__( 'Featured download', 'download-monitor' ); ?></label>
 				<label for="_members_only"><input type="checkbox" name="_members_only" id="_members_only" value="1"/><?php echo esc_html__( 'Members only', 'download-monitor' ); ?></label>
 				<label for="_redirect_only"><input type="checkbox" name="_redirect_only" id="_redirect_only" value="1"/><?php echo esc_html__( 'Redirect to file', 'download-monitor' ); ?></label>
+				<label for="_dlm_tc_locked"><input type="checkbox" name="_dlm_tc_locked" id="_dlm_tc_locked" value="1"/><?php echo esc_html__( 'Terms & Conditions required', 'download-monitor' ); ?></label>
 				<?php do_action( 'dlm_extra_quick_bulk_fields' ); ?>
 			</div>
 		</fieldset>
@@ -298,6 +299,11 @@ class DLM_Custom_Actions {
 			if ( isset( $_REQUEST['_redirect_only'] ) ) {
 				update_post_meta( $post_id, '_redirect_only', 'yes' );
 			}
+
+			// set terms and conditions locked.
+			if ( isset( $_REQUEST['_dlm_tc_locked'] ) ) {
+				update_post_meta( $post_id, '_dlm_tc_locked', 'yes' );
+			}
 		}
 
 		// handle quick
@@ -328,6 +334,13 @@ class DLM_Custom_Actions {
 				update_post_meta( $post_id, '_redirect_only', 'yes' );
 			} else {
 				update_post_meta( $post_id, '_redirect_only', 'no' );
+			}
+
+			// set terms and conditions.
+			if ( isset( $_REQUEST['_dlm_tc_locked'] ) ) {
+				update_post_meta( $post_id, '_dlm_tc_locked', 'yes' );
+			} else {
+				update_post_meta( $post_id, '_dlm_tc_locked', 'no' );
 			}
 		}
 
