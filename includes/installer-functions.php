@@ -30,7 +30,8 @@ function _download_monitor_install( $network_wide = false ) {
 	if ( is_multisite() && true == $network_wide ) {
 
 		// get websites
-		$sites = wp_get_sites();
+		//$sites = wp_get_sites(); // Deprecated since 4.6.
+		$sites = get_sites();
 
 		// loop
 		if ( count( $sites ) > 0 ) {
