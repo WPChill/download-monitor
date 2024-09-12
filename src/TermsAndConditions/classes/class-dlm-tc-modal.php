@@ -14,7 +14,7 @@ class DLM_TC_Modal {
 
 	public function __construct() {
 
-		add_action( 'wp_footer', array( $this, 'add_footer_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'add_tc_modal_script' ) );
 		add_action( 'wp_ajax_nopriv_dlm_terms_conditions_modal', array( $this, 'xhr_no_access_modal' ), 15 );
 		add_action( 'wp_ajax_dlm_terms_conditions_modal', array( $this, 'xhr_no_access_modal' ), 15 );
 
@@ -26,22 +26,13 @@ class DLM_TC_Modal {
 	 * @return void
 	 * @since 5.0.0
 	 */
-	public function add_footer_scripts() {
+	public function add_tc_modal_script() {
 		// Only add the script if the modal template exists.
 		// Failsafe, in case the Modal template is non-existent, for example prior to DLM 4.9.0
 		if ( ! class_exists( 'DLM_Constants' ) || ! defined( 'DLM_Constants::DLM_MODAL_TEMPLATE' ) ) {
 			return;
 		}
-		?>
-		<script>
-			jQuery(document).on('dlm-xhr-modal-data', function (e, data, headers) {
-				if ('undefined' !== typeof headers['x-dlm-tc-required']) {
-					data['action']             = 'dlm_terms_conditions_modal';
-					data['dlm_modal_response'] = 'true';
-				}
-			});
-		</script>
-		<?php
+		wp_add_inline_script( 'dlm-xhr', 'jQuery(document).on("dlm-xhr-modal-data", function(e, data, headers) { if ("undefined" !== typeof headers["x-dlm-tc-required"]) { data["action"] = "dlm_terms_conditions_modal"; data["dlm_modal_response"] = "true"; } });', 'after' );
 	}
 
 
@@ -94,8 +85,6 @@ class DLM_TC_Modal {
 		// Template handler.
 		$template_handler = new DLM_Template_Handler();
 
-		// enqueue CSS
-		wp_enqueue_style( 'dlm_tc_front', plugins_url( '/assets/css/tailwind' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.css', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ), array(), DLM_VERSION );
 		// enqueue js
 		wp_enqueue_script(
 			'dlm_tc_frontend',
