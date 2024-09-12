@@ -50,7 +50,11 @@ class DLM_Admin_Writepanels {
 		if ( 'post-new.php' !== $pagenow ) {
 			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
 				if ( ! isset( $GLOBALS['dlm_download'] ) ) {
-					$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+					try {
+						$this->download_post = download_monitor()->service( 'download_repository' )->retrieve_single( $post->ID );
+					} catch ( Exception $e ) {
+						$this->download_post = new DLM_Download();
+					}
 				} else {
 					$this->download_post = $GLOBALS['dlm_download'];
 				}
