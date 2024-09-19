@@ -38,15 +38,15 @@ class DLM_Admin_Writepanels {
 	 * @return void
 	 */
 	public function add_meta_boxes() {
-		// We remove the Publish metabox and add to our queue
+		// We remove the Publish metabox and add to our queue.
 		remove_meta_box( 'submitdiv', 'dlm_download', 'side' );
 		global $post;
 
-		if ( 'dlm_download' !== $post->post_type ) {
+		if ( null === $post || 'dlm_download' !== $post->post_type ) {
 			return;
 		}
 		global $pagenow;
-		// If we are not on the new post page, we need to retrieve the download post, else it will trigger Exception
+		// If we are not on the new post page, we need to retrieve the download post, else it will trigger Exception.
 		if ( 'post-new.php' !== $pagenow ) {
 			if ( ! isset( $this->download_post ) || $post->ID !== $this->download_post->get_id() ) {
 				if ( ! isset( $GLOBALS['dlm_download'] ) ) {
@@ -106,7 +106,7 @@ class DLM_Admin_Writepanels {
 			add_meta_box( $metabox['id'], $metabox['title'], $metabox['callback'], $metabox['screen'], $metabox['context'], 'high' );
 		}
 
-		// Excerpt
+		// Excerpt.
 		if ( function_exists( 'wp_editor' ) ) {
 			remove_meta_box( 'postexcerpt', 'dlm_download', 'normal' );
 			add_meta_box(
@@ -128,7 +128,7 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param  WP_Post  $post
+	 * @param  WP_Post $post
 	 *
 	 * @return void
 	 */
@@ -148,28 +148,55 @@ class DLM_Admin_Writepanels {
 			do_action( 'dlm_information_start', $this->download_post->get_id(), $this->download_post );
 			?>
 			<div>
-				<p><?php
-					echo esc_html__( 'ID', 'download-monitor' ); ?> </p>
-				<input type="text" id="dlm-info-id" value="<?php
-				echo esc_attr( $this->download_post->get_id() ); ?>" readonly onfocus="this.select()"/>
-				<a href="#" title="<?php
-				esc_attr_e( 'Copy ID', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Id" style="width:40px;"></a><span></span>
+				<p>
+				<?php
+					echo esc_html__( 'ID', 'download-monitor' );
+				?>
+				</p>
+				<input type="text" id="dlm-info-id" value="
+				<?php
+				echo esc_attr( $this->download_post->get_id() );
+				?>
+				" readonly onfocus="this.select()"/>
+				<a href="#" title="
+				<?php
+				esc_attr_e( 'Copy ID', 'download-monitor' );
+				?>
+				" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Id" style="width:40px;"></a><span></span>
 			</div>
 			<div>
-				<p><?php
-					echo esc_html__( 'URL', 'download-monitor' ); ?></p>
-				<input type="text" id="dlm-info-id" value="<?php
-				echo esc_attr( $this->download_post->get_the_download_link() ); ?>" readonly onfocus="this.select()"/>
-				<a href="#" title="<?php
-				esc_attr_e( 'Copy URL', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Url" style="width:40px;"></a><span></span>
+				<p>
+				<?php
+					echo esc_html__( 'URL', 'download-monitor' );
+				?>
+				</p>
+				<input type="text" id="dlm-info-id" value="
+				<?php
+				echo esc_attr( $this->download_post->get_the_download_link() );
+				?>
+				" readonly onfocus="this.select()"/>
+				<a href="#" title="
+				<?php
+				esc_attr_e( 'Copy URL', 'download-monitor' );
+				?>
+				" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Url" style="width:40px;"></a><span></span>
 			</div>
 			<div>
-				<p><?php
-					echo esc_html__( 'Shortcode', 'download-monitor' ); ?> </p>
-				<input type="text" id="dlm-info-id" value='[download id="<?php
-				echo esc_attr( $this->download_post->get_id() ); ?>"]' readonly onfocus="this.select()"/>
-				<a href="#" title="<?php
-				esc_attr_e( 'Copy shortcode', 'download-monitor' ); ?>" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Shortcode" style="width:40px;"></a><span></span>
+				<p>
+				<?php
+					echo esc_html__( 'Shortcode', 'download-monitor' );
+				?>
+				</p>
+				<input type="text" id="dlm-info-id" value='[download id="
+				<?php
+				echo esc_attr( $this->download_post->get_id() );
+				?>
+				"]' readonly onfocus="this.select()"/>
+				<a href="#" title="
+				<?php
+				esc_attr_e( 'Copy shortcode', 'download-monitor' );
+				?>
+				" class="copy-dlm-button button button-primary dashicons dashicons-format-gallery" data-item="Shortcode" style="width:40px;"></a><span></span>
 			</div>
 			<?php
 			do_action( 'dlm_information_end', $this->download_post->get_id(), $this->download_post );
@@ -185,7 +212,7 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param  WP_Post  $post
+	 * @param  WP_Post $post
 	 *
 	 * @return void
 	 */
@@ -256,20 +283,33 @@ class DLM_Admin_Writepanels {
 		?>
 		<div class="download_monitor_files dlm-metaboxes-wrapper">
 
-			<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="<?php
-			echo esc_attr( $post->ID ); ?>"/>
+			<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="
+			<?php
+			echo esc_attr( $post->ID );
+			?>
+			"/>
 			<input type="hidden" name="dlm_post_id" id="dlm-plugin-url"
-			       value="<?php
-			       echo esc_attr( download_monitor()->get_plugin_url() ); ?>"/>
+					value="
+					<?php
+					echo esc_attr( download_monitor()->get_plugin_url() );
+					?>
+					"/>
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-add-file"
-			       value="<?php
-			       echo esc_attr( wp_create_nonce( 'add-file' ) ); ?>"/>
+					value="
+					<?php
+					echo esc_attr( wp_create_nonce( 'add-file' ) );
+					?>
+					"/>
 			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file"
-			       value="<?php
-			       echo esc_attr( wp_create_nonce( 'remove-file' ) ); ?>"/>
+					value="
+					<?php
+					echo esc_attr( wp_create_nonce( 'remove-file' ) );
+					?>
+					"/>
 
 			<?php
-			do_action( 'dlm_download_monitor_files_writepanel_start', $this->download_post ); ?>
+			do_action( 'dlm_download_monitor_files_writepanel_start', $this->download_post );
+			?>
 			<?php
 			$versions = array();
 			if ( null !== $this->download_post ) {
@@ -277,21 +317,32 @@ class DLM_Admin_Writepanels {
 			}
 			$upload_handler_class = ( ! empty( $versions ) ) ? 'hidden' : '';
 			?>
-			<div id="dlm-new-upload" class="<?php
-			echo esc_attr( $upload_handler_class ); ?>">
+			<div id="dlm-new-upload" class="
+			<?php
+			echo esc_attr( $upload_handler_class );
+			?>
+			">
 				<div class="dlm-uploading-file hidden">
-					<label><?php
-						esc_html_e( 'Uploading file:', 'download-monitor' ) ?>
+					<label>
+					<?php
+						esc_html_e( 'Uploading file:', 'download-monitor' )
+					?>
 						<span></span></label>
-					<label class="dlm-file-uploaded hidden"><?php
-						esc_html_e( 'File uploaded.', 'download-monitor' ) ?></label>
+					<label class="dlm-file-uploaded hidden">
+					<?php
+						esc_html_e( 'File uploaded.', 'download-monitor' )
+					?>
+					</label>
 					<div class="dlm-uploading-progress-bar"></div>
 				</div>
 				<div id="plupload-upload-ui" class="hide-if-no-js drag-drop">
 					<div id="drag-drop-area" style="position: relative;">
 						<div class="drag-drop-inside">
-							<p class="drag-drop-info" style="letter-spacing: 1px;font-size: 10pt"><?php
-								esc_html_e( 'Drag & Drop here to create a new version', 'download-monitor' ); ?></p>
+							<p class="drag-drop-info" style="letter-spacing: 1px;font-size: 10pt">
+							<?php
+								esc_html_e( 'Drag & Drop here to create a new version', 'download-monitor' );
+							?>
+							</p>
 							<p>
 							</p>
 							<p>— or —</p>
@@ -339,15 +390,24 @@ class DLM_Admin_Writepanels {
 					</div>
 				</div>
 			</div>
-			<div class="dlm-metaboxes dlm-versions-tab" <?php
-			echo( ! empty( $versions ) ? '' : 'style="display:none;"' ); ?>>
+			<div class="dlm-metaboxes dlm-versions-tab" 
+			<?php
+			echo( ! empty( $versions ) ? '' : 'style="display:none;"' );
+			?>
+			>
 				<p>
-					<strong><?php
-						echo sprintf( wp_kses_post( 'Your version(s) <span class="dlm-versions-number">( %s )</span>', 'download-monitor' ), ( ! empty( $versions ) ? count( $versions ) : 1 ) ); ?></strong>
+					<strong>
+					<?php
+						printf( wp_kses_post( 'Your version(s) <span class="dlm-versions-number">( %s )</span>', 'download-monitor' ), ( ! empty( $versions ) ? count( $versions ) : 1 ) );
+					?>
+					</strong>
 				</p>
 				<p class="toolbar">
-					<a href="#" class="button plus add_file"><?php
-						echo esc_html__( 'Add file', 'download-monitor' ); ?></a>
+					<a href="#" class="button plus add_file">
+					<?php
+						echo esc_html__( 'Add file', 'download-monitor' );
+					?>
+					</a>
 				</p>
 			</div>
 			<div class="dlm-metaboxes downloadable_files">
@@ -361,7 +421,7 @@ class DLM_Admin_Writepanels {
 
 					/** @var DLM_Download_Version $version */
 					foreach ( $versions as $version ) {
-						$i ++;
+						++$i;
 						$paths = array_merge( $paths, $version->get_mirrors() );
 						download_monitor()->service( 'view_manager' )->display(
 							'meta-box/version',
@@ -407,16 +467,21 @@ class DLM_Admin_Writepanels {
 					$html = '';
 					// Default notice to be shown.
 					$notice = sprintf(
-						esc_html__( 'You\'re trying to serve files from your server that are not in the enabled allowed paths. If you want to learn more about this, %sclick here%s', 'download-monitor' ),
+						esc_html__( 'You\'re trying to serve files from your server that are not in the enabled allowed paths. If you want to learn more about this, %1$sclick here%2$s', 'download-monitor' ),
 						'<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
-						'</a>' );
+						'</a>'
+					);
 					if ( is_multisite() ) {
 						// Notice to be shown if the installation is a multisite.
 						$notice = sprintf(
-							esc_html__( 'You\'re trying to serve files from your server that are not in the enabled allowed paths. Please contact the network administrator to add or enable the path(s) for your website. 
-			     If you want to learn more about this, %sclick here%s', 'download-monitor' ),
+							esc_html__(
+								'You\'re trying to serve files from your server that are not in the enabled allowed paths. Please contact the network administrator to add or enable the path(s) for your website. 
+                 If you want to learn more about this, %1$sclick here%2$s',
+								'download-monitor'
+							),
 							'<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
-							'</a>' );
+							'</a>'
+						);
 					}
 					// Cycle through new paths and display them.
 					foreach ( $new_paths as $new_path ) {
@@ -430,21 +495,21 @@ class DLM_Admin_Writepanels {
 						// If it is a multisite installation, only the network admin can add paths.
 						if ( is_multisite() ) {
 							$html .= '<p class="dlm-restricted-path__recommended_allowed_path" >'
-							         . esc_html__( 'Recommended path:', 'download-monitor' ) .
-							         ' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;</p>';
+									. esc_html__( 'Recommended path:', 'download-monitor' ) .
+									' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;</p>';
 						} else {
 							$html .= '<p class="dlm-restricted-path__recommended_allowed_path" >';
 							// If the path is not in the allowed paths display a button to add it.
 							if ( ! $exists ) {
 								$html .= esc_html__( 'Recommended path:', 'download-monitor' ) .
-								         ' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-add-recommended-path" data-path="' . esc_attr( $new_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
-								         esc_html__( 'Add path', 'download-monitor' ) . '</button></p>';
+										' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-add-recommended-path" data-path="' . esc_attr( $new_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
+										esc_html__( 'Add path', 'download-monitor' ) . '</button></p>';
 								$html .= '<p class="dlm-restricted-path__description">';
 								$html .= esc_html__( 'This will add the download path to the "Approved Download Path" list. ', 'download-monitor' );
 							} else { // If the path is in the allowed paths but is disabled display a button to enable it.
 								$html .= esc_html__( 'Path:', 'download-monitor' ) .
-								         ' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-enable-path" data-path="' . esc_attr( $new_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
-								         esc_html__( 'Enable path', 'download-monitor' ) . '</button></p>';
+										' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;<button class="button button-primary" id="dlm-enable-path" data-path="' . esc_attr( $new_path ) . '" data-security="' . wp_create_nonce( 'dlm-ajax-nonce' ) . '">' .
+										esc_html__( 'Enable path', 'download-monitor' ) . '</button></p>';
 								$html .= '<p class="dlm-restricted-path__description">';
 								$html .= esc_html__( 'This will enable the download path from the "Approved Download Path" list. ', 'download-monitor' );
 							}
@@ -460,7 +525,8 @@ class DLM_Admin_Writepanels {
 			}
 			?>
 			<?php
-			do_action( 'dlm_download_monitor_files_writepanel_end', $this->download_post ); ?>
+			do_action( 'dlm_download_monitor_files_writepanel_end', $this->download_post );
+			?>
 
 		</div>
 		<?php
@@ -471,7 +537,7 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param  WP_Post  $post
+	 * @param  WP_Post $post
 	 *
 	 * @return void
 	 */
@@ -495,8 +561,8 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param  int      $post_id
-	 * @param  WP_Post  $post
+	 * @param  int     $post_id
+	 * @param  WP_Post $post
 	 *
 	 * @return void
 	 */
@@ -536,8 +602,8 @@ class DLM_Admin_Writepanels {
 	 *
 	 * @access public
 	 *
-	 * @param  int      $post_id
-	 * @param  WP_Post  $post
+	 * @param  int     $post_id
+	 * @param  WP_Post $post
 	 *
 	 * @return void
 	 */
