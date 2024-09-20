@@ -154,7 +154,7 @@ class DLM_Admin_Writepanels {
 				?>
 				</p>
 				<?php
-				echo '<input type="text" id="dlm-info-id" value="'. esc_attr( $this->download_post->get_id() ) . '" readonly onfocus="this.select()"/>';
+				echo '<input type="text" id="dlm-info-id" value="' . esc_attr( $this->download_post->get_id() ) . '" readonly onfocus="this.select()"/>';
 				?>
 				<a href="#" title="
 				<?php
@@ -252,7 +252,7 @@ class DLM_Admin_Writepanels {
 	}
 
 	/**
-	 * download_files function.
+	 * Downloadable Files metabox content.
 	 *
 	 * @access public
 	 * @return void
@@ -276,32 +276,12 @@ class DLM_Admin_Writepanels {
 		wp_nonce_field( 'save_meta_data', 'dlm_nonce' );
 		?>
 		<div class="download_monitor_files dlm-metaboxes-wrapper">
-
-			<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="
 			<?php
-			echo esc_attr( $post->ID );
-			?>
-			"/>
-			<input type="hidden" name="dlm_post_id" id="dlm-plugin-url"
-					value="
-					<?php
-					echo esc_attr( download_monitor()->get_plugin_url() );
-					?>
-					"/>
-			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-add-file"
-					value="
-					<?php
-					echo esc_attr( wp_create_nonce( 'add-file' ) );
-					?>
-					"/>
-			<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file"
-					value="
-					<?php
-					echo esc_attr( wp_create_nonce( 'remove-file' ) );
-					?>
-					"/>
+			echo '<input type="hidden" name="dlm_post_id" id="dlm-post-id" value="' . esc_attr( $post->ID ) . '"/>';
+			echo '<input type="hidden" name="dlm_post_id" id="dlm-plugin-url" value="' . esc_attr( download_monitor()->get_plugin_url() ) . '"/>';
+			echo '<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-add-file" value="' . esc_attr( wp_create_nonce( 'add-file' ) ) . '"/>';
+			echo '<input type="hidden" name="dlm_post_id" id="dlm-ajax-nonce-remove-file" value="' . esc_attr( wp_create_nonce( 'remove-file' ) ) . '"/>';
 
-			<?php
 			do_action( 'dlm_download_monitor_files_writepanel_start', $this->download_post );
 			?>
 			<?php
