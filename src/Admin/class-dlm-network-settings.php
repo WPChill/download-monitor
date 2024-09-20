@@ -324,9 +324,18 @@ class DLM_Network_Settings {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$submitted    = sanitize_text_field( wp_unslash( $_GET['submitted-url'] ?? '' ) );
 		$default_path = ABSPATH;
+		$site_id 	  =  get_current_blog_id();
 		// Default path change if multisite.
 		if ( is_multisite() ) {
-			$default_path = WP_CONTENT_DIR . '/uploads/sites/' . get_current_blog_id();
+			// Get the uploads path and URL.
+			$uploads_dir = wp_upload_dir();
+			// We need the path.
+			$uploads_path = $uploads_dir['basedir'];
+			if ( is_main_site( $site_id ) ) {
+				$default_path = $uploads_path;
+			} else {
+				$default_path = $uploads_path . '/sites/' . $site_id;
+			}
 		}
 
 		$existing_url = $existing ? $existing['path_val'] : $default_path;

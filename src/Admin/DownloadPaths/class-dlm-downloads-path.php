@@ -108,12 +108,20 @@ class DLM_Downloads_Path {
 			register_setting( 'dlm_advanced_download_path', 'dlm_network_settings', $multi_args );
 
 			$site_id = get_current_blog_id();
-			$uploads = WP_CONTENT_DIR . '/uploads/sites/' . $site_id;
+			// Get the uploads path and URL.
+			$uploads_dir = wp_upload_dir();
+			// We need the path.
+			$uploads_path = $uploads_dir['basedir'];
 			if ( ! empty( $_GET['id'] ) && ! empty( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
 				$site_id = absint( $_GET['id'] );
-				// Create the uploads path for the site.
-				$uploads = WP_CONTENT_DIR . '/uploads/sites/' . $site_id;
 			}
+
+			if ( is_main_site( $site_id ) ) {
+				$uploads = $uploads_path;
+			} else {
+				$uploads = $uploads_path . '/sites/' . $site_id;
+			}
+			// Set the default value.
 			$default = array(
 				array(
 					'id'       => 2,

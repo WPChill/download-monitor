@@ -153,11 +153,9 @@ class DLM_Admin_Writepanels {
 					echo esc_html__( 'ID', 'download-monitor' );
 				?>
 				</p>
-				<input type="text" id="dlm-info-id" value="
 				<?php
-				echo esc_attr( $this->download_post->get_id() );
+				echo '<input type="text" id="dlm-info-id" value="'. esc_attr( $this->download_post->get_id() ) . '" readonly onfocus="this.select()"/>';
 				?>
-				" readonly onfocus="this.select()"/>
 				<a href="#" title="
 				<?php
 				esc_attr_e( 'Copy ID', 'download-monitor' );
@@ -170,11 +168,9 @@ class DLM_Admin_Writepanels {
 					echo esc_html__( 'URL', 'download-monitor' );
 				?>
 				</p>
-				<input type="text" id="dlm-info-id" value="
 				<?php
-				echo esc_attr( $this->download_post->get_the_download_link() );
+				echo '<input type="text" id="dlm-info-id" value="' . esc_attr( $this->download_post->get_the_download_link() ) . '" readonly onfocus="this.select()"/>';
 				?>
-				" readonly onfocus="this.select()"/>
 				<a href="#" title="
 				<?php
 				esc_attr_e( 'Copy URL', 'download-monitor' );
@@ -187,11 +183,9 @@ class DLM_Admin_Writepanels {
 					echo esc_html__( 'Shortcode', 'download-monitor' );
 				?>
 				</p>
-				<input type="text" id="dlm-info-id" value='[download id="
 				<?php
-				echo esc_attr( $this->download_post->get_id() );
+				echo '<input type="text" id="dlm-info-id" value=\'[download id="' . esc_attr( $this->download_post->get_id() ) . '"]\' readonly onfocus="this.select()"/>';
 				?>
-				"]' readonly onfocus="this.select()"/>
 				<a href="#" title="
 				<?php
 				esc_attr_e( 'Copy shortcode', 'download-monitor' );
