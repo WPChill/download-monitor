@@ -127,6 +127,9 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.10 - 23.0.2024 =
+Fixed: Check user capability when enabling Shop ( thanks to @truonghuuphuc for reporting )
+
 = 5.0.9 - 29.08.2024 =
 Fixed: Security update when exporting single Download CPT
 

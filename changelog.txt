@@ -1,3 +1,6 @@
+= 5.0.10 - 23.0.2024 =
+Fixed: Check user capability when enabling Shop ( thanks to @truonghuuphuc for reporting )
+
 = 5.0.9 - 29.08.2024 =
 Fixed: Security update when exporting single Download CPT
 
