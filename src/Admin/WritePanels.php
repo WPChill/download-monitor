@@ -24,7 +24,7 @@ class DLM_Admin_Writepanels {
 	 * @access public
 	 */
 	public function __construct() {
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 15 );
+		add_action( 'add_meta_boxes_dlm_download', array( $this, 'add_meta_boxes' ), 15 );
 		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
 		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_boxes' ), 1, 2 );
 		add_action( 'wp_ajax_dlm_upload_file', array( $this, 'upload_file' ) );
@@ -32,19 +32,16 @@ class DLM_Admin_Writepanels {
 	}
 
 	/**
-	 * add_meta_boxes function.
+	 * Add meta boxes.
+	 * 
+	 * @param WP_Post $post The post object.
 	 *
 	 * @access public
 	 * @return void
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes( $post ) {
 		// We remove the Publish metabox and add to our queue.
 		remove_meta_box( 'submitdiv', 'dlm_download', 'side' );
-		global $post;
-
-		if ( null === $post || 'dlm_download' !== $post->post_type ) {
-			return;
-		}
 		global $pagenow;
 		// If we are not on the new post page, we need to retrieve the download post, else it will trigger Exception.
 		if ( 'post-new.php' !== $pagenow ) {
@@ -102,7 +99,7 @@ class DLM_Admin_Writepanels {
 		uasort( $meta_boxes, array( 'DLM_Admin_Helper', 'sort_data_by_priority' ) );
 
 		foreach ( $meta_boxes as $metabox ) {
-			// Priority is left out as we prioritise based on our sorting function
+			// Priority is left out as we prioritise based on our sorting function.
 			add_meta_box( $metabox['id'], $metabox['title'], $metabox['callback'], $metabox['screen'], $metabox['context'], 'high' );
 		}
 
