@@ -110,7 +110,6 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 *
 	 * @return array
 	 * @since 5.0.0
-	 *
 	 */
 	public function get_columns() {
 		return array(
@@ -123,18 +122,17 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	/**
 	 * Default columns
 	 *
-	 * @param  array   $item         The current item.
-	 * @param  string  $column_name  The current column name.
+	 * @param  array  $item         The current item.
+	 * @param  string $column_name  The current column name.
 	 *
 	 * @since 5.0.0
-	 *
 	 */
 	public function column_default( $item, $column_name ) {
 		$html = '';
 		switch ( $column_name ) {
 			case 'path_val':
-				$id      = (int) $item['id'];
-				$url     = esc_html( $item['path_val'] );
+				$id  = (int) $item['id'];
+				$url = esc_html( $item['path_val'] );
 
 				$edit_url            = esc_url( $this->get_action_url( 'edit', $id ) );
 				$enable_disable_url  = esc_url( $item['enabled'] ? $this->get_action_url( 'disable', $id ) : $this->get_action_url( 'enable', $id ) );
@@ -168,11 +166,10 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	/**
 	 * Checklist column, used for selecting items for processing by a bulk action.
 	 *
-	 * @param  array  $item  The approved directory information for the current row.
+	 * @param  array $item  The approved directory information for the current row.
 	 *
 	 * @return string
 	 * @since 5.0.0
-	 *
 	 */
 	public function column_cb( $item ) {
 		return sprintf( '<input type="checkbox" name="%1$s[]" value="%2$s" />', esc_attr( $this->_args['singular'] ), esc_attr( $item['id'] ) );
@@ -183,7 +180,6 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 *
 	 * @return array
 	 * @since 5.0.0
-	 *
 	 */
 	protected function get_bulk_actions() {
 		return array(
@@ -196,13 +192,12 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	/**
 	 * Builds an action URL (ie, to edit or delete a row).
 	 *
-	 * @param  string  $action        The action to be created.
-	 * @param  int     $id            The ID that is the subject of the action.
-	 * @param  string  $nonce_action  Action used to add a nonce to the URL.
+	 * @param  string $action        The action to be created.
+	 * @param  int    $id            The ID that is the subject of the action.
+	 * @param  string $nonce_action  Action used to add a nonce to the URL.
 	 *
 	 * @return string
 	 * @since 5.0.0
-	 *
 	 */
 	public function get_action_url( string $action, int $id, string $nonce_action = 'modify_approved_directories' ) {
 		$params = array(
@@ -223,10 +218,9 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 * Generate the table navigation above or below the table.
 	 * Included to remove extra nonce input.
 	 *
-	 * @param  string  $which  The location of the extra table nav markup: 'top' or 'bottom'.
+	 * @param  string $which  The location of the extra table nav markup: 'top' or 'bottom'.
 	 *
 	 * @since 5.0.0
-	 *
 	 */
 	protected function display_tablenav( $which ) {
 		echo '<div class="tablenav ' . esc_attr( $which ) . '">';
@@ -257,7 +251,7 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 */
 	public function prepare_items( $defined_paths = array() ) {
 		global $_wp_column_headers;
-		$screen                            = get_current_screen();
+		$screen = get_current_screen();
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		$current_page = $this->get_pagenum();
@@ -318,7 +312,7 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 		// Set the columns.
 		$columns                           = $this->get_columns();
 		$_wp_column_headers[ $screen->id ] = $columns;
-		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
+		$this->_column_headers             = array( $this->get_columns(), array(), $this->get_sortable_columns() );
 	}
 
 	/**
@@ -326,7 +320,6 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 	 *
 	 * @return string Name of the default primary column, in this case, 'title'.
 	 * @since 5.0.0
-	 *
 	 */
 	protected function get_default_primary_column_name() {
 		return 'cb';
@@ -405,9 +398,9 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 		}
 
 		echo '<label for="bulk-action-selector-' . esc_attr( $which ) . '" class="screen-reader-text">' .
-		     /* translators: Hidden accessibility text. */
-		     __( 'Select bulk action' ) .
-		     '</label>';
+			/* translators: Hidden accessibility text. */
+			__( 'Select bulk action' ) .
+			'</label>';
 		echo '<select name="bulk-action' . $two . '" id="bulk-action-selector-' . esc_attr( $which ) . "\">\n";
 		echo '<option value="-1">' . __( 'Bulk actions' ) . "</option>\n";
 
