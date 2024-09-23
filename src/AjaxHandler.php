@@ -319,6 +319,10 @@ class DLM_Ajax_Handler {
 		if ( empty( $_POST['value'] ) ) {
 			wp_send_json_error( array( 'message' => __( 'No data submitted', 'download-monitor' ) ) );
 		}
+		// Check if the user has rights.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do this', 'download-monitor' ) ) );
+		}
 
 		$enable_shop = 'true' === sanitize_text_field( wp_unslash( $_POST['value'] ) ) ? '1' : '0';
 
