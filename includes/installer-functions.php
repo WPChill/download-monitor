@@ -38,7 +38,7 @@ function _download_monitor_install( $network_wide = false ) {
 			foreach ( $sites as $site ) {
 
 				// switch to blog
-				switch_to_blog( $site['blog_id'] );
+				switch_to_blog( $site->blog_id );
 
 				// run installer on blog
 				$installer->install();
