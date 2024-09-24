@@ -25,7 +25,8 @@ jQuery(document).ready(function($) {
     });
 
 
-    $(document).on('click', '.dlm-keygen-generate', function() {
+    $(document).on('click', '.dlm-keygen-generate', function(e) {
+        e.preventDefault();
         user_id = $(this).parent().find( '.dlm-keygen-user-select').val();
 
         $.ajax({
