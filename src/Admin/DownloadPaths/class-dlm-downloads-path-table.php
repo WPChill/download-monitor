@@ -2,13 +2,18 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-} // Exit if accessed directly
+} // Exit if accessed directly.
 
-// Include the WP_List_Table class
+// Include the WP_List_Table class.
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
+/**
+ * Class DLM_Downloads_Path_Table
+ *
+ * Table class for displaying the list of approved download paths.
+ */
 class DLM_Downloads_Path_Table extends WP_List_Table {
 	/**
 	 * Initialize the webhook table list.
@@ -401,7 +406,7 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 			/* translators: Hidden accessibility text. */
 			__( 'Select bulk action' ) .
 			'</label>';
-		echo '<select name="bulk-action' . $two . '" id="bulk-action-selector-' . esc_attr( $which ) . "\">\n";
+		echo '<select name="bulk-action' . esc_attr( $two ) . '" id="bulk-action-selector-' . esc_attr( $which ) . "\">\n";
 		echo '<option value="-1">' . __( 'Bulk actions' ) . "</option>\n";
 
 		foreach ( $this->_actions as $key => $value ) {
@@ -411,13 +416,13 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 				foreach ( $value as $name => $title ) {
 					$class = ( 'edit' === $name ) ? ' class="hide-if-no-js"' : '';
 
-					echo "\t\t" . '<option value="' . esc_attr( $name ) . '"' . $class . '>' . $title . "</option>\n";
+					echo "\t\t" . '<option value="' . esc_attr( $name ) . '"' . $class . '>' . esc_html( $title ) . "</option>\n";
 				}
 				echo "\t" . "</optgroup>\n";
 			} else {
 				$class = ( 'edit' === $key ) ? ' class="hide-if-no-js"' : '';
 
-				echo "\t" . '<option value="' . esc_attr( $key ) . '"' . $class . '>' . $value . "</option>\n";
+				echo "\t" . '<option value="' . esc_attr( $key ) . '"' . $class . '>' . esc_html( $value ) . "</option>\n";
 			}
 		}
 

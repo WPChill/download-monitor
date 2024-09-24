@@ -1,4 +1,10 @@
 <?php
+/**
+ * This file contains the DLM_Downloads_Path class which handles the download paths.
+ *
+ * @package DownloadMonitor
+ * @since 5.0.0
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -29,6 +35,11 @@ class DLM_Downloads_Path {
 	 */
 	private $table;
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 5.0.0
+	 */
 	private function __construct() {
 		// Set AJAX hooks.
 		add_action( 'wp_ajax_dlm_update_downloads_path', array( $this, 'update_downloads_path' ) );
@@ -93,6 +104,7 @@ class DLM_Downloads_Path {
 	 */
 	public function register_setting() {
 		// Register the setting for multisite.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( is_multisite() ) {
 			$multi_args = array(
 				'type'    => 'array',
@@ -110,7 +122,7 @@ class DLM_Downloads_Path {
 			if ( ! empty( $_GET['id'] ) && ! empty( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
 				$site_id = absint( $_GET['id'] );
 			}
-
+			// phpcs:enable
 			if ( is_main_site( $site_id ) ) {
 				$uploads = $uploads_path;
 			} else {
@@ -252,7 +264,6 @@ class DLM_Downloads_Path {
 		$existing_url = $existing ? $existing['path_val'] : ABSPATH;
 		$enabled      = $existing && $existing['enabled'];
 		// phpcs:enable
-
 		?>
 		<h2 class='wc-table-list-header'>
 			<?php
@@ -261,11 +272,7 @@ class DLM_Downloads_Path {
 			<?php
 			if ( $existing ) :
 				?>
-				<a href="
-				<?php
-				echo esc_url( $this->table->get_action_url( 'edit', 0 ) );
-				?>
-				" class="page-title-action">
+				<a href="<?php echo esc_url( $this->table->get_action_url( 'edit', 0 ) ); ?>" class="page-title-action">
 				<?php
 					esc_html_e( 'Add New', 'download-monitor' );
 				?>
@@ -273,11 +280,7 @@ class DLM_Downloads_Path {
 				<?php
 			endif;
 			?>
-			<a href="
-			<?php
-			echo esc_url( DLM_Downloads_Path_Helper::get_base_url() );
-			?>
-			" class="page-title-action">
+			<a href="<?php echo esc_url( DLM_Downloads_Path_Helper::get_base_url() ); ?>" class="page-title-action">
 			<?php
 				esc_html_e( 'Cancel', 'download-monitor' );
 			?>
@@ -294,18 +297,11 @@ class DLM_Downloads_Path {
 					</label>
 				</th>
 				<td class='forminp'>
-					<input name='dlm_allowed_paths' id='dlm_allowed_paths' type='text' class='input-text regular-input large-text' value='
-					<?php
-					echo esc_attr( empty( $submitted ) ? $existing_url : $submitted );
-					?>
-					' placeholder="
-					<?php
-					echo esc_attr( ABSPATH );
-					?>
-					">
+					<input name='dlm_allowed_paths' id='dlm_allowed_paths' type='text' class='input-text regular-input large-text' value='<?php echo esc_attr( empty( $submitted ) ? $existing_url : $submitted ); ?>' placeholder="<?php echo esc_attr( ABSPATH ); ?>">
 					<p class='description'>
 					<?php
-						printf( __( 'WordPress installation directory is <code>%s</code>', 'download-monitor' ), esc_html( ABSPATH ) );
+						// translators: %s: WordPress installation directory path.
+						printf( wp_kses_post( __( 'WordPress installation directory is <code>%s</code>', 'download-monitor' ) ), esc_html( ABSPATH ) );
 					?>
 					</p>
 				</td>
@@ -319,20 +315,12 @@ class DLM_Downloads_Path {
 					</label>
 				</th>
 				<td class='forminp'>
-					<input name='dlm_downloads_path_enabled' id='dlm_downloads_path_enabled' type='checkbox' value='1' 
-					<?php
-					checked( true, $enabled );
-					?>
-					>
+					<input name='dlm_downloads_path_enabled' id='dlm_downloads_path_enabled' type='checkbox' value='1' <?php checked( true, $enabled ); ?>>
 				</td>
 			</tr>
 			</tbody>
 		</table>
-		<input name='id' type='hidden' value='
-		<?php
-		echo esc_attr( $url_id );
-		?>
-		'>
+		<input name='id' type='hidden' value='<?php echo esc_attr( $url_id ); ?>'>
 		<input name='path_action' type='hidden' value='edit'>
 		<?php
 	}
@@ -356,7 +344,7 @@ class DLM_Downloads_Path {
 		if ( ! $this->check_access() ) {
 			return $old_value;
 		}
-
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		$enable = isset( $_POST['dlm_downloads_path_enabled'] ) && '1' === $_POST['dlm_downloads_path_enabled'] ? true : false;
 		// If there were no previous values, then we are adding a new path.
 		if ( empty( $old_value ) ) {
@@ -414,7 +402,7 @@ class DLM_Downloads_Path {
 				}
 			}
 		}
-
+		// phpcs:enable
 		return $value;
 	}
 
@@ -435,6 +423,7 @@ class DLM_Downloads_Path {
 
 		$change = false;
 		$check  = false;
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		// The check is different for multisite, as the page is different.
 		if ( is_multisite() ) {
 			$check = isset( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'];
@@ -456,7 +445,7 @@ class DLM_Downloads_Path {
 				switch ( $action ) {
 					case 'enable':
 						foreach ( $paths as $key => $path ) {
-							if ( $path['id'] == absint( $_GET['url'] ) ) {
+							if ( absint( $path['id'] ) === absint( $_GET['url'] ) ) {
 								$paths[ $key ]['enabled'] = true;
 								$change                   = true;
 								break;
@@ -465,7 +454,7 @@ class DLM_Downloads_Path {
 						break;
 					case 'disable':
 						foreach ( $paths as $key => $path ) {
-							if ( $path['id'] == absint( $_GET['url'] ) ) {
+							if ( absint( $path['id'] ) === absint( $_GET['url'] ) ) {
 								$paths[ $key ]['enabled'] = false;
 								$change                   = true;
 								break;
@@ -474,7 +463,7 @@ class DLM_Downloads_Path {
 						break;
 					case 'delete':
 						foreach ( $paths as $key => $path ) {
-							if ( $path['id'] == absint( $_GET['url'] ) ) {
+							if ( absint( $path['id'] ) === absint( $_GET['url'] ) ) {
 								unset( $paths[ $key ] );
 								$change = true;
 								break;
@@ -499,6 +488,7 @@ class DLM_Downloads_Path {
 						break;
 				}
 			}
+			// phpcs:enable
 
 			if ( $change ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
@@ -520,6 +510,7 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function bulk_actions_handler() {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( ( ! empty( $_POST['bulk-action'] ) || ! empty( $_POST['bulk-action2'] ) ) && isset( $_POST['otherdownloadpath'] ) ) {
 			$changes = false;
 			$paths   = DLM_Downloads_Path_Helper::get_all_paths();
@@ -542,7 +533,7 @@ class DLM_Downloads_Path {
 				switch ( $action ) {
 					case 'enable':
 						foreach ( $paths as $key => $path ) {
-							if ( $path['id'] == absint( $id ) ) {
+							if ( absint( $path['id'] ) === absint( $id ) ) {
 								$paths[ $key ]['enabled'] = true;
 								$changes                  = true;
 								break;
@@ -551,7 +542,7 @@ class DLM_Downloads_Path {
 						break;
 					case 'disable':
 						foreach ( $paths as $key => $path ) {
-							if ( $path['id'] == absint( $id ) ) {
+							if ( absint( $path['id'] ) === absint( $id ) ) {
 								$paths[ $key ]['enabled'] = false;
 								$changes                  = true;
 								break;
@@ -560,7 +551,7 @@ class DLM_Downloads_Path {
 						break;
 					case 'delete':
 						foreach ( $paths as $key => $path ) {
-							if ( $path['id'] == absint( $id ) ) {
+							if ( absint( $path['id'] )  === absint( $id ) ) {
 								unset( $paths[ $key ] );
 								$changes = true;
 								break;
@@ -573,7 +564,7 @@ class DLM_Downloads_Path {
 						break;
 				}
 			}
-
+			// phpcs:enable
 			if ( $changes ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
 			}

@@ -18,16 +18,16 @@ function _download_monitor_install( $network_wide = false ) {
 	delete_transient( 'dlm_extension_json' );
 	delete_transient( 'dlm_pro_extensions' );
 
-	// DLM Installer
+	// DLM Installer.
 	$installer = new DLM_Installer();
 
-	// check if
+	// check if.
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 	}
 
-	// check if it's multisite
-	if ( is_multisite() && true == $network_wide ) {
+	// check if it's multisite.
+	if ( is_multisite() && true === $network_wide ) {
 
 		// get websites
 		//$sites = wp_get_sites(); // Deprecated since 4.6.
@@ -37,23 +37,21 @@ function _download_monitor_install( $network_wide = false ) {
 		if ( count( $sites ) > 0 ) {
 			foreach ( $sites as $site ) {
 
-				// switch to blog
+				// switch to blog.
 				switch_to_blog( $site->blog_id );
 
-				// run installer on blog
+				// run installer on blog.
 				$installer->install();
 
-				// restore current blog
+				// restore current blog.
 				restore_current_blog();
 			}
 		}
-
 	} else {
-		// no multisite so do normal install
+		// no multisite so do normal install.
 		$installer->install();
 	}
 }
-
 
 /**
  * Run installer for new blogs on multisite when plugin is network activated
@@ -83,6 +81,7 @@ function _download_monitor_mu_new_blog( $blog_id, $user_id, $domain, $path, $sit
 		restore_current_blog();
 	}
 }
+
 /**
  * Delete DLM log table on multisite when blog is deleted
  *
