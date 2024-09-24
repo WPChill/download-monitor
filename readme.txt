@@ -139,6 +139,7 @@ Fixed: New untitled Download fatal error ( [#1541](https://github.com/WPChill/do
 Fixed: Plugin conflict with Event Espresso ( [#1548](https://github.com/WPChill/download-monitor/issues/1548) )
 Fixed: Main site in multisite incorrect route ( [#1549](https://github.com/WPChill/download-monitor/issues/1549) )
 Fixed: Printing emoji in Insert in Editor action ( [#1504](https://github.com/WPChill/download-monitor/issues/1504) )
+Fixed: Creating API Keys on Firefox & Firefox like browsers ( [#1553](https://github.com/WPChill/download-monitor/issues/1553) )
 
 = 5.0.9 - 29.08.2024 =
 Fixed: Security update when exporting single Download CPT
