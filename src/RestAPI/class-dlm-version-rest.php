@@ -57,10 +57,10 @@ class DLM_Version_REST {
 			// Fetch all versions from a download id.
 			'/versions'                    => array(
 				array(
-					'methods'  => 'GET',
-					'callback' => array( $this, 'get_versions' ),
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'get_versions' ),
 					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
-					'args'     => array(
+					'args'                => array(
 						'download_id' => array(
 							'required'    => true,
 							'type'        => 'integer',
@@ -73,10 +73,10 @@ class DLM_Version_REST {
 			// Fetch single version.
 			'/version/(?P<version_id>\d+)' => array(
 				array(
-					'methods'  => 'GET',
-					'callback' => array( $this, 'get_version' ),
+					'methods'             => 'GET',
+					'callback'            => array( $this, 'get_version' ),
 					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
-					'args'     => array(
+					'args'                => array(
 						'version_id' => array(
 							'required'    => true,
 							'type'        => 'integer',
@@ -86,10 +86,10 @@ class DLM_Version_REST {
 				),
 				// Delete a version.
 				array(
-					'methods'  => 'DELETE',
-					'callback' => array( $this, 'delete_version' ),
+					'methods'             => 'DELETE',
+					'callback'            => array( $this, 'delete_version' ),
 					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
-					'args'     => array(
+					'args'                => array(
 						'version_id' => array(
 							'required'    => true,
 							'type'        => 'integer',
@@ -99,10 +99,10 @@ class DLM_Version_REST {
 				),
 				// Update a version.
 				array(
-					'methods'  => 'PATCH',
-					'callback' => array( $this, 'update_version' ),
+					'methods'             => 'PATCH',
+					'callback'            => array( $this, 'update_version' ),
 					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
-					'args'     => array(
+					'args'                => array(
 						'version_id' => array(
 							'required'    => true,
 							'type'        => 'integer',
@@ -124,10 +124,10 @@ class DLM_Version_REST {
 			// Create a new version.
 			'/version'                     => array(
 				array(
-					'methods'  => 'POST',
-					'callback' => array( $this, 'store_version' ),
+					'methods'             => 'POST',
+					'callback'            => array( $this, 'store_version' ),
 					'permission_callback' => array( $dlm_rest_api, 'check_api_rights' ),
-					'args'     => array(
+					'args'                => array(
 						'download_id' => array(
 							'required'    => true,
 							'type'        => 'integer',
@@ -247,11 +247,26 @@ class DLM_Version_REST {
 
 		if ( ! empty( $params['download_id'] ) ) {
 			$download_id = absint( $params['download_id'] );
-			$version     = new DLM_Download_Version();
+			$versions    = download_monitor()->service( 'version_repository' )->retrieve( array( 'post_parent' => $download_id ) );
+			// Check if there are versions.
+			if ( ! empty( $versions ) ) {
+				// Increase the menu order, so that the new version is the first one.
+				foreach ( $versions as $version ) {
+					// update
+					wp_update_post(
+						array(
+							'ID'         => $version->get_id(),
+							'menu_order' => $version->get_menu_order() + 1,
+						)
+					);
+				}
+			}
+			$version = new DLM_Download_Version();
 			$version->set_download_id( $download_id );
 			$version->set_version( isset( $params['version'] ) ? $params['version'] : '' );
 			$version->set_mirrors( isset( $params['url'] ) ? array( $params['url'] ) : array() );
 			$version->set_date( new DateTime( current_time( 'mysql' ) ) );
+			$version->set_menu_order( 0 );
 
 			try {
 				download_monitor()->service( 'version_repository' )->persist( $version );
