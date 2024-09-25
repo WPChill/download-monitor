@@ -513,6 +513,9 @@ class DLM_XHR_Download {
 		};
 
 		jQuery(document).trigger('dlm-xhr-modal-data', [data, headers]);
+		document.dispatchEvent(
+			new CustomEvent('dlm-xhr-modal-data', {detail: {data:data, headers:headers}})
+		);
 
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
 
