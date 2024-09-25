@@ -127,6 +127,7 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
 = 5.0.10 - 24.09.2024 =
 Fixed: Check user capability when enabling Shop ( thanks to @truonghuuphuc for reporting ) ( [#1551](https://github.com/WPChill/download-monitor/issues/1551) )
 Fixed: Double slash for home url ( [#1533](https://github.com/WPChill/download-monitor/issues/1533) )
