@@ -97,7 +97,7 @@ class DLM_Downloads_Path_Helper {
 	 * @since 5.0.0
 	 */
 	public static function get_allowed_paths() {
-		$user_paths = self::get_all_paths();
+		$user_paths = DLM_Downloads_Path_Helper::get_all_paths();
 		$return     = array();
 
 		if ( ! empty( $user_paths ) && is_array( $user_paths ) ) {
@@ -137,7 +137,7 @@ class DLM_Downloads_Path_Helper {
 	 * @since 5.0.0
 	 */
 	public static function enable_download_path( $path ) {
-		$paths = self::get_all_paths();
+		$paths = DLM_Downloads_Path_Helper::get_all_paths();
 		foreach ( $paths as $key => $a_path ) {
 			if ( str_replace( DIRECTORY_SEPARATOR, '/', $a_path['path_val'] ) === str_replace( DIRECTORY_SEPARATOR, '/', $path ) ) {
 				$paths[ $key ]['enabled'] = true;
