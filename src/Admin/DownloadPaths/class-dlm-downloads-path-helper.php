@@ -70,7 +70,7 @@ class DLM_Downloads_Path_Helper {
 		$option = get_option( 'dlm_allowed_paths' );
 		// Check if it's string & do compatibility for < 5.0.0
 		if ( is_string( $option ) ) {
-			if ( '' != $option ) {
+			if ( '' !== $option ) {
 				// Not empty string, save as new format since 5.0.0
 				$paths = array(
 					array(
