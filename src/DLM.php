@@ -465,7 +465,7 @@ class WP_DLM {
 
 			if ( get_option( 'permalink_structure' ) ) {
 				// Fix for translation plugins that modify the home_url.
-				$download_pointing_url = get_home_url( null, '', $scheme );
+				$download_pointing_url = rtrim( get_home_url( null, '', $scheme ), '/' );
 				$download_pointing_url = $download_pointing_url . '/'
 				                         . $endpoint . '/';
 			} else {

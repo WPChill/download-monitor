@@ -1,4 +1,10 @@
 <?php
+/**
+ * Handles the modal functionality for the Terms & Conditions lock.
+ *
+ * @package DownloadMonitor
+ * @since 5.0.0
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -12,12 +18,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class DLM_TC_Modal {
 
+	/**
+	 * Class constructor.
+	 *
+	 * @since 5.0.0
+	 */
 	public function __construct() {
 
-		add_action( 'wp_footer', array( $this, 'add_footer_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'add_tc_modal_script' ) );
 		add_action( 'wp_ajax_nopriv_dlm_terms_conditions_modal', array( $this, 'xhr_no_access_modal' ), 15 );
 		add_action( 'wp_ajax_dlm_terms_conditions_modal', array( $this, 'xhr_no_access_modal' ), 15 );
-
 	}
 
 	/**
@@ -26,24 +36,14 @@ class DLM_TC_Modal {
 	 * @return void
 	 * @since 5.0.0
 	 */
-	public function add_footer_scripts() {
+	public function add_tc_modal_script() {
 		// Only add the script if the modal template exists.
-		// Failsafe, in case the Modal template is non-existent, for example prior to DLM 4.9.0
+		// Failsafe, in case the Modal template is non-existent, for example prior to DLM 4.9.0.
 		if ( ! class_exists( 'DLM_Constants' ) || ! defined( 'DLM_Constants::DLM_MODAL_TEMPLATE' ) ) {
 			return;
 		}
-		?>
-		<script>
-			jQuery(document).on('dlm-xhr-modal-data', function (e, data, headers) {
-				if ('undefined' !== typeof headers['x-dlm-tc-required']) {
-					data['action']             = 'dlm_terms_conditions_modal';
-					data['dlm_modal_response'] = 'true';
-				}
-			});
-		</script>
-		<?php
+		wp_add_inline_script( 'dlm-xhr', 'jQuery(document).on("dlm-xhr-modal-data", function(e, data, headers) { if ("undefined" !== typeof headers["x-dlm-tc-required"]) { data["action"] = "dlm_terms_conditions_modal"; data["dlm_modal_response"] = "true"; } });', 'after' );
 	}
-
 
 	/**
 	 * Renders the modal contents.
@@ -87,16 +87,14 @@ class DLM_TC_Modal {
 			/** @var DLM_Download $download */
 			$download = download_monitor()->service( 'download_repository' )->retrieve_single( $download_id );
 		} catch ( Exception $exception ) {
-			// no download found
+			// no download found.
 			return '';
 		}
 
 		// Template handler.
 		$template_handler = new DLM_Template_Handler();
 
-		// enqueue CSS
-		wp_enqueue_style( 'dlm_tc_front', plugins_url( '/assets/css/tailwind' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.css', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ), array(), DLM_VERSION );
-		// enqueue js
+		// enqueue js.
 		wp_enqueue_script(
 			'dlm_tc_frontend',
 			plugins_url( '/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ),
@@ -119,7 +117,7 @@ class DLM_TC_Modal {
 			true
 		);
 
-		// unlock text
+		// unlock text.
 		$terms_page_id = get_option( 'dlm_tc_content_page', false );
 		$unlock_text   = apply_filters( 'dlm_tc_unlock_text', get_option( 'dlm_tc_text', __( 'I accept the terms & conditions', 'download-monitor' ) ), $download );
 		$terms_page    = ( $terms_page_id && '0' !== $terms_page_id ) ? '<a href="' . esc_url( get_permalink( $terms_page_id ) ) . '" target="_blank">' . wp_kses_post( get_the_title( $terms_page_id ) ) . '</a>' : '';
@@ -127,7 +125,7 @@ class DLM_TC_Modal {
 		// Alright, all good. Load the template.
 		ob_start();
 
-		// Load template
+		// Load template.
 		$template_handler->get_template_part( 'tc-form-modal', '', plugin_dir_path( DLM_Integrated_Terms_And_Conditions::get_plugin_file() ) . 'templates/', array(
 			'download'    => $download,
 			'unlock_text' => $unlock_text,
@@ -137,4 +135,3 @@ class DLM_TC_Modal {
 		return ob_get_clean();
 	}
 }
-

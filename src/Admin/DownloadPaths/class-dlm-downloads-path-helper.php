@@ -14,12 +14,12 @@ class DLM_Downloads_Path_Helper {
 	/**
 	 * Saves the download paths if not already existing either for single site or multisite setup.
 	 *
-	 * @param  string  $path  string of download path.
+	 * @param  string $path  string of download path.
 	 *
 	 * @since 5.0.0
 	 */
 	public static function save_unique_path( $path ) {
-		$saved_paths = DLM_Downloads_Path_Helper::get_all_paths();
+		$saved_paths = self::get_all_paths();
 		$add_file    = true;
 
 		foreach ( $saved_paths as $save_path ) {
@@ -36,7 +36,7 @@ class DLM_Downloads_Path_Helper {
 				'path_val' => trailingslashit( $path ),
 				'enabled'  => true,
 			);
-			// Only allow network admin to add paths
+			// Only allow network admin to add paths.
 			if ( ! is_multisite() ) {
 				update_option( 'dlm_allowed_paths', $saved_paths );
 			}
@@ -47,7 +47,7 @@ class DLM_Downloads_Path_Helper {
 	 * Saves the download paths either for single site or multisite setup.
 	 * In case of multisite, the blog should be switched to the desired blog before calling this function.
 	 *
-	 * @param  array  $paths  Array of download paths.
+	 * @param  array $paths  Array of download paths.
 	 *
 	 * @since 5.0.0
 	 */
@@ -70,7 +70,7 @@ class DLM_Downloads_Path_Helper {
 		$option = get_option( 'dlm_allowed_paths' );
 		// Check if it's string & do compatibility for < 5.0.0
 		if ( is_string( $option ) ) {
-			if ( '' != $option ) {
+			if ( '' !== $option ) {
 				// Not empty string, save as new format since 5.0.0
 				$paths = array(
 					array(
@@ -118,25 +118,21 @@ class DLM_Downloads_Path_Helper {
 	 * @since 5.0.0
 	 */
 	public static function get_base_url() {
-		if ( ! defined( 'MULTISITE' ) || ! MULTISITE ) {
-			return add_query_arg(
-				array(
-					'post_type' => 'dlm_download',
-					'page'      => 'download-monitor-settings',
-					'tab'       => 'advanced',
-					'section'   => 'download_path',
-				),
-				admin_url( 'edit.php' )
-			);
-		}
-
-		return add_query_arg( 'page', 'download-monitor-paths', network_admin_url( 'admin.php' ) );
+		return add_query_arg(
+			array(
+				'post_type' => 'dlm_download',
+				'page'      => 'download-monitor-settings',
+				'tab'       => 'advanced',
+				'section'   => 'download_path',
+			),
+			admin_url( 'edit.php' )
+		);
 	}
 
 	/**
 	 * Enables a download path.
 	 *
-	 * @param  string  $path  The path string.
+	 * @param  string $path  The path string.
 	 *
 	 * @since 5.0.0
 	 */
@@ -154,12 +150,12 @@ class DLM_Downloads_Path_Helper {
 	/**
 	 * Disables a download path.
 	 *
-	 * @param  string  $path  The path string.
+	 * @param  string $path  The path string.
 	 *
 	 * @since 5.0.0
 	 */
 	public static function disable_download_path( $path ) {
-		$paths = DLM_Downloads_Path_Helper::get_all_paths();
+		$paths = self::get_all_paths();
 		foreach ( $paths as $key => $a_path ) {
 			if ( str_replace( DIRECTORY_SEPARATOR, '/', $a_path['path_val'] ) === str_replace( DIRECTORY_SEPARATOR, '/', $path ) ) {
 				$paths[ $key ]['enabled'] = false;

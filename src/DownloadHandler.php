@@ -225,7 +225,12 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 		 * @return void
 		 */
 		public function add_endpoint() {
-			add_rewrite_endpoint( $this->endpoint, EP_ALL );
+			$endpoint = $this->endpoint;
+			// Let's make sure that the endpoint is not empty.
+			if ( null === $this->endpoint ) {
+				$endpoint = 'download';
+			}
+			add_rewrite_endpoint( $endpoint, EP_ALL );
 		}
 
 		/**

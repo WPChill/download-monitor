@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 5.5
 Tested up to: 6.6
-Stable tag: 5.0.9
+Stable tag: 5.0.10
 License: GPLv3
 Requires PHP: 7.6
 
@@ -127,6 +127,20 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.10 - 24.09.2024 =
+Fixed: Check user capability when enabling Shop ( thanks to @truonghuuphuc for reporting ) ( [#1551](https://github.com/WPChill/download-monitor/issues/1551) )
+Fixed: Double slash for home url ( [#1533](https://github.com/WPChill/download-monitor/issues/1533) )
+Changed: Downloadable file URLs format on save ( [#1536](https://github.com/WPChill/download-monitor/issues/1536) )
+Fixed: PHP Error ( [#1534](https://github.com/WPChill/download-monitor/issues/1534) )
+Changed: Downloads Paths for multisite, now on each site ( only network admin can add them ) ( [#1538](https://github.com/WPChill/download-monitor/issues/1538) )
+Fixed: Database error when installing tables on multisite ( [#1540](https://github.com/WPChill/download-monitor/issues/1540) )
+Added: Terms & Conditions quick edit action in admin list ( [#1510](https://github.com/WPChill/download-monitor/issues/1510) )
+Fixed: New untitled Download fatal error ( [#1541](https://github.com/WPChill/download-monitor/issues/1541) )
+Fixed: Plugin conflict with Event Espresso ( [#1548](https://github.com/WPChill/download-monitor/issues/1548) )
+Fixed: Main site in multisite incorrect route ( [#1549](https://github.com/WPChill/download-monitor/issues/1549) )
+Fixed: Printing emoji in Insert in Editor action ( [#1504](https://github.com/WPChill/download-monitor/issues/1504) )
+Fixed: Creating API Keys on Firefox & Firefox like browsers ( [#1553](https://github.com/WPChill/download-monitor/issues/1553) )
+
 = 5.0.9 - 29.08.2024 =
 Fixed: Security update when exporting single Download CPT
 

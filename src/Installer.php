@@ -102,7 +102,6 @@ class DLM_Installer {
 
 		$tables_sql = array();
 
-		// order table
 		$tables_sql[] = "
 		CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_order` (
 		  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -111,10 +110,10 @@ class DLM_Installer {
 		  `date_modified` DATETIME NULL,
 		  `currency` VARCHAR(5) NOT NULL,
 		  `hash` VARCHAR(255) NOT NULL,
-		  PRIMARY KEY (`id`))
-		ENGINE = InnoDB {$collate};";
+		  PRIMARY KEY (`id`)
+		  ) ENGINE = InnoDB {$collate};";
 
-		// order customer
+		// order customer.
 		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_order_customer` (
 		  `first_name` VARCHAR(255) NULL,
 		  `last_name` VARCHAR(255) NULL,
@@ -129,16 +128,15 @@ class DLM_Installer {
 		  `phone` VARCHAR(50) NULL,
 		  `ip_address` VARCHAR(50) NULL,
 		  `order_id` INT UNSIGNED NOT NULL,
-		  INDEX `fk_order_customer_order_idx` (`order_id` ASC),
 		  PRIMARY KEY (`order_id`),
-		  CONSTRAINT `fk_order_customer_order`
+		  CONSTRAINT `{$table_prefix}fk_order_customer_order`
 		    FOREIGN KEY (`order_id`)
 		    REFERENCES `{$table_prefix}dlm_order` (`id`)
 		    ON DELETE NO ACTION
-		    ON UPDATE NO ACTION)
-		ENGINE = InnoDB {$collate};";
+		    ON UPDATE NO ACTION
+			) ENGINE = InnoDB {$collate};";
 
-		// transaction table
+		// transaction table.
 		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_order_transaction` (
 		  `id` INT NOT NULL AUTO_INCREMENT,
 		  `date_created` DATETIME NULL,
@@ -151,15 +149,14 @@ class DLM_Installer {
 		  `processor_status` VARCHAR(255) NULL,
 		  `order_id` INT UNSIGNED NOT NULL,
 		  PRIMARY KEY (`id`),
-		  INDEX `fk_transaction_order1_idx` (`order_id` ASC),
-		  CONSTRAINT `fk_transaction_order1`
+		  CONSTRAINT `{$table_prefix}fk_transaction_order1`
 		    FOREIGN KEY (`order_id`)
 		    REFERENCES `{$table_prefix}dlm_order` (`id`)
 		    ON DELETE NO ACTION
-		    ON UPDATE NO ACTION)
-		ENGINE = InnoDB {$collate};";
+		    ON UPDATE NO ACTION
+			) ENGINE = InnoDB {$collate};";
 
-		// order items
+		// order items.
 		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_order_item` (
 		  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 		  `order_id` INT UNSIGNED NOT NULL,
@@ -170,26 +167,26 @@ class DLM_Installer {
 		  `tax_total` INT NULL,
 		  `subtotal` INT NULL,
 		  `total` INT NULL,
-		  INDEX `fk_order_item_order1_idx` (`order_id` ASC),
 		  PRIMARY KEY (`id`),
-		  CONSTRAINT `fk_order_item_order1`
+		  CONSTRAINT `{$table_prefix}fk_order_item_order1`
 		    FOREIGN KEY (`order_id`)
 		    REFERENCES `{$table_prefix}dlm_order` (`id`)
 		    ON DELETE NO ACTION
-		    ON UPDATE NO ACTION)
-		ENGINE = InnoDB {$collate};";
+		    ON UPDATE NO ACTION
+			) ENGINE = InnoDB {$collate};";
 
-		// session
+		// session.
 		$tables_sql[] = "CREATE TABLE IF NOT EXISTS `{$table_prefix}dlm_session` (
-		  `key` VARCHAR(190) NOT NULL,
-		  `hash` VARCHAR(190) NOT NULL,
+		  `key` VARCHAR(150) NOT NULL,
+		  `hash` VARCHAR(150) NOT NULL,
 		  `expiry` DATETIME NOT NULL,
 		  `data` LONGTEXT NOT NULL,
-		  PRIMARY KEY (`key`))
-		ENGINE = InnoDB {$collate};";
+		  PRIMARY KEY (`key`)
+		  )
+	ENGINE = InnoDB {$collate};";
 
 		foreach ( $tables_sql as $sql ) {
-			$wpdb->query( $sql );
+			dbDelta( $sql );
 		}
 	}
 
