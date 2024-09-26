@@ -19,13 +19,15 @@ class DLM_Downloads_Path_Helper {
 	 * @since 5.0.0
 	 */
 	public static function save_unique_path( $path ) {
+
 		$saved_paths = self::get_all_paths();
 		$add_file    = true;
-
-		foreach ( $saved_paths as $save_path ) {
-			if ( $path === $save_path['path_val'] ) {
-				$add_file = false;
-				break;
+		if ( ! empty( $save_paths ) ) {
+			foreach ( $saved_paths as $save_path ) {
+				if ( $path === $save_path['path_val'] ) {
+					$add_file = false;
+					break;
+				}
 			}
 		}
 
@@ -36,10 +38,7 @@ class DLM_Downloads_Path_Helper {
 				'path_val' => trailingslashit( $path ),
 				'enabled'  => true,
 			);
-			// Only allow network admin to add paths.
-			if ( ! is_multisite() ) {
-				update_option( 'dlm_allowed_paths', $saved_paths );
-			}
+			update_option( 'dlm_allowed_paths', $saved_paths );
 		}
 	}
 
