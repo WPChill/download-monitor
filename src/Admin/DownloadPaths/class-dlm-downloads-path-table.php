@@ -283,19 +283,20 @@ class DLM_Downloads_Path_Table extends WP_List_Table {
 		}
 
 		$res = array();
-
-		if ( 'all' !== $enabled ) {
-			foreach ( $paths as $path ) {
-				if ( 'enabled' === $enabled && $path['enabled'] ) {
-					$res[] = $path;
-					continue;
+		if ( ! empty( $paths ) ) {
+			if ( 'all' !== $enabled ) {
+				foreach ( $paths as $path ) {
+					if ( 'enabled' === $enabled && $path['enabled'] ) {
+						$res[] = $path;
+						continue;
+					}
+					if ( 'disabled' === $enabled && ! $path['enabled'] ) {
+						$res[] = $path;
+					}
 				}
-				if ( 'disabled' === $enabled && ! $path['enabled'] ) {
-					$res[] = $path;
-				}
+			} else {
+				$res = $paths;
 			}
-		} else {
-			$res = $paths;
 		}
 		$total_paths = count( $res );
 		$total_pages = ceil( $total_paths / $per_page );
