@@ -442,7 +442,7 @@ class DLM_Admin_Writepanels {
 						'<a href="https://www.download-monitor.com/kb/add-path/" target="_blank">',
 						'</a>'
 					);
-					if ( is_multisite() ) {
+					if ( is_multisite() && ! current_user_can( 'manage_network' ) ) {
 						// Notice to be shown if the installation is a multisite.
 						$notice = sprintf(
 							esc_html__(
@@ -464,7 +464,7 @@ class DLM_Admin_Writepanels {
 							}
 						}
 						// If it is a multisite installation, only the network admin can add paths.
-						if ( is_multisite() ) {
+						if (  is_multisite() && ! current_user_can( 'manage_network' ) ) {
 							$html .= '<p class="dlm-restricted-path__recommended_allowed_path" >'
 									. esc_html__( 'Recommended path:', 'download-monitor' ) .
 									' <code>' . esc_html( $new_path ) . '</code>&nbsp;&nbsp;&nbsp;</p>';

@@ -114,20 +114,12 @@ class DLM_Downloads_Path {
 			);
 			register_setting( 'dlm_advanced_download_path', 'dlm_network_settings', $multi_args );
 
-			$site_id = get_current_blog_id();
 			// Get the uploads path and URL.
 			$uploads_dir = wp_upload_dir();
 			// We need the path.
 			$uploads_path = $uploads_dir['basedir'];
-			if ( ! empty( $_GET['id'] ) && ! empty( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'] ) {
-				$site_id = absint( $_GET['id'] );
-			}
 			// phpcs:enable
-			if ( is_main_site( $site_id ) ) {
-				$uploads = $uploads_path;
-			} else {
-				$uploads = $uploads_path . '/sites/' . $site_id;
-			}
+			$uploads = $uploads_path;
 			// Set the default value.
 			$default = array(
 				array(
@@ -136,7 +128,18 @@ class DLM_Downloads_Path {
 					'enabled'  => true,
 				),
 			);
-			$args    = array(
+			// Backwards compatibility for the uploads path.
+			$old_user_path = get_option( 'dlm_downloads_path', '' );
+
+			if ( ! empty( $old_user_path ) ) {
+				$default[] = array(
+					'id'       => 3,
+					'path_val' => trailingslashit( $old_user_path ),
+					'enabled'  => true,
+				);
+			}
+
+			$args = array(
 				'type'    => 'array',
 				'default' => $default,
 			);
@@ -425,11 +428,7 @@ class DLM_Downloads_Path {
 		$check  = false;
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		// The check is different for multisite, as the page is different.
-		if ( is_multisite() ) {
-			$check = isset( $_GET['page'] ) && 'download-monitor-paths' === $_GET['page'];
-		} else {
-			$check = isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'];
-		}
+		$check = isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'];
 		if ( $check ) {
 			$paths = DLM_Downloads_Path_Helper::get_all_paths();
 			if ( ! empty( $_GET['action'] ) ) {
@@ -493,12 +492,8 @@ class DLM_Downloads_Path {
 			if ( $change ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
 				// If we're on multisite, switch back to the original blog.
-				if ( is_multisite() ) {
-					restore_current_blog();
-					wp_safe_redirect( network_admin_url( 'admin.php?page=download-monitor-paths&id=' . $site_id ) );
-				} else {
-					wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
-				}
+				restore_current_blog();
+				wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
 				exit;
 			}
 		}
@@ -510,8 +505,7 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function bulk_actions_handler() {
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( ( ! empty( $_POST['bulk-action'] ) || ! empty( $_POST['bulk-action2'] ) ) && isset( $_POST['otherdownloadpath'] ) ) {
+		if ( ( ! empty( $_POST['bulk-action'] ) || ! empty( $_POST['bulk-action2'] ) ) && isset( $_POST['otherdownloadpath'] ) ) {// phpcs:disable WordPress.Security.NonceVerification.Recommended
 			$changes = false;
 			$paths   = DLM_Downloads_Path_Helper::get_all_paths();
 			// Get the action. It's one or the other, so we can just check one.
