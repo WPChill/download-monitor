@@ -1,3 +1,8 @@
+= 5.0.11 - 25.09.2024 =
+Fixed: Critical error when no paths ( [#1558](https://github.com/WPChill/download-monitor/issues/1558) )
+Fixed: REST API Version creation order ( [#1557](https://github.com/WPChill/download-monitor/issues/1557) )
+Fixed: Allow network admin to quick add paths from Download edit screen ( [#1559](https://github.com/WPChill/download-monitor/issues/1559) )
+
 = 5.0.10 - 24.09.2024 =
 Fixed: Check user capability when enabling Shop ( thanks to @truonghuuphuc for reporting ) ( [#1551](https://github.com/WPChill/download-monitor/issues/1551) )
 Fixed: Double slash for home url ( [#1533](https://github.com/WPChill/download-monitor/issues/1533) )
