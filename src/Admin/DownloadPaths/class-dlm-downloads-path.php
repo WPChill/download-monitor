@@ -250,11 +250,12 @@ class DLM_Downloads_Path {
 	private function edit_screen( int $url_id ) {
 		$paths    = DLM_Downloads_Path_Helper::get_all_paths();
 		$existing = false;
-
-		foreach ( $paths as $path ) {
-			if ( absint( $url_id ) === absint( $path['id'] ) ) {
-				$existing = $path;
-				break;
+		if ( ! empty( $paths ) ) {
+			foreach ( $paths as $path ) {
+				if ( absint( $url_id ) === absint( $path['id'] ) ) {
+					$existing = $path;
+					break;
+				}
 			}
 		}
 
@@ -491,8 +492,6 @@ class DLM_Downloads_Path {
 
 			if ( $change ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
-				// If we're on multisite, switch back to the original blog.
-				restore_current_blog();
 				wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
 				exit;
 			}

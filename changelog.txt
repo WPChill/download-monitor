@@ -1,3 +1,6 @@
+= 5.0.12 - 25.09.2024 =
+Fixed: Error on simple site approved download path deletion
+
 = 5.0.11 - 25.09.2024 =
 Fixed: Critical error when no paths ( [#1558](https://github.com/WPChill/download-monitor/issues/1558) )
 Fixed: REST API Version creation order ( [#1557](https://github.com/WPChill/download-monitor/issues/1557) )
