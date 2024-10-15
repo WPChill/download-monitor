@@ -61,6 +61,14 @@ $pro_arguments = array(
 		'title'       => esc_html__( 'Email Lock', 'download-monitor' ),
 		'description' => esc_html__( 'The Email Lock extension for Download Monitor allows you to require users to fill in their email address before they gain access to a download.', 'download-monitor' ),
 	),
+	'cf7_lock'                => array(
+		'title'       => esc_html__( 'Contact Form 7 Lock', 'download-monitor' ),
+		'description' => esc_html__( 'The Contact Form 7 Lock extension for Download Monitor allows you to require users to fill out a Contact Form 7 form before they gain access to a download.', 'download-monitor' ),
+	),
+	'wpforms_lock'            => array(
+		'title'       => esc_html__( 'WPForms Lock', 'download-monitor' ),
+		'description' => esc_html__( 'The WPForms Lock extension for Download Monitor allows you to require users to fill out a WPForms form before they gain access to a download.', 'download-monitor' ),
+	),
 );
 ?>
 <div class="wrap rsvp-lite-vs-premium">
@@ -80,12 +88,12 @@ $pro_arguments = array(
 		</div>
 		<!--  Table content -->
 
-        <?php
-        foreach( $pro_arguments as $pro ) {
-            ?>
-            <div class="wpchill-plans-table">
+		<?php
+		foreach ( $pro_arguments as $pro ) {
+			?>
+			<div class="wpchill-plans-table">
 			<div class="wpchill-pricing-package feature-name">
-				<h3><?php echo esc_html( $pro['title']); ?></h3>
+				<h3><?php echo esc_html( $pro['title'] ); ?></h3>
 				<p class="tab-header-description modula-tooltip-content">
 					<?php echo esc_html( $pro['description'] ); ?>
 				</p>
@@ -97,9 +105,9 @@ $pro_arguments = array(
 				<span class="dashicons dashicons-no-alt"></span>
 			</div>
 		</div>
-            <?php
-        }
-        ?>
+			<?php
+		}
+		?>
 		<!-- Support -->
 		<div class="wpchill-plans-table">
 			<div class="wpchill-pricing-package feature-name">

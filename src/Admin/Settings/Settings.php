@@ -253,6 +253,18 @@ class DLM_Admin_Settings {
 						'sections' => array(),
 						'badge'    => true,
 					),
+					'cf7_lock' => array(
+						'title'    => esc_html__( 'Contact Form 7', 'download-monitor' ),
+						'fields'   => array(),
+						'sections' => array(),
+						'badge'    => true,
+					),
+					'wpforms_lock' => array(
+						'title'    => esc_html__( 'WP Forms', 'download-monitor' ),
+						'fields'   => array(),
+						'sections' => array(),
+						'badge'    => true,
+					),
 				),
 				'priority' => 30,
 			),

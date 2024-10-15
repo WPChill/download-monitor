@@ -26,6 +26,8 @@ class DLM_Ajax_Handler {
 		add_action( 'wp_ajax_dlm_update_download_category', array( $this, 'upgrade_download_category' ), 15 );
 		// Action to save the Enable Shop setting.
 		add_action( 'wp_ajax_dlm_enable_shop', array( $this, 'enable_shop' ) );
+		// AJAX action to retrieve the AAM upsell modal
+		add_action( 'wp_ajax_dlm_upsell_modal', array( $this, 'upsell_modal_ajax' ) );
 	}
 
 	/**
@@ -42,9 +44,9 @@ class DLM_Ajax_Handler {
 			die();
 		}
 
-		require_once( ABSPATH . 'wp-admin/includes/image.php' );
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
 
 		$attachment_id = media_handle_upload( 'async-upload', 0 );
 
@@ -84,7 +86,7 @@ class DLM_Ajax_Handler {
 
 		$file = get_post( intval( $_POST['file_id'] ) );
 
-		if ( $file && $file->post_type == "dlm_download_version" ) {
+		if ( $file && $file->post_type == 'dlm_download_version' ) {
 			// clear transient
 			download_monitor()->service( 'transient_manager' )->clear_versions_transient( $file->post_parent );
 
@@ -130,17 +132,20 @@ class DLM_Ajax_Handler {
 		download_monitor()->service( 'transient_manager' )->clear_versions_transient( $download_id );
 
 		// output new version admin html
-		download_monitor()->service( 'view_manager' )->display( 'meta-box/version', array(
-			'version_increment'   => $size,
-			'file_id'             => $new_version->get_id(),
-			'file_version'        => $new_version->get_version(),
-			'file_post_date'      => $new_version->get_date(),
-			'file_download_count' => $new_version->get_download_count(),
-			'file_urls'           => $new_version->get_mirrors(),
-			'version'             => $new_version,
-			'date_format'         => get_option( 'date_format' ),
-			'file_browser'        => defined( 'DLM_FILE_BROWSER' ) ? ! (bool) DLM_FILE_BROWSER : get_option( 'dlm_turn_off_file_browser', true ),
-		) );
+		download_monitor()->service( 'view_manager' )->display(
+			'meta-box/version',
+			array(
+				'version_increment'   => $size,
+				'file_id'             => $new_version->get_id(),
+				'file_version'        => $new_version->get_version(),
+				'file_post_date'      => $new_version->get_date(),
+				'file_download_count' => $new_version->get_download_count(),
+				'file_urls'           => $new_version->get_mirrors(),
+				'version'             => $new_version,
+				'date_format'         => get_option( 'date_format' ),
+				'file_browser'        => defined( 'DLM_FILE_BROWSER' ) ? ! (bool) DLM_FILE_BROWSER : get_option( 'dlm_turn_off_file_browser', true ),
+			)
+		);
 
 		die();
 	}
@@ -328,5 +333,30 @@ class DLM_Ajax_Handler {
 
 		update_option( 'dlm_shop_enabled', $enable_shop );
 		wp_send_json_success();
+	}
+
+	/**
+	 * Ajax handler for the DLM Upsell modals
+	 *
+	 * @since 5.0.13
+	 */
+	public function upsell_modal_ajax() {
+		// Check security nonce
+		check_ajax_referer( 'dlm_modal_upsell', 'security' );
+		// Check if user has capability to manage options
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do this.', 'download-monitor' ) ) );
+		}
+		if ( empty( $_POST['upsell'] ) ) {
+			wp_send_json_error( array( 'message' => __( 'No upsell provided.', 'download-monitor' ) ) );
+		}
+		$upsell  = sanitize_text_field( wp_unslash( $_POST['upsell'] ) );
+		$upsells = DLM_Upsells::get_modal_upsells();
+		if ( ! isset( $upsells[ $upsell ] ) ) {
+			wp_send_json_error( array( 'message' => __( 'Upsell not found.', 'download-monitor' ) ) );
+		}
+		// Get the modal content
+		require_once dirname( DLM_PLUGIN_FILE ) . '/src/Admin/UpsellsTemplates/' . $upsell . '-modal-upsell.php';
+		wp_die();
 	}
 }
