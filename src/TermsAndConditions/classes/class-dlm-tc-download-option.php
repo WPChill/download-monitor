@@ -25,7 +25,7 @@ class DLM_TC_Download_Option {
 	 */
 	public function add_download_option( $post_id ) {
 
-		// get if twitter locked
+		// get if terms & conditions locked
 		$locked = get_post_meta( $post_id, DLM_TC_Constants::META_LOCKED_KEY, true );
 		?>
 		<p class="form-field form-field-checkbox">
