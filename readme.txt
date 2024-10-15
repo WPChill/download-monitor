@@ -32,30 +32,32 @@ Download Monitor has been featured on the websites of some of the most popular a
 
 **Download Monitor Extensions**
 
-- [Buttons](https://download-monitor.com/extensions/buttons/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block): Create beautiful, fully customizable download buttons for your files.
-- [Downloading Page](https://download-monitor.com/extensions/downloading-page/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block): Serve your downloads from a separate page.
-- [Google Drive](https://download-monitor.com/extensions/google-drive/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block): Lets you use the files hosted on your Google Drive as Download Monitor files.
-- [Advanced Access Manager](https://download-monitor.com/extensions/advanced-access-manager/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block): Create advanced download limitations per download and on a global level.
-- [Email Notification](https://download-monitor.com/extensions/email-notification/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block): Trigger an email notification whenever one of your files is downloaded.
-- [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block): List downloads, categories, tags, and show info pages about each of your resources using a simple shortcode.
-- Lock downloads option: Set restrictions to your download functionality using [MailChimp Lock](https://www.download-monitor.com/extensions/mailchimp-lock/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block), [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block), [CAPTCHA](https://download-monitor.com/extensions/captcha/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block), [Twitter Lock](https://download-monitor.com/extensions/twitter-lock/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block)
-- [Gravity Forms Gated Content](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block): easily create a download gate with Gravity Forms. Require users to fill-in a form before accessing a download.
-- [Ninja Forms Lock](https://download-monitor.com/extensions/ninja-forms/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block): if you are an user of Ninja Forms, you can also use this to require users to fill-in of a form before accesing a download.
+- [Buttons](https://download-monitor.com/extensions/buttons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Buttons): Create beautiful, fully customizable download buttons for your files.
+- [Downloading Page](https://download-monitor.com/extensions/downloading-page/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Downloading+page): Serve your downloads from a separate page.
+- [Google Drive](https://download-monitor.com/extensions/google-drive/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Google+drive): Lets you use the files hosted on your Google Drive as Download Monitor files.
+- [Advanced Access Manager](https://download-monitor.com/extensions/advanced-access-manager/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Advanced+access+manager): Create advanced download limitations per download and on a global level.
+- [Email Notification](https://download-monitor.com/extensions/email-notification/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Email+notification): Trigger an email notification whenever one of your files is downloaded.
+- [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Page+addon): List downloads, categories, tags, and show info pages about each of your resources using a simple shortcode.
+- Lock downloads option: Set restrictions to your download functionality using [MailChimp Lock](https://www.download-monitor.com/extensions/mailchimp-lock/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Mailchimp+lock), [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Email+lock), [CAPTCHA](https://download-monitor.com/extensions/captcha/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Captcha), 
+- [Gravity Forms Gated Content](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Gravity+forms): easily create a download gate with Gravity Forms. Require users to fill-in a form before accessing a download.
+- [Ninja Forms Lock](https://download-monitor.com/extensions/ninja-forms/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Ninja+forms): if you are an user of Ninja Forms, you can also use this to require users to fill-in of a form before accesing a download.
+- [WPForms Gated Content](https://download-monitor.com/kb/wpforms-integration/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=WPForms): gate your downloads by first requesting users to submit a form build using WPForms.
+- [Contact Form 7 Lock](https://download-monitor.com/kb/contact-form-7/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=CF7): request the submission of a Contact Form 7 form before providing access to the download.
 
 = Documentation =
-We have a large Knowledge Base on our [Download Monitor website](https://www.download-monitor.com/kb/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block) that contains documentation about how to how to setup and use Download Monitor.
+We have a large Knowledge Base on our [Download Monitor website](https://www.download-monitor.com/kb/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=knowledge+base) that contains documentation about how to how to setup and use Download Monitor.
 
 Are you a new Download Monitor user? Read these articles on how to get your files ready for download with Download Monitor:
 
-1. [How to install Download Monitor](https://www.download-monitor.com/kb/install-and-activate-download-monitor/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block)
-2. [How to add your first download in Download Monitor](https://www.download-monitor.com/kb/adding-downloads-to-your-website/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block)
-3. [How to list your first download on your website with the download shortcode](https://www.download-monitor.com/kb/shortcode-downloads/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block)
+1. [How to install Download Monitor](https://www.download-monitor.com/kb/install-and-activate-download-monitor/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+install)
+2. [How to add your first download in Download Monitor](https://www.download-monitor.com/kb/adding-downloads-to-your-website/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+add)
+3. [How to list your first download on your website with the download shortcode](https://www.download-monitor.com/kb/shortcode-downloads/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+list)
 
 More advanced topics that a lot of people find interesting:
 
-1. [Learn more about the different ways you can style your download buttons](https://www.download-monitor.com/kb/content-templates/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block)
-2. [Learn more about how to customize your download buttons](https://www.download-monitor.com/kb/overriding-content-templates/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block)
-3. [Learn more about what actions and filters are available in Download Monitor](https://www.download-monitor.com/kb/action-and-filter-reference/?utm_source=wordpress.org&utm_medium=web&utm_campaign=description-block)
+1. [Learn more about the different ways you can style your download buttons](https://www.download-monitor.com/kb/content-templates/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=style+buttons)
+2. [Learn more about how to customize your download buttons](https://www.download-monitor.com/kb/overriding-content-templates/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=customize+buttons)
+3. [Learn more about what actions and filters are available in Download Monitor](https://www.download-monitor.com/kb/action-and-filter-reference/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=action+filter)
 
 = Contributing and reporting bugs =
 
@@ -64,9 +66,9 @@ You can contribute localizations via Transifex [https://www.transifex.com/projec
 
 == NEED HELP USING DOWNLOAD MONITOR? ==
 
-– Search our extensive [knowledge base](https://download-monitor.com/kb//?utm_source=wordpress.org&utm_medium=web&utm_campaign=need-help-block) for documentation about installing the plugin/the extensions, available settings and how to use them.
+– Search our extensive [knowledge base](https://download-monitor.com/kb/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=knowledge+base) for documentation about installing the plugin/the extensions, available settings and how to use them.
 – Browse [Download monitor's WordPress forum](https://wordpress.org/plugins/download-monitor/) to find answers to your queries or create a new topic.
-– [Contact us](https://download-monitor.com/contact/?utm_source=wordpress.org&utm_medium=web&utm_campaign=need-help-block) directly for support.
+– [Contact us](https://download-monitor.com/contact/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=contact+us) directly for support.
 
 == 3rd party or external service disclaimer ==
 
