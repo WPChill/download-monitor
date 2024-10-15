@@ -579,7 +579,8 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			// Parse file path.
 			list( $file_path, $remote_file, $restriction ) = download_monitor()
 				->service( 'file_manager' )->get_secure_path( $file_path );
-			// Check if $file_path exists, as it can be false if the file was deleted or moved.
+
+				// Check if $file_path exists, as it can be false if the file was deleted or moved.
 			if ( ! $file_path ) {
 				$error_handler->no_secure_file_path( $download );
 			}
