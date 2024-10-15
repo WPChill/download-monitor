@@ -235,7 +235,7 @@ class DLM_Admin_Helper {
 			}
 		}
 
-		if ( 'edit.php' === $pagenow || 'post.php' === $pagenow ) {
+		if ( 'edit.php' === $pagenow || 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
 			if ( isset( $_GET['post_type'] ) && 'dlm_download' === $_GET['post_type'] ) {
 				$dlm_admin_page = true;
 			} elseif ( isset( $_GET['post'] ) && 'dlm_download' === get_post_type( $_GET['post'] ) ) {
