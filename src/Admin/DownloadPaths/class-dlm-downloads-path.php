@@ -504,7 +504,7 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function bulk_actions_handler() {
-		if ( ( ! empty( $_POST['bulk-action'] ) || ! empty( $_POST['bulk-action2'] ) ) && isset( $_POST['otherdownloadpath'] ) ) {// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( ( ! empty( $_POST['bulk-action'] ) || ! empty( $_POST['bulk-action2'] ) ) && isset( $_POST['approveddownloadpaths'] ) ) {// phpcs:disable WordPress.Security.NonceVerification.Recommended
 			$changes = false;
 			$paths   = DLM_Downloads_Path_Helper::get_all_paths();
 			// Get the action. It's one or the other, so we can just check one.
@@ -522,7 +522,7 @@ class DLM_Downloads_Path {
 				}
 			}
 			// Cycle through the selected paths.
-			foreach ( $_POST['otherdownloadpath'] as $id ) {
+			foreach ( wp_unslash( array_map( 'absint', $_POST['approveddownloadpaths'] ) ) as $id ) {
 				switch ( $action ) {
 					case 'enable':
 						foreach ( $paths as $key => $path ) {
