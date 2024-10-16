@@ -43,6 +43,8 @@ class DLM_Upsells {
 	 */
 	public function __construct() {
 
+		// Add modal upsells through sub menu. Place here to run everywhere, not just on DLM pages.
+		add_action( 'admin_menu', array( $this, 'add_upsell_modals' ), 13 );
 		if ( ! DLM_Admin_Helper::is_dlm_admin_page() ) {
 			return;
 		}
@@ -142,8 +144,6 @@ class DLM_Upsells {
 		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) );
 
 		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
-		// Add AAM upsell through sub menu
-		add_action( 'admin_menu', array( $this, 'add_upsell_modals' ), 13 );
 	}
 
 
