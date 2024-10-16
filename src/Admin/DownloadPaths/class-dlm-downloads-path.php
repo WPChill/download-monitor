@@ -522,7 +522,7 @@ class DLM_Downloads_Path {
 				}
 			}
 			// Cycle through the selected paths.
-			foreach ( $_POST['approveddownloadpaths'] as $id ) {
+			foreach ( wp_unslash( array_map( 'absint', $_POST['approveddownloadpaths'] ) ) as $id ) {
 				switch ( $action ) {
 					case 'enable':
 						foreach ( $paths as $key => $path ) {
