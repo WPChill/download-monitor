@@ -380,7 +380,7 @@ class DLM_Downloads_Path {
 			return $old_value;
 		}
 		// From this point on, we are adding a new path.
-		if ( ! isset( $_POST['id'] ) || 0 == $_POST['id'] ) {
+		if ( ! isset( $_POST['id'] ) || 0 === absint( $_POST['id'] ) ) {
 			$lastkey     = array_key_last( $old_value );
 			$newval      = array(
 				'id'       => absint( $old_value[ $lastkey ]['id'] ) + 1,
@@ -393,10 +393,10 @@ class DLM_Downloads_Path {
 		}
 
 		// This is an edit action.
-		if ( isset( $_POST['id'] ) && 0 != $_POST['id'] ) {
+		if ( isset( $_POST['id'] ) && 0 !== absint( $_POST['id'] ) ) {
 			foreach ( $old_value as $key => $val ) {
-				if ( absint( $val['id'] ) == absint( $_POST['id'] ) ) {
-					$old_value[ $key ]['path_val'] = $_POST['dlm_allowed_paths'];
+				if ( absint( $val['id'] ) === absint( $_POST['id'] ) ) {
+					$old_value[ $key ]['path_val'] = $value;
 					$old_value[ $key ]['enabled']  = isset( $_POST['dlm_downloads_path_enabled'] );
 
 					return $old_value;
