@@ -43,13 +43,12 @@ class DLM_Upsells {
 	 */
 	public function __construct() {
 
+		if ( $this->check_license_validity() ) {
+			return;
+		}
 		// Add modal upsells through sub menu. Place here to run everywhere, not just on DLM pages.
 		add_action( 'admin_menu', array( $this, 'add_upsell_modals' ), 13 );
 		if ( ! DLM_Admin_Helper::is_dlm_admin_page() ) {
-			return;
-		}
-
-		if ( $this->check_license_validity() ) {
 			return;
 		}
 
@@ -1077,6 +1076,10 @@ class DLM_Upsells {
 				}
 				// Retrieve data from the DB.
 				$ext_data = get_option( $extension['product_id'] . '-license', false );
+				// Check if the function exists, if not, we include it
+				if ( ! function_exists( 'is_plugin_active' ) ) {
+					require_once ABSPATH . 'wp-admin/includes/plugin.php';
+				}
 				// If we have a license, we check if it's active and return true
 				if ( ! empty( $ext_data ) && 'active' === $ext_data['status'] && is_plugin_active( $extension['product_id'] . '/' . $extension['product_id'] . '.php' ) ) {
 					$return = true;
