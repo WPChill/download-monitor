@@ -13,7 +13,6 @@ jQuery(function ($) {
      * @since 5.0.13
      */
     constructor() {
-      console.log("test");
       this.init();
     }
 
