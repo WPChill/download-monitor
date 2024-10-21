@@ -306,8 +306,12 @@ class DLM_Key_Generation {
 		if ( 0 === $user_id ) {
 			wp_send_json_error( 'User id not set.' );
 		}
-
+		// Check nonce.
 		check_ajax_referer( 'dlm_ajax_nonce', '_ajax_nonce' );
+		// Check if the user has permission to perform this action.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( 'You do not have permission to perform this action.' );
+		}
 
 		switch ( $_POST['dlm_action'] ) {
 			case 'generate':
