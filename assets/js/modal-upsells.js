@@ -36,10 +36,14 @@ class dlmModalUpsells {
     if ("0" !== instance.upsells.length) {
       // Bind click event to open modal
       for (let key in instance.upsells) {
-        jQuery("body").on("click", `a[href='${key}_upsell_modal']`, function (e) {
-          e.preventDefault();
-          instance.openModal(key);
-        });
+        jQuery("body").on(
+          "click",
+          `a[href='${key}_upsell_modal']`,
+          function (e) {
+            e.preventDefault();
+            instance.openModal(key);
+          }
+        );
         // Bind click event to close modal
         jQuery("body").on(
           "click",
@@ -67,7 +71,9 @@ class dlmModalUpsells {
     jQuery.post(ajaxurl, data, function (response) {
       const $body = jQuery("body");
       $body.addClass("modal-open");
-      $body.append(response);
+      if ("undefined" !== response.data.content) {
+        $body.append(response.data.content);
+      }
     });
   }
 
