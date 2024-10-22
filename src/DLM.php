@@ -542,6 +542,9 @@ class WP_DLM {
 	 */
 	public function register_globals() {
 		$GLOBALS['dlm_download'] = null;
+		if ( '' === session_id() || ! isset( $_SESSION ) ) {
+			session_start();
+		}
 	}
 
 	/**
