@@ -97,7 +97,6 @@ class DLM_Modal {
 
 			// template handler.
 			$template_handler = new DLM_Template_Handler();
-
 			if ( 'empty-download' === $_POST['download_id'] || ! empty( $_POST['modal_text'] ) ) {
 				if ( ! empty( $_POST['modal_text'] ) ) {
 					echo wp_kses_post( sanitize_text_field( wp_unslash( $_POST['modal_text'] ) ) );

@@ -718,6 +718,22 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 					}
 				}
 
+				/**
+				 * Filter to show extra notice text permissions when the user has no access to the download
+				 *
+				 * @hook dlm_do_extra_notice_text
+				 *
+				 * @default false
+				 *
+				 * @since 5.0.13
+				 */
+				if ( ! empty( $_SESSION['dlm_error_texts'] ) && apply_filters( 'dlm_do_extra_notice_text', false ) ) {
+					$error_texts = $_SESSION['dlm_error_texts'];
+					foreach ( $error_texts as $error_text ) {
+						echo '<p class="dlm-no-access-notice">' . esc_html( $error_text ) . '</p>';
+					}
+				}
+
 				// load no access template
 				$template_handler->get_template_part(
 					'no-access',

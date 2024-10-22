@@ -3,7 +3,7 @@
  *
  * @since 5.0.13
  */
-class dlmModalUpsells {
+class DlmModalUpsells {
   upsells = [];
 
   /**
@@ -90,5 +90,5 @@ class dlmModalUpsells {
 
 // Load the class when window loaded
 jQuery(document).ready(function () {
-  new dlmModalUpsells();
+  new DlmModalUpsells();
 });
