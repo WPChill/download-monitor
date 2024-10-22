@@ -355,8 +355,11 @@ class DLM_Ajax_Handler {
 		if ( ! isset( $upsells[ $upsell ] ) ) {
 			wp_send_json_error( array( 'message' => __( 'Upsell not found.', 'download-monitor' ) ) );
 		}
+		ob_start();
 		// Get the modal content
-		require_once dirname( DLM_PLUGIN_FILE ) . '/src/Admin/UpsellsTemplates/' . $upsell . '-modal-upsell.php';
-		wp_die();
+		include dirname( DLM_PLUGIN_FILE ) . '/src/Admin/UpsellsTemplates/' . $upsell . '-modal-upsell.php';
+		$content = ob_get_clean();
+		// Send the modal content
+		wp_send_json_success( array( 'content' => $content ) );
 	}
 }
