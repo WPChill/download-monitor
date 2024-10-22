@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 5.5
 Tested up to: 6.6
-Stable tag: 5.0.12
+Stable tag: 5.0.13
 License: GPLv3
 Requires PHP: 7.6
 
@@ -129,6 +129,15 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 5.0.13 - 22.10.2024 =
+Fixed: Bulk editing download paths was deleting the paths ( [#1574](https://github.com/WPChill/download-monitor/issues/1574) )
+Fixed: Enabling paths from Download edit not working in some conditions ( [#1576](https://github.com/WPChill/download-monitor/issues/1576) )
+Fixed: Paths conflicts ( [#1566](https://github.com/WPChill/download-monitor/issues/1566) )
+Fixed: Quick edit for terms & conditions ( [#1565](https://github.com/WPChill/download-monitor/issues/1565) )
+Changed: Upsells ( [#1567](https://github.com/WPChill/download-monitor/issues/1567) )
+Fixed: Security issue for Key Generation ( thanks to @truonghuuphuc )
+Added: Extra notices for access permissions
 
 = 5.0.12 - 25.09.2024 =
 Fixed: Error on simple site approved download path deletion

@@ -25,14 +25,16 @@
             var $post_row = $( '#post-' + $post_id );
 
             // get data
-            var featured = ('Yes' == $( '.column-featured', $post_row ).text() );
-            var members_only = ('Yes' == $( '.column-locked_download span', $post_row ).data('members_only') );
-            var redirect_only = ('Yes' == $( '.column-redirect_only', $post_row ).text() );
+            var featured = ('Yes' === $( '.column-featured', $post_row ).text() );
+            var members_only = ('Yes' === $( '.column-locked_download span', $post_row ).data('members_only') );
+            var redirect_only = ('Yes' === $( '.column-redirect_only', $post_row ).text() );
+            var terms_conditions = ('Yes' === $( '.column-locked_download span', $post_row ).data('_dlm_tc_locked') );
 
             // populate data
             $( ':input[name="_featured"]', $edit_row ).prop( 'checked', featured );
             $( ':input[name="_members_only"]', $edit_row ).prop( 'checked', members_only );
             $( ':input[name="_redirect_only"]', $edit_row ).prop( 'checked', redirect_only );
+            $( ':input[name="_dlm_tc_locked"]', $edit_row ).prop( 'checked', terms_conditions );
         }
     };
 

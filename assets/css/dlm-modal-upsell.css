@@ -1,0 +1,165 @@
+
+.dlm-modal__overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 100000;
+    animation: dlm-modal__fade-in-animation 0.2s ease-out 0s;
+    animation-fill-mode: forwards;
+}
+
+.dlm-modal__frame {
+    position: relative;
+    box-sizing: border-box;
+    background: #fff;
+    width: 450px;
+    max-height: 90vh;
+    overflow: auto;
+    animation: dlm-modal__appear-animation 0.1s ease-out;
+    animation-fill-mode: forwards;
+    box-shadow: 0 3px 30px rgb(0 0 0 / 20%);
+}
+
+@media screen and (max-width: 800px) {
+    .dlm-modal__frame {
+        width: auto;
+        margin: 20px;
+    }
+}
+
+.dlm-modal__header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.dlm-modal__dismiss {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-flex;
+    justify-content: center;
+    height: 36px;
+    min-width: 36px;
+    margin: 8px;
+    padding: 6px;
+    border: 0;
+    cursor: pointer;
+    -webkit-appearance: none;
+    background: none;
+    transition: box-shadow 0.1s linear;
+    border-radius: 2px;
+}
+
+.dlm-modal__dismiss:focus {
+    box-shadow: 0 0 0 2px #007cba;
+    outline: 3px solid transparent;
+}
+
+.dlm-modal__dismiss:hover svg {
+    fill: #2271b1;
+}
+
+.dlm-modal__body {
+    padding: 40px 25px 40px;
+}
+
+@media screen and (max-width: 800px) {
+    .dlm-modal__body {
+        padding: 30px 30px 40px;
+    }
+}
+
+
+.dlm-upsells-carousel-wrapper-modal {
+    position: relative;
+    display: flex;
+}
+
+.dlm-upsells-carousel-modal {
+    /*animation: carousel 20s infinite;*/
+    flex-shrink: 0;
+    position: relative;
+    /* display:flex;*/
+    display: block;
+    width: 100%;
+}
+
+.dlm-upsells-carousel-modal .dlm-upsell-item-modal {
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+    margin-top: 0;
+
+}
+
+.dlm-upsells-carousel-modal .dlm-upsell-item-modal {
+    text-align: center;
+}
+
+.dlm-upsells-carousel-modal .dlm-upsell-item-modal ul.dlm-upsells-list-modal {
+    padding-left: 40px;
+}
+
+.dlm-upsells-carousel-modal .dlm-upsell-item-modal ul li {
+    position: relative;
+    list-style-type: none !important;
+    text-align: left;
+}
+
+#dlm-albums-upsell-modal .dlm-upsells-carousel-modal .dlm-upsell-item-modal ul li {
+    display: inline-block;
+    margin: 0px 15px 15px 35px;
+}
+
+.dlm-upsells-carousel-modal .dlm-upsell-item-modal ul li:before {
+    font-family: Dashicons;
+    content: "\f147";
+    position: absolute;
+    left: -30px;
+    font-size: 14px;
+    color: green;
+    background-color: #FFF;
+    padding: 0 3px;
+    border-radius: 50%;
+    border: 1px solid #DDD;
+    top: -1px;
+}
+
+
+.dlm-upsell-modal ul.dlm-upsell-features li span.dlm-check {
+    display: inline-block;
+    color: green;
+    background-color: #FFF;
+    border-radius: 50%;
+    border: 1px solid #DDD;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.dlm-upsell-modal {
+    border: 0;
+    padding: 15px 0;
+}
+
+
+.dlm-upsell-modal .button:first-child {
+    margin-right: 10px;
+}
+
+.dlm-upsell-modal .button {
+    height: 31px;
+    line-height: 31px;
+    font-weight: bold;
+}
+
+.dlm-upsell-modal.dlm-upsell-item-modal ul.dlm-upsells-list {
+    padding-left: 40px;
+}

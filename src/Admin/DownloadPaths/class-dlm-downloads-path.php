@@ -105,6 +105,7 @@ class DLM_Downloads_Path {
 	public function register_setting() {
 		// Register the setting for multisite.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		$default = array();
 		if ( is_multisite() ) {
 			$multi_args = array(
 				'type'    => 'array',
@@ -121,12 +122,10 @@ class DLM_Downloads_Path {
 			// phpcs:enable
 			$uploads = $uploads_path;
 			// Set the default value.
-			$default = array(
-				array(
-					'id'       => 2,
-					'path_val' => trailingslashit( $uploads ),
-					'enabled'  => true,
-				),
+			$default[] = array(
+				'id'       => 2,
+				'path_val' => trailingslashit( $uploads ),
+				'enabled'  => true,
 			);
 			// Backwards compatibility for the uploads path.
 			$old_user_path = get_option( 'dlm_downloads_path', '' );
@@ -143,7 +142,6 @@ class DLM_Downloads_Path {
 				'type'    => 'array',
 				'default' => $default,
 			);
-			register_setting( 'dlm_advanced_download_path', 'dlm_allowed_paths', $args );
 		} else {
 			// Add the ABSPATH path to the default array.
 			$default[] = array(
@@ -173,9 +171,8 @@ class DLM_Downloads_Path {
 				'type'    => 'array',
 				'default' => $default,
 			);
-
-			register_setting( 'dlm_advanced_download_path', 'dlm_allowed_paths', $args );
 		}
+		register_setting( 'dlm_advanced_download_path', 'dlm_allowed_paths', $args );
 	}
 
 	/**
@@ -383,7 +380,7 @@ class DLM_Downloads_Path {
 			return $old_value;
 		}
 		// From this point on, we are adding a new path.
-		if ( ! isset( $_POST['id'] ) || 0 == $_POST['id'] ) {
+		if ( ! isset( $_POST['id'] ) || 0 === absint( $_POST['id'] ) ) {
 			$lastkey     = array_key_last( $old_value );
 			$newval      = array(
 				'id'       => absint( $old_value[ $lastkey ]['id'] ) + 1,
@@ -396,10 +393,10 @@ class DLM_Downloads_Path {
 		}
 
 		// This is an edit action.
-		if ( isset( $_POST['id'] ) && 0 != $_POST['id'] ) {
+		if ( isset( $_POST['id'] ) && 0 !== absint( $_POST['id'] ) ) {
 			foreach ( $old_value as $key => $val ) {
-				if ( absint( $val['id'] ) == absint( $_POST['id'] ) ) {
-					$old_value[ $key ]['path_val'] = $_POST['dlm_allowed_paths'];
+				if ( absint( $val['id'] ) === absint( $_POST['id'] ) ) {
+					$old_value[ $key ]['path_val'] = $value;
 					$old_value[ $key ]['enabled']  = isset( $_POST['dlm_downloads_path_enabled'] );
 
 					return $old_value;
@@ -433,14 +430,6 @@ class DLM_Downloads_Path {
 		if ( $check ) {
 			$paths = DLM_Downloads_Path_Helper::get_all_paths();
 			if ( ! empty( $_GET['action'] ) ) {
-				// IF we're on multisite, switch to the desired blog.
-				if ( is_multisite() ) {
-					$site_id = get_current_blog_id();
-					if ( ! empty( $_GET['id'] ) ) {
-						$site_id = absint( $_GET['id'] );
-						switch_to_blog( $site_id );
-					}
-				}
 				$action = sanitize_text_field( wp_unslash( $_GET['action'] ) );
 				switch ( $action ) {
 					case 'enable':
@@ -504,7 +493,12 @@ class DLM_Downloads_Path {
 	 * @since 5.0.0
 	 */
 	public function bulk_actions_handler() {
-		if ( ( ! empty( $_POST['bulk-action'] ) || ! empty( $_POST['bulk-action2'] ) ) && isset( $_POST['otherdownloadpath'] ) ) {// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		// Check if the user has permission to update the path.
+		if ( ! $this->check_access() ) {
+			return;
+		}
+		// Check for the bulk action.
+		if ( ( ! empty( $_POST['bulk-action'] ) || ! empty( $_POST['bulk-action2'] ) ) && isset( $_POST['approveddownloadpaths'] ) ) {// phpcs:disable WordPress.Security.NonceVerification.Recommended
 			$changes = false;
 			$paths   = DLM_Downloads_Path_Helper::get_all_paths();
 			// Get the action. It's one or the other, so we can just check one.
@@ -513,16 +507,9 @@ class DLM_Downloads_Path {
 			} else {
 				$action = sanitize_text_field( wp_unslash( $_POST['bulk-action2'] ) );
 			}
-			// IF we're on multisite, switch to the desired blog.
-			if ( is_multisite() ) {
-				$site_id = get_current_blog_id();
-				if ( ! empty( $_GET['id'] ) ) {
-					$site_id = absint( $_GET['id'] );
-					switch_to_blog( $site_id );
-				}
-			}
+
 			// Cycle through the selected paths.
-			foreach ( $_POST['otherdownloadpath'] as $id ) {
+			foreach ( wp_unslash( array_map( 'absint', $_POST['approveddownloadpaths'] ) ) as $id ) {
 				switch ( $action ) {
 					case 'enable':
 						foreach ( $paths as $key => $path ) {
@@ -561,13 +548,7 @@ class DLM_Downloads_Path {
 			if ( $changes ) {
 				DLM_Downloads_Path_Helper::save_paths( $paths );
 			}
-			// If we're on multisite, switch back to the original blog.
-			if ( is_multisite() ) {
-				restore_current_blog();
-				wp_safe_redirect( network_admin_url( 'admin.php?page=download-monitor-paths&id=' . $site_id ) );
-			} else {
-				wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
-			}
+			wp_safe_redirect( DLM_Downloads_Path_Helper::get_base_url() );
 			exit;
 		}
 	}

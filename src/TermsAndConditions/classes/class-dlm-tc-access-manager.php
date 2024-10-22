@@ -43,6 +43,14 @@ class DLM_TC_Access_Manager {
 	 * @return bool
 	 */
 	public function check_access( $has_access, $download, $version, $post_data = null ) {
+		// If the access is already denied, we don't need to check anything else, most probably
+		// it is a different access restriction that is denying access.
+		if ( false === $has_access ) {
+			if ( ! empty( $_SESSION['dlm_error_texts']['terms_and_conditions'] ) ) {
+				unset( $_SESSION['dlm_error_texts']['terms_and_conditions'] );
+			}
+			return $has_access;
+		}
 
 		/**
 		 * Filter to skip the check access of terms and conditions.
@@ -62,6 +70,9 @@ class DLM_TC_Access_Manager {
 		}
 
 		if ( ! self::is_tc_locked( $download->get_id() ) ) {
+			if ( ! empty( $_SESSION['dlm_error_texts']['terms_and_conditions'] ) ) {
+				unset( $_SESSION['dlm_error_texts']['terms_and_conditions'] );
+			}
 			return $has_access;
 		}
 
@@ -74,9 +85,12 @@ class DLM_TC_Access_Manager {
 			$has_access = false;
 			// Check for pre-DLM 4.9.5 set cookies
 			$has_access = apply_filters( 'dlm_tc_cookie_access', $has_access, $download );
-
+			$_SESSION['dlm_error_texts']['terms_and_conditions'] = apply_filters( 'dlm_terms_and_conditions_access_text', __( 'You must accept the terms and conditions to download this file.', 'download-monitor' ) );
 			// New cookie management system check
 			if ( $cookie_manager->check_cookie_meta( DLM_TC_Constants::COOKIE_META, $download->get_id() ) ) {
+				if ( ! empty( $_SESSION['dlm_error_texts']['members_only'] ) ) {
+					unset( $_SESSION['dlm_error_texts']['members_only'] );
+				}
 				$has_access = true;
 			}
 		} else {
@@ -93,10 +107,12 @@ class DLM_TC_Access_Manager {
 			);
 			// Set cookie
 			$cookie_manager->set_cookie( $download, $cookie_data );
+			if ( ! empty( $_SESSION['dlm_error_texts']['terms_and_conditions'] ) ) {
+				unset( $_SESSION['dlm_error_texts']['terms_and_conditions'] );
+			}
 		}
 
 		if ( ! $has_access && get_option( 'dlm_no_access_modal', false ) && apply_filters( 'do_dlm_xhr_access_modal', true, $download ) && defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
-
 			header_remove( 'X-dlm-no-waypoints' );
 
 			$restriction_type = 'dlm-terms-conditions-modal';
@@ -114,7 +130,7 @@ class DLM_TC_Access_Manager {
 		return $has_access;
 	}
 
-     /**
+	/**
 	 * Check if the download post is locked for the admin downloads list table
 	 *
 	 * @param bool $is_locked
@@ -123,7 +139,7 @@ class DLM_TC_Access_Manager {
 	 *
 	 * @return bool
 	 */
-	public function admin_list_table_locked_download( $is_locked, $download ){
+	public function admin_list_table_locked_download( $is_locked, $download ) {
 
 		if ( 'yes' == get_post_meta( $download->get_id(), DLM_TC_Constants::META_LOCKED_KEY, true ) ) {
 			return true;
@@ -136,7 +152,7 @@ class DLM_TC_Access_Manager {
 	 * Add meta query key to sort by locked downloads in admin list table
 	 *
 	 * @param array $vars
-	 * 
+	 *
 	 * @return array
 	 * @since 5.0.0
 	 */
