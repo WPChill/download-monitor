@@ -719,7 +719,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 				}
 
 				/**
-				 * Filter to show extra notice text
+				 * Filter to show extra notice text permissions when the user has no access to the download
 				 *
 				 * @hook dlm_do_extra_notice_text
 				 *
