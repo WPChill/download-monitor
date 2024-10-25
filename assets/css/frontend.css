@@ -517,14 +517,6 @@ html body a.download-link.dlm-download-complete::before {
   color: red;
   font-weight: lighter;
 }
-/*.dlm-modal-close-icon {
-	background-color: #fff;
-	-webkit-mask: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSI+PHBhdGggZD0iTTEyIDEzLjA2bDMuNzEyIDMuNzEzIDEuMDYxLTEuMDZMMTMuMDYxIDEybDMuNzEyLTMuNzEyLTEuMDYtMS4wNkwxMiAxMC45MzggOC4yODggNy4yMjdsLTEuMDYxIDEuMDZMMTAuOTM5IDEybC0zLjcxMiAzLjcxMiAxLjA2IDEuMDYxTDEyIDEzLjA2MXoiPjwvcGF0aD48L3N2Zz4=) no-repeat center;
-	mask: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSI+PHBhdGggZD0iTTEyIDEzLjA2bDMuNzEyIDMuNzEzIDEuMDYxLTEuMDZMMTMuMDYxIDEybDMuNzEyLTMuNzEyLTEuMDYtMS4wNkwxMiAxMC45MzggOC4yODggNy4yMjdsLTEuMDYxIDEuMDZMMTAuOTM5IDEybC0zLjcxMiAzLjcxMiAxLjA2IDEuMDYxTDEyIDEzLjA2MXoiPjwvcGF0aD48L3N2Zz4=) no-repeat center;
-	width: 41px;
-	height: 43px;
-	margin: 0 auto;
-	position: relative;
-	display: inline-block;
-	mask-size: cover;
-}*/
+#dlm_login_form input[type="submit"] {
+  cursor: pointer;
+}

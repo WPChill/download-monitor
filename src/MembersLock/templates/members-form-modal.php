@@ -10,6 +10,6 @@ if ( ! isset( $tmpl ) ) {
 ?>
 <div class="dlm_tc_form">
 	<div class='dlm-relative dlm-flex dlm-items-start dlm-mt-4'>
-	<?php echo $form; ?>
+	<?php echo wp_kses_post( $form ); ?>
 	</div>
 </div>
