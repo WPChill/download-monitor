@@ -49,70 +49,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			add_filter( 'query_vars', array( $this, 'add_query_vars' ), 0 );
 			add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 			add_action( 'parse_request', array( $this, 'handler' ), 0 );
-			add_filter( 'dlm_can_download', array( $this, 'check_members_only' ), 10, 2 );
 			add_filter( 'dlm_can_download', array( $this, 'check_blacklist' ), 10, 2 );
-		}
-
-		/**
-		 * Check members only (hooked into dlm_can_download) checks if the download is members only and enfoces log in.
-		 *
-		 * Other plugins can use the 'dlm_can_download' filter directly to change access rights.
-		 *
-		 * @access public
-		 *
-		 * @param  boolean  $can_download
-		 * @param  mixed    $download
-		 *
-		 * @return boolean
-		 */
-		public function check_members_only( $can_download, $download ) {
-			if ( false === $can_download ) {
-				if( ! empty( $_SESSION['dlm_error_texts']['members_only'] ) ) {
-					unset( $_SESSION['dlm_error_texts']['members_only'] );
-				}
-				return $can_download;
-			}
-			// Check if download is a 'members only' download
-			if ( false !== $can_download && $download->is_members_only() ) {
-				// Check if user is logged in
-				if ( ! is_user_logged_in() ) {
-					$_SESSION['dlm_error_texts'] = array(
-						'members_only' => apply_filters( 'dlm_members_only_access_text', __( 'You\'ll need to log in to download the file.', 'download-monitor' ) ),
-					);
-					if ( get_option( 'dlm_no_access_modal', false ) && apply_filters( 'do_dlm_xhr_access_modal', true, $download ) && defined( 'DLM_DOING_XHR' ) && DLM_DOING_XHR ) {
-
-						header_remove( 'X-dlm-no-waypoints' );
-
-						$restriction_type = 'dlm-members-only-modal';
-
-						header( 'X-DLM-Members: true' );
-						header( 'X-DLM-No-Access: true' );
-						header( 'X-DLM-No-Access-Modal: true' );
-						header( 'X-DLM-No-Access-Restriction: ' . $restriction_type );
-						header( 'X-DLM-Nonce: ' . wp_create_nonce( 'dlm_ajax_nonce' ) );
-						header( 'X-DLM-Members-Locked: true' );
-						header( 'X-DLM-Download-ID: ' . absint( $download->get_id() ) );
-						header( 'X-DLM-No-Access-Modal-Text: ' . __( 'Only members can download', 'download-monitor' ) );
-						exit;
-					}
-
-					$can_download = false;
-				} // Check if it's a multisite and if user is member of blog
-				elseif ( is_multisite()
-						&& ! is_user_member_of_blog(
-							get_current_user_id(),
-							get_current_blog_id()
-						)
-				) {
-					$can_download = false;
-				}
-			}
-
-			if ( $can_download && ! empty( $_SESSION['dlm_error_texts']['members_only'] ) ) {
-				unset( $_SESSION['dlm_error_texts']['members_only'] );
-			}
-
-			return $can_download;
 		}
 
 		/**
