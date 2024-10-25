@@ -316,6 +316,8 @@ class WP_DLM {
 
 		// setup product manager
 		DLM_Product_Manager::get()->setup();
+		// Set the no access session
+		add_action( 'wp', array( $this, 'set_no_access_session' ) );
 	}
 
 	/**
@@ -544,9 +546,6 @@ class WP_DLM {
 	 */
 	public function register_globals() {
 		$GLOBALS['dlm_download'] = null;
-		if ( '' === session_id() || ! isset( $_SESSION ) ) {
-			session_start();
-		}
 	}
 
 	/**
@@ -946,5 +945,18 @@ class WP_DLM {
 			<p><?php esc_html_e('DLM - Terms & Conditions plugin was deactivated because it is now integrated within Download Monitor.', 'download-monitor'); ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Set no access session
+	 *
+	 * @return void
+	 * @since 5.0.14
+	 */
+	public function set_no_access_session() {
+		$no_access_page = get_option( 'dlm_no_access_page', 0 );
+		if ( $no_access_page && ! isset( $_SESSION ) ) {
+			session_start();
+		}
 	}
 }
