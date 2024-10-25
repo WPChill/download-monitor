@@ -582,7 +582,11 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				// Set extra headers for XHR download.
 				$this->set_extra_xhr_headers( $file_path, $download, $version );
 			}
-
+			$modal = get_option( 'dlm_no_access_modal', false );
+			// Start session if not started
+			if ( ( '' === session_id() || ! isset( $_SESSION ) ) && ! $modal ) {
+				session_start();
+			}
 			// Check Access.
 			if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, $this->check_for_xhr() ) ) {
 				// Check if we need to redirect if visitor don't have access to file.
@@ -649,8 +653,13 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 					$error_handler->no_access_error( $download );
 				}
 			}
-			// We made it so far, so we can unset the no access text.
-			unset( $_SESSION['dlm_no_access_text'] );
+
+			if ( ! $modal ) {
+				// We made it so far, so we can unset the no access text.
+				unset( $_SESSION['dlm_no_access_text'] );
+				session_write_close();
+			}
+
 			$cookie_manager = DLM_Cookie_Manager::get_instance();
 			// check if user downloaded this version in the past minute. This checks if the cookie exists and if it's
 			// value is the same as the download id.
