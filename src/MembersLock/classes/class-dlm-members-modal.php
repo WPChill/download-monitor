@@ -47,7 +47,16 @@ class DLM_Members_Modal {
 		if ( $settings->get_option( 'no_access_page' ) && apply_filters( 'dlm_use_default_modal_members-only', $settings->get_option( 'use_default_modal' ) ) ) {
 			return;
 		}
-		wp_add_inline_script( 'dlm-xhr', 'document.addEventListener("dlm-xhr-modal-data", function(event) { if ("undefined" !== typeof event.detail.headers["x-dlm-members-locked"]) { event.detail.data["action"] = "dlm_members_conditions_modal"; event.detail.data["dlm_modal_response"] = "true"; event.detail.data["dlm_members_form_redirect"] = "' . ( ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) . '" }});', 'after' );
+		$script = 'document.addEventListener("dlm-xhr-modal-data", function(event) {'
+			. 'if ("undefined" !== typeof event.detail.headers["x-dlm-members-locked"]) {' // Check if we have the right header.
+			. 'event.detail.data["action"] = "dlm_members_conditions_modal";' // Set the action.
+			. 'event.detail.data["dlm_modal_response"] = "true";' // Set the response.
+			. 'event.detail.data["dlm_members_form_redirect"] = "' // Set the redirect URL.
+			. esc_url( ( ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ) ) . '";' // Redirect URL.
+		. '}'
+		. '});';
+
+		wp_add_inline_script( 'dlm-xhr', $script, 'after' );
 	}
 
 	/**
