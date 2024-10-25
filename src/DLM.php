@@ -239,6 +239,8 @@ class WP_DLM {
 
 		// Load the integrated Terms and Conditions functionality.
 		new DLM_Integrated_Terms_And_Conditions();
+		// Load the Members Lock functionality.
+		new DLM_Members_Lock();
 
 		// Backwards Compatibility.
 		$dlm_backwards_compatibility
