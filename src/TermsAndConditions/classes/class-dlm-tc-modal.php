@@ -42,6 +42,12 @@ class DLM_TC_Modal {
 		if ( ! class_exists( 'DLM_Constants' ) || ! defined( 'DLM_Constants::DLM_MODAL_TEMPLATE' ) ) {
 			return;
 		}
+		$settings = download_monitor()->service( 'settings' );
+		// Check if the no access page is set. If set, we need to go through the normal process.
+		// Else we can just add the inline script to handle the subjective modal.
+		if ( $settings->get_option( 'no_access_page' ) && apply_filters( 'dlm_use_default_modal_dlm-terms-and-conditions', $settings->get_option( 'use_default_modal' ) ) ) {
+			return;
+		}
 		wp_add_inline_script( 'dlm-xhr', 'document.addEventListener("dlm-xhr-modal-data", function(event) { if ("undefined" !== typeof event.detail.headers["x-dlm-tc-required"]) { event.detail.data["action"] = "dlm_terms_conditions_modal"; event.detail.data["dlm_modal_response"] = "true"; }});', 'after' );
 	}
 
