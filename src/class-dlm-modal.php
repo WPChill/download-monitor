@@ -34,7 +34,7 @@ class DLM_Modal {
 		'title'    => '', // The title of the modal.
 		'content'  => '', // The content of the modal.
 		'icon'     => '', // The icon of the modal.
-		'tailwind' => false // Defaults to false, but can be set to true by extensions that permit the use of tailwind.
+		'tailwind' => false, // Defaults to false, but can be set to true by extensions that permit the use of tailwind.
 	);
 
 	/**
@@ -61,7 +61,6 @@ class DLM_Modal {
 		}
 
 		return self::$instance;
-
 	}
 
 	/**
@@ -92,6 +91,7 @@ class DLM_Modal {
 		// Check if the no_access_page is set.
 		$no_access_page = $settings->get_option( 'no_access_page' );
 		$download       = false;
+
 		if ( ! $no_access_page ) {
 			ob_start();
 
@@ -117,7 +117,7 @@ class DLM_Modal {
 						'',
 						array(
 							'download'          => $download,
-							'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
+							'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' ),
 						)
 					);
 				} catch ( Exception $exception ) {
@@ -183,7 +183,7 @@ class DLM_Modal {
 				// The icon of the modal
 				'icon'     => 'alert',
 				// set false for tailwind. this will be modified from extensions that permit the use of tailwind.
-				'tailwind' => false
+				'tailwind' => false,
 			),
 			$download,
 			$settings
@@ -224,7 +224,7 @@ class DLM_Modal {
 			array(
 				'title'   => $data['title'],
 				'content' => '<div class="dlm-modal-content' . ( ! $data['tailwind'] ? ' dlm-no-tailwind' : '' ) . '">' . $scripts . $data['content'] . '</div>',
-				'icon'    => $data['icon']
+				'icon'    => $data['icon'],
 			)
 		);
 		// Get the modal template markup.

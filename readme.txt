@@ -1,5 +1,5 @@
 === Download Monitor ===
-Contributors: wpchill, silkalns, barrykooij, mikejolley
+Contributors: wpchill, silkalns
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 5.5
 Tested up to: 6.6
