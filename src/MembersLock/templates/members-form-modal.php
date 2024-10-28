@@ -74,6 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					?>
 					</div>
 					<?php echo wp_kses_post( $login_form_bottom ); ?>
+					<input type="hidden" name="download_id" id="download_id" value="<?php echo absint( $download->get_id() ); ?>">
 				</form>
 				</div>
 			</div>

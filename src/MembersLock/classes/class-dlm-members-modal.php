@@ -255,9 +255,25 @@ class DLM_Members_Modal {
 		$info['user_password'] = $user_pass;
 		$info['remember']      = true;
 		$user_sigon            = wp_signon( $info, false );
+		$download              = false;
+		$download_link         = '';
+		// Get the Download
+		if ( ! empty( $_POST['download_id'] ) ) {
+			// Get the Download
+			try {
+				$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $_POST['download_id'] ) );
+			} catch ( Exception $e ) {
+			}
+		}
+		// Check if user managed to log in
 		if ( is_wp_error( $user_sigon ) ) {
 			wp_send_json_error( $user_sigon->get_error_message() );
 		}
-		wp_send_json_success( 'success' );
+		// Found Download? Set download link
+		if ( $download ) {
+			$download_link = '<p>' . esc_html__( 'Authentification succesfull. Download link: ', 'download-monitor' ) . '<a href="' . esc_url( $download->get_the_download_link() ) . '">' . esc_html( $download->get_title() ) . '</a><p>';
+		}
+
+		wp_send_json_success( $download_link );
 	}
 }
