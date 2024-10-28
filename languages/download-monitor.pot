@@ -2,10 +2,10 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Download Monitor 5.0.13\n"
+"Project-Id-Version: Download Monitor 5.0.14\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2024-10-24 13:51:43+00:00\n"
+"POT-Creation-Date: 2024-10-28 09:15:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1712,7 +1712,7 @@ msgid "Loading"
 msgstr ""
 
 #: src/Admin/Settings/Page.php:42 src/Admin/Settings/Page.php:43
-#: src/DLM.php:376
+#: src/DLM.php:378
 msgid "Settings"
 msgstr ""
 
@@ -2577,7 +2577,7 @@ msgid "&mdash; No Change &mdash;"
 msgstr ""
 
 #: src/Admin/class-dlm-admin-list-table.php:1479
-#: src/MembersLock/templates/members-form-modal.php:19
+#: src/MembersLock/classes/class-dlm-members-modal.php:170
 msgid "Password"
 msgstr ""
 
@@ -2925,11 +2925,11 @@ msgstr ""
 msgid "Upsell not found."
 msgstr ""
 
-#: src/DLM.php:509
+#: src/DLM.php:511
 msgid "An error occurred while trying to download the file. Please try again."
 msgstr ""
 
-#: src/DLM.php:511 src/DownloadHandler.php:395 src/DownloadHandler.php:406
+#: src/DLM.php:513 src/DownloadHandler.php:395 src/DownloadHandler.php:406
 #: src/RestAPI/class-dlm-download-rest.php:175
 #: src/RestAPI/class-dlm-download-rest.php:198
 #: src/RestAPI/class-dlm-download-rest.php:258
@@ -2938,45 +2938,45 @@ msgstr ""
 msgid "Download does not exist."
 msgstr ""
 
-#: src/DLM.php:513
+#: src/DLM.php:515
 msgid "No file path defined."
 msgstr ""
 
-#: src/DLM.php:515 src/class-dlm-download-error-handler.php:66
+#: src/DLM.php:517 src/class-dlm-download-error-handler.php:66
 #: src/class-dlm-download-error-handler.php:93
 #: src/class-dlm-download-error-handler.php:95
 msgid "No file paths defined."
 msgstr ""
 
-#: src/DLM.php:517 src/class-dlm-download-error-handler.php:168
+#: src/DLM.php:519 src/class-dlm-download-error-handler.php:168
 #: src/class-dlm-download-error-handler.php:175
 msgid "Download is not allowed for this file type."
 msgstr ""
 
-#: src/DLM.php:519 src/class-dlm-download-error-handler.php:195
+#: src/DLM.php:521 src/class-dlm-download-error-handler.php:195
 msgid "Access denied to this file."
 msgstr ""
 
-#: src/DLM.php:521 src/class-dlm-download-error-handler.php:223
+#: src/DLM.php:523 src/class-dlm-download-error-handler.php:223
 msgid "Access denied. You do not have permission to download this file."
 msgstr ""
 
-#: src/DLM.php:523 src/DownloadHandler.php:841 src/DownloadHandler.php:859
+#: src/DLM.php:525 src/DownloadHandler.php:850 src/DownloadHandler.php:868
 msgid "Something is wrong with the file path."
 msgstr ""
 
-#: src/DLM.php:525 src/DownloadHandler.php:936 src/DownloadHandler.php:954
+#: src/DLM.php:527 src/DownloadHandler.php:945 src/DownloadHandler.php:963
 msgid "File not found."
 msgstr ""
 
-#: src/DLM.php:946
+#: src/DLM.php:945
 msgid ""
 "DLM - Terms & Conditions plugin was deactivated because it is now "
 "integrated within Download Monitor."
 msgstr ""
 
-#: src/DownloadHandler.php:411 src/DownloadHandler.php:864
-#: src/DownloadHandler.php:956 src/class-dlm-download-error-handler.php:69
+#: src/DownloadHandler.php:411 src/DownloadHandler.php:873
+#: src/DownloadHandler.php:965 src/class-dlm-download-error-handler.php:69
 #: src/class-dlm-download-error-handler.php:98
 #: src/class-dlm-download-error-handler.php:124
 #: src/class-dlm-download-error-handler.php:151
@@ -2985,8 +2985,8 @@ msgstr ""
 msgid "Go to homepage &rarr;"
 msgstr ""
 
-#: src/DownloadHandler.php:415 src/DownloadHandler.php:868
-#: src/DownloadHandler.php:960 src/class-dlm-download-error-handler.php:71
+#: src/DownloadHandler.php:415 src/DownloadHandler.php:877
+#: src/DownloadHandler.php:969 src/class-dlm-download-error-handler.php:71
 #: src/class-dlm-download-error-handler.php:100
 #: src/class-dlm-download-error-handler.php:126
 #: src/class-dlm-download-error-handler.php:153
@@ -3035,7 +3035,6 @@ msgid "Please select a download id"
 msgstr ""
 
 #: src/KeyGeneration/admin/class-dlm-api-keys-table.php:112
-#: src/MembersLock/templates/members-form-modal.php:18
 msgid "Username"
 msgstr ""
 
@@ -3108,24 +3107,20 @@ msgstr ""
 msgid "Only members can download"
 msgstr ""
 
-#: src/MembersLock/classes/class-dlm-members-modal.php:66
-msgid "Only website members are allowed to access files!"
+#: src/MembersLock/classes/class-dlm-members-modal.php:169
+msgid "Username or Email Address"
 msgstr ""
 
-#: src/MembersLock/classes/class-dlm-members-modal.php:104
-#: src/TermsAndConditions/classes/class-dlm-tc-modal.php:128
-#: src/TermsAndConditions/classes/class-dlm-tc-options.php:31
-#: src/TermsAndConditions/classes/class-dlm-tc-shortcodes.php:57
-#: src/TermsAndConditions/dlm-integrated-terms-and-conditions.php:82
-msgid "I accept the terms & conditions"
-msgstr ""
-
-#: src/MembersLock/templates/members-form-modal.php:20
+#: src/MembersLock/classes/class-dlm-members-modal.php:171
 msgid "Remember Me"
 msgstr ""
 
-#: src/MembersLock/templates/members-form-modal.php:21
+#: src/MembersLock/classes/class-dlm-members-modal.php:172
 msgid "Log In"
+msgstr ""
+
+#: src/MembersLock/templates/members-form-modal.php:12
+msgid "Log in to your account to download the file!"
 msgstr ""
 
 #: src/PostTypeManager.php:56
@@ -5047,6 +5042,13 @@ msgstr ""
 
 #: src/TermsAndConditions/classes/class-dlm-tc-modal.php:66
 msgid "You need to accept the terms and conditions before you can download."
+msgstr ""
+
+#: src/TermsAndConditions/classes/class-dlm-tc-modal.php:128
+#: src/TermsAndConditions/classes/class-dlm-tc-options.php:31
+#: src/TermsAndConditions/classes/class-dlm-tc-shortcodes.php:57
+#: src/TermsAndConditions/dlm-integrated-terms-and-conditions.php:82
+msgid "I accept the terms & conditions"
 msgstr ""
 
 #: src/TermsAndConditions/classes/class-dlm-tc-options.php:26
