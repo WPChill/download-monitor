@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="mt-2">
 						<?php
 						printf(
-							'<input type="text" name="log" id="%1$s" autocomplete="username" class="input dlm-block dlm-w-full dlm-rounded-md dlm-border-0 dlm-py-1.5 dlm-text-gray-900 dlm-shadow-sm dlm-ring-1 dlm-ring-inset dlm-ring-gray-300 placeholder:dlm-text-gray-400 focus:dlm-ring-2 focus:dlm-ring-inset focus:dlm-ring-indigo-600 sm:dlm-text-sm sm:dlm-leading-6" value="%3$s" size="20"%4$s />',
+							'<input type="text" name="log" id="%1$s" autocomplete="username" required class="input dlm-block dlm-w-full dlm-rounded-md dlm-border-0 dlm-py-1.5 dlm-text-gray-900 dlm-shadow-sm dlm-ring-1 dlm-ring-inset dlm-ring-gray-300 placeholder:dlm-text-gray-400 focus:dlm-ring-2 focus:dlm-ring-inset focus:dlm-ring-indigo-600 sm:dlm-text-sm sm:dlm-leading-6" value="%3$s" size="20"%4$s />',
 							esc_attr( $args['id_username'] ),
 							esc_html( $args['label_username'] ),
 							esc_attr( $args['value_username'] ),
@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<div class="dlm-mt-2">
 					<?php
 					printf(
-						'<input type="password" name="pwd" id="%1$s" autocomplete="current-password" spellcheck="false" class="input input dlm-block dlm-w-full dlm-rounded-md dlm-border-0 dlm-py-1.5 dlm-text-gray-900 dlm-shadow-sm dlm-ring-1 dlm-ring-inset dlm-ring-gray-300 placeholder:dlm-text-gray-400 focus:dlm-ring-2 focus:dlm-ring-inset focus:dlm-ring-indigo-600 sm:dlm-text-sm sm:dlm-leading-6" value="" size="20"%3$s />',
+						'<input type="password" name="pwd" id="%1$s" autocomplete="current-password" required spellcheck="false" class="input input dlm-block dlm-w-full dlm-rounded-md dlm-border-0 dlm-py-1.5 dlm-text-gray-900 dlm-shadow-sm dlm-ring-1 dlm-ring-inset dlm-ring-gray-300 placeholder:dlm-text-gray-400 focus:dlm-ring-2 focus:dlm-ring-inset focus:dlm-ring-indigo-600 sm:dlm-text-sm sm:dlm-leading-6" value="" size="20"%3$s />',
 						esc_attr( $args['id_password'] ),
 						esc_html( $args['label_password'] ),
 						( $args['required_password'] ? ' required="required"' : '' )
