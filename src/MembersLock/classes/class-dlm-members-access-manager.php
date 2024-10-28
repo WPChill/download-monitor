@@ -74,7 +74,6 @@ class DLM_Members_Access_Manager {
 					header( 'X-DLM-Members-Locked: true' );
 					header( 'X-DLM-Download-ID: ' . absint( $download->get_id() ) );
 					header( 'X-DLM-No-Access-Modal-Text: ' . __( 'Only members can download', 'download-monitor' ) );
-					header( 'X-DLM-Members-Form-Redirect: '  ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 					exit;
 				}
 

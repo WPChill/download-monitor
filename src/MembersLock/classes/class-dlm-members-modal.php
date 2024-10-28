@@ -27,6 +27,9 @@ class DLM_Members_Modal {
 		add_action( 'wp_enqueue_scripts', array( $this, 'add_members_modal_script' ) );
 		add_action( 'wp_ajax_nopriv_dlm_members_conditions_modal', array( $this, 'xhr_no_access_modal' ), 15 );
 		add_action( 'wp_ajax_dlm_members_conditions_modal', array( $this, 'xhr_no_access_modal' ), 15 );
+		// Add AJAX action to login the user.
+		add_action( 'wp_ajax_dlm_login_member', array( $this, 'login_user' ) );
+		add_action( 'wp_ajax_nopriv_dlm_login_member', array( $this, 'login_user' ) );
 	}
 
 	/**
@@ -104,20 +107,37 @@ class DLM_Members_Modal {
 			// no download found.
 			return '';
 		}
+		// enqueue js.
+		wp_enqueue_script(
+			'dlm_members_lock',
+			plugins_url( '/assets/js/members-lock' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Members_Lock::get_plugin_file() ),
+			/**
+			 * Check if we need to load the dependency scripts for our scripts. Loading multiple times same script, jquery in our case,
+			 * can cause unwanted behavior. This should be used in every add-on that has a dependency script when using the
+			 * No Access Modal.
+			 *
+			 * @hook: dlm_modal_dependency_scripts
+			 *
+			 * @param bool   $load_scripts Default value should be false and only true if the dependencies are not already loaded.
+			 * @param string $handle       The handle of the script.
+			 * @param string $addon_slug   The slug of the add-on. Should be specific for each add-on.
+			 */
+			( apply_filters( 'dlm_modal_dependency_scripts', false, 'dlm_members_lock', 'dlm-members-lock' ) ? array(
+				'jquery',
+				'wp-i18n',
+			) : array() ),
+			DLM_VERSION,
+			true
+		);
+		wp_add_inline_script( 'dlm_members_lock', 'const memberLock = { nonce: "' . wp_create_nonce( 'dlm-ajax-nonce' ) . '", ajaxurl: "' . admin_url( 'admin-ajax.php' ) . '" };', 'before' );
 		$page_redirect = ! empty( $_POST['dlm_members_form_redirect'] ) ? esc_url( $_POST['dlm_members_form_redirect'] ) : get_home_url();
 		// Template handler.
 		$template_handler = new DLM_Template_Handler();
-		// unlock text.
-		$terms_page_id = get_option( 'dlm_tc_content_page', false );
-		$unlock_text   = apply_filters( 'dlm_tc_unlock_text', get_option( 'dlm_tc_text', __( 'I accept the terms & conditions', 'download-monitor' ) ), $download );
-		$terms_page    = ( $terms_page_id && '0' !== $terms_page_id ) ? '<a href="' . esc_url( get_permalink( $terms_page_id ) ) . '" target="_blank">' . wp_kses_post( get_the_title( $terms_page_id ) ) . '</a>' : '';
-		$unlock_text   = str_replace( '%%terms_conditions%%', $terms_page, $unlock_text );
-		$template_args = array(
-			'download'    => $download,
-			'unlock_text' => $unlock_text,
-			'tmpl'        => $template_handler,
+		$template_args    = array(
+			'download' => $download,
+			'tmpl'     => $template_handler,
 		);
-		$template_args = array_merge( $template_args, $this->login_form_atts( $page_redirect ) );
+		$template_args    = array_merge( $template_args, $this->login_form_atts( $page_redirect ) );
 		// Alright, all good. Load the template.
 		ob_start();
 		// Load template.
@@ -173,7 +193,7 @@ class DLM_Members_Modal {
 		 *
 		 * @param array $defaults An array of default login form arguments.
 		 */
-		$args = wp_parse_args( $args, apply_filters( 'login_form_defaults', $defaults ) );
+		$args = wp_parse_args( array(), apply_filters( 'login_form_defaults', $defaults ) );
 
 		/**
 		 * Filters content to display at the top of the login form.
@@ -218,5 +238,26 @@ class DLM_Members_Modal {
 			'login_form_middle' => $login_form_middle,
 			'login_form_bottom' => $login_form_bottom,
 		);
+	}
+
+	/**
+	 * Login the user.
+	 *
+	 * @since 5.0.14
+	 */
+	public function login_user() {
+		// Check nonce.
+		check_ajax_referer( 'dlm-ajax-nonce', 'security' );
+		$user_name             = sanitize_text_field( $_POST['user_name'] );
+		$user_pass             = sanitize_text_field( $_POST['user_pass'] );
+		$info                  = array();
+		$info['user_login']    = $user_name;
+		$info['user_password'] = $user_pass;
+		$info['remember']      = true;
+		$user_sigon            = wp_signon( $info, false );
+		if ( is_wp_error( $user_sigon ) ) {
+			wp_send_json_error( $user_sigon->get_error_message() );
+		}
+		wp_send_json_success( 'success' );
 	}
 }
