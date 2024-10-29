@@ -129,7 +129,15 @@ class DLM_Members_Modal {
 			DLM_VERSION,
 			true
 		);
-		wp_add_inline_script( 'dlm_members_lock', 'const memberLock = { nonce: "' . wp_create_nonce( 'dlm-ajax-nonce' ) . '", ajaxurl: "' . admin_url( 'admin-ajax.php' ) . '" };', 'before' );
+		wp_add_inline_script( 'dlm_members_lock', 'var memberLock = { nonce: "' . wp_create_nonce( 'dlm-ajax-nonce' ) . '", ajaxurl: "' . admin_url( 'admin-ajax.php' ) . '" };', 'before' );
+		wp_localize_script(
+			'dlm_members_lock',
+			'dlmMembersLockLang',
+			array(
+				'required_user' => __( 'User name is required', 'download-monitor' ),
+				'required_pass' => __( 'Password is required', 'download-monitor' ),
+			)
+		);
 		$page_redirect = ! empty( $_POST['dlm_members_form_redirect'] ) ? esc_url( $_POST['dlm_members_form_redirect'] ) : get_home_url();
 		// Template handler.
 		$template_handler = new DLM_Template_Handler();
@@ -147,7 +155,6 @@ class DLM_Members_Modal {
 			plugin_dir_path( DLM_Members_Lock::get_plugin_file() ) . 'templates/',
 			$template_args
 		);
-
 		return ob_get_clean();
 	}
 

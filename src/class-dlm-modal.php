@@ -223,8 +223,12 @@ class DLM_Modal {
 		$template_handler = new DLM_Template_Handler();
 		// Print scripts, dependencies and inline scripts in an object, so we can attach it to the modal.
 		ob_start();
+		// print_emoji_styles is deprecated and triggers a PHP warning
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 		wp_print_styles();
 		wp_print_scripts();
+		// re-add print_emoji_styles
+		add_action( 'wp_print_styles', 'print_emoji_styles' );
 		// Get the scripts and styles needed so we can attach them to the modal content.
 		$scripts = ob_get_clean();
 		// Start the modal template.
