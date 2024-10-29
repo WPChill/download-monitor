@@ -87,6 +87,10 @@ class DLM_Review {
 	public function ajax() {
 
 		check_ajax_referer( 'download-monitor-review', 'security' );
+		// Check permissions
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'Permission denied', 'download-monitor' ) );
+		}
 
 		if ( ! isset( $_POST['check'] ) ) {
 			wp_die( 'ok' );
@@ -104,7 +108,6 @@ class DLM_Review {
 		
 		update_option( 'download-monitor-rate-time', $time );
 		wp_die( 'ok' );
-
 	}
 
 	public function enqueue() {
