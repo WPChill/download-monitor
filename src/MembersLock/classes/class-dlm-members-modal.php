@@ -279,7 +279,7 @@ class DLM_Members_Modal {
 		// Found Download? Set download link
 		if ( $download ) {
 			$download_link .= '<p>' . esc_html__( 'Authentification successful.', 'download-monitor') . '</p>';
-			$download_link .= '<p style="padding-top:15px;">' . esc_html__( 'Download link: ', 'download-monitor' ) . '<a href="' . esc_url( $download->get_the_download_link() ) . '">' . esc_html( $download->get_title() ) . '</a><p>';
+			$download_link .= '<p style="padding-top:15px;">' . esc_html__( 'Download link: ', 'download-monitor' ) . '<strong><a href="' . esc_url( $download->get_the_download_link() ) . '">' . esc_html( $download->get_title() ) . '</a></strong><p>';
 		}
 
 		wp_send_json_success( $download_link );

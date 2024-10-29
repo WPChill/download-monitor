@@ -130,7 +130,7 @@ Admin hits are not counted, log out and try again!
 
 == Changelog ==
 
-= 5.0.14 - 28.10.2024 =
+= 5.0.14 - 29.10.2024 =
 Fixed: Session performance problems
 Added: No Access modal for the Members lock functionality
 
