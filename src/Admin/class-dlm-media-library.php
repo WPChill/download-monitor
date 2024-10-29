@@ -589,8 +589,12 @@ class DLM_Media_Library {
 				add_query_arg(
 					array(
 						'dlm_action' => $doaction,
-						'posts'      => $post_ids
-					), '/upload.php' ) );
+						'nonce' 	 => $_REQUEST['_wpnonce'],
+						'posts'      => $post_ids,
+					),
+					'/upload.php'
+				)
+			);
 		}
 
 		return $location;
@@ -611,6 +615,8 @@ class DLM_Media_Library {
 		if ( ! current_user_can( 'manage_downloads' ) ) {
 			return;
 		}
+		// Check the nonce.
+		check_admin_referer( 'bulk-media', 'nonce' );
 
 		$action = sanitize_text_field( wp_unslash( $_GET['dlm_action'] ) );
 		$posts  = array_map( 'absint', $_GET['posts'] );

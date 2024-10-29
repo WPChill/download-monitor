@@ -180,6 +180,11 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public function count_log_entries() {
 
 			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
+			// Check if user has the capability to do this.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json( '0' );
+				exit;
+			}
 
 			global $wpdb;
 			$posts_table = "{$wpdb->prefix}posts";
@@ -253,6 +258,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public function alter_download_log_table() {
 
 			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
+			// Check if user has the capability to do this.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( __( 'You do not have permission to do this.', 'download-monitor' ) );
+			}
 
 			// Managed this far, means migration of data is finalized so we can delete our set transient with the offset.
 			delete_transient( 'dlm_db_upgrade_offset' );
@@ -334,6 +343,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public function update_log_table_db() {
 
 			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
+			// Check if user has the capability to do this.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( __( 'You do not have permission to do this.', 'download-monitor' ) );
+			}
 
 			global $wpdb;
 			$upgrade_type = get_transient( 'dlm_upgrade_type' );
@@ -414,6 +427,10 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 		public function clear_offset() {
 
 			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
+			// Check if user has the capability to do this.
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error( __( 'You do not have permission to do this.', 'download-monitor' ) );
+			}
 
 			if ( ! isset( $_POST['offset'] ) ) {
 				// We need the previous set offset

@@ -267,7 +267,7 @@ class DLM_Key_Generation {
 		$term = isset( $_GET['q'] ) ? trim( wp_unslash( $_GET['q'] ) ) : '';
 
 		check_ajax_referer( 'dlm_ajax_nonce', '_ajax_nonce' );
-
+		$this->check_permission();
 		$args = array(
 			'search'         => '*' . esc_attr( $term ) . '*',
 			'search_columns' => array( 'user_login', 'user_nicename', 'user_email', 'display_name' ),
@@ -309,9 +309,7 @@ class DLM_Key_Generation {
 		// Check nonce.
 		check_ajax_referer( 'dlm_ajax_nonce', '_ajax_nonce' );
 		// Check if the user has permission to perform this action.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( 'You do not have permission to perform this action.' );
-		}
+		$this->check_permission();
 
 		switch ( $_POST['dlm_action'] ) {
 			case 'generate':
@@ -366,5 +364,16 @@ class DLM_Key_Generation {
 		);
 
 		return $settings;
+	}
+
+	/**
+	 * Check if the user has permission to perform this action.
+	 *
+	 * @since 5.0.14
+	 */
+	public function check_permission() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to perform this action.', 'download-monitor' ) );
+		}
 	}
 }
