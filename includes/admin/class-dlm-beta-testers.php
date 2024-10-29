@@ -105,9 +105,12 @@ class DLM_Beta_Testers {
 	public function ajax() {
 
 		check_ajax_referer( 'download-monitor-beta-notice', 'security' );
+		// Check permissions
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You do not have permission to do this.', 'download-monitor' ) );
+		}
 		update_option( 'download-monitor-hide-beta-notice', true );
 		wp_die( 'ok' );
-
 	}
 
 	/**

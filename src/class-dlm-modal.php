@@ -34,7 +34,7 @@ class DLM_Modal {
 		'title'    => '', // The title of the modal.
 		'content'  => '', // The content of the modal.
 		'icon'     => '', // The icon of the modal.
-		'tailwind' => false // Defaults to false, but can be set to true by extensions that permit the use of tailwind.
+		'tailwind' => false, // Defaults to false, but can be set to true by extensions that permit the use of tailwind.
 	);
 
 	/**
@@ -61,7 +61,6 @@ class DLM_Modal {
 		}
 
 		return self::$instance;
-
 	}
 
 	/**
@@ -117,7 +116,7 @@ class DLM_Modal {
 						'',
 						array(
 							'download'          => $download,
-							'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
+							'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' ),
 						)
 					);
 				} catch ( Exception $exception ) {
@@ -127,12 +126,25 @@ class DLM_Modal {
 
 			$content = ob_get_clean();
 		} else {
-			$content = do_shortcode( apply_filters( 'the_content', get_post_field( 'post_content', $no_access_page ) ) );
+			$content = '';
+			/**
+			 * Filter to show extra notice text permissions when the user has no access to the download
+			 *
+			 * @hook dlm_do_extra_notice_text
+			 *
+			 * @default false
+			 *
+			 * @since 5.0.14
+			 */
+			if ( ! empty( $_POST['modal_text'] ) && apply_filters( 'dlm_do_extra_notice_text', false ) ) {
+				$content .= '<p class="dlm-no-access-notice">' . esc_html( $_POST['modal_text'] ) . '</p>';
+			}
+			$content .= do_shortcode( apply_filters( 'the_content', get_post_field( 'post_content', $no_access_page ) ) );
 			if ( '' === trim( $content ) ) {
 				if ( ! empty( $_POST['modal_text'] ) ) {
-					$content = sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
+					$content .= sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
 				} else {
-					$content = '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
+					$content .= '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
 				}
 			}
 		}
@@ -183,7 +195,7 @@ class DLM_Modal {
 				// The icon of the modal
 				'icon'     => 'alert',
 				// set false for tailwind. this will be modified from extensions that permit the use of tailwind.
-				'tailwind' => false
+				'tailwind' => false,
 			),
 			$download,
 			$settings
@@ -211,8 +223,12 @@ class DLM_Modal {
 		$template_handler = new DLM_Template_Handler();
 		// Print scripts, dependencies and inline scripts in an object, so we can attach it to the modal.
 		ob_start();
+		// print_emoji_styles is deprecated and triggers a PHP warning
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 		wp_print_styles();
 		wp_print_scripts();
+		// re-add print_emoji_styles
+		add_action( 'wp_print_styles', 'print_emoji_styles' );
 		// Get the scripts and styles needed so we can attach them to the modal content.
 		$scripts = ob_get_clean();
 		// Start the modal template.
@@ -224,7 +240,7 @@ class DLM_Modal {
 			array(
 				'title'   => $data['title'],
 				'content' => '<div class="dlm-modal-content' . ( ! $data['tailwind'] ? ' dlm-no-tailwind' : '' ) . '">' . $scripts . $data['content'] . '</div>',
-				'icon'    => $data['icon']
+				'icon'    => $data['icon'],
 			)
 		);
 		// Get the modal template markup.

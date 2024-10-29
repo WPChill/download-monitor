@@ -1,9 +1,9 @@
 === Download Monitor ===
-Contributors: wpchill, silkalns, barrykooij, mikejolley
+Contributors: wpchill, silkalns
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 5.5
-Tested up to: 6.6
-Stable tag: 5.0.13
+Tested up to: 6.7
+Stable tag: 5.0.14
 License: GPLv3
 Requires PHP: 7.6
 
@@ -129,6 +129,10 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 5.0.14 - 29.10.2024 =
+Fixed: Session performance problems
+Added: No Access modal for the Members lock functionality
 
 = 5.0.13 - 22.10.2024 =
 Fixed: Bulk editing download paths was deleting the paths ( [#1574](https://github.com/WPChill/download-monitor/issues/1574) )

@@ -355,6 +355,11 @@ class DLM_Custom_Actions {
 		// Check AJAX nonce
 		check_ajax_referer( 'dlm_duplicate_download_nonce', 'nonce' );
 
+		// Check permissions
+		if ( ! current_user_can( 'manage_downloads' ) ) {
+			wp_send_json_error( array( 'result' => 'false' ) );
+		}
+
 		// Download ID
 		$download_id = absint( $_POST['download_id'] );
 

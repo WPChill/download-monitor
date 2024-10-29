@@ -652,7 +652,10 @@ class DLM_Admin_Extensions {
 	public function handle_extensions() {
 		// Check nonce
 		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
-
+		// Check if user is allowed to do this
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do this.', 'dlm-pro' ) ) );
+		}
 		// Post vars
 		$product_id       = isset( $_POST['product_id'] ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : 0;
 		$key              = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
@@ -705,15 +708,19 @@ class DLM_Admin_Extensions {
 		}
 
 		if ( ! isset( $data_request['key'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Missing license key.', 'dlm-pro' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Missing license key.', 'download-monitor' ) ) );
 		}
 
 		if ( ! isset( $data_request['email'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Missing email address.', 'dlm-pro' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Missing email address.', 'download-monitor' ) ) );
 		}
 
 		if ( ! isset( $data_request['extension_action'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'Something went wrong, please try again.', 'dlm-pro' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Something went wrong, please try again.', 'download-monitor' ) ) );
+		}
+		// Check if user is allowed to do this.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do this.', 'download-monitor' ) ) );
 		}
 
 		// Post vars.

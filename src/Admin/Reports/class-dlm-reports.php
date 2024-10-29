@@ -54,7 +54,6 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			add_action( 'wp_ajax_dlm_top_downloads_reports', array( $this, 'get_ajax_top_downloads_markup' ) );
 			add_action( 'init', array( $this, 'set_table_headers' ), 30 );
 			add_action( 'init', array( $this, 'set_memory_limit' ) );
-
 		}
 
 		/**
@@ -423,6 +422,10 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			}
 
 			check_ajax_referer( 'dlm_reports_nonce' );
+			// Check if the user has the right to update the settings.
+			if ( ! current_user_can( 'dlm_view_reports' ) ) {
+				wp_send_json_error( __( 'You do not have the rights to do this!', 'download-monitor' ) );
+			}
 			$option = ( isset( $_POST['name'] ) ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
 
 			if ( isset( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {

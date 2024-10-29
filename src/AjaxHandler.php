@@ -230,6 +230,11 @@ class DLM_Ajax_Handler {
 		// check nonce
 		check_ajax_referer( 'dlm_hide_notice-' . $notice, 'nonce' );
 
+		// Check if the user has rights.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You do not have permission to do this', 'download-monitor' ) );
+		}
+
 		// update option
 		update_option( 'dlm_hide_notice-' . $notice, 1 );
 
@@ -243,6 +248,11 @@ class DLM_Ajax_Handler {
 	public function handle_settings_lazy_select() {
 		// check nonce
 		check_ajax_referer( 'dlm-settings-lazy-select-nonce', 'nonce' );
+		// Check if the user has rights.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You do not have permission to do this', 'download-monitor' ) );
+			exit;
+		}
 
 		if ( ! isset( $_POST['option'] ) ) {
 			wp_send_json_error();
@@ -297,6 +307,10 @@ class DLM_Ajax_Handler {
 
 		// Check ajax referrer.
 		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
+		// Check if the user has rights.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do this', 'download-monitor' ) ) );
+		}
 		global $wpdb;
 
 		$cat_col_type = DLM_Admin_Helper::check_column_type( $wpdb->prefix . 'download_log', 'download_category', 'longtext' );

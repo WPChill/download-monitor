@@ -756,7 +756,7 @@ if ( ! class_exists( 'DLM_Shortcodes' ) ) {
 
 			// set new content
 			$content = ob_get_clean();
-
+			session_write_close();
 			return $content;
 		}
 	}

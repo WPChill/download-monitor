@@ -172,6 +172,14 @@ class DLM_Admin_Settings {
 								'desc'     => __( 'Open no access message in a modal (pop-up) window.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
+							array(
+								'name'     => 'dlm_use_default_modal',
+								'std'      => '1',
+								'label'    => __( 'Use default modal', 'download-monitor' ),
+								'cb_label' => '',
+								'desc'     => __( 'When enabled, the content of the "No Access page" option will be displayed in the no access modal. If disabled, the modal will show content specific to each extension.', 'download-monitor' ),
+								'type'     => 'checkbox',
+							),
 						),
 					),
 					'access'     => array(

@@ -2,10 +2,10 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Download Monitor 5.0.0\n"
+"Project-Id-Version: Download Monitor 5.0.14\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2024-08-09 07:46:15+00:00\n"
+"POT-Creation-Date: 2024-10-28 09:15:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #: assets/views/meta-box/product-information.php:13 src/Admin/Dashboard.php:72
 #: src/Admin/Extensions.php:411 src/Admin/class-dlm-admin-list-table.php:2000
-#: src/Admin/class-dlm-network-settings.php:53
-#: src/Admin/class-dlm-network-settings.php:54 src/PostTypeManager.php:58
+#: src/Admin/class-dlm-network-settings.php:57
+#: src/Admin/class-dlm-network-settings.php:58 src/PostTypeManager.php:58
 msgid "Downloads"
 msgstr ""
 
@@ -46,12 +46,12 @@ msgid "%s downloads"
 msgstr ""
 
 #: assets/views/meta-box/version.php:32 assets/views/meta-box/version.php:92
-#: src/Admin/WritePanels.php:277
+#: src/Admin/WritePanels.php:299
 msgid "Uploading file:"
 msgstr ""
 
 #: assets/views/meta-box/version.php:34 assets/views/meta-box/version.php:94
-#: src/Admin/WritePanels.php:280
+#: src/Admin/WritePanels.php:304
 msgid "File uploaded."
 msgstr ""
 
@@ -60,31 +60,31 @@ msgid "Drag & Drop here"
 msgstr ""
 
 #: assets/views/meta-box/version.php:52 assets/views/meta-box/version.php:105
-#: src/Admin/WritePanels.php:295
+#: src/Admin/WritePanels.php:324
 msgid "Upload file"
 msgstr ""
 
 #: assets/views/meta-box/version.php:55 assets/views/meta-box/version.php:108
-#: src/Admin/WritePanels.php:298
+#: src/Admin/WritePanels.php:327
 msgid "Media Library"
 msgstr ""
 
 #: assets/views/meta-box/version.php:57 assets/views/meta-box/version.php:110
-#: src/Admin/WritePanels.php:300
+#: src/Admin/WritePanels.php:329
 msgid "Choose a file"
 msgstr ""
 
 #: assets/views/meta-box/version.php:58 assets/views/meta-box/version.php:111
-#: src/Admin/WritePanels.php:301
+#: src/Admin/WritePanels.php:330
 msgid "Insert file URL"
 msgstr ""
 
-#: assets/views/meta-box/version.php:62 src/Admin/WritePanels.php:305
+#: assets/views/meta-box/version.php:62 src/Admin/WritePanels.php:334
 msgid "Custom URL"
 msgstr ""
 
 #: assets/views/meta-box/version.php:67 assets/views/meta-box/version.php:117
-#: src/Admin/WritePanels.php:310
+#: src/Admin/WritePanels.php:339
 msgid "Browse for file"
 msgstr ""
 
@@ -104,7 +104,7 @@ msgstr ""
 msgid "You can use %sDrag & Drop%s to upload files"
 msgstr ""
 
-#: assets/views/meta-box/version.php:139 src/Admin/MediaInsert.php:262
+#: assets/views/meta-box/version.php:139 src/Admin/MediaInsert.php:264
 #: src/Admin/class-dlm-admin-list-table.php:599
 #: templates/shop/email/elements/downloads-table.php:23
 msgid "Version"
@@ -199,7 +199,7 @@ msgid "Transactions"
 msgstr ""
 
 #: assets/views/order/page-order-details.php:67
-#: src/Admin/Reports/class-dlm-reports.php:89 src/Admin/WritePanels.php:148
+#: src/Admin/Reports/class-dlm-reports.php:89 src/Admin/WritePanels.php:150
 #: src/Shop/Admin/WritePanels.php:205 src/Widgets/Downloads.php:217
 msgid "ID"
 msgstr ""
@@ -312,15 +312,15 @@ msgstr ""
 msgid "Don't show again"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:88
+#: includes/admin/class-dlm-upsells.php:91
 msgid "Get Premium"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:93
+#: includes/admin/class-dlm-upsells.php:97
 msgid "40% OFF for Black Friday"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:101
+#: includes/admin/class-dlm-upsells.php:105
 msgid "25% OFF for Christmas"
 msgstr ""
 
@@ -329,86 +329,106 @@ msgid "AVAILABLE WITH PREMIUM"
 msgstr ""
 
 #: includes/admin/class-dlm-upsells.php:200
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:30
+#: src/Admin/UpsellsTemplates/dlm_buttons-modal-upsell.php:18
 msgid "Free vs Premium"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:217
+#: includes/admin/class-dlm-upsells.php:216
 msgid "Downloading page"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:229
-#: includes/admin/class-dlm-upsells.php:591
+#: includes/admin/class-dlm-upsells.php:227
+#: includes/admin/class-dlm-upsells.php:595
+#: includes/admin/class-dlm-upsells.php:1173
 #: includes/admin/lite-vs-pro-page.php:9
+#: src/Admin/UpsellsTemplates/dlm_buttons-modal-upsell.php:12
 msgid "Buttons"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:240 src/Admin/Settings/Settings.php:260
+#: includes/admin/class-dlm-upsells.php:238 src/Admin/Settings/Settings.php:280
 msgid "External Hosting"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:310 src/Admin/Settings/Settings.php:235
+#: includes/admin/class-dlm-upsells.php:308 src/Admin/Settings/Settings.php:243
 msgid "Content Locking"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:314 src/Admin/Settings/Settings.php:245
+#: includes/admin/class-dlm-upsells.php:312 src/Admin/OptionsUpsells.php:139
+#: src/Admin/Settings/Settings.php:253
 msgid "Ninja Forms"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:319 src/Admin/Settings/Settings.php:251
+#: includes/admin/class-dlm-upsells.php:317 src/Admin/OptionsUpsells.php:122
+#: src/Admin/Settings/Settings.php:259
 msgid "Gravity Forms"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:326
+#: includes/admin/class-dlm-upsells.php:324
 msgid "Email lock"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:333
-msgid "External hosting"
+#: includes/admin/class-dlm-upsells.php:329
+#: includes/admin/class-dlm-upsells.php:514
+#: includes/admin/class-dlm-upsells.php:1126 src/Admin/OptionsUpsells.php:156
+#: src/Admin/Settings/Settings.php:265
+msgid "Contact Form 7"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:336
-#: includes/admin/class-dlm-upsells.php:713
-#: includes/admin/class-dlm-upsells.php:799
-#: includes/admin/lite-vs-pro-page.php:37 src/Admin/Settings/Settings.php:264
-msgid "Amazon S3"
+#: includes/admin/class-dlm-upsells.php:334
+#: includes/admin/class-dlm-upsells.php:523
+#: includes/admin/class-dlm-upsells.php:1142
+#: src/Admin/Settings/Settings.php:271
+msgid "WP Forms"
 msgstr ""
 
 #: includes/admin/class-dlm-upsells.php:341
-#: includes/admin/class-dlm-upsells.php:732
-#: includes/admin/class-dlm-upsells.php:811
-#: includes/admin/lite-vs-pro-page.php:41 src/Admin/Settings/Settings.php:270
+msgid "External hosting"
+msgstr ""
+
+#: includes/admin/class-dlm-upsells.php:344
+#: includes/admin/class-dlm-upsells.php:707
+#: includes/admin/class-dlm-upsells.php:787
+#: includes/admin/lite-vs-pro-page.php:37 src/Admin/Settings/Settings.php:284
+msgid "Amazon S3"
+msgstr ""
+
+#: includes/admin/class-dlm-upsells.php:349
+#: includes/admin/class-dlm-upsells.php:724
+#: includes/admin/class-dlm-upsells.php:799
+#: includes/admin/lite-vs-pro-page.php:41 src/Admin/Settings/Settings.php:290
 msgid "Google Drive"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:348 src/Admin/Settings/Settings.php:154
+#: includes/admin/class-dlm-upsells.php:356 src/Admin/Settings/Settings.php:154
 msgid "Advanced"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:351
-#: includes/admin/class-dlm-upsells.php:571
+#: includes/admin/class-dlm-upsells.php:359
+#: includes/admin/class-dlm-upsells.php:577
 #: includes/admin/lite-vs-pro-page.php:29
 msgid "Page Addon"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:356
+#: includes/admin/class-dlm-upsells.php:364
 #: includes/admin/lite-vs-pro-page.php:33
 msgid "Downloading Page"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:361
-#: includes/admin/class-dlm-upsells.php:371
-#: includes/admin/class-dlm-upsells.php:531
-#: includes/admin/class-dlm-upsells.php:834
+#: includes/admin/class-dlm-upsells.php:369
+#: includes/admin/class-dlm-upsells.php:379
+#: includes/admin/class-dlm-upsells.php:541
+#: includes/admin/class-dlm-upsells.php:821
 #: includes/admin/lite-vs-pro-page.php:5
 msgid "Captcha"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:368 src/Admin/Settings/Settings.php:279
+#: includes/admin/class-dlm-upsells.php:376 src/Admin/Settings/Settings.php:299
 msgid "Integration"
 msgstr ""
 
 #: includes/admin/class-dlm-upsells.php:448
-#: includes/admin/class-dlm-upsells.php:551
+#: includes/admin/class-dlm-upsells.php:559
 msgid "Email notifications"
 msgstr ""
 
@@ -418,152 +438,154 @@ msgid ""
 "downloaded."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:471
+#: includes/admin/class-dlm-upsells.php:469
 msgid "Advanced access manager"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:472
+#: includes/admin/class-dlm-upsells.php:470
 msgid ""
 "Limit access to your downloads by setting advanced access rules and "
 "restrictions with this extension."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:481
-#: includes/admin/class-dlm-upsells.php:695
-#: includes/admin/lite-vs-pro-page.php:61 src/Admin/OptionsUpsells.php:56
-#: src/Admin/Settings/Settings.php:239
+#: includes/admin/class-dlm-upsells.php:478
+#: includes/admin/class-dlm-upsells.php:690
+#: includes/admin/lite-vs-pro-page.php:61 src/Admin/OptionsUpsells.php:76
+#: src/Admin/Settings/Settings.php:247
 msgid "Email Lock"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:482
+#: includes/admin/class-dlm-upsells.php:479
+#: includes/admin/class-dlm-upsells.php:515
+#: includes/admin/class-dlm-upsells.php:524
 msgid ""
 "Require your users’ email addresses to send newsletters and create a list "
 "of your customers."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:491
-#: includes/admin/class-dlm-upsells.php:659
+#: includes/admin/class-dlm-upsells.php:487
+#: includes/admin/class-dlm-upsells.php:656
 msgid "Gravity Forms Lock"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:492
+#: includes/admin/class-dlm-upsells.php:488
 msgid ""
 "Ask users to fill in a form created on Gravity Forms before they start "
 "downloading your files."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:501
-#: includes/admin/class-dlm-upsells.php:677
+#: includes/admin/class-dlm-upsells.php:496
+#: includes/admin/class-dlm-upsells.php:673
 #: includes/admin/lite-vs-pro-page.php:49
 msgid "Ninja Forms Lock"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:502
+#: includes/admin/class-dlm-upsells.php:497
 msgid ""
 "Use the Ninja Forms - content locking extension to add forms easily to your "
 "download files."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:511
+#: includes/admin/class-dlm-upsells.php:505
 msgid "Mailchimp extension"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:512
+#: includes/admin/class-dlm-upsells.php:506
 msgid ""
 "Create a MailChimp list and ask users to subscribe to it before accessing a "
 "downloadable file."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:532
-#: includes/admin/class-dlm-upsells.php:835
+#: includes/admin/class-dlm-upsells.php:542
+#: includes/admin/class-dlm-upsells.php:822
 msgid ""
 "Stop bots from spamming your downloads and ask users to complete Google "
 "reCAPTCHA."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:552
+#: includes/admin/class-dlm-upsells.php:560
 msgid ""
 "The Email Notification extension for Download Monitor sends you an email "
 "whenever one of your files is downloaded"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:572
+#: includes/admin/class-dlm-upsells.php:578
 msgid ""
 "List all downloads, categories, tags, and showcase info pages of each "
 "resource with a self-contained [download_page] shortcode!"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:592
+#: includes/admin/class-dlm-upsells.php:596
 msgid ""
 "The Buttons extension allows you to customize your download buttons as you "
 "please in order to improve the user experience. Create stunning buttons "
 "without needing any coding skills!"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:611
+#: includes/admin/class-dlm-upsells.php:613
 msgid "Importer"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:612
+#: includes/admin/class-dlm-upsells.php:614
 msgid "Easily import your downloads, including their categories, tags, and files."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:621
+#: includes/admin/class-dlm-upsells.php:622
 msgid "Exporter"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:622
+#: includes/admin/class-dlm-upsells.php:623
 msgid ""
 "With a single click, you can quickly export your downloads and their tags, "
 "categories, and file versions to a CSV file."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:641
+#: includes/admin/class-dlm-upsells.php:640
 msgid ""
 "Customize the downloading page by adding banners, ads, and anything you "
 "like."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:660
+#: includes/admin/class-dlm-upsells.php:657
 msgid ""
 "The Gravity Forms - content locking extension for Download Monitor allows "
 "you to require users to fill out a Gravity Forms form before they gain "
 "access to a download."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:678
+#: includes/admin/class-dlm-upsells.php:674
 msgid ""
 "The Ninja Forms - content locking extension for Download Monitor allows you "
 "to require users to fill in a Ninja Forms form before they gain access to a "
 "download."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:696
+#: includes/admin/class-dlm-upsells.php:691
 #: includes/admin/lite-vs-pro-page.php:62
 msgid ""
 "The Email Lock extension for Download Monitor allows you to require users "
 "to fill in their email address before they gain access to a download."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:714
+#: includes/admin/class-dlm-upsells.php:708
 #: includes/admin/lite-vs-pro-page.php:38
 msgid ""
 "Link to files hosted on Amazon s3 so that you can serve secure, expiring "
 "download links."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:733
-#: includes/admin/class-dlm-upsells.php:814
+#: includes/admin/class-dlm-upsells.php:725
+#: includes/admin/class-dlm-upsells.php:802
 msgid ""
 "With this extension, you can integrate your files from Google Drive into "
 "Download Monitor."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:751
+#: includes/admin/class-dlm-upsells.php:741
 msgid "Page addon extension"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:752
+#: includes/admin/class-dlm-upsells.php:742
 #: includes/admin/lite-vs-pro-page.php:30
 msgid ""
 "Add a self contained [download_page] shortcode to your site to list "
@@ -571,107 +593,126 @@ msgid ""
 "resources."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:761
+#: includes/admin/class-dlm-upsells.php:750
 msgid "Downloading page extension"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:762
+#: includes/admin/class-dlm-upsells.php:751
 #: includes/admin/lite-vs-pro-page.php:34
 msgid ""
 "The Downloading Page extension for Download Monitor forces your downloads "
 "to be served from a separate page."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:779
+#: includes/admin/class-dlm-upsells.php:767
 msgid "Captcha extension"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:780
+#: includes/admin/class-dlm-upsells.php:768
 #: includes/admin/lite-vs-pro-page.php:6
 msgid ""
 "The Captcha extension for Download Monitor allows you to require users to "
 "complete a Google reCAPTCHA before they gain access to a download."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:802
+#: includes/admin/class-dlm-upsells.php:790
 msgid ""
 "Use Amazon S3 links for Download Monitor files to run secure, expiring "
 "download links."
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:853
-#: includes/admin/class-dlm-upsells.php:854
+#: includes/admin/class-dlm-upsells.php:840
+#: includes/admin/class-dlm-upsells.php:841
 msgid "LITE vs Premium"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:892
+#: includes/admin/class-dlm-upsells.php:879
 msgid "Upgrade!"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:894
+#: includes/admin/class-dlm-upsells.php:881
 msgid "Upgrade to Premium!"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:919
+#: includes/admin/class-dlm-upsells.php:906
 msgid "Export"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:952
+#: includes/admin/class-dlm-upsells.php:939
 msgid "Compare dates and view chart to see how you’ve done"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:956
+#: includes/admin/class-dlm-upsells.php:943
 msgid "Show number of completed downloads per download"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:960
+#: includes/admin/class-dlm-upsells.php:947
 msgid "Show number of redirected downloads per download"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:964
+#: includes/admin/class-dlm-upsells.php:951
 msgid "Show number of failed downloads per download"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:968
+#: includes/admin/class-dlm-upsells.php:955
 msgid "Show % of downloads from the total downloads number"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:972
+#: includes/admin/class-dlm-upsells.php:959
 msgid "Show number of completed downloads by logged in users"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:976
+#: includes/admin/class-dlm-upsells.php:963
 msgid "Show number of completed downloads by logged out users"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:983
+#: includes/admin/class-dlm-upsells.php:970
 msgid "See active users and their download information"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:987
+#: includes/admin/class-dlm-upsells.php:974
 msgid "Show the location from where in the site the user downloaded"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:989
+#: includes/admin/class-dlm-upsells.php:978
 msgid "Show the download's category"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:996
+#: includes/admin/class-dlm-upsells.php:986
 msgid "Enhanced Metrics"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:1029
+#: includes/admin/class-dlm-upsells.php:1019
 msgid "Select date to compare"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:1117
+#: includes/admin/class-dlm-upsells.php:1110
 msgid "DLM PRO"
 msgstr ""
 
-#: includes/admin/class-dlm-upsells.php:1118
+#: includes/admin/class-dlm-upsells.php:1111
 msgid ""
 "Manage license activation and deactivation, and install extensions "
 "seamlessly on-the-go."
+msgstr ""
+
+#: includes/admin/class-dlm-upsells.php:1127
+#: includes/admin/lite-vs-pro-page.php:66
+msgid ""
+"The Contact Form 7 Lock extension for Download Monitor allows you to "
+"require users to fill out a Contact Form 7 form before they gain access to "
+"a download."
+msgstr ""
+
+#: includes/admin/class-dlm-upsells.php:1143
+#: includes/admin/lite-vs-pro-page.php:70
+msgid ""
+"The WPForms Lock extension for Download Monitor allows you to require users "
+"to fill out a WPForms form before they gain access to a download."
+msgstr ""
+
+#: includes/admin/class-dlm-upsells.php:1172
+msgid "Global Rules"
 msgstr ""
 
 #: includes/admin/lite-vs-pro-page.php:10
@@ -727,6 +768,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/lite-vs-pro-page.php:45
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:12
 msgid "Advanced Access Manager"
 msgstr ""
 
@@ -763,11 +805,19 @@ msgid ""
 "download."
 msgstr ""
 
-#: includes/admin/lite-vs-pro-page.php:106
+#: includes/admin/lite-vs-pro-page.php:65
+msgid "Contact Form 7 Lock"
+msgstr ""
+
+#: includes/admin/lite-vs-pro-page.php:69
+msgid "WPForms Lock"
+msgstr ""
+
+#: includes/admin/lite-vs-pro-page.php:114
 msgid "Support"
 msgstr ""
 
-#: includes/admin/lite-vs-pro-page.php:122
+#: includes/admin/lite-vs-pro-page.php:130
 msgid "Upgrade now!"
 msgstr ""
 
@@ -882,89 +932,89 @@ msgid ""
 "thank you from us in advance!"
 msgstr ""
 
-#: src/Admin/AdminScripts.php:153 src/Admin/WritePanels.php:168
+#: src/Admin/AdminScripts.php:157 src/Admin/WritePanels.php:188
 #: src/Admin/class-dlm-admin-list-table.php:1038
 #: src/Shop/Admin/ProductTableColumns.php:97 src/Shop/Admin/WritePanels.php:212
 #: src/Shop/Util/Assets.php:70
 msgid "Copy shortcode"
 msgstr ""
 
-#: src/Admin/AdminScripts.php:154
+#: src/Admin/AdminScripts.php:158
 msgid "Copied"
 msgstr ""
 
-#: src/Admin/AdminScripts.php:247
+#: src/Admin/AdminScripts.php:252
 msgid "Installing plugin..."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:248
+#: src/Admin/AdminScripts.php:253
 msgid "Activating plugin..."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:249
+#: src/Admin/AdminScripts.php:254
 msgid "Activating license..."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:250
+#: src/Admin/AdminScripts.php:255
 msgid "Plugin could not be installed."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:251
+#: src/Admin/AdminScripts.php:256
 msgid "Something went wrong, plugin could not be activated."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:252
+#: src/Admin/AdminScripts.php:257
 msgid "Plugin activated successfully."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:253
+#: src/Admin/AdminScripts.php:258
 msgid "Plugin license activated successfully."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:254
+#: src/Admin/AdminScripts.php:259
 msgid "Active"
 msgstr ""
 
-#: src/Admin/AdminScripts.php:331
+#: src/Admin/AdminScripts.php:354
 msgid "Please wait, activating extensions..."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:332
+#: src/Admin/AdminScripts.php:355
 msgid "Please wait, deactivating extensions...."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:333
+#: src/Admin/AdminScripts.php:356
 msgid "An email has been sent to you with the corresponding licenses."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:334
+#: src/Admin/AdminScripts.php:357
 msgid ""
 "An error occurred while trying to retrieve your licenses. Please try again "
 "later."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:335
+#: src/Admin/AdminScripts.php:358
 msgid "Please enter your email address."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:336
+#: src/Admin/AdminScripts.php:359
 msgid "Please wait, reaching server..."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:337
+#: src/Admin/AdminScripts.php:360
 msgid "Please enter your license key."
 msgstr ""
 
-#: src/Admin/AdminScripts.php:356 src/Admin/MediaInsert.php:36
-#: src/Admin/MediaInsert.php:55
+#: src/Admin/AdminScripts.php:379 src/Admin/MediaInsert.php:36
+#: src/Admin/MediaInsert.php:57
 msgid "Insert Download"
 msgstr ""
 
-#: src/Admin/AdminScripts.php:361
+#: src/Admin/AdminScripts.php:384
 msgid "Are you sure you want to delete this file ? "
 msgstr ""
 
-#: src/Admin/AdminScripts.php:362 src/Admin/MediaBrowser.php:34
+#: src/Admin/AdminScripts.php:385 src/Admin/MediaBrowser.php:34
 msgid "Browse for a file"
 msgstr ""
 
@@ -976,19 +1026,23 @@ msgstr ""
 msgid "Download Monitor Data"
 msgstr ""
 
-#: src/Admin/CustomActions.php:240 src/Admin/WritePanels.php:208
+#: src/Admin/CustomActions.php:240 src/Admin/WritePanels.php:230
 msgid "Featured download"
 msgstr ""
 
-#: src/Admin/CustomActions.php:241 src/Admin/WritePanels.php:214
+#: src/Admin/CustomActions.php:241 src/Admin/WritePanels.php:236
 msgid "Members only"
 msgstr ""
 
-#: src/Admin/CustomActions.php:242 src/Admin/WritePanels.php:220
+#: src/Admin/CustomActions.php:242 src/Admin/WritePanels.php:242
 msgid "Redirect to file"
 msgstr ""
 
-#: src/Admin/CustomActions.php:439
+#: src/Admin/CustomActions.php:243
+msgid "Terms & Conditions required"
+msgstr ""
+
+#: src/Admin/CustomActions.php:452
 msgid "Download succesfully duplicated!"
 msgstr ""
 
@@ -1060,39 +1114,38 @@ msgstr ""
 msgid "See more"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:21
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:170
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:26
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:191
 msgid "Approved Download Paths"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:22
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:27
 msgid "Approved Download Path"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:34
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:39
 msgid "No approved directory URLs found."
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:118
-#: src/Admin/WritePanels.php:156
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:122
+#: src/Admin/WritePanels.php:165
 msgid "URL"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:119
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:280
-#: src/Admin/class-dlm-network-settings.php:369
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:123
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:314
 msgid "Enabled"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:141
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:144
 msgid "Disable"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:141
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:144
 msgid "Enable"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:143
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:146
 #: src/Admin/class-dlm-admin-list-table.php:477
 #: src/Admin/class-dlm-admin-list-table.php:1169
 #: src/Admin/class-dlm-plugin-status.php:157
@@ -1102,96 +1155,92 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:145
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:192
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:148
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:193
 #: src/Admin/class-dlm-admin-list-table.php:483
 msgid "Delete permanently"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:190
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:191
 msgid "Enable rule"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:191
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:192
 msgid "Disable rule"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:238
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:237
 msgid "Enable All"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:242
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:241
 msgid "Disable All"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:246
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:255
-#: src/Admin/class-dlm-network-settings.php:344 src/PostTypeManager.php:62
-#: src/PostTypeManager.php:134
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:245
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:278
+#: src/PostTypeManager.php:62 src/PostTypeManager.php:134
 msgid "Add New"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:409
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:408
 #. translators: Hidden accessibility text.
 msgid "Select bulk action"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:412
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:411
 msgid "Bulk actions"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:433
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:432
 msgid "Apply"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:197
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:218
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:238
-#: src/Admin/class-dlm-network-settings.php:321
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:260
 msgid "Edit Approved Path"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:239
-#: src/Admin/class-dlm-network-settings.php:322
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:261
 msgid "Add New Approved Path"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:260
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:286
 #: src/Admin/class-dlm-admin-list-table.php:1908
-#: src/Admin/class-dlm-network-settings.php:349
 msgid "Cancel"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:267
-#: src/Admin/class-dlm-network-settings.php:356
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:296
 msgid "Directory URL"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:274
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:305
+#. translators: %s: WordPress installation directory path.
 msgid "WordPress installation directory is <code>%s</code>"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:338
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:378
 msgid "Path already exists."
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:563
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:586
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:583
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:606
 msgid "No path provided"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:567
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:590
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:587
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:610
 msgid "You do not have permission to update the path"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:571
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:591
 msgid "Path updated"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:596
+#: src/Admin/DownloadPaths/class-dlm-downloads-path.php:616
 msgid "Path enabled"
 msgstr ""
 
@@ -1340,107 +1389,145 @@ msgstr ""
 msgid "No files found"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:66 src/Admin/MediaInsert.php:225
+#: src/Admin/MediaInsert.php:68 src/Admin/MediaInsert.php:227
 msgid "Insert Shortcode"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:71
+#: src/Admin/MediaInsert.php:73
 msgid "Quick-add download"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:120
+#: src/Admin/MediaInsert.php:122
 msgid "Error: File was not created."
 msgstr ""
 
-#: src/Admin/MediaInsert.php:146
+#: src/Admin/MediaInsert.php:148
 msgid "Download successfully created."
 msgstr ""
 
-#: src/Admin/MediaInsert.php:149
+#: src/Admin/MediaInsert.php:151
 msgid "Error: Download was not created."
 msgstr ""
 
-#: src/Admin/MediaInsert.php:175
+#: src/Admin/MediaInsert.php:177
 msgid "Search download"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:183
+#: src/Admin/MediaInsert.php:185
 msgid "Choose a download"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:208 src/Admin/class-dlm-admin-list-table.php:1606
+#: src/Admin/MediaInsert.php:210 src/Admin/class-dlm-admin-list-table.php:1606
 msgid "Template"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:218
+#: src/Admin/MediaInsert.php:220
 msgid "Template Name"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:220
+#: src/Admin/MediaInsert.php:222
 msgid ""
 "Leaving this blank will use the default <code>content-download.php</code> "
 "template file. If you enter, for example, <code>image</code>, the "
 "<code>content-download-image.php</code> template will be used instead."
 msgstr ""
 
-#: src/Admin/MediaInsert.php:236
+#: src/Admin/MediaInsert.php:238
 msgid "Drop file here"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:239
+#: src/Admin/MediaInsert.php:241
 msgid "Select File"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:242
+#: src/Admin/MediaInsert.php:244
 msgid "Please wait..."
 msgstr ""
 
-#: src/Admin/MediaInsert.php:247
+#: src/Admin/MediaInsert.php:249
 msgid "Enter URL manually"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:252
+#: src/Admin/MediaInsert.php:254
 msgid "Download URL"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:253
+#: src/Admin/MediaInsert.php:255
 msgid "Required URL"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:257
+#: src/Admin/MediaInsert.php:259
 msgid "Download Title"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:258
+#: src/Admin/MediaInsert.php:260
 msgid "Required title"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:263
+#: src/Admin/MediaInsert.php:265
 msgid "Optional version number"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:268
+#: src/Admin/MediaInsert.php:270
 msgid "Save Download"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:339
+#: src/Admin/MediaInsert.php:341
 msgid "Allowed Files"
 msgstr ""
 
-#: src/Admin/OptionsUpsells.php:57
+#: src/Admin/OptionsUpsells.php:77
 msgid ""
 "Email locked downloads will only be available after user entered their "
 "email address."
 msgstr ""
 
-#: src/Admin/OptionsUpsells.php:68
+#: src/Admin/OptionsUpsells.php:88
 msgid "Require Captcha"
 msgstr ""
 
-#: src/Admin/OptionsUpsells.php:69
+#: src/Admin/OptionsUpsells.php:89
 msgid ""
 "User is required to complete a reCAPTCHA before access is granted to the "
-"dowload."
+"download."
+msgstr ""
+
+#: src/Admin/OptionsUpsells.php:105
+msgid "Mailchimp lock"
+msgstr ""
+
+#: src/Admin/OptionsUpsells.php:106
+msgid ""
+"Require users to subscribe to a Mailchimp list before access is granted to "
+"the download."
+msgstr ""
+
+#: src/Admin/OptionsUpsells.php:123
+msgid ""
+"Require users to complete a Gravity Forms form before access is granted to "
+"the download."
+msgstr ""
+
+#: src/Admin/OptionsUpsells.php:140
+msgid ""
+"Require users to complete a Ninja Forms form before access is granted to "
+"the download."
+msgstr ""
+
+#: src/Admin/OptionsUpsells.php:157
+msgid ""
+"Require users to complete a Contact Form 7 form before access is granted to "
+"the download."
+msgstr ""
+
+#: src/Admin/OptionsUpsells.php:173
+msgid "WPForms"
+msgstr ""
+
+#: src/Admin/OptionsUpsells.php:174
+msgid ""
+"Require users to complete a WPForms form before access is granted to the "
+"download."
 msgstr ""
 
 #: src/Admin/Reports/Page.php:46
@@ -1460,7 +1547,7 @@ msgid "Reports based on user activity"
 msgstr ""
 
 #: src/Admin/Reports/Page.php:86 src/Admin/Reports/Page.php:87
-#: src/Admin/Settings/Settings.php:207
+#: src/Admin/Settings/Settings.php:215
 msgid "Reports"
 msgstr ""
 
@@ -1625,7 +1712,7 @@ msgid "Loading"
 msgstr ""
 
 #: src/Admin/Settings/Page.php:42 src/Admin/Settings/Page.php:43
-#: src/DLM.php:374
+#: src/DLM.php:378
 msgid "Settings"
 msgstr ""
 
@@ -1655,7 +1742,7 @@ msgstr ""
 msgid "Settings successfully saved"
 msgstr ""
 
-#: src/Admin/Settings/Page.php:347 src/Admin/class-dlm-network-settings.php:209
+#: src/Admin/Settings/Page.php:347 src/Admin/class-dlm-network-settings.php:203
 msgid "Save Changes"
 msgstr ""
 
@@ -1744,7 +1831,7 @@ msgstr ""
 msgid "Regenerates the robots.txt file."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:90 src/Admin/Settings/Settings.php:302
+#: src/Admin/Settings/Settings.php:90 src/Admin/Settings/Settings.php:322
 msgid "General"
 msgstr ""
 
@@ -1823,11 +1910,11 @@ msgid "Disable file browser"
 msgstr ""
 
 #: src/Admin/Settings/Settings.php:144
-#: src/Admin/class-dlm-network-settings.php:119
+#: src/Admin/class-dlm-network-settings.php:113
 msgid "Disables the directory file browser."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:157 src/Admin/Settings/Settings.php:383
+#: src/Admin/Settings/Settings.php:157 src/Admin/Settings/Settings.php:403
 msgid "Pages"
 msgstr ""
 
@@ -1850,28 +1937,39 @@ msgid "Open no access message in a modal (pop-up) window."
 msgstr ""
 
 #: src/Admin/Settings/Settings.php:178
+msgid "Use default modal"
+msgstr ""
+
+#: src/Admin/Settings/Settings.php:180
+msgid ""
+"When enabled, the content of the \"No Access page\" option will be "
+"displayed in the no access modal. If disabled, the modal will show content "
+"specific to each extension."
+msgstr ""
+
+#: src/Admin/Settings/Settings.php:186
 msgid "Access"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:182 src/Installer.php:39
+#: src/Admin/Settings/Settings.php:190 src/Installer.php:39
 msgid "You do not have permission to access this download. %1$sGo to homepage%2$s"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:184
+#: src/Admin/Settings/Settings.php:192
 msgid "No access message"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:185
+#: src/Admin/Settings/Settings.php:193
 msgid ""
 "The message that will be displayed to visitors when they don't have access "
 "to a file."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:191
+#: src/Admin/Settings/Settings.php:199
 msgid "Blacklist IPs"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:192
+#: src/Admin/Settings/Settings.php:200
 msgid ""
 "List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for "
 "ranges. IPv4 examples: <strong>198.51.100.1</strong> or "
@@ -1879,314 +1977,371 @@ msgid ""
 "<strong>2001:db8::1</strong> or <strong>2001:db8::/32</strong>."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:199
+#: src/Admin/Settings/Settings.php:207
 msgid "Blacklist user agents"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:200
+#: src/Admin/Settings/Settings.php:208
 msgid ""
 "List browser user agents to blacklist, 1 per line.  Partial matches are "
 "sufficient. Regex matching is allowed by surrounding the pattern with "
 "forward slashes, e.g. <strong>/^Mozilla.+Googlebot/</strong>"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:212 src/Admin/Settings/Settings.php:226
+#: src/Admin/Settings/Settings.php:220 src/Admin/Settings/Settings.php:234
 msgid "IP Address Logging"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:213
+#: src/Admin/Settings/Settings.php:221
 msgid ""
 "Define if and how you like to store IP addresses of users that download "
 "your files in your logs."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:216 src/Admin/Settings/Settings.php:226
+#: src/Admin/Settings/Settings.php:224 src/Admin/Settings/Settings.php:234
 msgid "Store full IP address"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:217
+#: src/Admin/Settings/Settings.php:225
 msgid "Store anonymized IP address (remove last 3 digits)"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:218
+#: src/Admin/Settings/Settings.php:226
 msgid "Store no IP address"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:224
+#: src/Admin/Settings/Settings.php:232
 msgid "Count unique IPs only"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:226
+#: src/Admin/Settings/Settings.php:234
 msgid ""
 "If enabled, the counter for each download will only increment and create a "
 "log entry once per IP address. Note that this option only works if %1$s is "
 "set to %2$s."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:285 src/Admin/Settings/Settings.php:542
+#: src/Admin/Settings/Settings.php:305 src/Admin/Settings/Settings.php:562
 msgid "Emails"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:291
+#: src/Admin/Settings/Settings.php:311
 msgid "License"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:299 src/Admin/Settings/Settings.php:307
+#: src/Admin/Settings/Settings.php:319 src/Admin/Settings/Settings.php:327
 #: src/Shop/Util/PostType.php:18
 msgid "Shop"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:309
+#: src/Admin/Settings/Settings.php:329
 msgid "If enabled, allows you to sell your downloads via Download Monitor."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:326
+#: src/Admin/Settings/Settings.php:346
 msgid "Invoice Prefix"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:327
+#: src/Admin/Settings/Settings.php:347
 msgid "This prefix is added to the invoice ID. Enter an unique prefix here."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:332
+#: src/Admin/Settings/Settings.php:352
 msgid "Base Country"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:333
+#: src/Admin/Settings/Settings.php:353
 msgid "Where is your store located?"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:340
+#: src/Admin/Settings/Settings.php:360
 msgid "Currency"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:341
+#: src/Admin/Settings/Settings.php:361
 msgid "In what currency are you selling?"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:348
+#: src/Admin/Settings/Settings.php:368
 msgid "Currency Position"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:349
+#: src/Admin/Settings/Settings.php:369
 msgid "The position of the currency symbol."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:352
+#: src/Admin/Settings/Settings.php:372
 msgid "Left (%s)"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:353
+#: src/Admin/Settings/Settings.php:373
 msgid "Right (%s)"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:354
+#: src/Admin/Settings/Settings.php:374
 msgid "Left with space (%s)"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:355
+#: src/Admin/Settings/Settings.php:375
 msgid "Right with space (%s)"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:362
+#: src/Admin/Settings/Settings.php:382
 msgid "Decimal Separator"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:363
+#: src/Admin/Settings/Settings.php:383
 msgid "The decimal separator of displayed prices."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:369
+#: src/Admin/Settings/Settings.php:389
 msgid "Thousand Separator"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:370
+#: src/Admin/Settings/Settings.php:390
 msgid "The thousand separator of displayed prices."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:375
+#: src/Admin/Settings/Settings.php:395
 msgid "Disable Cart"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:377
+#: src/Admin/Settings/Settings.php:397
 msgid "If enabled, your customers will be sent to your checkout page directly."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:388
+#: src/Admin/Settings/Settings.php:408
 msgid "Cart page"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:389
+#: src/Admin/Settings/Settings.php:409
 msgid "Your cart page, make sure it has the <strong>[dlm_cart]</strong> shortcode."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:396
+#: src/Admin/Settings/Settings.php:416
 msgid "Checkout page"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:397
+#: src/Admin/Settings/Settings.php:417
 msgid ""
 "Your checkout page, make sure it has the <strong>[dlm_checkout]</strong> "
 "shortcode."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:574
+#: src/Admin/Settings/Settings.php:594
 msgid "Other"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:591
+#: src/Admin/Settings/Settings.php:611
 #: src/TermsAndConditions/classes/class-dlm-tc-options.php:67
 msgid "Select Page"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:653
+#: src/Admin/Settings/Settings.php:673
 msgid "Payment Gateways"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:658
+#: src/Admin/Settings/Settings.php:678
 msgid "Enabled Gateways"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:659
+#: src/Admin/Settings/Settings.php:679
 msgid "Check all payment methods you want to enable on your webshop."
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:666
+#: src/Admin/Settings/Settings.php:686
 msgid "Default Gateway"
 msgstr ""
 
-#: src/Admin/Settings/Settings.php:667
+#: src/Admin/Settings/Settings.php:687
 msgid "This payment method will be pre-selected on your checkout page."
 msgstr ""
 
-#: src/Admin/WritePanels.php:65 src/Shop/Admin/WritePanels.php:33
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:13
+msgid ""
+"The Advanced Access Manager extension allows you to create advanced "
+"download limitations per download and on a global level. "
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:15
+msgid "Daily download limitation per Download."
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:16
+msgid "Global daily download limitation"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:17
+msgid "Monthly download limitation per Download"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:18
+msgid "Global monthly download limitation"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:19
+msgid "Yearly download limitation per Download"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:20
+msgid "Date range download limitation"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:21
+msgid "Role download limitation"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:22
+msgid "IP download limitation"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:23
+msgid "User download limitation"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:24
+msgid "Category download limitation"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_aam-modal-upsell.php:31
+#: src/Admin/UpsellsTemplates/dlm_buttons-modal-upsell.php:19
+msgid "Get Premium!"
+msgstr ""
+
+#: src/Admin/UpsellsTemplates/dlm_buttons-modal-upsell.php:13
+msgid ""
+"Create beautiful, fully customizable download buttons with our Buttons "
+"extension. No coding or file editing required! "
+msgstr ""
+
+#: src/Admin/WritePanels.php:66 src/Shop/Admin/WritePanels.php:33
 msgid "Publish"
 msgstr ""
 
-#: src/Admin/WritePanels.php:73
+#: src/Admin/WritePanels.php:74
 msgid "Download Information"
 msgstr ""
 
-#: src/Admin/WritePanels.php:81
+#: src/Admin/WritePanels.php:82
 msgid "Download Options"
 msgstr ""
 
-#: src/Admin/WritePanels.php:89
+#: src/Admin/WritePanels.php:90
 msgid "Downloadable Files/Versions"
 msgstr ""
 
-#: src/Admin/WritePanels.php:110
+#: src/Admin/WritePanels.php:111
 msgid "Short Description"
 msgstr ""
 
-#: src/Admin/WritePanels.php:152 src/Shop/Admin/WritePanels.php:207
+#: src/Admin/WritePanels.php:158 src/Shop/Admin/WritePanels.php:207
 msgid "Copy ID"
 msgstr ""
 
-#: src/Admin/WritePanels.php:160
+#: src/Admin/WritePanels.php:173
 msgid "Copy URL"
 msgstr ""
 
-#: src/Admin/WritePanels.php:164 src/Admin/class-dlm-admin-list-table.php:600
+#: src/Admin/WritePanels.php:180 src/Admin/class-dlm-admin-list-table.php:600
 #: src/Shop/Admin/ProductTableColumns.php:36 src/Shop/Admin/WritePanels.php:210
 msgid "Shortcode"
 msgstr ""
 
-#: src/Admin/WritePanels.php:173
+#: src/Admin/WritePanels.php:195
 msgid "No download information for new downloads."
 msgstr ""
 
-#: src/Admin/WritePanels.php:209
+#: src/Admin/WritePanels.php:231
 msgid "Mark this download as featured. Used by shortcodes and widgets."
 msgstr ""
 
-#: src/Admin/WritePanels.php:215
+#: src/Admin/WritePanels.php:237
 msgid ""
 "Only logged in users will be able to access the file via a download link if "
 "this is enabled."
 msgstr ""
 
-#: src/Admin/WritePanels.php:221
+#: src/Admin/WritePanels.php:243
 msgid ""
 "Don't force download. If the <code>dlm_uploads</code> folder is protected "
 "you may need to move your file."
 msgstr ""
 
-#: src/Admin/WritePanels.php:221
+#: src/Admin/WritePanels.php:243
 msgid "Open in new tab"
 msgstr ""
 
-#: src/Admin/WritePanels.php:287
+#: src/Admin/WritePanels.php:314
 msgid "Drag & Drop here to create a new version"
 msgstr ""
 
-#: src/Admin/WritePanels.php:343
+#: src/Admin/WritePanels.php:379
 msgid "Add file"
 msgstr ""
 
-#: src/Admin/WritePanels.php:403
+#: src/Admin/WritePanels.php:441
 msgid ""
 "You're trying to serve files from your server that are not in the enabled "
-"allowed paths. If you want to learn more about this, %sclick here%s"
+"allowed paths. If you want to learn more about this, %1$sclick here%2$s"
 msgstr ""
 
-#: src/Admin/WritePanels.php:409
+#: src/Admin/WritePanels.php:448
 msgid ""
 "You're trying to serve files from your server that are not in the enabled "
 "allowed paths. Please contact the network administrator to add or enable "
 "the path(s) for your website. \n"
-"\t\t\t     If you want to learn more about this, %sclick here%s"
+"                 If you want to learn more about this, %1$sclick here%2$s"
 msgstr ""
 
-#: src/Admin/WritePanels.php:426 src/Admin/WritePanels.php:432
+#: src/Admin/WritePanels.php:469 src/Admin/WritePanels.php:475
 msgid "Recommended path:"
 msgstr ""
 
-#: src/Admin/WritePanels.php:434
+#: src/Admin/WritePanels.php:477
 msgid "Add path"
 msgstr ""
 
-#: src/Admin/WritePanels.php:436
+#: src/Admin/WritePanels.php:479
 msgid "This will add the download path to the \"Approved Download Path\" list. "
 msgstr ""
 
-#: src/Admin/WritePanels.php:438
+#: src/Admin/WritePanels.php:481
 msgid "Path:"
 msgstr ""
 
-#: src/Admin/WritePanels.php:440
+#: src/Admin/WritePanels.php:483
 msgid "Enable path"
 msgstr ""
 
-#: src/Admin/WritePanels.php:442
+#: src/Admin/WritePanels.php:485
 msgid ""
 "This will enable the download path from the \"Approved Download Path\" "
 "list. "
 msgstr ""
 
-#: src/Admin/WritePanels.php:670
+#: src/Admin/WritePanels.php:709
 msgid "You are not allowed to upload files."
 msgstr ""
 
-#: src/Admin/WritePanels.php:679
+#: src/Admin/WritePanels.php:718
 msgid "File type not allowed."
 msgstr ""
 
-#: src/Admin/WritePanels.php:691
+#: src/Admin/WritePanels.php:730
 msgid "Failed to write the file at: "
 msgstr ""
 
-#: src/Admin/class-dlm-admin-debug.php:350
+#: src/Admin/class-dlm-admin-debug.php:363
 msgid "Debug download"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-debug.php:384
+#: src/Admin/class-dlm-admin-debug.php:397
 msgid ""
 "Export the download and send it to Download Monitor's support team so that "
 "we can debug your problem much easier."
 msgstr ""
 
-#: src/Admin/class-dlm-admin-debug.php:391
+#: src/Admin/class-dlm-admin-debug.php:410
 msgid "Export download"
 msgstr ""
 
@@ -2422,6 +2577,7 @@ msgid "&mdash; No Change &mdash;"
 msgstr ""
 
 #: src/Admin/class-dlm-admin-list-table.php:1479
+#: src/MembersLock/classes/class-dlm-members-modal.php:170
 msgid "Password"
 msgstr ""
 
@@ -2627,31 +2783,17 @@ msgstr ""
 msgid "Download Monitor protect"
 msgstr ""
 
-#: src/Admin/class-dlm-network-settings.php:63
-#: src/Admin/class-dlm-network-settings.php:64
-msgid "Custom Paths"
-msgstr ""
-
-#: src/Admin/class-dlm-network-settings.php:90
-#: src/Admin/class-dlm-network-settings.php:109
-#: src/Admin/network/site-edit.php:30
+#: src/Admin/class-dlm-network-settings.php:84
+#: src/Admin/class-dlm-network-settings.php:103
 msgid "Sorry, you are not allowed to access this page."
 msgstr ""
 
-#: src/Admin/class-dlm-network-settings.php:117
+#: src/Admin/class-dlm-network-settings.php:111
 msgid "Global disable file browser"
 msgstr ""
 
-#: src/Admin/class-dlm-network-settings.php:130
+#: src/Admin/class-dlm-network-settings.php:124
 msgid "Download Monitor network settings"
-msgstr ""
-
-#: src/Admin/class-dlm-network-settings.php:289
-msgid "DLM Downloads Paths"
-msgstr ""
-
-#: src/Admin/class-dlm-network-settings.php:363
-msgid "Default download path is <code>%s</code>"
 msgstr ""
 
 #: src/Admin/class-dlm-plugin-status.php:69
@@ -2735,35 +2877,6 @@ msgstr ""
 msgid "Functions:"
 msgstr ""
 
-#: src/Admin/network/site-edit.php:12
-msgid "Sorry, you are not allowed to edit this site."
-msgstr ""
-
-#: src/Admin/network/site-edit.php:21
-msgid "Invalid site ID."
-msgstr ""
-
-#: src/Admin/network/site-edit.php:26
-msgid "The requested site does not exist."
-msgstr ""
-
-#: src/Admin/network/site-edit.php:39
-msgid "Site info updated."
-msgstr ""
-
-#: src/Admin/network/site-edit.php:48
-#. translators: %s: Site title.
-msgid "Download Paths for: %s"
-msgstr ""
-
-#: src/Admin/network/site-edit.php:63
-msgid "Visit"
-msgstr ""
-
-#: src/Admin/network/site-edit.php:66
-msgid "Dashboard"
-msgstr ""
-
 #: src/Ajax/CreatePage.php:48
 msgid "Couldn't create page"
 msgstr ""
@@ -2772,35 +2885,51 @@ msgstr ""
 msgid "No page set"
 msgstr ""
 
-#: src/AjaxHandler.php:173
+#: src/AjaxHandler.php:178
 msgid "You are not allowed in this directory"
 msgstr ""
 
-#: src/AjaxHandler.php:290
+#: src/AjaxHandler.php:295
 msgid "Nonce is required"
 msgstr ""
 
-#: src/AjaxHandler.php:302
+#: src/AjaxHandler.php:307
 msgid "Error while updating the column download_category"
 msgstr ""
 
-#: src/AjaxHandler.php:304
+#: src/AjaxHandler.php:309
 msgid "Column download_category has been updated"
 msgstr ""
 
-#: src/AjaxHandler.php:306
+#: src/AjaxHandler.php:311
 msgid "Column download_category is already updated"
 msgstr ""
 
-#: src/AjaxHandler.php:320
+#: src/AjaxHandler.php:325
 msgid "No data submitted"
 msgstr ""
 
-#: src/DLM.php:507
+#: src/AjaxHandler.php:329
+msgid "You do not have permission to do this"
+msgstr ""
+
+#: src/AjaxHandler.php:348
+msgid "You do not have permission to do this."
+msgstr ""
+
+#: src/AjaxHandler.php:351
+msgid "No upsell provided."
+msgstr ""
+
+#: src/AjaxHandler.php:356
+msgid "Upsell not found."
+msgstr ""
+
+#: src/DLM.php:511
 msgid "An error occurred while trying to download the file. Please try again."
 msgstr ""
 
-#: src/DLM.php:509 src/DownloadHandler.php:371 src/DownloadHandler.php:378
+#: src/DLM.php:513 src/DownloadHandler.php:395 src/DownloadHandler.php:406
 #: src/RestAPI/class-dlm-download-rest.php:175
 #: src/RestAPI/class-dlm-download-rest.php:198
 #: src/RestAPI/class-dlm-download-rest.php:258
@@ -2809,45 +2938,45 @@ msgstr ""
 msgid "Download does not exist."
 msgstr ""
 
-#: src/DLM.php:511
+#: src/DLM.php:515
 msgid "No file path defined."
 msgstr ""
 
-#: src/DLM.php:513 src/class-dlm-download-error-handler.php:66
+#: src/DLM.php:517 src/class-dlm-download-error-handler.php:66
 #: src/class-dlm-download-error-handler.php:93
 #: src/class-dlm-download-error-handler.php:95
 msgid "No file paths defined."
 msgstr ""
 
-#: src/DLM.php:515 src/class-dlm-download-error-handler.php:168
+#: src/DLM.php:519 src/class-dlm-download-error-handler.php:168
 #: src/class-dlm-download-error-handler.php:175
 msgid "Download is not allowed for this file type."
 msgstr ""
 
-#: src/DLM.php:517 src/class-dlm-download-error-handler.php:195
+#: src/DLM.php:521 src/class-dlm-download-error-handler.php:195
 msgid "Access denied to this file."
 msgstr ""
 
-#: src/DLM.php:519 src/class-dlm-download-error-handler.php:223
+#: src/DLM.php:523 src/class-dlm-download-error-handler.php:223
 msgid "Access denied. You do not have permission to download this file."
 msgstr ""
 
-#: src/DLM.php:521 src/DownloadHandler.php:766 src/DownloadHandler.php:778
+#: src/DLM.php:525 src/DownloadHandler.php:850 src/DownloadHandler.php:868
 msgid "Something is wrong with the file path."
 msgstr ""
 
-#: src/DLM.php:523 src/DownloadHandler.php:845 src/DownloadHandler.php:857
+#: src/DLM.php:527 src/DownloadHandler.php:945 src/DownloadHandler.php:963
 msgid "File not found."
 msgstr ""
 
-#: src/DLM.php:950
+#: src/DLM.php:945
 msgid ""
 "DLM - Terms & Conditions plugin was deactivated because it is now "
 "integrated within Download Monitor."
 msgstr ""
 
-#: src/DownloadHandler.php:381 src/DownloadHandler.php:781
-#: src/DownloadHandler.php:859 src/class-dlm-download-error-handler.php:69
+#: src/DownloadHandler.php:411 src/DownloadHandler.php:873
+#: src/DownloadHandler.php:965 src/class-dlm-download-error-handler.php:69
 #: src/class-dlm-download-error-handler.php:98
 #: src/class-dlm-download-error-handler.php:124
 #: src/class-dlm-download-error-handler.php:151
@@ -2856,8 +2985,8 @@ msgstr ""
 msgid "Go to homepage &rarr;"
 msgstr ""
 
-#: src/DownloadHandler.php:383 src/DownloadHandler.php:783
-#: src/DownloadHandler.php:861 src/class-dlm-download-error-handler.php:71
+#: src/DownloadHandler.php:415 src/DownloadHandler.php:877
+#: src/DownloadHandler.php:969 src/class-dlm-download-error-handler.php:71
 #: src/class-dlm-download-error-handler.php:100
 #: src/class-dlm-download-error-handler.php:126
 #: src/class-dlm-download-error-handler.php:153
@@ -2867,7 +2996,7 @@ msgstr ""
 msgid "Download Error"
 msgstr ""
 
-#: src/DownloadHandler.php:426
+#: src/DownloadHandler.php:462
 msgid "Password Required"
 msgstr ""
 
@@ -2875,26 +3004,26 @@ msgstr ""
 msgid "Select a download first"
 msgstr ""
 
-#: src/FileManager.php:588
+#: src/FileManager.php:618
 msgid "This file is already protected. Please reload your page."
 msgstr ""
 
-#: src/FileManager.php:660
+#: src/FileManager.php:702
 msgid "The post with ID: %d is not an attachment post type."
 msgstr ""
 
-#: src/FileManager.php:668
+#: src/FileManager.php:716
 msgid ""
 "The new path provided: %s is absolute. The new path must be a path relative "
 "to the WP uploads directory."
 msgstr ""
 
-#: src/FileManager.php:702
+#: src/FileManager.php:764
 msgid "There was an error making or verifying the directory at: %s"
 msgstr ""
 
-#: src/FileManager.php:892
-msgid "Rename failed when trying to move file from: %s, to: %s"
+#: src/FileManager.php:989
+msgid "Rename failed when trying to move file from: %1$s, to: %2$s"
 msgstr ""
 
 #: src/Gutenberg.php:55
@@ -2968,6 +3097,30 @@ msgstr ""
 
 #: src/LegacyUpgrader/Page.php:48
 msgid "I'm sure I want to run the upgrader anyway"
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-access-manager.php:62
+msgid "You'll need to log in to download the file."
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-access-manager.php:76
+msgid "Only members can download"
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-modal.php:169
+msgid "Username or Email Address"
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-modal.php:171
+msgid "Remember Me"
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-modal.php:172
+msgid "Log In"
+msgstr ""
+
+#: src/MembersLock/templates/members-form-modal.php:12
+msgid "Log in to your account to download the file!"
 msgstr ""
 
 #: src/PostTypeManager.php:56
@@ -3152,20 +3305,20 @@ msgstr ""
 
 #: src/RestAPI/class-dlm-version-rest.php:204
 #: src/RestAPI/class-dlm-version-rest.php:227
-#: src/RestAPI/class-dlm-version-rest.php:291
+#: src/RestAPI/class-dlm-version-rest.php:306
 msgid "Version does not exist."
 msgstr ""
 
-#: src/RestAPI/class-dlm-version-rest.php:263
+#: src/RestAPI/class-dlm-version-rest.php:278
 msgid "Unable to create a version item."
 msgstr ""
 
-#: src/RestAPI/class-dlm-version-rest.php:270
-#: src/RestAPI/class-dlm-version-rest.php:313
+#: src/RestAPI/class-dlm-version-rest.php:285
+#: src/RestAPI/class-dlm-version-rest.php:328
 msgid "You must provide a download_id."
 msgstr ""
 
-#: src/RestAPI/class-dlm-version-rest.php:308
+#: src/RestAPI/class-dlm-version-rest.php:323
 msgid "Unable to update the version item."
 msgstr ""
 
@@ -4873,6 +5026,10 @@ msgstr ""
 msgid "Version %s"
 msgstr ""
 
+#: src/TermsAndConditions/classes/class-dlm-tc-access-manager.php:88
+msgid "You must accept the terms and conditions to download this file."
+msgstr ""
+
 #: src/TermsAndConditions/classes/class-dlm-tc-download-option.php:34
 msgid "Terms & Conditions Required"
 msgstr ""
@@ -4883,11 +5040,11 @@ msgid ""
 "conditions."
 msgstr ""
 
-#: src/TermsAndConditions/classes/class-dlm-tc-modal.php:60
+#: src/TermsAndConditions/classes/class-dlm-tc-modal.php:66
 msgid "You need to accept the terms and conditions before you can download."
 msgstr ""
 
-#: src/TermsAndConditions/classes/class-dlm-tc-modal.php:124
+#: src/TermsAndConditions/classes/class-dlm-tc-modal.php:128
 #: src/TermsAndConditions/classes/class-dlm-tc-options.php:31
 #: src/TermsAndConditions/classes/class-dlm-tc-shortcodes.php:57
 #: src/TermsAndConditions/dlm-integrated-terms-and-conditions.php:82
@@ -5048,17 +5205,17 @@ msgid_plural "Downloaded %d times"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/class-dlm-modal.php:105 src/class-dlm-modal.php:136
+#: src/class-dlm-modal.php:104 src/class-dlm-modal.php:135
 msgid "You do not have permission to download this file."
 msgstr ""
 
-#: src/class-dlm-modal.php:151 src/class-dlm-modal.php:152
-#: src/class-dlm-modal.php:154 src/class-dlm-modal.php:155
+#: src/class-dlm-modal.php:150 src/class-dlm-modal.php:151
+#: src/class-dlm-modal.php:153 src/class-dlm-modal.php:154
 msgid "Error!"
 msgstr ""
 
-#: src/class-dlm-modal.php:153 src/class-dlm-modal.php:156
-#: src/class-dlm-modal.php:157
+#: src/class-dlm-modal.php:152 src/class-dlm-modal.php:155
+#: src/class-dlm-modal.php:156
 msgid "No access!"
 msgstr ""
 
@@ -5087,7 +5244,7 @@ msgstr ""
 msgid "has no version set!"
 msgstr ""
 
-#: templates/no-access-modal.php:87
+#: templates/no-access-modal.php:86
 msgid "Close"
 msgstr ""
 
@@ -5191,7 +5348,7 @@ msgstr ""
 msgid "https://wpchill.com"
 msgstr ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:53
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:58
 #. translators: %s is the count of approved directory list entries.
 msgctxt "Approved product download directory views"
 msgid "All <span class=\"count\">(%s)</span>"
@@ -5199,7 +5356,7 @@ msgid_plural "All <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:67
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:72
 #. translators: %s is the count of enabled approved directory list entries.
 msgctxt "Approved product download directory views"
 msgid "Enabled <span class=\"count\">(%s)</span>"
@@ -5207,7 +5364,7 @@ msgid_plural "Enabled <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:81
+#: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:86
 #. translators: %s is the count of disabled directory list entries.
 msgctxt "Approved product download directory views"
 msgid "Disabled <span class=\"count\">(%s)</span>"
@@ -5215,7 +5372,7 @@ msgid_plural "Disabled <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/MediaInsert.php:237
+#: src/Admin/MediaInsert.php:239
 msgctxt "Drop file here *or* select file"
 msgid "or"
 msgstr ""
