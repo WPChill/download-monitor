@@ -91,7 +91,6 @@ class DLM_Modal {
 		// Check if the no_access_page is set.
 		$no_access_page = $settings->get_option( 'no_access_page' );
 		$download       = false;
-
 		if ( ! $no_access_page ) {
 			ob_start();
 
@@ -127,12 +126,25 @@ class DLM_Modal {
 
 			$content = ob_get_clean();
 		} else {
-			$content = do_shortcode( apply_filters( 'the_content', get_post_field( 'post_content', $no_access_page ) ) );
+			$content = '';
+			/**
+			 * Filter to show extra notice text permissions when the user has no access to the download
+			 *
+			 * @hook dlm_do_extra_notice_text
+			 *
+			 * @default false
+			 *
+			 * @since 5.0.14
+			 */
+			if ( ! empty( $_POST['modal_text'] ) && apply_filters( 'dlm_do_extra_notice_text', false ) ) {
+				$content .= '<p class="dlm-no-access-notice">' . esc_html( $_POST['modal_text'] ) . '</p>';
+			}
+			$content .= do_shortcode( apply_filters( 'the_content', get_post_field( 'post_content', $no_access_page ) ) );
 			if ( '' === trim( $content ) ) {
 				if ( ! empty( $_POST['modal_text'] ) ) {
-					$content = sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
+					$content .= sanitize_text_field( wp_unslash( $_POST['modal_text'] ) );
 				} else {
-					$content = '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
+					$content .= '<p>' . __( 'You do not have permission to download this file.', 'download-monitor' ) . '</p>';
 				}
 			}
 		}

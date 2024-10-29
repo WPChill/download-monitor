@@ -1,7 +1,10 @@
 // Load the translations
 const { __ } = wp.i18n;
 const submitButton = jQuery("#wp-submit"),
-  closeModalButton = jQuery("#dlm-no-access-modal .dlm-no-access-modal-close");
+  closeModalButton = jQuery("#dlm-no-access-modal .dlm-no-access-modal-close"),
+  modalContent = jQuery(
+    "#dlm-no-access-modal .dlm-modal-content #dlm_login_form"
+  );
 submitButton.on("click", function (event) {
   event.preventDefault();
   // Get user name
@@ -14,6 +17,7 @@ submitButton.on("click", function (event) {
       security: memberLock.nonce,
       user_name: userName.val(),
       user_pass: password.val(),
+      download_id: jQuery("#download_id").val(),
     };
   // Check if user name is empty
   if (!userName || !userName.val()) {
@@ -31,8 +35,17 @@ submitButton.on("click", function (event) {
     url: memberLock.ajaxurl,
     data: data,
     success: function (response) {
-      // Close the modal
-      closeModalButton.trigger("click");
+      if (response.success) {
+        modalContent.find('.dlm_tc_form').remove();
+        modalContent.append(response.data);
+      } else {
+        modalContent.find(".dlm-errror-message").remove();
+        modalContent.append(
+          '<div class="dlm-error-message dlm-mt-6 dlm-text-center dlm-text-sm dlm-font-bold dlm-leading-9 dlm-tracking-tight dlm-text-gray-900">' +
+            response.data +
+            "</div>"
+        );
+      }
     },
     error: function (error) {
       console.error(error);

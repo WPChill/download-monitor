@@ -174,7 +174,7 @@ class DLM_Admin_Settings {
 							),
 							array(
 								'name'     => 'dlm_use_default_modal',
-								'std'      => '0',
+								'std'      => '1',
 								'label'    => __( 'Use default modal', 'download-monitor' ),
 								'cb_label' => '',
 								'desc'     => __( 'When enabled, the content of the "No Access page" option will be displayed in the no access modal. If disabled, the modal will show content specific to each extension.', 'download-monitor' ),

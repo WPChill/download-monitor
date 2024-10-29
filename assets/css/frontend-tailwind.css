@@ -536,10 +536,6 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-m-2 {
   margin: 0.5rem;
 }
-#dlm-no-access-modal .dlm-mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
 #dlm-no-access-modal .dlm-ml-3 {
   margin-left: 0.75rem;
 }
@@ -567,9 +563,6 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-inline-flex {
   display: inline-flex;
 }
-#dlm-no-access-modal .dlm-h-10 {
-  height: 2.5rem;
-}
 #dlm-no-access-modal .dlm-h-12 {
   height: 3rem;
 }
@@ -590,9 +583,6 @@ html body a.download-link.dlm-download-complete::before {
 }
 #dlm-no-access-modal .dlm-w-6 {
   width: 1.5rem;
-}
-#dlm-no-access-modal .dlm-w-auto {
-  width: auto;
 }
 #dlm-no-access-modal .dlm-w-full {
   width: 100%;
@@ -620,9 +610,6 @@ html body a.download-link.dlm-download-complete::before {
 }
 #dlm-no-access-modal .dlm-justify-center {
   justify-content: center;
-}
-#dlm-no-access-modal .dlm-justify-between {
-  justify-content: space-between;
 }
 #dlm-no-access-modal .dlm-space-y-6 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -724,10 +711,6 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-text-center {
   text-align: center;
 }
-#dlm-no-access-modal .dlm-text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
 #dlm-no-access-modal .dlm-text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -735,6 +718,10 @@ html body a.download-link.dlm-download-complete::before {
 #dlm-no-access-modal .dlm-text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+#dlm-no-access-modal .dlm-text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 #dlm-no-access-modal .dlm-font-bold {
   font-weight: 700;
@@ -818,10 +805,6 @@ html body a.download-link.dlm-download-complete::before {
 .hover\:dlm-bg-indigo-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
-}
-.hover\:dlm-text-indigo-500:hover {
-  --tw-text-opacity: 1;
-  color: rgb(99 102 241 / var(--tw-text-opacity));
 }
 .focus\:dlm-ring-2:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
@@ -929,12 +912,6 @@ html body a.download-link.dlm-download-complete::before {
   }
   .sm\:dlm-leading-6 {
     line-height: 1.5rem;
-  }
-}
-@media (min-width: 1024px) {
-  .lg\:dlm-px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem;
   }
 }
 
