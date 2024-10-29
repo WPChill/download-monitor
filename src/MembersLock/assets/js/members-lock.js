@@ -1,12 +1,11 @@
-// Load the translations
-const { __ } = wp.i18n;
-const submitButton = jQuery("#wp-submit"),
-  closeModalButton = jQuery("#dlm-no-access-modal .dlm-no-access-modal-close"),
-  modalContent = jQuery(
-    "#dlm-no-access-modal .dlm-modal-content #dlm_login_form"
-  );
-submitButton.on("click", function (event) {
+jQuery("#wp-submit").on("click", function (event) {
   event.preventDefault();
+  const closeModalButton = jQuery(
+      "#dlm-no-access-modal .dlm-no-access-modal-close"
+    ),
+    modalContent = jQuery(
+      "#dlm-no-access-modal .dlm-modal-content #dlm_login_form"
+    );
   // Get user name
   const userName = jQuery("#user_login"),
     // Get password
@@ -21,12 +20,12 @@ submitButton.on("click", function (event) {
     };
   // Check if user name is empty
   if (!userName || !userName.val()) {
-    alert(__("User name is required", "download-monitor")); // User name is required
+    alert(dlmMembersLockLang.required_user); // User name is required
     return;
   }
   // Check if password is empty
   if (!password || !password.val()) {
-    alert(__("Password is required", "download-monitor"));
+    alert(dlmMembersLockLang.required_pass); // Password is required
     return;
   }
   // Make AJAX request
@@ -36,7 +35,7 @@ submitButton.on("click", function (event) {
     data: data,
     success: function (response) {
       if (response.success) {
-        modalContent.find('.dlm_tc_form').remove();
+        modalContent.find(".dlm_tc_form").remove();
         modalContent.append(response.data);
       } else {
         modalContent.find(".dlm-errror-message").remove();
