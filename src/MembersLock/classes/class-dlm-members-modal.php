@@ -47,7 +47,7 @@ class DLM_Members_Modal {
 		$settings = download_monitor()->service( 'settings' );
 		// Check if the no access page is set. If set, we need to go through the normal process.
 		// Else we can just add the inline script to handle the subjective modal.
-		if ( $settings->get_option( 'no_access_page' ) && apply_filters( 'dlm_use_default_modal_members-only', $settings->get_option( 'use_default_modal' ) ) ) {
+		if ( $settings->get_option( 'no_access_page' ) && apply_filters( 'dlm_use_default_modal', $settings->get_option( 'use_default_modal' ), 'members-only' ) ) {
 			return;
 		}
 		$script = 'document.addEventListener("dlm-xhr-modal-data", function(event) {'
