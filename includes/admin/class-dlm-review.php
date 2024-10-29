@@ -89,7 +89,7 @@ class DLM_Review {
 		check_ajax_referer( 'download-monitor-review', 'security' );
 		// Check permissions
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( __( 'Permission denied', 'download-monitor' ) );
+			wp_send_json_error( __( 'You do not have permission to do this', 'download-monitor' ) );
 		}
 
 		if ( ! isset( $_POST['check'] ) ) {

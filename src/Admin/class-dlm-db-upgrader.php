@@ -182,8 +182,7 @@ if ( ! class_exists( 'DLM_DB_Upgrader' ) ) {
 			wp_verify_nonce( $_POST['nonce'], 'dlm_db_log_nonce' );
 			// Check if user has the capability to do this.
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_send_json( '0' );
-				exit;
+				wp_send_json_error( __( 'You do not have permission to do this.', 'download-monitor' ) );
 			}
 
 			global $wpdb;
