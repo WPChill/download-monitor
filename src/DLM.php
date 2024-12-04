@@ -70,9 +70,6 @@ class WP_DLM {
 		// Setup the download monitor upsells
 		DLM_Upsells::get_instance();
 
-		// Load plugin text domain.
-		$this->load_textdomain();
-
 		// Table for Download Infos.
 		$wpdb->download_log = "{$wpdb->prefix}download_log";
 		// New Table for reports.
@@ -546,6 +543,8 @@ class WP_DLM {
 	 */
 	public function register_globals() {
 		$GLOBALS['dlm_download'] = null;
+
+		$this->load_textdomain();
 	}
 
 	/**
