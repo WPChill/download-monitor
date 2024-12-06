@@ -130,6 +130,10 @@ Admin hits are not counted, log out and try again!
 
 == Changelog ==
 
+= 5.0.15 - 06.12.2024 =
+- Fixed: WP 6.7.1 compatibility issue ( [#1607](https://github.com/WPChill/download-monitor/issues/1607) )
+- Fixed: PHP Warning fix for file type
+
 = 5.0.14 - 29.10.2024 =
 Fixed: Session performance problems
 Added: No Access modal for the Members lock functionality
