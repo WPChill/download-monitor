@@ -1068,8 +1068,9 @@ class DLM_Admin_List_Table extends WP_List_Table {
 			case 'file_type':
 				$file = $item->get_version();
 				$type = $file->get_filetype();
-
-				echo '<span class="dlm_file_type_info "><span class="file filetype-icon filetype-' . esc_attr( sanitize_title( $type ) ) . '"></span>' . strtoupper( esc_html( $type ) ) . '</span>';
+				if ( ! empty( $type ) ) {
+					echo '<span class="dlm_file_type_info "><span class="file filetype-icon filetype-' . esc_attr( sanitize_title( $type ) ) . '"></span>' . strtoupper( esc_html( $type ) ) . '</span>';
+				}
 				break;
 		}
 	}
