@@ -2,7 +2,7 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Download Monitor 5.0.14\n"
+"Project-Id-Version: Download Monitor 5.0.15\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/download-monitor/download-monitor/issues\n"
 "POT-Creation-Date: 2024-10-28 09:15:19+00:00\n"

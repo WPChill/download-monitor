@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 5.5
 Tested up to: 6.7
-Stable tag: 5.0.14
+Stable tag: 5.0.15
 License: GPLv3
 Requires PHP: 7.6
 
