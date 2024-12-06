@@ -6,7 +6,7 @@
 	Version: 5.0.15
 	Author: WPChill
 	Author URI: https://wpchill.com
-	Requires at least: 5.5
+	Requires at least: 6.4
 	Tested up to: 6.7
 	Requires PHP: 7.4
 	Text Domain: download-monitor

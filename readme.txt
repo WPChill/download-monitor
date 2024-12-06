@@ -1,7 +1,7 @@
 === Download Monitor ===
 Contributors: wpchill, silkalns
 Tags: download manager, file manager, digital store, ecommerce, password protection
-Requires at least: 5.5
+Requires at least: 6.4
 Tested up to: 6.7
 Stable tag: 5.0.15
 License: GPLv3
