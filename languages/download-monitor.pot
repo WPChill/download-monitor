@@ -2,10 +2,10 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Download Monitor 5.0.15\n"
+"Project-Id-Version: Download Monitor 5.0.16\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/download-monitor/download-monitor/issues\n"
-"POT-Creation-Date: 2024-10-28 09:15:19+00:00\n"
+"POT-Creation-Date: 2024-12-10 14:53:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +19,7 @@ msgid "Price (%s)"
 msgstr ""
 
 #: assets/views/meta-box/product-information.php:13 src/Admin/Dashboard.php:72
-#: src/Admin/Extensions.php:411 src/Admin/class-dlm-admin-list-table.php:2000
+#: src/Admin/Extensions.php:411 src/Admin/class-dlm-admin-list-table.php:2001
 #: src/Admin/class-dlm-network-settings.php:57
 #: src/Admin/class-dlm-network-settings.php:58 src/PostTypeManager.php:58
 msgid "Downloads"
@@ -187,7 +187,7 @@ msgstr ""
 
 #: assets/views/order/page-order-details.php:28
 #: assets/views/order/page-order-details.php:47
-#: src/Admin/Reports/class-dlm-reports.php:99 src/Shop/Admin/OrderTable.php:155
+#: src/Admin/Reports/class-dlm-reports.php:98 src/Shop/Admin/OrderTable.php:155
 #: templates/shop/cart/totals.php:32 templates/shop/cart.php:29
 #: templates/shop/checkout/order-review.php:24
 #: templates/shop/checkout/order-review.php:45
@@ -199,20 +199,20 @@ msgid "Transactions"
 msgstr ""
 
 #: assets/views/order/page-order-details.php:67
-#: src/Admin/Reports/class-dlm-reports.php:89 src/Admin/WritePanels.php:150
+#: src/Admin/Reports/class-dlm-reports.php:88 src/Admin/WritePanels.php:150
 #: src/Shop/Admin/WritePanels.php:205 src/Widgets/Downloads.php:217
 msgid "ID"
 msgstr ""
 
 #: assets/views/order/page-order-details.php:68
-#: src/Admin/class-dlm-admin-list-table.php:1409
+#: src/Admin/class-dlm-admin-list-table.php:1410
 #: src/Shop/Admin/OrderTable.php:153 src/Shop/Admin/ProductTableColumns.php:38
 msgid "Date"
 msgstr ""
 
 #: assets/views/order/page-order-details.php:69
-#: src/Admin/Reports/class-dlm-reports.php:128
-#: src/Admin/class-dlm-admin-list-table.php:1753
+#: src/Admin/Reports/class-dlm-reports.php:127
+#: src/Admin/class-dlm-admin-list-table.php:1754
 #: src/Admin/class-dlm-plugin-status.php:145 src/Shop/Admin/OrderTable.php:154
 msgid "Status"
 msgstr ""
@@ -293,6 +293,14 @@ msgstr ""
 msgid "contact us form"
 msgstr ""
 
+#: includes/admin/class-dlm-beta-testers.php:110 src/Admin/Extensions.php:657
+#: src/Admin/Extensions.php:723 src/Admin/class-dlm-db-upgrader.php:185
+#: src/Admin/class-dlm-db-upgrader.php:262
+#: src/Admin/class-dlm-db-upgrader.php:347
+#: src/Admin/class-dlm-db-upgrader.php:431 src/AjaxHandler.php:362
+msgid "You do not have permission to do this."
+msgstr ""
+
 #: includes/admin/class-dlm-review.php:13
 msgid ""
 "Hi there! Stoked to see you're using Download Monitor for a few days now - "
@@ -310,6 +318,11 @@ msgstr ""
 
 #: includes/admin/class-dlm-review.php:16
 msgid "Don't show again"
+msgstr ""
+
+#: includes/admin/class-dlm-review.php:92 src/AjaxHandler.php:235
+#: src/AjaxHandler.php:253 src/AjaxHandler.php:312 src/AjaxHandler.php:343
+msgid "You do not have permission to do this"
 msgstr ""
 
 #: includes/admin/class-dlm-upsells.php:91
@@ -921,8 +934,8 @@ msgid ""
 msgstr ""
 
 #: includes/submodules/banner/class-wpchill-welcome.php:89
-#: src/Admin/class-dlm-db-upgrader.php:520
-#: src/Admin/class-dlm-db-upgrader.php:549
+#: src/Admin/class-dlm-db-upgrader.php:536
+#: src/Admin/class-dlm-db-upgrader.php:565
 msgid "Upgrade"
 msgstr ""
 
@@ -1042,7 +1055,7 @@ msgstr ""
 msgid "Terms & Conditions required"
 msgstr ""
 
-#: src/Admin/CustomActions.php:452
+#: src/Admin/CustomActions.php:457
 msgid "Download succesfully duplicated!"
 msgstr ""
 
@@ -1098,9 +1111,9 @@ msgstr ""
 msgid "There are no stats available yet!"
 msgstr ""
 
-#: src/Admin/Dashboard.php:69 src/Admin/Reports/class-dlm-reports.php:94
+#: src/Admin/Dashboard.php:69 src/Admin/Reports/class-dlm-reports.php:93
 #: src/Admin/class-dlm-admin-list-table.php:597
-#: src/Admin/class-dlm-admin-list-table.php:1380
+#: src/Admin/class-dlm-admin-list-table.php:1381
 #: src/Shop/Admin/ProductTableColumns.php:35 src/Widgets/Downloads.php:183
 #: src/Widgets/Downloads.php:213
 msgid "Title"
@@ -1147,7 +1160,7 @@ msgstr ""
 
 #: src/Admin/DownloadPaths/class-dlm-downloads-path-table.php:146
 #: src/Admin/class-dlm-admin-list-table.php:477
-#: src/Admin/class-dlm-admin-list-table.php:1169
+#: src/Admin/class-dlm-admin-list-table.php:1170
 #: src/Admin/class-dlm-plugin-status.php:157
 #: src/Admin/class-dlm-plugin-status.php:213 src/PostTypeManager.php:66
 #: src/PostTypeManager.php:138 src/Shop/Admin/DownloadOption.php:38
@@ -1209,7 +1222,7 @@ msgid "Add New Approved Path"
 msgstr ""
 
 #: src/Admin/DownloadPaths/class-dlm-downloads-path.php:286
-#: src/Admin/class-dlm-admin-list-table.php:1908
+#: src/Admin/class-dlm-admin-list-table.php:1909
 msgid "Cancel"
 msgstr ""
 
@@ -1249,20 +1262,20 @@ msgid "Download Monitor Extensions"
 msgstr ""
 
 #: src/Admin/Extensions.php:157 src/Admin/Extensions.php:417
-#: src/Admin/class-dlm-admin-list-table.php:2016
+#: src/Admin/class-dlm-admin-list-table.php:2017
 msgid "Extensions"
 msgstr ""
 
-#: src/Admin/Extensions.php:166 src/Admin/Extensions.php:893
+#: src/Admin/Extensions.php:166 src/Admin/Extensions.php:900
 msgid "Download Monitor Installed Extensions"
 msgstr ""
 
 #: src/Admin/Extensions.php:167 src/Admin/Extensions.php:434
-#: src/Admin/Extensions.php:1045
+#: src/Admin/Extensions.php:1052
 msgid "Installed Extensions"
 msgstr ""
 
-#: src/Admin/Extensions.php:295 src/Admin/Extensions.php:912
+#: src/Admin/Extensions.php:295 src/Admin/Extensions.php:919
 msgid "Reload Extensions"
 msgstr ""
 
@@ -1287,7 +1300,7 @@ msgstr ""
 msgid "free"
 msgstr ""
 
-#: src/Admin/Extensions.php:351 src/Admin/Extensions.php:959
+#: src/Admin/Extensions.php:351 src/Admin/Extensions.php:966
 msgid "Activate"
 msgstr ""
 
@@ -1311,67 +1324,67 @@ msgstr ""
 msgid "Couldn't load extensions, please try again later."
 msgstr ""
 
-#: src/Admin/Extensions.php:423 src/Admin/class-dlm-admin-list-table.php:2005
+#: src/Admin/Extensions.php:423 src/Admin/class-dlm-admin-list-table.php:2006
 msgid "Suggest a feature"
 msgstr ""
 
-#: src/Admin/Extensions.php:708
+#: src/Admin/Extensions.php:711
 msgid "Missing license key."
 msgstr ""
 
-#: src/Admin/Extensions.php:712
+#: src/Admin/Extensions.php:715
 msgid "Missing email address."
 msgstr ""
 
-#: src/Admin/Extensions.php:716
+#: src/Admin/Extensions.php:719
 msgid "Something went wrong, please try again."
 msgstr ""
 
-#: src/Admin/Extensions.php:774
+#: src/Admin/Extensions.php:781
 msgid "Could not connect to the license server"
 msgstr ""
 
-#: src/Admin/Extensions.php:833
+#: src/Admin/Extensions.php:840
 msgid "Master license updated"
 msgstr ""
 
-#: src/Admin/Extensions.php:937
+#: src/Admin/Extensions.php:944
 msgid "renew your license"
 msgstr ""
 
-#: src/Admin/Extensions.php:951
+#: src/Admin/Extensions.php:958
 msgid "Email"
 msgstr ""
 
-#: src/Admin/Extensions.php:955
+#: src/Admin/Extensions.php:962
 msgid "Main license"
 msgstr ""
 
-#: src/Admin/Extensions.php:959
+#: src/Admin/Extensions.php:966
 msgid "Deactivate"
 msgstr ""
 
-#: src/Admin/Extensions.php:960
+#: src/Admin/Extensions.php:967
 msgid "Forgot your license?"
 msgstr ""
 
-#: src/Admin/Extensions.php:970
+#: src/Admin/Extensions.php:977
 msgid "License expired, please %srenew%s."
 msgstr ""
 
-#: src/Admin/Extensions.php:970 src/Admin/Extensions.php:984
+#: src/Admin/Extensions.php:977 src/Admin/Extensions.php:991
 msgid "If you already renewed, please activate the license."
 msgstr ""
 
-#: src/Admin/Extensions.php:977
+#: src/Admin/Extensions.php:984
 msgid "Invalid license, please check your license key."
 msgstr ""
 
-#: src/Admin/Extensions.php:984
+#: src/Admin/Extensions.php:991
 msgid "You license has expired,  %s."
 msgstr ""
 
-#: src/Admin/Extensions.php:992
+#: src/Admin/Extensions.php:999
 msgid ""
 "Starting from version 5.0.0, Download Monitor is enhancing its "
 "functionality with the introduction of the Download Monitor PRO extension. "
@@ -1417,7 +1430,7 @@ msgstr ""
 msgid "Choose a download"
 msgstr ""
 
-#: src/Admin/MediaInsert.php:210 src/Admin/class-dlm-admin-list-table.php:1606
+#: src/Admin/MediaInsert.php:210 src/Admin/class-dlm-admin-list-table.php:1607
 msgid "Template"
 msgstr ""
 
@@ -1649,27 +1662,31 @@ msgstr ""
 msgid "Filter by download"
 msgstr ""
 
-#: src/Admin/Reports/class-dlm-reports.php:108
+#: src/Admin/Reports/class-dlm-reports.php:107
 msgid "User"
 msgstr ""
 
-#: src/Admin/Reports/class-dlm-reports.php:113
+#: src/Admin/Reports/class-dlm-reports.php:112
 msgid "IP"
 msgstr ""
 
-#: src/Admin/Reports/class-dlm-reports.php:118
+#: src/Admin/Reports/class-dlm-reports.php:117
 msgid "Role"
 msgstr ""
 
-#: src/Admin/Reports/class-dlm-reports.php:123 src/PostTypeManager.php:60
+#: src/Admin/Reports/class-dlm-reports.php:122 src/PostTypeManager.php:60
 msgid "Download"
 msgstr ""
 
-#: src/Admin/Reports/class-dlm-reports.php:133
+#: src/Admin/Reports/class-dlm-reports.php:132
 msgid "Download date"
 msgstr ""
 
-#: src/Admin/Reports/class-dlm-reports.php:529
+#: src/Admin/Reports/class-dlm-reports.php:427
+msgid "You do not have the rights to do this!"
+msgstr ""
+
+#: src/Admin/Reports/class-dlm-reports.php:532
 msgid "Sorry, you are not allowed to see data from this endpoint."
 msgstr ""
 
@@ -1712,7 +1729,7 @@ msgid "Loading"
 msgstr ""
 
 #: src/Admin/Settings/Page.php:42 src/Admin/Settings/Page.php:43
-#: src/DLM.php:378
+#: src/DLM.php:375
 msgid "Settings"
 msgstr ""
 
@@ -2346,7 +2363,7 @@ msgid "Export download"
 msgstr ""
 
 #: src/Admin/class-dlm-admin-list-table.php:475
-#: src/Admin/class-dlm-admin-list-table.php:1204
+#: src/Admin/class-dlm-admin-list-table.php:1205
 msgid "Restore"
 msgstr ""
 
@@ -2407,13 +2424,13 @@ msgid "Date posted"
 msgstr ""
 
 #: src/Admin/class-dlm-admin-list-table.php:612
-#: src/Admin/class-dlm-admin-list-table.php:1460
+#: src/Admin/class-dlm-admin-list-table.php:1461
 msgid "Author"
 msgstr ""
 
 #: src/Admin/class-dlm-admin-list-table.php:653
 #: src/Admin/class-dlm-admin-list-table.php:655
-#: src/Admin/class-dlm-admin-list-table.php:1675
+#: src/Admin/class-dlm-admin-list-table.php:1676
 #. translators: Hidden accessibility text.
 msgid "Comments"
 msgstr ""
@@ -2450,7 +2467,7 @@ msgid "g:i a"
 msgstr ""
 
 #: src/Admin/class-dlm-admin-list-table.php:838
-#: src/Admin/class-dlm-admin-list-table.php:1767
+#: src/Admin/class-dlm-admin-list-table.php:1768
 msgid "Published"
 msgstr ""
 
@@ -2459,7 +2476,7 @@ msgid "Missed schedule"
 msgstr ""
 
 #: src/Admin/class-dlm-admin-list-table.php:843
-#: src/Admin/class-dlm-admin-list-table.php:1769
+#: src/Admin/class-dlm-admin-list-table.php:1770
 msgid "Scheduled"
 msgstr ""
 
@@ -2489,171 +2506,171 @@ msgstr ""
 msgid "Local"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1168
+#: src/Admin/class-dlm-admin-list-table.php:1169
 #. translators: %s: Post title.
 msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1187
+#: src/Admin/class-dlm-admin-list-table.php:1188
 #. translators: %s: Post title.
 msgid "Quick edit &#8220;%s&#8221; inline"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1188
+#: src/Admin/class-dlm-admin-list-table.php:1189
 msgid "Quick&nbsp;Edit"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1194
+#: src/Admin/class-dlm-admin-list-table.php:1195
 msgid "Duplicate Download"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1203
+#: src/Admin/class-dlm-admin-list-table.php:1204
 #. translators: %s: Post title.
 msgid "Restore &#8220;%s&#8221; from the Trash"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1211
+#: src/Admin/class-dlm-admin-list-table.php:1212
 #. translators: %s: Post title.
 msgid "Move &#8220;%s&#8221; to the Trash"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1221
+#: src/Admin/class-dlm-admin-list-table.php:1222
 #. translators: %s: Post title.
 msgid "Delete &#8220;%s&#8221; permanently"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1222
+#: src/Admin/class-dlm-admin-list-table.php:1223
 msgid "Delete Permanently"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1235
+#: src/Admin/class-dlm-admin-list-table.php:1236
 #. translators: %s: Post title.
 msgid "Preview &#8220;%s&#8221;"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1236
+#: src/Admin/class-dlm-admin-list-table.php:1237
 msgid "Preview"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1244
+#: src/Admin/class-dlm-admin-list-table.php:1245
 #. translators: %s: Post title.
 msgid "View &#8220;%s&#8221;"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1245
+#: src/Admin/class-dlm-admin-list-table.php:1246
 msgid "View"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1255
+#: src/Admin/class-dlm-admin-list-table.php:1256
 #. translators: %s: Post title.
 msgid "Export &#8220;%s&#8221; as JSON"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1256
+#: src/Admin/class-dlm-admin-list-table.php:1257
 msgid "Export as JSON"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1361
+#: src/Admin/class-dlm-admin-list-table.php:1362
 msgid "Bulk Edit"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1361
+#: src/Admin/class-dlm-admin-list-table.php:1362
 msgid "Quick Edit"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1389
+#: src/Admin/class-dlm-admin-list-table.php:1390
 msgid "Slug"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1440
-#: src/Admin/class-dlm-admin-list-table.php:1560
-#: src/Admin/class-dlm-admin-list-table.php:1611
-#: src/Admin/class-dlm-admin-list-table.php:1678
-#: src/Admin/class-dlm-admin-list-table.php:1697
-#: src/Admin/class-dlm-admin-list-table.php:1758
-#: src/Admin/class-dlm-admin-list-table.php:1798
-#: src/Admin/class-dlm-admin-list-table.php:1835
+#: src/Admin/class-dlm-admin-list-table.php:1441
+#: src/Admin/class-dlm-admin-list-table.php:1561
+#: src/Admin/class-dlm-admin-list-table.php:1612
+#: src/Admin/class-dlm-admin-list-table.php:1679
+#: src/Admin/class-dlm-admin-list-table.php:1698
+#: src/Admin/class-dlm-admin-list-table.php:1759
+#: src/Admin/class-dlm-admin-list-table.php:1799
+#: src/Admin/class-dlm-admin-list-table.php:1836
 msgid "&mdash; No Change &mdash;"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1479
-#: src/MembersLock/classes/class-dlm-members-modal.php:170
+#: src/Admin/class-dlm-admin-list-table.php:1480
+#: src/MembersLock/classes/class-dlm-members-modal.php:177
 msgid "Password"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1486
+#: src/Admin/class-dlm-admin-list-table.php:1487
 #. translators: Between password field and private checkbox on post quick edit
 #. interface.
 msgid "&ndash;OR&ndash;"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1492
-#: src/Admin/class-dlm-admin-list-table.php:1773
+#: src/Admin/class-dlm-admin-list-table.php:1493
+#: src/Admin/class-dlm-admin-list-table.php:1774
 msgid "Private"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1548
+#: src/Admin/class-dlm-admin-list-table.php:1549
 msgid "Parent"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1554
+#: src/Admin/class-dlm-admin-list-table.php:1555
 msgid "Main Page (no parent)"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1589
+#: src/Admin/class-dlm-admin-list-table.php:1590
 #: src/Shop/Admin/OrderTable.php:152 src/Widgets/Downloads.php:228
 msgid "Order"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1616 src/Widgets/Downloads.php:204
+#: src/Admin/class-dlm-admin-list-table.php:1617 src/Widgets/Downloads.php:204
 msgid "Default template"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1680
-#: src/Admin/class-dlm-admin-list-table.php:1699
+#: src/Admin/class-dlm-admin-list-table.php:1681
+#: src/Admin/class-dlm-admin-list-table.php:1700
 msgid "Allow"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1682
-#: src/Admin/class-dlm-admin-list-table.php:1701
+#: src/Admin/class-dlm-admin-list-table.php:1683
+#: src/Admin/class-dlm-admin-list-table.php:1702
 msgid "Do not allow"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1694
+#: src/Admin/class-dlm-admin-list-table.php:1695
 msgid "Pings"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1722
+#: src/Admin/class-dlm-admin-list-table.php:1723
 msgid "Allow Comments"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1734
+#: src/Admin/class-dlm-admin-list-table.php:1735
 msgid "Allow Pings"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1781
+#: src/Admin/class-dlm-admin-list-table.php:1782
 msgid "Pending Review"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1783
+#: src/Admin/class-dlm-admin-list-table.php:1784
 msgid "Draft"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1795
-#: src/Admin/class-dlm-admin-list-table.php:1800
+#: src/Admin/class-dlm-admin-list-table.php:1796
+#: src/Admin/class-dlm-admin-list-table.php:1801
 msgid "Sticky"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1802
+#: src/Admin/class-dlm-admin-list-table.php:1803
 msgid "Not Sticky"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1813
+#: src/Admin/class-dlm-admin-list-table.php:1814
 msgid "Make this post sticky"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1899
-#: src/Admin/class-dlm-admin-list-table.php:1903
+#: src/Admin/class-dlm-admin-list-table.php:1900
+#: src/Admin/class-dlm-admin-list-table.php:1904
 #: src/Product/ProductManager.php:249
 msgid "Update"
 msgstr ""
@@ -2664,28 +2681,28 @@ msgid ""
 "automatically when it's finished."
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:508
+#: src/Admin/class-dlm-db-upgrader.php:524
 msgid "Please <a href=\"#\" class=\"dlm-db-upgrade-link\">upgrade the database</a>."
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:513
+#: src/Admin/class-dlm-db-upgrader.php:529
 msgid ""
 "Hello there! We made some changes on how Download Monitor's data is "
 "structured. Please <a href=\"#\" class=\"dlm-db-upgrade-link\">click "
 "here</a> to upgrade your database"
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:518
+#: src/Admin/class-dlm-db-upgrader.php:534
 msgid "Resume Upgrade"
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:541
+#: src/Admin/class-dlm-db-upgrader.php:557
 msgid ""
 "Please <a href=\"#\" class=\"dlm-db-download_category-link\">upgrade the "
 "database</a>."
 msgstr ""
 
-#: src/Admin/class-dlm-db-upgrader.php:546
+#: src/Admin/class-dlm-db-upgrader.php:562
 msgid ""
 "Hello there! We made some changes on how Download Monitor's data is "
 "structured. Please make a backup of your database and click the upgrade "
@@ -2889,47 +2906,39 @@ msgstr ""
 msgid "You are not allowed in this directory"
 msgstr ""
 
-#: src/AjaxHandler.php:295
+#: src/AjaxHandler.php:305
 msgid "Nonce is required"
 msgstr ""
 
-#: src/AjaxHandler.php:307
+#: src/AjaxHandler.php:321
 msgid "Error while updating the column download_category"
 msgstr ""
 
-#: src/AjaxHandler.php:309
+#: src/AjaxHandler.php:323
 msgid "Column download_category has been updated"
 msgstr ""
 
-#: src/AjaxHandler.php:311
+#: src/AjaxHandler.php:325
 msgid "Column download_category is already updated"
 msgstr ""
 
-#: src/AjaxHandler.php:325
+#: src/AjaxHandler.php:339
 msgid "No data submitted"
 msgstr ""
 
-#: src/AjaxHandler.php:329
-msgid "You do not have permission to do this"
-msgstr ""
-
-#: src/AjaxHandler.php:348
-msgid "You do not have permission to do this."
-msgstr ""
-
-#: src/AjaxHandler.php:351
+#: src/AjaxHandler.php:365
 msgid "No upsell provided."
 msgstr ""
 
-#: src/AjaxHandler.php:356
+#: src/AjaxHandler.php:370
 msgid "Upsell not found."
 msgstr ""
 
-#: src/DLM.php:511
+#: src/DLM.php:508
 msgid "An error occurred while trying to download the file. Please try again."
 msgstr ""
 
-#: src/DLM.php:513 src/DownloadHandler.php:395 src/DownloadHandler.php:406
+#: src/DLM.php:510 src/DownloadHandler.php:395 src/DownloadHandler.php:406
 #: src/RestAPI/class-dlm-download-rest.php:175
 #: src/RestAPI/class-dlm-download-rest.php:198
 #: src/RestAPI/class-dlm-download-rest.php:258
@@ -2938,38 +2947,38 @@ msgstr ""
 msgid "Download does not exist."
 msgstr ""
 
-#: src/DLM.php:515
+#: src/DLM.php:512
 msgid "No file path defined."
 msgstr ""
 
-#: src/DLM.php:517 src/class-dlm-download-error-handler.php:66
+#: src/DLM.php:514 src/class-dlm-download-error-handler.php:66
 #: src/class-dlm-download-error-handler.php:93
 #: src/class-dlm-download-error-handler.php:95
 msgid "No file paths defined."
 msgstr ""
 
-#: src/DLM.php:519 src/class-dlm-download-error-handler.php:168
+#: src/DLM.php:516 src/class-dlm-download-error-handler.php:168
 #: src/class-dlm-download-error-handler.php:175
 msgid "Download is not allowed for this file type."
 msgstr ""
 
-#: src/DLM.php:521 src/class-dlm-download-error-handler.php:195
+#: src/DLM.php:518 src/class-dlm-download-error-handler.php:195
 msgid "Access denied to this file."
 msgstr ""
 
-#: src/DLM.php:523 src/class-dlm-download-error-handler.php:223
+#: src/DLM.php:520 src/class-dlm-download-error-handler.php:223
 msgid "Access denied. You do not have permission to download this file."
 msgstr ""
 
-#: src/DLM.php:525 src/DownloadHandler.php:850 src/DownloadHandler.php:868
+#: src/DLM.php:522 src/DownloadHandler.php:850 src/DownloadHandler.php:868
 msgid "Something is wrong with the file path."
 msgstr ""
 
-#: src/DLM.php:527 src/DownloadHandler.php:945 src/DownloadHandler.php:963
+#: src/DLM.php:524 src/DownloadHandler.php:945 src/DownloadHandler.php:963
 msgid "File not found."
 msgstr ""
 
-#: src/DLM.php:945
+#: src/DLM.php:944
 msgid ""
 "DLM - Terms & Conditions plugin was deactivated because it is now "
 "integrated within Download Monitor."
@@ -3070,6 +3079,10 @@ msgstr ""
 msgid "Generate API Key"
 msgstr ""
 
+#: src/KeyGeneration/class-dlm-key-generation.php:376
+msgid "You do not have permission to perform this action."
+msgstr ""
+
 #: src/LegacyUpgrader/Page.php:17
 msgid "Legacy Upgrader"
 msgstr ""
@@ -3107,16 +3120,32 @@ msgstr ""
 msgid "Only members can download"
 msgstr ""
 
-#: src/MembersLock/classes/class-dlm-members-modal.php:169
+#: src/MembersLock/classes/class-dlm-members-modal.php:137
+msgid "User name is required"
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-modal.php:138
+msgid "Password is required"
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-modal.php:176
 msgid "Username or Email Address"
 msgstr ""
 
-#: src/MembersLock/classes/class-dlm-members-modal.php:171
+#: src/MembersLock/classes/class-dlm-members-modal.php:178
 msgid "Remember Me"
 msgstr ""
 
-#: src/MembersLock/classes/class-dlm-members-modal.php:172
+#: src/MembersLock/classes/class-dlm-members-modal.php:179
 msgid "Log In"
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-modal.php:281
+msgid "Authentification successful."
+msgstr ""
+
+#: src/MembersLock/classes/class-dlm-members-modal.php:282
+msgid "Download link: "
 msgstr ""
 
 #: src/MembersLock/templates/members-form-modal.php:12
@@ -5205,17 +5234,17 @@ msgid_plural "Downloaded %d times"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/class-dlm-modal.php:104 src/class-dlm-modal.php:135
+#: src/class-dlm-modal.php:103 src/class-dlm-modal.php:147
 msgid "You do not have permission to download this file."
 msgstr ""
 
-#: src/class-dlm-modal.php:150 src/class-dlm-modal.php:151
-#: src/class-dlm-modal.php:153 src/class-dlm-modal.php:154
+#: src/class-dlm-modal.php:162 src/class-dlm-modal.php:163
+#: src/class-dlm-modal.php:165 src/class-dlm-modal.php:166
 msgid "Error!"
 msgstr ""
 
-#: src/class-dlm-modal.php:152 src/class-dlm-modal.php:155
-#: src/class-dlm-modal.php:156
+#: src/class-dlm-modal.php:164 src/class-dlm-modal.php:167
+#: src/class-dlm-modal.php:168
 msgid "No access!"
 msgstr ""
 
@@ -5244,7 +5273,7 @@ msgstr ""
 msgid "has no version set!"
 msgstr ""
 
-#: templates/no-access-modal.php:86
+#: templates/no-access-modal.php:94
 msgid "Close"
 msgstr ""
 
@@ -5401,12 +5430,12 @@ msgid_plural "Sticky <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1212
+#: src/Admin/class-dlm-admin-list-table.php:1213
 msgctxt "verb"
 msgid "Trash"
 msgstr ""
 
-#: src/Admin/class-dlm-admin-list-table.php:1832
+#: src/Admin/class-dlm-admin-list-table.php:1833
 msgctxt "post format"
 msgid "Format"
 msgstr ""
