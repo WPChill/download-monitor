@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 6.4
 Tested up to: 6.7
-Stable tag: 5.0.15
+Stable tag: 5.0.16
 License: GPLv3
 Requires PHP: 7.6
 
@@ -129,6 +129,9 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+
+= 5.0.16 - 10.12.2024 =
+- Fixed: Gutenberg block not working properly ( [#1610](https://github.com/WPChill/download-monitor/issues/1610) )
 
 = 5.0.15 - 06.12.2024 =
 - Fixed: WP 6.7.1 compatibility issue ( [#1607](https://github.com/WPChill/download-monitor/issues/1607) )

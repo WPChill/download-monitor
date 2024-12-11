@@ -1,0 +1,55 @@
+{
+	"parser": "@babel/eslint-parser",
+	"env": {
+		"browser": true,
+		"es6": true,
+		"node": true,
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:import/recommended",
+		"plugin:react/recommended",
+		"plugin:jsx-a11y/recommended",
+		"plugin:@wordpress/eslint-plugin/recommended",
+		"plugin:@tanstack/eslint-plugin-query/recommended",
+	],
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true,
+		},
+	},
+	"ignorePatterns": ["node_modules/"],
+	"plugins": [
+		"react",
+		"import",
+		"jsx-a11y",
+		"react-hooks",
+		"@tanstack/query",
+	],
+	"rules": {
+		"babel/require-config-file": "off",
+		"react/no-unescaped-entities": "off",
+		"react/prop-types": 0,
+		"react/jsx-uses-react": "error",
+		"react/jsx-uses-vars": "error",
+		// "import/no-unresolved": "error",
+		"react/jsx-no-duplicate-props": "error",
+		"react/jsx-no-undef": "error",
+		"react/jsx-pascal-case": "error",
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn",
+		"no-unused-vars": "warn",
+		"no-undef": "error",
+		"no-console": "off",
+		"@wordpress/no-unsafe-wp-apis": "off",
+		"import/no-extraneous-dependencies": "off",
+		"import/no-unresolved": "off",
+	},
+	"settings": {
+		"react": {
+			"version": "detect",
+		},
+	},
+}

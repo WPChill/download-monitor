@@ -36,7 +36,7 @@ const DownloadButton = ( {
 	const updateHeight = ( target ) => {
 		const cacheKey = encodeURI( getIframeUrl() );
 
-		// check if we need to reset height to new URL
+		//check if we need to reset height to new URL
 		if ( calculatedHeight.chacheKey !== cacheKey ) {
 			setCalculatedHeight( {
 				cacheKey,
