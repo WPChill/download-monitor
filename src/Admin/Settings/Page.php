@@ -431,6 +431,13 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 							class="dashicons dashicons-email-alt"></span><?php
 						echo esc_html__( 'Contact us for support!', 'download-monitor' ); ?>
 					</a>
+					<a class="button button-secondary"
+					   href="https://download-monitor.com/changelog/?utm_source=dlm-lite&utm_medium=link&utm_campaign=settings&utm_term=changelog"
+					   target="_blank"
+					   rel="noreferrer nofollow"><span
+							class="dashicons dashicons-editor-ol"></span><?php
+						echo esc_html__( 'Changelog', 'download-monitor' ); ?>
+					</a>
 				</div>
 			</div>
 			<?php

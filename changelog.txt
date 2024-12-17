@@ -1,9 +1,12 @@
+= 5.0.17 - 17.12.2024 =
+Changed: Disabled seasonal promotions notifications.
+
 = 5.0.16 - 10.12.2024 =
-- Fixed: Gutenberg block not working properly ( [#1610](https://github.com/WPChill/download-monitor/issues/1610) )
+Fixed: Gutenberg block not working properly ( [#1610](https://github.com/WPChill/download-monitor/issues/1610) )
 
 = 5.0.15 - 06.12.2024 =
-- Fixed: WP 6.7.1 compatibility issue ( [#1607](https://github.com/WPChill/download-monitor/issues/1607) )
-- Fixed: PHP Warning fix for file type
+Fixed: WP 6.7.1 compatibility issue ( [#1607](https://github.com/WPChill/download-monitor/issues/1607) )
+Fixed: PHP Warning fix for file type
 
 = 5.0.14 - 29.10.2024 =
 Fixed: Session performance problems
