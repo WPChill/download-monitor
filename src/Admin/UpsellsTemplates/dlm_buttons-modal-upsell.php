@@ -14,8 +14,7 @@
 						<p>
 							<?php
 
-							$lite_vs_pro_url = admin_url( 'edit.php?post_type=dlm_download&page=dlm-lite-vs-pro' );
-							$buttons         = '<a target="_blank" href="' . esc_url( $lite_vs_pro_url ) . '"  class="button">' . esc_html__( 'Free vs Premium', 'download-monitor' ) . '</a>';
+							$buttons         = '<a target="_blank" href="https://download-monitor.com/free-vs-pro/?utm_source=dlm-lite&utm_medium=link&utm_campaign=upsell&utm_term=lite-vs-pro"  class="button">' . esc_html__( 'Free vs Premium', 'download-monitor' ) . '</a>';
 							$buttons        .= '<a target="_blank" href="https://download-monitor.com/pricing/?utm_source=upsell&utm_medium=popup&utm_campaign=dlm-buttons" style="margin-top:10px;" class="button-primary button">' . esc_html__( 'Get Premium!', 'download-monitor' ) . '</a>';
 
 							echo apply_filters( 'dlm_modal_upsell_buttons', $buttons, 'dlm-buttons' );

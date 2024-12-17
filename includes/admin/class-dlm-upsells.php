@@ -48,6 +48,11 @@ class DLM_Upsells {
 		}
 		// Add modal upsells through sub menu. Place here to run everywhere, not just on DLM pages.
 		add_action( 'admin_menu', array( $this, 'add_upsell_modals' ), 13 );
+
+		// Add Lite VS Pro page
+		add_filter( 'dlm_admin_menu_links', array( $this, 'add_lite_vs_pro_page' ), 120 );
+		add_action( 'admin_print_footer_scripts', array( $this, 'inline_script_for_redirection' ) );
+
 		if ( ! DLM_Admin_Helper::is_dlm_admin_page() ) {
 			return;
 		}
@@ -59,9 +64,6 @@ class DLM_Upsells {
 		$this->set_tabs();
 
 		$this->set_upsell_actions();
-
-		// Add Lite VS Pro page
-		add_filter( 'dlm_admin_menu_links', array( $this, 'add_lite_vs_pro_page' ), 120 );
 
 		// Upgrade to PRO plugin action link
 		add_filter( 'plugin_action_links_' . DLM_FILE, array( $this, 'filter_action_links' ), 60 );
@@ -90,21 +92,21 @@ class DLM_Upsells {
 			'column' => '',
 			'label'  => __( 'Get Premium', 'download-monitor' ),
 		);
-		if ( 11 == $month ) {
-			$this->offer = array(
-				'class'       => 'wpchill-bf-upsell',
-				'column'      => 'bf-upsell-columns',
-				'label'       => __( '40% OFF for Black Friday', 'download-monitor' ),
-				'description' => '40% OFF on new purchases, early renewals or upgrades.',
-			);
-		}
-		if ( 12 == $month ) {
-			$this->offer = array(
-				'class'  => 'wpchill-xmas-upsell',
-				'column' => 'xmas-upsell-columns',
-				'label'  => __( '25% OFF for Christmas', 'download-monitor' ),
-			);
-		}
+		// if ( 11 == $month ) {
+		// 	$this->offer = array(
+		// 		'class'       => 'wpchill-bf-upsell',
+		// 		'column'      => 'bf-upsell-columns',
+		// 		'label'       => __( '40% OFF for Black Friday', 'download-monitor' ),
+		// 		'description' => '40% OFF on new purchases, early renewals or upgrades.',
+		// 	);
+		// }
+		// if ( 12 == $month ) {
+		// 	$this->offer = array(
+		// 		'class'  => 'wpchill-xmas-upsell',
+		// 		'column' => 'xmas-upsell-columns',
+		// 		'label'  => __( '25% OFF for Christmas', 'download-monitor' ),
+		// 	);
+		// }
 	}
 
 	/**
@@ -197,7 +199,7 @@ class DLM_Upsells {
 
 		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( ! empty( $extension ) ? esc_html( $extension ) . '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( ! empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '"><div class="dlm-available-with-pro"><span class="dashicons dashicons-lock"></span><span>' . esc_html__( 'AVAILABLE WITH PREMIUM', 'download-monitor' ) . '</span></div></a>';
 		echo '<div class="wpchill-upsell-buttons-wrap">';
-		echo '<a target="_blank" href="' . esc_url( admin_url( 'edit.php?post_type=dlm_download&page=dlm-lite-vs-pro' ) ) . '" class="button">' . esc_html__( 'Free vs Premium', 'download-monitor' ) . '</a> ';
+		echo '<a target="_blank" href="https://download-monitor.com/free-vs-pro/?utm_source=dlm-lite&utm_medium=link&utm_campaign=upsell&utm_term=lite-vs-pro" class="button">' . esc_html__( 'Free vs Premium', 'download-monitor' ) . '</a> ';
 		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( ! empty( $extension ) ? esc_html( $extension ) . '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( ! empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html( $this->offer['label'] ) . '</a>';
 		echo '</div>';
 		echo '</div>';
@@ -840,7 +842,7 @@ class DLM_Upsells {
 			'page_title' => __( 'LITE vs Premium', 'download-monitor' ),
 			'menu_title' => __( 'LITE vs Premium', 'download-monitor' ),
 			'capability' => 'manage_options',
-			'menu_slug'  => 'dlm-lite-vs-pro',
+			'menu_slug'  => '#dlm-lite-vs-pro',
 			'function'   => array( $this, 'lits_vs_pro_page' ),
 			'priority'   => 160,
 		);
@@ -854,8 +856,7 @@ class DLM_Upsells {
 	 * @return void
 	 */
 	public function lits_vs_pro_page() {
-
-		require_once __DIR__ . '/lite-vs-pro-page.php';
+		return;
 	}
 
 	/**
@@ -1174,5 +1175,25 @@ class DLM_Upsells {
 		);
 
 		return $upsells;
+	}
+
+	public function inline_script_for_redirection() {
+		?>
+		<script type="text/javascript">
+			document.addEventListener('DOMContentLoaded', function() {
+				const link = document.querySelector('a[href*="edit.php?post_type=dlm_download&page=#dlm-lite-vs-pro"]');
+				if (link) {
+					link.addEventListener('click', function(event) {
+						event.preventDefault();
+						
+						window.open(
+						'https://download-monitor.com/free-vs-pro/?utm_source=dlm-lite&utm_medium=link&utm_campaign=upsell&utm_term=lite-vs-pro',
+						'_blank'
+					);
+					});
+				}
+			});
+		</script>
+		<?php
 	}
 }

@@ -222,6 +222,7 @@ module.exports = function ( grunt ) {
 					'!regconfig.json',
 					'!nbproject/**',
 					'!SECURITY.md',
+					'!phpcs.xml',
 				],
 				dest: 'build/'
 			}
