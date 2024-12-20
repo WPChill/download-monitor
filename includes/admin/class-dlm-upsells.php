@@ -57,13 +57,7 @@ class DLM_Upsells {
 			return;
 		}
 
-		$this->set_offer();
-
-		$this->set_hooks();
-
-		$this->set_tabs();
-
-		$this->set_upsell_actions();
+		add_action( 'init', array( $this, 'upsells_init' ) );
 
 		// Upgrade to PRO plugin action link
 		add_filter( 'plugin_action_links_' . DLM_FILE, array( $this, 'filter_action_links' ), 60 );
@@ -83,6 +77,16 @@ class DLM_Upsells {
 		}
 
 		return self::$instance;
+	}
+
+	public function upsells_init(){
+		$this->set_offer();
+
+		$this->set_hooks();
+
+		$this->set_tabs();
+
+		$this->set_upsell_actions();
 	}
 
 	private function set_offer() {
