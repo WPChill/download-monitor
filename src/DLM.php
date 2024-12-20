@@ -266,9 +266,10 @@ class WP_DLM {
 	 *
 	 * @since 4.7.72
 	 */
-	private function load_textdomain() {
-		$dlm_lang = dirname( DLM_FILE ) . '/languages/';
+	public function load_textdomain() {
 
+		$dlm_lang = dirname( DLM_FILE ) . '/languages/';
+	
 		if ( get_user_locale() !== get_locale() ) {
 
 			unload_textdomain( 'download-monitor' );
@@ -283,10 +284,8 @@ class WP_DLM {
 
 			if ( file_exists( $lang_ext1 ) ) {
 				load_textdomain( 'download-monitor', $lang_ext1 );
-
 			} elseif ( file_exists( $lang_ext2 ) ) {
 				load_textdomain( 'download-monitor', $lang_ext2 );
-
 			} else {
 				load_plugin_textdomain( 'download-monitor', false, $dlm_lang );
 			}
@@ -303,6 +302,7 @@ class WP_DLM {
 		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ),
 			array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
+		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
@@ -543,8 +543,6 @@ class WP_DLM {
 	 */
 	public function register_globals() {
 		$GLOBALS['dlm_download'] = null;
-
-		$this->load_textdomain();
 	}
 
 	/**
