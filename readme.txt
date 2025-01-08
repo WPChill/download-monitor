@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 6.4
 Tested up to: 6.7
-Stable tag: 5.0.19
+Stable tag: 5.0.20
 License: GPLv3
 Requires PHP: 7.6
 
@@ -129,6 +129,9 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.20 - 08.01.2025 =
+Fixed: Short description was hidden in certain situations ( [#1618](https://github.com/WPChill/download-monitor/issues/1618) )
+
 = 5.0.19 - 21.12.2024 =
 Fixed: Upsells text domain error
 
