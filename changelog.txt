@@ -1,3 +1,9 @@
+= 5.0.20 - 08.01.2025 =
+Fixed: Short description was hidden in certain situations ( [#1618](https://github.com/WPChill/download-monitor/issues/1618) )
+
+= 5.0.19 - 21.12.2024 =
+Fixed: Upsells text domain error
+
 = 5.0.18 - 19.12.2024 =
 Fixed: Text domain error
 
