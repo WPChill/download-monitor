@@ -3,7 +3,7 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing and selling downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 5.0.19
+	Version: 5.0.20
 	Author: WPChill
 	Author URI: https://wpchill.com
 	Requires at least: 6.4
@@ -34,7 +34,7 @@ if (! defined('ABSPATH')) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define('DLM_VERSION', '5.0.19');
+define('DLM_VERSION', '5.0.20');
 define('DLM_UPGRADER_VERSION', '4.6.0');
 
 // Define DLM FILE
