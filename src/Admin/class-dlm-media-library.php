@@ -393,12 +393,10 @@ class DLM_Media_Library {
 		delete_post_meta( $file['attachment_id'], 'dlm_protected_file' );
 		// Get current URL so we can update the Version files.
 		$current_url = wp_get_attachment_url( $file['attachment_id'] );
-		// Get secure path and update the file path in the Download
-		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $current_url );
 
 		if ( $version_id ) {
 			// Update the Version meta.
-			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $current_url ) );
 		}
 
 		// Send the response
@@ -420,9 +418,8 @@ class DLM_Media_Library {
 	 */
 	public function create_download( $file ) {
 
-		// Get new path
-		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( wp_get_attachment_url( $file['attachment_id'] ) );
-
+		// Get new URL
+		$file_url = wp_get_attachment_url( $file['attachment_id'] );
 		// Check if the file has been previously protected
 		$known_download = get_post_meta( $file['attachment_id'], 'dlm_download', true );
 		// If not, protect and add the corresponding meta, Download & Version
@@ -451,7 +448,7 @@ class DLM_Media_Library {
 			// Insert the Version.
 			$version_id = wp_insert_post( $version );
 			// Update the Version meta.
-			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_url ) );
 			// Set a meta option to know what Download is using this file and what Version.
 			$attachment_meta = json_encode(
 				array(
@@ -466,7 +463,7 @@ class DLM_Media_Library {
 		}
 
 		// Update the Version meta.
-		update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+		update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_url ) );
 		update_post_meta( $version_id, '_version', '' );
 		$transient_name   = 'dlm_file_version_ids_' . $download_id;
 		$transient_name_2 = 'dlm_file_version_ids_' . $version_id;
