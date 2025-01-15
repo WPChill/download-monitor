@@ -39,7 +39,7 @@ class DLM_Media_Library {
 	private function __construct() {
 		// filter attachment thumbnails in media library for files in dlm_uploads
 		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_thumbnails_protected_files_grid' ), 10, 2 );
-		add_filter( 'wp_get_attachment_image_src', array( $this, 'filter_thumbnails_protected_files_list' ), 10, 2 );
+		add_filter( 'wp_get_attachment_image_src', array( $this, 'filter_thumbnails_protected_files_list' ), 10, 4 );
 		// Do not make sub-sizes for images uploaded in dlm_uploads
 		add_filter( 'file_is_displayable_image', array( $this, 'no_image_subsizes' ), 15, 2 );
 		add_filter( 'fallback_intermediate_image_sizes', array( $this, 'no_image_subsizes_files' ), 15 );
@@ -77,10 +77,16 @@ class DLM_Media_Library {
 			$image_path = get_attached_file( $attachment->ID );
 			if ( strpos( $image_path, $upload_dir['basedir'] . '/dlm_uploads' ) !== false ) {
 				if ( ! empty( $response['sizes'] ) ) {
-					$file_type              = wp_check_filetype( $image_path );
-					$accepted_preview_types = array( 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff', 'image/x-icon', 'image/svg+xml' );
-					if ( apply_filters( 'dlm_ml_show_image_preview', false ) && in_array( $file_type['type'], $accepted_preview_types, true ) ) {
-						$dlm_protected_thumb = wp_get_attachment_url( $attachment->ID );
+					if ( apply_filters( 'dlm_ml_show_image_preview', false ) ) {
+						$sizes = wp_get_attachment_metadata( $attachment->ID )['sizes'];
+						if ( ! empty( $sizes ) && ! empty( $sizes['thumbnail']['file'] ) ) {
+							$thumb = $sizes['thumbnail']['file'];
+							// Get attachment upload path
+							$upload_url          = trailingslashit( str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, dirname( $image_path ) ) ) . $thumb;
+							$dlm_protected_thumb = $upload_url;
+						} else {
+							$dlm_protected_thumb = wp_get_attachment_url( $attachment->ID );
+						}
 					} else {
 						$dlm_protected_thumb = download_monitor()->get_plugin_url() . '/assets/images/protected-file-thumbnail.png';
 					}
@@ -102,16 +108,23 @@ class DLM_Media_Library {
 	 *
 	 * @return bool|array
 	 */
-	public function filter_thumbnails_protected_files_list( $image, $attachment_id ) {
+	public function filter_thumbnails_protected_files_list( $image, $attachment_id, $size, $icon ) {
+
 		if ( apply_filters( 'dlm_filter_thumbnails_protected_files', true ) ) {
 			$image_path = get_attached_file( $attachment_id );
 			if ( $image ) {
 				$upload_dir = wp_upload_dir();
 				if ( strpos( $image_path, $upload_dir['basedir'] . '/dlm_uploads' ) !== false ) {
-					$file_type              = wp_check_filetype( $image_path );
-					$accepted_preview_types = array( 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff', 'image/x-icon', 'image/svg+xml' );
-					if ( apply_filters( 'dlm_ml_show_image_preview', false ) && in_array( $file_type['type'], $accepted_preview_types, true ) ) {
-						$image[0] = wp_get_attachment_url( $attachment_id );
+					if ( apply_filters( 'dlm_ml_show_image_preview', false ) ) {
+						$sizes = wp_get_attachment_metadata( $attachment_id )['sizes'];
+						if ( ! empty( $sizes ) && ! empty( $sizes['thumbnail']['file'] ) ) {
+							$thumb = $sizes['thumbnail']['file'];
+							// Get attachment upload path
+							$upload_url = trailingslashit( str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, dirname( $image_path ) ) ) . $thumb;
+							$image[0]   = $upload_url;
+						} else {
+							$image[0] = wp_get_attachment_url( $attachment_id );
+						}
 					} else {
 						$image[0] = download_monitor()->get_plugin_url() . '/assets/images/protected-file-thumbnail.png';
 						$image[1] = 60;
