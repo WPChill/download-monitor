@@ -528,8 +528,7 @@ class DLM_XHR_Download {
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
 
 			jQuery('#dlm-no-access-modal').remove();
-			jQuery('body').append(response);
-
+			document.body.insertAdjacentHTML('beforeend', response);
 			jQuery(document).trigger(data['action'], [response, data]);
 
 			document.dispatchEvent(
