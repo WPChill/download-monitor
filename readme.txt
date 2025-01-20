@@ -129,9 +129,10 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 5.0.21 - 15.01.2025 =
+= 5.0.21 - 20.01.2025 =
 Fixed: Media Library protected files placeholder bug ( [#1622](https://github.com/WPChill/download-monitor/issues/1622) )
 Fixed: Media Library Protect function incorrect file path ( [#1623](https://github.com/WPChill/download-monitor/issues/1623) )
+Added: New filter for Cookie path ( [#1626](https://github.com/WPChill/download-monitor/issues/1626) )
 
 = 5.0.20 - 08.01.2025 =
 Fixed: Short description was hidden in certain situations ( [#1618](https://github.com/WPChill/download-monitor/issues/1618) )
