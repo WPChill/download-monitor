@@ -31,7 +31,6 @@ class DLM_Media_Library {
 		}
 
 		return self::$instance;
-
 	}
 
 	/**
@@ -39,12 +38,12 @@ class DLM_Media_Library {
 	 */
 	private function __construct() {
 		// filter attachment thumbnails in media library for files in dlm_uploads
-		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_thumbnails_protected_files_grid' ), 10, 1 );
-		add_filter( 'wp_get_attachment_image_src', array( $this, 'filter_thumbnails_protected_files_list' ), 10, 1 );
+		add_filter( 'wp_prepare_attachment_for_js', array( $this, 'filter_thumbnails_protected_files_grid' ), 10, 2 );
+		add_filter( 'wp_get_attachment_image_src', array( $this, 'filter_thumbnails_protected_files_list' ), 10, 4 );
 		// Do not make sub-sizes for images uploaded in dlm_uploads
 		add_filter( 'file_is_displayable_image', array( $this, 'no_image_subsizes' ), 15, 2 );
 		add_filter( 'fallback_intermediate_image_sizes', array( $this, 'no_image_subsizes_files' ), 15 );
-		
+
 		add_filter( 'ajax_query_attachments_args', array( $this, 'no_media_library_display' ), 15 );
 		// Add a Media Library filter to list view so that we can filter out dlm_uploads
 		add_action( 'restrict_manage_posts', array( $this, 'add_dlm_uploads_filter' ), 15, 2 );
@@ -72,13 +71,25 @@ class DLM_Media_Library {
 	 *
 	 * @return array
 	 */
-	public function filter_thumbnails_protected_files_grid( $response ) {
+	public function filter_thumbnails_protected_files_grid( $response, $attachment ) {
 		if ( apply_filters( 'dlm_filter_thumbnails_protected_files', true ) ) {
 			$upload_dir = wp_upload_dir();
-
-			if ( strpos( $response['url'], $upload_dir['baseurl'] . '/dlm_uploads' ) !== false ) {
+			$image_path = get_attached_file( $attachment->ID );
+			if ( strpos( $image_path, $upload_dir['basedir'] . '/dlm_uploads' ) !== false ) {
 				if ( ! empty( $response['sizes'] ) ) {
-					$dlm_protected_thumb = download_monitor()->get_plugin_url() . '/assets/images/protected-file-thumbnail.png';
+					if ( apply_filters( 'dlm_ml_show_image_preview', false ) ) {
+						$sizes = wp_get_attachment_metadata( $attachment->ID )['sizes'];
+						if ( ! empty( $sizes ) && ! empty( $sizes['thumbnail']['file'] ) ) {
+							$thumb = $sizes['thumbnail']['file'];
+							// Get attachment upload path
+							$upload_url          = trailingslashit( str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, dirname( $image_path ) ) ) . $thumb;
+							$dlm_protected_thumb = $upload_url;
+						} else {
+							$dlm_protected_thumb = wp_get_attachment_url( $attachment->ID );
+						}
+					} else {
+						$dlm_protected_thumb = download_monitor()->get_plugin_url() . '/assets/images/protected-file-thumbnail.png';
+					}
 					foreach ( $response['sizes'] as $rs_key => $rs_val ) {
 						$rs_val['url']                = $dlm_protected_thumb;
 						$response['sizes'][ $rs_key ] = $rs_val;
@@ -97,19 +108,30 @@ class DLM_Media_Library {
 	 *
 	 * @return bool|array
 	 */
-	public function filter_thumbnails_protected_files_list( $image ) {
+	public function filter_thumbnails_protected_files_list( $image, $attachment_id, $size, $icon ) {
+
 		if ( apply_filters( 'dlm_filter_thumbnails_protected_files', true ) ) {
+			$image_path = get_attached_file( $attachment_id );
 			if ( $image ) {
-
 				$upload_dir = wp_upload_dir();
-
-				if ( strpos( $image[0], $upload_dir['baseurl'] . '/dlm_uploads' ) !== false ) {
-					$image[0] = $dlm_protected_thumb = download_monitor()->get_plugin_url() . '/assets/images/protected-file-thumbnail.png';
-					$image[1] = 60;
-					$image[2] = 60;
+				if ( strpos( $image_path, $upload_dir['basedir'] . '/dlm_uploads' ) !== false ) {
+					if ( apply_filters( 'dlm_ml_show_image_preview', false ) ) {
+						$sizes = wp_get_attachment_metadata( $attachment_id )['sizes'];
+						if ( ! empty( $sizes ) && ! empty( $sizes['thumbnail']['file'] ) ) {
+							$thumb = $sizes['thumbnail']['file'];
+							// Get attachment upload path
+							$upload_url = trailingslashit( str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, dirname( $image_path ) ) ) . $thumb;
+							$image[0]   = $upload_url;
+						} else {
+							$image[0] = wp_get_attachment_url( $attachment_id );
+						}
+					} else {
+						$image[0] = download_monitor()->get_plugin_url() . '/assets/images/protected-file-thumbnail.png';
+						$image[1] = 60;
+						$image[2] = 60;
+					}
 				}
 			}
-
 		}
 
 		return $image;
@@ -146,7 +168,7 @@ class DLM_Media_Library {
 	 */
 	public function no_image_subsizes_files( $fallback_sizes ) {
 
-		if( isset( $_POST['type'] ) && 'dlm_download' === $_POST['type'] ){
+		if ( isset( $_POST['type'] ) && 'dlm_download' === $_POST['type'] ) {
 			return array();
 		}
 
@@ -171,7 +193,7 @@ class DLM_Media_Library {
 			$query['meta_query'][] = array(
 				'key'     => '_wp_attached_file',
 				'compare' => 'LIKE',
-				'value'   => 'dlm_uploads'
+				'value'   => 'dlm_uploads',
 			);
 		}
 
@@ -190,10 +212,13 @@ class DLM_Media_Library {
 	public function add_dlm_uploads_filter( $screen, $which ) {
 		// Add a filter to the Media Library page so that we can filter regular uploads and Download Monitor's uploads
 		if ( $screen === 'attachment' ) {
-			$views = apply_filters( 'dlm_media_views', array(
-				'uploads_folder'     => __( 'All files', 'download-monitor' ),
-				'dlm_uploads_folder' => __( 'Download Monitor', 'download-monitor' )
-			) );
+			$views = apply_filters(
+				'dlm_media_views',
+				array(
+					'uploads_folder'     => __( 'All files', 'download-monitor' ),
+					'dlm_uploads_folder' => __( 'Download Monitor', 'download-monitor' ),
+				)
+			);
 
 			$applied_filter = isset( $_GET['dlm_upload_folder_type'] ) ? sanitize_text_field( wp_unslash( $_GET['dlm_upload_folder_type'] ) ) : 'all';
 			?>
@@ -230,11 +255,14 @@ class DLM_Media_Library {
 		// If user views the DLM Uploads folder then we need to show DLM uploads only.
 		// Set the meta query for the corresponding request.
 		$query->set( 'meta_key', '_wp_attached_file' );
-		$query->set( 'meta_query', array(
-			'key'     => '_wp_attached_file',
-			'compare' => 'LIKE',
-			'value'   => 'dlm_uploads'
-		) );
+		$query->set(
+			'meta_query',
+			array(
+				'key'     => '_wp_attached_file',
+				'compare' => 'LIKE',
+				'value'   => 'dlm_uploads',
+			)
+		);
 	}
 
 	/**
@@ -268,8 +296,8 @@ class DLM_Media_Library {
 				'singular' => 'DLM File',
 				'plural'   => 'DLM Files',
 				'content'  => null,
-				'domain'   => null
-			)
+				'domain'   => null,
+			),
 		);
 
 		return $mimes;
@@ -287,7 +315,6 @@ class DLM_Media_Library {
 	public function add_protect_button( $fields, $post ) {
 		// Let's check if this is not already set.
 		if ( ! isset( $fields['dlm_protect_file'] ) ) {
-
 			$button_text = __( 'Protect', 'download-monitor' );
 			$action      = 'protect_file';
 			$text        = esc_html__( 'Creates a Download based on this file and moves the file to Download Monitor\'s protected folder. Also replaces the attachment\'s URL with the download link.', 'download-monitor' );
@@ -343,7 +370,7 @@ class DLM_Media_Library {
 		// Send the response.
 		$data = array(
 			'url'  => $current_url,
-			'text' => esc_html__( 'File protected. Download created', 'download-monitor' )
+			'text' => esc_html__( 'File protected. Download created', 'download-monitor' ),
 		);
 		wp_send_json_success( $data );
 	}
@@ -379,18 +406,16 @@ class DLM_Media_Library {
 		delete_post_meta( $file['attachment_id'], 'dlm_protected_file' );
 		// Get current URL so we can update the Version files.
 		$current_url = wp_get_attachment_url( $file['attachment_id'] );
-		// Get secure path and update the file path in the Download
-		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $current_url );
 
 		if ( $version_id ) {
 			// Update the Version meta.
-			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $current_url ) );
 		}
 
 		// Send the response
 		$data = array(
 			'url'  => $current_url,
-			'text' => esc_html__( 'File unprotected.', 'download-monitor' )
+			'text' => esc_html__( 'File unprotected.', 'download-monitor' ),
 		);
 
 		wp_send_json_success( $data );
@@ -406,9 +431,8 @@ class DLM_Media_Library {
 	 */
 	public function create_download( $file ) {
 
-		// Get new path
-		list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( wp_get_attachment_url( $file['attachment_id'] ) );
-
+		// Get new URL
+		$file_url = wp_get_attachment_url( $file['attachment_id'] );
 		// Check if the file has been previously protected
 		$known_download = get_post_meta( $file['attachment_id'], 'dlm_download', true );
 		// If not, protect and add the corresponding meta, Download & Version
@@ -421,7 +445,7 @@ class DLM_Media_Library {
 				'post_content' => '',
 				'post_status'  => 'publish',
 				'post_author'  => absint( $file['user_id'] ),
-				'post_type'    => 'dlm_download'
+				'post_type'    => 'dlm_download',
 			);
 			// Insert the Download. We need its ID to create the Download Version.
 			$download_id = wp_insert_post( $download );
@@ -432,17 +456,17 @@ class DLM_Media_Library {
 				'post_status'  => 'publish',
 				'post_author'  => absint( $file['user_id'] ),
 				'post_type'    => 'dlm_download_version',
-				'post_parent'  => $download_id
+				'post_parent'  => $download_id,
 			);
 			// Insert the Version.
 			$version_id = wp_insert_post( $version );
 			// Update the Version meta.
-			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+			update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_url ) );
 			// Set a meta option to know what Download is using this file and what Version.
 			$attachment_meta = json_encode(
 				array(
 					'download_id' => $download_id,
-					'version_id'  => $version_id
+					'version_id'  => $version_id,
 				)
 			);
 			update_post_meta( $file['attachment_id'], 'dlm_download', $attachment_meta );
@@ -452,7 +476,7 @@ class DLM_Media_Library {
 		}
 
 		// Update the Version meta.
-		update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_path ) );
+		update_post_meta( $version_id, '_files', download_monitor()->service( 'file_manager' )->json_encode_files( $file_url ) );
 		update_post_meta( $version_id, '_version', '' );
 		$transient_name   = 'dlm_file_version_ids_' . $download_id;
 		$transient_name_2 = 'dlm_file_version_ids_' . $version_id;
@@ -478,7 +502,6 @@ class DLM_Media_Library {
 			}
 
 			return $url;
-
 		} catch ( Exception $exception ) {
 			// no download found, don't do anything.
 		}
@@ -543,12 +566,13 @@ class DLM_Media_Library {
 				<img
 					src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAyOCAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI4IDE0QzI4IDYuMjY4MDEgMjEuNzMyIDAgMTQgMEM2LjI2ODAxIDAgMCA2LjI2ODAxIDAgMTRDMCAyMS43MzIgNi4yNjgwMSAyOCAxNCAyOEMyMS43MzIgMjggMjggMjEuNzMyIDI4IDE0WiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzM2XzM5KSIvPgo8cGF0aCBkPSJNMTcuNjE1NCAxMi41NjI1SDE3LjM3NVY5LjUxNTYyQzE3LjM3NSA4LjU4MzIyIDE2Ljk5NTEgNy42ODkwMSAxNi4zMTg5IDcuMDI5N0MxNS42NDI3IDYuMzcwNCAxNC43MjU1IDYgMTMuNzY5MiA2QzEyLjgxMjkgNiAxMS44OTU4IDYuMzcwNCAxMS4yMTk2IDcuMDI5N0MxMC41NDM0IDcuNjg5MDEgMTAuMTYzNSA4LjU4MzIyIDEwLjE2MzUgOS41MTU2MlYxMi41NjI1SDkuOTIzMDhDOS40MTMwNSAxMi41NjI1IDguOTIzOSAxMi43NiA4LjU2MzI2IDEzLjExMTdDOC4yMDI2MSAxMy40NjMzIDggMTMuOTQwMiA4IDE0LjQzNzVWMTkuMTI1QzggMTkuNjIyMyA4LjIwMjYxIDIwLjA5OTIgOC41NjMyNiAyMC40NTA4QzguOTIzOSAyMC44MDI1IDkuNDEzMDUgMjEgOS45MjMwOCAyMUgxNy42MTU0QzE4LjEyNTQgMjEgMTguNjE0NiAyMC44MDI1IDE4Ljk3NTIgMjAuNDUwOEMxOS4zMzU5IDIwLjA5OTIgMTkuNTM4NSAxOS42MjIzIDE5LjUzODUgMTkuMTI1VjE0LjQzNzVDMTkuNTM4NSAxMy45NDAyIDE5LjMzNTkgMTMuNDYzMyAxOC45NzUyIDEzLjExMTdDMTguNjE0NiAxMi43NiAxOC4xMjU0IDEyLjU2MjUgMTcuNjE1NCAxMi41NjI1VjEyLjU2MjVaTTExLjEyNSA5LjUxNTYyQzExLjEyNSA4LjgzMTg2IDExLjQwMzYgOC4xNzYxMSAxMS44OTk1IDcuNjkyNjJDMTIuMzk1NCA3LjIwOTEyIDEzLjA2NzkgNi45Mzc1IDEzLjc2OTIgNi45Mzc1QzE0LjQ3MDUgNi45Mzc1IDE1LjE0MzEgNy4yMDkxMiAxNS42MzkgNy42OTI2MkMxNi4xMzQ5IDguMTc2MTEgMTYuNDEzNSA4LjgzMTg2IDE2LjQxMzUgOS41MTU2MlYxMi41NjI1SDExLjEyNVY5LjUxNTYyWk0xNC4yNSAxNy45NTMxQzE0LjI1IDE4LjA3NzQgMTQuMTk5MyAxOC4xOTY3IDE0LjEwOTIgMTguMjg0NkMxNC4wMTkgMTguMzcyNSAxMy44OTY3IDE4LjQyMTkgMTMuNzY5MiAxOC40MjE5QzEzLjY0MTcgMTguNDIxOSAxMy41MTk0IDE4LjM3MjUgMTMuNDI5MyAxOC4yODQ2QzEzLjMzOTEgMTguMTk2NyAxMy4yODg1IDE4LjA3NzQgMTMuMjg4NSAxNy45NTMxVjE1LjYwOTRDMTMuMjg4NSAxNS40ODUxIDEzLjMzOTEgMTUuMzY1OCAxMy40MjkzIDE1LjI3NzlDMTMuNTE5NCAxNS4xOSAxMy42NDE3IDE1LjE0MDYgMTMuNzY5MiAxNS4xNDA2QzEzLjg5NjcgMTUuMTQwNiAxNC4wMTkgMTUuMTkgMTQuMTA5MiAxNS4yNzc5QzE0LjE5OTMgMTUuMzY1OCAxNC4yNSAxNS40ODUxIDE0LjI1IDE1LjYwOTRWMTcuOTUzMVoiIGZpbGw9IndoaXRlIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXJfMzZfMzkiIHgxPSItNy41NDY4NyIgeTE9Ii00LjM3NSIgeDI9IjI1LjU5MzciIHkyPSIyOC43NjU2IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4xMTAxMTMiIHN0b3AtY29sb3I9IiM1RERFRkIiLz4KPHN0b3Agb2Zmc2V0PSIwLjQ0MzU2OCIgc3RvcC1jb2xvcj0iIzQxOUJDQSIvPgo8c3RvcCBvZmZzZXQ9IjAuNjM2MTIyIiBzdG9wLWNvbG9yPSIjMDA4Q0Q1Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAyNUVBMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=" title="<?php esc_attr_e( 'Download Monitor file', 'download-monitor' ); ?>">
 				<?php
-			} else { ?>
+			} else {
+				?>
 				<span class="dashicons dashicons-no"
-				      style="color:red"></span><?php echo esc_html__( 'Un-Protected', 'download-monitor' ) ?>
+						style="color:red"></span><?php echo esc_html__( 'Un-Protected', 'download-monitor' ); ?>
 
-			<?php }
-
+				<?php
+			}
 		}
 	}
 
@@ -589,7 +613,7 @@ class DLM_Media_Library {
 				add_query_arg(
 					array(
 						'dlm_action' => $doaction,
-						'nonce' 	 => $_REQUEST['_wpnonce'],
+						'nonce'      => $_REQUEST['_wpnonce'],
 						'posts'      => $post_ids,
 					),
 					'/upload.php'

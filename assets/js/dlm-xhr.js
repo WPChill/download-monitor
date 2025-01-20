@@ -528,8 +528,39 @@ class DLM_XHR_Download {
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
 
 			jQuery('#dlm-no-access-modal').remove();
-			jQuery('body').append(response);
+			//document.body.insertAdjacentHTML('beforeend', response);
+			const tempDiv = document.createElement('div');
+			tempDiv.innerHTML = response;
+			// Extract and execute scripts from the response using a regular expression
+			const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
+			// Remove script tags from tempDiv.innerHTML
+			tempDiv.innerHTML = tempDiv.innerHTML.replace(scriptRegex, '');
+			let match;
+			while ((match = scriptRegex.exec(response)) !== null) {
+				const scriptTag = match[0];
+				const scriptContent = match[1];
+				const newScript = document.createElement('script');
+				// Check if the script has a src attribute
+				const srcMatch = scriptTag.match(/src=["']([^"']+)["']/);
+				if (srcMatch) {
+					newScript.src = srcMatch[1];
+				} else {
+					newScript.textContent = scriptContent;
+				}
+				// Append the new script to the modal if exists
+				const modal = tempDiv.querySelector('#dlm-no-access-modal');
+				if (modal) {
+					modal.appendChild(newScript);
+				} else {
+					document.body.appendChild(newScript);
+				}
+			}
+			// Append the parsed HTML elements to the body
+			while (tempDiv.firstChild) {
+				document.body.appendChild(tempDiv.firstChild);
+			}
 
+			//jQuery('body').append(response);
 			jQuery(document).trigger(data['action'], [response, data]);
 
 			document.dispatchEvent(

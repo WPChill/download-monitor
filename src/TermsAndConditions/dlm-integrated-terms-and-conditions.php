@@ -101,7 +101,7 @@ class DLM_Integrated_Terms_And_Conditions {
 	 */
 	public function add_scripts_to_no_access_page() {
 		if ( isset( $_REQUEST['action'] ) && 'no_access_dlm_xhr_download' === sanitize_Text_field( wp_unslash( $_REQUEST['action'] ) ) ) {
-			echo '<script src=' . esc_url( plugins_url( '/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ) ) . '></script>';
+			echo '<script src="' . esc_url( plugins_url( '/assets/js/dlm-terms-and-conditions' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', DLM_Integrated_Terms_And_Conditions::get_plugin_file() ) ) . '"></script>';
 		}
 	}
 }
