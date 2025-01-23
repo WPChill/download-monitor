@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns
 Tags: download manager, file manager, digital store, ecommerce, password protection
 Requires at least: 6.4
 Tested up to: 6.7
-Stable tag: 5.0.21
+Stable tag: 5.0.22
 License: GPLv3
 Requires PHP: 7.6
 
@@ -129,6 +129,9 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.22 - TBD -
+Added: Integrated WPChill Notification System.
+
 = 5.0.21 - 20.01.2025 =
 Fixed: Media Library protected files placeholder bug ( [#1622](https://github.com/WPChill/download-monitor/issues/1622) )
 Fixed: Media Library Protect function incorrect file path ( [#1623](https://github.com/WPChill/download-monitor/issues/1623) )

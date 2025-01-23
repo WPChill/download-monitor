@@ -937,11 +937,18 @@ class WP_DLM {
 	 * @since 5.0.0
 	 */
 	public function deactivation_admin_notice() {
-		?>
-		<div class="notice notice-success is-dismissible">
-			<p><?php esc_html_e('DLM - Terms & Conditions plugin was deactivated because it is now integrated within Download Monitor.', 'download-monitor'); ?></p>
-		</div>
-		<?php
+		$notice = array(
+			'title'   => esc_html__( 'Terms & Conditions plugin deactivated', 'download-monitor' ),
+			'message' => esc_html__( 'Download Monitor - Terms & Conditions plugin was deactivated because it is now integrated within Download Monitor.', 'download-monitor' ),
+			'status'  => 'success',
+			'source'  => array(
+				'slug' => 'download-monitor',
+				'name' => 'Download Monitor',
+			),
+			'timed'   => 5000,
+		);
+
+		WPChill_Notifications::add_notification( 'dlm-tc-deactivated', $notice );
 	}
 
 	/**
