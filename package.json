@@ -1,7 +1,7 @@
 {
   "name": "download-monitor",
   "title": "Download Monitor",
-  "version": "5.0.21",
+  "version": "5.0.22",
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
@@ -36,6 +36,8 @@
     "npm": ">=1.1.0"
   },
   "scripts": {
+    "start:notification-system": "wp-scripts start --config webpack.config.notification-system.js",
+		"build:notification-system": "wp-scripts build --config webpack.config.notification-system.js",
     "build": "wp-scripts build ./assets/blocks/src/blocks.js --output-path=./assets/blocks/dist",
     "start": "wp-scripts start ./assets/blocks/src/blocks.js --output-path=./assets/blocks/dist",
     "packages-update": "wp-scripts packages-update",
@@ -44,6 +46,16 @@
     "composer:update": "composer update && \"vendor/bin/mozart\" compose && composer update --no-dev composer dump-autoload"
   },
   "dependencies": {
+		"@tanstack/react-query": "^5.52.0",
+		"@wordpress/api-fetch": "^7.5.0",
+		"@wordpress/block-editor": "^14.0.0",
+		"@wordpress/blocks": "^13.5.0",
+		"@wordpress/components": "^28.5.0",
+		"@wordpress/data": "^10.5.0",
+		"@wordpress/element": "^6.5.0",
+		"@wordpress/i18n": "^5.7.0",
+		"he": "^1.2.0",
+		"interweave": "^13.1.0",
     "react-select": "^5.3.2",
     "whatwg-fetch": "^3.6.2"
   }

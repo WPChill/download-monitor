@@ -61,23 +61,19 @@ class DLM_Beta_Testers {
 		if ( get_option( 'download-monitor-hide-beta-notice', false ) ) {
 			return;
 		}
-		?>
-		<div data-dismissible="download-monitor-beta-notice" id="download-monitor-beta-notice" class="notice notice-success is-dismissible" style="margin-top:30px;">
-			<h1><?php echo $this->messages['headling']; ?></h1>
-			<p><?php echo sprintf( wp_kses_post( $this->messages['notice'] ), wp_kses_post( $this->link ), wp_kses_post( $this->contact ) ); ?></p>
-			<?php
-			if ( ! empty( $this->messages['changelog'] ) ) {
-				echo '<h3>' . $this->messages['changelog_title'] . '</h3>';
-				echo '<ul>';
-				foreach ( $this->messages['changelog'] as $item ) {
-					echo '<li><span class="dashicons dashicons-yes"></span> ' . $item . '</li>';
-				}
-				echo '</ul>';
+		$notice = array(
+			'title'   => $this->messages['headling'],
+			'message' => $this->messages['notice'],
+			'status'  => 'success',
+			'source'  => array(
+				'slug' => 'download-monitor',
+				'name' => 'Download Monitor',
+			),
+			'dismiss' => true,
+			'callback' => 'dismissBetaTesterNotice',
+		);
 
-			}
-			?>
-		</div>
-		<?php
+		WPChill_Notifications::add_notification( 'download-monitor-beta-notice', $notice );
 	}
 
 	/**
@@ -132,25 +128,16 @@ class DLM_Beta_Testers {
 		$ajax_nonce = wp_create_nonce( 'download-monitor-beta-notice' );
 
 		?>
-
 		<script type="text/javascript">
-			jQuery( document ).ready( function( $ ){
 
-				$(document).on('click','#download-monitor-beta-notice .notice-dismiss', function( ){
-					var data = {
-						action: 'download-monitor_beta_test_notice_dismiss',
-						security: '<?php echo $ajax_nonce; ?>',
-					};
+		function dismissBetaTesterNotice( element ) {
+			var data = {
+				action: 'download-monitor_beta_test_notice_dismiss',
+				security: '<?php echo esc_js( $ajax_nonce ); ?>',
+			};
 
-					$.post( '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', data, function( response ) {
-						$( '#download-monitor-beta-notice' ).slideUp( 'fast', function() {
-							$( this ).remove();
-						} );
-					});
-
-				} );
-
-			});
+			jQuery.post('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', data );
+		}
 		</script>
 
 		<?php
