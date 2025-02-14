@@ -1,74 +1,64 @@
 === Download Monitor ===
-Contributors: wpchill, silkalns
-Tags: download manager, file manager, digital store, ecommerce, password protection
-Requires at least: 6.4
-Tested up to: 6.7
-Stable tag: 5.0.21
-License: GPLv3
-Requires PHP: 7.6
-
-Download Monitor is a plugin for uploading and managing downloads, tracking downloads and displaying links.
+Contributors: wpchill, silkalns, barrykooij, mikejolley  
+Tags: download manager, file manager, digital store, ecommerce, password protection  
+Requires at least: 5.5  
+Tested up to: 6.7  
+Stable tag: 5.0.21 
+License: GPLv3  
+Requires PHP: 7.6  
 
 == Description ==
+## Powerful Download Manager Plugin for WordPress
 
-Download Monitor provides an interface for uploading and managing downloadable files (including support for multiple versions), inserting download links into posts and logging downloads!
+Download Monitor is a powerful download manager plugin for handling downloadable files, adding download links to your posts or pages, and tracking downloads.
 
-**Features**
-
-- Add, edit and remove downloads from a familiar WP interface; Your downloads are just like posts.
-- Sell your downloads from within your WordPress website!
-- 100% Gutenberg compatible, including a new Download Monitor Download Block. Type /download to use it!
-- Quick-add panel for adding downloads / files whilst editing posts.
-- Add multiple file versions to your downloads each with their own data like download count and file links.
-- Define alternative links (mirrors) per download version.
-- Categorize, tag, or add other meta to your downloads.
-- Display download links on the frontend using shortcodes.
-- Change the way download links get displayed via template files.
-- Track downloads counts and log user download attempts.
-- Member only downloads, requires users to be logged in to download your files.
-- Customisable endpoints for showing pretty download links.
+### Key Features:
+* **Upload & Manage Files** – Add, edit, and organize downloads.
+* **Track Downloads** – Log and monitor user downloads.
+* **Multiple File Versions** – Assign multiple versions to each download.
+* **Secure & Restrict Access** – Member-only downloads require login.
+* **Shortcodes & Blocks** – Display download links using Gutenberg block or shortcodes.
+* **Custom Download Pages** – Customize how downloads appear on your site.
 
 Download Monitor has been featured on the websites of some of the most popular and leading businesses in the WordPress ecosystem, such as WPBeginner, Pagely, Jilt, WP Fusion & Kinsta.
 
-**Download Monitor Extensions**
+## Download Monitor Extensions
 
-- [Buttons](https://download-monitor.com/extensions/buttons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Buttons): Create beautiful, fully customizable download buttons for your files.
-- [Downloading Page](https://download-monitor.com/extensions/downloading-page/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Downloading+page): Serve your downloads from a separate page.
-- [Google Drive](https://download-monitor.com/extensions/google-drive/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Google+drive): Lets you use the files hosted on your Google Drive as Download Monitor files.
-- [Advanced Access Manager](https://download-monitor.com/extensions/advanced-access-manager/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Advanced+access+manager): Create advanced download limitations per download and on a global level.
-- [Email Notification](https://download-monitor.com/extensions/email-notification/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Email+notification): Trigger an email notification whenever one of your files is downloaded.
-- [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Page+addon): List downloads, categories, tags, and show info pages about each of your resources using a simple shortcode.
-- Lock downloads option: Set restrictions to your download functionality using [MailChimp Lock](https://www.download-monitor.com/extensions/mailchimp-lock/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Mailchimp+lock), [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Email+lock), [CAPTCHA](https://download-monitor.com/extensions/captcha/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Captcha), 
-- [Gravity Forms Gated Content](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Gravity+forms): easily create a download gate with Gravity Forms. Require users to fill-in a form before accessing a download.
-- [Ninja Forms Lock](https://download-monitor.com/extensions/ninja-forms/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Ninja+forms): if you are an user of Ninja Forms, you can also use this to require users to fill-in of a form before accesing a download.
-- [WPForms Gated Content](https://download-monitor.com/kb/wpforms-integration/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=WPForms): gate your downloads by first requesting users to submit a form build using WPForms.
-- [Contact Form 7 Lock](https://download-monitor.com/kb/contact-form-7/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=CF7): request the submission of a Contact Form 7 form before providing access to the download.
+* [Buttons](https://download-monitor.com/extensions/buttons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Buttons): Create beautiful, fully customizable download buttons for your files.
+* [Downloading Page](https://download-monitor.com/extensions/downloading-page/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Downloading+page): Serve your downloads from a separate page.
+* [Google Drive](https://download-monitor.com/extensions/google-drive/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Google+drive): Lets you use the files hosted on your Google Drive as Download Monitor files.
+* [Advanced Access Manager](https://download-monitor.com/extensions/advanced-access-manager/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Advanced+access+manager): Create advanced download limitations per download and on a global level.
+* [Email Notification](https://download-monitor.com/extensions/email-notification/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Email+notification): Trigger an email notification whenever one of your files is downloaded.
+* [Page Addon](https://www.download-monitor.com/extensions/page-addon/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Page+addon): List downloads, categories, tags, and show info pages about each of your resources using a simple shortcode.
+* Lock downloads option: Set restrictions to your download functionality using [MailChimp Lock](https://www.download-monitor.com/extensions/mailchimp-lock/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Mailchimp+lock), [Email Lock](https://www.download-monitor.com/extensions/email-lock/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Email+lock), [CAPTCHA](https://download-monitor.com/extensions/captcha/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Captcha), 
+* [Gravity Forms Gated Content](https://www.download-monitor.com/extensions/gravity-forms/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Gravity+forms): easily create a download gate with Gravity Forms. Require users to fill-in a form before accessing a download.
+* [Ninja Forms Lock](https://download-monitor.com/extensions/ninja-forms/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Ninja+forms): if you are an user of Ninja Forms, you can also use this to require users to fill-in of a form before accesing a download.
+* [WPForms Gated Content](https://download-monitor.com/kb/wpforms-integration/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=WPForms): gate your downloads by first requesting users to submit a form build using WPForms.
+* [Contact Form 7 Lock](https://download-monitor.com/kb/contact-form-7/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=CF7): request the submission of a Contact Form 7 form before providing access to the download.
 
-= Documentation =
+## Documentation
 We have a large Knowledge Base on our [Download Monitor website](https://www.download-monitor.com/kb/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=knowledge+base) that contains documentation about how to how to setup and use Download Monitor.
 
+## How-to Guides
 Are you a new Download Monitor user? Read these articles on how to get your files ready for download with Download Monitor:
-
-1. [How to install Download Monitor](https://www.download-monitor.com/kb/install-and-activate-download-monitor/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+install)
-2. [How to add your first download in Download Monitor](https://www.download-monitor.com/kb/adding-downloads-to-your-website/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+add)
-3. [How to list your first download on your website with the download shortcode](https://www.download-monitor.com/kb/shortcode-downloads/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+list)
+[How to install Download Monitor](https://www.download-monitor.com/kb/install-and-activate-download-monitor/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+install)
+[How to add your first download in Download Monitor](https://www.download-monitor.com/kb/adding-downloads-to-your-website/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+add)
+[How to list your first download on your website with the download shortcode](https://www.download-monitor.com/kb/shortcode-downloads/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=how+to+list)
 
 More advanced topics that a lot of people find interesting:
-
-1. [Learn more about the different ways you can style your download buttons](https://www.download-monitor.com/kb/content-templates/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=style+buttons)
-2. [Learn more about how to customize your download buttons](https://www.download-monitor.com/kb/overriding-content-templates/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=customize+buttons)
-3. [Learn more about what actions and filters are available in Download Monitor](https://www.download-monitor.com/kb/action-and-filter-reference/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=action+filter)
+[Learn more about the different ways you can style your download buttons](https://www.download-monitor.com/kb/content-templates/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=style+buttons)
+[Learn more about how to customize your download buttons](https://www.download-monitor.com/kb/overriding-content-templates/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=customize+buttons)
+[Learn more about what actions and filters are available in Download Monitor](https://www.download-monitor.com/kb/action-and-filter-reference/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=action+filter)
 
 = Contributing and reporting bugs =
 
 You can contribute code to this plugin via GitHub: [https://github.com/WPChill/download-monitor](https://github.com/WPChill/download-monitor)
 You can contribute localizations via Transifex [https://www.transifex.com/projects/p/download-monitor/](https://www.transifex.com/projects/p/download-monitor/)
 
-== NEED HELP USING DOWNLOAD MONITOR? ==
-
-– Search our extensive [knowledge base](https://download-monitor.com/kb/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=knowledge+base) for documentation about installing the plugin/the extensions, available settings and how to use them.
-– Browse [Download monitor's WordPress forum](https://wordpress.org/plugins/download-monitor/) to find answers to your queries or create a new topic.
-– [Contact us](https://download-monitor.com/contact/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=contact+us) directly for support.
+## Help & Support
+* Search our extensive [knowledge base](https://download-monitor.com/kb/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=knowledge+base) for documentation about installing the plugin/the extensions, available settings and how to use them.
+* Browse [Download monitor's WordPress forum](https://wordpress.org/plugins/download-monitor/) to find answers to your queries or create a new topic.
+* [Contact us](https://download-monitor.com/contact/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=contact+us) directly for support.
 
 == 3rd party or external service disclaimer ==
 
@@ -129,42 +119,6 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 5.0.21 - 20.01.2025 =
-Fixed: Media Library protected files placeholder bug ( [#1622](https://github.com/WPChill/download-monitor/issues/1622) )
-Fixed: Media Library Protect function incorrect file path ( [#1623](https://github.com/WPChill/download-monitor/issues/1623) )
-Added: New filter for Cookie path ( [#1626](https://github.com/WPChill/download-monitor/issues/1626) )
-
-= 5.0.20 - 08.01.2025 =
-Fixed: Short description was hidden in certain situations ( [#1618](https://github.com/WPChill/download-monitor/issues/1618) )
-
-= 5.0.19 - 21.12.2024 =
-Fixed: Upsells text domain error
-
-= 5.0.18 - 19.12.2024 =
-Fixed: Text domain error
-
-= 5.0.17 - 17.12.2024 =
-Changed: Disabled seasonal promotions notifications.
-
-= 5.0.16 - 10.12.2024 =
-- Fixed: Gutenberg block not working properly ( [#1610](https://github.com/WPChill/download-monitor/issues/1610) )
-
-= 5.0.15 - 06.12.2024 =
-- Fixed: WP 6.7.1 compatibility issue ( [#1607](https://github.com/WPChill/download-monitor/issues/1607) )
-- Fixed: PHP Warning fix for file type
-
-= 5.0.14 - 29.10.2024 =
-Fixed: Session performance problems
-Added: No Access modal for the Members lock functionality
-
-= 5.0.13 - 22.10.2024 =
-Fixed: Bulk editing download paths was deleting the paths ( [#1574](https://github.com/WPChill/download-monitor/issues/1574) )
-Fixed: Enabling paths from Download edit not working in some conditions ( [#1576](https://github.com/WPChill/download-monitor/issues/1576) )
-Fixed: Paths conflicts ( [#1566](https://github.com/WPChill/download-monitor/issues/1566) )
-Fixed: Quick edit for terms & conditions ( [#1565](https://github.com/WPChill/download-monitor/issues/1565) )
-Changed: Upsells ( [#1567](https://github.com/WPChill/download-monitor/issues/1567) )
-Fixed: Security issue for Key Generation ( thanks to @truonghuuphuc )
-Added: Extra notices for access permissions
 
 = 5.0.12 - 25.09.2024 =
 Fixed: Error on simple site approved download path deletion
@@ -282,6 +236,3 @@ You can read the complete changelog [here](https://github.com/WPChill/download-m
 
 = 5.0.0 =
 * This is a major update for Download Monitor, please make sure to create a backup of your current website before performing the update.
-
-= 4.9.14 =
-* This update fixes a security issue.
