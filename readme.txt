@@ -12,17 +12,9 @@ Requires PHP: 7.6
 
 Download Monitor is a powerful download manager plugin for handling downloadable files, adding download links to your posts or pages, and tracking downloads.
 
-### Key Features:
-* **Upload & Manage Files** – Add, edit, and organize downloads.
-* **Track Downloads** – Log and monitor user downloads.
-* **Multiple File Versions** – Assign multiple versions to each download.
-* **Secure & Restrict Access** – Member-only downloads require login.
-* **Shortcodes & Blocks** – Display download links using Gutenberg block or shortcodes.
-* **Custom Download Pages** – Customize how downloads appear on your site.
-
 Download Monitor has been featured on the websites of some of the most popular and leading businesses in the WordPress ecosystem, such as WPBeginner, Pagely, Jilt, WP Fusion & Kinsta.
 
-## Download Monitor Extensions
+## Download Monitor Extensions available when purchasing a Pro plan
 
 * [Buttons](https://download-monitor.com/extensions/buttons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Buttons): Create beautiful, fully customizable download buttons for your files.
 * [Downloading Page](https://download-monitor.com/extensions/downloading-page/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Downloading+page): Serve your downloads from a separate page.
