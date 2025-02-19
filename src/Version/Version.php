@@ -428,22 +428,17 @@ class DLM_Download_Version {
 				if ( $remote_file || $restriction || ! $file_path ) {
 					continue;
 				}
+
 				// Now, let's check if this is an attachment.
 				global $wpdb;
-				$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE %s;", '%' . $wpdb->esc_like( $file_path ) ) );
+				$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid LIKE %s;", '%' . $wpdb->esc_like( $mirror ) ) );
 				// If it's an attachment, delete it.
 				if ( ! empty( $attachments ) ) {
 					foreach ( $attachments as $attachment ) {
 						wp_delete_attachment( $attachment->ID, true );
 					}
-				} else {
-					// We need absolute path to the file in order to delete it.
-					list( $file_path, $remote_file, $restriction ) = download_monitor()->service( 'file_manager' )->get_secure_path( $mirror );
-
-					// If it's not an attachment, search for the file and delete it.
-					if ( file_exists( $file_path ) ) {
-						wp_delete_file( $file_path );
-					}
+				} elseif ( file_exists( $file_path ) ) {
+					wp_delete_file( $file_path );
 				}
 			}
 		}
