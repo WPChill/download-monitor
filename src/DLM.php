@@ -465,13 +465,32 @@ class WP_DLM {
 			}
 
 			if ( get_option( 'permalink_structure' ) ) {
+
+				$home_url = get_home_url( null, '', $scheme );
+
+				// Fix for Polylang
+				// the URL should contain the locale site.com/lang/ 
+				// so we can detect a DLM download link.
+				if( function_exists( 'pll_home_url' ) ) {
+					$home_url = pll_home_url();
+				}
+
 				// Fix for translation plugins that modify the home_url.
-				$download_pointing_url = rtrim( get_home_url( null, '', $scheme ), '/' );
+				$download_pointing_url = rtrim( $home_url, '/' );
 				$download_pointing_url = $download_pointing_url . '/'
 				                         . $endpoint . '/';
 			} else {
-				$download_pointing_url = add_query_arg( $endpoint, '',
-					home_url( '', $scheme ) );
+
+				$home_url = home_url( null, '', $scheme );
+
+				// Fix for Polylang
+				// the URL should contain the locale site.com/lang/ 
+				// so we can detect a DLM download link.
+				if( function_exists( 'pll_home_url' ) ) {
+					$home_url = pll_home_url();
+				}
+
+				$download_pointing_url = add_query_arg( $endpoint, '', $home_url );
 			}
 
 			// Now we can remove the filter as the link is generated.
@@ -496,7 +515,7 @@ class WP_DLM {
 			wp_add_inline_script( 'dlm-xhr',
 				'const dlmXHR = ' . json_encode( $xhr_data )
 				. '; dlmXHRinstance = {}; const dlmXHRGlobalLinks = "'
-				. esc_url( $download_pointing_url )
+				. esc_url_raw( $download_pointing_url )
 				. '"; const dlmNonXHRGlobalLinks = '
 				. json_encode( $nonXHRGlobalLinks ) . '; dlmXHRgif = "'
 				. esc_url( $dlmXHRprogress['animation'] )
