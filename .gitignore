@@ -17,7 +17,7 @@ cypress
 cypress.json
 download-monitor.zip
 *.zip
-
+includes/admin/wpchill/scripts/*
 
 # Exclude everything in /vendor except our autoload stuff
 vendor/*

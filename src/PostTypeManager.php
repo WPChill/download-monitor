@@ -98,7 +98,7 @@ if ( ! class_exists( 'DLM_Post_Type_Manager' ) ) {
 						'delete_post'         => 'manage_downloads',
 						'read_post'           => 'manage_downloads',
 					),
-					'publicly_queryable'  => false,
+					'publicly_queryable'  => true,
 					'exclude_from_search' => ( 1
 					                           !== absint( get_option( 'dlm_wp_search_enabled',
 							0 ) ) ),

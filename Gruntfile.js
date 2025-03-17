@@ -263,6 +263,10 @@ module.exports = function ( grunt ) {
 				'!SECURITY.md',
 				'!tailwind.config.js',
 				'!phpunit.xml',
+				'!phpcs.xml',
+				'!webpack.config.notification-system.js',
+				'!babel.config.js',
+				'!includes/admin/wpchill/apps/**',
 				'!nbproject/**' ],
 				dest: '<%= pkg.name %>'
 			}
