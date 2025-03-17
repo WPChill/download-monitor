@@ -42,6 +42,9 @@ jobs:
       - name: Install composer dependencies
         run: npm run composer:update
 
+      - name: Run plugin-zip command
+        run: npm run plugin-zip
+
       - name: Get version from package.json
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
@@ -56,6 +59,16 @@ jobs:
           release_name: Release ${{ steps.package-version.outputs.current-version }}
           draft: false
           prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./download-monitor-${{ steps.package-version.outputs.current-version }}.zip
+          asset_name: download-monitor-${{ steps.package-version.outputs.current-version }}.zip
+          asset_content_type: application/zip
 
       - name: Download Monitor Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
