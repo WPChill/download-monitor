@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, file manager, digital store, ecommerce, password protection  
 Requires at least: 5.5  
 Tested up to: 6.7  
-Stable tag: 5.0.21 
+Stable tag: 5.0.22
 License: GPLv3  
 Requires PHP: 7.6  
 
@@ -111,6 +111,8 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.22 - 17.03.2025 -
+Added: Integrated WPChill Notification System.
 
 = 5.0.12 - 25.09.2024 =
 Fixed: Error on simple site approved download path deletion

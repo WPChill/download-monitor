@@ -20,7 +20,7 @@ class DLM_Custom_Actions {
 		add_action( 'wp_ajax_dlm_download_duplicator_duplicate', array( $this, 'ajax_duplicate_download' ) );
 
 		// duplicate Admin Notice
-		if ( isset( $_GET['dlm-download-duplicator-success'] ) ) {
+		if ( isset( $_GET['dlm-download-duplicator-id'] ) ) {
 			add_action( 'admin_notices', array( $this, 'admin_notice' ), 8 );
 		}
 
@@ -426,7 +426,6 @@ class DLM_Custom_Actions {
 								foreach ( $omf_vals as $omf_val ) {
 									add_post_meta( $file_version->get_id(), $omf_key, $omf_val );
 								}
-
 							}
 						}
 					}
@@ -439,7 +438,7 @@ class DLM_Custom_Actions {
 			// Done
 			wp_send_json( array(
 				'result'      => 'success',
-				'success_url' => admin_url( 'edit.php?post_type=dlm_download&dlm-download-duplicator-success=1' )
+				'success_url' => admin_url( 'edit.php?post_type=dlm_download&&dlm-download-duplicator-id=' . absint( $download_id ) ),
 			) );
 
 		} catch ( Exception $exception ) {
@@ -454,6 +453,20 @@ class DLM_Custom_Actions {
 	 * Display admin notice
 	 */
 	public function admin_notice() {
-		echo '<div class="updated"><p>' . esc_html__( 'Download succesfully duplicated!', 'download-monitor' ) . '</p></div>' . PHP_EOL;
+		$id = isset( $_GET['dlm-download-duplicator-id'] ) ? absint( $_GET['dlm-download-duplicator-id'] ) : false;
+
+		$notice = array(
+			'title'   => esc_html__( 'Download Duplicated', 'download-monitor' ),
+			// translators: %s is replaced with the name of the duplicated download.
+			'message' => sprintf( esc_html__( 'Download "%s" successfully duplicated!', 'download-monitor' ), get_the_title( $id ) ),
+			'status'  => 'success',
+			'source'  => array(
+				'slug' => 'download-monitor',
+				'name' => 'Download Monitor',
+			),
+			'timed'   => 5000,
+		);
+
+		WPChill_Notifications::add_notification( 'dlm-download-duplicated-' . $id, $notice );
 	}
 }

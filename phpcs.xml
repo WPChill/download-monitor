@@ -28,7 +28,7 @@
     </rule>
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
-            <property name="prefixes" type="array" value="dlm"/>
+            <property name="prefixes" type="array" value="dlm,wpchill"/>
         </properties>
     </rule>
     <rule ref="WordPress.WP.I18n">

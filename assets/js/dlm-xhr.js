@@ -549,6 +549,7 @@ class DLM_XHR_Download {
 				}
 				// Append the new script to the modal if exists
 				const modal = tempDiv.querySelector('#dlm-no-access-modal');
+				console.error(newScript);
 				if (modal) {
 					modal.appendChild(newScript);
 				} else {

@@ -1,7 +1,7 @@
 {
   "name": "download-monitor",
   "title": "Download Monitor",
-  "version": "5.0.21",
+  "version": "5.0.22",
   "homepage": "https://www.download-monitor.com",
   "main": "Gruntfile.js",
   "devDependencies": {
@@ -29,21 +29,43 @@
 		"@wordpress/eslint-plugin": "^18.1.0",
 		"@wordpress/prettier-config": "^3.15.0",
 		"@wordpress/scripts": "^27.9.0",
-		"@wordpress/stylelint-config": "^21.41.0"
+		"@wordpress/stylelint-config": "^21.41.0",
+		"fs-extra": "^11.2.0",
+		"glob": "^11.0.0",
+		"rimraf": "^5.0.1",
+    "archiver": "^5.3.1",
+		"cross-env": "^7.0.3"
   },
   "engines": {
     "node": ">=0.8.0",
     "npm": ">=1.1.0"
   },
   "scripts": {
+		"build:start": "npm run build && npm run build:notification-system",
+    "plugin-zip": "npm run build:start && npm run clean && npm run copy && npm run bundle && npm run clean",
+    "start:notification-system": "wp-scripts start --config webpack.config.notification-system.js",
+		"build:notification-system": "wp-scripts build --config webpack.config.notification-system.js",
     "build": "wp-scripts build ./assets/blocks/src/blocks.js --output-path=./assets/blocks/dist",
     "start": "wp-scripts start ./assets/blocks/src/blocks.js --output-path=./assets/blocks/dist",
     "packages-update": "wp-scripts packages-update",
     "cypress:open": "./node_modules/.bin/cypress open",
     "composer:install": "composer install && \"vendor/bin/mozart\" compose && composer update --no-dev composer dump-autoload",
-    "composer:update": "composer update && \"vendor/bin/mozart\" compose && composer update --no-dev composer dump-autoload"
+    "composer:update": "composer update && \"vendor/bin/mozart\" compose && composer update --no-dev composer dump-autoload",
+    "clean": "rimraf build",
+		"copy": "node scripts/copy.js",
+		"bundle": "node scripts/bundle.js"
   },
   "dependencies": {
+		"@tanstack/react-query": "^5.52.0",
+		"@wordpress/api-fetch": "^7.5.0",
+		"@wordpress/block-editor": "^14.0.0",
+		"@wordpress/blocks": "^13.5.0",
+		"@wordpress/components": "^28.5.0",
+		"@wordpress/data": "^10.5.0",
+		"@wordpress/element": "^6.5.0",
+		"@wordpress/i18n": "^5.7.0",
+		"he": "^1.2.0",
+		"interweave": "^13.1.0",
     "react-select": "^5.3.2",
     "whatwg-fetch": "^3.6.2"
   }
