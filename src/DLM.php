@@ -129,7 +129,7 @@ class WP_DLM {
 			//deactivate DLM Terms & Conditions and add notice.
 			if ( class_exists( 'DLM_Terms_And_Conditions' ) ) {
 				deactivate_plugins( 'dlm-terms-and-conditions/dlm-terms-and-conditions.php' );
-				add_action('admin_notices', array( $this, 'deactivation_admin_notice' ) );
+				add_action( 'admin_notices', array( $this, 'deactivation_admin_notice' ) );
 			}
 
 			// The beta testers class

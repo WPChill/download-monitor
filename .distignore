@@ -34,3 +34,4 @@ tailwind.config.js
 postcss.config.js
 webpack2.config.js
 webpack.config.js
+webpack.config.notification-system.js

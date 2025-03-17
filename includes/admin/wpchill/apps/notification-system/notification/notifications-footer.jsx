@@ -13,7 +13,7 @@ export function NotificationsFooter() {
 
 	return (
 		<Button className="dismiss_all_notifications" onClick={ closePanel }>
-			{ __( ' Dismiss All Notifications', 'modula-best-grid-gallery' ) }
+			{ __( ' Dismiss All Notifications', 'download-monitor' ) }
 		</Button>
 	);
 }

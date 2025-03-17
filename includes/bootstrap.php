@@ -31,7 +31,7 @@ require_once dirname( DLM_PLUGIN_FILE ) . '/vendor/autoload.php';
 require_once dirname( DLM_PLUGIN_FILE ) . '/includes/admin/class-dlm-upsells.php';
 
 // load the wpchill notifications.
-require_once dirname( DLM_PLUGIN_FILE ) . '/includes/admin/wpchill-notifications/class-wpchill-notifications.php';
+require_once dirname( DLM_PLUGIN_FILE ) . '/includes/admin/wpchill/class-wpchill-notifications.php';
 
 // Init plugin.
 add_action( 'plugins_loaded', '_load_download_monitor', 10 );

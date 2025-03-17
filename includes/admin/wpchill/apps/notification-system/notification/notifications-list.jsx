@@ -43,7 +43,7 @@ export function NotificationsList() {
 		<Panel>
 			{ visibleNotifications?.length === 0 && (
 				<div className="notification-log-empty">
-					<Text>{ __( 'No notifications!', 'modula-best-grid-gallery' ) }</Text>
+					<Text>{ __( 'No notifications!', 'download-monitor' ) }</Text>
 				</div>
 			) }
 			{ visibleNotifications?.length > 0 &&
@@ -57,7 +57,11 @@ export function NotificationsList() {
 								{ notification?.source?.name && (
 									<span className="notification-source-name">{ notification.source.name }</span>
 								) }
-								<span className="notification-title">{ notification?.title }</span>
+								<span className="notification-title"><Markup content={ notification.title } /></span>
+								{ ( notification?.time_ago !== undefined || notification.time_ago ) &&
+								<span className="notification_time">
+									{ notification.time_ago }
+								</span> }
 							</>
 						}
 						key={ notification?.id }
@@ -71,7 +75,7 @@ export function NotificationsList() {
 							</Text>
 							{ ( notification?.dismissible === undefined || notification.dismissible ) &&
 							<Button className="notification_dismiss_button" onClick={ () => dismissNotification( notification.id ) }>
-								{ __( 'Dismiss', 'modula-best-grid-gallery' ) }
+								{ __( 'Dismiss', 'download-monitor' ) }
 							</Button> }
 						</PanelRow>
 						{ ( notification?.actions !== undefined && notification.actions.length > 0 ) &&

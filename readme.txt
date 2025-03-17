@@ -129,7 +129,7 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 5.0.22 - TBD -
+= 5.0.22 - 17.03.2025 -
 Added: Integrated WPChill Notification System.
 
 = 5.0.21 - 20.01.2025 =

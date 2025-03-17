@@ -42,6 +42,18 @@ class WPChill_Rest_Api {
 				'permission_callback' => array( $this, '_permissions_check' ),
 			)
 		);
+
+		register_rest_route(
+			$this->namespace,
+			'/activate-plugin',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'plugin_activation' ),
+				'permission_callback' => array( $this, '_permissions_check' ),
+			)
+		);
+
+		do_action( 'modula_rest_api_register_routes', $this );
 	}
 
 	public function process_request( $request ) {
@@ -108,6 +120,12 @@ class WPChill_Rest_Api {
 		);
 
 		return rest_ensure_response( $is_empty ? array() : $notifications );
+	}
+
+	public function plugin_activation( $request ) {
+		$plugin_slug = $request->get_param( 'plugin' );
+
+		return rest_ensure_response( WPChill_About_Us::activate_plugin( $plugin_slug ) );
 	}
 
 	public function _permissions_check() {

@@ -1,0 +1,104 @@
+.wpchill_about_us_container {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wpchill_container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.wpchill_title {
+    text-align: center;
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.wpchill_logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.wpchill_tagline {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.4em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.wpchill_description {
+    text-align: center;
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.wpchill_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.wpchill_table th, .wpchill_table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.wpchill_table th {
+    background-color: #f2f2f2;
+}
+
+.wpchill_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.wpchill_table th:first-child,
+.wpchill_table td:first-child {
+    width: 20%;
+}
+
+.wpchill_table th:nth-child(2),
+.wpchill_table td:nth-child(2) {
+    width: 60%;
+}
+
+.wpchill_table th:nth-child(3),
+.wpchill_table td:nth-child(3) {
+    width: 5%;
+}
+.wpchill_table th:nth-child(4),
+.wpchill_table td:nth-child(4) {
+    width: 15%;
+}
+
+.wpchill_footer {
+    text-align: center;
+    font-size: 0.9em;
+    color: #999;
+    margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+    .wpchill_container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .wpchill_title {
+        font-size: 2em;
+    }
+
+    .wpchill_description, .wpchill_tagline {
+        font-size: 1em;
+    }
+}

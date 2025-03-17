@@ -46,6 +46,11 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 				return;
 			}
 
+			// Set the timestamp but only if not previously set.
+			if ( ! isset( $notification['timestamp'] ) ) {
+				$notification['timestamp'] = strtotime( current_time( 'mysql' ) );
+			}
+
 			update_option( self::$notification_prefix . $key, $notification );
 		}
 
@@ -84,6 +89,8 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 					$current_notifications['source']['icon'] = apply_filters( 'wpchill_notification_icon', plugin_dir_url( __FILE__ ) . 'icons/' . $current_notifications['source']['slug'] . '.svg', $current_notifications );
 				}
 
+				$time_ago = $current_notifications['timestamp'] ? human_time_diff( $current_notifications['timestamp'], strtotime( current_time( 'mysql' ) ) ) : false;
+
 				$notifications[ $status ][] = array(
 					'id'          => $id,
 					'title'       => isset( $current_notifications['title'] ) ? $current_notifications['title'] : 'Notification',
@@ -92,6 +99,8 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 					'actions'     => isset( $current_notifications['actions'] ) ? $current_notifications['actions'] : array(),
 					'timed'       => isset( $current_notifications['timed'] ) ? $current_notifications['timed'] : false,
 					'source'      => isset( $current_notifications['source'] ) ? $current_notifications['source'] : array(),
+					// Translators: %s represents the time elapsed (e.g., "5 minutes", "2 hours", "1 day").
+					'time_ago'    => $time_ago ? sprintf( esc_html__( '%s ago', 'download-monitor' ), $time_ago ) : false,
 				);
 			}
 
@@ -137,7 +146,7 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 		}
 
 		public function get_remote_notices() {
-			$response = wp_remote_get( 'https://wp-modula.com/wp-json/notifications/v1/get' );
+			$response = wp_remote_get( 'https://download-monitor.com/wp-json/notifications/v1/get' );
 
 			if ( is_wp_error( $response ) ) {
 				return;

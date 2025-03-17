@@ -11,7 +11,7 @@ export function NotificationsHead() {
 	};
 
 	return <>
-		<h2>{ __( 'WPChill Notification Center', 'modula-best-grid-gallery' ) }</h2>
+		<h2>{ __( 'WPChill Notification Center', 'download-monitor' ) }</h2>
 		<Button onClick={ closePanel }>
 			<span className="dashicons dashicons-no-alt" ></span>
 		</Button>

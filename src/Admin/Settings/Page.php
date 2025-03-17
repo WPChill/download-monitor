@@ -143,7 +143,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 					break;
 			}
 
-			WPChill_Notifications::add_notification( sanitize_text_field( wp_unslash( $_GET['dlm_action_done'] ) ), $notice );
+			WPChill_Notifications::add_notification( str_replace( '_', '-', sanitize_text_field( wp_unslash( $_GET['dlm_action_done'] ) ) ), $notice );
 		}
 
 		/**
