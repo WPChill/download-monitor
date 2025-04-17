@@ -10,6 +10,7 @@ const filesToCopy = [
 	'download-monitor.php',
 	'readme.txt',
 	'changelog.txt',
+	'wpml-config.xml',
 ];
 
 // Ensure build directory exists

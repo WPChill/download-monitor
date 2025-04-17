@@ -37,7 +37,8 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 		 * Constructor
 		 */
 		public function __construct() {
-			$this->endpoint    = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
+			$endpoint          = get_option( 'dlm_download_endpoint', 'download' );
+			$this->endpoint    = apply_filters( 'wpml_translate_single_string', $endpoint, 'download-monitor', 'Download endpoint' );
 			$this->ep_value    = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
 			$this->dlm_logging = DLM_Logging::get_instance();
 		}
@@ -214,6 +215,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 		 */
 		public function add_endpoint() {
 			$endpoint = $this->endpoint;
+			
 			// Let's make sure that the endpoint is not empty.
 			if ( null === $this->endpoint ) {
 				$endpoint = 'download';
@@ -228,6 +230,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 		 * @return void
 		 */
 		public function handler() {
+			
 			global $wp, $wpdb;
 			// Get error handler instance.
 			$error_handler = DLM_Download_Error_Handler::get_instance( $this );
@@ -268,6 +271,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				&& isset( $wp->query_vars[ $this->endpoint ] )
 				&& empty( $wp->query_vars[ $this->endpoint ] )
 			) {
+				
 				// IF XHR, send redirect header.
 				if ( $this->check_for_xhr() ) {
 					header(
@@ -287,13 +291,15 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				);
 				exit;
 			}
-
+			
+			var_dump($wp->query_vars[ $this->endpoint ]);wp_die();
 			// check if need to handle an actual download.
 			if ( ! empty( $wp->query_vars[ $this->endpoint ] )
 				&& ( ( null === $wp->request )
 						|| ( '' === $wp->request )
 						|| ( strstr( $wp->request, $this->endpoint . '/' ) ) )
 			) {
+				
 				// Prevent caching when endpoint is set
 				if ( ! defined( 'DONOTCACHEPAGE' ) ) {
 					define( 'DONOTCACHEPAGE', true );
@@ -302,7 +308,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				// Get ID of download
 				$raw_id
 					= sanitize_title( stripslashes( $wp->query_vars[ $this->endpoint ] ) );
-
+					
 				// Find real ID
 				switch ( $this->ep_value ) {
 					case 'slug':
@@ -1062,7 +1068,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			$headers['Content-Description']       = 'File Transfer';
 			$headers['Content-Transfer-Encoding'] = 'binary';
 			$headers['Cache-Control']
-			= 'no-store, no-cache, must-revalidate, no-transform, max-age=0';
+			 = 'no-store, no-cache, must-revalidate, no-transform, max-age=0';
 
 			if ( $remote_file ) {
 				$file = wp_remote_head( $file_path );

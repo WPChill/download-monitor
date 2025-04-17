@@ -1,0 +1,32 @@
+<wpml-config>
+  <custom-types>
+    <custom-type translate="1" display-as-translated="1">dlm_download</custom-type>
+    <custom-type translate="1" display-as-translated="1">dlm_download_version</custom-type>
+  </custom-types>
+  <taxonomies>
+    <taxonomy translate="1" display-as-translated="1">dlm_download_category</taxonomy>
+    <taxonomy translate="1" display-as-translated="1">dlm_download_tag</taxonomy>
+  </taxonomies>
+  <custom-fields>
+    <custom-field action="translate">_version</custom-field>
+    <custom-field action="translate">_files</custom-field>
+    <custom-field action="translate">_filesize</custom-field>
+    <custom-field action="translate">_md5</custom-field>
+    <custom-field action="translate">_sha1</custom-field>
+    <custom-field action="translate">_sha256</custom-field>
+    <custom-field action="translate">_crc32</custom-field>
+    <custom-field action="translate">_download_count</custom-field>
+    <custom-field action="translate">_featured</custom-field>
+    <custom-field action="translate">_members_only</custom-field>
+    <custom-field action="translate">_redirect_only</custom-field>
+    <custom-field action="translate">_new_tab</custom-field>
+  </custom-fields>
+  <shortcodes>
+    <shortcode>
+      <tag>downloads</tag>
+      <attributes>
+        <attribute>category</attribute>
+      </attributes>
+    </shortcode>
+  </shortcodes>
+</wpml-config>

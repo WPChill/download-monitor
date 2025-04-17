@@ -25,10 +25,10 @@ class DLM_Download {
 	private $author;
 
 	/** @var string */
-	private $description = "";
+	private $description = '';
 
 	/** @var string */
-	private $excerpt = "";
+	private $excerpt = '';
 
 	/** @var int */
 	private $download_count = 0;
@@ -429,33 +429,17 @@ class DLM_Download {
 	 */
 	public function get_the_download_link( $timestamp = true ) {
 		$scheme   = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-		$endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
+		$endpoint = get_option( 'dlm_download_endpoint', 'download' );
+		$endpoint = apply_filters( 'wpml_translate_single_string', $endpoint, 'download-monitor', 'Download endpoint' );
 		$ep_value = get_option( 'dlm_download_endpoint_value' );
 
 		switch ( $ep_value ) {
-			case 'slug' :
+			case 'slug':
 				$value = $this->post->post_name;
 				break;
-			default :
+			default:
 				$value = $this->id;
 				break;
-		}
-		// Fix for WPML home url problem
-		// @todo: See if users come with the same problem when using WPML, and remove the fix if
-		// the fix is the one that causes problems. This fix seems to not depend on the WPML plugin, but
-		// rather on something else. Previously, with same WPML version, fix was working, now is not.
-		/**
-		 * Filter to disable the WPML home url fix.
-		 * Added this because there are some cases where the home url fix actually breaks the download link.
-		 *
-		 * @hook  dlm_wpml_home_url_filter
-		 *
-		 * @param  bool  $return
-		 *
-		 * @since 5.0.0
-		 */
-		if ( apply_filters( 'dlm_wpml_home_url_filter', true ) ) {
-			add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
 		}
 
 		if ( get_option( 'permalink_structure' ) ) {
@@ -472,8 +456,6 @@ class DLM_Download {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
 		}
 
-		remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
-
 		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts.
 		if ( $timestamp && apply_filters( 'dlm_timestamp_link', true ) ) {
 			$timestamp = time();
@@ -482,7 +464,6 @@ class DLM_Download {
 
 		// only add version argument when current version isn't the latest version.
 		if ( null !== $this->get_version() && false === $this->get_version()->is_latest() ) {
-
 			if ( $this->get_version()->has_version_number() ) {
 				$link = add_query_arg( 'version', $this->get_version()->get_version_slug(), $link );
 			} else {
@@ -587,9 +568,7 @@ class DLM_Download {
 	public function get_version_ids() {
 
 		if ( empty( $this->version_ids ) ) {
-
 			if ( apply_filters( 'dlm_download_use_version_transient', true, $this ) ) {
-
 				$transient_name    = 'dlm_file_version_ids_' . $this->get_id();
 				$this->version_ids = get_transient( $transient_name );
 				// If there is no transient, get the versions from the database.
@@ -598,7 +577,6 @@ class DLM_Download {
 					set_transient( $transient_name, $this->version_ids, YEAR_IN_SECONDS );
 				}
 			} else {
-
 				$this->version_ids = download_monitor()->service( 'version_manager' )->get_version_ids( $this->get_id() );
 			}
 		}
@@ -675,7 +653,7 @@ class DLM_Download {
 	 * @return string
 	 */
 	public function get_the_short_description() {
-		DLM_Debug_Logger::deprecated( "DLM_Download::get_the_short_description()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_short_description()' );
 
 		return $this->get_excerpt();
 	}
@@ -690,7 +668,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_short_description() {
-		DLM_Debug_Logger::deprecated( "DLM_Download::the_short_description()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::the_short_description()' );
 		$this->the_excerpt();
 	}
 
@@ -705,7 +683,7 @@ class DLM_Download {
 	 * @return bool
 	 */
 	public function redirect_only() {
-		DLM_Debug_Logger::deprecated( "DLM_Download::redirect_only()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::redirect_only()' );
 
 		return $this->is_redirect_only();
 	}
@@ -720,7 +698,7 @@ class DLM_Download {
 	 * @return string
 	 */
 	public function get_the_title() {
-		DLM_Debug_Logger::deprecated( "DLM_Download::get_the_title()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_title()' );
 
 		return $this->get_title();
 	}
@@ -738,7 +716,7 @@ class DLM_Download {
 	 * @return string
 	 */
 	public function get_the_image( $size = 'full' ) {
-		DLM_Debug_Logger::deprecated( "DLM_Download::get_the_image()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_image()' );
 
 		return $this->get_image( $size );
 	}
@@ -752,7 +730,7 @@ class DLM_Download {
 	 * @return void
 	 */
 	public function the_download_count() {
-		DLM_Debug_Logger::deprecated( "DLM_Download::the_download_count()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::the_download_count()' );
 
 		echo esc_html( $this->get_download_count() );
 	}
@@ -766,7 +744,7 @@ class DLM_Download {
 	 * @return int
 	 */
 	public function get_the_download_count() {
-		DLM_Debug_Logger::deprecated( "DLM_Download::get_the_download_count()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_download_count()' );
 
 		return $this->get_download_count();
 	}
@@ -779,7 +757,7 @@ class DLM_Download {
 	 * @return array
 	 */
 	public function get_file_versions() {
-		DLM_Debug_Logger::deprecated( "DLM_Download::get_file_versions()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_file_versions()' );
 
 		return $this->get_versions();
 	}
@@ -792,7 +770,7 @@ class DLM_Download {
 	 * @return array
 	 */
 	public function get_file_version_ids() {
-		DLM_Debug_Logger::deprecated( "DLM_Download::get_file_version_ids()" );
+		DLM_Debug_Logger::deprecated( 'DLM_Download::get_file_version_ids()' );
 
 		return $this->get_version_ids();
 	}
@@ -952,11 +930,11 @@ class DLM_Download {
 	public function get_the_hash( $type = 'md5' ) {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::get_the_hash()' );
 
-		if ( method_exists( $this->get_version(), "get_" . $type ) ) {
-			return call_user_func( array( $this->get_version(), "get_" . $type ) );
+		if ( method_exists( $this->get_version(), 'get_' . $type ) ) {
+			return call_user_func( array( $this->get_version(), 'get_' . $type ) );
 		}
 
-		return "";
+		return '';
 	}
 
 	/**
@@ -971,8 +949,8 @@ class DLM_Download {
 	public function the_hash( $type = 'md5' ) {
 		DLM_Debug_Logger::deprecated( 'DLM_Download::the_hash()' );
 
-		if ( method_exists( $this->get_version(), "get_" . $type ) ) {
-			echo esc_html(call_user_func( array( $this->get_version(), "get_" . $type ) ));
+		if ( method_exists( $this->get_version(), 'get_' . $type ) ) {
+			echo esc_html( call_user_func( array( $this->get_version(), 'get_' . $type ) ) );
 		}
 	}
 
