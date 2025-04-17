@@ -12,15 +12,18 @@ class DLM_Template_Handler {
 	 * @return array
 	 */
 	public function get_available_templates() {
-		return apply_filters( 'dlm_available_templates', array(
-			''             => __( 'Default - Title and count', 'download-monitor' ),
-			'button'       => __( 'Button - CSS styled button showing title and count', 'download-monitor' ),
-			'box'          => __( 'Box - Box showing thumbnail, title, count, short description, filename and filesize.', 'download-monitor' ),
-			'filename'     => __( 'Filename - Filename and download count', 'download-monitor' ),
-			'title'        => __( 'Title - Shows download title only', 'download-monitor' ),
-			'version-list' => __( 'Version list - Lists all download versions in an unordered list', 'download-monitor' ),
-			'custom'       => __( 'Custom template', 'download-monitor' ),
-		) );
+		return apply_filters(
+			'dlm_available_templates',
+			array(
+				''             => __( 'Default - Title and count', 'download-monitor' ),
+				'button'       => __( 'Button - CSS styled button showing title and count', 'download-monitor' ),
+				'box'          => __( 'Box - Box showing thumbnail, title, count, short description, filename and filesize.', 'download-monitor' ),
+				'filename'     => __( 'Filename - Filename and download count', 'download-monitor' ),
+				'title'        => __( 'Title - Shows download title only', 'download-monitor' ),
+				'version-list' => __( 'Version list - Lists all download versions in an unordered list', 'download-monitor' ),
+				'custom'       => __( 'Custom template', 'download-monitor' ),
+			)
+		);
 	}
 
 	/**
@@ -37,6 +40,7 @@ class DLM_Template_Handler {
 	 */
 	public function get_template_part( $slug, $name = '', $custom_dir = '', $args = array() ) {
 		$template = '';
+		$name     = sanitize_file_name( $name );
 
 		// The plugin path
 		$plugin_path = download_monitor()->get_plugin_path();
@@ -110,7 +114,7 @@ class DLM_Template_Handler {
 
 			do_action( 'dlm_before_template_part', $template, $slug, $name, $custom_dir, $args );
 			$attributes = $this->get_template_attributes( $dlm_download, $template, $slug, $name );
-			include( $template );
+			include $template;
 
 			do_action( 'dlm_after_template_part', $template, $slug, $name, $custom_dir, $args );
 			//load_template( $template, false );
