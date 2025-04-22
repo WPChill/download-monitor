@@ -14,6 +14,9 @@ Download Monitor is a powerful download manager plugin for handling downloadable
 
 Download Monitor has been featured on the websites of some of the most popular and leading businesses in the WordPress ecosystem, such as WPBeginner, Pagely, Jilt, WP Fusion & Kinsta.
 
+= See how easy it is to list a download on your WordPress site =
+https://www.youtube.com/watch?v=xEbliDziMrU&list=PLM2tOjfhVrZfvMiJ3ib1GqvWBpYpBeQaS
+
 ## Download Monitor Extensions available when purchasing a Pro plan
 
 * [Buttons](https://download-monitor.com/extensions/buttons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=description&utm_term=Buttons): Create beautiful, fully customizable download buttons for your files.
