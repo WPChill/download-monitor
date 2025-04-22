@@ -172,15 +172,21 @@ class DLM_CRON_Jobs {
 	 * @since 4.8.6
 	 */
 	private function check_license(  $license, $installed_extensions, $save_license = true ){
-		$store_url = DLM_Product::STORE_URL . '?wc-api=';
+		$store_url       = DLM_Product::STORE_URL . '?wc-api=';
+		$api_product_ids = implode( ',', $installed_extensions );
+		if ( empty( $api_product_ids ) ) {
+			// Add default to DLM PRO, as it will be present in every package.
+			// @todo: This should be removed when we have a better way to handle this.
+			$api_product_ids = 'dlm-pro';
+		}
 		$api_request = wp_remote_get(
-			$store_url. DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
+			$store_url . DLM_Product::ENDPOINT_STATUS_CHECK . '&' . http_build_query(
 				array(
 					'email'          => $license['email'],
 					'license_key'    => $license['license_key'],
-					'api_product_id' => 'dlm-captcha',
+					'api_product_id' => $api_product_ids,
 					'instance'       => site_url(),
-					'request'        => 'status_check'
+					'request'        => 'status_check',
 				),
 				'',
 				'&'

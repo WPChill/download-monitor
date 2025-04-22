@@ -1,3 +1,7 @@
+= 5.0.23 - 22.04.2025 -
+Fixed: License was being deactivated for single product licenses.
+Fixed: Security update
+
 = 5.0.22 - 17.03.2025 -
 Added: Integrated WPChill Notification System.
 
