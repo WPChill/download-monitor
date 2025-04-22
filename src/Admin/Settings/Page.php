@@ -86,8 +86,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 			$screen = get_current_screen();
 
 			if ( 'dlm_download_page_download-monitor-settings' === $screen->base ) {
-				$endpoint   = get_option( 'dlm_download_endpoint', 'download' );
-				$ep_value   = apply_filters( 'wpml_translate_single_string', $endpoint, 'download-monitor', 'Download endpoint' );
+				$ep_value   = get_option( 'dlm_download_endpoint' );
 				$page_check = get_page_by_path( $ep_value, 'ARRAY_A', array( 'page', 'post' ) );
 				$cpt_check  = post_type_exists( $ep_value );
 
@@ -95,7 +94,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 					$notice = array(
 						'title'       => esc_html__( 'Endpoint already in use!', 'download-monitor' ),
 						// translators: %s is replaced with the endpoint.
-						'message'     => sprintf( esc_html__( 'The Download Monitor endpoint "%s" is already in use by a page or post. Please change the endpoint to something else.', 'download-monitor' ), $ep_value ),
+						'message'     => sprintf( esc_html__( 'The Download Monitor endpoint "%s" is already in use by a page or post. Please change the endpoint to something else.', 'download-monitor' ), get_option( 'dlm_download_endpoint' ) ),
 						'status'      => 'error',
 						'source'      => array(
 							'slug' => 'download-monitor',

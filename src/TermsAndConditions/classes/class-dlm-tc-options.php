@@ -26,7 +26,7 @@ class DLM_TC_Options {
 		$settings['lead_generation']['sections']['terns_and_conditions']['title'] = __( 'Terms & Conditions', 'download-monitor' );
 		$settings['lead_generation']['sections']['terns_and_conditions']['fields'] = array(
 			array(
-				'title' => __( 'Terms & Conditions', 'download-monitor' ),
+				'title' => __( 'Terms & Conditions', 'download'),
 				'name'  => 'dlm_tc_text',
 				'std'   => __( 'I accept the terms & conditions', 'download-monitor' ),
 				'label' => __( 'Terms & Condition Text', 'download-monitor' ),

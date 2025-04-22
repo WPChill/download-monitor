@@ -450,6 +450,19 @@ class WP_DLM {
 			$endpoint          = get_option( 'dlm_download_endpoint' );
 			$endpoint          = $endpoint ? $endpoint : 'download';
 			$wpml_options      = get_option( 'icl_sitepress_settings', false );
+			$is_dlm_translated = false;
+			if ( $wpml_options
+			     && isset( $wpml_options['custom_posts_sync_option'] )
+			     && in_array( 'dlm_download',
+					$wpml_options['custom_posts_sync_option'] )
+			) {
+				$is_dlm_translated = true;
+			}
+
+			if ( $is_dlm_translated ) {
+				add_filter( 'wpml_get_home_url',
+					array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+			}
 
 			if ( get_option( 'permalink_structure' ) ) {
 
@@ -480,6 +493,12 @@ class WP_DLM {
 				$download_pointing_url = add_query_arg( $endpoint, '', $home_url );
 			}
 
+			// Now we can remove the filter as the link is generated.
+			//@todo: If Downloads will be made translatable in the future then this should be removed.
+			if ( $is_dlm_translated ) {
+				remove_filter( 'wpml_get_home_url',
+					array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
+			}
 			$nonXHRGlobalLinks = apply_filters( 'dlm_non_xhr_uri', array() );
 			$nonXHRGlobalLinks = array_map( 'sanitize_text_field',
 				$nonXHRGlobalLinks );

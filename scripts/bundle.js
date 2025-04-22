@@ -34,7 +34,6 @@ archive.directory( 'build/vendor/', `${ pluginFolder }/vendor` );
 archive.file( 'build/download-monitor.php', { name: `${ pluginFolder }/download-monitor.php` } );
 archive.file( 'build/readme.txt', { name: `${ pluginFolder }/readme.txt` } );
 archive.file( 'build/changelog.txt', { name: `${ pluginFolder }/changelog.txt` } );
-archive.file( 'build/wpml-config.xml', { name: `${ pluginFolder }/wpml-config.xml` } );
 archive.file( 'build/autoloader.php', {
 	name: `${ pluginFolder }/autoloader.php`,
 } );
