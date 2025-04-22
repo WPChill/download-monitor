@@ -1,4 +1,4 @@
-= 5.0.23 - TBD -
+= 5.0.23 - 22.04.2025 -
 Fixed: License was being deactivated for single product licenses.
 Fixed: Security update
 

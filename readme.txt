@@ -114,7 +114,7 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 5.0.23 - TBD -
+= 5.0.23 - 22.04.2025 -
 Fixed: License was being deactivated for single product licenses.
 Fixed: Security update
 
