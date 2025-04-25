@@ -33,16 +33,20 @@ require_once dirname( DLM_PLUGIN_FILE ) . '/includes/admin/class-dlm-upsells.php
 // load the wpchill notifications.
 require_once dirname( DLM_PLUGIN_FILE ) . '/includes/admin/wpchill/class-wpchill-notifications.php';
 
+// include installer functions.
+require_once 'installer-functions.php';
+
 // Init plugin.
 add_action( 'plugins_loaded', '_load_download_monitor', 10 );
+
+// Check if endpoint is translated
+add_action( 'wp_ajax_wpml_action', 'dlm_handle_wpml_translation_ajx', 5 );
 
 if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
 
 	// set installer file constant.
 	define( 'DLM_PLUGIN_FILE_INSTALLER', DLM_PLUGIN_FILE );
 
-	// include installer functions.
-	require_once 'installer-functions.php';
 
 	// Activation hook.
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '_download_monitor_install' );

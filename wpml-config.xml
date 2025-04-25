@@ -4,6 +4,7 @@
     <custom-type translate="1" display-as-translated="1">dlm_download_version</custom-type>
   </custom-types>
   <taxonomies>
+    <taxonomy translate="1" display-as-translated="1">translation_priority</taxonomy>
     <taxonomy translate="1" display-as-translated="1">dlm_download_category</taxonomy>
     <taxonomy translate="1" display-as-translated="1">dlm_download_tag</taxonomy>
   </taxonomies>
@@ -19,8 +20,10 @@
     <custom-field action="translate">_featured</custom-field>
     <custom-field action="translate">_members_only</custom-field>
     <custom-field action="translate">_redirect_only</custom-field>
-    <custom-field action="translate">_new_tab</custom-field>
   </custom-fields>
+  <admin-texts>
+    <key name="dlm_download_endpoint"/>
+  </admin-texts>
   <shortcodes>
     <shortcode>
       <tag>downloads</tag>
