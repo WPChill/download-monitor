@@ -23,6 +23,18 @@
   </custom-fields>
   <admin-texts>
     <key name="dlm_download_endpoint"/>
+    <key name="dlm_el_optin"/>
+    <key name="dlm_no_access_error"/>
+    <key name="dlm_el_optin_double_text"/>
+    <key name="dlm_el_optin_double_lading_page_title"/>
+    <key name="dlm_el_optin_confirmation_subject"/>
+    <key name="dlm_el_optin_confirmation_content"/>
+    <key name="dlm_el_optin_text"/>
+    <key name="dlm_el_optin_thankyou_page_title"/>
+    <key name="dlm_el_optin_email_subject"/>
+    <key name="dlm_el_optin_email_content"/>
+    
+    
   </admin-texts>
   <shortcodes>
     <shortcode>

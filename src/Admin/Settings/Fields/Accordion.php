@@ -69,6 +69,20 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					$html .= ob_get_clean();
 					break;
 				case 'textarea':
+					// Check if WPML and String Translation are active
+					if ( has_filter( 'wpml_translate_single_string' ) ) {
+						$value_translated = apply_filters( 'wpml_translate_single_string', 
+							$value,
+							'admin_texts_' . $option['name'],
+							$option['name'],
+							isset( $_GET['lang'] ) ? sanitize_text_field( wp_unslash( $_GET['lang'] ) ) : null,
+						);
+
+						// Use translated value if available
+						if ( ! empty( $value_translated ) ) {
+							$value = $value_translated;
+						}
+					}
 					ob_start();
 					echo '<div class="dlm-accordeon-group__setting wp-clearfix">';
 					echo '<div class="dlm-accordeon-group__setting-title">' . esc_html( $option['label'] ) . '</div>';
@@ -81,6 +95,20 @@ class DLM_Admin_Fields_Field_Accordion extends DLM_Admin_Fields_Field {
 					$html .= ob_get_clean();
 					break;
 				case 'editor':
+					// Check if WPML and String Translation are active
+					if ( has_filter( 'wpml_translate_single_string' ) ) {
+						$value_translated = apply_filters( 'wpml_translate_single_string', 
+							$value,
+							'admin_texts_' . $option['name'],
+							$option['name'],
+							isset( $_GET['lang'] ) ? sanitize_text_field( wp_unslash( $_GET['lang'] ) ) : null,
+						);
+
+						// Use translated value if available
+						if ( ! empty( $value_translated ) ) {
+							$value = $value_translated;
+						}
+					}
 					ob_start();
 					echo '<div class="dlm-accordeon-group__setting wp-clearfix">';
 					echo '<div class="dlm-accordeon-group__setting-title">' . esc_html( $option['label'] ) . '</div>';
