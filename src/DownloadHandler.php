@@ -584,9 +584,10 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			}
 			$modal = get_option( 'dlm_no_access_modal', false );
 			// Start session if not started
-			if ( ( '' === session_id() || ! isset( $_SESSION ) ) && ! $modal ) {
+			if ( apply_filters( 'dlm_set_no_access_download_session', true ) && ( '' === session_id() || ! isset( $_SESSION ) ) && ! $modal ) {
 				session_start();
 			}
+
 			// Check Access.
 			if ( ! apply_filters( 'dlm_can_download', true, $download, $version, $_REQUEST, $this->check_for_xhr() ) ) {
 				// Check if we need to redirect if visitor don't have access to file.

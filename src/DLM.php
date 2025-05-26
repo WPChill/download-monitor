@@ -978,7 +978,7 @@ class WP_DLM {
 	 */
 	public function set_no_access_session() {
 		$no_access_page = get_option( 'dlm_no_access_page', 0 );
-		if ( $no_access_page && ! isset( $_SESSION ) ) {
+		if ( apply_filters( 'dlm_set_no_access_session', $no_access_page ) && ! isset( $_SESSION ) ) {
 			session_start();
 		}
 	}
