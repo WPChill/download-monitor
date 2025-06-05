@@ -585,6 +585,13 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			$modal = get_option( 'dlm_no_access_modal', false );
 			// Start session if not started
 			if ( apply_filters( 'dlm_set_no_access_download_session', true ) && ( '' === session_id() || ! isset( $_SESSION ) ) && ! $modal ) {
+				$is_https = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) || ( isset( $_SERVER['SERVER_PORT'] ) && 443 === $_SERVER['SERVER_PORT'] );
+				$params   = array(
+					'secure'   => $is_https,
+					'httponly' => true,
+					'samesite' => 'Lax',
+				);
+				session_set_cookie_params( apply_filters( 'dlm_set_session_params', $params ) );
 				session_start();
 			}
 
