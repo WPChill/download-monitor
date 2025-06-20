@@ -1,3 +1,6 @@
+= 5.0.26 - 20.06.2025 =
+Changed: Updated label of Page Addon to Document Library Manager
+
 = 5.0.25 - 05.06.2025 =
 Fixed: Set the Secure attribute on the PHPSESSID cookie for the session started by DLM.
 

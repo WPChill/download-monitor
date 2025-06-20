@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, file manager, digital store, ecommerce, password protection  
 Requires at least: 5.5  
 Tested up to: 6.8  
-Stable tag: 5.0.25
+Stable tag: 5.0.26
 License: GPLv3  
 Requires PHP: 7.6  
 
@@ -114,6 +114,8 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.26 - 20.06.2025 =
+Changed: Updated label of Page Addon to Document Library Manager
 
 = 5.0.25 - 05.06.2025 =
 Fixed: Set the Secure attribute on the PHPSESSID cookie for the session started by DLM.

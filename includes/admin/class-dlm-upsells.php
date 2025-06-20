@@ -362,7 +362,7 @@ class DLM_Upsells {
 					'title'    => esc_html__( 'Advanced', 'download-monitor' ),
 					'sections' => array(
 						'page_addon'       => array(
-							'title'    => __( 'Page Addon', 'download-monitor' ),
+							'title'    => __( 'Document Library Manager (Page Addon)', 'download-monitor' ),
 							'sections' => array(),
 							// Need to put sections here for backwards compatibility
 						),
@@ -744,8 +744,8 @@ class DLM_Upsells {
 	public function upsell_tab_content_advanced() {
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 			$this->generate_upsell_box(
-				__( 'Page addon extension', 'download-monitor' ),
-				__( 'Add a self contained [download_page] shortcode to your site to list downloads, categories, tags, and show info pages about each of your resources.', 'download-monitor' ),
+				__( 'Document Library Manager (Page Addon) extension', 'download-monitor' ),
+				__( 'Easily show off your downloads in a clean table or a stylish grid. This add-on gives you a simple, modern tool to organize your files and help your visitors find exactly what they need — fast.', 'download-monitor' ),
 				'page_addon',
 				'page-addon'
 			);
