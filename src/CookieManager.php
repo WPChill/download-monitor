@@ -107,7 +107,7 @@ class DLM_Cookie_Manager {
 	private function add_cookie( $download, $cookie_data ) {
 
 		// If Download object or object id.
-		if( ! is_object( $download ) ){
+		if ( ! is_object( $download ) ) {
 			// No object? let's get it!
 			$download = download_monitor()->service( 'download_repository' )->retrieve_single( absint( $download ) );
 		}
@@ -617,12 +617,41 @@ class DLM_Cookie_Manager {
 	}
 
 	/**
-	 * Delete expired cookies
+	 * Delete expired cookies.
 	 *
 	 * @since 5.0.0
 	 */
 	public function delete_expired_cookies() {
 		global $wpdb;
-		$wpdb->query( "DELETE FROM {$wpdb->prefix}dlm_cookies WHERE `expiration_date` < NOW()" );
+
+		// Select expired cookies
+		$expired_cookie_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT id FROM {$wpdb->prefix}dlm_cookies WHERE expiration_date < %s",
+				current_time( 'mysql' )
+			)
+		);
+
+		if ( empty( $expired_cookie_ids ) ) {
+			return;
+		}
+
+		foreach ( $expired_cookie_ids as $cookie_id ) {
+			// Delete associated metadata
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM {$wpdb->prefix}dlm_cookiemeta WHERE cookie_id = %d",
+					$cookie_id
+				)
+			);
+
+			// Delete cookie itself
+			$wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM {$wpdb->prefix}dlm_cookies WHERE id = %d",
+					$cookie_id
+				)
+			);
+		}
 	}
 }

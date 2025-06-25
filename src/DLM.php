@@ -138,8 +138,6 @@ class WP_DLM {
 			}*/
 
 			new DLM_Review();
-			// Set cookie manager so we can add cleanup CRON jobs
-			DLM_Cookie_Manager::get_instance();
 
 			// Load the templates action class
 			$plugin_status = DLM_Plugin_Status::get_instance();
@@ -157,6 +155,9 @@ class WP_DLM {
 				$multisite = DLM_Network_Settings::get_instance();
 			}
 		}
+
+		// Set cookie manager so we can add cleanup CRON jobs
+		DLM_Cookie_Manager::get_instance();
 
 		// Load the Approved Download Path option table
 		DLM_Downloads_Path::get_instance();
