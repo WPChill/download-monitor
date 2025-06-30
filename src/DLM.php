@@ -156,6 +156,9 @@ class WP_DLM {
 			if ( ( defined( 'MULTISITE' ) && MULTISITE ) ) {
 				$multisite = DLM_Network_Settings::get_instance();
 			}
+
+			// Initialize the reports.
+			new DLM_Reports2();
 		}
 
 		// Load the Approved Download Path option table
@@ -177,7 +180,10 @@ class WP_DLM {
 		$ajax_manager = new DLM_Ajax_Manager();
 		$ajax_manager->setup();
 
-		DLM_Rest_API::get_instance();
+		DLM_Rest_API::get_instance(); // TODO : Remove OLD reports classes/js/css.
+
+		// Initialize the reports rest api.
+		new DLM_Reports_Rest_Api();
 
 		// Setup Modal
 		if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {
