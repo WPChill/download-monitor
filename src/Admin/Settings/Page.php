@@ -66,21 +66,26 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				switch ( $action ) {
 					case 'dlm_regenerate_protection':
 						if ( $this->regenerate_protection() ) {
-							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=status&section=misc' ) ) );
+							$this->display_admin_action_message( $action );
+							wp_safe_redirect( admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=status&section=misc' ) );
 							exit;
 						}
 						break;
 					case 'dlm_regenerate_robots':
 						if ( $this->regenerate_robots() ) {
-							wp_redirect( add_query_arg( array( 'dlm_action_done' => $action ), admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=general&section=misc' ) ) );
+							$this->display_admin_action_message( $action );
+							wp_safe_redirect( admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=general&section=misc' ) );
+							exit;
+						}
+						break;
+					case 'dlm_download_logs_clear':
+						if ( $this->clear_dlm_logs() ) {
+							$this->display_admin_action_message( $action );
+							wp_safe_redirect( admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=logging' ) );
 							exit;
 						}
 						break;
 				}
-			}
-
-			if ( isset( $_GET['dlm_action_done'] ) ) {
-				add_action( 'admin_notices', array( $this, 'display_admin_action_message' ), 8 );
 			}
 
 			$screen = get_current_screen();
@@ -113,11 +118,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 		/**
 		 * Display the admin action success message
 		 */
-		public function display_admin_action_message() {
-			// Check if we have a message to display
-			if ( ! isset( $_GET['dlm_action_done'] ) ) {
-				return;
-			}
+		public function display_admin_action_message( $action ) {
 
 			$notice = array(
 				'status' => 'success',
@@ -128,7 +129,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				'timed'  => 5000,
 			);
 
-			switch ( $_GET['dlm_action_done'] ) {
+			switch ( $action ) {
 				case 'dlm_regenerate_protection':
 					$notice['title']   = esc_html__( 'Regenerated .htaccess file', 'download-monitor' );
 					$notice['message'] = esc_html__( '.htaccess file successfully regenerated!', 'download-monitor' );
@@ -137,13 +138,17 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 					$notice['title']   = esc_html__( 'Regenerated robots.txt', 'download-monitor' );
 					$notice['message'] = esc_html__( 'Robots.txt file successfully regenerated!', 'download-monitor' );
 					break;
+				case 'dlm_download_logs_clear':
+					$notice['title']   = esc_html__( 'Logs Cleared.', 'download-monitor' );
+					$notice['message'] = esc_html__( 'All download logs cleared.', 'download-monitor' );
+					break;
 				default:
 					$notice['title']   = esc_html__( 'Action completed', 'download-monitor' );
 					$notice['message'] = esc_html__( 'Download Monitor action completed!', 'download-monitor' );
 					break;
 			}
 
-			WPChill_Notifications::add_notification( str_replace( '_', '-', sanitize_text_field( wp_unslash( $_GET['dlm_action_done'] ) ) ), $notice );
+			WPChill_Notifications::add_notification( str_replace( '_', '-', $action ), $notice );
 		}
 
 		/**
@@ -803,6 +808,24 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 		public static function check_if_dlm_settings() {
 			if ( ! isset( $_GET['post_type'] ) || 'dlm_download' !== $_GET['post_type'] || ! isset( $_GET['page'] ) || 'download-monitor-settings' !== $_GET['page'] ) {
 				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Function used to regenerate the robots.txt for the dlm_uploads folder
+		 *
+		 * @return void
+		 *
+		 * @since 4.5.9
+		 */
+		private function clear_dlm_logs() {
+
+			global $wpdb;
+
+			if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
+				$wpdb->query( "TRUNCATE TABLE {$wpdb->download_log}" );
 			}
 
 			return true;

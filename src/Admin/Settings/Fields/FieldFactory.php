@@ -46,7 +46,7 @@ class DLM_Admin_Fields_Field_Factory {
 				$field = new DLM_Admin_Fields_Field_Lazy_Select( $option['name'], $value, $option['options'] );
 				break;
 			case 'action_button':
-				$field = new DLM_Admin_Fields_Field_ActionButton( $option['name'], $option['link'], $option['label'] );
+				$field = new DLM_Admin_Fields_Field_ActionButton( $option['name'], $option['link'], isset( $option['button_label'] ) ? $option['button_label'] : $option['label'] );
 				break;
 			case 'install_plugin':
 				$field = new DLM_Admin_Fields_Field_InstallPlugin( $option['name'], $option['link'], $option['label'] );
