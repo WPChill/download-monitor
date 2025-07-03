@@ -78,13 +78,6 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 							exit;
 						}
 						break;
-					case 'dlm_download_logs_clear':
-						if ( $this->clear_dlm_logs() ) {
-							$this->display_admin_action_message( $action );
-							wp_safe_redirect( admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings&tab=advanced&section=logging' ) );
-							exit;
-						}
-						break;
 				}
 			}
 
@@ -137,10 +130,6 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 				case 'dlm_regenerate_robots':
 					$notice['title']   = esc_html__( 'Regenerated robots.txt', 'download-monitor' );
 					$notice['message'] = esc_html__( 'Robots.txt file successfully regenerated!', 'download-monitor' );
-					break;
-				case 'dlm_download_logs_clear':
-					$notice['title']   = esc_html__( 'Logs Cleared.', 'download-monitor' );
-					$notice['message'] = esc_html__( 'All download logs cleared.', 'download-monitor' );
 					break;
 				default:
 					$notice['title']   = esc_html__( 'Action completed', 'download-monitor' );
@@ -808,24 +797,6 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 		public static function check_if_dlm_settings() {
 			if ( ! isset( $_GET['post_type'] ) || 'dlm_download' !== $_GET['post_type'] || ! isset( $_GET['page'] ) || 'download-monitor-settings' !== $_GET['page'] ) {
 				return false;
-			}
-
-			return true;
-		}
-
-		/**
-		 * Function used to regenerate the robots.txt for the dlm_uploads folder
-		 *
-		 * @return void
-		 *
-		 * @since 4.5.9
-		 */
-		private function clear_dlm_logs() {
-
-			global $wpdb;
-
-			if ( DLM_Utils::table_checker( $wpdb->download_log ) ) {
-				$wpdb->query( "TRUNCATE TABLE {$wpdb->download_log}" );
 			}
 
 			return true;
