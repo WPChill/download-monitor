@@ -27,42 +27,111 @@ class DLM_Reports_Rest_Api {
 	 */
 	public function register_routes() {
 
-		// The REST route for downloads reports.
 		register_rest_route(
 			'download-monitor/v1',
-			'/overview_stats',
+			'/reports/graph_data',
 			array(
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'overview_stats' ),
+				'callback'            => array( $this, 'get_graph_downloads_data' ),
 				'permission_callback' => array( $this, 'check_api_rights' ),
 			)
 		);
 
-		// The REST route for user reports.
 		register_rest_route(
 			'download-monitor/v1',
-			'/detailed_stats',
+			'/reports/table_data',
 			array(
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'detailed_stats' ),
+				'callback'            => array( $this, 'get_table_downloads_data' ),
 				'permission_callback' => array( $this, 'check_api_rights' ),
 			)
 		);
 
+		register_rest_route(
+			'download-monitor/v1',
+			'/reports/overview_card_data',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'get_overview_card_stats' ),
+				'permission_callback' => array( $this, 'check_api_rights' ),
+			)
+		);
+
+		register_rest_route(
+			'download-monitor/v1',
+			'/reports/detailed_card_data',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'get_users_card_stats' ),
+				'permission_callback' => array( $this, 'check_api_rights' ),
+			)
+		);
+
+		register_rest_route(
+			'download-monitor/v1',
+			'/reports/users_download_data',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'get_users_downloads_data' ),
+				'permission_callback' => array( $this, 'check_api_rights' ),
+			)
+		);
+
+		register_rest_route(
+			'download-monitor/v1',
+			'/reports/users_data',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'get_user_data' ),
+				'permission_callback' => array( $this, 'check_api_rights' ),
+			)
+		);
 	}
 
-	public function overview_stats( $request ) {
-
+	public function get_graph_downloads_data( $request ) {
+		//check_ajax_referer( 'wp_rest' ); TODO Enable.
 		return new WP_REST_Response(
-			DLM_Reports2::get_overview_stats( $request ),
+			DLM_Reports2::get_graph_downloads_data( $request ),
 			200
 		);
 	}
 
-	public function detailed_stats( $request ) {
-
+	public function get_table_downloads_data( $request ) {
+		//check_ajax_referer( 'wp_rest' ); TODO Enable.
 		return new WP_REST_Response(
-			DLM_Reports2::get_detailed_stats( $request ),
+			DLM_Reports2::get_table_downloads_data( $request ),
+			200
+		);
+	}
+
+	public function get_overview_card_stats( $request ) {
+		//check_ajax_referer( 'wp_rest' ); TODO Enable.
+		return new WP_REST_Response(
+			DLM_Reports2::get_overview_card_stats( $request ),
+			200
+		);
+	}
+
+	public function get_user_data( $request ) {
+		//check_ajax_referer( 'wp_rest' ); TODO Enable.
+		return new WP_REST_Response(
+			DLM_Reports2::get_user_data( $request ),
+			200
+		);
+	}
+
+	public function get_users_downloads_data( $request ) {
+		//check_ajax_referer( 'wp_rest' ); TODO Enable.
+		return new WP_REST_Response(
+			DLM_Reports2::get_users_downloads_data( $request ),
+			200
+		);
+	}
+
+	public function get_users_card_stats( $request ) {
+		//check_ajax_referer( 'wp_rest' ); TODO Enable.
+		return new WP_REST_Response(
+			DLM_Reports2::get_users_card_stats( $request ),
 			200
 		);
 	}
@@ -79,16 +148,14 @@ class DLM_Reports_Rest_Api {
 
 		return true; // TODO: remove, this exists just for Postman testing
 
-		if ( ! isset( $request['user_can_view_reports'] ) || ! (bool) $request['user_can_view_reports'] ||
-				! is_user_logged_in() || ! current_user_can( 'dlm_view_reports' ) ) {
-			return new WP_Error(
-				'rest_forbidden_context',
-				esc_html__( 'Sorry, you are not allowed to see data from this endpoint.', 'download-monitor' ),
-				array( 'status' => rest_authorization_required_code() )
-			);
+		if ( is_user_logged_in() && current_user_can( 'dlm_view_reports' ) ) {
+			return true;
 		}
 
-		return true;
+		return new WP_Error(
+			'rest_forbidden_context',
+			esc_html__( 'Sorry, you are not allowed to see data from this endpoint.', 'download-monitor' ),
+			array( 'status' => rest_authorization_required_code() )
+		);
 	}
 }
-
