@@ -42,7 +42,7 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 				'capability' => 'dlm_view_reports',
 				'menu_slug'  => 'download-monitor-reports2',
 				'function'   => array( $this, 'view' ),
-				'priority'   => 55,
+				'priority'   => 50,
 			);
 
 			return $links;
@@ -60,23 +60,20 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 		}
 
 		/**
-		 * Get our stats for the chart
+		 * Get our stats for the bar chart
 		 *
-		 * @return WP_REST_Response
+		 * @return array
 		 * @since 5.1.0
 		 */
-		public static function get_overview_stats( $request ) {
+		public static function get_graph_downloads_data( $request ) {
 			global $wpdb;
 
 			$data = array();
-
-			//check_ajax_referer( 'wp_rest' );
 
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
 				return $data;
 			}
 
-			// Pregătim range-ul de date
 			$start_date = null;
 			$end_date   = null;
 
@@ -86,13 +83,11 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 				$start_date = sanitize_text_field( $date_range['start'] );
 				$end_date   = sanitize_text_field( $date_range['end'] );
 			} else {
-				// Implicit: ultimele 7 zile
 				$end_date   = current_time( 'Y-m-d' );
 				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
 			}
 
-			// Construim și executăm query-ul
-			$data['downloads_data'] = $wpdb->get_results(
+			$downloads_data = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT * FROM {$wpdb->dlm_reports} WHERE `date` BETWEEN %s AND %s ORDER BY `date` ASC;",
 					$start_date,
@@ -101,21 +96,32 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 				ARRAY_A
 			);
 
-			$data = apply_filters( 'dlm_overview_stats_data', $data, $request );
+			$data['downloads_data'] = array();
+			foreach ( $downloads_data as $download_data ) {
+				$downloads = json_decode( $download_data['download_ids'], true );
+				$count     = 0;
+				foreach ( $downloads as $download ) {
+					$count += absint( $download['downloads'] );
+				}
+				$data['downloads_data'][] = array(
+					'date'      => $download_data['date'],
+					'downloads' => $count,
+				);
+			}
+
+			$data = apply_filters( 'dlm_reports_graph_downloads_data', $data, $request );
 
 			return $data;
 		}
 
 		/**
-		 * Get our stats for the user reports
+		 * Get our stats for the downloads table
 		 *
-		 * @return WP_REST_Response
+		 * @return array
 		 * @since 5.1.0
 		 */
-		public static function get_detailed_stats( $request ) {
+		public static function get_table_downloads_data( $request ) {
 			global $wpdb;
-
-			check_ajax_referer( 'wp_rest' );
 
 			$data = array();
 
@@ -123,36 +129,387 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 				return $data;
 			}
 
+			$start_date = null;
+			$end_date   = null;
+
 			$date_range = $request->get_param( 'date_range' );
 
 			if ( is_array( $date_range ) && isset( $date_range['start'], $date_range['end'] ) ) {
-				$start_date = sanitize_text_field( $date_range['start'] ) . ' 00:00:00';
-				$end_date   = sanitize_text_field( $date_range['end'] ) . ' 23:59:59';
+				$start_date = sanitize_text_field( $date_range['start'] );
+				$end_date   = sanitize_text_field( $date_range['end'] );
 			} else {
-				$end_date   = current_time( 'Y-m-d 23:59:59' );
-				$start_date = gmdate( 'Y-m-d 00:00:00', strtotime( '-6 days', strtotime( $end_date ) ) );
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
 			}
 
-			$results = $wpdb->get_results(
+			$where = $wpdb->prepare(
+				'WHERE DATE(download_date) BETWEEN %s AND %s',
+				$start_date,
+				$end_date
+			);
+
+			// We set the columns here so we can filter and add or remove later.
+			$default_select_columns = array(
+				'COUNT(*) as total',
+				'SUM(download_status = "completed") as completed',
+				'SUM(download_status = "redirected") as redirected',
+				'SUM(download_status = "failed") as failed',
+				'SUM(user_id != 0) as logged_in_downloads',
+				'SUM(user_id = 0) as logged_out_downloads',
+			);
+
+			$select_columns = apply_filters( 'dlm_table_downloads_select_columns', $default_select_columns );
+			$select_sql     = implode( ",\n\t", $select_columns );
+
+			$query = "
+				SELECT
+				download_id,
+					$select_sql
+				FROM {$wpdb->download_log}
+				$where
+				GROUP BY download_id
+			";
+
+			$data = $wpdb->get_results( $query, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+			$stats = array();
+
+			// Add the title.
+			foreach ( $data as $key => $row ) {
+				$data[ $key ]['title'] = get_the_title( $row['download_id'] );
+			}
+
+			$data = apply_filters( 'dlm_reports_table_downloads_data', $data, $request );
+
+			return $data;
+		}
+
+
+		/**
+		 * Get data for the overview cards.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public static function get_overview_card_stats( $request ) {
+
+			global $wpdb;
+
+			$stats = array(
+				'total'        => 0,
+				'today'        => 0,
+				'average'      => 0,
+				'most_popular' => null,
+			);
+
+			$date_range = $request->get_param( 'date_range' );
+
+			if ( is_array( $date_range ) && isset( $date_range['start'], $date_range['end'] ) ) {
+				$start_date = sanitize_text_field( $date_range['start'] );
+				$end_date   = sanitize_text_field( $date_range['end'] );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
+			}
+
+			$today = current_time( 'Y-m-d' );
+
+			$rows = $wpdb->get_results(
 				$wpdb->prepare(
-					"
-					SELECT r.*, u.display_name
-					FROM {$wpdb->download_log} r
-					LEFT JOIN {$wpdb->users} u ON r.user_id = u.ID
-					WHERE r.download_date BETWEEN %s AND %s
-					ORDER BY r.ID DESC
-					",
+					"SELECT `date`, `download_ids` FROM {$wpdb->dlm_reports} WHERE `date` BETWEEN %s AND %s",
 					$start_date,
 					$end_date
 				),
 				ARRAY_A
 			);
 
-			$data['user_data'] = $results;
+			$total_downloads = 0;
+			$today_downloads = 0;
+			$download_totals = array(); // key = download_id, value = ['total' => x, 'title' => y]
+			$day_count       = 0;
+			$has_today       = false;
 
-			$data = apply_filters( 'dlm_detailed_stats_data', $data, $request );
+			foreach ( $rows as $row ) {
+				++$day_count;
+				$date = $row['date'];
+
+				if ( $date === $today ) {
+					$has_today = true;
+				}
+
+				if ( empty( $row['download_ids'] ) ) {
+					continue;
+				}
+
+				$downloads = json_decode( $row['download_ids'], true );
+				if ( ! is_array( $downloads ) ) {
+					continue;
+				}
+
+				$day_total = 0;
+
+				foreach ( $downloads as $id => $data ) {
+					$id    = (int) $id;
+					$count = isset( $data['downloads'] ) ? (int) $data['downloads'] : 0;
+					$title = isset( $data['title'] ) ? sanitize_text_field( $data['title'] ) : '';
+
+					$day_total += $count;
+
+					if ( ! isset( $download_totals[ $id ] ) ) {
+						$download_totals[ $id ] = array(
+							'total' => 0,
+							'title' => $title,
+						);
+					}
+
+					$download_totals[ $id ]['total'] += $count;
+				}
+
+				$total_downloads += $day_total;
+
+				if ( $date === $today ) {
+					$today_downloads = $day_total;
+				}
+			}
+
+			// If we do not have today in the initial period, query for it.
+			if ( ! $has_today ) {
+				$today_row = $wpdb->get_row(
+					$wpdb->prepare(
+						"SELECT `download_ids` FROM {$wpdb->dlm_reports} WHERE `date` = %s",
+						$today
+					),
+					ARRAY_A
+				);
+
+				if ( ! empty( $today_row['download_ids'] ) ) {
+					$downloads = json_decode( $today_row['download_ids'], true );
+					if ( is_array( $downloads ) ) {
+						$day_total = 0;
+						foreach ( $downloads as $id => $data ) {
+							$count      = isset( $data['downloads'] ) ? (int) $data['downloads'] : 0;
+							$day_total += $count;
+						}
+						$today_downloads = $day_total;
+					}
+				}
+			}
+
+			// Most popular
+			$most_popular = null;
+			foreach ( $download_totals as $id => $info ) {
+				if ( is_null( $most_popular ) || $info['total'] > $most_popular['total'] ) {
+					$most_popular = array(
+						'id'    => $id,
+						'title' => $info['title'],
+						'total' => $info['total'],
+					);
+				}
+			}
+
+			$stats['total']        = $total_downloads;
+			$stats['today']        = $today_downloads;
+			$stats['average']      = $day_count > 0 ? floatval( number_format( $total_downloads / $day_count, 2, '.', '' ) ) : 0;
+			$stats['most_popular'] = $most_popular;
+
+			return apply_filters( 'dlm_reports_card_stats', $stats, $request );
+		}
+
+		/**
+		 * Get data for the detailed view user cards.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public static function get_users_card_stats( $request ) {
+			global $wpdb;
+
+			$stats = array(
+				'logged_in'   => 0,
+				'logged_out'  => 0,
+				'most_active' => null,
+			);
+
+			$date_range = $request->get_param( 'date_range' );
+
+			if ( is_array( $date_range ) && isset( $date_range['start'], $date_range['end'] ) ) {
+				$start_date = sanitize_text_field( $date_range['start'] );
+				$end_date   = sanitize_text_field( $date_range['end'] );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
+			}
+
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT user_id, COUNT(*) as total
+					FROM {$wpdb->download_log}
+					WHERE DATE(download_date) BETWEEN %s AND %s
+					GROUP BY user_id",
+					$start_date,
+					$end_date
+				),
+				ARRAY_A
+			);
+
+			$max_total   = 0;
+			$most_active = null;
+			$logged_in   = 0;
+			$logged_out  = 0;
+
+			foreach ( $results as $row ) {
+				$user_id = (int) $row['user_id'];
+				$total   = (int) $row['total'];
+
+				if ( $user_id === 0 ) {
+					$logged_out += $total;
+				} else {
+					$logged_in += $total;
+					if ( $total > $max_total ) {
+						$max_total   = $total;
+						$most_active = array(
+							'id'    => $user_id,
+							'total' => $total,
+						);
+					}
+				}
+			}
+
+			if ( $most_active ) {
+				$user                = get_user_by( 'id', $most_active['id'] );
+				$most_active['name'] = $user ? $user->display_name : 'User #' . $most_active['id'];
+			}
+
+			$stats['logged_in']   = $logged_in;
+			$stats['logged_out']  = $logged_out;
+			$stats['most_active'] = $most_active;
+
+			return apply_filters( 'dlm_reports_user_card_stats', $stats, $request );
+		}
+
+		/**
+		 * Get our stats for the downloads table
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public static function get_users_downloads_data( $request ) {
+			global $wpdb;
+
+			$data = array();
+
+			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+				return $data;
+			}
+
+			$start_date = null;
+			$end_date   = null;
+
+			$date_range = $request->get_param( 'date_range' );
+
+			if ( is_array( $date_range ) && isset( $date_range['start'], $date_range['end'] ) ) {
+				$start_date = sanitize_text_field( $date_range['start'] );
+				$end_date   = sanitize_text_field( $date_range['end'] );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
+			}
+
+			$where = $wpdb->prepare(
+				'WHERE DATE(download_date) BETWEEN %s AND %s',
+				$start_date,
+				$end_date
+			);
+
+			// We set the columns here so we can filter and add or remove later.
+			$default_select_columns = array(
+				'user_id',
+				'user_ip',
+				'download_status',
+				'download_date',
+			);
+
+			$select_columns = apply_filters( 'dlm_users_downloads_select_columns', $default_select_columns );
+			$select_sql     = implode( ",\n\t", $select_columns );
+
+			$query = "
+				SELECT
+				download_id,
+					$select_sql
+				FROM {$wpdb->download_log}
+				$where
+			";
+
+			$data = $wpdb->get_results( $query, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+			$stats = array();
+
+			// Add the title.
+			foreach ( $data as $key => $row ) {
+				$data[ $key ]['title'] = get_the_title( $row['download_id'] );
+			}
+
+			$data = apply_filters( 'dlm_reports_users_table_downloads_data', $data, $request );
 
 			return $data;
+		}
+
+
+		/**
+		 * Get all users data that have downloaded.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public static function get_user_data( $request ) {
+			global $wpdb;
+
+			$users      = array();
+			$users_data = array();
+			$date_range = $request->get_param( 'date_range' );
+
+			if ( is_array( $date_range ) && isset( $date_range['start'], $date_range['end'] ) ) {
+				$start_date = sanitize_text_field( $date_range['start'] );
+				$end_date   = sanitize_text_field( $date_range['end'] );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
+			}
+
+			// Retrieve only users that have downloaded something, we don't want to show users that have not downloaded anything.
+			$users = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DISTINCT dlm_logs.user_id as ID, wp_users.user_nicename, wp_users.user_url, wp_users.user_registered, wp_users.display_name, wp_users.user_email, wp_users_meta.meta_value as roles
+					FROM {$wpdb->download_log} dlm_logs
+					LEFT JOIN {$wpdb->users} wp_users ON dlm_logs.user_id = wp_users.ID AND wp_users.ID IS NOT NULL
+					LEFT JOIN {$wpdb->usermeta} wp_users_meta ON dlm_logs.user_id = wp_users_meta.user_id
+					WHERE dlm_logs.user_id != 0
+					AND wp_users_meta.meta_key = %s
+					AND DATE(dlm_logs.download_date) BETWEEN %s AND %s
+					ORDER BY dlm_logs.user_id DESC",
+					$wpdb->prefix . 'capabilities',
+					$start_date,
+					$end_date
+				)
+			);
+
+			if ( ! empty( $users ) ) {
+				// Cycle through users and get their data.
+				foreach ( $users as $user ) {
+					$user_roles              = array_keys( unserialize( $user->roles ) );
+					$user_roles              = is_array( $user_roles ) ? implode( ',', $user_roles ) : '';
+					$users_data[ $user->ID ] = array(
+						'nicename'     => $user->user_nicename,
+						'url'          => $user->user_url,
+						'registered'   => $user->user_registered,
+						'display_name' => $user->display_name,
+						'email'        => $user->user_email,
+						'role'         => $user_roles,
+					);
+				}
+			}
+
+			return apply_filters( 'dlm_reports_users_data', $users_data, $request );
 		}
 	}
 }
