@@ -20,6 +20,7 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 		 */
 		public function __construct() {
 			add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'reports_scripts' ) );
 		}
 
 		/**
@@ -510,6 +511,43 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 			}
 
 			return apply_filters( 'dlm_reports_users_data', $users_data, $request );
+		}
+
+		/**
+		 * Enqueues the react script for reports page.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public function reports_scripts() {
+
+			if ( ! isset( $_GET['page'] ) || 'download-monitor-reports2' !== $_GET['page'] ) {
+				return;
+			}
+
+			$asset_file = require plugin_dir_path( DLM_PLUGIN_FILE ) . 'assets/js/reports2/reports.asset.php';
+			$enqueue    = array(
+				'handle'       => 'dlm-reports-app',
+				'dependencies' => $asset_file['dependencies'],
+				'version'      => $asset_file['version'],
+				'script'       => DLM_URL . 'assets/js/reports2/reports.js',
+				'style'        => DLM_URL . 'assets/js/reports2/reports.css',
+			);
+
+			wp_enqueue_script(
+				$enqueue['handle'],
+				$enqueue['script'],
+				$enqueue['dependencies'],
+				$enqueue['version'],
+				true
+			);
+
+			wp_enqueue_style(
+				$enqueue['handle'],
+				$enqueue['style'],
+				array(),
+				$enqueue['version']
+			);
 		}
 	}
 }
