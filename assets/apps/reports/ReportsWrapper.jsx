@@ -1,4 +1,5 @@
 import useStateContext from './context/useStateContext';
+import DateRangeSelect from './components/DateRangeSelect';
 import TabNavigation from './components/TabNavigation';
 import OverviewTab from './components/OverviewTab';
 import DetailedTab from './components/DetailedTab';
@@ -40,6 +41,7 @@ export default function ReportsWrapper() {
 		<div className={ styles.dlmReportsWrapper } >
 			<div className={ styles.dlmReportsHeader }>
 				<TabNavigation />
+				<DateRangeSelect />
 			</div>
 			<div className={ styles.dlmReportsBody }>
 				{ renderTabContent() }

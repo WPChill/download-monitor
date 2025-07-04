@@ -3,6 +3,9 @@
     .dlmReportsHeader{
         background-color: #fff;
         border: 1px solid #ddd;
+        display: flex;
+        width: 100%;
+        align-items: center;
     }
     .dlmReportsBody{
         color: green;
