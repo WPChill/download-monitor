@@ -5,4 +5,5 @@ export const initialState = () => ( {
 		start: dayjs().subtract( 7, 'day' ).format( 'YYYY-MM-DD' ),
 		end: dayjs().format( 'YYYY-MM-DD' ),
 	},
+	activeTab: 'overview',
 } );

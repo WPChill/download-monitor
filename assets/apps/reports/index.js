@@ -2,7 +2,7 @@ import { createRoot } from '@wordpress/element';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './query/client';
 import { StateProvider } from './context/state-context';
-import ReporstWrapper from './ReporstWrapper';
+import ReportsWrapper from './ReportsWrapper';
 import './index.css';
 
 document.addEventListener( 'DOMContentLoaded', () => {
@@ -16,7 +16,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	root.render(
 		<QueryClientProvider client={ queryClient }>
 			<StateProvider >
-				<ReporstWrapper />
+				<ReportsWrapper />
 			</StateProvider>
 		</QueryClientProvider>,
 	);

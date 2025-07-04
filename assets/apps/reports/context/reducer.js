@@ -1,5 +1,6 @@
 export const actionTypes = {
 	SET_PERIODS: 'SET_PERIODS',
+	SET_ACTIVE_TAB: 'SET_ACTIVE_TAB',
 };
 
 export const reducer = ( state, action ) => {
@@ -8,6 +9,11 @@ export const reducer = ( state, action ) => {
 			return {
 				...state,
 				periods: action.payload,
+			};
+		case actionTypes.SET_ACTIVE_TAB:
+			return {
+				...state,
+				activeTab: action.payload,
 			};
 		default:
 			return state;
