@@ -2,7 +2,7 @@ import { useEffect, useState } from '@wordpress/element';
 import { createPortal } from 'react-dom';
 import { getFills } from '../utils/slotFillRegistry';
 
-export default function Slot( { name, containerId } ) {
+export default function Slot( { name, containerId, ...props } ) {
 	const [ container, setContainer ] = useState( null );
 
 	useEffect( () => {
@@ -22,7 +22,7 @@ export default function Slot( { name, containerId } ) {
 	return createPortal(
 		<>
 			{ fills.map( ( Fill, i ) => (
-				<Fill key={ i } />
+				<Fill key={ i } { ...props } />
 			) ) }
 		</>,
 		container,

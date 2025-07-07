@@ -31,7 +31,7 @@ class DLM_Reports_Rest_Api {
 			'download-monitor/v1',
 			'/reports/graph_data',
 			array(
-				'methods'             => 'POST',
+				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_graph_downloads_data' ),
 				'permission_callback' => array( $this, 'check_api_rights' ),
 			)
@@ -41,7 +41,7 @@ class DLM_Reports_Rest_Api {
 			'download-monitor/v1',
 			'/reports/table_data',
 			array(
-				'methods'             => 'POST',
+				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_table_downloads_data' ),
 				'permission_callback' => array( $this, 'check_api_rights' ),
 			)
@@ -51,7 +51,7 @@ class DLM_Reports_Rest_Api {
 			'download-monitor/v1',
 			'/reports/overview_card_data',
 			array(
-				'methods'             => 'POST',
+				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_overview_card_stats' ),
 				'permission_callback' => array( $this, 'check_api_rights' ),
 			)
@@ -61,7 +61,7 @@ class DLM_Reports_Rest_Api {
 			'download-monitor/v1',
 			'/reports/detailed_card_data',
 			array(
-				'methods'             => 'POST',
+				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_users_card_stats' ),
 				'permission_callback' => array( $this, 'check_api_rights' ),
 			)
@@ -71,7 +71,7 @@ class DLM_Reports_Rest_Api {
 			'download-monitor/v1',
 			'/reports/users_download_data',
 			array(
-				'methods'             => 'POST',
+				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_users_downloads_data' ),
 				'permission_callback' => array( $this, 'check_api_rights' ),
 			)
@@ -81,7 +81,7 @@ class DLM_Reports_Rest_Api {
 			'download-monitor/v1',
 			'/reports/users_data',
 			array(
-				'methods'             => 'POST',
+				'methods'             => 'GET',
 				'callback'            => array( $this, 'get_user_data' ),
 				'permission_callback' => array( $this, 'check_api_rights' ),
 			)
