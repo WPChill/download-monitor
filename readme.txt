@@ -114,8 +114,7 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 5.0.27 - 02.07.2025 =
-Changed: Added button to clear all download logs.
+= 5.0.27 - 08.07.2025 =
 Fixed: Expired cookies were not cleared from cookie data tables.
 
 = 5.0.26 - 20.06.2025 =
