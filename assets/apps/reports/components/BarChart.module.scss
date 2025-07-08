@@ -1,0 +1,58 @@
+.barChartWrapper {
+    margin-top: 25px;
+    background-color: #fff;
+    padding: 24px 0;
+    border: 1px solid #e0e0e0;
+}
+
+.tooltip {
+    background: #FFF;
+    border: 1px solid #e0e0e0;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    min-width: 150px;
+    .tooltipDate{
+        text-align: center;
+        padding: 10px 24px;
+        border-bottom: 2px solid #4a7aff;
+        color: #646566;
+        font-weight: 600;
+    }
+    .tooltipData{
+        padding: 10px 15px;
+        font-size: 14px;
+        color: #646566;
+        border-bottom: 1px dotted #e0e0e0;
+        .title{
+
+        }
+        .value{
+            color: #1D2327;
+            font-weight: 600;
+            float: right;
+        }
+    }
+    .diff{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        font-weight: 600;
+        svg{
+            width: 16px;
+            height: 16px;
+        }
+        &.increase{
+            color: #12a26c;
+            svg{
+                fill: #12a26c;
+            }
+        }
+        &.decrease{
+            color: #7b0000;
+            svg{
+                fill: #7b0000;
+            }
+        }
+    }
+}

@@ -1,0 +1,125 @@
+.downloadTableWrapper {
+	border: 1px solid #ccd0d4;
+	border-radius: 4px;
+	background: #fff;
+	overflow-x: auto;
+}
+
+.downloadTable {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+	color: #2c3338;
+
+	th,
+	td {
+		padding: 10px;
+		text-align: left;
+		vertical-align: middle;
+		border-bottom: 1px solid #e2e4e7;
+	}
+
+	thead {
+		background: #f1f1f1;
+		font-weight: 600;
+		color: #1d2327;
+	}
+}
+
+.tableHeaderRow {
+	background-color: #f1f1f1;
+}
+
+.tableHeaderCell {
+	cursor: pointer;
+	user-select: none;
+
+	&:hover {
+		background-color: #f9f9f9;
+	}
+}
+
+.headerWithSort {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+
+	.dashicons {
+		font-size: 14px;
+		color: #666;
+	}
+}
+
+.tableRow {
+	background-color: #fff;
+
+	&:hover {
+		background-color: #f9f9f9;
+	}
+}
+
+.tableCell {
+	padding: 10px;
+	vertical-align: top;
+}
+
+.tableLoadingCell {
+	text-align: center;
+	padding: 20px;
+	background-color: #fff;
+	border-bottom: 1px solid #e2e4e7;
+}
+
+.linkButton {
+	background: none;
+	border: none;
+	color: #0073aa;
+	text-decoration: underline;
+	cursor: pointer;
+	padding: 0;
+	font-size: 13px;
+
+	&:hover {
+		color: #005177;
+	}
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 16px;
+	margin-top: 16px;
+	font-size: 13px;
+	color: #2c3338;
+
+	span {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.paginationInput {
+		width: 40px;
+		text-align: center;
+		padding: 4px 6px;
+		border: 1px solid #ccd0d4;
+		border-radius: 2px;
+		background: #fff;
+		font-size: 13px;
+	}
+
+	.paginationButton {
+		background: #f0f0f1;
+		border: 1px solid #ccc;
+		border-radius: 2px;
+		padding: 4px 12px;
+		font-size: 13px;
+		cursor: pointer;
+
+		&:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+	}
+}

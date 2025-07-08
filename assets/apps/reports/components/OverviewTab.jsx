@@ -1,11 +1,12 @@
-import { __ } from '@wordpress/i18n';
-import useStateContext from '../context/useStateContext';
 import OverviewCards from './OverviewCards';
+import BarChart from './BarChart';
+import OverviewDownloadsTable from './OverviewDownloadsTable';
 export default function OverviewTab() {
-	const { state } = useStateContext();
-	//return `start: ${ state.periods.start } end: ${ state.periods.end }`;
-
 	return (
-		<OverviewCards />
+		<>
+			<OverviewCards />
+			<BarChart />
+			<OverviewDownloadsTable />
+		</>
 	);
 }
