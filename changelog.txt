@@ -1,3 +1,6 @@
+= 5.0.27 - 08.07.2025 =
+Fixed: Expired cookies were not cleared from cookie data tables.
+
 = 5.0.26 - 20.06.2025 =
 Changed: Updated label of Page Addon to Document Library Manager
 

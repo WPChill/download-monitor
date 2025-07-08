@@ -98,13 +98,13 @@ class DLM_Admin_Settings {
 								'std'         => 'download',
 								'placeholder' => __( 'download', 'download-monitor' ),
 								'label'       => __( 'Download Endpoint', 'download-monitor' ),
-								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be %s( %s ).', 'download-monitor' ), '<strong>download</strong>', esc_url( home_url() ) . '<strong>/download/</strong>' ),
+								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be %1$s( %2$s ).', 'download-monitor' ), '<strong>download</strong>', esc_url( home_url() ) . '<strong>/download/</strong>' ),
 							),
 							array(
 								'name'    => 'dlm_download_endpoint_value',
 								'std'     => 'ID',
 								'label'   => __( 'Endpoint Value', 'download-monitor' ),
-								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <strong>10</strong> ( %s%s )', 'download-monitor' ), home_url( '/download/' ), '<strong>10/</strong>' ),
+								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <strong>10</strong> ( %1$s%2$s )', 'download-monitor' ), home_url( '/download/' ), '<strong>10/</strong>' ),
 								'type'    => 'select',
 								'options' => array(
 									'ID'   => __( 'Download ID', 'download-monitor' ),
@@ -261,13 +261,13 @@ class DLM_Admin_Settings {
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'cf7_lock' => array(
+					'cf7_lock'      => array(
 						'title'    => esc_html__( 'Contact Form 7', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
 						'badge'    => true,
 					),
-					'wpforms_lock' => array(
+					'wpforms_lock'  => array(
 						'title'    => esc_html__( 'WP Forms', 'download-monitor' ),
 						'fields'   => array(),
 						'sections' => array(),
@@ -307,7 +307,7 @@ class DLM_Admin_Settings {
 				'sections' => array(),
 				'priority' => 60,
 			),
-			'license' => array(
+			'license'            => array(
 				'title'    => esc_html__( 'License', 'download-monitor' ),
 				'badge'    => true,
 				'sections' => array(),
@@ -636,7 +636,7 @@ class DLM_Admin_Settings {
 	 */
 	private function get_currency_list_with_symbols() {
 		/** @var \WPChill\DownloadMonitor\Shop\Helper\Currency $currency_helper */
-		$currency_helper = Services::get()->service( "currency" );
+		$currency_helper = Services::get()->service( 'currency' );
 
 		$currencies = $currency_helper->get_available_currencies();
 
