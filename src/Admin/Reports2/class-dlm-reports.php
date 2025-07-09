@@ -334,11 +334,12 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 				'most_active' => null,
 			);
 
-			$date_range = $request->get_param( 'date_range' );
+			$start = $request->get_param( 'start' );
+			$end   = $request->get_param( 'end' );
 
-			if ( is_array( $date_range ) && isset( $date_range['start'], $date_range['end'] ) ) {
-				$start_date = sanitize_text_field( $date_range['start'] );
-				$end_date   = sanitize_text_field( $date_range['end'] );
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
 			} else {
 				$end_date   = current_time( 'Y-m-d' );
 				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );

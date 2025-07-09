@@ -1,5 +1,10 @@
-import { __ } from '@wordpress/i18n';
-
+import DetailedCards from './DetailedCards';
+// import OverviewDownloadsTable from './OverviewDownloadsTable';
 export default function DetailedTab() {
-	return ( __( 'DetailedTab', 'download-monitor' ) );
+	return (
+		<>
+			<DetailedCards />
+			{/* <OverviewDownloadsTable /> */}
+		</>
+	);
 }
