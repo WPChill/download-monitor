@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import useStateContext from '../context/useStateContext';
-import { useGetCards } from '../query/useGetCards';
-import styles from './OverviewCards.module.scss';
+import { useGetOverviewCards } from '../query/useGetCards';
+import styles from './ReportsCards.module.scss';
 import { Spinner } from '@wordpress/components';
 import Slot from './Slot';
 export default function OverviewCards() {
@@ -10,7 +10,7 @@ export default function OverviewCards() {
 		data: cards,
 		isLoading,
 		error,
-	} = useGetCards( state.periods );
+	} = useGetOverviewCards( state.periods );
 
 	return (
 		<div className={ styles.dlmReportsCardsWrapper } >

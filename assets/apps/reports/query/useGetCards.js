@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 
-export const useGetCards = ( periods = {} ) => {
+export const useGetOverviewCards = ( periods = {} ) => {
 	return useQuery( {
 		queryKey: [ 'cards', periods ],
 		queryFn: () => {

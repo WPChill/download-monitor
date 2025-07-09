@@ -2,7 +2,7 @@
 	border: 1px solid #ccd0d4;
 	border-radius: 4px;
 	background: #fff;
-	overflow-x: auto;
+	margin-top: 25px;
 }
 
 .downloadTable {
@@ -13,7 +13,7 @@
 
 	th,
 	td {
-		padding: 10px;
+		padding: 16px 24px;
 		text-align: left;
 		vertical-align: middle;
 		border-bottom: 1px solid #e2e4e7;
@@ -43,6 +43,7 @@
 	display: flex;
 	align-items: center;
 	gap: 6px;
+	color: #0073aa;
 
 	.dashicons {
 		font-size: 14px;
@@ -56,11 +57,6 @@
 	&:hover {
 		background-color: #f9f9f9;
 	}
-}
-
-.tableCell {
-	padding: 10px;
-	vertical-align: top;
 }
 
 .tableLoadingCell {
@@ -85,37 +81,43 @@
 }
 
 .pagination {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 16px;
-	margin-top: 16px;
-	font-size: 13px;
-	color: #2c3338;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #2c3338;
+    background: #fff;
+    padding: 5px;
+	border: 1px solid #e0e0e0;
 
 	span {
 		display: flex;
 		align-items: center;
 		gap: 6px;
+		margin-right: 16px;
 	}
 
 	.paginationInput {
-		width: 40px;
-		text-align: center;
-		padding: 4px 6px;
 		border: 1px solid #ccd0d4;
-		border-radius: 2px;
 		background: #fff;
 		font-size: 13px;
+		box-sizing: border-box;
+		height: 30px;
+		text-align: left;
+		border-radius: 4px;
 	}
 
 	.paginationButton {
-		background: #f0f0f1;
+		background: #fff;
 		border: 1px solid #ccc;
-		border-radius: 2px;
-		padding: 4px 12px;
-		font-size: 13px;
+		border-radius: 4px;
 		cursor: pointer;
+		height: 30px;
+		width: 30px;
+		color: #3c434a;
+		font-size: 16px;
+		margin-right: 8px;
 
 		&:disabled {
 			opacity: 0.5;

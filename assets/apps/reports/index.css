@@ -1,3 +1,7 @@
 #dlm_reports_page .recharts-surface:focus {
     outline: none;
 }
+#dlm_reports_page .dlm-downloads-table-col-download_id {
+    width: 50px;
+    cursor: default;
+}

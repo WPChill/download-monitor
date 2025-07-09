@@ -30,3 +30,4 @@ vendor/*
 !/logs/.htaccess
 
 download-monitor.zip
+/assets/js/reports2
