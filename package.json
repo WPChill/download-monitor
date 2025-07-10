@@ -41,7 +41,7 @@
     "npm": ">=1.1.0"
   },
   "scripts": {
-    "build:start": "npm run build && npm run build:notification-system",
+    "build:start": "npm run build && npm run build:notification-system && npm run build:reports",
     "plugin-zip": "npm run build:start && npm run clean && npm run copy && npm run bundle && npm run clean",
     "start:notification-system": "wp-scripts start --config webpack.config.notification-system.js",
     "build:notification-system": "wp-scripts build --config webpack.config.notification-system.js",
@@ -71,8 +71,6 @@
     "dayjs": "^1.11.13",
     "he": "^1.2.0",
     "interweave": "^13.1.0",
-    "react-date-range": "^2.0.1",
-    "react-popper": "^2.3.0",
     "react-select": "^5.3.2",
     "recharts": "^3.0.2",
     "whatwg-fetch": "^3.6.2"

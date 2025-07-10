@@ -45,6 +45,7 @@ function buildChartData( currentData, compareData, periods ) {
 		date,
 		current: currentMap[ date ] || 0,
 		compare: compareValues[ index ] ?? 0,
+		compare_date: compareData?.[ index ]?.date ?? null,
 	} ) );
 }
 
@@ -59,17 +60,18 @@ function CustomTooltip( { active, payload, label } ) {
 
 	let diff = null;
 	let diffValue = 0;
-	let diffDirection = null; // 'up' | 'down' | null
+	let diffDirection = null;
 
 	if ( typeof compare === 'number' ) {
 		if ( compare !== 0 ) {
 			diffValue = ( ( current - compare ) / compare ) * 100;
 			diff = `${ diffValue.toFixed( 1 ) }%`;
-
 			if ( diffValue > 0 ) {
 				diffDirection = 'up';
 			} else if ( diffValue < 0 ) {
 				diffDirection = 'down';
+			} else {
+				diffDirection = null;
 			}
 		} else if ( current !== 0 ) {
 			diff = '∞';
@@ -77,35 +79,55 @@ function CustomTooltip( { active, payload, label } ) {
 		}
 	}
 
+	const compareDate = payload[ 0 ]?.payload?.compare_date;
+
 	return (
 		<div className={ styles.tooltip }>
-			<div className={ styles.tooltipDate } >{ dateI18n( formats.date, label ) }</div>
+			<table className={ styles.tooltipTable }>
+				<thead>
+					<tr>
+						<th className={ styles.tooltipDate }>
+							<strong>{ dateI18n( formats.date, new Date( label + 'T12:00:00' ) ) }</strong>
+						</th>
+						{ typeof compare === 'number' && (
+							<th className={ styles.tooltipDate }>
+								<strong>{ dateI18n( formats.date, new Date( compareDate + 'T12:00:00' ) ) }</strong>
+							</th>
+						) }
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td className={ styles.tooltipData }>
+							{ current } { __( 'downloads', 'download-monitor' ) }
+						</td>
+						{ typeof compare === 'number' && (
+							<td className={ styles.tooltipData }>
+								{ compare } { __( 'downloads', 'download-monitor' ) }
+							</td>
+						) }
+					</tr>
+					<tr>
+						{ typeof compare === 'number' && (
+							<td colSpan={ 2 } >
+								<div
+									colSpan={ 2 }
+									className={ `
+										${ styles.diff }
+										${ diffDirection === 'up' ? styles.increase : '' }
+										${ diffDirection === 'down' ? styles.decrease : '' }
+									`.trim() }
+								>
 
-			<div className={ styles.tooltipData }>
-				<span className={ styles.title }>{ __( 'Current', 'download-monitor' ) }</span>
-				<span className={ styles.value }>{ current }</span>
-			</div>
-
-			{ typeof compare === 'number' && (
-				<>
-					<div className={ styles.tooltipData }>
-						<span className={ styles.title }>{ __( 'Compare', 'download-monitor' ) }</span>
-						<span className={ styles.value }>{ compare }</span>
-					</div>
-
-					<div
-						className={ `
-							${ styles.diff } 
-							${ diffDirection === 'up' ? styles.increase : '' } 
-							${ diffDirection === 'down' ? styles.decrease : '' }
-						`.trim() }
-					>
-						{ diffDirection === 'up' && <Icon icon={ arrowUp } /> }
-						{ diffDirection === 'down' && <Icon icon={ arrowDown } /> }
-						{ diff }
-					</div>
-				</>
-			) }
+									{ diffDirection === 'up' && <Icon icon={ arrowUp } /> }
+									{ diffDirection === 'down' && <Icon icon={ arrowDown } /> }
+									{ diff }
+								</div>
+							</td>
+						) }
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	);
 }
@@ -135,7 +157,11 @@ export default function Chart() {
 			<ResponsiveContainer width="100%" height={ 400 }>
 				<BarChart data={ chartData }>
 					<CartesianGrid stroke="#e0e0e0" strokeDasharray="3 3" />
-					<XAxis dataKey="date" tick={ { fontSize: 12, fontWeight: 700 } } tickFormatter={ ( value ) => dateI18n( formats.date, value ) } />
+					<XAxis
+						dataKey="date"
+						tick={ { fontSize: 12, fontWeight: 700 } }
+						tickFormatter={ ( value ) => dateI18n( formats.date, new Date( value + 'T12:00:00' ) ) }
+					/>
 					<YAxis />
 					<Legend
 						verticalAlign="top"

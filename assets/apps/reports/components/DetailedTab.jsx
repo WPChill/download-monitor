@@ -1,10 +1,10 @@
 import DetailedCards from './DetailedCards';
-// import OverviewDownloadsTable from './OverviewDownloadsTable';
+import DetailedDownloadsTable from './DetailedDownloadsTable';
 export default function DetailedTab() {
 	return (
 		<>
 			<DetailedCards />
-			{/* <OverviewDownloadsTable /> */}
+			<DetailedDownloadsTable />
 		</>
 	);
 }

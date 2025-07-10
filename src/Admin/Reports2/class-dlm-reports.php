@@ -56,7 +56,10 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 		 */
 		public function view() {
 			?>
-				<div id="dlm_reports_page"></div>
+				<?php do_action( 'dlm_reports_page_start' ); ?>
+					<div id="dlm_reports_page"></div>
+				<?php do_action( 'dlm_reports_page_end' ); ?>
+
 			<?php
 		}
 
@@ -366,7 +369,7 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 				$user_id = (int) $row['user_id'];
 				$total   = (int) $row['total'];
 
-				if ( $user_id === 0 ) {
+				if ( 0 === $user_id ) {
 					$logged_out += $total;
 				} else {
 					$logged_in += $total;
@@ -407,14 +410,12 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 				return $data;
 			}
 
-			$start_date = null;
-			$end_date   = null;
+			$start = $request->get_param( 'start' );
+			$end   = $request->get_param( 'end' );
 
-			$date_range = $request->get_param( 'date_range' );
-
-			if ( is_array( $date_range ) && isset( $date_range['start'], $date_range['end'] ) ) {
-				$start_date = sanitize_text_field( $date_range['start'] );
-				$end_date   = sanitize_text_field( $date_range['end'] );
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
 			} else {
 				$end_date   = current_time( 'Y-m-d' );
 				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
@@ -439,10 +440,12 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 
 			$query = "
 				SELECT
+				ID,
 				download_id,
 					$select_sql
 				FROM {$wpdb->download_log}
 				$where
+				ORDER BY ID desc
 			";
 
 			$data = $wpdb->get_results( $query, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
@@ -471,11 +474,12 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 
 			$users      = array();
 			$users_data = array();
-			$date_range = $request->get_param( 'date_range' );
+			$start      = $request->get_param( 'start' );
+			$end        = $request->get_param( 'end' );
 
-			if ( is_array( $date_range ) && isset( $date_range['start'], $date_range['end'] ) ) {
-				$start_date = sanitize_text_field( $date_range['start'] );
-				$end_date   = sanitize_text_field( $date_range['end'] );
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
 			} else {
 				$end_date   = current_time( 'Y-m-d' );
 				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );

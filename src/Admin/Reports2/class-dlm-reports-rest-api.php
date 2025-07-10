@@ -146,8 +146,6 @@ class DLM_Reports_Rest_Api {
 	 */
 	public function check_api_rights( $request ) {
 
-		return true; // TODO: remove, this exists just for Postman testing
-
 		if ( is_user_logged_in() && current_user_can( 'dlm_view_reports' ) ) {
 			return true;
 		}

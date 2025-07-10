@@ -3,7 +3,8 @@ import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { Spinner } from '@wordpress/components';
 import useStateContext from '../context/useStateContext';
-import { useGetOverviewTableData } from '../query/useGetTableData';
+import { useGetDetailedTableData } from '../query/useGetTableData';
+import { useGetUserData } from '../query/useGetUserData';
 import styles from './DownloadsTable.module.scss';
 import {
 	useReactTable,
@@ -14,11 +15,12 @@ import {
 } from '@tanstack/react-table';
 import Slot from './Slot';
 
-export default function OverviewDownloadsTable() {
+export default function DetailedDownloadsTable() {
 	const { state } = useStateContext();
 	const [ pageIndex, setPageIndex ] = useState( 0 );
 
-	const { data: downloadsData = [], isLoading } = useGetOverviewTableData( state.periods );
+	const { data: usersData = [], isLoadingUsers } = useGetUserData( state.periods );
+	const { data: downloadsData = [], isLoadingDownloads } = useGetDetailedTableData( state.periods );
 
 	const [ sorting, setSorting ] = useState( [
 		{ id: 'total', desc: true },
@@ -26,64 +28,114 @@ export default function OverviewDownloadsTable() {
 
 	const columns = useMemo( () => {
 		const baseColumns = [
-			{ title: __( 'ID', 'download-monitor' ), slug: 'download_id', sortable: false },
-			{ title: __( 'Title', 'download-monitor' ), slug: 'title', sortable: true },
-			{ title: __( 'Total', 'download-monitor' ), slug: 'total', sortable: true },
+			{ title: __( 'User', 'download-monitor' ), slug: 'user', sortable: true },
+			{ title: __( 'IP', 'download-monitor' ), slug: 'user_ip', sortable: false },
+			{ title: __( 'Role', 'download-monitor' ), slug: 'role', sortable: true },
+			{ title: __( 'Download Name', 'download-monitor' ), slug: 'title', sortable: true },
 		];
-		return applyFilters( 'dlm.reports.overview.table', baseColumns );
+		return applyFilters( 'dlm.reports.detailed.table', baseColumns );
 	}, [] );
 
 	const tableColumns = useMemo( () => {
-		return columns.map( ( col ) => ( {
-			id: col.slug,
-			accessorKey: col.slug,
-			header: ( headerContext ) => {
-				const sortState = headerContext.column.getIsSorted();
-				let sortIconClass = '';
+		return columns.map( ( col ) => {
+			const accessorKey = col.slug;
 
-				if ( sortState === 'asc' ) {
-					sortIconClass = 'dashicons-arrow-up-alt2';
-				} else if ( sortState === 'desc' ) {
-					sortIconClass = 'dashicons-arrow-down-alt2';
+			let accessorFn = col.accessorFn;
+			if ( ! accessorFn ) {
+				if ( col.slug === 'user' ) {
+					accessorFn = ( row ) => {
+						const user = usersData?.[ String( row.user_id ) ];
+						return user?.display_name ?? __( 'Guest', 'download-monitor' );
+					};
+				} else if ( col.slug === 'role' ) {
+					accessorFn = ( row ) => {
+						const user = usersData?.[ String( row.user_id ) ];
+						return user?.role ?? '';
+					};
 				}
+			}
 
-				return (
-					<div className={ `${ styles.header } ${ col.sortable ? styles.headerWithSort : '' }` }>
-						<span>{ col.title }</span>
-						{ sortIconClass && <span className={ `dashicons ${ sortIconClass }` } /> }
-					</div>
-				);
-			},
-			cell: ( info ) => {
-				const rowData = info.row.original;
-				const value = info.getValue();
+			return {
+				id: col.slug,
+				accessorKey: accessorFn ? undefined : accessorKey,
+				accessorFn,
+				header: ( headerContext ) => {
+					const sortState = headerContext.column.getIsSorted();
+					let sortIconClass = '';
 
-				return (
-					<>
-						{ col.slug === 'title' ? (
-							<a
-								href={ `/wp-admin/post.php?post=${ rowData.download_id }&action=edit` }
-								target="_blank"
-								rel="noopener noreferrer"
-								className={ styles.linkButton }
-							>
-								{ value }
-							</a>
-						) : (
-							value
-						) }
-						<span id={ `dlm-chart-slot-${ col.slug }` } />
-						<Slot
-							name={ `dlm.chart.${ col.slug }` }
-							containerId={ `dlm-chart-slot-${ col.slug }` }
-							chartData={ rowData }
-						/>
-					</>
-				);
-			},
-			enableSorting: col.sortable ?? false,
-		} ) );
-	}, [ columns ] );
+					if ( sortState === 'asc' ) {
+						sortIconClass = 'dashicons-arrow-up-alt2';
+					} else if ( sortState === 'desc' ) {
+						sortIconClass = 'dashicons-arrow-down-alt2';
+					}
+
+					return (
+						<div className={ `${ styles.header } ${ col.sortable ? styles.headerWithSort : '' }` }>
+							<span>{ col.title }</span>
+							{ sortIconClass && <span className={ `dashicons ${ sortIconClass }` } /> }
+						</div>
+					);
+				},
+				cell: ( info ) => {
+					const rowData = info.row.original;
+					const value = info.getValue();
+					const userId = String( rowData.user_id );
+					const user = usersData[ userId ] ?? false;
+
+					let cellContent;
+
+					switch ( col.slug ) {
+						case 'title':
+							cellContent = (
+								<a
+									href={ `/wp-admin/post.php?post=${ rowData.download_id }&action=edit` }
+									target="_blank"
+									rel="noopener noreferrer"
+									className={ styles.linkButton }
+								>
+									{ value }
+								</a>
+							);
+							break;
+
+						case 'role':
+							cellContent = user ? user.role : '-';
+							break;
+
+						case 'user':
+							cellContent = user ? (
+								<a
+									href={ `/wp-admin/user-edit.php?user_id=${ userId }&action=edit` }
+									target="_blank"
+									rel="noopener noreferrer"
+									className={ styles.linkButton }
+								>
+									{ user.display_name }
+								</a>
+							) : __( 'Guest', 'download-monitor' );
+							break;
+
+						default:
+							cellContent = value;
+							break;
+					}
+
+					return (
+						<>
+							{ cellContent }
+							<span id={ `dlm-chart-slot-${ col.slug }` } />
+							<Slot
+								name={ `dlm.chart.${ col.slug }` }
+								containerId={ `dlm-chart-slot-${ col.slug }` }
+								chartData={ rowData }
+							/>
+						</>
+					);
+				},
+				enableSorting: col.sortable ?? false,
+			};
+		} );
+	}, [ columns, usersData ] );
 
 	const table = useReactTable( {
 		data: downloadsData,
@@ -154,7 +206,7 @@ export default function OverviewDownloadsTable() {
 					</thead>
 					<tbody>
 						{ ( () => {
-							if ( isLoading ) {
+							if ( isLoadingDownloads || isLoadingUsers ) {
 								return (
 									<tr>
 										<td colSpan={ columns.length } className={ styles.tableLoadingCell }>

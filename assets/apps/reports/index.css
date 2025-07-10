@@ -5,3 +5,6 @@
     width: 50px;
     cursor: default;
 }
+#dlm_reports_page .dlm-downloads-table-col-user_ip {
+    cursor: default;
+}

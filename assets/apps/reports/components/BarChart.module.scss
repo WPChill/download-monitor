@@ -11,46 +11,78 @@
     font-size: 14px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     min-width: 150px;
-    .tooltipDate{
+
+    .tooltipDate {
         text-align: center;
         padding: 10px 24px;
         border-bottom: 2px solid #4a7aff;
         color: #646566;
         font-weight: 600;
     }
-    .tooltipData{
+
+    .tooltipData {
         padding: 10px 15px;
         font-size: 14px;
         color: #646566;
         border-bottom: 1px dotted #e0e0e0;
-        .title{
 
+        .title {
+            // keep for future customization
         }
-        .value{
+
+        .value {
             color: #1D2327;
             font-weight: 600;
             float: right;
         }
     }
-    .diff{
+
+    .tooltipTable {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-align: center;
+
+        th, td {
+            padding: 8px 12px;
+            font-size: 14px;
+            color: #1D2327;
+        }
+
+        th {
+            font-weight: 600;
+            color: #646566;
+            border-bottom: 2px solid #4a7aff;
+        }
+
+        td {
+            border-top: 1px dotted #e0e0e0;
+        }
+    }
+
+    .diff {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px;
         font-weight: 600;
-        svg{
+
+        svg {
             width: 16px;
             height: 16px;
         }
-        &.increase{
+
+        &.increase {
             color: #12a26c;
-            svg{
+
+            svg {
                 fill: #12a26c;
             }
         }
-        &.decrease{
+
+        &.decrease {
             color: #7b0000;
-            svg{
+
+            svg {
                 fill: #7b0000;
             }
         }

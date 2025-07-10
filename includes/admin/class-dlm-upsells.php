@@ -140,13 +140,11 @@ class DLM_Upsells {
 
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
 
-		add_action( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) );
+		add_action( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) ); // TODO: remove when reports v2 is finalized
 
-		add_action( 'dlm_reports_general_info', array( $this, 'insights_upsell' ), 99, 2 );
+		add_action( 'dlm_reports_page_end', array( $this, 'insights_upsell' ), 99 );
 
-		add_action( 'dlm_reports_user_reports', array( $this, 'insights_upsell' ), 99, 2 );
-
-		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) );
+		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) ); // TODO: remove when reports v2 is finalized
 
 		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 	}
@@ -930,60 +928,55 @@ class DLM_Upsells {
 	 * @return void
 	 * @since 4.8.6
 	 */
-	public function insights_upsell( $tab, $key ) {
+	public function insights_upsell() {
 
 		if ( $this->check_extension( 'dlm-enhanced-metrics' ) ) {
 			return;
 		}
 
-		$list = array();
-		if ( 'general_info' == $key ) {
-			$list = array(
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Compare dates and view chart to see how you’ve done', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of completed downloads per download', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of redirected downloads per download', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of failed downloads per download', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show % of downloads from the total downloads number', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of completed downloads by logged in users', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of completed downloads by logged out users', 'download-monitor' ),
-				),
-			);
-		} elseif ( 'user_reports' == $key ) {
-			$list = array(
-				array(
-					'tooltip' => '',
-					'feature' => __( 'See active users and their download information', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show the location from where in the site the user downloaded', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show the download\'s category', 'download-monitor' ),
-				),
-			);
-		}
+		$list = array(
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Compare dates and view chart to see how you’ve done', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of completed downloads per download', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of redirected downloads per download', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of failed downloads per download', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show % of downloads from the total downloads number', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of completed downloads by logged in users', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of completed downloads by logged out users', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'See active users and their download information', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show the location from where in the site the user downloaded', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show the download\'s category', 'download-monitor' ),
+			),
+		);
+		
 
 		echo '<div class="wpchill-upsells-wrapper">';
 

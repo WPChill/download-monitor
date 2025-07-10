@@ -5,7 +5,6 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
 export default function CustomDateRangePicker( { dispatch, state } ) {
-
 	const [ range, setRange ] = useState( [
 		{
 			startDate: state.periods?.start ? new Date( state.periods.start ) : new Date(),
