@@ -1,4 +1,4 @@
-import { useMemo } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import useStateContext from '../context/useStateContext';
@@ -34,23 +34,39 @@ export default function DateRangeSelect() {
 		];
 	}, [] );
 
+	const [ selectedOption, setSelectedOption ] = useState( () => options[ 0 ] );
+
+	useEffect( () => {
+		if ( selectedOption?.start && selectedOption?.end ) {
+			dispatch( setPeriods( { start: selectedOption.start, end: selectedOption.end } ) );
+		}
+	}, [ selectedOption, dispatch ] );
+
 	const handleChange = ( selected ) => {
+		setSelectedOption( selected );
 		if ( selected?.start && selected?.end ) {
 			dispatch( setPeriods( { start: selected.start, end: selected.end } ) );
 		}
 	};
 
 	const DefaultSelect = (
-		<div className={ styles.dateRangeSelect }>
-			<Select
-				options={ options }
-				getOptionLabel={ ( option ) => option.label }
-				getOptionValue={ ( option ) => option.value }
-				onChange={ handleChange }
-				classNamePrefix="dlm-date-range-select"
-				placeholder={ __( 'Select period…', 'download-monitor' ) }
-				isSearchable={ false }
-			/>
+		<div className={ styles.dateRangeSelectWrapp }>
+			{ applyFilters( 'dlm.reports.before.dateRangeSelect', '', { dispatch, state } ) }
+			<div className={ styles.dateRangeSelect }>
+				<label className={ styles.label } htmlFor="custom-date-range-input">
+					{ __( 'Select Date Range', 'download-monitor' ) }
+				</label>
+				<Select
+					options={ options }
+					value={ selectedOption }
+					getOptionLabel={ ( option ) => option.label }
+					getOptionValue={ ( option ) => option.value }
+					onChange={ handleChange }
+					classNamePrefix="dlm-date-range-select"
+					isSearchable={ false }
+				/>
+			</div>
+			{ applyFilters( 'dlm.reports.after.dateRangeSelect', '', { dispatch, state } ) }
 		</div>
 	);
 

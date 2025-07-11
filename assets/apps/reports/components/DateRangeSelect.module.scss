@@ -1,7 +1,17 @@
-.dateRangeSelect{
+.dateRangeSelectWrapp{
     margin-left: auto;
     margin-right: 24px;
-    width: 10%;
     min-width: 200px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dateRangeSelect {
+    min-width: 240px;
+}
+.label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
 }
