@@ -444,7 +444,7 @@ class DLM_Download {
 
 		if ( get_option( 'permalink_structure' ) ) {
 			// Fix for translation plugins that modify the home_url
-			$link = get_home_url( null, '', $scheme );
+			$link = $this->maybe_add_language_prefix( get_home_url( null, '', $scheme ) );
 			// Fix for URLs where params are added to the end of the URL. This is the case for translation functionality.
 			$parsed_url = parse_url( $link );
 			if ( ! empty( $parsed_url['query'] ) ) {
@@ -472,6 +472,42 @@ class DLM_Download {
 		}
 
 		return apply_filters( 'dlm_download_get_the_download_link', esc_url_raw( $link ), $this, $this->get_version() );
+	}
+
+	/**
+	 * Add language prefix to the URL in admin, for WPML or Polylang.
+	 *
+	 * @param string $url The original URL.
+	 * @access private
+	 * @return string Modified URL with language prefix if needed.
+	 */
+	private function maybe_add_language_prefix( $url ) {
+		if ( ! is_admin() ) {
+			return $url;
+		}
+
+		$current_lang = null;
+		$default_lang = null;
+
+		// Check for Polylang
+		if ( function_exists( 'pll_current_language' ) && function_exists( 'pll_default_language' ) ) {
+			$current_lang = pll_current_language();
+			$default_lang = pll_default_language();
+		}
+
+		// Check for WPML
+		if ( function_exists( 'icl_object_id' ) ) {
+			$current_lang = apply_filters( 'wpml_current_language', null );
+			if ( function_exists( 'wpml_get_default_language' ) ) {
+				$default_lang = wpml_get_default_language();
+			}
+		}
+
+		if ( $current_lang && $default_lang && $current_lang !== $default_lang ) {
+			return untrailingslashit( $url ) . '/' . $current_lang . '/';
+		}
+
+		return $url;
 	}
 
 	/**
