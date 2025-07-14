@@ -126,7 +126,7 @@ export default function OverviewDownloadsTable() {
 	};
 
 	return (
-		<>
+		<div className={ styles.wrapper }>
 			<div className={ styles.downloadTableWrapper }>
 				<table className={ styles.downloadTable }>
 					<thead>
@@ -213,6 +213,6 @@ export default function OverviewDownloadsTable() {
 					</button>
 				</div>
 			) }
-		</>
+		</div>
 	);
 }

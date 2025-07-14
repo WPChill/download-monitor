@@ -61,6 +61,8 @@ class DLM_Upsells {
 
 		// Upgrade to PRO plugin action link
 		add_filter( 'plugin_action_links_' . DLM_FILE, array( $this, 'filter_action_links' ), 60 );
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'enhanced_metrics_upsells_script' ) );
 	}
 
 	/**
@@ -79,7 +81,7 @@ class DLM_Upsells {
 		return self::$instance;
 	}
 
-	public function upsells_init(){
+	public function upsells_init() {
 		$this->set_offer();
 
 		$this->set_hooks();
@@ -97,19 +99,19 @@ class DLM_Upsells {
 			'label'  => __( 'Get Premium', 'download-monitor' ),
 		);
 		// if ( 11 == $month ) {
-		// 	$this->offer = array(
-		// 		'class'       => 'wpchill-bf-upsell',
-		// 		'column'      => 'bf-upsell-columns',
-		// 		'label'       => __( '40% OFF for Black Friday', 'download-monitor' ),
-		// 		'description' => '40% OFF on new purchases, early renewals or upgrades.',
-		// 	);
+		//  $this->offer = array(
+		//      'class'       => 'wpchill-bf-upsell',
+		//      'column'      => 'bf-upsell-columns',
+		//      'label'       => __( '40% OFF for Black Friday', 'download-monitor' ),
+		//      'description' => '40% OFF on new purchases, early renewals or upgrades.',
+		//  );
 		// }
 		// if ( 12 == $month ) {
-		// 	$this->offer = array(
-		// 		'class'  => 'wpchill-xmas-upsell',
-		// 		'column' => 'xmas-upsell-columns',
-		// 		'label'  => __( '25% OFF for Christmas', 'download-monitor' ),
-		// 	);
+		//  $this->offer = array(
+		//      'class'  => 'wpchill-xmas-upsell',
+		//      'column' => 'xmas-upsell-columns',
+		//      'label'  => __( '25% OFF for Christmas', 'download-monitor' ),
+		//  );
 		// }
 	}
 
@@ -976,7 +978,6 @@ class DLM_Upsells {
 				'feature' => __( 'Show the download\'s category', 'download-monitor' ),
 			),
 		);
-		
 
 		echo '<div class="wpchill-upsells-wrapper">';
 
@@ -1192,5 +1193,33 @@ class DLM_Upsells {
 			});
 		</script>
 		<?php
+	}
+
+	public function enhanced_metrics_upsells_script() {
+		$upsells_asset_file = require plugin_dir_path( DLM_PLUGIN_FILE ) . 'assets/js/upsells/upsells.asset.php';
+		$upsells_enqueue    = array(
+			'handle'       => 'dlm-reports-upsells',
+			'dependencies' => $upsells_asset_file['dependencies'],
+			'version'      => $upsells_asset_file['version'],
+			'script'       => DLM_URL . 'assets/js/upsells/upsells.js',
+			'style'        => DLM_URL . 'assets/js/upsells/upsells.css',
+		);
+
+		// Must be enqueued before so we can hook to it.
+		$upsells_enqueue['dependencies'][] = 'dlm-reports-app';
+
+		wp_enqueue_script(
+			$upsells_enqueue['handle'],
+			$upsells_enqueue['script'],
+			$upsells_enqueue['dependencies'],
+			$upsells_enqueue['version'],
+			true
+		);
+		wp_enqueue_style(
+			$upsells_enqueue['handle'],
+			$upsells_enqueue['style'],
+			array(),
+			$upsells_enqueue['version']
+		);
 	}
 }

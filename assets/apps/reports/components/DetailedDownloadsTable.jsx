@@ -178,7 +178,8 @@ export default function DetailedDownloadsTable() {
 	};
 
 	return (
-		<>
+		<div className={ styles.wrapper }>
+			{ applyFilters( 'dlm.reports.before.detailedDownloadsTable', '', { state } ) }
 			<div className={ styles.downloadTableWrapper }>
 				<table className={ styles.downloadTable }>
 					<thead>
@@ -265,6 +266,7 @@ export default function DetailedDownloadsTable() {
 					</button>
 				</div>
 			) }
-		</>
+			{ applyFilters( 'dlm.reports.after.detailedDownloadsTable', '', { state } ) }
+		</div>
 	);
 }

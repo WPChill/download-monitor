@@ -2,6 +2,126 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./assets/apps/upsells/components/LogsFilterUpsell.jsx":
+/*!*************************************************************!*\
+  !*** ./assets/apps/upsells/components/LogsFilterUpsell.jsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ LogsFilter)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LogsFilter.module.scss */ "./assets/apps/upsells/components/LogsFilter.module.scss");
+
+
+
+function LogsFilter() {
+  const link = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced_metrics';
+  return /*#__PURE__*/React.createElement("div", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].wrapper
+  }, /*#__PURE__*/React.createElement("label", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].label,
+    htmlFor: "custom-date-range-input"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filter logs by', 'download-monitor')), /*#__PURE__*/React.createElement("div", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].item
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filter by status', 'download-monitor'),
+    disabled: true,
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].input
+  }), /*#__PURE__*/React.createElement("a", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].badge,
+    href: link,
+    target: "_BLANK",
+    rel: "noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Paid', 'download-monitor'))), /*#__PURE__*/React.createElement("div", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].item
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filter by user', 'download-monitor'),
+    disabled: true,
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].input
+  }), /*#__PURE__*/React.createElement("a", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].badge,
+    href: link,
+    target: "_BLANK",
+    rel: "noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Paid', 'download-monitor'))), /*#__PURE__*/React.createElement("div", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].item
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filter by download category', 'download-monitor'),
+    disabled: true,
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].input
+  }), /*#__PURE__*/React.createElement("a", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].badge,
+    href: link,
+    target: "_BLANK",
+    rel: "noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Paid', 'download-monitor'))), /*#__PURE__*/React.createElement("div", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].item
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filter by download', 'download-monitor'),
+    disabled: true,
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].input
+  }), /*#__PURE__*/React.createElement("a", {
+    className: _LogsFilter_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].badge,
+    href: link,
+    target: "_BLANK",
+    rel: "noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Paid', 'download-monitor'))));
+}
+
+/***/ }),
+
+/***/ "./assets/apps/upsells/components/UpsellExport.jsx":
+/*!*********************************************************!*\
+  !*** ./assets/apps/upsells/components/UpsellExport.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ UpsellExport)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _UpsellExport_module_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./UpsellExport.module.scss */ "./assets/apps/upsells/components/UpsellExport.module.scss");
+
+
+
+
+function UpsellExport() {
+  const link = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced_metrics';
+  return /*#__PURE__*/React.createElement("div", {
+    className: _UpsellExport_module_scss__WEBPACK_IMPORTED_MODULE_3__["default"].wrapper
+  }, /*#__PURE__*/React.createElement("div", {
+    className: _UpsellExport_module_scss__WEBPACK_IMPORTED_MODULE_3__["default"].input
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Export', 'download-monitor'), /*#__PURE__*/React.createElement("a", {
+    className: _UpsellExport_module_scss__WEBPACK_IMPORTED_MODULE_3__["default"].badge,
+    href: link,
+    target: "_BLANK",
+    rel: "noreferrer"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Paid', 'download-monitor'))), /*#__PURE__*/React.createElement("div", {
+    className: _UpsellExport_module_scss__WEBPACK_IMPORTED_MODULE_3__["default"].settings
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Dashicon, {
+    icon: "calendar-alt",
+    className: _UpsellExport_module_scss__WEBPACK_IMPORTED_MODULE_3__["default"].icon
+  })));
+}
+
+/***/ }),
+
 /***/ "./assets/apps/upsells/components/UpsellRangePicker.jsx":
 /*!**************************************************************!*\
   !*** ./assets/apps/upsells/components/UpsellRangePicker.jsx ***!
@@ -52,6 +172,21 @@ function UpsellRangePicker() {
 
 /***/ }),
 
+/***/ "./assets/apps/upsells/components/LogsFilter.module.scss":
+/*!***************************************************************!*\
+  !*** ./assets/apps/upsells/components/LogsFilter.module.scss ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// extracted by mini-css-extract-plugin
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"wrapper":"JPI5IsOB7OcwEjtZzJET","item":"aRbFSZqPBBhJU96j9aM2","badge":"u4V3atFqfhCWrdDuCgCb","label":"pyvf8hkRo7noRMtI31aR","input":"ZlnDBiCHsr7e9TMfbyaR"});
+
+/***/ }),
+
 /***/ "./assets/apps/upsells/components/RangePicker.module.scss":
 /*!****************************************************************!*\
   !*** ./assets/apps/upsells/components/RangePicker.module.scss ***!
@@ -64,6 +199,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 // extracted by mini-css-extract-plugin
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"wrapper":"qMIB4zUZYg_xk3P72S3J","badge":"UsXo9wH5H3dZrMWkFGqY","label":"lgKzwFE6KHuv9rVY9ROu","input":"v1Udgyb3bkyCGKN93LuG","icon":"mPpPvjwPc6Ze84NUqDdJ"});
+
+/***/ }),
+
+/***/ "./assets/apps/upsells/components/UpsellExport.module.scss":
+/*!*****************************************************************!*\
+  !*** ./assets/apps/upsells/components/UpsellExport.module.scss ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// extracted by mini-css-extract-plugin
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"wrapper":"DgbQL6DQYVSlgIbeBKWn","badge":"BgpgBY3_usO9HKsUg_yD","label":"ZC80xc4XydyRjfuFkjf3","input":"tNM5B7zQJg8uuEZRG8em","settings":"UM4AbBNrDqDGOXhNDiHF","icon":"uhXhCqWYJk8nCntKApod"});
 
 /***/ }),
 
@@ -3902,13 +4052,18 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_UpsellRangePicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/UpsellRangePicker */ "./assets/apps/upsells/components/UpsellRangePicker.jsx");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_UpsellExport__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/UpsellExport */ "./assets/apps/upsells/components/UpsellExport.jsx");
+/* harmony import */ var _components_UpsellRangePicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/UpsellRangePicker */ "./assets/apps/upsells/components/UpsellRangePicker.jsx");
+/* harmony import */ var _components_LogsFilterUpsell__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/LogsFilterUpsell */ "./assets/apps/upsells/components/LogsFilterUpsell.jsx");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
-(0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__.addFilter)('dlm.reports.before.dateRangeSelect', 'dlm-reports/date-range-upsell', original => /*#__PURE__*/React.createElement(React.Fragment, null, original, /*#__PURE__*/React.createElement(_components_UpsellRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+
+
+(0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__.addFilter)('dlm.reports.before.dateRangeSelect', 'dlm-reports/date-range-upsell', original => /*#__PURE__*/React.createElement(React.Fragment, null, original, /*#__PURE__*/React.createElement(_components_UpsellExport__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/React.createElement(_components_UpsellRangePicker__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+(0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__.addFilter)('dlm.reports.before.detailedDownloadsTable', 'dlm-reports/filter-logs-upsell', original => /*#__PURE__*/React.createElement(React.Fragment, null, original, /*#__PURE__*/React.createElement(_components_LogsFilterUpsell__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
 })();
 
 /******/ })()

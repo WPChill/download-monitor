@@ -556,32 +556,6 @@ if ( ! class_exists( 'DLM_Reports2' ) ) {
 				array(),
 				$enqueue['version']
 			);
-
-			$upsells_asset_file = require plugin_dir_path( DLM_PLUGIN_FILE ) . 'assets/js/upsells/upsells.asset.php';
-			$upsells_enqueue    = array(
-				'handle'       => 'dlm-reports-upsells',
-				'dependencies' => $asset_file['dependencies'],
-				'version'      => $asset_file['version'],
-				'script'       => DLM_URL . 'assets/js/upsells/upsells.js',
-				'style'        => DLM_URL . 'assets/js/upsells/upsells.css',
-			);
-
-			// Must be enqueued before so we can hook to it.
-			$upsells_enqueue['dependencies'][] = 'dlm-reports-app';
-
-			wp_enqueue_script(
-				$upsells_enqueue['handle'],
-				$upsells_enqueue['script'],
-				$upsells_enqueue['dependencies'],
-				$upsells_enqueue['version'],
-				true
-			);
-			wp_enqueue_style(
-				$upsells_enqueue['handle'],
-				$upsells_enqueue['style'],
-				array(),
-				$upsells_enqueue['version']
-			);
 		}
 	}
 }

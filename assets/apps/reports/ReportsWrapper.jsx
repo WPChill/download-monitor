@@ -5,10 +5,9 @@ import OverviewTab from './components/OverviewTab';
 import DetailedTab from './components/DetailedTab';
 import styles from './ReportsWrapper.module.scss';
 import Slot from './components/Slot';
-import { applyFilters } from '@wordpress/hooks';
 
 export default function ReportsWrapper() {
-	const { state, dispatch } = useStateContext();
+	const { state } = useStateContext();
 
 	const renderTabContent = () => {
 		switch ( state.activeTab ) {
