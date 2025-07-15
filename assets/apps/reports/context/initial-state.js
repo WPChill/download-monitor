@@ -6,4 +6,6 @@ export const initialState = () => ( {
 		end: dayjs().format( 'YYYY-MM-DD' ),
 	},
 	activeTab: 'detailed',
+	overviewDownloads: [],
+	detailedDownloads: [],
 } );

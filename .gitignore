@@ -18,7 +18,7 @@ cypress.json
 download-monitor.zip
 *.zip
 includes/admin/wpchill/scripts/*
-/assets/js/reports2/*
+/assets/js/reports/*
 
 # Exclude everything in /vendor except our autoload stuff
 vendor/*
@@ -30,4 +30,4 @@ vendor/*
 !/logs/.htaccess
 
 download-monitor.zip
-/assets/js/reports2
+/assets/js/reports

@@ -1,10 +1,11 @@
-import { useMemo, useState } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { Spinner } from '@wordpress/components';
 import useStateContext from '../context/useStateContext';
 import { useGetOverviewTableData } from '../query/useGetTableData';
 import styles from './DownloadsTable.module.scss';
+import { setOverviewDownloads } from '../context/actions';
 import {
 	useReactTable,
 	getCoreRowModel,
@@ -15,10 +16,15 @@ import {
 import Slot from './Slot';
 
 export default function OverviewDownloadsTable() {
-	const { state } = useStateContext();
+	const { state, dispatch } = useStateContext();
 	const [ pageIndex, setPageIndex ] = useState( 0 );
 
 	const { data: downloadsData = [], isLoading } = useGetOverviewTableData( state.periods );
+	useEffect( () => {
+		if ( downloadsData && downloadsData.length > 0 ) {
+			dispatch( setOverviewDownloads( downloadsData ) );
+		}
+	}, [ downloadsData, dispatch ] );
 
 	const [ sorting, setSorting ] = useState( [
 		{ id: 'total', desc: true },
@@ -33,8 +39,18 @@ export default function OverviewDownloadsTable() {
 		return applyFilters( 'dlm.reports.overview.table', baseColumns );
 	}, [] );
 
+	const visibleColumns = useMemo( () => {
+		return columns.filter( ( col ) => {
+			if ( ! state.checkedOverviewColumns ) {
+				return true;
+			}
+
+			return state.checkedOverviewColumns[ col.slug ] !== false;
+		} );
+	}, [ columns, state.checkedOverviewColumns ] );
+
 	const tableColumns = useMemo( () => {
-		return columns.map( ( col ) => ( {
+		return visibleColumns.map( ( col ) => ( {
 			id: col.slug,
 			accessorKey: col.slug,
 			header: ( headerContext ) => {

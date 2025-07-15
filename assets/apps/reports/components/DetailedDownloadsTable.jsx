@@ -1,11 +1,11 @@
-import { useMemo, useState } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { Spinner } from '@wordpress/components';
 import useStateContext from '../context/useStateContext';
 import { useGetDetailedTableData } from '../query/useGetTableData';
-import { useGetUserData } from '../query/useGetUserData';
 import styles from './DownloadsTable.module.scss';
+import { setDetailedDownloads } from '../context/actions';
 import {
 	useReactTable,
 	getCoreRowModel,
@@ -13,31 +13,48 @@ import {
 	getSortedRowModel,
 	flexRender,
 } from '@tanstack/react-table';
-import Slot from './Slot';
 
-export default function DetailedDownloadsTable() {
-	const { state } = useStateContext();
+export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) {
+	const { state, dispatch } = useStateContext();
 	const [ pageIndex, setPageIndex ] = useState( 0 );
 
-	const { data: usersData = [], isLoadingUsers } = useGetUserData( state.periods );
 	const { data: downloadsData = [], isLoadingDownloads } = useGetDetailedTableData( state.periods );
 
-	const [ sorting, setSorting ] = useState( [
-		{ id: 'total', desc: true },
-	] );
+	useEffect( () => {
+		if ( downloadsData && downloadsData.length > 0 ) {
+			dispatch( setDetailedDownloads( downloadsData ) );
+		}
+	}, [ downloadsData, dispatch ] );
+
+	const filteredDownloadsData = useMemo( () => {
+		return applyFilters( 'dlm.reports.detailedReportsData', downloadsData, state );
+	}, [ downloadsData, state ] );
+
+	const [ sorting, setSorting ] = useState( [] );
 
 	const columns = useMemo( () => {
 		const baseColumns = [
 			{ title: __( 'User', 'download-monitor' ), slug: 'user', sortable: true },
 			{ title: __( 'IP', 'download-monitor' ), slug: 'user_ip', sortable: false },
 			{ title: __( 'Role', 'download-monitor' ), slug: 'role', sortable: true },
+			{ title: __( 'Status', 'download-monitor' ), slug: 'download_status', sortable: true },
 			{ title: __( 'Download Name', 'download-monitor' ), slug: 'title', sortable: true },
 		];
 		return applyFilters( 'dlm.reports.detailed.table', baseColumns );
 	}, [] );
 
+	const visibleColumns = useMemo( () => {
+		return columns.filter( ( col ) => {
+			if ( ! state.checkedDetailedColumns ) {
+				return true;
+			}
+
+			return state.checkedDetailedColumns[ col.slug ] !== false;
+		} );
+	}, [ columns, state.checkedDetailedColumns ] );
+
 	const tableColumns = useMemo( () => {
-		return columns.map( ( col ) => {
+		return visibleColumns.map( ( col ) => {
 			const accessorKey = col.slug;
 
 			let accessorFn = col.accessorFn;
@@ -122,23 +139,17 @@ export default function DetailedDownloadsTable() {
 
 					return (
 						<>
-							{ cellContent }
-							<span id={ `dlm-chart-slot-${ col.slug }` } />
-							<Slot
-								name={ `dlm.chart.${ col.slug }` }
-								containerId={ `dlm-chart-slot-${ col.slug }` }
-								chartData={ rowData }
-							/>
+							{ applyFilters( `dlm.reports.detailedDownloadsTable.${ col.slug }`, cellContent, { rowData } ) }
 						</>
 					);
 				},
 				enableSorting: col.sortable ?? false,
 			};
 		} );
-	}, [ columns, usersData ] );
+	}, [ visibleColumns, usersData ] );
 
 	const table = useReactTable( {
-		data: downloadsData,
+		data: filteredDownloadsData,
 		columns: tableColumns,
 		state: {
 			sorting,
@@ -179,7 +190,7 @@ export default function DetailedDownloadsTable() {
 
 	return (
 		<div className={ styles.wrapper }>
-			{ applyFilters( 'dlm.reports.before.detailedDownloadsTable', '', { state } ) }
+			{ applyFilters( 'dlm.reports.before.detailedDownloadsTable', '', { state, dispatch, downloadsData, usersData, columns } ) }
 			<div className={ styles.downloadTableWrapper }>
 				<table className={ styles.downloadTable }>
 					<thead>
@@ -216,7 +227,7 @@ export default function DetailedDownloadsTable() {
 									</tr>
 								);
 							}
-							if ( downloadsData.length === 0 ) {
+							if ( filteredDownloadsData.length === 0 ) {
 								return (
 									<tr>
 										<td colSpan={ columns.length } className={ styles.tableLoadingCell }>

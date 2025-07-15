@@ -8,3 +8,6 @@
 #dlm_reports_page .dlm-downloads-table-col-user_ip {
     cursor: default;
 }
+#dlm_reports_page .dlm-em-select__input:focus {
+    box-shadow: unset;
+}
