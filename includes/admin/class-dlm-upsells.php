@@ -142,11 +142,7 @@ class DLM_Upsells {
 
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
 
-		add_action( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) ); // TODO: remove when reports v2 is finalized
-
 		add_action( 'dlm_reports_page_end', array( $this, 'insights_upsell' ), 99 );
-
-		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) ); // TODO: remove when reports v2 is finalized
 
 		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 	}
@@ -893,35 +889,6 @@ class DLM_Upsells {
 	}
 
 	/**
-	 * Export upsell
-	 *
-	 * @return void
-	 * @since 4.8.6
-	 */
-	public function export_insights_header_upsell() {
-		if ( $this->check_extension( 'dlm-csv-exporter' ) ) {
-			return;
-		}
-
-		$export_upsell_url = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-csv-exporter';
-		?>
-		<div class="dlm-csv-export-wrapper">
-			<div class="dlm-reports-header-export-button">
-				<button class="button button-primary"
-						disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <a
-						href="<?php echo esc_url( $export_upsell_url ); ?>"
-						target="_blank"
-						class="dlm-upsell-badge">PAID</a></button>
-			</div>
-			<div class="dlm-csv-export-wrapper__export_settings">
-				<div id="dlm-export-settings-upsell" class="button button-secondary" disabled="disabled"><span
-						class="dashicons dashicons-admin-generic"></span></div>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Reports upsells
 	 *
 	 * @param $tab
@@ -990,39 +957,6 @@ class DLM_Upsells {
 		);
 
 		echo '</div>';
-	}
-
-	/**
-	 * Add the datepicker comparer
-	 *
-	 * @return void
-	 * @since 4.8.6
-	 */
-	public function insights_datepicker_upsell() {
-
-		if ( $this->check_extension( 'dlm-enhanced-metrics' ) ) {
-			return;
-		}
-
-		$to_date = new DateTime( current_time( 'mysql' ) );
-		$to_date->setTime( 0, 0, 0 );
-		$to   = $to_date->format( 'Y-m-d' );
-		$from = $to_date->modify( '-1 month' )->format( 'Y-m-d' );
-
-		$end   = new DateTime( $to );
-		$start = new DateTime( $from );
-
-		$enhanced_m_upsell_url = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced_metrics';
-		?>
-		<div class="dlm-reports-header-date-selector disabled">
-			<label><?php echo esc_html__( 'Select date to compare', 'download-monitor' ); ?></label>
-			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
-			<span
-				class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
-			<span class="dlm-arrow"></span>
-			<a href="<?php echo esc_url( $enhanced_m_upsell_url ); ?>" target="_blank" class="dlm-upsell-badge">PAID</a>
-		</div>
-		<?php
 	}
 
 	/**

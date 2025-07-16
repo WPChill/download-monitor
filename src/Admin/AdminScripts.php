@@ -12,7 +12,6 @@ class DLM_Admin_Scripts {
 	public function setup() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_enqueue_scripts' ) );
-		add_action( 'admin_footer', array( $this, 'print_dlm_js_templates' ) );
 		add_action( 'admin_footer', array( $this, 'add_footer_styles' ), 99 );
 	}
 
@@ -167,56 +166,6 @@ class DLM_Admin_Scripts {
 				DLM_VERSION,
 				true
 			);
-		}
-
-		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-reports' === $_GET['page'] && ! DLM_DB_Upgrader::do_upgrade() ) {
-			wp_enqueue_style( 'download_monitor_range_picker', download_monitor()->get_plugin_url() . '/assets/css/daterangepicker.min.css', array( 'dashicons' ), DLM_VERSION );
-
-			// Enqueue Reports JS
-			wp_enqueue_script(
-				'dlm_reports_chartjs',
-				plugins_url( '/assets/js/reports/chart' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery' ),
-				DLM_VERSION,
-				true
-			);
-
-			wp_enqueue_script(
-				'dlm_reports_moment',
-				plugins_url( '/assets/js/reports/moment' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery' ),
-				DLM_VERSION,
-				true
-			);
-
-			wp_enqueue_script(
-				'dlm_reports_datepicker',
-				plugins_url( '/assets/js/reports/jquery.daterangepicker' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery', 'dlm_reports_moment' ),
-				DLM_VERSION,
-				true
-			);
-
-			wp_enqueue_script(
-				'dlm_templates',
-				plugins_url( '/assets/js/reports/dlm-templates' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'wp-backbone' ),
-				DLM_VERSION,
-				true
-			);
-
-			wp_enqueue_script(
-				'dlm_reports',
-				plugins_url( '/assets/js/reports/reports' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
-				array( 'jquery', 'dlm_reports_chartjs', 'dlm_templates' ),
-				DLM_VERSION,
-				true
-			);
-
-			// Make JavaScript strings translatable
-			wp_localize_script( 'dlm_reports', 'dlm_rs', $this->get_strings( 'reports' ) );
-			$per_page = ( $item = get_option( 'dlm-reports-per-page' ) ) ? $item : 10;
-			wp_add_inline_script( 'dlm_reports', 'const dlmReportsPerPage = ' . absint( $per_page ) . ';const dlmReportsNonce = "' . wp_create_nonce( 'dlm_reports_nonce' ) . '"; const dlmAdminUrl = "' . get_admin_url() . '"; const dlmWeekStart = "' . DLM_Admin_Helper::get_wp_weekstart() . '";', 'before' );
 		}
 
 		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && ( 'download-monitor-settings' === $_GET['page'] || 'dlm-extensions' === $_GET['page'] ) ) {
@@ -396,15 +345,6 @@ class DLM_Admin_Scripts {
 		}
 
 		return $strings;
-	}
-
-	/**
-	 * Print our js templates
-	 *
-	 * @return void
-	 */
-	public function print_dlm_js_templates() {
-		include __DIR__ . '/Reports/templates/dlm-js-templates.php';
 	}
 
 	/**

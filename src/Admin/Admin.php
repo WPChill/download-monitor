@@ -45,10 +45,6 @@ class DLM_Admin {
 		$settings_page = new DLM_Settings_Page();
 		$settings_page->setup();
 
-		// setup report
-		$reports_page = new DLM_Reports_Page();
-		$reports_page->setup();
-
 		// Handle all functinality that involves Media Library
 		$dlm_media_library = DLM_Media_Library::get_instance();
 

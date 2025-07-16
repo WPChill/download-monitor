@@ -20,7 +20,7 @@ module.exports = {
 	output: {
 		path: path.resolve(
 			__dirname,
-			'assets/js/reports2',
+			'assets/js/reports',
 		),
 	},
 	mode: isProduction ? 'production' : 'development',

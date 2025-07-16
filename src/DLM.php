@@ -158,7 +158,7 @@ class WP_DLM {
 			}
 
 			// Initialize the reports.
-			new DLM_Reports2();
+			new DLM_Reports();
 		}
 
 		// Load the Approved Download Path option table
@@ -167,9 +167,6 @@ class WP_DLM {
 		// Set the DB Upgrader class to see if we need to upgrade the table or not.
 		// This is mainly to move to version 4.6.x from 4.5.x and below.
 		$upgrader = DLM_DB_Upgrader::get_instance();
-
-		// Set Reports. We set them here in order to also create the REST Api calls.
-		$reports = DLM_Reports::get_instance();
 
 		// Setup AJAX handler if doing AJAX
 		if ( defined( 'DOING_AJAX' ) ) {
@@ -180,7 +177,7 @@ class WP_DLM {
 		$ajax_manager = new DLM_Ajax_Manager();
 		$ajax_manager->setup();
 
-		DLM_Rest_API::get_instance(); // TODO : Remove OLD reports classes/js/css.
+		DLM_Rest_API::get_instance();
 
 		// Initialize the reports rest api.
 		new DLM_Reports_Rest_Api();

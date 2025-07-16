@@ -91,7 +91,7 @@ class DLM_Reports_Rest_Api {
 	public function get_graph_downloads_data( $request ) {
 		//check_ajax_referer( 'wp_rest' ); TODO Enable.
 		return new WP_REST_Response(
-			DLM_Reports2::get_graph_downloads_data( $request ),
+			DLM_Reports::get_graph_downloads_data( $request ),
 			200
 		);
 	}
@@ -99,7 +99,7 @@ class DLM_Reports_Rest_Api {
 	public function get_table_downloads_data( $request ) {
 		//check_ajax_referer( 'wp_rest' ); TODO Enable.
 		return new WP_REST_Response(
-			DLM_Reports2::get_table_downloads_data( $request ),
+			DLM_Reports::get_table_downloads_data( $request ),
 			200
 		);
 	}
@@ -107,7 +107,7 @@ class DLM_Reports_Rest_Api {
 	public function get_overview_card_stats( $request ) {
 		//check_ajax_referer( 'wp_rest' ); TODO Enable.
 		return new WP_REST_Response(
-			DLM_Reports2::get_overview_card_stats( $request ),
+			DLM_Reports::get_overview_card_stats( $request ),
 			200
 		);
 	}
@@ -115,7 +115,7 @@ class DLM_Reports_Rest_Api {
 	public function get_user_data( $request ) {
 		//check_ajax_referer( 'wp_rest' ); TODO Enable.
 		return new WP_REST_Response(
-			DLM_Reports2::get_user_data( $request ),
+			DLM_Reports::get_user_data( $request ),
 			200
 		);
 	}
@@ -123,7 +123,7 @@ class DLM_Reports_Rest_Api {
 	public function get_users_downloads_data( $request ) {
 		//check_ajax_referer( 'wp_rest' ); TODO Enable.
 		return new WP_REST_Response(
-			DLM_Reports2::get_users_downloads_data( $request ),
+			DLM_Reports::get_users_downloads_data( $request ),
 			200
 		);
 	}
@@ -131,7 +131,7 @@ class DLM_Reports_Rest_Api {
 	public function get_users_card_stats( $request ) {
 		//check_ajax_referer( 'wp_rest' ); TODO Enable.
 		return new WP_REST_Response(
-			DLM_Reports2::get_users_card_stats( $request ),
+			DLM_Reports::get_users_card_stats( $request ),
 			200
 		);
 	}
