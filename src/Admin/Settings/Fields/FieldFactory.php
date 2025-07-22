@@ -25,9 +25,11 @@ class DLM_Admin_Fields_Field_Factory {
 				$field = new DLM_Admin_Fields_Field_Password( $option['name'], $value, $placeholder );
 				break;
 			case 'textarea':
-				$field = new DLM_Admin_Fields_Field_Textarea( $option['name'], $value, $placeholder );
+				$value = self::wpml_compat( $value, $option['name'] );
+				$field = new DLM_Admin_Fields_Field_Textarea( $option['name'], $value, $placeholder ); 
 				break;
 			case 'editor':
+				$value = self::wpml_compat( $value, $option['name'] );
 				$field = new DLM_Admin_Fields_Field_Editor( $option['name'], $value, $placeholder );
 				break;
 			case 'checkbox':
@@ -80,4 +82,22 @@ class DLM_Admin_Fields_Field_Factory {
 		return $field;
 	}
 
+	private static function wpml_compat( $value, $opt_name ) {
+		// Check if WPML and String Translation are active
+		if ( has_filter( 'wpml_translate_single_string' ) ) {
+			$value_translated = apply_filters( 'wpml_translate_single_string', 
+				$value,
+				'admin_texts_' . $opt_name,
+				$opt_name,
+				isset( $_GET['lang'] ) ? sanitize_text_field( wp_unslash( $_GET['lang'] ) ) : null,
+			);
+
+			// Use translated value if available
+			if ( ! empty( $value_translated ) ) {
+				$value = $value_translated;
+			}
+		}
+
+		return $value;
+	}
 }

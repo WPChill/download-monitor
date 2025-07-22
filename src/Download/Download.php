@@ -510,7 +510,6 @@ class DLM_Download {
 		return $url;
 	}
 
-
 	/**
 	 * Version related methods
 	 */

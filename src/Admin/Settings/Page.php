@@ -195,7 +195,7 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 							?>
 							<div
 								class="wp-clearfix">
-								<ul class="subsubsub dlm-settings-sub-nav">
+								<ul class="dlm-settings-sub-nav">
 									<?php
 									foreach ( $settings[ $tab ]['sections'] as $section_key => $section ) : ?>
 										<?php

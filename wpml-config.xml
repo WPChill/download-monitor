@@ -1,0 +1,47 @@
+<wpml-config>
+  <custom-types>
+    <custom-type translate="1" display-as-translated="1">dlm_download</custom-type>
+    <custom-type translate="1" display-as-translated="1">dlm_download_version</custom-type>
+  </custom-types>
+  <taxonomies>
+    <taxonomy translate="1" display-as-translated="1">translation_priority</taxonomy>
+    <taxonomy translate="1" display-as-translated="1">dlm_download_category</taxonomy>
+    <taxonomy translate="1" display-as-translated="1">dlm_download_tag</taxonomy>
+  </taxonomies>
+  <custom-fields>
+    <custom-field action="translate">_version</custom-field>
+    <custom-field action="translate">_files</custom-field>
+    <custom-field action="translate">_filesize</custom-field>
+    <custom-field action="translate">_md5</custom-field>
+    <custom-field action="translate">_sha1</custom-field>
+    <custom-field action="translate">_sha256</custom-field>
+    <custom-field action="translate">_crc32</custom-field>
+    <custom-field action="translate">_download_count</custom-field>
+    <custom-field action="translate">_featured</custom-field>
+    <custom-field action="translate">_members_only</custom-field>
+    <custom-field action="translate">_redirect_only</custom-field>
+  </custom-fields>
+  <admin-texts>
+    <key name="dlm_download_endpoint"/>
+    <key name="dlm_el_optin"/>
+    <key name="dlm_no_access_error"/>
+    <key name="dlm_el_optin_double_text"/>
+    <key name="dlm_el_optin_double_lading_page_title"/>
+    <key name="dlm_el_optin_confirmation_subject"/>
+    <key name="dlm_el_optin_confirmation_content"/>
+    <key name="dlm_el_optin_text"/>
+    <key name="dlm_el_optin_thankyou_page_title"/>
+    <key name="dlm_el_optin_email_subject"/>
+    <key name="dlm_el_optin_email_content"/>
+    
+    
+  </admin-texts>
+  <shortcodes>
+    <shortcode>
+      <tag>downloads</tag>
+      <attributes>
+        <attribute>category</attribute>
+      </attributes>
+    </shortcode>
+  </shortcodes>
+</wpml-config>
