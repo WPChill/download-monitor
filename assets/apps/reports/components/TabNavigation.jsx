@@ -8,7 +8,6 @@ import { setActiveTab } from '../context/actions';
 export default function TabNavigation() {
 	const { state, dispatch } = useStateContext();
 
-	// We define tabs here and we also add filter to extend the array.
 	const tabs = useMemo( () => {
 		const baseTabs = [
 			{ title: __( 'Overview', 'download-monitor' ), slug: 'overview' },

@@ -11,3 +11,6 @@
 #dlm_reports_page .dlm-em-select__input:focus {
     box-shadow: unset;
 }
+#dlm_reports_page .rdrDefinedRangesWrapper{
+    width: 150px;
+}

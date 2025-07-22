@@ -2,15 +2,18 @@ import UpsellExport from './components/UpsellExport';
 import UpsellRangePicker from './components/UpsellRangePicker';
 import LogsFilter from './components/LogsFilterUpsell';
 import { addFilter } from '@wordpress/hooks';
+import './index.css';
 
 addFilter(
-	'dlm.reports.before.dateRangeSelect',
+	'dlm.reports.after.nav',
 	'dlm-reports/date-range-upsell',
 	( original ) => (
 		<>
 			{ original }
-			<UpsellExport />
-			<UpsellRangePicker />
+			<div className="dlm-reports-nav-upsells">
+				<UpsellExport />
+				<UpsellRangePicker />
+			</div>
 		</>
 	),
 );

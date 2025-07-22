@@ -13,18 +13,22 @@ import {
 	getSortedRowModel,
 	flexRender,
 } from '@tanstack/react-table';
-import Slot from './Slot';
 
 export default function OverviewDownloadsTable() {
 	const { state, dispatch } = useStateContext();
 	const [ pageIndex, setPageIndex ] = useState( 0 );
 
 	const { data: downloadsData = [], isLoading } = useGetOverviewTableData( state.periods );
+
 	useEffect( () => {
 		if ( downloadsData && downloadsData.length > 0 ) {
 			dispatch( setOverviewDownloads( downloadsData ) );
 		}
 	}, [ downloadsData, dispatch ] );
+
+	const filteredDownloadsData = useMemo( () => {
+		return applyFilters( 'dlm.reports.overviewReportsData', downloadsData, state );
+	}, [ downloadsData, state ] );
 
 	const [ sorting, setSorting ] = useState( [
 		{ id: 'total', desc: true },
@@ -86,23 +90,17 @@ export default function OverviewDownloadsTable() {
 								{ value }
 							</a>
 						) : (
-							value
+							applyFilters( 'dlm.reports.overviewTable.col.' + col.slug, value, { rowData, visibleColumns } )
 						) }
-						<span id={ `dlm-chart-slot-${ col.slug }` } />
-						<Slot
-							name={ `dlm.chart.${ col.slug }` }
-							containerId={ `dlm-chart-slot-${ col.slug }` }
-							chartData={ rowData }
-						/>
 					</>
 				);
 			},
 			enableSorting: col.sortable ?? false,
 		} ) );
-	}, [ columns ] );
+	}, [ visibleColumns ] );
 
 	const table = useReactTable( {
-		data: downloadsData,
+		data: filteredDownloadsData,
 		columns: tableColumns,
 		state: {
 			sorting,
@@ -143,6 +141,7 @@ export default function OverviewDownloadsTable() {
 
 	return (
 		<div className={ styles.wrapper }>
+			{ applyFilters( 'dlm.reports.before.overviewDownloadsTable', '', { state, dispatch, downloadsData, columns } ) }
 			<div className={ styles.downloadTableWrapper }>
 				<table className={ styles.downloadTable }>
 					<thead>
@@ -179,7 +178,7 @@ export default function OverviewDownloadsTable() {
 									</tr>
 								);
 							}
-							if ( downloadsData.length === 0 ) {
+							if ( filteredDownloadsData.length === 0 ) {
 								return (
 									<tr>
 										<td colSpan={ columns.length } className={ styles.tableLoadingCell }>
@@ -229,6 +228,7 @@ export default function OverviewDownloadsTable() {
 					</button>
 				</div>
 			) }
+			{ applyFilters( 'dlm.reports.after.overviewDownloadsTable', '', { state, dispatch, downloadsData, columns } ) }
 		</div>
 	);
 }

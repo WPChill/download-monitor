@@ -3,37 +3,20 @@ import DateRangeSelect from './components/DateRangeSelect';
 import TabNavigation from './components/TabNavigation';
 import OverviewTab from './components/OverviewTab';
 import DetailedTab from './components/DetailedTab';
+import { applyFilters } from '@wordpress/hooks';
 import styles from './ReportsWrapper.module.scss';
-import Slot from './components/Slot';
 
 export default function ReportsWrapper() {
-	const { state } = useStateContext();
+	const { state, dispatch } = useStateContext();
 
 	const renderTabContent = () => {
 		switch ( state.activeTab ) {
 			case 'overview':
-				return (
-					<>
-						<OverviewTab />
-						<div id="dlm-tab-slot-overview" />
-						<Slot name="dlm.reports.tab.overview.body" containerId="dlm-tab-slot-overview" />
-					</>
-				);
+				return ( <OverviewTab /> );
 			case 'detailed':
-				return (
-					<>
-						<DetailedTab />
-						<div id="dlm-tab-slot-detailed" />
-						<Slot name="dlm.reports.tab.detailed.body" containerId="dlm-tab-slot-detailed" />
-					</>
-				);
+				return ( <DetailedTab /> );
 			default:
-				return (
-					<>
-						<div id="dlm-tab-slot" />
-						<Slot name={ `dlm.reports.tab.${ state.activeTab }.body` } containerId="dlm-tab-slot" />
-					</>
-				);
+				return applyFilters( `dlm.reports.tab.${ state.activeTab }.body`, '', { dispatch, state } );
 		}
 	};
 
@@ -42,9 +25,11 @@ export default function ReportsWrapper() {
 			<div className={ styles.dlmReportsHeader }>
 				<TabNavigation />
 				<DateRangeSelect />
+				{ applyFilters( 'dlm.reports.after.nav', '', { dispatch, state } ) }
 			</div>
 			<div className={ styles.dlmReportsBody }>
 				{ renderTabContent() }
+				{ applyFilters( 'dlm.reports.after.tab.content', '', { dispatch, state } ) }
 			</div>
 		</div>
 	);

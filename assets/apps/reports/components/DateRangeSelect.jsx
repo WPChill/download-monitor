@@ -53,9 +53,6 @@ export default function DateRangeSelect() {
 		<div className={ styles.dateRangeSelectWrapp }>
 			{ applyFilters( 'dlm.reports.before.dateRangeSelect', '', { dispatch, state } ) }
 			<div className={ styles.dateRangeSelect }>
-				<label className={ styles.label } htmlFor="custom-date-range-input">
-					{ __( 'Select Date Range', 'download-monitor' ) }
-				</label>
 				<Select
 					options={ options }
 					value={ selectedOption }

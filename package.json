@@ -73,6 +73,7 @@
     "dayjs": "^1.11.13",
     "he": "^1.2.0",
     "interweave": "^13.1.0",
+    "lucide-react": "^0.525.0",
     "react-select": "^5.3.2",
     "recharts": "^3.0.2",
     "whatwg-fetch": "^3.6.2"

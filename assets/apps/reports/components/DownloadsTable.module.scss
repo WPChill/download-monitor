@@ -1,8 +1,10 @@
 .wrapper {
-		margin-top: 25px;
+	margin-top: 25px;
 	.downloadTableWrapper {
 		border: 1px solid #ccd0d4;
 		background: #fff;
+		border-radius: .625rem;
+		overflow: hidden;
 	}
 
 	.downloadTable {
@@ -90,6 +92,8 @@
 		background: #fff;
 		padding: 5px;
 		border: 1px solid #e0e0e0;
+		border-radius: .625rem;
+		overflow: hidden;
 
 		span {
 			display: flex;

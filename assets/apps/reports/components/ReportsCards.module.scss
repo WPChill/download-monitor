@@ -1,31 +1,82 @@
 .dlmReportsCardsWrapper{
     display: flex;
-    flex-direction: row;
-    justify-content: initial;
-    background-color: #fff;
-    margin-top: 25px;
-    border: 1px solid #e0e0e0;
-    box-sizing: border-box;
+    gap: 24px;
+    align-items: stretch;
+    margin-top: 24px;
     .dlmReportsCard{
-        width: 20%;
-        padding: 24px;
-        margin: 0;
-        font-weight: 600;
-        border-right: 1px solid #e0e0e0;
-        min-width: 200px;
-        box-sizing: border-box;
+        min-width: 100px;
+        border: 1px solid #e0e0e0;
+        border-radius: 0.625rem;
+        padding: 0 15px;
+        position: relative;
         .dlmReportsCardTitle{
-            color: #646566;
-            margin: 0 0 1em;
+            margin: 0;
             font-size: 14px;
-            line-height: 1;
         }
         .dlmReportsCardValue{
-            color: #1D2327;
-            font-size: 28px;
-            line-height: 1;
-            font-weight: 700;
             margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 24px 0;
+        }
+        .dlmReportsCardIconWrap{
+            background-color: rgb(239 25 25 / 60%);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            .dlmReportsCardIcon{
+                font-size: 24px;
+                width: 24px;
+                height: 24px;
+            }
         }
     }
+    .total, .loggedIn {
+        background-color: #dbeafe;
+        color: #1e40af;
+        .dlmReportsCardIconWrap {
+            background-color: rgba(30, 64, 175, 0.15);
+        }
+    }
+
+    .today, .guest {
+        background-color: #cce3dc;
+        color: #264653;
+        .dlmReportsCardIconWrap {
+            background-color: rgba(38, 70, 83, 0.15);
+        }
+    }
+
+    .popular {
+        //width: 200px;
+        background-color: #bfc0c0;
+        color: #2b2d42;
+        .dlmReportsCardIconWrap {
+            background-color: rgba(43, 45, 66, 0.15);
+        }
+    }
+
+    .average {
+        background-color: #e0c097; // bej cald
+        color: #5c3d2e;
+        .dlmReportsCardIconWrap {
+            background-color: rgba(92, 61, 46, 0.15);
+        }
+    }
+    
+    .mostActive {
+        //width: 250px;
+        background-color: #bfc0c0;
+        color: #2b2d42;
+        .dlmReportsCardIconWrap {
+            background-color: rgba(43, 45, 66, 0.15);
+        }
+    }
+
 }

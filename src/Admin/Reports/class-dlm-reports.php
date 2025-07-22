@@ -21,6 +21,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function __construct() {
 			add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'reports_scripts' ) );
+			add_filter( 'dlm_header_logo_text', array( $this, 'add_page_title' ) );
 		}
 
 		/**
@@ -556,6 +557,14 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				array(),
 				$enqueue['version']
 			);
+		}
+
+		public function add_page_title( $title ){
+			if ( ! isset( $_GET['page'] ) || 'download-monitor-reports' !== $_GET['page'] ) {
+				return $title;
+			}
+
+			return __( 'Download Monitor Reports', 'download-monitor' );
 		}
 	}
 }

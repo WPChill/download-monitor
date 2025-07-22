@@ -277,7 +277,7 @@ export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) 
 					</button>
 				</div>
 			) }
-			{ applyFilters( 'dlm.reports.after.detailedDownloadsTable', '', { state } ) }
+			{ applyFilters( 'dlm.reports.after.detailedDownloadsTable', '', { state, dispatch, downloadsData, usersData, columns } ) }
 		</div>
 	);
 }

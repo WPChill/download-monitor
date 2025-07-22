@@ -4,7 +4,7 @@ import { addQueryArgs } from '@wordpress/url';
 
 export const useGetUserData = ( periods = {} ) => {
 	return useQuery( {
-		queryKey: [ 'overviewTableData', periods ],
+		queryKey: [ 'detailedUserData', periods ],
 		queryFn: () => {
 			return apiFetch( {
 				path: addQueryArgs( 'download-monitor/v1/reports/users_data', periods ),

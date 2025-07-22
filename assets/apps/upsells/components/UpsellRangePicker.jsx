@@ -13,10 +13,6 @@ export default function UpsellRangePicker() {
 
 	return (
 		<div className={ styles.wrapper }>
-			<label className={ styles.label } htmlFor="custom-date-range-input">
-				{ __( 'Compare Date Range', 'download-monitor' ) }
-			</label>
-
 			<div className={ styles.input }>
 				<Dashicon icon="calendar-alt" className={ styles.icon } />
 				<span>{ displayValue }</span>
