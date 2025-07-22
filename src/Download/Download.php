@@ -429,40 +429,24 @@ class DLM_Download {
 	 */
 	public function get_the_download_link( $timestamp = true ) {
 		$scheme   = parse_url( get_option( 'home' ), PHP_URL_SCHEME );
-		$endpoint = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
+		$endpoint = get_option( 'dlm_download_endpoint', 'download' );
+		$endpoint = apply_filters( 'wpml_translate_single_string', $endpoint, 'download-monitor', 'Download endpoint' );
 		$ep_value = get_option( 'dlm_download_endpoint_value' );
 
 		switch ( $ep_value ) {
-			case 'slug' :
+			case 'slug':
 				$value = $this->post->post_name;
 				break;
-			default :
+			default:
 				$value = $this->id;
 				break;
-		}
-		// Fix for WPML home url problem
-		// @todo: See if users come with the same problem when using WPML, and remove the fix if
-		// the fix is the one that causes problems. This fix seems to not depend on the WPML plugin, but
-		// rather on something else. Previously, with same WPML version, fix was working, now is not.
-		/**
-		 * Filter to disable the WPML home url fix.
-		 * Added this because there are some cases where the home url fix actually breaks the download link.
-		 *
-		 * @hook  dlm_wpml_home_url_filter
-		 *
-		 * @param  bool  $return
-		 *
-		 * @since 5.0.0
-		 */
-		if ( apply_filters( 'dlm_wpml_home_url_filter', true ) ) {
-			add_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
 		}
 
 		if ( get_option( 'permalink_structure' ) ) {
 			// Fix for translation plugins that modify the home_url
-			$link = get_home_url( null, '', $scheme );
-			// Fix for URLs where params are added to the end of the URL. This is the case for translation functionality.
-			$parsed_url = parse_url( $link );
+			$link = $this->maybe_add_language_prefix( get_home_url( null, '', $scheme ) );
+
+			$parsed_url = wp_parse_url( $link );
 			if ( ! empty( $parsed_url['query'] ) ) {
 				$link = add_query_arg( $endpoint, $value, $link );
 			} else {
@@ -472,8 +456,6 @@ class DLM_Download {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
 		}
 
-		remove_filter( 'wpml_get_home_url', array( 'DLM_Utils', 'wpml_download_link' ), 15, 2 );
-
 		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts.
 		if ( $timestamp && apply_filters( 'dlm_timestamp_link', true ) ) {
 			$timestamp = time();
@@ -482,7 +464,6 @@ class DLM_Download {
 
 		// only add version argument when current version isn't the latest version.
 		if ( null !== $this->get_version() && false === $this->get_version()->is_latest() ) {
-
 			if ( $this->get_version()->has_version_number() ) {
 				$link = add_query_arg( 'version', $this->get_version()->get_version_slug(), $link );
 			} else {
@@ -491,6 +472,42 @@ class DLM_Download {
 		}
 
 		return apply_filters( 'dlm_download_get_the_download_link', esc_url_raw( $link ), $this, $this->get_version() );
+	}
+
+	/**
+	 * Add language prefix to the URL in admin, for WPML or Polylang.
+	 *
+	 * @param string $url The original URL.
+	 * @access private
+	 * @return string Modified URL with language prefix if needed.
+	 */
+	private function maybe_add_language_prefix( $url ) {
+		if ( ! is_admin() ) {
+			return $url;
+		}
+
+		$current_lang = null;
+		$default_lang = null;
+
+		// Check for Polylang
+		if ( function_exists( 'pll_current_language' ) && function_exists( 'pll_default_language' ) ) {
+			$current_lang = pll_current_language();
+			$default_lang = pll_default_language();
+		}
+
+		// Check for WPML
+		if ( function_exists( 'icl_object_id' ) ) {
+			$current_lang = apply_filters( 'wpml_current_language', null );
+			if ( function_exists( 'wpml_get_default_language' ) ) {
+				$default_lang = wpml_get_default_language();
+			}
+		}
+
+		if ( $current_lang && $default_lang && $current_lang !== $default_lang ) {
+			return untrailingslashit( $url ) . '/' . $current_lang . '/';
+		}
+
+		return $url;
 	}
 
 	/**

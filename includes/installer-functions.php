@@ -173,3 +173,31 @@ function dlm_check_tables() {
 	set_transient( 'dlm_tables_check', $return, 30 * DAY_IN_SECONDS );
 	return $return;
 }
+
+function dlm_handle_wpml_translation_ajx() {
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'WPML\ST\Main\Ajax\SaveTranslation' ) ) {
+		return;
+	}
+
+	if ( ! isset( $_POST['endpoint'] ) || str_replace( '\\', '', sanitize_text_field( wp_unslash( $_POST['endpoint'] ) ) ) !== 'WPMLSTMainAjaxSaveTranslation' ) {
+		return;
+	}
+
+	$data = isset( $_POST['data'] ) ? json_decode( wp_unslash( $_POST['data'] ), true ) : null;
+
+	if ( ! $data || ! isset( $data['id'] ) ) {
+		return;
+	}
+
+	$string = icl_get_string_by_id( absint( $data['id'] ) );
+
+	if ( empty( $string ) ) {
+		return;
+	}
+
+	$endpoint_option = get_option( 'dlm_download_endpoint', 'download' );
+
+	if ( $string === $endpoint_option ) {
+		set_transient( 'dlm_download_endpoints_rewrite', true, HOUR_IN_SECONDS );
+	}
+}

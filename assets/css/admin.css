@@ -114,16 +114,27 @@
   width: 100%;
   border-bottom: 1px solid #ccc;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  list-style: none;
+  padding: 0;
+  font-size: 13px;
+  float: left;
+  color: #646970;
 }
 .dlm-settings-sub-nav li {
   margin-right: 10px;
   margin-bottom: -2px;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
 }
 .dlm-settings-sub-nav a {
   padding: 13px;
   display: block;
   outline: none;
   box-shadow: none;
+  line-height: 2;
+  text-decoration: none;
 }
 .dlm-settings-sub-nav .active-section {
   margin-bottom: -2px;

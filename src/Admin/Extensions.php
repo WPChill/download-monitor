@@ -308,7 +308,7 @@ class DLM_Admin_Extensions {
 						<div class="features">
 							<div class="block">
 								<div class='wp-clearfix'>
-									<ul class='subsubsub dlm-settings-sub-nav dlm-extension-filtering'>
+									<ul class='dlm-settings-sub-nav dlm-extension-filtering'>
 										<li class='active-section'>
 											<a id='all-extensions'><?php
 												esc_html_e( 'All', 'download-monitor' ); ?></a>

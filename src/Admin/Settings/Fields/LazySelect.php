@@ -36,21 +36,30 @@ class DLM_Admin_Fields_Field_Lazy_Select extends DLM_Admin_Fields_Field {
 	 */
 	public function render() {
 		// Polylang plugin selected page compatibility.
-		if( function_exists( 'pll_current_language' ) && '' != $this->get_value() ){
+		if ( function_exists( 'pll_current_language' ) && '' != $this->get_value() ) {
 			$polylang_lang = pll_current_language();
-			$translations = pll_get_post_translations( absint( $this->get_value() ) );
-			
+			$translations  = pll_get_post_translations( absint( $this->get_value() ) );
+
 			// If a translation for selected page exists, set it as the page id.
-			if( isset( $translations[$polylang_lang] ) ){
-				$this->set_value( absint( $translations[$polylang_lang] ) );
+			if ( isset( $translations[ $polylang_lang ] ) ) {
+				$this->set_value( absint( $translations[ $polylang_lang ] ) );
+			}
+		}
+
+		if ( function_exists( 'icl_object_id' ) && '' != $this->get_value() ) {
+			$wpml_lang          = apply_filters( 'wpml_current_language', null );
+			$translated_page_id = icl_object_id( absint( $this->get_value() ), 'page', true, $wpml_lang );
+
+			// If a translation for selected page exists, set it as the page id.
+			if ( $translated_page_id ) {
+				$this->set_value( absint( $translated_page_id ) );
 			}
 		}
 		?>
 		<select id="setting-<?php echo esc_attr( $this->get_name() ); ?>" class="regular-text dlm-lazy-select"
-		        name="<?php echo esc_attr( $this->get_name() ); ?>" data-selected="<?php echo esc_attr( $this->get_value() ); ?>">
-            <option value="0"><?php echo esc_html__( 'Loading', 'download-monitor'); ?>...</option>
-        </select>
+				name="<?php echo esc_attr( $this->get_name() ); ?>" data-selected="<?php echo esc_attr( $this->get_value() ); ?>">
+			<option value="0"><?php echo esc_html__( 'Loading', 'download-monitor' ); ?>...</option>
+		</select>
 		<?php
 	}
-
 }
