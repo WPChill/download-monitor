@@ -1072,6 +1072,10 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					echo '<span class="dlm_file_type_info "><span class="file filetype-icon filetype-' . esc_attr( sanitize_title( $type ) ) . '"></span>' . strtoupper( esc_html( $type ) ) . '</span>';
 				}
 				break;
+
+			default:
+				do_action( "manage_{$post->post_type}_posts_custom_column", $column_name, $post->ID );
+				break;
 		}
 	}
 

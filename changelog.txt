@@ -1,6 +1,9 @@
 
+= 5.0.29 - 23.07.2025 =
+Fixed: Compatibility with Admin Columns plugin.
+
 = 5.0.28 - 22.07.2025 =
-- Added: Made the plugin fully translatable with WPML.
+Added: Made the plugin fully translatable with WPML.
 
 = 5.0.27 - 08.07.2025 =
 Fixed: Expired cookies were not cleared from cookie data tables.
