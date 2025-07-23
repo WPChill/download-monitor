@@ -15,10 +15,28 @@ jobs:
             - name: Install Subversion
               run: sudo apt-get update && sudo apt-get install -y subversion
 
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: "7.4"
+                tools: composer
+    
+            - name: Checkout code
+              uses: actions/checkout@v3
+              with:
+                submodules: "recursive"
+                token: ${{ secrets.ACCESS_TOKEN }}
+
+            - name: Update submodules
+              run: |
+                git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
+                git submodule update --init --recursive
+
             - uses: actions/checkout@master
             - name: Build Stage
               run: |
                   npm install
+                  npm run composer:update
                   npm run plugin-zip
 
             - name: Get version from package.json
