@@ -3,7 +3,7 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing and selling downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 5.0.28
+	Version: 5.0.29
 	Author: WPChill
 	Author URI: https://wpchill.com
 	Requires at least: 6.4
@@ -29,40 +29,40 @@
 	Original project created by Mike Jolley.
 */
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
 // Define DLM Version
-define('DLM_VERSION', '5.0.28');
-define('DLM_UPGRADER_VERSION', '4.6.0');
+define( 'DLM_VERSION', '5.0.29' );
+define( 'DLM_UPGRADER_VERSION', '4.6.0' );
 
 // Define DLM FILE
-define('DLM_PLUGIN_FILE', __FILE__);
-define('DLM_URL', plugin_dir_url(__FILE__));
-define('DLM_FILE', plugin_basename(__FILE__));
-define('DLM_BETA', false);
-define('DLM_BETA_VERSION', 'x.x.x');
+define( 'DLM_PLUGIN_FILE', __FILE__ );
+define( 'DLM_URL', plugin_dir_url( __FILE__ ) );
+define( 'DLM_FILE', plugin_basename( __FILE__ ) );
+define( 'DLM_BETA', false );
+define( 'DLM_BETA_VERSION', 'x.x.x' );
 
 // Add meta tags to head for DLM Version.
 add_action(
 	'wp_head',
 	function () {
 		// Add filter to hide plugin version.
-		if (apply_filters('dlm_hide_meta_version', false)) {
+		if ( apply_filters( 'dlm_hide_meta_version', false ) ) {
 			return;
 		}
-		echo '<meta name="dlm-version" content="' . esc_attr(DLM_VERSION) . '">';
+		echo '<meta name="dlm-version" content="' . esc_attr( DLM_VERSION ) . '">';
 	},
 	1
 );
 
-if (version_compare(PHP_VERSION, '7.4.0') >= 0) {
-	require_once plugin_dir_path(DLM_PLUGIN_FILE) . 'includes/bootstrap.php';
+if ( version_compare( PHP_VERSION, '7.4.0' ) >= 0 ) {
+	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
 } else {
-	require_once plugin_dir_path(DLM_PLUGIN_FILE) . 'includes/php-too-low.php';
+	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
 
-if (! class_exists('DLM_Review') && is_admin()) {
-	require_once dirname(__FILE__) . '/includes/admin/class-dlm-review.php';
+if ( ! class_exists( 'DLM_Review' ) && is_admin() ) {
+	require_once __DIR__ . '/includes/admin/class-dlm-review.php';
 }
