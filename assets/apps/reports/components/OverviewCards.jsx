@@ -1,9 +1,10 @@
 import useStateContext from '../context/useStateContext';
 import { useGetOverviewCards } from '../query/useGetCards';
 import styles from './ReportsCards.module.scss';
-import { Spinner, Dashicon } from '@wordpress/components';
+import { Spinner } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
+import Card from './Card';
 
 export default function OverviewCards() {
 	const { state } = useStateContext();
@@ -12,60 +13,19 @@ export default function OverviewCards() {
 		isLoading,
 	} = useGetOverviewCards( state.periods );
 
+	const total = isLoading ? <Spinner /> : ( cards?.total ?? 0 ).toLocaleString();
+	const today = isLoading ? <Spinner /> : ( cards?.today ?? 0 ).toLocaleString();
+	const popular = isLoading ? <Spinner /> : cards?.most_popular?.title || __( 'No Title', 'download-monitor' );
+	const average = isLoading ? <Spinner /> : ( cards?.average ?? 0 ).toLocaleString();
+
 	return (
-		<div className={ styles.dlmReportsCardsWrapper } >
-			<div className={ `${ styles.dlmReportsCard } ${ styles.total }` } >
-				<div className={ styles.dlmReportsCardIconWrap }>
-					<Dashicon icon="download" className={ styles.dlmReportsCardIcon } />
-				</div>
-				<h3 className={ styles.dlmReportsCardTitle }>
-					{ __( 'Total', 'download-monitor' ) }
-				</h3>
-				<p className={ styles.dlmReportsCardValue }>
-					{ isLoading ? <Spinner /> : cards?.total || 0 }
-				</p>
-				{ applyFilters( 'dlm.overview.card.total.after', '123', { state, cards } ) }
-			</div>
-
-			<div className={ `${ styles.dlmReportsCard } ${ styles.today }` } >
-				<div className={ styles.dlmReportsCardIconWrap }>
-					<Dashicon icon="clock" className={ styles.dlmReportsCardIcon } />
-				</div>
-				<h3 className={ styles.dlmReportsCardTitle }>
-					{ __( 'Today', 'download-monitor' ) }
-				</h3>
-				<p className={ styles.dlmReportsCardValue }>
-					{ isLoading ? <Spinner /> : cards?.today || 0 }
-				</p>
-				{ applyFilters( 'dlm.overview.card.today.after', '', { state, cards } ) }
-			</div>
-
-			<div className={ `${ styles.dlmReportsCard } ${ styles.popular }` } >
-				<div className={ styles.dlmReportsCardIconWrap }>
-					<Dashicon icon="star-filled" className={ styles.dlmReportsCardIcon } />
-				</div>
-				<h3 className={ styles.dlmReportsCardTitle }>
-					{ __( 'Most popular', 'download-monitor' ) }
-				</h3>
-				<p className={ styles.dlmReportsCardValue }>
-					{ isLoading ? <Spinner /> : cards?.most_popular?.title || __( 'No Title', 'download-monitor' ) }
-				</p>
-				{ applyFilters( 'dlm.overview.card.popular.after', '', { state, cards } ) }
-			</div>
-
-			<div className={ `${ styles.dlmReportsCard } ${ styles.average }` } >
-				<div className={ styles.dlmReportsCardIconWrap }>
-					<Dashicon icon="chart-bar" className={ styles.dlmReportsCardIcon } />
-				</div>
-				<h3 className={ styles.dlmReportsCardTitle }>
-					{ __( 'Daily average', 'download-monitor' ) }
-				</h3>
-				<p className={ styles.dlmReportsCardValue }>
-					{ isLoading ? <Spinner /> : cards?.average || 0 }
-				</p>
-				{ applyFilters( 'dlm.overview.card.average.after', '', { state, cards } ) }
-			</div>
-
+		<div className={ styles.dlmReportsCardsWrapper }>
+			<Card label={ __( 'Total Downloads', 'download-monitor' ) } value={ total } color="#8280FF" icon="download" type="total" cards={ cards } />
+			{ ( null === state.periods.compare_start || 'undefined' === typeof state.periods.compare_start ) &&
+				<Card label={ __( 'Today Downloads', 'download-monitor' ) } value={ today } color="#FEC53D" icon="clock" type="today" cards={ cards } />
+			}
+			<Card label={ __( 'Most Popular Download', 'download-monitor' ) } value={ popular } color="#4AD991" icon="star-filled" type="popular" cards={ cards } />
+			<Card label={ __( 'Daily Average Downloads', 'download-monitor' ) } value={ average } color="#FF9066" icon="chart-bar" type="average" cards={ cards } />
 			{ applyFilters( 'dlm.overview.cards.after', '', { state, cards } ) }
 		</div>
 	);

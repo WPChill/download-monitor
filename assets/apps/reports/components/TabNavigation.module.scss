@@ -27,8 +27,15 @@
                 font-weight: 700;
             }
             .tabButton.active{
-                border-top-color: #3858e9;
+                border-top-color: #5A8DFF;
                 background-color: #fff;
+            }
+
+            &:first-child{
+                .tabButton{
+                    border-top-left-radius: 0.625rem;
+                    border-bottom-left-radius: 0.625rem;
+                }
             }
             
         }

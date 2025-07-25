@@ -2,7 +2,6 @@
     margin-top: 25px;
     background-color: #fff;
     padding: 24px 0;
-    border: 1px solid #e0e0e0;
     border-radius: .625rem;
     overflow: hidden;
     position: relative;
@@ -17,7 +16,7 @@
             color: #3c434a;
             z-index: 999;
             &.activeGroupBy{
-                color: #3858e9;
+                color: #5A8DFF;
             }
             &:focus{
                 box-shadow: none;
@@ -28,7 +27,6 @@
 
 .tooltip {
     background: #FFF;
-    border: 1px solid #e0e0e0;
     font-size: 14px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     border-radius: .625rem;

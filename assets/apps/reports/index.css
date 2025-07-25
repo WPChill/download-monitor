@@ -11,6 +11,20 @@
 #dlm_reports_page .dlm-em-select__input:focus {
     box-shadow: unset;
 }
-#dlm_reports_page .rdrDefinedRangesWrapper{
-    width: 150px;
+#dlm_reports_page .dashicons {
+    margin: 0;
+}
+
+#dlm_reports_page .dlm_reports_button {
+    border: unset;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    text-align: right;
+    background: #4880FF;
+    color: #FFFFFF;
+    padding: 10px 32px;
+    border-radius: 6px;
+    cursor: pointer;
 }
