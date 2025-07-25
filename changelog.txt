@@ -1,3 +1,5 @@
+= 5.0.30 - 25.07.2025 =
+Fixed: Downloads without a default WPML language were not showing in the admin table.
 
 = 5.0.29 - 23.07.2025 =
 Fixed: Compatibility with Admin Columns plugin.
