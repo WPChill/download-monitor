@@ -23,7 +23,7 @@ function _download_monitor_install( $network_wide = false ) {
 
 	// check if.
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		require_once ABSPATH . '/wp-admin/includes/plugin.php';
 	}
 
 	// check if it's multisite.
@@ -51,6 +51,9 @@ function _download_monitor_install( $network_wide = false ) {
 		// no multisite so do normal install.
 		$installer->install();
 	}
+
+	// sets the default language of dlm_downloads post types
+	dlm_set_wpml_language_default();
 }
 
 /**
@@ -199,5 +202,58 @@ function dlm_handle_wpml_translation_ajx() {
 
 	if ( $string === $endpoint_option ) {
 		set_transient( 'dlm_download_endpoints_rewrite', true, HOUR_IN_SECONDS );
+	}
+}
+
+function dlm_set_wpml_language_default() {
+	if ( ! defined( 'ICL_SITEPRESS_VERSION' ) || ! function_exists( 'wpml_get_default_language' ) || ! class_exists( 'WP_Query' ) ) {
+		return;
+	}
+
+	global $sitepress;
+
+	if ( ! method_exists( $sitepress, 'set_element_language_details' ) ) {
+		return;
+	}
+
+	$default_lang = apply_filters( 'wpml_default_language', null );
+	if ( ! $default_lang ) {
+		return;
+	}
+
+	$args = array(
+		'post_type'      => 'dlm_download',
+		'post_status'    => 'any',
+		'posts_per_page' => -1,
+		'fields'         => 'ids',
+		'meta_query'     => array(
+			array(
+				'key'     => '_icl_lang_duplicate',
+				'compare' => 'NOT EXISTS',
+			),
+		),
+	);
+
+	$downloads = get_posts( $args );
+
+	foreach ( $downloads as $post_id ) {
+		$has_language = apply_filters(
+			'wpml_element_language_code',
+			null,
+			array(
+				'element_id'   => $post_id,
+				'element_type' => 'post_dlm_download',
+			)
+		);
+
+		if ( ! $has_language ) {
+			$sitepress->set_element_language_details(
+				$post_id,
+				'post_dlm_download',
+				null,
+				$default_lang,
+				null
+			);
+		}
 	}
 }
