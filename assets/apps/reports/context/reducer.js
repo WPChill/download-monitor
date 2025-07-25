@@ -17,16 +17,6 @@ export const reducer = ( state, action ) => {
 				...state,
 				activeTab: action.payload,
 			};
-		case actionTypes.SET_DETAILED_DOWNLOADS:
-			return {
-				...state,
-				detailedDownloads: action.payload,
-			};
-		case actionTypes.SET_OVERVIEW_DOWNLOADS:
-			return {
-				...state,
-				overviewDownloads: action.payload,
-			};
 		default:
 			return {
 				...state,

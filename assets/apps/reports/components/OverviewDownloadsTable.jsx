@@ -1,11 +1,11 @@
-import { useMemo, useState, useEffect } from '@wordpress/element';
+import { useMemo, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { Spinner } from '@wordpress/components';
 import useStateContext from '../context/useStateContext';
 import { useGetOverviewTableData } from '../query/useGetTableData';
 import styles from './DownloadsTable.module.scss';
-import { setOverviewDownloads } from '../context/actions';
+
 import {
 	useReactTable,
 	getCoreRowModel,
@@ -19,12 +19,6 @@ export default function OverviewDownloadsTable() {
 	const [ pageIndex, setPageIndex ] = useState( 0 );
 
 	const { data: downloadsData = [], isLoading } = useGetOverviewTableData( state.periods );
-
-	useEffect( () => {
-		if ( downloadsData && downloadsData.length > 0 ) {
-			dispatch( setOverviewDownloads( downloadsData ) );
-		}
-	}, [ downloadsData, dispatch ] );
 
 	const filteredDownloadsData = useMemo( () => {
 		return applyFilters( 'dlm.reports.overviewReportsData', downloadsData, state );

@@ -1,11 +1,10 @@
-import { useMemo, useState, useEffect } from '@wordpress/element';
+import { useMemo, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { Spinner } from '@wordpress/components';
 import useStateContext from '../context/useStateContext';
 import { useGetDetailedTableData } from '../query/useGetTableData';
 import styles from './DownloadsTable.module.scss';
-import { setDetailedDownloads } from '../context/actions';
 import {
 	useReactTable,
 	getCoreRowModel,
@@ -19,12 +18,6 @@ export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) 
 	const [ pageIndex, setPageIndex ] = useState( 0 );
 
 	const { data: downloadsData = [], isLoadingDownloads } = useGetDetailedTableData( state.periods );
-
-	useEffect( () => {
-		if ( downloadsData && downloadsData.length > 0 ) {
-			dispatch( setDetailedDownloads( downloadsData ) );
-		}
-	}, [ downloadsData, dispatch ] );
 
 	const filteredDownloadsData = useMemo( () => {
 		return applyFilters( 'dlm.reports.detailedReportsData', downloadsData, state );

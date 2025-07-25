@@ -472,6 +472,18 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public static function get_user_data( $request ) {
 			global $wpdb;
+			$allowed_roles = apply_filters(
+				'dlm_reports_allowed_roles',
+				array(
+					'administrator',
+					'editor',
+					'author',
+					'contributor',
+					'subscriber',
+					'customer',
+					'shop_manager',
+				)
+			);
 
 			$users      = array();
 			$users_data = array();
@@ -507,6 +519,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				// Cycle through users and get their data.
 				foreach ( $users as $user ) {
 					$user_roles              = array_keys( unserialize( $user->roles ) );
+					$user_roles              = array_intersect( $user_roles, $allowed_roles );
 					$user_roles              = is_array( $user_roles ) ? implode( ',', $user_roles ) : '';
 					$users_data[ $user->ID ] = array(
 						'nicename'     => $user->user_nicename,
@@ -559,7 +572,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 			);
 		}
 
-		public function add_page_title( $title ){
+		public function add_page_title( $title ) {
 			if ( ! isset( $_GET['page'] ) || 'download-monitor-reports' !== $_GET['page'] ) {
 				return $title;
 			}
