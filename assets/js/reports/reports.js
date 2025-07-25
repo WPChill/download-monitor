@@ -3956,12 +3956,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_1__);
+/* eslint-disable @tanstack/query/exhaustive-deps */
 
 
 
 const useGetOverviewTableData = (periods = {}) => {
+  const periodStart = periods?.start || '';
+  const periodEnd = periods?.end || '';
   return (0,_tanstack_react_query__WEBPACK_IMPORTED_MODULE_2__.useQuery)({
-    queryKey: ['overviewTableData', periods],
+    queryKey: ['overviewTableData', periodStart, periodEnd],
     queryFn: () => {
       return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
         path: (0,_wordpress_url__WEBPACK_IMPORTED_MODULE_1__.addQueryArgs)('download-monitor/v1/reports/table_data', periods)
@@ -3970,8 +3973,10 @@ const useGetOverviewTableData = (periods = {}) => {
   });
 };
 const useGetDetailedTableData = (periods = {}) => {
+  const periodStart = periods?.start || '';
+  const periodEnd = periods?.end || '';
   return (0,_tanstack_react_query__WEBPACK_IMPORTED_MODULE_2__.useQuery)({
-    queryKey: ['detailedTableData', periods],
+    queryKey: ['detailedTableData', periodStart, periodEnd],
     queryFn: () => {
       return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
         path: (0,_wordpress_url__WEBPACK_IMPORTED_MODULE_1__.addQueryArgs)('download-monitor/v1/reports/users_download_data', periods)
