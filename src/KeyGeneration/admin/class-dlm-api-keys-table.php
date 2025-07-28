@@ -66,10 +66,14 @@ class DLM_API_Keys_Table extends WP_List_Table {
 				echo esc_html( $item->get_public_key() );
 				break;
 			case 'token':
-				echo esc_html( $item->get_token() );
+				echo current_user_can( 'manage_options' )
+					? esc_html( $item->get_token() )
+					: '*****';
 				break;
 			case 'secret_key':
-				echo esc_html( $item->get_secret_key() );
+				echo current_user_can( 'manage_options' )
+					? esc_html( $item->get_secret_key() )
+					: '*****';
 				break;
 			case 'create_date':
 				echo esc_html( $item->get_creation_date() );

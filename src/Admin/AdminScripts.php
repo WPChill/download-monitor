@@ -310,7 +310,7 @@ class DLM_Admin_Scripts {
 			wp_enqueue_style( 'dlm_legacy_upgrader_css', download_monitor()->get_plugin_url() . '/assets/js/legacy-upgrader/build/style.css' );
 		}
 
-		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'] && ! empty( $_GET['section'] ) && 'misc' === $_GET['section'] ) {
+		if ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'download-monitor-settings' === $_GET['page'] && ! empty( $_GET['section'] ) && 'rest' === $_GET['section'] ) {
 
 			// Enqueue Select2
 			wp_enqueue_script(

@@ -52,8 +52,7 @@ function _download_monitor_install( $network_wide = false ) {
 		$installer->install();
 	}
 
-	// sets the default language of dlm_downloads post types
-	dlm_set_wpml_language_default();
+	update_option( 'dlm_activation_check_default_languages', true );
 }
 
 /**
@@ -205,6 +204,21 @@ function dlm_handle_wpml_translation_ajx() {
 	}
 }
 
+function dlm_check_default_translations(){
+	if ( ! get_option( 'dlm_check_default_languages', false ) || get_option( 'dlm_activation_check_default_languages' ) ) {
+
+		// sets the default language of dlm_downloads post types
+		dlm_set_wpml_language_default();
+		dlm_set_polylang_language_for_dlm_terms();
+
+		// add option so we sure the check is ran at least once
+		add_option( 'dlm_check_default_languages', 'checked' );
+
+		// delte activation option.
+		delete_option( 'dlm_activation_check_default_languages' );
+	}
+}
+
 function dlm_set_wpml_language_default() {
 	if ( ! defined( 'ICL_SITEPRESS_VERSION' ) || ! function_exists( 'wpml_get_default_language' ) || ! class_exists( 'WP_Query' ) ) {
 		return;
@@ -254,6 +268,32 @@ function dlm_set_wpml_language_default() {
 				$default_lang,
 				null
 			);
+		}
+	}
+}
+
+function dlm_set_polylang_language_for_dlm_terms() {
+
+	if ( ! function_exists( 'pll_get_term_language' ) || ! function_exists( 'pll_set_term_language' ) || ! function_exists( 'pll_default_language' ) ) {
+		return;
+	}
+
+	$default_lang = pll_default_language();
+	$taxonomies   = array( 'dlm_download_category', 'dlm_download_tag' );
+
+	foreach ( $taxonomies as $taxonomy ) {
+		$terms = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'hide_empty' => false,
+			)
+		);
+
+		foreach ( $terms as $term ) {
+			$current_lang = pll_get_term_language( $term->term_id );
+			if ( ! $current_lang ) {
+				pll_set_term_language( $term->term_id, $default_lang );
+			}
 		}
 	}
 }
