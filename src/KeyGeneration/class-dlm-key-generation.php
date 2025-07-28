@@ -73,17 +73,24 @@ class DLM_Key_Generation {
 		$current_user = wp_get_current_user();
 		?>
 		<div class='dlm-api-keys'>
-			<h2 class='wp-heading-inline'><?php
-				echo esc_html__( 'API Keys', 'download-monitor' ); ?></h2>
 			<div class="dlm-api-keys-generator">
 				<br>
 				<select name="dlm-keygen-user-select" class="dlm-keygen-user-select">
-					<option selected="selected" value="<?php
-					echo esc_attr( $current_user->data->ID ); ?>"> <?php
-						echo esc_html( $current_user->data->display_name . '(' . $current_user->data->user_email . ')' ); ?> </option>
+					<option selected="selected" value="
+					<?php
+					echo esc_attr( $current_user->data->ID );
+					?>
+					"> 
+					<?php
+						echo esc_html( $current_user->data->display_name . '(' . $current_user->data->user_email . ')' );
+					?>
+					</option>
 				</select>
-				<button class="dlm-keygen-generate button button-secondary"><?php
-					echo esc_html__( 'Generate API Key', 'download-monitor' ); ?></button>
+				<button class="dlm-keygen-generate button button-secondary">
+				<?php
+					echo esc_html__( 'Generate API Key', 'download-monitor' );
+				?>
+				</button>
 			</div>
 			<?php
 			// Add your code here.
@@ -314,7 +321,6 @@ class DLM_Key_Generation {
 		switch ( $_POST['dlm_action'] ) {
 			case 'generate':
 			case 'regenerate':
-
 				$results = $this->generate_api_key( $user_id, true );
 
 				if ( $results ) {
@@ -339,28 +345,20 @@ class DLM_Key_Generation {
 	 * @since 5.0.0
 	 */
 	public function add_api_section( $settings ) {
-		/**
-		 * Filter to enable API keys menu entry
-		 *
-		 * @hook  dlm_enable_api_keys
-		 *
-		 * @param  bool  $enable_api_keys  True to enable API keys, false to disable.
-		 *
-		 * @since 5.0.0
-		 *
-		 */
-		if ( ! apply_filters( 'dlm_enable_api_keys', false ) ) {
-			return $settings;
-		}
 
-		$settings['general']['sections']['misc']['fields'][] = array(
-			'name'     => 'dlm_api_keys_section',
-			'label'    => '',
-			'desc'     => '',
-			'link'     => admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '&tab=advanced&section=misc',
-			'type'     => 'callback',
-			'callback' => array( $this, 'render_api_keys_page' ),
-			'priority' => 90,
+		$settings['advanced']['sections']['rest'] = array(
+			'title'  => __( 'REST API', 'download-monitor' ),
+			'fields' => array(
+				array(
+					'name'     => 'dlm_api_keys_section',
+					'label'    => '',
+					'desc'     => '',
+					'link'     => admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-settings' ) . '&tab=advanced&section=rest',
+					'type'     => 'callback',
+					'callback' => array( $this, 'render_api_keys_page' ),
+					'priority' => 90,
+				),
+			),
 		);
 
 		return $settings;

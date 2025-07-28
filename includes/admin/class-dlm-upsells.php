@@ -79,7 +79,7 @@ class DLM_Upsells {
 		return self::$instance;
 	}
 
-	public function upsells_init(){
+	public function upsells_init() {
 		$this->set_offer();
 
 		$this->set_hooks();
@@ -97,19 +97,19 @@ class DLM_Upsells {
 			'label'  => __( 'Get Premium', 'download-monitor' ),
 		);
 		// if ( 11 == $month ) {
-		// 	$this->offer = array(
-		// 		'class'       => 'wpchill-bf-upsell',
-		// 		'column'      => 'bf-upsell-columns',
-		// 		'label'       => __( '40% OFF for Black Friday', 'download-monitor' ),
-		// 		'description' => '40% OFF on new purchases, early renewals or upgrades.',
-		// 	);
+		//  $this->offer = array(
+		//      'class'       => 'wpchill-bf-upsell',
+		//      'column'      => 'bf-upsell-columns',
+		//      'label'       => __( '40% OFF for Black Friday', 'download-monitor' ),
+		//      'description' => '40% OFF on new purchases, early renewals or upgrades.',
+		//  );
 		// }
 		// if ( 12 == $month ) {
-		// 	$this->offer = array(
-		// 		'class'  => 'wpchill-xmas-upsell',
-		// 		'column' => 'xmas-upsell-columns',
-		// 		'label'  => __( '25% OFF for Christmas', 'download-monitor' ),
-		// 	);
+		//  $this->offer = array(
+		//      'class'  => 'wpchill-xmas-upsell',
+		//      'column' => 'xmas-upsell-columns',
+		//      'label'  => __( '25% OFF for Christmas', 'download-monitor' ),
+		//  );
 		// }
 	}
 

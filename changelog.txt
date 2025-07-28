@@ -1,3 +1,7 @@
+= 5.0.31 - 28.07.2025 =
+* Fixed: Set the default language for download taxonomies when using the Polylang plugin.
+* Changed: Removed 'dlm_enable_api_keys' filter and always render the REST API table in Settings -> Advanced -> REST API.
+
 = 5.0.30 - 25.07.2025 =
 Fixed: Downloads without a default WPML language were not showing in the admin table.
 

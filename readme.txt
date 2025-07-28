@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, file manager, digital store, ecommerce, password protection  
 Requires at least: 5.5  
 Tested up to: 6.8  
-Stable tag: 5.0.30
+Stable tag: 5.0.31
 License: GPLv3  
 Requires PHP: 7.6  
 
@@ -114,6 +114,10 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.0.31 - 28.07.2025 =
+* Fixed: Set the default language for download taxonomies when using the Polylang plugin.
+* Changed: Removed 'dlm_enable_api_keys' filter and always render the REST API table in Settings -> Advanced -> REST API.
+
 = 5.0.30 - 25.07.2025 =
 Fixed: Downloads without a default WPML language were not showing in the admin table.
 
