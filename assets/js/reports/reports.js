@@ -2458,7 +2458,12 @@ function ReportsWrapper() {
     className: _ReportsWrapper_module_scss__WEBPACK_IMPORTED_MODULE_7__["default"].dlmReportsWrapper
   }, /*#__PURE__*/React.createElement("div", {
     className: _ReportsWrapper_module_scss__WEBPACK_IMPORTED_MODULE_7__["default"].dlmReportsHeader
-  }, /*#__PURE__*/React.createElement(_components_TabNavigation__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/React.createElement(_components_DateRangeSelect__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__.applyFilters)('dlm.reports.after.nav', '', {
+  }, /*#__PURE__*/React.createElement(_components_TabNavigation__WEBPACK_IMPORTED_MODULE_3__["default"], null), (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__.applyFilters)('dlm.reports.after.nav', '', {
+    dispatch,
+    state
+  })), /*#__PURE__*/React.createElement("div", {
+    className: _ReportsWrapper_module_scss__WEBPACK_IMPORTED_MODULE_7__["default"].dlmReportsRangeSelect
+  }, /*#__PURE__*/React.createElement(_components_DateRangeSelect__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__.applyFilters)('dlm.reports.after.rangeSelect', '', {
     dispatch,
     state
   })), /*#__PURE__*/React.createElement("div", {
