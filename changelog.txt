@@ -1,3 +1,6 @@
+= 5.0.32 - 30.07.2025 =
+* Changed: Removed the "download version" post type from the list of translatable content in `wpml-config.xml`.
+
 = 5.0.31 - 28.07.2025 =
 * Fixed: Set the default language for download taxonomies when using the Polylang plugin.
 * Changed: Removed 'dlm_enable_api_keys' filter and always render the REST API table in Settings -> Advanced -> REST API.
