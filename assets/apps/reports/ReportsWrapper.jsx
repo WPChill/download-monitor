@@ -10,26 +10,29 @@ export default function ReportsWrapper() {
 	const { state, dispatch } = useStateContext();
 
 	const renderTabContent = () => {
-		switch ( state.activeTab ) {
+		switch (state.activeTab) {
 			case 'overview':
-				return ( <OverviewTab /> );
+				return (<OverviewTab />);
 			case 'detailed':
-				return ( <DetailedTab /> );
+				return (<DetailedTab />);
 			default:
-				return applyFilters( `dlm.reports.tab.${ state.activeTab }.body`, '', { dispatch, state } );
+				return applyFilters(`dlm.reports.tab.${state.activeTab}.body`, '', { dispatch, state });
 		}
 	};
 
 	return (
-		<div className={ styles.dlmReportsWrapper } >
-			<div className={ styles.dlmReportsHeader }>
+		<div className={styles.dlmReportsWrapper} >
+			<div className={styles.dlmReportsHeader}>
 				<TabNavigation />
-				<DateRangeSelect />
-				{ applyFilters( 'dlm.reports.after.nav', '', { dispatch, state } ) }
+				{applyFilters('dlm.reports.after.nav', '', { dispatch, state })}
 			</div>
-			<div className={ styles.dlmReportsBody }>
-				{ renderTabContent() }
-				{ applyFilters( 'dlm.reports.after.tab.content', '', { dispatch, state } ) }
+			<div className={styles.dlmReportsRangeSelect}>
+				<DateRangeSelect />
+				{applyFilters('dlm.reports.after.rangeSelect', '', { dispatch, state })}
+			</div>
+			<div className={styles.dlmReportsBody}>
+				{renderTabContent()}
+				{applyFilters('dlm.reports.after.tab.content', '', { dispatch, state })}
 			</div>
 		</div>
 	);

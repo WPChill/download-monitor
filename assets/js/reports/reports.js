@@ -2856,14 +2856,6 @@ function DateRangeSelect() {
     }];
   }, []);
   const [selectedOption, setSelectedOption] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(() => options[0]);
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (selectedOption?.start && selectedOption?.end) {
-      dispatch((0,_context_actions__WEBPACK_IMPORTED_MODULE_7__.setPeriods)({
-        start: selectedOption.start,
-        end: selectedOption.end
-      }));
-    }
-  }, [selectedOption, dispatch]);
   const handleChange = selected => {
     setSelectedOption(selected);
     if (selected?.start && selected?.end) {
@@ -3314,7 +3306,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Card */ "./assets/apps/reports/components/Card.jsx");
+/* harmony import */ var _Summary__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Summary */ "./assets/apps/reports/components/Summary.jsx");
 
 
 
@@ -3338,28 +3330,28 @@ function OverviewCards() {
   const average = isLoading ? /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Spinner, null) : ((_cards$average = cards?.average) !== null && _cards$average !== void 0 ? _cards$average : 0).toLocaleString();
   return /*#__PURE__*/React.createElement("div", {
     className: _ReportsCards_module_scss__WEBPACK_IMPORTED_MODULE_3__["default"].dlmReportsCardsWrapper
-  }, /*#__PURE__*/React.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, /*#__PURE__*/React.createElement(_Summary__WEBPACK_IMPORTED_MODULE_7__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Total Downloads', 'download-monitor'),
     value: total,
     color: "#8280FF",
     icon: "download",
     type: "total",
     cards: cards
-  }), (null === state.periods.compare_start || 'undefined' === typeof state.periods.compare_start) && /*#__PURE__*/React.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), (null === state.periods.compare_start || 'undefined' === typeof state.periods.compare_start) && /*#__PURE__*/React.createElement(_Summary__WEBPACK_IMPORTED_MODULE_7__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Today Downloads', 'download-monitor'),
     value: today,
     color: "#FEC53D",
     icon: "clock",
     type: "today",
     cards: cards
-  }), /*#__PURE__*/React.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), /*#__PURE__*/React.createElement(_Summary__WEBPACK_IMPORTED_MODULE_7__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Most Popular Download', 'download-monitor'),
     value: popular,
     color: "#4AD991",
     icon: "star-filled",
     type: "popular",
     cards: cards
-  }), /*#__PURE__*/React.createElement(_Card__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), /*#__PURE__*/React.createElement(_Summary__WEBPACK_IMPORTED_MODULE_7__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__.__)('Daily Average Downloads', 'download-monitor'),
     value: average,
     color: "#FF9066",
@@ -3631,6 +3623,53 @@ function OverviewTab() {
 
 /***/ }),
 
+/***/ "./assets/apps/reports/components/Summary.jsx":
+/*!****************************************************!*\
+  !*** ./assets/apps/reports/components/Summary.jsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Summary)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Summary_module_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Summary.module.scss */ "./assets/apps/reports/components/Summary.module.scss");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function Summary({
+  label = '',
+  value = '',
+  type = 'default',
+  cards = {}
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: `${_Summary_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].item} ${_Summary_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"][type]}`
+  }, /*#__PURE__*/React.createElement("div", {
+    className: _Summary_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].content
+  }, /*#__PURE__*/React.createElement("div", {
+    className: _Summary_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].label
+  }, label, (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__.applyFilters)(`dlm.card.${type}.label.after`, '', {
+    type,
+    cards
+  })), /*#__PURE__*/React.createElement("div", {
+    className: _Summary_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].value
+  }, value, (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__.applyFilters)(`dlm.card.${type}.value.after`, '', {
+    type,
+    cards
+  })), (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_2__.applyFilters)(`dlm.card.${type}.after`, '', {
+    type,
+    cards
+  })));
+}
+
+/***/ }),
+
 /***/ "./assets/apps/reports/components/TabNavigation.jsx":
 /*!**********************************************************!*\
   !*** ./assets/apps/reports/components/TabNavigation.jsx ***!
@@ -3735,12 +3774,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__);
 
-const initialState = () => ({
-  periods: {
+
+const getDefaultPeriods = () => {
+  const periods = {
     start: dayjs__WEBPACK_IMPORTED_MODULE_0___default()().subtract(7, 'day').format('YYYY-MM-DD'),
     end: dayjs__WEBPACK_IMPORTED_MODULE_0___default()().format('YYYY-MM-DD')
-  },
+  };
+  return (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__.applyFilters)('myplugin.initial_periods', periods);
+};
+const initialState = () => ({
+  periods: getDefaultPeriods(),
   activeTab: 'overview'
 });
 
@@ -8787,7 +8833,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // extracted by mini-css-extract-plugin
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"dlmReportsWrapper":"HhTgX6Zoub5qUvUmiFP_","dlmReportsHeader":"gx_zqWZet2GUvpzoowm_"});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"dlmReportsWrapper":"HhTgX6Zoub5qUvUmiFP_","dlmReportsHeader":"gx_zqWZet2GUvpzoowm_","dlmReportsRangeSelect":"Wl4bzQGpbpJD461VhP1o","dlmReportsBody":"KRNrHmonXZy8SHRaYBvU"});
 
 /***/ }),
 
@@ -8867,7 +8913,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // extracted by mini-css-extract-plugin
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"dlmReportsCardsWrapper":"zKnw3LCh18NnfUYQFSoe","dlmReportsCard":"_OeVAEYXYLbd7XU4Jwjw","dlmReportsCardTitle":"wNJsCHJrV24gQ4wxRxUh","dlmReportsCardValue":"ouhQu86eE1mY1fD787Ng","dlmReportsCardIconWrap":"g97H9r9J8Ef3xZNSamdI","dlmReportsCardIcon":"j7WVjzrbb8j4arnwZRmg","total":"lOefru17bmgbVoJeOhVh","loggedIn":"rgtJEwgSzRGwq7F6qm0U","today":"mc0lwSREL3gs4ZEHNsYk","guest":"OtZXyv3GYeb5hKgQ5bsV","popular":"aiePQqnhEyhIcQ9HSDhR","average":"R013ZqTIyV8745SzUBNQ","mostActive":"WrJrksiD7PV_3aIA6aHH"});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"dlmReportsCardsWrapper":"zKnw3LCh18NnfUYQFSoe"});
+
+/***/ }),
+
+/***/ "./assets/apps/reports/components/Summary.module.scss":
+/*!************************************************************!*\
+  !*** ./assets/apps/reports/components/Summary.module.scss ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// extracted by mini-css-extract-plugin
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"item":"OtsPznnaaOGRfqkKZj7C","content":"DqapiS2MsuvMAHwBdiAe","label":"brcwhmEpN_0OQGlJ7cgp","value":"_5AYBQQ9O4bY8ifyoNwJ"});
 
 /***/ }),
 

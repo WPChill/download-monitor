@@ -28,3 +28,7 @@
     border-radius: 6px;
     cursor: pointer;
 }
+
+#dlm_reports_page {
+    margin-left: -20px;
+}

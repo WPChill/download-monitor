@@ -36,12 +36,6 @@ export default function DateRangeSelect() {
 
 	const [ selectedOption, setSelectedOption ] = useState( () => options[ 0 ] );
 
-	useEffect( () => {
-		if ( selectedOption?.start && selectedOption?.end ) {
-			dispatch( setPeriods( { start: selectedOption.start, end: selectedOption.end } ) );
-		}
-	}, [ selectedOption, dispatch ] );
-
 	const handleChange = ( selected ) => {
 		setSelectedOption( selected );
 		if ( selected?.start && selected?.end ) {

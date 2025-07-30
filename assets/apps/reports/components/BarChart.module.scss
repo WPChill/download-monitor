@@ -1,24 +1,28 @@
 .barChartWrapper {
-    margin-top: 25px;
     background-color: #fff;
     padding: 24px 0;
-    border-radius: .625rem;
     overflow: hidden;
     position: relative;
-    .groupByWrap{
+    border: 1px solid #e0e0e0;
+    border-top: unset;
+
+    .groupByWrap {
         position: absolute;
         right: 24px;
         top: 30px;
         display: flex;
         align-items: baseline;
         gap: 3px;
-        .groupByButton{
+
+        .groupByButton {
             color: #3c434a;
             z-index: 999;
-            &.activeGroupBy{
+
+            &.activeGroupBy {
                 color: #5A8DFF;
             }
-            &:focus{
+
+            &:focus {
                 box-shadow: none;
             }
         }
@@ -35,31 +39,38 @@
     gap: 0.375rem;
     min-width: 150px;
     box-sizing: border-box;
+
     .tooltipTitle {
         font-weight: 500;
         font-size: .75rem;
         color: oklch(.145 0 0);
     }
-    .tooltipWrap{
+
+    .tooltipWrap {
         display: grid;
         gap: 0.375rem;
-        .tooltipDataWrap{
+
+        .tooltipDataWrap {
             display: flex;
             gap: 0.375rem;
             width: 100%;
             align-items: center;
-            .tip{
+
+            .tip {
                 display: block;
                 width: 10px;
                 height: 10px;
                 border-radius: 3px;
             }
-            .tipCurrent{
+
+            .tipCurrent {
                 background-color: #4a7aff;
             }
-            .tipCompare{
+
+            .tipCompare {
                 background-color: rgba(100, 100, 255, 0.3);
             }
+
             .tooltipData {
                 display: flex;
                 gap: 0.75rem;
