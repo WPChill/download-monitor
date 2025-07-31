@@ -2507,8 +2507,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/CartesianGrid.js");
 /* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/XAxis.js");
 /* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/YAxis.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/Legend.js");
-/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/Tooltip.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/Tooltip.js");
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/component/Legend.js");
 /* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/cartesian/Bar.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_8__);
@@ -2651,26 +2651,40 @@ function CustomTooltip({
 }
 function Chart() {
   const {
-    state
+    state,
+    dispatch
   } = (0,_context_useStateContext__WEBPACK_IMPORTED_MODULE_2__["default"])();
   const {
     data,
     isLoading,
     error
   } = (0,_query_useGetChartData__WEBPACK_IMPORTED_MODULE_3__.useGetChartData)(state.periods);
-  const [groupBy, setGroupBy] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('days');
-  const rangeInDays = dayjs__WEBPACK_IMPORTED_MODULE_8___default()(state.periods.end).diff(dayjs__WEBPACK_IMPORTED_MODULE_8___default()(state.periods.start), 'day') + 1;
-  const canGroupBy = {
-    days: true,
-    weeks: rangeInDays >= 7,
-    months: rangeInDays >= 28
+  const handleMouseEnter = payload => {
+    dispatch({
+      type: 'SET_CHART_OPTIONS',
+      payload: {
+        ...state.chart,
+        compareOpacity: 'current' === payload.dataKey ? 0.5 : 1,
+        currentOpacity: 'compare' === payload.dataKey ? 0.5 : 1
+      }
+    });
+  };
+  const handleMouseLeave = () => {
+    dispatch({
+      type: 'SET_CHART_OPTIONS',
+      payload: {
+        ...state.chart,
+        compareOpacity: 1,
+        currentOpacity: 1
+      }
+    });
   };
   const chartData = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
     if (!data?.downloads_data) {
       return [];
     }
-    return buildChartData(data.downloads_data, data.compare_data, state.periods, groupBy);
-  }, [data, state.periods, groupBy]);
+    return buildChartData(data.downloads_data, data.compare_data, state.periods, state.chart.groupBy);
+  }, [data, state.periods, state.chart.groupBy]);
   const hasCompare = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => !!data?.compare_data?.length, [data]);
   if (isLoading) {
     return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Spinner, null);
@@ -2678,30 +2692,21 @@ function Chart() {
   if (error || !chartData.length) {
     return /*#__PURE__*/React.createElement("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('No chart data available.', 'download-monitor'));
   }
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__.applyFilters)('dlm.overview.chart.before', '', {
+    state,
+    dispatch,
+    chartData
+  }), /*#__PURE__*/React.createElement("div", {
     className: _BarChart_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].barChartWrapper
-  }, /*#__PURE__*/React.createElement("div", {
-    className: _BarChart_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].groupByWrap
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Group by', 'download-monitor'), ['days', 'weeks', 'months'].filter(key => canGroupBy[key]).map(key => /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.Button, {
-    key: key,
-    variant: "link",
-    onClick: () => setGroupBy(key),
-    className: `
-							${_BarChart_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].groupByButton}
-							${groupBy === key ? _BarChart_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].activeGroupBy : ''}
-						`.trim()
-  }, {
-    days: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('days', 'download-monitor'),
-    weeks: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('weeks', 'download-monitor'),
-    months: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('months', 'download-monitor')
-  }[key]))), /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_11__.ResponsiveContainer, {
+  }, /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_11__.ResponsiveContainer, {
     width: "100%",
     height: 400
   }, /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_12__.BarChart, {
     data: chartData
   }, /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_13__.CartesianGrid, {
-    stroke: "#e0e0e0",
-    strokeDasharray: "3 3"
+    horizontal: true,
+    vertical: false,
+    stroke: "#f0f0f0"
   }), /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_14__.XAxis, {
     dataKey: "date",
     tick: {
@@ -2709,24 +2714,28 @@ function Chart() {
       fontWeight: 700
     },
     tickFormatter: value => (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_7__.dateI18n)(formats.date, new Date(value + 'T12:00:00'))
-  }), /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_15__.YAxis, null), /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_16__.Legend, {
+  }), /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_15__.YAxis, null), /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_16__.Tooltip, {
+    content: /*#__PURE__*/React.createElement(CustomTooltip, null)
+  }), (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__.applyFilters)('dlm.overview.chart.showLegend', true) && /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_17__.Legend, {
     verticalAlign: "top",
     align: "center",
     layout: "horizontal",
-    iconType: "circle"
-  }), /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_17__.Tooltip, {
-    content: /*#__PURE__*/React.createElement(CustomTooltip, null)
-  }), /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_18__.Bar, {
+    iconType: "circle",
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave
+  }), state.chart.showCurrent && /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_18__.Bar, {
     dataKey: "current",
-    stackId: "downloads",
-    fill: "#4a7aff",
+    stackId: "currentDownloads",
+    fill: "#31688e",
+    opacity: state.chart.currentOpacity,
     name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Current', 'download-monitor')
-  }), hasCompare && /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_18__.Bar, {
+  }), hasCompare && state.chart.showCompare && /*#__PURE__*/React.createElement(recharts__WEBPACK_IMPORTED_MODULE_18__.Bar, {
     dataKey: "compare",
-    stackId: "downloads",
-    fill: "rgba(100, 100, 255, 0.3)",
+    stackId: "compareDownloads",
+    fill: "#35b779",
+    opacity: state.chart.compareOpacity,
     name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Compare', 'download-monitor')
-  }))), (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__.applyFilters)('dlm.overview.chart.after', '', {
+  })))), (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__.applyFilters)('dlm.overview.chart.after', '', {
     state,
     chartData
   }));
@@ -3746,6 +3755,7 @@ function TabNavigation() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   setActiveTab: () => (/* binding */ setActiveTab),
+/* harmony export */   setChartOptions: () => (/* binding */ setChartOptions),
 /* harmony export */   setPeriods: () => (/* binding */ setPeriods)
 /* harmony export */ });
 /* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./reducer */ "./assets/apps/reports/context/reducer.js");
@@ -3756,6 +3766,10 @@ const setPeriods = value => ({
 });
 const setActiveTab = value => ({
   type: _reducer__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_ACTIVE_TAB,
+  payload: value
+});
+const setChartOptions = value => ({
+  type: _reducer__WEBPACK_IMPORTED_MODULE_0__.actionTypes.SET_CHART_OPTIONS,
   payload: value
 });
 
@@ -3787,7 +3801,14 @@ const getDefaultPeriods = () => {
 };
 const initialState = () => ({
   periods: getDefaultPeriods(),
-  activeTab: 'overview'
+  activeTab: 'overview',
+  chart: {
+    showCurrent: true,
+    showCompare: true,
+    compareOpacity: 1,
+    currentOpacity: 1,
+    groupBy: 'days'
+  }
 });
 
 /***/ }),
@@ -3808,7 +3829,8 @@ const actionTypes = {
   SET_PERIODS: 'SET_PERIODS',
   SET_ACTIVE_TAB: 'SET_ACTIVE_TAB',
   SET_DETAILED_DOWNLOADS: 'SET_DETAILED_DOWNLOADS',
-  SET_OVERVIEW_DOWNLOADS: 'SET_OVERVIEW_DOWNLOADS'
+  SET_OVERVIEW_DOWNLOADS: 'SET_OVERVIEW_DOWNLOADS',
+  SET_CHART_OPTIONS: 'SET_CHART_OPTIONS'
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -3821,6 +3843,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         activeTab: action.payload
+      };
+    case actionTypes.SET_CHART_OPTIONS:
+      return {
+        ...state,
+        chart: action.payload
       };
     default:
       return {
@@ -8849,7 +8876,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // extracted by mini-css-extract-plugin
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"barChartWrapper":"AFAYderc6HhRQ3hRcbVQ","groupByWrap":"x9ZKK5QoAbnPEU6l3Pms","groupByButton":"sevk48W53ZGKwKDl5u_g","activeGroupBy":"B3F2GZ8nLDpfXTHi6N2i","tooltip":"W809FITH315ZGsTFjlxN","tooltipTitle":"aArJIaupYxlGK8lYI5xp","tooltipWrap":"ciT_82w9am1sACIY7Eng","tooltipDataWrap":"XyLyh4yg_EWK2Wm1BRCK","tip":"LYlr5xo4ITcHEChfaDnj","tipCurrent":"INzReM5hPd1vc4ZsA77c","tipCompare":"S5MtOcEINg9kIgNnLuyb","tooltipData":"Nx3Hu2ibg6NFQSbyKGWG","title":"f0_YJE7G2FP9nnMzaTLC","value":"Xvn1lfBbAQvbkWnkWGva","diff":"hRNimV1i7Md0HF0l2AzE","increase":"u4AvieihJ3VXvxWo3NCQ","decrease":"JrVUb0l2djD2guz14vKA"});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({"barChartWrapper":"AFAYderc6HhRQ3hRcbVQ","tooltip":"W809FITH315ZGsTFjlxN","tooltipTitle":"aArJIaupYxlGK8lYI5xp","tooltipWrap":"ciT_82w9am1sACIY7Eng","tooltipDataWrap":"XyLyh4yg_EWK2Wm1BRCK","tip":"LYlr5xo4ITcHEChfaDnj","tipCurrent":"INzReM5hPd1vc4ZsA77c","tipCompare":"S5MtOcEINg9kIgNnLuyb","tooltipData":"Nx3Hu2ibg6NFQSbyKGWG","title":"f0_YJE7G2FP9nnMzaTLC","value":"Xvn1lfBbAQvbkWnkWGva","diff":"hRNimV1i7Md0HF0l2AzE","increase":"u4AvieihJ3VXvxWo3NCQ","decrease":"JrVUb0l2djD2guz14vKA"});
 
 /***/ }),
 

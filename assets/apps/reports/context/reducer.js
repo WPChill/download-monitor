@@ -3,6 +3,7 @@ export const actionTypes = {
 	SET_ACTIVE_TAB: 'SET_ACTIVE_TAB',
 	SET_DETAILED_DOWNLOADS: 'SET_DETAILED_DOWNLOADS',
 	SET_OVERVIEW_DOWNLOADS: 'SET_OVERVIEW_DOWNLOADS',
+	SET_CHART_OPTIONS: 'SET_CHART_OPTIONS',
 };
 
 export const reducer = ( state, action ) => {
@@ -16,6 +17,11 @@ export const reducer = ( state, action ) => {
 			return {
 				...state,
 				activeTab: action.payload,
+			};
+		case actionTypes.SET_CHART_OPTIONS:
+			return {
+				...state,
+				chart: action.payload,
 			};
 		default:
 			return {

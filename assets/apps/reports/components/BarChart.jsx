@@ -3,7 +3,7 @@ import useStateContext from '../context/useStateContext';
 import { useGetChartData } from '../query/useGetChartData';
 import styles from './BarChart.module.scss';
 import { applyFilters } from '@wordpress/hooks';
-import { Spinner, Icon, Button } from '@wordpress/components';
+import { Spinner, Icon } from '@wordpress/components';
 import { arrowUp, arrowDown } from '@wordpress/icons';
 import { dateI18n, getSettings } from '@wordpress/date';
 import {
@@ -17,7 +17,7 @@ import {
 	CartesianGrid,
 } from 'recharts';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import dayjs from 'dayjs';
 
 const { formats } = getSettings();
@@ -154,24 +154,37 @@ function CustomTooltip( { active, payload } ) {
 }
 
 export default function Chart() {
-	const { state } = useStateContext();
+	const { state, dispatch } = useStateContext();
 	const { data, isLoading, error } = useGetChartData( state.periods );
-	const [ groupBy, setGroupBy ] = useState( 'days' );
 
-	const rangeInDays = dayjs( state.periods.end ).diff( dayjs( state.periods.start ), 'day' ) + 1;
+	const handleMouseEnter = ( payload ) => {
+		dispatch( {
+			type: 'SET_CHART_OPTIONS',
+			payload: {
+				...state.chart,
+				compareOpacity: 'current' === payload.dataKey ? 0.5 : 1,
+				currentOpacity: 'compare' === payload.dataKey ? 0.5 : 1,
+			},
+		} );
+	};
 
-	const canGroupBy = {
-		days: true,
-		weeks: rangeInDays >= 7,
-		months: rangeInDays >= 28,
+	const handleMouseLeave = () => {
+		dispatch( {
+			type: 'SET_CHART_OPTIONS',
+			payload: {
+				...state.chart,
+				compareOpacity: 1,
+				currentOpacity: 1,
+			},
+		} );
 	};
 
 	const chartData = useMemo( () => {
 		if ( ! data?.downloads_data ) {
 			return [];
 		}
-		return buildChartData( data.downloads_data, data.compare_data, state.periods, groupBy );
-	}, [ data, state.periods, groupBy ] );
+		return buildChartData( data.downloads_data, data.compare_data, state.periods, state.chart.groupBy );
+	}, [ data, state.periods, state.chart.groupBy ] );
 
 	const hasCompare = useMemo( () => !! data?.compare_data?.length, [ data ] );
 
@@ -183,48 +196,32 @@ export default function Chart() {
 	}
 
 	return (
-		<div className={ styles.barChartWrapper }>
-			<div className={ styles.groupByWrap }>
-				{ __( 'Group by', 'download-monitor' ) }
-				{ [ 'days', 'weeks', 'months' ]
-					.filter( ( key ) => canGroupBy[ key ] )
-					.map( ( key ) => (
-						<Button
-							key={ key }
-							variant="link"
-							onClick={ () => setGroupBy( key ) }
-							className={ `
-							${ styles.groupByButton }
-							${ groupBy === key ? styles.activeGroupBy : '' }
-						`.trim() }
-						>
-							{ {
-								days: __( 'days', 'download-monitor' ),
-								weeks: __( 'weeks', 'download-monitor' ),
-								months: __( 'months', 'download-monitor' ),
-							}[ key ] }
-						</Button >
-					) ) }
+		<>
+			{ applyFilters( 'dlm.overview.chart.before', '', { state, dispatch, chartData } ) }
+			<div className={ styles.barChartWrapper }>
+				<ResponsiveContainer width="100%" height={ 400 }>
+					<BarChart data={ chartData }>
+						<CartesianGrid horizontal={ true } vertical={ false } stroke="#f0f0f0" />
+						<XAxis
+							dataKey="date"
+							tick={ { fontSize: 12, fontWeight: 700 } }
+							tickFormatter={ ( value ) => dateI18n( formats.date, new Date( value + 'T12:00:00' ) ) }
+						/>
+						<YAxis />
+						<Tooltip content={ <CustomTooltip /> } />
+						{ applyFilters( 'dlm.overview.chart.showLegend', true ) && (
+							<Legend verticalAlign="top" align="center" layout="horizontal" iconType="circle" onMouseEnter={ handleMouseEnter } onMouseLeave={ handleMouseLeave } />
+						) }
+						{ state.chart.showCurrent && (
+							<Bar dataKey="current" stackId="currentDownloads" fill="#31688e" opacity={ state.chart.currentOpacity } name={ __( 'Current', 'download-monitor' ) } />
+						) }
+						{ hasCompare && state.chart.showCompare && (
+							<Bar dataKey="compare" stackId="compareDownloads" fill="#35b779" opacity={ state.chart.compareOpacity } name={ __( 'Compare', 'download-monitor' ) } />
+						) }
+					</BarChart>
+				</ResponsiveContainer>
 			</div>
-
-			<ResponsiveContainer width="100%" height={ 400 }>
-				<BarChart data={ chartData }>
-					<CartesianGrid stroke="#e0e0e0" strokeDasharray="3 3" />
-					<XAxis
-						dataKey="date"
-						tick={ { fontSize: 12, fontWeight: 700 } }
-						tickFormatter={ ( value ) => dateI18n( formats.date, new Date( value + 'T12:00:00' ) ) }
-					/>
-					<YAxis />
-					<Legend verticalAlign="top" align="center" layout="horizontal" iconType="circle" />
-					<Tooltip content={ <CustomTooltip /> } />
-					<Bar dataKey="current" stackId="downloads" fill="#4a7aff" name={ __( 'Current', 'download-monitor' ) } />
-					{ hasCompare && (
-						<Bar dataKey="compare" stackId="downloads" fill="rgba(100, 100, 255, 0.3)" name={ __( 'Compare', 'download-monitor' ) } />
-					) }
-				</BarChart>
-			</ResponsiveContainer>
 			{ applyFilters( 'dlm.overview.chart.after', '', { state, chartData } ) }
-		</div>
+		</>
 	);
 }

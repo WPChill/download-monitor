@@ -10,3 +10,8 @@ export const setActiveTab = ( value ) => ( {
 	payload: value,
 } );
 
+export const setChartOptions = ( value ) => ( {
+	type: actionTypes.SET_CHART_OPTIONS,
+	payload: value,
+} );
+

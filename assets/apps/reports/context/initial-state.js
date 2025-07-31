@@ -13,4 +13,11 @@ const getDefaultPeriods = () => {
 export const initialState = () => ( {
 	periods: getDefaultPeriods(),
 	activeTab: 'overview',
+	chart: {
+		showCurrent: true,
+		showCompare: true,
+		compareOpacity: 1,
+		currentOpacity: 1,
+		groupBy: 'days',
+	},
 } );
