@@ -979,7 +979,8 @@ class WP_DLM {
 	 */
 	public function set_no_access_session() {
 		$no_access_page = get_option( 'dlm_no_access_page', 0 );
-		if ( apply_filters( 'dlm_set_no_access_session', $no_access_page ) && ! isset( $_SESSION ) ) {
+		$no_access_page = apply_filters( 'dlm_set_no_access_session', $no_access_page );
+		if ( $no_access_page && ! isset( $_SESSION ) && ( is_page( $no_access_page ) || is_single( $no_access_page ) ) ) {
 			$is_https = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) || ( isset( $_SERVER['SERVER_PORT'] ) && 443 === $_SERVER['SERVER_PORT'] );
 			$params   = array(
 				'secure'   => $is_https,
