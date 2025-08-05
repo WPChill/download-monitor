@@ -2,13 +2,12 @@
     padding: 24px;
     background-color: #fff;
     border: 1px solid #e0e0e0;
-    border-bottom: unset;
 
     .content {
         .label {
             display: flex;
             margin-bottom: 16px;
-            font-size: calc(14px);
+            font-size: 14px;
             font-weight: normal;
             line-height: 20px;
         }
@@ -22,7 +21,7 @@
         }
     }
 
-    &:not( :first-child ){
+    &:not( :first-child) {
         border-left: unset;
     }
 }

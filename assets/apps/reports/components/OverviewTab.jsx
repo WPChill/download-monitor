@@ -1,5 +1,5 @@
 import OverviewCards from './OverviewCards';
-import BarChart from './BarChart';
+import BarChartComponent from './BarChartComponent';
 import OverviewDownloadsTable from './OverviewDownloadsTable';
 import { applyFilters } from '@wordpress/hooks';
 import useStateContext from '../context/useStateContext';
@@ -8,7 +8,7 @@ export default function OverviewTab() {
 	return (
 		<>
 			<OverviewCards />
-			<BarChart />
+			<BarChartComponent />
 			<OverviewDownloadsTable />
 			{ applyFilters( 'dlm.reports.overviewTab', '', { state } ) }
 		</>

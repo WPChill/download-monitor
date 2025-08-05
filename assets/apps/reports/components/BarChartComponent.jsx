@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import useStateContext from '../context/useStateContext';
 import { useGetChartData } from '../query/useGetChartData';
-import styles from './BarChart.module.scss';
+import styles from './BarChartComponent.module.scss';
 import { applyFilters } from '@wordpress/hooks';
 import { Spinner, Icon } from '@wordpress/components';
 import { arrowUp, arrowDown } from '@wordpress/icons';
@@ -123,7 +123,7 @@ function CustomTooltip( { active, payload } ) {
 					<span className={ `${ styles.tip } ${ styles.tipCurrent }` } />
 					<div className={ styles.tooltipData }>
 						<span className={ styles.title }>{ __( 'Current', 'download-monitor' ) }</span>
-						<span className={ styles.value }>{ current }</span>
+						<span className={ styles.value }>{ current.toLocaleString() }</span>
 					</div>
 				</div>
 				{ typeof compare === 'number' && (
@@ -132,7 +132,7 @@ function CustomTooltip( { active, payload } ) {
 							<span className={ `${ styles.tip } ${ styles.tipCompare }` } />
 							<div className={ styles.tooltipData }>
 								<span className={ styles.title }>{ __( 'Compare', 'download-monitor' ) }</span>
-								<span className={ styles.value }>{ compare }</span>
+								<span className={ styles.value }>{ compare.toLocaleString() }</span>
 							</div>
 						</div>
 						<div
@@ -153,7 +153,7 @@ function CustomTooltip( { active, payload } ) {
 	);
 }
 
-export default function Chart() {
+export default function BarChartComponent() {
 	const { state, dispatch } = useStateContext();
 	const { data, isLoading, error } = useGetChartData( state.periods );
 
@@ -189,11 +189,21 @@ export default function Chart() {
 	const hasCompare = useMemo( () => !! data?.compare_data?.length, [ data ] );
 
 	if ( isLoading ) {
-		return <Spinner />;
+		return (
+			<>
+				{ applyFilters( 'dlm.overview.chart.before', '', { state, dispatch, chartData } ) }
+				<div className={ styles.loading }>
+					<Spinner className={ styles.spinner } />
+				</div>
+				{ applyFilters( 'dlm.overview.chart.after', '', { state, chartData } ) }
+			</>
+		);
 	}
 	if ( error || ! chartData.length ) {
 		return <p>{ __( 'No chart data available.', 'download-monitor' ) }</p>;
 	}
+
+
 
 	return (
 		<>

@@ -1,43 +1,65 @@
+.loading {
+    width: 100%;
+    height: 400px;
+    background-color: #fff;
+    padding: 24px 0;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .spinner {
+        width: 60px;
+        height: 60px;
+    }
+}
+
 .barChartWrapper {
     background-color: #fff;
     padding: 24px 0;
     overflow: hidden;
     position: relative;
     border: 1px solid #e0e0e0;
+    margin-top: -1px; // offsets the border of upper sibling.
 }
 
 .tooltip {
     background: #FFF;
     font-size: 14px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    border-radius: .625rem;
-    padding: 6px 10px;
+    padding: 17px 17px 10px;
     display: grid;
-    gap: 0.375rem;
-    min-width: 324px;
+    gap: 10px;
+    min-width: 200px;
     box-sizing: border-box;
+    line-height: 1;
 
     .tooltipTitle {
-        font-weight: 500;
-        font-size: .75rem;
-        color: oklch(.145 0 0);
+        text-align: left;
+        line-height: 18px;
+        width: 100%;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: #757575;
+        margin-top: 0;
     }
 
     .tooltipWrap {
         display: grid;
-        gap: 0.375rem;
+        gap: 10px;
 
         .tooltipDataWrap {
             display: flex;
-            gap: 0.375rem;
+            gap: 10px;
             width: 100%;
             align-items: center;
 
             .tip {
                 display: block;
-                width: 10px;
-                height: 10px;
-                border-radius: 3px;
+                width: 16px;
+                height: 16px;
             }
 
             .tipCurrent {
@@ -50,20 +72,18 @@
 
             .tooltipData {
                 display: flex;
-                gap: 0.75rem;
                 justify-content: space-between;
                 flex: 1;
 
                 .title {
-                    color: oklch(.556 0 0);
-                    font-size: 0.75rem;
-                    line-height: 1
+                    color: #3c434a;
+                    font-size: 14px;
                 }
 
                 .value {
-                    color: oklch(.145 0 0);
-                    font-size: 0.75rem;
-                    line-height: 1
+                    color: #3c434a;
+                    font-size: 14px;
+                    font-weight: 600;
                 }
             }
         }
@@ -75,8 +95,8 @@
         justify-content: center;
         align-items: center;
         font-weight: 600;
-        border-top: 1px solid oklch(.922 0 0);
-        padding-top: 0.375rem;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 10px;
 
         svg {
             width: 16px;

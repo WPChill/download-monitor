@@ -1,30 +1,38 @@
 import UpsellExport from './components/UpsellExport';
 import UpsellRangePicker from './components/UpsellRangePicker';
-import LogsFilter from './components/LogsFilterUpsell';
+import OverviewLogsFilter from './components/OverviewLogsFilter';
+import DetailedLogsFilter from './components/DetailedLogsFilter';
 import { addFilter } from '@wordpress/hooks';
 import './index.css';
 
 addFilter(
-	'dlm.reports.after.nav',
+	'dlm.reports.after.dateRangeSelect',
 	'dlm-reports/date-range-upsell',
 	( original ) => (
 		<>
 			{ original }
-			<div className="dlm-reports-nav-upsells">
-				<UpsellExport />
-				<UpsellRangePicker />
-			</div>
+			<UpsellRangePicker />
 		</>
 	),
 );
 
 addFilter(
-	'dlm.reports.before.detailedDownloadsTable',
+	'dlm.reports.overviewDownloadsTable.header',
+	'dlm-reports/overview-filter-logs-upsell',
+	( original ) => (
+		<>
+			{ original }
+			<OverviewLogsFilter />
+		</>
+	),
+);
+addFilter(
+	'dlm.reports.detailedDownloadsTable.header',
 	'dlm-reports/filter-logs-upsell',
 	( original ) => (
 		<>
 			{ original }
-			<LogsFilter />
+			<DetailedLogsFilter />
 		</>
 	),
 );

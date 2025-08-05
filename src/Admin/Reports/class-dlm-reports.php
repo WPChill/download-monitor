@@ -57,10 +57,11 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		 */
 		public function view() {
 			?>
-				<?php do_action( 'dlm_reports_page_start' ); ?>
-					<div id="dlm_reports_page"></div>
-				<?php do_action( 'dlm_reports_page_end' ); ?>
-
+				<div class="dlm-reports-page-body">
+					<?php do_action( 'dlm_reports_page_start' ); ?>
+						<div id="dlm_reports_page"></div>
+					<?php do_action( 'dlm_reports_page_end' ); ?>
+				</div>
 			<?php
 		}
 
@@ -577,7 +578,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				return $title;
 			}
 
-			return __( 'Download Monitor Reports', 'download-monitor' );
+			return __( 'Download Monitor', 'download-monitor' );
 		}
 	}
 }

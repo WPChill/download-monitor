@@ -1,3 +1,10 @@
+.dlm-reports-page-body{
+ margin-left: -20px;
+}
+.dlm-reports-page-body .wpchill-upsells-wrapper {
+    padding: 0px 24px;
+    box-sizing: border-box;
+}
 #dlm_reports_page .recharts-surface:focus {
     outline: none;
 }
@@ -29,6 +36,6 @@
     cursor: pointer;
 }
 
-#dlm_reports_page {
-    margin-left: -20px;
+#dlm_reports_page .components-base-control__field{
+    margin: 0;
 }

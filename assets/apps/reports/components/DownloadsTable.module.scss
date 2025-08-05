@@ -1,10 +1,21 @@
 .wrapper {
-	margin-top: 25px;
+	margin-top: 24px;
 	box-shadow: 6px 6px 54px 0px #0000000D;
-	padding: 24px;
+	padding: 24px 0px;
 	background: #fff;
-		border-radius: .625rem;
-		overflow: hidden;
+	border-radius: 7px;
+	overflow: hidden;
+	border: 1px solid #e0e0e0;
+
+	.header {
+		display: grid;
+		grid-gap: 12px;
+		grid-template-columns: min-content 1fr min-content;
+		align-items: center;
+		margin-bottom: 24px;
+		padding: 0 24px;
+	}
+
 	.downloadTableWrapper {
 		background: #fff;
 	}
@@ -15,10 +26,10 @@
 		font-size: 13px;
 		color: #2c3338;
 		border-collapse: separate;
-    	border-spacing: 0;
+		border-spacing: 0;
 
-		th{
-			padding: 16px 24px;
+		th {
+			padding: 8px 24px;
 			text-align: left;
 			vertical-align: middle;
 		}
@@ -30,28 +41,17 @@
 			border-bottom: 1px solid #e2e4e7;
 		}
 
-		thead {
-			background: #f1f1f1;
-			font-weight: 600;
+		.downloadTableHead {
+			padding: 8px 24px;
+			background-color: #f8f9fa;
+			font-weight: 700;
+			white-space: nowrap;
 			color: #1d2327;
-
-			tr {
-				th:first-child {
-					border-top-left-radius: 12px;
-					border-bottom-left-radius: 12px;
-				}
-
-				th:last-child {
-					border-top-right-radius: 12px;
-					border-bottom-right-radius: 12px;
-				}
-			}
 		}
 	}
 
 	.tableHeaderRow {
 		background-color: #F1F4F9;
-		height: 48px;
 		border-radius: 12px;
 	}
 
@@ -109,12 +109,10 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin-top: 10px;
+		margin-top: 24px;
 		font-size: 13px;
 		color: #2c3338;
 		background: #fff;
-		padding: 5px;
-		border-radius: .625rem;
 		overflow: hidden;
 
 		span {
@@ -128,26 +126,59 @@
 			background: #fff;
 			font-size: 13px;
 			box-sizing: border-box;
-			height: 30px;
+			height: 34px;
+			width: 60px;
 			text-align: left;
 			border-radius: 4px;
 		}
 
+		.perPagePicker {
+			.components-base-control__field {
+				margin-bottom: 0;
+			}
+
+			.perPageSelect {
+				background: #fff;
+				font-size: 13px;
+				box-sizing: border-box;
+				height: 34px;
+				width: 60px;
+				text-align: left;
+				border-radius: 4px;
+
+				select {
+					padding: 0 8px;
+				}
+			}
+		}
+
 		.paginationButton {
-			background: #fff;
-			border: 1px solid #ccc;
-			border-radius: 4px;
+			background: #f0f2f4;
 			cursor: pointer;
 			height: 30px;
-			width: 30px;
+			width: 32px;
 			color: #3c434a;
 			font-size: 16px;
-			margin-right: 8px;
+			border: 1px solid #b5bfc9;
 
 			&:disabled {
 				opacity: 0.5;
 				cursor: not-allowed;
 			}
+
+			&.paginationButtonPrev {
+				border-top-left-radius: 4px;
+				border-bottom-left-radius: 4px;
+			}
+
+			&.paginationButtonNext {
+				border-top-right-radius: 4px;
+				border-bottom-right-radius: 4px;
+			}
+		}
+
+		.pagePicker {
+			margin-left: 16px;
 		}
 	}
 }

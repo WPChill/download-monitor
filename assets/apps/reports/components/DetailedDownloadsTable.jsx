@@ -1,7 +1,7 @@
 import { useMemo, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { Spinner } from '@wordpress/components';
+import { Spinner, SelectControl } from '@wordpress/components';
 import useStateContext from '../context/useStateContext';
 import { useGetDetailedTableData } from '../query/useGetTableData';
 import styles from './DownloadsTable.module.scss';
@@ -16,6 +16,7 @@ import {
 export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) {
 	const { state, dispatch } = useStateContext();
 	const [ pageIndex, setPageIndex ] = useState( 0 );
+	const [ pageSize, setPageSize ] = useState( 25 );
 
 	const { data: downloadsData = [], isLoadingDownloads } = useGetDetailedTableData( state.periods );
 
@@ -80,7 +81,7 @@ export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) 
 					}
 
 					return (
-						<div className={ `${ styles.header } ${ col.sortable ? styles.headerWithSort : '' }` }>
+						<div className={ `${ styles.tableHeader } ${ col.sortable ? styles.headerWithSort : '' }` }>
 							<span>{ col.title }</span>
 							{ sortIconClass && <span className={ `dashicons ${ sortIconClass }` } /> }
 						</div>
@@ -148,7 +149,7 @@ export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) 
 			sorting,
 			pagination: {
 				pageIndex,
-				pageSize: 10,
+				pageSize,
 			},
 		},
 		onPaginationChange: ( updater ) => {
@@ -181,9 +182,21 @@ export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) 
 		setPageIndex( value - 1 );
 	};
 
+	const handlePerPageInputChange = ( size ) => {
+		const value = Number( size );
+
+		if ( isNaN( value ) ) {
+			return;
+		}
+
+		setPageSize( value );
+	};
 	return (
 		<div className={ styles.wrapper }>
-			{ applyFilters( 'dlm.reports.before.detailedDownloadsTable', '', { state, dispatch, downloadsData, usersData, columns } ) }
+			<div className={ styles.header }>
+				<h2>{ __( 'Downloads', 'download-monitor' ) }</h2>
+				{ applyFilters( 'dlm.reports.detailedDownloadsTable.header', '', { state, dispatch, downloadsData, usersData, columns } ) }
+			</div>
 			<div className={ styles.downloadTableWrapper }>
 				<table className={ styles.downloadTable }>
 					<thead>
@@ -242,32 +255,60 @@ export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) 
 					</tbody>
 				</table>
 			</div>
-			{ table.getPageCount() > 1 && (
+			{ ( filteredDownloadsData.length > 25 || table.getPageCount() > 1 ) && (
 				<div className={ styles.pagination }>
-					<span>
-						{ __( 'Page', 'download-monitor' ) }{ ' ' }
-						<input
-							type="number"
-							min="1"
-							max={ table.getPageCount() }
-							value={ table.getState().pagination.pageIndex + 1 }
-							onChange={ handlePageInputChange }
-							className={ styles.paginationInput }
-						/>{ ' ' }
-						{ __( 'of', 'download-monitor' ) } { table.getPageCount() }
-					</span>
-					<button
-						onClick={ () => table.previousPage() }
-						disabled={ ! table.getCanPreviousPage() }
-						className={ `${ styles.paginationButton } dashicons dashicons-arrow-left-alt2` }
-					>
-					</button>
-					<button
-						onClick={ () => table.nextPage() }
-						disabled={ ! table.getCanNextPage() }
-						className={ `${ styles.paginationButton } dashicons dashicons-arrow-right-alt2` }
-					>
-					</button>
+					{ table.getPageCount() > 1 && (
+						<>
+							<span>
+								{ __( 'Page', 'download-monitor' ) }
+								{ ' ' }
+								{ table.getState().pagination.pageIndex + 1 }
+								{ ' ' }
+								{ __( 'of', 'download-monitor' ) } { table.getPageCount() }
+							</span>
+							<div className={ styles.paginationButtons }>
+								<button
+									onClick={ () => table.previousPage() }
+									disabled={ ! table.getCanPreviousPage() }
+									className={ `${ styles.paginationButton } ${ styles.paginationButtonPrev } dashicons dashicons-arrow-left-alt2` }
+								>
+								</button>
+								<button
+									onClick={ () => table.nextPage() }
+									disabled={ ! table.getCanNextPage() }
+									className={ `${ styles.paginationButton } ${ styles.paginationButtonNext } dashicons dashicons-arrow-right-alt2` }
+								>
+								</button>
+							</div>
+							<span className={ styles.pagePicker }>
+								{ __( 'Go to page', 'download-monitor' ) }{ ' ' }
+								<input
+									type="number"
+									min="1"
+									max={ table.getPageCount() }
+									value={ table.getState().pagination.pageIndex + 1 }
+									onChange={ handlePageInputChange }
+									className={ styles.paginationInput }
+								/>
+							</span>
+						</>
+					) }
+					{ filteredDownloadsData.length > 25 && (
+						<span className={ styles.perPagePicker }>
+							{ __( 'Rows per page', 'download-monitor' ) }{ ' ' }
+							<SelectControl
+								className={ styles.perPageSelect }
+								value={ pageSize }
+								options={ [
+									{ label: '25', value: '25' },
+									{ label: '50', value: '50' },
+									{ label: '75', value: '75' },
+									{ label: '100', value: '100' },
+								] }
+								onChange={ handlePerPageInputChange }
+							/>
+						</span>
+					) }
 				</div>
 			) }
 			{ applyFilters( 'dlm.reports.after.detailedDownloadsTable', '', { state, dispatch, downloadsData, usersData, columns } ) }
