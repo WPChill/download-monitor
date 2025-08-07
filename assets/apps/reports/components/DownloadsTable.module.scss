@@ -30,13 +30,13 @@
 
 		th {
 			padding: 8px 24px;
-			text-align: left;
+			text-align: center;
 			vertical-align: middle;
 		}
 
 		td {
 			padding: 16px 24px;
-			text-align: left;
+			text-align: center;
 			vertical-align: middle;
 			border-bottom: 1px solid #e2e4e7;
 		}
@@ -47,6 +47,10 @@
 			font-weight: 700;
 			white-space: nowrap;
 			color: #1d2327;
+		}
+		.tableHeader{
+			text-align: center;
+			justify-content: center;
 		}
 	}
 

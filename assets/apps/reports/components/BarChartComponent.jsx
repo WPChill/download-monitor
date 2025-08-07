@@ -162,8 +162,8 @@ export default function BarChartComponent() {
 			type: 'SET_CHART_OPTIONS',
 			payload: {
 				...state.chart,
-				compareOpacity: 'current' === payload.dataKey ? 0.5 : 1,
-				currentOpacity: 'compare' === payload.dataKey ? 0.5 : 1,
+				compareOpacity: 'current' === payload.dataKey ? 0.1 : 1,
+				currentOpacity: 'compare' === payload.dataKey ? 0.1 : 1,
 			},
 		} );
 	};
@@ -183,7 +183,18 @@ export default function BarChartComponent() {
 		if ( ! data?.downloads_data ) {
 			return [];
 		}
-		return buildChartData( data.downloads_data, data.compare_data, state.periods, state.chart.groupBy );
+
+		// makes sure we use an available range.
+		// we do it like this so we do not have to reset state.chart.groupBy on period change.
+		const rangeInDays = dayjs( state.periods.end ).diff( dayjs( state.periods.start ), 'day' ) + 1;
+		const canGroupBy = {
+			days: true,
+			weeks: rangeInDays >= 7,
+			months: rangeInDays >= 28,
+		};
+		const groupBy = canGroupBy[ state.chart.groupBy ] ? state.chart.groupBy : 'days';
+
+		return buildChartData( data.downloads_data, data.compare_data, state.periods, groupBy );
 	}, [ data, state.periods, state.chart.groupBy ] );
 
 	const hasCompare = useMemo( () => !! data?.compare_data?.length, [ data ] );
@@ -203,8 +214,6 @@ export default function BarChartComponent() {
 		return <p>{ __( 'No chart data available.', 'download-monitor' ) }</p>;
 	}
 
-
-
 	return (
 		<>
 			{ applyFilters( 'dlm.overview.chart.before', '', { state, dispatch, chartData } ) }
@@ -218,16 +227,19 @@ export default function BarChartComponent() {
 							tickFormatter={ ( value ) => dateI18n( formats.date, new Date( value + 'T12:00:00' ) ) }
 						/>
 						<YAxis />
-						<Tooltip content={ <CustomTooltip /> } />
-						{ applyFilters( 'dlm.overview.chart.showLegend', true ) && (
-							<Legend verticalAlign="top" align="center" layout="horizontal" iconType="circle" onMouseEnter={ handleMouseEnter } onMouseLeave={ handleMouseLeave } />
+						{ applyFilters( 'dlm.overview.chart.tooltip',
+							<Tooltip cursor={ { fill: 'rgba(0, 0, 0, 0.1)' } } content={ <CustomTooltip /> } />,
+						) }
+						{ applyFilters( 'dlm.overview.chart.legend',
+							<Legend verticalAlign="top" align="center" layout="horizontal" iconType="circle" onMouseEnter={ handleMouseEnter } onMouseLeave={ handleMouseLeave } />,
 						) }
 						{ state.chart.showCurrent && (
-							<Bar dataKey="current" stackId="currentDownloads" fill="#31688e" opacity={ state.chart.currentOpacity } name={ __( 'Current', 'download-monitor' ) } />
+							<Bar dataKey="current" stackId="currentDownloads" fill="#31688e" opacity={ state.chart.currentOpacity } comp={ state.chart.compareOpacity } name={ __( 'Current', 'download-monitor' ) } />
 						) }
 						{ hasCompare && state.chart.showCompare && (
-							<Bar dataKey="compare" stackId="compareDownloads" fill="#35b779" opacity={ state.chart.compareOpacity } name={ __( 'Compare', 'download-monitor' ) } />
+							<Bar dataKey="compare" stackId="compareDownloads" fill="#35b779" opacity={ state.chart.compareOpacity } comp={ state.chart.currentOpacity } name={ __( 'Compare', 'download-monitor' ) } />
 						) }
+						{ applyFilters( 'dlm.overview.chart', '' ) }
 					</BarChart>
 				</ResponsiveContainer>
 			</div>

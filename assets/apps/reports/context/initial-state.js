@@ -16,8 +16,8 @@ export const initialState = () => ( {
 	chart: {
 		showCurrent: true,
 		showCompare: true,
-		compareOpacity: 1,
-		currentOpacity: 1,
+		compareOpacity: 'rgba(53, 183, 121, 1)',
+		currentOpacity: 'rgba(49, 104, 142, 1)',
 		groupBy: 'days',
 	},
 } );

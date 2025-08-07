@@ -39,3 +39,7 @@
 #dlm_reports_page .components-base-control__field{
     margin: 0;
 }
+
+#dlm_reports_page h2{
+    font-size: 15px;
+}
