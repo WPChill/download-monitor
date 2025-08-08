@@ -41,7 +41,7 @@
     "npm": ">=1.1.0"
   },
   "scripts": {
-    "build:start": "npm run build && npm run build:notification-system && npm run build:reports && npm run build:upsells",
+    "build:start": "npm run build && npm run build:notification-system && npm run build:reports && npm run build:reports-widget && npm run build:upsells",
     "plugin-zip": "npm run build:start && npm run clean && npm run copy && npm run bundle && npm run clean",
     "start:notification-system": "wp-scripts start --config webpack.config.notification-system.js",
     "build:notification-system": "wp-scripts build --config webpack.config.notification-system.js",
@@ -49,6 +49,8 @@
     "build:reports": "wp-scripts build --config webpack.config.reports.js",
     "start:upsells": "wp-scripts start --config webpack.config.upsells.js",
     "build:upsells": "wp-scripts build --config webpack.config.upsells.js",
+    "start:reports-widget": "wp-scripts start --config webpack.config.reports-widget.js",
+    "build:reports-widget": "wp-scripts build --config webpack.config.reports-widget.js",
     "build": "wp-scripts build ./assets/blocks/src/blocks.js --output-path=./assets/blocks/dist",
     "start": "wp-scripts start ./assets/blocks/src/blocks.js --output-path=./assets/blocks/dist",
     "packages-update": "wp-scripts packages-update",

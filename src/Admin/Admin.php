@@ -48,8 +48,6 @@ class DLM_Admin {
 		// Handle all functinality that involves Media Library
 		$dlm_media_library = DLM_Media_Library::get_instance();
 
-		// Dashboard
-		add_action( 'wp_dashboard_setup', array( $this, 'admin_dashboard' ) );
 		// Admin Footer Text
 		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ), 1 );
 		// flush rewrite rules on shutdown
@@ -133,10 +131,6 @@ class DLM_Admin {
 		global $post;
 
 		wp_enqueue_style( 'download_monitor_others', download_monitor()->get_plugin_url() . '/assets/css/others.min.css', array(), DLM_VERSION );
-
-		if ( $hook == 'index.php' ) {
-			wp_enqueue_style( 'download_monitor_dashboard_css', download_monitor()->get_plugin_url() . '/assets/css/dashboard.min.css', array(), DLM_VERSION );
-		}
 
 		$enqueue = false;
 
@@ -228,17 +222,6 @@ class DLM_Admin {
 		// Load the DLM Uninstall class
 		DLM_Uninstall::get_instance();
 
-	}
-
-
-	/**
-	 * admin_dashboard function.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function admin_dashboard() {
-		new DLM_Admin_Dashboard();
 	}
 
 	/**

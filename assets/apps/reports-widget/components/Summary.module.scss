@@ -1,0 +1,28 @@
+.item {
+    padding: 12px;
+    background-color: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+
+    .content {
+        .label {
+            display: flex;
+            margin-bottom: 14px;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 20px;
+        }
+
+        .value {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: normal;
+            line-height: 24px;
+        }
+    }
+
+    &:not( :first-child) {
+       // border-left: unset;
+    }
+}

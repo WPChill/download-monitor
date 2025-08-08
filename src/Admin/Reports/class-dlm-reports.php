@@ -21,7 +21,10 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 		public function __construct() {
 			add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'reports_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'reports_widget_scripts' ) );
 			add_filter( 'dlm_header_logo_text', array( $this, 'add_page_title' ) );
+
+			add_action( 'wp_dashboard_setup', array( $this, 'register_dashboard_widget' ) );
 		}
 
 		/**
@@ -555,6 +558,78 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 				'version'      => $asset_file['version'],
 				'script'       => DLM_URL . 'assets/js/reports/reports.js',
 				'style'        => DLM_URL . 'assets/js/reports/reports.css',
+			);
+
+			wp_enqueue_script(
+				$enqueue['handle'],
+				$enqueue['script'],
+				$enqueue['dependencies'],
+				$enqueue['version'],
+				true
+			);
+
+			wp_enqueue_style(
+				$enqueue['handle'],
+				$enqueue['style'],
+				array(),
+				$enqueue['version']
+			);
+		}
+
+		/**
+		 * Register dashboard widget
+		 * @since 5.1.0
+		 * @return void
+		 */
+		public function register_dashboard_widget() {
+			if ( ! current_user_can( 'manage_downloads' ) || apply_filters( 'dlm_remove_dashboard_popular_downloads', false ) ) {
+				return;
+			}
+
+			wp_add_dashboard_widget(
+				'dlm_popular_downloads',
+				__( 'Top Downloads', 'download-monitor' ),
+				array(
+					$this,
+					'dashboard_widget_root',
+				)
+			);
+		}
+
+		/**
+		 * Create React root for dashboard page widget.
+		 * @since 5.1.0
+		 * @return void
+		 */
+		public function dashboard_widget_root() {
+			?>
+				<div class="dlm-reports-widget-body">
+					<?php do_action( 'dlm_reports_widget_start' ); ?>
+						<div id="dlm_reports_widget"></div>
+					<?php do_action( 'dlm_reports_widget_end' ); ?>
+				</div>
+			<?php
+		}
+
+		/**
+		 * Enqueues the react script for reports dashboard page widget.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public function reports_widget_scripts( $hook ) {
+
+			if ( 'index.php' !== $hook ) {
+				return;
+			}
+
+			$asset_file = require plugin_dir_path( DLM_PLUGIN_FILE ) . 'assets/js/reports-widget/reports-widget.asset.php';
+			$enqueue    = array(
+				'handle'       => 'dlm-reports-dashboard-widget',
+				'dependencies' => $asset_file['dependencies'],
+				'version'      => $asset_file['version'],
+				'script'       => DLM_URL . 'assets/js/reports-widget/reports-widget.js',
+				'style'        => DLM_URL . 'assets/js/reports-widget/reports-widget.css',
 			);
 
 			wp_enqueue_script(
