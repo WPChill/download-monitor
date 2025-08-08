@@ -440,8 +440,16 @@ class DLM_XHR_Download {
 	dlmLogDownload(headers, status, cookie, redirect_path = null, no_access = null, target = '_self') {
 		const instance = this;
 
-		if (null !== no_access) {
-			window.open(redirect_path, target);
+		let downloadTab = null;
+		if (null !== redirect_path) {
+			if (null == target) {
+				target = '_self';
+			}
+			downloadTab = window.open('', target);
+		}
+
+		if (null !== no_access && downloadTab) {
+			downloadTab.location.href = redirect_path;
 			return;
 		}
 
@@ -460,12 +468,8 @@ class DLM_XHR_Download {
 		};
 
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
-			if (null !== redirect_path) {
-				// If the link has no target attribute, then open in the same window
-				if (null == target) {
-					target = '_self';
-				}
-				window.open(redirect_path, target);
+			if (redirect_path && downloadTab) {
+				downloadTab.location.href = redirect_path;
 			}
 		});
 	}
