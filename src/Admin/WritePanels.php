@@ -704,13 +704,14 @@ class DLM_Admin_Writepanels {
 	 * @since 4.5.4
 	 */
 	public function upload_file() {
-		if ( ! current_user_can( 'upload_file' ) ) {
+		if ( ! current_user_can( 'upload_files' ) ) {
 			wp_send_json_error( array( 'errorMessage' => esc_html__( 'You are not allowed to upload files.', 'download-monitor' ) ) );
 		}
 
 		$uploadedfile         = $_FILES['file'];
 		$image_url            = $uploadedfile['tmp_name'];
-		$wp_allowed           = wp_check_filetype( $image_url );
+		$filename             = $uploadedfile['name'];
+		$wp_allowed           = wp_check_filetype( $filename );
 		$dlm_denied_filetypes = array( 'php', 'htaccess' );
 		// If not allowed file type, return error.
 		if ( ! $wp_allowed['ext'] || in_array( $wp_allowed['ext'], $dlm_denied_filetypes ) ) {
@@ -721,9 +722,10 @@ class DLM_Admin_Writepanels {
 
 		$image_data = file_get_contents( $image_url );
 
-		$filename = $uploadedfile['name'];
+		$target_dir = $upload_dir['basedir'] . '/dlm_uploads/' . date( 'Y/m/' );
+		wp_mkdir_p( $target_dir );
 
-		$file = $upload_dir['basedir'] . '/dlm_uploads/' . date( 'Y/m/' ) . $filename;
+		$file = $target_dir . $filename;
 
 		if ( ! file_put_contents( $file, $image_data ) ) {
 			wp_send_json_error( array( 'errorMessage' => esc_html__( 'Failed to write the file at: ', 'download-monitor' ) . $file ) );
