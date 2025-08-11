@@ -3,7 +3,6 @@
     <custom-type translate="1" display-as-translated="1">dlm_download</custom-type>
   </custom-types>
   <taxonomies>
-    <taxonomy translate="1" display-as-translated="1">translation_priority</taxonomy>
     <taxonomy translate="1" display-as-translated="1">dlm_download_category</taxonomy>
     <taxonomy translate="1" display-as-translated="1">dlm_download_tag</taxonomy>
   </taxonomies>
@@ -32,8 +31,6 @@
     <key name="dlm_el_optin_thankyou_page_title"/>
     <key name="dlm_el_optin_email_subject"/>
     <key name="dlm_el_optin_email_content"/>
-    
-    
   </admin-texts>
   <shortcodes>
     <shortcode>
