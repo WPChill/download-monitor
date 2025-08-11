@@ -5,11 +5,6 @@
 #adminmenu #menu-posts-dlm_download ul.wp-submenu li a[href$="dlm-lite-vs-pro"] {
   color: gold;
 }
-#adminmenu #menu-posts-dlm_download ul.wp-submenu li a[href$="edit-tags.php?taxonomy=dlm_download_tag&post_type=dlm_download"],
-#adminmenu #menu-posts-dlm_download ul.wp-submenu li a[href$="edit.php?post_type=dlm_download&page=download-monitor-settings"],
-#adminmenu #menu-posts-dlm_download ul.wp-submenu li a[href$="edit.php?post_type=dlm_download&page=download-monitor-reports"] {
-  border-bottom: 1px solid hsla(0, 0%, 100%, 0.2);
-}
 /* LU upgrade notice */
 .dlm-lu-upgrade-notice {
   position: relative;

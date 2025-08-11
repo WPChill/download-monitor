@@ -5,7 +5,6 @@
     padding: 24px 0;
     overflow: hidden;
     position: relative;
-    border: 1px solid #e0e0e0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,10 +17,9 @@
 
 .barChartWrapper {
     background-color: #fff;
-    padding: 24px 24px 0 0;
+    padding: 24px 0 0 0;
     overflow: hidden;
     position: relative;
-    border: 1px solid #e0e0e0;
     .barChart {
         margin-left: -16px;
     }

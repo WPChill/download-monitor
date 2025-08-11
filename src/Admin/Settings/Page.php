@@ -421,28 +421,6 @@ if ( ! class_exists( 'DLM_Settings_Page' ) ) {
 					class="dlm-header-links">
 					<?php
 					do_action( 'dlm_page_header_links' ); ?>
-					<a href="https://www.download-monitor.com/kb/"
-					   target="_blank"
-					   rel="noreferrer nofollow"
-					   id="get-help"
-					   class="button button-secondary"><span
-							class="dashicons dashicons-external"></span><?php
-						esc_html_e( 'Documentation', 'download-monitor' ); ?>
-					</a>
-					<a class="button button-secondary"
-					   href="https://www.download-monitor.com/contact/"
-					   target="_blank"
-					   rel="noreferrer nofollow"><span
-							class="dashicons dashicons-email-alt"></span><?php
-						echo esc_html__( 'Contact us for support!', 'download-monitor' ); ?>
-					</a>
-					<a class="button button-secondary"
-					   href="https://download-monitor.com/changelog/?utm_source=dlm-lite&utm_medium=link&utm_campaign=settings&utm_term=changelog"
-					   target="_blank"
-					   rel="noreferrer nofollow"><span
-							class="dashicons dashicons-editor-ol"></span><?php
-						echo esc_html__( 'Changelog', 'download-monitor' ); ?>
-					</a>
 				</div>
 			</div>
 			<?php
