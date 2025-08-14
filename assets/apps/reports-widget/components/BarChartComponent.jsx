@@ -54,13 +54,13 @@ function buildChartData( currentData ) {
 	} );
 }
 
-function CustomTooltip( { active, payload } ) {
+function CustomTooltip( { active, payload, label } ) {
 	if ( ! active || ! payload?.length ) {
 		return null;
 	}
 
 	const current = payload.find( ( p ) => p.dataKey === 'current' )?.value ?? 0;
-
+	const formattedDate = dayjs( label ).format( 'D MMM' );
 	return (
 		<div className={ styles.tooltip }>
 			<div className={ styles.tooltipTitle }>{ __( 'Downloads', 'download-monitor' ) }</div>
@@ -68,7 +68,7 @@ function CustomTooltip( { active, payload } ) {
 				<div className={ styles.tooltipDataWrap }>
 					<span className={ `${ styles.tip } ${ styles.tipCurrent }` } />
 					<div className={ styles.tooltipData }>
-						<span className={ styles.title }>{ __( 'Current', 'download-monitor' ) }</span>
+						<span className={ styles.title }>{ formattedDate }</span>
 						<span className={ styles.value }>{ current.toLocaleString() }</span>
 					</div>
 				</div>
