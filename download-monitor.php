@@ -29,7 +29,7 @@
 	Original project created by Mike Jolley.
 */
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
@@ -38,31 +38,31 @@ define('DLM_VERSION', '5.1.0');
 define('DLM_UPGRADER_VERSION', '4.6.0');
 
 // Define DLM FILE
-define('DLM_PLUGIN_FILE', __FILE__);
-define('DLM_URL', plugin_dir_url(__FILE__));
-define('DLM_FILE', plugin_basename(__FILE__));
-define('DLM_BETA', false);
-define('DLM_BETA_VERSION', 'x.x.x');
+define( 'DLM_PLUGIN_FILE', __FILE__ );
+define( 'DLM_URL', plugin_dir_url( __FILE__ ) );
+define( 'DLM_FILE', plugin_basename( __FILE__ ) );
+define( 'DLM_BETA', false );
+define( 'DLM_BETA_VERSION', 'x.x.x' );
 
 // Add meta tags to head for DLM Version.
 add_action(
 	'wp_head',
 	function () {
 		// Add filter to hide plugin version.
-		if (apply_filters('dlm_hide_meta_version', false)) {
+		if ( apply_filters( 'dlm_hide_meta_version', false ) ) {
 			return;
 		}
-		echo '<meta name="dlm-version" content="' . esc_attr(DLM_VERSION) . '">';
+		echo '<meta name="dlm-version" content="' . esc_attr( DLM_VERSION ) . '">';
 	},
 	1
 );
 
-if (version_compare(PHP_VERSION, '7.4.0') >= 0) {
-	require_once plugin_dir_path(DLM_PLUGIN_FILE) . 'includes/bootstrap.php';
+if ( version_compare( PHP_VERSION, '7.4.0' ) >= 0 ) {
+	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/bootstrap.php';
 } else {
-	require_once plugin_dir_path(DLM_PLUGIN_FILE) . 'includes/php-too-low.php';
+	require_once plugin_dir_path( DLM_PLUGIN_FILE ) . 'includes/php-too-low.php';
 }
 
-if (! class_exists('DLM_Review') && is_admin()) {
-	require_once dirname(__FILE__) . '/includes/admin/class-dlm-review.php';
+if ( ! class_exists( 'DLM_Review' ) && is_admin() ) {
+	require_once __DIR__ . '/includes/admin/class-dlm-review.php';
 }

@@ -1,0 +1,143 @@
+name: Update Release with Plugin ZIP
+
+on:
+    pull_request:
+        types:
+            - closed
+        branches:
+            - master
+
+jobs:
+    build-and-release:
+        if: github.event.pull_request.merged == true
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install Subversion
+              run: sudo apt-get update && sudo apt-get install -y subversion
+
+            - name: Set up PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                php-version: "7.4"
+                tools: composer
+    
+            - name: Checkout code
+              uses: actions/checkout@v3
+              with:
+                submodules: "recursive"
+                token: ${{ secrets.ACCESS_TOKEN }}
+
+            - name: Update submodules
+              run: |
+                git config --global url."https://${{ secrets.ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
+                git submodule update --init --recursive
+
+            - uses: actions/checkout@master
+            - name: Build Stage
+              run: |
+                  npm install
+                  npm run composer:update
+                  npm run plugin-zip
+
+            - name: Get version from package.json
+              id: package-version
+              uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+            - name: Create Release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: v${{ steps.package-version.outputs.current-version }}
+                  release_name: Release ${{ steps.package-version.outputs.current-version }}
+                  draft: false
+                  prerelease: false
+
+            - name: Upload Release Asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                  asset_path: ./download-monitor-${{ steps.package-version.outputs.current-version }}.zip
+                  asset_name: download-monitor-${{ steps.package-version.outputs.current-version }}.zip
+                  asset_content_type: application/zip
+
+            - name: ST Deploy
+              uses: 10up/action-wordpress-plugin-deploy@stable
+              env:
+                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+                  SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+                  SLUG: download-monitor
+                  VERSION: ${{ steps.package-version.outputs.current-version }}
+
+            - name: Generate Release Post
+              id: generate-release-post
+              env:
+                  WPCHILL_API_URL: ${{ secrets.WPCHILL_API_URL }}
+                  WPCHILL_API_TOKEN: ${{ secrets.WPCHILL_API_TOKEN }}
+              run: |
+                  # Call the API endpoint with simplified parameters
+                  RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$WPCHILL_API_URL/github/generate" \
+                      -H "Content-Type: application/json" \
+                      -H "Authorization: Bearer $WPCHILL_API_TOKEN" \
+                      -d "{
+                          \"repo\": \"${{ github.repository }}\",
+                          \"branch\": \"master\",
+                          \"count\": 1,
+                          \"mode\": \"separate\",
+                          \"additionalContext\": null
+                      }")
+
+                  # Extract response body and status code
+                  HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
+                  RESPONSE_BODY=$(echo "$RESPONSE" | head -n -1)
+
+                  # Store results for next steps
+                  echo "api_status=$HTTP_STATUS" >> $GITHUB_OUTPUT
+                  echo "api_response<<EOF" >> $GITHUB_OUTPUT
+                  echo "$RESPONSE_BODY" >> $GITHUB_OUTPUT
+                  echo "EOF" >> $GITHUB_OUTPUT
+                  echo "release_mode=separate" >> $GITHUB_OUTPUT
+
+                  # Extract summary from response if successful
+                  if [[ $HTTP_STATUS =~ ^2 ]]; then
+                      SUMMARY=$(echo "$RESPONSE_BODY" | jq -r '.summary // "No summary available"')
+                      echo "summary<<EOF" >> $GITHUB_OUTPUT
+                      echo "$SUMMARY" >> $GITHUB_OUTPUT
+                      echo "EOF" >> $GITHUB_OUTPUT
+                      echo "✅ Release post generated successfully"
+                  else
+                      echo "❌ Failed to generate release post (HTTP $HTTP_STATUS)"
+                      echo "Response: $RESPONSE_BODY"
+                      exit 1
+                  fi
+
+            - name: Notify Release Post Generation on Slack
+              if: always()
+              run: |
+                  if [[ "${{ steps.generate-release-post.outputs.api_status }}" =~ ^2 ]]; then
+                      MESSAGE="🎉 *Release Post Generated Successfully!*
+
+                      *Version:* ${{ steps.package-version.outputs.current-version }}
+                      *Repository:* ${{ github.repository }}
+                      *PR:* #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}
+
+                      *Summary:*
+                      ${{ steps.generate-release-post.outputs.summary }}
+
+                      The release post has been created and is ready for review."
+                  else
+                      MESSAGE="❌ *Release Post Generation Failed*
+
+                      *Version:* ${{ steps.package-version.outputs.current-version }}
+                      *Repository:* ${{ github.repository }}
+                      *Error:* HTTP ${{ steps.generate-release-post.outputs.api_status }}
+
+                      Please check the workflow logs for more details."
+                  fi
+
+                  curl -X POST ${{ secrets.SLACK_WEBHOOK_URL }} \
+                      -H "Content-type: application/json" \
+                      -d "{\"text\": \"$MESSAGE\"}"

@@ -1,6 +1,28 @@
 = 5.1.0 - 27.08.2025 =
 * Changed: Reworked the reports interface improving speed, design and accuracy.
 
+= 5.0.33 - 08.08.2025 =
+Fixed: Compatibility with Safari browser & redirect to file.
+
+= 5.0.32 - 30.07.2025 =
+Changed: Removed the "download version" post type from the list of translatable content in `wpml-config.xml`.
+
+= 5.0.31 - 28.07.2025 =
+Fixed: Set the default language for download taxonomies when using the Polylang plugin.
+Changed: Removed 'dlm_enable_api_keys' filter and always render the REST API table in Settings -> Advanced -> REST API.
+
+= 5.0.30 - 25.07.2025 =
+Fixed: Downloads without a default WPML language were not showing in the admin table.
+
+= 5.0.29 - 23.07.2025 =
+Fixed: Compatibility with Admin Columns plugin.
+
+= 5.0.28 - 22.07.2025 =
+Added: Made the plugin fully translatable with WPML.
+
+= 5.0.27 - 08.07.2025 =
+Fixed: Expired cookies were not cleared from cookie data tables.
+
 = 5.0.26 - 20.06.2025 =
 Changed: Updated label of Page Addon to Document Library Manager
 

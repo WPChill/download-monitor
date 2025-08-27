@@ -37,7 +37,6 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 		 * Constructor
 		 */
 		public function __construct() {
-			$this->endpoint    = ( $endpoint = get_option( 'dlm_download_endpoint' ) ) ? $endpoint : 'download';
 			$this->ep_value    = ( $ep_value = get_option( 'dlm_download_endpoint_value' ) ) ? $ep_value : 'ID';
 			$this->dlm_logging = DLM_Logging::get_instance();
 		}
@@ -213,13 +212,30 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 		 * @return void
 		 */
 		public function add_endpoint() {
-			$endpoint = $this->endpoint;
-			// Let's make sure that the endpoint is not empty.
-			if ( null === $this->endpoint ) {
-				$endpoint = 'download';
+			$this->endpoint = get_option( 'dlm_download_endpoint', 'download' );
+
+			if ( function_exists( 'icl_get_languages' ) && has_filter( 'wpml_translate_single_string' ) ) {
+				$languages = icl_get_languages( 'skip_missing=0' );
+
+				if ( ! empty( $languages ) ) {
+					foreach ( $languages as $lang_code => $language ) {
+						$translated_endpoint = apply_filters( 'wpml_translate_single_string', $this->endpoint, 'admin_texts_dlm_download_endpoint', 'dlm_download_endpoint', $lang_code );
+
+						if ( ! empty( $translated_endpoint ) ) {
+							$arr[] = $translated_endpoint;
+							add_rewrite_endpoint( $translated_endpoint, EP_ALL );
+						}
+					}
+				}
+			} else {
+				// Let's make sure that the endpoint is not empty.
+				if ( null === $this->endpoint ) {
+					$this->endpoint = 'download';
+				}
+				add_rewrite_endpoint( $this->endpoint, EP_ALL );
 			}
-			add_rewrite_endpoint( $endpoint, EP_ALL );
 		}
+
 
 		/**
 		 * Listen for download requests and trigger downloading.
@@ -667,7 +683,8 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				unset( $_SESSION['dlm_no_access_text'] );
 				session_write_close();
 			}
-
+			// Get the referrer.
+			$referrer       = ( isset( $_SERVER['HTTP_REFERER'] ) ) ? esc_url_raw( $_SERVER['HTTP_REFERER'] ) : '';
 			$cookie_manager = DLM_Cookie_Manager::get_instance();
 			// check if user downloaded this version in the past minute. This checks if the cookie exists and if it's
 			// value is the same as the download id.
@@ -679,12 +696,9 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 				if ( WP_DLM::dlm_window_logging() && ! $this->check_for_xhr() ) {
 					// Set cookie here to prevent "Cannot modify header information - headers already sent" error
 					// in non-XHR downloads.
-					$cookie_manager->set_cookie( $download, array( 'meta' => array( array( 'wp_dlm_downloading' => $download->get_id() ) ) ) );
+					$this->dlm_logging->log( $download, $version, 'completed', true, $referrer );
 				}
 			}
-
-			// Get the referrer.
-			$referrer = ( isset( $_SERVER['HTTP_REFERER'] ) ) ? esc_url_raw( $_SERVER['HTTP_REFERER'] ) : '';
 
 			// Redirect to the file...
 			if ( $is_redirect ) {
@@ -919,66 +933,53 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			}
 
 			// Adding contents to an object will trigger error on big files.
-			if ( $this->readfile_chunked( $file_path, false, $range ) ) {
-				// Log the download.
-				if ( ! $this->check_for_xhr() ) {
+			if ( ! $this->readfile_chunked( $file_path, false, $range ) ) {
+				if ( $remote_file ) {
+					// Redirect - we can't track if this completes or not.
+					if ( $this->check_for_xhr() ) {
+						header( 'X-DLM-Redirect: ' . $file_path );
+						exit;
+					}
+
+					header( 'Location: ' . $file_path );
 					$this->dlm_logging->log(
 						$download,
 						$version,
-						'completed',
+						'redirected',
 						false,
 						$referrer
 					);
-				}
-			} elseif ( $remote_file ) {
-				// Redirect - we can't track if this completes or not.
-				if ( $this->check_for_xhr() ) {
-					header( 'X-DLM-Redirect: ' . $file_path );
-					exit;
-				}
+				} else {
+					// IF XHR, send error header.
+					if ( $this->check_for_xhr() ) {
+						header( 'X-DLM-Error: file_not_found' );
+						$restriction_type = 'file_not_found';
+						$this->set_no_access_modal(
+							__( 'File not found.', 'download-monitor' ),
+							$download,
+							$restriction_type
+						);
+						exit;
+					}
 
-				header( 'Location: ' . $file_path );
-				$this->dlm_logging->log(
-					$download,
-					$version,
-					'redirected',
-					false,
-					$referrer
-				);
-			} else {
-				// IF XHR, send error header.
-				if ( $this->check_for_xhr() ) {
-					header( 'X-DLM-Error: file_not_found' );
-					$restriction_type = 'file_not_found';
-					$this->set_no_access_modal(
-						__(
-							'File not found.',
-							'download-monitor'
-						),
+					$this->dlm_logging->log(
 						$download,
-						$restriction_type
+						$version,
+						'failed',
+						false,
+						$referrer
 					);
-					exit;
+					wp_die(
+						esc_html__( 'File not found.', 'download-monitor' )
+							. ' <a href="' . esc_url( home_url() ) . '">'
+							. esc_html__( 'Go to homepage &rarr;', 'download-monitor' )
+							. '</a>',
+						esc_html__( 'Download Error', 'download-monitor' ),
+						array( 'response' => 404 )
+					);
 				}
-
-				$this->dlm_logging->log(
-					$download,
-					$version,
-					'failed',
-					false,
-					$referrer
-				);
-				wp_die(
-					esc_html__( 'File not found.', 'download-monitor' )
-						. ' <a href="' . esc_url( home_url() ) . '">'
-						. esc_html__(
-							'Go to homepage &rarr;',
-							'download-monitor'
-						) . '</a>',
-					esc_html__( 'Download Error', 'download-monitor' ),
-					array( 'response' => 404 )
-				);
 			}
+
 			exit;
 		}
 
@@ -1071,7 +1072,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			$headers['Content-Description']       = 'File Transfer';
 			$headers['Content-Transfer-Encoding'] = 'binary';
 			$headers['Cache-Control']
-			= 'no-store, no-cache, must-revalidate, no-transform, max-age=0';
+             = 'no-store, no-cache, must-revalidate, no-transform, max-age=0';
 
 			if ( $remote_file ) {
 				$file = wp_remote_head( $file_path );

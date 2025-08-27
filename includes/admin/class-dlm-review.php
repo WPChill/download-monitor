@@ -144,7 +144,6 @@ class DLM_Review {
 		<script type="text/javascript">
 
 		function handleDlmButtonClick( element ) {
-			console.error('clicky');
 			var data = {
 				action: 'download-monitor_review',
 				security: '<?php echo esc_js( $ajax_nonce ); ?>',

@@ -1,0 +1,109 @@
+name: Generate Release Post (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to generate release post for (leave empty to auto-detect from package.json)'
+        required: false
+        type: string
+      pr_number:
+        description: 'PR number (optional)'
+        required: false
+        type: string
+      pr_title:
+        description: 'PR title (optional)'
+        required: false
+        type: string
+
+jobs:
+  generate-release-post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      
+      - name: Get version from package.json
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+      - name: Set version
+        id: set-version
+        run: |
+          if [[ -n "${{ github.event.inputs.version }}" ]]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ steps.package-version.outputs.current-version }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Generate Release Post
+        id: generate-release-post
+        env:
+          WPCHILL_API_URL: ${{ secrets.WPCHILL_API_URL }}
+          WPCHILL_API_TOKEN: ${{ secrets.WPCHILL_API_TOKEN }}
+        run: |
+          # Call the API endpoint with simplified parameters
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "$WPCHILL_API_URL/github/generate" \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $WPCHILL_API_TOKEN" \
+              -d "{
+                  \"repo\": \"${{ github.repository }}\",
+                  \"branch\": \"master\",
+                  \"count\": 1,
+                  \"mode\": \"separate\",
+                  \"additionalContext\": null
+              }")
+
+          # Extract response body and status code
+          HTTP_STATUS=$(echo "$RESPONSE" | tail -n1)
+          RESPONSE_BODY=$(echo "$RESPONSE" | head -n -1)
+
+          # Store results for next steps
+          echo "api_status=$HTTP_STATUS" >> $GITHUB_OUTPUT
+          echo "api_response<<EOF" >> $GITHUB_OUTPUT
+          echo "$RESPONSE_BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "release_mode=separate" >> $GITHUB_OUTPUT
+
+          # Extract summary from response if successful
+          if [[ $HTTP_STATUS =~ ^2 ]]; then
+              SUMMARY=$(echo "$RESPONSE_BODY" | jq -r '.summary // "No summary available"')
+              echo "summary<<EOF" >> $GITHUB_OUTPUT
+              echo "$SUMMARY" >> $GITHUB_OUTPUT
+              echo "EOF" >> $GITHUB_OUTPUT
+              echo "✅ Release post generated successfully"
+          else
+              echo "❌ Failed to generate release post (HTTP $HTTP_STATUS)"
+              echo "Response: $RESPONSE_BODY"
+              exit 1
+          fi
+
+      - name: Notify Release Post Generation on Slack
+        if: always()
+        run: |
+          if [[ "${{ steps.generate-release-post.outputs.api_status }}" =~ ^2 ]]; then
+              MESSAGE="🎉 *Release Post Generated Successfully!*
+
+              *Version:* ${{ steps.set-version.outputs.version }}
+              *Repository:* ${{ github.repository }}
+              $([ -n "${{ github.event.inputs.pr_number }}" ] && echo "*PR:* #${{ github.event.inputs.pr_number }} - ${{ github.event.inputs.pr_title }}" || echo "*Triggered:* Manually")
+
+              *Summary:*
+              ${{ steps.generate-release-post.outputs.summary }}
+
+              The release post has been created and is ready for review."
+          else
+              MESSAGE="❌ *Release Post Generation Failed*
+
+              *Version:* ${{ steps.set-version.outputs.version }}
+              *Repository:* ${{ github.repository }}
+              *Error:* HTTP ${{ steps.generate-release-post.outputs.api_status }}
+
+              Please check the workflow logs for more details."
+          fi
+
+          curl -X POST ${{ secrets.SLACK_WEBHOOK_URL }} \
+              -H "Content-type: application/json" \
+              -d "{\"text\": \"$MESSAGE\"}" 
