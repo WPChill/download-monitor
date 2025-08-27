@@ -271,4 +271,4 @@ You can read the complete changelog [here](https://github.com/WPChill/download-m
 == Upgrade Notice ==
 
 = 5.1.0 =
-* Please make sure to create a backup of your current website before performing the update.
+* We strongly recommend to create a backup of your current website before applying the update.
