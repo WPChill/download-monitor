@@ -114,6 +114,9 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.1.0 - 27.08.2025 =
+* Changed: Reworked the reports interface improving speed, design and accuracy.
+
 = 5.0.26 - 20.06.2025 =
 Changed: Updated label of Page Addon to Document Library Manager
 
@@ -245,5 +248,5 @@ You can read the complete changelog [here](https://github.com/WPChill/download-m
 
 == Upgrade Notice ==
 
-= 5.0.0 =
-* This is a major update for Download Monitor, please make sure to create a backup of your current website before performing the update.
+= 5.1.0 =
+* Please make sure to create a backup of your current website before performing the update.
