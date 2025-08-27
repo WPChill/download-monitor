@@ -1,0 +1,27 @@
+.item {
+    padding: 24px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+
+    .content {
+        .label {
+            display: flex;
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 20px;
+        }
+
+        .value {
+            display: flex;
+            justify-content: space-between;
+            font-size: calc(20px);
+            font-weight: normal;
+            line-height: 28px;
+        }
+    }
+
+    &:not( :first-child) {
+        border-left: unset;
+    }
+}

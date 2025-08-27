@@ -1,0 +1,15 @@
+.dateRangeSelectWrapp{
+    margin-right: 24px;
+    min-width: 200px;
+    cursor: pointer;
+    display: flex;
+    align-items: end;
+}
+.dateRangeSelect {
+    min-width: 240px;
+}
+.label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+}

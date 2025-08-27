@@ -61,6 +61,8 @@ class DLM_Upsells {
 
 		// Upgrade to PRO plugin action link
 		add_filter( 'plugin_action_links_' . DLM_FILE, array( $this, 'filter_action_links' ), 60 );
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'enhanced_metrics_upsells_script' ) );
 	}
 
 	/**
@@ -140,13 +142,7 @@ class DLM_Upsells {
 
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
 
-		add_action( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) );
-
-		add_action( 'dlm_reports_general_info', array( $this, 'insights_upsell' ), 99, 2 );
-
-		add_action( 'dlm_reports_user_reports', array( $this, 'insights_upsell' ), 99, 2 );
-
-		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) );
+		add_action( 'dlm_reports_page_end', array( $this, 'insights_upsell' ), 99 );
 
 		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 	}
@@ -893,35 +889,6 @@ class DLM_Upsells {
 	}
 
 	/**
-	 * Export upsell
-	 *
-	 * @return void
-	 * @since 4.8.6
-	 */
-	public function export_insights_header_upsell() {
-		if ( $this->check_extension( 'dlm-csv-exporter' ) ) {
-			return;
-		}
-
-		$export_upsell_url = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-csv-exporter';
-		?>
-		<div class="dlm-csv-export-wrapper">
-			<div class="dlm-reports-header-export-button">
-				<button class="button button-primary"
-						disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <a
-						href="<?php echo esc_url( $export_upsell_url ); ?>"
-						target="_blank"
-						class="dlm-upsell-badge">PAID</a></button>
-			</div>
-			<div class="dlm-csv-export-wrapper__export_settings">
-				<div id="dlm-export-settings-upsell" class="button button-secondary" disabled="disabled"><span
-						class="dashicons dashicons-admin-generic"></span></div>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Reports upsells
 	 *
 	 * @param $tab
@@ -930,60 +897,54 @@ class DLM_Upsells {
 	 * @return void
 	 * @since 4.8.6
 	 */
-	public function insights_upsell( $tab, $key ) {
+	public function insights_upsell() {
 
 		if ( $this->check_extension( 'dlm-enhanced-metrics' ) ) {
 			return;
 		}
 
-		$list = array();
-		if ( 'general_info' == $key ) {
-			$list = array(
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Compare dates and view chart to see how you’ve done', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of completed downloads per download', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of redirected downloads per download', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of failed downloads per download', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show % of downloads from the total downloads number', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of completed downloads by logged in users', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show number of completed downloads by logged out users', 'download-monitor' ),
-				),
-			);
-		} elseif ( 'user_reports' == $key ) {
-			$list = array(
-				array(
-					'tooltip' => '',
-					'feature' => __( 'See active users and their download information', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show the location from where in the site the user downloaded', 'download-monitor' ),
-				),
-				array(
-					'tooltip' => '',
-					'feature' => __( 'Show the download\'s category', 'download-monitor' ),
-				),
-			);
-		}
+		$list = array(
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Compare dates and view chart to see how you’ve done', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of completed downloads per download', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of redirected downloads per download', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of failed downloads per download', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show % of downloads from the total downloads number', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of completed downloads by logged in users', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show number of completed downloads by logged out users', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'See active users and their download information', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show the location from where in the site the user downloaded', 'download-monitor' ),
+			),
+			array(
+				'tooltip' => '',
+				'feature' => __( 'Show the download\'s category', 'download-monitor' ),
+			),
+		);
 
 		echo '<div class="wpchill-upsells-wrapper">';
 
@@ -996,39 +957,6 @@ class DLM_Upsells {
 		);
 
 		echo '</div>';
-	}
-
-	/**
-	 * Add the datepicker comparer
-	 *
-	 * @return void
-	 * @since 4.8.6
-	 */
-	public function insights_datepicker_upsell() {
-
-		if ( $this->check_extension( 'dlm-enhanced-metrics' ) ) {
-			return;
-		}
-
-		$to_date = new DateTime( current_time( 'mysql' ) );
-		$to_date->setTime( 0, 0, 0 );
-		$to   = $to_date->format( 'Y-m-d' );
-		$from = $to_date->modify( '-1 month' )->format( 'Y-m-d' );
-
-		$end   = new DateTime( $to );
-		$start = new DateTime( $from );
-
-		$enhanced_m_upsell_url = 'https://www.download-monitor.com/pricing/?utm_source=reports_page&utm_medium=lite-vs-pro&utm_campaign=dlm-enhanced_metrics';
-		?>
-		<div class="dlm-reports-header-date-selector disabled">
-			<label><?php echo esc_html__( 'Select date to compare', 'download-monitor' ); ?></label>
-			<span class="dashicons dashicons-calendar-alt dlm-chart-icon"></span>
-			<span
-				class="date-range-info"><?php echo esc_html( $start->format( 'M d, Y' ) ) . ' - ' . esc_html( $end->format( 'M d, Y' ) ); ?></span>
-			<span class="dlm-arrow"></span>
-			<a href="<?php echo esc_url( $enhanced_m_upsell_url ); ?>" target="_blank" class="dlm-upsell-badge">PAID</a>
-		</div>
-		<?php
 	}
 
 	/**
@@ -1199,5 +1127,33 @@ class DLM_Upsells {
 			});
 		</script>
 		<?php
+	}
+
+	public function enhanced_metrics_upsells_script() {
+		$upsells_asset_file = require plugin_dir_path( DLM_PLUGIN_FILE ) . 'assets/js/upsells/upsells.asset.php';
+		$upsells_enqueue    = array(
+			'handle'       => 'dlm-reports-upsells',
+			'dependencies' => $upsells_asset_file['dependencies'],
+			'version'      => $upsells_asset_file['version'],
+			'script'       => DLM_URL . 'assets/js/upsells/upsells.js',
+			'style'        => DLM_URL . 'assets/js/upsells/upsells.css',
+		);
+
+		// Must be enqueued before so we can hook to it.
+		$upsells_enqueue['dependencies'][] = 'dlm-reports-app';
+
+		wp_enqueue_script(
+			$upsells_enqueue['handle'],
+			$upsells_enqueue['script'],
+			$upsells_enqueue['dependencies'],
+			$upsells_enqueue['version'],
+			true
+		);
+		wp_enqueue_style(
+			$upsells_enqueue['handle'],
+			$upsells_enqueue['style'],
+			array(),
+			$upsells_enqueue['version']
+		);
 	}
 }

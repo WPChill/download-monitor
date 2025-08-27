@@ -9,588 +9,651 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 	/**
 	 * DLM_Reports
 	 *
-	 * @since 4.6.0
+	 * @since 5.1.0
 	 */
 	class DLM_Reports {
 
 		/**
-		 * Holds the class object.
-		 *
-		 * @since 4.6.0
-		 *
-		 * @var object
-		 */
-		public static $instance;
-
-		/**
-		 * @var array
-		 */
-		private $reports_headers = array();
-
-		/**
-		 * PHP info used to set the limit for SQL queries.
-		 *
-		 * @var array
-		 */
-		public  $php_info = array();
-
-		/**
-		 * The time format
-		 *
-		 * @var string
-		 */
-		public $date_format = 'Y-m-d H:i:s';
-
-		/**
 		 * DLM_Reports constructor.
 		 *
-		 * @since 4.6.0
+		 * @since 5.1.0
 		 */
 		public function __construct() {
+			add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'reports_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'reports_widget_scripts' ) );
+			add_filter( 'dlm_header_logo_text', array( $this, 'add_page_title' ) );
 
-			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'create_global_variable' ) );
-			add_action( 'wp_ajax_dlm_update_report_setting', array( $this, 'save_reports_settings' ) );
-			add_action( 'wp_ajax_dlm_top_downloads_reports', array( $this, 'get_ajax_top_downloads_markup' ) );
-			add_action( 'init', array( $this, 'set_table_headers' ), 30 );
-			add_action( 'init', array( $this, 'set_memory_limit' ) );
+			add_action( 'wp_dashboard_setup', array( $this, 'register_dashboard_widget' ) );
 		}
 
 		/**
-		 * Returns the singleton instance of the class.
+		 * Add settings menu item
 		 *
-		 * @return object The DLM_Reports object.
+		 * @param mixed $links The links for the menu.
 		 *
-		 * @since 4.6.0
+		 * @return array
 		 */
-		public static function get_instance() {
-
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DLM_Reports ) ) {
-				self::$instance = new DLM_Reports();
+		public function add_admin_menu( $links ) {
+			// If Reports are disabled don't add the menu item.
+			if ( ! DLM_Logging::is_logging_enabled() ) {
+				return $links;
 			}
 
-			return self::$instance;
+			// Reports page.
+			$links[] = array(
+				'page_title' => __( 'Reports', 'download-monitor' ),
+				'menu_title' => __( 'Reports', 'download-monitor' ),
+				'capability' => 'dlm_view_reports',
+				'menu_slug'  => 'download-monitor-reports',
+				'function'   => array( $this, 'view' ),
+				'priority'   => 50,
+			);
 
+			return $links;
 		}
 
 		/**
-		 * Set table headers
-		 *
+		 * Create React root for reports page
+		 * @since 5.1.0
 		 * @return void
 		 */
-		public function set_table_headers() {
-			$this->reports_headers = apply_filters(
-				'dlm_reports_templates',
-				array(
-					'top_downloads' => array(
-						'table_headers' => array(
-							'id'              => array(
-								'title' => __( 'ID', 'download-monitor' ),
-								'sort'  => false,
-								'class' => '',
-							),
-							'title'           => array(
-								'title' => __( 'Title', 'download-monitor' ),
-								'sort'  => true,
-								'class' => '',
-							),
-							'total_downloads' => array(
-								'title' => __( 'Total', 'download-monitor' ),
-								'sort'  => true,
-								'class' => '',
-							),
-						)
-					),
-					'user_logs' => array(
-						'table_headers' => array(
-							'user'          => array(
-								'title' => esc_html__( 'User', 'download-monitor' ),
-								'sort'  => false,
-								'class' => '',
-							),
-							'ip'            => array(
-								'title' => esc_html__( 'IP', 'download-monitor' ),
-								'sort'  => false,
-								'class' => '',
-							),
-							'role'          => array(
-								'title' => esc_html__( 'Role', 'download-monitor' ),
-								'sort'  => false,
-								'class' => '',
-							),
-							'download'      => array(
-								'title' => esc_html__( 'Download', 'download-monitor' ),
-								'sort'  => false,
-								'class' => '',
-							),
-							'status'        => array(
-								'title' => esc_html__( 'Status', 'download-monitor' ),
-								'sort'  => false,
-								'class' => '',
-							),
-							'download_date' => array(
-								'title' => esc_html__( 'Download date', 'download-monitor' ),
-								'sort'  => true,
-								'class' => '',
-							)
-						)
-					),
-				)
-			);
+		public function view() {
+			?>
+				<div class="dlm-reports-page-body">
+					<?php do_action( 'dlm_reports_page_start' ); ?>
+						<div id="dlm_reports_page"></div>
+					<?php do_action( 'dlm_reports_page_end' ); ?>
+				</div>
+			<?php
 		}
 
 		/**
-		 * Set our global variable dlmReportsStats so we can manipulate given data
+		 * Get our stats for the bar chart
 		 *
-		 * @since 4.6.0
+		 * @return array
+		 * @since 5.1.0
 		 */
-		public function create_global_variable() {
-			$current_user_can    = '&user_can_view_reports=' . apply_filters( 'dlm_user_can_view_reports', current_user_can( 'dlm_view_reports' ) );
-			$permalink_structure = get_option( 'permalink_structure' );
-			$separator           = '?';
-			if ( empty( $permalink_structure ) ) {
-				$separator = '&';
-			}
-
-			$rest_route_download_reports = rest_url( 'download-monitor/v1/download_reports' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
-			$rest_route_user_reports     = rest_url( 'download-monitor/v1/user_reports' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
-			$rest_route_user_data        = rest_url( 'download-monitor/v1/user_data' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
-			$rest_route_templates        = rest_url( 'download-monitor/v1/templates' . $separator . '_wpnonce=' . wp_create_nonce( 'wp_rest' ) . $current_user_can );
-
-			$cpt_fields             = apply_filters( 'dlm_reports_downloads_cpt', array(
-				'author',
-				'id',
-				'title',
-				'slug'
-			) );
-			$rest_rout_downloadscpt = rest_url( 'wp/v2/dlm_download' . $separator . '_fields=' . implode( ',', $cpt_fields ) . $current_user_can );
-			// Let's add the global variable that will hold our reporst class and the routes.
-			wp_add_inline_script( 'dlm_reports', 'let dlmReportsInstance = {}; dlm_admin_url = "' . admin_url() . '" ; const dlmDownloadReportsAPI ="' . $rest_route_download_reports . '"; const dlmUserReportsAPI ="' . $rest_route_user_reports . '"; const dlmUserDataAPI ="' . $rest_route_user_data . '"; const dlmTemplates = "' . $rest_route_templates . '"; const dlmDownloadsCptApiapi = "' . $rest_rout_downloadscpt . '"; const dlmPHPinfo =  ' . wp_json_encode( $this->php_info ) . ';', 'before' );
-		}
-
-		/**
-		 * Register DLM Logs Routes
-		 *
-		 * @since 4.6.0
-		 */
-		public function register_routes() {
-
-			// The REST route for downloads reports.
-			register_rest_route(
-				'download-monitor/v1',
-				'/download_reports',
-				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'rest_stats' ),
-					'permission_callback' => array( $this, 'check_api_rights' ),
-				)
-			);
-
-			// The REST route for user reports.
-			register_rest_route(
-				'download-monitor/v1',
-				'/user_reports',
-				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'user_reports_stats' ),
-					'permission_callback' => array( $this, 'check_api_rights' ),
-				)
-			);
-
-			// The REST route for users data.
-			register_rest_route(
-				'download-monitor/v1',
-				'/user_data',
-				array(
-					'methods'             => 'GET',
-					'callback'            => array( $this, 'user_data_stats' ),
-					'permission_callback' => array( $this, 'check_api_rights' ),
-				)
-			);
-		}
-
-		/**
-		 * Get our stats for the chart
-		 *
-		 * @return WP_REST_Response
-		 * @since 4.6.0
-		 */
-		public function rest_stats() {
-
-			return $this->respond( $this->report_stats() );
-		}
-
-		/**
-		 * Get our stats for the user reports
-		 *
-		 * @return WP_REST_Response
-		 * @since 4.6.0
-		 */
-		public function user_reports_stats() {
-
-			return $this->respond( $this->get_user_reports() );
-		}
-
-
-		/**
-		 * Get our user data
-		 *
-		 * @return WP_REST_Response
-		 * @since 4.6.0
-		 */
-		public function user_data_stats() {
-
-			return $this->respond( $this->get_user_data() );
-		}
-
-		/**
-		 * Send our data
-		 *
-		 * @param $data JSON data received from report_stats.
-		 *
-		 * @return WP_REST_Response
-		 * @since 4.6.0
-		 */
-		public function respond( $data ) {
-
-			$result = new \WP_REST_Response( $data, 200 );
-
-			$result->set_headers(
-				array(
-					// @todo : comment this and if people complain about the performance, we can add it back.
-					//'Cache-Control' => 'max-age=3600, s-max-age=3600',
-					'Content-Type'  => 'application/json',
-				)
-			);
-
-			return $result;
-		}
-
-		/**
-		 * Return stats
-		 *
-		 * @retun array
-		 * @since 4.6.0
-		 */
-		public function report_stats() {
-
+		public static function get_graph_downloads_data( $request ) {
 			global $wpdb;
 
-			check_ajax_referer( 'wp_rest' );
+			$data = array();
 
 			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
-				return array(
-					'stats'  => array(),
-					'offset' => 0,
-					'done'   => true,
+				return $data;
+			}
+
+			$start_date = null;
+			$end_date   = null;
+
+			$start = $request->get_param( 'start' );
+			$end   = $request->get_param( 'end' );
+
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
+			}
+
+			$downloads_data = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM {$wpdb->dlm_reports} WHERE `date` BETWEEN %s AND %s ORDER BY `date` ASC;",
+					$start_date,
+					$end_date
+				),
+				ARRAY_A
+			);
+
+			$data['downloads_data'] = array();
+			foreach ( $downloads_data as $download_data ) {
+				$downloads = json_decode( $download_data['download_ids'], true );
+				$count     = 0;
+				foreach ( $downloads as $download ) {
+					$count += absint( $download['downloads'] );
+				}
+				$data['downloads_data'][] = array(
+					'date'      => $download_data['date'],
+					'downloads' => $count,
 				);
 			}
 
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_chart_stats'];
-			$offset_limit = $offset * $count;
-			$stats        = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->dlm_reports} LIMIT {$offset_limit}, {$count};", null ), ARRAY_A );
+			$data = apply_filters( 'dlm_reports_graph_downloads_data', $data, $request );
 
-			return array(
-				'stats'  => $stats,
-				'offset' => ( absint( $count ) === count( $stats ) ) ? $offset + 1 : '',
-				'done'   => absint( $count ) > count( $stats ),
-			);
+			return $data;
 		}
 
 		/**
-		 * Return user reports stats
+		 * Get our stats for the downloads table
 		 *
-		 * @retun array
-		 * @since 4.6.0
+		 * @return array
+		 * @since 5.1.0
 		 */
-		public function get_user_reports() {
+		public static function get_table_downloads_data( $request ) {
+			global $wpdb;
+
+			$data = array();
+
+			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
+				return $data;
+			}
+
+			$start_date = null;
+			$end_date   = null;
+
+			$start = $request->get_param( 'start' );
+			$end   = $request->get_param( 'end' );
+
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
+			}
+
+			$where = $wpdb->prepare(
+				'WHERE DATE(download_date) BETWEEN %s AND %s',
+				$start_date,
+				$end_date
+			);
+
+			// We set the columns here so we can filter and add or remove later.
+			$default_select_columns = array(
+				'COUNT(*) as total',
+				'SUM(download_status = "completed") as completed',
+				'SUM(download_status = "redirected") as redirected',
+				'SUM(download_status = "failed") as failed',
+				'SUM(user_id != 0) as logged_in_downloads',
+				'SUM(user_id = 0) as logged_out_downloads',
+			);
+
+			$select_columns = apply_filters( 'dlm_table_downloads_select_columns', $default_select_columns );
+			$select_sql     = implode( ",\n\t", $select_columns );
+
+			$query = "
+				SELECT
+				download_id,
+					$select_sql
+				FROM {$wpdb->download_log}
+				$where
+				GROUP BY download_id
+			";
+
+			$data = $wpdb->get_results( $query, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+			$stats = array();
+
+			// Add the title.
+			foreach ( $data as $key => $row ) {
+				$data[ $key ]['title'] = get_the_title( $row['download_id'] );
+			}
+
+			$data = apply_filters( 'dlm_reports_table_downloads_data', $data, $request );
+
+			return $data;
+		}
+
+
+		/**
+		 * Get data for the overview cards.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public static function get_overview_card_stats( $request ) {
 
 			global $wpdb;
 
-			check_ajax_referer( 'wp_rest' );
+			$stats = array(
+				'total'        => 0,
+				'today'        => 0,
+				'average'      => 0,
+				'most_popular' => null,
+			);
 
-			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
-				return array(
-					'logs'   => array(),
-					'offset' => 1,
-					'done'   => true,
-				);
+			$start = $request->get_param( 'start' );
+			$end   = $request->get_param( 'end' );
+
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
 			}
 
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_rows'];
-			$offset_limit = $offset * $count;
+			$today = current_time( 'Y-m-d' );
 
-			$table_columns = apply_filters(
-				'dlm_download_log_columns',
+			$rows = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT `date`, `download_ids` FROM {$wpdb->dlm_reports} WHERE `date` BETWEEN %s AND %s",
+					$start_date,
+					$end_date
+				),
+				ARRAY_A
+			);
+
+			$total_downloads = 0;
+			$today_downloads = 0;
+			$download_totals = array(); // key = download_id, value = ['total' => x, 'title' => y]
+			$day_count       = 0;
+			$has_today       = false;
+
+			foreach ( $rows as $row ) {
+				++$day_count;
+				$date = $row['date'];
+
+				if ( $date === $today ) {
+					$has_today = true;
+				}
+
+				if ( empty( $row['download_ids'] ) ) {
+					continue;
+				}
+
+				$downloads = json_decode( $row['download_ids'], true );
+				if ( ! is_array( $downloads ) ) {
+					continue;
+				}
+
+				$day_total = 0;
+
+				foreach ( $downloads as $id => $data ) {
+					$id    = (int) $id;
+					$count = isset( $data['downloads'] ) ? (int) $data['downloads'] : 0;
+					$title = isset( $data['title'] ) ? sanitize_text_field( $data['title'] ) : '';
+
+					$day_total += $count;
+
+					if ( ! isset( $download_totals[ $id ] ) ) {
+						$download_totals[ $id ] = array(
+							'total' => 0,
+							'title' => $title,
+						);
+					}
+
+					$download_totals[ $id ]['total'] += $count;
+				}
+
+				$total_downloads += $day_total;
+
+				if ( $date === $today ) {
+					$today_downloads = $day_total;
+				}
+			}
+
+			// If we do not have today in the initial period, query for it.
+			if ( ! $has_today ) {
+				$today_row = $wpdb->get_row(
+					$wpdb->prepare(
+						"SELECT `download_ids` FROM {$wpdb->dlm_reports} WHERE `date` = %s",
+						$today
+					),
+					ARRAY_A
+				);
+
+				if ( ! empty( $today_row['download_ids'] ) ) {
+					$downloads = json_decode( $today_row['download_ids'], true );
+					if ( is_array( $downloads ) ) {
+						$day_total = 0;
+						foreach ( $downloads as $id => $data ) {
+							$count      = isset( $data['downloads'] ) ? (int) $data['downloads'] : 0;
+							$day_total += $count;
+						}
+						$today_downloads = $day_total;
+					}
+				}
+			}
+
+			// Most popular
+			$most_popular = null;
+			foreach ( $download_totals as $id => $info ) {
+				if ( is_null( $most_popular ) || $info['total'] > $most_popular['total'] ) {
+					$most_popular = array(
+						'id'    => $id,
+						'title' => $info['title'],
+						'total' => $info['total'],
+					);
+				}
+			}
+
+			$stats['total']        = $total_downloads;
+			$stats['today']        = $today_downloads;
+			$stats['average']      = $day_count > 0 ? floatval( number_format( $total_downloads / $day_count, 2, '.', '' ) ) : 0;
+			$stats['most_popular'] = $most_popular;
+
+			return apply_filters( 'dlm_reports_card_stats', $stats, $request );
+		}
+
+		/**
+		 * Get data for the detailed view user cards.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public static function get_users_card_stats( $request ) {
+			global $wpdb;
+
+			$stats = array(
+				'logged_in'   => 0,
+				'logged_out'  => 0,
+				'most_active' => null,
+			);
+
+			$start = $request->get_param( 'start' );
+			$end   = $request->get_param( 'end' );
+
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
+			}
+
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT user_id, COUNT(*) as total
+					FROM {$wpdb->download_log}
+					WHERE DATE(download_date) BETWEEN %s AND %s
+					GROUP BY user_id",
+					$start_date,
+					$end_date
+				),
+				ARRAY_A
+			);
+
+			$max_total   = 0;
+			$most_active = null;
+			$logged_in   = 0;
+			$logged_out  = 0;
+
+			foreach ( $results as $row ) {
+				$user_id = (int) $row['user_id'];
+				$total   = (int) $row['total'];
+
+				if ( 0 === $user_id ) {
+					$logged_out += $total;
+				} else {
+					$logged_in += $total;
+					if ( $total > $max_total ) {
+						$max_total   = $total;
+						$most_active = array(
+							'id'    => $user_id,
+							'total' => $total,
+						);
+					}
+				}
+			}
+
+			if ( $most_active ) {
+				$user                = get_user_by( 'id', $most_active['id'] );
+				$most_active['name'] = $user ? $user->display_name : 'User #' . $most_active['id'];
+			}
+
+			$stats['logged_in']   = $logged_in;
+			$stats['logged_out']  = $logged_out;
+			$stats['most_active'] = $most_active;
+
+			return apply_filters( 'dlm_reports_user_card_stats', $stats, $request );
+		}
+
+		/**
+		 * Get our stats for the downloads table
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public static function get_users_downloads_data( $request ) {
+			global $wpdb;
+
+			$data = array();
+
+			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->download_log ) ) {
+				return $data;
+			}
+
+			$start = $request->get_param( 'start' );
+			$end   = $request->get_param( 'end' );
+
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
+			}
+
+			$where = $wpdb->prepare(
+				'WHERE DATE(download_date) BETWEEN %s AND %s',
+				$start_date,
+				$end_date
+			);
+
+			// We set the columns here so we can filter and add or remove later.
+			$default_select_columns = array(
+				'user_id',
+				'user_ip',
+				'download_status',
+				'download_date',
+			);
+
+			$select_columns = apply_filters( 'dlm_users_downloads_select_columns', $default_select_columns );
+			$select_sql     = implode( ",\n\t", $select_columns );
+
+			$query = "
+				SELECT
+				ID,
+				download_id,
+					$select_sql
+				FROM {$wpdb->download_log}
+				$where
+				ORDER BY ID desc
+			";
+
+			$data = $wpdb->get_results( $query, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+			$stats = array();
+
+			// Add the title.
+			foreach ( $data as $key => $row ) {
+				$data[ $key ]['title'] = get_the_title( $row['download_id'] );
+			}
+
+			$data = apply_filters( 'dlm_reports_users_table_downloads_data', $data, $request );
+
+			return $data;
+		}
+
+
+		/**
+		 * Get all users data that have downloaded.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public static function get_user_data( $request ) {
+			global $wpdb;
+			$allowed_roles = apply_filters(
+				'dlm_reports_allowed_roles',
 				array(
-					'user_id',
-					'user_ip',
-					'download_id',
-					'download_date',
-					'download_status'
+					'administrator',
+					'editor',
+					'author',
+					'contributor',
+					'subscriber',
+					'customer',
+					'shop_manager',
 				)
 			);
-			$table_columns = sanitize_text_field( implode( ',', wp_unslash( $table_columns ) ) );
-			$downloads     = $wpdb->get_results( $wpdb->prepare( 'SELECT ' . $table_columns . ' FROM ' . $wpdb->download_log . " ORDER BY ID desc LIMIT {$offset_limit}, {$count};" ), ARRAY_A );
 
-			$downloads = array_map( array( $this, 'date_creator' ), $downloads );
+			$users      = array();
+			$users_data = array();
+			$start      = $request->get_param( 'start' );
+			$end        = $request->get_param( 'end' );
 
-			return array(
-				'logs'   => $downloads,
-				'offset' => ( absint( $count ) === count( $downloads ) ) ? $offset + 1 : '',
-				'done'   => absint( $count ) > count( $downloads ),
-			);
-
-		}
-
-		/**
-		 * Create WordPress generated date
-		 *
-		 * @param $element
-		 *
-		 * @return mixed
-		 * @since 4.7.4
-		 */
-		public function date_creator( $element ) {
-			// Set UTC timezone bacause in the DB it is stored based on the timezone in the settings.
-			$element['display_date'] = wp_date( $this->date_format, strtotime( $element['download_date'] ), new DateTimeZone('UTC') );
-
-			return $element;
-		}
-
-		/**
-		 * Return user data
-		 *
-		 * @retun array
-		 * @since 4.6.0
-		 */
-		public function get_user_data() {
-			global $wpdb;
-
-			check_ajax_referer( 'wp_rest' );
-
-			if ( ! DLM_Logging::is_logging_enabled() || ! DLM_Utils::table_checker( $wpdb->dlm_reports ) ) {
-				return array();
+			if ( isset( $start, $end ) ) {
+				$start_date = sanitize_text_field( $start );
+				$end_date   = sanitize_text_field( $end );
+			} else {
+				$end_date   = current_time( 'Y-m-d' );
+				$start_date = gmdate( 'Y-m-d', strtotime( '-6 days', strtotime( $end_date ) ) );
 			}
 
-			$users_data   = array();
-			$offset       = isset( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0;
-			$count        = isset( $_REQUEST['limit'] ) ? absint( $_REQUEST['limit'] ) : $this->php_info['retrieved_user_data'];
-			$offset_limit = $offset * $count;
 			// Retrieve only users that have downloaded something, we don't want to show users that have not downloaded anything.
-			$users = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT dlm_logs.user_id as ID, wp_users.user_nicename as user_nicename, wp_users.user_url as user_url, wp_users.user_registered as user_registered, wp_users.display_name as display_name, wp_users.user_email as user_email, wp_users_meta.meta_value as roles FROM {$wpdb->download_log} dlm_logs 
-			LEFT JOIN {$wpdb->users} wp_users ON dlm_logs.user_id = wp_users.ID AND wp_users.ID IS NOT NULL 
-			LEFT JOIN {$wpdb->usermeta} wp_users_meta ON dlm_logs.user_id = wp_users_meta.user_id 
-			WHERE dlm_logs.user_id != 0 AND wp_users_meta.meta_key = '{$wpdb->prefix}capabilities'
-			ORDER BY dlm_logs.user_id desc LIMIT {$offset_limit}, {$count};" ) );
+			$users = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DISTINCT dlm_logs.user_id as ID, wp_users.user_nicename, wp_users.user_url, wp_users.user_registered, wp_users.display_name, wp_users.user_email, wp_users_meta.meta_value as roles
+					FROM {$wpdb->download_log} dlm_logs
+					LEFT JOIN {$wpdb->users} wp_users ON dlm_logs.user_id = wp_users.ID AND wp_users.ID IS NOT NULL
+					LEFT JOIN {$wpdb->usermeta} wp_users_meta ON dlm_logs.user_id = wp_users_meta.user_id
+					WHERE dlm_logs.user_id != 0
+					AND wp_users_meta.meta_key = %s
+					AND DATE(dlm_logs.download_date) BETWEEN %s AND %s
+					ORDER BY dlm_logs.user_id DESC",
+					$wpdb->prefix . 'capabilities',
+					$start_date,
+					$end_date
+				)
+			);
 
 			if ( ! empty( $users ) ) {
 				// Cycle through users and get their data.
 				foreach ( $users as $user ) {
-					$user_roles   = array_keys( unserialize( $user->roles ) );
-					$users_data[] = array(
-						'id'           => $user->ID,
+					$user_roles              = array_keys( unserialize( $user->roles ) );
+					$user_roles              = array_intersect( $user_roles, $allowed_roles );
+					$user_roles              = is_array( $user_roles ) ? implode( ',', $user_roles ) : '';
+					$users_data[ $user->ID ] = array(
 						'nicename'     => $user->user_nicename,
 						'url'          => $user->user_url,
 						'registered'   => $user->user_registered,
 						'display_name' => $user->display_name,
 						'email'        => $user->user_email,
-						'role'         => ( ( ! in_array( 'administrator', $user_roles, true ) ) ? $user_roles : '' ),
+						'role'         => $user_roles,
 					);
 				}
 			}
 
-			return array(
-				'logs'   => $users_data,
-				'offset' => ( absint( $count ) === count( $users ) ) ? $offset + 1 : '',
-				'done'   => absint( $count ) > count( $users ),
+			return apply_filters( 'dlm_reports_users_data', $users_data, $request );
+		}
+
+		/**
+		 * Enqueues the react script for reports page.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public function reports_scripts() {
+
+			if ( ! isset( $_GET['page'] ) || 'download-monitor-reports' !== $_GET['page'] ) {
+				return;
+			}
+
+			$asset_file = require plugin_dir_path( DLM_PLUGIN_FILE ) . 'assets/js/reports/reports.asset.php';
+			$enqueue    = array(
+				'handle'       => 'dlm-reports-app',
+				'dependencies' => $asset_file['dependencies'],
+				'version'      => $asset_file['version'],
+				'script'       => DLM_URL . 'assets/js/reports/reports.js',
+				'style'        => DLM_URL . 'assets/js/reports/reports.css',
+			);
+
+			wp_enqueue_script(
+				$enqueue['handle'],
+				$enqueue['script'],
+				$enqueue['dependencies'],
+				$enqueue['version'],
+				true
+			);
+
+			wp_enqueue_style(
+				$enqueue['handle'],
+				$enqueue['style'],
+				array(),
+				$enqueue['version']
 			);
 		}
 
 		/**
-		 * Save reports settings
-		 *
+		 * Register dashboard widget
+		 * @since 5.1.0
 		 * @return void
-		 * @since 4.6.0
 		 */
-		public function save_reports_settings() {
-
-			if ( ! isset( $_POST['_ajax_nonce'] ) ) {
-				wp_send_json_error( 'No nonce' );
+		public function register_dashboard_widget() {
+			if ( ! current_user_can( 'manage_downloads' ) || apply_filters( 'dlm_remove_dashboard_popular_downloads', false ) ) {
+				return;
 			}
 
-			check_ajax_referer( 'dlm_reports_nonce' );
-			// Check if the user has the right to update the settings.
-			if ( ! current_user_can( 'dlm_view_reports' ) ) {
-				wp_send_json_error( __( 'You do not have the rights to do this!', 'download-monitor' ) );
-			}
-			$option = ( isset( $_POST['name'] ) ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
-
-			if ( isset( $_POST['checked'] ) && 'true' === $_POST['checked'] ) {
-				$value = 'on';
-			} else {
-				$value = 'off';
-			}
-
-			if ( isset( $_POST['value'] ) ) {
-				$value = sanitize_text_field( wp_unslash( $_POST['value'] ) );
-			}
-
-			update_option( $option, $value );
-			die();
+			wp_add_dashboard_widget(
+				'dlm_popular_downloads',
+				__( 'Top Downloads', 'download-monitor' ),
+				array(
+					$this,
+					'dashboard_widget_root',
+				)
+			);
 		}
 
 		/**
-		 * Get top downloads HTML markup
-		 *
-		 * @return string
-		 * @since 4.6.0
-		 */
-		public function get_top_downloads_markup( $offset = 0, $limit = 15 ) {
-			global $wpdb;
-
-			$downloads = $wpdb->get_results( 'SELECT COUNT(ID) as downloads, download_id, download_status FROM ' . $wpdb->download_log . ' GROUP BY download_id ORDER BY downloads desc LIMIT  ' . absint( $offset ) . ' , ' . absint( $limit ) . ';', ARRAY_A );
-
-			ob_start();
-			$dlm_top_downloads = $this->reports_headers;
-			include __DIR__ . '/components/php-components/top-downloads-table.php';
-			return ob_get_clean();
-		}
-
-		/**
-		 * Get top downloads HTML markup
-		 *
-		 * @return string
-		 * @since 4.6.0
-		 */
-		public function header_top_downloads_markup() {
-
-			ob_start();
-			$dlm_top_downloads = $this->reports_headers;
-			include __DIR__ . '/components/php-components/top-downloads-header.php';
-			return ob_get_clean();
-		}
-
-		/**
-		 * Get top downloads HTML markup
-		 *
-		 * @return string
-		 * @since 4.6.0
-		 */
-		public function footer_top_downloads_markup() {
-
-			ob_start();
-			$dlm_top_downloads = $this->reports_headers;
-			include __DIR__ . '/components/php-components/top-downloads-footer.php';
-			return ob_get_clean();
-		}
-
-		/**
-		 * Get top downloads HTML markup
-		 *
-		 * @return string
-		 * @since 4.6.0
-		 */
-		public function header_user_logs_markup() {
-
-			ob_start();
-			$dlm_top_downloads = $this->reports_headers;
-			include __DIR__ . '/components/php-components/user-logs-header.php';
-			return ob_get_clean();
-		}
-
-		/**
-		 * Get top downloads HTML markup
-		 *
-		 * @return string
-		 * @since 4.6.0
-		 */
-		public function footer_user_logs_markup() {
-
-			ob_start();
-			$dlm_top_downloads = $this->reports_headers;
-			include __DIR__ . '/components/php-components/user-logs-footer.php';
-			return ob_get_clean();
-		}
-
-		/**
-		 * Check permissions to display data
-		 *
-		 * @param array $request The request.
-		 *
-		 * @return bool|WP_Error
-		 * @since 4.7.70
-		 */
-		public function check_api_rights( $request ) {
-
-			if ( ! isset( $request['user_can_view_reports'] ) || ! (bool) $request['user_can_view_reports'] ||
-			     ! is_user_logged_in() || ! current_user_can( 'dlm_view_reports' ) ) {
-				return new WP_Error(
-					'rest_forbidden_context',
-					esc_html__( 'Sorry, you are not allowed to see data from this endpoint.', 'download-monitor' ),
-					array( 'status' => rest_authorization_required_code() )
-				);
-			}
-
-			return true;
-		}
-
-		/**
-		 * Sets php memory limit, execution time and number of retreived rows for reports data.
-		 *
-		 *
+		 * Create React root for dashboard page widget.
+		 * @since 5.1.0
 		 * @return void
-		 * @since 4.8.0
 		 */
-		public function set_memory_limit(){
+		public function dashboard_widget_root() {
+			?>
+				<div class="dlm-reports-widget-body">
+					<?php do_action( 'dlm_reports_widget_start' ); ?>
+						<div id="dlm_reports_widget"></div>
+					<?php do_action( 'dlm_reports_widget_end' ); ?>
+				</div>
+			<?php
+		}
 
-			$this->date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		/**
+		 * Enqueues the react script for reports dashboard page widget.
+		 *
+		 * @return array
+		 * @since 5.1.0
+		 */
+		public function reports_widget_scripts( $hook ) {
 
-			$memory_limit = ini_get( 'memory_limit' );
-			if ( preg_match( '/^(\d+)(.)$/', $memory_limit, $matches ) ) {
-				if ( 'M' === $matches[2] ) {
-					$memory_limit = $matches[1];
-				} else if ( 'K' === $matches[2] ) {
-					$memory_limit = $matches[1] / 1024;
-				} else if ( 'G' === $matches[2] ) {
-					$memory_limit = $matches[1] * 1024;
-				}
+			if ( 'index.php' !== $hook ) {
+				return;
 			}
 
-			$this->php_info = array(
-				'memory_limit'          => absint( $memory_limit ),
-				'max_execution_time'    => ini_get( 'max_execution_time' ),
-				'retrieved_rows'        => 10000,
-				'retrieved_user_data'   => 5000,
-				'retrieved_chart_stats' => 1000
+			$asset_file = require plugin_dir_path( DLM_PLUGIN_FILE ) . 'assets/js/reports-widget/reports-widget.asset.php';
+			$enqueue    = array(
+				'handle'       => 'dlm-reports-dashboard-widget',
+				'dependencies' => $asset_file['dependencies'],
+				'version'      => $asset_file['version'],
+				'script'       => DLM_URL . 'assets/js/reports-widget/reports-widget.js',
+				'style'        => DLM_URL . 'assets/js/reports-widget/reports-widget.css',
 			);
 
-			if ( 40 < $this->php_info['memory_limit'] ) {
-				if ( 80 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 30000;
-				}
+			wp_enqueue_script(
+				$enqueue['handle'],
+				$enqueue['script'],
+				$enqueue['dependencies'],
+				$enqueue['version'],
+				true
+			);
 
-				if ( 120 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 40000;
-				}
-				if ( 150 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 60000;
-				}
-
-				if ( 200 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 100000;
-				}
-
-				if ( 500 <= $this->php_info['memory_limit'] ) {
-					$this->php_info['retrieved_rows'] = 150000;
-				}
-			}
-
-			// Add this filter here in order for customer to change the limits if needed.
-			$this->php_info = apply_filters( 'dlm_reports_server_limits', $this->php_info );
+			wp_enqueue_style(
+				$enqueue['handle'],
+				$enqueue['style'],
+				array(),
+				$enqueue['version']
+			);
 		}
 
+		public function add_page_title( $title ) {
+			if ( ! isset( $_GET['page'] ) || 'download-monitor-reports' !== $_GET['page'] ) {
+				return $title;
+			}
+
+			return __( 'Download Monitor', 'download-monitor' );
+		}
 	}
 }

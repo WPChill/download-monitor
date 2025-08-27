@@ -3,8 +3,8 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, file manager, digital store, ecommerce, password protection  
 Requires at least: 5.5  
 Tested up to: 6.8  
-Stable tag: 5.0.33
-License: GPLv3
+Stable tag: 5.1.0
+License: GPLv3  
 Requires PHP: 7.6  
 
 == Description ==
@@ -114,6 +114,9 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.1.0 - 27.08.2025 =
+* Changed: Reworked the reports interface improving speed, design and accuracy.
+
 = 5.0.33 - 08.08.2025 =
 Fixed: Compatibility with Safari browser & redirect to file.
 
@@ -267,5 +270,5 @@ You can read the complete changelog [here](https://github.com/WPChill/download-m
 
 == Upgrade Notice ==
 
-= 5.0.0 =
-* This is a major update for Download Monitor, please make sure to create a backup of your current website before performing the update.
+= 5.1.0 =
+* We strongly recommend to create a backup of your current website before applying the update.

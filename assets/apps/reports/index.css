@@ -1,0 +1,45 @@
+.dlm-reports-page-body{
+ margin-left: -20px;
+}
+.dlm-reports-page-body .wpchill-upsells-wrapper {
+    padding: 0px 24px;
+    box-sizing: border-box;
+}
+#dlm_reports_page .recharts-surface:focus {
+    outline: none;
+}
+#dlm_reports_page .dlm-downloads-table-col-download_id {
+    width: 50px;
+    cursor: default;
+}
+#dlm_reports_page .dlm-downloads-table-col-user_ip {
+    cursor: default;
+}
+#dlm_reports_page .dlm-em-select__input:focus {
+    box-shadow: unset;
+}
+#dlm_reports_page .dashicons {
+    margin: 0;
+}
+
+#dlm_reports_page .dlm_reports_button {
+    border: unset;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    text-align: right;
+    background: #4880FF;
+    color: #FFFFFF;
+    padding: 10px 32px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#dlm_reports_page .components-base-control__field{
+    margin: 0;
+}
+
+#dlm_reports_page h2{
+    font-size: 15px;
+}

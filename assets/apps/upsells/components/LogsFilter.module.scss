@@ -1,0 +1,86 @@
+.wrapper {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+
+    .item {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .badge {
+        font-size: 10px;
+        background: #f4daa4;
+        padding: 2px 5px;
+        display: inline-block;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .input {
+        border: 1px solid #ccc;
+        padding: 6px 12px;
+        border-radius: 4px;
+        background: #e9e9e9;
+        cursor: default;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        min-width: 190px;
+        min-height: 25px;
+        color: #a7aaad;
+
+        &::placeholder {
+            color: #a7aaad;
+        }
+    }
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .badge {
+        font-size: 10px;
+        background: #f4daa4;
+        padding: 2px 5px;
+        display: inline-block;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .wrapp {
+        display: flex;
+        align-items: center;
+
+        .button {
+            padding: 6px 12px;
+            color: #a7aaad;
+            text-decoration: none;
+            align-items: center;
+            white-space: nowrap;
+            gap: 5px;
+            line-height: 1;
+            cursor: default;
+
+            &:hover {
+                color: #a7aaad;
+            }
+        }
+
+        .buttonIcon {
+            color: #a7aaad;
+            height: 100%;
+        }
+    }
+
+}

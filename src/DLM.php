@@ -154,6 +154,9 @@ class WP_DLM {
 			if ( ( defined( 'MULTISITE' ) && MULTISITE ) ) {
 				$multisite = DLM_Network_Settings::get_instance();
 			}
+
+			// Initialize the reports.
+			new DLM_Reports();
 		}
 
 		// Set cookie manager so we can add cleanup CRON jobs
@@ -166,9 +169,6 @@ class WP_DLM {
 		// This is mainly to move to version 4.6.x from 4.5.x and below.
 		$upgrader = DLM_DB_Upgrader::get_instance();
 
-		// Set Reports. We set them here in order to also create the REST Api calls.
-		$reports = DLM_Reports::get_instance();
-
 		// Setup AJAX handler if doing AJAX
 		if ( defined( 'DOING_AJAX' ) ) {
 			new DLM_Ajax_Handler();
@@ -179,6 +179,9 @@ class WP_DLM {
 		$ajax_manager->setup();
 
 		DLM_Rest_API::get_instance();
+
+		// Initialize the reports rest api.
+		new DLM_Reports_Rest_Api();
 
 		// Setup Modal
 		if ( '1' === get_option( 'dlm_no_access_modal', 0 ) ) {

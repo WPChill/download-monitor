@@ -1,0 +1,38 @@
+.tabNavigation{
+    .tabList{
+        margin: 0;
+        li{
+            display: inline-block;
+            list-style: none;
+            margin-bottom: 0;
+            margin-right: 24px;
+
+            .tabButton{
+                padding: 16px 0 16px;
+                border: unset;
+                border-bottom: 2px solid #fff;
+                border-bottom-color: rgb(255, 255, 255);
+                font-size: 16px;
+                color: #000;
+                display: inline-block;
+                line-height: 1;
+                outline: none;
+                font-family: Lato,sans-serif;
+                background: inherit;
+                cursor: pointer;
+            }
+            .tabButton.active{
+                color: #5A8DFF;
+                border-bottom-color: #5A8DFF;
+                outline: none;
+                box-shadow: none;
+            }
+
+            &:first-child{
+                .tabButton{
+                }
+            }
+            
+        }
+    }
+}

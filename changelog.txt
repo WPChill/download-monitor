@@ -1,3 +1,6 @@
+= 5.1.0 - 27.08.2025 =
+* Changed: Reworked the reports interface improving speed, design and accuracy.
+
 = 5.0.33 - 08.08.2025 =
 Fixed: Compatibility with Safari browser & redirect to file.
 

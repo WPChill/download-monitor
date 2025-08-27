@@ -38,3 +38,4 @@ webpack.config.notification-system.js
 .eslintrc.json
 babel.config.js
 phpcs.xml
+.prettierrc.js

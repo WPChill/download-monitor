@@ -15,15 +15,15 @@
   box-sizing: border-box;
   margin-left: -20px;
 }
-.post-type-dlm_download .dlm-page-header .dlm-header-links {
-  margin-left: -20px;
+.post-type-dlm_download .dlm-page-header .dlm-header-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
-.post-type-dlm_download .dlm-page-header .dlm-header-links a span {
-  vertical-align: middle;
-  position: relative;
-  top: -2px;
-  padding-right: 10px;
-  font-size: 16px;
+.post-type-dlm_download .dlm-page-header .dlm-header-logo .dlm-header-logo-text {
+  margin: 0;
+  font-size: 18px;
 }
 .post-type-dlm_download .dlm-page-header .dlm-header-logo img {
   max-height: 35px;
@@ -121,6 +121,7 @@
   color: #646970;
 }
 .dlm-settings-sub-nav li {
+  display: inline-block;
   margin-right: 10px;
   margin-bottom: -2px;
   display: inline-block;

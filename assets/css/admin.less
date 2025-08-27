@@ -36,22 +36,18 @@
 	box-sizing: border-box;
 	margin-left: -20px;
 
-	.dlm-header-links {
-	  margin-left: -20px;
-
-	  a {
-		span {
-		  vertical-align: middle;
-		  position: relative;
-		  top: -2px;
-		  padding-right: 10px;
-		  font-size: 16px;
+	.dlm-header-logo{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 20px;
+		 .dlm-header-logo-text {
+			margin: 0;
+			font-size: 18px;
 		}
-	  }
-	}
-
-	.dlm-header-logo img {
-	  max-height: 35px;
+		img {
+			max-height: 35px;
+		}
 	}
   }
 
@@ -166,6 +162,7 @@
   float: left;
   color: #646970;
   li {
+	display: inline-block;
 	margin-right: 10px;
 	margin-bottom: -2px;
 	display: inline-block;

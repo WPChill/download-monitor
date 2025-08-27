@@ -1,0 +1,61 @@
+.wrapper {
+    position: relative;
+    cursor: default;
+    display: inline-flex;
+    margin-left: 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    .badge {
+        font-size: 10px;
+        background: #f4daa4;
+        padding: 2px 5px;
+        display: inline-block;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        height: 22px;
+    }
+
+    .label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .inputWrapper {
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        justify-content: space-around;
+        flex-direction: column;
+    }
+
+    .input {
+        background-color: #f6f7f7;
+        position: relative;
+        border: 1px solid #e0e0e0;
+        color: #a7aaad;
+        border-radius: 4px;
+        height: auto;
+        text-align: left;
+        padding: 8px 12px;
+        min-height: 48px;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        box-sizing: border-box;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .displayValue {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .compareValue {
+        font-size: 12px;
+    }
+}

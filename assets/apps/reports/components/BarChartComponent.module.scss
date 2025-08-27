@@ -1,0 +1,122 @@
+.loading {
+    width: 100%;
+    height: 400px;
+    background-color: #fff;
+    padding: 24px 0;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .spinner {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.barChartWrapper {
+    background-color: #fff;
+    padding: 24px 0;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    margin-top: -1px; // offsets the border of upper sibling.
+}
+
+.tooltip {
+    background: #FFF;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 17px 17px 10px;
+    display: grid;
+    gap: 10px;
+    min-width: 200px;
+    box-sizing: border-box;
+    line-height: 1;
+
+    .tooltipTitle {
+        text-align: left;
+        line-height: 18px;
+        width: 100%;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: #757575;
+        margin-top: 0;
+    }
+
+    .tooltipWrap {
+        display: grid;
+        gap: 10px;
+
+        .tooltipDataWrap {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            align-items: center;
+
+            .tip {
+                display: block;
+                width: 16px;
+                height: 16px;
+            }
+
+            .tipCurrent {
+                background-color: #31688e;
+            }
+
+            .tipCompare {
+                background-color: #35b779;
+            }
+
+            .tooltipData {
+                display: flex;
+                justify-content: space-between;
+                flex: 1;
+
+                .title {
+                    color: #3c434a;
+                    font-size: 14px;
+                }
+
+                .value {
+                    color: #3c434a;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+
+    .diff {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 10px;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        &.increase {
+            color: #12a26c;
+
+            svg {
+                fill: #12a26c;
+            }
+        }
+
+        &.decrease {
+            color: #7b0000;
+
+            svg {
+                fill: #7b0000;
+            }
+        }
+    }
+}
