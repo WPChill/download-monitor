@@ -15,7 +15,9 @@
         border-radius: 10px;
         cursor: pointer;
         text-decoration: none;
-        height: 22px;
+        position: absolute;
+        right: 48px;
+        top: 16px;
     }
 
     .label {
@@ -46,7 +48,7 @@
         width: 100%;
         justify-content: space-between;
         box-sizing: border-box;
-        gap: 20px;
+        gap: 60px;
         align-items: center;
     }
 
