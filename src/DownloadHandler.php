@@ -734,7 +734,6 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 							);
 					} elseif ( $sympath && false !== strpos( $file_path, $sympath ) ) { // File is in the uploads' folder but in symlinked directory, so we need to create the correct URL.
 						// Set the URL for the uploads' folder.
-						var_dump('$file_path');
 						$file_path
 							= str_replace(
 								str_replace(
@@ -759,7 +758,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 						$file_path = download_monitor()
 							->service( 'file_manager' )
 							->check_symbolic_links( $file_path, true );
-						var_dump($file_path);
+
 						$file_path
 							= str_replace(
 								trailingslashit( ABSPATH ),
