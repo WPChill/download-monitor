@@ -17,8 +17,8 @@ import {
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
 
-const start = '2025-07-10';
-const end = '2025-08-08';
+const start = dayjs().subtract( 30, 'day' ).format( 'YYYY-MM-DD' );
+const end = dayjs().format( 'YYYY-MM-DD' );
 
 function generateDateRange() {
 	const result = [];
@@ -108,7 +108,12 @@ export default function BarChartComponent() {
 			{ applyFilters( 'dlm.widget.chart.before', '', { chartData } ) }
 			<div className={ styles.barChart }>
 				<ResponsiveContainer height={ 200 }>
-					<BarChart data={ chartData }>
+					<BarChart 
+						className={ styles.barChartTable }
+						onClick={ () => { 
+							window.location.href = '/wp-admin/edit.php?post_type=dlm_download&page=download-monitor-reports&range=last30days';
+						}}
+						data={ chartData }>
 						<CartesianGrid horizontal={ true } vertical={ false } stroke="#f0f0f0" />
 						<XAxis
 							dataKey="date"

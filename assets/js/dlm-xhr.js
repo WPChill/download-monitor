@@ -454,6 +454,7 @@ class DLM_XHR_Download {
 			status,
 			cookie,
 			currentURL,
+			responseHeaders: headers,
 			nonce: headers['x-dlm-nonce']
 		});
 
@@ -469,10 +470,6 @@ class DLM_XHR_Download {
 		if (!redirect_path) return;
 
 		if (isIOSSafari) {
-			if (no_access) {
-			window.location.replace(redirect_path);
-			return;
-			}
 			window.location.replace(redirect_path);
 			return;
 		}

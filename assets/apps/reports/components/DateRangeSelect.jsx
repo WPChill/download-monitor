@@ -1,4 +1,4 @@
-import { useMemo, useState } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import useStateContext from '../context/useStateContext';
@@ -34,7 +34,28 @@ export default function DateRangeSelect() {
 		];
 	}, [] );
 
-	const [ selectedOption, setSelectedOption ] = useState( () => options[ 0 ] );
+	const getUrlParam = ( key ) => {
+		const urlParams = new URLSearchParams( window.location.search );
+		return urlParams.get( key );
+	};
+
+	const rangeFromUrl = getUrlParam( 'range' );
+
+	const initialOption = useMemo( () => {
+		if ( rangeFromUrl ) {
+			const match = options.find( ( opt ) => opt.value === rangeFromUrl );
+			return match || options[ 0 ];
+		}
+		return options[ 0 ];
+	}, [ options, rangeFromUrl ] );
+
+	const [ selectedOption, setSelectedOption ] = useState( initialOption );
+
+	useEffect( () => {
+		if ( initialOption?.start && initialOption?.end ) {
+			dispatch( setPeriods( { start: initialOption.start, end: initialOption.end } ) );
+		}
+	}, [ initialOption, dispatch ] );
 
 	const handleChange = ( selected ) => {
 		setSelectedOption( selected );

@@ -19,8 +19,8 @@ export default function DetailedCards() {
 
 	return (
 		<div className={ styles.dlmReportsCardsWrapper }>
-			<Summary label={ __( 'Logged In Downloads', 'download-monitor' ) } value={ loggedIn } type="loggedIn" cards={ cards } />
 			<Summary label={ __( 'Guest Downloads', 'download-monitor' ) } value={ loggedOut } type="guest" cards={ cards } />
+			<Summary label={ __( 'Logged In Downloads', 'download-monitor' ) } value={ loggedIn } type="loggedIn" cards={ cards } />
 			<Summary label={ __( 'Most Active User', 'download-monitor' ) } value={ popular } type="mostActive" cards={ cards } />
 			{ applyFilters( 'dlm.detailed.cards.after', '', { state, cards } ) }
 		</div>
