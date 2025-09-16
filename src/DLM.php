@@ -983,14 +983,46 @@ class WP_DLM {
 	public function set_no_access_session() {
 		$no_access_page = get_option( 'dlm_no_access_page', 0 );
 		if ( apply_filters( 'dlm_set_no_access_session', $no_access_page ) && ! isset( $_SESSION ) ) {
-			$is_https = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) || ( isset( $_SERVER['SERVER_PORT'] ) && 443 === $_SERVER['SERVER_PORT'] );
-			$params   = array(
-				'secure'   => $is_https,
-				'httponly' => true,
-				'samesite' => 'Lax',
-			);
-			session_set_cookie_params( apply_filters( 'dlm_set_session_params', $params ) );
-			session_start();
+			if ( $this->is_download_related_request() ) {
+				$is_https = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== $_SERVER['HTTPS'] ) || ( isset( $_SERVER['SERVER_PORT'] ) && 443 === $_SERVER['SERVER_PORT'] );
+				$params   = array(
+					'secure'   => $is_https,
+					'httponly' => true,
+					'samesite' => 'Lax',
+				);
+				session_set_cookie_params( apply_filters( 'dlm_set_session_params', $params ) );
+				session_start();
+			}
 		}
+	}
+
+	/**
+	 * Check if current request is download-related
+	 *
+	 * @return bool
+	 * @since 5.1.2
+	 */
+	private function is_download_related_request() {
+		if ( is_singular( 'dlm_download' ) ) {
+			return true;
+		}
+
+		$no_access_page = get_option( 'dlm_no_access_page', 0 );
+		if ( $no_access_page && is_page( $no_access_page ) ) {
+			return true;
+		}
+
+		if ( isset( $_GET['download'] ) || isset( $_POST['download'] ) ) {
+			return true;
+		}
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			$action = isset( $_REQUEST['action'] ) ? sanitize_text_field( $_REQUEST['action'] ) : '';
+			if ( strpos( $action, 'dlm_' ) === 0 || strpos( $action, 'download' ) !== false ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
