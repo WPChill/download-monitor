@@ -2,8 +2,8 @@
 Contributors: wpchill, silkalns, barrykooij, mikejolley  
 Tags: download manager, file manager, digital store, ecommerce, password protection  
 Requires at least: 5.5  
-Tested up to: 6.8  
-Stable tag: 5.1.2
+Tested up to: 6.8
+Stable tag: 5.1.3
 License: GPLv3  
 Requires PHP: 7.6  
 
@@ -114,6 +114,10 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.1.3 - 18.09.2025 =
+Update: Improved Reports widget and Reports page UI/UX.
+Update: Reports upsells now display with the correct filters design.
+Fix: Download meta values were sometimes not saved correctly when using WPML.
 
 = 5.1.2 - 05.09.2025 =
 Fixed: Start session only on download-related requests.

@@ -25,8 +25,8 @@ class DLM_Admin_Writepanels {
 	 */
 	public function __construct() {
 		add_action( 'add_meta_boxes_dlm_download', array( $this, 'add_meta_boxes' ), 15 );
-		add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
-		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_boxes' ), 1, 2 );
+		add_action( 'save_post', array( $this, 'save_post' ), 100, 2 );
+		add_action( 'dlm_save_meta_boxes', array( $this, 'save_meta_boxes' ), 100, 2 );
 		add_action( 'wp_ajax_dlm_upload_file', array( $this, 'upload_file' ) );
 	}
 

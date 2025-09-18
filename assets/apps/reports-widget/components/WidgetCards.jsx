@@ -18,10 +18,10 @@ export default function WidgetCards() {
 
 	return (
 		<div className={ styles.dlmReportsCardsWrapper }>
+			<Summary label={ __( 'Today Downloads', 'download-monitor' ) } value={ today } type="today" cards={ cards } />
 			<Summary label={ __( 'Total Downloads', 'download-monitor' ) } value={ total } type="total" cards={ cards } />
 			<Summary label={ __( 'Daily Average', 'download-monitor' ) } value={ average } type="average" cards={ cards } />
 			<Summary label={ __( 'Most Popular', 'download-monitor' ) } value={ popular } type="popular" cards={ cards } />
-			<Summary label={ __( 'Today Downloads', 'download-monitor' ) } value={ today } type="today" cards={ cards } />
 			{ applyFilters( 'dlm.widget.cards.after', '', { cards } ) }
 		</div>
 	);

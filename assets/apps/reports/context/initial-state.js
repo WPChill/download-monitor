@@ -7,7 +7,7 @@ const getDefaultPeriods = () => {
 		end: dayjs().format( 'YYYY-MM-DD' ),
 	};
 
-	return applyFilters( 'myplugin.initial_periods', periods );
+	return applyFilters( 'dlm.reports.initial_periods', periods );
 };
 
 export const initialState = () => ( {

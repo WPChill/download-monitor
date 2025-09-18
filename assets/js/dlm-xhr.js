@@ -437,41 +437,48 @@ class DLM_XHR_Download {
 		request.send();
 	}
 
-	dlmLogDownload(headers, status, cookie, redirect_path = null, no_access = null, target = '_self') {
-		const instance = this;
-
-		let downloadTab = null;
-		if (null !== redirect_path) {
-			if (null == target) {
-				target = '_self';
-			}
-			downloadTab = window.open('', target);
-		}
-
-		if (null !== no_access && downloadTab) {
-			downloadTab.location.href = redirect_path;
-			return;
-		}
-
+	dlmLogDownload(headers, status, cookie, redirect_path = null, no_access = null, target = '_blank') {
 		const currentURL  = window.location.href;
-		const download_id = ('undefined' !== typeof headers['x-dlm-download-id']) ? headers['x-dlm-download-id'] : headers['dlm-download-id'];
-		const version_id  = ('undefined' !== typeof headers['x-dlm-version-id']) ? headers['x-dlm-version-id'] : headers['dlm-version-id'];
-		const data        = {
+		const download_id = headers['x-dlm-download-id'] ?? headers['dlm-download-id'];
+		const version_id  = headers['x-dlm-version-id'] ?? headers['dlm-version-id'];
+
+		const ua = navigator.userAgent || '';
+		const isIOS = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+		const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
+		const isIOSSafari = isIOS && isSafari;
+
+		const params = new URLSearchParams({
+			action: 'log_dlm_xhr_download',
 			download_id,
 			version_id,
 			status,
 			cookie,
 			currentURL,
-			action         : 'log_dlm_xhr_download',
 			responseHeaders: headers,
-			nonce          : headers['x-dlm-nonce']
-		};
-
-		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
-			if (redirect_path && downloadTab) {
-				downloadTab.location.href = redirect_path;
-			}
+			nonce: headers['x-dlm-nonce']
 		});
+
+		try {
+			navigator.sendBeacon(
+			dlmXHR.ajaxUrl,
+			new Blob([params.toString()], { type: 'application/x-www-form-urlencoded;charset=UTF-8' })
+			);
+		} catch (e) {
+			try { fetch(dlmXHR.ajaxUrl, { method: 'POST', body: params, keepalive: true }); } catch (_) {}
+		}
+
+		if (!redirect_path) return;
+
+		if (isIOSSafari) {
+			window.location.replace(redirect_path);
+			return;
+		}
+
+		const tgt = target || '_self';
+		const downloadTab = window.open(redirect_path, tgt, 'noopener');
+		if (no_access && downloadTab) {
+			downloadTab.location.href = redirect_path;
+		}
 	}
 
 	dlmNoAccessModal(headers) {

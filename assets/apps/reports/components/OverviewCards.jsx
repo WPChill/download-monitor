@@ -20,12 +20,12 @@ export default function OverviewCards() {
 
 	return (
 		<div className={ styles.dlmReportsCardsWrapper }>
-			<Summary label={ __( 'Total Downloads', 'download-monitor' ) } value={ total } type="total" cards={ cards } />
 			{ ( null === state.periods.compare_start || 'undefined' === typeof state.periods.compare_start ) &&
 				<Summary label={ __( 'Today Downloads', 'download-monitor' ) } value={ today } type="today" cards={ cards } />
 			}
-			<Summary label={ __( 'Most Popular Download', 'download-monitor' ) } value={ popular } type="popular" cards={ cards } />
+			<Summary label={ __( 'Total Downloads', 'download-monitor' ) } value={ total } type="total" cards={ cards } />
 			<Summary label={ __( 'Daily Average Downloads', 'download-monitor' ) } value={ average } type="average" cards={ cards } />
+			<Summary label={ __( 'Most Popular Download', 'download-monitor' ) } value={ popular } type="popular" cards={ cards } />
 			{ applyFilters( 'dlm.overview.cards.after', '', { state, cards } ) }
 		</div>
 	);

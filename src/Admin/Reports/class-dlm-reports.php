@@ -588,7 +588,7 @@ if ( ! class_exists( 'DLM_Reports' ) ) {
 
 			wp_add_dashboard_widget(
 				'dlm_popular_downloads',
-				__( 'Top Downloads', 'download-monitor' ),
+				__( 'Downloads', 'download-monitor' ),
 				array(
 					$this,
 					'dashboard_widget_root',

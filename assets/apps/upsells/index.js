@@ -1,4 +1,3 @@
-import UpsellExport from './components/UpsellExport';
 import UpsellRangePicker from './components/UpsellRangePicker';
 import OverviewLogsFilter from './components/OverviewLogsFilter';
 import DetailedLogsFilter from './components/DetailedLogsFilter';
