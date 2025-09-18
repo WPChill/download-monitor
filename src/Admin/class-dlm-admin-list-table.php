@@ -945,7 +945,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					}
 					echo '</code></a>';
 				} else {
-					echo '<div class="dlm-listing-no-file"><code>No file provided</code></div>';
+					echo '<div class="dlm-listing-no-file"><code>' . esc_html__( 'No file provided', 'download-monitor' ) . '</code></div>';
 				}
 
 				/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
@@ -1046,7 +1046,7 @@ class DLM_Admin_List_Table extends WP_List_Table {
 			case 'file_location':
 				$file  = $item->get_version();
 				$path  = $file->get_url();
-				$loc   = __( 'Unknown', 'download_monitor' );
+				$loc   = __( 'Unknown', 'download-monitor' );
 				$class = 'dlm_file_path_unknown';
 
 				if ( null != $path ) {
@@ -1054,10 +1054,10 @@ class DLM_Admin_List_Table extends WP_List_Table {
 					list( $file_path, $remote_file ) = $file_manager->parse_file_path( $path );
 					if ( $file_path ) {
 						if ( $remote_file ) {
-							$loc   = __( 'Remote', 'download_monitor' );
+							$loc   = __( 'Remote', 'download-monitor' );
 							$class = 'dlm_file_path_remote';
 						} else {
-							$loc   = __( 'Local', 'download_monitor' );
+							$loc   = __( 'Local', 'download-monitor' );
 							$class = 'dlm_file_path_local';
 						}
 					}
