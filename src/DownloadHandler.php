@@ -758,6 +758,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 						$file_path = download_monitor()
 							->service( 'file_manager' )
 							->check_symbolic_links( $file_path, true );
+
 						$file_path
 							= str_replace(
 								trailingslashit( ABSPATH ),
