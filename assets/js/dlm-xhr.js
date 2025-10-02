@@ -454,9 +454,12 @@ class DLM_XHR_Download {
 			status,
 			cookie,
 			currentURL,
-			responseHeaders: headers,
 			nonce: headers['x-dlm-nonce']
 		});
+
+		for (const [key, value] of Object.entries(headers)) {
+			params.append(`responseHeaders[${key}]`, value);
+		}
 
 		try {
 			navigator.sendBeacon(
