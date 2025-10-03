@@ -133,7 +133,7 @@ export default function DetailedDownloadsTable( { usersData, isLoadingUsers } ) 
 
 					return (
 						<>
-							{ applyFilters( `dlm.reports.detailedDownloadsTable.${ col.slug }`, cellContent, { rowData } ) }
+							{ applyFilters( `dlm.reports.detailedDownloadsTable.${ col.slug }`, cellContent, { rowData, usersData } ) }
 						</>
 					);
 				},
