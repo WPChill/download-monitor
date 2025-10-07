@@ -163,3 +163,7 @@
 .dlm-upsell-modal.dlm-upsell-item-modal ul.dlm-upsells-list {
     padding-left: 40px;
 }
+
+.dlm-upsell-modal.dlm-upsell-item-modal img.dlm-upsells-banner-modal {
+    max-width: 100%;
+}

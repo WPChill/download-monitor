@@ -307,12 +307,6 @@ class DLM_Admin_Settings {
 				'sections' => array(),
 				'priority' => 60,
 			),
-			'license'            => array(
-				'title'    => esc_html__( 'License', 'download-monitor' ),
-				'badge'    => true,
-				'sections' => array(),
-				'priority' => 100,
-			),
 		);
 
 		$settings['shop'] = array(

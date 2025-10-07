@@ -132,8 +132,6 @@ class DLM_Upsells {
 
 		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_upsell_content_license', array( $this, 'license_tab_upsell' ), 15 );
-
 		add_action( 'dlm_tab_upsell_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
 
 		add_action( 'dlm_tab_upsell_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
@@ -1031,24 +1029,6 @@ class DLM_Upsells {
 	}
 
 	/**
-	 * Settings Logging tab upsell
-	 *
-	 *
-	 * @since 5.0.0
-	 */
-	public function license_tab_upsell() {
-
-		if ( ! $this->check_extension( 'dlm-pro' ) ) {
-			$this->generate_upsell_box(
-				__( 'DLM PRO', 'download-monitor' ),
-				__( 'Manage license activation and deactivation, and install extensions seamlessly on-the-go.', 'download-monitor' ),
-				'license',
-				'dlm-pro'
-			);
-		}
-	}
-
-	/**
 	 * Upsell for Contact Form 7 Lock sub-tab
 	 *
 	 * @since 5.0.13
@@ -1103,6 +1083,7 @@ class DLM_Upsells {
 	public static function get_modal_upsells() {
 		$upsells = array(
 			'dlm_aam'     => __( 'Global Rules', 'download-monitor' ),
+			'dlm_lm'      => __( 'Library Manager', 'download-monitor' ),
 			'dlm_buttons' => __( 'Buttons', 'download-monitor' ),
 		);
 

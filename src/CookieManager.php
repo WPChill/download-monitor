@@ -624,7 +624,7 @@ class DLM_Cookie_Manager {
 	public function delete_expired_cookies() {
 		global $wpdb;
 
-		// Select expired cookies
+		// Select expired cookie IDs
 		$expired_cookie_ids = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT id FROM {$wpdb->prefix}dlm_cookies WHERE expiration_date < %s",
@@ -636,22 +636,16 @@ class DLM_Cookie_Manager {
 			return;
 		}
 
-		foreach ( $expired_cookie_ids as $cookie_id ) {
-			// Delete associated metadata
-			$wpdb->query(
-				$wpdb->prepare(
-					"DELETE FROM {$wpdb->prefix}dlm_cookiemeta WHERE cookie_id = %d",
-					$cookie_id
-				)
-			);
+		$ids = implode( ',', array_map( 'absint', $expired_cookie_ids ) );
 
-			// Delete cookie itself
-			$wpdb->query(
-				$wpdb->prepare(
-					"DELETE FROM {$wpdb->prefix}dlm_cookies WHERE id = %d",
-					$cookie_id
-				)
-			);
-		}
+		// Delete all related metadata in one query
+		$wpdb->query(
+			"DELETE FROM {$wpdb->prefix}dlm_cookiemeta WHERE cookie_id IN ({$ids})"
+		);
+
+		// Delete all cookies in one query
+		$wpdb->query(
+			"DELETE FROM {$wpdb->prefix}dlm_cookies WHERE id IN ({$ids})"
+		);
 	}
 }
