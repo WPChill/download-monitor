@@ -1083,7 +1083,7 @@ class DLM_Upsells {
 	public static function get_modal_upsells() {
 		$upsells = array(
 			'dlm_aam'     => __( 'Global Rules', 'download-monitor' ),
-			'dlm_lm'      => __( 'Document Library', 'download-monitor' ),
+			'dlm_lm'      => __( 'Library Manager', 'download-monitor' ),
 			'dlm_buttons' => __( 'Buttons', 'download-monitor' ),
 		);
 
