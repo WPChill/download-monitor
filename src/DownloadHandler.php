@@ -393,6 +393,8 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 					}
 				}
 
+				$redirect = apply_filters( 'dlm_404_redirect', false );
+
 				/** @var DLM_Download $download */
 				$download = null;
 				$version  = null;
@@ -402,8 +404,15 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 							->service( 'download_repository' )
 							->retrieve_single( $download_id );
 					} catch ( Exception $e ) {
-						// IF XHR, send error header.
-						if ( $this->check_for_xhr() ) {
+						if ( $redirect ) {
+							// IF XHR, send redirect header.
+							if ( $this->check_for_xhr() ) {
+								header( 'X-DLM-Redirect: ' . $redirect );
+								exit;
+							}
+							wp_safe_redirect( $redirect );
+							exit;
+						} elseif ( $this->check_for_xhr() ) {
 							header( 'X-DLM-Error: not_found' );
 							$restriction_type = 'not_found';
 							// Set no access modal.
@@ -417,20 +426,21 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 							);
 							http_response_code( 404 );
 							exit;
-						}
-						wp_die(
-							esc_html__(
-								'Download does not exist.',
-								'download-monitor'
-							) . ' <a href="'
-								. esc_url( home_url() ) . '">'
-								. esc_html__(
-									'Go to homepage &rarr;',
+						} else {
+							wp_die(
+								esc_html__(
+									'Download does not exist.',
 									'download-monitor'
-								) . '</a>',
-							esc_html__( 'Download Error', 'download-monitor' ),
-							array( 'response' => 404 )
-						);
+								) . ' <a href="'
+									. esc_url( home_url() ) . '">'
+									. esc_html__(
+										'Go to homepage &rarr;',
+										'download-monitor'
+									) . '</a>',
+								esc_html__( 'Download Error', 'download-monitor' ),
+								array( 'response' => 404 )
+							);
+						}
 					}
 				}
 
@@ -483,11 +493,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 					}
 					// Trigger download process.
 					$this->trigger( $download );
-				} elseif ( $redirect = apply_filters(
-					'dlm_404_redirect',
-					false
-				)
-				) {
+				} elseif ( $redirect ) {
 					// IF XHR, send redirect header.
 					if ( $this->check_for_xhr() ) {
 						header( 'X-DLM-Redirect: ' . $redirect );
@@ -1071,7 +1077,7 @@ if ( ! class_exists( 'DLM_Download_Handler' ) ) {
 			$headers['Content-Description']       = 'File Transfer';
 			$headers['Content-Transfer-Encoding'] = 'binary';
 			$headers['Cache-Control']
-             = 'no-store, no-cache, must-revalidate, no-transform, max-age=0';
+			= 'no-store, no-cache, must-revalidate, no-transform, max-age=0';
 
 			if ( $remote_file ) {
 				$file = wp_remote_head( $file_path );

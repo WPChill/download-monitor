@@ -1,3 +1,6 @@
+= 5.1.5 - TBD =
+Fixed: Redirect filter not triggered for deleted/non-existing downloads.
+
 = 5.1.4 - 07.10.2025 =
 Changed: Removed DLM Pro upsell.
 Added: Upsell for DLM Document Library Manager.
