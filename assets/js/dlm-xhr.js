@@ -447,6 +447,20 @@ class DLM_XHR_Download {
 		const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
 		const isIOSSafari = isIOS && isSafari;
 
+		// Early redirect — skip logging if no_access = true
+		if (no_access && redirect_path) {
+			if (isIOSSafari) {
+				window.location.replace(redirect_path);
+			} else {
+				const tgt = target || '_self';
+				const downloadTab = window.open(redirect_path, tgt, 'noopener');
+				if (downloadTab) {
+					downloadTab.location.href = redirect_path;
+				}
+			}
+			return;
+		}
+
 		const params = new URLSearchParams({
 			action: 'log_dlm_xhr_download',
 			download_id,

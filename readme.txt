@@ -116,6 +116,7 @@ Admin hits are not counted, log out and try again!
 == Changelog ==
 = 5.1.6 - 03.11.2025 -
 Added: Black Friday upsells & notifications updates.
+Fixed: Logging no access page redrection
 
 = 5.1.5 - 27.10.2025 =
 Fixed: Redirect filter not triggered for deleted/non-existing downloads.
