@@ -92,20 +92,28 @@ class DLM_Upsells {
 	}
 
 	private function set_offer() {
-		$month       = date( 'm' );
 		$this->offer = array(
 			'class'  => '',
 			'column' => '',
 			'label'  => __( 'Get Premium', 'download-monitor' ),
 		);
-		// if ( 11 == $month ) {
-		//  $this->offer = array(
-		//      'class'       => 'wpchill-bf-upsell',
-		//      'column'      => 'bf-upsell-columns',
-		//      'label'       => __( '40% OFF for Black Friday', 'download-monitor' ),
-		//      'description' => '40% OFF on new purchases, early renewals or upgrades.',
-		//  );
-		// }
+
+		$timezone_string = get_option( 'timezone_string' );
+		$timezone        = $timezone_string ? new DateTimeZone( $timezone_string ) : new DateTimeZone( 'UTC' );
+
+		$now = new DateTime( 'now', $timezone );
+
+		$bf_start = new DateTime( '2025-11-03 00:00:00', $timezone );
+		$bf_end   = new DateTime( '2025-12-03 10:00:00', $timezone );
+
+		if ( $now >= $bf_start && $now <= $bf_end ) {
+			$this->offer = array(
+				'class'       => 'wpchill-bf-upsell',
+				'column'      => 'bf-upsell-columns',
+				'label'       => __( '65% OFF for Black Friday', 'download-monitor' ),
+				'description' => __( '65% OFF on new purchases, early renewals or upgrades.', 'download-monitor' ),
+			);
+		}
 		// if ( 12 == $month ) {
 		//  $this->offer = array(
 		//      'class'  => 'wpchill-xmas-upsell',
