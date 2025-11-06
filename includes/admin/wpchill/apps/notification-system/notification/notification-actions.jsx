@@ -23,6 +23,7 @@ export function NotificationActions( { actions, id, onDismiss } ) {
 					target={ action.target || '' }
 					text={ he.decode( action.label || '' ) }
 					variant={ action.variant || 'secondary' }
+					style={ action.style || {} }
 					size={ action.size || 'small' }
 					onClick={ () => handleClick( action ) }
 				/>

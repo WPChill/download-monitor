@@ -59,6 +59,7 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 		}
 
 		public function get_notifications() {
+
 			$notifications = array(
 				'error'   => array(),
 				'warning' => array(),
@@ -67,6 +68,16 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 			);
 
 			$options = $this->_get_options_wildcard( self::$notification_prefix . '%' );
+
+			if ( ! function_exists( 'is_plugin_active' ) ) {
+				include_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+
+			$plugin_map = array(
+				'modula'              => 'modula-best-grid-gallery/Modula.php',
+				'download-monitor'    => 'download-monitor/download-monitor.php',
+				'strong-testimonials' => 'strong-testimonials/strong-testimonials.php',
+			);
 
 			foreach ( $options as $option ) {
 				$id = explode( '_', $option['option_name'] );
@@ -83,13 +94,30 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 				}
 
 				$status = isset( $current_notifications['status'] ) ? $current_notifications['status'] : 'info';
+				
+				if ( isset( $current_notifications['source']['slug'] ) ) {
+					$slug = sanitize_text_field( $current_notifications['source']['slug'] );
 
-				if ( isset( $current_notifications['source'] ) && isset( $current_notifications['source']['slug'] ) ) {
-					//phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-					$current_notifications['source']['icon'] = apply_filters( 'wpchill_notification_icon', plugin_dir_url( __FILE__ ) . 'icons/' . $current_notifications['source']['slug'] . '.svg', $current_notifications );
+					if ( isset( $plugin_map[ $slug ] ) ) {
+						$plugin_file = $plugin_map[ $slug ];
+					} else {
+						$plugin_file = $slug . '/' . $slug . '.php';
+					}
+
+					if ( ! is_plugin_active( $plugin_file ) ) {
+						continue;
+					}
+
+					$current_notifications['source']['icon'] = apply_filters(
+						'wpchill_notification_icon',
+						plugin_dir_url( __FILE__ ) . 'icons/' . $slug . '.svg',
+						$current_notifications
+					);
 				}
 
-				$time_ago = $current_notifications['timestamp'] ? human_time_diff( $current_notifications['timestamp'], strtotime( current_time( 'mysql' ) ) ) : false;
+				$time_ago = $current_notifications['timestamp']
+					? human_time_diff( $current_notifications['timestamp'], strtotime( current_time( 'mysql' ) ) )
+					: false;
 
 				$notifications[ $status ][] = array(
 					'id'          => $id,
@@ -109,6 +137,7 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 
 			return $notifications;
 		}
+
 
 		private function _get_options_wildcard( $option_pattern ) {
 			global $wpdb;
@@ -146,7 +175,13 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 		}
 
 		public function get_remote_notices() {
-			$response = wp_remote_get( 'https://download-monitor.com/wp-json/notifications/v1/get' );
+			$response = wp_remote_get(
+				'https://wp-modula.com/wp-json/notification/v1/get',
+				array(
+					'sslverify' => false,
+					'timeout'   => 15,
+				)
+			);
 
 			if ( is_wp_error( $response ) ) {
 				return;
