@@ -128,7 +128,7 @@ if ( ! class_exists( 'WPChill_Notifications' ) ) {
 					'timed'       => isset( $current_notifications['timed'] ) ? $current_notifications['timed'] : false,
 					'source'      => isset( $current_notifications['source'] ) ? $current_notifications['source'] : array(),
 					// Translators: %s represents the time elapsed (e.g., "5 minutes", "2 hours", "1 day").
-					'time_ago'    => $time_ago ? sprintf( esc_html__( '%s ago', 'modula-best-grid-gallery' ), $time_ago ) : false,
+					'time_ago'    => $time_ago ? sprintf( esc_html__( '%s ago', 'download-monitor' ), $time_ago ) : false,
 				);
 			}
 
