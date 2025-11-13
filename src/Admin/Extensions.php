@@ -247,7 +247,7 @@ class DLM_Admin_Extensions {
 			delete_transient( 'dlm_extension_json' );
 			delete_transient( 'dlm_extension_json_error' );
 			delete_transient( 'dlm_pro_extensions' );
-			delete_transient('dlm_tables_check');
+			delete_transient( 'dlm_tables_check' );
 		}
 
 		// WPChill Welcome Class

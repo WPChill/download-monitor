@@ -243,6 +243,31 @@ class DLM_Admin_List_Table extends WP_List_Table {
 		return have_posts();
 	}
 
+	public function has_any_downloads() {
+		$statuses = get_post_stati();
+		unset( $statuses['auto-draft'], $statuses['inherit'] );
+
+		$query = new WP_Query( array(
+			'post_type'      => 'dlm_download',
+			'post_status'    => array_keys( $statuses ),
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+		) );
+
+		return ( ! empty( $query->posts ) );
+	}
+
+	public function display(){
+	
+		if( ! $this->has_any_downloads() ) {
+			$wp_list_table = new DLM_Empty_Table();
+			$wp_list_table->display();
+		} else {
+			parent::display();
+		}
+	}
+
 	/**
 	 * No items display
 	 *
