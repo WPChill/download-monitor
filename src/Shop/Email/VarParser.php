@@ -115,22 +115,22 @@ class VarParser {
 
 		$data = array(
 			array(
-				'key'   => __( 'Order ID' ),
+				'key'   => __( 'Order ID', 'download-monitor' ),
 				'value' => $order->get_id()
 			),
 			array(
-				'key'   => __( 'Order Date' ),
+				'key'   => __( 'Order Date', 'download-monitor' ),
 				'value' => date_i18n( get_option( 'date_format' ), $order->get_date_created()->getTimestamp() )
 			),
 			array(
-				'key'   => __( 'Order Total' ),
+				'key'   => __( 'Order Total', 'download-monitor' ),
 				'value' => dlm_format_money( $order->get_total() )
 			)
 		);
 
 		if ( ! empty( $processor ) ) {
 			$data[] = array(
-				'key'   => __( 'Payment Gateway' ),
+				'key'   => __( 'Payment Gateway', 'download-monitor' ),
 				'value' => $processor
 			);
 		}

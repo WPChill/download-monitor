@@ -443,7 +443,7 @@ class DLM_Plugin_Status {
 	 */
 	public function add_wp_tests( $tests ) {
 		$tests['direct']['dlm_required_modules'] = array(
-			'label' => __( 'Download Monitor required modules / functions' ),
+			'label' => __( 'Download Monitor required modules / functions', 'download-monitor' ),
 			'test'  => array( $this, 'dlm_required_modules' ),
 		);
 
@@ -464,12 +464,12 @@ class DLM_Plugin_Status {
 			'label'       => __( 'DLM - All required modules/functions are active!', 'download-monitor' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => __( 'Plugin functionality' ),
+				'label' => __( 'Plugin functionality', 'download-monitor' ),
 				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				__( 'Modules and functions help Download Monitor achieve the functionality you desire, and to do that we require that functions and modules, that Download Monitor depends on, be enabled.' )
+				__( 'Modules and functions help Download Monitor achieve the functionality you desire, and to do that we require that functions and modules, that Download Monitor depends on, be enabled.', 'download-monitor' )
 			),
 			'actions'     => '',
 			'test'        => 'dlm_required_functions',
@@ -480,12 +480,12 @@ class DLM_Plugin_Status {
 				'label'       => __( 'DLM - One or more functions are missing!', 'download-monitor' ),
 				'status'      => 'critical',
 				'badge'       => array(
-					'label' => __( 'Plugin functionality' ),
+					'label' => __( 'Plugin functionality', 'download-monitor' ),
 					'color' => 'blue',
 				),
 				'description' => sprintf(
 					'<p>%s</p>',
-					__( 'Modules and functions help Download Monitor achieve the functionality you desire, and to do that we require that functions and modules, that Download Monitor depends on, be enabled.' )
+					__( 'Modules and functions help Download Monitor achieve the functionality you desire, and to do that we require that functions and modules, that Download Monitor depends on, be enabled.', 'download-monitor' )
 				),
 				'actions'     => sprintf(
 					'<p>%s</p>',

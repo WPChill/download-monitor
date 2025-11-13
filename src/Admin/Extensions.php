@@ -659,7 +659,7 @@ class DLM_Admin_Extensions {
 		check_ajax_referer( 'dlm-ajax-nonce', 'nonce' );
 		// Check if user is allowed to do this
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'You do not have permission to do this.', 'dlm-pro' ) ) );
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to do this.', 'download-monitor' ) ) );
 		}
 		// Post vars
 		$product_id       = isset( $_POST['product_id'] ) ? sanitize_text_field( wp_unslash( $_POST['product_id'] ) ) : 0;
@@ -783,7 +783,7 @@ class DLM_Admin_Extensions {
 		if ( is_wp_error( $api_request ) || wp_remote_retrieve_response_code( $api_request ) != 200 ) {
 			update_option( 'dlm_master_license', json_encode( $data ) );
 			if ( $ajax_request ) {
-				wp_send_json_error( array( 'message' => __( 'Could not connect to the license server', 'dlm-pro' ) ) );
+				wp_send_json_error( array( 'message' => __( 'Could not connect to the license server', 'download-monitor' ) ) );
 			}
 		}
 
@@ -842,7 +842,7 @@ class DLM_Admin_Extensions {
 
 		if ( $ajax_request ) {
 			// Send JSON.
-			wp_send_json_success( array( 'message' => __( 'Master license updated', 'dlm-pro' ) ) );
+			wp_send_json_success( array( 'message' => __( 'Master license updated', 'download-monitor' ) ) );
 		}
 	}
 
