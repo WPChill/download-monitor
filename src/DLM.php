@@ -250,6 +250,9 @@ class WP_DLM {
 		// Setup integrations
 		$this->setup_integrations();
 
+		// Setup translations
+		$this->load_textdomain();
+
 		// Setup class that handles the frontend templates
 		DLM_Frontend_Templates::get_instance();
 		// check if we need to bootstrap E-Commerce
@@ -272,7 +275,7 @@ class WP_DLM {
 	 */
 	public function load_textdomain() {
 
-		$dlm_lang = dirname( DLM_FILE ) . '/languages/';
+		$dlm_lang = dirname( DLM_FILE ) . '/languages';
 	
 		if ( get_user_locale() !== get_locale() ) {
 
@@ -306,7 +309,6 @@ class WP_DLM {
 		add_filter( 'plugin_action_links_' . plugin_basename( DLM_PLUGIN_FILE ),
 			array( $this, 'plugin_links' ) );
 		add_action( 'init', array( $this, 'register_globals' ) );
-		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_action( 'after_setup_theme', array( $this, 'compatibility' ), 20 );
 		add_action( 'the_post', array( $this, 'setup_download_data' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );

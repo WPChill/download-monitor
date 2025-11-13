@@ -3166,7 +3166,7 @@ msgstr "Download &ldquo;%s&rdquo;"
 #: templates/content-download-version-list.php:24
 msgid "Downloaded 1 time"
 msgid_plural "Downloaded %d times"
-msgstr[0] "% keer gedownload"
+msgstr[0] "1 keer gedownload"
 msgstr[1] "%d keer gedownload"
 
 #: templates/content-download-no-version.php:12
