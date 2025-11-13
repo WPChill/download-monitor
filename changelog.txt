@@ -1,3 +1,7 @@
+= 5.1.7 - 13.11.2025 -
+Update: Removed unused images.
+Fixed: Textdomain for some translations.
+
 = 5.1.6 - 05.11.2025 -
 Added: Black Friday upsells & notifications updates.
 Fixed: Logging no access page redrection

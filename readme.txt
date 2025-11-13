@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, file manager, digital store, ecommerce, password protection  
 Requires at least: 5.5  
 Tested up to: 6.8
-Stable tag: 5.1.6
+Stable tag: 5.1.7
 License: GPLv3  
 Requires PHP: 7.6  
 
@@ -114,6 +114,10 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
+= 5.1.7 - 13.11.2025 -
+Update: Removed unused images.
+Fixed: Textdomain for some translations.
+
 = 5.1.6 - 05.11.2025 -
 Added: Black Friday upsells & notifications updates.
 Fixed: Logging no access page redrection
