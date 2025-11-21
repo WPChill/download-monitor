@@ -114,9 +114,10 @@ Admin hits are not counted, log out and try again!
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-= 5.1.7 - 13.11.2025 -
+= 5.1.7 - 21.11.2025 -
 Update: Removed unused images.
 Fixed: Textdomain for some translations.
+Fixed: Removed upsells from REST API settings tab.
 
 = 5.1.6 - 05.11.2025 -
 Added: Black Friday upsells & notifications updates.

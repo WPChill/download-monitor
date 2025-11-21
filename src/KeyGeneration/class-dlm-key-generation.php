@@ -347,8 +347,8 @@ class DLM_Key_Generation {
 	public function add_api_section( $settings ) {
 
 		$settings['advanced']['sections']['rest'] = array(
-			'title'  => __( 'REST API', 'download-monitor' ),
-			'fields' => array(
+			'title'         => __( 'REST API', 'download-monitor' ),
+			'fields'        => array(
 				array(
 					'name'     => 'dlm_api_keys_section',
 					'label'    => '',
@@ -359,6 +359,8 @@ class DLM_Key_Generation {
 					'priority' => 90,
 				),
 			),
+			'show_upsells'  => false,
+			'contend_class' => 'dlm-content-tab-full',
 		);
 
 		return $settings;
