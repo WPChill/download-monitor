@@ -20,17 +20,17 @@ function dlm_admin_notice_php_version() {
 		<p>
 		<?php
 			printf(
-				esc_html_e( "Download Monitor can't be loaded because it needs at least %1\$s but the server that is hosting your WordPress website is running %2\$s", 'download-monitor' ),
-				'<strong>' . sprintf( esc_html_e( 'PHP Version %s', 'download-monitor' ), '5.3' ) . '</strong>',
-				'<strong>' . sprintf( esc_html_e( 'PHP Version %s', 'download-monitor' ), esc_html( $user_version_nice ) ) . '</strong>'
+				esc_html__( "Download Monitor can't be loaded because it needs at least %1\$s but the server that is hosting your WordPress website is running %2\$s", 'download-monitor' ),
+				'<strong>' . sprintf( esc_html__( 'PHP Version %s', 'download-monitor' ), '5.3' ) . '</strong>',
+				'<strong>' . sprintf( esc_html__( 'PHP Version %s', 'download-monitor' ), esc_html( $user_version_nice ) ) . '</strong>'
 			);
 		?>
 			</p>
 		<p>
 		<?php
 		printf(
-			esc_html_e( "You can learn more about why it's important that you update and get tips on how to update by %s", 'download-monitor' ),
-			'<a href="https://www.download-monitor.com/kb/minimum-required-php-version/" target="_blank">' . esc_html_e( 'clicking this link', 'download-monitor' ) . '</a>'
+			esc_html__( "You can learn more about why it's important that you update and get tips on how to update by %s", 'download-monitor' ),
+			'<a href="https://www.download-monitor.com/kb/minimum-required-php-version/" target="_blank">' . esc_html__( 'clicking this link', 'download-monitor' ) . '</a>'
 		);
 		?>
 			</p>
