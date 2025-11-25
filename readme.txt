@@ -5,7 +5,7 @@ Requires at least: 5.5
 Tested up to: 6.8
 Stable tag: 5.1.7
 License: GPLv3  
-Requires PHP: 7.6  
+Requires PHP: 8.3  
 
 == Description ==
 ## Powerful Download Manager Plugin for WordPress
